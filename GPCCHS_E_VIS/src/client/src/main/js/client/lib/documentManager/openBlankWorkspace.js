@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import { LOG_DOCUMENT_OPEN } from 'common/constants';
 
-import loadDocumentsInStore from '../documentManager/loadDocumentsInStore';
+import { loadDocuments } from './actions';
 import { server } from '../mainProcess/ipc';
 import { closeWorkspace } from '../store/actions/hsc';
 
@@ -58,5 +58,5 @@ const createBlankWorkspace = () => {
 export default () => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
   dispatch(closeWorkspace());
-  dispatch(loadDocumentsInStore(createBlankWorkspace()));
+  dispatch(loadDocuments(createBlankWorkspace()));
 };

@@ -14,7 +14,7 @@ import validation from './validation';
 
 import { readDocument } from './io';
 import { readPageAndViews } from './openPage';
-import loadDocumentsInStore from './loadDocumentsInStore';
+import { loadDocuments } from './actions';
 
 import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
 import { add as addMessage } from '../store/actions/messages';
@@ -140,7 +140,7 @@ const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
 
     dispatch(closeWorkspace());
     dispatch(isWorkspaceOpening(false));
-    dispatch(loadDocumentsInStore(documents));
+    dispatch(loadDocuments(documents));
 
     logLoadedDocumentsCount(documents);
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);

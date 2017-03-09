@@ -13,7 +13,7 @@ import validation from './validation';
 import { getFirstTimebarId } from '../store/selectors/timebars';
 import { simpleReadView } from './openView';
 import { add as addMessage } from '../store/actions/messages';
-import loadDocumentsInStore from './loadDocumentsInStore';
+import { loadDocuments } from './actions';
 
 // utils
 const addGlobalError = msg => addMessage('global', 'danger', msg);
@@ -92,7 +92,7 @@ export const openPage = pageInfo => (dispatch, getState) => {
     const documentsWithTimebarsMounted = _.update('pages', _.map(
       setIfExist('timebarUuid', getFirstTimebarId(getState()))
     ), documents);
-    dispatch(loadDocumentsInStore(documentsWithTimebarsMounted));
+    dispatch(loadDocuments(documentsWithTimebarsMounted));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };

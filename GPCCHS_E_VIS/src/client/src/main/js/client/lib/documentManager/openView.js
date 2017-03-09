@@ -12,7 +12,7 @@ import {
 } from '../viewManager';
 import { add as addMessage } from '../store/actions/messages';
 import { server } from '../mainProcess/ipc';
-import loadDocumentsInStore from './loadDocumentsInStore';
+import { loadDocuments } from './actions';
 
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
@@ -57,7 +57,7 @@ export const openView = viewInfo => (dispatch) => {
       dispatch(addDangerMessage(view.pageUuid, err));
       return;
     }
-    dispatch(loadDocumentsInStore({ views: [view] }));
+    dispatch(loadDocuments({ views: [view] }));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.absolutePath);
   });
 };

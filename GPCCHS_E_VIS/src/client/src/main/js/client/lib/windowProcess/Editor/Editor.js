@@ -1,9 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import { PlotEditorContainer } from './Components/Plot';
-import { TextEditorContainer } from './Components/Text';
-import DynamicEditorContainer from './Components/Dynamic/DynamicEditorContainer';
+import PlotEditorContainer from '../../viewManager/PlotView/Components/Editor/PlotEditorContainer';
+import TextEditorContainer from '../../viewManager/TextView/Components/Editor/TextEditorContainer';
+import DynamicEditorContainer from '../../viewManager/DynamicView/Components/Editor/DynamicEditorContainer';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');

@@ -1,15 +1,13 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { schemeCategory20b } from 'd3-scale';
+import OffsetFields from './OffsetFields';
 import {
   InputField,
   ColorPickerField,
   ButtonToggleField,
-} from '../../Editor/Components/Fields/';
-import OffsetFields from './OffsetFields';
-import {
   HorizontalFormGroup,
-} from '../../Editor/Components/Forms/';
+} from '../../commonReduxForm/';
 
 /*
   All the fields used in Connected data form

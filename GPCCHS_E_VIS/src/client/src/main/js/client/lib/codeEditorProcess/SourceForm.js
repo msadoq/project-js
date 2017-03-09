@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';
 import { lint } from '../common/htmllint';
-import { CodeMirrorField } from '../windowProcess/Editor/Components/Fields';
+import { CodeMirrorField } from '../windowProcess/commonReduxForm/';
 import styles from './Source.css';
 
 class SourceForm extends PureComponent {

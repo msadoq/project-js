@@ -5,7 +5,7 @@ import {
 } from 'common/constants';
 
 import { server } from '../ipc';
-import { loadViewInStore } from '../../documentManager/readView';
+import { readView } from '../../documentManager/openView';
 import { getPathByFilePicker } from '../dialog';
 import { addBlankView } from '../../store/actions/views';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';
@@ -27,7 +27,7 @@ function viewOpen(focusedWindow) {
 function viewOpenWithPath({ windowId, absolutePath }) {
   const { dispatch, getState } = getStore();
   const pageUuid = getWindowFocusedPageId(getState(), { windowId });
-  dispatch(loadViewInStore({ absolutePath, pageUuid }));
+  dispatch(readView({ absolutePath, pageUuid }));
 }
 
 const viewAddBlank = (type, focusedWindow) => {

@@ -11,7 +11,7 @@ import fs from '../common/fs';
 import validation from './validation';
 
 import { getFirstTimebarId } from '../store/selectors/timebars';
-import { simpleReadView } from './readView';
+import { simpleReadView } from './openView';
 import { add as addMessage } from '../store/actions/messages';
 import loadDocumentsInStore from './loadDocumentsInStore';
 
@@ -81,7 +81,7 @@ const setIfExist = _.curry((key, value, obj) => {
   return _.set(key, value, obj);
 });
 
-export const loadPageInStore = pageInfo => (dispatch, getState) => {
+export const openPage = pageInfo => (dispatch, getState) => {
   readPageAndViews(pageInfo, (err, documents) => {
     if (err) {
       dispatch(addGlobalError(err));

@@ -51,7 +51,7 @@ export const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
   });
 };
 
-export const loadViewInStore = viewInfo => (dispatch) => {
+export const openView = viewInfo => (dispatch) => {
   simpleReadView(viewInfo, (err, view) => {
     if (err) {
       dispatch(addDangerMessage(view.pageUuid, err));

@@ -7,10 +7,10 @@ import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { addBlankPage } from '../../store/actions/pages';
 
-import { loadPageInStore } from '../../documentManager/readPage';
+import { openPage } from '../../documentManager/openPage';
 
 const pageOpenWithPath = ({ filePath, windowId }) => {
-  getStore().dispatch(loadPageInStore({ absolutePath: filePath, windowId }));
+  getStore().dispatch(openPage({ absolutePath: filePath, windowId }));
 };
 
 function pageOpen(focusedWindow) {

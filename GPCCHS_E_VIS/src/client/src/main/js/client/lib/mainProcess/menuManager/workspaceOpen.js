@@ -12,7 +12,7 @@ import { saveWorkspace } from '../../common/documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import openDefaultWorkspace from '../../documentManager/openBlankWorkspace';
-import readWorkspace from '../../documentManager/readWorkspace';
+import { openWorkspace } from '../../documentManager/openWorkspace';
 
 const isYes = equals(0);
 const isNo = equals(1);
@@ -50,7 +50,7 @@ function workspaceOpen() {
 
 function workspaceOpenWithPath({ filePath }) {
   const { dispatch } = getStore();
-  dispatch(readWorkspace({ absolutePath: filePath }));
+  dispatch(openWorkspace({ absolutePath: filePath }));
 }
 
 const isPagesSaved = state => getModifiedPagesIds(state).length === 0;

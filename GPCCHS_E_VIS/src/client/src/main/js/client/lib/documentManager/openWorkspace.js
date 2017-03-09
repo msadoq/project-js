@@ -13,7 +13,7 @@ import fs from '../common/fs';
 import validation from './validation';
 
 import { readDocument } from './io';
-import { readPageAndViews } from './readPage';
+import { readPageAndViews } from './openPage';
 import loadDocumentsInStore from './loadDocumentsInStore';
 
 import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
@@ -128,7 +128,7 @@ const logLoadedDocumentsCount = (documents) => {
   logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
 };
 
-const loadWorkspaceInStore = (workspaceInfo, cb = _.noop) => (dispatch) => {
+const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
   const path = workspaceInfo.absolutePath;
   dispatch(isWorkspaceOpening(true));
   readWorkspacePagesAndViews(workspaceInfo, (err, documents) => {
@@ -150,4 +150,4 @@ const loadWorkspaceInStore = (workspaceInfo, cb = _.noop) => (dispatch) => {
   });
 };
 
-export default loadWorkspaceInStore;
+export default { openWorkspace };

@@ -27,22 +27,6 @@ const initialGeometry = {
 
 const page = (statePage = initialState, action) => {
   switch (action.type) {
-    case types.WS_PAGE_ADD:
-      return {
-        ...statePage,
-        title: action.payload.title || statePage.title,
-        timebarUuid: action.payload.timebarUuid || statePage.timebarUuid,
-        timebarHeight: action.payload.timebarHeight || statePage.timebarHeight,
-        timebarCollapsed: action.payload.timebarCollapsed || statePage.timebarCollapsed,
-        layout: action.payload.layout || statePage.layout,
-        views: action.payload.views || statePage.views,
-        path: action.payload.path,
-        oId: action.payload.oId,
-        absolutePath: action.payload.absolutePath,
-        isModified: (action.payload.isModified === undefined) ?
-          statePage.isModified : action.payload.isModified,
-        properties: action.payload.properties || [],
-      };
     case types.WS_LOAD_DOCUMENTS: {
       const newPage = _.merge(statePage, action.payload.page);
       const pageViews = _.groupBy('pageUuid', action.payload.documents.views)[newPage.uuid];
@@ -80,21 +64,6 @@ const page = (statePage = initialState, action) => {
       }), statePage);
     case types.WS_PAGE_EDITOR_CLOSE:
       return _.set('editor.isOpened', false, statePage);
-    case types.WS_PAGE_VIEW_MOUNT: {
-      const { layout } = action.payload;
-      return _.merge(statePage, {
-        views: [...statePage.views, action.payload.viewId],
-        isModified: true,
-        layout: layout && layout.length ? layout : undefined,
-      });
-    }
-    case types.WS_PAGE_VIEW_UNMOUNT: {
-      return {
-        ...statePage,
-        views: _.pull(action.payload.viewId, statePage.views),
-        isModified: true,
-      };
-    }
     case types.WS_PAGE_UPDATE_LAYOUT: {
       return {
         ...statePage,

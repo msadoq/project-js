@@ -70,7 +70,7 @@ export default class LeftTab extends PureComponent {
     this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
-  willUnmountTimeline = (timebarUuid, timelineUuid) => {
+  willRemoveTimeline = (timebarUuid, timelineUuid) => {
     this.props.removeTimeline(timebarUuid, timelineUuid);
   }
 
@@ -336,7 +336,7 @@ export default class LeftTab extends PureComponent {
                 color={v.color}
                 masterId={masterId}
                 willEditTimeline={this.willEditTimeline}
-                removeTimeline={this.willUnmountTimeline}
+                removeTimeline={this.willRemoveTimeline}
                 sessionName={session ? session.name : 'no session'}
               />
             );

@@ -86,16 +86,6 @@ export default function window(stateWindow = initialState, action) {
         isModified: true,
       });
     }
-    case types.WS_WINDOW_PAGE_MOUNT:
-      return Object.assign({}, stateWindow, {
-        pages: [...stateWindow.pages, action.payload.pageId],
-        isModified: true,
-      });
-    case types.WS_WINDOW_PAGE_UNMOUNT:
-      return Object.assign({}, stateWindow, {
-        pages: _without(stateWindow.pages, action.payload.pageId),
-        isModified: true,
-      });
     case types.WS_WINDOW_MINIMIZE:
       return Object.assign({}, stateWindow, {
         minimized: true,

@@ -40,7 +40,7 @@ export default class Content extends PureComponent {
       viewId: PropTypes.string,
     })).isRequired,
     editorViewId: PropTypes.string,
-    unmountAndRemove: PropTypes.func.isRequired,
+    closeView: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     isEditorOpened: PropTypes.bool.isRequired,
@@ -90,7 +90,7 @@ export default class Content extends PureComponent {
           pageId={focusedPageId}
           viewId={viewMaximized.i}
           windowId={windowId}
-          unmountAndRemove={this.props.unmountAndRemove}
+          closeView={this.props.closeView}
           isViewsEditorOpen={isViewsEditorOpen}
           openEditor={openEditor}
           closeEditor={closeEditor}
@@ -137,7 +137,7 @@ export default class Content extends PureComponent {
                 pageId={focusedPageId}
                 viewId={v.viewId}
                 windowId={windowId}
-                unmountAndRemove={this.props.unmountAndRemove}
+                closeView={this.props.closeView}
                 isViewsEditorOpen={isViewsEditorOpen}
                 openEditor={openEditor}
                 closeEditor={closeEditor}

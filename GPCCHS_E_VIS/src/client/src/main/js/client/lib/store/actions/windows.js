@@ -2,7 +2,6 @@ import _ from 'lodash/fp';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
-import { remove as removePage, addBlankPage } from './pages';
 import { getWindowPages } from '../selectors/windows';
 import { getPage } from '../selectors/pages';
 import { getPlayingTimebarId } from '../selectors/hsc';
@@ -14,8 +13,6 @@ export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geome
   'focusedPage', 'isModified');
 export const closeWindow = simple(types.WS_WINDOW_CLOSE, 'windowId');
 
-export const mountPage = simple(types.WS_WINDOW_PAGE_MOUNT, 'windowId', 'pageId');
-export const unmountPage = simple(types.WS_WINDOW_PAGE_UNMOUNT, 'windowId', 'pageId');
 export const reorderPages = simple(types.WS_WINDOW_PAGE_REORDER, 'windowId', 'pages');
 export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
   'windowId', 'x', 'y', 'w', 'h'
@@ -32,12 +29,6 @@ export const updateExplorerFlag = simple(types.WS_WINDOW_EXPLORER_UPDATEFLAG, 'w
 /**
  * Compound actions
  */
-export function add(windowId, title, geometry, pages, focusedPage, isModified) {
-  return (dispatch) => {
-    dispatch(addWindow(windowId, title, geometry, pages, focusedPage, isModified));
-    dispatch(addBlankPage(windowId));
-  };
-}
 
 export function focusPage(windowId, pageId) {
   return (dispatch, getState) => {
@@ -62,18 +53,5 @@ export function focusPage(windowId, pageId) {
         pageId: focusedPage.pageId,
       },
     });
-  };
-}
-
-export function unmountAndRemove(windowId, pageId) {
-  return (dispatch, getState) => {
-    dispatch(unmountPage(windowId, pageId));
-    dispatch(removePage(pageId));
-    if (getState().windows[windowId].pages.length > 0
-        && pageId === getState().windows[windowId].focusedPage) {
-      dispatch(focusPage(windowId, getState().windows[windowId].pages[0]));
-    } else if (!getState().windows[windowId].pages.length) {
-      dispatch(addBlankPage(windowId));
-    }
   };
 }

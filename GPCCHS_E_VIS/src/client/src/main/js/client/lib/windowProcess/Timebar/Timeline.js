@@ -23,7 +23,7 @@ export default class Timeline extends PureComponent {
     masterId: null,
   }
 
-  willUnmountTimeline = (e) => {
+  willRemoveTimeline = (e) => {
     e.preventDefault();
     const {
       masterId,
@@ -74,7 +74,7 @@ export default class Timeline extends PureComponent {
         <button
           className={styles.deleteButton}
           title="Remove this track"
-          onClick={this.willUnmountTimeline}
+          onClick={this.willRemoveTimeline}
         >
           <Glyphicon glyph="trash" />
         </button>

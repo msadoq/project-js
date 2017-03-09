@@ -24,7 +24,7 @@ export default class Header extends PureComponent {
     isModified: PropTypes.bool.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    unmountAndRemove: PropTypes.func.isRequired,
+    closeView: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     collapseView: PropTypes.func.isRequired,
@@ -56,7 +56,7 @@ export default class Header extends PureComponent {
       isViewsEditorOpen,
       openEditor,
       closeEditor,
-      unmountAndRemove,
+      closeView,
       windowPages,
       collapseView,
       collapsed,
@@ -81,7 +81,7 @@ export default class Header extends PureComponent {
         break;
       }
       case 'close': {
-        unmountAndRemove(viewId);
+        closeView(viewId);
         if (isViewsEditorOpen && closeEditor) {
           closeEditor();
         }

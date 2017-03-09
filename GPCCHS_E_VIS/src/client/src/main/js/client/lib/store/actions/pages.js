@@ -4,7 +4,6 @@ import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../selectors/timebars';
 import { getFocusedWindowId } from '../selectors/hsc';
-import { remove as removeView } from './views';
 /**
  * Simple actions
  */
@@ -27,8 +26,6 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
 
 export const closePage = simple(types.WS_PAGE_CLOSE, 'windowId', 'pageId');
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
-export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
-export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
@@ -55,12 +52,6 @@ export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 
 /**
  * Compound actions
  */
-export function unmountAndRemove(pageId, viewId) {
-  return (dispatch) => {
-    dispatch(unmountView(pageId, viewId));
-    dispatch(removeView(viewId));
-  };
-}
 
 const moveView = simple(types.WS_VIEW_MOVE_TO_PAGE, 'fromPageId', 'toPageId', 'viewId');
 
@@ -73,19 +64,5 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
     } else {
       dispatch(moveView(fromPageId, toPageId, viewId));
     }
-  };
-}
-
-export function remove(pageId) {
-  return (dispatch, getState) => {
-    const state = getState();
-    if (!state.pages[pageId]) {
-      return;
-    }
-    const views = state.pages[pageId].views;
-    views.forEach((viewId) => {
-      dispatch(unmountAndRemove(pageId, viewId));
-    });
-    dispatch(removePage(pageId));
   };
 }

@@ -52,7 +52,7 @@ export default class View extends PureComponent {
     isModified: PropTypes.bool.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    unmountAndRemove: PropTypes.func.isRequired,
+    closeView: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
@@ -90,7 +90,7 @@ export default class View extends PureComponent {
       viewId,
       closeEditor,
       isViewsEditorOpen,
-      unmountAndRemove,
+      closeView,
       openEditor,
       type,
       configuration,
@@ -100,7 +100,7 @@ export default class View extends PureComponent {
     if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
       collapseView(focusedPageId, viewId, !configuration.collapsed);
     } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
-      unmountAndRemove(viewId);
+      closeView(viewId);
       if (isViewsEditorOpen && closeEditor) {
         closeEditor();
       }
@@ -127,7 +127,7 @@ export default class View extends PureComponent {
       type,
       openEditor,
       closeEditor,
-      unmountAndRemove,
+      closeView,
       data,
       visuWindow,
       moveViewToPage,
@@ -171,7 +171,7 @@ export default class View extends PureComponent {
           type={type}
           openEditor={openEditor}
           closeEditor={closeEditor}
-          unmountAndRemove={unmountAndRemove}
+          closeView={closeView}
           windowPages={windowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}

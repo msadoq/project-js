@@ -30,7 +30,7 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
 
 function mapDispatchToProps(dispatch, { focusedPageId }) {
   return bindActionCreators({
-    unmountAndRemove: viewId => closeView(focusedPageId, viewId),
+    closeView: viewId => closeView(focusedPageId, viewId),
     updateLayout: layout => updateLayout(focusedPageId, layout),
   }, dispatch);
 }

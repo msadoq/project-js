@@ -23,7 +23,7 @@ describe('store:editor:reducer', () => {
   });
   it('should reset viewId when delete associate view', () => {
     const newState = reducer(state, {
-      type: types.WS_VIEW_REMOVE,
+      type: types.WS_VIEW_CLOSE,
       payload: { viewId: 'test' },
     });
     newState.should.have.a.property('textViewId', null);

@@ -4,10 +4,10 @@ import TextView from './TextView';
 import {
   addEntryPoint,
   updateContent,
-} from '../../../store/actions/views';
+} from '../../../../store/actions/views';
 import {
   getViewContent,
-} from '../../../store/selectors/views';
+} from '../../../../store/selectors/views';
 
 export const TextViewContainer = connect(
   (state, { viewId }) => ({

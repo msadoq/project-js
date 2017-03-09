@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SizablePlotView from './GrizzlyPlotView';
-import { addEntryPoint } from '../../../store/actions/views';
+import { addEntryPoint } from '../../../../store/actions/views';
 
 export const PlotViewContainer = connect(null, {
   addEntryPoint,

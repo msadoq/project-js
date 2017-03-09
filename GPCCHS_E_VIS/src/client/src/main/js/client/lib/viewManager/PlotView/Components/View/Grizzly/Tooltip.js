@@ -5,7 +5,7 @@ import _memoize from 'lodash/memoize';
 import { scaleLinear } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
-import { formatDuration } from '../../../common/timeFormats';
+import { formatDuration } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class Tooltip extends React.Component {

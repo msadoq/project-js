@@ -10,7 +10,7 @@ import { html as beautifyHtml } from 'js-beautify';
 import { get } from 'common/parameters';
 
 import TextViewValue from './TextViewValue';
-import DroppableContainer from '../../common/DroppableContainer';
+import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 
 const logger = getLogger('view:text');
 

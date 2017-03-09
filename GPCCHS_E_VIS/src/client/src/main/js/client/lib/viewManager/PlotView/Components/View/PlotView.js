@@ -27,11 +27,11 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { getStateColors } from '../../common/colors';
-import DroppableContainer from '../../common/DroppableContainer';
-import CloseableAlert from '../CloseableAlert';
+import { getStateColors } from '../../../../windowProcess/common/colors';
+import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
+import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
-import { _getEntryPointColorObj } from '../../../store/selectors/views';
+import { _getEntryPointColorObj } from '../../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 

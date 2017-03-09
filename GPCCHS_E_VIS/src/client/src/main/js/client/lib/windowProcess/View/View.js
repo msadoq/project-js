@@ -5,9 +5,9 @@ import classnames from 'classnames';
 import getLogger from 'common/log';
 import ViewHeader from './Header';
 import MessagesContainer from './MessagesContainer';
-import PlotViewComp from './PlotView/PlotViewContainer';
-import TextViewComp from './TextView/TextViewContainer';
-import DynamicViewComp from './DynamicView/DynamicViewContainer';
+import PlotViewComp from '../../viewManager/PlotView/Components/View/PlotViewContainer';
+import TextViewComp from '../../viewManager/TextView/Components/View/TextViewContainer';
+import DynamicViewComp from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
 import UnknownView from './UnknownView';
 
 import styles from './View.css';

@@ -10,8 +10,8 @@ import { get } from 'common/parameters';
 
 import GrizzlyChart from './Grizzly/Chart';
 
-import DroppableContainer from '../../common/DroppableContainer';
-import CloseableAlert from '../CloseableAlert';
+import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
+import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 
 const logger = getLogger('view:plot');

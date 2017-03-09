@@ -8,6 +8,7 @@ const initialState = {
     lower: Date.now() - (12 * 60 * 1000),
     current: Date.now() - (9 * 60 * 1000),
     upper: Date.now() - (6 * 60 * 1000),
+    defaultWidth: 720000,
   },
   slideWindow: {
     lower: Date.now() - (11 * 60 * 1000),

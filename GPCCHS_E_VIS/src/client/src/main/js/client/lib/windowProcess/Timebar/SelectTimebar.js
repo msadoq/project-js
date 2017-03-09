@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { v4 } from 'uuid';
-import { Col, FormGroup } from 'react-bootstrap';
+import { Col, FormGroup, Alert } from 'react-bootstrap';
 
 export default class SelectTimebar extends PureComponent {
 
@@ -12,7 +12,10 @@ export default class SelectTimebar extends PureComponent {
     focusedPageId: PropTypes.string.isRequired,
   }
 
-  state = { form: 'select' }
+  state = {
+    form: 'select',
+    error: null,
+  }
 
   onSelect = (e) => {
     e.preventDefault();
@@ -22,12 +25,25 @@ export default class SelectTimebar extends PureComponent {
     );
   }
 
+  onChange = (e) => {
+    const { timebars } = this.props;
+    if (Object.keys(timebars).find(k => timebars[k].id === e.currentTarget.value)) {
+      this.setState({
+        error: 'This timebar name is already taken',
+      });
+    } else {
+      this.setState({
+        error: null,
+      });
+    }
+  }
+
   onCreate = (e) => {
     e.preventDefault();
     this.props.addTimebar(
       v4(),
       {
-        id: this.timebarUuid.value,
+        id: this.timebarId.value,
       }
     );
     this.switchForm();
@@ -41,9 +57,15 @@ export default class SelectTimebar extends PureComponent {
   }
 
   render() {
-    const { timebars } = this.props;
-    const { form } = this.state;
-    const { focusedPageId } = this.props;
+    const {
+      timebars,
+      focusedPageId,
+    } = this.props;
+    const {
+      form,
+      error,
+    } = this.state;
+
     if (!focusedPageId) {
       return null;
     }
@@ -81,14 +103,16 @@ export default class SelectTimebar extends PureComponent {
             <h4>Create a timebar</h4>
             <form onSubmit={this.onCreate} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
               <FormGroup>
+                { error && <Alert bsStyle="danger">{ error }</Alert> }
                 <input
-                  ref={(el) => { this.timebarUuid = el; }}
+                  ref={(el) => { this.timebarId = el; }}
+                  onChange={this.onChange}
                   className="form-control"
-                  placeholder="Timebar id"
+                  placeholder="Timebar name"
                 />
               </FormGroup>
               <FormGroup>
-                <input type="submit" className="btn btn-primary" value="Create" />
+                <input disabled={!!error} type="submit" className="btn btn-primary" value="Create" />
                 {' '}
                 <button className="btn btn-info" onClick={this.switchForm}>Select a timebar</button>
               </FormGroup>

@@ -7,25 +7,6 @@ import * as types from '../../types';
 const reducer = freezeArgs(pagesReducer);
 
 describe('store:page:reducer', () => {
-  describe('un/mount view', () => {
-    it('mount', () => {
-      let state = reducer(
-        { myPageId: { views: [], title: 'aa' } },
-        actions.mountView('myPageId', 'myViewId')
-      );
-      state.myPageId.views.should.eql(['myViewId']);
-      state = reducer(
-        state,
-        actions.mountView('myPageId', 'another')
-      );
-      state.myPageId.views.should.eql(['myViewId', 'another']);
-    });
-    it('unmount', () => {
-      const state = { myPageId: { views: ['myViewId', 'another'], title: 'aa' } };
-      const nextState = reducer(state, actions.unmountView('myPageId', 'myViewId'));
-      nextState.myPageId.views.should.eql(['another']);
-    });
-  });
   describe('open/close editor', () => {
     const editor = {
       isOpened: true,
@@ -34,7 +15,7 @@ describe('store:page:reducer', () => {
     };
     it('open', () => {
       const state = reducer(
-        reducer(undefined, actions._add('myPageId')),
+        reducer({ myPageId: {}, p2: {} }, { viewId: 'myPageId', viewType: 'TextView' }),
         actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar' })
       );
       state.myPageId.editor.should.eql(editor);

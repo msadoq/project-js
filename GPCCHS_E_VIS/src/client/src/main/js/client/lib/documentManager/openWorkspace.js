@@ -109,7 +109,6 @@ const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
       if (errPages) {
         return cb(errPages);
       }
-      // const _preparePages = _.update('windows', _.map(_.update('pages', _.map('uuid'))));
       const preparePages = _.update('windows', _.map(_.set('pages', [])));
       return cb(null, {
         ...preparePages(workspace),

@@ -27,6 +27,7 @@ describe('store:windows:reducer', () => {
         minimized: false,
         isModified: true,
         tabName: 'perRemoteId',
+        uuid: 'myWindowId',
       });
     });
     it('add empty', () => {
@@ -37,22 +38,6 @@ describe('store:windows:reducer', () => {
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
       win.tabName.should.eql('perRemoteId');
-    });
-  });
-  describe('remove', () => {
-    it('remove', () => {
-      const state = reducer(
-        { myWindowId: { title: 'Title' } },
-        actions.remove('myWindowId')
-      );
-      state.should.not.have.property('myWindowId');
-    });
-    it('remove unknown', () => {
-      const state = reducer(
-        { myWindowId: { title: 'Title' } },
-        actions.remove('foo')
-      );
-      state.should.have.property('myWindowId');
     });
   });
   describe('HSC workspace', () => {

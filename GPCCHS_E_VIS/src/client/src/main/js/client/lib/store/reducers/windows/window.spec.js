@@ -50,32 +50,6 @@ describe('store:windows:reducer', () => {
       nextState.myWindowId.focusedPage.should.be.eql('myFocusedPageId');
     });
   });
-  describe('un/mount page', () => {
-    it('mount', () => {
-      let state = reducer(
-        { myWindowId: { pages: [] } },
-        actions.mountPage('myWindowId', 'myPageId')
-      );
-      state.myWindowId.pages.should.eql(['myPageId']);
-      state = reducer(
-        state,
-        actions.mountPage('myWindowId', 'another')
-      );
-      state.myWindowId.pages.should.eql(['myPageId', 'another']);
-    });
-    it('unmount', () => {
-      let state = reducer(
-        { myWindowId: { pages: ['myPageId', 'another'] } },
-        actions.unmountPage('myWindowId', 'myPageId')
-      );
-      state.myWindowId.pages.should.eql(['another']);
-      state = reducer(
-        state,
-        actions.unmountPage('myWindowId', 'another')
-      );
-      state.myWindowId.pages.should.eql([]);
-    });
-  });
   describe('reorder pages', () => {
     it('reorder', () => {
       const state = reducer(

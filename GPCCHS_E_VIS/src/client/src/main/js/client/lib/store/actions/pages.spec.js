@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import sinon from 'sinon';
-import * as types from '../types';
+import { isV4 } from '../../common/test';
 import * as actions from './pages';
-import { createGetState } from '../../common/test';
+import * as types from '../types';
 
 describe('store:actions:pages', () => {
   let getState;
@@ -10,209 +10,114 @@ describe('store:actions:pages', () => {
 
   beforeEach(() => {
     dispatch = sinon.spy();
-    getState = createGetState([
-      {
-        timebars: [],
-        pages: {
-          p1: {
-            layout: [],
-            views: [],
-          },
-          p2: {
-            layout: [],
-            views: ['v1', 'v2', 'v3'],
-          },
-        },
-        views: {
-          v1: {
-            configuration: {
-              collapsed: true,
-            },
-          },
-          v2: {
-            configuration: {
-              collapsed: true,
-            },
-          },
-          v3: {
-            configuration: {
-              collapsed: false,
-            },
-          },
-        },
+    getState = () => ({
+      hsc: {
+        focusWindow: 'w1',
       },
-      {
-        pages: {
-          p1: {
-            layout: [],
-            views: [],
-          },
-          newPageId: {
-            layout: [],
-            views: [],
-          },
-        },
-        views: {
-          v1: {
-            configuration: {
-              collapsed: true,
-            },
-          },
-          v2: {
-            configuration: {
-              collapsed: true,
-            },
-          },
-        },
-      },
-    ]);
+      timebars: { tb1: {} },
+    });
   });
 
-  describe('add', () => {
-    it('add', () => {
-      actions.add()(dispatch, getState);
+  describe('addBlankPage', () => {
+    it('dispatches WS_PAGE_ADD_BLANK with given windowId and newPageId', () => {
+      actions.addBlankPage('myWindow1', 'myPage1')(dispatch, getState);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-    });
-  });
-  describe('addAndMount', () => {
-    it('adds blank view then mount', () => {
-      actions.addAndMount('myPageId')(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
-
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).args[0].type.should.be.eql(types.WS_VIEW_ADD);
-
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].type.should.be.eql(types.WS_PAGE_VIEW_MOUNT);
-      dispatch.getCall(1).args[0].payload.pageId.should.eql('myPageId');
-    });
-    it('adds view then mount', () => {
-      actions.addAndMount('myPageId', 'newId', {})(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
-
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).args[0].type.should.be.eql(types.WS_VIEW_ADD);
-      dispatch.getCall(0).args[0].payload.viewId.should.eql('newId');
-
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].type.should.be.eql(types.WS_PAGE_VIEW_MOUNT);
-      dispatch.getCall(1).args[0].payload.should.have.properties({
-        pageId: 'myPageId',
-        viewId: 'newId',
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_PAGE_ADD_BLANK,
+        payload: {
+          windowId: 'myWindow1',
+          page: { uuid: 'myPage1', timebarUuid: 'tb1', windowId: 'myWindow1' },
+        },
       });
     });
-  });
-
-  describe('unmountAndRemove', () => {
-    it('removes and unmounts a view', () => {
-      actions.unmountAndRemove('myPageId', 'myViewId')(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
-
+    it('dispatches WS_PAGE_ADD_BLANK without windowId', () => {
+      actions.addBlankPage(undefined, 'myPage1')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_VIEW_UNMOUNT,
+        type: types.WS_PAGE_ADD_BLANK,
         payload: {
-          pageId: 'myPageId',
-          viewId: 'myViewId',
+          windowId: 'w1',
+          page: { uuid: 'myPage1', timebarUuid: 'tb1', windowId: 'w1' },
         },
       });
-
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_VIEW_REMOVE,
+    });
+    it('dispatched WS_PAGE_ADD_BLANK without newPageId', () => {
+      actions.addBlankPage('myWindow1', undefined)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_PAGE_ADD_BLANK,
         payload: {
-          viewId: 'myViewId',
+          windowId: 'myWindow1',
+          page: {
+            uuid: dispatch.getCall(0).args[0].payload.page.uuid,
+            timebarUuid: 'tb1',
+            windowId: 'myWindow1',
+          },
         },
       });
+      isV4(dispatch.getCall(0).args[0].payload.page.uuid).should.be.true;
+    });
+    it('dispatched WS_PAGE_ADD_BLANK without windowId and newPageId', () => {
+      actions.addBlankPage(undefined, undefined)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_PAGE_ADD_BLANK,
+        payload: {
+          windowId: 'w1',
+          page: {
+            uuid: dispatch.getCall(0).args[0].payload.page.uuid,
+            timebarUuid: 'tb1',
+            windowId: 'w1',
+          },
+        },
+      });
+      isV4(dispatch.getCall(0).args[0].payload.page.uuid).should.be.true;
     });
   });
 
   describe('moveViewToPage', () => {
-    it('doest nothing when move a view to the same page', () => {
-      actions.moveViewToPage('myWindowId', 'page1', 'page1', 'myViewId')(dispatch, getState);
-      dispatch.should.not.been.called;
-    });
-    it('remounts view to an other page', () => {
-      actions.moveViewToPage('myWindowId', 'oldPageId', 'p1', 'myViewId')(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.a('function');
-      dispatch.getCall(2).args[0].should.be.an('object');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_VIEW_UNMOUNT,
-        payload: {
-          pageId: 'oldPageId',
-          viewId: 'myViewId',
-        },
-      });
-      dispatch.getCall(2).should.have.been.calledWith({
-        type: types.WS_PAGE_VIEW_MOUNT,
-        payload: {
-          pageId: 'p1',
-          viewId: 'myViewId',
-          layout: [{ i: 'myViewId', w: 5, h: 5, x: 0, y: 0 }],
-        },
-      });
-    });
-    it('creates another page if does not exist', () => {
-      actions.moveViewToPage('myWindowId', 'oldPageId', 'newPageId', 'myViewId')(dispatch, getState);
-      dispatch.should.have.been.callCount(4);
-
-      dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.a('function');
-      dispatch.getCall(3).args[0].should.be.an('object');
-
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_VIEW_UNMOUNT,
-        payload: {
-          pageId: 'oldPageId',
-          viewId: 'myViewId',
-        },
-      });
-      dispatch.getCall(3).should.have.been.calledWith({
-        type: types.WS_PAGE_VIEW_MOUNT,
-        payload: {
-          pageId: 'newPageId',
-          viewId: 'myViewId',
-          layout: [{ i: 'myViewId', w: 5, h: 5, x: 0, y: 0 }],
-        },
-      });
-    });
-  });
-  describe('remove', () => {
-    it('does nothing when page doest not exist', () => {
-      actions.remove('unknownPage')(dispatch, getState);
-      dispatch.should.not.have.been.called;
-    });
-    it('remove page without associated views', () => {
-      actions.remove('p1')(dispatch, getState);
+    it('dispatches a WS_VIEW_MOVE_TO_PAGE', () => {
+      actions.moveViewToPage('w1', 'fromPage', 'toPage', 'myViewId')(dispatch, getState);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_REMOVE,
+        type: types.WS_VIEW_MOVE_TO_PAGE,
         payload: {
-          pageId: 'p1',
+          fromPageId: 'fromPage',
+          toPageId: 'toPage',
+          viewId: 'myViewId',
         },
       });
     });
-    it('remove page and all associated views', () => {
-      actions.remove('p2')(dispatch, getState);
-      dispatch.should.have.been.callCount(4);
+    it('dispatches addBlankPage and WS_VIEW_MOVE_TO_PAGE', () => {
+      actions.moveViewToPage('w1', 'fromPage', '', 'myViewId')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
       dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.a('function');
-      dispatch.getCall(2).args[0].should.be.a('function');
-      dispatch.getCall(3).args[0].should.be.an('object');
-
-      dispatch.getCall(3).should.have.been.calledWith({
-        type: types.WS_PAGE_REMOVE,
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_VIEW_MOVE_TO_PAGE,
         payload: {
-          pageId: 'p2',
+          fromPageId: 'fromPage',
+          toPageId: dispatch.getCall(1).args[0].payload.toPageId,
+          viewId: 'myViewId',
         },
       });
     });
   });
+
+  // export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
+  //   return (dispatch) => {
+  //     if (!toPageId) {
+  //       const newPageId = v4();
+  //       dispatch(addBlankPage(windowId, newPageId));
+  //       dispatch(moveView(fromPageId, newPageId, viewId));
+  //     } else {
+  //       dispatch(moveView(fromPageId, toPageId, viewId));
+  //     }
+  //   };
+  // }
 });

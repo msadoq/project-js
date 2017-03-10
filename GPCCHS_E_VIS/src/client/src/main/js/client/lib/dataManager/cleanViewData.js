@@ -77,7 +77,12 @@ export default function cleanViewData(
       // update on expected interval
       const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
       const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
-      if (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
+      if (
+        !oldInterval ||
+        !newInterval ||
+        oldInterval[0] !== newInterval[0] ||
+        oldInterval[1] !== newInterval[1]
+      ) {
         newState = structureType.cleanData(
           newState || viewDataState,
           id,

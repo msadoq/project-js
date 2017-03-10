@@ -62,14 +62,16 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
         callback('not fount page layout');
         return;
       }
-      const layout = page.layout[index];
+      const geometry = page.layout[index];
       current.geometry = {
-        x: layout.x,
-        y: layout.y,
-        w: layout.w,
-        h: layout.h,
-        maxH: layout.maxH,
-        maxW: layout.maxW,
+        x: geometry.x,
+        y: geometry.y,
+        w: geometry.w,
+        h: geometry.h,
+        maxH: geometry.maxH,
+        maxW: geometry.maxW,
+        collapsed: geometry.collapsed,
+        maximized: geometry.maximized,
       };
       current.hideBorders = (page.hideBorders ? page.hideBorders : false);
       current.windowState = (page.windowState ? page.windowState : 'Normalized');

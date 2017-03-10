@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
+import _sortedIndexBy from 'lodash/sortedIndexBy';
 import { scaleLinear } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
@@ -90,12 +91,12 @@ export default class Tooltip extends React.Component {
     const linesList = {};
     yAxes.forEach((axis) => {
       linesList[axis.id] = [];
-      // const yInDomain = this.yScales[axis.id].invert(yInRange);
 
-      const xClosestPacket = axis.data.find(packet => packet.x > xInDomain);
-      if (!xClosestPacket) {
+      const index = _sortedIndexBy(axis.data, { x: xInDomain }, o => o.x);
+      if (!index) {
         return;
       }
+      const xClosestPacket = axis.data[index];
       axis.lines.forEach((line) => {
         if (xClosestPacket[line.id]) {
           const val = line.yAccessor(xClosestPacket);

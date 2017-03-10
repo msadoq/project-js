@@ -1,5 +1,3 @@
-import { applyDependencyToApi } from '../common/utils';
-
 // views
 import { saveView, saveViewAs } from './saveView';
 
@@ -9,14 +7,12 @@ import { savePage } from './savePage';
 // workspaces
 import { saveWorkspace } from './saveWorkspace';
 
-const documentManagerApi = {
+const createDocumentManager = deps => ({
   saveView,
   saveViewAs,
-  savePage,
-  saveWorkspace,
-};
-
-const createDocumentManager = applyDependencyToApi(documentManagerApi);
+  savePage: savePage(deps),
+  saveWorkspace: saveWorkspace(deps),
+});
 
 // documentManager api is available in lib/common/documentManager
 export default createDocumentManager;

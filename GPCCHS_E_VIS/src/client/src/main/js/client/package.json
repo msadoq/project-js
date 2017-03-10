@@ -130,6 +130,7 @@
     "extract-text-webpack-plugin": "~1.0.1",
     "fbjs-scripts": "~0.7.1",
     "file-loader": "~0.10.0",
+    "gc-watch": "^0.1.1",
     "identity-obj-proxy": "~3.0.0",
     "jest": "~18.1.0",
     "jsdom": "~9.9.1",

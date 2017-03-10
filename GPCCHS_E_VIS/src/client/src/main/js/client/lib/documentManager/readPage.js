@@ -2,21 +2,15 @@ import _ from 'lodash/fp';
 import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
-import { LOG_DOCUMENT_OPEN } from 'common/constants';
 
-import { server } from '../mainProcess/ipc';
 import fmdApi from '../common/fmd';
 import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
 
-import { getFirstTimebarId } from '../store/selectors/timebars';
-import { simpleReadView } from './openView';
-import { add as addMessage } from '../store/actions/messages';
-import { loadDocuments } from './actions';
+import { simpleReadView } from './readView';
 
 // utils
-const addGlobalError = msg => addMessage('global', 'danger', msg);
 const updateAllViews = transform => _.update('views', _.map(transform));
 
 export const simpleReadPage = (pageInfo, cb) => {
@@ -71,28 +65,5 @@ export const readPageAndViews = (pageInfo, done) => {
         views,
       });
     });
-  });
-};
-
-const setIfAbsent = _.curry((key, value, obj) => {
-  if (_.has(key, obj)) {
-    return obj;
-  }
-  return _.set(key, value, obj);
-});
-
-export const openPage = pageInfo => (dispatch, getState) => {
-  readPageAndViews(pageInfo, (err, documents) => {
-    if (err) {
-      dispatch(addGlobalError(err));
-      return;
-    }
-    const page = documents.pages[0];
-    const path = page.absolutePath || page.path || page.oId;
-    const documentsWithTimebarsMounted = _.update('pages', _.map(
-      setIfAbsent('timebarUuid', getFirstTimebarId(getState()))
-    ), documents);
-    dispatch(loadDocuments(documentsWithTimebarsMounted));
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };

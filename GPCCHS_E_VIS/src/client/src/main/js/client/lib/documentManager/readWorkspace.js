@@ -1,27 +1,17 @@
 import _ from 'lodash/fp';
-import { dirname, basename } from 'path';
+import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
 
 import { copyProp } from 'common/utils/fp';
-import getLogger from 'common/log';
-import { LOG_DOCUMENT_OPEN } from 'common/constants';
-import { server } from '../mainProcess/ipc';
 
 import fmdApi from '../common/fmd';
 import fs from '../common/fs';
 import validation from './validation';
 
 import { readDocument } from './io';
-import { readPageAndViews } from './openPage';
-import { loadDocuments } from './actions';
+import { readPageAndViews } from './readPage';
 
-import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
-import { add as addMessage } from '../store/actions/messages';
-
-const logger = getLogger('documentManager:readWorkspace');
-
-const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 /* Prepare workspace */
 const injectUuids = _.map(_.update('uuid', v4));
@@ -118,35 +108,6 @@ const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
   });
 };
 
-const logLoadedDocumentsCount = (documents) => {
-  const count = {
-    w: _.size(documents.windows),
-    p: _.size(documents.pages),
-    v: _.size(documents.views),
-  };
-  logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+export default {
+  readWorkspacePagesAndViews,
 };
-
-const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
-  const path = workspaceInfo.absolutePath;
-  dispatch(isWorkspaceOpening(true));
-  readWorkspacePagesAndViews(workspaceInfo, (err, documents) => {
-    if (err) {
-      dispatch(isWorkspaceOpening(false));
-      dispatch(addGlobalError(err));
-      return cb(err);
-    }
-
-    dispatch(closeWorkspace());
-    dispatch(isWorkspaceOpening(false));
-    dispatch(loadDocuments(documents));
-
-    logLoadedDocumentsCount(documents);
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
-
-    dispatch(updateWorkspacePath(dirname(path), basename(path)));
-    return cb(null);
-  });
-};
-
-export default { openWorkspace };

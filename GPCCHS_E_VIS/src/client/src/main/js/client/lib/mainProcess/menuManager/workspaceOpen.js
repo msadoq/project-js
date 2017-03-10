@@ -11,8 +11,7 @@ import { updatePath } from '../../store/actions/hsc';
 import { saveWorkspace } from '../../common/documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import openDefaultWorkspace from '../../documentManager/openBlankWorkspace';
-import { openWorkspace } from '../../documentManager/openWorkspace';
+import { openWorkspace, openBlankWorkspace } from '../../documentManager/actions';
 
 const isYes = equals(0);
 const isNo = equals(1);
@@ -27,7 +26,7 @@ function workspaceOpenNew() {
       dispatch(addGlobalError(err));
       return;
     }
-    dispatch(openDefaultWorkspace());
+    dispatch(openBlankWorkspace());
   });
 }
 

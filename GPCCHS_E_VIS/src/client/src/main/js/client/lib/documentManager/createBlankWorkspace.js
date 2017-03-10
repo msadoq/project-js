@@ -1,9 +1,4 @@
 import { v4 } from 'uuid';
-import { LOG_DOCUMENT_OPEN } from 'common/constants';
-
-import { loadDocuments } from './actions';
-import { server } from '../mainProcess/ipc';
-import { closeWorkspace } from '../store/actions/hsc';
 
 const createBlankWorkspace = () => {
   const wsUuid = v4();
@@ -55,8 +50,6 @@ const createBlankWorkspace = () => {
   return workspace;
 };
 
-export default () => (dispatch) => {
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-  dispatch(closeWorkspace());
-  dispatch(loadDocuments(createBlankWorkspace()));
+export default {
+  createBlankWorkspace,
 };

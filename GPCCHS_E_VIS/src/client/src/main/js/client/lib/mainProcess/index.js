@@ -24,8 +24,7 @@ import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
 import setMenu from './menuManager';
-import { openWorkspace } from '../documentManager/openWorkspace';
-import openDefaultWorkspace from '../documentManager/openBlankWorkspace';
+import { openWorkspace, openBlankWorkspace } from '../documentManager/actions';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 
@@ -155,7 +154,7 @@ export function start() {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        dispatch(openDefaultWorkspace());
+        dispatch(openBlankWorkspace());
         callback(null);
         return;
       }
@@ -168,7 +167,7 @@ export function start() {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
-          dispatch(openDefaultWorkspace());
+          dispatch(openBlankWorkspace());
         }
         callback(null);
       }));

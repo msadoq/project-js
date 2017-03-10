@@ -56,8 +56,10 @@ export function open(windowId, data, callback) {
 
   const params = encodeURIComponent(JSON.stringify(parameters.getAll()));
   const htmlPath = `file://${parameters.get('path')}/index.html`;
+  const addReactPerfFlag = () =>
+    (parameters.get('DEBUG') === 'on' ? 'react_perf&' : '');
   logger.debug('opening', htmlPath);
-  window.loadURL(`${htmlPath}?windowId=${windowId}&params=${params}`);
+  window.loadURL(`${htmlPath}?${addReactPerfFlag()}windowId=${windowId}&params=${params}`);
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window
   window.on('ready-to-show', () => {

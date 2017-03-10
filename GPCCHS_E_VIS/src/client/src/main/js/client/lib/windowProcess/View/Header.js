@@ -64,7 +64,6 @@ export default class Header extends PureComponent {
       maximizeView,
       maximized,
     } = this.props;
-
     switch (key) {
       case 'editor': {
         if (isViewsEditorOpen && closeEditor) {

@@ -38,6 +38,8 @@ export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
 export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag');
 export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
+export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'pageId', 'viewId', 'flag');
+export const setMaximized = simple(types.WS_VIEW_SETMAXIMISED, 'pageId', 'viewId', 'flag');
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');

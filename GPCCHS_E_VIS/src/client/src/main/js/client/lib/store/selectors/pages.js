@@ -3,7 +3,7 @@ import _map from 'lodash/map';
 import _filter from 'lodash/filter';
 import __ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getViewsIdsCollapsed } from './views';
+// import { getViewsIdsCollapsed } from './views';
 
 export const getPages = state => state.pages;
 export const getPage = (state, { pageId }) => state.pages[pageId];
@@ -34,10 +34,9 @@ export function makeGetViews() {
 export function makeGetLayouts() {
   return createSelector(
     getPageLayout,
-    getViewsIdsCollapsed,
-    (layout, viewsIds) => ({
+    layout => ({
       lg: _map(layout, (e) => {
-        if (viewsIds.indexOf(e.i) >= 0) {
+        if (e.collapsed) {
           return (
           Object.assign({
             minW: 3,

@@ -58,6 +58,8 @@ export default class View extends PureComponent {
     maximizeView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
+    collapsed: PropTypes.bool.isRequired,
+    maximized: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -66,6 +68,8 @@ export default class View extends PureComponent {
     absolutePath: '',
     oId: '',
     visuWindow: null,
+    collapsed: false,
+    maximized: false,
   };
 
   static contextTypes = {
@@ -134,6 +138,8 @@ export default class View extends PureComponent {
       absolutePath,
       isModified,
       entryPoints,
+      collapsed,
+      maximized,
     } = this.props;
     let ContentComponent;
     switch (type) {
@@ -170,8 +176,8 @@ export default class View extends PureComponent {
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
           maximizeView={maximizeView}
-          collapsed={!!configuration.collapsed}
-          maximized={!!configuration.maximized}
+          collapsed={!!collapsed}
+          maximized={!!maximized}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}

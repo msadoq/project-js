@@ -26,19 +26,6 @@ describe('store:views:reducer', () => {
       s.myView.isModified.should.equal(false);
     });
   });
-  describe('set collapsed', () => {
-    const state = {
-      myView: {
-        configuration: {
-          collapsed: false,
-        },
-      },
-    };
-    it('works', () => {
-      const s = reducer(state, actions.setCollapsed('myView', true));
-      s.myView.configuration.collapsed.should.equal(true);
-    });
-  });
   describe('update', () => {
     const state = {
       view1: {

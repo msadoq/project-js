@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import _find from 'lodash/find';
 import classnames from 'classnames';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
@@ -78,15 +79,16 @@ export default class Content extends PureComponent {
         <div className={styles.noPage}>No view yet ...</div>
       );
     }
-    const viewMaximized = views.find(view => view.configuration.maximized);
-    if (viewMaximized && !viewMaximized.configuration.collapsed) {
+    // const viewMaximized = views.find(view => view.configuration.maximized);
+    const viewMaximized = _find(layouts.lg, { maximized: true });
+    if (viewMaximized && !viewMaximized.collapsed) {
       const ViewContainer = makeViewContainer();
-      const isViewsEditorOpen = editorViewId === viewMaximized.viewId && isEditorOpened;
+      const isViewsEditorOpen = editorViewId === viewMaximized.i && isEditorOpened;
       return (
         <ViewContainer
           timebarUuid={timebarUuid}
           pageId={focusedPageId}
-          viewId={viewMaximized.viewId}
+          viewId={viewMaximized.i}
           windowId={windowId}
           unmountAndRemove={this.props.unmountAndRemove}
           isViewsEditorOpen={isViewsEditorOpen}

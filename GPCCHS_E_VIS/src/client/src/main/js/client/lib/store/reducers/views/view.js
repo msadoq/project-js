@@ -48,8 +48,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_REMOVE_MARKER,
     types.WS_VIEW_ADD_PROCEDURE,
     types.WS_VIEW_REMOVE_PROCEDURE,
-    types.WS_VIEW_SETCOLLAPSED,
-    types.WS_VIEW_SETMAXIMISED,
     types.WS_VIEW_ADD_ENTRYPOINT,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {

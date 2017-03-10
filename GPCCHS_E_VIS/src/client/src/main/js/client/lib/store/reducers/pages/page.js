@@ -103,6 +103,19 @@ const page = (statePage = initialState, action) => {
         isModified: true,
         timebarHeight: action.payload.timebarHeight >= 135 ? action.payload.timebarHeight : 135,
       };
+    case types.WS_VIEW_SETCOLLAPSED:
+      return __.set(['layout', __.findIndex(i => i.i === action.payload.viewId, statePage.layout), 'collapsed'],
+        action.payload.flag,
+        {
+          ...statePage,
+          isModified: true,
+        }
+      );
+    case types.WS_VIEW_SETMAXIMISED:
+      return __.set(['layout', __.findIndex(i => i.i === action.payload.viewId, statePage.layout), 'maximized'],
+        action.payload.flag,
+        statePage
+      );
     default:
       return statePage;
   }

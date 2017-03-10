@@ -26,7 +26,7 @@ export const simpleReadPage = (pageInfo, cb) => {
 
     const preparePageViews = updateAllViews(
       _.pipe(
-        _.update('geometry', _.pick(['x', 'y', 'w', 'h', 'maxH', 'maxW'])),
+        _.update('geometry', _.pick(['x', 'y', 'w', 'h', 'maxH', 'maxW', 'collapsed', 'maximized'])),
         _.update('uuid', v4)
       )
     );

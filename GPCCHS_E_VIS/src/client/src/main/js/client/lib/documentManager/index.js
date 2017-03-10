@@ -1,27 +1,18 @@
 import { applyDependencyToApi } from '../common/utils';
 
 // views
-import { extractViews, readViews } from './extractViews';
 import { saveView, saveViewAs } from './saveView';
 
 // pages
-import { readPages } from './extractPages';
 import { savePage } from './savePage';
 
 // workspaces
-import { readWorkspace } from './extractWorkspace';
 import { saveWorkspace } from './saveWorkspace';
 
 const documentManagerApi = {
-  readViews,
-  extractViews,
   saveView,
   saveViewAs,
-
-  readPages,
   savePage,
-
-  readWorkspace,
   saveWorkspace,
 };
 

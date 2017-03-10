@@ -5,7 +5,6 @@ import { v4 } from 'uuid';
 
 import { copyProp } from 'common/utils/fp';
 
-import fmdApi from '../common/fmd';
 import fs from '../common/fs';
 import validation from './validation';
 
@@ -49,7 +48,7 @@ const prepareWorkspace = _.pipe(
 
 const simpleReadWorkspace = (workspaceInfo, cb) => {
   const { absolutePath } = workspaceInfo;
-  readDocument(fmdApi)(undefined, undefined, undefined, absolutePath, (err, workspaceContent) => {
+  readDocument(undefined, undefined, undefined, absolutePath, (err, workspaceContent) => {
     if (err) {
       return cb(err);
     }

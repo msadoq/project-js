@@ -4,7 +4,7 @@ import { getView } from '../../../store/selectors/views';
 import { setModified, updatePath, updateAbsolutePath, setViewOid } from '../../../store/actions/views';
 import { addOnce as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
-import { saveViewAs } from '../../../common/documentManager';
+import { saveViewAs } from '../../../documentManager';
 
 import { getRootDir, isInFmd, getRelativeFmdPath } from '../../../common/fmd';
 

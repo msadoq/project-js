@@ -13,7 +13,7 @@ import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
-const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
+const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
       callback(errFolderCreation);
@@ -92,7 +92,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       return;
     }
     // save file
-    writeDocument(fmdApi)(path, workspace, (err) => {
+    writeDocument(path, workspace, (err) => {
       if (err) {
         callback(err);
         return;
@@ -103,11 +103,11 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
   });
 };
 
-const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {
+const saveWorkspace = (state, useRelativePath, callback) => {
   if (!state.hsc || !state.hsc.folder || !state.hsc.file) {
     return new Error('Unable to get path for saving workspace');
   }
-  return saveWorkspaceAs(fmdApi)(
+  return saveWorkspaceAs(
     state,
     join(state.hsc.folder, state.hsc.file),
     useRelativePath,

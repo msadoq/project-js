@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
 
 import { LOG_DOCUMENT_OPEN } from 'common/constants';
-import fmdApi from '../common/fmd';
 import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
@@ -18,7 +17,7 @@ const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'dang
 
 export const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
   const { path, oId, absolutePath } = viewInfo;
-  readDocument(fmdApi)(pageFolder, path, oId, absolutePath, (err, viewContent) => {
+  readDocument(pageFolder, path, oId, absolutePath, (err, viewContent) => {
     if (err) {
       return cb(err);
     }

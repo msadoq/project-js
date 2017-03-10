@@ -9,13 +9,7 @@ import validation from './validation';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
-import fmdApi from '../common/fmd';
 
-/**
- * Save view from state to file
- *
- * @param fmdApi
- */
 const saveViewAs = (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
     callback(new Error('Empty view configuration'));
@@ -50,7 +44,7 @@ const saveViewAs = (viewConfiguration, viewType, path, callback) => {
       return;
     }
 
-    writeDocument(fmdApi)(path, configuration, (errWrite, oId) => {
+    writeDocument(path, configuration, (errWrite, oId) => {
       if (errWrite) {
         callback(errWrite);
         return;
@@ -61,11 +55,6 @@ const saveViewAs = (viewConfiguration, viewType, path, callback) => {
   });
 };
 
-/**
- * Save view from state to file
- *
- * @param fmdApi
- */
 const saveView = (state, viewId, callback) => {
   if (!state.views[viewId]) {
     callback(new Error('Unknown view id'));

@@ -3,30 +3,29 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { should, expect, getTmpPath, freezeMe } from '../common/test';
-import { applyDependencyToApi } from '../common/utils';
+import { sinon, should, expect, getTmpPath, freezeMe } from '../common/test';
 
-import SaveWorkspace from './saveWorkspace';
+import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
 import fmdApi from '../common/fmd';
 import fs from '../common/fs';
 
-const mockFmdApi = fmd => ({
-  ...fmd,
-  createDocument: (path, documentType, cb) => {
-    const mimeType = mimeTypes[documentType];
-    if (!mimeType) {
-      return cb(`Unknown documentType : ${documentType}`);
-    }
-    const oid = `oid:${fmd.getRelativeFmdPath(path)}`;
-    return cb(null, oid);
-  },
-});
-
-const mockedFmdApi = mockFmdApi(fmdApi);
-
-const { saveWorkspace, saveWorkspaceAs } = applyDependencyToApi(SaveWorkspace, mockedFmdApi);
+const mockedCreateDocument = (path, documentType, cb) => {
+  const mimeType = mimeTypes[documentType];
+  if (!mimeType) {
+    return cb(`Unknown documentType : ${documentType}`);
+  }
+  const oid = `oid:${fmdApi.getRelativeFmdPath(path)}`;
+  return cb(null, oid);
+};
 
 describe('documentManager/saveWorkspace', () => {
+  let stub;
+  before(() => {
+    stub = sinon.stub(fmdApi, 'createDocument', mockedCreateDocument);
+  });
+  after(() => {
+    stub.restore();
+  });
   let state;
   beforeEach(() => {
     state = {

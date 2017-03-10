@@ -2,13 +2,9 @@
 import rimraf from 'rimraf';
 
 import { should, expect, getTmpPath, freezeMe } from '../common/test';
-import { applyDependencyToApi } from '../common/utils';
 
-import fmdApi from '../common/fmd';
 import fs from '../common/fs';
-import SavePage from './savePage';
-
-const { savePage, savePageAs } = applyDependencyToApi(SavePage, fmdApi);
+import { savePage, savePageAs } from './savePage';
 
 describe('mainProcess/documents/savePage', () => {
   let state;

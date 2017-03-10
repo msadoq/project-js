@@ -3,7 +3,7 @@ import { getStore } from '../../../store/mainStore';
 import { getView } from '../../../store/selectors/views';
 import { add } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
-import { saveViewAs } from '../../../common/documentManager';
+import { saveViewAs } from '../../../documentManager';
 import { getRootDir } from '../../../common/fmd';
 import { getViewModule } from '../../../viewManager';
 

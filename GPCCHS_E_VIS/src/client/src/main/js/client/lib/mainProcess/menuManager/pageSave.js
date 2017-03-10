@@ -3,7 +3,7 @@ import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getPageModifiedViewsIds } from '../../store/selectors/pages';
 import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { getPathByFilePicker } from '../dialog';
-import { savePage } from '../../common/documentManager';
+import { savePage } from '../../documentManager';
 import { addOnce as addMessage } from '../../store/actions/messages';
 
 module.exports = { pageSave, pageSaveAs };

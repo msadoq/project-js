@@ -4,7 +4,7 @@ import { getStore } from '../../../store/mainStore';
 import { getView } from '../../../store/selectors/views';
 import { reloadView } from '../../../store/actions/views';
 import { add } from '../../../store/actions/messages';
-import { readViews } from '../../../common/documentManager';
+import { readViews } from '../../../documentManager';
 import { showWarningMessage } from '../../dialog';
 
 function reload(viewId, absolutePath) {

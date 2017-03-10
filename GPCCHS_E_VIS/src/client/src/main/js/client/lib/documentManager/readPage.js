@@ -3,7 +3,6 @@ import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
 
-import fmdApi from '../common/fmd';
 import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
@@ -15,7 +14,7 @@ const updateAllViews = transform => _.update('views', _.map(transform));
 
 export const simpleReadPage = (pageInfo, cb) => {
   const { workspaceFolder, path, oId, absolutePath } = pageInfo;
-  readDocument(fmdApi)(workspaceFolder, path, oId, absolutePath, (err, page, properties) => {
+  readDocument(workspaceFolder, path, oId, absolutePath, (err, page, properties) => {
     if (err) {
       return cb(err);
     }

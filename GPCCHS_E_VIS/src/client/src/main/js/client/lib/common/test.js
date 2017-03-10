@@ -62,6 +62,14 @@ const freezeArgs = f => (...args) => {
   return f(...frozenArgs);
 };
 
+const makeGetDispatch = () => {
+  let dispatch;
+  beforeEach(() => {
+    dispatch = sinon.spy();
+  });
+  return () => dispatch;
+};
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
@@ -70,6 +78,7 @@ module.exports = {
   createGetState,
   freezeMe,
   freezeArgs,
+  makeGetDispatch, // redux-thunk testing
   isV4: (id = '') => id.length === v4().length,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };

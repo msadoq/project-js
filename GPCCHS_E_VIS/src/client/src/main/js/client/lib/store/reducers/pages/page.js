@@ -30,6 +30,7 @@ const page = (statePage = initialState, action) => {
     case types.WS_LOAD_DOCUMENTS: {
       const newPage = _.merge(statePage, action.payload.page);
       const pageViews = _.groupBy('pageUuid', action.payload.documents.views)[newPage.uuid];
+      const isLoadingSimpleView = !_.has('payload.documents.pages[0]', action);
       if (!pageViews) {
         return newPage;
       }
@@ -42,7 +43,8 @@ const page = (statePage = initialState, action) => {
       return _.pipe(
         _.update('layout', _.concat(_, getLayout(pageViews))),
         _.update('views', _.concat(_, getUuids(pageViews))),
-        _.omit(['windowId', 'workspaceFolder', 'timebarId'])
+        _.omit(['windowId', 'workspaceFolder', 'timebarId']),
+        _.set('isModified', isLoadingSimpleView)
       )(newPage);
     }
     case types.WS_PAGE_ADD_BLANK: {
@@ -51,11 +53,15 @@ const page = (statePage = initialState, action) => {
     case types.WS_VIEW_ADD_BLANK: {
       return _.pipe(
         _.update('views', _.concat(_, action.payload.view.uuid)),
-        _.update('layout', _.concat(_, { ...initialGeometry, i: action.payload.view.uuid }))
+        _.update('layout', _.concat(_, { ...initialGeometry, i: action.payload.view.uuid })),
+        _.set('isModified', true)
       )(statePage);
     }
     case types.WS_VIEW_CLOSE: {
-      return _.update('views', _.remove(_.equals(action.payload.viewId)), statePage);
+      return _.pipe(
+        _.update('views', _.remove(_.equals(action.payload.viewId))),
+        _.set('isModified', true)
+      )(statePage);
     }
     case types.WS_PAGE_EDITOR_OPEN:
       return _.update('editor', _.merge(_, {

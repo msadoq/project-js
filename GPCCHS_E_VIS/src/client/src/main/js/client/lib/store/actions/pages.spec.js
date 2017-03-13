@@ -27,7 +27,7 @@ describe('store:actions:pages', () => {
         type: types.WS_PAGE_ADD_BLANK,
         payload: {
           windowId: 'myWindow1',
-          page: { uuid: 'myPage1', timebarUuid: 'tb1', windowId: 'myWindow1' },
+          page: { uuid: 'myPage1', timebarUuid: 'tb1' },
         },
       });
     });
@@ -39,7 +39,7 @@ describe('store:actions:pages', () => {
         type: types.WS_PAGE_ADD_BLANK,
         payload: {
           windowId: 'w1',
-          page: { uuid: 'myPage1', timebarUuid: 'tb1', windowId: 'w1' },
+          page: { uuid: 'myPage1', timebarUuid: 'tb1' },
         },
       });
     });
@@ -54,7 +54,6 @@ describe('store:actions:pages', () => {
           page: {
             uuid: dispatch.getCall(0).args[0].payload.page.uuid,
             timebarUuid: 'tb1',
-            windowId: 'myWindow1',
           },
         },
       });
@@ -71,7 +70,6 @@ describe('store:actions:pages', () => {
           page: {
             uuid: dispatch.getCall(0).args[0].payload.page.uuid,
             timebarUuid: 'tb1',
-            windowId: 'w1',
           },
         },
       });
@@ -108,16 +106,4 @@ describe('store:actions:pages', () => {
       });
     });
   });
-
-  // export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
-  //   return (dispatch) => {
-  //     if (!toPageId) {
-  //       const newPageId = v4();
-  //       dispatch(addBlankPage(windowId, newPageId));
-  //       dispatch(moveView(fromPageId, newPageId, viewId));
-  //     } else {
-  //       dispatch(moveView(fromPageId, toPageId, viewId));
-  //     }
-  //   };
-  // }
 });

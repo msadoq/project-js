@@ -41,7 +41,8 @@ const page = (statePage = initialState, action) => {
       ));
       return _.pipe(
         _.update('layout', _.concat(_, getLayout(pageViews))),
-        _.update('views', _.concat(_, getUuids(pageViews)))
+        _.update('views', _.concat(_, getUuids(pageViews))),
+        _.omit(['windowId', 'workspaceFolder', 'timebarId'])
       )(newPage);
     }
     case types.WS_PAGE_ADD_BLANK: {

@@ -50,8 +50,8 @@ export default function window(stateWindow = initialState, action) {
       )(newWindow);
     }
     case types.WS_PAGE_ADD_BLANK: {
-      const { page } = action.payload;
-      if (page.windowId === stateWindow.uuid) {
+      const { page, windowId } = action.payload;
+      if (windowId === stateWindow.uuid) {
         return _.pipe(
           _.update('pages', _.concat(_, page.uuid)),
           _.set('focusedPage', page.uuid),

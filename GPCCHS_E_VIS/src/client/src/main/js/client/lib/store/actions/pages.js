@@ -18,7 +18,6 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
       page: {
         uuid: newPageId,
         timebarUuid: getFirstTimebarId(state),
-        windowId: wId,
       },
     },
   });

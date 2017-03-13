@@ -4,13 +4,11 @@ import {
   Form,
 } from 'react-bootstrap';
 import {
-  SelectButtonField,
-} from '../../../commonEditor/Fields/';
-import {
   HorizontalFormGroup,
   ClearSubmitButtons,
   ButtonToggleField,
   InputField,
+  SelectButtonField,
 } from '../../../../windowProcess/commonReduxForm/';
 
 const lineStyleButtons = [

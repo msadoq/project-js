@@ -33,7 +33,6 @@ export default class Legend extends PureComponent {
       })
       .filter(axis => axis.lines.length > 0 && axis.showAxis);
 
-    console.log('show', show);
     return (
       <div
         className={styles.plotLegend}

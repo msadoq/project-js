@@ -4,13 +4,11 @@ import {
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import {
+  HorizontalFormGroup,
+  ClearSubmitButtons,
   ColorPickerField,
   InputField,
   SelectButtonField,
-} from '../../../commonEditor/Fields/';
-import {
-  HorizontalFormGroup,
-  ClearSubmitButtons,
 } from '../../../../windowProcess/commonReduxForm/';
 import {
   FormSectionPointStyle,

@@ -6,11 +6,9 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 import {
-  InputField,
-} from '../../../commonEditor/Fields/';
-import {
   HorizontalFormGroup,
   ClearSubmitButtons,
+  InputField,
 } from '../../../../windowProcess/commonReduxForm/';
 import {
   FormSectionFontStyle,

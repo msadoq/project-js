@@ -67,7 +67,8 @@ function simpleView(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD_BLANK:
     case types.WS_LOAD_DOCUMENTS: {
-      return _.merge(stateView, action.payload.view);
+      const newView = _.omit(['windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
+      return _.merge(stateView, newView);
     }
     case types.WS_VIEW_UPDATEPATH:
       return {
@@ -84,8 +85,6 @@ function simpleView(stateView = initialState, action) {
         ...stateView,
         oId: action.payload.oid,
       };
-    case types.WS_VIEW_MOVE_TO_PAGE:
-      return _.set('pageUuid', action.payload.toPageId, stateView);
     default:
       return stateView;
   }

@@ -24,7 +24,6 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
 };
 
 export const closePage = simple(types.WS_PAGE_CLOSE, 'windowId', 'pageId');
-export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');

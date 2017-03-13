@@ -11,7 +11,6 @@ import { getViewModule } from '../../viewManager';
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'pageId', 'view');
 
 export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
-export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
 export const reloadView = simple(types.WS_VIEW_RELOAD, 'viewId', 'view');
 
 /* Update path/absolutePath */

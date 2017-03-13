@@ -30,7 +30,7 @@ describe('store:editor:reducer', () => {
   });
   it('should does nothing', () => {
     const newState = reducer(state, {
-      type: types.WS_VIEW_REMOVE,
+      type: types.WS_VIEW_CLOSE,
       payload: { viewId: 'test2' },
     });
     newState.should.have.a.property('textViewId', 'test');

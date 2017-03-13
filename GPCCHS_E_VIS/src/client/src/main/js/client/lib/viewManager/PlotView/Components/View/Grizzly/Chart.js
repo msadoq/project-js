@@ -40,6 +40,8 @@ export default class Chart extends React.Component {
         showAxis: PropTypes.bool.isRequired,
         showLabels: PropTypes.bool,
         showTicks: PropTypes.bool,
+        autoTick: PropTypes.bool,
+        tickStep: PropTypes.number,
         showGrid: PropTypes.bool,
         gridStyle: PropTypes.string,
         gridSize: PropTypes.number,
@@ -362,12 +364,12 @@ export default class Chart extends React.Component {
 
   memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height) =>
     scaleLinear()
-      .domain([yExtentsLower, yExtentsUpper])
+      .domain([yExtentsUpper, yExtentsLower])
       .range([0, height])
   );
 
   memoizeYExtents = _memoize((hash, orient, lower, upper) =>
-    (orient === 'top' ? [upper, lower] : [lower, upper])
+    (orient === 'top' ? [lower, upper] : [upper, lower])
   );
 
   memoizeXScale = _memoize((hash, domainLower, domainUpper, rangeUpper) =>
@@ -611,6 +613,8 @@ export default class Chart extends React.Component {
               format={yAxis.format}
               showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
+              autoTick={yAxis.autoTick}
+              tickStep={yAxis.tickStep}
               showGrid={yAxis.showGrid}
               gridStyle={yAxis.gridStyle}
               axisLabel={yAxis.axisLabel}
@@ -623,6 +627,7 @@ export default class Chart extends React.Component {
               top={marginTop}
               yAxesAt={yAxesAt}
               yScale={yAxis.yScale}
+              yExtents={yAxis.yExtents}
               label={yAxis.label}
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}

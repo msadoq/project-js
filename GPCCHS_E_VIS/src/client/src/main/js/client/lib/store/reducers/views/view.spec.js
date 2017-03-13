@@ -351,8 +351,10 @@ describe('store:views:reducer', () => {
       isModified: true,
       title: 'myView',
       type: 'PlotView',
-      configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } };
-    const state = reducer(stateViews, actions.reloadView('plot1', myView));
+      configuration: { axes: { a1: { label: 'axis1', unit: 's' } } },
+    };
+    const action = { type: types.WS_VIEW_RELOAD, payload: { viewId: 'plot1', view: myView } };
+    const state = reducer(stateViews, action);
 
     state.plot1.should.deep.equal(_.set('isModified', false, myView));
   });

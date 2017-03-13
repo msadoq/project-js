@@ -8,6 +8,7 @@ import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace }
 
 import { server } from '../mainProcess/ipc';
 
+import simple from '../store/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
@@ -19,6 +20,27 @@ import { readWorkspacePagesAndViews } from './readWorkspace';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
+
+const reload = simple(types.WS_VIEW_RELOAD, 'viewId', 'view');
+
+export const reloadView = (viewId, absolutePath) => (dispatch) => {
+  simpleReadView({ absolutePath }, (err, view) => {
+    if (err) {
+      return dispatch(addMessage(
+        viewId,
+        'danger',
+        'Invalid View file selected'
+      ));
+    }
+
+    dispatch(reload(viewId, _.set('uuid', viewId, view)));
+    return dispatch(addMessage(
+      viewId,
+      'success',
+      'View reloaded'
+    ));
+  });
+};
 
 // --- open a view ---------------------------------------------------------- //
 export const openView = viewInfo => (dispatch) => {

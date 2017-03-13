@@ -188,9 +188,6 @@ export default class Header extends PureComponent {
     }
 
     const titleStyle = this.getTitleStyle();
-    const expandButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    const saveButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-
     const isPathDefined = oId || absolutePath;
 
     const choosePageDlg = (
@@ -249,8 +246,8 @@ export default class Header extends PureComponent {
           </DropdownButton>}
           {collapsed &&
             [
-              <button key={1} style={expandButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</button>,
-              <button key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</button>,
+              <button key={1} className={classnames('btn', 'btn-sm', 'btn-default', styles.expandButton)} onClick={this.expand}>Expand</button>,
+              <button key={2} className={classnames('btn', 'btn-sm', 'btn-default', styles.saveButton)} onClick={this.save}>Save</button>,
             ]
           }
         </div>

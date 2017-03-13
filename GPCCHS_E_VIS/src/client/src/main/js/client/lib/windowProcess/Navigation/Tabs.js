@@ -1,11 +1,10 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
-import getLogger from 'common/log';
 import styles from './Tabs.css';
 
-const logger = getLogger('Tabs');
-
+const popoverDraggingStyle = { display: 'none' };
+const menuItemsDraggingStyle = { borderRight: '2px solid red', borderLeft: '2px solid red' };
 function popoverHoverFocus(page) {
   return (
     <Popover id={page.pageId} title="Document properties">
@@ -27,6 +26,11 @@ function popoverHoverFocus(page) {
         </tbody>
       </Table>
     </Popover>
+  );
+}
+function popoverHoverDragging(page) {
+  return (
+    <Popover id={page.pageId} style={popoverDraggingStyle} />
   );
 }
 
@@ -55,8 +59,20 @@ export default class Tabs extends PureComponent {
     e.stopPropagation();
   }
 
+  handleDragStart = (pageId) => {
+    this.setState({ dragging: pageId });
+  }
+
+  handleDragStop = () => {
+    this.setState({ dragging: null });
+  }
+
+  handleDrag = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   render() {
-    logger.debug('render');
     const { pages, focusedPageId } = this.props;
 
     return (
@@ -65,22 +81,43 @@ export default class Tabs extends PureComponent {
           <NavItem
             key={page.pageId}
             eventKey={page.pageId}
+            style={
+              this.state &&
+              this.state.dragging ?
+                menuItemsDraggingStyle :
+                null
+            }
           >
-            <OverlayTrigger className={styles.title} overlay={popoverHoverFocus(page)}>
-              <div>
-                <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
-                <Button
-                  bsStyle="link"
-                  onClick={e => this.handleClose(e, page.pageId)}
-                  className={styles.button}
-                >
-                  <Glyphicon
-                    glyph="remove-circle"
-                    className="text-danger"
-                  />
-                </Button>
-              </div>
-            </OverlayTrigger>
+            <div
+              draggable
+              onDragStart={() => { this.handleDragStart(page.pageId); }}
+              onDragEnd={this.handleDragStop}
+              onDrag={this.handleDrag}
+            >
+              <OverlayTrigger
+                className={styles.title}
+                overlay={
+                  this.state &&
+                  this.state.dragging === page.pageId ?
+                    popoverHoverDragging(page) :
+                    popoverHoverFocus(page)
+                }
+              >
+                <div>
+                  <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
+                  <Button
+                    bsStyle="link"
+                    onClick={e => this.handleClose(e, page.pageId)}
+                    className={styles.button}
+                  >
+                    <Glyphicon
+                      glyph="remove-circle"
+                      className="text-danger"
+                    />
+                  </Button>
+                </div>
+              </OverlayTrigger>
+            </div>
           </NavItem>
         )}
         <NavItem eventKey="new">

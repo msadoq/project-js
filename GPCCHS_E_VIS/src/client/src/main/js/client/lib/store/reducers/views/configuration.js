@@ -72,6 +72,8 @@ export const configurationByViewType = {
     switch (action.type) {
       case types.WS_VIEW_RELOAD:
       case types.WS_VIEW_OPEN:
+      case types.WS_PAGE_OPEN:
+      case types.WS_WORKSPACE_OPEN:
       case types.WS_LOAD_DOCUMENTS:
       case types.WS_VIEW_ADD_BLANK: {
         const config = action.payload.configuration || action.payload.view.configuration;

@@ -16,7 +16,7 @@ export default function windows(stateWindows = {}, action) {
       const { documents } = action.payload;
       const setPayloadWindow = _.set('payload.window');
       if (_.isEmpty(documents.windows) && !_.isEmpty(documents.pages)) {
-        return _.mapValues(p => window(p, action), stateWindows);
+        return _.mapValues(p => window(p, action), stateWindows); // WS_PAGE_LOAD
       }
       const singleWindowReducer = stateWindow => (
         window(undefined, setPayloadWindow(stateWindow, action))

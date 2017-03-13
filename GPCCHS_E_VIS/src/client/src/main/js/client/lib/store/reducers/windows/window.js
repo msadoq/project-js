@@ -55,6 +55,7 @@ export default function window(stateWindow = initialState, action) {
         _.set('isModified', isLoadingPage(action.payload.documents))
       )(newWindow);
     }
+    case types.WS_PAGE_OPEN:
     case types.WS_PAGE_ADD_BLANK: {
       const { page, windowId } = action.payload;
       if (windowId === stateWindow.uuid) {

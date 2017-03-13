@@ -13,6 +13,8 @@ const views = (stateViews = {}, action) => {
       return _.set(action.payload.view.uuid, view(undefined, action), stateViews);
     case types.WS_VIEW_CLOSE: // remove a view
       return _.omit(action.payload.viewId, stateViews);
+    case types.WS_PAGE_OPEN:
+    case types.WS_WORKSPACE_OPEN:
     case types.WS_LOAD_DOCUMENTS: {
       const setPayloadView = _.set('payload.view');
       const singleViewReducer = stateView => view(undefined, setPayloadView(stateView, action));
@@ -20,7 +22,7 @@ const views = (stateViews = {}, action) => {
         _.defaults(stateViews),          // 3. merge with old stateViews
         _.indexBy('uuid'),               // 2. index views array by uuid
         _.map(singleViewReducer)         // 1. apply single view reducer on all views
-      )(action.payload.documents.views);
+      )(action.payload.views || action.payload.documents.views);
     }
     default: {
       const viewId = _.get('payload.viewId', action);

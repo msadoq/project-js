@@ -33,12 +33,14 @@ const getGeometry = _.pipe(
 
 const page = (statePage = initialState, action) => {
   switch (action.type) {
+    case types.WS_PAGE_OPEN:
+    case types.WS_WORKSPACE_OPEN:
     case types.WS_LOAD_DOCUMENTS: {
       const newPage = _.merge(statePage, action.payload.page);
-      const views = _.groupBy('pageUuid', action.payload.documents.views)[newPage.uuid];
-      if (!views) {
-        return newPage;
-      }
+      const { documents } = action.payload;
+      const _views = documents ? documents.views : action.payload.views;
+
+      const views = _.groupBy('pageUuid', _views)[newPage.uuid];
       const getUuids = _.map('uuid');
       const getLayout = _.map(getGeometry);
       return _.pipe(

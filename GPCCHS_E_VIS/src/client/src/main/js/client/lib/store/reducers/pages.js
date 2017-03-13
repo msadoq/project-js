@@ -28,11 +28,6 @@ const moveViewToPage = (statePages, action) => {
   return moveView(statePages);
 };
 
-// load views in pages
-const loadViews = (statePages, action) => (
-  _.mapValues(p => page(p, action), statePages)
-);
-
 // load pages
 const loadPages = (statePages, action) => {
   const { documents } = action.payload;
@@ -50,6 +45,7 @@ const pages = (statePages = {}, action) => {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
+    case types.WS_PAGE_OPEN:
     case types.WS_PAGE_ADD_BLANK:
       return _.set(action.payload.page.uuid, page(undefined, action), statePages);
     case types.WS_PAGE_CLOSE:
@@ -60,14 +56,10 @@ const pages = (statePages = {}, action) => {
     }
     case types.WS_VIEW_OPEN: {
       const { pageUuid } = action.payload.view;
-      const singlePageReducer = pageState => page(pageState, action);
-      return _.update(pageUuid, singlePageReducer, statePages);
+      const updatePage = _.update(pageUuid, pageState => page(pageState, action));
+      return updatePage(statePages);
     }
     case types.WS_LOAD_DOCUMENTS: {
-      const { documents } = action.payload;
-      if (_.isEmpty(documents.pages) && !_.isEmpty(documents.views)) {
-        return loadViews(statePages, action);
-      }
       return loadPages(statePages, action);
     }
     default: {

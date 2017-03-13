@@ -40,13 +40,6 @@ export const openView = viewInfo => (dispatch) => {
 // -------------------------------------------------------------------------- //
 
 // --- open a page ---------------------------------------------------------- //
-const setIfAbsent = _.curry((key, value, obj) => {
-  if (_.has(key, obj)) {
-    return obj;
-  }
-  return _.set(key, value, obj);
-});
-
 export const openPage = pageInfo => (dispatch, getState) => {
   readPageAndViews(pageInfo, (err, documents) => {
     if (err) {
@@ -54,11 +47,17 @@ export const openPage = pageInfo => (dispatch, getState) => {
       return;
     }
     const page = documents.pages[0];
+    const firstTimebarId = getFirstTimebarId(getState());
+    dispatch({
+      type: types.WS_PAGE_OPEN,
+      payload: {
+        windowId: page.windowId,
+        views: documents.views,
+        page: _.set('timebarUuid', firstTimebarId, page),
+      },
+    });
+
     const path = page.absolutePath || page.path || page.oId;
-    const documentsWithTimebarsMounted = _.update('pages', _.map(
-      setIfAbsent('timebarUuid', getFirstTimebarId(getState()))
-    ), documents);
-    dispatch(loadDocuments(documentsWithTimebarsMounted));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };

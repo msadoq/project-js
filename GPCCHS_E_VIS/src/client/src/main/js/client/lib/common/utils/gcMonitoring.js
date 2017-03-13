@@ -1,6 +1,9 @@
 const gcWatch = require('gc-watch');
+const getLogger = require('common/log');
 
-export default function() {
+const logger = getLogger('gcMonitoring');
+
+export default function () {
   let size;
   let time;
 
@@ -10,16 +13,18 @@ export default function() {
   gcWatch.on('beforeGC', () => {
     // detect memory usage, push stats etc.
     size = getHeapSize();
+    // eslint-disable-next-line no-console
     console.time('GC Duration');
   });
 
   gcWatch.on('afterGC', () => {
     // calculate memory freed by GC, etc.
-    console.log('-------------------------------------------------');
-    console.log(`GC passed, memory free ${size - getHeapSize()} mb (Total: ${getHeapSize()} mb)`);
+    logger.info('-------------------------------------------------');
+    logger.info(`GC passed, memory free ${size - getHeapSize()} mb (Total: ${getHeapSize()} mb)`);
+    // eslint-disable-next-line no-console
     console.timeEnd('GC Duration');
-    console.log(`Since last GC tick : ${getTime() - (time || getTime())} ms`);
-    console.log('-------------------------------------------------');
+    logger.info(`Since last GC tick : ${getTime() - (time || getTime())} ms`);
+    logger.info('-------------------------------------------------');
     time = getTime();
   });
 }

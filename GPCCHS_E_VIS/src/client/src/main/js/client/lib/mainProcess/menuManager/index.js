@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { getStore } from '../../store/mainStore';
-import { add } from '../../store/actions/windows';
+import { addWindow } from '../../store/actions/windows';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
@@ -72,7 +72,7 @@ template.splice(1, 0,
       {
         label: 'New',
         accelerator: '',
-        click() { getStore().dispatch(add(v4(), 'New window')); },
+        click() { getStore().dispatch(addWindow(v4(), 'New window')); },
       }, {
         label: 'Reload',
         accelerator: '',

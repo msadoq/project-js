@@ -139,17 +139,18 @@ describe('cleanViewData', () => {
         },
       },
       plot: {
-        indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
-        lines: {
-          STAT_SU_PID: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          { masterTime: 13, value: 13, x: 13 },
-          { masterTime: 14, value: 13, x: 14 },
-          { masterTime: 15, value: 13, x: 15 },
-          { masterTime: 16, value: 13, x: 16 },
-          ] },
+        index: [
+          10, 11, 12, 13, 14, 15, 16,
+        ],
+        columns: [
+          { STAT_SU_PID: { value: 13, x: 10 } },
+          { STAT_SU_PID: { value: 13, x: 11 } },
+          { STAT_SU_PID: { value: 13, x: 12 } },
+          { STAT_SU_PID: { value: 13, x: 13 } },
+          { STAT_SU_PID: { value: 13, x: 14 } },
+          { STAT_SU_PID: { value: 13, x: 15 } },
+          { STAT_SU_PID: { value: 13, x: 16 } },
+        ],
         min: { STAT_SU_PID: 13 },
         max: { STAT_SU_PID: 13 },
         minTime: { STAT_SU_PID: 16 },
@@ -220,11 +221,11 @@ describe('cleanViewData', () => {
       = [15, 25];
     const newState =
       cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.plot.lines.STAT_SU_PID.should.eql([
-      { masterTime: 15, value: 13, x: 15 },
-      { masterTime: 16, value: 13, x: 16 },
+    newState.plot.columns.should.eql([
+      { STAT_SU_PID: { value: 13, x: 15 } },
+      { STAT_SU_PID: { value: 13, x: 16 } },
     ]);
-    newState.plot.indexes.STAT_SU_PID.should.eql([15, 16]);
+    newState.plot.index.should.eql([15, 16]);
     newState.plot.min.should.eql({ STAT_SU_PID: 13 });
     newState.plot.max.should.eql({ STAT_SU_PID: 13 });
     newState.plot.minTime.should.eql({ STAT_SU_PID: 16 });
@@ -238,8 +239,8 @@ describe('cleanViewData', () => {
     const newState =
       cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
     newState.plot.should.eql(
-      { indexes: {},
-        lines: {},
+      { index: [],
+        columns: [],
         min: { STAT_SU_PID: 13 },
         max: { STAT_SU_PID: 13 },
         minTime: { STAT_SU_PID: 16 },

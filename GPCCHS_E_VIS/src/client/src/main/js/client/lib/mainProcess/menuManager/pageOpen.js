@@ -7,7 +7,7 @@ import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { addBlankPage } from '../../store/actions/pages';
 
-import { openPage } from '../../documentManager/actions';
+import { openPage } from '../../documentManager';
 
 const pageOpenWithPath = ({ filePath, windowId }) => {
   getStore().dispatch(openPage({ absolutePath: filePath, windowId }));

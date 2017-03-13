@@ -5,7 +5,7 @@ import {
 } from 'common/constants';
 
 import { server } from '../ipc';
-import { openView } from '../../documentManager/actions';
+import { openView } from '../../documentManager';
 import { getPathByFilePicker } from '../dialog';
 import { addBlankView } from '../../store/actions/views';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';

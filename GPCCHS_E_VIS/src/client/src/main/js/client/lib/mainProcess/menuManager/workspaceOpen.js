@@ -8,10 +8,9 @@ import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { updatePath } from '../../store/actions/hsc';
-import { saveWorkspace } from '../../documentManager';
+import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import { openWorkspace, openBlankWorkspace } from '../../documentManager/actions';
 
 const isYes = equals(0);
 const isNo = equals(1);

@@ -170,27 +170,37 @@ function _getLogger(category, config = getDefaultConfig(), allTransports = avail
   return logger;
 }
 
-const getLogger = (...loggerArgs) => {
+const getLazyInitLogFn = (level, ...loggerArgs) => (...logArgs) => {
   let logger;
-  const getLazyInitLogFn = level => (...logArgs) => {
-    if (!logger) {
-      logger = _getLogger(...loggerArgs);
-    }
-    logger[level](...logArgs);
-  };
-  return {
-    error: getLazyInitLogFn('error'),
-    warn: getLazyInitLogFn('warn'),
-    info: getLazyInitLogFn('info'),
-    verbose: getLazyInitLogFn('verbose'),
-    debug: getLazyInitLogFn('debug'),
-    silly: getLazyInitLogFn('silly'),
-  };
+  if (!logger) {
+    logger = _getLogger(...loggerArgs);
+  }
+  logger[level](...logArgs);
 };
+
+const getLogger = (...loggerArgs) => ({
+  error: getLazyInitLogFn('error', ...loggerArgs),
+  warn: getLazyInitLogFn('warn', ...loggerArgs),
+  info: getLazyInitLogFn('info', ...loggerArgs),
+  verbose: getLazyInitLogFn('verbose', ...loggerArgs),
+  debug: getLazyInitLogFn('debug', ...loggerArgs),
+  silly: getLazyInitLogFn('silly', ...loggerArgs),
+});
+
+const memoizedGetLogger = (() => {
+  const loggers = {};
+  return (...args) => {
+    const key = JSON.stringify(args);
+    if (!loggers[key]) {
+      loggers[key] = getLogger(...args);
+    }
+    return loggers[key];
+  };
+})();
 
 module.exports = {
   getStdOptions,
   availableTransports,
-  getLogger,
+  getLogger: memoizedGetLogger,
   createCustomLogger,
 };

@@ -173,8 +173,8 @@ export default class Chart extends React.Component {
       document.addEventListener('mouseup', this.onMouseUp);
     } else if (allowPan && !hoveredAxisId) {
       this.setState({
-        mouseMoveCursorOrigin: e.pageX,
-        panOrigin: pan,
+        mouseMoveCursorOriginX: e.pageX,
+        xPanOrigin: pan,
       });
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
@@ -184,8 +184,8 @@ export default class Chart extends React.Component {
   onMouseMove = (e) => {
     e.preventDefault();
     const {
-      mouseMoveCursorOrigin,
-      panOrigin,
+      mouseMoveCursorOriginX,
+      xPanOrigin,
       zoomLevel,
       panAxisId,
       mouseMoveCursorOriginY,
@@ -205,7 +205,7 @@ export default class Chart extends React.Component {
       });
     } else {
       this.setState({
-        pan: panOrigin + ((e.pageX - mouseMoveCursorOrigin) / zoomLevel),
+        pan: xPanOrigin + ((e.pageX - mouseMoveCursorOriginX) / zoomLevel),
       });
     }
   }
@@ -262,6 +262,7 @@ export default class Chart extends React.Component {
             xExtendsUpper
           );
         }
+
         const yScale = this.memoizeYScale(
           `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}`,
           yExtents[0],

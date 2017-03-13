@@ -9,6 +9,7 @@ import getLogger from 'common/log';
 import { get } from 'common/parameters';
 
 import GrizzlyChart from './Grizzly/Chart';
+import Legend from './Legend';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import CloseableAlert from './CloseableAlert';
@@ -34,6 +35,7 @@ function parseDragData(data) {
 }
 
 const plotPadding = 15;
+const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
 
 export class GrizzlyPlotView extends PureComponent {
@@ -121,7 +123,11 @@ export class GrizzlyPlotView extends PureComponent {
     visuWindow: null,
   };
 
-  shouldComponentUpdate(nextProps) {
+  state = {
+    showLegend: false,
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
     const {
       data,
       entryPoints,
@@ -131,6 +137,7 @@ export class GrizzlyPlotView extends PureComponent {
       containerHeight,
     } = this.props;
     return !(
+      this.state.showLegend === nextState.showLegend &&
       data === nextProps.data &&
       entryPoints === nextProps.entryPoints &&
       visuWindow === nextProps.visuWindow &&
@@ -221,6 +228,13 @@ export class GrizzlyPlotView extends PureComponent {
     return info;
   }
 
+  toggleShowLegend = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLegend: !this.state.showLegend,
+    });
+  }
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -251,9 +265,15 @@ export class GrizzlyPlotView extends PureComponent {
       configuration: { showYAxes, axes, grids, entryPoints },
       visuWindow,
     } = this.props;
+    const {
+      showLegend,
+    } = this.state;
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const xExtents = [visuWindow.lower, visuWindow.upper];
+
+    const plotHeight = containerHeight - securityTopPadding -
+      (plotPadding * 2) - (showLegend ? (yAxes.length * 80) : 0);
 
     return (
       <DroppableContainer
@@ -266,7 +286,7 @@ export class GrizzlyPlotView extends PureComponent {
         style={mainStyle}
       >
         <GrizzlyChart
-          height={containerHeight - (plotPadding * 2)}
+          height={plotHeight}
           width={containerWidth - (plotPadding * 2)}
           tooltipColor="blue"
           enableTooltip
@@ -298,9 +318,9 @@ export class GrizzlyPlotView extends PureComponent {
               showAxis: axis.showAxis === true,
               showLabels: axis.showLabels === true,
               showTicks: axis.showTicks === true,
+              autoLimits: false,
               autoTick: axis.autoTick === true,
               tickStep: axis.tickStep,
-              autoLimits: false,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),
@@ -324,6 +344,12 @@ export class GrizzlyPlotView extends PureComponent {
               })
             )
           }
+        />
+        <Legend
+          yAxes={yAxes}
+          lines={entryPoints}
+          show={this.state.showLegend}
+          toggleShowLegend={this.toggleShowLegend}
         />
       </DroppableContainer>
     );

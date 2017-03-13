@@ -20,3 +20,28 @@
   text-align: center;
   font-weight: 600;
 }
+
+.plotLegend{
+  ul{
+    max-height: 75px;
+    overflow-y: auto;
+    max-width: 600px;
+    display: block;
+    li{
+      display: inline-block;
+      width: 33%;
+      height: 20px;
+      span{
+        display: inline-block;
+      }
+    }
+  }
+}
+.plotLegendColor{
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+}
+.plotLegendAxisName{
+  font-weight: bold;
+}

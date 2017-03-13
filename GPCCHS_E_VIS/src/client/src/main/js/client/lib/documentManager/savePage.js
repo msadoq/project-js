@@ -8,7 +8,7 @@ import {
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
-import fmdApi from '../common/fmd';
+import { getRootDir } from '../common/fmd';
 import validation from './validation';
 
 /**
@@ -31,7 +31,7 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
       callback(err);
       return;
     }
-    const root = fmdApi.getRootDir();
+    const root = getRootDir();
     const page = state.pages[pageId];
     const savedPage = {
       type: 'Page',

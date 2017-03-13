@@ -6,7 +6,7 @@ import { compose, prop, split } from 'lodash/fp';
 import mimeTypes from 'common/constants/mimeTypes';
 
 import { sinon, should, expect, getTmpPath } from '../common/test';
-import fmdApi from '../common/fmd';
+import * as fmdApi from '../common/fmd';
 import { readDocument, writeDocument } from './io';
 
 const mockedCreateDocument = (path, documentType, cb) => {

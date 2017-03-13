@@ -6,7 +6,7 @@ import mimeTypes from 'common/constants/mimeTypes';
 import { sinon, should, expect, getTmpPath, freezeMe } from '../common/test';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
-import fmdApi from '../common/fmd';
+import * as fmdApi from '../common/fmd';
 import fs from '../common/fs';
 
 const mockedCreateDocument = (path, documentType, cb) => {

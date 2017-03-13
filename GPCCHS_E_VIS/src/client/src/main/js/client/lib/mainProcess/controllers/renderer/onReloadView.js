@@ -1,15 +1,15 @@
-import _get from 'lodash/get';
+import _ from 'lodash/fp';
 import { BrowserWindow } from 'electron';
 import { getStore } from '../../../store/mainStore';
 import { getView } from '../../../store/selectors/views';
 import { reloadView } from '../../../store/actions/views';
 import { add } from '../../../store/actions/messages';
-import { readViews } from '../../../documentManager';
 import { showWarningMessage } from '../../dialog';
+import { simpleReadView } from '../../../documentManager/readView';
 
 function reload(viewId, absolutePath) {
   const { dispatch } = getStore();
-  readViews([{ absolutePath }], (err, views) => {
+  simpleReadView({ absolutePath }, (err, view) => {
     if (err) {
       return getStore().dispatch(add(
         viewId,
@@ -18,16 +18,7 @@ function reload(viewId, absolutePath) {
       ));
     }
 
-    const configuration = _get(views, [0, 'configuration']);
-    if (!configuration) {
-      return dispatch(add(
-        viewId,
-        'danger',
-        'Unable to load view (is view file configuration valid ?)'
-      ));
-    }
-
-    dispatch(reloadView(viewId, configuration));
+    dispatch(reloadView(viewId, _.set('uuid', viewId, view)));
     return dispatch(add(
       viewId,
       'success',

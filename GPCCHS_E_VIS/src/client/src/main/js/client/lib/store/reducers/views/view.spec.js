@@ -1,4 +1,5 @@
 /* eslint no-unused-expressions: "off" */
+import _ from 'lodash/fp';
 import _find from 'lodash/find';
 import * as actions from '../../actions/views';
 import * as types from '../../types';
@@ -346,10 +347,14 @@ describe('store:views:reducer', () => {
     });
   });
   it('reload view', () => {
-    const conf = { axes: { a1: { label: 'axis1', unit: 's' } } };
-    const state = reducer(stateViews, actions.reloadView('plot1', conf));
-    state.plot1.configuration.should.deep.equal(conf);
-    state.plot1.isModified.should.be.false;
+    const myView = {
+      isModified: true,
+      title: 'myView',
+      type: 'PlotView',
+      configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } };
+    const state = reducer(stateViews, actions.reloadView('plot1', myView));
+
+    state.plot1.should.deep.equal(_.set('isModified', false, myView));
   });
   it('updateShowYAxes', () => {
     const state = reducer(stateViews, actions.updateShowYAxes('plot1', 'right'));

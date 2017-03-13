@@ -18,6 +18,8 @@ const views = (stateViews = {}, action) => {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE: // clear views when close a workspace
       return {};
+    case types.WS_PAGE_CLOSE:
+      return _.omit(action.payload.viewIds, stateViews);
     case types.WS_VIEW_OPEN:
     case types.WS_VIEW_ADD_BLANK: // add a view
       return _.set(action.payload.view.uuid, view(undefined, action), stateViews);

@@ -1,7 +1,5 @@
-import _ from 'lodash/fp';
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import composeReducers from '../composeReducers';
 
 import hsc from './hsc';
 import timebars from './timebars';
@@ -18,22 +16,7 @@ import viewData from './viewData';
 import health from './health';
 import editor from './editor';
 
-import * as types from '../types';
-
-const rootReducer = (state, action) => {
-  switch (action.type) {
-    case types.WS_PAGE_CLOSE: { // Remove views from closed page
-      const { pageId } = action.payload;
-      const viewIds = _.get(['pages', pageId, 'views'], state);
-      const removeViews = _.update('views', _.omit(viewIds));
-      return removeViews(state);
-    }
-    default:
-      return state;
-  }
-};
-
-const allReducer = combineReducers({
+const rootReducer = combineReducers({
   form,
   hsc,
   timebars,
@@ -51,4 +34,4 @@ const allReducer = combineReducers({
   editor,
 });
 
-export default composeReducers(allReducer, rootReducer);
+export default rootReducer;

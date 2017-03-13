@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
@@ -23,7 +24,14 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
   });
 };
 
-export const closePage = simple(types.WS_PAGE_CLOSE, 'windowId', 'pageId');
+export const closePage = (windowId, pageId) => (dispatch, getState) => {
+  const viewIds = _.get(['pages', pageId, 'views'], getState());
+  dispatch({
+    type: types.WS_PAGE_CLOSE,
+    payload: { windowId, pageId, viewIds },
+  });
+};
+
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');

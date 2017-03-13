@@ -30,7 +30,10 @@ export const openView = viewInfo => (dispatch) => {
       dispatch(addDangerMessage(view.pageUuid, err));
       return;
     }
-    dispatch(loadDocuments({ views: [view] }));
+    dispatch({
+      type: types.WS_VIEW_OPEN,
+      payload: { view },
+    });
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.absolutePath);
   });
 };
@@ -62,7 +65,7 @@ export const openPage = pageInfo => (dispatch, getState) => {
 // -------------------------------------------------------------------------- //
 
 // --- open a workspace ----------------------------------------------------- //
-const logger = getLogger('documentManager:readWorkspace');
+const logger = getLogger('documentManager:openWorkspace');
 const logLoadedDocumentsCount = (documents) => {
   const count = {
     w: _.size(documents.windows),
@@ -77,14 +80,14 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
   dispatch(isWorkspaceOpening(true));
   readWorkspacePagesAndViews(workspaceInfo, (err, documents) => {
     if (err) {
-      dispatch(isWorkspaceOpening(false));
       dispatch(addGlobalError(err));
+      dispatch(isWorkspaceOpening(false));
       return cb(err);
     }
 
     dispatch(closeWorkspace());
-    dispatch(isWorkspaceOpening(false));
     dispatch(loadDocuments(documents));
+    dispatch(isWorkspaceOpening(false));
 
     logLoadedDocumentsCount(documents);
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);

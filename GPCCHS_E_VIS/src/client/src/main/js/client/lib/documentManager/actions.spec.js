@@ -39,9 +39,9 @@ describe('documentManager:actions', () => {
       actions.openView('viewInfo')(dispatch);
       dispatch.should.have.been.calledOnce;
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_LOAD_DOCUMENTS,
+        type: types.WS_VIEW_OPEN,
         payload: {
-          documents: { views: [{ title: 'my view' }] },
+          view: { title: 'my view' },
         },
       });
     });

@@ -25,30 +25,37 @@ const initialGeometry = {
   h: 5,
 };
 
+const getGeometry = _.pipe(
+  copyProp('uuid', 'geometry.i'),
+  _.prop('geometry'),
+  _.defaults(initialGeometry)
+);
+
 const page = (statePage = initialState, action) => {
   switch (action.type) {
     case types.WS_LOAD_DOCUMENTS: {
       const newPage = _.merge(statePage, action.payload.page);
-      const pageViews = _.groupBy('pageUuid', action.payload.documents.views)[newPage.uuid];
-      const isLoadingSimpleView = !_.has('payload.documents.pages[0]', action);
-      if (!pageViews) {
+      const views = _.groupBy('pageUuid', action.payload.documents.views)[newPage.uuid];
+      if (!views) {
         return newPage;
       }
       const getUuids = _.map('uuid');
-      const getLayout = _.map(_.pipe(
-        copyProp('uuid', 'geometry.i'),
-        _.prop('geometry'),
-        _.defaults(initialGeometry)
-      ));
+      const getLayout = _.map(getGeometry);
       return _.pipe(
-        _.update('layout', _.concat(_, getLayout(pageViews))),
-        _.update('views', _.concat(_, getUuids(pageViews))),
-        _.omit(['windowId', 'workspaceFolder', 'timebarId']),
-        _.set('isModified', isLoadingSimpleView)
+        _.update('views', _.concat(_, getUuids(views))),
+        _.update('layout', _.concat(_, getLayout(views))),
+        _.omit(['windowId', 'workspaceFolder', 'timebarId'])
       )(newPage);
     }
     case types.WS_PAGE_ADD_BLANK: {
       return _.merge(statePage, action.payload.page);
+    }
+    case types.WS_VIEW_OPEN: {
+      return _.pipe(
+        _.update('views', _.concat(_, action.payload.view.uuid)),
+        _.update('layout', _.concat(_, getGeometry(action.payload.view))),
+        _.set('isModified', true)
+      )(statePage);
     }
     case types.WS_VIEW_ADD_BLANK: {
       return _.pipe(

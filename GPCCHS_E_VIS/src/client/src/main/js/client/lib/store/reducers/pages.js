@@ -58,6 +58,11 @@ const pages = (statePages = {}, action) => {
     case types.WS_VIEW_MOVE_TO_PAGE: {
       return moveViewToPage(statePages, action);
     }
+    case types.WS_VIEW_OPEN: {
+      const { pageUuid } = action.payload.view;
+      const singlePageReducer = pageState => page(pageState, action);
+      return _.update(pageUuid, singlePageReducer, statePages);
+    }
     case types.WS_LOAD_DOCUMENTS: {
       const { documents } = action.payload;
       if (_.isEmpty(documents.pages) && !_.isEmpty(documents.views)) {

@@ -66,6 +66,7 @@ const initialState = {
 function simpleView(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_RELOAD:
+    case types.WS_VIEW_OPEN:
     case types.WS_VIEW_ADD_BLANK:
     case types.WS_LOAD_DOCUMENTS: {
       const newView = _.omit(['windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);

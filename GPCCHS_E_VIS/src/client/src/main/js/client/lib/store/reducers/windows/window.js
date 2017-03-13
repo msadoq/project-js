@@ -39,6 +39,11 @@ export default function window(stateWindow = initialState, action) {
     case types.WS_LOAD_DOCUMENTS: {
       const newWindow = _.merge(stateWindow, action.payload.window);
       const windowPages = _.groupBy('windowId', action.payload.documents.pages)[newWindow.uuid];
+      const isLoadingPage = _.allPass([ // TODO garm : refacto
+        _.compose(_.isEmpty, _.prop('windows')),
+        _.has('pages[0]'),
+      ]);
+
       if (!windowPages) {
         return newWindow;
       }
@@ -46,7 +51,8 @@ export default function window(stateWindow = initialState, action) {
       const getFocusedPageId = _.get('[0].uuid');
       return _.pipe(
         _.update('pages', _.concat(_, getUuids(windowPages))),
-        _.set('focusedPage', getFocusedPageId(windowPages))
+        _.set('focusedPage', getFocusedPageId(windowPages)),
+        _.set('isModified', isLoadingPage(action.payload.documents))
       )(newWindow);
     }
     case types.WS_PAGE_ADD_BLANK: {
@@ -61,11 +67,14 @@ export default function window(stateWindow = initialState, action) {
       return stateWindow;
     }
     case types.WS_PAGE_CLOSE: {
-      const newWindow = _.update('pages', _.remove(_.equals(action.payload.pageId)), stateWindow);
-      if (newWindow.focusedPage === action.payload.pageId) {
-        return _.set('focusedPage', newWindow.pages[0], newWindow);
+      const newWindow = _.pipe(
+        _.update('pages', _.remove(_.equals(action.payload.pageId))),
+        _.set('isModified', true)
+      )(stateWindow);
+      if (newWindow.focusedPage !== action.payload.pageId) {
+        return newWindow;
       }
-      return newWindow;
+      return _.set('focusedPage', newWindow.pages[0], newWindow);
     }
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {

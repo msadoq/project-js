@@ -12,7 +12,7 @@ export default function timelines(stateTimelines = {}, action) {
       return _.set(action.payload.timeline.uuid, timeline(undefined, action), stateTimelines);
     case types.WS_TIMELINE_REMOVE:
       return _.omit(action.payload.timelineUuid, stateTimelines);
-    case types.WS_LOAD_DOCUMENTS: {
+    case types.WS_WORKSPACE_OPEN: {
       const setPayloadTimeline = _.set('payload.timeline');
       const singleTimelineReducer = stateTl => (
         timeline(undefined, setPayloadTimeline(stateTl, action))
@@ -21,7 +21,7 @@ export default function timelines(stateTimelines = {}, action) {
         _.defaults(stateTimelines),          // 3. merge with old stateTimelines
         _.indexBy('uuid'),                   // 2. index timelines array by uuid
         _.map(singleTimelineReducer)         // 1. apply single timeline reducer on all timelines
-      )(action.payload.documents.timelines);
+      )(action.payload.timelines);
     }
     default: {
       if (

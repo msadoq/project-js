@@ -36,14 +36,9 @@ export default function window(stateWindow = initialState, action) {
         isModified: (action.payload.isModified === undefined) ?
           stateWindow.isModified : action.payload.isModified,
       });
-    case types.WS_LOAD_DOCUMENTS: {
+    case types.WS_WORKSPACE_OPEN: {
       const newWindow = _.merge(stateWindow, action.payload.window);
-      const windowPages = _.groupBy('windowId', action.payload.documents.pages)[newWindow.uuid];
-      const isLoadingPage = _.allPass([ // TODO garm : refacto
-        _.compose(_.isEmpty, _.prop('windows')),
-        _.has('pages[0]'),
-      ]);
-
+      const windowPages = _.groupBy('windowId', action.payload.pages)[newWindow.uuid];
       if (!windowPages) {
         return newWindow;
       }
@@ -51,8 +46,7 @@ export default function window(stateWindow = initialState, action) {
       const getFocusedPageId = _.get('[0].uuid');
       return _.pipe(
         _.update('pages', _.concat(_, getUuids(windowPages))),
-        _.set('focusedPage', getFocusedPageId(windowPages)),
-        _.set('isModified', isLoadingPage(action.payload.documents))
+        _.set('focusedPage', getFocusedPageId(windowPages))
       )(newWindow);
     }
     case types.WS_PAGE_OPEN:

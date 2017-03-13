@@ -4,6 +4,18 @@ import u from 'updeep';
 import window from './windows/window';
 import * as types from '../types';
 
+const loadWindows = (stateWindows, action) => {
+  const setPayloadWindow = _.set('payload.window');
+  const singleWindowReducer = stateWindow => (
+    window(undefined, setPayloadWindow(stateWindow, action))
+  );
+  return _.compose(
+    _.defaults(stateWindows),          // 3. merge with old stateWindows
+    _.indexBy('uuid'),                 // 2. index windows array by uuid
+    _.map(singleWindowReducer)         // 1. apply single window reducer on all windows
+  )(action.payload.windows);
+};
+
 export default function windows(stateWindows = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
@@ -12,20 +24,8 @@ export default function windows(stateWindows = {}, action) {
       return _.set(action.payload.windowId, window(undefined, action), stateWindows);
     case types.WS_WINDOW_CLOSE:
       return _.omit(action.payload.windowId, stateWindows);
-    case types.WS_LOAD_DOCUMENTS: {
-      const { documents } = action.payload;
-      const setPayloadWindow = _.set('payload.window');
-      if (_.isEmpty(documents.windows) && !_.isEmpty(documents.pages)) {
-        return _.mapValues(p => window(p, action), stateWindows); // WS_PAGE_LOAD
-      }
-      const singleWindowReducer = stateWindow => (
-        window(undefined, setPayloadWindow(stateWindow, action))
-      );
-      return _.compose(
-        _.defaults(stateWindows),          // 3. merge with old stateWindows
-        _.indexBy('uuid'),                 // 2. index windows array by uuid
-        _.map(singleWindowReducer)         // 1. apply single window reducer on all windows
-      )(documents.windows);
+    case types.WS_WORKSPACE_OPEN: {
+      return loadWindows(stateWindows, action);
     }
     default: {
       if (

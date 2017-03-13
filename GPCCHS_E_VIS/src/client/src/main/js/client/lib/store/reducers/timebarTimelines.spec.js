@@ -16,18 +16,16 @@ describe('store:timebarTimelines:reducer', () => {
   });
   it('add timebar and timelines ids when load a workspace', () => {
     const action = {
-      type: types.WS_LOAD_DOCUMENTS,
+      type: types.WS_WORKSPACE_OPEN,
       payload: {
-        documents: {
-          timebars: {
-            tb1: {
-              uuid: 'tb1',
-              timelines: [1, 2, 3],
-            },
-            tb2: {
-              uuid: 'tb2',
-              timelines: [1, 2, 3],
-            },
+        timebars: {
+          tb1: {
+            uuid: 'tb1',
+            timelines: [1, 2, 3],
+          },
+          tb2: {
+            uuid: 'tb2',
+            timelines: [1, 2, 3],
           },
         },
       },

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import * as types from '../store/types';
 import { sinon, makeGetDispatch } from '../common/test';
-import * as readViewApi from './readView';
+import readView from './readView';
 import * as readPageApi from './readPage';
 import * as actions from './actions';
 
@@ -15,7 +15,7 @@ describe('documentManager:actions', () => {
   describe('openView', () => {
     it('dispatches a message in case of error', () => {
       const dispatch = getDispatch();
-      stub = sinon.stub(readViewApi, 'simpleReadView', (viewInfo, cb) => {
+      stub = sinon.stub(readView, 'simpleReadView', (viewInfo, cb) => {
         viewInfo.should.be.eql('viewInfo');
         cb('Error', { pageUuid: 1234 });
       });
@@ -30,9 +30,9 @@ describe('documentManager:actions', () => {
         },
       });
     });
-    it('dispatches a loadDocuments when view is loaded', () => {
+    it('dispatches a WS_VIEW_OPEN when view is loaded', () => {
       const dispatch = getDispatch();
-      stub = sinon.stub(readViewApi, 'simpleReadView', (viewInfo, cb) => {
+      stub = sinon.stub(readView, 'simpleReadView', (viewInfo, cb) => {
         viewInfo.should.be.eql('viewInfo');
         cb(null, { title: 'my view' });
       });

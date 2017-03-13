@@ -30,14 +30,13 @@ const moveViewToPage = (statePages, action) => {
 
 // load pages
 const loadPages = (statePages, action) => {
-  const { documents } = action.payload;
   const setPayloadPage = _.set('payload.page');
   const singlePageReducer = statePage => page(undefined, setPayloadPage(statePage, action));
   return _.compose(
     _.defaults(statePages),          // 3. merge with old statePages
     _.indexBy('uuid'),               // 2. index pages array by uuid
     _.map(singlePageReducer)         // 1. apply single page reducer on all pages
-  )(documents.pages);
+  )(action.payload.pages);
 };
 
 // Main pages reducer
@@ -59,7 +58,7 @@ const pages = (statePages = {}, action) => {
       const updatePage = _.update(pageUuid, pageState => page(pageState, action));
       return updatePage(statePages);
     }
-    case types.WS_LOAD_DOCUMENTS: {
+    case types.WS_WORKSPACE_OPEN: {
       return loadPages(statePages, action);
     }
     default: {

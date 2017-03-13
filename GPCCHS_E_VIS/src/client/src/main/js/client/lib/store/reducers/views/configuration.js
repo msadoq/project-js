@@ -74,9 +74,8 @@ export const configurationByViewType = {
       case types.WS_VIEW_OPEN:
       case types.WS_PAGE_OPEN:
       case types.WS_WORKSPACE_OPEN:
-      case types.WS_LOAD_DOCUMENTS:
       case types.WS_VIEW_ADD_BLANK: {
-        const config = action.payload.configuration || action.payload.view.configuration;
+        const config = action.payload.view.configuration;
         const nextConf = __.set('entryPoints', [{
           ...config.entryPoint,
           name: 'dynamicEP',

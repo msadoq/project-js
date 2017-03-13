@@ -1,6 +1,5 @@
 import { v4 } from 'uuid';
 
-import { LOG_DOCUMENT_OPEN } from 'common/constants';
 import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
@@ -9,13 +8,8 @@ import {
   getSchema,
   getViewModule,
 } from '../viewManager';
-import { add as addMessage } from '../store/actions/messages';
-import { server } from '../mainProcess/ipc';
-import { loadDocuments } from './actions';
 
-const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
-
-export const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
+const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
   const { path, oId, absolutePath } = viewInfo;
   readDocument(pageFolder, path, oId, absolutePath, (err, viewContent) => {
     if (err) {
@@ -50,13 +44,6 @@ export const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
   });
 };
 
-export const openView = viewInfo => (dispatch) => {
-  simpleReadView(viewInfo, (err, view) => {
-    if (err) {
-      dispatch(addDangerMessage(view.pageUuid, err));
-      return;
-    }
-    dispatch(loadDocuments({ views: [view] }));
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.absolutePath);
-  });
+export default {
+  simpleReadView,
 };

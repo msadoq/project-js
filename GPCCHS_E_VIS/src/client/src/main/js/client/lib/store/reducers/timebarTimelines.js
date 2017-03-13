@@ -6,12 +6,12 @@ export default function timebarTimelines(stateTbTl = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_LOAD_DOCUMENTS: {
+    case types.WS_WORKSPACE_OPEN: {
       return _.compose(
         _.merge(stateTbTl),         // 3. merge with old stateTbTl
         _.mapValues('timelines'),   // 2. map timelines
         _.indexBy('uuid')           // 1. index timebars array by uuid
-      )(action.payload.documents.timebars);
+      )(action.payload.timebars);
     }
     case types.WS_TIMEBAR_CREATE_NEW:
       return { ...stateTbTl, [action.payload.timebarUuid]: [] };

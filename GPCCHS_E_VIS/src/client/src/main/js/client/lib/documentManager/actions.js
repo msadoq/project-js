@@ -9,7 +9,6 @@ import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace }
 import { server } from '../mainProcess/ipc';
 
 import { add as addMessage } from '../store/actions/messages';
-import simple from '../store/simpleActionCreator';
 import * as types from '../store/types';
 
 import { getFirstTimebarId } from '../store/selectors/timebars';
@@ -17,8 +16,6 @@ import { createBlankWorkspace } from './createBlankWorkspace';
 import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
-
-const loadDocuments = simple(types.WS_LOAD_DOCUMENTS, 'documents');
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
@@ -85,7 +82,7 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
     }
 
     dispatch(closeWorkspace());
-    dispatch(loadDocuments(documents));
+    dispatch({ type: types.WS_WORKSPACE_OPEN, payload: documents });
     dispatch(isWorkspaceOpening(false));
 
     logLoadedDocumentsCount(documents);
@@ -102,6 +99,6 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
 export const openBlankWorkspace = () => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
   dispatch(closeWorkspace());
-  dispatch(loadDocuments(createBlankWorkspace()));
+  dispatch({ type: types.WS_WORKSPACE_OPEN, payload: createBlankWorkspace() });
 };
 // -------------------------------------------------------------------------- //

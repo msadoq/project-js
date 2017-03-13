@@ -11,7 +11,7 @@ export default function timebars(stateTimebars = {}, action) {
       return {};
     case types.WS_TIMEBAR_CREATE_NEW:
       return _.set(action.payload.timebarUuid, timebar(undefined, action), stateTimebars);
-    case types.WS_LOAD_DOCUMENTS: {
+    case types.WS_WORKSPACE_OPEN: {
       const setPayloadTimebar = _.set('payload.timebar');
       const singleTimebarReducer = stateTb => (
         timebar(undefined, setPayloadTimebar(stateTb, action))
@@ -21,7 +21,7 @@ export default function timebars(stateTimebars = {}, action) {
         _.mapValues(_.unset('timelines')),   // 3. remove all timelines, this is handled by timebarTimelines reducer
         _.indexBy('uuid'),                   // 2. index timebars array by uuid
         _.map(singleTimebarReducer)          // 1. apply single timebar reducer on all timebars
-      )(action.payload.documents.timebars);
+      )(action.payload.timebars);
     }
     default: {
       if (

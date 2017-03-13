@@ -69,8 +69,7 @@ function simpleView(stateView = initialState, action) {
     case types.WS_VIEW_RELOAD:
     case types.WS_VIEW_OPEN:
     case types.WS_PAGE_OPEN:
-    case types.WS_WORKSPACE_OPEN:
-    case types.WS_LOAD_DOCUMENTS: {
+    case types.WS_WORKSPACE_OPEN: {
       const newView = _.omit(['windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
       return _.defaults(initialState, newView);
     }

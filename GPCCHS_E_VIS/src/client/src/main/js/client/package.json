@@ -36,6 +36,7 @@
     "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
+    "postinstall": "./node_modules/.bin/electron-rebuild",
     "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },
   "bin": {

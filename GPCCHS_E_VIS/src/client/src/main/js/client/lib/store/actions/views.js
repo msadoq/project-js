@@ -1,3 +1,6 @@
+import _ from 'lodash/fp';
+import { v4 } from 'uuid';
+
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
@@ -66,7 +69,8 @@ export function addEntryPoint(viewId, entryPoint) {
     const state = getState();
     const currentView = state.views[viewId];
     const ep = getViewModule(currentView.type).setEntryPointDefault(entryPoint);
-    dispatch(simpleAddEntryPoint(viewId, ep));
+    const injectUuid = _.update('id', v4);
+    dispatch(simpleAddEntryPoint(viewId, injectUuid(ep)));
   };
 }
 

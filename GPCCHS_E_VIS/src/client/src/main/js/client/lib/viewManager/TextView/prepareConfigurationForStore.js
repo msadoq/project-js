@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import _ from 'lodash/fp';
 
 const getDefaultConfiguration = _.defaults({
@@ -10,5 +11,6 @@ const getDefaultConfiguration = _.defaults({
 });
 
 export default _.pipe(
-  getDefaultConfiguration
+  getDefaultConfiguration,
+  _.update('entryPoints', _.map(_.update('id', v4)))
 );

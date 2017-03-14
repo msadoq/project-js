@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 
 import { readDocument } from './io';
@@ -8,6 +9,16 @@ import {
   getSchema,
   getViewModule,
 } from '../viewManager';
+
+const commonViewProperties = [
+  'type',
+  'title',
+  'titleStyle',
+  'backgroundColor',
+  'links',
+  'defaultRatio',
+  'procedures',
+];
 
 const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
   const { path, oId, absolutePath } = viewInfo;
@@ -33,12 +44,13 @@ const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
     const uuid = viewInfo.uuid || v4();
     return cb(null, {
       ...viewInfo,
+      ..._.pick(commonViewProperties, configuration),
+      configuration: _.omit(commonViewProperties, configuration),
       isModified: false,
       type: viewContent.type,
       path: viewInfo.path,
       oId: viewInfo.oId,
       absolutePath: fs.getPath(), // TODO : this is ugly
-      configuration,
       uuid,
     });
   });

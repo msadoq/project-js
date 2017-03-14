@@ -71,7 +71,7 @@ export default class PerView extends PureComponent {
 
   viewTitle(viewId) {
     const { views } = this.props;
-    return views[viewId].configuration.title;
+    return views[viewId].title;
   }
 
   updateShowDataId = state =>

@@ -2,17 +2,14 @@ import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  getView,
-  getViewEntryPoints,
-} from '../../store/selectors/views';
+import { getView } from '../../store/selectors/views';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage, setCollapsed, setMaximized } from '../../store/actions/pages';
 import View from './View';
 
 const makeMapStateToProps = () => {
   const mapStateToProps = (state, { viewId, timebarUuid, windowId, pageId }) => {
-    const { type, configuration, oId, absolutePath, isModified }
+    const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title }
         = getView(state, { viewId });
 
     const data = _get(state, ['viewData', viewId], {});
@@ -34,9 +31,10 @@ const makeMapStateToProps = () => {
       ]
     );
     return {
-      entryPoints: getViewEntryPoints(state, { viewId }),
+      backgroundColor,
       type,
-      configuration,
+      title,
+      titleStyle,
       data,
       visuWindow,
       windowPages: getWindowPages(state, { windowId }),

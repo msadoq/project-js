@@ -54,7 +54,7 @@ UsingViews.propTypes = {
   views: PropTypes.objectOf(PropTypes.object),
 };
 function UsingViews(props) {
-  const viewNames = _map(props.usingViews, id => ''.concat(props.views[id].configuration.title)).join('\n');
+  const viewNames = _map(props.usingViews, id => ''.concat(props.views[id].title)).join('\n');
   return (
     <ul>
       <li key="{29}" className={styles.listRight}>{viewNames}</li>

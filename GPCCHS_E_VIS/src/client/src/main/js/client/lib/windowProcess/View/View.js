@@ -23,20 +23,12 @@ const keys = {
 
 export default class View extends PureComponent {
   static propTypes = {
-    isViewsEditorOpen: PropTypes.bool.isRequired,
-    configuration: PropTypes.shape({
-      backgroundColor: PropTypes.string,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      defaultRatio: PropTypes.object.isRequired,
-      entryPoints: PropTypes.array.isRequired,
-      links: PropTypes.array.isRequired,
-      markers: PropTypes.array,
-      axes: PropTypes.object,
-      legend: PropTypes.object,
-      titleStyle: PropTypes.object,
-      grids: PropTypes.array,
+    backgroundColor: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    titleStyle: PropTypes.shape({
+      bgColor: PropTypes.string,
     }).isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
     visuWindow: PropTypes.shape({
       lower: PropTypes.number.isRequired,
       upper: PropTypes.number.isRequired,
@@ -57,13 +49,15 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    entryPoints: PropTypes.objectOf(PropTypes.object),
     collapsed: PropTypes.bool.isRequired,
     maximized: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
-    entryPoints: {},
+    backgroundColor: '#FFFFFF',
+    titleStyle: {
+      bgColor: '#FEFEFE',
+    },
     data: {},
     absolutePath: '',
     oId: '',
@@ -86,19 +80,18 @@ export default class View extends PureComponent {
 
   toggleCollapse = (e) => {
     const {
-      collapseView,
+      // collapseView,
       viewId,
       closeEditor,
       isViewsEditorOpen,
       closeView,
       openEditor,
       type,
-      configuration,
     } = this.props;
-    const { focusedPageId } = this.context;
+    // const { focusedPageId } = this.context;
 
     if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
-      collapseView(focusedPageId, viewId, !configuration.collapsed);
+      // collapseView(focusedPageId, viewId, !configuration.collapsed); // TODO abesson
     } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
       closeView(viewId);
       if (isViewsEditorOpen && closeEditor) {
@@ -108,7 +101,7 @@ export default class View extends PureComponent {
       if (isViewsEditorOpen && closeEditor) {
         closeEditor();
       } else if (!isViewsEditorOpen && openEditor) {
-        openEditor(viewId, type, configuration);
+        openEditor(viewId, type);
       }
     }
   }
@@ -120,8 +113,8 @@ export default class View extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      configuration,
-      configuration: { backgroundColor = '#FFFFFF' },
+      backgroundColor,
+      titleStyle,
       isViewsEditorOpen,
       viewId,
       type,
@@ -137,9 +130,9 @@ export default class View extends PureComponent {
       oId,
       absolutePath,
       isModified,
-      entryPoints,
       collapsed,
       maximized,
+      title,
     } = this.props;
     let ContentComponent;
     switch (type) {
@@ -155,8 +148,7 @@ export default class View extends PureComponent {
       default:
         ContentComponent = UnknownView;
     }
-
-    const borderColor = _get(configuration, ['titleStyle', 'bgColor'], '#fefefe');
+    const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
@@ -165,8 +157,9 @@ export default class View extends PureComponent {
         ref={this.assignEl}
       >
         <ViewHeader
+          title={title}
+          titleStyle={titleStyle}
           isViewsEditorOpen={isViewsEditorOpen}
-          configuration={configuration}
           viewId={viewId}
           type={type}
           openEditor={openEditor}
@@ -182,23 +175,19 @@ export default class View extends PureComponent {
           absolutePath={absolutePath}
           isModified={isModified}
         />
-        {!configuration.collapsed &&
-          <div
-            className={styles.content}
-            style={this.backgroundColorStyle(backgroundColor)}
-          >
-            <MessagesContainer containerId={viewId} />
-            <ContentComponent
-              data={data}
-              type={type}
-              viewId={viewId}
-              isViewsEditorOpen={isViewsEditorOpen}
-              visuWindow={type === 'PlotView' ? visuWindow : undefined}
-              configuration={configuration}
-              entryPoints={entryPoints}
-            />
-          </div>
-        }
+        <div
+          className={styles.content}
+          style={this.backgroundColorStyle(backgroundColor)}
+        >
+          <MessagesContainer containerId={viewId} />
+          <ContentComponent
+            data={data}
+            type={type}
+            viewId={viewId}
+            isViewsEditorOpen={isViewsEditorOpen}
+            visuWindow={type === 'PlotView' ? visuWindow : undefined}
+          />
+        </div>
       </div>
     );
   }

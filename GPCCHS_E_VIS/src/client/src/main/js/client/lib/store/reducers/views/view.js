@@ -57,6 +57,9 @@ const viewIsModified = (stateView, action) => {
   return stateView;
 };
 
+const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
+const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state);
+
 const initialState = {
   type: null,
   isModified: true,
@@ -88,6 +91,26 @@ function simpleView(stateView = initialState, action) {
         ...stateView,
         oId: action.payload.oid,
       };
+    case types.WS_VIEW_UPDATE_TITLE:
+      return _.set('title', action.payload.title, stateView);
+    case types.WS_VIEW_UPDATE_TITLESTYLE:
+      return _.set('titleStyle', action.payload.titleStyle, stateView);
+    case types.WS_VIEW_UPDATE_BGCOLOR:
+      return _.set('backgroundColor', action.payload.bgColor, stateView);
+    case types.WS_VIEW_UPDATE_LINK:
+      return _.set(`links[${action.payload.index}]`, action.payload.link, stateView);
+    case types.WS_VIEW_ADD_LINK:
+      return addElementIn('links', action.payload.link, stateView);
+    case types.WS_VIEW_REMOVE_LINK:
+      return removeElementIn('links', action.payload.index, stateView);
+    case types.WS_VIEW_UPDATE_PROCEDURE:
+      return _.set(`procedures[${action.payload.index}]`, action.payload.procedure, stateView);
+    case types.WS_VIEW_ADD_PROCEDURE:
+      return addElementIn('procedures', action.payload.procedure, stateView);
+    case types.WS_VIEW_REMOVE_PROCEDURE:
+      return removeElementIn('procedures', action.payload.index, stateView);
+    case types.WS_VIEW_UPDATE_RATIO:
+      return _.set('defaultRatio', action.payload.ratio, stateView);
     default:
       return stateView;
   }

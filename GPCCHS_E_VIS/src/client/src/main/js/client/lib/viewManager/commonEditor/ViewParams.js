@@ -19,6 +19,14 @@ export default class ViewParams extends React.Component {
       align: PropTypes.string,
       color: PropTypes.string,
     }),
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })).isRequired,
+    defaultRatio: PropTypes.shape({
+      length: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -58,12 +66,16 @@ export default class ViewParams extends React.Component {
       backgroundColor,
       title,
       titleStyle,
+      links,
+      defaultRatio,
       viewId,
     } = this.props;
     const initVals = {
       backgroundColor,
       title,
       titleStyle,
+      links,
+      defaultRatio,
     };
     return (
       <ViewParamsForm

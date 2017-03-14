@@ -14,5 +14,5 @@ export const getEditorTitle = (state, viewId) => {
     return '';
   }
 
-  return `TextView HTML editor - ${view.configuration.title}`;
+  return `TextView HTML editor - ${view.title}`;
 };

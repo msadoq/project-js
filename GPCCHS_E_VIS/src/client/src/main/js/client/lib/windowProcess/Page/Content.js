@@ -32,10 +32,6 @@ export default class Content extends PureComponent {
       lg: PropTypes.array,
     }).isRequired,
     views: PropTypes.arrayOf(PropTypes.shape({
-      absolutePath: PropTypes.string,
-      configuration: PropTypes.object,
-      isModified: PropTypes.bool,
-      path: PropTypes.string,
       type: PropTypes.string,
       viewId: PropTypes.string,
     })).isRequired,
@@ -79,7 +75,6 @@ export default class Content extends PureComponent {
         <div className={styles.noPage}>No view yet ...</div>
       );
     }
-    // const viewMaximized = views.find(view => view.configuration.maximized);
     const viewMaximized = _find(layouts.lg, { maximized: true });
     if (viewMaximized && !viewMaximized.collapsed) {
       const ViewContainer = makeViewContainer();
@@ -126,7 +121,6 @@ export default class Content extends PureComponent {
                 {
                   [styles.blockedited]: isViewsEditorOpen,
                   [styles.block]: !isViewsEditorOpen,
-                  collapsed: v.configuration.collapsed,
                 }
               )}
               key={v.viewId}

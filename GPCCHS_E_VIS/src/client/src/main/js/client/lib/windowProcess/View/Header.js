@@ -11,9 +11,16 @@ import { main } from '../ipc';
 export default class Header extends PureComponent {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
-    configuration: PropTypes.shape({
-      title: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-      titleStyle: PropTypes.object,
+    title: PropTypes.string.isRequired,
+    titleStyle: PropTypes.shape({
+      font: PropTypes.string,
+      size: PropTypes.number,
+      bold: PropTypes.bool,
+      italic: PropTypes.bool,
+      underline: PropTypes.bool,
+      strikeOut: PropTypes.bool,
+      align: PropTypes.string,
+      color: PropTypes.string,
     }),
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -31,9 +38,8 @@ export default class Header extends PureComponent {
     maximizeView: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    configuration: {
-      title: 'Untitled',
-    },
+    title: 'Untitled',
+    titleStyle: {},
   };
   static contextTypes = {
     windowId: PropTypes.string,
@@ -52,7 +58,6 @@ export default class Header extends PureComponent {
     const {
       viewId,
       type,
-      configuration,
       isViewsEditorOpen,
       openEditor,
       closeEditor,
@@ -68,7 +73,7 @@ export default class Header extends PureComponent {
         if (isViewsEditorOpen && closeEditor) {
           closeEditor();
         } else if (!isViewsEditorOpen && openEditor) {
-          openEditor(viewId, type, configuration);
+          openEditor(viewId, type);
         }
         break;
       }
@@ -112,7 +117,7 @@ export default class Header extends PureComponent {
   };
 
   getTitleStyle() {
-    const { configuration: { titleStyle = {} } } = this.props;
+    const { titleStyle } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
@@ -173,7 +178,6 @@ export default class Header extends PureComponent {
 
   render() {
     const {
-      configuration,
       isViewsEditorOpen,
       collapsed,
       oId,
@@ -181,11 +185,7 @@ export default class Header extends PureComponent {
       isModified,
       maximized,
     } = this.props;
-    let title = configuration.title;
-    if (isModified) {
-      title = title.concat(' *');
-    }
-
+    const title = `${this.props.title} ${isModified ? ' *' : ''}`;
     const titleStyle = this.getTitleStyle();
     const expandButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
     const saveButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };

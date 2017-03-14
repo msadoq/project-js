@@ -80,14 +80,17 @@ describe('store:views:reducer', () => {
   const stateViews = {
     plot1: {
       type: 'PlotView',
+      links: [{ l: '1' }, { l: '2' }],
+      procedures: [{ p: '1' }, { p: '2' }],
+      defaultRatio: {
+        length: 50,
+        width: 50,
+      },
+      title: 'Plotview 4 parameters',
+      titleStyle: { bold: false },
+      backgroundColor: '#FFFFFF',
       configuration: {
         type: 'PlotView',
-        links: [{ l: '1' }, { l: '2' }],
-        procedures: [{ p: '1' }, { p: '2' }],
-        defaultRatio: {
-          length: 50,
-          width: 50,
-        },
         entryPoints: [{
           name: 'ATT_BC_REVTCOUNT4',
           connectedDataX: { axisId: 'axis1' },
@@ -102,9 +105,6 @@ describe('store:views:reducer', () => {
           axis2: { label: '2', unit: 'w', id: 'axis2' },
           axis3: { label: '3', unit: 'p', id: 'axis3' } },
         grids: [{ grid: '1' }, { grid: '2' }],
-        title: 'Plotview 4 parameters',
-        titleStyle: { bold: false },
-        backgroundColor: '#FFFFFF',
         legend: 'old Legend',
         markers: [{ m: '1' }, { m: '2' }],
         showYAxes: 'left',
@@ -153,7 +153,7 @@ describe('store:views:reducer', () => {
     it('Link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.updateLink('plot1', 1, link));
-      state.plot1.configuration.links[1].should.deep.equal(link);
+      state.plot1.links[1].should.deep.equal(link);
       state.plot1.isModified.should.be.true;
     });
     it('Marker', () => {
@@ -165,29 +165,29 @@ describe('store:views:reducer', () => {
     it('Procedure', () => {
       const proc = { p: '3' };
       const state = reducer(stateViews, actions.updateProcedure('plot1', 0, proc));
-      state.plot1.configuration.procedures[0].should.deep.equal(proc);
+      state.plot1.procedures[0].should.deep.equal(proc);
       state.plot1.isModified.should.be.true;
     });
     it('defaultRatio', () => {
       const newRatio = { length: 60, width: 50 };
       const state = reducer(stateViews, actions.updateRatio('plot1', newRatio));
-      state.plot1.configuration.defaultRatio.should.deep.equal(newRatio);
+      state.plot1.defaultRatio.should.deep.equal(newRatio);
       state.plot1.isModified.should.be.true;
     });
     it('title', () => {
       const state = reducer(stateViews, actions.updateTitle('plot1', 'new Title'));
-      state.plot1.configuration.title.should.deep.equal('new Title');
+      state.plot1.title.should.deep.equal('new Title');
       state.plot1.isModified.should.be.true;
     });
     it('title style', () => {
       const style = { bold: true };
       const state = reducer(stateViews, actions.updateTitleStyle('plot1', style));
-      state.plot1.configuration.titleStyle.should.deep.equal(style);
+      state.plot1.titleStyle.should.deep.equal(style);
       state.plot1.isModified.should.be.true;
     });
     it('bg color', () => {
       const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
-      state.plot1.configuration.backgroundColor.should.deep.equal('#FFFFAA');
+      state.plot1.backgroundColor.should.deep.equal('#FFFFAA');
       state.plot1.isModified.should.be.true;
     });
     it('Legend', () => {
@@ -211,7 +211,7 @@ describe('store:views:reducer', () => {
     it('link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.addLink('plot1', link));
-      state.plot1.configuration.links.should.deep.equal(
+      state.plot1.links.should.deep.equal(
         [{ l: '1' }, { l: '2' }, { l: '3' }]);
     });
     it('marker', () => {
@@ -223,7 +223,7 @@ describe('store:views:reducer', () => {
     it('procedure', () => {
       const proc = { p: '3' };
       const state = reducer(stateViews, actions.addProcedure('plot1', proc));
-      state.plot1.configuration.procedures.should.deep.equal(
+      state.plot1.procedures.should.deep.equal(
         [{ p: '1' }, { p: '2' }, { p: '3' }]);
     });
   });
@@ -246,7 +246,7 @@ describe('store:views:reducer', () => {
     });
     it('link', () => {
       const state = reducer(stateViews, actions.removeLink('plot1', 1));
-      state.plot1.configuration.links.should.deep.equal([{ l: '1' }]);
+      state.plot1.links.should.deep.equal([{ l: '1' }]);
     });
     it('marker', () => {
       const state = reducer(stateViews, actions.removeMarker('plot1', 1));
@@ -254,7 +254,7 @@ describe('store:views:reducer', () => {
     });
     it('procedure', () => {
       const state = reducer(stateViews, actions.removeProcedure('plot1', 0));
-      state.plot1.configuration.procedures.should.deep.equal([{ p: '2' }]);
+      state.plot1.procedures.should.deep.equal([{ p: '2' }]);
     });
   });
   describe('axis', () => {

@@ -10,6 +10,17 @@ import DynamicTab from './DynamicTab';
 export default class DynamicEditor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
+    titleStyle: PropTypes.shape({
+      align: PropTypes.string,
+      bgColor: PropTypes.string,
+      bold: PropTypes.bool,
+      color: PropTypes.string,
+      font: PropTypes.string,
+      italic: PropTypes.bool,
+      size: PropTypes.number,
+      strikeOut: PropTypes.bool,
+      underline: PropTypes.bool,
+    }).isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }).isRequired,
@@ -29,9 +40,9 @@ export default class DynamicEditor extends Component {
   }
 
   handleTextTitleStyle = (label, newVal) => {
-    const { configuration, updateTitleStyle, viewId } = this.props;
+    const { titleStyle, updateTitleStyle, viewId } = this.props;
     updateTitleStyle(viewId, {
-      ...configuration.titleStyle,
+      ...titleStyle,
       [label]: newVal,
     });
   }

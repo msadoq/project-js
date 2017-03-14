@@ -24,6 +24,7 @@ export default class Window extends PureComponent {
     focusedPageId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     isExplorerOpened: PropTypes.bool,
+    setIsLoaded: PropTypes.func.isRequired,
     displayExplorer: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -47,6 +48,10 @@ export default class Window extends PureComponent {
   componentDidMount() {
     document.addEventListener('keydown', this.toggleHelpShortCut);
     document.addEventListener('keydown', this.toggleExplorerShortCut);
+
+    // set in store that this is window is fully loaded and ready to run
+    const { setIsLoaded, windowId } = this.props;
+    setTimeout(() => setIsLoaded(windowId), 0);
   }
 
   componentWillUnmount() {

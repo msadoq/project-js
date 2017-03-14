@@ -96,6 +96,13 @@ describe('store:windows:reducer', () => {
         .should.eql({ myWindowId: { title: 'Title', isModified: true } });
     });
   });
+  describe('setIsLoaded', () => {
+    it('should set is loaded', () => {
+      reducer({ myWindowId: { title: 'Title', isLoaded: false } },
+        actions.setIsLoaded('myWindowId'))
+        .should.eql({ myWindowId: { title: 'Title', isLoaded: true } });
+    });
+  });
   describe('explorer', () => {
     it('currentExplorer', () => {
       reducer({ myWindowId: { title: 'Title', isModified: false } },

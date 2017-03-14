@@ -6,6 +6,7 @@ import _reduce from 'lodash/reduce';
 import * as types from '../../types';
 
 const initialState = {
+  isLoaded: false,
   title: 'Unknown',
   focusedPage: null,
   pages: [],
@@ -125,6 +126,9 @@ export default function window(stateWindow = initialState, action) {
         });
       }
       return stateWindow;
+    }
+    case types.WS_WINDOW_SET_IS_LOADED: {
+      return Object.assign({}, stateWindow, { isLoaded: true });
     }
     default:
       return stateWindow;

@@ -75,7 +75,7 @@ export const getWindowsFocusedPageIds = createSelector(
   getWindowsArray,
   windows =>
     windows
-      .filter(w => w.focusedPage)
+      .filter(w => w.isLoaded === true && w.focusedPage)
       .map(w => w.focusedPage)
 );
 
@@ -142,4 +142,8 @@ export function getExplorerFlag(state, { windowId, flagName }) {
 }
 export function getExplorerDisplay(state, { windowId }) {
   return _get(state, ['windows', windowId, 'displayExplorer']);
+}
+
+export function getIsLoaded(state, { windowId }) {
+  return _get(state, ['windows', windowId, 'isLoaded']);
 }

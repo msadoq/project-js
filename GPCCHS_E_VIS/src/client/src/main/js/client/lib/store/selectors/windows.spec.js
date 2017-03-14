@@ -20,6 +20,7 @@ import {
   getExplorerWidth,
   getExplorerFlag,
   getExplorerDisplay,
+  getIsLoaded,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -148,10 +149,11 @@ describe('store:window:selectors', () => {
   describe('getWindowsFocusedPageIds', () => {
     const state = {
       windows: {
-        myWindowId: { title: 'Title', focusedPage: 10 },
-        noField: { title: 'Title noField' },
-        emptyField: { title: 'Title emptyField' },
-        myOtherId: { title: 'Title myOtherId', focusedPage: 20 },
+        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
+        noField: { title: 'Title noField', isLoaded: true },
+        emptyField: { title: 'Title emptyField', isLoaded: true },
+        myOtherId: { title: 'Title myOtherId', isLoaded: true, focusedPage: 20 },
+        notLoaded: { title: 'Title notLoaded', isLoaded: false, focusedPage: 20 },
       },
     };
     const { getState } = getStore(state);
@@ -185,9 +187,9 @@ describe('store:window:selectors', () => {
   describe('getWindowsFocusedPage', () => {
     const state = {
       windows: {
-        myWindowId: { title: 'Title', focusedPage: 10 },
-        myOtherId: { title: 'Title myOtherId', focusedPage: 20 },
-        anotherId: { title: 'Title anotherId', focusedPage: 30 },
+        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
+        myOtherId: { title: 'Title myOtherId', focusedPage: 20, isLoaded: true },
+        anotherId: { title: 'Title anotherId', focusedPage: 30, isLoaded: true },
       },
       pages: {
         10: { title: 'Page 10' },
@@ -223,7 +225,7 @@ describe('store:window:selectors', () => {
   describe('getWindowsVisibleViewIds', () => {
     const state = {
       windows: {
-        myWindowId: { title: 'Title', focusedPage: 10 },
+        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
       },
       pages: {
         10: { title: 'Page 10', views: [100, 200], timebarUuid: 1000 },
@@ -260,9 +262,9 @@ describe('store:window:selectors', () => {
   describe('getWindowsVisibleViews', () => {
     const state = {
       windows: {
-        myWindowId: { title: 'Title', focusedPage: 10 },
-        myOtherWindow: { title: 'Title', focusedPage: 20 },
-        anotherWindow: { title: 'Title', focusedPage: 30 },
+        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
+        myOtherWindow: { title: 'Title', focusedPage: 20, isLoaded: true },
+        anotherWindow: { title: 'Title', focusedPage: 30, isLoaded: true },
       },
       pages: {
         10: { title: 'Page 10', views: [100, 200, 300], timebarUuid: 1000 },
@@ -390,6 +392,17 @@ describe('store:window:selectors', () => {
       };
       getExplorerDisplay(state, { windowId: 'w1' }).should.be.false;
       should.not.exist(getExplorerDisplay({}, {}));
+    });
+  });
+  describe('getIsLoaded', () => {
+    it('returns isLoaded', () => {
+      const state = {
+        windows: {
+          w1: { isLoaded: true },
+        },
+      };
+      getIsLoaded(state, { windowId: 'w1' }).should.be.true;
+      should.not.exist(getIsLoaded({}, {}));
     });
   });
 });

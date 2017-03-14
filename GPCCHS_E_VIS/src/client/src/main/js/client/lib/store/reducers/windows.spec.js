@@ -25,6 +25,7 @@ describe('store:windows:reducer', () => {
         geometry: { w: 800, h: 600, x: 110, y: 10 },
         debug: { whyDidYouUpdate: false, timebarVisibility: true },
         minimized: false,
+        isLoaded: false,
         isModified: true,
         tabName: 'perRemoteId',
         uuid: 'myWindowId',

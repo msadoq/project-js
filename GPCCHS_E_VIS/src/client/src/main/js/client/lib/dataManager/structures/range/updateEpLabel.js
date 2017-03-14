@@ -6,12 +6,22 @@ export default function updateEpLabel(stateViewData, viewId, oldLabel, newLabel)
     return stateViewData;
   }
 
-  const newColumns = viewData.columns.reduce((list, column) => {
-    const oldValue = column[oldLabel];
-    const newColumn = u(u.omit(oldLabel), column);
-    list.push(Object.assign({}, newColumn, { [newLabel]: oldValue }));
-    return list;
-  }, []);
+  const newState = u({ [viewId]: {
+    lines: u.omit(oldLabel),
+    indexes: u.omit(oldLabel),
+  } }, stateViewData);
 
-  return u({ [viewId]: { columns: newColumns } }, stateViewData);
+  return { ...newState,
+    [viewId]: {
+      ...newState[viewId],
+      lines: {
+        ...newState[viewId].lines,
+        [newLabel]: stateViewData[viewId].lines[oldLabel],
+      },
+      indexes: {
+        ...newState[viewId].indexes,
+        [newLabel]: stateViewData[viewId].indexes[oldLabel],
+      },
+    },
+  };
 }

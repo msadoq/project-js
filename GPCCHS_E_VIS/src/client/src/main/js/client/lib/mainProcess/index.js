@@ -30,7 +30,17 @@ import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 
-export function start() {
+function scheduleTimeout(message) {
+  let timeout = setTimeout(() => {
+    logger.error(`Timeout while retrieving launching data: ${message}`);
+    timeout = null;
+    app.quit();
+  }, 2500);
+
+  return () => timeout !== null && clearTimeout(timeout);
+}
+
+export function onStart() {
   setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
@@ -94,7 +104,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting master session...');
       logger.info('requesting master session...');
+      const cancelTimeout = scheduleTimeout('master session');
       server.requestMasterSession(({ err, masterSessionId }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -111,7 +124,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting sessions...');
       logger.info('requesting sessions...');
+      const cancelTimeout = scheduleTimeout('session');
       server.requestSessions(({ err, sessions }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -128,7 +144,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting domains...');
       logger.info('requesting domains...');
+      const cancelTimeout = scheduleTimeout('domains');
       server.requestDomains(({ err, domains }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -185,7 +204,7 @@ export function start() {
   });
 }
 
-export function stop() {
+export function onStop() {
   server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('stopping application');
 

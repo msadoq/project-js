@@ -1,6 +1,7 @@
 import { app } from 'electron';
 import { init, get } from 'common/parameters';
-import { start, stop, onWindowsClose, onError } from './lib/mainProcess';
+import { onStart, onStop, onWindowsClose, onError } from './lib/mainProcess';
+
 init(__dirname, true);
 
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
@@ -15,7 +16,7 @@ app.on('ready', () => {
   process.title = 'gpcchs_main';
 
   try {
-    start();
+    onStart();
   } catch (e) {
     onError(e);
   }
@@ -23,6 +24,6 @@ app.on('ready', () => {
 
 app.on('window-all-closed', onWindowsClose);
 
-app.on('quit', stop);
+app.on('quit', onStop);
 
 process.on('uncaughtException', onError);

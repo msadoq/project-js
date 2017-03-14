@@ -3,12 +3,14 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { getStore } from '../../../store/mainStore';
 import getTelemetryStaticElements from '../../../rtdManager';
+import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
 import { displayExplorer, currentExplorer } from '../../../store/actions/windows';
 import {
-  updateInspectorIsLoading,
+  isInspectorStaticDataLoading,
   updateInspectorDataId,
   updateInspectorStaticData,
+  isInspectorStaticDataNodeToggled,
 } from '../../../store/actions/inspector';
 import { getInspectorDataId } from '../../../store/selectors/inspector';
 
@@ -23,11 +25,8 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
   dispatch(displayExplorer(windowId, true));
   dispatch(currentExplorer(windowId, 'inspector'));
 
-  dispatch(updateInspectorIsLoading(true));
-
   const dataId = createDataId(parameterName, sessionId, domainId);
   if (getInspectorDataId(getState()) === dataId) {
-    dispatch(updateInspectorIsLoading(false));
     return;
   }
 
@@ -36,14 +35,15 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
   const socket = parameters.get('RTD_UNIX_SOCKET'); // TODO way to deal with that ?
   rtd.connect(socket, (cErr, isConnected) => {
     if (cErr || !isConnected) {
-      dispatch(updateInspectorIsLoading(false));
       dispatch(updateInspectorDataId(null));
       dispatch(add('global', 'danger', 'Cannot connect to RTD'));
       return;
     }
+    dispatch(updateInspectorStaticData({ name: parameterName }));
+    dispatch(isInspectorStaticDataLoading(true));
 
     getTelemetryStaticElements({ rtd, sessionId, domainId }, parameterName, (err, data) => {
-      dispatch(updateInspectorIsLoading(false));
+      dispatch(isInspectorStaticDataLoading(false));
       if (err || !data) {
         dispatch(updateInspectorDataId(null));
         dispatch(add(
@@ -54,7 +54,8 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
         return;
       }
 
-      dispatch(updateInspectorStaticData(data));
+      dispatch(updateInspectorStaticData(prepareDataToTree(data, parameterName)));
+      dispatch(isInspectorStaticDataNodeToggled([], true));
     });
   });
 }

@@ -1,25 +1,45 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { Treebeard, decorators, theme } from 'react-treebeard';
+import getLogger from 'common/log';
+import { Header, Container } from './TreeDecorators';
+import animations from './TreeAnimations';
 
+const logger = getLogger('Inspector');
+
+
+theme.tree.node.header.link = {
+  textDecoration: 'underline',
+};
+decorators.Container = Container;
+decorators.Header = Header;
 
 export default class Inspector extends PureComponent {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    data: PropTypes.object,
+    data: PropTypes.shape({}),
+    toggleNode: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     data: 'no data to display',
   };
 
-  render() {
-    if (this.props.isLoading) {
-      return (
-        <div>Inspector is loading...</div>
-      );
+  onToggle = (node, toggled) => {
+    this.props.toggleNode(node.path, toggled);
+    if (node.type === 'link') {
+      logger.info('Linking to', node.value);
     }
+  }
+
+  render() {
+    logger.debug('render');
+
     return (
-      <div>Data: {JSON.stringify(this.props.data)}</div>
+      <Treebeard
+        data={this.props.data}
+        onToggle={this.onToggle}
+        animations={animations}
+        decorators={decorators}
+      />
     );
   }
 }

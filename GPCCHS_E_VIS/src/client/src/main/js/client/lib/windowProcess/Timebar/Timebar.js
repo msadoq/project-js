@@ -150,9 +150,6 @@ export default class Timebar extends PureComponent {
           break;
         case keys.v:
           if (cursorMs < lower || cursorMs > upper) return;
-          if (['Normal', 'Fixed'].includes(timebarMode) &&
-            (cursorMs < slideWindow.lower || cursorMs > slideWindow.upper)) return;
-          if (timebarMode === 'Extensible' && cursorMs < slideWindow.lower) return;
           updateCursors(
             timebarUuid,
             { current: cursorMs },

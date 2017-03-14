@@ -5,7 +5,6 @@ import _memoize from 'lodash/memoize';
 import _sortedIndexBy from 'lodash/sortedIndexBy';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
-import { formatDuration } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class Tooltip extends React.Component {
@@ -91,16 +90,16 @@ export default class Tooltip extends React.Component {
         const xClosestPacket = dataLine[index];
         if (xClosestPacket) {
           const val = line.yAccessor(xClosestPacket);
-          const color = (line.colorAccessor ?
-            line.colorAccessor(xClosestPacket) || line.fill : line.fill) || '#222222';
           const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;
           linesList[axis.id].push({
-            color,
-            epColor: line.fill || '#222222',
-            name: line.id,
-            value: this.memoizeFormatter(axis.format || '.2f')(val),
-            offset: x !== xClosestPacket.masterTime ?
-              formatDuration(xClosestPacket.masterTime - x) : '',
+            foundColor: line.colorAccessor ? line.colorAccessor(xClosestPacket) : null,
+            lineColor: line.fill || '#222222',
+            id: line.id,
+            value: val,
+            x,
+            formattedValue: this.memoizeFormatter(axis.format || '.2f')(val),
+            packet: xClosestPacket,
+            formatter: this.memoizeFormatter(axis.format || '.2f'),
           });
         }
       });
@@ -201,6 +200,7 @@ export default class Tooltip extends React.Component {
       xLabelStyle.top = -8;
       xLabelStyle.transform += 'translateY(-100%)';
     }
+
     return (
       <div
         onMouseMove={this.mouseMove}
@@ -296,43 +296,47 @@ export default class Tooltip extends React.Component {
                     <p className={styles.tooltipNoData}>No data</p>
                   }
                   {
-                    linesList[axisId].map(line =>
-                      <div
-                        key={line.name}
-                        className={styles.tooltipLine}
-                      >
-                        <span
-                          className={styles.tooltipLineSquare}
-                          style={{ background: line.color }}
-                        />
-                        <p>
-                          <span
-                            className={styles.tooltipLineName}
-                            style={{
-                              color: line.epColor,
-                            }}
-                          >
-                            { line.name } :
-                          </span>
-                          <span
-                            className={styles.tooltipLineValue}
-                          >
-                            { line.value }
-                          </span>
-                        </p>
-                        <span
-                          className={classnames(
-                            styles.tooltipOffset,
-                            {
-                              [styles.red]: line.offset[0] === '-',
-                              [styles.green]: line.offset[0] && line.offset[0] !== '-',
-                            }
-                          )}
+                    linesList[axisId].map((line) => {
+                      const propsAxis = yAxes.find(a => a.id === axisId);
+                      const propsLine = propsAxis.lines.find(l => l.id === line.id);
+                      return (propsLine && propsLine.tooltipFormatter ?
+                        propsLine.tooltipFormatter(
+                          line.id,
+                          line.foundColor,
+                          line.lineColor,
+                          line.value,
+                          line.x,
+                          line.formattedValue,
+                          line.formatter,
+                          line.packet
+                        )
+                        :
+                        (<div
+                          key={line.id}
+                          className={styles.tooltipLine}
                         >
-                          {' '}{ line.offset }
-                        </span>
-                      </div>
-                    )
+                          <span
+                            className={styles.tooltipLineSquare}
+                            style={{ background: line.foundColor }}
+                          />
+                          <p>
+                            <span
+                              className={styles.tooltipLineName}
+                              style={{
+                                color: line.lineColor,
+                              }}
+                            >
+                              { line.id } :
+                            </span>
+                            <span
+                              className={styles.tooltipLineValue}
+                            >
+                              { line.formattedValue }
+                            </span>
+                          </p>
+                        </div>)
+                      );
+                    })
                   }
                 </div>
               )

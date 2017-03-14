@@ -7,13 +7,14 @@ import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
-
+import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
+import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 
 const logger = getLogger('view:plot');
 
@@ -343,6 +344,41 @@ export class GrizzlyPlotView extends PureComponent {
                 xAccessor: null, // default .x
                 yAccessor: d => d.value, // default .y
                 colorAccessor: d => d.color,
+                tooltipFormatter: (id, foundColor, color, value,
+                  x, formattedValue, formatter, packet) => {
+                  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
+                  return (
+                    <div
+                      key={id}
+                      className={grizzlyStyles.tooltipLine}
+                    >
+                      <span
+                        className={grizzlyStyles.tooltipLineSquare}
+                        style={{ background: foundColor || color }}
+                      />
+                      <p>
+                        <span
+                          className={grizzlyStyles.tooltipLineName}
+                          style={{
+                            color,
+                          }}
+                        >{ id } :</span>
+                        <span
+                          className={grizzlyStyles.tooltipLineValue}
+                        >{ formattedValue }</span>
+                      </p>
+                      <span
+                        className={classnames(
+                          grizzlyStyles.tooltipOffset,
+                          {
+                            [grizzlyStyles.red]: offset[0] === '-',
+                            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
+                          }
+                        )}
+                      >{' '}{ offset }</span>
+                    </div>
+                  );
+                },
               })
             )
           }

@@ -43,8 +43,7 @@ export class GrizzlyPlotView extends PureComponent {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
     data: PropTypes.shape({
-      lines: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
-      columns: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
+      lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     }),
     visuWindow: PropTypes.shape({
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
@@ -215,7 +214,7 @@ export class GrizzlyPlotView extends PureComponent {
     if (!visuWindow) {
       info = 'No vizualisation window';
     }
-    if (!data.columns || !data.columns.length || data.columns.length < 2) {
+    if (!data.lines || !Object.keys(data.lines).length) {
       info = 'no point';
     }
     if (data.columns && data.columns.length < 2) {
@@ -261,7 +260,7 @@ export class GrizzlyPlotView extends PureComponent {
       containerWidth,
       containerHeight,
       data,
-      data: { columns },
+      data: { lines },
       configuration: { showYAxes, axes, grids, entryPoints },
       visuWindow,
     } = this.props;
@@ -312,7 +311,7 @@ export class GrizzlyPlotView extends PureComponent {
                 ]
                 :
                 [axis.min, axis.max],
-              data: columns,
+              data: lines,
               orient: 'top',
               format: '.3f',
               showAxis: axis.showAxis === true,
@@ -332,6 +331,7 @@ export class GrizzlyPlotView extends PureComponent {
           lines={
             entryPoints.map(ep =>
               ({
+                data: null, // data is accessed through axis.data
                 id: ep.name,
                 yAxis: _get(ep, ['connectedDataY', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
@@ -339,8 +339,10 @@ export class GrizzlyPlotView extends PureComponent {
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                yAccessor: d => _get(d, [ep.name, 'value']),
-                colorAccessor: d => _get(d, [ep.name, 'color']),
+                dataAccessor: d => d[ep.name],
+                xAccessor: null, // default .x
+                yAccessor: d => d.value, // default .y
+                colorAccessor: d => d.color,
               })
             )
           }

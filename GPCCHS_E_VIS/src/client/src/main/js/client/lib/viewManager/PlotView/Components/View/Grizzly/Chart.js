@@ -34,7 +34,7 @@ export default class Chart extends React.Component {
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
-        data: PropTypes.array.isRequired,
+        data: PropTypes.objectOf(PropTypes.shape),
         yExtents: PropTypes.array.isRequired,
         autoLimits: PropTypes.bool.isRequired,
         showAxis: PropTypes.bool.isRequired,
@@ -53,6 +53,7 @@ export default class Chart extends React.Component {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
+        data: PropTypes.arrayOf(PropTypes.shape),
         id: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
@@ -60,7 +61,9 @@ export default class Chart extends React.Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        yAccessor: PropTypes.func.isRequired,
+        dataAccessor: PropTypes.func,
+        yAccessor: PropTypes.func,
+        xAccessor: PropTypes.func,
         colorAccessor: PropTypes.func,
       })
     ).isRequired,
@@ -281,7 +284,7 @@ export default class Chart extends React.Component {
           rank,
         };
       })
-      .filter(axis => axis.lines.length > 0 && axis.showAxis)
+      .filter(axis => axis.showAxis && axis.lines.length > 0)
       .sort((a, b) => b.rank - a.rank);
     return sortedAndValidAxes;
   }

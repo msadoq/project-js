@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import _sortedIndexBy from 'lodash/sortedIndexBy';
-import { scaleLinear } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
 import { formatDuration } from '../../../../../windowProcess/common/timeFormats';
@@ -30,12 +29,6 @@ export default class Tooltip extends React.Component {
     showTooltip: false,
   }
 
-  componentDidMount() {
-    const { yAxes, height } = this.props;
-    this.yScales = {};
-    yAxes.forEach(axis => this.setYScale(axis.id, axis.yExtents, height));
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     // SCU has been called by internal this.setState
     if (nextState.linesList) {
@@ -45,13 +38,11 @@ export default class Tooltip extends React.Component {
     let shouldRender = false;
     nextProps.yAxes.forEach((axis, i) => {
       if (
-        !this.yScales[axis.id] ||
         nextProps.height !== this.props.height ||
         axis.yExtents[0] !== this.props.yAxes[i].yExtents[0] ||
         axis.yExtents[1] !== this.props.yAxes[i].yExtents[1]
       ) {
         shouldRender = true;
-        this.setYScale(axis.id, axis.yExtents, nextProps.height);
       }
     });
 
@@ -62,12 +53,6 @@ export default class Tooltip extends React.Component {
     });
 
     return shouldRender;
-  }
-
-  setYScale = (axisId, yExtents, height) => {
-    this.yScales[axisId] = scaleLinear()
-      .domain([yExtents[0], yExtents[1]])
-      .range([0, height]);
   }
 
   assignEl = (el) => { this.el = el; }
@@ -92,23 +77,30 @@ export default class Tooltip extends React.Component {
     yAxes.forEach((axis) => {
       linesList[axis.id] = [];
 
-      const index = _sortedIndexBy(axis.data, { x: xInDomain }, o => o.x);
-      if (!index) {
-        return;
-      }
-      const xClosestPacket = axis.data[index];
       axis.lines.forEach((line) => {
-        if (xClosestPacket[line.id]) {
+        const dataLine = (line.dataAccessor && axis.data) ?
+          line.dataAccessor(axis.data) : line.data;
+        if (!dataLine) {
+          console.log(`No data for line ${line.id}`); // eslint-disable-line
+          return;
+        }
+        const index = _sortedIndexBy(dataLine, { x: xInDomain }, o => o.x);
+        if (!index) {
+          return;
+        }
+        const xClosestPacket = dataLine[index];
+        if (xClosestPacket) {
           const val = line.yAccessor(xClosestPacket);
           const color = (line.colorAccessor ?
             line.colorAccessor(xClosestPacket) || line.fill : line.fill) || '#222222';
+          const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;
           linesList[axis.id].push({
             color,
             epColor: line.fill || '#222222',
             name: line.id,
             value: this.memoizeFormatter(axis.format || '.2f')(val),
-            offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
-              formatDuration(xClosestPacket.x - xClosestPacket[line.id].x) : '',
+            offset: x !== xClosestPacket.masterTime ?
+              formatDuration(xClosestPacket.masterTime - x) : '',
           });
         }
       });

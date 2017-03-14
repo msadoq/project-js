@@ -14,7 +14,7 @@ export default class LinesCanvas extends PureComponent {
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yScale: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    data: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
@@ -25,6 +25,7 @@ export default class LinesCanvas extends PureComponent {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
+        dataAccessor: PropTypes.func,
         yAccessor: PropTypes.func.isRequired,
         colorAccessor: PropTypes.func,
       })
@@ -33,6 +34,7 @@ export default class LinesCanvas extends PureComponent {
 
   static defaultProps = {
     showLabels: false,
+    data: null,
   }
 
   componentDidMount() {
@@ -90,6 +92,11 @@ export default class LinesCanvas extends PureComponent {
     // console.time();
 
     lines.forEach((line) => {
+      const dataLine = (line.dataAccessor && data) ? line.dataAccessor(data) : line.data;
+      if (!dataLine) {
+        console.log(`No data for line ${line.id}`); // eslint-disable-line
+        return;
+      }
       // Default values
       const fill = line.fill || '#222222';
       const lineSize = typeof line.lineSize !== 'number' ? 1 : line.lineSize;
@@ -129,9 +136,9 @@ export default class LinesCanvas extends PureComponent {
       let lastColor = fill;
       let lastX;
       let lastY;
-      for (let i = 0; i < data.length; i += 1) {
+      for (let i = 0; i < dataLine.length; i += 1) {
         if (line.colorAccessor) {
-          const color = line.colorAccessor(data[i]) || fill;
+          const color = line.colorAccessor(dataLine[i]) || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;
@@ -142,8 +149,8 @@ export default class LinesCanvas extends PureComponent {
           }
         }
 
-        lastY = yScale(line.yAccessor(data[i]));
-        lastX = xScale(data[i].x);
+        lastY = yScale(line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].y);
+        lastX = xScale(line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x);
 
         // Draw line
         if (lineSize > 0) {
@@ -170,18 +177,18 @@ export default class LinesCanvas extends PureComponent {
       }
 
       // Horizontal line
-      const lastYPosition = yScale(line.yAccessor(data[data.length - 1]));
+      const lastYPosition = yScale(line.yAccessor(dataLine[dataLine.length - 1]));
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
-      ctx.moveTo(xScale(data[data.length - 1].x), lastYPosition);
+      const lastPacket = dataLine[dataLine.length - 1];
+      ctx.moveTo(xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x), lastYPosition);
       ctx.lineTo(
-        xScale(data[0].x),
+        xScale(line.xAccessor ? line.xAccessor(dataLine[0]) : dataLine[0].x),
         lastYPosition
       );
       updateLabelPosition(axisId, line.id, lastYPosition);
       ctx.stroke();
-      // ===============
     });
 
     // console.log(

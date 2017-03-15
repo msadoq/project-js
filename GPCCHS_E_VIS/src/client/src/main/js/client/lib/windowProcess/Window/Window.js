@@ -24,20 +24,19 @@ export default class Window extends PureComponent {
     focusedPageId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     isExplorerOpened: PropTypes.bool,
+    isHelpDisplayed: PropTypes.bool,
     setIsLoaded: PropTypes.func.isRequired,
     displayExplorer: PropTypes.func.isRequired,
+    displayHelp: PropTypes.func.isRequired,
   };
   static defaultProps = {
     isExplorerOpened: false,
+    isHelpDisplayed: false,
   }
 
   static childContextTypes = {
     windowId: PropTypes.string,
   };
-
-  state = {
-    displayHelp: false,
-  }
 
   getChildContext() {
     return {
@@ -62,7 +61,7 @@ export default class Window extends PureComponent {
   toggleHelpShortCut = (e) => {
     if (e.keyCode === 72 && e.ctrlKey) {
       this.toggleHelp();
-    } else if (e.keyCode === 27 && this.state.displayHelp) {
+    } else if (e.keyCode === 27 && this.props.isHelpDisplayed) {
       this.toggleHelp();
     }
   }
@@ -71,9 +70,9 @@ export default class Window extends PureComponent {
     if (e) {
       e.preventDefault();
     }
-    this.setState({
-      displayHelp: !this.state.displayHelp,
-    });
+
+    const { displayHelp, windowId, isHelpDisplayed } = this.props;
+    displayHelp(windowId, !isHelpDisplayed);
   }
 
   toggleExplorerShortCut = (e) => {
@@ -90,12 +89,17 @@ export default class Window extends PureComponent {
 
   render() {
     logger.debug('render');
-    const { focusedPageId, windowId, title, isExplorerOpened } = this.props;
-    const { displayHelp } = this.state;
+    const {
+      focusedPageId,
+      windowId,
+      title,
+      isExplorerOpened,
+      isHelpDisplayed,
+    } = this.props;
 
     return (
       <div className={styles.container}>
-        {displayHelp ? <HelpContent /> : ''}
+        {isHelpDisplayed ? <HelpContent /> : ''}
         <ButtonToolbar className={styles.tools}>
           <MasterSessionContainer />
           <HealthContainer windowId={windowId} />
@@ -105,7 +109,6 @@ export default class Window extends PureComponent {
           <DebugContainer
             windowId={windowId}
             focusedPageId={focusedPageId}
-            toggleHelp={this.toggleHelp}
           />
           {/* <DummyDrag /> */}
         </ButtonToolbar>

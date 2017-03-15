@@ -20,7 +20,6 @@ const buttonsProps = {
 export default class Debug extends PureComponent {
   static propTypes = {
     dummy: PropTypes.func.isRequired,
-    toggleHelp: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     focusedPage: PropTypes.shape({
@@ -52,11 +51,6 @@ export default class Debug extends PureComponent {
     clipboard.writeText(JSON.stringify(this.context.store.getState()));
     return console.log('store state exported to clipboard'); // eslint-disable-line no-console
   };
-
-  toggleHelp = (e) => {
-    e.preventDefault();
-    this.props.toggleHelp();
-  }
 
   toggleWhy = () => {
     if (_get(window, ['whyDidYouUpdate', 'loaded'], false) !== true) {

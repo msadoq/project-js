@@ -60,12 +60,12 @@ const window = {
 const page = {
   label: 'Page',
   submenu: [{
-    label: 'Add ...',
+    label: 'New...',
     click(item, focusedWindow) {
       pageAddBlank(focusedWindow);
     },
   }, {
-    label: 'Open ...',
+    label: 'Open...',
     click(item, focusedWindow) {
       pageOpen(focusedWindow);
     },
@@ -75,7 +75,7 @@ const page = {
       pageSave(focusedWindow);
     },
   }, {
-    label: 'Save As ...',
+    label: 'Save As...',
     click(item, focusedWindow) {
       pageSaveAs(focusedWindow);
     },

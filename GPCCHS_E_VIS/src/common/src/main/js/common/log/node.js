@@ -52,8 +52,6 @@ const createCustomLogger = (name, f, options = {}) => {
   return new CustomLogger();
 };
 
-const getNoOpLogger = () => createCustomLogger('noop', _noop);
-
 let cpt = 0;
 const availableTransports = {
   console: (args) => {
@@ -100,6 +98,15 @@ const getProcessName = ({ pname }) => pname || (/node$/g.test(process.title) ? '
 const getProcessId = ({ pid }) => pid || process.pid;
 const getProcessLabel = meta => `[${getProcessName(meta)}(${getProcessId(meta)})]`;
 
+const noopTransport = {
+  error: _noop,
+  warn: _noop,
+  info: _noop,
+  verbose: _noop,
+  debug: _noop,
+  silly: _noop,
+};
+
 // Create a Winston logger, that contains their own transports (console, http, file, ...)
 // Each message is prefixed by category.
 // Messages can be filtered by category using a regular expression
@@ -112,7 +119,7 @@ function _getLogger(category, config = getDefaultConfig(), allTransports = avail
   );
 
   if (transports.length === 0) {
-    transports.push(getNoOpLogger());
+    return noopTransport;
   }
 
   const id = _uniqueId('transport_');
@@ -170,22 +177,25 @@ function _getLogger(category, config = getDefaultConfig(), allTransports = avail
   return logger;
 }
 
-const getLazyInitLogFn = (level, ...loggerArgs) => (...logArgs) => {
+const getLogger = (...loggerArgs) => {
   let logger;
-  if (!logger) {
-    logger = _getLogger(...loggerArgs);
-  }
-  logger[level](...logArgs);
-};
 
-const getLogger = (...loggerArgs) => ({
-  error: getLazyInitLogFn('error', ...loggerArgs),
-  warn: getLazyInitLogFn('warn', ...loggerArgs),
-  info: getLazyInitLogFn('info', ...loggerArgs),
-  verbose: getLazyInitLogFn('verbose', ...loggerArgs),
-  debug: getLazyInitLogFn('debug', ...loggerArgs),
-  silly: getLazyInitLogFn('silly', ...loggerArgs),
-});
+  const getLazyInitLogFn = level => (...logArgs) => {
+    if (!logger) {
+      logger = _getLogger(...loggerArgs);
+    }
+    logger[level](...logArgs);
+  };
+
+  return {
+    error: getLazyInitLogFn('error'),
+    warn: getLazyInitLogFn('warn'),
+    info: getLazyInitLogFn('info'),
+    verbose: getLazyInitLogFn('verbose'),
+    debug: getLazyInitLogFn('debug'),
+    silly: getLazyInitLogFn('silly'),
+  };
+};
 
 const memoizedGetLogger = (() => {
   const loggers = {};

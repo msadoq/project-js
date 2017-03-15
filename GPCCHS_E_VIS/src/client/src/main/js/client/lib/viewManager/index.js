@@ -16,20 +16,24 @@ import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 
+export const VM_VIEW_PLOT = 'PlotView';
+export const VM_VIEW_TEXT = 'TextView';
+export const VM_VIEW_DYNAMIC = 'DynamicView';
+
 const list = {
-  PlotView: {
+  [VM_VIEW_PLOT]: {
     schema: plotViewSchema,
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: dataStructurerange,
   },
-  TextView: {
+  [VM_VIEW_TEXT]: {
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dataStructurelast,
   },
-  DynamicView: {
+  [VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,

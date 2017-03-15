@@ -54,7 +54,9 @@ export function open(windowId, data, callback) {
   // prevent garbage collection
   electronWindows[windowId] = window;
 
-  const params = encodeURIComponent(JSON.stringify(parameters.getAll()));
+  const allParams = parameters.getAll();
+  allParams.IS_BUNDLED = process.env.IS_BUNDLED;
+  const params = encodeURIComponent(JSON.stringify(allParams));
   const htmlPath = `file://${parameters.get('path')}/index.html`;
   const addReactPerfFlag = () =>
     (parameters.get('DEBUG') === 'on' ? 'react_perf&' : '');

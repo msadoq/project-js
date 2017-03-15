@@ -1,9 +1,15 @@
-const gcWatch = require('gc-watch');
+const { get } = require('common/parameters');
 const getLogger = require('common/log');
 
-const logger = getLogger('gcMonitoring');
+let start = () => {};
 
-export default function () {
+function startMonitoring() {
+  if (get('DEBUG') !== 'on') {
+    return;
+  }
+  const gcWatch = require('gc-watch'); // eslint-disable-line global-require
+  const logger = getLogger('gcMonitoring');
+
   let size;
   let time;
   let gcStartTime;
@@ -29,3 +35,11 @@ export default function () {
     time = getTime();
   });
 }
+
+if (!process.env.IS_BUNDLED) {
+  start = startMonitoring;
+}
+
+export default {
+  start,
+};

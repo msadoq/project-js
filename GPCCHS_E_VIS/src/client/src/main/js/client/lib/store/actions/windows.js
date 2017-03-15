@@ -27,6 +27,8 @@ export const currentExplorer = simple(types.WS_WINDOW_CURRENT_EXPLORER, 'windowI
 export const updateExplorerWidth = simple(types.WS_WINDOW_EXPLORERWIDTH_UPDATE, 'windowId', 'width');
 export const updateExplorerFlag = simple(types.WS_WINDOW_EXPLORER_UPDATEFLAG, 'windowId', 'flagName', 'flag');
 
+export const displayHelp = simple(types.WS_WINDOW_SET_DISPLAY_HELP, 'windowId', 'display');
+
 /**
  * Compound actions
  */

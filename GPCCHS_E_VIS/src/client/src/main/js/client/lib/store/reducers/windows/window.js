@@ -18,11 +18,12 @@ const initialState = {
   },
   debug: {
     whyDidYouUpdate: false,
-    timebarVisibility: true,
+    timebarVisibility: true, // TODO boxmodel remove
   },
   isModified: true,
   minimized: false,
-  tabName: 'perRemoteId',
+  displayHelp: false,
+  tabName: 'perRemoteId', // TODO boxmodel remove
 };
 
 export default function window(stateWindow = initialState, action) {
@@ -103,22 +104,22 @@ export default function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         isModified: action.payload.flag,
       });
-    case types.WS_WINDOW_DISPLAY_EXPLORER:
-      return Object.assign({}, stateWindow, {
-        displayExplorer: action.payload.open,
-      });
-    case types.WS_WINDOW_EXPLORER_UPDATEFLAG:
-      return Object.assign({}, stateWindow, {
-        [action.payload.flagName]: action.payload.flag,
-      });
-    case types.WS_WINDOW_CURRENT_EXPLORER:
-      return Object.assign({}, stateWindow, {
-        tabName: action.payload.tabName,
-      });
-    case types.WS_WINDOW_EXPLORERWIDTH_UPDATE:
-      return Object.assign({}, stateWindow, {
-        explorerWidth: action.payload.width,
-      });
+    case types.WS_WINDOW_DISPLAY_EXPLORER: // TODO boxmodel remove
+      return Object.assign({}, stateWindow, { // TODO boxmodel remove
+        displayExplorer: action.payload.open, // TODO boxmodel remove
+      }); // TODO boxmodel remove
+    case types.WS_WINDOW_EXPLORER_UPDATEFLAG: // TODO boxmodel remove
+      return Object.assign({}, stateWindow, { // TODO boxmodel remove
+        [action.payload.flagName]: action.payload.flag, // TODO boxmodel remove
+      }); // TODO boxmodel remove
+    case types.WS_WINDOW_CURRENT_EXPLORER: // TODO boxmodel remove
+      return Object.assign({}, stateWindow, { // TODO boxmodel remove
+        tabName: action.payload.tabName, // TODO boxmodel remove
+      }); // TODO boxmodel remove
+    case types.WS_WINDOW_EXPLORERWIDTH_UPDATE: // TODO boxmodel remove
+      return Object.assign({}, stateWindow, { // TODO boxmodel remove
+        explorerWidth: action.payload.width, // TODO boxmodel remove
+      }); // TODO boxmodel remove
     case types.WS_PAGE_UPDATE_TIMEBARID: {
       if (_.contains(action.payload.pageId, stateWindow.pages)) {
         return Object.assign({}, stateWindow, {
@@ -127,6 +128,8 @@ export default function window(stateWindow = initialState, action) {
       }
       return stateWindow;
     }
+    case types.WS_WINDOW_SET_DISPLAY_HELP:
+      return { ...stateWindow, displayHelp: action.payload.display };
     case types.WS_WINDOW_SET_IS_LOADED: {
       return Object.assign({}, stateWindow, { isLoaded: true });
     }

@@ -15,30 +15,34 @@ describe('store:windows:reducer', () => {
       .should.eql({ myWindowId: { title: 'Title' } });
   });
   describe('add', () => {
-    it('add', () => {
+    it('should add in store', () => {
       const action = actions.addWindow('myWindowId', 'Title', { x: 110 }, ['myPageId'], null, true);
       const state = reducer(undefined, action);
       state.myWindowId.should.deep.eql({
         title: 'Title',
+        displayHelp: false,
         focusedPage: null,
         pages: ['myPageId'],
         geometry: { w: 800, h: 600, x: 110, y: 10 },
-        debug: { whyDidYouUpdate: false, timebarVisibility: true },
+        debug: {
+          whyDidYouUpdate: false,
+          timebarVisibility: true, // TODO boxmodel remove
+        },
         minimized: false,
         isLoaded: false,
         isModified: true,
-        tabName: 'perRemoteId',
+        tabName: 'perRemoteId', // TODO boxmodel remove
         uuid: 'myWindowId',
       });
     });
-    it('add empty', () => {
+    it('should support empty add', () => {
       const state = reducer(undefined, actions.addWindow('myWindowId'));
       const win = state.myWindowId;
       win.title.should.eql('Unknown');
       win.isModified.should.eql(true);
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
-      win.tabName.should.eql('perRemoteId');
+      win.tabName.should.eql('perRemoteId'); // TODO boxmodel remove
     });
   });
   describe('HSC workspace', () => {

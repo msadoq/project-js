@@ -21,6 +21,7 @@ import {
   getExplorerFlag,
   getExplorerDisplay,
   getIsLoaded,
+  getDisplayHelp,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -403,6 +404,17 @@ describe('store:window:selectors', () => {
       };
       getIsLoaded(state, { windowId: 'w1' }).should.be.true;
       should.not.exist(getIsLoaded({}, {}));
+    });
+  });
+  describe('getDisplayHelp', () => {
+    it('returns displayHelp', () => {
+      const state = {
+        windows: {
+          w1: { displayHelp: true },
+        },
+      };
+      getDisplayHelp(state, { windowId: 'w1' }).should.be.true;
+      should.not.exist(getDisplayHelp({}, {}));
     });
   });
 });

@@ -144,6 +144,10 @@ export function getExplorerDisplay(state, { windowId }) {
   return _get(state, ['windows', windowId, 'displayExplorer']);
 }
 
+export function getDisplayHelp(state, { windowId }) {
+  return _get(state, ['windows', windowId, 'displayHelp']);
+}
+
 export function getIsLoaded(state, { windowId }) {
   return _get(state, ['windows', windowId, 'isLoaded']);
 }

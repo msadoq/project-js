@@ -6,7 +6,7 @@ import * as types from '../../types';
 
 const reducer = freezeArgs(windowsReducer);
 
-describe('store:windows:reducer', () => {
+describe('store:windows:reducer:window', () => {
   describe('update geometry', () => {
     it('update only one', () => {
       const state = reducer(
@@ -103,34 +103,34 @@ describe('store:windows:reducer', () => {
         .should.eql({ myWindowId: { title: 'Title', isLoaded: true } });
     });
   });
-  describe('explorer', () => {
-    it('currentExplorer', () => {
-      reducer({ myWindowId: { title: 'Title', isModified: false } },
-      actions.currentExplorer('myWindowId', 'perView'))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } });
-      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } },
-      actions.currentExplorer('myWindowId', 'perRemoteId'))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } });
-    });
-    it('updateExplorerWidth', () => {
-      reducer({ myWindowId: { title: 'Title', isModified: false } },
-      actions.updateExplorerWidth('myWindowId', 100))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } });
-      reducer({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } },
-      actions.updateExplorerWidth('myWindowId', 200))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } });
-    });
-    it('updateExplorerFlag', () => {
-      const action = actions.updateExplorerFlag('myWindowId', 'explorerFlag', true);
-      const nextState = reducer({ myWindowId: { title: 'Title', explorerFlag: false } }, action);
-      nextState.myWindowId.explorerFlag.should.be.true;
-    });
-    it('displayExplorer', () => {
-      const action = actions.displayExplorer('myWindowId', true);
-      const nextState = reducer({ myWindowId: { title: 'Title', displayExplorer: false } }, action);
-      nextState.myWindowId.displayExplorer.should.be.true;
-    });
-  });
+  describe('explorer', () => { // TODO boxmodel remove
+    it('currentExplorer', () => { // TODO boxmodel remove
+      reducer({ myWindowId: { title: 'Title', isModified: false } }, // TODO boxmodel remove
+      actions.currentExplorer('myWindowId', 'perView')) // TODO boxmodel remove
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } }); // TODO boxmodel remove
+      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } }, // TODO boxmodel remove
+      actions.currentExplorer('myWindowId', 'perRemoteId')) // TODO boxmodel remove
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } }); // TODO boxmodel remove
+    }); // TODO boxmodel remove
+    it('updateExplorerWidth', () => { // TODO boxmodel remove
+      reducer({ myWindowId: { title: 'Title', isModified: false } }, // TODO boxmodel remove
+      actions.updateExplorerWidth('myWindowId', 100)) // TODO boxmodel remove
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } }); // TODO boxmodel remove
+      reducer({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } }, // TODO boxmodel remove
+      actions.updateExplorerWidth('myWindowId', 200)) // TODO boxmodel remove
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } }); // TODO boxmodel remove
+    }); // TODO boxmodel remove
+    it('updateExplorerFlag', () => { // TODO boxmodel remove
+      const action = actions.updateExplorerFlag('myWindowId', 'explorerFlag', true); // TODO boxmodel remove
+      const nextState = reducer({ myWindowId: { title: 'Title', explorerFlag: false } }, action); // TODO boxmodel remove
+      nextState.myWindowId.explorerFlag.should.be.true; // TODO boxmodel remove
+    }); // TODO boxmodel remove
+    it('displayExplorer', () => { // TODO boxmodel remove
+      const action = actions.displayExplorer('myWindowId', true); // TODO boxmodel remove
+      const nextState = reducer({ myWindowId: { title: 'Title', displayExplorer: false } }, action); // TODO boxmodel remove
+      nextState.myWindowId.displayExplorer.should.be.true; // TODO boxmodel remove
+    }); // TODO boxmodel remove
+  }); // TODO boxmodel remove
   describe('updateTimebarId', () => {
     const action = {
       type: types.WS_PAGE_UPDATE_TIMEBARID,
@@ -150,5 +150,12 @@ describe('store:windows:reducer', () => {
         myWindowId: { pages: ['1', '2', '3'] },
       });
     });
+  });
+  it('displayHelp', () => {
+    const state = { myId: { title: 'Title', displayHelp: false } };
+    const nextState = reducer(state, actions.displayHelp('myId', true));
+    nextState.myId.displayHelp.should.equal(true);
+    reducer(nextState, actions.displayHelp('myId', false))
+      .myId.displayHelp.should.equal(false);
   });
 });

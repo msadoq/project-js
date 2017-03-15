@@ -26,6 +26,7 @@
     max-height: 75px;
     overflow-y: auto;
     max-width: 600px;
+    margin: 0;
     display: block;
     li{
       display: inline-block;

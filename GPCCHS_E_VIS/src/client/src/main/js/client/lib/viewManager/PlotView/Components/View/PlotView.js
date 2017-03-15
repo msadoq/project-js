@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
+import _sum from 'lodash/sum';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
@@ -220,10 +221,15 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.state;
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
+    const yAxesLegendHeight = yAxes.map((a) => {
+      const eps = entryPoints.filter(ep =>
+        _get(ep, ['connectedDataY', 'axisId']) === a.id
+      ).length;
+      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 24) : 0;
+    });
     const xExtents = [visuWindow.lower, visuWindow.upper];
-
     const plotHeight = containerHeight - securityTopPadding -
-      (plotPadding * 2) - (showLegend ? (yAxes.length * 80) : 0);
+      (plotPadding * 2) - (showLegend ? _sum(yAxesLegendHeight) : 0);
 
     return (
       <DroppableContainer

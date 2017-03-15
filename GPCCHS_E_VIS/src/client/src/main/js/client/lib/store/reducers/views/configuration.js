@@ -1,10 +1,8 @@
 import _ from 'lodash/fp';
-import globalConstants from 'common/constants';
 
 import composeReducers from '../../composeReducers';
 import { getAxes, updateAxis, addAxis, removeAxis } from './axes';
 import { getNewPlotEntryPoint, getNewTextEntryPoint } from '../../../common/entryPoint';
-import { getStructureType } from '../../../viewManager';
 
 import * as types from '../../types';
 
@@ -15,27 +13,6 @@ const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state)
 // any type of view will be processed by this reducer
 export const commonConfiguration = (stateConf = { title: null }, action) => {
   switch (action.type) {
-    case types.WS_VIEW_UPDATE_LEGEND:
-      return _.set('legend', action.payload.legend, stateConf);
-    case types.WS_VIEW_UPDATE_CONTENT:
-      return _.set('content', action.payload.content, stateConf);
-    case types.WS_VIEW_UPDATE_SHOWYAXES:
-      return _.set('showYAxes', action.payload.showYAxes, stateConf);
-
-    case types.WS_VIEW_UPDATE_GRID:
-      return _.set(`grids[${action.payload.index}]`, action.payload.grid, stateConf);
-    case types.WS_VIEW_ADD_GRID:
-      return addElementIn('grids', action.payload.grid, stateConf);
-    case types.WS_VIEW_REMOVE_GRID:
-      return removeElementIn('grids', action.payload.index, stateConf);
-    case types.WS_VIEW_UPDATE_MARKER:
-      return _.set(`markers[${action.payload.index}]`, action.payload.marker, stateConf);
-    case types.WS_VIEW_ADD_MARKER:
-      return addElementIn('markers', action.payload.marker, stateConf);
-    case types.WS_VIEW_REMOVE_MARKER:
-      return removeElementIn('markers', action.payload.index, stateConf);
-
-    // entryPoints
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return _.set(`entryPoints[${action.payload.index}]`, action.payload.entryPoint, stateConf);
     case types.WS_VIEW_REMOVE_ENTRYPOINT: {
@@ -49,6 +26,18 @@ export const commonConfiguration = (stateConf = { title: null }, action) => {
 // This is specfic reducers by view type
 // TODO garm factorize in viewManager
 export const configurationByViewType = {
+  TextView: (stateConf, action) => {
+    switch (action.type) {
+      case types.WS_VIEW_UPDATE_CONTENT:
+        return _.set('content', action.payload.content, stateConf);
+      case types.WS_VIEW_ADD_ENTRYPOINT: {
+        const newEp = _.merge(getNewTextEntryPoint(), action.payload.entryPoint);
+        return _.update('entryPoints', _.concat(_, newEp), stateConf);
+      }
+      default:
+        return stateConf;
+    }
+  },
   DynamicView: (stateConf, action) => {
     switch (action.type) {
       case types.WS_VIEW_RELOAD:
@@ -63,12 +52,46 @@ export const configurationByViewType = {
         }], config);
         return _.omit('entryPoint', nextConf);
       }
+
       default:
         return stateConf;
     }
   },
   PlotView: (stateConf, action) => {
     switch (action.type) {
+      case types.WS_VIEW_UPDATE_LEGEND:
+        return _.set('legend', action.payload.legend, stateConf);
+      case types.WS_VIEW_UPDATE_SHOWYAXES:
+        return _.set('showYAxes', action.payload.showYAxes, stateConf);
+      case types.WS_VIEW_UPDATE_GRID:
+        return _.set(`grids[${action.payload.index}]`, action.payload.grid, stateConf);
+      case types.WS_VIEW_ADD_GRID:
+        return addElementIn('grids', action.payload.grid, stateConf);
+      case types.WS_VIEW_REMOVE_GRID:
+        return removeElementIn('grids', action.payload.index, stateConf);
+      case types.WS_VIEW_UPDATE_MARKER:
+        return _.set(`markers[${action.payload.index}]`, action.payload.marker, stateConf);
+      case types.WS_VIEW_ADD_MARKER:
+        return addElementIn('markers', action.payload.marker, stateConf);
+      case types.WS_VIEW_REMOVE_MARKER:
+        return removeElementIn('markers', action.payload.index, stateConf);
+      case types.WS_VIEW_ADD_ENTRYPOINT: {
+        const [axisX, axisY] = getAxes(stateConf, action);
+        const addAxisXId = _.set('connectedDataX.axisId', axisX.id);
+        const addAxisYId = _.set('connectedDataY.axisId', axisY.id);
+        const addAxesIds = _.compose(addAxisXId, addAxisYId);
+
+        const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
+        return {
+          ...stateConf,
+          entryPoints: [...stateConf.entryPoints, addAxesIds(newEp)],
+          axes: {
+            ...stateConf.axes,
+            [axisX.id]: axisX,
+            [axisY.id]: axisY,
+          },
+        };
+      }
       case types.WS_VIEW_REMOVE_ENTRYPOINT: {
         const entryPoints = stateConf.entryPoints;
         const getAllConnectedAxisIds = eps => _.concat(
@@ -91,52 +114,12 @@ export const configurationByViewType = {
   },
 };
 
-// This is specfic reducers by structure type
-// TODO garm factorize in viewManager
-export const configurationByStructureType = {
-  [globalConstants.DATASTRUCTURETYPE_RANGE]: (stateConf, action) => {
-    switch (action.type) {
-      case types.WS_VIEW_ADD_ENTRYPOINT: {
-        const [axisX, axisY] = getAxes(stateConf, action);
-        const addAxisXId = _.set('connectedDataX.axisId', axisX.id);
-        const addAxisYId = _.set('connectedDataY.axisId', axisY.id);
-        const addAxesIds = _.compose(addAxisXId, addAxisYId);
-
-        const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
-        return {
-          ...stateConf,
-          entryPoints: [...stateConf.entryPoints, addAxesIds(newEp)],
-          axes: {
-            [axisX.id]: axisX,
-            [axisY.id]: axisY,
-          },
-        };
-      }
-      default:
-        return stateConf;
-    }
-  },
-  [globalConstants.DATASTRUCTURETYPE_LAST]: (stateConf, action) => {
-    switch (action.type) {
-      case types.WS_VIEW_ADD_ENTRYPOINT: {
-        const newEp = _.merge(getNewTextEntryPoint(), action.payload.entryPoint);
-        return _.update('entryPoints', _.concat(_, newEp), stateConf);
-      }
-      default:
-        return stateConf;
-    }
-  },
-};
 
 // Expose a reducer creator that take a view type
 // and return a single reducer that deal with configuration property depends on this viewType
-export default (viewType) => {
-  const structureType = viewType
-    ? getStructureType(viewType)
-    : ''; // TODO garm viewType or '', how '' could happens ??????
-  return composeReducers(
-    configurationByStructureType[structureType] || _.identity,
+export default viewType => (
+  composeReducers(
     configurationByViewType[viewType] || _.identity,
     commonConfiguration
-  );
-};
+  )
+);

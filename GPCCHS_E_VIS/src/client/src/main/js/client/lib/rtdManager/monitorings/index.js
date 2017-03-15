@@ -20,15 +20,15 @@ function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
             return;
           }
           callback(null, {
-            monitoringType,
-            checkType,
-            lowLimit: {
-              value: check.LowLimitValue,
-              event: check.LowLimitEvent,
+            MonitoringType: monitoringType,
+            CheckType: checkType,
+            LowLimit: {
+              Value: check.LowLimitValue,
+              Event: check.LowLimitEvent,
             },
-            highLimit: {
-              value: check.HighLimitValue,
-              event: check.HighLimitEvent,
+            HighLimit: {
+              Value: check.HighLimitValue,
+              Event: check.HighLimitEvent,
             },
           });
           break;
@@ -40,11 +40,11 @@ function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
             return;
           }
           callback(null, {
-            monitoringType,
-            checkType,
-            mask: check.Mask,
-            expectedValue: check.ExpectedValue,
-            event: check.Event,
+            MonitoringType: monitoringType,
+            CheckType: checkType,
+            Mask: check.Mask,
+            ExpectedValue: check.ExpectedValue,
+            Event: check.Event,
           });
           break;
         }
@@ -60,9 +60,9 @@ function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
         return;
       }
       callback(null, {
-        monitoringType,
-        checks: functionalCheck.Checks,
-        event: functionalCheck.EventReport,
+        MonitoringType: monitoringType,
+        Checks: functionalCheck.Checks,
+        Event: functionalCheck.EventReport,
       });
       break;
     }
@@ -81,10 +81,10 @@ function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
             return;
           }
           callback(null, {
-            monitoringType,
-            checkType,
-            lowerLimits: limitCheck.LowerLimits,
-            upperLimits: limitCheck.UpperLimits,
+            MonitoringType: monitoringType,
+            CheckType: checkType,
+            LowerLimits: limitCheck.LowerLimits,
+            UpperLimits: limitCheck.UpperLimits,
           });
           break;
         }
@@ -96,10 +96,10 @@ function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
             return;
           }
           callback(null, {
-            monitoringType,
-            checkType,
-            threshold: deltaCheck.Threshold,
-            alarmLevel: deltaCheck.AlarmLevel,
+            MonitoringType: monitoringType,
+            CheckType: checkType,
+            Threshold: deltaCheck.Threshold,
+            AlarmLevel: deltaCheck.AlarmLevel,
           });
           break;
         }
@@ -110,12 +110,12 @@ function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
             return;
           }
           callback(null, {
-            monitoringType,
-            checkType,
-            value: expectedCheck.Value,
-            referenceValues: expectedCheck.RefValue,
-            valueCheckType: expectedCheck.CheckType,
-            alarmLevel: expectedCheck.AlarmLevel,
+            MonitoringType: monitoringType,
+            CheckType: checkType,
+            Value: expectedCheck.Value,
+            ReferenceValues: expectedCheck.RefValue,
+            ValueCheckType: expectedCheck.CheckType,
+            AlarmLevel: expectedCheck.AlarmLevel,
           });
           break;
         }

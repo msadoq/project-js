@@ -1,4 +1,3 @@
-import _each from 'lodash/each';
 import '../common/test';
 import prepareDataToTree from './prepareDataToTree';
 
@@ -62,7 +61,7 @@ describe('rtdManager/prepareDataToTree', () => {
           children: [{
             path: ['children', '3', 'children', '0'],
             name: 0,
-            type: 'object',
+            type: 'objectItem',
             children: [{
               path: ['children', '3', 'children', '0', 'children', '0'],
               name: 'key3',
@@ -72,7 +71,7 @@ describe('rtdManager/prepareDataToTree', () => {
           }, {
             path: ['children', '3', 'children', '1'],
             name: 1,
-            type: 'object',
+            type: 'objectItem',
             children: [{
               path: ['children', '3', 'children', '1', 'children', '0'],
               name: 'key4',

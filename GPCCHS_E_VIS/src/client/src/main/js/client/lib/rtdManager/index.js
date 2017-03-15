@@ -32,14 +32,14 @@ export default function getTelemetryStaticElements(
       cb => getComputedParameterFormula({ rtd, sessionId, domainId }, reporting, cb),
       cb => getComputedParameterTriggers({ rtd, sessionId, domainId }, reporting, cb),
     ], (pErr, [
-      shortDescription,
-      longDescription,
+      shortDesc,
+      longDesc,
       aliases,
       monitoringLaws,
-      significativityConditions,
-      calibrationFunctions,
-      telemetryPackets,
-      computingDefinitions,
+      signifConds,
+      calibFuncs,
+      tmPackets,
+      computingDefs,
       formula,
       triggers,
     ]) => {
@@ -49,17 +49,17 @@ export default function getTelemetryStaticElements(
       }
 
       callback(null, {
-        parameterName,
-        shortDescription,
-        longDescription,
-        aliases,
-        monitoringLaws,
-        significativityConditions,
-        calibrationFunctions,
-        telemetryPackets,
-        computingDefinitions,
-        formula,
-        triggers,
+        ParameterName: parameterName,
+        ShortDescription: shortDesc,
+        LongDescription: longDesc,
+        Aliases: aliases,
+        MonitoringLaws: monitoringLaws,
+        SignificativityConditions: signifConds,
+        CalibrationFunctions: calibFuncs,
+        TelemetryPackets: tmPackets,
+        ComputingDefinitions: computingDefs,
+        Formula: formula,
+        Triggers: triggers,
       });
     });
   });

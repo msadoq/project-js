@@ -29,7 +29,7 @@ describe('rtdManager/reportings', () => {
   before((done) => {
     mockRedis();
     monitoringStub = sinon.stub(monitorings, 'getTriggers', (opts, monitoring, callback) => {
-      callback(null, 'stubTriggers');
+      callback(null, 'StubTriggers');
     });
     rtd.connect(socket, (err, isConnected) => {
       should.not.exist(err);
@@ -45,7 +45,7 @@ describe('rtdManager/reportings', () => {
     rtd.getCatalogByName('Reporting', SDB_NAMESPACE, 'TEST_ITEM1', sessionId, domainId, (getErr, item) => {
       reporting = item;
       rtdStub = sinon.stub(rtd, 'getCatalogByName', (catalog, namespace, name, session, domain, callback) => {
-        callback(null, 'stubMonitoring');
+        callback(null, 'StubMonitoring');
       });
       done(null);
     });
@@ -69,8 +69,8 @@ describe('rtdManager/reportings', () => {
     getAliases({ rtd, sessionId, domainId }, reporting, (err, aliases) => {
       aliases.should.be.an('array');
       aliases[0].should.be.an('object');
-      aliases[0].should.have.a.property('alias');
-      aliases[0].should.have.a.property('contextDomain');
+      aliases[0].should.have.a.property('Alias');
+      aliases[0].should.have.a.property('ContextDomain');
       done();
     });
   });
@@ -78,9 +78,9 @@ describe('rtdManager/reportings', () => {
     getMonitoringLaws({ rtd, sessionId, domainId }, reporting, (err, laws) => {
       const keys = Object.keys(laws);
       keys.should.have.lengthOf(1);
-      keys[0].should.be.oneOf(['onGround', 'onBoard']);
+      keys[0].should.be.oneOf(['OnGround', 'OnBoard']);
       laws[keys[0]].should.be.an('array').that.has.lengthOf(1);
-      laws[keys[0]][0].should.have.a.properties({ triggers: 'stubTriggers' });
+      laws[keys[0]][0].should.have.a.properties({ Triggers: 'StubTriggers' });
       done();
     });
   });
@@ -93,8 +93,8 @@ describe('rtdManager/reportings', () => {
   it('getCalibrationFunctions', (done) => {
     getCalibrationFunctions({ rtd, sessionId, domainId }, reporting, (err, funcs) => {
       funcs.should.be.an('object');
-      funcs.should.have.a.property('defaultInterpretationFunction').that.is.an('object');
-      funcs.should.have.a.property('conditionalInterpretationFunctions').that.is.an('array');
+      funcs.should.have.a.property('DefaultInterpretationFunction').that.is.an('object');
+      funcs.should.have.a.property('ConditionalInterpretationFunctions').that.is.an('array');
       done();
     });
   });

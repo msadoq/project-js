@@ -20,8 +20,8 @@ export function getAliases({ rtd, sessionId, domainId }, reporting, callback) {
   const aliases = _get(reporting, 'IsisCommon.NamingAndDescription.Aliases');
   asyncMap(aliases, (alias, done) => {
     done(null, {
-      alias: alias.Alias,
-      contextDomain: alias.ContextDomain,
+      Alias: alias.Alias,
+      ContextDomain: alias.ContextDomain,
     });
   }, callback);
 }
@@ -31,7 +31,7 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
   const monitoringLaws = {};
   const monitoringFlag = reporting.MonitoringFlag;
   if (monitoringFlag === cst.ALLOWED) {
-    monitoringLaws.onGround = [];
+    monitoringLaws.OnGround = [];
     const specificChecks = reporting.DomainSpecificChecks;
     asyncEach(specificChecks, (sCheck, sCb) => {
       const groundMonitorings = sCheck.ChecksOnGroundMonitoringData;
@@ -57,11 +57,11 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
                   gmCb(tErr);
                   return;
                 }
-                monitoringLaws.onGround.push({
-                  name: ref.TargetItem,
-                  domainApplicability: sCheck.DomainApplicability,
-                  order: gm.Order,
-                  triggers,
+                monitoringLaws.OnGround.push({
+                  Name: ref.TargetItem,
+                  DomainApplicability: sCheck.DomainApplicability,
+                  Order: gm.Order,
+                  Triggers: triggers,
                 });
                 gmCb();
               }
@@ -79,7 +79,7 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
     });
     return;
   }
-  monitoringLaws.onBoard = [];
+  monitoringLaws.OnBoard = [];
   const boardMonitorings = _get(reporting, 'TelemetryParameter.OnBoardMonitoringData');
   asyncEach(boardMonitorings, (ref, cb) => {
     rtd.getCatalogByName(
@@ -98,9 +98,9 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
             cb(err);
             return;
           }
-          monitoringLaws.onBoard.push({
-            name: ref.TargetItem,
-            triggers,
+          monitoringLaws.OnBoard.push({
+            Name: ref.TargetItem,
+            Triggers: triggers,
           });
           cb(null);
         });
@@ -120,16 +120,16 @@ export function getSignificativityConditions({ rtd, sessionId, domainId }, repor
     const expression = validityCondition.ValidityConditionEXPR;
     if (!_isNil(expression)) {
       cb(null, {
-        domainApplicability: validityCondition.DomainApplicability,
-        expression,
+        DomainApplicability: validityCondition.DomainApplicability,
+        Expression: expression,
       });
       return;
     }
     const validityConditionAlgo = validityCondition.ValidityConditionALGO;
     if (!_isNil(validityConditionAlgo)) {
       cb(null, {
-        domainApplicability: validityCondition.DomainApplicability,
-        algorithm: validityConditionAlgo,
+        DomainApplicability: validityCondition.DomainApplicability,
+        Algorithm: validityConditionAlgo,
       });
       return;
     }
@@ -155,9 +155,9 @@ const getConditionalInterpretationFunctions =
         return;
       }
       cb(null, {
-        order: condFunc.Order,
-        selectionCondition,
-        function: intFunction,
+        Order: condFunc.Order,
+        SelectionCondition: selectionCondition,
+        Function: intFunction,
       });
     }, callback);
   };
@@ -166,12 +166,13 @@ export function getCalibrationFunctions({ rtd, sessionId, domainId }, reporting,
   asyncParallel([
     cb => getDefaultInterpretationFunction({ rtd, sessionId, domainId }, reporting, cb),
     cb => getConditionalInterpretationFunctions({ rtd, sessionId, domainId }, reporting, cb),
-  ], (err, [defaultInterpretationFunction, conditionalInterpretationFunctions]) => {
+  ], (err, [defaultFunc, condFuncs]) => {
     if (err) {
       callback(err);
       return;
     }
-    callback(null, { defaultInterpretationFunction, conditionalInterpretationFunctions });
+    callback(null, {
+      DefaultInterpretationFunction: defaultFunc, ConditionalInterpretationFunctions: condFuncs });
   });
 }
 

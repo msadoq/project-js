@@ -29,7 +29,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnBoard Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_1', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -37,7 +37,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnBoard Limit', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_2', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -45,7 +45,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnBoard Expected Value', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_3', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -53,7 +53,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Limit', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_4', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -61,7 +61,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Maximum Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_5', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -69,7 +69,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Minimum Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_6', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -77,7 +77,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Expected Value', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_7', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });
@@ -85,7 +85,7 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers Functional', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ITEM_8', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.a.property('monitoringType');
+        triggers.should.be.an('object').that.have.a.property('MonitoringType');
         done();
       });
     });

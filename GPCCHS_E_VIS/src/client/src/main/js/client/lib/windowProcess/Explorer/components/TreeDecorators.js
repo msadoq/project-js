@@ -1,35 +1,79 @@
 import React, { PureComponent, PropTypes } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { VelocityComponent } from 'velocity-react';
+import {
+  NODE_TYPE_ARRAY as ARRAY,
+  NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
+  NODE_TYPE_OBJECT as OBJECT,
+  NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM,
+  NODE_TYPE_ITEM as ITEM,
+  NODE_TYPE_KEY as KEY,
+  NODE_TYPE_LINK as LINK,
+} from 'common/constants';
 
 export function Header(p) {
   const style = p.style;
   const node = p.node;
   switch (node.type) {
-    case 'link':
+    case LINK:
       return (
         <div style={style.base}>
-          <div style={style.title}>
-            {node.name}: <span style={style.link}>{node.value}</span>
+          <div>
+            <span style={style.title}>{node.name}:</span>
+            {' '}
+            <span style={style.link}>{node.value}</span>
           </div>
         </div>
       );
-    case 'key':
+    case KEY:
       return (
         <div style={style.base}>
-          <div style={style.title}>
-            {node.name}: {node.value}
+          <div>
+            <span style={style.title}>{node.name}:</span>
+            {' '}
+            <span style={style.value}>{node.value}</span>
           </div>
         </div>
       );
-    case 'item':
+    case ITEM:
       return (
         <div style={style.base}>
-          <div style={style.title}>
-            {node.name}: {node.value}
+          <div>
+            <span style={style.item}>item {node.name}</span>
+            {' '}
+            <span style={style.value}>{node.value}</span>
           </div>
         </div>
       );
+    case ARRAY_ITEM:
+      return (
+        <div style={style.base}>
+          <div>
+            <span style={style.item}>item {node.name}</span>
+            {' '}
+            <span style={style.item}> - {node.children.length} item(s)</span>
+          </div>
+        </div>
+      );
+    case OBJECT_ITEM:
+      return (
+        <div style={style.base}>
+          <div>
+            <span style={style.item}>item {node.name}</span>
+          </div>
+        </div>
+      );
+    case ARRAY:
+      return (
+        <div style={style.base}>
+          <div>
+            <span style={style.title}>{node.name}</span>
+            {' '}
+            <span style={style.item}> - {node.children.length} item(s)</span>
+          </div>
+        </div>
+      );
+    case OBJECT:
     default:
       return (
         <div style={style.base}>
@@ -95,31 +139,36 @@ export class Container extends PureComponent {
   }
 
   render() {
-    if (this.props.node.type === 'object' || this.props.node.type === 'array') {
-      return (
-        <div
-          onMouseDown={this.onMouseDown}
-          style={this.props.style.container}
-        >
-          <Header
-            node={this.props.node}
-            style={this.props.style.header}
-          />
-          {' '}
-          {this.renderToggle()}
-        </div>
-      );
+    switch (this.props.node.type) {
+      case OBJECT:
+      case ARRAY:
+      case OBJECT_ITEM:
+      case ARRAY_ITEM:
+        return (
+          <div
+            onMouseDown={this.onMouseDown}
+            style={this.props.style.container}
+          >
+            <Header
+              node={this.props.node}
+              style={this.props.style.header}
+            />
+            {' '}
+            {this.renderToggle()}
+          </div>
+        );
+      default:
+        return (
+          <div
+            onMouseDown={this.onMouseDown}
+            style={this.props.style.container}
+          >
+            <Header
+              node={this.props.node}
+              style={this.props.style.header}
+            />
+          </div>
+        );
     }
-    return (
-      <div
-        onMouseDown={this.onMouseDown}
-        style={this.props.style.container}
-      >
-        <Header
-          node={this.props.node}
-          style={this.props.style.header}
-        />
-      </div>
-    );
   }
 }

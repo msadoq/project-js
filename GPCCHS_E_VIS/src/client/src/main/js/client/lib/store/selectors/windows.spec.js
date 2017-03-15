@@ -17,9 +17,7 @@ import {
   getWindowsTitle,
   getModifiedWindowsIds,
   getExplorerTabName,
-  getExplorerWidth,
   getExplorerFlag,
-  getExplorerDisplay,
   getIsLoaded,
   getDisplayHelp,
 } from './windows';
@@ -362,17 +360,6 @@ describe('store:window:selectors', () => {
       should.not.exist(getExplorerTabName({}, {}));
     });
   });
-  describe('getExplorerWidth', () => {
-    it('gets explorer width', () => {
-      const state = {
-        windows: {
-          w1: { explorerWidth: 42 },
-        },
-      };
-      getExplorerWidth(state, { windowId: 'w1' }).should.be.eql(42);
-      should.not.exist(getExplorerWidth({}, {}));
-    });
-  });
   describe('getExplorerFlag', () => {
     it('gets isModified', () => {
       const state = {
@@ -382,17 +369,6 @@ describe('store:window:selectors', () => {
       };
       getExplorerFlag(state, { windowId: 'w1', flagName: 'isModified' }).should.be.true;
       should.not.exist(getExplorerFlag({}, {}));
-    });
-  });
-  describe('getExplorerDisplay', () => {
-    it('gets displayExplorer', () => {
-      const state = {
-        windows: {
-          w1: { displayExplorer: false },
-        },
-      };
-      getExplorerDisplay(state, { windowId: 'w1' }).should.be.false;
-      should.not.exist(getExplorerDisplay({}, {}));
     });
   });
   describe('getIsLoaded', () => {

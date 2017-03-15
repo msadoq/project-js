@@ -2,7 +2,6 @@ import React, { PureComponent, PropTypes } from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
 import getLogger from 'common/log';
 import classnames from 'classnames';
-import DebugContainer from '../Navigation/DebugContainer';
 import HelpContent from '../Navigation/HelpContent';
 import MasterSessionContainer from '../Navigation/MasterSessionContainer';
 import HealthContainer from '../Navigation/HealthContainer';
@@ -19,16 +18,20 @@ const logger = getLogger('Window');
 export default class Window extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    isExplorerOpened: PropTypes.bool,
     isHelpDisplayed: PropTypes.bool,
     setIsLoaded: PropTypes.func.isRequired,
     displayHelp: PropTypes.func.isRequired,
+    editorWidth: PropTypes.number,
+    timebarHeight: PropTypes.number,
+    explorerWidth: PropTypes.number,
   };
   static defaultProps = {
-    isExplorerOpened: false,
     isHelpDisplayed: false,
+    editorWidth: 0,
+    timebarHeight: 250,
+    explorerWidth: 0,
   }
 
   static childContextTypes = {
@@ -60,12 +63,20 @@ export default class Window extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      focusedPageId,
+      pageId,
       windowId,
       title,
-      isExplorerOpened,
       isHelpDisplayed,
+      editorWidth,
+      timebarHeight,
+      explorerWidth,
     } = this.props;
+
+    console.log(editorWidth, timebarHeight, explorerWidth);
+
+    const explorer = explorerWidth > 0
+      ? <div style={{ width: `${explorerWidth}px` }}><ExplorerContainer windowId={windowId} /></div>
+      : '';
 
     return (
       <div className={styles.container}>
@@ -74,10 +85,6 @@ export default class Window extends PureComponent {
           <MasterSessionContainer />
           <HealthContainer windowId={windowId} />
           <MessagesContainer />
-          <DebugContainer
-            windowId={windowId}
-            focusedPageId={focusedPageId}
-          />
         </ButtonToolbar>
         <div className={styles.divPagesTb}>
           <div className={styles.contentDiv}>
@@ -87,25 +94,21 @@ export default class Window extends PureComponent {
                   styles.TabsContainer
                 )}
                 windowId={windowId}
-                focusedPageId={focusedPageId}
+                focusedPageId={pageId}
                 title={title}
               />
               <div className={styles.content}>
                 <PageContainer
                   windowId={windowId}
-                  focusedPageId={focusedPageId}
+                  focusedPageId={pageId}
                 />
               </div>
             </div>
-            {isExplorerOpened && <div className={styles.contentDivChildExplorer}>
-              <ExplorerContainer
-                windowId={windowId}
-              />
-            </div>}
+            {explorer}
           </div>
           <TimebarMasterContainer
             windowId={windowId}
-            focusedPageId={focusedPageId}
+            focusedPageId={pageId}
           />
         </div>
       </div>

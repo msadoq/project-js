@@ -1,19 +1,20 @@
 import _ from 'lodash/fp';
 import { copyProp } from 'common/utils/fp';
 import * as types from '../../types';
+import panels from './panels';
 
 const initialState = {
   title: 'Unknown',
-  timebarHeight: 135,
-  timebarCollapsed: false,
+  timebarHeight: 135, // TODO boxmodel remove
+  timebarCollapsed: false, // TODO boxmodel remove
   timebarUuid: null,
   layout: [],
   views: [],
-  editor: {
-    isOpened: false,
-    viewId: null,
-    viewType: null,
-  },
+  editor: { // TODO boxmodel remove
+    isOpened: false, // TODO boxmodel remove
+    viewId: null, // TODO boxmodel remove
+    viewType: null, // TODO boxmodel remove
+  }, // TODO boxmodel remove
   isModified: true,
   properties: [],
 };
@@ -35,7 +36,10 @@ const page = (statePage = initialState, action) => {
   switch (action.type) {
     case types.WS_PAGE_OPEN:
     case types.WS_WORKSPACE_OPEN: {
-      const newPage = _.merge(statePage, action.payload.page);
+      const newPage = _.merge(statePage, {
+        ...action.payload.page,
+        panels: panels(undefined, action),
+      });
 
       const views = _.groupBy('pageUuid', action.payload.views)[newPage.uuid];
       const getUuids = _.map('uuid');
@@ -84,13 +88,13 @@ const page = (statePage = initialState, action) => {
         isModified: true,
       };
     }
-    case types.WS_PAGE_TIMEBAR_COLLAPSE: {
-      return {
-        ...statePage,
-        timebarCollapsed: action.payload.flag,
-        isModified: true,
-      };
-    }
+    case types.WS_PAGE_TIMEBAR_COLLAPSE: { // TODO boxmodel remove
+      return { // TODO boxmodel remove
+        ...statePage, // TODO boxmodel remove
+        timebarCollapsed: action.payload.flag, // TODO boxmodel remove
+        isModified: true, // TODO boxmodel remove
+      }; // TODO boxmodel remove
+    } // TODO boxmodel remove
     case types.WS_PAGE_UPDATEPATH:
       return {
         ...statePage,
@@ -116,11 +120,22 @@ const page = (statePage = initialState, action) => {
     }
     case types.WS_PAGE_UPDATE_TIMEBARID:
       return _.set('timebarUuid', action.payload.timebarUuid, statePage);
-    case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
+    case types.WS_PAGE_UPDATE_TIMEBARHEIGHT: // TODO boxmodel remove
+      return { // TODO boxmodel remove
+        ...statePage, // TODO boxmodel remove
+        isModified: true, // TODO boxmodel remove
+        timebarHeight: action.payload.timebarHeight >= 135 // TODO boxmodel remove
+          ? action.payload.timebarHeight // TODO boxmodel remove
+          : 135, // TODO boxmodel remove
+      }; // TODO boxmodel remove
+    case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
+    case types.WS_PAGE_PANELS_RESIZE_EDITOR:
+    case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
+    case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
+    case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
       return {
         ...statePage,
-        isModified: true,
-        timebarHeight: action.payload.timebarHeight >= 135 ? action.payload.timebarHeight : 135,
+        panels: panels(statePage.panels, action),
       };
     case types.WS_VIEW_SETCOLLAPSED:
       return _.set(['layout', _.findIndex(i => i.i === action.payload.viewId, statePage.layout), 'collapsed'],

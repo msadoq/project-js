@@ -5,7 +5,7 @@ import * as types from '../types';
 
 const reducer = freezeArgs(pagesReducer);
 
-describe('store:page:reducer', () => {
+describe('store:pages:reducer', () => {
   it('initial state', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
   });

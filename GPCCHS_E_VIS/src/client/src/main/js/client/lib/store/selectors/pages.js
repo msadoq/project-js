@@ -10,6 +10,8 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && {
   ...state.pages[pageId], pageId,
 };
 
+export const getPanels = (state, { pageId }) => _get(getPage(state, { pageId }), 'panels');
+
 export const getPageIds = createSelector(
   getPages,
   __.keys

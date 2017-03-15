@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import getLogger from 'common/log';
+
 import styles from './Tabs.css';
 
 const logger = getLogger('Tabs');
@@ -35,17 +36,13 @@ export default class Tabs extends PureComponent {
     pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
     focusPage: PropTypes.func,
-    addBlankPage: PropTypes.func,
     closePage: PropTypes.func,
   };
 
   handleSelect = (eventKey) => {
-    if (eventKey === 'new') {
-      this.props.addBlankPage();
-      return;
+    if (eventKey) {
+      this.props.focusPage(eventKey);
     }
-
-    this.props.focusPage(eventKey);
   }
 
   handleClose = (e, pageId) => {
@@ -83,15 +80,6 @@ export default class Tabs extends PureComponent {
             </OverlayTrigger>
           </NavItem>
         )}
-        <NavItem eventKey="new">
-          New Page
-          <Button bsStyle="link" className={styles.button}>
-            <Glyphicon
-              glyph="plus-sign"
-              className="text-primary"
-            />
-          </Button>
-        </NavItem>
       </Nav>
     );
   }

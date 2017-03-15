@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getWindowPages } from '../../store/selectors/windows';
 import { focusPage } from '../../store/actions/windows';
-import { addBlankPage, closePage } from '../../store/actions/pages';
+import { closePage } from '../../store/actions/pages';
 import Tabs from './Tabs';
 
 const mapStateToStore = (state, { windowId }) => ({
@@ -13,7 +13,6 @@ const mapStateToStore = (state, { windowId }) => ({
 function mapDispatchToProps(dispatch, { windowId }) {
   return bindActionCreators({
     focusPage: pageId => focusPage(windowId, pageId),
-    addBlankPage: () => addBlankPage(windowId),
     closePage: pageId => closePage(windowId, pageId),
   }, dispatch);
 }

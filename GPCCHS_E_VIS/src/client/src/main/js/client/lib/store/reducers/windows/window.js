@@ -17,7 +17,6 @@ const initialState = {
     y: 10,
   },
   debug: {
-    whyDidYouUpdate: false,
     timebarVisibility: true, // TODO boxmodel remove
   },
   isModified: true,

@@ -32,8 +32,7 @@ describe('documentManager/saveWorkspace', () => {
       windows: {
         win1: {
           debug: {
-            timebarVisibility: true,
-            whyDidYouUpdate: false,
+            timebarVisibility: true, // TODO boxmodel remove
           },
           focusedPage: 'page1',
           geometry: {

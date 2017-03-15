@@ -25,7 +25,6 @@ describe('store:windows:reducer', () => {
         pages: ['myPageId'],
         geometry: { w: 800, h: 600, x: 110, y: 10 },
         debug: {
-          whyDidYouUpdate: false,
           timebarVisibility: true, // TODO boxmodel remove
         },
         minimized: false,

@@ -52,12 +52,6 @@ export default class Debug extends PureComponent {
     return console.log('store state exported to clipboard'); // eslint-disable-line no-console
   };
 
-  toggleWhy = () => {
-    if (_get(window, ['whyDidYouUpdate', 'loaded'], false) !== true) {
-      window.whyDidYouUpdate();
-    }
-  }
-
   printReactWastedRenders = () => {
     this.props.play(this.props.focusedPage.timebarUuid);
     Perf.start();
@@ -101,13 +95,6 @@ export default class Debug extends PureComponent {
           {...buttonsProps}
         >
           SERVER INFO
-        </MenuItem>
-        <MenuItem
-          eventKey="2"
-          onClick={this.toggleWhy}
-          {...buttonsProps}
-        >
-          WDYU {_get(window, ['whyDidYouUpdate', 'loaded'], false) ? 'ON' : 'OFF'}
         </MenuItem>
         <MenuItem
           eventKey="3"

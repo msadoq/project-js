@@ -16,6 +16,7 @@ export default class LinesCanvas extends PureComponent {
     yScale: PropTypes.func.isRequired,
     data: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
+    perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -44,7 +45,7 @@ export default class LinesCanvas extends PureComponent {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
 
-    ['yAxesAt', 'top', 'height', 'margin', 'width',
+    ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
       'xScale', 'showLabels', 'data', 'yScale'].forEach((attr) => {
         if (nextProps[attr] !== this.props[attr]) {
           shouldRender = true;
@@ -74,6 +75,7 @@ export default class LinesCanvas extends PureComponent {
 
   draw = () => {
     const {
+      perfOutput,
       height,
       width,
       lines,
@@ -89,11 +91,11 @@ export default class LinesCanvas extends PureComponent {
 
     ctx.clearRect(0, 0, width, height);
 
-    // console.time();
-    // let totalPoints = 0;
+    let totalPoints = 0;
+    if (perfOutput) console.time();
     lines.forEach((line) => {
       const dataLine = (line.dataAccessor && data) ? line.dataAccessor(data) : line.data;
-      // totalPoints += dataLine.length;
+      if (perfOutput) totalPoints += dataLine.length;
       if (!dataLine) {
         console.log(`No data for line ${line.id}`); // eslint-disable-line
         return;
@@ -192,14 +194,18 @@ export default class LinesCanvas extends PureComponent {
       ctx.stroke();
     });
 
-    // console.log(
-      // 'Just drawed',
-      // lines.length,
-      // 'lines, about',
-      // totalPoints,
-      // 'total points'
-    // );
-    // console.timeEnd();
+    if (perfOutput) {
+      console.log(
+        'axis',
+        axisId,
+        'Just drawed',
+        lines.length,
+        'lines, about',
+        totalPoints,
+        'total points'
+      );
+      console.timeEnd();
+    }
   }
 
   assignEl = (el) => { this.el = el; }

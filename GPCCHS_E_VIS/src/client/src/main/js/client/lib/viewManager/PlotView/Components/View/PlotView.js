@@ -244,6 +244,7 @@ export class GrizzlyPlotView extends PureComponent {
           allowYPan
           allowZoom
           allowPan
+          perfOutput={false}
           xExtents={xExtents}
           current={visuWindow.current}
           yAxesAt={showYAxes}

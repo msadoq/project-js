@@ -29,6 +29,7 @@ export default class Chart extends React.Component {
     allowYZoom: PropTypes.bool,
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
+    perfOutput: PropTypes.bool,
     xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -79,6 +80,7 @@ export default class Chart extends React.Component {
     allowZoom: true,
     allowPan: true,
     tooltipColor: 'white',
+    perfOutput: false,
   }
 
   state = {
@@ -460,6 +462,7 @@ export default class Chart extends React.Component {
       allowYZoom,
       allowPan,
       allowZoom,
+      perfOutput,
     } = this.props;
 
     const {
@@ -604,6 +607,7 @@ export default class Chart extends React.Component {
               data={yAxis.data}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
+              perfOutput={perfOutput}
             />
           )
         }

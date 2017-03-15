@@ -49,7 +49,7 @@ export default class Messages extends PureComponent {
   render() {
     const { messages, remove } = this.props;
     if (!messages || !messages.length) {
-      return <Button bsStyle="default">no message</Button>;
+      return null;
     }
 
     const { collapsed, filter } = this.state;

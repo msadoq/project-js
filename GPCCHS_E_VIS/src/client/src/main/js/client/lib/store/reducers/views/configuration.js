@@ -11,7 +11,7 @@ const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state)
 
 // Here we are the common configuration reducer,
 // any type of view will be processed by this reducer
-export const commonConfiguration = (stateConf = { title: null }, action) => {
+export const commonConfiguration = (stateConf = {}, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return _.set(`entryPoints[${action.payload.index}]`, action.payload.entryPoint, stateConf);

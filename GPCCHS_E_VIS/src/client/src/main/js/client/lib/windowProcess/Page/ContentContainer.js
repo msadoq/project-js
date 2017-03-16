@@ -10,6 +10,11 @@ import {
 
 import Content from './Content';
 
+const getMaximizeViewdUuid = ({ layout }) => {
+  const viewLayout = layout.find(a => a.maximized === true);
+  return viewLayout ? viewLayout.i : null;
+};
+
 const getLayouts = makeGetLayouts();
 const getViews = makeGetViews();
 
@@ -18,6 +23,7 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
     return {};
   }
   const focusedPage = getWindowFocusedPageSelector(state, { windowId });
+  const maximizedViewUuid = getMaximizeViewdUuid(focusedPage);
   const views = getViews(state, { pageId: focusedPageId });
   const layouts = getLayouts(state, { pageId: focusedPageId });
 
@@ -25,6 +31,7 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
     timebarUuid: focusedPage ? focusedPage.timebarUuid : undefined,
     layouts,
     views,
+    maximizedViewUuid,
   };
 };
 

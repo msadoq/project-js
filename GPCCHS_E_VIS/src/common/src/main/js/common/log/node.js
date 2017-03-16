@@ -184,7 +184,9 @@ const getLogger = (...loggerArgs) => {
     if (!logger) {
       logger = _getLogger(...loggerArgs);
     }
-    logger[level](...logArgs);
+    if (logger[level] !== _noop) {
+      logger[level](...logArgs);
+    }
   };
 
   return {

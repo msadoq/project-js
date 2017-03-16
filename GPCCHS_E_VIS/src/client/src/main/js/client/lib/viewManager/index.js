@@ -5,10 +5,6 @@ import {
   DATASTRUCTURETYPE_RANGE,
 } from 'common/constants';
 
-import composeReducers from '../store/composeReducers';
-import createReducerByViews from '../store/createReducerByViews';
-import commonConfigurationReducer from './commonConfiguration/reducer';
-
 import dataStructurelast from '../dataManager/structures/last';
 import dataStructurerange from '../dataManager/structures/range';
 
@@ -20,7 +16,13 @@ import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 
+import composeReducers from '../store/composeReducers';
+import createReducerByViews from '../store/createReducerByViews';
+import commonConfigurationReducer from './commonConfiguration/reducer';
+
 import textViewConfigurationReducer from './TextView/store/configurationReducer';
+import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
+import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
 
 export const VM_VIEW_PLOT = 'PlotView';
 export const VM_VIEW_TEXT = 'TextView';
@@ -28,7 +30,10 @@ export const VM_VIEW_DYNAMIC = 'DynamicView';
 
 const list = {
   [VM_VIEW_PLOT]: {
-    // configurationReducer: _.always({}),
+    configurationReducer: createReducerByViews(
+      composeReducers(plotViewConfigurationReducer, commonConfigurationReducer),
+      VM_VIEW_PLOT
+    ),
     schema: plotViewSchema,
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
@@ -45,7 +50,10 @@ const list = {
     structureModule: dataStructurelast,
   },
   [VM_VIEW_DYNAMIC]: {
-    // configurationReducer: _.always({}),
+    configurationReducer: createReducerByViews(
+      composeReducers(dynamicViewConfigurationReducer, commonConfigurationReducer),
+      VM_VIEW_DYNAMIC
+    ),
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,

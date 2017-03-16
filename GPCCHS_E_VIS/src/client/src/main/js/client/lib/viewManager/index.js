@@ -5,6 +5,10 @@ import {
   DATASTRUCTURETYPE_RANGE,
 } from 'common/constants';
 
+import composeReducers from '../store/composeReducers';
+import createReducerByViews from '../store/createReducerByViews';
+import commonConfigurationReducer from './commonConfiguration/reducer';
+
 import dataStructurelast from '../dataManager/structures/last';
 import dataStructurerange from '../dataManager/structures/range';
 
@@ -16,24 +20,32 @@ import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 
+import textViewConfigurationReducer from './TextView/store/configurationReducer';
+
 export const VM_VIEW_PLOT = 'PlotView';
 export const VM_VIEW_TEXT = 'TextView';
 export const VM_VIEW_DYNAMIC = 'DynamicView';
 
 const list = {
   [VM_VIEW_PLOT]: {
+    // configurationReducer: _.always({}),
     schema: plotViewSchema,
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: dataStructurerange,
   },
   [VM_VIEW_TEXT]: {
+    configurationReducer: createReducerByViews(
+      composeReducers(textViewConfigurationReducer, commonConfigurationReducer),
+      VM_VIEW_TEXT
+    ),
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dataStructurelast,
   },
   [VM_VIEW_DYNAMIC]: {
+    // configurationReducer: _.always({}),
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
@@ -77,3 +89,11 @@ export function getStructureModule(type) {
 
   return list[type].structureModule;
 }
+
+// Configuration reducers
+const appendString = _.curry((x, str) => str.concat(x));
+export const configurationReducers = _.compose(
+  _.omitBy(_.isUndefined),
+  _.mapKeys(appendString('Configuration')),
+  _.mapValues(_.prop('configurationReducer'))
+)(list);

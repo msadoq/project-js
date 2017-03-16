@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 
 import * as types from './types';
-import view from './reducers/views/view';
 
 // higher order reducer
 const createReducerByViews = (simpleReducer, viewType = 'all') => (
@@ -19,20 +18,23 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
       case types.WS_PAGE_OPEN:
       case types.WS_WORKSPACE_OPEN: {
         const setPayloadView = _.set('payload.view');
-        const singleViewReducer = stateView => view(undefined, setPayloadView(stateView, action));
-        const filterViews = viewType !== 'all' ? _.filter(_.propEq('viewType', viewType)) : _.identity;
-        return _.compose(
-          _.defaults(stateViews),       // 4. merge with old stateViews
-          _.indexBy('uuid'),            // 3. index views array by uuid
-          _.map(singleViewReducer),     // 2. apply single view reducer on each view
-          filterViews                   // 1. filter views by viewType if given
+        const singleViewReducer = stateView => (
+          simpleReducer(undefined, setPayloadView(stateView, action))
+        );
+        const filterViews = viewType !== 'all' ? _.filter(_.propEq('type', viewType)) : _.identity;
+        const ret = _.compose(
+          _.defaults(stateViews),         // 4. merge with old stateViews
+          _.mapValues(singleViewReducer), // 3. apply single view reducer on each view
+          _.indexBy('uuid'),              // 2. index views array by uuid
+          filterViews                     // 1. filter views by viewType if given
         )(action.payload.views);
+        return ret;
       }
       default: {
         const viewId = _.get('payload.viewId', action);
         const currentView = _.get(viewId, stateViews);
         if (currentView) {
-          return _.set(action.payload.viewId, simpleReducer(currentView, action), stateViews);
+          return _.set(viewId, simpleReducer(currentView, action), stateViews);
         }
         return stateViews;
       }

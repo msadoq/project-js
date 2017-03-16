@@ -16,6 +16,8 @@ import viewData from './viewData';
 import health from './health';
 import editor from './editor';
 
+import { configurationReducers } from '../../viewManager/';
+
 const rootReducer = combineReducers({
   form,
   hsc,
@@ -32,6 +34,7 @@ const rootReducer = combineReducers({
   viewData,
   health,
   editor,
+  ...configurationReducers,
 });
 
 export default rootReducer;

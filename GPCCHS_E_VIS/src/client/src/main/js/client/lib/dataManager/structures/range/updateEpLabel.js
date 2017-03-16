@@ -29,6 +29,10 @@ export default function updateEpLabel(stateViewData, viewId, oldLabel, newLabel)
         ...newState[viewId].indexes,
         [newLabel]: stateViewData[viewId].indexes[oldLabel],
       },
+      min: { ...newState.min, [newLabel]: stateViewData[viewId].min[oldLabel] },
+      max: { ...newState.max, [newLabel]: stateViewData[viewId].max[oldLabel] },
+      minTime: { ...newState.minTime, [newLabel]: stateViewData[viewId].minTime[oldLabel] },
+      maxTime: { ...newState.maxTime, [newLabel]: stateViewData[viewId].maxTime[oldLabel] },
     },
   };
 }

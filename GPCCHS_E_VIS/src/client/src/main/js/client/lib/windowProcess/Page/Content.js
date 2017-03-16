@@ -4,7 +4,7 @@ import _find from 'lodash/find';
 import classnames from 'classnames';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
-import makeViewContainer from '../View/ViewContainer';
+import ViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
 
 const logger = getLogger('Content');
@@ -77,7 +77,6 @@ export default class Content extends PureComponent {
     }
     const viewMaximized = _find(layouts.lg, { maximized: true });
     if (viewMaximized && !viewMaximized.collapsed) {
-      const ViewContainer = makeViewContainer();
       const isViewsEditorOpen = editorViewId === viewMaximized.i && isEditorOpened;
       return (
         <ViewContainer
@@ -112,9 +111,6 @@ export default class Content extends PureComponent {
         {views.map((v) => {
           const isViewsEditorOpen = editorViewId === v.viewId && isEditorOpened;
 
-          // avoid React reconciliation issue when all Content child components are ViewContainer
-          // and sort order with siblings change
-          const ViewContainer = makeViewContainer();
           return (
             <div
               className={classnames(

@@ -58,4 +58,4 @@ const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue
-export default () => connect(makeMapStateToProps, mapDispatchToProps)(View);
+export default connect(makeMapStateToProps, mapDispatchToProps)(View);

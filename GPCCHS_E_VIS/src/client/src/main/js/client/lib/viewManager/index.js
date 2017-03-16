@@ -30,30 +30,18 @@ export const VM_VIEW_DYNAMIC = 'DynamicView';
 
 const list = {
   [VM_VIEW_PLOT]: {
-    configurationReducer: createReducerByViews(
-      composeReducers(plotViewConfigurationReducer, commonConfigurationReducer),
-      VM_VIEW_PLOT
-    ),
     schema: plotViewSchema,
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: dataStructurerange,
   },
   [VM_VIEW_TEXT]: {
-    configurationReducer: createReducerByViews(
-      composeReducers(textViewConfigurationReducer, commonConfigurationReducer),
-      VM_VIEW_TEXT
-    ),
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dataStructurelast,
   },
   [VM_VIEW_DYNAMIC]: {
-    configurationReducer: createReducerByViews(
-      composeReducers(dynamicViewConfigurationReducer, commonConfigurationReducer),
-      VM_VIEW_DYNAMIC
-    ),
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
@@ -98,10 +86,35 @@ export function getStructureModule(type) {
   return list[type].structureModule;
 }
 
+const listConfigurationReducers = [
+  {
+    type: VM_VIEW_TEXT,
+    reducer: textViewConfigurationReducer,
+  },
+  {
+    type: VM_VIEW_PLOT,
+    reducer: plotViewConfigurationReducer,
+  },
+  {
+    type: VM_VIEW_DYNAMIC,
+    reducer: dynamicViewConfigurationReducer,
+  },
+];
+
 // Configuration reducers
+const createViewReducer = ({ type, reducer }) => ({
+  reducer: createReducerByViews(
+    composeReducers(reducer, commonConfigurationReducer),
+    type
+  ),
+  type,
+});
 const appendString = _.curry((x, str) => str.concat(x));
+
 export const configurationReducers = _.compose(
   _.omitBy(_.isUndefined),
   _.mapKeys(appendString('Configuration')),
-  _.mapValues(_.prop('configurationReducer'))
-)(list);
+  _.mapValues('reducer'),
+  _.indexBy('type'),
+  _.map(createViewReducer)
+)(listConfigurationReducers);

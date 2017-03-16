@@ -9,12 +9,24 @@ import {
   NODE_TYPE_ITEM as ITEM,
   NODE_TYPE_KEY as KEY,
   NODE_TYPE_LINK as LINK,
+  NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
 } from 'common/constants';
 
-export function Header(p) {
-  const style = p.style;
-  const node = p.node;
+const Loading = props => (
+  <div style={props.style}>
+      LOADING...
+  </div>
+);
+
+Loading.propTypes = {
+  style: PropTypes.shape({}).isRequired,
+};
+
+const Header = (props) => {
+  const style = props.style;
+  const node = props.node;
   switch (node.type) {
+    case RESOLVED_LINK:
     case LINK:
       return (
         <div style={style.base}>
@@ -83,9 +95,14 @@ export function Header(p) {
         </div>
       );
   }
-}
+};
 
-export class Container extends PureComponent {
+Header.propTypes = {
+  style: PropTypes.shape({}).isRequired,
+  node: PropTypes.shape({}).isRequired,
+};
+
+class Container extends PureComponent {
   static propTypes = {
     style: PropTypes.shape({
       container: PropTypes.array,
@@ -144,6 +161,7 @@ export class Container extends PureComponent {
       case ARRAY:
       case OBJECT_ITEM:
       case ARRAY_ITEM:
+      case RESOLVED_LINK:
         return (
           <div
             onMouseDown={this.onMouseDown}
@@ -172,3 +190,9 @@ export class Container extends PureComponent {
     }
   }
 }
+
+export {
+  Loading,
+  Header,
+  Container,
+};

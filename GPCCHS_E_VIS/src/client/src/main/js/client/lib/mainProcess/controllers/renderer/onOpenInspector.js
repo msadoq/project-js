@@ -7,9 +7,11 @@ import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
 import { displayExplorer, currentExplorer } from '../../../store/actions/windows';
 import {
-  isInspectorStaticDataLoading,
+  isInspectorStaticDataNodeLoading,
   updateInspectorDataId,
-  updateInspectorStaticData,
+  updateInspectorSessionId,
+  updateInspectorDomainId,
+  updateInspectorStaticDataNode,
   isInspectorStaticDataNodeToggled,
 } from '../../../store/actions/inspector';
 import { getInspectorDataId } from '../../../store/selectors/inspector';
@@ -39,12 +41,13 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
       dispatch(add('global', 'danger', 'Cannot connect to RTD'));
       return;
     }
-    dispatch(updateInspectorStaticData({ name: parameterName }));
-    dispatch(isInspectorStaticDataLoading(true));
+    dispatch(updateInspectorStaticDataNode([], prepareDataToTree(null, { rootName: parameterName })));
+    dispatch(isInspectorStaticDataNodeLoading([], true));
+    dispatch(isInspectorStaticDataNodeToggled([], true));
 
     getTelemetryStaticElements({ rtd, sessionId, domainId }, parameterName, (err, data) => {
-      dispatch(isInspectorStaticDataLoading(false));
       if (err || !data) {
+        dispatch(isInspectorStaticDataNodeLoading([], false));
         dispatch(updateInspectorDataId(null));
         dispatch(add(
           'global',
@@ -53,9 +56,11 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
         ));
         return;
       }
-
-      dispatch(updateInspectorStaticData(prepareDataToTree(data, parameterName)));
-      dispatch(isInspectorStaticDataNodeToggled([], true));
+      const staticData = prepareDataToTree(data, { rootName: parameterName });
+      dispatch(updateInspectorSessionId(sessionId));
+      dispatch(updateInspectorDomainId(domainId));
+      dispatch(updateInspectorStaticDataNode([], staticData));
+      dispatch(isInspectorStaticDataNodeLoading([], false));
     });
   });
 }

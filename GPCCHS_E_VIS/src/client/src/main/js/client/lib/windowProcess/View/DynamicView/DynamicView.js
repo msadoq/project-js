@@ -127,6 +127,7 @@ export default class DynamicView extends PureComponent {
   onMouseDown = (event, parameterName) => {
     event.preventDefault();
     if (event.buttons === 2) {
+      // TODO retrieve sessionId and domainId
       const sessionId = 0;
       const domainId = 3;
       main.openInspector({

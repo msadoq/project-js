@@ -1,3 +1,4 @@
+import Long from 'long';
 import _map from 'lodash/map';
 import _isArray from 'lodash/isArray';
 import _isObject from 'lodash/isObject';
@@ -10,6 +11,7 @@ import {
   NODE_TYPE_ITEM as ITEM,
   NODE_TYPE_KEY as KEY,
   NODE_TYPE_LINK as LINK,
+  NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
 } from 'common/constants';
 import { LINK as RTD_LINK } from 'rtd/constants';
 
@@ -21,7 +23,7 @@ const getType = (parentType, key, value) => {
     }
     return ARRAY;
   }
-  if (_isObject(value)) {
+  if (_isObject(value) && !Long.isLong(value)) {
     if (parentType === ARRAY) {
       return OBJECT_ITEM;
     }
@@ -33,10 +35,17 @@ const getType = (parentType, key, value) => {
   if (parentType === ARRAY || parentType === ARRAY_ITEM) {
     return ITEM;
   }
-  if (parentType === OBJECT || parentType === OBJECT_ITEM) {
+  if (parentType === OBJECT || parentType === OBJECT_ITEM || parentType === RESOLVED_LINK) {
     return KEY;
   }
   return undefined;
+};
+
+const processValue = (value) => {
+  if (Long.isLong(value)) {
+    return value.toString();
+  }
+  return value;
 };
 
 const recursiveFormatChildren = (parentPath, parentType, data) => {
@@ -49,7 +58,8 @@ const recursiveFormatChildren = (parentPath, parentType, data) => {
       case ARRAY_ITEM:
       case OBJECT_ITEM:
       case ARRAY:
-      case OBJECT: {
+      case OBJECT:
+      case RESOLVED_LINK: {
         const children = recursiveFormatChildren(path, type, value);
         return {
           path,
@@ -64,14 +74,14 @@ const recursiveFormatChildren = (parentPath, parentType, data) => {
           path,
           name: key,
           type,
-          value: data[key],
+          value: processValue(value),
         };
       case ITEM:
         return {
           path,
           name: key,
           type,
-          value,
+          value: processValue(value),
         };
       default:
         return null;
@@ -79,9 +89,9 @@ const recursiveFormatChildren = (parentPath, parentType, data) => {
   });
 };
 
-export default (data, rootName) => ({
-  path: [],
+export default (data, { rootName = 'root', path = [], type = OBJECT }) => ({
+  path,
   name: rootName,
-  type: OBJECT,
-  children: recursiveFormatChildren([], OBJECT, data),
+  type,
+  children: recursiveFormatChildren(path, type, data),
 });

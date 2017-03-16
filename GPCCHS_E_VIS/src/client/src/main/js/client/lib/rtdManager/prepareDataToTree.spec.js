@@ -14,7 +14,7 @@ describe('rtdManager/prepareDataToTree', () => {
       Link: 'bar@bar@bar',
     };
 
-    prepareDataToTree(data, 'root').should.have.properties({
+    prepareDataToTree(data, { rootName: 'root' }).should.have.properties({
       path: [],
       name: 'root',
       type: 'object',

@@ -63,6 +63,13 @@ const commands = {
         sessionId,
         domainId,
       }, callback),
+    resolveLink: ({ link, path, sessionId, domainId }, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_RESOLVE_LINK, {
+        link,
+        path,
+        sessionId,
+        domainId,
+      }, callback),
   },
 };
 

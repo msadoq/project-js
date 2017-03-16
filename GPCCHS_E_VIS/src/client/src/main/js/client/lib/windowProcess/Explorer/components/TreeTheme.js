@@ -83,7 +83,8 @@ export default {
         paddingLeft: '19px',
       },
       loading: {
-        color: '#E2C089',
+        color: '#999',
+        fontWeight: 'bold',
       },
     },
   },

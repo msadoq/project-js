@@ -3,9 +3,10 @@ import { Panel } from 'react-bootstrap';
 import { Treebeard, decorators } from 'react-treebeard';
 import getLogger from 'common/log';
 import { NODE_TYPE_LINK as LINK } from 'common/constants';
-import { Header, Container } from './TreeDecorators';
+import { Header, Container, Loading } from './TreeDecorators';
 import animations from './TreeAnimations';
 import theme from './TreeTheme';
+import { main } from '../../ipc';
 
 const logger = getLogger('Inspector');
 
@@ -15,6 +16,7 @@ const logger = getLogger('Inspector');
 };*/
 decorators.Container = Container;
 decorators.Header = Header;
+decorators.Loading = Loading;
 
 const staticHeader = (
   <h2>Static Data</h2>
@@ -25,6 +27,8 @@ const dynamicHeader = (
 
 export default class Inspector extends PureComponent {
   static propTypes = {
+    sessionId: PropTypes.number.isRequired,
+    domainId: PropTypes.number.isRequired,
     data: PropTypes.shape({}),
     toggleNode: PropTypes.func.isRequired,
   };
@@ -35,8 +39,14 @@ export default class Inspector extends PureComponent {
 
   onToggle = (node, toggled) => {
     this.props.toggleNode(node.path, toggled);
-    if (node.type === 'link') {
+    if (node.type === LINK) {
       logger.info('Linking to', node.value);
+      main.resolveLink({
+        link: node.value,
+        path: node.path,
+        sessionId: this.props.sessionId,
+        domainId: this.props.domainId,
+      });
     }
   }
 

@@ -92,12 +92,12 @@ export default class LinesCanvas extends PureComponent {
     ctx.clearRect(0, 0, width, height);
 
     let totalPoints = 0;
-    if (perfOutput) console.time();
+    if (perfOutput) console.time(); // eslint-disable-line no-console
     lines.forEach((line) => {
       const dataLine = (line.dataAccessor && data) ? line.dataAccessor(data) : line.data;
       if (perfOutput) totalPoints += dataLine.length;
       if (!dataLine) {
-        console.log(`No data for line ${line.id}`); // eslint-disable-line
+        console.log(`No data for line ${line.id}`); // eslint-disable-line no-console
         return;
       }
       // Default values
@@ -195,7 +195,7 @@ export default class LinesCanvas extends PureComponent {
     });
 
     if (perfOutput) {
-      console.log(
+      console.log( // eslint-disable-line no-console
         'axis',
         axisId,
         'Just drawed',
@@ -204,7 +204,7 @@ export default class LinesCanvas extends PureComponent {
         totalPoints,
         'total points'
       );
-      console.timeEnd();
+      console.timeEnd(); // eslint-disable-line no-console
     }
   }
 

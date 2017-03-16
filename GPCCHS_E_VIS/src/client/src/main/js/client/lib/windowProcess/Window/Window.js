@@ -22,8 +22,6 @@ export default class Window extends PureComponent {
     isHelpDisplayed: PropTypes.bool,
     setIsLoaded: PropTypes.func.isRequired,
     displayHelp: PropTypes.func.isRequired,
-    editorWidth: PropTypes.number,
-    timebarHeight: PropTypes.number,
     explorerWidth: PropTypes.number,
   };
   static defaultProps = {
@@ -66,12 +64,8 @@ export default class Window extends PureComponent {
       windowId,
       title,
       isHelpDisplayed,
-      editorWidth,
-      timebarHeight,
       explorerWidth,
     } = this.props;
-
-    console.log(editorWidth, timebarHeight, explorerWidth);
 
     const explorer = explorerWidth < 1
       ? ''

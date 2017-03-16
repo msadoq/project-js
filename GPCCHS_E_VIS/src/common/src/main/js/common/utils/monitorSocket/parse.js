@@ -27,9 +27,9 @@ const getSize = ({
   coef: duration,
   convert: s => s / (1024 * 1024),
 }) =>
-  Math.floor((convert(size) / coef) * Math.pow(10, decimals)) /  Math.pow(10, decimals)
+  Math.floor((convert(size) / coef) * (10 ** decimals)) / (10 ** decimals);
 
 setInterval(() => {
-  console.log(`${getSize()} Mb/s`);
+  console.log(`${getSize()} Mb/s`); // eslint-disable-line no-console
   totalSize = 0;
 }, duration * 1000);

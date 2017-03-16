@@ -74,9 +74,13 @@ export default class Window extends PureComponent {
 
     console.log(editorWidth, timebarHeight, explorerWidth);
 
-    const explorer = explorerWidth > 0
-      ? <div style={{ width: `${explorerWidth}px` }}><ExplorerContainer windowId={windowId} /></div>
-      : '';
+    const explorer = explorerWidth < 1
+      ? ''
+      : (
+        <div style={{ width: `${explorerWidth}px` }}>
+          <ExplorerContainer windowId={windowId} pageId={pageId} />
+        </div>
+      );
 
     return (
       <div className={styles.container}>

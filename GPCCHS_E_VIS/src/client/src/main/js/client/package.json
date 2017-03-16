@@ -80,6 +80,7 @@
     "react-dom": "~15.4.2",
     "react-flatpickr": "~3.0.0",
     "react-grid-layout": "~0.13.8",
+    "react-json-inspector": "^7.0.0",
     "react-redux": "~5.0.2",
     "react-select": "~1.0.0-rc.2",
     "redux": "~3.6.0",

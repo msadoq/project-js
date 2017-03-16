@@ -103,21 +103,6 @@ describe('store:windows:reducer:window', () => {
         .should.eql({ myWindowId: { title: 'Title', isLoaded: true } });
     });
   });
-  describe('explorer', () => { // TODO boxmodel remove
-    it('currentExplorer', () => { // TODO boxmodel remove
-      reducer({ myWindowId: { title: 'Title', isModified: false } }, // TODO boxmodel remove
-      actions.currentExplorer('myWindowId', 'perView')) // TODO boxmodel remove
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } }); // TODO boxmodel remove
-      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } }, // TODO boxmodel remove
-      actions.currentExplorer('myWindowId', 'perRemoteId')) // TODO boxmodel remove
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } }); // TODO boxmodel remove
-    }); // TODO boxmodel remove
-    it('updateExplorerFlag', () => { // TODO boxmodel remove
-      const action = actions.updateExplorerFlag('myWindowId', 'explorerFlag', true); // TODO boxmodel remove
-      const nextState = reducer({ myWindowId: { title: 'Title', explorerFlag: false } }, action); // TODO boxmodel remove
-      nextState.myWindowId.explorerFlag.should.be.true; // TODO boxmodel remove
-    }); // TODO boxmodel remove
-  }); // TODO boxmodel remove
   describe('updateTimebarId', () => {
     const action = {
       type: types.WS_PAGE_UPDATE_TIMEBARID,

@@ -24,13 +24,9 @@ describe('store:windows:reducer', () => {
         focusedPage: null,
         pages: ['myPageId'],
         geometry: { w: 800, h: 600, x: 110, y: 10 },
-        debug: {
-          timebarVisibility: true, // TODO boxmodel remove
-        },
         minimized: false,
         isLoaded: false,
         isModified: true,
-        tabName: 'perRemoteId', // TODO boxmodel remove
         uuid: 'myWindowId',
       });
     });
@@ -41,7 +37,6 @@ describe('store:windows:reducer', () => {
       win.isModified.should.eql(true);
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
-      win.tabName.should.eql('perRemoteId'); // TODO boxmodel remove
     });
   });
   describe('HSC workspace', () => {

@@ -35,7 +35,7 @@ describe('store:pages:reducer:panels', () => {
       .myId.panels.timebarHeight.should.eql(20);
   });
   it('should focus tab in explorer', () => {
-    reducer({ myId: { explorerTab: null } }, actions.focusedTabInExplorer('myId', 'myTab'))
+    reducer({ myId: { explorerTab: null } }, actions.focusTabInExplorer('myId', 'myTab'))
       .myId.panels.explorerTab.should.eql('myTab');
   });
   it('should support resize explorer', () => {

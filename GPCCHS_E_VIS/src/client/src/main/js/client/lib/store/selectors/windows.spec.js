@@ -16,8 +16,6 @@ import {
   getWindowMinimized,
   getWindowsTitle,
   getModifiedWindowsIds,
-  getExplorerTabName,
-  getExplorerFlag,
   getIsLoaded,
   getDisplayHelp,
 } from './windows';
@@ -347,28 +345,6 @@ describe('store:window:selectors', () => {
         },
       };
       getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
-    });
-  });
-  describe('getExplorerTabName', () => {
-    it('gets tabName', () => {
-      const state = {
-        windows: {
-          w1: { tabName: '1' },
-        },
-      };
-      getExplorerTabName(state, { windowId: 'w1' }).should.be.eql('1');
-      should.not.exist(getExplorerTabName({}, {}));
-    });
-  });
-  describe('getExplorerFlag', () => {
-    it('gets isModified', () => {
-      const state = {
-        windows: {
-          w1: { isModified: true },
-        },
-      };
-      getExplorerFlag(state, { windowId: 'w1', flagName: 'isModified' }).should.be.true;
-      should.not.exist(getExplorerFlag({}, {}));
     });
   });
   describe('getIsLoaded', () => {

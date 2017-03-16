@@ -16,13 +16,9 @@ const initialState = {
     x: 10,
     y: 10,
   },
-  debug: {
-    timebarVisibility: true, // TODO boxmodel remove
-  },
   isModified: true,
   minimized: false,
   displayHelp: false,
-  tabName: 'perRemoteId', // TODO boxmodel remove
 };
 
 export default function window(stateWindow = initialState, action) {
@@ -103,14 +99,6 @@ export default function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         isModified: action.payload.flag,
       });
-    case types.WS_WINDOW_EXPLORER_UPDATEFLAG: // TODO boxmodel remove
-      return Object.assign({}, stateWindow, { // TODO boxmodel remove
-        [action.payload.flagName]: action.payload.flag, // TODO boxmodel remove
-      }); // TODO boxmodel remove
-    case types.WS_WINDOW_CURRENT_EXPLORER: // TODO boxmodel remove
-      return Object.assign({}, stateWindow, { // TODO boxmodel remove
-        tabName: action.payload.tabName, // TODO boxmodel remove
-      }); // TODO boxmodel remove
     case types.WS_PAGE_UPDATE_TIMEBARID: {
       if (_.contains(action.payload.pageId, stateWindow.pages)) {
         return Object.assign({}, stateWindow, {

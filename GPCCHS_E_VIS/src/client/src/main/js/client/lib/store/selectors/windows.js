@@ -60,12 +60,6 @@ export const getWindowFocusedPageSelector = createSelector(
   __.get
 );
 
-// TODO deprecated
-export const getWindowDebug = createSelector(
-  getWindow,
-  __.get('debug')
-);
-
 export const getWindowMinimized = createSelector(
   getWindow,
   __.get('minimized')
@@ -127,14 +121,6 @@ export const getWindowsTitle = createSelector(
 
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
-}
-
-export function getExplorerTabName(state, { windowId }) {
-  return _get(state, ['windows', windowId, 'tabName']);
-}
-
-export function getExplorerFlag(state, { windowId, flagName }) {
-  return _get(state, ['windows', windowId, flagName]);
 }
 
 export function getDisplayHelp(state, { windowId }) {

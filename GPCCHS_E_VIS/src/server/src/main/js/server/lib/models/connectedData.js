@@ -85,7 +85,7 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
   }
   switch (cd.type) {
     case globalConstants.DATASTRUCTURETYPE_LAST:
-      cd.intervals.received = [...cd.intervals.received, interval];
+      cd.intervals.received.push(interval);
       break;
     case globalConstants.DATASTRUCTURETYPE_RANGE:
       cd.intervals.received =
@@ -128,7 +128,7 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData)
   switch (cd.type) {
     case globalConstants.DATASTRUCTURETYPE_LAST:
       cd.intervals.requested[queryUuid] = interval;
-      cd.intervals.all = [...cd.intervals.all, interval];
+      cd.intervals.all.push(interval);
       break;
     case globalConstants.DATASTRUCTURETYPE_RANGE:
       cd.intervals.requested[queryUuid] = interval;

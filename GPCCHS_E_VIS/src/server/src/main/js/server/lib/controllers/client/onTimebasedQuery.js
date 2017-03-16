@@ -42,11 +42,11 @@ const subscriptionsModel = require('../../models/subscriptions');
 
 module.exports = (sendMessageToDc, { queries }) => {
   if (!queries || !Object.keys(queries).length) {
-    logger.warn('called without any query');
+    process.env.LOG && logger.warn('called without any query');
     return;
   }
 
-  logger.silly('called', Object.keys(queries).length, 'remoteIds');
+  process.env.LOG && logger.silly('called', Object.keys(queries).length, 'remoteIds');
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
@@ -56,7 +56,7 @@ module.exports = (sendMessageToDc, { queries }) => {
     let missingIntervals = [];
     const queryArguments = {};
 
-    logger.debug('add a query on', remoteId);
+    process.env.LOG && logger.debug('add a query on', remoteId);
     // add query arguments depending on the type
     switch (query.type) {
       case DATASTRUCTURETYPE_LAST:
@@ -67,12 +67,12 @@ module.exports = (sendMessageToDc, { queries }) => {
         queryArguments.filters = query.filters;
         break;
       default:
-        logger.warn(`Invalid query type not valid ${query.type}`);
+        process.env.LOG && logger.warn(`Invalid query type not valid ${query.type}`);
         return;
     }
 
     execution.start('add loki connectedData');
-    logger.silly('add loki connectedData', { remoteId, queryType: query.type });
+    process.env.LOG && logger.silly('add loki connectedData', { remoteId, queryType: query.type });
     const connectedData = connectedDataModel.addRecord(query.type, remoteId, query.dataId);
     execution.stop('add loki connectedData');
 
@@ -91,10 +91,10 @@ module.exports = (sendMessageToDc, { queries }) => {
     });
     execution.stop('finding missing intervals');
     // debug.debug('missing intervals', missingIntervals);
-    logger.silly('found', missingIntervals.length, 'missing intervals for', remoteId);
+    process.env.LOG && logger.silly('found', missingIntervals.length, 'missing intervals for', remoteId);
     // loop over missing intervals
     _each(missingIntervals, (missingInterval) => {
-      logger.silly('request interval', missingInterval);
+      process.env.LOG && logger.silly('request interval', missingInterval);
       const message = createQueryMessage(
         remoteId,
         query.dataId,
@@ -123,7 +123,7 @@ module.exports = (sendMessageToDc, { queries }) => {
     if (!subscription) {
       // add dataId to subscriptions model
       subscription = subscriptionsModel.addRecord(query.dataId);
-      logger.debug('add a subscription on', subscription.flatDataId);
+      process.env.LOG && logger.debug('add a subscription on', subscription.flatDataId);
       // create subscription message
       const message = createAddSubscriptionMessage(query.dataId);
       // queue the message
@@ -133,7 +133,7 @@ module.exports = (sendMessageToDc, { queries }) => {
 
     // add remoteId and corresponding filters to subscriptions model
     execution.start('add loki subscription filters');
-    logger.silly('add', query.filters.length, 'filters to', remoteId);
+    process.env.LOG && logger.silly('add', query.filters.length, 'filters to', remoteId);
     subscriptionsModel.addFilters(
       query.dataId,
       { [remoteId]: query.filters },
@@ -146,7 +146,7 @@ module.exports = (sendMessageToDc, { queries }) => {
     const timebasedDataModel = getTimebasedDataModel(remoteId);
     execution.stop('finding cache model');
     if (!timebasedDataModel) {
-      logger.silly('no cached data found for', remoteId);
+      process.env.LOG && logger.silly('no cached data found for', remoteId);
       return;
     }
 

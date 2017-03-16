@@ -90,11 +90,11 @@ module.exports = {
   encode: (type, raw) => {
     const Builder = getProtobufType(type);
 
-    let payload = Builder.mapper
+    const payload = Builder.mapper
       ? Builder.mapper.encode(raw)
       : raw;
 
-    payload = removeEmpty(payload);
+    // payload = removeEmpty(payload);
 
     const p = new Builder(payload);
 

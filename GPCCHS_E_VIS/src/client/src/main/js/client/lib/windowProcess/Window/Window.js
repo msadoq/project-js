@@ -4,7 +4,6 @@ import getLogger from 'common/log';
 import classnames from 'classnames';
 import HelpContent from '../Navigation/HelpContent';
 import MasterSessionContainer from '../Navigation/MasterSessionContainer';
-import HealthContainer from '../Navigation/HealthContainer';
 import MessagesContainer from '../Navigation/MessagesContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import PageContainer from '../Page/PageContainer';
@@ -87,7 +86,6 @@ export default class Window extends PureComponent {
         {isHelpDisplayed ? <HelpContent /> : ''}
         <ButtonToolbar className={styles.tools}>
           <MasterSessionContainer />
-          <HealthContainer windowId={windowId} />
           <MessagesContainer />
         </ButtonToolbar>
         <div className={styles.divPagesTb}>

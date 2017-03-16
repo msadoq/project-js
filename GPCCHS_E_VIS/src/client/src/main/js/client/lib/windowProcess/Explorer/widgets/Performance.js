@@ -2,8 +2,7 @@ import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import {
-  ButtonGroup,
-  Button,
+  Panel,
 } from 'react-bootstrap';
 import getLogger from 'common/log';
 import {
@@ -11,9 +10,9 @@ import {
   HEALTH_STATUS_WARNING,
   HEALTH_STATUS_CRITICAL,
 } from 'common/constants';
-import styles from './Health.css';
+import styles from './Performance.css';
 
-const logger = getLogger('Health');
+const logger = getLogger('Performance');
 
 const getStyle = (status) => {
   switch (status) {
@@ -26,7 +25,7 @@ const getStyle = (status) => {
   }
 };
 
-export default class Health extends Component {
+export default class Performance extends Component {
   static propTypes = {
     lastPubSubTimestamp: PropTypes.number,
     dc: PropTypes.string,
@@ -74,24 +73,32 @@ export default class Health extends Component {
     }
 
     return (
-      <ButtonGroup>
-        <Button bsSize="small" title="Pub/sub receiving state">
+      <div>
+        <Panel header={<h3>Health</h3>}>
+          <div title="Data Consumer daemon health status">
+            <span className={dcStyle}>•</span> DC
+          </div>
+          <div title="Cache daemon health status">
+            <span className={hssStyle}>•</span> HSS
+          </div>
+          <div title="Main application thread health status">
+            <span className={mainStyle}>•</span> MAIN
+          </div>
+          <div title="Current window health status">
+            <span className={windowStyle}>•</span> WINDOW
+          </div>
+        </Panel>
+        <Panel header={<h3>Pub/sub incoming data</h3>}>
+          <div title="Pub/sub receiving state">
+            {last}
+          </div>
           <span className={pubSubStyle}>•</span> PUB/SUB
-          {last}
-        </Button>
-        <Button bsSize="small" title="Data Consumer daemon health status">
-          <span className={dcStyle}>•</span> DC
-        </Button>
-        <Button bsSize="small" title="Cache daemon health status">
-          <span className={hssStyle}>•</span> HSS
-        </Button>
-        <Button bsSize="small" title="Main application thread health status">
-          <span className={mainStyle}>•</span> MAIN
-        </Button>
-        <Button bsSize="small" title="Current window health status">
-          <span className={windowStyle}>•</span> WINDOW
-        </Button>
-      </ButtonGroup>
+        </Panel>
+        <Panel header={<h3>Numbers</h3>}>
+          <div>Number of views: 10</div>
+          <div>Number of points: 1000</div>
+        </Panel>
+      </div>
     );
   }
 }

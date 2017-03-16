@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import DataMapContainer from './widgets/DataMapContainer';
 import StoreContainer from './widgets/StoreContainer';
+import PerformanceContainer from './widgets/PerformanceContainer';
 
 import styles from './Explorer.css';
 
@@ -18,12 +19,13 @@ const widgets = {
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
   cache: { title: 'Cache (developer)', component: NotAlreadyImplemented },
-  performances: { title: 'Performances (developer)', component: NotAlreadyImplemented },
+  performance: { title: 'Performance (developer)', component: PerformanceContainer },
   information: { title: 'Information (developer)', component: NotAlreadyImplemented },
 };
 
 export default class Explorer extends PureComponent {
   static propTypes = {
+    windowId: PropTypes.string,
     pageId: PropTypes.string.isRequired,
     tabId: PropTypes.string,
     focusTabInExplorer: PropTypes.func.isRequired,
@@ -72,30 +74,12 @@ export default class Explorer extends PureComponent {
    * - releases
    * - branch
    * - build time
+   * - master session
    * - configuration
    */
 
-  // <div className={styles.nav}>
-  // <Nav bsStyle="tabs" activeKey={tabId} onSelect={this.handleSelect} >
-  // <NavItem eventKey="perRemoteId" title="Entry point list of current page">
-  // <div className={styles.tabs}>Data Map</div>
-  // </NavItem>
-  // <NavItem eventKey="perViewId" title="Entry point list per view on current page">
-  // <div className={styles.tabs}>View Map</div>
-  // </NavItem>
-  // <NavItem eventKey="server" title="Server information">
-  // <div className={styles.tabs}>Server</div>
-  // </NavItem>
-  // </Nav>
-  // </div>
-
-  // {(tabId === 'perRemoteId') && <PerRemoteIdContainer pageId={pageId} />}
-  // {(tabId === 'perViewId') && <PerViewContainer pageId={pageId} />}
-  // {(tabId === 'server') && <ServerInfoContainer />}
-  // {(tabId === 'health') && <HealthContainer />}
-
   render() {
-    const { tabId } = this.props;
+    const { windowId, tabId } = this.props;
 
     const Widget = _get(widgets, [tabId, 'component'], NotAlreadyImplemented);
 
@@ -112,8 +96,9 @@ export default class Explorer extends PureComponent {
             )}
           </FormControl>
         </FormGroup>
+        <h2>{_get(widgets, [tabId, 'title'])}</h2>
         <div className={styles.widgetContainer}>
-          <Widget />
+          <Widget windowId={windowId} />
         </div>
       </div>
     );

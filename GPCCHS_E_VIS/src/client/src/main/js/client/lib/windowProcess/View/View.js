@@ -50,7 +50,7 @@ export default class View extends PureComponent {
     maximizeView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     collapsed: PropTypes.bool.isRequired,
-    maximized: PropTypes.bool.isRequired,
+    maximized: PropTypes.bool,
   };
 
   static defaultProps = {

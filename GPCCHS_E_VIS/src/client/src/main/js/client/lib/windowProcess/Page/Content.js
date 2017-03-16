@@ -1,6 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
-import _find from 'lodash/find';
 import classnames from 'classnames';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
@@ -42,11 +41,13 @@ export default class Content extends PureComponent {
     isEditorOpened: PropTypes.bool.isRequired,
     updateLayout: PropTypes.func.isRequired,
     windowId: PropTypes.string.isRequired,
+    maximizedViewUuid: PropTypes.string,
   };
 
   static defaultProps = {
     editorViewId: '',
     timebarUuid: null,
+    maximizedViewUuid: null,
   }
   onResizeView = (layout = []) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
@@ -62,6 +63,7 @@ export default class Content extends PureComponent {
       views = [], focusedPageId, timebarUuid,
       layouts, editorViewId, isEditorOpened,
       openEditor, closeEditor, windowId,
+      maximizedViewUuid,
     } = this.props;
 
     if (!focusedPageId) {
@@ -75,19 +77,20 @@ export default class Content extends PureComponent {
         <div className={styles.noPage}>No view yet ...</div>
       );
     }
-    const viewMaximized = _find(layouts.lg, { maximized: true });
-    if (viewMaximized && !viewMaximized.collapsed) {
-      const isViewsEditorOpen = editorViewId === viewMaximized.i && isEditorOpened;
+
+    if (maximizedViewUuid) {
+      const isViewsEditorOpen = editorViewId === maximizedViewUuid && isEditorOpened;
       return (
         <ViewContainer
           timebarUuid={timebarUuid}
           pageId={focusedPageId}
-          viewId={viewMaximized.i}
+          viewId={maximizedViewUuid}
           windowId={windowId}
           closeView={this.props.closeView}
           isViewsEditorOpen={isViewsEditorOpen}
           openEditor={openEditor}
           closeEditor={closeEditor}
+          maximized
         />
       );
     }

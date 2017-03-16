@@ -11,7 +11,7 @@ import {
 import Content from './Content';
 
 const getMaximizeViewdUuid = ({ layout }) => {
-  const viewLayout = layout.find(a => a.maximized === true);
+  const viewLayout = layout.find(a => a.maximized === true && !a.collapsed);
   return viewLayout ? viewLayout.i : null;
 };
 

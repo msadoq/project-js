@@ -1,8 +1,9 @@
-import _get from 'lodash/get';
-import _findIndex from 'lodash/findIndex';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getView } from '../../store/selectors/views';
+import { getPage } from '../../store/selectors/pages';
+import { getTimebar } from '../../store/selectors/timebars';
+import { getData } from '../../store/selectors/viewData';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage, setCollapsed, setMaximized } from '../../store/actions/pages';
 import View from './View';
@@ -12,37 +13,23 @@ const makeMapStateToProps = () => {
     const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title }
         = getView(state, { viewId });
 
-    const data = _get(state, ['viewData', viewId], {});
-    const visuWindow = _get(state, ['timebars', timebarUuid, 'visuWindow']);
-    const collapsed = _get(state,
-      ['pages',
-        pageId,
-        'layout',
-        _findIndex(_get(state, ['pages', pageId, 'layout']), i => i.i === viewId),
-        'collapsed',
-      ]
-    );
-    const maximized = _get(state,
-      ['pages',
-        pageId,
-        'layout',
-        _findIndex(_get(state, ['pages', pageId, 'layout']), i => i.i === viewId),
-        'maximized',
-      ]
-    );
+    const data = getData(state, { viewId });
+    const timebar = getTimebar(state, { timebarUuid });
+    const page = getPage(state, { pageId });
+    const collapsedLayout = page.layout.find(e => e.i === viewId && e.collapsed);
+
     return {
       backgroundColor,
       type,
       title,
       titleStyle,
       data,
-      visuWindow,
+      visuWindow: timebar ? timebar.visuWindow : null,
       windowPages: getWindowPages(state, { windowId }),
       oId,
       absolutePath,
       isModified,
-      collapsed,
-      maximized,
+      collapsed: !!collapsedLayout,
     };
   };
   return mapStateToProps;

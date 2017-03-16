@@ -16,32 +16,22 @@ import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 
-import composeReducers from '../store/composeReducers';
-import createReducerByViews from '../store/createReducerByViews';
-import commonConfigurationReducer from './commonConfiguration/reducer';
-
-import textViewConfigurationReducer from './TextView/store/configurationReducer';
-import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
-import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
-
-export const VM_VIEW_PLOT = 'PlotView';
-export const VM_VIEW_TEXT = 'TextView';
-export const VM_VIEW_DYNAMIC = 'DynamicView';
+import * as constants from './constants';
 
 const list = {
-  [VM_VIEW_PLOT]: {
+  [constants.VM_VIEW_PLOT]: {
     schema: plotViewSchema,
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: dataStructurerange,
   },
-  [VM_VIEW_TEXT]: {
+  [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dataStructurelast,
   },
-  [VM_VIEW_DYNAMIC]: {
+  [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
@@ -50,6 +40,8 @@ const list = {
 };
 
 export default list;
+export * from './selectors';
+export { default as configurationReducers } from './reducers';
 
 export const getAvailableViews = _.always(_.keys(list));
 
@@ -85,36 +77,3 @@ export function getStructureModule(type) {
 
   return list[type].structureModule;
 }
-
-const listConfigurationReducers = [
-  {
-    type: VM_VIEW_TEXT,
-    reducer: textViewConfigurationReducer,
-  },
-  {
-    type: VM_VIEW_PLOT,
-    reducer: plotViewConfigurationReducer,
-  },
-  {
-    type: VM_VIEW_DYNAMIC,
-    reducer: dynamicViewConfigurationReducer,
-  },
-];
-
-// Configuration reducers
-const createViewReducer = ({ type, reducer }) => ({
-  reducer: createReducerByViews(
-    composeReducers(reducer, commonConfigurationReducer),
-    type
-  ),
-  type,
-});
-const appendString = _.curry((x, str) => str.concat(x));
-
-export const configurationReducers = _.compose(
-  _.omitBy(_.isUndefined),
-  _.mapKeys(appendString('Configuration')),
-  _.mapValues('reducer'),
-  _.indexBy('type'),
-  _.map(createViewReducer)
-)(listConfigurationReducers);

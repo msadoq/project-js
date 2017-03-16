@@ -1,4 +1,5 @@
-import u from 'updeep';
+// import u from 'updeep';
+import _omit from 'lodash/omit';
 
 export default function updateEpLabel(stateViewData, viewId, oldLabel, newLabel) {
   const viewData = stateViewData[viewId];
@@ -6,11 +7,17 @@ export default function updateEpLabel(stateViewData, viewId, oldLabel, newLabel)
     return stateViewData;
   }
 
-  const newState = u({ [viewId]: {
-    lines: u.omit(oldLabel),
-    indexes: u.omit(oldLabel),
-  } }, stateViewData);
-
+  // const newState = u({ [viewId]: {
+  //   lines: u.omit(oldLabel),
+  //   indexes: u.omit(oldLabel),
+  // } }, stateViewData);
+  const newState = { ...stateViewData,
+    [viewId]: {
+      ...stateViewData[viewId],
+      indexes: _omit(stateViewData[viewId].indexes, oldLabel),
+      lines: _omit(stateViewData[viewId].lines, oldLabel),
+    },
+  };
   return { ...newState,
     [viewId]: {
       ...newState[viewId],

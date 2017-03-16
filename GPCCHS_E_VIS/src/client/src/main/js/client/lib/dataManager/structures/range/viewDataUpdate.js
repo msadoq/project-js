@@ -72,7 +72,7 @@ export function viewRangeRemoveByEp(state, epName, lower, upper) {
   }
 
   // drop everything: keep min and max for PlotView drawing
-  if (state.indexes[epName][0] > upper || _last(state.indexes[epName]) < lower) {
+  if (state.indexes[epName][0] >= upper || _last(state.indexes[epName]) <= lower) {
     return { ...state,
       indexes: _omit(state.indexes, epName),
       lines: _omit(state.lines, epName),
@@ -233,7 +233,6 @@ export function viewRangeAdd(state = {}, payloads) {
     maxTime: { ...state.maxTime || {} },
   };
 
-
   // min and max
   if (payloads.min) {
     Object.keys(payloads.min || {}).forEach((epName) => {
@@ -258,14 +257,14 @@ export function viewRangeAdd(state = {}, payloads) {
       if (!_isNumber(remoteIdPayloads[masterTime].value)) {
         return;
       }
+      if (!newState.lines[epName]) {
+        newState.lines[epName] = [];
+        newState.indexes[epName] = [];
+      }
 
       const timestamp = parseInt(masterTime, 10); // TODO : avoid by passing .index[] in payload
       // if new value should be pushed at end (most common case in play mode)
       if (lastIndex === -1 && timestamp > lastTime) {
-        if (!newState.lines[epName]) {
-          newState.lines[epName] = [];
-          newState.indexes[epName] = [];
-        }
         newState.lines[epName].push({ masterTime: timestamp, ...remoteIdPayloads[masterTime] });
         newState.indexes[epName].push(timestamp);
         lastTime = timestamp;
@@ -281,10 +280,6 @@ export function viewRangeAdd(state = {}, payloads) {
       lastIndex = index;
       if (index === -1) {
         // add at end
-        if (!newState.lines[epName]) {
-          newState.lines[epName] = [];
-          newState.indexes[epName] = [];
-        }
         newState.lines[epName].push({ masterTime: timestamp, ...remoteIdPayloads[masterTime] });
         newState.indexes[epName].push(timestamp);
         return;

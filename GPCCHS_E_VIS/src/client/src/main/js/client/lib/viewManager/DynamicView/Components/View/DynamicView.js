@@ -157,7 +157,7 @@ export default class DynamicView extends PureComponent {
           <Row><Panel>{objectHeader(ep)}</Panel></Row>
           { arrayKeys.map((key, i) => (
             <Row key={'row'.concat(i)}>
-              <header className={styles.arrayHeader}><h2>{key}</h2></header>
+              <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
               <Col sm={12}>
                 <Table striped bordered condensed hover>
                   {arrayHeader(ep[key])}

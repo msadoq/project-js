@@ -22,9 +22,9 @@ describe('dataManager/range/viewDataUpdate', () => {
 
   describe('viewRangeRemove', () => {
     it('should support empty state', () => {
-      const frozen = Object.freeze({});
+      const frozen = freezeMe({});
       viewRangeRemove(frozen, 10, 20).should.equal(frozen);
-      const otherFrozen = Object.freeze({ indexes: {} });
+      const otherFrozen = freezeMe({ indexes: {} });
       viewRangeRemove(otherFrozen, 10, 20).should.equal(otherFrozen);
     });
     it('should support nothing to keep', () => {
@@ -103,7 +103,7 @@ describe('dataManager/range/viewDataUpdate', () => {
     });
     describe('should add points', () => {
       it('one point in middle', () => {
-        viewRangeAdd(Object.freeze({
+        viewRangeAdd(freezeMe({
           indexes: { ep1: [1, 4] },
           lines: {
             ep1: [
@@ -135,7 +135,7 @@ describe('dataManager/range/viewDataUpdate', () => {
         });
       });
       it('points everywhere', () => {
-        viewRangeAdd(Object.freeze({
+        viewRangeAdd(freezeMe({
           indexes: { ep1: [1, 4, 8, 10], ep2: [2] },
           lines: {
             ep1: [
@@ -154,6 +154,7 @@ describe('dataManager/range/viewDataUpdate', () => {
         }), { ep1: {
           0: { x: 0, value: 104 },
           9: { x: 9, value: 108 },
+          10: { x: 10, value: 110 },
           11: { x: 11, value: 111 },
         },
           ep2: {
@@ -172,7 +173,7 @@ describe('dataManager/range/viewDataUpdate', () => {
             { masterTime: 4, x: 4, value: 100.4 },
             { masterTime: 8, x: 8, value: 100.8 },
             { masterTime: 9, x: 9, value: 108 },
-            { masterTime: 10, x: 10, value: 100.1 },
+            { masterTime: 10, x: 10, value: 110 },
             { masterTime: 11, x: 11, value: 111 },
             ],
             ep2: [

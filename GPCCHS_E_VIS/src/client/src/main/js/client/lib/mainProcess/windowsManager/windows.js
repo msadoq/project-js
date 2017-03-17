@@ -27,6 +27,13 @@ const logger = getLogger('main:windowsManager:windows');
 
 let electronWindows = {};
 
+export function executeCode(code = '', windowId) {
+  const w = electronWindows[windowId];
+  if (w) {
+    w.webContents.executeJavaScript(code);
+  }
+}
+
 function isExists(windowId) {
   return electronWindows[windowId] && !electronWindows[windowId].isDestroyed();
 }

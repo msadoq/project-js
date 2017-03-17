@@ -1,6 +1,7 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import path from 'path';
+import __ from 'lodash/fp';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
@@ -23,6 +24,8 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
+import { getViewData } from '../store/selectors/viewData';
+import { getFocusedWindowId } from '../store/selectors/hsc';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
@@ -190,6 +193,26 @@ export function onStart() {
         }
         callback(null);
       }));
+    },
+    (callback) => {
+      if (parameters.get('REALTIME') === 'on') {
+        const store = getStore();
+        const unsubscribe = store.subscribe(() => {
+          const windowId = getFocusedWindowId(store.getState());
+          if ( windowId ) {
+            const w = windows.executeCode(`(function tryClick() {
+              const btn = document.querySelector('#realtime');
+              if (btn) {
+                btn.click();
+              } else {
+                setTimeout(tryClick, 100);
+              }
+            })()`, windowId);
+            unsubscribe();
+          }
+        });
+      }
+      callback(null);
     },
   ], (err) => {
     if (err) {

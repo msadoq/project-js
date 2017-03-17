@@ -174,6 +174,7 @@ export default class ControlsRight extends PureComponent {
             </OverlayTrigger> }
             { !realTimeDisabled && <button
               mode="Realtime"
+              id="realtime"
               className={classnames(
                 allButtonsKlasses,
                 {

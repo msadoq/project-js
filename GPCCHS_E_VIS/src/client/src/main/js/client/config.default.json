@@ -1,6 +1,7 @@
 {
   "PROFILING": "off",
   "DEBUG": "off",
+  "REALTIME": "off",
   "WDYU": "off",
   "ORCHESTRATION_FREQUENCY": 500,
   "CACHE_INVALIDATION_FREQUENCY": 300000,

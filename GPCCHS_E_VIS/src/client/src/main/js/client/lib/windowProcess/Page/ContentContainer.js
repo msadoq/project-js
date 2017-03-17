@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,30 +12,34 @@ import {
 
 import Content from './Content';
 
-const getMaximizeViewdUuid = ({ layout }) => {
-  const viewLayout = layout.find(a => a.maximized === true && !a.collapsed);
-  return viewLayout ? viewLayout.i : null;
-};
-
 const getLayouts = makeGetLayouts();
 const getViews = makeGetViews();
 
-const mapStateToProps = (state, { windowId, focusedPageId }) => {
-  if (!focusedPageId) {
-    return {};
-  }
-  const focusedPage = getWindowFocusedPageSelector(state, { windowId });
-  const maximizedViewUuid = getMaximizeViewdUuid(focusedPage);
-  const views = getViews(state, { pageId: focusedPageId });
-  const layouts = getLayouts(state, { pageId: focusedPageId });
+const getTimebarUuid = createSelector(
+  getWindowFocusedPageSelector,
+  _.get('timebarUuid')
+);
 
-  return {
-    timebarUuid: focusedPage ? focusedPage.timebarUuid : undefined,
+const getMaximizeViewdUuid = createSelector(
+  getWindowFocusedPageSelector,
+  ({ layout }) => {
+    const viewLayout = layout.find(a => a.maximized === true);
+    return viewLayout ? viewLayout.i : null;
+  }
+);
+
+const mapStateToProps = createSelector(
+  (state, { focusedPageId }) => getLayouts(state, { pageId: focusedPageId }),
+  (state, { focusedPageId }) => getViews(state, { pageId: focusedPageId }),
+  getTimebarUuid,
+  getMaximizeViewdUuid,
+  (layouts, views, timebarUuid, maximizedViewUuid) => ({
     layouts,
     views,
+    timebarUuid,
     maximizedViewUuid,
-  };
-};
+  })
+);
 
 function mapDispatchToProps(dispatch, { focusedPageId }) {
   return bindActionCreators({

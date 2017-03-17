@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
+import _memoize from 'lodash/memoize';
 import Dimensions from 'react-dimensions';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
@@ -17,15 +18,6 @@ class RightTabContent extends PureComponent {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
-    slideWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-    }).isRequired,
-    visuWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-      current: PropTypes.number.isRequired,
-    }).isRequired,
     timebar: PropTypes.shape({
       extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
@@ -116,13 +108,22 @@ class RightTabContent extends PureComponent {
     }
     wich is much easier to work with int the subcomponents
   */
+  memoizeviewportDimensions = _memoize((hash, lower, upper) =>
+    ({
+      lower,
+      upper,
+    })
+  );
+
   formatViewportDimensions() {
     const { timebar, containerWidth } = this.props;
-    return {
-      lower: timebar.rulerStart,
-      upper: timebar.rulerStart +
-        (timebar.rulerResolution * containerWidth),
-    };
+    const lower = timebar.rulerStart;
+    const upper = timebar.rulerStart + (timebar.rulerResolution * containerWidth);
+    return this.memoizeviewportDimensions(
+      `${lower}-${upper}`,
+      lower,
+      upper
+    );
   }
 
   retrieveFormattedFullDateEl = () => this.formattedFullDateEl;
@@ -149,12 +150,10 @@ class RightTabContent extends PureComponent {
     const {
       timelines,
       timebarUuid,
-      visuWindow,
       isPlaying,
       play,
       pause,
       timebar,
-      slideWindow,
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
@@ -197,8 +196,8 @@ class RightTabContent extends PureComponent {
           timebarMode={timebar.mode}
           timebarRealTime={timebar.realTime}
           setRealTime={setRealTime}
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
+          visuWindow={timebar.visuWindow}
+          slideWindow={timebar.slideWindow}
           timelines={timelines}
           updateCursors={updateCursors}
           jump={jump}

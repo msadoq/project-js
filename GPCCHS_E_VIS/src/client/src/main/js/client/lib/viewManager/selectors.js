@@ -3,8 +3,15 @@ import { createSelector } from 'reselect';
 
 import * as configurationReducers from './reducers';
 
-const getAllConfigurations = createSelector(
+const mergeAllConfigurations = x => _.compose(
+  _.mergeAll,
+  _.values,
   _.pick(_.keys(configurationReducers))
+)(x);
+
+const getAllConfigurations = createSelector(
+  _.identity,
+  mergeAllConfigurations
 );
 
 export const getConfigurationByViewId = createSelector(
@@ -13,4 +20,7 @@ export const getConfigurationByViewId = createSelector(
   (viewId, allConfigurations) => allConfigurations[viewId]
 );
 
-export const getEntryPointsByViewId = _.identity;
+export const getEntryPointsByViewId = createSelector(
+  getConfigurationByViewId,
+  _.prop('entryPoints')
+);

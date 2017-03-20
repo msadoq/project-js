@@ -25,7 +25,7 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
-import { getFocusedWindowId } from '../store/selectors/hsc';
+import { getFocusedWindowId } from '../store/reducers/hsc';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';

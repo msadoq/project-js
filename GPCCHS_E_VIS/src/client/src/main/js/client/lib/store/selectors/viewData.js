@@ -14,6 +14,7 @@ export const getData = createSelector(
 
 // simple, but need specific selectors for each viewType
 // TODO test + reselect
+// TODO boxmodel (dbrugne)
 export const getCount = state => _reduce(getViewData(state), (c, view) => {
   if (typeof view.columns === 'object') {
     // PlotView

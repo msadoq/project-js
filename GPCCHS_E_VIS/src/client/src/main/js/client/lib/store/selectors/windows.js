@@ -3,7 +3,7 @@ import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
-import { getFocusedWindowId } from './hsc';
+import { getFocusedWindowId } from '../reducers/hsc';
 import { getPages } from './pages';
 
 export const createDeepEqualSelector = createSelectorCreator(
@@ -93,7 +93,7 @@ const getWindowsVisibleViewIds = createSelector(
       }))
 );
 
-// composed
+// composed specific to dataManager
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
@@ -112,7 +112,7 @@ export const getWindowsVisibleViews = createSelector(
 );
 /* -------------------------------------------------------------------------- */
 
-// simple
+// simple specific
 export const getWindowsTitle = createSelector(
   getWindows,
   windows => _reduce(
@@ -122,7 +122,7 @@ export const getWindowsTitle = createSelector(
     }), {})
 );
 
-// simple
+// simple specific
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
 }

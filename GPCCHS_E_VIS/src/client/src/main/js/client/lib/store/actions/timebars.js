@@ -14,7 +14,7 @@ import {
 } from './timelines';
 import { pause, smartPlay } from './hsc';
 import { getTimebar } from '../selectors/timebars';
-import { getPlayingTimebarId } from '../selectors/hsc';
+import { getPlayingTimebarId } from '../reducers/hsc';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');

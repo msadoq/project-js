@@ -20,26 +20,6 @@ export const getView =
   (state, { viewId }) =>
     __.prop(viewId, getViews(state));
 
-// composed ( because need viewConfiguration )
-export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
-  const epOnAxis = [];
-  if (!state.views[viewId] || !state.views[viewId].configuration.axes[axisId]) {
-    return epOnAxis;
-  }
-  state.views[viewId].configuration.entryPoints.forEach((ep) => {
-    if (ep.connectedDataX.axisId === axisId || ep.connectedDataY.axisId === axisId) {
-      epOnAxis.push(ep.name);
-    }
-  });
-  return epOnAxis;
-};
-
-// simple
-export const getViewsIdsCollapsed = createSelector(
-  getViews,
-  views => __.keys(__.pickBy('configuration.collapsed', views))
-);
-
 // simple
 export const getModifiedViewsIds = state =>
   Object
@@ -96,9 +76,3 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 // composed
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
-
-// composed
-export const getViewEntryPointStateColors = createSelector(
-  getViewEntryPoint,
-  ep => ep.stateColors || []
-);

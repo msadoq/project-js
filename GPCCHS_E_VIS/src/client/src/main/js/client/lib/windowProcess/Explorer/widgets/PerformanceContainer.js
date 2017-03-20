@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getHealthMapForWindow } from '../../../store/selectors/health';
+import { getHealthMapForWindow } from '../../../store/reducers/health';
 
 import Performance from './Performance';
 

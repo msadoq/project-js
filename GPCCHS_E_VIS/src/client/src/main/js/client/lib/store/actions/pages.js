@@ -4,7 +4,7 @@ import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../selectors/timebars';
-import { getFocusedWindowId } from '../selectors/hsc';
+import { getFocusedWindowId } from '../reducers/hsc';
 
 /**
  * Simple actions

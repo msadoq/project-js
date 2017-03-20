@@ -4,7 +4,7 @@ import * as types from '../types';
 import { pause } from './hsc';
 import { getWindowPages } from '../selectors/windows';
 import { getPage } from '../selectors/pages';
-import { getPlayingTimebarId } from '../selectors/hsc';
+import { getPlayingTimebarId } from '../reducers/hsc';
 
 /**
  * Simple actions

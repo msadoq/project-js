@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 // simple
@@ -8,5 +8,5 @@ export const getSessions = state => state.sessions;
 export const getSession = createSelector(
   (state, { sessionId }) => sessionId,
   getSessions,
-  (sessionId, sessions) => _.find(_.defaultTo(sessions, []), s => s.id === sessionId)
+  (sessionId, sessions = []) => _.find(_.propEq('id', sessionId), sessions)
 );

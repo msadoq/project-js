@@ -15,6 +15,7 @@ const propsStub = {
   updateTimebarId: () => null,
   updateSessionId: () => null,
   updateColor: () => null,
+  collapseTimebar: () => null,
   timelines: TimelinesFixture,
   sessions: SessionsFixture,
   timebarUuid: TimebarFixture.timebarUuid,

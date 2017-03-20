@@ -56,9 +56,9 @@ const commands = {
         windowId,
         status,
       }),
-    openInspector: ({ windowId, parameterName, sessionId, domainId }, callback) =>
+    openInspector: ({ pageId, parameterName, sessionId, domainId }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
-        windowId,
+        pageId,
         parameterName,
         sessionId,
         domainId,

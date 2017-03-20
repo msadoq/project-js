@@ -5,10 +5,11 @@ import classnames from 'classnames';
 import getLogger from 'common/log';
 import ViewHeader from './Header';
 import MessagesContainer from './MessagesContainer';
-import PlotViewComp from './PlotView/PlotViewContainer';
-import TextViewComp from './TextView/TextViewContainer';
-import DynamicViewComp from './DynamicView/DynamicViewContainer';
+import PlotViewComp from '../../viewManager/PlotView/Components/View/PlotViewContainer';
+import TextViewComp from '../../viewManager/TextView/Components/View/TextViewContainer';
+import DynamicViewComp from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
 import UnknownView from './UnknownView';
+import { main } from '../ipc';
 
 import styles from './View.css';
 
@@ -23,20 +24,12 @@ const keys = {
 
 export default class View extends PureComponent {
   static propTypes = {
-    isViewsEditorOpen: PropTypes.bool.isRequired,
-    configuration: PropTypes.shape({
-      backgroundColor: PropTypes.string,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      defaultRatio: PropTypes.object.isRequired,
-      entryPoints: PropTypes.array.isRequired,
-      links: PropTypes.array.isRequired,
-      markers: PropTypes.array,
-      axes: PropTypes.object,
-      legend: PropTypes.object,
-      titleStyle: PropTypes.object,
-      grids: PropTypes.array,
+    backgroundColor: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    titleStyle: PropTypes.shape({
+      bgColor: PropTypes.string,
     }).isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
     visuWindow: PropTypes.shape({
       lower: PropTypes.number.isRequired,
       upper: PropTypes.number.isRequired,
@@ -52,21 +45,28 @@ export default class View extends PureComponent {
     isModified: PropTypes.bool.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    unmountAndRemove: PropTypes.func.isRequired,
+    closeView: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    entryPoints: PropTypes.objectOf(PropTypes.object),
     windowId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    collapsed: PropTypes.bool.isRequired,
+    maximized: PropTypes.bool,
   };
 
   static defaultProps = {
-    entryPoints: {},
+    backgroundColor: '#FFFFFF',
+    titleStyle: {
+      bgColor: '#FEFEFE',
+    },
     data: {},
     absolutePath: '',
     oId: '',
     visuWindow: null,
+    collapsed: false,
+    maximized: false,
   };
 
   static contextTypes = {
@@ -83,21 +83,20 @@ export default class View extends PureComponent {
 
   toggleCollapse = (e) => {
     const {
-      collapseView,
+      // collapseView,
       viewId,
       closeEditor,
       isViewsEditorOpen,
-      unmountAndRemove,
+      closeView,
       openEditor,
       type,
-      configuration,
     } = this.props;
-    const { focusedPageId } = this.context;
+    // const { focusedPageId } = this.context;
 
     if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
-      collapseView(focusedPageId, viewId, !configuration.collapsed);
+      // collapseView(focusedPageId, viewId, !configuration.collapsed); // TODO abesson
     } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
-      unmountAndRemove(viewId);
+      closeView(viewId);
       if (isViewsEditorOpen && closeEditor) {
         closeEditor();
       }
@@ -105,7 +104,7 @@ export default class View extends PureComponent {
       if (isViewsEditorOpen && closeEditor) {
         closeEditor();
       } else if (!isViewsEditorOpen && openEditor) {
-        openEditor(viewId, type, configuration);
+        openEditor(viewId, type);
       }
     }
   }
@@ -117,14 +116,14 @@ export default class View extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      configuration,
-      configuration: { backgroundColor = '#FFFFFF' },
+      backgroundColor,
+      titleStyle,
       isViewsEditorOpen,
       viewId,
       type,
       openEditor,
       closeEditor,
-      unmountAndRemove,
+      closeView,
       data,
       visuWindow,
       moveViewToPage,
@@ -134,8 +133,11 @@ export default class View extends PureComponent {
       oId,
       absolutePath,
       isModified,
-      entryPoints,
       windowId,
+      pageId,
+      collapsed,
+      maximized,
+      title,
     } = this.props;
     let ContentComponent;
     switch (type) {
@@ -151,8 +153,7 @@ export default class View extends PureComponent {
       default:
         ContentComponent = UnknownView;
     }
-
-    const borderColor = _get(configuration, ['titleStyle', 'bgColor'], '#fefefe');
+    const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
@@ -161,41 +162,40 @@ export default class View extends PureComponent {
         ref={this.assignEl}
       >
         <ViewHeader
+          title={title}
+          titleStyle={titleStyle}
           isViewsEditorOpen={isViewsEditorOpen}
-          configuration={configuration}
           viewId={viewId}
           type={type}
           openEditor={openEditor}
           closeEditor={closeEditor}
-          unmountAndRemove={unmountAndRemove}
+          closeView={closeView}
           windowPages={windowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
           maximizeView={maximizeView}
-          collapsed={!!configuration.collapsed}
-          maximized={!!configuration.maximized}
+          collapsed={!!collapsed}
+          maximized={!!maximized}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
         />
-        {!configuration.collapsed &&
-          <div
-            className={styles.content}
-            style={this.backgroundColorStyle(backgroundColor)}
-          >
-            <MessagesContainer containerId={viewId} />
-            <ContentComponent
-              data={data}
-              type={type}
-              viewId={viewId}
-              isViewsEditorOpen={isViewsEditorOpen}
-              visuWindow={type === 'PlotView' ? visuWindow : undefined}
-              configuration={configuration}
-              entryPoints={entryPoints}
-              windowId={windowId}
-            />
-          </div>
-        }
+        <div
+          className={styles.content}
+          style={this.backgroundColorStyle(backgroundColor)}
+        >
+          <MessagesContainer containerId={viewId} />
+          <ContentComponent
+            data={data}
+            type={type}
+            viewId={viewId}
+            isViewsEditorOpen={isViewsEditorOpen}
+            visuWindow={type === 'PlotView' ? visuWindow : undefined}
+            windowId={windowId}
+            pageId={pageId}
+            openInspector={main.openInspector}
+          />
+        </div>
       </div>
     );
   }

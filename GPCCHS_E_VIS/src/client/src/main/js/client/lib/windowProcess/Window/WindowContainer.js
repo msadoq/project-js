@@ -1,15 +1,27 @@
 import { connect } from 'react-redux';
-import { getWindowFocusedPageId, getExplorerDisplay } from '../../store/selectors/windows';
-import { displayExplorer } from '../../store/actions/windows';
+import {
+  getWindowFocusedPageId,
+  getDisplayHelp,
+} from '../../store/selectors/windows';
+import { getPanels } from '../../store/selectors/pages';
+import { setIsLoaded, displayHelp } from '../../store/actions/windows';
 
 import Window from './Window';
 
-const mapStateToProps = (state, { windowId }) => ({
-  focusedPageId: getWindowFocusedPageId(state, { windowId }),
-  timelines: state.timelines,
-  isModified: state.windows[windowId].isModified,
-  title: state.windows[windowId].title,
-  isExplorerOpened: getExplorerDisplay(state, { windowId }),
-});
+const mapStateToProps = (state, { windowId }) => {
+  const pageId = getWindowFocusedPageId(state, { windowId });
+  const { editorWidth, timebarHeight, explorerWidth } = getPanels(state, { pageId });
 
-export default connect(mapStateToProps, { displayExplorer })(Window);
+  return {
+    pageId,
+    timelines: state.timelines, // TODO boxmodel remove ?
+    isModified: state.windows[windowId].isModified,
+    title: state.windows[windowId].title, // TODO boxmodel remove
+    isHelpDisplayed: getDisplayHelp(state, { windowId }),
+    editorWidth,
+    timebarHeight,
+    explorerWidth,
+  };
+};
+
+export default connect(mapStateToProps, { setIsLoaded, displayHelp })(Window);

@@ -4,7 +4,6 @@
         "geometry": {
             "type": "object",
             "properties": {
-
                 "x": {
                     "type": "number"
                 },
@@ -15,6 +14,12 @@
                     "type": "number"
                 },
                 "h": {
+                    "type": "number"
+                },
+                "maxH": {
+                    "type": "number"
+                },
+                "maxW": {
                     "type": "number"
                 }
             },

@@ -36,10 +36,11 @@
     "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
-    "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
     "clone-rtd": "cd ../../../../../../../../ && git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS && cd GPDS && git checkout DM_5567",
     "copy-rtd": "mkdir -p node_modules && cp -r ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ node_modules/",
-    "preinstall": "if [ -d  ../../../../../../../../GPDS ]; then npm run copy-rtd; else npm run clone-rtd && npm run copy-rtd; fi"
+    "preinstall": "if [ -d  ../../../../../../../../GPDS ]; then npm run copy-rtd; else npm run clone-rtd && npm run copy-rtd; fi",
+    "postinstall": "electron-rebuild",
+    "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -58,6 +59,7 @@
     "chai-properties": "~1.2.1",
     "classnames": "~2.2.5",
     "codemirror": "~5.23.0",
+    "d3-array": "^1.1.1",
     "d3-axis": "^1.0.4",
     "d3-format": "~1.0.2",
     "d3-scale": "~1.0.4",
@@ -82,9 +84,9 @@
     "react-dom": "~15.4.2",
     "react-flatpickr": "~3.0.0",
     "react-grid-layout": "~0.13.8",
+    "react-json-inspector": "^7.0.0",
     "react-redux": "~5.0.2",
     "react-select": "~1.0.0-rc.2",
-    "react-stockcharts": "~0.6.1",
     "react-treebeard": "^1.1.4",
     "redux": "~3.6.0",
     "redux-electron-store": "~0.4.1",
@@ -136,6 +138,7 @@
     "extract-text-webpack-plugin": "~1.0.1",
     "fbjs-scripts": "~0.7.1",
     "file-loader": "~0.10.0",
+    "gc-watch": "^0.1.1",
     "identity-obj-proxy": "~3.0.0",
     "jest": "~18.1.0",
     "jsdom": "~9.9.1",

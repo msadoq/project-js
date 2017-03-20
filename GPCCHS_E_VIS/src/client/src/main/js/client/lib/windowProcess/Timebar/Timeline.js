@@ -6,7 +6,7 @@ import styles from './Lefttab.css';
 
 export default class Timeline extends PureComponent {
   static propTypes = {
-    unmountTimeline: PropTypes.func.isRequired,
+    removeTimeline: PropTypes.func.isRequired,
     willEditTimeline: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
@@ -23,18 +23,18 @@ export default class Timeline extends PureComponent {
     masterId: null,
   }
 
-  willUnmountTimeline = (e) => {
+  willRemoveTimeline = (e) => {
     e.preventDefault();
     const {
       masterId,
       timelineUuid,
       id,
       timelinesLength,
-      unmountTimeline,
+      removeTimeline,
       timebarUuid,
     } = this.props;
     if (id !== masterId || timelinesLength === 1) {
-      unmountTimeline(timebarUuid, timelineUuid);
+      removeTimeline(timebarUuid, timelineUuid);
     }
   }
 
@@ -74,7 +74,7 @@ export default class Timeline extends PureComponent {
         <button
           className={styles.deleteButton}
           title="Remove this track"
-          onClick={this.willUnmountTimeline}
+          onClick={this.willRemoveTimeline}
         >
           <Glyphicon glyph="trash" />
         </button>

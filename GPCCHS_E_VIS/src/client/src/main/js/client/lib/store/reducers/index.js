@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
+
 import hsc from './hsc';
 import timebars from './timebars';
 import timebarTimelines from './timebarTimelines';
@@ -16,7 +17,9 @@ import health from './health';
 import editor from './editor';
 import inspector from './inspector';
 
-const reducer = combineReducers({
+import { configurationReducers } from '../../viewManager/';
+
+const rootReducer = combineReducers({
   form,
   hsc,
   timebars,
@@ -33,6 +36,7 @@ const reducer = combineReducers({
   health,
   editor,
   inspector,
+  ...configurationReducers,
 });
 
-export default reducer;
+export default rootReducer;

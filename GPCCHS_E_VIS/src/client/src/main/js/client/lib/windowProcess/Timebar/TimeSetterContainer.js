@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getMessages } from '../../store/selectors/messages';
+import { getTimebar } from '../../store/selectors/timebars';
 import { remove } from '../../store/actions/messages';
 import {
   updateDefaultWidth,
@@ -8,17 +9,21 @@ import {
   updateViewport,
 } from '../../store/actions/timebars';
 import TimeSetter from './TimeSetter';
-import { pause } from '../../store/actions/hsc';
 
 export default connect(
-  (state, { timebarUuid }) =>
-    ({
+  (state, { timebarUuid }) => {
+    const timebar = getTimebar(state, { timebarUuid });
+    return {
+      visuWindow: timebar.visuWindow,
+      slideWindow: timebar.slideWindow,
+      timebarMode: timebar.mode,
+      timebarRulerResolution: timebar.rulerResolution,
       messages: getMessages(state, { containerId: `timeSetter-${timebarUuid}` }),
-    })
+    };
+  }
   ,
   {
     removeMessage: remove,
-    pause,
     updateDefaultWidth,
     updateCursors,
     jump,

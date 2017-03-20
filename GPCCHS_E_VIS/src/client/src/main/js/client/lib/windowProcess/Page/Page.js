@@ -83,20 +83,20 @@ export default class Page extends PureComponent {
     __.cond([
       [__.eq('view'), () => main.openView({
         windowId: this.props.windowId,
-        viewPath: [{ absolutePath: path.join(
+        absolutePath: path.join(
           get('ISIS_DOCUMENTS_ROOT'),
           __.getOr(__.get('filepath', content), 'filePath', content)
-        ) }],
+        ),
       })],
       [__.eq('page'), () => main.openPage({
         windowId: this.props.windowId,
-        filePath: path.join(
+        absolutePath: path.join(
           get('ISIS_DOCUMENTS_ROOT'),
           __.getOr(__.get('filepath', content), 'filePath', content)
         ),
       })],
       [__.eq('workspace'), () => main.openWorkspace({
-        filePath: path.join(
+        absolutePath: path.join(
           get('ISIS_DOCUMENTS_ROOT'),
           __.getOr(__.get('filepath', content), 'filePath', content)
         ),

@@ -1,5 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
+import path from 'path';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
@@ -24,14 +25,25 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
+import { getFocusedWindowId } from '../store/selectors/hsc';
 import setMenu from './menuManager';
-import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
+import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 
-export function start() {
+function scheduleTimeout(message) {
+  let timeout = setTimeout(() => {
+    logger.error(`Timeout while retrieving launching data: ${message}`);
+    timeout = null;
+    app.quit();
+  }, 2500);
+
+  return () => timeout !== null && clearTimeout(timeout);
+}
+
+export function onStart() {
   setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
@@ -106,7 +118,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting master session...');
       logger.info('requesting master session...');
+      const cancelTimeout = scheduleTimeout('master session');
       server.requestMasterSession(({ err, masterSessionId }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -123,7 +138,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting sessions...');
       logger.info('requesting sessions...');
+      const cancelTimeout = scheduleTimeout('session');
       server.requestSessions(({ err, sessions }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -140,7 +158,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting domains...');
       logger.info('requesting domains...');
+      const cancelTimeout = scheduleTimeout('domains');
       server.requestDomains(({ err, domains }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -157,31 +178,52 @@ export function start() {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
 
-      const { dispatch, getState } = getStore();
+      const { dispatch } = getStore();
       const root = parameters.get('ISIS_DOCUMENTS_ROOT');
       const file = parameters.get('WORKSPACE');
+      const absolutePath = path.join(root, file);
 
       if (!file) {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        openDefaultWorkspace(dispatch, root, callback);
+        dispatch(openBlankWorkspace());
+        callback(null);
         return;
       }
 
       splashScreen.setMessage(`loading ${file}`);
       logger.info(`loading ${file}`);
 
-      openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
+      dispatch(openWorkspace({ absolutePath }, (err) => {
         if (err) {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
-          openDefaultWorkspace(dispatch, root, callback);
-          return;
+          dispatch(openBlankWorkspace());
         }
-        callback(null, value);
-      });
+        callback(null);
+      }));
+    },
+    (callback) => {
+      if (parameters.get('REALTIME') === 'on') {
+        const store = getStore();
+        const unsubscribe = store.subscribe(() => {
+          const windowId = getFocusedWindowId(store.getState());
+          if (windowId) {
+            windows.executeCode(`(function tryClick() {
+              const btn = document.querySelector('#realtime');
+              if (btn) {
+                btn.click();
+              } else {
+                setTimeout(tryClick, 100);
+              }
+            })()`, windowId);
+            unsubscribe();
+          }
+        });
+      }
+      callback(null);
     },
   ], (err) => {
     if (err) {
@@ -196,7 +238,7 @@ export function start() {
   });
 }
 
-export function stop() {
+export function onStop() {
   server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('stopping application');
 

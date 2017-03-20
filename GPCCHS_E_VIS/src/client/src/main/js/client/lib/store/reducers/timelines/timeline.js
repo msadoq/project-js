@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import * as types from '../../types';
 
 const initialState = {
@@ -11,17 +11,9 @@ const initialState = {
 
 export default function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
-    case types.WS_TIMELINE_ADD: {
-      const configuration = __.getOr({}, 'payload.configuration', action);
-      return Object.assign({}, stateTimeline, {
-        id: configuration.id || initialState.id,
-        offset: configuration.offset || initialState.offset,
-        kind: configuration.kind || initialState.kind,
-        color: configuration.color || initialState.color,
-        sessionId: (__.isNumber(configuration.sessionId))
-          ? configuration.sessionId
-          : initialState.sessionId,
-      });
+    case types.WS_TIMELINE_CREATE_NEW:
+    case types.WS_WORKSPACE_OPEN: {
+      return _.merge(stateTimeline, action.payload.timeline);
     }
     case types.WS_TIMELINE_UPDATE_ID:
       return { ...stateTimeline, id: action.payload.id };

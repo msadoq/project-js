@@ -15,8 +15,6 @@ export default class TimeSetter extends PureComponent {
     jump: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
-    pause: PropTypes.func.isRequired,
-    isPlaying: PropTypes.bool.isRequired,
     visuWindow: PropTypes.shape({
       lower: PropTypes.number,
       upper: PropTypes.number,
@@ -47,10 +45,6 @@ export default class TimeSetter extends PureComponent {
     dayToJump: null,
   }
 
-  componentDidMount() {
-    this.pauseIfPlaying();
-  }
-
   componentWillReceiveProps(nextProps) {
     // If no error message, clean states
     if (!nextProps.messages || !nextProps.messages.length) {
@@ -71,10 +65,6 @@ export default class TimeSetter extends PureComponent {
       }
     });
     return shouldRender;
-  }
-
-  componentDidUpdate() {
-    this.pauseIfPlaying();
   }
 
   onChangeAction = (value, cursor) => {
@@ -132,12 +122,6 @@ export default class TimeSetter extends PureComponent {
       timebarRulerResolution
     );
     this.setState({ dayToJump: null });
-  }
-
-  pauseIfPlaying = () => {
-    if (this.props.isPlaying) {
-      this.props.pause();
-    }
   }
 
   cancel = (e) => {

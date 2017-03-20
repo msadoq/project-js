@@ -3,9 +3,10 @@ import _find from 'lodash/find';
 import { createSelector } from 'reselect';
 import { getSessions } from './sessions';
 
+// simple
 export const getMasterSessionId = state => _get(state, ['masterSession', 'sessionId']);
 
-// TODO test
+// composed
 export const getMasterSession = createSelector(
   getMasterSessionId,
   getSessions,

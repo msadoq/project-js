@@ -12,6 +12,8 @@ const propsStub = {
   goNow: () => null,
   jump: () => null,
   isPlaying: true,
+  currentSessionExists: false,
+  masterSessionId: 0,
   timebarSpeed: TimebarFixture.speed,
   timebarMode: TimebarFixture.mode,
   timebarUuid: TimebarFixture.timebarUuid,

@@ -2,7 +2,6 @@
 import { should } from '../../common/test';
 import {
   getPages,
-  getPageIds,
   getPage,
   getPageIdByViewId,
   getPageLayout,
@@ -11,6 +10,7 @@ import {
   makeGetLayouts,
   getModifiedPagesIds,
   getPageModifiedViewsIds,
+  getPanels,
 } from './pages';
 
 describe('store:page:selectors', () => {
@@ -22,15 +22,6 @@ describe('store:page:selectors', () => {
     };
     getPage(state, { pageId: 'myPageId' }).should.have.property('title', 'Title 1');
     should.not.exist(getPage(state, 'unknownId'));
-  });
-  it('getPageIds', () => {
-    const state = {
-      pages: {
-        page1: { title: 'Title 1' },
-        page2: { title: 'Title 2' },
-      },
-    };
-    getPageIds(state).should.eql(['page1', 'page2']);
   });
   it('getPageLayout', () => {
     const state = {
@@ -138,5 +129,15 @@ describe('store:page:selectors', () => {
     };
     getPageIdByViewId(state, { viewId: 'view2' }).should.equal('myId');
     getPageIdByViewId(state, { viewId: 'view3' }).should.equal('myOtherId');
+  });
+  it('getPanels', () => {
+    const state = {
+      pages: {
+        myId: { title: 'Title', panels: { editorWidth: 0 } },
+        myOtherId: { title: 'Title other', panels: undefined },
+      },
+    };
+    getPanels(state, { pageId: 'myId' }).should.equal(state.pages.myId.panels);
+    should.not.exist(getPanels(state, { pageId: 'myOtherId' }));
   });
 });

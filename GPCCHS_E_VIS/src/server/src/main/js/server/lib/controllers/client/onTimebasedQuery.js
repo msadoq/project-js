@@ -161,7 +161,11 @@ module.exports = (sendMessageToDc, { queries }) => {
       if (cachedData.length === 0) {
         return;
       }
-
+      if (query.type === DATASTRUCTURETYPE_LAST) {
+        const lastData = cachedData[cachedData.length - 1];
+        addToQueue(remoteId, lastData.timestamp, lastData.payload);
+        return;
+      }
       execution.start('queue cache for sending');
       _each(cachedData, (datum) => {
         addToQueue(remoteId, datum.timestamp, datum.payload);

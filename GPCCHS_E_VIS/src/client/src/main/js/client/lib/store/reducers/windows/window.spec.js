@@ -6,7 +6,7 @@ import * as types from '../../types';
 
 const reducer = freezeArgs(windowsReducer);
 
-describe('store:windows:reducer', () => {
+describe('store:windows:reducer:window', () => {
   describe('update geometry', () => {
     it('update only one', () => {
       const state = reducer(
@@ -48,32 +48,6 @@ describe('store:windows:reducer', () => {
       };
       const nextState = reducer(state, action);
       nextState.myWindowId.focusedPage.should.be.eql('myFocusedPageId');
-    });
-  });
-  describe('un/mount page', () => {
-    it('mount', () => {
-      let state = reducer(
-        { myWindowId: { pages: [] } },
-        actions.mountPage('myWindowId', 'myPageId')
-      );
-      state.myWindowId.pages.should.eql(['myPageId']);
-      state = reducer(
-        state,
-        actions.mountPage('myWindowId', 'another')
-      );
-      state.myWindowId.pages.should.eql(['myPageId', 'another']);
-    });
-    it('unmount', () => {
-      let state = reducer(
-        { myWindowId: { pages: ['myPageId', 'another'] } },
-        actions.unmountPage('myWindowId', 'myPageId')
-      );
-      state.myWindowId.pages.should.eql(['another']);
-      state = reducer(
-        state,
-        actions.unmountPage('myWindowId', 'another')
-      );
-      state.myWindowId.pages.should.eql([]);
     });
   });
   describe('reorder pages', () => {
@@ -122,32 +96,11 @@ describe('store:windows:reducer', () => {
         .should.eql({ myWindowId: { title: 'Title', isModified: true } });
     });
   });
-  describe('explorer', () => {
-    it('currentExplorer', () => {
-      reducer({ myWindowId: { title: 'Title', isModified: false } },
-      actions.currentExplorer('myWindowId', 'perView'))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } });
-      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } },
-      actions.currentExplorer('myWindowId', 'perRemoteId'))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } });
-    });
-    it('updateExplorerWidth', () => {
-      reducer({ myWindowId: { title: 'Title', isModified: false } },
-      actions.updateExplorerWidth('myWindowId', 100))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } });
-      reducer({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } },
-      actions.updateExplorerWidth('myWindowId', 200))
-        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } });
-    });
-    it('updateExplorerFlag', () => {
-      const action = actions.updateExplorerFlag('myWindowId', 'explorerFlag', true);
-      const nextState = reducer({ myWindowId: { title: 'Title', explorerFlag: false } }, action);
-      nextState.myWindowId.explorerFlag.should.be.true;
-    });
-    it('displayExplorer', () => {
-      const action = actions.displayExplorer('myWindowId', true);
-      const nextState = reducer({ myWindowId: { title: 'Title', displayExplorer: false } }, action);
-      nextState.myWindowId.displayExplorer.should.be.true;
+  describe('setIsLoaded', () => {
+    it('should set is loaded', () => {
+      reducer({ myWindowId: { title: 'Title', isLoaded: false } },
+        actions.setIsLoaded('myWindowId'))
+        .should.eql({ myWindowId: { title: 'Title', isLoaded: true } });
     });
   });
   describe('updateTimebarId', () => {
@@ -169,5 +122,12 @@ describe('store:windows:reducer', () => {
         myWindowId: { pages: ['1', '2', '3'] },
       });
     });
+  });
+  it('displayHelp', () => {
+    const state = { myId: { title: 'Title', displayHelp: false } };
+    const nextState = reducer(state, actions.displayHelp('myId', true));
+    nextState.myId.displayHelp.should.equal(true);
+    reducer(nextState, actions.displayHelp('myId', false))
+      .myId.displayHelp.should.equal(false);
   });
 });

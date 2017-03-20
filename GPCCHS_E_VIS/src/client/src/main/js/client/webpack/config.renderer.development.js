@@ -32,6 +32,7 @@ export default merge(baseConfig, {
   output: {
     publicPath: `http://localhost:${port}/dist/`,
     filename: '[name].bundle.js',
+    pathinfo: true,
   },
 
   module: {

@@ -1,91 +1,14 @@
 @import '../style/variables';
-.root{
-}
-.tabs{
-  padding-top: 5px;
-  padding-bottom: 10px;
+
+.container {
+  background: #FAFAFA;
+  border-left: 1px solid #aaa;
+  padding: 0 5px;
   height: 100%;
 }
-.buttons{
-  padding-top: 10px;
-  margin: 5px;
-}
-.button{
-  margin-right: 5px;
-  margin-bottom: 3px;
-}
-.content{
-  overflow: auto;
-  display: flex;
+
+.widgetContainer {
+  width: 100%;
   height: 100%;
-  padding: 10px;
-  margin-right: 15px;
-}
-.divOverflow{
   overflow: auto;
 }
-.table {
-  margin: 10px;
-  padding: 10px;
-}
-
-.title {
-  color: #708090;
-  font-weight: bold;
-}
-
-.resizeContainer{
-  margin: 0;
-  width: 4px;
-  cursor: col-resize;
-}
-.resizeContainer:before{
-    width: 12px;
-    height: 20px;
-    content: '≡';
-    color: #888;
-    position: absolute;
-    font-size: 1.2em;
-    transform: rotate(90deg);
-    z-index: 4;
-    top: 48%;
-}
-.label{
-  color: white;
-  font-size: 1.2em;
-  margin-left: 5px;
-  display: inline-flex;
-  width: 100%
-}
-.panel{
-  display: flex;
-  flex-direction: column;
-}
-.details{
-  display: inline-flex;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  white-space: nowrap;
-}
-.type{
-  display: inline-flex;
-  margin-top: 10px;
-  margin-bottom: 5px;
-}
-.block{
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.listLeft{
-  list-style-type: disc;
-  padding: 2px;
-}
-.listRight{
-  list-style-type: none;
-  padding: 2px;
-  white-space: nowrap;
-}
-.nav{
-  display: flex;
-}
-/*font-weight: bold;*/

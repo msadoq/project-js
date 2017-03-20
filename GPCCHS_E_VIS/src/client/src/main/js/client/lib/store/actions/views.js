@@ -1,18 +1,15 @@
+import _ from 'lodash/fp';
+import { v4 } from 'uuid';
+
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
-import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
 import * as types from '../types';
-import {
-  openEditor,
-} from './pages';
+import { openEditor } from './pages';
 import { getPageIdByViewId } from '../selectors/pages';
 import { getViewModule } from '../../viewManager';
 
-export const add = addUuidsToEntryPoints(simple(
-  types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId', 'absolutePath', 'isModified'
-));
-export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
-export const reloadView = addUuidsToEntryPoints(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
+export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'pageId', 'view');
+export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
@@ -25,8 +22,6 @@ export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'views
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
-export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
-export const setMaximized = simple(types.WS_VIEW_SETMAXIMISED, 'viewId', 'flag');
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',
  'entryPoint');
@@ -70,7 +65,8 @@ export function addEntryPoint(viewId, entryPoint) {
     const state = getState();
     const currentView = state.views[viewId];
     const ep = getViewModule(currentView.type).setEntryPointDefault(entryPoint);
-    dispatch(simpleAddEntryPoint(viewId, ep));
+    const injectUuid = _.update('id', v4);
+    dispatch(simpleAddEntryPoint(viewId, injectUuid(ep)));
   };
 }
 

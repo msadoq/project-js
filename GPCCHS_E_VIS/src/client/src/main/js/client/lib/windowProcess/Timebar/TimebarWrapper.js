@@ -23,16 +23,6 @@ export default class TimebarWrapper extends PureComponent {
     collapseTimebar: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    slideWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-    }).isRequired,
-    visuWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-      current: PropTypes.number.isRequired,
-      defaultWidth: PropTypes.number.isRequired,
-    }).isRequired,
     timebar: PropTypes.shape({
       extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
@@ -126,22 +116,32 @@ export default class TimebarWrapper extends PureComponent {
   }
 
   toggleTimesetter = (e) => {
+    const {
+      isPlaying,
+      pause,
+    } = this.props;
     if (e) {
       e.preventDefault();
-      if (e.currentTarget.tagName !== e.target.tagName) return;
+      if (e.currentTarget.tagName !== e.target.tagName) {
+        return;
+      }
     }
     this.setState({
       displayTimesetter: !this.state.displayTimesetter,
       timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null,
     });
-    if (this.props.isPlaying) {
-      this.props.pause();
+    if (isPlaying) {
+      pause();
     }
   }
 
   willCollapse = (e) => {
+    const {
+      collapseTimebar,
+      focusedPageId,
+    } = this.props;
     e.preventDefault();
-    this.props.collapseTimebar(this.props.focusedPageId, false);
+    collapseTimebar(focusedPageId, false);
   }
 
   assignEl = (el) => { this.el = el; }
@@ -151,10 +151,8 @@ export default class TimebarWrapper extends PureComponent {
     const {
       timelines,
       timebarUuid,
-      visuWindow,
       isPlaying,
       timebar,
-      slideWindow,
       focusedPageId,
       timebarCollapsed,
       collapseTimebar,
@@ -166,25 +164,6 @@ export default class TimebarWrapper extends PureComponent {
       timelinesVerticalScroll,
       resizingWindow,
     } = this.state;
-
-    const timesetter = (
-      <Modal
-        title="Manual time setter"
-        onClose={this.toggleTimesetter}
-        isOpened={displayTimesetter}
-      >
-        <TimeSetterContainer
-          visuWindow={visuWindow}
-          onClose={this.toggleTimesetter}
-          slideWindow={slideWindow}
-          isPlaying={isPlaying}
-          timebarUuid={timebarUuid}
-          timebarRulerResolution={timebar.rulerResolution}
-          timebarMode={timebar.mode}
-          cursor={timesetterCursor || 'all'}
-        />
-      </Modal>
-    );
 
     if (timebarCollapsed) {
       return (
@@ -213,7 +192,17 @@ export default class TimebarWrapper extends PureComponent {
           padding: '0px 5px',
         }}
       >
-        {timesetter}
+        <Modal
+          title="Manual time setter"
+          onClose={this.toggleTimesetter}
+          isOpened={displayTimesetter}
+        >
+          <TimeSetterContainer
+            onClose={this.toggleTimesetter}
+            timebarUuid={timebarUuid}
+            cursor={timesetterCursor || 'all'}
+          />
+        </Modal>
         <div className="col-xs-9 col-xs-offset-3" style={inlineStyles.paddingBottom8}>
           <div>
             <hr
@@ -241,8 +230,6 @@ export default class TimebarWrapper extends PureComponent {
           <RightTabContainer
             timebar={timebar}
             timebarUuid={timebarUuid}
-            visuWindow={visuWindow}
-            slideWindow={slideWindow}
             isPlaying={isPlaying}
             timelines={timelines}
             toggleTimesetter={this.toggleTimesetter}

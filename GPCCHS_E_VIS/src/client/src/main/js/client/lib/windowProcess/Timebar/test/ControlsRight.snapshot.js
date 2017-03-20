@@ -11,6 +11,8 @@ const propsStub = {
   switchToNormalMode: () => null,
   currentSessionExists: true,
   masterTimelineExists: true,
+  masterSessionId: 0,
+  timebarRealTime: TimebarFixture.realTime,
   timebarMode: TimebarFixture.mode,
   timebarUuid: TimebarFixture.timebarUuid,
 };

@@ -50,6 +50,7 @@ beforeEach(() => {
     },
     windows: {
       win1: {
+        isLoaded: true,
         title: 'Sup/Sup workspace',
         focusedPage: 'page1',
         pages: [

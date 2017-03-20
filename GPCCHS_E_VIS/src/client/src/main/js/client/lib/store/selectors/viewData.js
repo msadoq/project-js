@@ -2,15 +2,18 @@ import { createSelector } from 'reselect';
 import _reduce from 'lodash/reduce';
 import __ from 'lodash/fp';
 
+// simple
 export const getViewData = state => state.viewData;
 
+// simple
 export const getData = createSelector(
   (state, { viewId }) => viewId,
   getViewData,
   __.get
 );
 
-// TODO test + factorize in structure type + reselect
+// simple, but need specific selectors for each viewType
+// TODO test + reselect
 export const getCount = state => _reduce(getViewData(state), (c, view) => {
   if (typeof view.columns === 'object') {
     // PlotView

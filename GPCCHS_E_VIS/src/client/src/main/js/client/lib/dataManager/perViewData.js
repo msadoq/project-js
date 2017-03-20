@@ -30,12 +30,12 @@ export default function makeGetPerViewData() {
       if (anyUndefined([domains, view, timebarUuid, viewTimelines])) {
         return {};
       }
-      const { configuration } = view;
+      const { configuration, type } = view;
       // Ignore collapsed view
       if (configuration.collapsed) {
         return {};
       }
-      const { entryPoints, type } = configuration;
+      const { entryPoints } = configuration;
       const structureType = getStructureType(type);
 
       return {

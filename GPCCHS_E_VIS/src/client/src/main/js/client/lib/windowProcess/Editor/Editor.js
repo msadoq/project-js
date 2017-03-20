@@ -1,9 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import { PlotEditorContainer } from './Components/Plot';
-import { TextEditorContainer } from './Components/Text';
-import DynamicEditorContainer from './Components/Dynamic/DynamicEditorContainer';
+import PlotEditorContainer from '../../viewManager/PlotView/Components/Editor/PlotEditorContainer';
+import TextEditorContainer from '../../viewManager/TextView/Components/Editor/TextEditorContainer';
+import DynamicEditorContainer from '../../viewManager/DynamicView/Components/Editor/DynamicEditorContainer';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');
@@ -16,7 +16,6 @@ export default class Editor extends PureComponent {
     viewId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
-    configuration: PropTypes.shape({}),
     closeEditor: PropTypes.func,
   };
 
@@ -33,15 +32,13 @@ export default class Editor extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      configuration,
-      configuration: { type },
       viewType,
       viewId,
       closeEditor,
       focusedPageId,
     } = this.props;
 
-    if (!configuration || !configuration.type) {
+    if (!viewType) {
       return <InvalidConfiguration />;
     }
 
@@ -50,27 +47,24 @@ export default class Editor extends PureComponent {
         className={styles.root}
       >
         <div className={classnames('subdiv', styles.editor)}>
-          {type === 'PlotView' && <PlotEditorContainer
+          {viewType === 'PlotView' && <PlotEditorContainer
             key={viewId}
             viewId={viewId}
             focusedPageId={focusedPageId}
             viewType={viewType}
-            configuration={configuration}
             closeEditor={closeEditor}
           />}
-          {type === 'TextView' && <TextEditorContainer
+          {viewType === 'TextView' && <TextEditorContainer
             key={viewId}
             viewId={viewId}
             viewType={viewType}
-            configuration={configuration}
             closeEditor={closeEditor}
           />}
-          {type === 'DynamicView' && <DynamicEditorContainer
+          {viewType === 'DynamicView' && <DynamicEditorContainer
             key={viewId}
             viewId={viewId}
             focusedPageId={focusedPageId}
             viewType={viewType}
-            configuration={configuration}
             closeEditor={closeEditor}
           />}
         </div>

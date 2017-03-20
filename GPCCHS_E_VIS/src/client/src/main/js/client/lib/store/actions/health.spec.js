@@ -53,7 +53,7 @@ describe('store:actions:health', () => {
           timestamp: 42,
         },
       });
-      setTimeout(done, 10); // waiting 10 ms throttle
+      setTimeout(done, 20); // waiting 10 ms throttle
     });
 
     it('does update dc status', (done) => {
@@ -68,7 +68,7 @@ describe('store:actions:health', () => {
           status: true,
         },
       });
-      setTimeout(done, 10); // waiting 10 ms throttle
+      setTimeout(done, 20); // waiting 10 ms throttle
     });
 
     it('does update hss status', (done) => {
@@ -84,7 +84,7 @@ describe('store:actions:health', () => {
           status: true,
         },
       });
-      setTimeout(done, 10); // waiting 10 ms throttle
+      setTimeout(done, 20); // waiting 10 ms throttle
     });
 
     it('does update lastPubSubTimestamp status (throttled)', (done) => {
@@ -101,34 +101,7 @@ describe('store:actions:health', () => {
           timestamp: 42,
         },
       });
-      setTimeout(done, 10); // waiting 10 ms throttle
-    });
-
-    it('throttles updateLastPubSubTimestamp using second parameter as delay', (done) => {
-      const status = { dcStatus: false, hssStatus: false, lastPubSubTimestamp: 42 };
-      actions.updateHealth(status, 10)(dispatch, getState);
-      setTimeout(() => {
-        actions.updateHealth(status, 10)(dispatch, getState);
-
-        dispatch.should.have.been.callCount(2);
-        dispatch.getCall(0).args[0].should.be.an('object');
-        dispatch.getCall(1).args[0].should.be.an('object');
-
-        dispatch.getCall(0).should.have.been.calledWith({
-          type: types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP,
-          payload: {
-            timestamp: 42,
-          },
-        });
-        dispatch.getCall(1).should.have.been.calledWith({
-          type: types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP,
-          payload: {
-            timestamp: 42,
-          },
-        });
-
-        done();
-      }, 10);
+      setTimeout(done, 20); // waiting 10 ms throttle
     });
   });
 });

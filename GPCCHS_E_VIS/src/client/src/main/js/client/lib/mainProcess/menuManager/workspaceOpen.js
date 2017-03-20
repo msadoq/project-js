@@ -7,11 +7,10 @@ import { add as addMessage } from '../../store/actions/messages';
 import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
-import { updatePath, closeWorkspace, isWorkspaceOpening } from '../../store/actions/hsc';
-import { saveWorkspace } from '../../common/documentManager';
+import { updatePath } from '../../store/actions/hsc';
+import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import { openDefaultWorkspace, openWorkspaceDocument } from '../openWorkspace';
 
 const isYes = equals(0);
 const isNo = equals(1);
@@ -20,15 +19,13 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 function workspaceOpenNew() {
   const store = getStore();
-  const { dispatch, getState } = store;
+  const { dispatch } = store;
   allDocumentsAreSaved(store, (err) => {
     if (err) {
       dispatch(addGlobalError(err));
       return;
     }
-    const folder = getState().hsc.folder;
-    dispatch(closeWorkspace());
-    openDefaultWorkspace(dispatch, folder);
+    dispatch(openBlankWorkspace());
   });
 }
 
@@ -50,22 +47,8 @@ function workspaceOpen() {
 }
 
 function workspaceOpenWithPath({ filePath }) {
-  const store = getStore();
-  const { dispatch, getState } = store;
-  dispatch(isWorkspaceOpening(true));
-  openWorkspaceDocument(
-    dispatch,
-    getState,
-    path.dirname(filePath),
-    path.basename(filePath),
-    (errWk) => {
-      dispatch(isWorkspaceOpening(false));
-      if (errWk) {
-        dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
-        dispatch(addGlobalError(errWk));
-      }
-    }
-  );
+  const { dispatch } = getStore();
+  dispatch(openWorkspace({ absolutePath: filePath }));
 }
 
 const isPagesSaved = state => getModifiedPagesIds(state).length === 0;

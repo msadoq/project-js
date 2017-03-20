@@ -14,11 +14,10 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, { focusedPageId }) => bindActionCreators({
-  openEditor: (viewId, viewType, configuration) => openEditor(
+  openEditor: (viewId, viewType) => openEditor(
     focusedPageId,
     viewId,
-    viewType,
-    configuration
+    viewType
   ),
   closeEditor: () => closeEditor(focusedPageId),
 }, dispatch);

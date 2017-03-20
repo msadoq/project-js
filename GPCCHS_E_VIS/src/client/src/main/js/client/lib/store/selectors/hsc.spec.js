@@ -1,7 +1,6 @@
 import { should } from '../../common/test';
 import {
   getWindowsOpened,
-  getWorkspaceOpened,
   getLastCacheInvalidation,
   getPlayingTimebarId,
   getFocusedWindowId,
@@ -18,15 +17,6 @@ describe('store:hsc:selectors', () => {
     });
     it('should support empty state', () => {
       should.not.exist(getWindowsOpened(emptyState));
-    });
-  });
-  describe('getWorkspaceOpened', () => {
-    it('should return status', () => {
-      const state = { hsc: { workspaceOpened: false } };
-      getWorkspaceOpened(state).should.eql(false);
-    });
-    it('should support empty state', () => {
-      should.not.exist(getWorkspaceOpened(emptyState));
     });
   });
   describe('getPlayingTimebarId', () => {

@@ -1,8 +1,10 @@
 import _get from 'lodash/get';
 import { getView } from './views';
 
+// simple
 export const getViewId = state => _get(state, ['editor', 'textViewId'], {});
 
+// composed
 export const getEditorTitle = (state, viewId) => {
   if (!viewId) {
     return '';
@@ -14,5 +16,5 @@ export const getEditorTitle = (state, viewId) => {
     return '';
   }
 
-  return `TextView HTML editor - ${view.configuration.title}`;
+  return `TextView HTML editor - ${view.title}`;
 };

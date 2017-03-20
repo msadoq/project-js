@@ -4,8 +4,7 @@ import _map from 'lodash/map';
 import _find from 'lodash/find';
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
-import u from 'updeep';
-
+import _omit from 'lodash/omit';
 import { getStructureModule } from '../viewManager';
 
 export default function cleanViewData(
@@ -22,7 +21,8 @@ export default function cleanViewData(
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));
   if (removedViews.length) {
-    newState = u(u.omit(removedViews), viewDataState);
+    // newState = u(u.omit(removedViews), viewDataState);
+    newState = _omit(viewDataState, removedViews);
   }
 
   // check missing or updated entry points
@@ -77,7 +77,12 @@ export default function cleanViewData(
       // update on expected interval
       const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
       const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
-      if (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
+      if (
+        !oldInterval ||
+        !newInterval ||
+        oldInterval[0] !== newInterval[0] ||
+        oldInterval[1] !== newInterval[1]
+      ) {
         newState = structureType.cleanData(
           newState || viewDataState,
           id,

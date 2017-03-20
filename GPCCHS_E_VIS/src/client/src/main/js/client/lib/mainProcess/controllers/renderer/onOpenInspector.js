@@ -5,7 +5,8 @@ import { getStore } from '../../../store/mainStore';
 import getTelemetryStaticElements from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
-import { displayExplorer, currentExplorer } from '../../../store/actions/windows';
+import { resizeExplorer, focusTabInExplorer } from '../../../store/actions/pages';
+import { getPanels } from '../../../store/selectors/pages';
 import {
   isInspectorStaticDataNodeLoading,
   updateInspectorDataId,
@@ -20,12 +21,16 @@ const logger = getLogger('main:controllers:renderer:onOpenInspector');
 
 const createDataId = (parameterName, sessionId, domainId) => `${parameterName}:${sessionId}:${domainId}`;
 
-export default function ({ windowId, parameterName, sessionId, domainId }) {
+export default function ({ pageId, parameterName, sessionId, domainId }) {
   const { getState, dispatch } = getStore();
   logger.info(`request ${parameterName} for session ${sessionId} and domain ${domainId}`);
 
-  dispatch(displayExplorer(windowId, true));
-  dispatch(currentExplorer(windowId, 'inspector'));
+  const panels = getPanels(getState(), { pageId });
+  const size = 350; // Default explorer size
+  if (!panels || panels.explorerWidth === 0) {
+    dispatch(resizeExplorer(pageId, size));
+  }
+  dispatch(focusTabInExplorer(pageId, 'inspector'));
 
   const dataId = createDataId(parameterName, sessionId, domainId);
   if (getInspectorDataId(getState()) === dataId) {

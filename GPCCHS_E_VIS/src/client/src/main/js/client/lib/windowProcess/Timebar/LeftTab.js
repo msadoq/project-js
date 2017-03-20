@@ -12,8 +12,8 @@ import { main } from '../ipc';
 export default class LeftTab extends PureComponent {
   static propTypes = {
     collapseTimebar: PropTypes.func.isRequired,
-    addAndMountTimeline: PropTypes.func.isRequired,
-    unmountTimeline: PropTypes.func.isRequired,
+    createNewTimeline: PropTypes.func.isRequired,
+    removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateId: PropTypes.func.isRequired,
     updateColor: PropTypes.func.isRequired,
@@ -70,8 +70,8 @@ export default class LeftTab extends PureComponent {
     this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
-  willUnmountTimeline = (timebarUuid, timelineUuid) => {
-    this.props.unmountTimeline(timebarUuid, timelineUuid);
+  willRemoveTimeline = (timebarUuid, timelineUuid) => {
+    this.props.removeTimeline(timebarUuid, timelineUuid);
   }
 
   toggleAddTimeline = (e) => {
@@ -95,13 +95,13 @@ export default class LeftTab extends PureComponent {
       timebarUuid,
       timelines,
       updateMasterId,
-      addAndMountTimeline,
+      createNewTimeline,
       updateOffset,
     } = this.props;
 
     const timelinesBeforeAdd = [].concat(timelines);
 
-    addAndMountTimeline(
+    createNewTimeline(
       timebarUuid,
       {
         kind: values.kind,
@@ -336,7 +336,7 @@ export default class LeftTab extends PureComponent {
                 color={v.color}
                 masterId={masterId}
                 willEditTimeline={this.willEditTimeline}
-                unmountTimeline={this.willUnmountTimeline}
+                removeTimeline={this.willRemoveTimeline}
                 sessionName={session ? session.name : 'no session'}
               />
             );

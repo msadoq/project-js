@@ -5,23 +5,23 @@ describe('lib/dataManager/structures/last', () => {
   before(() => {
     state = {
       myView: {
-        columns: [
+        lines: { label1: [
           {
-            label1: 10,
+            masterTime: 10,
             other: 11,
             x: 1,
           },
           {
-            label1: 10,
+            masterTime: 10.5,
             other: 11,
             x: 2,
           },
-        ],
-        index: [1, 2],
+        ] },
+        indexes: { label1: [10, 10.5] },
       },
       otherView: {
-        index: [1],
-        columns: [{ ep: 2, x: 1 }],
+        indexes: { label2: [1] },
+        lines: { lable2: [{ masterTime: 1, ep: 2, x: 1 }] },
       },
     };
   });
@@ -29,23 +29,23 @@ describe('lib/dataManager/structures/last', () => {
     updateEpLabel(state, 'myView', 'label1', 'label2')
     .should.deep.equal({
       myView: {
-        columns: [
+        lines: { label2: [
           {
-            label2: 10,
+            masterTime: 10,
             other: 11,
             x: 1,
           },
           {
-            label2: 10,
+            masterTime: 10.5,
             other: 11,
             x: 2,
           },
-        ],
-        index: [1, 2],
+        ] },
+        indexes: { label2: [10, 10.5] },
       },
       otherView: {
-        index: [1],
-        columns: [{ ep: 2, x: 1 }],
+        indexes: { label2: [1] },
+        lines: { lable2: [{ masterTime: 1, ep: 2, x: 1 }] },
       },
     });
   });

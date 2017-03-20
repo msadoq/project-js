@@ -39,5 +39,6 @@ describe('documents/validation', () => {
     validate('unknown', page).should.be.an('error');
     validate('unknown', pageInvalid).should.be.an('error');
     validate('page', pageInvalid).should.be.an('error');
+    validate('page', {}).should.be.an('error');
   });
 });

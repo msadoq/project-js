@@ -2,7 +2,7 @@
 import sinon from 'sinon';
 import * as types from '../types';
 import * as actions from './views';
-import { freezeMe } from '../../common/test';
+import { freezeMe, isV4 } from '../../common/test';
 
 describe('store:actions:views', () => {
   const state = freezeMe({
@@ -139,7 +139,8 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
@@ -157,7 +158,8 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
@@ -176,7 +178,8 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
@@ -195,7 +198,8 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',

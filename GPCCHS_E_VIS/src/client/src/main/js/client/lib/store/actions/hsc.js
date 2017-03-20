@@ -1,4 +1,5 @@
 import { HEALTH_STATUS_CRITICAL } from 'common/constants';
+import { get } from 'common/parameters';
 import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
@@ -11,7 +12,6 @@ import { addOnce } from './messages';
  * App lifecycle
  */
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
-export const setWorkspaceAsOpened = simple(types.HSC_SET_WORKSPACE_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
 export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
 
@@ -21,6 +21,10 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
 export const play = simple(types.HSC_PLAY, 'timebarUuid');
 export const smartPlay = timebarUuid => // TODO dbrugne test
   (dispatch, getState) => {
+    if (get('REALTIME') === 'on') {
+      dispatch(play(timebarUuid));
+      return;
+    }
     const health = getHealthMap(getState());
     if (
       health.dc !== HEALTH_STATUS_CRITICAL

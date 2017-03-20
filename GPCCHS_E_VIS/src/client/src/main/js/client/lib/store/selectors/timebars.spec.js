@@ -1,8 +1,6 @@
 import { should, getStore } from '../../common/test';
 import {
   getTimebar,
-  _getTimebarTimelines,
-  _getMasterTimeline,
   getMasterTimelineById,
   getTimebarByPageId,
   getTimebarMasterId,
@@ -70,37 +68,6 @@ describe('store:timebars:selectors', () => {
     ]);
     getTimebarTimelinesSelector(state, { timebarUuid: 'unknown' }).should.be.eql([]);
   });
-  describe('_getTimebarTimelines', () => {
-    it('should return timelines', () => {
-      const state = {
-        timebarTimelines: {
-          myId: [
-            'myTimeline', 'myOtherTimeline', 'invalidSessionId', 'invalidId', 'unknown',
-          ],
-          myOtherId: ['other'],
-        },
-        timelines: {
-          myTimeline: { id: 'myTimelineId', sessionId: 1 },
-          invalidSessionId: { id: 'myTimelineId', sessionId: 'string' },
-          invalidId: { sessionId: 1 },
-          other: { id: 'other', sessionId: 1 },
-          myOtherTimeline: { id: 'myOtherTimelineId', sessionId: 2 },
-        },
-      };
-      _getTimebarTimelines(state.timebarTimelines.myId, state.timelines).should.eql([
-        { id: 'myTimelineId', sessionId: 1 },
-        { id: 'myOtherTimelineId', sessionId: 2 },
-      ]);
-    });
-    it('should not return timeline', () => {
-      _getTimebarTimelines({}, {}, 'myId').should.eql([]);
-      _getTimebarTimelines({ myId: [] }, {}, 'myId').should.eql([]);
-      _getTimebarTimelines({ myId: ['myTimeline'] }, {}, 'myId').should.eql([]);
-      _getTimebarTimelines({ myId: ['myTimeline'] }, {
-        other: { id: 'myTimelineId', sessionId: 'mySession' },
-      }, 'myId');
-    });
-  });
   describe('getMasterTimelineById', () => {
     it('should return master timeline', () => {
       getMasterTimelineById(
@@ -163,22 +130,6 @@ describe('store:timebars:selectors', () => {
           },
         },
         { timebarUuid: 'myId' }
-      ));
-    });
-  });
-  describe('_getMasterTimeline', () => {
-    it('should return master timeline', () => {
-      _getMasterTimeline(
-        { myTimebar: { masterId: 'my timeline' } },
-        { myTimeline: { id: 'my timeline' } },
-        'myTimebar'
-      ).should.eql({ id: 'my timeline' });
-    });
-    it('should return nothing', () => {
-      should.not.exist(_getMasterTimeline(
-        { myTimebar: { masterId: '' } },
-        { myTimeline: { id: 'my timeline' } },
-        'myTimebar'
       ));
     });
   });

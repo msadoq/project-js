@@ -1,43 +1,46 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
-import __ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getViewsIdsCollapsed } from './views';
 
+// simple
 export const getPages = state => state.pages;
-export const getPage = (state, { pageId }) => state.pages[pageId];
+export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO use page.uuid instead
+  ...state.pages[pageId], pageId,
+};
 
-export const getPageIds = createSelector(
-  getPages,
-  __.keys
-);
+// simple
+export const getPanels = (state, { pageId }) => _get(getPage(state, { pageId }), 'panels');
 
+// simple
 export const getPageViewsIds = (state, { pageId }) =>
   _get(state, ['pages', pageId, 'views']);
 
+// simple
 export const getPageLayout =
   (state, { pageId }) => _get(state, ['pages', pageId, 'layout']);
 
+// simple
 export function getEditor(state, { pageId }) {
   return _get(state, `pages.${pageId}.editor`);
 }
 
+// composed
 export function makeGetViews() {
   return createSelector(
     getPageViewsIds,
-    state => state.views,
+    state => state.views, // because get views here
     (ids, views) => _map(ids, id => Object.assign({}, views[id], { viewId: id }))
   );
 }
 
+// simple
 export function makeGetLayouts() {
   return createSelector(
     getPageLayout,
-    getViewsIdsCollapsed,
-    (layout, viewsIds) => ({
+    layout => ({
       lg: _map(layout, (e) => {
-        if (viewsIds.indexOf(e.i) >= 0) {
+        if (e.collapsed) {
           return (
           Object.assign({
             minW: 3,
@@ -54,14 +57,17 @@ export function makeGetLayouts() {
   );
 }
 
+// simple
 export function getModifiedPagesIds(state) {
   return _filter(Object.keys(getPages(state)), pId => state.pages[pId].isModified);
 }
 
+// composed
 export function getPageModifiedViewsIds(state, { pageId }) {
   return _filter(getPageViewsIds(state, { pageId }), vId => state.views[vId].isModified);
 }
 
+// composed
 export const getPageIdByViewId = (state, { viewId }) =>
   Object.keys(getPages(state))
     .map(k => ({ k, viewIds: getPageViewsIds(state, { pageId: k }) }))

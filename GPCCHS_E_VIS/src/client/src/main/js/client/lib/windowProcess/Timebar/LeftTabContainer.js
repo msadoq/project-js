@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { addAndMountTimeline, updateMasterId } from '../../store/actions/timebars';
-import { unmountTimeline } from '../../store/actions/timebarTimelines';
+import { updateMasterId } from '../../store/actions/timebars';
 import { updateTimebarId } from '../../store/actions/pages';
 import {
+  createNewTimeline,
+  removeTimeline,
   updateId,
   updateOffset,
   updateSessionId,
@@ -17,9 +18,9 @@ export default connect(
     updateOffset,
     updateSessionId,
     updateColor,
-    addAndMountTimeline,
+    createNewTimeline,
     updateId,
-    unmountTimeline,
+    removeTimeline,
     updateTimebarId,
   }
 

@@ -46,24 +46,17 @@ export function select(remoteIdPayload, ep, epName, viewState, intervalMap) {
         max = valY;
         maxTime = masterTime;
       }
-      if (viewState && viewState[masterTime]) {
-        newState[masterTime] = viewState[masterTime];
-        newState[masterTime][epName] = {
-          x: valX,
-          value: valY,
-          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
-          // Case of enum : add symbol to show it in tooltip
-          symbol: _get(value, [ep.fieldY, 'symbol']),
-        };
-      } else {
-        _set(newState, [masterTime, epName], {
-          x: valX,
-          value: valY,
-          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
-          // Case of enum : add symbol to show it in tooltip
-          symbol: _get(value, [ep.fieldY, 'symbol']),
-        });
+
+      if (!newState[epName]) {
+        newState[epName] = {};
       }
+      newState[epName][masterTime] = {
+        x: valX,
+        value: valY,
+        ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
+        // Case of enum : add symbol to show it in tooltip
+        symbol: _get(value, [ep.fieldY, 'symbol']),
+      };
     }
   });
   if (!Object.keys(newState).length) {

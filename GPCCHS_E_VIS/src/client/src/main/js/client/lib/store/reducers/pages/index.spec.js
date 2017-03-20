@@ -6,6 +6,7 @@ import pagesReducer, {
   getPage,
   getPanels,
   getPageLayout,
+  getEditor,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -80,6 +81,18 @@ describe('store:page:selectors', () => {
         },
       };
       getPageLayout(state, { pageId: 'myPageId' }).should.be.an('array');
+    });
+  });
+  describe('getEditor', () => {
+    it('should returns current page layout', () => {
+      const state = {
+        pages: {
+          myPageId: {
+            editor: {},
+          },
+        },
+      };
+      getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
     });
   });
 });

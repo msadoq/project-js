@@ -101,3 +101,8 @@ export const getPageLayout = createSelector(
   getPage,
   _.get('layout')
 );
+
+export const getEditor = createSelector(
+  getPage,
+  _.get('editor')
+);

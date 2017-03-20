@@ -1,14 +1,8 @@
-import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
 
 import { getPages, getPageViewsIds, getPageLayout } from '../reducers/pages';
-
-// simple
-export function getEditor(state, { pageId }) {
-  return _get(state, `pages.${pageId}.editor`);
-}
 
 // specific to Page/ContentContainer
 export function makeGetViews() {

@@ -3,7 +3,6 @@ import {} from '../../common/test';
 
 import {
   getPageIdByViewId,
-  getEditor,
   makeGetViews,
   makeGetLayouts,
   getModifiedPagesIds,
@@ -11,16 +10,6 @@ import {
 } from './pages';
 
 describe('store:page:selectors', () => {
-  it('getEditor', () => {
-    const state = {
-      pages: {
-        myPageId: {
-          editor: {},
-        },
-      },
-    };
-    getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
-  });
   it('makeGetViews', () => {
     const getViews = makeGetViews();
     const state = {

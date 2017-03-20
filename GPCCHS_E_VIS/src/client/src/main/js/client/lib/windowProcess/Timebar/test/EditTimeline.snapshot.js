@@ -16,7 +16,7 @@ const propsStub = {
   timelines: [],
   masterId: 'masterId',
   id: 'timelineId',
-  timelineUuid: 'aaaa-aaaa',
+  uuid: 'aaaa-aaaa',
   store,
   initialValues: {
     master: 'masterId',
@@ -24,7 +24,7 @@ const propsStub = {
     color: '#11aa11',
     kind: 'session',
     sessionId: '10',
-    timelineUuid: 'timelineUuid',
+    uuid: 'timelineUuid',
     offset: 10,
   },
 };

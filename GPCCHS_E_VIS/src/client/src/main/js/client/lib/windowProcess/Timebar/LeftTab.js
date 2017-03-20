@@ -26,7 +26,7 @@ export default class LeftTab extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -115,7 +115,7 @@ export default class LeftTab extends PureComponent {
 
     if (values.master) {
       timelinesBeforeAdd.forEach(t =>
-        updateOffset(t.timelineUuid, t.offset - values.offset)
+        updateOffset(t.uuid, t.offset - values.offset)
       );
       updateMasterId(timebarUuid, values.id);
     }
@@ -129,7 +129,7 @@ export default class LeftTab extends PureComponent {
     });
   }
 
-  willEditTimeline = (timelineUuid, id) => {
+  willEditTimeline = (id) => {
     this.setState({
       willAdd: false,
       willEdit: true,
@@ -149,39 +149,39 @@ export default class LeftTab extends PureComponent {
       updateSessionId,
     } = this.props;
 
-    const timeline = timelines.find(x => x.timelineUuid === values.timelineUuid);
+    const timeline = timelines.find(x => x.uuid === values.uuid);
     const offset = parseInt(values.offset, 10);
 
     if (timeline.id !== values.id) {
-      updateId(values.timelineUuid, values.id);
+      updateId(values.uuid, values.id);
     }
     if (timeline.color !== values.color) {
-      updateColor(values.timelineUuid, values.color);
+      updateColor(values.uuid, values.color);
     }
     if (timeline.sessionId !== parseInt(values.sessionId, 10)) {
-      updateSessionId(values.timelineUuid, parseInt(values.sessionId, 10));
+      updateSessionId(values.uuid, parseInt(values.sessionId, 10));
     }
 
     if (values.master && masterId !== values.id) {
       updateMasterId(timebarUuid, values.id);
       timelines.forEach((t) => {
-        if (t.timelineUuid === values.timelineUuid) {
+        if (t.uuid === values.uuid) {
           return;
         }
-        updateOffset(t.timelineUuid, t.offset - offset);
+        updateOffset(t.uuid, t.offset - offset);
       });
-      updateOffset(values.timelineUuid, 0);
+      updateOffset(values.uuid, 0);
     } else if (timeline.offset !== offset) {
       if ((masterId === values.id) || (values.master && masterId !== values.id)) {
         timelines.forEach((t) => {
-          if (t.timelineUuid === values.timelineUuid) {
+          if (t.uuid === values.uuid) {
             return;
           }
-          updateOffset(t.timelineUuid, t.offset - offset);
+          updateOffset(t.uuid, t.offset - offset);
         });
-        updateOffset(values.timelineUuid, 0);
+        updateOffset(values.uuid, 0);
       } else {
-        updateOffset(values.timelineUuid, offset);
+        updateOffset(values.uuid, offset);
       }
     }
     this.hideModals();
@@ -230,7 +230,7 @@ export default class LeftTab extends PureComponent {
           timelines={timelines}
           masterId={masterId}
           id={currentlyEditingTimeline.id}
-          timelineUuid={currentlyEditingTimeline.timelineUuid}
+          uuid={currentlyEditingTimeline.uuid}
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{
             master: masterId === currentlyEditingTimeline.id,
@@ -239,7 +239,7 @@ export default class LeftTab extends PureComponent {
             kind: currentlyEditingTimeline.kind,
             sessionId: typeof currentlyEditingTimeline.sessionId === 'number' ?
               currentlyEditingTimeline.sessionId.toString() : '',
-            timelineUuid: currentlyEditingTimeline.timelineUuid,
+            uuid: currentlyEditingTimeline.uuid,
             offset: currentlyEditingTimeline.offset,
           }}
         />}
@@ -332,7 +332,7 @@ export default class LeftTab extends PureComponent {
                 timelinesLength={timelines.length}
                 timebarUuid={timebarUuid}
                 id={v.id}
-                timelineUuid={v.timelineUuid}
+                uuid={v.uuid}
                 color={v.color}
                 masterId={masterId}
                 willEditTimeline={this.willEditTimeline}

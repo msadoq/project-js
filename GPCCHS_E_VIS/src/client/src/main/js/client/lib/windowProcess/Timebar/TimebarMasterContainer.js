@@ -24,7 +24,6 @@ export default connect(
     // Will render TimebarContainer
     return {
       timebar,
-      timebarUuid,
       timebarHeight,
       timebarCollapsed,
     };

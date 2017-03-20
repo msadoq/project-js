@@ -44,7 +44,7 @@ class RightTabContent extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })

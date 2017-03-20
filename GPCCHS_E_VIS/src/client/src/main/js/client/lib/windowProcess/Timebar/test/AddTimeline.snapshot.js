@@ -14,9 +14,6 @@ const propsStub = {
   onSubmit: () => null,
   sessions: [],
   timelines: [],
-  masterId: 'masterId',
-  id: 'timelineId',
-  timelineUuid: 'aaaa-aaaa',
   store,
   initialValues: {
     id: '',

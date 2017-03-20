@@ -10,7 +10,7 @@ export default class Timeline extends PureComponent {
     willEditTimeline: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
-    timelineUuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     color: PropTypes.string,
     masterId: PropTypes.string,
     offset: PropTypes.number.isRequired,
@@ -27,26 +27,24 @@ export default class Timeline extends PureComponent {
     e.preventDefault();
     const {
       masterId,
-      timelineUuid,
+      uuid,
       id,
       timelinesLength,
       removeTimeline,
       timebarUuid,
     } = this.props;
     if (id !== masterId || timelinesLength === 1) {
-      removeTimeline(timebarUuid, timelineUuid);
+      removeTimeline(timebarUuid, uuid);
     }
   }
 
   willEditTimeline = _memoize(
-    (timelineUuid, id) => () => this.props.willEditTimeline(timelineUuid, id),
-    (...args) => JSON.stringify(args)
+    id => () => this.props.willEditTimeline(id)
   );
 
   render() {
     const {
       color,
-      timelineUuid,
       id,
       masterId,
       offset,
@@ -85,7 +83,7 @@ export default class Timeline extends PureComponent {
       <button
         className={styles.editButton}
         title="Upate this track"
-        onClick={this.willEditTimeline(timelineUuid, id)}
+        onClick={this.willEditTimeline(id)}
         style={{
           right: (isMaster && timelinesLength !== 1) ? '0px' : '26px',
         }}

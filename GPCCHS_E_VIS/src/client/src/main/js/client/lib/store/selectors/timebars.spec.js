@@ -43,8 +43,8 @@ describe('store:timebars:selectors', () => {
       },
     };
     getTimebarTimelinesSelector(state, { timebarUuid: 'tb1' }).should.be.eql([
-      { id: 'masterTimeline', timelineUuid: 'masterTimeline' },
-      { id: 'tl2', timelineUuid: 'tl2' },
+      { id: 'masterTimeline' },
+      { id: 'tl2' },
     ]);
     getTimebarTimelinesSelector(state, { timebarUuid: 'unknown' }).should.be.eql([]);
   });
@@ -70,7 +70,6 @@ describe('store:timebars:selectors', () => {
       ).should.eql(
         {
           id: 'timeline01',
-          timelineUuid: 'timeline_01',
         }
       );
     });

@@ -29,14 +29,7 @@ export default class View extends PureComponent {
       bgColor: PropTypes.string,
     }).isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
-    visuWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-      current: PropTypes.number.isRequired,
-      defaultWidth: PropTypes.number.isRequired,
-    }),
     // eslint-disable-next-line react/forbid-prop-types
-    data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     oId: PropTypes.string,
@@ -121,8 +114,6 @@ export default class View extends PureComponent {
       openEditor,
       closeEditor,
       closeView,
-      data,
-      visuWindow,
       moveViewToPage,
       windowPages,
       collapseView,
@@ -181,11 +172,8 @@ export default class View extends PureComponent {
         >
           <MessagesContainer containerId={viewId} />
           <ContentComponent
-            data={data}
-            type={type}
             viewId={viewId}
             isViewsEditorOpen={isViewsEditorOpen}
-            visuWindow={type === 'PlotView' ? visuWindow : undefined}
           />
         </div>
       </div>

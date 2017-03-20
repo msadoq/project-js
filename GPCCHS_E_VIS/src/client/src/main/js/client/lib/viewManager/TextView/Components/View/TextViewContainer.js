@@ -10,13 +10,16 @@ import {
   getViewContent,
   getViewEntryPoints,
 } from '../../../../store/selectors/views';
+import { getData } from '../../../../store/selectors/viewData';
 
 const mapStateToProps = (state, { viewId }) => {
   const getConfiguration = _.get(`views[${viewId}].configuration`);
+  const data = getData(state, { viewId });
   return {
     content: getViewContent(state, { viewId }),
     configuration: getConfiguration(state),
     entryPoints: getViewEntryPoints(state, { viewId }),
+    data,
   };
 };
 

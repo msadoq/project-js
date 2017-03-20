@@ -12,7 +12,7 @@ export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid
 // simple
 export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
 
-// derived
+// composed
 export const getTimebarByPageId = (state, { pageId }) => {
   const page = getPage(state, { pageId });
   if (!page) return undefined;
@@ -22,7 +22,7 @@ export const getTimebarByPageId = (state, { pageId }) => {
 // simple
 export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
 
-// derived
+// composed
 export const getTimebarTimelinesSelector = createSelector(
   [
     getTimebarMasterId,
@@ -46,7 +46,7 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// derived
+// composed
 export const getMasterTimelineById = createSelector(
   getTimebarMasterId,
   getTimebarTimelinesSelector,

@@ -12,8 +12,8 @@ export const getData = createSelector(
   __.get
 );
 
-// derived
-// TODO test + factorize in structure type + reselect
+// simple, but need specific selectors for each viewType
+// TODO test + reselect
 export const getCount = state => _reduce(getViewData(state), (c, view) => {
   if (typeof view.columns === 'object') {
     // PlotView

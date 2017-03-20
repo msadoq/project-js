@@ -20,7 +20,7 @@ export const getView =
   (state, { viewId }) =>
     __.prop(viewId, getViews(state));
 
-// derived
+// composed ( because need viewConfiguration )
 export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   const epOnAxis = [];
   if (!state.views[viewId] || !state.views[viewId].configuration.axes[axisId]) {
@@ -69,7 +69,7 @@ export const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
   withoutTimebarsEqualityCheck
 );
 const perViewDataSelectors = {};
-// derived
+// composed
 export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
   state => state,
   (state, { viewId }) => viewId,
@@ -83,21 +83,21 @@ export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
     return perViewDataSelectors[viewId](state, { viewId, timebarUuid });
   });
 
-// derived / to rename ?
+// composed / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
   __.get('entryPoints', getPerViewData(state, { viewId }))
 );
 
-// derived
+// composed
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>
   __.map(ep => ep.name, entryPoints)
 );
 
-// derived
+// composed
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
 
-// derived
+// composed
 export const getViewEntryPointStateColors = createSelector(
   getViewEntryPoint,
   ep => ep.stateColors || []

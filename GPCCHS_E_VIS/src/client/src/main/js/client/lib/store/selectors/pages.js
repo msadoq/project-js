@@ -25,16 +25,16 @@ export function getEditor(state, { pageId }) {
   return _get(state, `pages.${pageId}.editor`);
 }
 
-// derived
+// composed
 export function makeGetViews() {
   return createSelector(
     getPageViewsIds,
-    state => state.views,
+    state => state.views, // because get views here
     (ids, views) => _map(ids, id => Object.assign({}, views[id], { viewId: id }))
   );
 }
 
-// derived pages/views
+// simple
 export function makeGetLayouts() {
   return createSelector(
     getPageLayout,
@@ -57,17 +57,17 @@ export function makeGetLayouts() {
   );
 }
 
-// derived
+// simple
 export function getModifiedPagesIds(state) {
   return _filter(Object.keys(getPages(state)), pId => state.pages[pId].isModified);
 }
 
-// derived
+// composed
 export function getPageModifiedViewsIds(state, { pageId }) {
   return _filter(getPageViewsIds(state, { pageId }), vId => state.views[vId].isModified);
 }
 
-// derived
+// composed
 export const getPageIdByViewId = (state, { viewId }) =>
   Object.keys(getPages(state))
     .map(k => ({ k, viewIds: getPageViewsIds(state, { pageId: k }) }))

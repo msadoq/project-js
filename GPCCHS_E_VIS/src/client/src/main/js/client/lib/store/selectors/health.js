@@ -15,7 +15,7 @@ export const getMainStatus = state => state.health.mainStatus;
 export const getWindowsStatus = state => state.health.windowsStatus;
 export const getLastPubSubTimestamp = state => state.health.lastPubSubTimestamp;
 
-// derived
+// simple
 // TODO : test dbrugne
 export const getHealthMap = createSelector(
   getHealth,
@@ -35,7 +35,7 @@ export const getHealthMap = createSelector(
     };
   });
 
-// derived
+// simple
 // TODO : test dbrugne
 export const getHealthMapForWindow = createSelector([
   getHealth,

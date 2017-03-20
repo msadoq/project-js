@@ -24,7 +24,7 @@ export const getWindowsArray = createSelector(
   _.values
 );
 
-// derived
+// composed
 export const getFocusedWindow = createSelector(
   getWindows,
   getFocusedWindowId,
@@ -44,7 +44,7 @@ export const getWindowPageIds = createSelector(
   _.get('pages')
 );
 
-// derived
+// composed
 export const getWindowPages = createSelector(
   getWindowPageIds,
   getPages,
@@ -57,7 +57,7 @@ export const getWindowFocusedPageId = createSelector(
   _.get('focusedPage')
 );
 
-// derived
+// composed
 export const getWindowFocusedPageSelector = createSelector(
   getWindowFocusedPageId,
   getPages,
@@ -93,7 +93,7 @@ const getWindowsVisibleViewIds = createSelector(
       }))
 );
 
-// derived
+// composed
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,

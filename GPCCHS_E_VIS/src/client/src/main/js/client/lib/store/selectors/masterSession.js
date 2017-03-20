@@ -6,7 +6,7 @@ import { getSessions } from './sessions';
 // simple
 export const getMasterSessionId = state => _get(state, ['masterSession', 'sessionId']);
 
-// derived
+// composed
 export const getMasterSession = createSelector(
   getMasterSessionId,
   getSessions,

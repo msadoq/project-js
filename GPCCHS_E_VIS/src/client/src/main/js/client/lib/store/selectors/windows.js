@@ -11,10 +11,14 @@ export const createDeepEqualSelector = createSelectorCreator(
   __.isEqual
 );
 
+// simple (views reducer)
 export const getViews =
   __.prop('views');
 
+// simple
 export const getWindows = state => _get(state, ['windows'], {});
+
+// derived (TODEL because have uuid)
 export const getWindowsArray = createSelector(
   getWindows,
   windows =>
@@ -26,45 +30,53 @@ export const getWindowsArray = createSelector(
       }))
 );
 
+// derived
 export const getFocusedWindow = createSelector(
   getWindows,
   getFocusedWindowId,
   _get
 );
 
+// simple
 export const getWindow = createSelector(
   (state, { windowId }) => windowId,
   getWindows,
   __.get
 );
 
+// simple
 export const getWindowPageIds = createSelector(
   getWindow,
   __.get('pages')
 );
 
+// derived
 export const getWindowPages = createSelector(
   getWindowPageIds,
   __.get('pages'),
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
 
+// simple
 export const getWindowFocusedPageId = createSelector(
   getWindow,
   __.get('focusedPage')
 );
 
+// derived
 export const getWindowFocusedPageSelector = createSelector(
   getWindowFocusedPageId,
   getPages,
   __.get
 );
 
+// simple
 export const getWindowMinimized = createSelector(
   getWindow,
   __.get('minimized')
 );
 
+// simple
 export const getWindowsFocusedPageIds = createSelector(
   getWindowsArray,
   windows =>
@@ -73,6 +85,7 @@ export const getWindowsFocusedPageIds = createSelector(
       .map(w => w.focusedPage)
 );
 
+// derived
 export const getWindowsFocusedPage = createSelector(
   createDeepEqualSelector(getWindowsFocusedPageIds, __.identity),
   getPages,
@@ -82,6 +95,7 @@ export const getWindowsFocusedPage = createSelector(
       .map(id => pages[id])
 );
 
+// derived
 export const getWindowsVisibleViewIds = createSelector(
   getWindowsFocusedPage,
   pages =>
@@ -93,6 +107,7 @@ export const getWindowsVisibleViewIds = createSelector(
       }))
 );
 
+// derived
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
@@ -110,6 +125,7 @@ export const getWindowsVisibleViews = createSelector(
       }))
 );
 
+// derived
 export const getWindowsTitle = createSelector(
   getWindows,
   windows => _reduce(
@@ -119,14 +135,17 @@ export const getWindowsTitle = createSelector(
     }), {})
 );
 
+// simple
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
 }
 
+// simple
 export function getDisplayHelp(state, { windowId }) {
   return _get(state, ['windows', windowId, 'displayHelp']);
 }
 
+// TODEL
 export function getIsLoaded(state, { windowId }) {
   return _get(state, ['windows', windowId, 'isLoaded']);
 }

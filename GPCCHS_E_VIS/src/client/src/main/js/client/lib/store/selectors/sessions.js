@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 
+// simple
 export const getSessions = state => state.sessions;
 
+// simple
 export const getSession = createSelector(
   (state, { sessionId }) => sessionId,
   getSessions,

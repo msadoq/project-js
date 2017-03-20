@@ -1,8 +1,10 @@
 import _get from 'lodash/get';
 import { getView } from './views';
 
+// simple
 export const getViewId = state => _get(state, ['editor', 'textViewId'], {});
 
+// derived
 export const getEditorTitle = (state, viewId) => {
   if (!viewId) {
     return '';

@@ -12,13 +12,16 @@ export const createDeepEqualSelector = createSelectorCreator(
   __.isEqual
 );
 
+// simple
 export const getViews =
   __.prop('views');
 
+// simple
 export const getView =
   (state, { viewId }) =>
     __.prop(viewId, getViews(state));
 
+// derived
 export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   const epOnAxis = [];
   if (!state.views[viewId] || !state.views[viewId].configuration.axes[axisId]) {
@@ -32,21 +35,25 @@ export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   return epOnAxis;
 };
 
+// simple
 export const getViewsIdsCollapsed = createSelector(
   getViews,
   views => __.keys(__.pickBy('configuration.collapsed', views))
 );
 
+// simple
 export const getModifiedViewsIds = state =>
   Object
     .keys(getViews(state))
     .filter(vId => state.views[vId].isModified);
 
+// simple
 export const getViewConfiguration = createSelector(
   getView,
   __.prop('configuration')
 );
 
+// simple
 export const getViewContent = createSelector(
   getViewConfiguration,
   __.prop('content')
@@ -63,6 +70,7 @@ export const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
   withoutTimebarsEqualityCheck
 );
 const perViewDataSelectors = {};
+// derived
 export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
   state => state,
   (state, { viewId }) => viewId,
@@ -76,24 +84,30 @@ export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
     return perViewDataSelectors[viewId](state, { viewId, timebarUuid });
   });
 
+// derived / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
   __.get('entryPoints', getPerViewData(state, { viewId }))
 );
 
+// derived
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>
   __.map(ep => ep.name, entryPoints)
 );
 
+// derived
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
 
+// derived
 export const getViewEntryPointStateColors = createSelector(
   getViewEntryPoint,
   ep => ep.stateColors || []
 );
 
+// TODEL
 const _getEntryPoint = (epName, entryPoints) => entryPoints.find(ep => ep.name === epName);
 
+// TODEL
 export const _getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
   const stateColor = __.propOr([], 'stateColors', _getEntryPoint(epName, entryPoints))
     .filter(c =>

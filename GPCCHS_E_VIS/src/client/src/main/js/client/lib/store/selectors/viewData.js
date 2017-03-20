@@ -2,14 +2,17 @@ import { createSelector } from 'reselect';
 import _reduce from 'lodash/reduce';
 import __ from 'lodash/fp';
 
+// simple
 export const getViewData = state => state.viewData;
 
+// simple
 export const getData = createSelector(
   (state, { viewId }) => viewId,
   getViewData,
   __.get
 );
 
+// derived
 // TODO test + factorize in structure type + reselect
 export const getCount = state => _reduce(getViewData(state), (c, view) => {
   if (typeof view.columns === 'object') {

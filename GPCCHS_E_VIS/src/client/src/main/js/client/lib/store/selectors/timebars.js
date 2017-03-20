@@ -11,17 +11,24 @@ import { getTimelines } from './timelines';
 import { getPage } from './pages';
 import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
 
+// simple
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];
 
+// simple
 export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
 
+// derived
 export const getTimebarByPageId = (state, { pageId }) => {
   const page = getPage(state, { pageId });
   if (!page) return undefined;
   return getTimebar(state, { timebarUuid: page.timebarUuid });
 };
+
+// simple
 export const getTimebarMasterId = (state, { timebarUuid }) => _get(state, ['timebars', timebarUuid, 'masterId']);
+
+// derived
 export const getTimebarTimelinesSelector = createSelector(
   [
     getTimebarMasterId,
@@ -53,6 +60,7 @@ export const getTimebarTimelinesSelector = createSelector(
  * @param timelines
  * @return {*}
  */
+ // TODEL
 export function _getTimebarTimelines(timebarTimelines, timelines) {
   return _reduce(timebarTimelines, (list, timelineId) => {
     const timeline = _get(timelines, timelineId);
@@ -72,6 +80,7 @@ const createDeepEqualSelectorForTimelines = createSelectorCreator(
   defaultMemoize,
   timelineEqualityCheck
 );
+// TODEL
 export const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
   getTimelines,
   (state, { timebarUuid }) => getTimebar(state, timebarUuid),
@@ -99,6 +108,7 @@ export const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
  * @param timebarUuid
  * @return {*}
  */
+ // TODEL
 export function _getMasterTimeline(timebars, timelines, timebarUuid) {
   const masterTimelineId = _get(timebars, [timebarUuid, 'masterId']);
   if (!masterTimelineId) {
@@ -108,6 +118,7 @@ export function _getMasterTimeline(timebars, timelines, timebarUuid) {
   return _values(timelines).find(t => t.id === masterTimelineId);
 }
 
+// derived
 export const getMasterTimelineById = createSelector(
   getTimebarMasterId,
   getTimebarTimelinesSelector,

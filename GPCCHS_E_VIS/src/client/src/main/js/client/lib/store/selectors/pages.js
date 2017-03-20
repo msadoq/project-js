@@ -37,10 +37,6 @@ export function makeGetLayouts() {
   );
 }
 
-// simple
-export function getModifiedPagesIds(state) {
-  return _filter(Object.keys(getPages(state)), pId => state.pages[pId].isModified);
-}
 
 // specific (menuManager/pageSave)
 export function getPageModifiedViewsIds(state, { pageId }) {

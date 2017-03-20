@@ -1,6 +1,6 @@
 import path from 'path';
 import { getModifiedWindowsIds } from '../../store/selectors/windows';
-import { getModifiedPagesIds } from '../../store/selectors/pages';
+import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';

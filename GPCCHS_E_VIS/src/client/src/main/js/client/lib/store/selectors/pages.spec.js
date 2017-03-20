@@ -5,7 +5,6 @@ import {
   getPageIdByViewId,
   makeGetViews,
   makeGetLayouts,
-  getModifiedPagesIds,
   getPageModifiedViewsIds,
 } from './pages';
 
@@ -45,20 +44,6 @@ describe('store:page:selectors', () => {
     getLayouts(state, { pageId: 'myPageId' }).should.have.properties({
       lg: [{ i: 'layout1' }, { i: 'layout2' }],
     });
-  });
-  it('getModifiedPagesIds', () => {
-    const state = {
-      pages: {
-        myPageId1: { isModified: true },
-        myPageId2: { isModified: false },
-        myPageId3: { isModified: true },
-      },
-    };
-
-    getModifiedPagesIds(state).should.eql([
-      'myPageId1',
-      'myPageId3',
-    ]);
   });
   it('getPageModifiedViewsIds', () => {
     const state = {

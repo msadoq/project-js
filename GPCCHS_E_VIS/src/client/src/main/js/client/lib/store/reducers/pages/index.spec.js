@@ -7,6 +7,7 @@ import pagesReducer, {
   getPanels,
   getPageLayout,
   getEditor,
+  getModifiedPagesIds,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -93,6 +94,22 @@ describe('store:page:selectors', () => {
         },
       };
       getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
+    });
+  });
+  describe('getModifiedPagesIds', () => {
+    it('should returns all modified pages ids', () => {
+      const state = {
+        pages: {
+          myPageId1: { uuid: 'myPageId1', isModified: true },
+          myPageId2: { uuid: 'myPageId2', isModified: false },
+          myPageId3: { uuid: 'myPageId3', isModified: true },
+        },
+      };
+
+      getModifiedPagesIds(state).should.eql([
+        'myPageId1',
+        'myPageId3',
+      ]);
     });
   });
 });

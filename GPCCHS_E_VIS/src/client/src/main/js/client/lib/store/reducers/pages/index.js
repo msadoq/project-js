@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
 import * as types from '../../types';
@@ -92,3 +93,11 @@ export const getPanels = inPage('panels');
 export const getPageViewsIds = inPage('views');
 export const getPageLayout = inPage('layout');
 export const getEditor = inPage('editor');
+
+export const getModifiedPagesIds = createSelector(
+  getPages,
+  _.pipe(
+    _.filter(_.propEq('isModified', true)),
+    _.map('uuid')
+  )
+);

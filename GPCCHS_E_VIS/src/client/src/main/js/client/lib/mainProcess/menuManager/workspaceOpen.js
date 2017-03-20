@@ -4,7 +4,7 @@ import find from 'lodash/fp/find';
 import equals from 'lodash/fp/equals';
 
 import { add as addMessage } from '../../store/actions/messages';
-import { getModifiedPagesIds } from '../../store/selectors/pages';
+import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { updatePath } from '../../store/actions/hsc';

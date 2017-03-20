@@ -3,11 +3,7 @@ import _map from 'lodash/map';
 import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
 
-import { getPages } from '../reducers/pages';
-
-// simple
-export const getPageViewsIds = (state, { pageId }) =>
-  _get(state, ['pages', pageId, 'views']);
+import { getPages, getPageViewsIds } from '../reducers/pages';
 
 // simple
 export const getPageLayout =

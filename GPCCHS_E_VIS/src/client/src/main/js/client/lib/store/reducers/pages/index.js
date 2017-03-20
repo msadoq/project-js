@@ -91,3 +91,8 @@ export const getPanels = createSelector(
   getPage,
   _.get('panels')
 );
+
+export const getPageViewsIds = createSelector(
+  getPage,
+  _.get('views')
+);

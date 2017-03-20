@@ -1,6 +1,6 @@
 // import { PropTypes } from 'react';
 // import { connect } from 'react-redux';
-// import { getPage } from '../../store/selectors/pages';
+// import { getPage } from '../../store/reducers/pages';
 // import Debug from './Debug';
 // import { play, pause } from '../../store/actions/hsc';
 //

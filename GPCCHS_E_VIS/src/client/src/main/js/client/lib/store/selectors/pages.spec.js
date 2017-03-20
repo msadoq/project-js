@@ -14,15 +14,6 @@ import {
 } from './pages';
 
 describe('store:page:selectors', () => {
-  it('getPage', () => {
-    const state = {
-      pages: {
-        myPageId: { title: 'Title 1' },
-      },
-    };
-    getPage(state, { pageId: 'myPageId' }).should.have.property('title', 'Title 1');
-    should.not.exist(getPage(state, 'unknownId'));
-  });
   it('getPageLayout', () => {
     const state = {
       pages: {
@@ -42,18 +33,6 @@ describe('store:page:selectors', () => {
       },
     };
     getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
-  });
-  describe('getPages', () => {
-    it('should returns pages', () => {
-      const state = {
-        pages: {
-          myId: { title: 'Title' },
-          myOtherId: { title: 'Title other' },
-        },
-      };
-
-      getPages(state).should.equal(state.pages);
-    });
   });
   it('makeGetViews', () => {
     const getViews = makeGetViews();

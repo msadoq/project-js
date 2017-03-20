@@ -3,7 +3,8 @@ import __ from 'lodash/fp';
 import _omit from 'lodash/omit';
 import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from '../../dataManager/perViewData';
-import { getPageIdByViewId, getPage } from './pages';
+import { getPageIdByViewId } from './pages';
+import { getPage } from '../reducers/pages';
 // import { getPerViewData } from '../../dataManager/map';
 
 export const createDeepEqualSelector = createSelectorCreator(

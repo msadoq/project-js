@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import DynamicEditor from './DynamicEditor';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import { getView } from '../../../../store/selectors/views';
-import { getPage } from '../../../../store/selectors/pages';
+import { getPage } from '../../../../store/reducers/pages';
 import {
   updateEntryPoint,
   updateTitle,

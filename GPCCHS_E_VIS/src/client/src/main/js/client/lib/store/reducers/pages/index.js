@@ -3,6 +3,8 @@ import _ from 'lodash/fp';
 import * as types from '../../types';
 import page from './page';
 
+/* --- Reducer -------------------------------------------------------------- */
+
 // move a view to a page
 const moveViewToPage = (statePages, action) => {
   const { fromPageId, toPageId, viewId } = action.payload;
@@ -75,3 +77,11 @@ const pages = (statePages = {}, action) => {
 };
 
 export default pages;
+
+/* --- Selectors ------------------------------------------------------------ */
+
+// simple
+export const getPages = state => state.pages;
+export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO use page.uuid instead
+  ...state.pages[pageId], pageId,
+};

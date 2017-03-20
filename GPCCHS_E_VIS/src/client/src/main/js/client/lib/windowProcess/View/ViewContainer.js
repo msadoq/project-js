@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { getPage } from '../../store/reducers/pages';
 import { getView } from '../../store/selectors/views';
-import { getPage } from '../../store/selectors/pages';
 import { getTimebar } from '../../store/selectors/timebars';
 import { getData } from '../../store/selectors/viewData';
 import { getWindowPages } from '../../store/selectors/windows';

@@ -24,8 +24,6 @@ const PlotEditorContainer = connect(mapStateToProps, mapDispatchToProps)(PlotEdi
 
 PlotEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
-  viewType: PropTypes.string.isRequired,
-  closeEditor: PropTypes.func,
 };
 
 export default PlotEditorContainer;

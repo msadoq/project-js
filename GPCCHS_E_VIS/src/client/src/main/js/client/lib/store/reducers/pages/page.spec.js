@@ -7,27 +7,6 @@ import * as types from '../../types';
 const reducer = freezeArgs(pagesReducer);
 
 describe('store:page:reducer', () => {
-  describe('open/close editor', () => { // TODO boxmodel remove
-    const editor = { // TODO boxmodel remove
-      isOpened: true, // TODO boxmodel remove
-      viewId: 'myViewId', // TODO boxmodel remove
-      viewType: 'plot', // TODO boxmodel remove
-    }; // TODO boxmodel remove
-    it('open', () => { // TODO boxmodel remove
-      const state = reducer( // TODO boxmodel remove
-        reducer({ myPageId: {}, p2: {} }, { viewId: 'myPageId', viewType: 'TextView' }),
-        actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar' }) // TODO boxmodel remove
-      ); // TODO boxmodel remove
-      state.myPageId.editor.should.eql(editor); // TODO boxmodel remove
-    }); // TODO boxmodel remove
-    it('close', () => { // TODO boxmodel remove
-      const state = reducer( // TODO boxmodel remove
-        { myPageId: { editor } }, // TODO boxmodel remove
-        actions.closeEditor('myPageId') // TODO boxmodel remove
-      ); // TODO boxmodel remove
-      state.myPageId.editor.should.eql(Object.assign({}, editor, { isOpened: false }));
-    }); // TODO boxmodel remove
-  }); // TODO boxmodel remove
   describe('update layout', () => {
     it('update layout simple', () => {
       const state = reducer(

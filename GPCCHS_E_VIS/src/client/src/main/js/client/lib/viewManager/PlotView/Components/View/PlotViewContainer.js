@@ -24,6 +24,4 @@ const mapStateToProps = (state, { viewId }) => {
 
 const mapDispatchToProps = { addEntryPoint };
 
-export const PlotViewContainer = connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);
-
-export default PlotViewContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

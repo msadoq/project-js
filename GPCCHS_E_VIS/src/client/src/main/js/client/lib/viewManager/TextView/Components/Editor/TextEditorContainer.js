@@ -27,8 +27,6 @@ const TextEditorContainer = connect(mapStateToProps, mapDispatchToProps)(TextEdi
 
 TextEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
-  viewType: PropTypes.string.isRequired,
-  closeEditor: PropTypes.func,
 };
 
 export default TextEditorContainer;

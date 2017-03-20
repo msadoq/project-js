@@ -229,7 +229,6 @@ describe('store:actions:views', () => {
         payload: {
           pageId: 'pageWithLayout',
           viewId: 'textview',
-          viewType: 'TextView',
         },
       });
     });
@@ -245,7 +244,6 @@ describe('store:actions:views', () => {
         payload: {
           pageId: 'pageWithLayout',
           viewId: 'textview',
-          viewType: 'TextView',
         },
       });
     });
@@ -262,7 +260,6 @@ describe('store:actions:views', () => {
         payload: {
           pageId: 'emptyPage',
           viewId: 'plotview',
-          viewType: 'PlotView',
         },
       });
     });
@@ -278,7 +275,6 @@ describe('store:actions:views', () => {
         payload: {
           pageId: 'emptyPage',
           viewId: 'plotview',
-          viewType: 'PlotView',
         },
       });
     });

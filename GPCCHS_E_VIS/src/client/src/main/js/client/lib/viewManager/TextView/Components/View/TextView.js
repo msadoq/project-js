@@ -13,8 +13,7 @@ import DroppableContainer from '../../../../windowProcess/common/DroppableContai
 
 const logger = getLogger('view:text');
 
-const getComObject =
-  _.propOr('UNKNOWN_COM_OBJECT', 0);
+const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -88,11 +87,6 @@ export default class TextView extends PureComponent {
       this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
       this.content = this.getContentComponent();
     }
-    ['isViewsEditorOpen', 'show', 'addEntryPoint', 'addEntryPoint'].forEach((attr) => {
-      if (nextProps[attr] !== this.props[attr]) {
-        shouldRender = true;
-      }
-    });
     if (!shouldRender) {
       this.updateSpanValues(nextProps);
     }

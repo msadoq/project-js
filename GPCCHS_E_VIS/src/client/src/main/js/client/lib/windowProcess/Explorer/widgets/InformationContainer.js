@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getAll } from 'common/parameters';
-import { getMasterSession } from '../../../store/selectors/masterSession';
+import { getMasterSession } from '../../../store/reducers/masterSession';
 import Information from './Information';
 
 const mapStateToProps = state => ({

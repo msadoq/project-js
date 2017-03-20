@@ -7,6 +7,7 @@ import {
 import DataMapContainer from './widgets/DataMapContainer';
 import StoreContainer from './widgets/StoreContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
+import InformationContainer from './widgets/InformationContainer';
 
 import styles from './Explorer.css';
 
@@ -20,7 +21,7 @@ const widgets = {
   store: { title: 'Store (developer)', component: StoreContainer },
   cache: { title: 'Cache (developer)', component: NotAlreadyImplemented },
   performance: { title: 'Performance (developer)', component: PerformanceContainer },
-  information: { title: 'Information (developer)', component: NotAlreadyImplemented },
+  information: { title: 'Information (developer)', component: InformationContainer },
 };
 
 export default class Explorer extends PureComponent {
@@ -45,37 +46,37 @@ export default class Explorer extends PureComponent {
 
   /**
    * DataStore explorer:
-   * - ...
+   * [ ] ...
    * RTE:
-   * - ...
+   * [ ] ...
    * Inspector:
-   * - ...
+   * [ ] ...
    * ====== separator =======
    * Data map:
-   * - data map
+   * [x] data map
    * = copy
    * = console
    * Store:
-   * - redux store
+   * [x] redux store
    * = copy
    * = console
    * Cache:
-   * - server info
-   * - last cache cleanup time
+   * [ ] server info
+   * [ ] last cache cleanup time
    * = clean cache
    * = refresh
    * Performances:
-   * - health
-   * - pubsub time
-   * - number of views and points
+   * [x] health
+   * [x] pubsub time
+   * [ ] number of views and points
    * = wasted
    * = profile
    * Informations:
-   * - releases
-   * - branch
-   * - build time
-   * - master session
-   * - configuration
+   * [ ] releases
+   * [ ] branch
+   * [ ] build time
+   * [x] master session
+   * [x] configuration
    */
 
   render() {

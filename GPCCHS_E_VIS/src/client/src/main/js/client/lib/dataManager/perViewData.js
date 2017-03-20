@@ -3,8 +3,8 @@ import any from 'lodash/fp/any';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
+import { getDomains } from '../store/reducers/domains';
 import { getMasterSessionId } from '../store/selectors/masterSession';
-import { getDomains } from '../store/selectors/domains';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/selectors/views';
 import { getStructureType, getStructureModule } from '../viewManager';

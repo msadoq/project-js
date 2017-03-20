@@ -1,9 +1,7 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
-import __ from 'lodash/fp';
 import { createSelector } from 'reselect';
-// import { getViewsIdsCollapsed } from './views';
 
 // simple
 export const getPages = state => state.pages;
@@ -13,12 +11,6 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO u
 
 // simple
 export const getPanels = (state, { pageId }) => _get(getPage(state, { pageId }), 'panels');
-
-// TODEL
-export const getPageIds = createSelector(
-  getPages,
-  __.keys
-);
 
 // simple
 export const getPageViewsIds = (state, { pageId }) =>

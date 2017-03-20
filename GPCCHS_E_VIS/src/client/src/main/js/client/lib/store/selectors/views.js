@@ -2,7 +2,6 @@ import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect'
 import __ from 'lodash/fp';
 import _omit from 'lodash/omit';
 import _isEqual from 'lodash/isEqual';
-import { compile } from '../../common/operators';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPageIdByViewId, getPage } from './pages';
 // import { getPerViewData } from '../../dataManager/map';
@@ -103,21 +102,3 @@ export const getViewEntryPointStateColors = createSelector(
   getViewEntryPoint,
   ep => ep.stateColors || []
 );
-
-// TODEL
-const _getEntryPoint = (epName, entryPoints) => entryPoints.find(ep => ep.name === epName);
-
-// TODEL
-export const _getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
-  const stateColor = __.propOr([], 'stateColors', _getEntryPoint(epName, entryPoints))
-    .filter(c =>
-      (new RegExp(`${__.pathOr('', ['condition', 'field'], c)}$`, 'g'))
-        .test(__.pathOr('', [dataProp, 'formula'], _getEntryPoint(epName, entryPoints))))
-    .find(c => compile(c.condition)(value));
-  if (__.prop('color', stateColor)) {
-    return {
-      color: __.prop('color', stateColor),
-    };
-  }
-  return undefined;
-};

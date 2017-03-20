@@ -1,8 +1,6 @@
 import _get from 'lodash/get';
 
-// TODEL
-export const getTimebarsTimelines = state => _get(state, 'timebarTimelines', {});
-
 // simple
+// eslint-disable-next-line import/prefer-default-export
 export const getTimebarTimelines =
   (state, { timebarUuid }) => _get(state, ['timebarTimelines', timebarUuid], []);

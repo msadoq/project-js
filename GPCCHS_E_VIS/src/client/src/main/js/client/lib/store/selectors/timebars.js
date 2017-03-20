@@ -1,11 +1,5 @@
+import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
-import _isNumber from 'lodash/isNumber';
-import _get from 'lodash/get';
-import _values from 'lodash/values';
-import _reduce from 'lodash/reduce';
-
-import _isEqual from 'lodash/isEqual';
-import { createSelector, defaultMemoize, createSelectorCreator } from 'reselect';
 
 import { getTimelines } from './timelines';
 import { getPage } from './pages';
@@ -26,7 +20,7 @@ export const getTimebarByPageId = (state, { pageId }) => {
 };
 
 // simple
-export const getTimebarMasterId = (state, { timebarUuid }) => _get(state, ['timebars', timebarUuid, 'masterId']);
+export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
 
 // derived
 export const getTimebarTimelinesSelector = createSelector(
@@ -51,72 +45,6 @@ export const getTimebarTimelinesSelector = createSelector(
     return timebarTimelines;
   }
 );
-
-/**
- * A selector to get timelines from timebarUuid.
- * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
- *
- * @param timebarTimelines
- * @param timelines
- * @return {*}
- */
- // TODEL
-export function _getTimebarTimelines(timebarTimelines, timelines) {
-  return _reduce(timebarTimelines, (list, timelineId) => {
-    const timeline = _get(timelines, timelineId);
-    if (!timeline || !timeline.id || !_isNumber(timeline.sessionId)) {
-      return list;
-    }
-
-    return list.concat(timeline);
-  }, []);
-}
-
-// ********************************************************
-function timelineEqualityCheck(current, previous) {
-  return _isEqual(current.timelines, previous.timelines);
-}
-const createDeepEqualSelectorForTimelines = createSelectorCreator(
-  defaultMemoize,
-  timelineEqualityCheck
-);
-// TODEL
-export const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
-  getTimelines,
-  (state, { timebarUuid }) => getTimebar(state, timebarUuid),
-  (state, { timelines, timebar }) => {
-    if (!timebar) {
-      return [];
-    }
-    return _reduce(timebar.timelines, (list, timelineId) => {
-      const timeline = _get(timelines, timelineId);
-      if (!timeline || !timeline.id || !_isNumber(timeline.sessionId)) {
-        return list;
-      }
-      return list.concat(timeline);
-    }, []);
-  }
-);
-// ********************************************************
-
-/**
- * A selector to get master timeline from timebarUuid.
- * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
- *
- * @param timebars
- * @param timelines
- * @param timebarUuid
- * @return {*}
- */
- // TODEL
-export function _getMasterTimeline(timebars, timelines, timebarUuid) {
-  const masterTimelineId = _get(timebars, [timebarUuid, 'masterId']);
-  if (!masterTimelineId) {
-    return undefined;
-  }
-
-  return _values(timelines).find(t => t.id === masterTimelineId);
-}
 
 // derived
 export const getMasterTimelineById = createSelector(

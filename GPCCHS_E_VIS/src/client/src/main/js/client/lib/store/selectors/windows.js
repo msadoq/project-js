@@ -70,14 +70,8 @@ export const getWindowFocusedPageSelector = createSelector(
   __.get
 );
 
-// simple
-export const getWindowMinimized = createSelector(
-  getWindow,
-  __.get('minimized')
-);
-
-// simple
-export const getWindowsFocusedPageIds = createSelector(
+/* -------------------------------------------------------------------------- */
+const getWindowsFocusedPageIds = createSelector(
   getWindowsArray,
   windows =>
     windows
@@ -85,8 +79,7 @@ export const getWindowsFocusedPageIds = createSelector(
       .map(w => w.focusedPage)
 );
 
-// derived
-export const getWindowsFocusedPage = createSelector(
+const getWindowsFocusedPage = createSelector(
   createDeepEqualSelector(getWindowsFocusedPageIds, __.identity),
   getPages,
   (pageIds, pages) =>
@@ -95,8 +88,7 @@ export const getWindowsFocusedPage = createSelector(
       .map(id => pages[id])
 );
 
-// derived
-export const getWindowsVisibleViewIds = createSelector(
+const getWindowsVisibleViewIds = createSelector(
   getWindowsFocusedPage,
   pages =>
     pages
@@ -124,6 +116,7 @@ export const getWindowsVisibleViews = createSelector(
         viewData: views[v.viewId],
       }))
 );
+/* -------------------------------------------------------------------------- */
 
 // derived
 export const getWindowsTitle = createSelector(
@@ -143,9 +136,4 @@ export function getModifiedWindowsIds(state) {
 // simple
 export function getDisplayHelp(state, { windowId }) {
   return _get(state, ['windows', windowId, 'displayHelp']);
-}
-
-// TODEL
-export function getIsLoaded(state, { windowId }) {
-  return _get(state, ['windows', windowId, 'isLoaded']);
 }

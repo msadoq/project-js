@@ -9,14 +9,9 @@ import {
   getWindowPageIds,
   getWindowFocusedPageId,
   getWindowFocusedPageSelector,
-  getWindowsFocusedPageIds,
-  getWindowsFocusedPage,
-  getWindowsVisibleViewIds,
   getWindowsVisibleViews,
-  getWindowMinimized,
   getWindowsTitle,
   getModifiedWindowsIds,
-  getIsLoaded,
   getDisplayHelp,
 } from './windows';
 
@@ -143,119 +138,6 @@ describe('store:window:selectors', () => {
       title: 'foo',
     });
   });
-  describe('getWindowsFocusedPageIds', () => {
-    const state = {
-      windows: {
-        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
-        noField: { title: 'Title noField', isLoaded: true },
-        emptyField: { title: 'Title emptyField', isLoaded: true },
-        myOtherId: { title: 'Title myOtherId', isLoaded: true, focusedPage: 20 },
-        notLoaded: { title: 'Title notLoaded', isLoaded: false, focusedPage: 20 },
-      },
-    };
-    const { getState } = getStore(state);
-    it('should returns focused pages ids', () => {
-      getWindowsFocusedPageIds(getState()).should.eql([10, 20]);
-    });
-    it('should memoize', () => {
-      getWindowsFocusedPageIds.resetRecomputations();
-      const r = getWindowsFocusedPageIds(getState());
-      getWindowsFocusedPageIds.recomputations().should.equal(0);
-      getWindowsFocusedPageIds(getState()).should.eql(r);
-      getWindowsFocusedPageIds.recomputations().should.equal(0);
-      getWindowsFocusedPageIds({}).should.not.eql(r);
-      getWindowsFocusedPageIds.recomputations().should.equal(1);
-    });
-    it('should support empty windows list', () => {
-      getWindowsFocusedPageIds({ windows: {} }).should.eql([]);
-    });
-  });
-  describe('getWindowMinimized', () => {
-    it('should returns minimized window state', () => {
-      const state = {
-        windows: {
-          myWindowId: { minimized: true },
-        },
-      };
-      const { getState } = getStore(state);
-      getWindowMinimized(getState(), { windowId: 'myWindowId' }).should.equal(true);
-    });
-  });
-  describe('getWindowsFocusedPage', () => {
-    const state = {
-      windows: {
-        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
-        myOtherId: { title: 'Title myOtherId', focusedPage: 20, isLoaded: true },
-        anotherId: { title: 'Title anotherId', focusedPage: 30, isLoaded: true },
-      },
-      pages: {
-        10: { title: 'Page 10' },
-        20: { title: 'Page 20' },
-        40: { title: 'Page 40' },
-      },
-    };
-    const { getState } = getStore(state);
-    it('should returns focused pages', () => {
-      getWindowsFocusedPage(getState()).should.eql([
-        { title: 'Page 10' },
-        { title: 'Page 20' },
-      ]);
-    });
-    it('should memoize', () => {
-      getWindowsFocusedPage.resetRecomputations();
-      const r = getWindowsFocusedPage(getState());
-      getWindowsFocusedPage.recomputations().should.equal(0);
-      getWindowsFocusedPage(getState()).should.eql(r);
-      getWindowsFocusedPage.recomputations().should.equal(0);
-      getWindowsFocusedPage({}).should.not.eql(r);
-      getWindowsFocusedPage.recomputations().should.equal(1);
-    });
-    it('should support empty pages list', () => {
-      getWindowsFocusedPage({
-        windows: {
-          myWindowId: { title: 'Title', focusedPage: 10 },
-        },
-        pages: {},
-      }).should.eql([]);
-    });
-  });
-  describe('getWindowsVisibleViewIds', () => {
-    const state = {
-      windows: {
-        myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
-      },
-      pages: {
-        10: { title: 'Page 10', views: [100, 200], timebarUuid: 1000 },
-      },
-    };
-    const { getState } = getStore(state);
-    it('should returns focused views ids', () => {
-      getWindowsVisibleViewIds(getState()).should.eql([{
-        timebarUuid: 1000,
-        viewIds: [100, 200],
-      }]);
-    });
-    it('should memoize', () => {
-      getWindowsVisibleViewIds.resetRecomputations();
-      const r = getWindowsVisibleViewIds(getState());
-      getWindowsVisibleViewIds.recomputations().should.equal(0);
-      getWindowsVisibleViewIds(getState()).should.eql(r);
-      getWindowsVisibleViewIds.recomputations().should.equal(0);
-      getWindowsVisibleViewIds({}).should.not.eql(r);
-      getWindowsVisibleViewIds.recomputations().should.equal(1);
-    });
-    it('should return nothing', () => {
-      const otherState = {
-        windows: {
-          window1: { title: 'foo', focusedPage: 'page1' },
-        },
-        pages: {
-          page1: { title: 'bar' },
-        },
-      };
-      getWindowsVisibleViewIds(otherState).should.eql([]);
-    });
-  });
   describe('getWindowsVisibleViews', () => {
     const state = {
       windows: {
@@ -345,17 +227,6 @@ describe('store:window:selectors', () => {
         },
       };
       getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
-    });
-  });
-  describe('getIsLoaded', () => {
-    it('returns isLoaded', () => {
-      const state = {
-        windows: {
-          w1: { isLoaded: true },
-        },
-      };
-      getIsLoaded(state, { windowId: 'w1' }).should.be.true;
-      should.not.exist(getIsLoaded({}, {}));
     });
   });
   describe('getDisplayHelp', () => {

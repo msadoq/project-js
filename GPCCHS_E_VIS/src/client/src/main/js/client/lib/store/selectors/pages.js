@@ -1,9 +1,8 @@
-import _ from 'lodash/fp';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
 
-import { getPages, getPageViewsIds, getPageLayout } from '../reducers/pages';
+import { getPageViewsIds, getPageLayout } from '../reducers/pages';
 
 // specific to Page/ContentContainer
 export function makeGetViews() {
@@ -42,16 +41,3 @@ export function makeGetLayouts() {
 export function getPageModifiedViewsIds(state, { pageId }) {
   return _filter(getPageViewsIds(state, { pageId }), vId => state.views[vId].isModified);
 }
-
-// simple
-export const getPageIdByViewId = createSelector(
-  getPages,
-  (state, { viewId }) => viewId,
-  (pages, viewId) => _.pipe(
-    _.find(_.pipe(
-      _.get('views'),
-      _.find(_.equals(viewId))
-    )),
-    _.get('uuid')
-  )(pages)
-);

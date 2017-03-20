@@ -5,8 +5,7 @@ import { addEntryPoint } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 import { getTimebar } from '../../../../store/selectors/timebars';
-import { getPageIdByViewId } from '../../../../store/selectors/pages';
-import { getPage } from '../../../../store/reducers/pages';
+import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
 
 const mapStateToProps = (state, { viewId }) => {
   const getConfiguration = _.get(`views[${viewId}].configuration`);

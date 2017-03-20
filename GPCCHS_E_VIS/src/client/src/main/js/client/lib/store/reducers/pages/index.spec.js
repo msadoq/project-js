@@ -8,6 +8,7 @@ import pagesReducer, {
   getPageLayout,
   getEditor,
   getModifiedPagesIds,
+  getPageIdByViewId,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -110,6 +111,18 @@ describe('store:page:selectors', () => {
         'myPageId1',
         'myPageId3',
       ]);
+    });
+  });
+  describe('getPageIdByViewId', () => {
+    it('should returns pageId', () => {
+      const state = {
+        pages: {
+          myId: { uuid: 'myId', title: 'Title', views: ['view1', 'view2'] },
+          myOtherId: { uuid: 'myOtherId', title: 'Title other', views: ['view3'] },
+        },
+      };
+      getPageIdByViewId(state, { viewId: 'view2' }).should.equal('myId');
+      getPageIdByViewId(state, { viewId: 'view3' }).should.equal('myOtherId');
     });
   });
 });

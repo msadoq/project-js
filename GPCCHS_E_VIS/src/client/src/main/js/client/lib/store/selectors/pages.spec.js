@@ -2,7 +2,6 @@
 import {} from '../../common/test';
 
 import {
-  getPageIdByViewId,
   makeGetViews,
   makeGetLayouts,
   getPageModifiedViewsIds,
@@ -59,15 +58,5 @@ describe('store:page:selectors', () => {
 
     getPageModifiedViewsIds(state, { pageId: 'myPageId1' }).should.eql(['view1', 'view3']);
     getPageModifiedViewsIds(state, { pageId: 'otherPageId' }).should.eql([]);
-  });
-  it('getPageIdByViewId', () => {
-    const state = {
-      pages: {
-        myId: { uuid: 'myId', title: 'Title', views: ['view1', 'view2'] },
-        myOtherId: { uuid: 'myOtherId', title: 'Title other', views: ['view3'] },
-      },
-    };
-    getPageIdByViewId(state, { viewId: 'view2' }).should.equal('myId');
-    getPageIdByViewId(state, { viewId: 'view3' }).should.equal('myOtherId');
   });
 });

@@ -1,9 +1,7 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import __ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
-import { getPageIdByViewId } from './pages';
-import { getPage } from '../reducers/pages';
-// import { getPerViewData } from '../../dataManager/map';
+import { getPage, getPageIdByViewId } from '../reducers/pages';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(

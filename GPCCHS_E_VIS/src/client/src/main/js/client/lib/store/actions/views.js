@@ -5,7 +5,7 @@ import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { openEditor } from './pages';
-import { getPageIdByViewId } from '../selectors/pages';
+import { getPageIdByViewId } from '../reducers/pages';
 import { getViewModule } from '../../viewManager';
 
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'pageId', 'view');

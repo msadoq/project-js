@@ -43,7 +43,7 @@ const loadPages = (statePages, action) => {
 };
 
 // Main pages reducer
-const pages = (statePages = {}, action) => {
+const pagesReducer = (statePages = {}, action) => {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
@@ -77,11 +77,10 @@ const pages = (statePages = {}, action) => {
   }
 };
 
-export default pages;
+export default pagesReducer;
 
 /* --- Selectors ------------------------------------------------------------ */
 
-// simple
 export const getPages = state => state.pages;
 export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO use page.uuid instead
   ...state.pages[pageId], pageId,
@@ -100,4 +99,16 @@ export const getModifiedPagesIds = createSelector(
     _.filter(_.propEq('isModified', true)),
     _.map('uuid')
   )
+);
+
+export const getPageIdByViewId = createSelector(
+  getPages,
+  (state, { viewId }) => viewId,
+  (pages, viewId) => _.pipe(
+    _.find(_.pipe(
+      _.get('views'),
+      _.find(_.equals(viewId))
+    )),
+    _.get('uuid')
+  )(pages)
 );

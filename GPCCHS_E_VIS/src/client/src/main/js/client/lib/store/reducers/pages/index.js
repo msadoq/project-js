@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import { createSelector } from 'reselect';
 
 import * as types from '../../types';
 import page from './page';
@@ -87,22 +86,9 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO u
   ...state.pages[pageId], pageId,
 };
 
-export const getPanels = createSelector(
-  getPage,
-  _.get('panels')
-);
+const inPage = key => _.compose(_.get(key), getPage);
 
-export const getPageViewsIds = createSelector(
-  getPage,
-  _.get('views')
-);
-
-export const getPageLayout = createSelector(
-  getPage,
-  _.get('layout')
-);
-
-export const getEditor = createSelector(
-  getPage,
-  _.get('editor')
-);
+export const getPanels = inPage('panels');
+export const getPageViewsIds = inPage('views');
+export const getPageLayout = inPage('layout');
+export const getEditor = inPage('editor');

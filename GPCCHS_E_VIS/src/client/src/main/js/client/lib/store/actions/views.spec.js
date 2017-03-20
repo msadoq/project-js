@@ -11,6 +11,7 @@ describe('store:actions:views', () => {
     ],
     views: {
       textview: {
+        uuid: 'textview',
         type: 'TextView',
         configuration: { collapsed: false },
         path: '/folder1/oldPath',
@@ -18,12 +19,14 @@ describe('store:actions:views', () => {
         pages: ['pageWithLayout'],
       },
       plotview: {
+        uuid: 'plotview',
         type: 'PlotView',
         pages: ['emptyPage'],
       },
     },
     pages: {
       pageWithLayout: {
+        uuid: 'pageWithLayout',
         views: ['textview'],
         timebarUuid: 'tb1',
         layout: [
@@ -48,6 +51,7 @@ describe('store:actions:views', () => {
         ],
       },
       emptyPage: {
+        uuid: 'emptyPage',
         views: ['plotview'],
         timebarUuid: 'unknownTimbarId',
       },

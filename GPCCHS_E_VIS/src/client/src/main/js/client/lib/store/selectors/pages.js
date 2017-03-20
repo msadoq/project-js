@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
@@ -46,9 +47,15 @@ export function getPageModifiedViewsIds(state, { pageId }) {
   return _filter(getPageViewsIds(state, { pageId }), vId => state.views[vId].isModified);
 }
 
-// composed
-export const getPageIdByViewId = (state, { viewId }) =>
-  Object.keys(getPages(state))
-    .map(k => ({ k, viewIds: getPageViewsIds(state, { pageId: k }) }))
-    .filter(p => p.viewIds.filter(id => id === viewId).length)
-    .map(p => p.k)[0];
+// simple
+export const getPageIdByViewId = createSelector(
+  getPages,
+  (state, { viewId }) => viewId,
+  (pages, viewId) => _.pipe(
+    _.find(_.pipe(
+      _.get('views'),
+      _.find(_.equals(viewId))
+    )),
+    _.get('uuid')
+  )(pages)
+);

@@ -63,7 +63,7 @@ describe('store:page:selectors', () => {
   it('getPageModifiedViewsIds', () => {
     const state = {
       pages: {
-        myPageId1: { views: ['view1', 'view2', 'view3'] },
+        myPageId1: { uuid: 'myPageId1', views: ['view1', 'view2', 'view3'] },
       },
       views: {
         view1: { isModified: true },
@@ -78,8 +78,8 @@ describe('store:page:selectors', () => {
   it('getPageIdByViewId', () => {
     const state = {
       pages: {
-        myId: { title: 'Title', views: ['view1', 'view2'] },
-        myOtherId: { title: 'Title other', views: ['view3'] },
+        myId: { uuid: 'myId', title: 'Title', views: ['view1', 'view2'] },
+        myOtherId: { uuid: 'myOtherId', title: 'Title other', views: ['view3'] },
       },
     };
     getPageIdByViewId(state, { viewId: 'view2' }).should.equal('myId');

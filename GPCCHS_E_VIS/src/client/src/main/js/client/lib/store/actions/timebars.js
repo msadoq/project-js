@@ -8,7 +8,7 @@ import {
   addOnce as addMessage,
   reset as resetMessages,
 } from './messages';
-import { getMessages } from '../selectors/messages';
+import { getMessages } from '../reducers/messages';
 import {
   update as updateTL,
 } from './timelines';

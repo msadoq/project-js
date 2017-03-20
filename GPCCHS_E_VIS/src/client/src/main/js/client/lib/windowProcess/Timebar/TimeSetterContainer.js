@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getMessages } from '../../store/selectors/messages';
+import { getMessages } from '../../store/reducers/messages';
 import { getTimebar } from '../../store/selectors/timebars';
 import { remove } from '../../store/actions/messages';
 import {

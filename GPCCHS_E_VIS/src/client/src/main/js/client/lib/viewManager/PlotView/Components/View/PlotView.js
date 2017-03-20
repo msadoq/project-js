@@ -44,6 +44,7 @@ export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
+    updateDimensions: PropTypes.func.isRequired,
     data: PropTypes.shape({
       lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     }),
@@ -76,6 +77,12 @@ export class GrizzlyPlotView extends PureComponent {
 
   state = {
     showLegend: false,
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -351,6 +358,6 @@ export class GrizzlyPlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = Dimensions()(GrizzlyPlotView);
+const SizeablePlotView = Dimensions({ elementResize: true })(GrizzlyPlotView);
 
 export default SizeablePlotView;

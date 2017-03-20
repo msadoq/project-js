@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
@@ -8,26 +8,20 @@ import { getPages } from './pages';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  __.isEqual
+  _.isEqual
 );
 
 // simple (views reducer)
 export const getViews =
-  __.prop('views');
+  _.prop('views');
 
 // simple
 export const getWindows = state => _get(state, ['windows'], {});
 
-// derived (TODEL because have uuid)
+// simple
 export const getWindowsArray = createSelector(
   getWindows,
-  windows =>
-    Object
-      .keys(windows)
-      .map(id => ({
-        id,
-        ...windows[id],
-      }))
+  _.values
 );
 
 // derived
@@ -41,33 +35,33 @@ export const getFocusedWindow = createSelector(
 export const getWindow = createSelector(
   (state, { windowId }) => windowId,
   getWindows,
-  __.get
+  _.get
 );
 
 // simple
 export const getWindowPageIds = createSelector(
   getWindow,
-  __.get('pages')
+  _.get('pages')
 );
 
 // derived
 export const getWindowPages = createSelector(
   getWindowPageIds,
-  __.get('pages'),
+  getPages,
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
 
 // simple
 export const getWindowFocusedPageId = createSelector(
   getWindow,
-  __.get('focusedPage')
+  _.get('focusedPage')
 );
 
 // derived
 export const getWindowFocusedPageSelector = createSelector(
   getWindowFocusedPageId,
   getPages,
-  __.get
+  _.get
 );
 
 /* -------------------------------------------------------------------------- */
@@ -80,7 +74,7 @@ const getWindowsFocusedPageIds = createSelector(
 );
 
 const getWindowsFocusedPage = createSelector(
-  createDeepEqualSelector(getWindowsFocusedPageIds, __.identity),
+  createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
   getPages,
   (pageIds, pages) =>
     pageIds
@@ -118,7 +112,7 @@ export const getWindowsVisibleViews = createSelector(
 );
 /* -------------------------------------------------------------------------- */
 
-// derived
+// simple
 export const getWindowsTitle = createSelector(
   getWindows,
   windows => _reduce(

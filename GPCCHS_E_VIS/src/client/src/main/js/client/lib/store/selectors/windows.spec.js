@@ -49,8 +49,8 @@ describe('store:window:selectors', () => {
       },
     };
     getWindowsArray(state).should.eql([
-      { id: 'window1', title: 'foo' },
-      { id: 'window2', title: 'bar' },
+      { title: 'foo' },
+      { title: 'bar' },
     ]);
   });
   describe('getFocusedWindow', () => {

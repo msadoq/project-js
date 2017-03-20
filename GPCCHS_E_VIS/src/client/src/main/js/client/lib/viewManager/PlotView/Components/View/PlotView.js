@@ -5,9 +5,9 @@ import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import classnames from 'classnames';
-import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
+import Dimensions from '../../../../windowProcess/common/Dimensions';
 import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
@@ -227,10 +227,6 @@ export class GrizzlyPlotView extends PureComponent {
       showLegend,
     } = this.state;
 
-    const legendStyles = {
-      width: `${containerWidth - 30}px`,
-    };
-
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
       const eps = entryPoints.filter(ep =>
@@ -351,14 +347,12 @@ export class GrizzlyPlotView extends PureComponent {
             )
           }
         />
-        <div style={legendStyles}>
-          <Legend
-            yAxes={yAxes}
-            lines={entryPoints}
-            show={this.state.showLegend}
-            toggleShowLegend={this.toggleShowLegend}
-          />
-        </div>
+        <Legend
+          yAxes={yAxes}
+          lines={entryPoints}
+          show={this.state.showLegend}
+          toggleShowLegend={this.toggleShowLegend}
+        />
       </DroppableContainer>
     );
   }

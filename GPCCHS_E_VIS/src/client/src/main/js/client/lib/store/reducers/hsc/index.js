@@ -1,5 +1,8 @@
+import _ from 'lodash/fp';
 import _omit from 'lodash/omit';
 import * as types from '../../types';
+
+/* --- Reducer -------------------------------------------------------------- */
 
 const initialState = {
   windowsOpened: false,
@@ -41,3 +44,14 @@ export default function hsc(state = initialState, action) {
       return state;
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+
+const inHsc = key => _.path(['hsc', key]);
+
+// simples
+export const getWindowsOpened = inHsc('windowsOpened');
+export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
+export const getPlayingTimebarId = inHsc('playingTimebarId');
+export const getFocusedWindowId = inHsc('focusWindow');
+export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');

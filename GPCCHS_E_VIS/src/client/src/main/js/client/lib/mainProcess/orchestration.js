@@ -15,7 +15,7 @@ import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 import { server } from './ipc';
 import { getStore } from '../store/mainStore';
-import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/selectors/hsc';
+import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/reducers/hsc';
 import { getHealthMap, getMainStatus } from '../store/reducers/health';
 import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';

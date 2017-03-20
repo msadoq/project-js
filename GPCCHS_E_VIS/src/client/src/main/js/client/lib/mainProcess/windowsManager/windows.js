@@ -21,7 +21,7 @@ import {
   getWindows,
   getWindowsTitle,
 } from '../../store/selectors/windows';
-import { getIsWorkspaceOpening } from '../../store/selectors/hsc';
+import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
 
 const logger = getLogger('main:windowsManager:windows');
 

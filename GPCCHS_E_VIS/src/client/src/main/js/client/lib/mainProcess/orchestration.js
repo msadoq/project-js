@@ -16,7 +16,7 @@ import getLogger from 'common/log';
 import { server } from './ipc';
 import { getStore } from '../store/mainStore';
 import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/selectors/hsc';
-import { getHealthMap, getMainStatus } from '../store/selectors/health';
+import { getHealthMap, getMainStatus } from '../store/reducers/health';
 import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';

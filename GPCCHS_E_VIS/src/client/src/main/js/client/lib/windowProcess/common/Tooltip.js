@@ -3,47 +3,51 @@ import ReactDOM from 'react-dom';
 
 export default class Tooltip extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    getContent: PropTypes.func.isRequired,
     getTarget: PropTypes.func.isRequired,
   }
   componentDidMount() {
     const targetRef = this.props.getTarget();
     // eslint-disable-next-line react/no-find-dom-node
     const targetElement = ReactDOM.findDOMNode(targetRef);
-
     targetElement.addEventListener('click', this.handleTargetClicked);
-    // targetElement.addEventListener('focusin', this.handleTargetFocusIn);
-    targetElement.addEventListener('blur', this.handleTargetFocusOut);
-    // document.body.addEventListener('click', this.handleClick);
+    targetElement.addEventListener('blur', this.handleTargetBlur);
+    window.addEventListener('resize', this.handleWinResize);
 
     // eslint-disable-next-line react/no-find-dom-node
     const tooltipContainer = ReactDOM.findDOMNode(this.tooltipContainer);
     tooltipContainer.style.display = 'none';
     this.rootNode = document.createElement('div');
+    ReactDOM.render(this.props.getContent(), this.rootNode);
     document.body.appendChild(this.rootNode);
 
-    this.rootNode.appendChild(tooltipContainer.childNodes[0]);
+    // this.rootNode.appendChild(tooltipContainer.childNodes[0]);
     this.rootNode.style.position = 'absolute';
     this.rootNode.style.zIndex = 999;
     this.rootNode.style.display = 'none';
+    this.rootNode.addEventListener('click', this.hide.bind(this));
+  }
+  componentWillUpdate() {
+    ReactDOM.render(this.props.getContent(), this.rootNode);
   }
   componentWillUnmount() {
-    // document.body.removeEventListener('click', this.handleClick);
+    document.body.removeEventListener('click', this.handleTargetClicked);
+    document.body.removeEventListener('blur', this.handleTargetFocusOut);
+    window.removeEventListener('resize', this.handleWinResize);
+    this.rootNode.style.display = 'block';
     document.body.removeChild(this.rootNode);
   }
-  setPosition = () => {
+  setPosition() {
     const targetRef = this.props.getTarget();
     // eslint-disable-next-line react/no-find-dom-node
     const targetElement = ReactDOM.findDOMNode(targetRef);
     const posY =
       targetElement.getBoundingClientRect().top +
       targetElement.getBoundingClientRect().height;
-
     const posX =
       targetElement.getBoundingClientRect().left +
       targetElement.getBoundingClientRect().width +
       (this.rootNode.childNodes[0].getBoundingClientRect().width * -1);
-
     this.rootNode.style.top = `${posY}px`;
     this.rootNode.style.left = `${posX}px`;
   }
@@ -59,10 +63,20 @@ export default class Tooltip extends Component {
     this.rootNode.style.display = 'block';
     this.setPosition();
   }
-  handleTargetFocusOut = () => {
+
+  handleWinResize = () => {
+    this.hide();
+  }
+
+  hide = () => {
+    setTimeout(() => {
+      this.rootNode.style.display = 'none';
+    });
+  }
+  handleTargetBlur = () => {
     setTimeout(() => {
       if (!this.rootNode.contains(document.activeElement)) {
-        this.rootNode.style.display = 'none';
+        this.hide();
       }
     });
   }
@@ -70,9 +84,7 @@ export default class Tooltip extends Component {
     return (
       <div
         ref={(c) => { this.tooltipContainer = c; }}
-      >
-        { this.props.children }
-      </div>
+      />
     );
   }
 }

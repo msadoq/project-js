@@ -227,6 +227,10 @@ export class GrizzlyPlotView extends PureComponent {
       showLegend,
     } = this.state;
 
+    const legendStyles = {
+      width: `${containerWidth - 30}px`,
+    };
+
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
       const eps = entryPoints.filter(ep =>
@@ -347,12 +351,14 @@ export class GrizzlyPlotView extends PureComponent {
             )
           }
         />
-        <Legend
-          yAxes={yAxes}
-          lines={entryPoints}
-          show={this.state.showLegend}
-          toggleShowLegend={this.toggleShowLegend}
-        />
+        <div style={legendStyles}>
+          <Legend
+            yAxes={yAxes}
+            lines={entryPoints}
+            show={this.state.showLegend}
+            toggleShowLegend={this.toggleShowLegend}
+          />
+        </div>
       </DroppableContainer>
     );
   }

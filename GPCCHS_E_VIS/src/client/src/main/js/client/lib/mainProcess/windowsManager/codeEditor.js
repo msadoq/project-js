@@ -3,7 +3,8 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { getStore } from '../../store/mainStore';
 import { closeHtmlEditor } from '../../store/actions/editor';
-import { getViewId, getEditorTitle } from '../../store/selectors/editor';
+import { getViewId } from '../../store/reducers/editor';
+import { getEditorTitle } from '../../store/selectors/editor';
 import getCenteredPosition from './common/getCenteredPosition';
 
 const logger = getLogger('main:windowsManager:codeEditor');

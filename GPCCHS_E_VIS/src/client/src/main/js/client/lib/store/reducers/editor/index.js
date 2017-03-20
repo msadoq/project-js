@@ -1,4 +1,7 @@
+import _ from 'lodash/fp';
 import * as types from '../../types';
+
+/* --- Reducer -------------------------------------------------------------- */
 
 const initialState = {
   textViewId: null,
@@ -25,3 +28,7 @@ export default function editor(state = initialState, action) {
       return state;
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+
+export const getViewId = state => _.get(['editor', 'textViewId'], state);

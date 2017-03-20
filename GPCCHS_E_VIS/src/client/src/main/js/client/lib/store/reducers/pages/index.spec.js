@@ -5,6 +5,7 @@ import pagesReducer, {
   getPages,
   getPage,
   getPanels,
+  getPageLayout,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -32,9 +33,6 @@ describe('store:pages:reducer', () => {
 });
 
 /* --- Selectors ------------------------------------------------------------ */
-
-/* eslint no-unused-expressions: 0 */
-
 
 describe('store:page:selectors', () => {
   describe('getPage', () => {
@@ -70,6 +68,18 @@ describe('store:page:selectors', () => {
       };
       getPanels(state, { pageId: 'myId' }).should.equal(state.pages.myId.panels);
       should.not.exist(getPanels(state, { pageId: 'myOtherId' }));
+    });
+  });
+  describe('getPageLayout', () => {
+    it('should returns current page layout', () => {
+      const state = {
+        pages: {
+          myPageId: {
+            layout: [],
+          },
+        },
+      };
+      getPageLayout(state, { pageId: 'myPageId' }).should.be.an('array');
     });
   });
 });

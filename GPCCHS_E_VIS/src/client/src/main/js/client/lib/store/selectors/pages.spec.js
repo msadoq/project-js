@@ -3,7 +3,6 @@ import {} from '../../common/test';
 
 import {
   getPageIdByViewId,
-  getPageLayout,
   getEditor,
   makeGetViews,
   makeGetLayouts,
@@ -12,16 +11,6 @@ import {
 } from './pages';
 
 describe('store:page:selectors', () => {
-  it('getPageLayout', () => {
-    const state = {
-      pages: {
-        myPageId: {
-          layout: [],
-        },
-      },
-    };
-    getPageLayout(state, { pageId: 'myPageId' }).should.be.an('array');
-  });
   it('getEditor', () => {
     const state = {
       pages: {

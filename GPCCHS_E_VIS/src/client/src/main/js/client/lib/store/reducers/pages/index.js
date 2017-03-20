@@ -96,3 +96,8 @@ export const getPageViewsIds = createSelector(
   getPage,
   _.get('views')
 );
+
+export const getPageLayout = createSelector(
+  getPage,
+  _.get('layout')
+);

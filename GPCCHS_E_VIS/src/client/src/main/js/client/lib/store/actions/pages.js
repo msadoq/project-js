@@ -5,13 +5,11 @@ import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
+import { getPanels } from '../selectors/pages';
 
 /**
  * Simple actions
  */
-export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
-  'pageId', 'viewId', 'viewType');
-export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
 export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag'); // TODO boxmodel remove
 export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
@@ -76,5 +74,16 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
     } else {
       dispatch(moveView(fromPageId, toPageId, viewId));
     }
+  };
+}
+
+export function openEditor(pageId, viewId) { // TODO boxmodel test
+  return (dispatch, getState) => {
+    const { editorWidth } = getPanels(getState(), { pageId });
+    if (!editorWidth || editorWidth < 1) {
+      dispatch(resizeEditor(pageId, 350));
+    }
+
+    dispatch(loadInEditor(pageId, viewId));
   };
 }

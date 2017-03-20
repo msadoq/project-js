@@ -1,38 +1,22 @@
-.container{
+.container {
   flex-direction: column;
   display: flex;
   height: 100%;
   overflow: hidden;
 }
 
-.content{
-  padding: 10px 5px;
-  height: calc(100% - 40px);
-  position: relative;
-}
-
-.tools {
-  padding: 5px;
-  background: #FAFAFA;
-}
-
-.divPagesTb{
-  display: flex;
-  flex-direction: column;
+.content {
   height: 100%;
-  background: #FAFAFA;
-}
-.TabsContainer{
-  height: 40px;
-}
-.contentDiv{
-  flex-grow: 16;
+  /* TODO boxmodel remove after panel resizing */
   display: flex;
   flex-direction: row;
-  width: 100%;
-  flex-wrap: nowrap
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+  /* TODO boxmodel remove after panel resizing */
 }
-.contentDivChildPage{
-  flex: 1 0 auto;;
-  overflow: auto;
+
+.tabs {
+  height: 40px;
 }

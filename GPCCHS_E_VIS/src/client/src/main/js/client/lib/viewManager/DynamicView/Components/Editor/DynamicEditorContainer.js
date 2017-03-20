@@ -11,14 +11,13 @@ import {
   updateTitleStyle,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { viewId, focusedPageId }) => {
+const mapStateToProps = (state, { viewId, pageId }) => {
   const view = getView(state, { viewId });
-  const { timebarUuid } = getPage(state, { pageId: focusedPageId });
+  const { timebarUuid } = getPage(state, { pageId });
   const getConfiguration = _.get(`views[${viewId}].configuration`);
   const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
   return {
     title: view.title,
-    type: view.type,
     titleStyle: view.titleStyle,
     configuration: getConfiguration(state),
     timelines,
@@ -33,7 +32,6 @@ const DynamicEditorContainer = connect(mapStateToProps, {
 
 DynamicEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
-  closeEditor: PropTypes.func,
 };
 
 export default DynamicEditorContainer;

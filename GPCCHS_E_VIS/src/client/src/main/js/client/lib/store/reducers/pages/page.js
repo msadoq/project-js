@@ -73,14 +73,6 @@ const page = (statePage = initialState, action) => {
         _.set('isModified', true)
       )(statePage);
     }
-    case types.WS_PAGE_EDITOR_OPEN:
-      return _.update('editor', _.merge(_, {
-        isOpened: true,
-        viewId: action.payload.viewId,
-        viewType: action.payload.viewType,
-      }), statePage);
-    case types.WS_PAGE_EDITOR_CLOSE:
-      return _.set('editor.isOpened', false, statePage);
     case types.WS_PAGE_UPDATE_LAYOUT: {
       return {
         ...statePage,

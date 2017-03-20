@@ -74,9 +74,8 @@ export function addEntryPoint(viewId, entryPoint) {
 export function dropEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
     const state = getState();
-    const currentView = state.views[viewId];
     const currentPageId = getPageIdByViewId(state, { viewId });
     dispatch(addEntryPoint(viewId, entryPoint));
-    dispatch(openEditor(currentPageId, viewId, currentView.type));
+    dispatch(openEditor(currentPageId, viewId));
   };
 }

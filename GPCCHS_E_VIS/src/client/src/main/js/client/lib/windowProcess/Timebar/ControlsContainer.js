@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import { getMasterTimelineById } from '../../store/selectors/timebars';
 import { getSession } from '../../store/selectors/sessions';
-import { getMasterSessionId } from '../../store/selectors/masterSession';
+import { getMasterSessionId } from '../../store/reducers/masterSession';
 import {
   switchToNormalMode,
   switchToRealtimeMode,

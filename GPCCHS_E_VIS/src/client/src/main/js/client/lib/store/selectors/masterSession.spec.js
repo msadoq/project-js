@@ -1,18 +1,7 @@
 import { should } from '../../common/test';
-import {
-  getMasterSessionId,
-  getMasterSession,
-} from './masterSession';
+import { getMasterSession } from './masterSession';
 
 describe('store:masterSession:selectors', () => {
-  describe('getMasterSessionId', () => {
-    it('should support empty state without error', () => {
-      should.not.exist(getMasterSessionId({}));
-    });
-    it('should returns master sessionId', () => {
-      getMasterSessionId({ masterSession: { sessionId: 10 } }).should.equal(10);
-    });
-  });
   describe('getMasterSession', () => {
     it('should return master session', () => {
       const state = {

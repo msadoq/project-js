@@ -1,4 +1,7 @@
+import _ from 'lodash/fp';
 import * as types from '../../types';
+
+/* --- Reducer -------------------------------------------------------------- */
 
 export default function hsc(state = {}, action) {
   switch (action.type) {
@@ -8,3 +11,7 @@ export default function hsc(state = {}, action) {
       return state;
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+
+export const getMasterSessionId = _.get(['masterSession', 'sessionId']);

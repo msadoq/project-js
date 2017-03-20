@@ -8,7 +8,6 @@ import {
   getViewConfiguration,
   getViewContent,
   getViewEntryPoint,
-  getViewEntryPointStateColors,
 } from './views';
 
 describe('store:views:selectors', () => {
@@ -350,16 +349,5 @@ describe('store:views:selectors', () => {
       type: 'TextView',
       name: 'STAT_SU_PID',
     });
-  });
-  it('getViewEntryPointStateColors', () => {
-    getViewEntryPointStateColors(completeState, { viewId: 'plot1', epName: 'STAT_SU_PID' }).should.eql([
-      {
-        color: '#000000',
-        condition: {
-          field: 'extractedValue',
-          operator: '>',
-          operand: '1',
-        },
-      }]);
   });
 });

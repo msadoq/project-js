@@ -20,6 +20,7 @@ export const getView =
   (state, { viewId }) =>
     __.prop(viewId, getViews(state));
 
+// TODO / TODEL ? (rfabre)
 // composed ( because need viewConfiguration )
 export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   const epOnAxis = [];
@@ -33,12 +34,6 @@ export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   });
   return epOnAxis;
 };
-
-// simple
-export const getViewsIdsCollapsed = createSelector(
-  getViews,
-  views => __.keys(__.pickBy('configuration.collapsed', views))
-);
 
 // simple
 export const getModifiedViewsIds = state =>
@@ -96,9 +91,3 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 // composed
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
-
-// composed
-export const getViewEntryPointStateColors = createSelector(
-  getViewEntryPoint,
-  ep => ep.stateColors || []
-);

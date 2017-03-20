@@ -2,7 +2,6 @@ import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
 import { getTimelines } from './timelines';
-import { getPage } from './pages';
 import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
 
 // simple
@@ -11,13 +10,6 @@ export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid
 
 // simple
 export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
-
-// composed
-export const getTimebarByPageId = (state, { pageId }) => {
-  const page = getPage(state, { pageId });
-  if (!page) return undefined;
-  return getTimebar(state, { timebarUuid: page.timebarUuid });
-};
 
 // simple
 export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
@@ -46,7 +38,7 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// composed
+// composed specific
 export const getMasterTimelineById = createSelector(
   getTimebarMasterId,
   getTimebarTimelinesSelector,

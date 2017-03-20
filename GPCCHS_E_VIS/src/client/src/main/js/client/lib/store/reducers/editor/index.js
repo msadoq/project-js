@@ -31,4 +31,5 @@ export default function editor(state = initialState, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 
+// rename in getEditorTextViewId
 export const getViewId = state => _.get(['editor', 'textViewId'], state);

@@ -25,7 +25,7 @@ export function getEditor(state, { pageId }) {
   return _get(state, `pages.${pageId}.editor`);
 }
 
-// composed
+// composed specific
 export function makeGetViews() {
   return createSelector(
     getPageViewsIds,
@@ -34,7 +34,7 @@ export function makeGetViews() {
   );
 }
 
-// simple
+// simple specific
 export function makeGetLayouts() {
   return createSelector(
     getPageLayout,

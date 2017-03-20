@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 
 import * as types from '../../types';
 import page from './page';
@@ -85,3 +86,8 @@ export const getPages = state => state.pages;
 export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO use page.uuid instead
   ...state.pages[pageId], pageId,
 };
+
+export const getPanels = createSelector(
+  getPage,
+  _.get('panels')
+);

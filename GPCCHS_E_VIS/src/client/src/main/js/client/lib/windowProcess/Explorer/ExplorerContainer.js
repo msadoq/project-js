@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Explorer from './Explorer';
 
-import { getPanels } from '../../store/selectors/pages';
+import { getPanels } from '../../store/reducers/pages';
 import { focusTabInExplorer } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { pageId }) => {

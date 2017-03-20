@@ -1,8 +1,7 @@
 /* eslint no-unused-expressions: 0 */
-import { should } from '../../common/test';
+import {} from '../../common/test';
+
 import {
-  getPages,
-  getPage,
   getPageIdByViewId,
   getPageLayout,
   getEditor,
@@ -10,7 +9,6 @@ import {
   makeGetLayouts,
   getModifiedPagesIds,
   getPageModifiedViewsIds,
-  getPanels,
 } from './pages';
 
 describe('store:page:selectors', () => {
@@ -108,15 +106,5 @@ describe('store:page:selectors', () => {
     };
     getPageIdByViewId(state, { viewId: 'view2' }).should.equal('myId');
     getPageIdByViewId(state, { viewId: 'view3' }).should.equal('myOtherId');
-  });
-  it('getPanels', () => {
-    const state = {
-      pages: {
-        myId: { title: 'Title', panels: { editorWidth: 0 } },
-        myOtherId: { title: 'Title other', panels: undefined },
-      },
-    };
-    getPanels(state, { pageId: 'myId' }).should.equal(state.pages.myId.panels);
-    should.not.exist(getPanels(state, { pageId: 'myOtherId' }));
   });
 });

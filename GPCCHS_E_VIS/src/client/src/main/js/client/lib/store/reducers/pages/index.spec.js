@@ -4,6 +4,7 @@ import * as types from '../../types';
 import pagesReducer, {
   getPages,
   getPage,
+  getPanels,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -57,6 +58,18 @@ describe('store:page:selectors', () => {
       };
 
       getPages(state).should.equal(state.pages);
+    });
+  });
+  describe('getPanels', () => {
+    it('should returns panels', () => {
+      const state = {
+        pages: {
+          myId: { title: 'Title', panels: { editorWidth: 0 } },
+          myOtherId: { title: 'Title other', panels: undefined },
+        },
+      };
+      getPanels(state, { pageId: 'myId' }).should.equal(state.pages.myId.panels);
+      should.not.exist(getPanels(state, { pageId: 'myOtherId' }));
     });
   });
 });

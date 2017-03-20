@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import { getStore } from '../../store/mainStore';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/selectors/windows';
-import { getPanels } from '../../store/selectors/pages';
+import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { resizeExplorer, resizeTimebar } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';

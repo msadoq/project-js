@@ -3,7 +3,7 @@ import {
   getWindowFocusedPageId,
   getDisplayHelp,
 } from '../../store/selectors/windows';
-import { getPanels } from '../../store/selectors/pages';
+import { getPanels } from '../../store/reducers/pages';
 import { setIsLoaded, displayHelp } from '../../store/actions/windows';
 
 import Window from './Window';

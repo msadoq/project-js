@@ -41,7 +41,8 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
       dispatch(add('global', 'danger', 'Cannot connect to RTD'));
       return;
     }
-    dispatch(updateInspectorStaticDataNode([], prepareDataToTree(null, { rootName: parameterName })));
+    dispatch(updateInspectorStaticDataNode(
+      [], prepareDataToTree(null, { rootName: parameterName })));
     dispatch(isInspectorStaticDataNodeLoading([], true));
     dispatch(isInspectorStaticDataNodeToggled([], true));
 

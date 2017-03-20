@@ -108,23 +108,16 @@ class Container extends PureComponent {
       container: PropTypes.array,
       header: PropTypes.object,
       toggle: PropTypes.object,
-    }),
+    }).isRequired,
+    onClick: PropTypes.func.isRequired,
     decorators: PropTypes.shape({
       Toggle: PropTypes.func,
-    }),
-    onClick: PropTypes.func,
+    }).isRequired,
     node: PropTypes.shape({
+      toggled: PropTypes.bool,
       type: PropTypes.string,
-    }),
-    animations: PropTypes.shape({}),
-  };
-
-  static defaultProps = {
-    style: {},
-    decorators: {},
-    onClick: () => {},
-    node: {},
-    animations: {},
+    }).isRequired,
+    animations: PropTypes.shape({}).isRequired,
   };
 
   onMouseDown = (event) => {
@@ -136,7 +129,10 @@ class Container extends PureComponent {
   renderToggleDecorator() {
     const Toggle = this.props.decorators.Toggle;
     return (
-      <Toggle style={this.props.style.toggle} />
+      <Toggle
+        style={this.props.style.toggle}
+        toggled={this.props.node.toggled}
+      />
     );
   }
 

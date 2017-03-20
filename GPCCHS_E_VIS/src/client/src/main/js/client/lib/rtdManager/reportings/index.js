@@ -116,7 +116,7 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
 }
 
 export function getSignificativityConditions({ rtd, sessionId, domainId }, reporting, callback) {
-  asyncEach(reporting.DomainSpecificValidityConditions, (validityCondition, cb) => {
+  asyncMap(reporting.DomainSpecificValidityConditions, (validityCondition, cb) => {
     const expression = validityCondition.ValidityConditionEXPR;
     if (!_isNil(expression)) {
       cb(null, {

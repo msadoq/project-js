@@ -74,7 +74,7 @@ export function start() {
 
       splashScreen.setMessage('starting rtd simulator...');
       logger.info('starting rtd simulator...');
-      rtdStub(socket, { redisMock: true }, callback);
+      rtdStub(socket, { redisMock: true, sessionId: 0, domainId: 4 }, callback);
     },
     (callback) => {
       splashScreen.setMessage('starting data server process...');

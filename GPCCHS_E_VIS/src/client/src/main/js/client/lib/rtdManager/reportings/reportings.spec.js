@@ -9,6 +9,7 @@ import {
   getAliases,
   getMonitoringLaws,
   getCalibrationFunctions,
+  getSignificativityConditions,
   getComputedParameterFormula,
   getComputedParameterTriggers,
 } from './';
@@ -84,12 +85,14 @@ describe('rtdManager/reportings', () => {
       done();
     });
   });
-  /* it('getSignificativity', (done) => {
-    getSignificativity({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      console.log(desc);
+  it('getSignificativityConditions', (done) => {
+    getSignificativityConditions({ rtd, sessionId, domainId }, reporting, (err, conds) => {
+      conds.should.be.an('array');
+      conds[0].should.be.an('object');
+      conds[0].should.have.a.property('DomainApplicability');
       done();
     });
-  });*/
+  });
   it('getCalibrationFunctions', (done) => {
     getCalibrationFunctions({ rtd, sessionId, domainId }, reporting, (err, funcs) => {
       funcs.should.be.an('object');

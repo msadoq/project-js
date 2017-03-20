@@ -1,6 +1,5 @@
-/* eslint-disable */
 import React, { PropTypes, PureComponent } from 'react';
-import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
+import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel, Button } from 'react-bootstrap';
 import classnames from 'classnames';
 import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
@@ -9,8 +8,6 @@ import _isObject from 'lodash/isObject';
 import moment from 'moment';
 import styles from './DynamicView.css';
 import { main } from '../../ipc';
-
-const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
 function convertData(data) {
   if (data.type === 'time') {
@@ -115,7 +112,6 @@ export default class DynamicView extends PureComponent {
       index: PropTypes.object,
     }),
     entryPoints: PropTypes.objectOf(PropTypes.object),
-    formula: PropTypes.string,
     windowId: PropTypes.string.isRequired,
   };
 
@@ -124,29 +120,41 @@ export default class DynamicView extends PureComponent {
     entryPoints: {},
   };
 
-  onMouseDown = (event, parameterName) => {
-    event.preventDefault();
-    if (event.buttons === 2) {
-      // TODO retrieve sessionId and domainId
-      const sessionId = 0;
-      const domainId = 3;
-      main.openInspector({
-        windowId: this.props.windowId,
-        parameterName,
-        sessionId,
-        domainId,
-      });
-    }
+  state = {
+    showContext: false,
+    x: null,
+    y: null,
   }
 
-  parseFormula = () => {
-    const { formula } = this.props;
-    if (typeof formula !== 'string' || !pattern.test(formula)) {
-      return 'No connected data';
-    }
 
-    const matches = formula.match(pattern);
-    return matches[2] ? matches[2] : 'Invalid connected data';
+  onContextMenu = (event) => {
+    const x = event.clientX - this.el.getBoundingClientRect().left;
+    const y = event.clientY - this.el.getBoundingClientRect().top;
+    this.setState({
+      showContext: true,
+      x,
+      y,
+    });
+  }
+
+  assignEl = (el) => { this.el = el; };
+
+  openInspector = (parameterName, sessionId, domainId) => {
+    main.openInspector({
+      windowId: this.props.windowId,
+      parameterName,
+      sessionId,
+      domainId,
+    });
+  }
+
+  hideMenu = (event) => {
+    if (event.buttons === 2 || this.state.showContext === false) {
+      return;
+    }
+    this.setState({
+      showContext: false,
+    });
   }
 
   render() {
@@ -164,15 +172,32 @@ export default class DynamicView extends PureComponent {
       );
     }
 
-    const parsedFormula = this.parseFormula();
+    const contextStyle = {
+      zIndex: 4,
+      position: 'absolute',
+      left: this.state.x,
+      top: this.state.y,
+    };
+
+    const { parameterName, sessionId, domainId } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
-      <div>
-        <header
-          onMouseDown={event => this.onMouseDown(event, parsedFormula)}
-          className={styles.header}
-        >
-          <h1>{parsedFormula}</h1>
+      <div
+        ref={this.assignEl}
+        onContextMenu={this.onContextMenu}
+        onClick={this.hideMenu}
+      >
+        {
+          this.state.showContext &&
+          <Button
+            style={contextStyle}
+            onClick={() => this.openInspector(parameterName, sessionId, domainId)}
+          >
+            {'Open in Inspector'}
+          </Button>
+        }
+        <header className={styles.header}>
+          <h1>{parameterName}</h1>
         </header>
         <Grid fluid className="ml10 mr10">
           <Row><Panel>{objectHeader(ep)}</Panel></Row>

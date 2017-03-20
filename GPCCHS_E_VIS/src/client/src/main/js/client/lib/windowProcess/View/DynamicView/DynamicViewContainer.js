@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import DynamicView from './DynamicView';
 
-const mapStateToProps = (state, { viewId, windowId }) => {
+const mapStateToProps = (state, { viewId }) => {
   const formula = _get(state,
     ['views', viewId, 'configuration', 'entryPoints', 0, 'connectedData', 'formula']);
   return {
     formula,
-    windowId,
   };
 };
 export const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);

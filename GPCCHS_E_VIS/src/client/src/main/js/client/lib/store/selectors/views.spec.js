@@ -3,7 +3,6 @@ import { should, getStore } from '../../common/test';
 import {
   getViews,
   getView,
-  getEntryPointOnAxis,
   getModifiedViewsIds,
   getViewConfiguration,
   getViewContent,
@@ -260,35 +259,6 @@ describe('store:views:selectors', () => {
       const { getState } = getStore(state);
       getViews(getState()).should.equal(state.views);
     });
-  });
-  it('getEntryPointOnAxis', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-            entryPoints: [{
-              name: 'ep1',
-              connectedDataX: { axisId: 'axis1' },
-              connectedDataY: { axisId: 'axis2' },
-            }, {
-              name: 'ep2',
-              connectedDataX: { axisId: 'axis1' },
-              connectedDataY: { axisId: 'axis3' },
-            }],
-            axes: {
-              axis1: {},
-              axis2: {},
-              axis3: {},
-            },
-          },
-        },
-      },
-    };
-    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'axis1' }).should.be.an('array').with.length(2);
-    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'axis2' }).should.be.an('array').with.length(1);
-    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'invalidAxis' }).should.be.an('array').with.length(0);
-    getEntryPointOnAxis(state, { viewId: 'unknown', axisId: 'axis1' }).should.be.an('array').with.length(0);
   });
   it('getModifiedViewsIds', () => {
     const state = {

@@ -3,7 +3,7 @@ import { getStore } from '../../store/mainStore';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
-import { resizeExplorer, resizeTimebar } from '../../store/actions/pages';
+import { resizeEditor, resizeExplorer, resizeTimebar } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
@@ -105,6 +105,22 @@ const view = {
 const panel = {
   label: 'Panel',
   submenu: [
+    {
+      label: 'Toggle Editor',
+      accelerator: 'CmdOrCtrl+Shift+E',
+      click(item, focusedWindow) {
+        if (focusedWindow && focusedWindow.windowId) {
+          const { getState, dispatch } = getStore();
+          const { windowId } = focusedWindow;
+          const pageId = getWindowFocusedPageId(getState(), { windowId });
+          const panels = getPanels(getState(), { pageId });
+          const size = (panels && panels.editorWidth === 0)
+            ? 350
+            : 0;
+          dispatch(resizeEditor(pageId, size));
+        }
+      },
+    },
     {
       label: 'Toggle Explorer',
       accelerator: 'CmdOrCtrl+E',

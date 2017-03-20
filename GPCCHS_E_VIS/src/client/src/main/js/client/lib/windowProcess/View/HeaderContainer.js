@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getView } from '../../store/selectors/views';
-import { getPage, getPanels } from '../../store/selectors/pages';
+import { getPage, getPanels } from '../../store/reducers/pages';
 import { getWindowPages } from '../../store/selectors/windows';
 import { closeView } from '../../store/actions/views';
 import {

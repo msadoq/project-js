@@ -1,22 +1,22 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPage, getPageIdByViewId } from '../reducers/pages';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  __.isEqual
+  _.isEqual
 );
 
 // simple
 export const getViews =
-  __.prop('views');
+  _.prop('views');
 
 // simple
 export const getView =
   (state, { viewId }) =>
-    __.prop(viewId, getViews(state));
+    _.prop(viewId, getViews(state));
 
 // simple
 export const getModifiedViewsIds = state =>
@@ -27,13 +27,13 @@ export const getModifiedViewsIds = state =>
 // simple
 export const getViewConfiguration = createSelector(
   getView,
-  __.prop('configuration')
+  _.prop('configuration')
 );
 
 // simple
 export const getViewContent = createSelector(
   getViewConfiguration,
-  __.prop('content')
+  _.prop('content')
 );
 /* ********************************************************
 * Comparison function to omit timebars in comparison
@@ -86,11 +86,11 @@ export const getPerViewData = createDeepEqualSelectorPerViewData(
 
 // composed / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
-  __.get('entryPoints', getPerViewData(state, { viewId })));
+  _.get('entryPoints', getPerViewData(state, { viewId })));
 
 // composed
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>
-  __.map(ep => ep.name, entryPoints)
+  _.map(ep => ep.name, entryPoints)
 );
 
 // composed

@@ -1,7 +1,7 @@
 import _find from 'lodash/find';
 import { createSelector } from 'reselect';
-import { getSessions } from './sessions';
 
+import { getSessions } from '../reducers/sessions';
 import { getMasterSessionId } from '../reducers/masterSession';
 
 // composed specific to MasterSessionContainer

@@ -29,7 +29,13 @@ export default class Tooltip extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // SCU has been called by internal this.setState
+    if (this.state.showTooltip && !nextState.showTooltip) {
+      return true;
+    }
+    if (!nextState || !nextState.showTooltip) {
+      return false;
+    }
+
     if (nextState.linesList) {
       return true;
     }

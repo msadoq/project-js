@@ -1,6 +1,8 @@
+import { getEditorTitle } from '../reducers/editor';
 import { getView } from './views';
 
-const getEditorTitle = (state, viewId) => {
+// specific composed
+const getEditorWindowTitle = (state, viewId) => {
   if (!viewId) {
     return '';
   }
@@ -11,9 +13,9 @@ const getEditorTitle = (state, viewId) => {
     return '';
   }
 
-  return `TextView HTML editor - ${view.title}`;
+  return `${getEditorTitle(state)} - ${view.title}`;
 };
 
 export default {
-  getEditorTitle,
+  getEditorWindowTitle,
 };

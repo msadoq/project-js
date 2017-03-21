@@ -4,7 +4,7 @@ import parameters from 'common/parameters';
 import { getStore } from '../../store/mainStore';
 import { closeHtmlEditor } from '../../store/actions/editor';
 import { getEditorTextViewId } from '../../store/reducers/editor';
-import { getEditorTitle } from '../../store/selectors/editor';
+import { getEditorWindowTitle } from '../../store/selectors/editor';
 import getCenteredPosition from './common/getCenteredPosition';
 
 const logger = getLogger('main:windowsManager:codeEditor');
@@ -58,7 +58,7 @@ export function close() {
 export function observer(callback) {
   const state = getStore().getState();
   const editedViewId = getEditorTextViewId(state);
-  const title = getEditorTitle(state, editedViewId);
+  const title = getEditorWindowTitle(state, editedViewId);
 
   if (isExists() && title !== win.getTitle()) {
     win.setTitle(title);

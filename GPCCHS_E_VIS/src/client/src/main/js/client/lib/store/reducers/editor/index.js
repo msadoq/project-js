@@ -33,3 +33,4 @@ export default function editor(state = initialState, action) {
 /* --- Selectors ------------------------------------------------------------ */
 
 export const getEditorTextViewId = state => _.get('editor.textViewId', state);
+export const getEditorTitle = state => _.get('editor.title', state);

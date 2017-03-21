@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
 import { getDomains } from '../store/reducers/domains';
-import { getMasterSessionId } from '../store/selectors/masterSession';
+import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/selectors/views';
 import { getStructureType, getStructureModule } from '../viewManager';

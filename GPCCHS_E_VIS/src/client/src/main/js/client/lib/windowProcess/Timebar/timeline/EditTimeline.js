@@ -19,7 +19,7 @@ class EditTimeline extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -38,7 +38,7 @@ class EditTimeline extends PureComponent {
     ).isRequired,
     masterId: PropTypes.string,
     id: PropTypes.string.isRequired,
-    timelineUuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
@@ -68,7 +68,7 @@ class EditTimeline extends PureComponent {
       handleSubmit,
       masterId,
       id,
-      timelineUuid,
+      uuid,
     } = this.props;
     const { disableSubmit } = this.state;
 
@@ -79,7 +79,7 @@ class EditTimeline extends PureComponent {
           sessions={sessions}
           timelines={timelines}
           masterId={masterId}
-          timelineUuid={timelineUuid}
+          uuid={uuid}
           id={id}
           disableSubmit={this.disableSubmit}
         />

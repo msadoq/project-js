@@ -1,7 +1,10 @@
+import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
 import * as types from '../../types';
 import page from './page';
+
+/* --- Reducer -------------------------------------------------------------- */
 
 // move a view to a page
 const moveViewToPage = (statePages, action) => {
@@ -40,7 +43,7 @@ const loadPages = (statePages, action) => {
 };
 
 // Main pages reducer
-const pages = (statePages = {}, action) => {
+const pagesReducer = (statePages = {}, action) => {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
@@ -74,4 +77,38 @@ const pages = (statePages = {}, action) => {
   }
 };
 
-export default pages;
+export default pagesReducer;
+
+/* --- Selectors ------------------------------------------------------------ */
+
+export const getPages = state => state.pages;
+export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO use page.uuid instead
+  ...state.pages[pageId], pageId,
+};
+
+const inPage = key => _.compose(_.get(key), getPage);
+
+export const getPanels = inPage('panels');
+export const getPageViewsIds = inPage('views');
+export const getPageLayout = inPage('layout');
+export const getEditor = inPage('editor');
+
+export const getModifiedPagesIds = createSelector(
+  getPages,
+  _.pipe(
+    _.filter(_.propEq('isModified', true)),
+    _.map('uuid')
+  )
+);
+
+export const getPageIdByViewId = createSelector(
+  getPages,
+  (state, { viewId }) => viewId,
+  (pages, viewId) => _.pipe(
+    _.find(_.pipe(
+      _.get('views'),
+      _.find(_.equals(viewId))
+    )),
+    _.get('uuid')
+  )(pages)
+);

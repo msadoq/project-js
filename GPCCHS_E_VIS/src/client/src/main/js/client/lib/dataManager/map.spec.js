@@ -428,6 +428,9 @@ describe('data:map', () => {
   });
   it('memoization map', () => {
     map.resetRecomputations();
+    getPerRemoteIdMap.resetRecomputations();
+    getPerViewMap.resetRecomputations();
+    map.recomputations().should.eql(0);
     map(state);
     map.recomputations().should.eql(1);
     map(state);

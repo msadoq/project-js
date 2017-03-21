@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import styles from './Timebar.css';
 import Scale from './Scale';
 import TimebarTimeline from './TimebarTimeline';
+import VisuWindow from './timebar/VisuWindow';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 // 1980-01-01
@@ -57,7 +58,7 @@ export default class Timebar extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -834,26 +835,31 @@ export default class Timebar extends PureComponent {
     }
   }
 
-  formatDate(ms, cursor) {
+  formatDate = (ms, cursor) => {
+    const {
+      timeEnd,
+      timeBeginning,
+    } = this.state;
     const date = moment(ms);
+
     if (cursor) {
-      if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24 * 30)) {
+      if ((timeEnd - timeBeginning) > (1000 * 60 * 60 * 24 * 30)) {
         return date.format('YYYY[-]MM[-]DD');
-      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24 * 4)) {
+      } else if ((timeEnd - timeBeginning) > (1000 * 60 * 60 * 24 * 4)) {
         return date.format('YYYY[-]MM[-]DD HH');
-      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24)) {
+      } else if ((timeEnd - timeBeginning) > (1000 * 60 * 60 * 24)) {
         return date.format('MM[-]DD HH[:]mm[:]ss');
-      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
+      } else if ((timeEnd - timeBeginning) > (1000 * 60 * 60 * 6)) {
         return date.format('MM[-]DD HH[:]mm[:]ss');
-      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
+      } else if ((timeEnd - timeBeginning) > (1000 * 60 * 4)) {
         return date.format('HH[:]mm[:]ss');
       }
       return date.format('HH[:]mm[:]ss.SSS');
     }
 
-    if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
+    if ((timeEnd - timeBeginning) > (1000 * 60 * 60 * 6)) {
       return date.format('YYYY[-]MM[-]DD HH[:]mm[:]ss');
-    } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
+    } else if ((timeEnd - timeBeginning) > (1000 * 60 * 4)) {
       return date.format('MM[-]DD HH[:]mm[:]ss');
     }
     return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
@@ -1088,8 +1094,6 @@ export default class Timebar extends PureComponent {
       Determinate for each cursor if we display a handle to help
       the user
     */
-    const lowerCurrentClose = (currentPercent - lowerPercent) * (widthPx * 0.01) < 20;
-    const upperCurrentClose = (upperPercent - currentPercent) * (widthPx * 0.01) < 20;
     const slideUpperUpperClose = Math.abs((upperPercent - calc.slideUpperPercentOffset)
       * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
     const slideUpperCurrentClose = Math.abs((calc.slideUpperPercentOffset - currentPercent)
@@ -1098,8 +1102,6 @@ export default class Timebar extends PureComponent {
       * (widthPx * 0.01)) < 20 && timebarMode === 'Fixed';
     const slideLowerLowerClose = Math.abs((calc.slideLowerPercentOffset - lowerPercent)
       * (widthPx * 0.01)) < 20 && timebarMode === 'Fixed';
-    const moveLower = (currentPercent - lowerPercent) * (widthPx * 0.01) < 40;
-    const moveUpper = (upperPercent - currentPercent) * (widthPx * 0.01) < 40;
 
     return (
       <div
@@ -1121,120 +1123,25 @@ export default class Timebar extends PureComponent {
             lower and upper are absolutely positionned on the right and left of
             this div
           */ }
-          <div
-            className={
-              classnames(
-                styles.visuWindow,
-                (dragging ? styles.viewportDragging : null),
-                (resizing ? styles.viewportResizing : null)
-              )
-            }
-            style={{
-              left: `${calc.lowerPercentOffset}%`,
-              width: `${calc.selectedPercentWidth}%`,
-            }}
+          <VisuWindow
+            timebarMode={timebarMode}
+            lower={lower}
+            current={current}
+            upper={upper}
+            formatDate={this.formatDate}
+            toggleTimesetter={toggleTimesetter}
             onMouseDown={this.onMouseDown}
-          >
-
-            { /*
-              The 3 main cursors
-            */ }
-            <span
-              cursor="lower"
-              className={styles.lower}
-              onMouseDown={this.onMouseDownResize}
-              onDoubleClick={toggleTimesetter}
-            />
-
-            { /*
-              Circle handle for lower cursor
-            */ }
-            <span
-              cursor="lower"
-              className={classnames(
-                styles.handle,
-                styles.handleLower,
-                { [styles.undisplayed]: !lowerCurrentClose && !slideLowerLowerClose }
-              )}
-              onMouseDown={this.onMouseDownResize}
-              onDoubleClick={toggleTimesetter}
-            />
-            <span
-              cursor="current"
-              className={styles.current}
-              style={{ left: `${calc.currentPercentOffset}%` }}
-              onMouseDown={this.onMouseDownNavigate}
-              onDoubleClick={toggleTimesetter}
-            />
-
-            { /*
-              Circle handle for current cursor
-            */ }
-            <span
-              cursor="current"
-              className={classnames(
-                styles.handle,
-                styles.handleCurrent,
-                { [styles.undisplayed]: !lowerCurrentClose && !upperCurrentClose &&
-                  !slideUpperCurrentClose && !slideLowerCurrentClose }
-              )}
-              style={{ left: `${calc.currentPercentOffset}%` }}
-              onMouseDown={this.onMouseDownNavigate}
-              onDoubleClick={toggleTimesetter}
-            />
-            <span
-              cursor="upper"
-              className={styles.upper}
-              onMouseDown={this.onMouseDownResize}
-              onDoubleClick={toggleTimesetter}
-            />
-
-            { /*
-              Circle handle for upper cursor
-            */ }
-            <span
-              cursor="upper"
-              className={classnames(
-                styles.handle,
-                styles.handleUpper,
-                { [styles.undisplayed]: !upperCurrentClose && !slideUpperUpperClose }
-              )}
-              onMouseDown={this.onMouseDownResize}
-              onDoubleClick={toggleTimesetter}
-            />
-
-            { /*
-              The 3 main cursors's formatted dates
-            */ }
-            <span
-              className={classnames(
-                styles.lowerFormattedTime,
-                {
-                  [styles.moved]: moveLower,
-                  hidden: lower === current,
-                }
-              )}
-            >
-              {this.formatDate(lower, true)}
-            </span>
-            <span
-              className={styles.currentFormattedTime}
-              style={{ left: `${calc.currentPercentOffset}%` }}
-            >
-              {this.formatDate(current, true)}
-            </span>
-            <span
-              className={classnames(
-                styles.upperFormattedTime,
-                {
-                  [styles.moved]: moveUpper,
-                  hidden: upper === current,
-                }
-              )}
-            >
-              {this.formatDate(upper, true)}
-            </span>
-          </div>
+            onMouseDownResize={this.onMouseDownResize}
+            onMouseDownNavigate={this.onMouseDownNavigate}
+            dragging={dragging}
+            resizing={resizing}
+            lowerPercentOffset={calc.lowerPercentOffset}
+            currentPercentOffset={calc.currentPercentOffset}
+            selectedPercentWidth={calc.selectedPercentWidth}
+            slideUpperPercentOffset={calc.slideUpperPercentOffset}
+            slideLowerPercentOffset={calc.slideLowerPercentOffset}
+            widthPx={widthPx}
+          />
 
           { /*
             The 2 blue sildeWindow cursors
@@ -1246,6 +1153,16 @@ export default class Timebar extends PureComponent {
               left: `${calc.slideLowerPercentOffset}%`,
             }}
             className={classnames(styles.slide, { hidden: timebarMode !== 'Fixed' })}
+            onMouseDown={this.onMouseDownResize}
+            onDoubleClick={toggleTimesetter}
+          />
+          <span
+            cursor="slideUpper"
+            title="Ext upper cursor"
+            style={{
+              left: `${calc.slideUpperPercentOffset}%`,
+            }}
+            className={classnames(styles.slide, { hidden: timebarMode === 'Normal' })}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={toggleTimesetter}
           />
@@ -1263,16 +1180,6 @@ export default class Timebar extends PureComponent {
             style={{
               left: `${calc.slideLowerPercentOffset}%`,
             }}
-            onMouseDown={this.onMouseDownResize}
-            onDoubleClick={toggleTimesetter}
-          />
-          <span
-            cursor="slideUpper"
-            title="Ext upper cursor"
-            style={{
-              left: `${calc.slideUpperPercentOffset}%`,
-            }}
-            className={classnames(styles.slide, { hidden: timebarMode === 'Normal' })}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={toggleTimesetter}
           />

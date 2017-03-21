@@ -6,7 +6,7 @@ import getTelemetryStaticElements from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
 import { resizeExplorer, focusTabInExplorer } from '../../../store/actions/pages';
-import { getPanels } from '../../../store/selectors/pages';
+import { getPanels } from '../../../store/reducers/pages';
 import {
   isInspectorStaticDataNodeLoading,
   updateInspectorDataId,

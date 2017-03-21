@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import EntryPointDetails from './EntryPointDetails';
 import { getView } from '../../../../store/selectors/views';
-import { getPage } from '../../../../store/selectors/pages';
+import { getPage } from '../../../../store/reducers/pages';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import {
   updateEntryPoint,

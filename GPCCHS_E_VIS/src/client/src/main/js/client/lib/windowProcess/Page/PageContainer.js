@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Page from './Page';
-import { getEditor } from '../../store/selectors/pages';
+import { getEditor } from '../../store/reducers/pages';
 import { openEditor, closeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, ownProps) => {

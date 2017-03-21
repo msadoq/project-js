@@ -16,6 +16,7 @@ import viewData from './viewData';
 import health from './health';
 import editor from './editor';
 import inspector from './inspector';
+import plotViewData from '../../viewManager/PlotView/store/dataReducer';
 
 import { configurationReducers } from '../../viewManager/';
 
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   health,
   editor,
   inspector,
+  plotViewData,
   ...configurationReducers,
 });
 

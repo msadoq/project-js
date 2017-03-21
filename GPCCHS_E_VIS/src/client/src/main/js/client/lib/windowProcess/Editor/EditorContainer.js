@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Editor from './Editor';
-import { getEditor } from '../../store/selectors/pages';
+import { getEditor } from '../../store/reducers/pages';
 import { getView } from '../../store/selectors/views';
 import { closeEditor } from '../../store/actions/pages';
 

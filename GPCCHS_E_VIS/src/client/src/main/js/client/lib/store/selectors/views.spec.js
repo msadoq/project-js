@@ -63,6 +63,7 @@ describe('store:views:selectors', () => {
     },
     pages: {
       page1: {
+        uuid: 'page1',
         title: 'page Sup/Sup workspace',
         timebarUuid: 'tb1',
         views: [
@@ -74,6 +75,7 @@ describe('store:views:selectors', () => {
     },
     views: {
       text1: {
+        uuid: 'text1',
         type: 'TextView',
         configuration: {
           title: 'TextView Sup/Sup',
@@ -113,6 +115,7 @@ describe('store:views:selectors', () => {
         },
       },
       plot1: {
+        uuid: 'plot1',
         type: 'PlotView',
         configuration: {
           type: 'PlotView',
@@ -173,6 +176,7 @@ describe('store:views:selectors', () => {
         },
       },
       dynamic1: {
+        uuid: 'dynamic1',
         type: 'DynamicView',
         configuration: {
           type: 'DynamicView',

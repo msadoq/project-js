@@ -1,10 +1,8 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import __ from 'lodash/fp';
-import _omit from 'lodash/omit';
-import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from '../../dataManager/perViewData';
-import { getPageIdByViewId, getPage } from './pages';
-// import { getPerViewData } from '../../dataManager/map';
+import { getPage, getPageIdByViewId } from '../reducers/pages';
+import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -41,32 +39,54 @@ export const getViewContent = createSelector(
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
 // ********************************************************/
-function withoutTimebarsEqualityCheck(current, previous) {
-  return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
+function perViewDataEqualityCheck(current, previous) {
+  if (current.timebarTimelines !== previous.timebarTimelines // TODO : use a shallow equals
+    || current.timelines !== previous.timelines
+    || current.windows !== previous.windows
+    || current.pages !== previous.pages
+    || current.views !== previous.views
+    || current.domains !== previous.domains
+    || current.sessions !== previous.sessions
+    || current.masterSession !== previous.masterSession
+    || current.timebarTimelines !== previous.timebarTimelines) {
+    return false;
+  }
+  const confs = Object.keys(configurationReducers);
+  for (let i = 0; i < confs.length; i += 1) {
+    if (current[confs[i]] !== previous[confs[i]]) {
+      return false;
+    }
+  }
+  // ViewId
+  if (typeof previous === 'string' && previous !== current) {
+    return false;
+  }
+  return true;
+  // return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
 }
-export const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
+export const createDeepEqualSelectorPerViewData = createSelectorCreator(
   defaultMemoize,
-  withoutTimebarsEqualityCheck
+  perViewDataEqualityCheck
 );
 const perViewDataSelectors = {};
 // composed
-export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
+export const getPerViewData = createDeepEqualSelectorPerViewData(
   state => state,
   (state, { viewId }) => viewId,
-  (state, viewId) => {
+  (state, { viewId }) => getPage(state, { pageId: getPageIdByViewId(state, { viewId }) }),
+  (state, viewId, page) => {
     if (!perViewDataSelectors[viewId]) {
       perViewDataSelectors[viewId] = makeGetPerViewData();
     }
-    const pageId = getPageIdByViewId(state, { viewId });
-    const page = getPage(state, { pageId });
+    // const pageId = getPageIdByViewId(state, { viewId });
+    // const page = getPage(state, { pageId });
     const { timebarUuid } = page;
     return perViewDataSelectors[viewId](state, { viewId, timebarUuid });
   });
 
 // composed / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
-  __.get('entryPoints', getPerViewData(state, { viewId }))
-);
+  __.get('entryPoints', getPerViewData(state, { viewId })));
 
 // composed
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>

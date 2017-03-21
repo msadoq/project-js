@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 
 import { getTimebars } from '../store/selectors/timebars';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
-import { createDeepEqualSelectorWithoutTimebars } from '../store/selectors/views';
+import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
@@ -14,7 +14,7 @@ import { expectedIntervalMap } from './expectedIntervalMap';
 // const logger = getLogger('data:map');
 
 const perViewDataSelectors = {};
-export const getPerViewMap = createDeepEqualSelectorWithoutTimebars(
+export const getPerViewMap = createDeepEqualSelectorPerViewData(
   state => state,
   getWindowsVisibleViews,
   (state, views) =>

@@ -5,9 +5,9 @@ import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import classnames from 'classnames';
-import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
+import Dimensions from '../../../../windowProcess/common/Dimensions';
 import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
@@ -44,6 +44,7 @@ export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
+    updateDimensions: PropTypes.func.isRequired,
     data: PropTypes.shape({
       lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     }),
@@ -76,6 +77,12 @@ export class GrizzlyPlotView extends PureComponent {
 
   state = {
     showLegend: false,
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -351,6 +358,6 @@ export class GrizzlyPlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = Dimensions()(GrizzlyPlotView);
+const SizeablePlotView = Dimensions({ elementResize: true })(GrizzlyPlotView);
 
 export default SizeablePlotView;

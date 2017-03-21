@@ -60,10 +60,10 @@ export default class Page extends PureComponent {
   componentDidMount() {
     setTimeout(() => {
       // used to avoid 0 height when first mouting plotView
-      // problem due to react-dimensions non knowing initial height
+      // problem due to react-dimensions and react-grid-layout and non knowing initial height
       // HOTFIX
       window.dispatchEvent(new Event('resize'));
-    }, 40);
+    });
   }
 
   componentWillReceiveProps(nextProps) {

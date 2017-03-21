@@ -3,7 +3,7 @@ import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
 import { getWindowPages } from '../selectors/windows';
-import { getPage } from '../selectors/pages';
+import { getPage } from '../reducers/pages';
 import { getPlayingTimebarId } from '../reducers/hsc';
 
 /**

@@ -43,14 +43,13 @@ export default class TimebarWrapper extends PureComponent {
         defaultWidth: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
-    timebarUuid: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -150,7 +149,6 @@ export default class TimebarWrapper extends PureComponent {
     logger.debug('render');
     const {
       timelines,
-      timebarUuid,
       isPlaying,
       timebar,
       focusedPageId,
@@ -199,7 +197,7 @@ export default class TimebarWrapper extends PureComponent {
         >
           <TimeSetterContainer
             onClose={this.toggleTimesetter}
-            timebarUuid={timebarUuid}
+            timebarUuid={timebar.uuid}
             cursor={timesetterCursor || 'all'}
           />
         </Modal>
@@ -217,7 +215,7 @@ export default class TimebarWrapper extends PureComponent {
           </div>
         </div>
         <LeftTabContainer
-          timebarUuid={timebarUuid}
+          timebarUuid={timebar.uuid}
           focusedPageId={focusedPageId}
           masterId={timebar.masterId}
           timebarName={timebar.id}
@@ -229,7 +227,7 @@ export default class TimebarWrapper extends PureComponent {
         <div className={classnames('col-xs-9', styles.h100minus13)}>
           <RightTabContainer
             timebar={timebar}
-            timebarUuid={timebarUuid}
+            timebarUuid={timebar.uuid}
             isPlaying={isPlaying}
             timelines={timelines}
             toggleTimesetter={this.toggleTimesetter}

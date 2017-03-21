@@ -1,6 +1,7 @@
-import { freezeArgs } from '../../../common/test';
+/* eslint no-unused-expressions: 0 */
+import { freezeArgs, getStore } from '../../../common/test';
 import * as actions from '../../actions/messages';
-import messagesReducer from '.';
+import messagesReducer, { getGlobalMessages, getMessages } from '.';
 
 const reducer = freezeArgs(messagesReducer);
 
@@ -70,6 +71,31 @@ describe('store:message:reducer', () => {
     };
     it('should support reset key', () => {
       reducer(state, actions.reset('myId')).myId.should.eql([]);
+    });
+  });
+});
+
+describe('store:messages:selectors', () => {
+  const state = {
+    messages: {
+      global: [
+        { type: 'danger', message: 'my message' },
+        { type: 'danger', message: 'my other message' },
+        { type: 'danger', message: 'another message' },
+      ],
+      myOtherId: [{ type: 'danger', message: 'my message' }],
+    },
+  };
+  describe('getGlobalMessages', () => {
+    it('should returns global messages', () => {
+      const { getState } = getStore(state);
+      getGlobalMessages(getState()).should.equal(state.messages.global);
+    });
+  });
+  describe('getMessages', () => {
+    it('should returns corresponding messages', () => {
+      const { getState } = getStore(state);
+      getMessages(getState(), { containerId: 'myOtherId' }).should.equal(state.messages.myOtherId);
     });
   });
 });

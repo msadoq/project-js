@@ -1,10 +1,10 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
-import Dimensions from 'react-dimensions';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
 import styles from './Timebar.css';
+import Dimensions from '../common/Dimensions';
 
 class RightTabContent extends PureComponent {
 
@@ -44,7 +44,7 @@ class RightTabContent extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })

@@ -1,6 +1,8 @@
 import __ from 'lodash/fp';
 import * as types from '../../types';
 
+/* --- Reducer -------------------------------------------------------------- */
+
 const messageTypes = {
   success: 'success',
   warning: 'warning',
@@ -32,3 +34,8 @@ export default function messages(state = {}, action) {
       return state;
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+
+export const getGlobalMessages = state => state.messages.global;
+export const getMessages = (state, { containerId }) => state.messages[containerId];

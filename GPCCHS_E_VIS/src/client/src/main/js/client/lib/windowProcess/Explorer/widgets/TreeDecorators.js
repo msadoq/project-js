@@ -1,6 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { VelocityComponent } from 'velocity-react';
+import React, { PropTypes } from 'react';
 import {
   NODE_TYPE_ARRAY as ARRAY,
   NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
@@ -102,57 +100,31 @@ Header.propTypes = {
   node: PropTypes.shape({}).isRequired,
 };
 
-class Container extends PureComponent {
-  static propTypes = {
-    style: PropTypes.shape({
-      container: PropTypes.array,
-      header: PropTypes.object,
-      toggle: PropTypes.object,
-    }).isRequired,
-    onClick: PropTypes.func.isRequired,
-    decorators: PropTypes.shape({
-      Toggle: PropTypes.func,
-    }).isRequired,
-    node: PropTypes.shape({
-      toggled: PropTypes.bool,
-      type: PropTypes.string,
-    }).isRequired,
-    animations: PropTypes.shape({}).isRequired,
-  };
+const Toggle = (props) => {
+  const style = props.style;
+  return (
+    <div style={style.base}>
+      <div style={style.wrapper}>
+        {props.toggled ? '▾' : '▸'}
+      </div>
+    </div>
+  );
+};
 
-  onMouseDown = (event) => {
-    if (event.buttons === 1) {
-      this.props.onClick();
-    }
-  }
+Toggle.propTypes = {
+  style: React.PropTypes.shape({}).isRequired,
+  toggled: React.PropTypes.bool,
+};
+Toggle.defaultProps = {
+  toggled: false,
+};
 
-  renderToggleDecorator() {
-    const Toggle = this.props.decorators.Toggle;
-    return (
-      <Toggle
-        style={this.props.style.toggle}
-        toggled={this.props.node.toggled}
-      />
-    );
-  }
 
-  renderToggle() {
-    const animations = this.props.animations;
-    if (!animations) {
-      return this.renderToggleDecorator();
-    }
-    return (
-      <VelocityComponent
-        duration={animations.toggle.duration}
-        animation={animations.toggle.animation}
-      >
-        {this.renderToggleDecorator()}
-      </VelocityComponent>
-    );
-  }
-
-  render() {
-    switch (this.props.node.type) {
+const createContainer = (func) => {
+  const Container = (props) => {
+    const { node, style } = props;
+    const onMouseDown = event => func(event, node);
+    switch (node.type) {
       case OBJECT:
       case ARRAY:
       case OBJECT_ITEM:
@@ -160,35 +132,53 @@ class Container extends PureComponent {
       case RESOLVED_LINK:
         return (
           <div
-            onMouseDown={this.onMouseDown}
-            style={this.props.style.container}
+            onMouseDown={onMouseDown}
+            style={style.container}
           >
             <Header
-              node={this.props.node}
-              style={this.props.style.header}
+              node={node}
+              style={style.header}
             />
             {' '}
-            {this.renderToggle()}
+            <Toggle
+              style={style.toggle}
+              toggled={node.toggled}
+            />
           </div>
         );
       default:
         return (
           <div
-            onMouseDown={this.onMouseDown}
-            style={this.props.style.container}
+            onMouseDown={onMouseDown}
+            style={style.container}
           >
             <Header
-              node={this.props.node}
-              style={this.props.style.header}
+              node={node}
+              style={style.header}
             />
           </div>
         );
     }
-  }
-}
-
-export {
-  Loading,
-  Header,
-  Container,
+  };
+  Container.propTypes = {
+    style: PropTypes.shape({
+      container: PropTypes.array,
+      header: PropTypes.object,
+      toggle: PropTypes.object,
+    }).isRequired,
+    node: PropTypes.shape({
+      toggled: PropTypes.bool,
+      type: PropTypes.string,
+    }).isRequired,
+  };
+  return Container;
 };
+
+export default function createTreeDecorators(onMouseDown) {
+  return {
+    Toggle,
+    Loading,
+    Header,
+    Container: createContainer(onMouseDown),
+  };
+}

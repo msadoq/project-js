@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { getTimelines } from './timelines';
-import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
+import { getTimebarTimelines as getTimebarTimelineIds } from '../reducers/timebarTimelines';
 
 import { getTimebarMasterId } from '../reducers/timebars';
 

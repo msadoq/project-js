@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import * as types from '../../types';
 
+/* --- Reducer -------------------------------------------------------------- */
 // corresponding between timebars and timelines
 export default function timebarTimelines(stateTbTl = {}, action) {
   switch (action.type) {
@@ -27,3 +28,8 @@ export default function timebarTimelines(stateTbTl = {}, action) {
       return stateTbTl;
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+
+export const getTimebarTimelines =
+  (state, { timebarUuid }) => _.getOr([], ['timebarTimelines', timebarUuid], state);

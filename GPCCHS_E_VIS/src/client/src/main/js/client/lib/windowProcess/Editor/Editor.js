@@ -12,10 +12,15 @@ const InvalidConfiguration = () => <div>unknown view type or invalid configurati
 
 export default class Editor extends PureComponent {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    viewId: PropTypes.string,
+    type: PropTypes.string,
     closeEditor: PropTypes.func,
+  };
+
+  static defaultProps = {
+    viewId: null,
+    type: null,
   };
 
   static childContextTypes = {
@@ -38,18 +43,22 @@ export default class Editor extends PureComponent {
     } = this.props;
 
     let ContentComponent;
-    switch (type) {
-      case 'PlotView':
-        ContentComponent = PlotEditor;
-        break;
-      case 'TextView':
-        ContentComponent = TextEditor;
-        break;
-      case 'DynamicView':
-        ContentComponent = DynamicEditor;
-        break;
-      default:
-        ContentComponent = InvalidConfiguration;
+    if (!viewId) {
+      ContentComponent = InvalidConfiguration; // no view set in editor
+    } else {
+      switch (type) {
+        case 'PlotView':
+          ContentComponent = PlotEditor;
+          break;
+        case 'TextView':
+          ContentComponent = TextEditor;
+          break;
+        case 'DynamicView':
+          ContentComponent = DynamicEditor;
+          break;
+        default:
+          ContentComponent = InvalidConfiguration; // unsupported type
+      }
     }
 
     return (

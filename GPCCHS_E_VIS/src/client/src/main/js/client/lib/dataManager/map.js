@@ -4,7 +4,7 @@ import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
-import { getTimebars } from '../store/selectors/timebars';
+import { getTimebars } from '../store/reducers/timebars';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import makeGetPerViewData from './perViewData';

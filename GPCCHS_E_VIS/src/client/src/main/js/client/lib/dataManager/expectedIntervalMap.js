@@ -1,7 +1,7 @@
 import _each from 'lodash/each';
 import _set from 'lodash/set';
 import { createSelector } from 'reselect';
-import { getTimebars } from '../store/selectors/timebars';
+import { getTimebars } from '../store/reducers/timebars';
 import { getStructureModule } from '../viewManager';
 
 export function intervalPerRemoteId(timebars, remoteIdData) {

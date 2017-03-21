@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getMessages } from '../../store/reducers/messages';
-import { getTimebar } from '../../store/selectors/timebars';
+import { getTimebar } from '../../store/reducers/timebars';
 import { remove } from '../../store/actions/messages';
 import {
   updateDefaultWidth,

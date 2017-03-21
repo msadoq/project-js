@@ -13,7 +13,7 @@ import {
   update as updateTL,
 } from './timelines';
 import { pause, smartPlay } from './hsc';
-import { getTimebar } from '../selectors/timebars';
+import { getTimebar } from '../reducers/timebars';
 import { getPlayingTimebarId } from '../reducers/hsc';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');

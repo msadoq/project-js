@@ -1,10 +1,11 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/test';
-import timebarsReducer from '.';
+import { should, freezeArgs, getStore } from '../../../common/test';
+import timebarsReducer, { getTimebar, getTimebars } from '.';
 import * as types from '../../types';
 
 const reducer = freezeArgs(timebarsReducer);
 
+/* --- Reducer -------------------------------------------------------------- */
 describe('store:timebars:reducer', () => {
   it('initial state', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
@@ -30,5 +31,27 @@ describe('store:timebars:reducer', () => {
       const newState = reducer(state, { type: types.HSC_CLOSE_WORKSPACE });
       newState.should.be.an('object').that.is.empty;
     });
+  });
+});
+
+/* --- Selectors ------------------------------------------------------------ */
+describe('store:timebars:selectors', () => {
+  it('getTimebar', () => {
+    const { getState } = getStore({
+      timebars: {
+        myTimebarId: { id: 'Id' },
+      },
+    });
+    getTimebar(getState(), { timebarUuid: 'myTimebarId' }).should.have.property('id', 'Id');
+    should.not.exist(getTimebar(getState(), { timebarUuid: 'unknownId' }));
+  });
+  it('getTimebars', () => {
+    const state = {
+      timebars: {
+        myTimebarId: { id: 'Id' },
+      },
+    };
+    const { getState } = getStore(state);
+    getTimebars(getState()).should.be.eql(state.timebars);
   });
 });

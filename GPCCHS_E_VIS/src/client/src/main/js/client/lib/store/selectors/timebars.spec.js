@@ -1,21 +1,11 @@
-import { should, getStore } from '../../common/test';
+import { should } from '../../common/test';
 import {
-  getTimebar,
   getMasterTimelineById,
   getTimebarMasterId,
   getTimebarTimelinesSelector,
 } from './timebars';
 
 describe('store:timebars:selectors', () => {
-  it('getTimebar', () => {
-    const { getState } = getStore({
-      timebars: {
-        myTimebarId: { id: 'Id' },
-      },
-    });
-    getTimebar(getState(), { timebarUuid: 'myTimebarId' }).should.have.property('id', 'Id');
-    should.not.exist(getTimebar(getState(), { timebarUuid: 'unknownId' }));
-  });
   it('getTimebarMasterId', () => {
     const state = {
       timebars: {

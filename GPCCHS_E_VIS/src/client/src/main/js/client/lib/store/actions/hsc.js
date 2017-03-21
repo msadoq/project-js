@@ -4,7 +4,7 @@ import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { getHealthMap } from '../reducers/health';
-import { getTimebars } from '../selectors/timebars';
+import { getTimebars } from '../reducers/timebars';
 import { setRealTime } from './timebars';
 import { addOnce } from './messages';
 

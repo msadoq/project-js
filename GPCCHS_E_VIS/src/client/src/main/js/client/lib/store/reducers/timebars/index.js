@@ -4,8 +4,8 @@ import u from 'updeep';
 import * as types from '../../types';
 import timebar from './timebar';
 
-// Main timebars reducer
-export default function timebars(stateTimebars = {}, action) {
+/* --- Reducer -------------------------------------------------------------- */
+export default function timebarsReducer(stateTimebars = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
@@ -38,3 +38,7 @@ export default function timebars(stateTimebars = {}, action) {
     }
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+export const getTimebars = state => state.timebars;
+export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];

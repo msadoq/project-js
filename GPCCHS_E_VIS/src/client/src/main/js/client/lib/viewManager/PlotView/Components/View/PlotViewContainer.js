@@ -4,7 +4,7 @@ import SizablePlotView from './PlotView';
 import { addEntryPoint } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
-import { getTimebar } from '../../../../store/selectors/timebars';
+import { getTimebar } from '../../../../store/reducers/timebars';
 import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
 
 const mapStateToProps = (state, { viewId }) => {

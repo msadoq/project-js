@@ -37,7 +37,7 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// composed specific
+// composed specific (ControlsContainer)
 export const getMasterTimelineById = createSelector(
   getTimebarMasterId,
   getTimebarTimelinesSelector,

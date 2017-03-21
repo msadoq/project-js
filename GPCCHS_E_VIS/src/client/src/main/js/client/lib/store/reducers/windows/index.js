@@ -1,9 +1,11 @@
+import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import u from 'updeep';
 
 import window from './window';
 import * as types from '../../types';
 
+/* --- Reducer -------------------------------------------------------------- */
 const loadWindows = (stateWindows, action) => {
   const setPayloadWindow = _.set('payload.window');
   const singleWindowReducer = stateWindow => (
@@ -41,4 +43,32 @@ export default function windows(stateWindows = {}, action) {
       return stateWindows;
     }
   }
+}
+
+/* --- Selectors ------------------------------------------------------------ */
+export const getWindows = state => _.getOr({}, 'windows', state);
+
+export const getWindowsArray = createSelector(
+  getWindows,
+  _.values
+);
+
+export const getWindow = createSelector(
+  (state, { windowId }) => windowId,
+  getWindows,
+  _.get
+);
+
+export const getWindowPageIds = createSelector(
+  getWindow,
+  _.get('pages')
+);
+
+export const getWindowFocusedPageId = createSelector(
+  getWindow,
+  _.get('focusedPage')
+);
+
+export function getDisplayHelp(state, { windowId }) {
+  return _.get(['windows', windowId, 'displayHelp'], state);
 }

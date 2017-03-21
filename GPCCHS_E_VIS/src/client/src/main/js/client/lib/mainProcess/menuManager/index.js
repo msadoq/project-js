@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { getStore } from '../../store/mainStore';
-import { getWindowFocusedPageId, getDisplayHelp } from '../../store/selectors/windows';
+import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { resizeExplorer, resizeTimebar } from '../../store/actions/pages';

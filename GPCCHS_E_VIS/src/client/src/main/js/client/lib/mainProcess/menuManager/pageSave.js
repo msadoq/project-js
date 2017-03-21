@@ -1,5 +1,5 @@
 import { getStore } from '../../store/mainStore';
-import { getWindowFocusedPageId } from '../../store/selectors/windows';
+import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getPageModifiedViewsIds } from '../../store/selectors/pages';
 import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { getPathByFilePicker } from '../dialog';

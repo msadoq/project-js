@@ -17,10 +17,8 @@ import {
   minimize,
   restore,
 } from '../../store/actions/windows';
-import {
-  getWindows,
-  getWindowsTitle,
-} from '../../store/selectors/windows';
+import { getWindows } from '../../store/reducers/windows';
+import { getWindowsTitle } from '../../store/selectors/windows';
 import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
 
 const logger = getLogger('main:windowsManager:windows');

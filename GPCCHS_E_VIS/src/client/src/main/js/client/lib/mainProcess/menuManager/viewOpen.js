@@ -8,7 +8,7 @@ import { server } from '../ipc';
 import { openView } from '../../documentManager';
 import { getPathByFilePicker } from '../dialog';
 import { addBlankView } from '../../store/actions/views';
-import { getWindowFocusedPageId } from '../../store/selectors/windows';
+import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getStore } from '../../store/mainStore';
 import { getViewModule } from '../../viewManager';
 

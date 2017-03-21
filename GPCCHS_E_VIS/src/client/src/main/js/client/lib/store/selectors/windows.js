@@ -7,19 +7,16 @@ import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect'
 import { getFocusedWindowId } from '../reducers/hsc';
 import { getViews } from '../reducers/views';
 import { getPages } from '../reducers/pages';
+import {
+  getWindows,
+  getWindowsArray,
+  getWindowPageIds,
+  getWindowFocusedPageId,
+} from '../reducers/windows';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   _.isEqual
-);
-
-// simple
-export const getWindows = state => _get(state, ['windows'], {});
-
-// simple
-export const getWindowsArray = createSelector(
-  getWindows,
-  _.values
 );
 
 // composed
@@ -29,30 +26,11 @@ export const getFocusedWindow = createSelector(
   _get
 );
 
-// simple
-export const getWindow = createSelector(
-  (state, { windowId }) => windowId,
-  getWindows,
-  _.get
-);
-
-// simple
-export const getWindowPageIds = createSelector(
-  getWindow,
-  _.get('pages')
-);
-
 // composed
 export const getWindowPages = createSelector(
   getWindowPageIds,
   getPages,
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
-);
-
-// simple
-export const getWindowFocusedPageId = createSelector(
-  getWindow,
-  _.get('focusedPage')
 );
 
 // composed
@@ -123,9 +101,4 @@ export const getWindowsTitle = createSelector(
 // specific to menuManaer/workspaceSave
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
-}
-
-// simple
-export function getDisplayHelp(state, { windowId }) {
-  return _get(state, ['windows', windowId, 'displayHelp']);
 }

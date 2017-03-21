@@ -1,8 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
+import { } from '../../common/test';
 import {
-  getViews,
-  getView,
   getModifiedViewsIds,
   getViewConfiguration,
   getViewContent,
@@ -243,27 +241,7 @@ describe('store:views:selectors', () => {
       sessionId: 10,
     },
   };
-  it('getView', () => {
-    const { getState } = getStore({
-      views: {
-        myViewId: { title: 'Title 1' },
-      },
-    });
-    getView(getState(), { viewId: 'myViewId' }).should.have.property('title', 'Title 1');
-    should.not.exist(getView(getState(), { viewId: 'unknownId' }));
-  });
-  describe('getViews', () => {
-    it('should returns views', () => {
-      const state = {
-        views: {
-          myId: { title: 'Title' },
-          myOtherId: { title: 'Title other' },
-        },
-      };
-      const { getState } = getStore(state);
-      getViews(getState()).should.equal(state.views);
-    });
-  });
+
   it('getModifiedViewsIds', () => {
     const state = {
       views: {

@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import ViewParams from './ViewParams';
-import { getView } from '../../store/selectors/views';
+import { getView } from '../../store/reducers/views';
 import {
   updateBgColor,
   updateTitle,

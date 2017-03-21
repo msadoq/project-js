@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { getDomains } from '../store/reducers/domains';
 import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
-import { getView } from '../store/selectors/views';
+import { getView } from '../store/reducers/views';
 import { getStructureType, getStructureModule } from '../viewManager';
 
 // const logger = getLogger('data:perViewData');

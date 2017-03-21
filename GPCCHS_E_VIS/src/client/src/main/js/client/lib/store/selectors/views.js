@@ -2,21 +2,13 @@ import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect'
 import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPage, getPageIdByViewId } from '../reducers/pages';
+import { getView, getViews } from '../reducers/views';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   _.isEqual
 );
-
-// simple
-export const getViews =
-  _.prop('views');
-
-// simple
-export const getView =
-  (state, { viewId }) =>
-    _.prop(viewId, getViews(state));
 
 // simple
 export const getModifiedViewsIds = state =>

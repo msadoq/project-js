@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getPage } from '../../store/reducers/pages';
-import { getView } from '../../store/selectors/views';
+import { getView } from '../../store/reducers/views';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage, setCollapsed, setMaximized } from '../../store/actions/pages';
 import View from './View';

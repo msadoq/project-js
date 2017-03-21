@@ -1,9 +1,10 @@
-import _isEqual from 'lodash/isEqual';
+import { createSelector } from 'reselect';
+import _ from 'lodash/fp';
 import * as types from '../../types';
 import cleanViewData from '../../../dataManager/cleanViewData';
 import inject from '../../../dataManager/inject';
 
-
+/* --- Reducer -------------------------------------------------------------- */
 export default function viewData(state = {}, action) {
   switch (action.type) {
 
@@ -17,8 +18,8 @@ export default function viewData(state = {}, action) {
       const newIntervals = action.payload.newExpectedIntervals;
       const dataKeys = Object.keys(action.payload.dataToInject);
       // If nothing changed and no data to import, return state
-      const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
-      const intervalsAreEqual = _isEqual(newIntervals, oldIntervals);
+      const viewMapIsEqual = _.isEqual(newViewMap, oldViewMap);
+      const intervalsAreEqual = _.isEqual(newIntervals, oldIntervals);
       if (viewMapIsEqual && intervalsAreEqual && !dataKeys.length) {
         return state;
       }
@@ -37,3 +38,12 @@ export default function viewData(state = {}, action) {
       return state;
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+
+export const getViewData = state => state.viewData;
+export const getData = createSelector(
+  (state, { viewId }) => viewId,
+  getViewData,
+  _.get
+);

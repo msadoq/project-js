@@ -1,21 +1,10 @@
-import { createSelector } from 'reselect';
 import _reduce from 'lodash/reduce';
-import __ from 'lodash/fp';
-
-// simple
-export const getViewData = state => state.viewData;
-
-// simple
-export const getData = createSelector(
-  (state, { viewId }) => viewId,
-  getViewData,
-  __.get
-);
+import { getViewData } from '../reducers/viewData';
 
 // simple, but need specific selectors for each viewType
 // TODO test + reselect
 // TODO boxmodel (dbrugne)
-export const getCount = state => _reduce(getViewData(state), (c, view) => {
+const getCount = state => _reduce(getViewData(state), (c, view) => {
   if (typeof view.columns === 'object') {
     // PlotView
     return _reduce(view.columns, (c2, column) => c2 + (Object.keys(column).length - 1), c);
@@ -26,3 +15,7 @@ export const getCount = state => _reduce(getViewData(state), (c, view) => {
   // other view type
   return c + 1;
 }, 0);
+
+export default {
+  getCount,
+};

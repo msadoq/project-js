@@ -5,6 +5,7 @@ import * as types from '../../types';
 
 const initialState = {
   textViewId: null,
+  title: 'TextView HTML editor',
 };
 
 export default function editor(state = initialState, action) {
@@ -31,5 +32,4 @@ export default function editor(state = initialState, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 
-// rename in getEditorTextViewId
-export const getViewId = state => _.get(['editor', 'textViewId'], state);
+export const getEditorTextViewId = state => _.get('editor.textViewId', state);

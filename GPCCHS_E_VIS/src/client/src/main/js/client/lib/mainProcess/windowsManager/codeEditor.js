@@ -3,7 +3,7 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { getStore } from '../../store/mainStore';
 import { closeHtmlEditor } from '../../store/actions/editor';
-import { getViewId } from '../../store/reducers/editor';
+import { getEditorTextViewId } from '../../store/reducers/editor';
 import { getEditorTitle } from '../../store/selectors/editor';
 import getCenteredPosition from './common/getCenteredPosition';
 
@@ -57,7 +57,7 @@ export function close() {
 
 export function observer(callback) {
   const state = getStore().getState();
-  const editedViewId = getViewId(state);
+  const editedViewId = getEditorTextViewId(state);
   const title = getEditorTitle(state, editedViewId);
 
   if (isExists() && title !== win.getTitle()) {

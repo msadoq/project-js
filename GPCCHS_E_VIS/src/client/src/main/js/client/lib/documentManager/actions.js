@@ -12,7 +12,7 @@ import simple from '../store/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
-import { getFirstTimebarId } from '../store/selectors/timebars';
+import { getFirstTimebarId } from '../store/reducers/timebars';
 import { createBlankWorkspace } from './createBlankWorkspace';
 import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';

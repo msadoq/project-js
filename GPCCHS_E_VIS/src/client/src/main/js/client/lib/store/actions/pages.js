@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
-import { getFirstTimebarId } from '../selectors/timebars';
+import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
 
 /**

@@ -3,10 +3,6 @@ import _ from 'lodash/fp';
 
 import { getTimelines } from './timelines';
 import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
-import { getTimebars } from '../reducers/timebars';
-
-// simple
-export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
 
 // simple
 export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);

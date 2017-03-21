@@ -42,3 +42,4 @@ export default function timebarsReducer(stateTimebars = {}, action) {
 /* --- Selectors ------------------------------------------------------------ */
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];
+export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));

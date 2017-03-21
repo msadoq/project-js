@@ -1,7 +1,11 @@
 /* eslint no-unused-expressions: 0 */
 import { should, freezeArgs, getStore } from '../../../common/test';
-import timebarsReducer, { getTimebar, getTimebars } from '.';
 import * as types from '../../types';
+import timebarsReducer, {
+  getTimebar,
+  getTimebars,
+  getFirstTimebarId,
+} from '.';
 
 const reducer = freezeArgs(timebarsReducer);
 
@@ -53,5 +57,12 @@ describe('store:timebars:selectors', () => {
     };
     const { getState } = getStore(state);
     getTimebars(getState()).should.be.eql(state.timebars);
+  });
+  it('getFirstTimebarId', () => {
+    const state = {
+      timebars: { aaa: {} },
+    };
+    const { getState } = getStore(state);
+    getFirstTimebarId(getState()).should.be.eql('aaa');
   });
 });

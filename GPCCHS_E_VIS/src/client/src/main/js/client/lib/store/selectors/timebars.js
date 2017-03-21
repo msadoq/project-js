@@ -5,7 +5,6 @@ import { getTimebarTimelines as getTimebarTimelineIds } from '../reducers/timeba
 
 import { getTimebarMasterId } from '../reducers/timebars';
 
-// composed
 export const getTimebarTimelinesSelector = createSelector(
   [
     getTimebarMasterId,
@@ -28,7 +27,7 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// composed specific (ControlsContainer)
+// specific to ControlsContainer
 export const getMasterTimelineById = createSelector(
   getTimebarMasterId,
   getTimebarTimelinesSelector,

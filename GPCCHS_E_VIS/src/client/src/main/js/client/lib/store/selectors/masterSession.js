@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { getSessions } from '../reducers/sessions';
 import { getMasterSessionId } from '../reducers/masterSession';
 
-// composed specific to MasterSessionContainer
+// specific to MasterSessionContainer
 const getMasterSession = createSelector(
   getMasterSessionId,
   getSessions,

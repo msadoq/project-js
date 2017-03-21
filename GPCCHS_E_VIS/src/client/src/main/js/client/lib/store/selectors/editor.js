@@ -1,7 +1,7 @@
 import { getEditorTitle } from '../reducers/editor';
 import { getView } from './views';
 
-// specific composed
+// specific to windowManager/coreEditor
 const getEditorWindowTitle = (state, viewId) => {
   if (!viewId) {
     return '';

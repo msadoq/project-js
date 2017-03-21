@@ -93,7 +93,7 @@ const getWindowsVisibleViewIds = createSelector(
       }))
 );
 
-// composed specific to dataManager
+// specific to dataManager
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
@@ -112,7 +112,7 @@ export const getWindowsVisibleViews = createSelector(
 );
 /* -------------------------------------------------------------------------- */
 
-// simple specific
+// specific to windowsManager/windows
 export const getWindowsTitle = createSelector(
   getWindows,
   windows => _reduce(
@@ -122,7 +122,7 @@ export const getWindowsTitle = createSelector(
     }), {})
 );
 
-// simple specific
+// specific to menuManaer/workspaceSave
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
 }

@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Panel, Button } from 'react-bootstrap';
+import { Panel, MenuItem } from 'react-bootstrap';
 import getLogger from 'common/log';
 import {
   NODE_TYPE_LINK as LINK,
@@ -76,16 +76,37 @@ export default class Inspector extends PureComponent {
     });
   }
 
-  render() {
-    logger.debug('render');
-    const { data, sessionId, domainId } = this.props;
-    const { showContextMenu, node, x, y } = this.state;
+  renderContextMenu = () => {
+    const { sessionId, domainId } = this.props;
+    const { node, x, y } = this.state;
     const contextStyle = {
+      display: 'block',
       zIndex: 4,
       position: 'absolute',
       left: x,
       top: y,
     };
+    return (
+      <ul className="dropdown-menu open" style={contextStyle} id="inspectorContextMenu">
+        <MenuItem
+          onSelect={() => main.resolveLink({
+            link: node.value,
+            path: node.path,
+            sessionId,
+            domainId,
+          })}
+          eventKey="rtd"
+        >
+          Resolve link through RTD
+        </MenuItem>
+      </ul>
+    );
+  }
+
+  render() {
+    logger.debug('render');
+    const { data } = this.props;
+    const { showContextMenu } = this.state;
 
     return (
       <div
@@ -96,17 +117,7 @@ export default class Inspector extends PureComponent {
         >
           {
             showContextMenu &&
-            <Button
-              style={contextStyle}
-              onClick={() => main.resolveLink({
-                link: node.value,
-                path: node.path,
-                sessionId,
-                domainId,
-              })}
-            >
-              Resolve link through RTD
-            </Button>
+            this.renderContextMenu()
           }
           <Tree
             data={data}

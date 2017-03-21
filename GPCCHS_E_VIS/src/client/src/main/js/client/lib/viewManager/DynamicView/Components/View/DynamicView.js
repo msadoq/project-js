@@ -1,5 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel, Button } from 'react-bootstrap';
+import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel, MenuItem } from 'react-bootstrap';
 import classnames from 'classnames';
 import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
@@ -148,8 +148,37 @@ export default class DynamicView extends PureComponent {
     });
   }
 
+  renderContextMenu = () => {
+    const { entryPoints, pageId, openInspector } = this.props;
+    const { x, y } = this.state;
+    const contextStyle = {
+      display: 'block',
+      zIndex: 4,
+      position: 'absolute',
+      left: x,
+      top: y,
+    };
+
+    const { parameterName, sessionId, domainId } = entryPoints.dynamicEP.dataId;
+    return (
+      <ul className="dropdown-menu open" style={contextStyle} id="dynamicViewContextMenu">
+        <MenuItem
+          onSelect={() => openInspector({
+            pageId,
+            parameterName,
+            sessionId,
+            domainId,
+          })}
+          eventKey="inspector"
+        >
+          Open in Inspector
+        </MenuItem>
+      </ul>
+    );
+  }
+
   render() {
-    const { data, entryPoints, pageId } = this.props;
+    const { data, entryPoints } = this.props;
     const ep = _get(data, ['values', 'dynamicEP', 'value']);
     const error = _get(entryPoints, '[0].error');
     if (!ep) {
@@ -163,14 +192,7 @@ export default class DynamicView extends PureComponent {
       );
     }
 
-    const contextStyle = {
-      zIndex: 4,
-      position: 'absolute',
-      left: this.state.x,
-      top: this.state.y,
-    };
-
-    const { parameterName, sessionId, domainId } = entryPoints.dynamicEP.dataId;
+    const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <div
@@ -180,17 +202,7 @@ export default class DynamicView extends PureComponent {
       >
         {
           this.state.showContext &&
-          <Button
-            style={contextStyle}
-            onClick={() => this.props.openInspector({
-              pageId,
-              parameterName,
-              sessionId,
-              domainId,
-            })}
-          >
-            {'Open in Inspector'}
-          </Button>
+          this.renderContextMenu()
         }
         <header className={styles.header}>
           <h1>{parameterName}</h1>

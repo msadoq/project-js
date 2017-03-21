@@ -150,6 +150,8 @@ const page = (statePage = initialState, action) => {
         action.payload.flag,
         statePage
       );
+    case types.WS_VIEW_UPDATEPATH:
+      return { ...statePage, isModified: true };
     default:
       return statePage;
   }

@@ -3,17 +3,15 @@ import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
+
 import { getFocusedWindowId } from '../reducers/hsc';
+import { getViews } from '../selectors/views';
 import { getPages } from '../reducers/pages';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   _.isEqual
 );
-
-// simple (views reducer)
-export const getViews =
-  _.prop('views');
 
 // simple
 export const getWindows = state => _get(state, ['windows'], {});

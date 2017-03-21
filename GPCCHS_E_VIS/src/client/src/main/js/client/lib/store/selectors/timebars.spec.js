@@ -1,22 +1,10 @@
 import { should } from '../../common/test';
 import {
   getMasterTimelineById,
-  getTimebarMasterId,
   getTimebarTimelinesSelector,
 } from './timebars';
 
 describe('store:timebars:selectors', () => {
-  it('getTimebarMasterId', () => {
-    const state = {
-      timebars: {
-        tb1: {
-          masterId: 'master id',
-          foo: 'bar',
-        },
-      },
-    };
-    getTimebarMasterId(state, { timebarUuid: 'tb1' }).should.be.eql('master id');
-  });
   it('getTimebarTimelinesSelector', () => {
     const state = {
       timebarTimelines: {

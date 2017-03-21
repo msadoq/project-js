@@ -1,11 +1,9 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash/fp';
 
 import { getTimelines } from './timelines';
 import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
 
-// simple
-export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
+import { getTimebarMasterId } from '../reducers/timebars';
 
 // composed
 export const getTimebarTimelinesSelector = createSelector(

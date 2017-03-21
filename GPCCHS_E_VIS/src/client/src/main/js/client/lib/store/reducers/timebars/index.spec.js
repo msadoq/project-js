@@ -5,6 +5,7 @@ import timebarsReducer, {
   getTimebar,
   getTimebars,
   getFirstTimebarId,
+  getTimebarMasterId,
 } from '.';
 
 const reducer = freezeArgs(timebarsReducer);
@@ -64,5 +65,16 @@ describe('store:timebars:selectors', () => {
     };
     const { getState } = getStore(state);
     getFirstTimebarId(getState()).should.be.eql('aaa');
+  });
+  it('getTimebarMasterId', () => {
+    const state = {
+      timebars: {
+        tb1: {
+          masterId: 'master id',
+          foo: 'bar',
+        },
+      },
+    };
+    getTimebarMasterId(state, { timebarUuid: 'tb1' }).should.be.eql('master id');
   });
 });

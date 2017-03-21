@@ -4,6 +4,7 @@ import _ from 'lodash/fp';
 import * as types from '../../types';
 import timeline from './timeline';
 
+/* --- Reducer -------------------------------------------------------------- */
 export default function timelines(stateTimelines = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
@@ -38,3 +39,7 @@ export default function timelines(stateTimelines = {}, action) {
     }
   }
 }
+
+/* --- Selectors ------------------------------------------------------------ */
+export const getTimelines = state => state.timelines;
+export const getTimeline = (state, { timelineUuid }) => state.timelines[timelineUuid];

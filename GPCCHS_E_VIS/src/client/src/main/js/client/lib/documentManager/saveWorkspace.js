@@ -7,7 +7,7 @@ import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
 import { getTimebarTimelines } from '../store/reducers/timebarTimelines';
-import { getTimeline } from '../store/selectors/timelines';
+import { getTimeline } from '../store/reducers/timelines';
 import validation from './validation';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';

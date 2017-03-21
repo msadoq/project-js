@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react';
 import { Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import {
-  HorizontalFormGroup,
-  ClearSubmitButtons,
-  ReactSelectField,
-  InputField,
-  TextareaField,
-} from '../../../../windowProcess/commonReduxForm/';
+import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
+import InputField from '../../../../windowProcess/commonReduxForm/InputField';
+import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.

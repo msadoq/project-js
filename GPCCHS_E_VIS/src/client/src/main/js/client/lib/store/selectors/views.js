@@ -2,7 +2,6 @@ import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect'
 import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPage, getPageIdByViewId } from '../reducers/pages';
-import { getView, getViews } from '../reducers/views';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
@@ -10,23 +9,6 @@ export const createDeepEqualSelector = createSelectorCreator(
   _.isEqual
 );
 
-// simple
-export const getModifiedViewsIds = state =>
-  Object
-    .keys(getViews(state))
-    .filter(vId => state.views[vId].isModified);
-
-// simple
-export const getViewConfiguration = createSelector(
-  getView,
-  _.prop('configuration')
-);
-
-// simple
-export const getViewContent = createSelector(
-  getViewConfiguration,
-  _.prop('content')
-);
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow

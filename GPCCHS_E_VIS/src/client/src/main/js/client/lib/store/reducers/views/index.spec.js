@@ -1,6 +1,12 @@
 /* eslint no-unused-expressions: "off" */
 import * as types from '../../types';
-import viewsReducer, { getView, getViews } from '.';
+import viewsReducer, {
+  getView,
+  getViews,
+  getModifiedViewsIds,
+  getViewConfiguration,
+  getViewContent,
+} from '.';
 import { freezeArgs, getStore, should } from '../../../common/test';
 
 const reducer = freezeArgs(viewsReducer);
@@ -33,16 +39,52 @@ describe('store:views:selectors', () => {
     getView(getState(), { viewId: 'myViewId' }).should.have.property('title', 'Title 1');
     should.not.exist(getView(getState(), { viewId: 'unknownId' }));
   });
-  describe('getViews', () => {
-    it('should returns views', () => {
-      const state = {
-        views: {
-          myId: { title: 'Title' },
-          myOtherId: { title: 'Title other' },
+  it('getViews', () => {
+    const state = {
+      views: {
+        myId: { title: 'Title' },
+        myOtherId: { title: 'Title other' },
+      },
+    };
+    const { getState } = getStore(state);
+    getViews(getState()).should.equal(state.views);
+  });
+  it('getModifiedViewsIds', () => {
+    const state = {
+      views: {
+        view1: { isModified: true },
+        view2: { isModified: false },
+        view3: { isModified: true },
+      },
+    };
+    getModifiedViewsIds(state).should.eql(['view1', 'view3']);
+  });
+  it('getViewConfiguration', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+          },
         },
-      };
-      const { getState } = getStore(state);
-      getViews(getState()).should.equal(state.views);
+      },
+    };
+    getViewConfiguration(state, { viewId: 'myViewId' }).should.eql({
+      title: 'Title 1',
     });
+  });
+
+  it('getViewContent', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+            content: '<h1>content</h1>',
+          },
+        },
+      },
+    };
+    getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
   });
 });

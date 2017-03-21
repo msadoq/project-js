@@ -6,10 +6,8 @@ import {
   addEntryPoint,
   updateContent,
 } from '../../../../store/actions/views';
-import {
-  getViewContent,
-  getViewEntryPoints,
-} from '../../../../store/selectors/views';
+import { getViewEntryPoints } from '../../../../store/selectors/views';
+import { getViewContent } from '../../../../store/reducers/views';
 import { getData } from '../../../../store/reducers/viewData';
 
 const mapStateToProps = (state, { viewId }) => {

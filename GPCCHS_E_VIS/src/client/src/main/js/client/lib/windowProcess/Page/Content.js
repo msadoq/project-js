@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
@@ -49,9 +50,11 @@ export default class Content extends PureComponent {
     timebarUuid: null,
     maximizedViewUuid: null,
   }
-  onResizeView = (layout = []) => {
+  onResizeView = (layout = [], oldItem, layoutItem) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
-    this.props.updateLayout(newLayout);
+    if (!_.isEqual(oldItem, layoutItem)) {
+      this.props.updateLayout(newLayout);
+    }
   };
 
   cols = { lg: 12 };

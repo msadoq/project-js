@@ -1,5 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel, MenuItem } from 'react-bootstrap';
+import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
 import classnames from 'classnames';
 import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
@@ -7,6 +7,7 @@ import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
 import moment from 'moment';
 import styles from './DynamicView.css';
+import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 
 function convertData(data) {
   if (data.type === 'time') {
@@ -120,61 +121,18 @@ export default class DynamicView extends PureComponent {
     entryPoints: {},
   };
 
-  state = {
-    showContext: false,
-    x: null,
-    y: null,
-  }
-
-
-  onContextMenu = (event) => {
-    const x = event.clientX - this.el.getBoundingClientRect().left;
-    const y = event.clientY - this.el.getBoundingClientRect().top;
-    this.setState({
-      showContext: true,
-      x,
-      y,
+  onContextMenu = () => {
+    const { entryPoints, openInspector, pageId } = this.props;
+    const { parameterName, domainId, sessionId } = entryPoints.dynamicEP.dataId;
+    handleContextMenu({
+      label: `Open ${parameterName} in Inspector`,
+      click: () => openInspector({
+        pageId,
+        parameterName,
+        sessionId,
+        domainId,
+      }),
     });
-  }
-
-  assignEl = (el) => { this.el = el; };
-
-  hideMenu = (event) => {
-    if (event.buttons === 2 || this.state.showContext === false) {
-      return;
-    }
-    this.setState({
-      showContext: false,
-    });
-  }
-
-  renderContextMenu = () => {
-    const { entryPoints, pageId, openInspector } = this.props;
-    const { x, y } = this.state;
-    const contextStyle = {
-      display: 'block',
-      zIndex: 4,
-      position: 'absolute',
-      left: x,
-      top: y,
-    };
-
-    const { parameterName, sessionId, domainId } = entryPoints.dynamicEP.dataId;
-    return (
-      <ul className="dropdown-menu open" style={contextStyle} id="dynamicViewContextMenu">
-        <MenuItem
-          onSelect={() => openInspector({
-            pageId,
-            parameterName,
-            sessionId,
-            domainId,
-          })}
-          eventKey="inspector"
-        >
-          Open in Inspector
-        </MenuItem>
-      </ul>
-    );
   }
 
   render() {
@@ -196,14 +154,8 @@ export default class DynamicView extends PureComponent {
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <div
-        ref={this.assignEl}
         onContextMenu={this.onContextMenu}
-        onClick={this.hideMenu}
       >
-        {
-          this.state.showContext &&
-          this.renderContextMenu()
-        }
         <header className={styles.header}>
           <h1>{parameterName}</h1>
         </header>

@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Panel, MenuItem } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import getLogger from 'common/log';
 import {
   NODE_TYPE_LINK as LINK,
@@ -7,6 +7,7 @@ import {
 } from 'common/constants';
 import Tree from './Tree';
 import { main } from '../../ipc';
+import handleContextMenu from '../../common/handleContextMenu';
 
 const logger = getLogger('Inspector');
 
@@ -32,14 +33,8 @@ export default class Inspector extends PureComponent {
     domainId: null,
   };
 
-  state = {
-    showContextMenu: false,
-    node: null,
-    x: null,
-    y: null,
-  };
-
   onMouseDown = (event, node) => {
+    const { sessionId, domainId } = this.props;
     if (event.buttons === 1) {
       this.props.toggleNode(node.path, !node.toggled);
       if (node.type === LINK) {
@@ -47,78 +42,37 @@ export default class Inspector extends PureComponent {
         main.resolveLink({
           link: node.value,
           path: node.path,
-          sessionId: this.props.sessionId,
-          domainId: this.props.domainId,
+          sessionId,
+          domainId,
         });
       }
       return;
     }
     if (event.buttons === 2) {
       if (node.type === LINK || node.type === RESOLVED_LINK) {
-        const x = event.clientX;
-        const y = event.clientY;
-        this.setState({
-          showContextMenu: true,
-          node,
-          x,
-          y,
-        });
-      }
-    }
-  }
-
-  hideMenu = () => {
-    if (this.state.showContextMenu === false) {
-      return;
-    }
-    this.setState({
-      showContextMenu: false,
-    });
-  }
-
-  renderContextMenu = () => {
-    const { sessionId, domainId } = this.props;
-    const { node, x, y } = this.state;
-    const contextStyle = {
-      display: 'block',
-      zIndex: 4,
-      position: 'absolute',
-      left: x,
-      top: y,
-    };
-    return (
-      <ul className="dropdown-menu open" style={contextStyle} id="inspectorContextMenu">
-        <MenuItem
-          onSelect={() => main.resolveLink({
+        const workspace = {
+          label: 'Resolve link through RTD',
+          click: () => main.resolveLink({
             link: node.value,
             path: node.path,
             sessionId,
             domainId,
-          })}
-          eventKey="rtd"
-        >
-          Resolve link through RTD
-        </MenuItem>
-      </ul>
-    );
+          }),
+        };
+        handleContextMenu(workspace);
+      }
+    }
   }
 
   render() {
     logger.debug('render');
     const { data } = this.props;
-    const { showContextMenu } = this.state;
 
     return (
-      <div
-        onClick={this.hideMenu}
-      >
+      <div>
         <Panel
           header={staticHeader}
         >
-          {
-            showContextMenu &&
-            this.renderContextMenu()
-          }
           <Tree
             data={data}
             onMouseDown={this.onMouseDown}

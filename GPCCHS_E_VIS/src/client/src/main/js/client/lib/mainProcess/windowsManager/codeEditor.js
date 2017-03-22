@@ -58,7 +58,7 @@ export function close() {
 export function observer(callback) {
   const state = getStore().getState();
   const editedViewId = getEditorTextViewId(state);
-  const title = getEditorWindowTitle(state, editedViewId);
+  const title = getEditorWindowTitle(state, { viewId: editedViewId });
 
   if (isExists() && title !== win.getTitle()) {
     win.setTitle(title);

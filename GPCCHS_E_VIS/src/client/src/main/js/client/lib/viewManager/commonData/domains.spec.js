@@ -1,4 +1,4 @@
-import '../../../common/test';
+import '../../common/test';
 import filter, { reset } from './domains';
 
 describe('dataManager:domains', () => {

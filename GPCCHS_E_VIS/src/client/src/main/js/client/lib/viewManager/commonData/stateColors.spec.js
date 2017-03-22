@@ -1,6 +1,6 @@
 import { get } from 'common/parameters';
 
-import { should } from '../../../common/test';
+import { should } from '../../common/test';
 import { getStateColorObj } from './stateColors';
 
 describe('data/common/stateColors', () => {

@@ -1,5 +1,5 @@
 import globalConstants from 'common/constants';
-import '../../../common/test';
+import '../../common/test';
 import remoteId from './remoteId';
 
 describe('utils/remoteId', () => {

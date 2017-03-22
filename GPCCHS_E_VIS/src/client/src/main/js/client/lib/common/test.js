@@ -7,6 +7,7 @@ import sinonChai from 'sinon-chai';
 import properties from 'chai-properties';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
+import { createSelector } from 'reselect';
 import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
@@ -70,6 +71,19 @@ const makeGetDispatch = () => {
   return () => dispatch;
 };
 
+const testMemoized = (selector, state, ownProps) => {
+  const wrappedSelector = createSelector(selector, _.identity);
+  wrappedSelector.resetRecomputations();
+  wrappedSelector.recomputations().should.equal(0);
+
+  const r1 = wrappedSelector(state, ownProps);
+  wrappedSelector.recomputations().should.equal(1);
+
+  const r2 = wrappedSelector(state, ownProps);
+  wrappedSelector.recomputations().should.equal(1);
+  r1.should.equal(r2);
+};
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
@@ -79,6 +93,7 @@ module.exports = {
   freezeMe,
   freezeArgs,
   makeGetDispatch, // redux-thunk testing
+  testMemoized, // reselect testing
   isV4: (id = '') => id.length === v4().length,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };

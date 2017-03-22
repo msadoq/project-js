@@ -1,4 +1,4 @@
-import { freezeMe, testMemoized, should } from '../../common/test';
+import { freezeMe, testMemoization, should } from '../../common/test';
 
 import {
   getPageLayoutWithCollapsed,
@@ -32,7 +32,7 @@ describe('windowProcess:Page:ContentSelector', () => {
       });
     });
     it('should memoize', () => {
-      testMemoized(getPageLayoutWithCollapsed, state, { pageId: 'myPage' });
+      testMemoization(getPageLayoutWithCollapsed, state, { pageId: 'myPage' });
     });
   });
 
@@ -41,7 +41,7 @@ describe('windowProcess:Page:ContentSelector', () => {
       getTimebarUuid(state, { windowId: 'myWindow' }).should.be.eql('tbuuid');
     });
     it('should memoize', () => {
-      testMemoized(getTimebarUuid, state, { windowId: 'myWindow' });
+      testMemoization(getTimebarUuid, state, { windowId: 'myWindow' });
     });
   });
 
@@ -53,7 +53,7 @@ describe('windowProcess:Page:ContentSelector', () => {
       getMaximizedViewdUuid(state, { windowId: 'w2' }).should.be.eql('geometry1');
     });
     it('should memoize', () => {
-      testMemoized(getMaximizedViewdUuid, state, { windowId: 'w2' });
+      testMemoization(getMaximizedViewdUuid, state, { windowId: 'w2' });
     });
   });
 });

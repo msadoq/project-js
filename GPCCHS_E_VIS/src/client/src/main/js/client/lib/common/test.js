@@ -71,7 +71,7 @@ const makeGetDispatch = () => {
   return () => dispatch;
 };
 
-const testMemoized = (selector, state, ownProps) => {
+const testMemoization = (selector, state, ownProps) => {
   const newState = _.cloneDeep(state);
   const newOwnProps = _.cloneDeep(ownProps);
   selector.resetRecomputations();
@@ -94,7 +94,7 @@ module.exports = {
   freezeMe,
   freezeArgs,
   makeGetDispatch, // redux-thunk testing
-  testMemoized, // reselect testing
+  testMemoization, // reselect testing
   isV4: (id = '') => id.length === v4().length,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };

@@ -1,0 +1,22 @@
+.timebarWrapperCollapsed{
+  height: 34px;
+  padding-top: 2px;
+  text-align: center;
+  background: #252525;
+  button{
+    margin-right: 5px;
+  }
+  .timestamp{
+    color: #FFF;
+    float: left;
+    line-height: 29px;
+    padding-left: 10px;
+    font-weight: 600;
+  }
+}
+
+.playing, .playing:hover{
+  background: #549edd;
+  box-shadow: 0px 0px 6px #337ab7 inset;
+  border: 1px solid #337ab7;
+}

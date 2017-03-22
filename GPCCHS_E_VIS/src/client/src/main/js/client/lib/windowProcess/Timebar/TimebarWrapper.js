@@ -1,8 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { Button } from 'react-bootstrap';
+import _get from 'lodash/get';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
+import TimebarCollapsed from './TimebarCollapsed';
 import LeftTabContainer from './LeftTabContainer';
 import RightTabContainer from './RightTabContainer';
 import TimeSetterContainer from './TimeSetterContainer';
@@ -30,6 +31,7 @@ export default class TimebarWrapper extends PureComponent {
       rulerStart: PropTypes.number.isRequired,
       id: PropTypes.string.isRequired,
       masterId: PropTypes.string,
+      uuid: PropTypes.string.isRequired,
       realTime: PropTypes.bool.isRequired,
       mode: PropTypes.string.isRequired,
       slideWindow: PropTypes.shape({
@@ -57,6 +59,7 @@ export default class TimebarWrapper extends PureComponent {
     timebarHeight: PropTypes.number,
     timebarCollapsed: PropTypes.bool.isRequired,
     pause: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -143,6 +146,16 @@ export default class TimebarWrapper extends PureComponent {
     collapseTimebar(focusedPageId, false);
   }
 
+  willPause = (e) => {
+    e.preventDefault();
+    this.props.pause();
+  }
+
+  willPlay = (e) => {
+    e.preventDefault();
+    this.props.play(this.props.timebar.uuid);
+  }
+
   assignEl = (el) => { this.el = el; }
 
   render() {
@@ -155,6 +168,8 @@ export default class TimebarWrapper extends PureComponent {
       timebarCollapsed,
       collapseTimebar,
       timebarHeight,
+      play,
+      pause,
     } = this.props;
     const {
       displayTimesetter,
@@ -165,17 +180,14 @@ export default class TimebarWrapper extends PureComponent {
 
     if (timebarCollapsed) {
       return (
-        <div
-          className={styles.timebarWrapperCollapsed}
-        >
-          <Button
-            bsStyle="default"
-            bsSize="sm"
-            onClick={this.willCollapse}
-          >
-            Expand timebar
-          </Button>
-        </div>
+        <TimebarCollapsed
+          timebarUuid={timebar.uuid}
+          current={_get(timebar, 'visuWindow.current')}
+          isPlaying={isPlaying}
+          pause={pause}
+          play={play}
+          willCollapse={this.willCollapse}
+        />
       );
     }
 

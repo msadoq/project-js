@@ -299,7 +299,7 @@ export default class LeftTab extends PureComponent {
             className={classnames('btn-transp', styles.btnCollapse)}
           >
             <Glyphicon
-              glyph="minus"
+              glyph="resize-small"
             />
           </Button>
           <h5 className={styles.timebarName}>

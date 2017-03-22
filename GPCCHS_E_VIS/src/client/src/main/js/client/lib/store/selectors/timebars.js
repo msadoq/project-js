@@ -1,20 +1,10 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash/fp';
 
-import { getTimelines } from './timelines';
-import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
+import { getTimelines } from '../reducers/timelines';
+import { getTimebarTimelines as getTimebarTimelineIds } from '../reducers/timebarTimelines';
 
-// simple
-export const getTimebars = state => state.timebars;
-export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];
+import { getTimebarMasterId } from '../reducers/timebars';
 
-// simple
-export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
-
-// simple
-export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
-
-// composed
 export const getTimebarTimelinesSelector = createSelector(
   [
     getTimebarMasterId,
@@ -37,7 +27,7 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// composed specific (ControlsContainer)
+// specific to ControlsContainer
 export const getMasterTimelineById = createSelector(
   getTimebarMasterId,
   getTimebarTimelinesSelector,

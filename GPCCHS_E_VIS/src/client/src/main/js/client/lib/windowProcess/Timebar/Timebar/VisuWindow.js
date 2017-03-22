@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import styles from './../Timebar.css';
+import styles from './Timebar.css';
 import visuWindowStyles from './VisuWindow.css';
 
 export default class VisuWindow extends Component {

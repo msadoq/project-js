@@ -1,5 +1,5 @@
 import moment from 'moment';
-import viewDataReducer from '.';
+import viewDataReducer, { getViewData, getData } from '.';
 import { removeAllData, updateViewData } from '../../actions/viewData';
 import * as types from '../../types';
 import { freezeArgs } from '../../../common/test';
@@ -225,6 +225,27 @@ describe('store:viewData:reducer', () => {
           maxTime: { ep2: 12, ep3: 11 },
         },
       });
+    });
+  });
+});
+
+describe('store:viewData:selectors', () => {
+  describe('getViewData', () => {
+    it('should retrieve viewData', () => {
+      const state = { viewData: { view1: {} } };
+      getViewData(state).should.equal(state.viewData);
+    });
+    it('should support empty state', () => {
+      getViewData({});
+    });
+  });
+  describe('getData', () => {
+    it('should retrieve viewData for given view', () => {
+      const state = { viewData: { view1: {} } };
+      getData(state, { viewId: 'view1' }).should.equal(state.viewData.view1);
+    });
+    it('should support empty state', () => {
+      getData({}, { viewId: 'view1' });
     });
   });
 });

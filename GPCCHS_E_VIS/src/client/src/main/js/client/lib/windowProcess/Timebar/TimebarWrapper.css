@@ -1,0 +1,8 @@
+.resizeTimebarContainer{
+  margin: 0;
+  height: 4px;
+  cursor: row-resize;
+}
+.h100minus13{
+  height: calc(100% - 13px);
+}

@@ -1,8 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
-import { formatDuration } from '../common/timeFormats';
-import styles from './Lefttab.css';
+import { formatDuration } from '../../common/timeFormats';
+import styles from './LeftTab.css';
 
 export default class Timeline extends PureComponent {
   static propTypes = {

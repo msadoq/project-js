@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PlotMarkers from './PlotMarkers';
-import { getView } from '../../../../store/selectors/views';
+import { getView } from '../../../../store/reducers/views';
 import {
   updateMarker,
 } from '../../../../store/actions/views';

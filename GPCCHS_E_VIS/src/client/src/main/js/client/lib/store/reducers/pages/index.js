@@ -63,6 +63,13 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_WORKSPACE_OPEN: {
       return loadPages(statePages, action);
     }
+    case types.WS_VIEW_UPDATEPATH: {
+      const pageId = _.findKey(
+        p => _.findIndex(i => i === action.payload.viewId, p.views) !== -1,
+        statePages
+      );
+      return _.set(pageId, page(statePages[pageId], action), statePages);
+    }
     default: {
       if (
         action.payload &&

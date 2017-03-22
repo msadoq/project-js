@@ -43,7 +43,7 @@ export default class View extends PureComponent {
     maximizeView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     pageId: PropTypes.string.isRequired,
-    collapsed: PropTypes.bool.isRequired,
+    collapsed: PropTypes.bool,
     maximized: PropTypes.bool,
   };
 
@@ -74,7 +74,7 @@ export default class View extends PureComponent {
 
   toggleCollapse = (e) => {
     const {
-      // collapseView,
+      collapsed,
       viewId,
       closeEditor,
       isViewsEditorOpen,
@@ -82,10 +82,9 @@ export default class View extends PureComponent {
       openEditor,
       type,
     } = this.props;
-    // const { focusedPageId } = this.context;
 
     if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
-      // collapseView(focusedPageId, viewId, !configuration.collapsed); // TODO abesson
+      this.props.collapseView(viewId, !collapsed); // TODO abesson
     } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
       closeView(viewId);
       if (isViewsEditorOpen && closeEditor) {

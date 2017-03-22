@@ -8,7 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import styles from './Timebar.css';
 import Scale from './Scale';
 import TimebarTimeline from './TimebarTimeline';
-import VisuWindow from './timebar/VisuWindow';
+import VisuWindow from './VisuWindow';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 // 1980-01-01

@@ -6,8 +6,8 @@ import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
-import { getTimebarTimelines } from '../store/selectors/timebarTimelines';
-import { getTimeline } from '../store/selectors/timelines';
+import { getTimebarTimelines } from '../store/reducers/timebarTimelines';
+import { getTimeline } from '../store/reducers/timelines';
 import validation from './validation';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';

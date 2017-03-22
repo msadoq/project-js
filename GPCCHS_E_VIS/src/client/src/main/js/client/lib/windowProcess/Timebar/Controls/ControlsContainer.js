@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
-import { getMasterTimelineById } from '../../store/selectors/timebars';
-import { getMasterSessionId } from '../../store/reducers/masterSession';
-import { getSession } from '../../store/reducers/sessions';
+import { getMasterTimelineById } from '../../../store/selectors/timebars';
+import { getMasterSessionId } from '../../../store/reducers/masterSession';
+import { getSession } from '../../../store/reducers/sessions';
 import {
   switchToNormalMode,
   switchToRealtimeMode,
@@ -11,7 +11,7 @@ import {
   updateSpeed,
   restoreWidth,
   goNow,
-} from '../../store/actions/timebars';
+} from '../../../store/actions/timebars';
 
 import Controls from './Controls';
 

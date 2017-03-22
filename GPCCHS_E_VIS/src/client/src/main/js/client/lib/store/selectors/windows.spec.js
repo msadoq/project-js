@@ -1,58 +1,16 @@
 /* eslint no-unused-expressions: 0 */
-import { expect, should, getStore } from '../../common/test';
+import { expect, getStore } from '../../common/test';
 import {
-  getWindow,
-  getWindows,
-  getWindowsArray,
   getFocusedWindow,
   getWindowPages,
-  getWindowPageIds,
-  getWindowFocusedPageId,
   getWindowFocusedPageSelector,
   getWindowsVisibleViews,
   getWindowsTitle,
   getModifiedWindowsIds,
-  getDisplayHelp,
 } from './windows';
 
 describe('store:window:selectors', () => {
   const emptyState = {};
-  describe('getWindow', () => {
-    const state = {
-      windows: {
-        myWindowId: { title: 'Title 1' },
-      },
-    };
-    const { getState } = getStore(state);
-    it('should returns window', () => {
-      getWindow(getState(), { windowId: 'myWindowId' }).should.equal(state.windows.myWindowId);
-    });
-    it('should support not existing window', () => {
-      should.not.exist(getWindow(getState(), { windowId: 'unknownId' }));
-    });
-  });
-  it('getWindows', () => {
-    const state = {
-      windows: {
-        myWindowId: { title: 'Title' },
-        myOtherId: { title: 'Title other' },
-      },
-    };
-    const { getState } = getStore(state);
-    getWindows(getState()).should.equal(state.windows);
-  });
-  it('getWindowsArray', () => {
-    const state = {
-      windows: {
-        window1: { title: 'foo' },
-        window2: { title: 'bar' },
-      },
-    };
-    getWindowsArray(state).should.eql([
-      { title: 'foo' },
-      { title: 'bar' },
-    ]);
-  });
   describe('getFocusedWindow', () => {
     it('should return focused window', () => {
       const state = {
@@ -79,16 +37,7 @@ describe('store:window:selectors', () => {
       expect(getFocusedWindow(emptyState)).to.be.undefined;
     });
   });
-  it('getWindowPageIds', () => {
-    const state = {
-      windows: {
-        window1: {
-          pages: ['page1', 'page2'],
-        },
-      },
-    };
-    getWindowPageIds(state, { windowId: 'window1' }).should.eql(['page1', 'page2']);
-  });
+
   it('getWindowPages', () => {
     const state = {
       windows: {
@@ -111,16 +60,7 @@ describe('store:window:selectors', () => {
     ]);
     getWindowPages(state, { windowId: 'unknownWindow' }).should.be.eql([]);
   });
-  it('getWindowFocusedPageId', () => {
-    const state = {
-      windows: {
-        window1: {
-          focusedPage: 'page1',
-        },
-      },
-    };
-    getWindowFocusedPageId(state, { windowId: 'window1' }).should.eql('page1');
-  });
+
   it('getWindowFocusedPageSelector', () => {
     const state = {
       windows: {
@@ -227,17 +167,6 @@ describe('store:window:selectors', () => {
         },
       };
       getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
-    });
-  });
-  describe('getDisplayHelp', () => {
-    it('returns displayHelp', () => {
-      const state = {
-        windows: {
-          w1: { displayHelp: true },
-        },
-      };
-      getDisplayHelp(state, { windowId: 'w1' }).should.be.true;
-      should.not.exist(getDisplayHelp({}, {}));
     });
   });
 });

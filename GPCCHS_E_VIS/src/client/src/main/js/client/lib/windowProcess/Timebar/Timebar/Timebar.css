@@ -1,15 +1,5 @@
-@import '../style/variables.css';
+@import '../../style/variables.css';
 
-.h100minus13{
-  height: calc(100% - 13px);
-}
-
-.timebarWrapperCollapsed{
-  height: 36px;
-  padding-top: 2px;
-  text-align: center;
-  background: rgba(0,0,0,0.4);
-}
 .viewportWrapper{
     padding-top: 24px;
     position: relative;

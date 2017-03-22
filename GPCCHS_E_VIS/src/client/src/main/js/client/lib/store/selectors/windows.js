@@ -3,25 +3,20 @@ import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
+
 import { getFocusedWindowId } from '../reducers/hsc';
+import { getViews } from '../reducers/views';
 import { getPages } from '../reducers/pages';
+import {
+  getWindows,
+  getWindowsArray,
+  getWindowPageIds,
+  getWindowFocusedPageId,
+} from '../reducers/windows';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   _.isEqual
-);
-
-// simple (views reducer)
-export const getViews =
-  _.prop('views');
-
-// simple
-export const getWindows = state => _get(state, ['windows'], {});
-
-// simple
-export const getWindowsArray = createSelector(
-  getWindows,
-  _.values
 );
 
 // composed
@@ -31,30 +26,11 @@ export const getFocusedWindow = createSelector(
   _get
 );
 
-// simple
-export const getWindow = createSelector(
-  (state, { windowId }) => windowId,
-  getWindows,
-  _.get
-);
-
-// simple
-export const getWindowPageIds = createSelector(
-  getWindow,
-  _.get('pages')
-);
-
 // composed
 export const getWindowPages = createSelector(
   getWindowPageIds,
   getPages,
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
-);
-
-// simple
-export const getWindowFocusedPageId = createSelector(
-  getWindow,
-  _.get('focusedPage')
 );
 
 // composed
@@ -93,7 +69,7 @@ const getWindowsVisibleViewIds = createSelector(
       }))
 );
 
-// composed specific to dataManager
+// specific to dataManager
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
@@ -112,7 +88,7 @@ export const getWindowsVisibleViews = createSelector(
 );
 /* -------------------------------------------------------------------------- */
 
-// simple specific
+// specific to windowsManager/windows
 export const getWindowsTitle = createSelector(
   getWindows,
   windows => _reduce(
@@ -122,12 +98,7 @@ export const getWindowsTitle = createSelector(
     }), {})
 );
 
-// simple specific
+// specific to menuManaer/workspaceSave
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
-}
-
-// simple
-export function getDisplayHelp(state, { windowId }) {
-  return _get(state, ['windows', windowId, 'displayHelp']);
 }

@@ -7,15 +7,11 @@ import _memoize from 'lodash/memoize';
 import {
   Form,
 } from 'react-bootstrap';
-import {
-  HorizontalFormGroup,
-  InputField,
-  ClearSubmitButtons,
-  ButtonToggleField,
-} from '../../../../windowProcess/commonReduxForm/';
-import {
-  FormSectionFontStyle,
-} from '../../../commonEditor/FormSections/';
+import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from '../../../../windowProcess/commonReduxForm/InputField';
+import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
+import FormSectionFontStyle from '../../../commonEditor/FormSections/FormSectionFontStyle';
 import styles from './Plot.css';
 
 class PlotAxis extends PureComponent {

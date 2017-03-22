@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
 import TimelinesFixture from '../../../../test/__mocks__/Timelines';
 import SessionsFixture from '../../../../test/__mocks__/Sessions';
-import LeftTab from '../LeftTab';
+import LeftTab from '../LeftTab/LeftTab';
 
 const propsStub = {
   addAndMountTimeline: () => null,

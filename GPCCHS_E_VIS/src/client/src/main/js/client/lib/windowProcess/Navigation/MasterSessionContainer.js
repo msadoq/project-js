@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
+import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import _get from 'lodash/get';
-import { getMasterSession } from '../../store/selectors/masterSession';
+
+import selector from './MasterSessionSelector';
 
 const MasterSession = ({ masterSession }) => (
   <Button bsSize="sm">
-    Master session: {_get(masterSession, ['name'], 'unknown')}
+    Master session: {_.getOr('unknown', 'name', masterSession)}
   </Button>
 );
 
@@ -19,6 +20,4 @@ MasterSession.defaultProps = {
   masterSession: {},
 };
 
-export default connect(
-  state => ({ masterSession: getMasterSession(state) })
-)(MasterSession);
+export default connect(selector)(MasterSession);

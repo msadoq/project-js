@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import TextTab from './TextTab';
 import { openHtmlEditor, closeHtmlEditor } from '../../../../store/actions/editor';
-import { getViewId } from '../../../../store/reducers/editor';
+import { getEditorTextViewId } from '../../../../store/reducers/editor';
 
 
 const mapStateToProps = (state) => {
-  const viewId = getViewId(state);
+  const viewId = getEditorTextViewId(state);
   return {
     htmlEditorViewId: viewId,
   };

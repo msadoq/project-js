@@ -1,13 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
-import {
-  getViews,
-  getView,
-  getModifiedViewsIds,
-  getViewConfiguration,
-  getViewContent,
-  getViewEntryPoint,
-} from './views';
+import { } from '../../common/test';
+import { getViewEntryPoint } from './views';
 
 describe('store:views:selectors', () => {
   const completeState = {
@@ -243,65 +236,6 @@ describe('store:views:selectors', () => {
       sessionId: 10,
     },
   };
-  it('getView', () => {
-    const { getState } = getStore({
-      views: {
-        myViewId: { title: 'Title 1' },
-      },
-    });
-    getView(getState(), { viewId: 'myViewId' }).should.have.property('title', 'Title 1');
-    should.not.exist(getView(getState(), { viewId: 'unknownId' }));
-  });
-  describe('getViews', () => {
-    it('should returns views', () => {
-      const state = {
-        views: {
-          myId: { title: 'Title' },
-          myOtherId: { title: 'Title other' },
-        },
-      };
-      const { getState } = getStore(state);
-      getViews(getState()).should.equal(state.views);
-    });
-  });
-  it('getModifiedViewsIds', () => {
-    const state = {
-      views: {
-        view1: { isModified: true },
-        view2: { isModified: false },
-        view3: { isModified: true },
-      },
-    };
-    getModifiedViewsIds(state).should.eql(['view1', 'view3']);
-  });
-  it('getViewConfiguration', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-          },
-        },
-      },
-    };
-    getViewConfiguration(state, { viewId: 'myViewId' }).should.eql({
-      title: 'Title 1',
-    });
-  });
-
-  it('getViewContent', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-            content: '<h1>content</h1>',
-          },
-        },
-      },
-    };
-    getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
-  });
 
   it('getViewEntryPoint', () => {
     getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' }).should.eql({

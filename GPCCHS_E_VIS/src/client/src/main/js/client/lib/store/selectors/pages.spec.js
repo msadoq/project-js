@@ -2,14 +2,12 @@
 import {} from '../../common/test';
 
 import {
-  makeGetViews,
-  makeGetLayouts,
+  getPageViews,
   getPageModifiedViewsIds,
 } from './pages';
 
 describe('store:page:selectors', () => {
-  it('makeGetViews', () => {
-    const getViews = makeGetViews();
+  it('getPageViews', () => {
     const state = {
       pages: {
         myPageId: {
@@ -22,27 +20,9 @@ describe('store:page:selectors', () => {
       },
     };
 
-    getViews(state, { pageId: 'myPageId' }).should.eql([
+    getPageViews(state, { pageId: 'myPageId' }).should.eql([
       { viewId: 'view1' },
     ]);
-  });
-  it('makeGetLayouts', () => {
-    const getLayouts = makeGetLayouts();
-    const state = {
-      pages: {
-        myPageId: {
-          layout: [{
-            i: 'layout1',
-          }, {
-            i: 'layout2',
-          }],
-        },
-      },
-    };
-
-    getLayouts(state, { pageId: 'myPageId' }).should.have.properties({
-      lg: [{ i: 'layout1' }, { i: 'layout2' }],
-    });
   });
   it('getPageModifiedViewsIds', () => {
     const state = {
@@ -50,9 +30,9 @@ describe('store:page:selectors', () => {
         myPageId1: { uuid: 'myPageId1', views: ['view1', 'view2', 'view3'] },
       },
       views: {
-        view1: { isModified: true },
-        view2: { isModified: false },
-        view3: { isModified: true },
+        view1: { uuid: 'view1', isModified: true },
+        view2: { uuid: 'view2', isModified: false },
+        view3: { uuid: 'view3', isModified: true },
       },
     };
 

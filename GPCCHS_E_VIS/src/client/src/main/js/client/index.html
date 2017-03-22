@@ -2,9 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8">
-
+  <style>
+    #waitingRenderer { text-align: center; font-size: 42px; font-weight: bold; color: #D6D6D6; }
+    #waitingRendererText { margin-top: 20%; font-family: Verdana, Geneva, sans-serif; }
+  </style>
 </head>
 <body>
+<div id="waitingRenderer">
+  <div id="waitingRendererText">
+    <p>LOADING CONTENT ...</p>
+  </div>
+</div>
 <div id="root"></div>
 <script>
   function getQueryStringValue (key) {

@@ -1,40 +1,14 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPage, getPageIdByViewId } from '../reducers/pages';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  __.isEqual
+  _.isEqual
 );
 
-// simple
-export const getViews =
-  __.prop('views');
-
-// simple
-export const getView =
-  (state, { viewId }) =>
-    __.prop(viewId, getViews(state));
-
-// simple
-export const getModifiedViewsIds = state =>
-  Object
-    .keys(getViews(state))
-    .filter(vId => state.views[vId].isModified);
-
-// simple
-export const getViewConfiguration = createSelector(
-  getView,
-  __.prop('configuration')
-);
-
-// simple
-export const getViewContent = createSelector(
-  getViewConfiguration,
-  __.prop('content')
-);
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
@@ -86,11 +60,11 @@ export const getPerViewData = createDeepEqualSelectorPerViewData(
 
 // composed / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
-  __.get('entryPoints', getPerViewData(state, { viewId })));
+  _.get('entryPoints', getPerViewData(state, { viewId })));
 
 // composed
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>
-  __.map(ep => ep.name, entryPoints)
+  _.map(ep => ep.name, entryPoints)
 );
 
 // composed

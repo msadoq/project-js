@@ -33,6 +33,26 @@ describe('store:pages:reducer', () => {
       .should.be.an('object').that.is.empty;
     });
   });
+  describe('Update view path', () => {
+    it('set modified page', () => {
+      const state = {
+        page1: { views: ['view1', 'view2'] },
+        page2: { views: ['view3', 'view4'] },
+      };
+      const newState = reducer(state, { type: types.WS_VIEW_UPDATEPATH, payload: { viewId: 'view3' } });
+      newState.page2.should.have.property('isModified');
+      newState.page1.should.not.have.property('isModified');
+    });
+    it('does not set modified page', () => {
+      const state = {
+        page1: { views: ['view1', 'view2'] },
+        page2: { views: ['view3', 'view4'] },
+      };
+      const newState = reducer(state, { type: types.WS_VIEW_UPDATEPATH, payload: { viewId: 'view5' } });
+      newState.page2.should.not.have.property('isModified');
+      newState.page1.should.not.have.property('isModified');
+    });
+  });
 });
 
 /* --- Selectors ------------------------------------------------------------ */

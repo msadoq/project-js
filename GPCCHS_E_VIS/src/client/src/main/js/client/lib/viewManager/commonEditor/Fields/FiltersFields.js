@@ -6,7 +6,7 @@ import {
   Alert,
 } from 'react-bootstrap';
 import classnames from 'classnames';
-import { HorizontalFormGroup } from '../../../windowProcess/commonReduxForm/';
+import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import styles from './fields.css';
 import { operators } from '../../../common/operators';
 

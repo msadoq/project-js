@@ -3,15 +3,11 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Form,
 } from 'react-bootstrap';
-import {
-  HorizontalFormGroup,
-  ClearSubmitButtons,
-  InputField,
-  ColorPickerField,
-} from '../../windowProcess/commonReduxForm/';
-import {
-  FormSectionFontStyle,
-} from './FormSections/';
+import HorizontalFormGroup from '../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from '../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from '../../windowProcess/commonReduxForm/InputField';
+import ColorPickerField from '../../windowProcess/commonReduxForm/ColorPickerField';
+import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
 
 const bgColors = [
   '#FFFFFF', '#eceff1', '#fafafa', '#efebe9',

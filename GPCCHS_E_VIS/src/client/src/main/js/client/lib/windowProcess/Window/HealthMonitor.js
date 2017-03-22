@@ -21,6 +21,7 @@ export default class HealthMonitor extends Component {
     this.lastTickTime = Date.now();
 
     this.timeout = this.checkHighCPULoad();
+    document.body.removeChild(document.getElementById('waitingRenderer'));
   }
 
   componentWillUnmount() {

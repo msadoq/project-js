@@ -1,9 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
-import TimeBar from './Timebar';
-import ControlsContainer from './ControlsContainer';
-import styles from './Timebar.css';
+import TimeBar from './Timebar/Timebar';
+import ControlsContainer from './Controls/ControlsContainer';
+import styles from './RightTab.css';
 import Dimensions from '../common/Dimensions';
 
 class RightTabContent extends PureComponent {

@@ -5,7 +5,7 @@ import equals from 'lodash/fp/equals';
 
 import { add as addMessage } from '../../store/actions/messages';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
-import { getModifiedViewsIds } from '../../store/selectors/views';
+import { getModifiedViewsIds } from '../../store/reducers/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { updatePath } from '../../store/actions/hsc';
 import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';

@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PlotAxes from './PlotAxes';
-import { getView } from '../../../../store/selectors/views';
+import { getView } from '../../../../store/reducers/views';
 import {
   removeAxis,
   updateAxis,

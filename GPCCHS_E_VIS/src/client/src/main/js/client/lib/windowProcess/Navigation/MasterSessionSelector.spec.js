@@ -1,5 +1,5 @@
 import { should } from '../../common/test';
-import { getMasterSession } from './masterSession';
+import { getMasterSession } from './MasterSessionSelector';
 
 describe('store:masterSession:selectors', () => {
   describe('getMasterSession', () => {

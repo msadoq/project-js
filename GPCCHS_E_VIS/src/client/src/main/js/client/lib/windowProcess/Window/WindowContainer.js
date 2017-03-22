@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import {
   getWindowFocusedPageId,
   getDisplayHelp,
-} from '../../store/selectors/windows';
+} from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { setIsLoaded, displayHelp } from '../../store/actions/windows';
 

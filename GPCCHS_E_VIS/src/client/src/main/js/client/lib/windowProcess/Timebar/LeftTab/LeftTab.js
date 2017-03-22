@@ -3,11 +3,11 @@ import React, { PureComponent, PropTypes } from 'react';
 import { Col, Glyphicon, Button } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
-import Modal from '../common/Modal';
-import EditTimeline from './timeline/EditTimeline';
-import AddTimeline from './timeline/AddTimeline';
-import styles from './Lefttab.css';
-import { main } from '../ipc';
+import Modal from '../../common/Modal';
+import EditTimeline from './EditTimeline';
+import AddTimeline from './AddTimeline';
+import styles from './LeftTab.css';
+import { main } from '../../ipc';
 
 export default class LeftTab extends PureComponent {
   static propTypes = {
@@ -299,7 +299,7 @@ export default class LeftTab extends PureComponent {
             className={classnames('btn-transp', styles.btnCollapse)}
           >
             <Glyphicon
-              glyph="minus"
+              glyph="resize-small"
             />
           </Button>
           <h5 className={styles.timebarName}>

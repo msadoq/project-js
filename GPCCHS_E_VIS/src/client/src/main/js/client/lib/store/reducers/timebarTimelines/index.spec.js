@@ -1,10 +1,11 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/test';
-import timebarTimelinesReducer from '.';
+import { freezeArgs, getStore } from '../../../common/test';
+import timebarTimelinesReducer, { getTimebarTimelines } from '.';
 import * as types from '../../types';
 
 const reducer = freezeArgs(timebarTimelinesReducer);
 
+/* --- Reducer -------------------------------------------------------------- */
 describe('store:timebarTimelines:reducer', () => {
   it('does nothing with unknown action', () => {
     const state = reducer(undefined, { type: 'DUMMY_ACTION' });
@@ -60,5 +61,28 @@ describe('store:timebarTimelines:reducer', () => {
     };
     const state = reducer({ tb1: ['tl1', 'tl2'], tb2: [] }, action);
     state.should.be.eql({ tb1: ['tl2'], tb2: [] });
+  });
+});
+
+/* --- Selectors ------------------------------------------------------------ */
+describe('store:timebarTimelines:selectors', () => {
+  it('getTimebarTimelines: existing id', () => {
+    const { getState } = getStore({
+      timebarTimelines: {
+        myTimebarId: ['tl1', 'tl2'],
+        myOtherId: ['tl3'],
+      },
+    });
+    getTimebarTimelines(getState(), { timebarUuid: 'myTimebarId' })
+      .should.eql(['tl1', 'tl2']);
+  });
+  it('getTimebarTimelines: unknown id', () => {
+    const { getState } = getStore({
+      timebarTimelines: {
+        myTimebarId: ['tl1', 'tl2'],
+        myOtherId: ['tl3'],
+      },
+    });
+    getTimebarTimelines(getState(), { timebarUuid: 'unknownId' }).should.eql([]);
   });
 });

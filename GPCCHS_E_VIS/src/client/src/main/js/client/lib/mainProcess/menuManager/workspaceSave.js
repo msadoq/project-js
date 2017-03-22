@@ -1,7 +1,7 @@
 import path from 'path';
 import { getModifiedWindowsIds } from '../../store/selectors/windows';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
-import { getModifiedViewsIds } from '../../store/selectors/views';
+import { getModifiedViewsIds } from '../../store/reducers/views';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';

@@ -19,7 +19,6 @@ const mapStateToProps = (state, { viewId }) => {
 export const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);
 
 DynamicViewContainer.propTypes = {
-  openInspector: PropTypes.func.isRequired,
   viewId: PropTypes.string.isRequired,
 };
 export default DynamicViewContainer;

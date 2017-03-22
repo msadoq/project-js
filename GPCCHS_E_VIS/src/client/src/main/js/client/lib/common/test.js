@@ -72,15 +72,16 @@ const makeGetDispatch = () => {
 };
 
 const testMemoized = (selector, state, ownProps) => {
-  const wrappedSelector = createSelector(selector, _.identity);
-  wrappedSelector.resetRecomputations();
-  wrappedSelector.recomputations().should.equal(0);
+  const newState = _.cloneDeep(state);
+  const newOwnProps = _.cloneDeep(ownProps);
+  selector.resetRecomputations();
+  selector.recomputations().should.equal(0);
 
-  const r1 = wrappedSelector(state, ownProps);
-  wrappedSelector.recomputations().should.equal(1);
+  const r1 = selector(newState, newOwnProps);
+  selector.recomputations().should.equal(1);
 
-  const r2 = wrappedSelector(state, ownProps);
-  wrappedSelector.recomputations().should.equal(1);
+  const r2 = selector(newState, newOwnProps);
+  selector.recomputations().should.equal(1);
   r1.should.equal(r2);
 };
 

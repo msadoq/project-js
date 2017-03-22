@@ -9,7 +9,7 @@ const getTimebarTimelinesSelector = createSelector(
   [
     getTimebarMasterId,
     getTimelines,
-    getTimebarTimelineIds, // (state, {timebarUuid})
+    getTimebarTimelineIds,
   ],
   (masterId, timelines, tbTimelines) => { // Array of timelineUuid of the current timebar
     if (!tbTimelines.length) {

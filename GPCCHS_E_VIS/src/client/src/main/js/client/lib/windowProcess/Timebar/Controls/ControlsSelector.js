@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { getMessages } from '../../../store/reducers/messages';
+import { getAllMessages } from '../../../store/reducers/messages';
 import { getSession } from '../../../store/reducers/sessions';
 import { getMasterSessionId } from '../../../store/reducers/masterSession';
 import { getTimebarMasterId } from '../../../store/reducers/timebars';
@@ -25,7 +25,7 @@ export const getMasterTimelineById = createSelector(
 );
 
 export const getTimeSetterMessages = createSelector(
-  getMessages,
+  getAllMessages,
   (state, { timebarUuid }) => timebarUuid,
   (messages, timebarUuid) => _.getOr(null, `timeSetter-${timebarUuid}`, messages)
 );

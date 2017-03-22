@@ -1,8 +1,5 @@
-import { should } from '../../common/test';
-import {
-  getMasterTimelineById,
-  getTimebarTimelinesSelector,
-} from './timebars';
+import {} from '../../common/test';
+import { getTimebarTimelinesSelector } from './timebars';
 
 describe('store:timebars:selectors', () => {
   it('getTimebarTimelinesSelector', () => {
@@ -25,69 +22,5 @@ describe('store:timebars:selectors', () => {
       { id: 'tl2' },
     ]);
     getTimebarTimelinesSelector(state, { timebarUuid: 'unknown' }).should.be.eql([]);
-  });
-  describe('getMasterTimelineById', () => {
-    it('should return master timeline', () => {
-      getMasterTimelineById(
-        {
-          timebars: {
-            myId: {
-              masterId: 'timeline01',
-            },
-          },
-          timelines: {
-            timeline_01: { id: 'timeline01' },
-            timeline_02: { id: 'timeline02' },
-            timeline_03: { id: 'timeline03' },
-          },
-          timebarTimelines: {
-            myId: ['timeline_01', 'timeline_02'],
-          },
-        },
-        { timebarUuid: 'myId' }
-      ).should.eql(
-        {
-          id: 'timeline01',
-        }
-      );
-    });
-    it('should not find master timeline', () => {
-      should.not.exist(getMasterTimelineById(
-        {
-          timebars: {
-            myId: {
-              masterId: 'timeline04',
-            },
-          },
-          timelines: {
-            timeline_01: { id: 'timeline01' },
-            timeline_02: { id: 'timeline02' },
-            timeline_03: { id: 'timeline03' },
-          },
-          timebarTimelines: {
-            myId: ['timeline_01', 'timeline_02'],
-          },
-        },
-        { timebarUuid: 'myId' }
-      ));
-    });
-    it('no master timeline', () => {
-      should.not.exist(getMasterTimelineById(
-        {
-          timebars: {
-            myId: { },
-          },
-          timelines: {
-            timeline_01: { id: 'timeline01' },
-            timeline_02: { id: 'timeline02' },
-            timeline_03: { id: 'timeline03' },
-          },
-          timebarTimelines: {
-            myId: ['timeline_01', 'timeline_02'],
-          },
-        },
-        { timebarUuid: 'myId' }
-      ));
-    });
   });
 });

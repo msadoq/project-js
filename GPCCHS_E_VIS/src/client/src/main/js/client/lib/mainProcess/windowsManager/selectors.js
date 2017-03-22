@@ -1,5 +1,5 @@
-import { getEditorTitle } from '../reducers/editor';
-import { getView } from '../reducers/views';
+import { getEditorTitle } from '../../store/reducers/editor';
+import { getView } from '../../store/reducers/views';
 
 // specific to windowManager/coreEditor
 const getEditorWindowTitle = (state, { viewId }) => {

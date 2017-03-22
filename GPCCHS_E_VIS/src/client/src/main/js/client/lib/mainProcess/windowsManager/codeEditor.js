@@ -4,7 +4,7 @@ import parameters from 'common/parameters';
 import { getStore } from '../../store/mainStore';
 import { closeHtmlEditor } from '../../store/actions/editor';
 import { getEditorTextViewId } from '../../store/reducers/editor';
-import { getEditorWindowTitle } from '../../store/selectors/editor';
+import { getEditorWindowTitle } from './selectors';
 import getCenteredPosition from './common/getCenteredPosition';
 
 const logger = getLogger('main:windowsManager:codeEditor');

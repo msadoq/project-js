@@ -2,10 +2,10 @@ import __ from 'lodash/fp';
 
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
-import parseConnectedData from '../common/parseConnectedData';
-import remoteIdGenerator from '../common/remoteId';
+import parseConnectedData from '../../commonData/parseConnectedData';
+import remoteIdGenerator from '../../commonData/remoteId';
 
-const logger = getLogger('data:last:parseEntryPoint');
+const logger = getLogger('data:DynamicView:parseEntryPoint');
 function flattenStateColors(stateColors = []) {
   if (!stateColors.length) {
     return '';
@@ -40,7 +40,6 @@ function parseEntryPoint(domains, timelines, entryPoint, masterSessionId, timeba
       remoteId,
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
-      field,
       offset,
       filter,
       timebarUuid,
@@ -51,9 +50,6 @@ function parseEntryPoint(domains, timelines, entryPoint, masterSessionId, timeba
   };
   if (stateColors) {
     ep[name].stateColors = stateColors;
-  }
-  if (field) {  // field undefined for dynamic view
-    ep[name].field = field;
   }
   return ep;
 }

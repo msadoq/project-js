@@ -44,10 +44,6 @@ export function addEpInRemoteIdMap(remoteIdMap, ep, viewId) {
 export default function perRemoteIdMap(perViewMap) {
   let remoteIdMap = {};
   _each(perViewMap, (view, viewId) => {
-    // const epValues = _reduce(view.entryPoints, (acc, entryPoint) => {
-    //   acc.push(_values(entryPoint)[0]);
-    //   return acc;
-    // }, []);
     _each(view.entryPoints, (entryPoint) => {
       remoteIdMap = addEpInRemoteIdMap(remoteIdMap, entryPoint, viewId);
     });

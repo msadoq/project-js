@@ -1,11 +1,11 @@
 import _isEqual from 'lodash/isEqual';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
-import parseConnectedData from '../common/parseConnectedData';
+import parseConnectedData from '../../commonData/parseConnectedData';
 
-import remoteIdGenerator from '../common/remoteId';
+import remoteIdGenerator from '../../commonData/remoteId';
 
-const logger = getLogger('data:range:parseEntryPoint');
+const logger = getLogger('data:PLotView:parseEntryPoint');
 
 
 export default function parseEntryPoint(

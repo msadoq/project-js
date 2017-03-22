@@ -12,10 +12,11 @@ import views from './views';
 import domains from './domains';
 import sessions from './sessions';
 import masterSession from './masterSession';
-import viewData from './viewData';
 import health from './health';
 import editor from './editor';
 import plotViewData from '../../viewManager/PlotView/store/dataReducer';
+import textViewData from '../../viewManager/TextView/store/dataReducer';
+import dynamicViewData from '../../viewManager/DynamicView/store/dataReducer';
 
 import { configurationReducers } from '../../viewManager/';
 
@@ -32,10 +33,11 @@ const rootReducer = combineReducers({
   domains,
   sessions,
   masterSession,
-  viewData,
   health,
   editor,
   plotViewData,
+  textViewData,
+  dynamicViewData,
   ...configurationReducers,
 });
 

@@ -8,7 +8,7 @@ import {
 } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getViewContent } from '../../../../store/reducers/views';
-import { getData } from '../../../../store/reducers/viewData';
+import { getData } from '../../store/dataReducer';
 
 const mapStateToProps = (state, { viewId }) => {
   const getConfiguration = _.get(`views[${viewId}].configuration`);

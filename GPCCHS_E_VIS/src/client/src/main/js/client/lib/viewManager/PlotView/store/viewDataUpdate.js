@@ -185,7 +185,6 @@ export function viewRangeAdd(state = {}, payloads) {
  * @return: updated state
 /* ************************************/
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
-  // const bag = {};
   let epSubState = {};
   if (currentViewMap) {
     Object.keys(currentViewMap.entryPoints).forEach((epName) => {

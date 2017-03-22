@@ -1,8 +1,8 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import cleanViewData from './cleanViewData';
+import cleanCurrentViewData from './cleanViewData';
+import { freezeMe } from '../../../common/test';
 
-
-describe('cleanViewData', () => {
+describe('viewManager/TextView/store/cleanViewData', () => {
   let viewDataState;
   let viewMap;
   let oldIntervals;
@@ -122,39 +122,6 @@ describe('cleanViewData', () => {
       },
     };
     viewDataState = {
-      dynamic: {
-        index: {
-          dynamicEP: 14,
-        },
-        values: {
-          dynamicEP: {
-            value: {
-              referenceTimestamp: 14,
-              decommuntedValues: [
-                { name: { value: 'decom1' } },
-                { name: { value: 'decom2' } },
-              ],
-            },
-          },
-        },
-      },
-      plot: {
-        indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
-        lines: {
-          STAT_SU_PID: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          { masterTime: 13, value: 13, x: 13 },
-          { masterTime: 14, value: 13, x: 14 },
-          { masterTime: 15, value: 13, x: 15 },
-          { masterTime: 16, value: 13, x: 16 },
-          ] },
-        min: { STAT_SU_PID: 13 },
-        max: { STAT_SU_PID: 13 },
-        minTime: { STAT_SU_PID: 16 },
-        maxTime: { STAT_SU_PID: 16 },
-      },
       text: {
         index: {
           STAT_SU_PID: 14,
@@ -182,68 +149,33 @@ describe('cleanViewData', () => {
     };
   });
   it('no update', () => {
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, viewMap, oldIntervals,
-    oldIntervals);
-    newState.should.equal(viewDataState);
-  });
-  it('interval update Dynamic: keep', () => {
-    const newMap = _cloneDeep(viewMap);
-    const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
-      = [12, 17];
-    const newState =
-      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.dynamic.should.equal(viewDataState.dynamic);
+    const frozen = freezeMe(viewDataState.text);
+    cleanCurrentViewData(frozen, viewMap.text, viewMap.text, oldIntervals, oldIntervals)
+    .should.equal(frozen);
   });
   it('interval update text: keep', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
     newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [12, 17];
-    const newState =
-      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.text.should.equal(viewDataState.text);
+    const frozen = freezeMe(viewDataState.text);
+    cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
+    .should.equal(frozen);
   });
-  it('interval update Plot: keep all', () => {
+  it('interval update text: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
-      = [10, 25];
-    const newState =
-      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.plot.should.equal(viewDataState.plot);
-  });
-  it('interval update Plot: keep some', () => {
-    const newMap = _cloneDeep(viewMap);
-    const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
-      = [15, 25];
-    const newState =
-      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.plot.lines.STAT_SU_PID.should.eql([
-      { masterTime: 15, value: 13, x: 15 },
-      { masterTime: 16, value: 13, x: 16 },
-    ]);
-    newState.plot.indexes.STAT_SU_PID.should.eql([15, 16]);
-    newState.plot.min.should.eql({ STAT_SU_PID: 13 });
-    newState.plot.max.should.eql({ STAT_SU_PID: 13 });
-    newState.plot.minTime.should.eql({ STAT_SU_PID: 16 });
-    newState.plot.maxTime.should.eql({ STAT_SU_PID: 16 });
-  });
-  it('interval update Plot: remove all', () => {
-    const newMap = _cloneDeep(viewMap);
-    const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
-      = [20, 25];
-    const newState =
-      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.plot.should.eql(
-      { indexes: {},
-        lines: {},
-        min: { STAT_SU_PID: 13 },
-        max: { STAT_SU_PID: 13 },
-        minTime: { STAT_SU_PID: 16 },
-        maxTime: { STAT_SU_PID: 16 },
-      });
+    newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
+      = [3, 8];
+    const frozen = freezeMe(viewDataState.text);
+    cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
+    .should.eql({
+      index: {
+        STAT_WILDCARD_TIMELINE: 13,
+      },
+      values: {
+        STAT_WILDCARD_TIMELINE: { value: 13, monit: 'info' },
+      },
+    });
   });
 });

@@ -110,8 +110,8 @@ function arrayLine(arrayData) {
 export default class DynamicView extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({
-      values: PropTypes.object,
-      index: PropTypes.object,
+      value: PropTypes.object,
+      index: PropTypes.number,
     }),
     entryPoints: PropTypes.objectOf(PropTypes.object),
     formula: PropTypes.string,
@@ -134,7 +134,7 @@ export default class DynamicView extends PureComponent {
 
   render() {
     const { data, entryPoints } = this.props;
-    const ep = _get(data, ['values', 'dynamicEP', 'value']);
+    const ep = data.value;
     const error = _get(entryPoints, '[0].error');
     if (!ep) {
       return (

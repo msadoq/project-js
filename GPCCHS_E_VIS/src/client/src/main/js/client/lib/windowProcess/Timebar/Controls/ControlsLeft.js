@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import { main } from '../ipc';
+import { main } from '../../ipc';
 
 const inlineStyles = {
   width200: { width: '200px' },

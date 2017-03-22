@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import ControlsRight from '../ControlsRight';
+import ControlsRight from '../Controls/ControlsRight';
 
 const propsStub = {
   play: () => null,

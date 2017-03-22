@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import { getMessages } from '../../store/reducers/messages';
-import { getTimebar } from '../../store/reducers/timebars';
-import { remove } from '../../store/actions/messages';
+import { getMessages } from '../../../store/reducers/messages';
+import { getTimebar } from '../../../store/reducers/timebars';
+import { remove } from '../../../store/actions/messages';
 import {
   updateDefaultWidth,
   updateCursors,
   jump,
   updateViewport,
-} from '../../store/actions/timebars';
+} from '../../../store/actions/timebars';
 import TimeSetter from './TimeSetter';
 
 export default connect(

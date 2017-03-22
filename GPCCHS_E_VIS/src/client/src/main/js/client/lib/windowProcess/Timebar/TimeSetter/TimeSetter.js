@@ -4,7 +4,7 @@ import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
 import classnames from 'classnames';
 import TimeSetterFields from './TimeSetterFields';
-import Message from '../common/Message';
+import Message from '../../common/Message';
 import styles from './TimeSetter.css';
 
 export default class TimeSetter extends PureComponent {

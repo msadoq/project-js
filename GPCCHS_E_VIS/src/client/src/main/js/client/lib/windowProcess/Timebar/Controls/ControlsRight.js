@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import { main } from '../ipc';
+import { main } from '../../ipc';
 
 const OverlayTriggerTrigger = ['hover', 'focus'];
 

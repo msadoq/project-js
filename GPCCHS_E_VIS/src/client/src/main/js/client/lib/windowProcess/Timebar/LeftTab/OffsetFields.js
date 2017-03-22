@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _debounce from 'lodash/debounce';
 import moment from 'moment';
-import styles from '../Lefttab.css';
+import styles from './LeftTab.css';
 
 export default class OffsetFields extends PureComponent {
   static propTypes = {

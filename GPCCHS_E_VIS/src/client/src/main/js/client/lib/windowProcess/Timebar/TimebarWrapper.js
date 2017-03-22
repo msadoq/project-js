@@ -2,11 +2,11 @@ import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _get from 'lodash/get';
 import getLogger from 'common/log';
-import styles from './Timebar.css';
+import styles from './TimebarWrapper.css';
 import TimebarCollapsed from './TimebarCollapsed';
-import LeftTabContainer from './LeftTabContainer';
+import LeftTabContainer from './LeftTab/LeftTabContainer';
 import RightTabContainer from './RightTabContainer';
-import TimeSetterContainer from './TimeSetterContainer';
+import TimeSetterContainer from './TimeSetter/TimeSetterContainer';
 import Modal from '../common/Modal';
 
 const logger = getLogger('Timebar');

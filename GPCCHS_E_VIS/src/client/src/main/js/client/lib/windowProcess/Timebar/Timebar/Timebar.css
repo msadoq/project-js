@@ -1,8 +1,4 @@
-@import '../style/variables.css';
-
-.h100minus13{
-  height: calc(100% - 13px);
-}
+@import '../../style/variables.css';
 
 .viewportWrapper{
     padding-top: 24px;

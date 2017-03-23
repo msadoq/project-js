@@ -8,10 +8,10 @@ import selector from './ContentSelector';
 
 import Content from './Content';
 
-function mapDispatchToProps(dispatch, { focusedPageId }) {
+function mapDispatchToProps(dispatch, { pageId }) {
   return bindActionCreators({
-    closeView: viewId => closeView(focusedPageId, viewId),
-    updateLayout: layout => updateLayout(focusedPageId, layout),
+    closeView: viewId => closeView(pageId, viewId),
+    updateLayout: layout => updateLayout(pageId, layout),
   }, dispatch);
 }
 
@@ -19,7 +19,7 @@ const ContentContainer = connect(selector, mapDispatchToProps)(Content);
 
 ContentContainer.propTypes = {
   windowId: PropTypes.string.isRequired,
-  focusedPageId: PropTypes.string,
+  pageId: PropTypes.string,
 };
 
 export default ContentContainer;

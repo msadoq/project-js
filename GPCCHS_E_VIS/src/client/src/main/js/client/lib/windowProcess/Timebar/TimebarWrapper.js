@@ -25,13 +25,13 @@ export default class TimebarWrapper extends PureComponent {
     updateTimebarHeight: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     timebar: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
       extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
-      id: PropTypes.string.isRequired,
       masterId: PropTypes.string,
-      uuid: PropTypes.string.isRequired,
       realTime: PropTypes.bool.isRequired,
       mode: PropTypes.string.isRequired,
       slideWindow: PropTypes.shape({
@@ -239,7 +239,6 @@ export default class TimebarWrapper extends PureComponent {
         <div className={classnames('col-xs-9', styles.h100minus13)}>
           <RightTabContainer
             timebar={timebar}
-            timebarUuid={timebar.uuid}
             isPlaying={isPlaying}
             timelines={timelines}
             toggleTimesetter={this.toggleTimesetter}

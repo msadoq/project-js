@@ -93,12 +93,12 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO u
   ...state.pages[pageId], pageId,
 };
 
-const inPage = key => _.compose(_.get(key), getPage);
+const inPage = (key, fallback) => _.compose(_.getOr(fallback, key), getPage);
 
-export const getPanels = inPage('panels');
-export const getPageViewsIds = inPage('views');
-export const getPageLayout = inPage('layout');
-export const getEditor = inPage('editor');
+export const getPanels = inPage('panels', {});
+export const getPageViewsIds = inPage('views', []);
+export const getPageLayout = inPage('layout', []);
+export const getEditor = inPage('editor', {});
 
 export const getModifiedPagesIds = createSelector(
   getPages,

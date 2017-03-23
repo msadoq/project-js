@@ -99,6 +99,10 @@ export default class TextView extends PureComponent {
     return shouldRender;
   }
 
+  componentDidUpdate() {
+    this.updateSpanValues();
+  }
+
   onDrop = (e) => {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);

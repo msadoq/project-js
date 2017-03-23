@@ -1,8 +1,8 @@
-import {} from '../../common/test';
+import { testMemoization } from '../../common/test';
 import { getPageModifiedViewsIds, getModifiedWindowsIds } from './selectors';
 
 describe('store:page:selectors', () => {
-  it('getPageModifiedViewsIds', () => {
+  describe('getPageModifiedViewsIds', () => {
     const state = {
       pages: {
         myPageId1: { uuid: 'myPageId1', views: ['view1', 'view2', 'view3'] },
@@ -13,11 +13,16 @@ describe('store:page:selectors', () => {
         view3: { uuid: 'view3', isModified: true },
       },
     };
-
-    getPageModifiedViewsIds(state, { pageId: 'myPageId1' }).should.eql(['view1', 'view3']);
-    getPageModifiedViewsIds(state, { pageId: 'otherPageId' }).should.eql([]);
+    it('returns modified views ids', () => {
+      getPageModifiedViewsIds(state, { pageId: 'myPageId1' }).should.eql(['view1', 'view3']);
+      getPageModifiedViewsIds(state, { pageId: 'otherPageId' }).should.eql([]);
+    });
+    it('should memoize', () => {
+      testMemoization(getPageModifiedViewsIds, state, { pageId: 'myPageId1' });
+    });
   });
-  it('getModifiedWindowsIds', () => {
+
+  describe('getModifiedWindowsIds', () => {
     const state = {
       windows: {
         a: { isModified: true },
@@ -26,6 +31,11 @@ describe('store:page:selectors', () => {
         d: {},
       },
     };
-    getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
+    it('returns modified windows ids', () => {
+      getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
+    });
+    it('should memoize', () => {
+      testMemoization(getModifiedWindowsIds, state);
+    });
   });
 });

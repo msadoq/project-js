@@ -5,18 +5,6 @@
   overflow: hidden;
 }
 
-.content {
-  height: 100%;
-  /* TODO boxmodel remove after panel resizing */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content: stretch;
-  align-items: stretch;
-  /* TODO boxmodel remove after panel resizing */
-}
-
 .tabs {
-  height: 40px;
+  //height: 40px;
 }

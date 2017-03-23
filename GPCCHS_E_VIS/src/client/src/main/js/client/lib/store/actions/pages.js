@@ -5,7 +5,7 @@ import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getPanels } from '../selectors/pages';
+import { getPanels } from '../reducers/pages';
 
 /**
  * Simple actions

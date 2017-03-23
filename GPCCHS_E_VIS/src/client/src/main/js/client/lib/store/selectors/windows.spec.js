@@ -4,7 +4,6 @@ import {
   getFocusedWindow,
   getWindowPages,
   getWindowFocusedPageSelector,
-  getModifiedWindowsIds,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -74,19 +73,6 @@ describe('store:window:selectors', () => {
     };
     getWindowFocusedPageSelector(state, { windowId: 'window1' }).should.eql({
       title: 'foo',
-    });
-  });
-  describe('getModifiedWindowsIds', () => {
-    it('gets isModified windows', () => {
-      const state = {
-        windows: {
-          a: { isModified: true },
-          b: {},
-          c: { isModified: true },
-          d: {},
-        },
-      };
-      getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
     });
   });
 });

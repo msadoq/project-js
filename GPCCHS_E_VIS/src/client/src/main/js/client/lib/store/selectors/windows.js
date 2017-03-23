@@ -1,6 +1,5 @@
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
-import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 
 import { getFocusedWindowId } from '../reducers/hsc';
@@ -36,8 +35,3 @@ export const getWindowFocusedPageSelector = createSelector(
   getPages,
   _.get
 );
-
-// specific to menuManaer/workspaceSave
-export function getModifiedWindowsIds(state) {
-  return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
-}

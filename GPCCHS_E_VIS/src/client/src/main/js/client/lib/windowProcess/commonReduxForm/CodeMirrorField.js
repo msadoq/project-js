@@ -74,6 +74,9 @@ export default class CodeMirrorField extends React.Component {
       component receives eror(s) from redux-form (componentWillReceiveProps)
     */
     this.codeMirror.setOption('lint', false);
+
+    // Fix display bug with CodeMirror
+    setTimeout(() => this.forceUpdate());
   }
 
   componentWillReceiveProps(nextProps) {

@@ -14,8 +14,7 @@ export const createDeepEqualSelector = createSelectorCreator(
 * Useful to compute perView and perRemoteId which are independent of visuWinow
 // ********************************************************/
 function perViewDataEqualityCheck(current, previous) {
-  if (current.timebarTimelines !== previous.timebarTimelines // TODO : use a shallow equals
-    || current.timelines !== previous.timelines
+  if (current.timelines !== previous.timelines
     || current.windows !== previous.windows
     || current.pages !== previous.pages
     || current.views !== previous.views

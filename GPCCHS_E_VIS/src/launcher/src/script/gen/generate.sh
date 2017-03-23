@@ -13,7 +13,7 @@ deploy_cots() {
 
   Log "deploy_cots" "remove previous build (lib)" ${INFO}
   rm -rf ${api.lib.dir}
-  mkdir -p ${api.lib.dir}/js/${artifactId}
+  mkdir -p ${api.lib.dir}/js/${project.artifactId}
 
   Log "deploy_cots" "remove previous build (work)" ${INFO}
   rm -rf ${api.work.dir}
@@ -67,13 +67,13 @@ deploy_cots() {
   cp ${api.work.dir}/js/client/config.required.json ${api.work.dir}/js/client/toPackage/
 
   Log "deploy_cots" "packaging electron application" ${INFO}
-  ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
-  mv ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${artifactId}/client
+  ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${project.artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
+  mv ${api.lib.dir}/js/${project.artifactId}/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
 
   Log "deploy_cots" "copy server files" ${INFO}
-  mkdir ${api.lib.dir}/js/${artifactId}/client/resources/app/node_modules/server
-  cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server ${api.lib.dir}/js/${artifactId}/client/resources/app/node_modules/server
-  cd ${api.lib.dir}/js/${artifactId}/client/resources/app/node_modules/server
+  mkdir ${api.lib.dir}/js/${project.artifactId}/client/resources/app/node_modules/server
+  cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server ${api.lib.dir}/js/${project.artifactId}/client/resources/app/node_modules/server
+  cd ${api.lib.dir}/js/${project.artifactId}/client/resources/app/node_modules/server
 
   Log "deploy_cots" "installing NPM dependencies in server" ${INFO}
   npm ${NPM_OPTS2} install

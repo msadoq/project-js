@@ -1,10 +1,9 @@
 /* eslint no-unused-expressions: 0 */
-import { expect, getStore } from '../../common/test';
+import { expect } from '../../common/test';
 import {
   getFocusedWindow,
   getWindowPages,
   getWindowFocusedPageSelector,
-  getWindowsTitle,
   getModifiedWindowsIds,
 } from './windows';
 
@@ -75,35 +74,6 @@ describe('store:window:selectors', () => {
     };
     getWindowFocusedPageSelector(state, { windowId: 'window1' }).should.eql({
       title: 'foo',
-    });
-  });
-  describe('getWindowsTitle', () => {
-    const state = {
-      windows: {
-        notModified: { title: 'Not modified', isModified: false },
-        modified: { title: 'Modified', isModified: true },
-        noField: { title: 'No field' },
-      },
-    };
-    const { getState } = getStore(state);
-    it('should returns windows titles', () => {
-      getWindowsTitle(getState()).should.eql({
-        notModified: 'Not modified - VIMA',
-        modified: 'Modified * - VIMA',
-        noField: 'No field - VIMA',
-      });
-    });
-    it('should memoize', () => {
-      getWindowsTitle.resetRecomputations();
-      const r = getWindowsTitle(getState());
-      getWindowsTitle.recomputations().should.equal(0);
-      getWindowsTitle(getState()).should.eql(r);
-      getWindowsTitle.recomputations().should.equal(0);
-      getWindowsTitle({}).should.not.eql(r);
-      getWindowsTitle.recomputations().should.equal(1);
-    });
-    it('should support empty windows list', () => {
-      getWindowsTitle({ windows: {} }).should.eql({});
     });
   });
   describe('getModifiedWindowsIds', () => {

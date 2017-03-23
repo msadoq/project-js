@@ -1,5 +1,5 @@
-import { freezeMe } from '../../common/test';
-import { getEditorWindowTitle } from './selectors';
+import { freezeMe, testMemoization } from '../../common/test';
+import { getEditorWindowTitle, getWindowsTitle } from './selectors';
 
 describe('windowsManager:selectors', () => {
   describe('coreEditor', () => {
@@ -12,6 +12,28 @@ describe('windowsManager:selectors', () => {
     });
     it('should returns empty title on unknown view', () => {
       getEditorWindowTitle(state, { viewId: 'unknown_view' }).should.be.eql('');
+    });
+  });
+  describe('getWindowsTitle', () => {
+    const state = {
+      windows: {
+        notModified: { title: 'Not modified', isModified: false },
+        modified: { title: 'Modified', isModified: true },
+        noField: { title: 'No field' },
+      },
+    };
+    it('should returns windows titles', () => {
+      getWindowsTitle(state).should.eql({
+        notModified: 'Not modified - VIMA',
+        modified: 'Modified * - VIMA',
+        noField: 'No field - VIMA',
+      });
+    });
+    it('should memoize', () => {
+      testMemoization(getWindowsTitle, state);
+    });
+    it('should support empty windows list', () => {
+      getWindowsTitle({ windows: {} }).should.eql({});
     });
   });
 });

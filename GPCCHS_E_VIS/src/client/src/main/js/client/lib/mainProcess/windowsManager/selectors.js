@@ -1,8 +1,10 @@
+import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
+import { getWindows } from '../../store/reducers/windows';
 import { getEditorTitle } from '../../store/reducers/editor';
 import { getView } from '../../store/reducers/views';
 
-// specific to windowManager/coreEditor
-const getEditorWindowTitle = (state, { viewId }) => {
+export const getEditorWindowTitle = (state, { viewId }) => {
   if (!viewId) {
     return '';
   }
@@ -16,6 +18,8 @@ const getEditorWindowTitle = (state, { viewId }) => {
   return `${getEditorTitle(state)} - ${view.title}`;
 };
 
-export default {
-  getEditorWindowTitle,
-};
+const formatWindowTitle = win => `${win.title}${(win.isModified === true) ? ' *' : ''} - VIMA`;
+export const getWindowsTitle = createSelector(
+  getWindows,
+  _.mapValues(formatWindowTitle)
+);

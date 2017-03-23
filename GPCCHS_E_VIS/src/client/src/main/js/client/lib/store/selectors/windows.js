@@ -1,6 +1,5 @@
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
-import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 
@@ -36,16 +35,6 @@ export const getWindowFocusedPageSelector = createSelector(
   getWindowFocusedPageId,
   getPages,
   _.get
-);
-
-// specific to windowsManager/windows
-export const getWindowsTitle = createSelector(
-  getWindows,
-  windows => _reduce(
-    windows,
-    (titles, window, windowId) => Object.assign(titles, {
-      [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`,
-    }), {})
 );
 
 // specific to menuManaer/workspaceSave

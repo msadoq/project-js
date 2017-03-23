@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _ from 'lodash/fp';
+import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
@@ -13,6 +14,7 @@ import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
+import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
@@ -65,6 +67,8 @@ export class GrizzlyPlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
+    openInspector: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -103,6 +107,32 @@ export class GrizzlyPlotView extends PureComponent {
       containerWidth === nextProps.containerWidth &&
       containerHeight === nextProps.containerHeight
     );
+  }
+
+  onContextMenu = () => {
+    const { entryPoints, openInspector, pageId } = this.props;
+    const complexMenu = {
+      label: 'Open parameter in Inspector',
+      submenu: [],
+    };
+    _each(entryPoints, (ep, epName) => {
+      const label = `${epName}`;
+      if (ep.error) {
+        complexMenu.submenu.push({ label, enabled: false });
+        return;
+      }
+      const { domainId, sessionId } = ep.dataId;
+      complexMenu.submenu.push({
+        label,
+        click: () => openInspector({
+          parameterName: epName,
+          pageId,
+          domainId,
+          sessionId,
+        }),
+      });
+    });
+    handleContextMenu(complexMenu);
   }
 
   onDrop = this.drop.bind(this);
@@ -158,6 +188,7 @@ export class GrizzlyPlotView extends PureComponent {
     e.stopPropagation();
   }
 
+
   shouldRender() {
     const {
       containerWidth,
@@ -202,6 +233,7 @@ export class GrizzlyPlotView extends PureComponent {
       // TODO : clean message component
       return (
         <DroppableContainer
+          onContextMenu={this.onContextMenu}
           onDrop={this.onDrop}
           className={styles.errorContent}
         >
@@ -240,6 +272,7 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
+        onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(

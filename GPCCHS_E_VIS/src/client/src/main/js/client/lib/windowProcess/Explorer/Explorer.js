@@ -68,7 +68,9 @@ export default class Explorer extends PureComponent {
    * Performances:
    * [x] health
    * [x] pubsub time
-   * [ ] number of views and points
+   * [ ] number of views
+   * [ ] number of points in plotview
+   * [ ] number of entry point in textView
    * = wasted
    * = profile
    * Informations:

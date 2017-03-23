@@ -1,11 +1,16 @@
 import React, { PureComponent, PropTypes } from 'react';
+import PanelGroup from 'react-panelgroup';
+import _memoize from 'lodash/memoize';
+import _debounce from 'lodash/debounce';
+import _get from 'lodash/get';
 import getLogger from 'common/log';
 import Dimensions from '../common/Dimensions';
 import HelpContent from '../Navigation/HelpContent';
 import MessagesContainer from '../Navigation/MessagesContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import EditorContainer from '../Editor/EditorContainer';
-import Page from '../Page/Page';
+// import Page from '../Page/Page';
+import ContentContainer from '../Page/ContentContainer';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
 
@@ -17,7 +22,6 @@ class Window extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
     isHelpDisplayed: PropTypes.bool,
     setIsLoaded: PropTypes.func.isRequired,
     displayHelp: PropTypes.func.isRequired,
@@ -27,6 +31,9 @@ class Window extends PureComponent {
     editorWidth: PropTypes.number,
     timebarHeight: PropTypes.number,
     explorerWidth: PropTypes.number,
+    resizeEditor: PropTypes.func.isRequired,
+    resizeTimebar: PropTypes.func.isRequired,
+    resizeExplorer: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -57,6 +64,40 @@ class Window extends PureComponent {
     setTimeout(() => setIsLoaded(windowId), 0);
   }
 
+  onHorizontalUpdate = _debounce((panelWidth) => {
+    const { pageId, editorWidth, resizeEditor, explorerWidth, resizeExplorer } = this.props;
+
+    const newEditorWidth = _get(panelWidth, [0, 'size']);
+    if (editorWidth !== newEditorWidth) {
+      resizeEditor(pageId, newEditorWidth);
+    }
+
+    const newExplorerWidth = _get(panelWidth, [2, 'size']);
+    if (explorerWidth !== newExplorerWidth) {
+      resizeExplorer(pageId, newExplorerWidth);
+    }
+  }, 250);
+
+  onVerticalUpdate = _debounce((panelWidth) => {
+    const { pageId, timebarHeight, resizeTimebar } = this.props;
+
+    const newTimebarHeight = _get(panelWidth, [1, 'size']);
+    if (timebarHeight !== newTimebarHeight) {
+      resizeTimebar(pageId, newTimebarHeight);
+    }
+  }, 250);
+
+  horizontalLayout = _memoize((editorWidth, explorerWidth) => [
+    { size: editorWidth, minSize: 0, resize: 'dynamic' },
+    { resize: 'stretch' },
+    { size: explorerWidth, minSize: 0, resize: 'dynamic' },
+  ], (editorWidth, explorerWidth) => `${editorWidth}:${explorerWidth}`);
+
+  verticalLayout = _memoize(timebarHeight => [
+    { resize: 'stretch' },
+    { size: timebarHeight, minSize: 0, resize: 'dynamic' },
+  ]);
+
   closeHelpShortCut = (e) => {
     if (e.keyCode === 27 && this.props.isHelpDisplayed) {
       e.preventDefault();
@@ -66,11 +107,9 @@ class Window extends PureComponent {
   }
 
   render() {
-    logger.debug('render');
     const {
       pageId,
       windowId,
-      title,
       isHelpDisplayed,
       // sizes
       containerWidth,
@@ -79,89 +118,47 @@ class Window extends PureComponent {
       timebarHeight,
       explorerWidth,
     } = this.props;
+    logger.debug('render');
 
     // console.log(
-    //   containerWidth,
-    //   containerHeight,
-    //   editorWidth,
-    //   timebarHeight,
-    //   explorerWidth
+    //   'render Window.js',
+    //   `size: ${containerWidth}x${containerHeight}`,
+    //   `editor: ${editorWidth}`,
+    //   `timebar: ${timebarHeight}`,
+    //   `explorer: ${explorerWidth}`
     // );
 
-    // left panel
+    const centralWidth = containerWidth - editorWidth - explorerWidth;
+    const viewsHeight = containerHeight - timebarHeight;
+
+    // editor
     const editor = editorWidth < 1
-      ? ''
+      ? <div />
+      : <EditorContainer pageId={pageId} />;
+
+    // views
+    const views = centralWidth < 1
+      ? <div />
+      // <Page className="s100" style={{ backgroundColor: 'red' }}
+      // windowId={windowId} pageId={pageId} />;
       : (
-        <div
-          style={{
-            height: '100%',
-            width: `${editorWidth}px`,
-            display: 'inline-block',
-            backgroundColor: 'red',
-            flex: '1 1 auto',
-            alignSelf: 'auto',
-          }}
-        >
-          <EditorContainer pageId={pageId} />
-        </div>
+        <ContentContainer
+          windowId={windowId}
+          pageId={pageId}
+          width={centralWidth}
+          height={viewsHeight}
+        />
       );
 
     // timebar
     const timebar = timebarHeight < 1
-      ? ''
-      : (
-        <div
-          style={{
-            height: `${timebarHeight}px`,
-            width: '100%',
-            display: 'inline-block',
-            backgroundColor: 'purple',
-          }}
-        >
-          <TimebarMasterContainer windowId={windowId} focusedPageId={pageId} />
-        </div>
-      );
+      ? <div />
+      : <TimebarMasterContainer className="s100" windowId={windowId} pageId={pageId} />;
 
-    // central panel
-    const centralWidth = containerWidth - editorWidth - explorerWidth;
-    const viewsWidth = containerHeight - timebarHeight;
-    const central = centralWidth < 1
-      ? ''
-      : (
-        <div
-          style={{
-            height: '100%',
-            width: `${centralWidth}px`,
-            display: 'inline-block',
-            backgroundColor: 'orange',
-            flex: '1 1 auto',
-            alignSelf: 'auto',
-          }}
-        >
-          <div style={{ height: `${viewsWidth}px` }}>
-            <Page windowId={windowId} pageId={pageId} />
-          </div>
-          {timebar}
-        </div>
-      );
-
-    // right panel
+    // explorer
     const explorer = explorerWidth < 1
-      ? ''
-      : (
-        <div
-          style={{
-            height: '100%',
-            width: `${explorerWidth}px`,
-            display: 'inline-block',
-            backgroundColor: 'yellow',
-            flex: '1 1 auto',
-            alignSelf: 'auto',
-          }}
-        >
-          <ExplorerContainer windowId={windowId} pageId={pageId} />
-        </div>
-      );
+      ? <div />
+      : <ExplorerContainer windowId={windowId} pageId={pageId} />;
 
     return (
       <div className={styles.container}>
@@ -190,18 +187,28 @@ class Window extends PureComponent {
               views|timebar: ?? + {timebarHeight} = {containerHeight}
             </div>
           </div>
-          <TabsContainer
-            className={styles.tabs}
-            windowId={windowId}
-            focusedPageId={pageId}
-            title={title}
-          />
+          <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
-        <div className={styles.content}>
+        <PanelGroup
+          direction="row"
+          spacing={15}
+          borderColor="grey"
+          panelWidths={this.horizontalLayout(editorWidth, explorerWidth)}
+          onUpdate={this.onHorizontalUpdate}
+        >
           {editor}
-          {central}
+          <PanelGroup
+            direction="column"
+            spacing={15}
+            borderColor="grey"
+            panelWidths={this.verticalLayout(timebarHeight)}
+            onUpdate={this.onVerticalUpdate}
+          >
+            {views}
+            {timebar}
+          </PanelGroup>
           {explorer}
-        </div>
+        </PanelGroup>
       </div>
     );
   }
@@ -210,4 +217,8 @@ class Window extends PureComponent {
 export default Dimensions({
   debounce: 100,
   elementResize: true,
+  containerStyle: {
+    width: '100%',
+    height: '100%',
+  },
 })(Window);

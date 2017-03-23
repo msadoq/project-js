@@ -1,8 +1,7 @@
 import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
-import classnames from 'classnames';
-import { WidthProvider, Responsive } from 'react-grid-layout';
+import { Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
 import ViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
@@ -10,11 +9,10 @@ import styles from './Content.css';
 const logger = getLogger('Content');
 
 // TODO dbrugne : remove WidthProvider and remove Responsive ?
-const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
+// const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
+const Grid = Responsive; // eslint-disable-line new-cap
 
-const gridStyles = {
-  containerPadding: [0, 0],
-};
+const containerPadding = [0, 0];
 
 const filterLayoutBlockFields = [
   'minW',
@@ -39,12 +37,16 @@ export default class Content extends PureComponent {
     updateLayout: PropTypes.func.isRequired,
     windowId: PropTypes.string.isRequired,
     maximizedViewUuid: PropTypes.string,
+    width: PropTypes.number,
   };
 
   static defaultProps = {
     timebarUuid: null,
     maximizedViewUuid: null,
+    width: 50,
+    height: 50,
   }
+
   onResizeView = (layout = [], oldItem, layoutItem) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
     if (!_.isEqual(oldItem, layoutItem)) {
@@ -64,17 +66,18 @@ export default class Content extends PureComponent {
       layouts,
       windowId,
       maximizedViewUuid,
+      width,
     } = this.props;
 
     if (!pageId) {
       return (
-        <div className={styles.noPage}>No page ...</div>
+        <div className={styles.noPage}>No page ...</div> // TODO boxmodel in Window.js
       );
     }
 
     if (!views.length) {
       return (
-        <div className={styles.noPage}>No view yet ...</div>
+        <div className={styles.noPage}>No view yet ...</div> // TODO boxmodel in Window.js
       );
     }
 
@@ -92,22 +95,18 @@ export default class Content extends PureComponent {
     return (
       <Grid
         layouts={layouts}
-        className={classnames(
-          'layout',
-          styles.grid
-        )}
+        className="layout"
         rowHeight={30}
-        width={1200}
-        containerPadding={gridStyles.containerPadding}
+        width={width}
+        containerPadding={containerPadding}
         breakpoints={this.breakpoints}
         cols={this.cols}
         draggableHandle=".moveHandler"
         onResizeStop={this.onResizeView}
         onDragStop={this.onResizeView}
-        measureBeforeMount
       >
         {views.map(v => (
-          <div className={styles.block} key={v.viewId}>
+          <div key={v.viewId}>
             <ViewContainer
               key={v.viewId}
               timebarUuid={timebarUuid}

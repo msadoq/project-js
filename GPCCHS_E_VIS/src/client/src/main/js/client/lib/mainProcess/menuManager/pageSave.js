@@ -1,10 +1,10 @@
 import { getStore } from '../../store/mainStore';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
-import { getPageModifiedViewsIds } from '../../store/selectors/pages';
 import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { getPathByFilePicker } from '../dialog';
 import { savePage } from '../../documentManager';
 import { addOnce as addMessage } from '../../store/actions/messages';
+import { getPageModifiedViewsIds } from './selectors';
 
 module.exports = { pageSave, pageSaveAs };
 

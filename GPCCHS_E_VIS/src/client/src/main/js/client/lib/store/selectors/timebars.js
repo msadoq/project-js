@@ -5,11 +5,11 @@ import { getTimebarTimelines as getTimebarTimelineIds } from '../reducers/timeba
 
 import { getTimebarMasterId } from '../reducers/timebars';
 
-export const getTimebarTimelinesSelector = createSelector(
+const getTimebarTimelinesSelector = createSelector(
   [
     getTimebarMasterId,
     getTimelines,
-    getTimebarTimelineIds, // (state, {timebarUuid})
+    getTimebarTimelineIds,
   ],
   (masterId, timelines, tbTimelines) => { // Array of timelineUuid of the current timebar
     if (!tbTimelines.length) {
@@ -27,19 +27,6 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// specific to ControlsContainer
-export const getMasterTimelineById = createSelector(
-  getTimebarMasterId,
+export default {
   getTimebarTimelinesSelector,
-  (masterTimelineId, timebarTimelines) => {
-    if (!masterTimelineId) {
-      return undefined;
-    }
-    if (!timebarTimelines || timebarTimelines.length === 0) {
-      return undefined;
-    }
-    if (timebarTimelines[0].id === masterTimelineId) {
-      return timebarTimelines[0];
-    }
-    return undefined;
-  });
+};

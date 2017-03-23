@@ -7,7 +7,6 @@ import sinonChai from 'sinon-chai';
 import properties from 'chai-properties';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { createSelector } from 'reselect';
 import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';

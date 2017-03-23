@@ -3,7 +3,8 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DynamicView from './DynamicView';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getData } from '../../../../store/reducers/viewData';
+
+import { getData } from '../../store/dataReducer';
 
 const mapStateToProps = (state, { viewId }) => {
   const getFormula = _.get(`views[${viewId}].configuration.entryPoints[0].connectedData.formula`);

@@ -1,8 +1,4 @@
 import { connect } from 'react-redux';
-import _get from 'lodash/get';
-import { getMasterTimelineById } from '../../../store/selectors/timebars';
-import { getMasterSessionId } from '../../../store/reducers/masterSession';
-import { getSession } from '../../../store/reducers/sessions';
 import {
   switchToNormalMode,
   switchToRealtimeMode,
@@ -14,34 +10,16 @@ import {
 } from '../../../store/actions/timebars';
 
 import Controls from './Controls';
+import selector from './ControlsSelector';
 
-export default connect(
-  (state, { timebarUuid }) => {
-    let currentSessionExists = false;
-    let masterTimelineExists = false;
-    const masterTimeline = getMasterTimelineById(state, { timebarUuid });
-    if (masterTimeline) {
-      masterTimelineExists = true;
-      if (getSession(state, { sessionId: masterTimeline.sessionId })) {
-        currentSessionExists = true;
-      }
-    }
+const mapDispatchToProps = {
+  switchToNormalMode,
+  switchToRealtimeMode,
+  switchToExtensibleMode,
+  switchToFixedMode,
+  updateSpeed,
+  restoreWidth,
+  goNow,
+};
 
-    return {
-      messages: _get(state, ['messages', `timeSetter-${timebarUuid}`], null),
-      currentSessionExists,
-      masterTimelineExists,
-      masterTimeline,
-      masterSessionId: getMasterSessionId(state),
-    };
-  },
-  {
-    switchToNormalMode,
-    switchToRealtimeMode,
-    switchToExtensibleMode,
-    switchToFixedMode,
-    updateSpeed,
-    restoreWidth,
-    goNow,
-  }
-)(Controls);
+export default connect(selector, mapDispatchToProps)(Controls);

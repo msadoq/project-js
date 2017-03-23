@@ -5,8 +5,9 @@ import {
   DATASTRUCTURETYPE_RANGE,
 } from 'common/constants';
 
-import dataStructurelast from '../dataManager/structures/last';
-import dataStructurerange from '../dataManager/structures/range';
+import plotViewData from './PlotView/data';
+import textViewData from './TextView/data';
+import dynamicViewData from './DynamicView/data';
 
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import plotViewSchema from './PlotView/PlotView.schema.json';
@@ -23,19 +24,19 @@ const list = {
     schema: plotViewSchema,
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
-    structureModule: dataStructurerange,
+    structureModule: plotViewData,
   },
   [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
-    structureModule: dataStructurelast,
+    structureModule: textViewData,
   },
   [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
-    structureModule: dataStructurelast,
+    structureModule: dynamicViewData,
   },
 };
 

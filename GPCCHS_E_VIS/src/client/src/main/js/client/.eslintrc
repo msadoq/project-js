@@ -56,7 +56,9 @@
     "space-in-parens": ["warn"],
     "space-before-blocks": ["warn"],
     "no-restricted-syntax": ["warn"],
-    "reselect/signature": ["warn"]
+    "reselect/first-param-name": "error",
+    "reselect/maximum-arity": "error",
+    "reselect/second-param-destructured": "error",
   },
   "plugins": [
     "import",

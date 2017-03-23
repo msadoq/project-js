@@ -9,16 +9,6 @@ const getPageViews = createSelector(
   (viewIds, views) => _.map(viewId => ({ ...views[viewId], viewId }), viewIds)
 );
 
-// specific to menuManager/pageSave
-const getPageModifiedViewsIds = createSelector(
-  getPageViews,
-  _.pipe(
-    _.filter(view => !!view.isModified),
-    _.map('uuid')
-  )
-);
-
 export default {
   getPageViews,
-  getPageModifiedViewsIds,
 };

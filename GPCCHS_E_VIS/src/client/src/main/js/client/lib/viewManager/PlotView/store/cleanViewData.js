@@ -1,7 +1,6 @@
 /* eslint-disable no-continue */
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
-import _isEmpty from 'lodash/isEmpty';
 import _head from 'lodash/head';
 import _last from 'lodash/last';
 import _isEqual from 'lodash/isEqual';
@@ -29,7 +28,7 @@ export default function cleanCurrentViewData(
     return currentState;
   }
   // new visible view
-  if (!oldViewFromMap || !currentState || _isEmpty(currentState.indexes)) {
+  if (!oldViewFromMap || !currentState || !Object.keys(currentState.indexes).length) {
     return currentState;
   }
   let newState = currentState;
@@ -168,7 +167,7 @@ export function scanForMinAndMax(viewDataState) {
     });
   });
   // Nothing to update
-  if (_isEmpty(minVal) && _isEmpty(maxVal)) {
+  if (!Object.keys(minVal).length && !Object.keys(maxVal).length) {
     return viewDataState;
   }
   return { ...viewDataState,

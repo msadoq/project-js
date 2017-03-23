@@ -37,5 +37,6 @@ export default function messages(state = {}, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 
+export const getAllMessages = state => state.messages;
 export const getGlobalMessages = state => state.messages.global;
 export const getMessages = (state, { containerId }) => state.messages[containerId];

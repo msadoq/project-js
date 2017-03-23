@@ -77,6 +77,9 @@ export default class TextView extends PureComponent {
     entryPoints: PropTypes.objectOf(PropTypes.object),
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      values: PropTypes.object,
+    }),
   };
   static defaultProps = {
     data: {
@@ -121,12 +124,14 @@ export default class TextView extends PureComponent {
     const span = getEpSpan(event.target);
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
+      const label = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
+        handleContextMenu({ label, enabled: false });
         return;
       }
       const { domainId, sessionId } = entryPoints[epName].dataId;
       const simpleMenu = {
-        label: `Open ${epName} in Inspector`,
+        label,
         click: () => openInspector({
           parameterName: epName,
           pageId,
@@ -142,12 +147,14 @@ export default class TextView extends PureComponent {
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
+      const label = `${epName}`;
       if (ep.error) {
+        complexMenu.submenu.push({ label, enabled: false });
         return;
       }
       const { domainId, sessionId } = ep.dataId;
       complexMenu.submenu.push({
-        label: `${epName}`,
+        label,
         click: () => openInspector({
           parameterName: epName,
           pageId,
@@ -222,7 +229,6 @@ export default class TextView extends PureComponent {
       for (let i = 0; i < spanIds.length; i += 1) {
         const id = spanIds[i];
         const sv = this.spanValues[id];
-        console.log(sv, id);
         const ep = this.props.entryPoints[sv.ep];
         if (ep) {
           const val = props.data.values[sv.ep] || {};

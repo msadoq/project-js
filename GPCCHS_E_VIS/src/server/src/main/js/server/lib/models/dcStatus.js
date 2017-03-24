@@ -1,5 +1,3 @@
-const globalConstants = require('common/constants');
-
 let dcStatus;
 
 module.exports = {
@@ -8,6 +6,6 @@ module.exports = {
   },
   get: () => dcStatus,
   reset: () => {
-    dcStatus = globalConstants.HEALTH_STATUS_HEALTHY;
+    dcStatus = undefined;
   },
 };

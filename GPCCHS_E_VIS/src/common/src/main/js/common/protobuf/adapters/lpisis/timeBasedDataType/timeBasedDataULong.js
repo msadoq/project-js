@@ -21,11 +21,10 @@ module.exports = {
       ? { type: 'string', value: data.name.value }
       : undefined,
     value: (data.value !== null && typeof data.value !== 'undefined')
-      ? { type: 'ulong', value: data.value.value.toNumber() }
+      ? { type: 'ulong', symbol: data.value.value.toString() }
       : undefined,
     referenceTimestamp: (data.timeStamp !== null && typeof data.timeStamp !== 'undefined')
         ? { type: 'time', value: data.timeStamp.millisec.toNumber() }
         : undefined,
   }),
 };
-

@@ -32,7 +32,7 @@ module.exports = {
       ? { type: 'time', value: data.creationDate.value.toNumber() }
       : undefined,
     paramUid: (data.paramUid !== null && typeof data.paramUid !== 'undefined')
-      ? { type: 'long', value: data.paramUid.value.toNumber() }
+      ? { type: 'long', symbol: data.paramUid.value.toString() }
       : undefined,
     updateDate: (data.updateDate !== null && typeof data.updateDate !== 'undefined')
       ? { type: 'time', value: data.updateDate.value.toNumber() }
@@ -44,7 +44,7 @@ module.exports = {
       ? { type: 'boolean', value: data.hasAckRequest.value }
       : undefined,
     alarmId: (data.alarmId !== null && typeof data.alarmId !== 'undefined')
-      ? { type: 'long', value: data.alarmId.value.toNumber() }
+      ? { type: 'long', symbol: data.alarmId.value.toString() }
       : undefined,
     transitions: _map(data.transitions, d => (transition.decode(d))),
     isNominal: (data.isNominal !== null && typeof data.isNominal !== 'undefined')
@@ -55,4 +55,3 @@ module.exports = {
         : undefined,
   }),
 };
-

@@ -38,7 +38,6 @@ module.exports = {
     domain: (data.domain !== null && typeof data.domain !== 'undefined')
       ? { type: 'ushort', value: bytesToUshort(data.domain.value) }
       : undefined,
-    instanceIds: _map(data.instanceIds, d => ({ type: 'long', value: d.value.toNumber() })),
+    instanceIds: _map(data.instanceIds, d => ({ type: 'long', symbol: d.value.toString() })),
   }),
 };
-

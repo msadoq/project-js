@@ -1,7 +1,7 @@
 import '../common/test';
 import makeGetPerViewData from './perViewData';
 
-describe('dataManager/perViewMap', () => {
+describe('dataManager/perViewData', () => {
   const state = {
     timelines: {
       tl1: {

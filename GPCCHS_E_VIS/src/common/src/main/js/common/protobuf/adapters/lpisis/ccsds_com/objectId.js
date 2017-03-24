@@ -21,8 +21,7 @@ module.exports = {
     },
     objectKey: {
       domaineId: { type: 'ushort', value: data.value.readUint16() },
-      uid: { type: 'long', value: data.value.readInt64().toNumber() },
+      uid: { type: 'long', symbol: data.value.readInt64().toString() },
     },
   }),
 };
-

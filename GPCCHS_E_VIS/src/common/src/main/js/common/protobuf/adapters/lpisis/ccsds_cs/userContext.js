@@ -15,10 +15,10 @@ module.exports = {
   }),
   decode: data => ({
     userId: (data.userId !== null && typeof data.userId !== 'undefined')
-      ? { type: 'long', value: data.userId.value.toNumber() }
+      ? { type: 'long', symbol: data.userId.value.toString() }
       : undefined,
     currentProfileId: (data.currentProfileId !== null && typeof data.currentProfileId !== 'undefined')
-      ? { type: 'long', value: data.currentProfileId.value.toNumber() }
+      ? { type: 'long', symbol: data.currentProfileId.value.toString() }
       : undefined,
     userContextTime: (data.userContextTime !== null && typeof data.userContextTime !== 'undefined')
       ? { type: 'time', value: data.userContextTime.value.toNumber() }
@@ -28,4 +28,3 @@ module.exports = {
         : undefined,
   }),
 };
-

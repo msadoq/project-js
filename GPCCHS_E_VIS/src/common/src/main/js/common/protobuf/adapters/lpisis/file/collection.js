@@ -53,7 +53,7 @@ module.exports = {
       ? { type: 'boolean', value: data.isVirtualFolder.value }
       : undefined,
     collectionRefForVf: (data.collectionRefForVf !== null && typeof data.collectionRefForVf !== 'undefined')
-      ? { type: 'long', value: data.collectionRefForVf.value.toNumber() }
+      ? { type: 'long', symbol: data.collectionRefForVf.value.toString() }
       : undefined,
     documents: _map(data.documents, d => (collectionDocument.decode(d))),
     virtualFolders: _map(data.virtualFolders, d => (collectionVirtualFolder.decode(d))),
@@ -67,4 +67,3 @@ module.exports = {
       : undefined,
   }),
 };
-

@@ -15,8 +15,7 @@ module.exports = {
       ? { type: 'string', value: data.name.value }
       : undefined,
     uid: (data.uid !== null && typeof data.uid !== 'undefined')
-      ? { type: 'long', value: data.uid.value.toNumber() }
+      ? { type: 'long', symbol: data.uid.value.toString() }
       : undefined,
   }),
 };
-

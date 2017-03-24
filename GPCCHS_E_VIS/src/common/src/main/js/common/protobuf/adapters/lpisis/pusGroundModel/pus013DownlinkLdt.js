@@ -24,11 +24,10 @@ module.exports = {
       ? { type: 'time', value: data.receptionTimerDeadline.value.toNumber() }
       : undefined,
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? { type: 'long', value: data.groundDate.value.toNumber() }
+      ? { type: 'long', symbol: data.groundDate.value.toString() }
       : undefined,
     pus013Ldt: (data.pus013Ldt !== null && typeof data.pus013Ldt !== 'undefined')
       ? pus013Ldt.decode(data.pus013Ldt)
       : undefined,
   }),
 };
-

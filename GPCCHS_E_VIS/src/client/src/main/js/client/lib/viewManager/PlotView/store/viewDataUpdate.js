@@ -158,7 +158,6 @@ export function viewRangeAdd(state = {}, payloads) {
       }
       // timebased data update
       if (newState.indexes[epName][index] === timestamp) {
-        // newState.lines[epName][index] =
         Object.assign(newState.lines[epName][index], remoteIdPayloads[masterTime]);
         continue;
       }
@@ -223,6 +222,7 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
   for (let i = 0; i < timestamps.length; i += 1) {
     const value = remoteIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
+
     if (typeof timestamp === 'undefined') {
       logger.warn('get a payload without .referenceTimestamp key');
       continue;

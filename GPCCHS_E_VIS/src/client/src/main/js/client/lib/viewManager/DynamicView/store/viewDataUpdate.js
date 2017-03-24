@@ -2,6 +2,7 @@
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import getLogger from 'common/log';
+import { updateObjectValues } from '../../utils/longData';
 
 const logger = getLogger('data:lastValue');
 
@@ -13,14 +14,13 @@ const logger = getLogger('data:lastValue');
  * @return: updated state
 /* ************************************/
 export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubState) {
-  const epSubState = {};
   if (!currentViewMap) {
-    return epSubState;
+    return {};
   }
 
   const epNames = Object.keys(currentViewMap.entryPoints);
   if (!epNames.length) {
-    return epSubState;
+    return {};
   }
   const epName = epNames[0];
   const ep = currentViewMap.entryPoints[epName];
@@ -28,7 +28,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
   const { remoteId, localId } = ep;
   const remoteIdPayload = payload[remoteId];
   if (!remoteIdPayload) {
-    return epSubState;
+    return {};
   }
   const expectedInterval = _get(intervalMap, [remoteId, localId, 'expectedInterval']);
   const lower = expectedInterval[0];
@@ -51,7 +51,6 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
       logger.warn('get a payload without .referenceTimestamp key');
       continue;
     }
-
     if (timestamp < lower || timestamp > current) {
       continue;
     }
@@ -66,10 +65,14 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
       newValue = { timestamp, value: p };
     }
   }
-  return {
-    index: newValue.timestamp,
-    value: newValue.value,
-  };
+  if (newValue) {
+    newValue.value = updateObjectValues(newValue.value);
+    return {
+      index: newValue.timestamp,
+      value: newValue.value,
+    };
+  }
+  return viewSubState;
 }
 
 export function viewDataUpdate(viewDataState, payload) {

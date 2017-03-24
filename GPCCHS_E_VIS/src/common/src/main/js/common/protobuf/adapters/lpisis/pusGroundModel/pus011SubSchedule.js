@@ -30,7 +30,7 @@ module.exports = {
       ? { type: 'uinteger', value: data.status.value }
       : undefined,
     executionTimeFirstTc: (data.executionTimeFirstTc !== null && typeof data.executionTimeFirstTc !== 'undefined')
-      ? { type: 'ulong', value: data.executionTimeFirstTc.value.toNumber() }
+      ? { type: 'ulong', symbol: data.executionTimeFirstTc.value.toString() }
       : undefined,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? { type: 'uinteger', value: data.apid.value }
@@ -46,4 +46,3 @@ module.exports = {
         : undefined,
   }),
 };
-

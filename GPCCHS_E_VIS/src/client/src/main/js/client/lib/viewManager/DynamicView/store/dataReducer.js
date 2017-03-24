@@ -73,7 +73,11 @@ export default function dynamicViewData(state = {}, action) {
         }
         if (dataKeys.length) {
           // Data Selection
-          const epSubState = selectDataPerView(newViewMap[viewId], newIntervals, dataToInject);
+          const epSubState = selectDataPerView(
+            newViewMap[viewId],
+            newIntervals,
+            dataToInject,
+            newState[viewId]);
           if (Object.keys(epSubState).length !== 0) {
             const viewState = viewDataUpdate(newState[viewId], epSubState);
             if (viewState !== newState[viewId]) {

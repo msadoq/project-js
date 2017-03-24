@@ -29,6 +29,13 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_WORKSPACE_OPEN: {
       return loadWindows(stateWindows, action);
     }
+    case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
+      const windowId = _.findKey(
+        w => _.findIndex(i => i === action.payload.pageId, w.pages) !== -1,
+        stateWindows
+      );
+      return _.set(windowId, window(stateWindows[windowId], action), stateWindows);
+    }
     default: {
       if (
         action.payload &&

@@ -58,7 +58,7 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_WORKSPACE_OPEN: {
       return loadPages(statePages, action);
     }
-    case types.WS_VIEW_UPDATEPATH: {
+    case types.WS_VIEW_UPDATE_ABSOLUTEPATH: {
       const pageId = _.findKey(
         p => _.findIndex(i => i === action.payload.viewId, p.views) !== -1,
         statePages

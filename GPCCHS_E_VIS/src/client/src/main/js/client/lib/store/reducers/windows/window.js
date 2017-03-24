@@ -107,6 +107,9 @@ export default function window(stateWindow = initialState, action) {
       }
       return stateWindow;
     }
+    case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
+      return { ...stateWindow, isModified: true };
+    }
     case types.WS_WINDOW_SET_DISPLAY_HELP:
       return { ...stateWindow, displayHelp: action.payload.display };
     case types.WS_WINDOW_SET_IS_LOADED: {

@@ -39,7 +39,7 @@ describe('store:pages:reducer', () => {
         page1: { views: ['view1', 'view2'] },
         page2: { views: ['view3', 'view4'] },
       };
-      const newState = reducer(state, { type: types.WS_VIEW_UPDATEPATH, payload: { viewId: 'view3' } });
+      const newState = reducer(state, { type: types.WS_VIEW_UPDATE_ABSOLUTEPATH, payload: { viewId: 'view3' } });
       newState.page2.should.have.property('isModified');
       newState.page1.should.not.have.property('isModified');
     });
@@ -48,7 +48,7 @@ describe('store:pages:reducer', () => {
         page1: { views: ['view1', 'view2'] },
         page2: { views: ['view3', 'view4'] },
       };
-      const newState = reducer(state, { type: types.WS_VIEW_UPDATEPATH, payload: { viewId: 'view5' } });
+      const newState = reducer(state, { type: types.WS_VIEW_UPDATE_ABSOLUTEPATH, payload: { viewId: 'view5' } });
       newState.page2.should.not.have.property('isModified');
       newState.page1.should.not.have.property('isModified');
     });

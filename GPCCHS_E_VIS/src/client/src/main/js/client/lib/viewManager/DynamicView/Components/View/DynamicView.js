@@ -123,14 +123,13 @@ export default class DynamicView extends PureComponent {
 
   onContextMenu = () => {
     const { entryPoints, openInspector, pageId } = this.props;
-    const { parameterName, domainId, sessionId } = entryPoints.dynamicEP.dataId;
+    const { remoteId, dataId } = entryPoints.dynamicEP;
     handleContextMenu({
-      label: `Open ${parameterName} in Inspector`,
+      label: `Open ${dataId.parameterName} in Inspector`,
       click: () => openInspector({
         pageId,
-        parameterName,
-        sessionId,
-        domainId,
+        remoteId,
+        dataId,
       }),
     });
   }

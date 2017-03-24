@@ -7,7 +7,7 @@ import createTreeDecorators from './TreeDecorators';
 export default class Tree extends PureComponent {
 
   static propTypes = {
-    data: PropTypes.shape({}),
+    data: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.shape({})]),
     onMouseDown: PropTypes.func,
   };
 

@@ -121,14 +121,13 @@ export class GrizzlyPlotView extends PureComponent {
         complexMenu.submenu.push({ label, enabled: false });
         return;
       }
-      const { domainId, sessionId } = ep.dataId;
+      const { remoteId, dataId } = ep;
       complexMenu.submenu.push({
         label,
         click: () => openInspector({
-          parameterName: epName,
           pageId,
-          domainId,
-          sessionId,
+          remoteId,
+          dataId,
         }),
       });
     });

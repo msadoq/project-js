@@ -49,7 +49,6 @@ export default function getTelemetryStaticElements(
       }
 
       callback(null, {
-        ParameterName: parameterName,
         ShortDescription: shortDesc,
         LongDescription: longDesc,
         Aliases: aliases,

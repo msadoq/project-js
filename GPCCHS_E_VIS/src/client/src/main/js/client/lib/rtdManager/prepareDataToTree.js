@@ -51,7 +51,7 @@ const processValue = (value) => {
 const recursiveFormatChildren = (parentPath, parentType, data) => {
   let childIdx = 0;
   return _map(data, (value, key) => {
-    const path = [...parentPath, 'children', `${childIdx}`];
+    const path = [...parentPath, `${childIdx}`];
     const type = getType(parentType, key, value);
     childIdx += 1;
     switch (type) {
@@ -60,7 +60,7 @@ const recursiveFormatChildren = (parentPath, parentType, data) => {
       case ARRAY:
       case OBJECT:
       case RESOLVED_LINK: {
-        const children = recursiveFormatChildren(path, type, value);
+        const children = recursiveFormatChildren([...path, 'children'], type, value);
         return {
           path,
           name: key,
@@ -89,9 +89,11 @@ const recursiveFormatChildren = (parentPath, parentType, data) => {
   });
 };
 
-export default (data, { rootName = 'root', path = [], type = OBJECT }) => ({
-  path,
-  name: rootName,
-  type,
-  children: recursiveFormatChildren(path, type, data),
-});
+export default function (data, { rootName = 'root', path = [], type = OBJECT }) {
+  return {
+    path,
+    name: rootName,
+    type,
+    children: recursiveFormatChildren([...path, 'children'], type, data),
+  };
+}

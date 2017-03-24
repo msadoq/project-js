@@ -129,14 +129,13 @@ export default class TextView extends PureComponent {
         handleContextMenu({ label, enabled: false });
         return;
       }
-      const { domainId, sessionId } = entryPoints[epName].dataId;
+      const { remoteId, dataId } = entryPoints[epName];
       const simpleMenu = {
         label,
         click: () => openInspector({
-          parameterName: epName,
           pageId,
-          domainId,
-          sessionId,
+          remoteId,
+          dataId,
         }),
       };
       handleContextMenu(simpleMenu);
@@ -152,14 +151,13 @@ export default class TextView extends PureComponent {
         complexMenu.submenu.push({ label, enabled: false });
         return;
       }
-      const { domainId, sessionId } = ep.dataId;
+      const { remoteId, dataId } = ep;
       complexMenu.submenu.push({
         label,
         click: () => openInspector({
-          parameterName: epName,
           pageId,
-          domainId,
-          sessionId,
+          remoteId,
+          dataId,
         }),
       });
     });

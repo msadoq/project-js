@@ -32,13 +32,14 @@ function viewOpenWithPath({ windowId, absolutePath }) {
 
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
+  const pageId = getState().windows[focusedWindow.windowId].focusedPage;
   const view = {
     type,
     configuration: getViewModule(type).prepareConfigurationForStore({}),
     uuid: v4(),
+    pageUuid: pageId,
   };
-  const pageId = getState().windows[focusedWindow.windowId].focusedPage;
-  dispatch(addBlankView(pageId, view));
+  dispatch(addBlankView(view));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.get('type', view)}`);
 };
 

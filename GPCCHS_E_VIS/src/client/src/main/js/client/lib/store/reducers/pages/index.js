@@ -55,6 +55,7 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_VIEW_MOVE_TO_PAGE: {
       return moveViewToPage(statePages, action);
     }
+    case types.WS_VIEW_ADD_BLANK:
     case types.WS_VIEW_OPEN: {
       const { pageUuid } = action.payload.view;
       const updatePage = _.update(pageUuid, pageState => page(pageState, action));
@@ -93,12 +94,12 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO u
   ...state.pages[pageId], pageId,
 };
 
-const inPage = key => _.compose(_.get(key), getPage);
+const inPage = (key, fallback) => _.compose(_.getOr(fallback, key), getPage);
 
-export const getPanels = inPage('panels');
-export const getPageViewsIds = inPage('views');
-export const getPageLayout = inPage('layout');
-export const getEditor = inPage('editor');
+export const getPanels = inPage('panels', {});
+export const getPageViewsIds = inPage('views', []);
+export const getPageLayout = inPage('layout', []);
+export const getEditor = inPage('editor', {});
 
 export const getModifiedPagesIds = createSelector(
   getPages,

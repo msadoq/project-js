@@ -11,14 +11,18 @@
         {
           "oId": "oid:/pages/dev.page2.json",
           "timebarId": "TB1"
+        },
+        {
+          "path": "pages/maximized.page.json",
+          "timebarId": "TB1"
         }
       ],
       "title": "Development workspace",
       "geometry": {
-        "x": 114,
-        "y": 71,
-        "w": 1310,
-        "h": 800,
+        "w": 1920,
+        "h": 1054,
+        "x": 0,
+        "y": 26,
         "kind": "Absolute"
       }
     }
@@ -28,8 +32,8 @@
       "id": "TB1",
       "visuWindow": {
         "lower": 1485648000000,
-        "upper": 1485648900000,
         "current": 1485648450000,
+        "upper": 1485648900000,
         "defaultWidth": 900000
       },
       "slideWindow": {

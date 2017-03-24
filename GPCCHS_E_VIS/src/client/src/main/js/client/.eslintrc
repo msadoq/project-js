@@ -1,7 +1,8 @@
 {
   "extends": [
     "airbnb",
-    "plugin:react-perf/recommended"
+    "plugin:react-perf/recommended",
+    "plugin:reselect/all"
   ],
   "parser": "babel-eslint",
   "env": {
@@ -55,10 +56,7 @@
     "no-unused-expressions": ["warn"],
     "space-in-parens": ["warn"],
     "space-before-blocks": ["warn"],
-    "no-restricted-syntax": ["warn"],
-    "reselect/first-param-name": "error",
-    "reselect/maximum-arity": "error",
-    "reselect/second-param-destructured": "error",
+    "no-restricted-syntax": ["warn"]
   },
   "plugins": [
     "import",

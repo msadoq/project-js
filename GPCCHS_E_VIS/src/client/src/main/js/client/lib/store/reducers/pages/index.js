@@ -55,6 +55,7 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_VIEW_MOVE_TO_PAGE: {
       return moveViewToPage(statePages, action);
     }
+    case types.WS_VIEW_ADD_BLANK:
     case types.WS_VIEW_OPEN: {
       const { pageUuid } = action.payload.view;
       const updatePage = _.update(pageUuid, pageState => page(pageState, action));

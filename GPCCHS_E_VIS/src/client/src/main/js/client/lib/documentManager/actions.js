@@ -118,9 +118,9 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch) => {
 
 
 // --- open a blank workspace ----------------------------------------------- //
-export const openBlankWorkspace = () => (dispatch) => {
+export const openBlankWorkspace = ({ keepMessages } = {}) => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-  dispatch(closeWorkspace());
+  dispatch(closeWorkspace(keepMessages));
   dispatch({ type: types.WS_WORKSPACE_OPEN, payload: createBlankWorkspace() });
 };
 // -------------------------------------------------------------------------- //

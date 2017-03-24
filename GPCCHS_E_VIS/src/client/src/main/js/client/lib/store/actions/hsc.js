@@ -13,7 +13,7 @@ import { addOnce } from './messages';
  */
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
-export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
+export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
 
 /**
  * Play mode

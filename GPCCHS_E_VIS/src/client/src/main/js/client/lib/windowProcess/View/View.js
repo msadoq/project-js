@@ -24,13 +24,6 @@ export default class View extends PureComponent {
       bgColor: PropTypes.string,
     }).isRequired,
     backgroundColor: PropTypes.string,
-    visuWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-      current: PropTypes.number.isRequired,
-      defaultWidth: PropTypes.number.isRequired,
-    }),
-    data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     maximized: PropTypes.bool,
   };
 
@@ -39,7 +32,6 @@ export default class View extends PureComponent {
     titleStyle: {
       bgColor: '#FEFEFE',
     },
-    data: {},
     absolutePath: '',
     visuWindow: null,
     maximized: false,
@@ -51,7 +43,6 @@ export default class View extends PureComponent {
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));
   backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
-  assignEl = (el) => { this.el = el; }
 
   render() {
     logger.debug('render');
@@ -82,9 +73,8 @@ export default class View extends PureComponent {
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
-        className={classnames('subdiv', styles.container)}
+        className={classnames('subdiv', styles.container, 'w100')}
         style={this.borderColorStyle(borderColor)}
-        ref={this.assignEl}
       >
         <HeaderContainer
           windowId={windowId}

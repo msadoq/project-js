@@ -25,6 +25,9 @@ export default function dynamicViewData(state = {}, action) {
     case types.WS_WORKSPACE_OPEN:
       {
         const { views } = action.payload;
+        if (!views) {
+          return state;
+        }
         const newState = {};
         views.forEach((view) => {
           if (view.type !== constants.VM_VIEW_DYNAMIC) {

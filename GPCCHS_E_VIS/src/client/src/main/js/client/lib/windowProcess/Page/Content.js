@@ -59,8 +59,9 @@ export default class Content extends PureComponent {
 
   render() {
     logger.debug('render');
+
     const {
-      views = [],
+      views,
       pageId,
       timebarUuid,
       layouts,

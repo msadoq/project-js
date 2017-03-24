@@ -29,6 +29,7 @@ function parseDragData(data) {
     name: data.item,
     connectedDataX: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
+      unit: 's',
     },
     connectedDataY: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,

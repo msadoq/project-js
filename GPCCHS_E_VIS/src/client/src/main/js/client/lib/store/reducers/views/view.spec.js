@@ -93,15 +93,15 @@ describe('store:views:reducer', () => {
         type: 'PlotView',
         entryPoints: [{
           name: 'ATT_BC_REVTCOUNT4',
-          connectedDataX: { axisId: 'axis1' },
+          connectedDataX: { axisId: 'time' },
           connectedDataY: { axisId: 'axis2' },
         }, {
           name: 'ATT_BC_REVTCOUNT3',
-          connectedDataX: { axisId: 'axis1' },
+          connectedDataX: { axisId: 'time' },
           connectedDataY: { axisId: 'axis3' },
         }],
         axes: {
-          axis1: { label: '1', unit: 's', id: 'axis1' },
+          time: { label: 'Time', unit: 's', id: 'time' },
           axis2: { label: '2', unit: 'w', id: 'axis2' },
           axis3: { label: '3', unit: 'p', id: 'axis3' } },
         grids: [{ grid: '1' }, { grid: '2' }],
@@ -146,8 +146,8 @@ describe('store:views:reducer', () => {
     });
     it('Grid', () => {
       const grid = { grid: '3' };
-      const state = reducer(stateViews, actions.updateGrid('plot1', 1, grid));
-      state.plot1.configuration.grids[1].should.deep.equal(grid);
+      const state = reducer(stateViews, actions.updateGrid('plot1', 0, grid));
+      state.plot1.configuration.grids[0].should.deep.equal(grid);
       state.plot1.isModified.should.be.true;
     });
     it('Link', () => {
@@ -232,11 +232,11 @@ describe('store:views:reducer', () => {
       const state = reducer(stateViews, actions.removeEntryPoint('plot1', 0));
       state.plot1.configuration.entryPoints.should.deep.equal([{
         name: 'ATT_BC_REVTCOUNT3',
-        connectedDataX: { axisId: 'axis1' },
+        connectedDataX: { axisId: 'time' },
         connectedDataY: { axisId: 'axis3' },
       }]);
       state.plot1.configuration.axes.should.deep.equal({
-        axis1: { label: '1', unit: 's', id: 'axis1' },
+        time: { label: 'Time', unit: 's', id: 'time' },
         axis3: { label: '3', unit: 'p', id: 'axis3' },
       });
     });
@@ -261,7 +261,7 @@ describe('store:views:reducer', () => {
     it('remove axis', () => {
       const state = reducer(stateViews, actions.removeAxis('plot1', 'axis2'));
       state.plot1.configuration.axes.should.deep.equal(
-        { axis1: { label: '1', unit: 's', id: 'axis1' },
+        { time: { label: 'Time', unit: 's', id: 'time' },
           axis3: { label: '3', unit: 'p', id: 'axis3' } });
     });
     it('add axis', () => {
@@ -269,7 +269,7 @@ describe('store:views:reducer', () => {
       const state = reducer(stateViews, actions.addAxis('plot1', axis));
       const keys = Object.keys(state.plot1.configuration.axes);
       keys.should.have.length(4);
-      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1', unit: 's', id: 'axis1' });
+      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: 'Time', unit: 's', id: 'time' });
       state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', id: 'axis2' });
       state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3', unit: 'p', id: 'axis3' });
       state.plot1.configuration.axes[keys[3]].should.deep.equal({ label: 'axis4', unit: 's', id: keys[3] });
@@ -321,7 +321,7 @@ describe('store:views:reducer', () => {
       const state = reducer(stateViews, action);
       state.plot1.configuration.entryPoints[2].should.have.properties({
         name: 'ep2',
-        connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
+        connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'time' },
         connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w', axisId: 'axis2' } });
       state.plot1.isModified.should.be.true;
     });
@@ -332,17 +332,16 @@ describe('store:views:reducer', () => {
           viewId: 'plot1',
           entryPoint: {
             name: 'ep2',
-            connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f' },
+            connectedDataX: { timeline: 't1', domain: 'd1', unit: 's' },
             connectedDataY: { domain: 'd2', unit: 'w' } },
         },
       };
       const state = reducer(stateViews, action);
-      const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').id;
       state.plot1.configuration.entryPoints[2].should.have.properties({
         name: 'ep2',
-        connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f', axisId },
+        connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'time' },
         connectedDataY: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
-      state.plot1.configuration.axes[axisId].label.should.equal('ep2');
+      state.plot1.configuration.axes.time.label.should.equal('Time');
       state.plot1.isModified.should.be.true;
     });
   });

@@ -21,7 +21,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
@@ -64,7 +64,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
@@ -107,7 +107,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
@@ -150,7 +150,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
@@ -192,7 +192,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
@@ -235,7 +235,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
@@ -278,7 +278,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
@@ -321,7 +321,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
@@ -364,7 +364,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
@@ -407,7 +407,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
@@ -451,7 +451,7 @@
   "axes": [
     {
       "label": "Time",
-      "id": "Time",
+      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -573,7 +573,7 @@
   ],
   "grids": [
     {
-      "xAxisId": "Time",
+      "xAxisId": "time",
       "yAxisId": "VBat",
       "line": {
         "style": "Dashed",

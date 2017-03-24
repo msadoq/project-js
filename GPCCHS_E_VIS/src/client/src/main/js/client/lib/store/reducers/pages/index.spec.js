@@ -90,7 +90,7 @@ describe('store:page:selectors', () => {
         },
       };
       getPanels(state, { pageId: 'myId' }).should.equal(state.pages.myId.panels);
-      should.not.exist(getPanels(state, { pageId: 'myOtherId' }));
+      getPanels(state, { pageId: 'myOtherId' }).should.be.eql({});
     });
   });
   describe('getPageLayout', () => {

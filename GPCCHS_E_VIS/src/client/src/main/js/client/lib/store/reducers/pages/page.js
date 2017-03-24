@@ -24,7 +24,8 @@ const putGeometryInLayout = (layout, geometry) => {
   if (index === -1) {
     return layout;
   }
-  return _.set(index, _.merge(layout[index], geometry), layout);
+  const newGeometry = layout[index].collapsed ? _.omit(['w', 'h'], geometry) : geometry;
+  return _.set(index, _.merge(layout[index], newGeometry), layout);
 };
 const mergeLayout = _.reduce(putGeometryInLayout);
 

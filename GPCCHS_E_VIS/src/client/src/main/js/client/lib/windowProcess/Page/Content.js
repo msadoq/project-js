@@ -8,8 +8,6 @@ import styles from './Content.css';
 
 const logger = getLogger('Content');
 
-// TODO dbrugne : remove WidthProvider and remove Responsive ?
-// const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 const Grid = Responsive; // eslint-disable-line new-cap
 
 const containerPadding = [0, 0];
@@ -44,7 +42,6 @@ export default class Content extends PureComponent {
     timebarUuid: null,
     maximizedViewUuid: null,
     width: 50,
-    height: 50,
   }
 
   onResizeView = (layout = [], oldItem, layoutItem) => {
@@ -94,30 +91,34 @@ export default class Content extends PureComponent {
       );
     }
     return (
-      <Grid
-        layouts={layouts}
-        className="layout"
-        rowHeight={30}
-        width={width}
-        containerPadding={containerPadding}
-        breakpoints={this.breakpoints}
-        cols={this.cols}
-        draggableHandle=".moveHandler"
-        onResizeStop={this.onResizeView}
-        onDragStop={this.onResizeView}
-      >
-        {views.map(v => (
-          <div key={v.viewId}>
-            <ViewContainer
-              key={v.viewId}
-              timebarUuid={timebarUuid}
-              pageId={pageId}
-              viewId={v.viewId}
-              windowId={windowId}
-            />
-          </div>
-        ))}
-      </Grid>
+      <div className="s100" style={{ overflowY: 'scroll' }}>
+        <Grid
+          layouts={layouts}
+          className="layout"
+          rowHeight={30}
+          width={width}
+          containerPadding={containerPadding}
+          breakpoints={this.breakpoints}
+          cols={this.cols}
+          draggableHandle=".moveHandler"
+          onResizeStop={this.onResizeView}
+          onDragStop={this.onResizeView}
+          autoSize
+          useCSSTransforms
+        >
+          {views.map(v => (
+            <div key={v.viewId}>
+              <ViewContainer
+                key={v.viewId}
+                timebarUuid={timebarUuid}
+                pageId={pageId}
+                viewId={v.viewId}
+                windowId={windowId}
+              />
+            </div>
+          ))}
+        </Grid>
+      </div>
     );
   }
 }

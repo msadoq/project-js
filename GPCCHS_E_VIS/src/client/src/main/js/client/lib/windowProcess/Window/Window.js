@@ -18,6 +18,9 @@ import styles from './Window.css';
 
 const logger = getLogger('Window');
 
+const resizeHandleSize = 15;
+const scrollHandleSize = 15;
+
 class Window extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
@@ -128,8 +131,8 @@ class Window extends PureComponent {
     //   `explorer: ${explorerWidth}`
     // );
 
-    const centralWidth = containerWidth - editorWidth - explorerWidth;
-    const viewsHeight = containerHeight - timebarHeight;
+    const centralWidth = containerWidth - editorWidth - explorerWidth - (resizeHandleSize * 2);
+    const viewsHeight = containerHeight - timebarHeight - resizeHandleSize;
 
     // editor
     const editor = editorWidth < 1
@@ -139,21 +142,27 @@ class Window extends PureComponent {
     // views
     const views = centralWidth < 1
       ? <div />
-      // <Page className="s100" style={{ backgroundColor: 'red' }}
+      // <Page className="s100" style={{ backgroundColor: 'red' }} // TODO restore dropable page
       // windowId={windowId} pageId={pageId} />;
       : (
         <ContentContainer
           windowId={windowId}
           pageId={pageId}
-          width={centralWidth}
-          height={viewsHeight}
+          width={centralWidth - scrollHandleSize}
         />
       );
 
     // timebar
     const timebar = timebarHeight < 1
       ? <div />
-      : <TimebarMasterContainer className="s100" windowId={windowId} pageId={pageId} />;
+      : (
+        <TimebarMasterContainer
+          windowId={windowId}
+          pageId={pageId}
+          width={centralWidth}
+          height={viewsHeight}
+        />
+      );
 
     // explorer
     const explorer = explorerWidth < 1
@@ -165,33 +174,11 @@ class Window extends PureComponent {
         {isHelpDisplayed ? <HelpContent /> : ''}
         <div>
           <MessagesContainer />
-          <div
-            style={{
-              zIndex: '2',
-              width: '255px',
-              height: '40px',
-              padding: '5px',
-              color: 'white',
-              border: '1px solid grey',
-              position: 'absolute',
-              top: '5px',
-              right: '5px',
-              backgroundColor: 'darkgrey',
-            }}
-          >
-            <div>
-              editor|central|explorer:
-              {editorWidth} + {centralWidth} + {explorerWidth} = {containerWidth}
-            </div>
-            <div>
-              views|timebar: ?? + {timebarHeight} = {containerHeight}
-            </div>
-          </div>
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
         <PanelGroup
           direction="row"
-          spacing={15}
+          spacing={resizeHandleSize}
           borderColor="grey"
           panelWidths={this.horizontalLayout(editorWidth, explorerWidth)}
           onUpdate={this.onHorizontalUpdate}
@@ -199,7 +186,7 @@ class Window extends PureComponent {
           {editor}
           <PanelGroup
             direction="column"
-            spacing={15}
+            spacing={resizeHandleSize}
             borderColor="grey"
             panelWidths={this.verticalLayout(timebarHeight)}
             onUpdate={this.onVerticalUpdate}

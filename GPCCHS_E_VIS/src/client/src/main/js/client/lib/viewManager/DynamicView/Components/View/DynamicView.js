@@ -1,5 +1,4 @@
 /* eslint-disable */
-import Long from 'long';
 import React, { PropTypes, PureComponent } from 'react';
 import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
 import classnames from 'classnames';

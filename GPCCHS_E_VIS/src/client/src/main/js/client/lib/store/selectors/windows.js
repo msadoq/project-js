@@ -8,7 +8,10 @@ import {
   getWindows,
   getWindowPageIds,
   getWindowFocusedPageId,
+  getWindowsArray,
 } from '../reducers/windows';
+import { getViews } from '../reducers/views';
+
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -35,3 +38,50 @@ export const getWindowFocusedPageSelector = createSelector(
   getPages,
   _.get
 );
+
+/* -------------------------------------------------------------------------- */
+const getWindowsFocusedPageIds = createSelector(
+  getWindowsArray,
+  windows =>
+    windows
+      .filter(w => w.isLoaded === true && w.focusedPage)
+      .map(w => w.focusedPage)
+);
+
+const getWindowsFocusedPage = createSelector(
+  createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
+  getPages,
+  (pageIds, pages) =>
+    pageIds
+      .filter(id => id in pages)
+      .map(id => pages[id])
+);
+
+const getWindowsVisibleViewIds = createSelector(
+  getWindowsFocusedPage,
+  pages =>
+    pages
+      .filter(p => p.views && p.views.length && p.timebarUuid)
+      .map(p => ({
+        timebarUuid: p.timebarUuid,
+        viewIds: p.views,
+      }))
+);
+
+export const getWindowsVisibleViews = createSelector(
+  getWindowsVisibleViewIds,
+  getViews,
+  (viewIds, views) =>
+    viewIds
+      .map(p => p.viewIds.map(vId => ({
+        timebarUuid: p.timebarUuid,
+        viewId: vId,
+      })))
+      .reduce((acc, ids) => acc.concat(ids), [])
+      .filter(v => !!views[v.viewId])
+      .map(v => ({
+        ...v,
+        viewData: views[v.viewId],
+      }))
+);
+/* -------------------------------------------------------------------------- */

@@ -1,6 +1,5 @@
 import u from 'updeep';
-import { getStore, testMemoization } from '../common/test';
-import map, { getPerRemoteIdMap, getPerViewMap, getWindowsVisibleViews } from './map';
+import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
 
@@ -440,48 +439,5 @@ describe('data:map', () => {
     map.recomputations().should.eql(2);
     getPerRemoteIdMap.recomputations().should.eql(1);
     getPerViewMap.recomputations().should.eql(1);
-  });
-});
-
-describe('getWindowsVisibleViews', () => {
-  const { getState } = getStore({
-    windows: {
-      myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
-      myOtherWindow: { title: 'Title', focusedPage: 20, isLoaded: true },
-      anotherWindow: { title: 'Title', focusedPage: 30, isLoaded: true },
-    },
-    pages: {
-      10: { title: 'Page 10', views: [100, 200, 300], timebarUuid: 1000 },
-      20: { title: 'Page 20', views: [500], timebarUuid: 2000 },
-      30: { title: 'Page 30', views: [600] },
-    },
-    views: {
-      100: { title: 'Title 100' },
-      200: { title: 'Title 200' },
-      400: { title: 'Title 400' },
-      500: { title: 'Title 500' },
-      600: { title: 'Title 600' },
-    },
-  });
-  it('should returns focused views', () => {
-    getWindowsVisibleViews(getState()).should.eql([
-      { timebarUuid: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
-      { timebarUuid: 1000, viewData: { title: 'Title 200' }, viewId: 200 },
-      { timebarUuid: 2000, viewData: { title: 'Title 500' }, viewId: 500 },
-    ]);
-  });
-  it('should memoize', () => {
-    testMemoization(getWindowsVisibleViews, getState());
-  });
-  it('should support empty views list', () => {
-    getWindowsVisibleViews({
-      windows: {
-        myWindowId: { title: 'Title', focusedPage: 10 },
-      },
-      pages: {
-        10: { title: 'Page 10', views: [100], timebarUuid: 1000 },
-      },
-      views: {},
-    }).should.eql([]);
   });
 });

@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import _get from 'lodash/get';
@@ -6,64 +5,13 @@ import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
 import { getTimebars } from '../store/reducers/timebars';
-import { createDeepEqualSelector } from '../store/selectors/windows';
 import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
-
-import { getViews } from '../store/reducers/views';
-import { getPages } from '../store/reducers/pages';
-import { getWindowsArray } from '../store/reducers/windows';
+import { getWindowsVisibleViews } from '../store/selectors/windows';
 
 // const logger = getLogger('data:map');
-
-/* -------------------------------------------------------------------------- */
-const getWindowsFocusedPageIds = createSelector(
-  getWindowsArray,
-  windows =>
-    windows
-      .filter(w => w.isLoaded === true && w.focusedPage)
-      .map(w => w.focusedPage)
-);
-
-const getWindowsFocusedPage = createSelector(
-  createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
-  getPages,
-  (pageIds, pages) =>
-    pageIds
-      .filter(id => id in pages)
-      .map(id => pages[id])
-);
-
-const getWindowsVisibleViewIds = createSelector(
-  getWindowsFocusedPage,
-  pages =>
-    pages
-      .filter(p => p.views && p.views.length && p.timebarUuid)
-      .map(p => ({
-        timebarUuid: p.timebarUuid,
-        viewIds: p.views,
-      }))
-);
-
-export const getWindowsVisibleViews = createSelector(
-  getWindowsVisibleViewIds,
-  getViews,
-  (viewIds, views) =>
-    viewIds
-      .map(p => p.viewIds.map(vId => ({
-        timebarUuid: p.timebarUuid,
-        viewId: vId,
-      })))
-      .reduce((acc, ids) => acc.concat(ids), [])
-      .filter(v => !!views[v.viewId])
-      .map(v => ({
-        ...v,
-        viewData: views[v.viewId],
-      }))
-);
-/* -------------------------------------------------------------------------- */
 
 const perViewDataSelectors = {};
 export const getPerViewMap = createDeepEqualSelectorPerViewData(

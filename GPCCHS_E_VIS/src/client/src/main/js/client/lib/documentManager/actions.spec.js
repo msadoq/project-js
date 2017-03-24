@@ -36,11 +36,12 @@ describe('documentManager:actions', () => {
         viewInfo.should.be.eql('viewInfo');
         cb(null, { title: 'my view' });
       });
-      actions.openView('viewInfo')(dispatch);
+      actions.openView('viewInfo', 'myPageId')(dispatch);
       dispatch.should.have.been.calledOnce;
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_VIEW_OPEN,
         payload: {
+          pageId: 'myPageId',
           view: { title: 'my view' },
         },
       });

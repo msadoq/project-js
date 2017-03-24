@@ -43,7 +43,7 @@ export const reloadView = (viewId, absolutePath) => (dispatch) => {
 };
 
 // --- open a view ---------------------------------------------------------- //
-export const openView = viewInfo => (dispatch) => {
+export const openView = (viewInfo, pageId) => (dispatch) => {
   simpleReadView(viewInfo, (err, view) => {
     if (err) {
       dispatch(addDangerMessage(view.pageUuid, err));
@@ -51,7 +51,7 @@ export const openView = viewInfo => (dispatch) => {
     }
     dispatch({
       type: types.WS_VIEW_OPEN,
-      payload: { view },
+      payload: { view, pageId },
     });
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.absolutePath);
   });

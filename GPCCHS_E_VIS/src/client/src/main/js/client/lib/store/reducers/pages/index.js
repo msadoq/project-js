@@ -55,12 +55,6 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_VIEW_MOVE_TO_PAGE: {
       return moveViewToPage(statePages, action);
     }
-    case types.WS_VIEW_ADD_BLANK:
-    case types.WS_VIEW_OPEN: {
-      const { pageUuid } = action.payload.view;
-      const updatePage = _.update(pageUuid, pageState => page(pageState, action));
-      return updatePage(statePages);
-    }
     case types.WS_WORKSPACE_OPEN: {
       return loadPages(statePages, action);
     }
@@ -77,8 +71,8 @@ const pagesReducer = (statePages = {}, action) => {
         action.payload.pageId &&
         statePages[action.payload.pageId]
       ) {
-        const currentPage = statePages[action.payload.pageId];
-        return _.set(action.payload.pageId, page(currentPage, action), statePages);
+        const updatePage = _.update(action.payload.pageId, pageState => page(pageState, action));
+        return updatePage(statePages);
       }
       return statePages;
     }

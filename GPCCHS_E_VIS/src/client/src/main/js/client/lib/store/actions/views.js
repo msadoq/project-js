@@ -8,7 +8,7 @@ import { openEditor } from './pages';
 import { getPageIdByViewId } from '../reducers/pages';
 import { getViewModule } from '../../viewManager';
 
-export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'view');
+export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'view', 'pageId');
 export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
 
 /* Update path/absolutePath */

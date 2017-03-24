@@ -10,11 +10,18 @@ describe('store:page:reducer', () => {
   describe('update layout', () => {
     it('update layout simple', () => {
       const state = reducer(
-        { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
-        actions.updateLayout('myPageId', [{ key: '3' }, { key: '4' }])
+        { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
+        actions.updateLayout('myPageId', [{ i: '2', x: 1, y: 2 }])
       );
-      state.myPageId.layout.should.eql([{ key: '3' }, { key: '4' }]);
+      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', x: 1, y: 2, collapsed: true }]);
       state.myPageId.isModified.should.be.true;
+    });
+    it('does not update dimensions when collapsed', () => {
+      const state = reducer(
+        { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
+        actions.updateLayout('myPageId', [{ i: '2', h: 1, w: 2 }])
+      );
+      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', collapsed: true }]);
     });
   });
   describe('updateAbsolutePath', () => {

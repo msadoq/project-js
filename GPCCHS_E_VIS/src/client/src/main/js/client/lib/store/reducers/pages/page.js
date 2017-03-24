@@ -19,9 +19,18 @@ const initialGeometry = {
   h: 5,
 };
 
+const putGeometryInLayout = (layout, geometry) => {
+  const index = _.findIndex(x => x.i === geometry.i, layout);
+  if (index === -1) {
+    return layout;
+  }
+  return _.set(index, _.merge(layout[index], geometry), layout);
+};
+const mergeLayout = _.reduce(putGeometryInLayout);
+
 const getGeometry = _.pipe(
   copyProp('uuid', 'geometry.i'),
-  _.prop('geometry'),
+  _.get('geometry'),
   _.defaults(initialGeometry)
 );
 
@@ -69,7 +78,7 @@ const page = (statePage = initialState, action) => {
     case types.WS_PAGE_UPDATE_LAYOUT: {
       return {
         ...statePage,
-        layout: action.payload.layout,
+        layout: mergeLayout(statePage.layout, action.payload.layout),
         isModified: true,
       };
     }

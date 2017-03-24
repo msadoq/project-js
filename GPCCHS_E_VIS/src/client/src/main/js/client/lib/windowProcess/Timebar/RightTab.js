@@ -9,6 +9,7 @@ import Dimensions from '../common/Dimensions';
 class RightTabContent extends PureComponent {
 
   static propTypes = {
+    updateDimensions: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     setRealTime: PropTypes.func.isRequired,
@@ -51,6 +52,12 @@ class RightTabContent extends PureComponent {
     ).isRequired,
     containerWidth: PropTypes.number.isRequired,
     timelinesVerticalScroll: PropTypes.number.isRequired,
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
   }
 
   /*

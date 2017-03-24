@@ -11,7 +11,6 @@ import { getPanels } from '../reducers/pages';
  * Simple actions
  */
 export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
-export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag'); // TODO boxmodel remove
 export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
 export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'pageId', 'viewId', 'flag');
 export const setMaximized = simple(types.WS_VIEW_SETMAXIMISED, 'pageId', 'viewId', 'flag');
@@ -27,7 +26,6 @@ export const updateAbsolutePath = ifPathChanged(
 /* ------------------------ */
 
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
-export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'pageId', 'timebarHeight'); // TODO boxmodel remove
 export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 'timebarUuid');
 
 export const loadInEditor = simple(types.WS_PAGE_PANELS_LOAD_IN_EDITOR, 'pageId', 'viewId');

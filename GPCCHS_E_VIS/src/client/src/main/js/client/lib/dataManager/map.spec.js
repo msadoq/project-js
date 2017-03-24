@@ -380,7 +380,6 @@ const viewMap = {
           domainId: 4,
           sessionId: 181,
         },
-        field: undefined,
         offset: 0,
         filter: [],
         localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',

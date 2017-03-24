@@ -142,7 +142,7 @@ class Window extends PureComponent {
     // views
     const views = centralWidth < 1
       ? <div />
-      // <Page className="s100" style={{ backgroundColor: 'red' }} // TODO restore dropable page
+      // <Page className="s100" style={{ backgroundColor: 'red' }} // TODO boxmode restore dropable
       // windowId={windowId} pageId={pageId} />;
       : (
         <ContentContainer

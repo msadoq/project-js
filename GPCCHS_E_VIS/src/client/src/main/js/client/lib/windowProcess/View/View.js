@@ -3,46 +3,34 @@ import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import ViewHeader from './Header';
+import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
-import PlotViewComp from '../../viewManager/PlotView/Components/View/PlotViewContainer';
-import TextViewComp from '../../viewManager/TextView/Components/View/TextViewContainer';
-import DynamicViewComp from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
+import PlotView from '../../viewManager/PlotView/Components/View/PlotViewContainer';
+import TextView from '../../viewManager/TextView/Components/View/TextViewContainer';
+import DynamicView from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
 import UnknownView from './UnknownView';
 
 import styles from './View.css';
 
 const logger = getLogger('View');
 
-// Shortcut keyboard : html keycodes (event.keyCode)
-const keys = {
-  w: 87,
-  x: 88,
-  c: 67,
-};
-
 export default class View extends PureComponent {
   static propTypes = {
-    backgroundColor: PropTypes.string,
-    title: PropTypes.string.isRequired,
+    windowId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    viewId: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     titleStyle: PropTypes.shape({
       bgColor: PropTypes.string,
     }).isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    viewId: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    oId: PropTypes.string,
-    absolutePath: PropTypes.string,
-    isModified: PropTypes.bool.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    closeView: PropTypes.func.isRequired,
-    moveViewToPage: PropTypes.func.isRequired,
-    collapseView: PropTypes.func.isRequired,
-    maximizeView: PropTypes.func.isRequired,
-    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    collapsed: PropTypes.bool,
+    backgroundColor: PropTypes.string,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+      defaultWidth: PropTypes.number.isRequired,
+    }),
+    data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     maximized: PropTypes.bool,
   };
 
@@ -53,50 +41,13 @@ export default class View extends PureComponent {
     },
     data: {},
     absolutePath: '',
-    oId: '',
     visuWindow: null,
-    collapsed: false,
     maximized: false,
   };
 
   static contextTypes = {
     focusedPageId: PropTypes.string,
   };
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.toggleCollapse);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.toggleCollapse);
-  }
-
-  toggleCollapse = (e) => {
-    const {
-      collapsed,
-      viewId,
-      closeEditor,
-      isViewsEditorOpen,
-      closeView,
-      openEditor,
-      type,
-    } = this.props;
-
-    if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
-      this.props.collapseView(viewId, !collapsed); // TODO abesson
-    } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
-      closeView(viewId);
-      if (isViewsEditorOpen && closeEditor) {
-        closeEditor();
-      }
-    } else if (e.keyCode === keys.c && e.altKey && this.el.querySelector(':hover')) {
-      if (isViewsEditorOpen && closeEditor) {
-        closeEditor();
-      } else if (!isViewsEditorOpen && openEditor) {
-        openEditor(viewId, type);
-      }
-    }
-  }
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));
   backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
@@ -105,35 +56,24 @@ export default class View extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      backgroundColor,
-      titleStyle,
-      isViewsEditorOpen,
+      windowId,
+      pageId,
       viewId,
       type,
-      openEditor,
-      closeEditor,
-      closeView,
-      moveViewToPage,
-      windowPages,
-      collapseView,
-      maximizeView,
-      oId,
-      absolutePath,
-      isModified,
-      collapsed,
+      titleStyle,
+      backgroundColor,
       maximized,
-      title,
     } = this.props;
     let ContentComponent;
     switch (type) {
       case 'PlotView':
-        ContentComponent = PlotViewComp;
+        ContentComponent = PlotView;
         break;
       case 'TextView':
-        ContentComponent = TextViewComp;
+        ContentComponent = TextView;
         break;
       case 'DynamicView':
-        ContentComponent = DynamicViewComp;
+        ContentComponent = DynamicView;
         break;
       default:
         ContentComponent = UnknownView;
@@ -146,34 +86,18 @@ export default class View extends PureComponent {
         style={this.borderColorStyle(borderColor)}
         ref={this.assignEl}
       >
-        <ViewHeader
-          title={title}
-          titleStyle={titleStyle}
-          isViewsEditorOpen={isViewsEditorOpen}
+        <HeaderContainer
+          windowId={windowId}
+          pageId={pageId}
           viewId={viewId}
-          type={type}
-          openEditor={openEditor}
-          closeEditor={closeEditor}
-          closeView={closeView}
-          windowPages={windowPages}
-          moveViewToPage={moveViewToPage}
-          collapseView={collapseView}
-          maximizeView={maximizeView}
-          collapsed={!!collapsed}
           maximized={!!maximized}
-          oId={oId}
-          absolutePath={absolutePath}
-          isModified={isModified}
         />
         <div
           className={styles.content}
           style={this.backgroundColorStyle(backgroundColor)}
         >
           <MessagesContainer containerId={viewId} />
-          <ContentComponent
-            viewId={viewId}
-            isViewsEditorOpen={isViewsEditorOpen}
-          />
+          <ContentComponent viewId={viewId} />
         </div>
       </div>
     );

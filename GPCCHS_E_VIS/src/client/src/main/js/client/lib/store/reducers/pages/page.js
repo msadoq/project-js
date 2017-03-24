@@ -5,16 +5,9 @@ import panels from './panels';
 
 const initialState = {
   title: 'Unknown',
-  timebarHeight: 135, // TODO boxmodel remove
-  timebarCollapsed: false, // TODO boxmodel remove
   timebarUuid: null,
   layout: [],
   views: [],
-  editor: { // TODO boxmodel remove
-    isOpened: false, // TODO boxmodel remove
-    viewId: null, // TODO boxmodel remove
-    viewType: null, // TODO boxmodel remove
-  }, // TODO boxmodel remove
   isModified: true,
   properties: [],
 };
@@ -73,14 +66,6 @@ const page = (statePage = initialState, action) => {
         _.set('isModified', true)
       )(statePage);
     }
-    case types.WS_PAGE_EDITOR_OPEN:
-      return _.update('editor', _.merge(_, {
-        isOpened: true,
-        viewId: action.payload.viewId,
-        viewType: action.payload.viewType,
-      }), statePage);
-    case types.WS_PAGE_EDITOR_CLOSE:
-      return _.set('editor.isOpened', false, statePage);
     case types.WS_PAGE_UPDATE_LAYOUT: {
       return {
         ...statePage,
@@ -88,13 +73,6 @@ const page = (statePage = initialState, action) => {
         isModified: true,
       };
     }
-    case types.WS_PAGE_TIMEBAR_COLLAPSE: { // TODO boxmodel remove
-      return { // TODO boxmodel remove
-        ...statePage, // TODO boxmodel remove
-        timebarCollapsed: action.payload.flag, // TODO boxmodel remove
-        isModified: true, // TODO boxmodel remove
-      }; // TODO boxmodel remove
-    } // TODO boxmodel remove
     case types.WS_PAGE_UPDATEPATH:
       return {
         ...statePage,
@@ -120,14 +98,6 @@ const page = (statePage = initialState, action) => {
     }
     case types.WS_PAGE_UPDATE_TIMEBARID:
       return _.set('timebarUuid', action.payload.timebarUuid, statePage);
-    case types.WS_PAGE_UPDATE_TIMEBARHEIGHT: // TODO boxmodel remove
-      return { // TODO boxmodel remove
-        ...statePage, // TODO boxmodel remove
-        isModified: true, // TODO boxmodel remove
-        timebarHeight: action.payload.timebarHeight >= 135 // TODO boxmodel remove
-          ? action.payload.timebarHeight // TODO boxmodel remove
-          : 135, // TODO boxmodel remove
-      }; // TODO boxmodel remove
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:

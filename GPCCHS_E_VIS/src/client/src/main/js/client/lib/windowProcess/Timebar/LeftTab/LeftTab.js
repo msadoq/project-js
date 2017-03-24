@@ -11,7 +11,6 @@ import { main } from '../../ipc';
 
 export default class LeftTab extends PureComponent {
   static propTypes = {
-    collapseTimebar: PropTypes.func.isRequired,
     createNewTimeline: PropTypes.func.isRequired,
     removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
@@ -45,7 +44,7 @@ export default class LeftTab extends PureComponent {
     ).isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timebarName: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     masterId: PropTypes.string,
     verticalScroll: PropTypes.number.isRequired,
   }
@@ -189,12 +188,7 @@ export default class LeftTab extends PureComponent {
 
   detach = (e) => {
     e.preventDefault();
-    this.props.updateTimebarId(this.props.focusedPageId, null);
-  }
-
-  collapse = (e) => {
-    e.preventDefault();
-    this.props.collapseTimebar(this.props.focusedPageId, true);
+    this.props.updateTimebarId(this.props.pageId, null);
   }
 
   render() {

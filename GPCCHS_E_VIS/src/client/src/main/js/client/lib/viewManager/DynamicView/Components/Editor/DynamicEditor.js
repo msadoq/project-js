@@ -1,7 +1,5 @@
 import _get from 'lodash/get';
 import React, { PropTypes, Component } from 'react';
-// import { reduxForm /* FieldArray*/ } from 'redux-form';
-
 import DynamicEditorForm from './DynamicEditorForm';
 import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
@@ -84,8 +82,3 @@ export default class DynamicEditor extends Component {
     );
   }
 }
-
-//
-// export default reduxForm({
-//   enableReinitialize: true
-// })(DynamicEditor);

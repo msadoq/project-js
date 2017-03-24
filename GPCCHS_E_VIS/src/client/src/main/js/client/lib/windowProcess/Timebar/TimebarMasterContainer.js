@@ -6,8 +6,8 @@ import TimebarContainer from './TimebarContainer';
 import SelectTimebarContainer from './SelectTimebarContainer';
 
 export default connect(
-  (state, { focusedPageId }) => {
-    const focusedPage = _get(state, ['pages', focusedPageId]);
+  (state, { pageId }) => {
+    const focusedPage = _get(state, ['pages', pageId]);
     if (!focusedPage) {
       return { timebars: state.timebars };
     }
@@ -28,6 +28,8 @@ export default connect(
       timebarCollapsed,
     };
   }
-)(props => (props.timebar ?
-  <TimebarContainer {...props} /> : <SelectTimebarContainer {...props} />)
+)(
+  props => (props.timebar
+  ? <TimebarContainer {...props} />
+  : <SelectTimebarContainer {...props} />)
 );

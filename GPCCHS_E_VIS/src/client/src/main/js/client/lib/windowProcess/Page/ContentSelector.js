@@ -40,8 +40,8 @@ export const getMaximizedViewdUuid = createSelector(
 );
 
 export default createSelector(
-  (state, { focusedPageId }) => getPageLayoutWithCollapsed(state, { pageId: focusedPageId }),
-  (state, { focusedPageId }) => getPageViews(state, { pageId: focusedPageId }),
+  getPageLayoutWithCollapsed,
+  getPageViews,
   getTimebarUuid,
   getMaximizedViewdUuid,
   (layouts, views, timebarUuid, maximizedViewUuid) => ({

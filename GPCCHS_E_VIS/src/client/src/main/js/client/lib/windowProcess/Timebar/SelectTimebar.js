@@ -8,7 +8,7 @@ export default class SelectTimebar extends PureComponent {
     createNewTimebar: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     timebars: PropTypes.object.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
   }
 
   state = {
@@ -19,7 +19,7 @@ export default class SelectTimebar extends PureComponent {
   onSelect = (e) => {
     e.preventDefault();
     this.props.updateTimebarId(
-      this.props.focusedPageId,
+      this.props.pageId,
       this.timebarsSelect.value
     );
   }
@@ -53,14 +53,14 @@ export default class SelectTimebar extends PureComponent {
   render() {
     const {
       timebars,
-      focusedPageId,
+      pageId,
     } = this.props;
     const {
       form,
       error,
     } = this.state;
 
-    if (!focusedPageId) {
+    if (!pageId) {
       return null;
     }
 

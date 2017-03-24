@@ -1,14 +1,12 @@
 import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
-import { Responsive } from 'react-grid-layout';
+import Grid from 'react-grid-layout';
 import getLogger from 'common/log';
 import ViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
 
 const logger = getLogger('Content');
-
-const Grid = Responsive; // eslint-disable-line new-cap
 
 const containerPadding = [0, 0];
 
@@ -51,18 +49,15 @@ export default class Content extends PureComponent {
     }
   };
 
-  cols = { lg: 12 };
-  breakpoints = { lg: 1200 };
-
   render() {
     logger.debug('render');
 
     const {
-      views,
       pageId,
+      windowId,
+      views,
       timebarUuid,
       layouts,
-      windowId,
       maximizedViewUuid,
       width,
     } = this.props;
@@ -90,21 +85,19 @@ export default class Content extends PureComponent {
         />
       );
     }
+
     return (
-      <div className="s100" style={{ overflowY: 'scroll' }}>
+      <div className="w100" style={{ overflowY: 'scroll' }}>
         <Grid
-          layouts={layouts}
+          layout={layouts.lg}
           className="layout"
           rowHeight={30}
           width={width}
           containerPadding={containerPadding}
-          breakpoints={this.breakpoints}
-          cols={this.cols}
+          cols={12}
           draggableHandle=".moveHandler"
           onResizeStop={this.onResizeView}
           onDragStop={this.onResizeView}
-          autoSize
-          useCSSTransforms
         >
           {views.map(v => (
             <div key={v.viewId}>

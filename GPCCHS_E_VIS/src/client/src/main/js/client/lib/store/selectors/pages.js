@@ -1,14 +1,17 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getPageViewsIds } from '../reducers/pages';
+import { getPages, getPageViewsIds } from '../reducers/pages';
 import { getViews } from '../reducers/views';
+import { getWindowFocusedPageId } from '../reducers/windows';
 
-const getPageViews = createSelector(
+export const getPageViews = createSelector(
   getPageViewsIds,
   getViews,
   (viewIds, views) => _.map(viewId => ({ ...views[viewId], viewId }), viewIds)
 );
 
-export default {
-  getPageViews,
-};
+export const getFocusedPage = createSelector(
+  getWindowFocusedPageId,
+  getPages,
+  _.get
+);

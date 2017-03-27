@@ -8,6 +8,7 @@ import styles from '../../../commonEditor/Editor.css';
 
 const newEntryPoint = {
   name: 'NewEntryPoint',
+  timeBasedData: true,
   connectedDataX: {
     formula: '',
     unit: 's',
@@ -15,7 +16,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'Time',
+    axisId: 'time',
   },
   connectedDataY: {
     formula: '',
@@ -24,7 +25,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'Time',
+    axisId: '',
   },
   objectStyle: {
     line: {

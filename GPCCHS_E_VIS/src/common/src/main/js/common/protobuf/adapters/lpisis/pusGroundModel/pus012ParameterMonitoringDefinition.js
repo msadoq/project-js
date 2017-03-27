@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const pus012MonitoringCheckProperties = require('./pus012MonitoringCheckProperties');
 const pusElement = require('./pusElement');
 const {

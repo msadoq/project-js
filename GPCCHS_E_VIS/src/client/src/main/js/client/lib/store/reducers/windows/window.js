@@ -99,13 +99,8 @@ export default function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         isModified: action.payload.flag,
       });
-    case types.WS_PAGE_UPDATE_TIMEBARID: {
-      if (_.contains(action.payload.pageId, stateWindow.pages)) {
-        return Object.assign({}, stateWindow, {
-          isModified: true,
-        });
-      }
-      return stateWindow;
+    case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
+      return { ...stateWindow, isModified: true };
     }
     case types.WS_WINDOW_SET_DISPLAY_HELP:
       return { ...stateWindow, displayHelp: action.payload.display };

@@ -33,15 +33,15 @@ export const getTimebarUuid = createSelector(
 
 export const getMaximizedViewdUuid = createSelector(
   getWindowFocusedPageSelector,
-  ({ layout }) => {
-    const viewLayout = layout.find(a => a.maximized === true);
+  ({ layout } = {}) => {
+    const viewLayout = _.find(a => a.maximized === true, layout);
     return viewLayout ? viewLayout.i : null;
   }
 );
 
 export default createSelector(
-  (state, { focusedPageId }) => getPageLayoutWithCollapsed(state, { pageId: focusedPageId }),
-  (state, { focusedPageId }) => getPageViews(state, { pageId: focusedPageId }),
+  getPageLayoutWithCollapsed,
+  getPageViews,
   getTimebarUuid,
   getMaximizedViewdUuid,
   (layouts, views, timebarUuid, maximizedViewUuid) => ({

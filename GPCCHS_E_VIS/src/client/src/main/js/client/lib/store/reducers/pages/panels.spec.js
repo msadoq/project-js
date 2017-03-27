@@ -14,10 +14,10 @@ describe('store:pages:reducer:panels', () => {
   it('should support empty state', () => {
     panelsReducer(undefined, {}).should.eql({
       editorWidth: 0,
-      editorViewId: null,
+      editorViewId: undefined,
       timebarHeight: 130,
       explorerWidth: 0,
-      explorerTab: null,
+      explorerTab: undefined,
     });
   });
   it('should load viewId in editor', () => {

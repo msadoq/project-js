@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const ByteBuffer = require('bytebuffer');
 
 module.exports = {
@@ -21,8 +21,7 @@ module.exports = {
     },
     objectKey: {
       domaineId: { type: 'ushort', value: data.value.readUint16() },
-      uid: { type: 'long', value: data.value.readInt64().toNumber() },
+      uid: { type: 'long', symbol: data.value.readInt64().toString() },
     },
   }),
 };
-

@@ -9,6 +9,7 @@ import Dimensions from '../common/Dimensions';
 class RightTabContent extends PureComponent {
 
   static propTypes = {
+    updateDimensions: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     setRealTime: PropTypes.func.isRequired,
@@ -19,14 +20,15 @@ class RightTabContent extends PureComponent {
     pause: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
     timebar: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
       extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
-      id: PropTypes.string.isRequired,
       masterId: PropTypes.string,
-      mode: PropTypes.string.isRequired,
       realTime: PropTypes.bool.isRequired,
+      mode: PropTypes.string.isRequired,
       slideWindow: PropTypes.shape({
         lower: PropTypes.number.isRequired,
         upper: PropTypes.number.isRequired,
@@ -38,7 +40,6 @@ class RightTabContent extends PureComponent {
         defaultWidth: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
-    timebarUuid: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
@@ -53,6 +54,12 @@ class RightTabContent extends PureComponent {
     timelinesVerticalScroll: PropTypes.number.isRequired,
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
+  }
+
   /*
     Update viewport if current / ext upper is too far right
   */
@@ -61,7 +68,7 @@ class RightTabContent extends PureComponent {
       return;
     }
     const {
-      timebarUuid,
+      timebar,
       updateViewport,
       containerWidth,
     } = this.props;
@@ -87,7 +94,7 @@ class RightTabContent extends PureComponent {
     if (limitCursorMs > rightLimitMs) {
       const offsetMs = (limitCursorMs - rightLimitMs) + (limitCursorMs - visuWindow.lower);
       updateViewport(
-        timebarUuid,
+        timebar.uuid,
         viewport.lower + offsetMs,
         (viewport.upper - viewport.lower) / containerWidth
       );
@@ -127,6 +134,7 @@ class RightTabContent extends PureComponent {
   }
 
   retrieveFormattedFullDateEl = () => this.formattedFullDateEl;
+  assignFormattedFullDateEl = (el) => { this.formattedFullDateEl = el; }
 
   borderColorKlass = () => {
     const {
@@ -149,7 +157,6 @@ class RightTabContent extends PureComponent {
   render() {
     const {
       timelines,
-      timebarUuid,
       isPlaying,
       play,
       pause,
@@ -173,14 +180,14 @@ class RightTabContent extends PureComponent {
         )}
       >
         <span
-          ref={(el) => { this.formattedFullDateEl = el; }}
+          ref={this.assignFormattedFullDateEl}
           className={styles.formatedFullDate}
         />
         <ControlsContainer
           timebarRealTime={timebar.realTime}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
-          timebarUuid={timebarUuid}
+          timebarUuid={timebar.uuid}
           isPlaying={isPlaying}
           play={play}
           pause={pause}
@@ -192,7 +199,7 @@ class RightTabContent extends PureComponent {
           isPlaying={isPlaying}
           play={play}
           pause={pause}
-          timebarUuid={timebarUuid}
+          timebarUuid={timebar.uuid}
           timebarMode={timebar.mode}
           timebarRealTime={timebar.realTime}
           setRealTime={setRealTime}

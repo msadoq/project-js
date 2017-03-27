@@ -187,7 +187,7 @@ export function onStart() {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        dispatch(openBlankWorkspace());
+        dispatch(openBlankWorkspace({ keepMessages: true }));
         callback(null);
         return;
       }
@@ -200,7 +200,7 @@ export function onStart() {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
-          dispatch(openBlankWorkspace());
+          dispatch(openBlankWorkspace({ keepMessages: true }));
         }
         callback(null);
       }));

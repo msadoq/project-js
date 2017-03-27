@@ -29,6 +29,9 @@ export default function textViewData(state = {}, action) {
     case types.WS_WORKSPACE_OPEN:
       {
         const { views } = action.payload;
+        if (!views) {
+          return state;
+        }
         const newState = {};
         views.forEach((view) => {
           if (view.type !== constants.VM_VIEW_TEXT) {
@@ -74,7 +77,11 @@ export default function textViewData(state = {}, action) {
         }
         if (dataKeys.length) {
           // Data Selection
-          const epSubState = selectDataPerView(newViewMap[viewId], newIntervals, dataToInject);
+          const epSubState = selectDataPerView(
+            newViewMap[viewId],
+            newIntervals,
+            dataToInject,
+            newState[viewId]);
           if (Object.keys(epSubState).length !== 0) {
             const viewState = viewDataUpdate(newState[viewId], epSubState);
             if (viewState !== newState[viewId]) {

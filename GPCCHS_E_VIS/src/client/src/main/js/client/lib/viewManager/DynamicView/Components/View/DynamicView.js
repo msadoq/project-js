@@ -5,22 +5,11 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
-import moment from 'moment';
 import styles from './DynamicView.css';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 
-function convertData(data) {
-  if (data.type === 'time') {
-    return moment(data.value).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
-  } else if (data.type === 'boolean') {
-    return data.value ? 'true' : 'false';
-  } else if (data.type === 'enum') {
-    return data.symbol;
-  }
-  return data.value;
-}
 function dataToShow(data) {
-  if (data.value === undefined || _isObject(data.value)) {
+  if (!data.value || (_isObject(data.value) && data.type !== 'time')) {
     if (_isObject(data)) {
       const keys = Object.keys(data);
       return (<dl
@@ -40,7 +29,7 @@ function dataToShow(data) {
             <dd>
               { Object.keys(data[k]).map((val, key) => {
                 if (data[k][val].value) {
-                  return (<li key={'li'.concat(key)}><b>{val}:</b> {convertData(data[k][val])}</li>);
+                  return (<li key={'li'.concat(key)}><b>{val}:</b> {data[k][val]}</li>);
                 }
                 return ([<dt>{val}</dt>,
                   <dd>{dataToShow(data[k][val])}</dd>]);
@@ -52,7 +41,7 @@ function dataToShow(data) {
     }
     return '';
   }
-  return convertData(data);
+  return data.value;
 }
 
 function objectHeader(ep) {

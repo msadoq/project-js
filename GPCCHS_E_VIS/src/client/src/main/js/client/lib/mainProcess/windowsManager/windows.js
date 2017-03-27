@@ -18,8 +18,8 @@ import {
   restore,
 } from '../../store/actions/windows';
 import { getWindows } from '../../store/reducers/windows';
-import { getWindowsTitle } from '../../store/selectors/windows';
 import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
+import { getWindowsTitle } from './selectors';
 
 const logger = getLogger('main:windowsManager:windows');
 

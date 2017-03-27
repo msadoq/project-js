@@ -1,19 +1,14 @@
 import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
-import classnames from 'classnames';
-import { WidthProvider, Responsive } from 'react-grid-layout';
+import Grid from 'react-grid-layout';
 import getLogger from 'common/log';
 import ViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
 
 const logger = getLogger('Content');
 
-const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
-
-const gridStyles = {
-  containerPadding: [0, 0],
-};
+const containerPadding = [0, 0];
 
 const filterLayoutBlockFields = [
   'minW',
@@ -26,7 +21,7 @@ const filterLayoutBlockFields = [
 
 export default class Content extends PureComponent {
   static propTypes = {
-    focusedPageId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string,
     layouts: PropTypes.shape({
       lg: PropTypes.array,
@@ -35,21 +30,18 @@ export default class Content extends PureComponent {
       type: PropTypes.string,
       viewId: PropTypes.string,
     })).isRequired,
-    editorViewId: PropTypes.string,
-    closeView: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    isEditorOpened: PropTypes.bool.isRequired,
     updateLayout: PropTypes.func.isRequired,
     windowId: PropTypes.string.isRequired,
     maximizedViewUuid: PropTypes.string,
+    width: PropTypes.number,
   };
 
   static defaultProps = {
-    editorViewId: '',
     timebarUuid: null,
     maximizedViewUuid: null,
+    width: 50,
   }
+
   onResizeView = (layout = [], oldItem, layoutItem) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
     if (!_.isEqual(oldItem, layoutItem)) {
@@ -57,90 +49,69 @@ export default class Content extends PureComponent {
     }
   };
 
-  cols = { lg: 12 };
-  breakpoints = { lg: 1200 };
-
   render() {
     logger.debug('render');
+
     const {
-      views = [], focusedPageId, timebarUuid,
-      layouts, editorViewId, isEditorOpened,
-      openEditor, closeEditor, windowId,
+      pageId,
+      windowId,
+      views,
+      timebarUuid,
+      layouts,
       maximizedViewUuid,
+      width,
     } = this.props;
 
-    if (!focusedPageId) {
+    if (!pageId) {
       return (
-        <div className={styles.noPage}>No page ...</div>
+        <div className={styles.noPage}>No page ...</div> // TODO boxmodel in Window.js
       );
     }
 
     if (!views.length) {
       return (
-        <div className={styles.noPage}>No view yet ...</div>
+        <div className={styles.noPage}>No view yet ...</div> // TODO boxmodel in Window.js
       );
     }
 
     if (maximizedViewUuid) {
-      const isViewsEditorOpen = editorViewId === maximizedViewUuid && isEditorOpened;
       return (
         <ViewContainer
           timebarUuid={timebarUuid}
-          pageId={focusedPageId}
+          pageId={pageId}
           viewId={maximizedViewUuid}
           windowId={windowId}
-          closeView={this.props.closeView}
-          isViewsEditorOpen={isViewsEditorOpen}
-          openEditor={openEditor}
-          closeEditor={closeEditor}
           maximized
         />
       );
     }
-    return (
-      <Grid
-        layouts={layouts}
-        className={classnames(
-          'layout',
-          styles.grid
-        )}
-        rowHeight={30}
-        width={1200}
-        containerPadding={gridStyles.containerPadding}
-        breakpoints={this.breakpoints}
-        cols={this.cols}
-        draggableHandle=".moveHandler"
-        onResizeStop={this.onResizeView}
-        onDragStop={this.onResizeView}
-        measureBeforeMount
-      >
-        {views.map((v) => {
-          const isViewsEditorOpen = editorViewId === v.viewId && isEditorOpened;
 
-          return (
-            <div
-              className={classnames(
-                {
-                  [styles.blockedited]: isViewsEditorOpen,
-                  [styles.block]: !isViewsEditorOpen,
-                }
-              )}
-              key={v.viewId}
-            >
+    return (
+      <div className="w100" style={{ overflowY: 'scroll' }}>
+        <Grid
+          layout={layouts.lg}
+          className="layout"
+          rowHeight={30}
+          width={width}
+          containerPadding={containerPadding}
+          cols={12}
+          draggableHandle=".moveHandler"
+          onResizeStop={this.onResizeView}
+          onDragStop={this.onResizeView}
+        >
+          {views.map(v => (
+            <div key={v.viewId}>
               <ViewContainer
                 key={v.viewId}
                 timebarUuid={timebarUuid}
-                pageId={focusedPageId}
+                pageId={pageId}
                 viewId={v.viewId}
                 windowId={windowId}
-                closeView={this.props.closeView}
-                isViewsEditorOpen={isViewsEditorOpen}
-                openEditor={openEditor}
-                closeEditor={closeEditor}
               />
-            </div>);
-        })}
-      </Grid>
+            </div>
+          ))}
+        </Grid>
+      </div>
     );
   }
 }

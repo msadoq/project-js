@@ -1,5 +1,4 @@
 import u from 'updeep';
-import '../common/test';
 import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
@@ -380,7 +379,6 @@ const viewMap = {
           domainId: 4,
           sessionId: 181,
         },
-        field: undefined,
         offset: 0,
         filter: [],
         localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',

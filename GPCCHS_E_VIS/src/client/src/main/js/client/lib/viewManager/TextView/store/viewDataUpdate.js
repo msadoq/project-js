@@ -1,8 +1,8 @@
 /* eslint-disable no-continue */
-import moment from 'moment';
 import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { getStateColorObj } from '../../utils/stateColors';
+import { convertData } from '../../utils/longData';
 
 const logger = getLogger('data:lastValue');
 
@@ -18,7 +18,6 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
   if (!currentViewMap) {
     return epSubState;
   }
-
   const epNames = Object.keys(currentViewMap.entryPoints);
   for (let i = 0; i < epNames.length; i += 1) {
     const epName = epNames[i];
@@ -50,56 +49,27 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
         logger.warn('get a payload without .referenceTimestamp key');
         continue;
       }
-
+      // Long conversion
       if (timestamp < lower || timestamp > current) {
         continue;
       }
-      if (timestamp > previousTime) {
-        // if (viewType === 'TextView') {        // Write value depending on its typeof
-        const type = _get(p, [ep.field, 'type']);
-        let val;
-        if (type === 'time') {
-          val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
-        } else if (type === 'enum') {
-          val = _get(p, [ep.field, 'symbol']);
-        } else {
-          val = _get(p, [ep.field, 'value']);
-        }
+      if (timestamp >= previousTime) {
         newValue = {
           timestamp,
           value: {
-            value: val,
+            value: convertData(p[ep.field]),
             ...getStateColorObj(p, ep.stateColors, _get(p, ['monitoringState', 'value'])),
           },
         };
         previousTime = timestamp;
-      } else if (timestamp === previousTime) {
-        // Update the value if it is different
-        const type = _get(p, [ep.field, 'type']);
-        let val;
-        if (type === 'time') {
-          val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
-        } else if (type === 'enum') {
-          val = _get(p, [ep.field, 'symbol']);
-        } else {
-          val = _get(p, [ep.field, 'value']);
-        }
-        if (viewSubState.values[epName] === val) {
-          continue;
-        }
-        newValue = {
-          timestamp,
-          value: {
-            value: val,
-            ...getStateColorObj(p, ep.stateColors, _get(p, ['monitoringState', 'value'])),
-          },
-        };
       }
     }
-    epSubState = {
-      index: { ...epSubState.index, [epName]: newValue.timestamp },
-      values: { ...epSubState.values, [epName]: newValue.value },
-    };
+    if (newValue) {
+      epSubState = {
+        index: { ...epSubState.index, [epName]: newValue.timestamp },
+        values: { ...epSubState.values, [epName]: newValue.value },
+      };
+    }
   }
   return epSubState;
 }

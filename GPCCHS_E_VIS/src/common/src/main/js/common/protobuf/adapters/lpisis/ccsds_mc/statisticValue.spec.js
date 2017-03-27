@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/ccsds_mc/StatisticValue', () => {
@@ -16,22 +15,21 @@ describe('protobuf/lpisis/ccsds_mc/StatisticValue', () => {
   it('decode', () => {
     const json = protobuf.decode('lpisis.ccsds_mc.StatisticValue', buffer);
     json.should.be.an('object').that.have.properties({
-      startTime: (typeof fixture.startTime === 'undefined') 
-        ? null 
+      startTime: (typeof fixture.startTime === 'undefined')
+        ? null
         : { type: 'time', value: fixture.startTime },
-      endTime: (typeof fixture.endTime === 'undefined') 
-        ? null 
+      endTime: (typeof fixture.endTime === 'undefined')
+        ? null
         : { type: 'time', value: fixture.endTime },
-      valueTime: (typeof fixture.valueTime === 'undefined') 
-        ? null 
+      valueTime: (typeof fixture.valueTime === 'undefined')
+        ? null
         : { type: 'time', value: fixture.valueTime },
-      value: (typeof fixture.value === 'undefined') 
-        ? null 
+      value: (typeof fixture.value === 'undefined')
+        ? null
         : { type: 'double', value: fixture.value },
       sampleCount: { type: 'uinteger', value: fixture.sampleCount },
       timestamp: { type: 'time', value: fixture.timestamp },
     });
-    
   });
 });
 

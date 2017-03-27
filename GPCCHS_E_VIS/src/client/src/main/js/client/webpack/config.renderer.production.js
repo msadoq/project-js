@@ -62,7 +62,7 @@ const config = merge(baseConfig, {
     new ExtractTextPlugin('style.css'),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
+        // NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
         IS_BUNDLED: JSON.stringify('on'),
         APP_ENV: JSON.stringify('renderer'),
       },

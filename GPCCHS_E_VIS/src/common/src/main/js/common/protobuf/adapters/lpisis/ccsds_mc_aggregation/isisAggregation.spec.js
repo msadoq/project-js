@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
@@ -43,7 +43,7 @@ describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
           },
           objectKey: {
             domaineId: { type: 'ushort', value: fixture.values[i].definition.objectKey.domaineId },
-            uid: { type: 'long', value: fixture.values[i].definition.objectKey.uid },
+            uid: { type: 'long', symbol: `${fixture.values[i].definition.objectKey.uid}` },
           },
         },
         extractedValue: { type: 'double', value: fixture.values[i].extractedValue },
@@ -53,7 +53,6 @@ describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
         monitoringState: { type: 'string', value: fixture.values[i].monitoringState },
         validityState: { type: 'enum', value: fixture.values[i].validityState, symbol: validityState[fixture.values[i].validityState] },
       });
-      
     }
   });
 });

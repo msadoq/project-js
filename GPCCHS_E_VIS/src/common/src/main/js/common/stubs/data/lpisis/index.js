@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 /* eslint global-require:0 */
 
 const protobuf = require('../../../protobuf');

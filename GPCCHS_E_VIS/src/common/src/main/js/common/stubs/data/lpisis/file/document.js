@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const applyOverride = require('../../applyOverride');
 const getNamedValue = require('../ccsds_mal/namedValue');
 const getProfileRight = require('./profileRight');

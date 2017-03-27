@@ -12,7 +12,7 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       .should.eql({ index: 15, value: { va1: 300, val2: 400 } });
     });
     it('should update', () => {
-      const state = Object.freeze({ index: 15, value: { va1: 300, val2: 400 } });
+      const state = Object.freeze({ index: '15', value: { va1: 300, val2: 400 } });
       viewDataUpdate(state, { index: 20, value: { va1: 500, val2: 600 } })
       .should.eql({ index: 20, value: { va1: 500, val2: 600 } });
     });
@@ -24,7 +24,7 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         val1: { type: 'uinteger', value: (j * 10) + 1 },
         val4: { type: 'enum', value: j - 10, symbol: 'val'.concat(j - 10) },
         referenceTimestamp: { type: 'time', value: j },
-        time: { type: 'time', value: j + 0.2 },
+        time: { type: 'time', value: j },
         monitoringState: { type: 'uinteger', value: 'ok' },
       };
 
@@ -77,9 +77,9 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       data.index.should.eql(20);
       data.value.should.eql({
         val1: { type: 'uinteger', value: 201 },
-        val4: { type: 'enum', value: 10, symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: 20 },
-        time: { type: 'time', value: 20.2 },
+        val4: { type: 'enum', value: 'val10', symbol: 'val10' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
@@ -88,37 +88,37 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         index: 22,
         value: {
           val1: { type: 'uinteger', value: 221 },
-          val4: { type: 'enum', value: 12, symbol: 'val10' },
-          referenceTimestamp: { type: 'time', value: 22 },
-          time: { type: 'time', value: 22.2 },
+          val4: { type: 'enum', value: 'val12', symbol: 'val12' },
+          referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.022Z' },
+          time: { type: 'time', value: '1970-01-01T00:00:00.022Z' },
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
       const data = selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, oldState);
       data.index.should.eql(20);
       data.value.should.eql({
         val1: { type: 'uinteger', value: 201 },
-        val4: { type: 'enum', value: 10, symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: 20 },
-        time: { type: 'time', value: 20.2 },
+        val4: { type: 'enum', value: 'val10', symbol: 'val10' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
     it('state with value < current', () => {
-      const oldState = { index: 18.5,
+      const oldState = { index: 19,
         value: {
           val1: { type: 'uinteger', value: 221 },
-          val4: { type: 'enum', value: 12, symbol: 'val10' },
-          referenceTimestamp: { type: 'time', value: 22 },
-          time: { type: 'time', value: 18.5 },
+          val4: { type: 'enum', value: 'val12', symbol: 'val10' },
+          referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.022Z' },
+          time: { type: 'time', value: '1970-01-01T00:00:00.019Z' },
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
       const data = selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, oldState);
       data.index.should.eql(20);
       data.value.should.eql({
         val1: { type: 'uinteger', value: 201 },
-        val4: { type: 'enum', value: 10, symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: 20 },
-        time: { type: 'time', value: 20.2 },
+        val4: { type: 'enum', value: 'val10', symbol: 'val10' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
@@ -126,18 +126,18 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       const oldState = { index: 20,
         value: {
           val1: { type: 'uinteger', value: 221 },
-          val4: { type: 'enum', value: 12, symbol: 'val10' },
-          referenceTimestamp: { type: 'time', value: 22 },
-          time: { type: 'time', value: 20 },
+          val4: { type: 'enum', value: 'val12', symbol: 'val10' },
+          referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.022Z' },
+          time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
       const data = selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, oldState);
       data.index.should.eql(20);
       data.value.should.eql({
         val1: { type: 'uinteger', value: 201 },
-        val4: { type: 'enum', value: 10, symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: 20 },
-        time: { type: 'time', value: 20.2 },
+        val4: { type: 'enum', value: 'val10', symbol: 'val10' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });

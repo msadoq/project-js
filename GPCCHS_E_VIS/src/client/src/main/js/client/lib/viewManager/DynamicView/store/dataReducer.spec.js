@@ -153,7 +153,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           val3: { type: 'uinteger', value: (j * 10) + 3 },
           val4: { type: 'enum', value: j, symbol: 'val'.concat(j) },
           referenceTimestamp: { type: 'time', value: j },
-          time: { type: 'time', value: j + 0.2 },
+          time: { type: 'time', value: j },
         };
         if (j % 2) {
           dataToInject.rId2[j] = dataToInject.rId1[j];
@@ -175,9 +175,9 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val1: { type: 'uinteger', value: 101 },
             val2: { type: 'uinteger', value: 102 },
             val3: { type: 'uinteger', value: 103 },
-            val4: { type: 'enum', value: 10, symbol: 'val10' },
-            referenceTimestamp: { type: 'time', value: 10 },
-            time: { type: 'time', value: 10.2 },
+            val4: { type: 'enum', value: 'val10', symbol: 'val10' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.010Z' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.010Z' },
           },
         },
       });
@@ -190,9 +190,9 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val1: { type: 'uinteger', value: 81 },
             val2: { type: 'uinteger', value: 82 },
             val3: { type: 'uinteger', value: 83 },
-            val4: { type: 'enum', value: 8, symbol: 'val8' },
-            referenceTimestamp: { type: 'time', value: 8 },
-            time: { type: 'time', value: 8.2 },
+            val4: { type: 'enum', value: 'val8', symbol: 'val8' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.008Z' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.008Z' },
           },
         },
       });
@@ -204,6 +204,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           newExpectedIntervals,
           dataToInject,
         } };
+
       dynamicViewData(state, action).should.eql({
         dynamic: {
           index: 15,
@@ -211,9 +212,9 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val1: { type: 'uinteger', value: 151 },
             val2: { type: 'uinteger', value: 152 },
             val3: { type: 'uinteger', value: 153 },
-            val4: { type: 'enum', value: 15, symbol: 'val15' },
-            referenceTimestamp: { type: 'time', value: 15 },
-            time: { type: 'time', value: 15.2 },
+            val4: { type: 'enum', value: 'val15', symbol: 'val15' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
           },
         },
       });
@@ -226,9 +227,9 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val1: { type: 'uinteger', value: 81 },
             val2: { type: 'uinteger', value: 82 },
             val3: { type: 'uinteger', value: 83 },
-            val4: { type: 'enum', value: 8, symbol: 'val8' },
-            referenceTimestamp: { type: 'time', value: 8 },
-            time: { type: 'time', value: 8.2 },
+            val4: { type: 'enum', value: 'val8', symbol: 'val8' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.008Z' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.008Z' },
           },
         },
       });
@@ -247,9 +248,9 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val1: { type: 'uinteger', value: 151 },
             val2: { type: 'uinteger', value: 152 },
             val3: { type: 'uinteger', value: 153 },
-            val4: { type: 'enum', value: 15, symbol: 'val15' },
-            referenceTimestamp: { type: 'time', value: 15 },
-            time: { type: 'time', value: 15.2 },
+            val4: { type: 'enum', value: 'val15', symbol: 'val15' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
           },
         },
       });

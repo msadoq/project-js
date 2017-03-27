@@ -3,12 +3,12 @@ import * as types from '../../types';
 const initialState = {
   // editor
   editorWidth: 0,
-  editorViewId: null,
+  editorViewId: undefined,
   // timebar
   timebarHeight: 130,
   // explorer
   explorerWidth: 0,
-  explorerTab: null,
+  explorerTab: undefined,
 };
 
 const panels = (state = initialState, action) => {

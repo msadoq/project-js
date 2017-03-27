@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/connection/UCPReport', () => {
@@ -24,7 +23,6 @@ describe('protobuf/lpisis/connection/UCPReport', () => {
         name: { type: 'string', value: fixture.parameters[i].name },
         value: { type: 'double', value: fixture.parameters[i].value },
       });
-      
     }
   });
 });

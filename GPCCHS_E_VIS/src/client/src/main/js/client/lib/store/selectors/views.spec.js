@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import { } from '../../common/test';
-import { getViewEntryPoint } from './views';
+import { getViewEntryPoint, getWindowAllViewsIds } from './views';
 
 describe('store:views:selectors', () => {
   const completeState = {
@@ -256,6 +256,31 @@ describe('store:views:selectors', () => {
       remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
       type: 'TextView',
       name: 'STAT_SU_PID',
+    });
+  });
+
+  describe('getWindowAllViewsIds', () => {
+    const emptyState = {};
+    const state = {
+      windows: {
+        w1: { pages: ['p1'] },
+        w2: { pages: ['p2', 'p3', 'p4', 'p5'] },
+        w3: { pages: [] },
+        w4: {},
+      },
+      pages: {
+        p1: { views: [1, 2, 3] },
+        p2: { views: [4, 5, 6] },
+        p3: { views: [7, 8, 9] },
+        p4: {},
+        unknownPage: { views: [42] },
+      },
+    };
+    it('returns an empty array', () => {
+      getWindowAllViewsIds(emptyState, { windowId: 'w1' }).should.be.eql([]);
+    });
+    it('returns all views ids', () => {
+      getWindowAllViewsIds(state, { windowId: 'w2' }).should.be.eql([4, 5, 6, 7, 8, 9]);
     });
   });
 });

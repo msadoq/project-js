@@ -1,7 +1,8 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
-import { getPage, getPageIdByViewId } from '../reducers/pages';
+import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
+import { getWindowPageIds } from '../reducers/windows';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
@@ -14,8 +15,7 @@ export const createDeepEqualSelector = createSelectorCreator(
 * Useful to compute perView and perRemoteId which are independent of visuWinow
 // ********************************************************/
 function perViewDataEqualityCheck(current, previous) {
-  if (current.timebarTimelines !== previous.timebarTimelines // TODO : use a shallow equals
-    || current.timelines !== previous.timelines
+  if (current.timelines !== previous.timelines
     || current.windows !== previous.windows
     || current.pages !== previous.pages
     || current.views !== previous.views
@@ -70,3 +70,13 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 // composed
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
+
+export const getWindowAllViewsIds = createSelector(
+  getWindowPageIds,
+  getPages,
+  (ids, pages) => _.pipe(
+    _.pick(ids),
+    _.flatMap('views'),
+    _.compact
+  )(pages)
+);

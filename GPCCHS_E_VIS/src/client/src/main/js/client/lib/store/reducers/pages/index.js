@@ -50,20 +50,17 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_PAGE_OPEN:
     case types.WS_PAGE_ADD_BLANK:
       return _.set(action.payload.page.uuid, page(undefined, action), statePages);
+    case types.WS_WINDOW_CLOSE:
+      return _.omit(action.payload.pages, statePages);
     case types.WS_PAGE_CLOSE:
       return _.omit(action.payload.pageId, statePages);
     case types.WS_VIEW_MOVE_TO_PAGE: {
       return moveViewToPage(statePages, action);
     }
-    case types.WS_VIEW_OPEN: {
-      const { pageUuid } = action.payload.view;
-      const updatePage = _.update(pageUuid, pageState => page(pageState, action));
-      return updatePage(statePages);
-    }
     case types.WS_WORKSPACE_OPEN: {
       return loadPages(statePages, action);
     }
-    case types.WS_VIEW_UPDATEPATH: {
+    case types.WS_VIEW_UPDATE_ABSOLUTEPATH: {
       const pageId = _.findKey(
         p => _.findIndex(i => i === action.payload.viewId, p.views) !== -1,
         statePages
@@ -76,8 +73,8 @@ const pagesReducer = (statePages = {}, action) => {
         action.payload.pageId &&
         statePages[action.payload.pageId]
       ) {
-        const currentPage = statePages[action.payload.pageId];
-        return _.set(action.payload.pageId, page(currentPage, action), statePages);
+        const updatePage = _.update(action.payload.pageId, pageState => page(pageState, action));
+        return updatePage(statePages);
       }
       return statePages;
     }
@@ -93,12 +90,12 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO u
   ...state.pages[pageId], pageId,
 };
 
-const inPage = key => _.compose(_.get(key), getPage);
+const inPage = (key, fallback) => _.compose(_.getOr(fallback, key), getPage);
 
-export const getPanels = inPage('panels');
-export const getPageViewsIds = inPage('views');
-export const getPageLayout = inPage('layout');
-export const getEditor = inPage('editor');
+export const getPanels = inPage('panels', {});
+export const getPageViewsIds = inPage('views', []);
+export const getPageLayout = inPage('layout', []);
+export const getEditor = inPage('editor', {});
 
 export const getModifiedPagesIds = createSelector(
   getPages,

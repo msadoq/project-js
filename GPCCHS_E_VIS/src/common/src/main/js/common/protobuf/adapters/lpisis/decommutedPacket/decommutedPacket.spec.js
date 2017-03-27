@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
@@ -29,7 +29,6 @@ describe('protobuf/lpisis/decommutedPacket/DecommutedPacket', () => {
         convertedValue: { type: 'double', value: fixture.decommutedValues[i].convertedValue },
         validityState: { type: 'enum', value: fixture.decommutedValues[i].validityState, symbol: validityState[fixture.decommutedValues[i].validityState] },
       });
-      
     }
   });
 });

@@ -21,7 +21,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.extractedValue",
@@ -64,7 +64,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.extractedValue",
@@ -107,7 +107,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.extractedValue",
@@ -150,7 +150,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
@@ -193,7 +193,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.extractedValue",
@@ -236,7 +236,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.extractedValue",
@@ -279,7 +279,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.extractedValue",
@@ -322,7 +322,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.extractedValue",
@@ -365,7 +365,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.extractedValue",
@@ -408,7 +408,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.extractedValue",
@@ -446,7 +446,7 @@
   "axes": [
     {
       "label": "Time",
-      "id": "Time",
+      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",

@@ -1,18 +1,17 @@
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
-import _reduce from 'lodash/reduce';
-import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getViews } from '../reducers/views';
 import { getPages } from '../reducers/pages';
 import {
   getWindows,
-  getWindowsArray,
   getWindowPageIds,
   getWindowFocusedPageId,
+  getWindowsArray,
 } from '../reducers/windows';
+import { getViews } from '../reducers/views';
+
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -69,7 +68,6 @@ const getWindowsVisibleViewIds = createSelector(
       }))
 );
 
-// specific to dataManager
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
@@ -87,18 +85,3 @@ export const getWindowsVisibleViews = createSelector(
       }))
 );
 /* -------------------------------------------------------------------------- */
-
-// specific to windowsManager/windows
-export const getWindowsTitle = createSelector(
-  getWindows,
-  windows => _reduce(
-    windows,
-    (titles, window, windowId) => Object.assign(titles, {
-      [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`,
-    }), {})
-);
-
-// specific to menuManaer/workspaceSave
-export function getModifiedWindowsIds(state) {
-  return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
-}

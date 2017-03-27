@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const flagVal = require('./flagVal');
 const sequenceType = require('./sequenceType');
 

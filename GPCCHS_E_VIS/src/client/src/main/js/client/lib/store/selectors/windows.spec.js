@@ -1,12 +1,11 @@
 /* eslint no-unused-expressions: 0 */
-import { expect, getStore } from '../../common/test';
+import { getStore, testMemoization, expect } from '../../common/test';
+
 import {
   getFocusedWindow,
   getWindowPages,
   getWindowFocusedPageSelector,
   getWindowsVisibleViews,
-  getWindowsTitle,
-  getModifiedWindowsIds,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -79,7 +78,7 @@ describe('store:window:selectors', () => {
     });
   });
   describe('getWindowsVisibleViews', () => {
-    const state = {
+    const { getState } = getStore({
       windows: {
         myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
         myOtherWindow: { title: 'Title', focusedPage: 20, isLoaded: true },
@@ -97,8 +96,7 @@ describe('store:window:selectors', () => {
         500: { title: 'Title 500' },
         600: { title: 'Title 600' },
       },
-    };
-    const { getState } = getStore(state);
+    });
     it('should returns focused views', () => {
       getWindowsVisibleViews(getState()).should.eql([
         { timebarUuid: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
@@ -107,13 +105,7 @@ describe('store:window:selectors', () => {
       ]);
     });
     it('should memoize', () => {
-      getWindowsVisibleViews.resetRecomputations();
-      const r = getWindowsVisibleViews(getState());
-      getWindowsVisibleViews.recomputations().should.equal(0);
-      getWindowsVisibleViews(getState()).should.eql(r);
-      getWindowsVisibleViews.recomputations().should.equal(0);
-      getWindowsVisibleViews({}).should.not.eql(r);
-      getWindowsVisibleViews.recomputations().should.equal(1);
+      testMemoization(getWindowsVisibleViews, getState());
     });
     it('should support empty views list', () => {
       getWindowsVisibleViews({
@@ -125,48 +117,6 @@ describe('store:window:selectors', () => {
         },
         views: {},
       }).should.eql([]);
-    });
-  });
-  describe('getWindowsTitle', () => {
-    const state = {
-      windows: {
-        notModified: { title: 'Not modified', isModified: false },
-        modified: { title: 'Modified', isModified: true },
-        noField: { title: 'No field' },
-      },
-    };
-    const { getState } = getStore(state);
-    it('should returns windows titles', () => {
-      getWindowsTitle(getState()).should.eql({
-        notModified: 'Not modified - VIMA',
-        modified: 'Modified * - VIMA',
-        noField: 'No field - VIMA',
-      });
-    });
-    it('should memoize', () => {
-      getWindowsTitle.resetRecomputations();
-      const r = getWindowsTitle(getState());
-      getWindowsTitle.recomputations().should.equal(0);
-      getWindowsTitle(getState()).should.eql(r);
-      getWindowsTitle.recomputations().should.equal(0);
-      getWindowsTitle({}).should.not.eql(r);
-      getWindowsTitle.recomputations().should.equal(1);
-    });
-    it('should support empty windows list', () => {
-      getWindowsTitle({ windows: {} }).should.eql({});
-    });
-  });
-  describe('getModifiedWindowsIds', () => {
-    it('gets isModified windows', () => {
-      const state = {
-        windows: {
-          a: { isModified: true },
-          b: {},
-          c: { isModified: true },
-          d: {},
-        },
-      };
-      getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
     });
   });
 });

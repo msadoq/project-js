@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const namedValue = require('../ccsds_mal/namedValue');
 const protobuf = require('../../../');
@@ -40,7 +40,7 @@ module.exports = {
       ? protobuf.decode('lpisis.ccsds_cs.User', data.userProfile.value)
       : undefined,
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
-      ? { type: 'ulong', value: data.satellite.value.toNumber() }
+      ? { type: 'ulong', symbol: data.satellite.value.toString() }
       : undefined,
     producer: (data.producer !== null && typeof data.producer !== 'undefined')
       ? protobuf.decode('lpisis.ccsds_cs.Provider', data.producer.value)
@@ -50,4 +50,3 @@ module.exports = {
         : undefined,
   }),
 };
-

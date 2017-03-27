@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/accessControlModel/UserConnection', () => {
@@ -23,7 +22,6 @@ describe('protobuf/lpisis/accessControlModel/UserConnection', () => {
       loginTime: { type: 'time', value: fixture.loginTime },
       authID: { type: 'blob', value: fixture.authID },
     });
-    
   });
 });
 

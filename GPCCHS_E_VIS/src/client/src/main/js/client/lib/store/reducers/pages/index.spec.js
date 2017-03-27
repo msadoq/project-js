@@ -39,7 +39,7 @@ describe('store:pages:reducer', () => {
         page1: { views: ['view1', 'view2'] },
         page2: { views: ['view3', 'view4'] },
       };
-      const newState = reducer(state, { type: types.WS_VIEW_UPDATEPATH, payload: { viewId: 'view3' } });
+      const newState = reducer(state, { type: types.WS_VIEW_UPDATE_ABSOLUTEPATH, payload: { viewId: 'view3' } });
       newState.page2.should.have.property('isModified');
       newState.page1.should.not.have.property('isModified');
     });
@@ -48,10 +48,19 @@ describe('store:pages:reducer', () => {
         page1: { views: ['view1', 'view2'] },
         page2: { views: ['view3', 'view4'] },
       };
-      const newState = reducer(state, { type: types.WS_VIEW_UPDATEPATH, payload: { viewId: 'view5' } });
+      const newState = reducer(state, { type: types.WS_VIEW_UPDATE_ABSOLUTEPATH, payload: { viewId: 'view5' } });
       newState.page2.should.not.have.property('isModified');
       newState.page1.should.not.have.property('isModified');
     });
+  });
+  it('remove pages when close window', () => {
+    const state = {
+      p1: {},
+      p2: {},
+      p3: {},
+    };
+    const newState = reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { pages: ['p1', 'p2'] } });
+    newState.should.be.eql({ p3: {} });
   });
 });
 
@@ -90,7 +99,7 @@ describe('store:page:selectors', () => {
         },
       };
       getPanels(state, { pageId: 'myId' }).should.equal(state.pages.myId.panels);
-      should.not.exist(getPanels(state, { pageId: 'myOtherId' }));
+      getPanels(state, { pageId: 'myOtherId' }).should.be.eql({});
     });
   });
   describe('getPageLayout', () => {

@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
@@ -46,7 +46,6 @@ describe('protobuf/lpisis/tcHistory/TCHistory', () => {
         executionStart: { type: 'enum', value: fixture.successiveAck.executionStart, symbol: ackEnum[fixture.successiveAck.executionStart] },
       },
     });
-    
   });
 });
 

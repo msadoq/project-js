@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
@@ -124,7 +124,7 @@ describe('protobuf/lpisis/cop1/COP1Context', () => {
         next_segment_index: { type: 'integer', value: fixture.cop1IfAutoState.next_segment_index },
       },
       cop1SentQueue: {
-        
+
       },
       cop1WaitQueue: {
         internal_id: { type: 'integer', value: fixture.cop1WaitQueue.internal_id },
@@ -132,7 +132,7 @@ describe('protobuf/lpisis/cop1/COP1Context', () => {
         reemission_delay: { type: 'float', value: fixture.cop1WaitQueue.reemission_delay },
       },
       gpmcc1State: {
-        
+
       },
       cOP1InternalState: {
         stored_lockout_flag: { type: 'uoctet', value: fixture.cOP1InternalState.stored_lockout_flag },
@@ -159,7 +159,6 @@ describe('protobuf/lpisis/cop1/COP1Context', () => {
       initvr_mode: { type: 'boolean', value: fixture.initvr_mode },
       entityKeyTime: { type: 'time', value: fixture.entityKeyTime },
     });
-    
   });
 });
 

@@ -31,4 +31,5 @@ export const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(Te
 TextViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
 };
+
 export default TextViewContainer;

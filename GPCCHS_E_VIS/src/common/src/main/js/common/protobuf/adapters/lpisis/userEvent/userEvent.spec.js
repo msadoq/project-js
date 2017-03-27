@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/userEvent/UserEvent', () => {
@@ -25,13 +24,13 @@ describe('protobuf/lpisis/userEvent/UserEvent', () => {
         profile: { type: 'string', value: fixture.userProfile.profile },
         userTime: { type: 'time', value: fixture.userProfile.userTime },
       },
-      satellite: { type: 'ulong', value: fixture.satellite },
+      satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
       producer: {
         slotID: { type: 'ushort', value: fixture.producer.slotID },
         factoryID: { type: 'ushort', value: fixture.producer.factoryID },
         providerName: { type: 'string', value: fixture.producer.providerName },
         network: { type: 'uoctet', value: fixture.producer.network },
-        session: { type: 'ulong', value: fixture.producer.session },
+        session: { type: 'ulong', symbol: `${fixture.producer.session}` },
         serviceProperties: { type: 'uinteger', value: fixture.producer.serviceProperties },
         serviceAddress: {
           supportedCapabilities: { type: 'uinteger', value: fixture.producer.serviceAddress.supportedCapabilities },
@@ -52,7 +51,6 @@ describe('protobuf/lpisis/userEvent/UserEvent', () => {
         name: { type: 'identifier', value: fixture.specificAttributes[i].name },
         value: { type: 'double', value: fixture.specificAttributes[i].value },
       });
-      
     }
   });
 });

@@ -17,6 +17,12 @@ const createNewMessage = action => ({
 
 export default function messages(state = {}, action) {
   switch (action.type) {
+    case types.HSC_CLOSE_WORKSPACE: {
+      if (action.payload.keepMessages) {
+        return state;
+      }
+      return {};
+    }
     case types.WS_MESSAGE_ADD: {
       const { containerId } = action.payload;
       const newMessage = createNewMessage(action);

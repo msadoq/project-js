@@ -1,15 +1,15 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import EntryPointDetails from './EntryPointDetails';
-import { getPage } from '../../../../store/reducers/pages';
+import { getFocusedPage } from '../../../../store/selectors/pages';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import {
   updateEntryPoint,
   removeEntryPoint,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { focusedPageId }) => {
-  const { timebarUuid } = getPage(state, { pageId: focusedPageId });
+const mapStateToProps = (state, { windowId }) => {
+  const { timebarUuid } = getFocusedPage(state, { windowId });
   return {
     timelines: getTimebarTimelinesSelector(state, { timebarUuid }),
   };

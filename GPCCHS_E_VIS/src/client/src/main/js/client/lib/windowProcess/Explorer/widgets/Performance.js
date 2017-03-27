@@ -1,5 +1,7 @@
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
+import _reduce from 'lodash/reduce';
+import _isObject from 'lodash/isObject';
 import classnames from 'classnames';
 import {
   Panel,
@@ -11,6 +13,7 @@ import {
   HEALTH_STATUS_CRITICAL,
 } from 'common/constants';
 import styles from './Performance.css';
+import * as constants from '../../../viewManager/constants';
 
 const logger = getLogger('Performance');
 
@@ -32,6 +35,11 @@ export default class Performance extends Component {
     hss: PropTypes.string,
     main: PropTypes.string,
     window: PropTypes.string,
+    viewInfo: PropTypes.shape({
+      [constants.VM_VIEW_DYNAMIC]: PropTypes.object,
+      [constants.VM_VIEW_TEXT]: PropTypes.object,
+      [constants.VM_VIEW_PLOT]: PropTypes.object,
+    }),
   };
 
   static defaultProps = {
@@ -40,6 +48,11 @@ export default class Performance extends Component {
     hss: HEALTH_STATUS_HEALTHY,
     main: HEALTH_STATUS_HEALTHY,
     window: HEALTH_STATUS_HEALTHY,
+    viewInfo: {
+      [constants.VM_VIEW_DYNAMIC]: {},
+      [constants.VM_VIEW_TEXT]: {},
+      [constants.VM_VIEW_PLOT]: {},
+    },
   };
 
   render() {
@@ -50,6 +63,7 @@ export default class Performance extends Component {
       main,
       window,
       lastPubSubTimestamp,
+      viewInfo,
     } = this.props;
 
     const dcStyle = getStyle(dc);
@@ -71,6 +85,18 @@ export default class Performance extends Component {
         </span>
       );
     }
+    const plotPts = _reduce(viewInfo[constants.VM_VIEW_PLOT], (acc, v) => {
+      if (_isObject(v)) {
+        acc.push((<li>{v.title}: {v.nbPt}</li>));
+      }
+      return acc;
+    }, []);
+    const textPts = _reduce(viewInfo[constants.VM_VIEW_TEXT], (acc, v) => {
+      if (_isObject(v)) {
+        acc.push((<li>{v.title}: {v.nbPt}</li>));
+      }
+      return acc;
+    }, []);
 
     return (
       <div>
@@ -95,8 +121,21 @@ export default class Performance extends Component {
           <span className={pubSubStyle}>•</span> PUB/SUB
         </Panel>
         <Panel header={<h3>Numbers</h3>}>
-          <div>Number of views: 10</div>
-          <div>Number of points: 1000</div>
+          <div>Number of views:
+          <ul>
+            <li>Plot Views: {Object.keys(viewInfo[constants.VM_VIEW_PLOT]).length - 1}</li>
+            <li>Text Views: {Object.keys(viewInfo[constants.VM_VIEW_TEXT]).length - 1}</li>
+            <li>Dynamic View: {viewInfo[constants.VM_VIEW_DYNAMIC].all}</li>
+          </ul>
+          </div>
+          <div>Number of points:
+            <ul> Plot Views:
+              <ul>{plotPts}</ul>
+            </ul>
+            <ul> Text Views:
+              <ul>{textPts}</ul>
+            </ul>
+          </div>
         </Panel>
       </div>
     );

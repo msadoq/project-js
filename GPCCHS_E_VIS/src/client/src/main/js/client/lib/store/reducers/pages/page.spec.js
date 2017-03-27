@@ -7,35 +7,21 @@ import * as types from '../../types';
 const reducer = freezeArgs(pagesReducer);
 
 describe('store:page:reducer', () => {
-  describe('open/close editor', () => { // TODO boxmodel remove
-    const editor = { // TODO boxmodel remove
-      isOpened: true, // TODO boxmodel remove
-      viewId: 'myViewId', // TODO boxmodel remove
-      viewType: 'plot', // TODO boxmodel remove
-    }; // TODO boxmodel remove
-    it('open', () => { // TODO boxmodel remove
-      const state = reducer( // TODO boxmodel remove
-        reducer({ myPageId: {}, p2: {} }, { viewId: 'myPageId', viewType: 'TextView' }),
-        actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar' }) // TODO boxmodel remove
-      ); // TODO boxmodel remove
-      state.myPageId.editor.should.eql(editor); // TODO boxmodel remove
-    }); // TODO boxmodel remove
-    it('close', () => { // TODO boxmodel remove
-      const state = reducer( // TODO boxmodel remove
-        { myPageId: { editor } }, // TODO boxmodel remove
-        actions.closeEditor('myPageId') // TODO boxmodel remove
-      ); // TODO boxmodel remove
-      state.myPageId.editor.should.eql(Object.assign({}, editor, { isOpened: false }));
-    }); // TODO boxmodel remove
-  }); // TODO boxmodel remove
   describe('update layout', () => {
     it('update layout simple', () => {
       const state = reducer(
-        { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
-        actions.updateLayout('myPageId', [{ key: '3' }, { key: '4' }])
+        { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
+        actions.updateLayout('myPageId', [{ i: '2', x: 1, y: 2 }])
       );
-      state.myPageId.layout.should.eql([{ key: '3' }, { key: '4' }]);
+      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', x: 1, y: 2, collapsed: true }]);
       state.myPageId.isModified.should.be.true;
+    });
+    it('does not update dimensions when collapsed', () => {
+      const state = reducer(
+        { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
+        actions.updateLayout('myPageId', [{ i: '2', h: 1, w: 2 }])
+      );
+      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', collapsed: true }]);
     });
   });
   describe('updateAbsolutePath', () => {
@@ -151,31 +137,5 @@ describe('store:page:reducer', () => {
       const nextState = reducer(state, action);
       nextState.myPage.timebarUuid.should.be.eql('newTb1');
     });
-  });
-  describe('updateTimebarHeight', () => { // TODO boxmodel remove
-    it('ok', () => { // TODO boxmodel remove
-      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('myPage', 210)) // TODO boxmodel remove
-      .should.eql({ myPage: { timebarHeight: 210, isModified: true } }); // TODO boxmodel remove
-    }); // TODO boxmodel remove
-    it('height to small', () => { // TODO boxmodel remove
-      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('myPage', 20)) // TODO boxmodel remove
-      .should.eql({ myPage: { timebarHeight: 135, isModified: true } }); // TODO boxmodel remove
-    }); // TODO boxmodel remove
-    it('invalid view id', () => { // TODO boxmodel remove
-      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('noPage', 10)) // TODO boxmodel remove
-      .should.eql({ myPage: { timebarHeight: 5 } }); // TODO boxmodel remove
-    }); // TODO boxmodel remove
-  }); // TODO boxmodel remove
-  describe('collapse', () => { // TODO boxmodel remove
-    it('collapses timebar', () => { // TODO boxmodel remove
-      const state = { myPage: { timebarHeight: 42 } }; // TODO boxmodel remove
-      const action = actions.collapseTimebar('myPage', true); // TODO boxmodel remove
-      const newState = reducer(state, action); // TODO boxmodel remove
-      newState.myPage.should.be.eql({ // TODO boxmodel remove
-        timebarHeight: 42, // TODO boxmodel remove
-        timebarCollapsed: true, // TODO boxmodel remove
-        isModified: true, // TODO boxmodel remove
-      }); // TODO boxmodel remove
-    }); // TODO boxmodel remove
   });
 });

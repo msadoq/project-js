@@ -4,7 +4,7 @@ const _map = require('lodash/map');
 const dcStubs = require('./data/dc');
 const lpisisStubs = require('./data/lpisis');
 
-const stubs = module.exports = Object.assign({}, dcStubs, lpisisStubs);
+const stubs = Object.assign({}, dcStubs, lpisisStubs);
 
 // RemoteId
 stubs.getRemoteId = (override) => {
@@ -21,3 +21,5 @@ stubs.getRemoteId = (override) => {
   }
   return remoteId;
 };
+
+module.exports = stubs;

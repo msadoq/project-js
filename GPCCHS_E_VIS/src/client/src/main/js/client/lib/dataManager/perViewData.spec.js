@@ -1,7 +1,7 @@
 import '../common/test';
 import makeGetPerViewData from './perViewData';
 
-describe('dataManager/perViewMap', () => {
+describe('dataManager/perViewData', () => {
   const state = {
     timelines: {
       tl1: {
@@ -340,7 +340,6 @@ describe('dataManager/perViewMap', () => {
           },
           offset: 0,
           filter: [],
-          field: undefined,
           localId: 'undefined.tb1:0',
           timebarUuid: 'tb1',
           structureType: 'last',

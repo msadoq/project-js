@@ -9,6 +9,7 @@ import styles from './Timebar.css';
 import Scale from './Scale';
 import TimebarTimeline from './TimebarTimeline';
 import VisuWindow from './VisuWindow';
+import SlideWindow from './SlideWindow';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 // 1980-01-01
@@ -1090,19 +1091,6 @@ export default class Timebar extends PureComponent {
     const currentPercent = lowerPercent + ((upperPercent - lowerPercent) *
       (calc.currentPercentOffset * 0.01));
 
-    /*
-      Determinate for each cursor if we display a handle to help
-      the user
-    */
-    const slideUpperUpperClose = Math.abs((upperPercent - calc.slideUpperPercentOffset)
-      * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
-    const slideUpperCurrentClose = Math.abs((calc.slideUpperPercentOffset - currentPercent)
-      * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
-    const slideLowerCurrentClose = Math.abs((currentPercent - calc.slideLowerPercentOffset)
-      * (widthPx * 0.01)) < 20 && timebarMode === 'Fixed';
-    const slideLowerLowerClose = Math.abs((calc.slideLowerPercentOffset - lowerPercent)
-      * (widthPx * 0.01)) < 20 && timebarMode === 'Fixed';
-
     return (
       <div
         className={styles.viewportWrapper}
@@ -1141,65 +1129,24 @@ export default class Timebar extends PureComponent {
             slideUpperPercentOffset={calc.slideUpperPercentOffset}
             slideLowerPercentOffset={calc.slideLowerPercentOffset}
             widthPx={widthPx}
+            lowerPercent={lowerPercent}
+            upperPercent={upperPercent}
+            currentPercent={currentPercent}
           />
 
-          { /*
-            The 2 blue sildeWindow cursors
-          */ }
-          <span
-            cursor="slideLower"
-            title="Ext lower cursor"
-            style={{
-              left: `${calc.slideLowerPercentOffset}%`,
-            }}
-            className={classnames(styles.slide, { hidden: timebarMode !== 'Fixed' })}
-            onMouseDown={this.onMouseDownResize}
-            onDoubleClick={toggleTimesetter}
-          />
-          <span
-            cursor="slideUpper"
-            title="Ext upper cursor"
-            style={{
-              left: `${calc.slideUpperPercentOffset}%`,
-            }}
-            className={classnames(styles.slide, { hidden: timebarMode === 'Normal' })}
-            onMouseDown={this.onMouseDownResize}
-            onDoubleClick={toggleTimesetter}
-          />
-
-          { /*
-            Circle handle for slideLower cursor
-          */ }
-          <span
-            cursor="slideLower"
-            className={classnames(
-              styles.handle,
-              styles.handleSlideLower,
-              { [styles.undisplayed]: !slideLowerLowerClose && !slideLowerCurrentClose }
-            )}
-            style={{
-              left: `${calc.slideLowerPercentOffset}%`,
-            }}
-            onMouseDown={this.onMouseDownResize}
-            onDoubleClick={toggleTimesetter}
-          />
-
-          { /*
-            Circle handle for slideUpper cursor
-          */ }
-          <span
-            cursor="slideUpper"
-            className={classnames(
-              styles.handle,
-              styles.handleSlideUpper,
-              { [styles.undisplayed]: !slideUpperUpperClose && !slideUpperCurrentClose }
-            )}
-            style={{
-              left: `${calc.slideUpperPercentOffset}%`,
-            }}
-            onMouseDown={this.onMouseDownResize}
-            onDoubleClick={toggleTimesetter}
-          />
+          { timebarMode !== 'Normal' &&
+            <SlideWindow
+              timebarMode={timebarMode}
+              toggleTimesetter={toggleTimesetter}
+              slideUpperPercentOffset={calc.slideUpperPercentOffset}
+              slideLowerPercentOffset={calc.slideLowerPercentOffset}
+              widthPx={widthPx}
+              onMouseDownResize={this.onMouseDownResize}
+              lowerPercent={lowerPercent}
+              upperPercent={upperPercent}
+              currentPercent={currentPercent}
+            />
+          }
 
           { /*
               Timeline list in the background

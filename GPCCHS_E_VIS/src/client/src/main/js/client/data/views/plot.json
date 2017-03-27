@@ -21,7 +21,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
@@ -64,7 +64,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "Time"
+        "axisId": "time"
       },
       "connectedDataY": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
@@ -93,7 +93,7 @@
   "axes": [
     {
       "label": "Time",
-      "id": "Time",
+      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -144,7 +144,7 @@
   ],
   "grids": [
     {
-      "xAxisId": "Time",
+      "xAxisId": "time",
       "yAxisId": "VBat",
       "line": {
         "style": "Continuous",

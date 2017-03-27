@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const expectedAck = require('./expectedAck');
 const sendTypeEnum = require('./sendTypeEnum');
 const successiveAck = require('./successiveAck');

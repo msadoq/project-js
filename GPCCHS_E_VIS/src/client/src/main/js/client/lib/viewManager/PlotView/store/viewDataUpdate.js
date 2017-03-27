@@ -8,6 +8,7 @@ import _get from 'lodash/get';
 import _head from 'lodash/head';
 import _isEmpty from 'lodash/isEmpty';
 import getLogger from 'common/log';
+import parameters from 'common/parameters';
 import { getStateColorObj } from '../../utils/stateColors';
 
 const logger = getLogger('data:rangeValues');
@@ -126,8 +127,16 @@ export function viewRangeAdd(state = {}, payloads) {
     for (let j = 0; j < masterTimes.length; j += 1) {
       const masterTime = masterTimes[j];
       // Check validity of current payload
-      if (!_isNumber(remoteIdPayloads[masterTime].value)) {
-        continue;
+      let currentValue = remoteIdPayloads[masterTime];
+      if (!_isNumber(currentValue.value)) {
+        // continue;
+        if (typeof currentValue.value === 'string') {
+          currentValue = {
+            ...remoteIdPayloads[masterTime],
+            symbol: remoteIdPayloads[masterTime].value,
+            value: parameters.get('STRING_PLOT_VALUE'),
+          };
+        }
       }
       if (!newState.lines[epName]) {
         newState.lines[epName] = [];
@@ -137,7 +146,7 @@ export function viewRangeAdd(state = {}, payloads) {
       const timestamp = parseInt(masterTime, 10); // TODO : avoid by passing .index[] in payload
       // if new value should be pushed at end (most common case in play mode)
       if (lastIndex === -1 && timestamp > lastTime) {
-        newState.lines[epName].push({ masterTime: timestamp, ...remoteIdPayloads[masterTime] });
+        newState.lines[epName].push({ masterTime: timestamp, ...currentValue });
         newState.indexes[epName].push(timestamp);
         lastTime = timestamp;
         continue;
@@ -152,14 +161,13 @@ export function viewRangeAdd(state = {}, payloads) {
       lastIndex = index;
       if (index === -1) {
         // add at end
-        newState.lines[epName].push({ masterTime: timestamp, ...remoteIdPayloads[masterTime] });
+        newState.lines[epName].push({ masterTime: timestamp, ...currentValue });
         newState.indexes[epName].push(timestamp);
         continue;
       }
       // timebased data update
       if (newState.indexes[epName][index] === timestamp) {
-        // newState.lines[epName][index] =
-        Object.assign(newState.lines[epName][index], remoteIdPayloads[masterTime]);
+        Object.assign(newState.lines[epName][index], currentValue);
         continue;
       }
       // add at index
@@ -170,7 +178,7 @@ export function viewRangeAdd(state = {}, payloads) {
       );
       newState.lines[epName] = _concat(
         newState.lines[epName].slice(0, index),
-        { ...remoteIdPayloads[masterTime], masterTime: timestamp },
+        { ...currentValue, masterTime: timestamp },
         newState.lines[epName].slice(index)
       );
     }
@@ -223,6 +231,7 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
   for (let i = 0; i < timestamps.length; i += 1) {
     const value = remoteIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
+
     if (typeof timestamp === 'undefined') {
       logger.warn('get a payload without .referenceTimestamp key');
       continue;

@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const pus014EventReportPacket = require('./pus014EventReportPacket');
 const pus014HkOrDiagPacket = require('./pus014HkOrDiagPacket');
@@ -7,7 +7,10 @@ const pusElement = require('./pusElement');
 
 module.exports = {
   encode: data => ({
-    pus014EventReportPacket: _map(data.pus014EventReportPacket, d => (pus014EventReportPacket.encode(d))),
+    pus014EventReportPacket: _map(
+      data.pus014EventReportPacket,
+      d => (pus014EventReportPacket.encode(d))
+    ),
     pus014HkPacket: _map(data.pus014HkPacket, d => (pus014HkOrDiagPacket.encode(d))),
     pus014TmPacket: _map(data.pus014TmPacket, d => (pus014TmPacket.encode(d))),
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
@@ -34,7 +37,10 @@ module.exports = {
       : null,
   }),
   decode: data => ({
-    pus014EventReportPacket: _map(data.pus014EventReportPacket, d => (pus014EventReportPacket.decode(d))),
+    pus014EventReportPacket: _map(
+      data.pus014EventReportPacket,
+      d => (pus014EventReportPacket.decode(d))
+    ),
     pus014HkPacket: _map(data.pus014HkPacket, d => (pus014HkOrDiagPacket.decode(d))),
     pus014TmPacket: _map(data.pus014TmPacket, d => (pus014TmPacket.decode(d))),
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
@@ -64,4 +70,3 @@ module.exports = {
         : undefined,
   }),
 };
-

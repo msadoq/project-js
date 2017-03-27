@@ -171,7 +171,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           val3: { type: 'uinteger', value: (j * 10) + 3 },
           val4: { type: 'enum', value: j, symbol: 'val'.concat(j) },
           referenceTimestamp: { type: 'time', value: j },
-          time: { type: 'time', value: j + 0.2 },
+          time: { type: 'time', value: j },
         };
         if (j % 2) {
           dataToInject.rId2[j] = dataToInject.rId1[j];
@@ -191,7 +191,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+            ep1: { value: moment(10).utc().toISOString() },
             ep4: { value: 'val9' } },
         },
       });
@@ -200,7 +200,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
       const state = freezeMe({ text: {
         index: { ep1: 9, ep4: 9 },
         values: {
-          ep1: { value: moment(9.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+          ep1: { value: moment(9).utc().toISOString() },
           ep4: { value: 'val9', monit: undefined } },
       } });
       const action = { type: types.DATA_UPDATE_VIEWDATA,
@@ -215,7 +215,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+            ep1: { value: moment(10).utc().toISOString() },
             ep4: { value: 'val9' } },
         },
       });

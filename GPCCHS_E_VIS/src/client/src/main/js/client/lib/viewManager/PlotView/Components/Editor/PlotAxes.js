@@ -177,6 +177,7 @@ export default class PlotAxes extends React.Component {
                 {this.state[`isPanel${axisId}Open`] &&
                   <PlotAxis
                     key={axisId}
+                    axisId={axisId}
                     initialValues={axis}
                     entryPoints={entryPoints}
                     onSubmit={this.handleSubmitFactory(axisId)}

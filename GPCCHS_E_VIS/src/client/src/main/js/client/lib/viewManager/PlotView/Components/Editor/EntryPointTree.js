@@ -28,7 +28,7 @@ export default class EntryPointTree extends PureComponent {
 
   static contextTypes = {
     viewId: React.PropTypes.string,
-    focusedPageId: React.PropTypes.string,
+    windowId: React.PropTypes.string,
   }
 
   state = {};
@@ -43,7 +43,7 @@ export default class EntryPointTree extends PureComponent {
   }
 
   render() {
-    const { viewId, focusedPageId } = this.context;
+    const { viewId, windowId } = this.context;
     const mask = `${this.props.search}.*`;
     const { entryPoints } = this.props;
     const list = entryPoints
@@ -54,6 +54,7 @@ export default class EntryPointTree extends PureComponent {
         Nothing to display.
       </Alert>);
     }
+
 
     return (
       <Accordion>
@@ -92,8 +93,8 @@ export default class EntryPointTree extends PureComponent {
               {isOpen && <EntryPointDetailsContainer
                 key={`${entryPoint.name}#details`}
                 idPoint={key}
+                windowId={windowId}
                 viewId={viewId}
-                focusedPageId={focusedPageId}
                 entryPoint={entryPoint}
               />}
             </Panel>

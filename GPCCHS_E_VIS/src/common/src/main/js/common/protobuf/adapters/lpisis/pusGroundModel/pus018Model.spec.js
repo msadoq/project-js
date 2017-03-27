@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus018Model', () => {
@@ -46,7 +45,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus018Model', () => {
           parameterName: { type: 'string', value: fixture.pus018Obcp[i].pus18Parameter[ii].parameterName },
           value: { type: 'double', value: fixture.pus018Obcp[i].pus18Parameter[ii].value },
         });
-        
       }
     }
     json.pus018ConfiguredObcp.should.be.an('array').that.have.lengthOf(fixture.pus018ConfiguredObcp.length);
@@ -66,7 +64,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus018Model', () => {
           lastUpdateTime: { type: 'time', value: fixture.pus018ConfiguredObcp[i].pusElement.lastUpdateTime },
         },
       });
-      
     }
   });
 });

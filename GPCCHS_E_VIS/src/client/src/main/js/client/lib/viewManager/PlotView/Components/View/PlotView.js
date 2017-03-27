@@ -31,6 +31,7 @@ function parseDragData(data) {
     name: data.item,
     connectedDataX: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
+      unit: 's',
     },
     connectedDataY: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
@@ -206,10 +207,6 @@ export class GrizzlyPlotView extends PureComponent {
     if (!data.lines || !Object.keys(data.lines).length) {
       info = 'no point';
     }
-    if (data.columns && data.columns.length < 2) {
-      info = 'only one point';
-    }
-
     if (!entryPoints || !Object.keys(entryPoints).length) {
       info = 'invalid view configuration';
     }
@@ -361,7 +358,7 @@ export class GrizzlyPlotView extends PureComponent {
                         >{ id } :</span>
                         <span
                           className={grizzlyStyles.tooltipLineValue}
-                        >{ formattedValue }</span>
+                        >{ packet.symbol ? packet.symbol : formattedValue }</span>
                       </p>
                       <span
                         className={classnames(

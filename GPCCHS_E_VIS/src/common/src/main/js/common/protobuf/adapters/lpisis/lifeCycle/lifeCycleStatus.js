@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
   }),
   decode: data => ({
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? { type: 'ulong', value: data.status.value.toNumber() }
+      ? { type: 'ulong', symbol: data.status.value.toString() }
       : undefined,
     statusTime: (data.statusTime !== null && typeof data.statusTime !== 'undefined')
       ? { type: 'time', value: data.statusTime.value.toNumber() }
@@ -22,4 +22,3 @@ module.exports = {
         : undefined,
   }),
 };
-

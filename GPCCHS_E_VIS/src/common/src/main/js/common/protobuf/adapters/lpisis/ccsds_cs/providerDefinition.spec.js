@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/ccsds_cs/ProviderDefinition', () => {
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/ccsds_cs/ProviderDefinition', () => {
       providerDefinitionName: { type: 'identifier', value: fixture.providerDefinitionName },
       providerDefinitionTime: { type: 'time', value: fixture.providerDefinitionTime },
     });
-    
   });
 });
 

@@ -24,17 +24,16 @@ export default class Header extends PureComponent {
       color: PropTypes.string,
     }),
     viewId: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     collapsed: PropTypes.bool.isRequired,
     maximized: PropTypes.bool.isRequired,
     oId: PropTypes.string.isRequired,
     absolutePath: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
+    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
-    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
   };
@@ -58,7 +57,6 @@ export default class Header extends PureComponent {
   onDropDownClick = (key) => {
     const {
       viewId,
-      type,
       isViewsEditorOpen,
       openEditor,
       closeEditor,
@@ -71,10 +69,10 @@ export default class Header extends PureComponent {
     } = this.props;
     switch (key) {
       case 'editor': {
-        if (isViewsEditorOpen && closeEditor) {
+        if (isViewsEditorOpen) {
           closeEditor();
-        } else if (!isViewsEditorOpen && openEditor) {
-          openEditor(viewId, type);
+        } else if (!isViewsEditorOpen) {
+          openEditor();
         }
         break;
       }
@@ -87,18 +85,18 @@ export default class Header extends PureComponent {
         break;
       }
       case 'close': {
-        closeView(viewId);
+        closeView();
         if (isViewsEditorOpen && closeEditor) {
           closeEditor();
         }
         break;
       }
       case 'collapse': {
-        collapseView(viewId, !collapsed);
+        collapseView(!collapsed);
         break;
       }
       case 'maximize': {
-        maximizeView(viewId, !maximized);
+        maximizeView(!maximized);
         break;
       }
       case 'save':
@@ -180,22 +178,16 @@ export default class Header extends PureComponent {
 
   moveView = (toPage) => {
     const { isViewsEditorOpen, closeEditor } = this.props;
-    if (isViewsEditorOpen && closeEditor) {
+    if (isViewsEditorOpen) {
       closeEditor();
     }
-    const { viewId, moveViewToPage } = this.props;
-    const { windowId } = this.context;
-    moveViewToPage(windowId, toPage, viewId);
+    const { moveViewToPage } = this.props;
+    moveViewToPage(toPage);
   }
 
   expand = () => {
-    const {
-      viewId,
-      collapseView,
-      collapsed,
-    } = this.props;
-
-    collapseView(viewId, !collapsed);
+    const { collapseView, collapsed } = this.props;
+    collapseView(!collapsed);
   }
   save = (e) => {
     if (e) e.preventDefault();

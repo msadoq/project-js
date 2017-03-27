@@ -1,0 +1,35 @@
+{
+  "type": "TextView",
+  "title": "Collapsed view",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": false,
+    "strikeOut": false,
+    "align": "left",
+    "color": "#ffffff",
+    "bgColor": "#f44336"
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "content": "STAT_SU_EXIT_CODE: {{STAT_SU_EXIT_CODE}}",
+  "entryPoints": [
+    {
+      "name": "STAT_SU_EXIT_CODE",
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_EXIT_CODE<ReportingParameter>",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "*"
+      }
+    }
+  ]
+}

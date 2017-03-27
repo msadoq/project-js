@@ -4,7 +4,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
   describe('Update', () => {
     it('should ignore payloads', () => {
       const frozen = Object.freeze({ index: {}, values: {} });
-      viewDataUpdate(frozen, {}).should.equal(frozen);
+      viewDataUpdate(frozen, {}).should.eql(frozen);
     });
     it('should add', () => {
       const frozen = Object.freeze({ index: {}, values: {} });
@@ -16,7 +16,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
     });
     it('should update', () => {
       const state = Object.freeze({
-        index: { myEntryPoint: 10 },
+        index: { myEntryPoint: '10' },
         values: { myEntryPoint: 150 },
       });
       viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
@@ -46,7 +46,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         val3: { type: 'uinteger', value: (j * 10) + 3 },
         val4: { type: 'enum', value: j - 10, symbol: 'val'.concat(j - 10) },
         referenceTimestamp: { type: 'time', value: j },
-        time: { type: 'time', value: j + 0.2 },
+        time: { type: 'time', value: j },
         monitoringState: { type: 'uinteger', value: 'ok' },
       };
 
@@ -122,43 +122,42 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       },
     };
     it('state undefined', () => {
-      // (currentViewMap, intervalMap, payload, viewSubState)
       const data =
         selectDataPerView(viewDataMap.text1, expectedIntervals, payload, { index: {}, values: {} });
-      data.index.ep4.should.equal(20);
-      data.index.ep7.should.equal(13);
-      data.values.ep4.value.should.equal(203);
-      data.values.ep7.value.should.equal('val3');
+      data.index.ep4.should.eql(20);
+      data.index.ep7.should.eql(13);
+      data.values.ep4.value.should.eql(203);
+      data.values.ep7.value.should.eql('val3');
     });
     it('state with value > current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
       const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
-      data.index.ep4.should.equal(20);
-      data.index.ep7.should.equal(13);
-      data.values.ep4.value.should.equal(203);
-      data.values.ep7.value.should.equal('val3');
+      data.index.ep4.should.eql(20);
+      data.index.ep7.should.eql(13);
+      data.values.ep4.value.should.eql(203);
+      data.values.ep7.value.should.eql('val3');
     });
     it('state with value < current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
       const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
-      data.index.ep4.should.equal(20);
-      data.index.ep7.should.equal(13);
-      data.values.ep4.value.should.equal(203);
-      data.values.ep7.value.should.equal('val3');
+      data.index.ep4.should.eql(20);
+      data.index.ep7.should.eql(13);
+      data.values.ep4.value.should.eql(203);
+      data.values.ep7.value.should.eql('val3');
     });
     it('state with value = current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;
       const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
-      data.index.ep4.should.equal(20);
-      data.index.ep7.should.equal(13);
-      data.values.ep4.value.should.equal(203);
-      data.values.ep7.value.should.equal('val3');
+      data.index.ep4.should.eql(20);
+      data.index.ep7.should.eql(13);
+      data.values.ep4.value.should.eql(203);
+      data.values.ep7.value.should.eql('val3');
     });
   });
 });

@@ -1,21 +1,16 @@
 import React, { PureComponent, PropTypes } from 'react';
-import classnames from 'classnames';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
 import __ from 'lodash/fp';
 import path from 'path';
 
 import ContentContainer from './ContentContainer';
-import EditorContainer from '../Editor/EditorContainer';
 import styles from './Page.css';
 import MessagesContainer from './MessagesContainer';
 import DroppableContainer from '../common/DroppableContainer';
 import { main } from '../ipc';
 
 const logger = getLogger('Page');
-
-// const cols = 12;
-// const editorCols = 4;
 
 const getDropItemType = __.cond([
   [m => /ViewDoc$/i.test(m), () => 'view'],
@@ -35,16 +30,7 @@ const droppableContainerStyle = {
 export default class Page extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    isEditorOpened: PropTypes.bool.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    editorViewId: PropTypes.string,
-    focusedPageId: PropTypes.string,
-  };
-
-  static defaultProps = {
-    editorViewId: null,
-    focusedPageId: null,
+    pageId: PropTypes.string.isRequired,
   };
 
   static childContextTypes = {
@@ -53,25 +39,8 @@ export default class Page extends PureComponent {
 
   getChildContext() {
     return {
-      focusedPageId: this.props.focusedPageId,
+      focusedPageId: this.props.pageId,
     };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      // used to avoid 0 height when first mouting plotView
-      // problem due to react-dimensions and react-grid-layout and non knowing initial height
-      // HOTFIX
-      window.dispatchEvent(new Event('resize'));
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Easier way to resize the responsive grid
-    // https://github.com/STRML/react-grid-layout/issues/81
-    if (this.props.isEditorOpened !== nextProps.isEditorOpened) {
-      setTimeout(() => window.dispatchEvent(new Event('resize')));
-    }
   }
 
   onDrop = (e) => { // eslint-disable-line class-methods-use-this
@@ -107,35 +76,16 @@ export default class Page extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      focusedPageId, windowId, editorViewId,
-      openEditor, closeEditor, isEditorOpened,
+      windowId,
+      pageId,
     } = this.props;
 
     return (
-      <div className={styles.root}>
-        {isEditorOpened && <EditorContainer
-          focusedPageId={focusedPageId}
-        />}
-        <div
-          className={classnames({
-            [styles.contentWithEditor]: isEditorOpened,
-          }, styles.content)}
-        >
-          <MessagesContainer containerId={focusedPageId} />
-          <DroppableContainer
-            style={droppableContainerStyle}
-            onDrop={this.onDrop}
-          >
-            <ContentContainer
-              windowId={windowId}
-              focusedPageId={focusedPageId}
-              editorViewId={editorViewId}
-              isEditorOpened={isEditorOpened}
-              openEditor={openEditor}
-              closeEditor={closeEditor}
-            />
-          </DroppableContainer>
-        </div>
+      <div className={styles.content}>
+        <MessagesContainer containerId={pageId} />
+        <DroppableContainer style={droppableContainerStyle} onDrop={this.onDrop}>
+          <ContentContainer windowId={windowId} pageId={pageId} />
+        </DroppableContainer>
       </div>
     );
   }

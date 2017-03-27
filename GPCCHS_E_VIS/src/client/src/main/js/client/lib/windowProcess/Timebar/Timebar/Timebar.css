@@ -19,80 +19,9 @@
 }
 
 /*
-  Cursors
-*/
-
-.slide{
-    z-index: 4;
-    cursor: col-resize;
-    position: absolute;
-    height: 100%;
-    width: 3px;
-    right: 0;
-    border-right: 1px solid var(--slideCursorColor);
-}
-.lower:before, .upper:before{
-    width: 10px;
-    height: 10px;
-    content: '≡';
-    color: #E45;
-    transform: rotate(90deg);
-    position: absolute;
-    top: 48%;
-}
-.lower:before{
-    left: 2px;
-}
-.upper:before{
-    left: -8px;
-}
-
-/*
-  Handles
-*/
-.handle{
-  width: 12px;
-  height: 12px;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 12;
-  cursor: pointer;
-  filter: brightness(0.9);
-  &:hover{
-    filter: brightness(0.8);
-  }
-  &.undisplayed {
-    display: none;
-  }
-  transition: width 0.1s, height 0.1s;
-  &.handleLower, &.handleUpper{
-    top: 5px;
-    background: var(--boundCursorsColor);
-  }
-  &.handleLower{
-    left: 0;
-    transform: translateX(-50%);
-  }
-  &.handleUpper{
-    right: 0;
-    transform: translateX(50%);
-  }
-  &.handleCurrent{
-    top: 20px;
-    background: var(--currentCursorColor);
-    transform: translateX(-40%);
-  }
-  &.handleSlideLower, &.handleSlideUpper{
-    top: 36px;
-    background: var(--slideCursorColor);
-    transform: translateX(-25%);
-  }
-}
-
-/*
   Formatted Times
 */
-.lowerFormattedTime, .upperFormattedTime, .currentFormattedTime, .slideLower, .slideUpper{
+.lowerFormattedTime, .upperFormattedTime, .currentFormattedTime {
     font-size: 0.9em;
     font-weight: bold;
     top: -14px;
@@ -103,33 +32,8 @@
 .moved{
   top: -24px;
 }
-.slideLower, .slideUpper{
-    top: -28px;
-    font-size: 0.8em;
-    color: rgba(0,0,0,0.6);
-    &.slideLower{
-        left: 4px;
-    }
-    &.slideUpper{
-        right: 4px;
-    }
-}
 
-.lowerFormattedTime{
-    transform: translateX(-100%);
-    color: #d34;
-}
-.upperFormattedTime{
-    right: 0;
-    color: #d34;
-    transform: translateX(100%);
-}
-.currentFormattedTime{
-    color: #1A2;
-    white-space: nowrap;
-    z-index: 2;
-    transform: translateX(-50%);
-}
+
 .arrowLeft, .arrowRight, .arrowExt{
     z-index: 11;
     position: absolute;

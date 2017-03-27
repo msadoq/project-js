@@ -22,7 +22,6 @@ class RightTabContent extends PureComponent {
     timebar: PropTypes.shape({
       id: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
-      extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,

@@ -130,6 +130,7 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
                 defaultWidth: parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
               },
               slideWindow: { lower, upper },
+              rulerStart: Number(lower) - (5 * 60000),
             });
             visuOk = true;
           }

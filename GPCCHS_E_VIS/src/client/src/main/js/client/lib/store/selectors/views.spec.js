@@ -17,7 +17,6 @@ describe('store:views:selectors', () => {
           lower: 1420106702345,
           upper: 1420107144713,
         },
-        extUpperBound: 1420107500000,
         rulerStart: 1420106041002,
         rulerResolution: 1298.7675070010687,
         speed: 1,

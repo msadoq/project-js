@@ -29,7 +29,6 @@ const createBlankWorkspace = () => {
       lower: Date.now() - (5 * 60 * 1000),
       upper: Date.now() + (5 * 60 * 1000),
     },
-    extUpperBound: Date.now() - (5 * 60 * 1000),
     rulerStart: Date.now() - (10 * 60 * 1000),
     rulerResolution: 11250,
     speed: 1.0,

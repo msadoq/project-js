@@ -59,7 +59,6 @@ describe('documentManager/saveWorkspace', () => {
       },
       timebars: {
         1234: {
-          extUpperBound: 1420107500000,
           id: 'tb1',
           masterId: 'Session 1',
           rulerResolution: 11250,

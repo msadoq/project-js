@@ -14,7 +14,6 @@ const initialState = {
     lower: Date.now() - (11 * 60 * 1000),
     upper: Date.now() - (7 * 60 * 1000),
   },
-  extUpperBound: Date.now() - (20 * 60 * 1000),
   rulerStart: Date.now() - (20 * 60 * 1000),
   rulerResolution: 2250,
   speed: 1.0,

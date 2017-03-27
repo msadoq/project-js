@@ -1014,6 +1014,7 @@ export default class Timebar extends PureComponent {
       viewport,
       slideWindow,
       widthPx,
+      onVerticalScroll,
     } = this.props;
     const { state } = this;
     const {
@@ -1154,7 +1155,7 @@ export default class Timebar extends PureComponent {
           <div
             ref={this.assignTimelinesEl}
             className={styles.timelines}
-            onScroll={this.props.onVerticalScroll}
+            onScroll={onVerticalScroll}
           >
             { timelines && timelines.length !== 0 && timelines.map(v =>
               <TimebarTimeline

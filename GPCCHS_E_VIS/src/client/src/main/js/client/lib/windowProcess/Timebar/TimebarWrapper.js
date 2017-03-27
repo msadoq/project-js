@@ -55,10 +55,10 @@ export default class TimebarWrapper extends PureComponent {
     timesetterCursor: null,
   };
 
-  onTimelinesVerticalScroll = (e, el) => {
+  onTimelinesVerticalScroll = (e) => {
     e.preventDefault();
     this.setState({
-      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop,
+      timelinesVerticalScroll: e.target.scrollTop,
     });
   }
 

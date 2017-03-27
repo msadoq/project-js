@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/ccsds_cs/UserContext', () => {
   const fixture = stubData.getUserContext();
   let buffer;
@@ -20,7 +19,6 @@ describe('protobuf/lpisis/ccsds_cs/UserContext', () => {
       currentProfileId: { type: 'long', symbol: `${fixture.currentProfileId}` },
       userContextTime: { type: 'time', value: fixture.userContextTime },
     });
-    
   });
 });
 

@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/lifeCycle/LifeCycle', () => {
   const fixture = stubData.getLifeCycle();
   let buffer;
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/lifeCycle/LifeCycle', () => {
       launchingParameters: { type: 'double', value: fixture.launchingParameters },
       launchingTime: { type: 'time', value: fixture.launchingTime },
     });
-    
   });
 });
 

@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/accessControlModel/UserConnection', () => {
   const fixture = stubData.getUserConnection();
   let buffer;
@@ -23,7 +22,6 @@ describe('protobuf/lpisis/accessControlModel/UserConnection', () => {
       loginTime: { type: 'time', value: fixture.loginTime },
       authID: { type: 'blob', value: fixture.authID },
     });
-    
   });
 });
 

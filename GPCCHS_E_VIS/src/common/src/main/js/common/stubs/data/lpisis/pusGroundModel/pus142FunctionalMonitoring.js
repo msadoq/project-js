@@ -10,10 +10,12 @@ module.exports = override => applyOverride({
   status: 100,
   checkingStatus: 100,
   rid: 100,
-  pus142ParameterMonitoringDefinition: [getPus142ParameterMonitoringDefinition(), getPus142ParameterMonitoringDefinition()],
+  pus142ParameterMonitoringDefinition: [
+    getPus142ParameterMonitoringDefinition(),
+    getPus142ParameterMonitoringDefinition(),
+  ],
   validityParameterId: 100,
   validityParameterMask: 100,
   validityParameterExpectedValue: _random(1, 100, true),
   pusElement: getPusElement(),
 }, override);
-

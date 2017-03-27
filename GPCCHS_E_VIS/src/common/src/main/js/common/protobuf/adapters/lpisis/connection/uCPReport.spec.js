@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/connection/UCPReport', () => {
   const fixture = stubData.getUCPReport();
   let buffer;
@@ -24,7 +23,6 @@ describe('protobuf/lpisis/connection/UCPReport', () => {
         name: { type: 'string', value: fixture.parameters[i].name },
         value: { type: 'double', value: fixture.parameters[i].value },
       });
-      
     }
   });
 });

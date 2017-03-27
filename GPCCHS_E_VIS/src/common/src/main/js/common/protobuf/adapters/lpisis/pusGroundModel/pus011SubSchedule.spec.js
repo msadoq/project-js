@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus011SubSchedule', () => {
   const fixture = stubData.getPus011SubSchedule();
   let buffer;
@@ -26,7 +25,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus011SubSchedule', () => {
       },
       groundDate: { type: 'time', value: fixture.groundDate },
     });
-    
   });
 });
 

@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/execution/ExecutionStatus', () => {
   const fixture = stubData.getExecutionStatus();
   let buffer;
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/execution/ExecutionStatus', () => {
       status: { type: 'integer', value: fixture.status },
       statusTime: { type: 'time', value: fixture.statusTime },
     });
-    
   });
 });
 

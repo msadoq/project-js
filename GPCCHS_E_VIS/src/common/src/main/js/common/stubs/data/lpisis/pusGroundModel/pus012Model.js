@@ -8,10 +8,12 @@ const now = _now();
 
 module.exports = override => applyOverride({
   apid: 100,
-  pus012ParameterMonitoringDefinition: [getPus012ParameterMonitoringDefinition(), getPus012ParameterMonitoringDefinition()],
+  pus012ParameterMonitoringDefinition: [
+    getPus012ParameterMonitoringDefinition(),
+    getPus012ParameterMonitoringDefinition(),
+  ],
   noOfParameterMonitoringDefinition: 100,
   serviceStatus: 100,
   groundDate: now,
   pusElement: getPusElement(),
 }, override);
-

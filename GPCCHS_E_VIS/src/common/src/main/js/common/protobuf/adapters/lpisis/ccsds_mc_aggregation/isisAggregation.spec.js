@@ -53,7 +53,6 @@ describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
         monitoringState: { type: 'string', value: fixture.values[i].monitoringState },
         validityState: { type: 'enum', value: fixture.values[i].validityState, symbol: validityState[fixture.values[i].validityState] },
       });
-      
     }
   });
 });

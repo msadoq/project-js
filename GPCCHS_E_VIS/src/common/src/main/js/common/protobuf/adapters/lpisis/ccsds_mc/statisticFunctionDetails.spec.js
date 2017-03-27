@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/ccsds_mc/StatisticFunctionDetails', () => {
   const fixture = stubData.getStatisticFunctionDetails();
   let buffer;
@@ -20,7 +19,6 @@ describe('protobuf/lpisis/ccsds_mc/StatisticFunctionDetails', () => {
       description: { type: 'string', value: fixture.description },
       timestamp: { type: 'time', value: fixture.timestamp },
     });
-    
   });
 });
 

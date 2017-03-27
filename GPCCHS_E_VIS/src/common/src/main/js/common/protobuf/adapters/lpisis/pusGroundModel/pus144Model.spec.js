@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus144Model', () => {
   const fixture = stubData.getPus144Model();
   let buffer;
@@ -42,7 +41,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus144Model', () => {
           lastUpdateTime: { type: 'time', value: fixture.pus144OnboardFiles[i].pusElement.lastUpdateTime },
         },
       });
-      
     }
   });
 });

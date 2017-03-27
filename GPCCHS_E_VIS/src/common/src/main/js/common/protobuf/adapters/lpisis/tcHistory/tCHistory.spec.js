@@ -46,7 +46,6 @@ describe('protobuf/lpisis/tcHistory/TCHistory', () => {
         executionStart: { type: 'enum', value: fixture.successiveAck.executionStart, symbol: ackEnum[fixture.successiveAck.executionStart] },
       },
     });
-    
   });
 });
 

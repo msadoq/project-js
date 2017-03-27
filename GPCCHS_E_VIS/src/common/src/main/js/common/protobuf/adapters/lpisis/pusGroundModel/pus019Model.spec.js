@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus019Model', () => {
   const fixture = stubData.getPus019Model();
   let buffer;
@@ -37,7 +36,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus019Model', () => {
           lastUpdateTime: { type: 'time', value: fixture.pus19EventAction[i].pusElement.lastUpdateTime },
         },
       });
-      
     }
   });
 });

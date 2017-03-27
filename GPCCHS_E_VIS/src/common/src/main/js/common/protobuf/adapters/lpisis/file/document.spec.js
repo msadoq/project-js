@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/file/Document', () => {
   const fixture = stubData.getDocument();
   let buffer;
@@ -16,8 +15,8 @@ describe('protobuf/lpisis/file/Document', () => {
   it('decode', () => {
     const json = protobuf.decode('lpisis.file.Document', buffer);
     json.should.be.an('object').that.have.properties({
-      lockedBy: (typeof fixture.lockedBy === 'undefined') 
-        ? null 
+      lockedBy: (typeof fixture.lockedBy === 'undefined')
+        ? null
         : {
           login: { type: 'string', value: fixture.lockedBy.login },
           password: { type: 'string', value: fixture.lockedBy.password },
@@ -34,7 +33,6 @@ describe('protobuf/lpisis/file/Document', () => {
         name: { type: 'identifier', value: fixture.properties[i].name },
         value: { type: 'double', value: fixture.properties[i].value },
       });
-      
     }
     json.usersAccess.should.be.an('array').that.have.lengthOf(fixture.usersAccess.length);
     for (let i = 0; i < fixture.usersAccess.length; i += 1) {
@@ -49,7 +47,6 @@ describe('protobuf/lpisis/file/Document', () => {
           userTime: { type: 'time', value: fixture.usersAccess[i].user.userTime },
         },
       });
-      
     }
     json.profilesAccess.should.be.an('array').that.have.lengthOf(fixture.profilesAccess.length);
     for (let i = 0; i < fixture.profilesAccess.length; i += 1) {
@@ -64,7 +61,6 @@ describe('protobuf/lpisis/file/Document', () => {
           userTime: { type: 'time', value: fixture.profilesAccess[i].profile.userTime },
         },
       });
-      
     }
   });
 });

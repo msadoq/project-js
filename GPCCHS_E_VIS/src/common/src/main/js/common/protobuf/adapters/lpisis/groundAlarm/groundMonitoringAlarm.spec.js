@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/groundAlarm/GroundMonitoringAlarm', () => {
   const fixture = stubData.getGroundMonitoringAlarm();
   let buffer;
@@ -34,7 +33,6 @@ describe('protobuf/lpisis/groundAlarm/GroundMonitoringAlarm', () => {
         rawValue: { type: 'double', value: fixture.transitions[i].rawValue },
         monitoringState: { type: 'string', value: fixture.transitions[i].monitoringState },
       });
-      
     }
   });
 });

@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/tcHistory/TCImmediate', () => {
   const fixture = stubData.getTCImmediate();
   let buffer;
@@ -16,11 +15,11 @@ describe('protobuf/lpisis/tcHistory/TCImmediate', () => {
   it('decode', () => {
     const json = protobuf.decode('lpisis.tcHistory.TCImmediate', buffer);
     json.should.be.an('object').that.have.properties({
-      encodingDate: (typeof fixture.encodingDate === 'undefined') 
-        ? null 
+      encodingDate: (typeof fixture.encodingDate === 'undefined')
+        ? null
         : { type: 'time', value: fixture.encodingDate },
-      pusHeader: (typeof fixture.pusHeader === 'undefined') 
-        ? null 
+      pusHeader: (typeof fixture.pusHeader === 'undefined')
+        ? null
         : {
           versionNumber: { type: 'uoctet', value: fixture.pusHeader.versionNumber },
           serviceType: { type: 'uoctet', value: fixture.pusHeader.serviceType },
@@ -29,17 +28,17 @@ describe('protobuf/lpisis/tcHistory/TCImmediate', () => {
           destinationId: { type: 'uoctet', value: fixture.pusHeader.destinationId },
           time: { type: 'finetime', value: fixture.pusHeader.time },
         },
-      rawPacket: (typeof fixture.rawPacket === 'undefined') 
-        ? null 
+      rawPacket: (typeof fixture.rawPacket === 'undefined')
+        ? null
         : { type: 'blob', value: fixture.rawPacket },
-      tcId: (typeof fixture.tcId === 'undefined') 
-        ? null 
+      tcId: (typeof fixture.tcId === 'undefined')
+        ? null
         : { type: 'integer', value: fixture.tcId },
-      tcSourceId: (typeof fixture.tcSourceId === 'undefined') 
-        ? null 
+      tcSourceId: (typeof fixture.tcSourceId === 'undefined')
+        ? null
         : { type: 'uinteger', value: fixture.tcSourceId },
-      sequenceCount: (typeof fixture.sequenceCount === 'undefined') 
-        ? null 
+      sequenceCount: (typeof fixture.sequenceCount === 'undefined')
+        ? null
         : { type: 'ulong', symbol: `${fixture.sequenceCount}` },
     });
     json.parameterPhysicalValue.should.be.an('array').that.have.lengthOf(fixture.parameterPhysicalValue.length);

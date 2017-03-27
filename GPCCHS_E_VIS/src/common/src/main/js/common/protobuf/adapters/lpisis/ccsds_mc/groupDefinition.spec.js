@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/ccsds_mc/GroupDefinition', () => {
   const fixture = stubData.getGroupDefinition();
   let buffer;

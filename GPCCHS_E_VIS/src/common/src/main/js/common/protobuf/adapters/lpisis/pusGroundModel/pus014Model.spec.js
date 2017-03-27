@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus014Model', () => {
   const fixture = stubData.getPus014Model();
   let buffer;
@@ -40,7 +39,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus014Model', () => {
           },
         },
       });
-      
     }
     json.pus014HkPacket.should.be.an('array').that.have.lengthOf(fixture.pus014HkPacket.length);
     for (let i = 0; i < fixture.pus014HkPacket.length; i += 1) {
@@ -56,7 +54,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus014Model', () => {
           },
         },
       });
-      
     }
     json.pus014TmPacket.should.be.an('array').that.have.lengthOf(fixture.pus014TmPacket.length);
     for (let i = 0; i < fixture.pus014TmPacket.length; i += 1) {
@@ -72,7 +69,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus014Model', () => {
           },
         },
       });
-      
     }
     json.pus014DiagPacket.should.be.an('array').that.have.lengthOf(fixture.pus014DiagPacket.length);
     for (let i = 0; i < fixture.pus014DiagPacket.length; i += 1) {
@@ -88,7 +84,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus014Model', () => {
           },
         },
       });
-      
     }
   });
 });

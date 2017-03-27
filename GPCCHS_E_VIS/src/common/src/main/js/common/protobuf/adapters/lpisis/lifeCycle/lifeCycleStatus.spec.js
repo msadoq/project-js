@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/lifeCycle/LifeCycleStatus', () => {
   const fixture = stubData.getLifeCycleStatus();
   let buffer;
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/lifeCycle/LifeCycleStatus', () => {
       status: { type: 'ulong', symbol: `${fixture.status}` },
       statusTime: { type: 'time', value: fixture.statusTime },
     });
-    
   });
 });
 

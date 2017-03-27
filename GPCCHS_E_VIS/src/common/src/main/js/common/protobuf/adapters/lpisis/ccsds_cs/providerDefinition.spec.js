@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/ccsds_cs/ProviderDefinition', () => {
   const fixture = stubData.getProviderDefinition();
   let buffer;
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/ccsds_cs/ProviderDefinition', () => {
       providerDefinitionName: { type: 'identifier', value: fixture.providerDefinitionName },
       providerDefinitionTime: { type: 'time', value: fixture.providerDefinitionTime },
     });
-    
   });
 });
 

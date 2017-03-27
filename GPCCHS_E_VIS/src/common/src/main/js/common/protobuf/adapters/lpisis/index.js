@@ -121,18 +121,7 @@ module.exports = {
     RmPacket: require('./packet/rmPacket'),
     TmPacket: require('./packet/tmPacket'),
   },
-  ackRequest: {
-    AckRequest: require('./ackRequest/ackRequest'),
-    AckSMS: require('./ackRequest/ackSMS'),
-  },
-  computedEvent: {
-    ComputedEvent: require('./computedEvent/computedEvent'),
-  },
   opAlert: {
     OpAlert: require('./opAlert/opAlert'),
-  },
-  userEvent: {
-    ExternalEvent: require('./userEvent/externalEvent'),
-    UserEvent: require('./userEvent/userEvent'),
   },
 };

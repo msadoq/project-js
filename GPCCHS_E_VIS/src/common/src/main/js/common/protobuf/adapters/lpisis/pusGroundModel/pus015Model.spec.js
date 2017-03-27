@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus015Model', () => {
   const fixture = stubData.getPus015Model();
   let buffer;
@@ -52,7 +51,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus015Model', () => {
           },
           packetType: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].packetType },
         });
-        
       }
     }
   });

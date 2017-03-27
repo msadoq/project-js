@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/packet/RmPacket', () => {
   const fixture = stubData.getRmPacket();
   let buffer;
@@ -21,8 +20,8 @@ describe('protobuf/lpisis/packet/RmPacket', () => {
       apid: { type: 'ushort', value: fixture.apid },
       service: { type: 'uoctet', value: fixture.service },
       subService: { type: 'uoctet', value: fixture.subService },
-      destinationId: (typeof fixture.destinationId === 'undefined') 
-        ? null 
+      destinationId: (typeof fixture.destinationId === 'undefined')
+        ? null
         : { type: 'uoctet', value: fixture.destinationId },
       isDecommuted: { type: 'boolean', value: fixture.isDecommuted },
       primaryHeaderSize: { type: 'uoctet', value: fixture.primaryHeaderSize },
@@ -30,7 +29,6 @@ describe('protobuf/lpisis/packet/RmPacket', () => {
       isNominal: { type: 'boolean', value: fixture.isNominal },
       rawData: { type: 'blob', value: fixture.rawData },
     });
-    
   });
 });
 

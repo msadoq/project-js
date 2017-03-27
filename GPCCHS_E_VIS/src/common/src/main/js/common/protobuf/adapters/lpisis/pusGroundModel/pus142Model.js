@@ -11,7 +11,10 @@ module.exports = {
     noOfFunctionalMonitoring: (data.noOfFunctionalMonitoring !== null && typeof data.noOfFunctionalMonitoring !== 'undefined')
       ? { value: data.noOfFunctionalMonitoring }
       : null,
-    pus142FunctionalMonitoring: _map(data.pus142FunctionalMonitoring, d => (pus142FunctionalMonitoring.encode(d))),
+    pus142FunctionalMonitoring: _map(
+      data.pus142FunctionalMonitoring,
+      d => (pus142FunctionalMonitoring.encode(d))
+    ),
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
       ? { value: data.groundDate }
       : null,
@@ -29,7 +32,10 @@ module.exports = {
     noOfFunctionalMonitoring: (data.noOfFunctionalMonitoring !== null && typeof data.noOfFunctionalMonitoring !== 'undefined')
       ? { type: 'uinteger', value: data.noOfFunctionalMonitoring.value }
       : undefined,
-    pus142FunctionalMonitoring: _map(data.pus142FunctionalMonitoring, d => (pus142FunctionalMonitoring.decode(d))),
+    pus142FunctionalMonitoring: _map(
+      data.pus142FunctionalMonitoring,
+      d => (pus142FunctionalMonitoring.decode(d))
+    ),
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
       ? { type: 'time', value: data.groundDate.value.toNumber() }
       : undefined,
@@ -44,4 +50,3 @@ module.exports = {
         : undefined,
   }),
 };
-

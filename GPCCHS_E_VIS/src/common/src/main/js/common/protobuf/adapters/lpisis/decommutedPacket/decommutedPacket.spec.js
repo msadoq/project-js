@@ -29,7 +29,6 @@ describe('protobuf/lpisis/decommutedPacket/DecommutedPacket', () => {
         convertedValue: { type: 'double', value: fixture.decommutedValues[i].convertedValue },
         validityState: { type: 'enum', value: fixture.decommutedValues[i].validityState, symbol: validityState[fixture.decommutedValues[i].validityState] },
       });
-      
     }
   });
 });

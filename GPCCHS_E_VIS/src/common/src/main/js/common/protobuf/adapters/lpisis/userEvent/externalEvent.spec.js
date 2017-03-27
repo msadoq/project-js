@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/userEvent/ExternalEvent', () => {
   const fixture = stubData.getExternalEvent();
   let buffer;
@@ -46,7 +45,6 @@ describe('protobuf/lpisis/userEvent/ExternalEvent', () => {
         name: { type: 'identifier', value: fixture.specificAttributes[i].name },
         value: { type: 'double', value: fixture.specificAttributes[i].value },
       });
-      
     }
   });
 });

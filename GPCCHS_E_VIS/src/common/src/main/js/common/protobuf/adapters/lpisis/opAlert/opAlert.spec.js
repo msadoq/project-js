@@ -29,8 +29,8 @@ describe('protobuf/lpisis/opAlert/OpAlert', () => {
       satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
       status: { type: 'enum', value: fixture.status, symbol: status[fixture.status] },
       lastCallDate: { type: 'time', value: fixture.lastCallDate },
-      opAlertClosingData: (typeof fixture.opAlertClosingData === 'undefined') 
-        ? null 
+      opAlertClosingData: (typeof fixture.opAlertClosingData === 'undefined')
+        ? null
         : {
           closingWay: { type: 'enum', value: fixture.opAlertClosingData.closingWay, symbol: alertingWay[fixture.opAlertClosingData.closingWay] },
           closingDate: { type: 'time', value: fixture.opAlertClosingData.closingDate },
@@ -44,7 +44,6 @@ describe('protobuf/lpisis/opAlert/OpAlert', () => {
         maxNumberRetries: { type: 'integer', value: fixture.opAlertConfiguration[i].maxNumberRetries },
         delayRetries: { type: 'duration', value: fixture.opAlertConfiguration[i].delayRetries },
       });
-      
     }
   });
 });

@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus013Model', () => {
   const fixture = stubData.getPus013Model();
   let buffer;
@@ -53,7 +52,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus013Model', () => {
           },
         },
       });
-      
     }
     json.pUS013DownlinkLdt.should.be.an('array').that.have.lengthOf(fixture.pUS013DownlinkLdt.length);
     for (let i = 0; i < fixture.pUS013DownlinkLdt.length; i += 1) {
@@ -82,7 +80,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus013Model', () => {
           },
         },
       });
-      
     }
   });
 });

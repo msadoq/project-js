@@ -25,7 +25,10 @@ module.exports = {
     rid: (data.rid !== null && typeof data.rid !== 'undefined')
       ? { value: data.rid }
       : null,
-    pus142ParameterMonitoringDefinition: _map(data.pus142ParameterMonitoringDefinition, d => (pus142ParameterMonitoringDefinition.encode(d))),
+    pus142ParameterMonitoringDefinition: _map(
+      data.pus142ParameterMonitoringDefinition,
+      d => (pus142ParameterMonitoringDefinition.encode(d))
+    ),
     validityParameterId: (data.validityParameterId !== null && typeof data.validityParameterId !== 'undefined')
       ? { value: data.validityParameterId }
       : null,
@@ -55,7 +58,10 @@ module.exports = {
     rid: (data.rid !== null && typeof data.rid !== 'undefined')
       ? { type: 'uinteger', value: data.rid.value }
       : undefined,
-    pus142ParameterMonitoringDefinition: _map(data.pus142ParameterMonitoringDefinition, d => (pus142ParameterMonitoringDefinition.decode(d))),
+    pus142ParameterMonitoringDefinition: _map(
+      data.pus142ParameterMonitoringDefinition,
+      d => (pus142ParameterMonitoringDefinition.decode(d))
+    ),
     validityParameterId: (data.validityParameterId !== null && typeof data.validityParameterId !== 'undefined')
       ? { type: 'uinteger', value: data.validityParameterId.value }
       : undefined,
@@ -70,4 +76,3 @@ module.exports = {
       : undefined,
   }),
 };
-

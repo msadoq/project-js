@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/operationParameter/OperationParameter', () => {
   const fixture = stubData.getOperationParameter();
   let buffer;
@@ -20,7 +19,6 @@ describe('protobuf/lpisis/operationParameter/OperationParameter', () => {
       timestamp: { type: 'finetime', value: fixture.timestamp },
       value: { type: 'double', value: fixture.value },
     });
-    
   });
 });
 

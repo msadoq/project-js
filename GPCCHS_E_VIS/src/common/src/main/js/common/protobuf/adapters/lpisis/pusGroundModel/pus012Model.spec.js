@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
   const fixture = stubData.getPus012Model();
   let buffer;
@@ -38,8 +37,8 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
         repetitionNumber: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].repetitionNumber },
         checkType: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].checkType },
         monitoringStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].monitoringStatus },
-        pus012MonitoringCheckPropertiesLow: (typeof fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow === 'undefined') 
-          ? null 
+        pus012MonitoringCheckPropertiesLow: (typeof fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow === 'undefined')
+          ? null
           : {
             ridStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.ridStatus },
             actionStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.actionStatus },
@@ -48,8 +47,8 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
             mask: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.mask },
             actionName: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.actionName },
           },
-        pus012MonitoringCheckPropertiesHigh: (typeof fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh === 'undefined') 
-          ? null 
+        pus012MonitoringCheckPropertiesHigh: (typeof fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh === 'undefined')
+          ? null
           : {
             ridStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.ridStatus },
             actionStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.actionStatus },
@@ -58,8 +57,8 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
             mask: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.mask },
             actionName: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.actionName },
           },
-        pus012MonitoringCheckPropertiesExpected: (typeof fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected === 'undefined') 
-          ? null 
+        pus012MonitoringCheckPropertiesExpected: (typeof fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected === 'undefined')
+          ? null
           : {
             ridStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.ridStatus },
             actionStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.actionStatus },
@@ -73,7 +72,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
           lastUpdateTime: { type: 'time', value: fixture.pus012ParameterMonitoringDefinition[i].pusElement.lastUpdateTime },
         },
       });
-      
     }
   });
 });

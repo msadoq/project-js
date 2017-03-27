@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/ackRequest/AckSMS', () => {
   const fixture = stubData.getAckSMS();
   let buffer;
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/ackRequest/AckSMS', () => {
       SystemCreationDate: { type: 'time', value: fixture.SystemCreationDate },
       ApplicationCreationDate: { type: 'time', value: fixture.ApplicationCreationDate },
     });
-    
   });
 });
 

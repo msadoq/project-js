@@ -48,7 +48,6 @@ describe('protobuf/lpisis/computedEvent/ComputedEvent', () => {
         name: { type: 'identifier', value: fixture.specificAttributes[i].name },
         value: { type: 'double', value: fixture.specificAttributes[i].value },
       });
-      
     }
   });
 });

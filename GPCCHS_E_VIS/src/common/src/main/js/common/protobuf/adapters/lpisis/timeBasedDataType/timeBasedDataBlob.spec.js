@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/timeBasedDataType/TimeBasedDataBlob', () => {
   const fixture = stubData.getTimeBasedDataBlob();
   let buffer;
@@ -20,7 +19,6 @@ describe('protobuf/lpisis/timeBasedDataType/TimeBasedDataBlob', () => {
       name: { type: 'string', value: fixture.name },
       value: { type: 'blob', value: fixture.value },
     });
-    
   });
 });
 

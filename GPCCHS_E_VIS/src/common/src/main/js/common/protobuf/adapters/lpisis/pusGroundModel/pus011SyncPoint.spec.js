@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/pusGroundModel/Pus011SyncPoint', () => {
   const fixture = stubData.getPus011SyncPoint();
   let buffer;
@@ -20,7 +19,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus011SyncPoint', () => {
       modelIsEmpty: { type: 'boolean', value: fixture.modelIsEmpty },
       groundDate: { type: 'time', value: fixture.groundDate },
     });
-    
   });
 });
 

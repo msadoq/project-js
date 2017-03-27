@@ -5,7 +5,6 @@ const stubData = require('../../../../stubs/data');
 const protobuf = require('../../../index');
 
 
-
 describe('protobuf/lpisis/ccsds_cs/User', () => {
   const fixture = stubData.getUser();
   let buffer;
@@ -21,7 +20,6 @@ describe('protobuf/lpisis/ccsds_cs/User', () => {
       profile: { type: 'string', value: fixture.profile },
       userTime: { type: 'time', value: fixture.userTime },
     });
-    
   });
 });
 

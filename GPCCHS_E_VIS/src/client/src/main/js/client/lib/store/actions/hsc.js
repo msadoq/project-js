@@ -1,5 +1,4 @@
 import { HEALTH_STATUS_CRITICAL } from 'common/constants';
-import { get } from 'common/parameters';
 import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
@@ -21,10 +20,6 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
 export const play = simple(types.HSC_PLAY, 'timebarUuid');
 export const smartPlay = timebarUuid => // TODO dbrugne test
   (dispatch, getState) => {
-    if (get('REALTIME') === 'on') {
-      dispatch(play(timebarUuid));
-      return;
-    }
     const health = getHealthMap(getState());
     if (
       health.dc !== HEALTH_STATUS_CRITICAL

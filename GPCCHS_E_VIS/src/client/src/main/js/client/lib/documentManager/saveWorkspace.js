@@ -68,9 +68,15 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
     });
     // timebars
     _each(state.timebars, (timebar, timebarUuid) => {
-      let tb = _cloneDeep(timebar);
-      tb = Object.assign({}, tb, { type: 'timeBarConfiguration' });
-      tb.timelines = [];
+      const tb = {
+        id: timebar.id,
+        rulerResolution: timebar.rulerResolution,
+        speed: timebar.speed,
+        masterId: timebar.masterId,
+        mode: timebar.mode,
+        type: 'timeBarConfiguration',
+        timelines: [],
+      };
       const timebarTimelines = getTimebarTimelines(state, { timebarUuid });
       _each(timebarTimelines, (timelineUuid) => {
         const timeline = getTimeline(state, { timelineUuid });

@@ -77,9 +77,6 @@ export default class TextView extends PureComponent {
     entryPoints: PropTypes.objectOf(PropTypes.object),
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
-    data: PropTypes.shape({
-      values: PropTypes.object,
-    }),
   };
   static defaultProps = {
     data: {

@@ -14,7 +14,7 @@ import {
   setInspectorStaticData,
   isInspectorStaticDataLoading,
 } from '../../../store/actions/inspector';
-import { getInspectorRemoteId } from '../../../store/selectors/inspector';
+import { getInspectorRemoteId } from '../../../store/reducers/inspector';
 
 const logger = getLogger('main:controllers:renderer:onOpenInspector');
 

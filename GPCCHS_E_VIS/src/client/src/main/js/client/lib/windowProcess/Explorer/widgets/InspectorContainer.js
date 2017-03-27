@@ -5,7 +5,7 @@ import {
   getInspectorDisplayingTM,
   getInspectorStaticDataChildren,
   getInspectorStaticDataLoading,
-} from '../../../store/selectors/inspector';
+} from '../../../store/reducers/inspector';
 import {
   isInspectorStaticDataNodeToggled as toggleNode,
 } from '../../../store/actions/inspector';

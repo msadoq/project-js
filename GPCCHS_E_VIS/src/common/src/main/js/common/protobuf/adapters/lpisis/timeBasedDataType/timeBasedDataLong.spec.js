@@ -18,7 +18,7 @@ describe('protobuf/lpisis/timeBasedDataType/TimeBasedDataLong', () => {
     json.should.be.an('object').that.have.properties({
       timeStamp: { type: 'finetime', value: fixture.timeStamp },
       name: { type: 'string', value: fixture.name },
-      value: { type: 'long', value: fixture.value },
+      value: { type: 'long', symbol: `${fixture.value}` },
     });
     
   });

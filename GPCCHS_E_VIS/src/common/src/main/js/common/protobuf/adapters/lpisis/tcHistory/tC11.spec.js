@@ -41,7 +41,7 @@ describe('protobuf/lpisis/tcHistory/TC11', () => {
         : { type: 'uinteger', value: fixture.tcSourceId },
       sequenceCount: (typeof fixture.sequenceCount === 'undefined') 
         ? null 
-        : { type: 'ulong', value: fixture.sequenceCount },
+        : { type: 'ulong', symbol: `${fixture.sequenceCount}` },
     });
     json.timeTaggedTC.should.be.an('array').that.have.lengthOf(fixture.timeTaggedTC.length);
     for (let i = 0; i < fixture.timeTaggedTC.length; i += 1) {
@@ -71,7 +71,7 @@ describe('protobuf/lpisis/tcHistory/TC11', () => {
           : { type: 'uinteger', value: fixture.timeTaggedTC[i].tcSourceId },
         sequenceCount: (typeof fixture.timeTaggedTC[i].sequenceCount === 'undefined') 
           ? null 
-          : { type: 'ulong', value: fixture.timeTaggedTC[i].sequenceCount },
+          : { type: 'ulong', symbol: `${fixture.timeTaggedTC[i].sequenceCount}` },
       });
       json.timeTaggedTC[i].parameterPhysicalValue.should.be.an('array').that.have.lengthOf(fixture.timeTaggedTC[i].parameterPhysicalValue.length);
       for (let ii = 0; ii < fixture.timeTaggedTC[i].parameterPhysicalValue.length; ii += 1) {

@@ -31,7 +31,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus013Model', () => {
     for (let i = 0; i < fixture.pUS013UplinkLdt.length; i += 1) {
       json.pUS013UplinkLdt[i].should.be.an('object').that.have.properties({
         ackTimerArmed: { type: 'boolean', value: fixture.pUS013UplinkLdt[i].ackTimerArmed },
-        ackTimerDeadline: { type: 'long', value: fixture.pUS013UplinkLdt[i].ackTimerDeadline },
+        ackTimerDeadline: { type: 'long', symbol: `${fixture.pUS013UplinkLdt[i].ackTimerDeadline}` },
         pus013Ldt: {
           startTime: { type: 'time', value: fixture.pUS013UplinkLdt[i].pus013Ldt.startTime },
           endTime: { type: 'time', value: fixture.pUS013UplinkLdt[i].pus013Ldt.endTime },
@@ -60,7 +60,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus013Model', () => {
       json.pUS013DownlinkLdt[i].should.be.an('object').that.have.properties({
         receptionTimerArmed: { type: 'boolean', value: fixture.pUS013DownlinkLdt[i].receptionTimerArmed },
         receptionTimerDeadline: { type: 'time', value: fixture.pUS013DownlinkLdt[i].receptionTimerDeadline },
-        groundDate: { type: 'long', value: fixture.pUS013DownlinkLdt[i].groundDate },
+        groundDate: { type: 'long', symbol: `${fixture.pUS013DownlinkLdt[i].groundDate}` },
         pus013Ldt: {
           startTime: { type: 'time', value: fixture.pUS013DownlinkLdt[i].pus013Ldt.startTime },
           endTime: { type: 'time', value: fixture.pUS013DownlinkLdt[i].pus013Ldt.endTime },

@@ -43,7 +43,7 @@ describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
           },
           objectKey: {
             domaineId: { type: 'ushort', value: fixture.values[i].definition.objectKey.domaineId },
-            uid: { type: 'long', value: fixture.values[i].definition.objectKey.uid },
+            uid: { type: 'long', symbol: `${fixture.values[i].definition.objectKey.uid}` },
           },
         },
         extractedValue: { type: 'double', value: fixture.values[i].extractedValue },

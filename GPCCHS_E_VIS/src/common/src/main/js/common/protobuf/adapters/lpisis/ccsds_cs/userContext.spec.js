@@ -16,8 +16,8 @@ describe('protobuf/lpisis/ccsds_cs/UserContext', () => {
   it('decode', () => {
     const json = protobuf.decode('lpisis.ccsds_cs.UserContext', buffer);
     json.should.be.an('object').that.have.properties({
-      userId: { type: 'long', value: fixture.userId },
-      currentProfileId: { type: 'long', value: fixture.currentProfileId },
+      userId: { type: 'long', symbol: `${fixture.userId}` },
+      currentProfileId: { type: 'long', symbol: `${fixture.currentProfileId}` },
       userContextTime: { type: 'time', value: fixture.userContextTime },
     });
     

@@ -25,7 +25,7 @@ describe('protobuf/dc/dataControllerUtils/queryArguments', () => {
       json.filters[i].should.be.an('object').that.have.properties({
         fieldName: fixture.filters[i].fieldName,
         type: fixture.filters[i].type,
-        fieldValue: { type: 'ulong', value: fixture.filters[i].fieldValue },
+        fieldValue: { type: 'ulong', symbol: `${fixture.filters[i].fieldValue}` },
       });
     }
   });

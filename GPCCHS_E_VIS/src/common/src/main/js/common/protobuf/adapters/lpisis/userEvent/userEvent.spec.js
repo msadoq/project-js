@@ -25,13 +25,13 @@ describe('protobuf/lpisis/userEvent/UserEvent', () => {
         profile: { type: 'string', value: fixture.userProfile.profile },
         userTime: { type: 'time', value: fixture.userProfile.userTime },
       },
-      satellite: { type: 'ulong', value: fixture.satellite },
+      satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
       producer: {
         slotID: { type: 'ushort', value: fixture.producer.slotID },
         factoryID: { type: 'ushort', value: fixture.producer.factoryID },
         providerName: { type: 'string', value: fixture.producer.providerName },
         network: { type: 'uoctet', value: fixture.producer.network },
-        session: { type: 'ulong', value: fixture.producer.session },
+        session: { type: 'ulong', symbol: `${fixture.producer.session}` },
         serviceProperties: { type: 'uinteger', value: fixture.producer.serviceProperties },
         serviceAddress: {
           supportedCapabilities: { type: 'uinteger', value: fixture.producer.serviceAddress.supportedCapabilities },

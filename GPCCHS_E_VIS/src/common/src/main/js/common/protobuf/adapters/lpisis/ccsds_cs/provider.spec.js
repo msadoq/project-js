@@ -20,7 +20,7 @@ describe('protobuf/lpisis/ccsds_cs/Provider', () => {
       factoryID: { type: 'ushort', value: fixture.factoryID },
       providerName: { type: 'string', value: fixture.providerName },
       network: { type: 'uoctet', value: fixture.network },
-      session: { type: 'ulong', value: fixture.session },
+      session: { type: 'ulong', symbol: `${fixture.session}` },
       serviceProperties: { type: 'uinteger', value: fixture.serviceProperties },
       serviceAddress: {
         supportedCapabilities: { type: 'uinteger', value: fixture.serviceAddress.supportedCapabilities },

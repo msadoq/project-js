@@ -16,7 +16,7 @@ describe('protobuf/lpisis/lifeCycle/LifeCycleStatus', () => {
   it('decode', () => {
     const json = protobuf.decode('lpisis.lifeCycle.LifeCycleStatus', buffer);
     json.should.be.an('object').that.have.properties({
-      status: { type: 'ulong', value: fixture.status },
+      status: { type: 'ulong', symbol: `${fixture.status}` },
       statusTime: { type: 'time', value: fixture.statusTime },
     });
     

@@ -22,7 +22,7 @@ describe('protobuf/lpisis/file/Collection', () => {
       isVirtualFolder: { type: 'boolean', value: fixture.isVirtualFolder },
       collectionRefForVf: (typeof fixture.collectionRefForVf === 'undefined') 
         ? null 
-        : { type: 'long', value: fixture.collectionRefForVf },
+        : { type: 'long', symbol: `${fixture.collectionRefForVf}` },
       user: (typeof fixture.user === 'undefined') 
         ? null 
         : {
@@ -54,7 +54,7 @@ describe('protobuf/lpisis/file/Collection', () => {
     for (let i = 0; i < fixture.virtualFolders.length; i += 1) {
       json.virtualFolders[i].should.be.an('object').that.have.properties({
         name: { type: 'string', value: fixture.virtualFolders[i].name },
-        uid: { type: 'long', value: fixture.virtualFolders[i].uid },
+        uid: { type: 'long', symbol: `${fixture.virtualFolders[i].uid}` },
       });
       
     }

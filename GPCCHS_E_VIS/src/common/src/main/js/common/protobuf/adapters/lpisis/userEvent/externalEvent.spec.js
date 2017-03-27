@@ -19,13 +19,13 @@ describe('protobuf/lpisis/userEvent/ExternalEvent', () => {
       eventDate: { type: 'time', value: fixture.eventDate },
       systemDate: { type: 'time', value: fixture.systemDate },
       mission: { type: 'string', value: fixture.mission },
-      satellite: { type: 'ulong', value: fixture.satellite },
+      satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
       producer: {
         slotID: { type: 'ushort', value: fixture.producer.slotID },
         factoryID: { type: 'ushort', value: fixture.producer.factoryID },
         providerName: { type: 'string', value: fixture.producer.providerName },
         network: { type: 'uoctet', value: fixture.producer.network },
-        session: { type: 'ulong', value: fixture.producer.session },
+        session: { type: 'ulong', symbol: `${fixture.producer.session}` },
         serviceProperties: { type: 'uinteger', value: fixture.producer.serviceProperties },
         serviceAddress: {
           supportedCapabilities: { type: 'uinteger', value: fixture.producer.serviceAddress.supportedCapabilities },

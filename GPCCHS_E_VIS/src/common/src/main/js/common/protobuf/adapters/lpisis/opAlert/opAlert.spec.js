@@ -23,10 +23,10 @@ describe('protobuf/lpisis/opAlert/OpAlert', () => {
         value: { type: 'double', value: fixture.specificAttributes.value },
       },
       closingNeeded: { type: 'boolean', value: fixture.closingNeeded },
-      answerID: { type: 'ulong', value: fixture.answerID },
+      answerID: { type: 'ulong', symbol: `${fixture.answerID}` },
       systemDate: { type: 'time', value: fixture.systemDate },
       mission: { type: 'string', value: fixture.mission },
-      satellite: { type: 'ulong', value: fixture.satellite },
+      satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
       status: { type: 'enum', value: fixture.status, symbol: status[fixture.status] },
       lastCallDate: { type: 'time', value: fixture.lastCallDate },
       opAlertClosingData: (typeof fixture.opAlertClosingData === 'undefined') 

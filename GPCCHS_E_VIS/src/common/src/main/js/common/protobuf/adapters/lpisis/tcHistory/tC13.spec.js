@@ -40,7 +40,7 @@ describe('protobuf/lpisis/tcHistory/TC13', () => {
         : { type: 'uinteger', value: fixture.tcSourceId },
       sequenceCount: (typeof fixture.sequenceCount === 'undefined') 
         ? null 
-        : { type: 'ulong', value: fixture.sequenceCount },
+        : { type: 'ulong', symbol: `${fixture.sequenceCount}` },
     });
     json.parameterPhysicalValue.should.be.an('array').that.have.lengthOf(fixture.parameterPhysicalValue.length);
     for (let i = 0; i < fixture.parameterPhysicalValue.length; i += 1) {

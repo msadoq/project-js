@@ -18,7 +18,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus011SubSchedule', () => {
     json.should.be.an('object').that.have.properties({
       ssId: { type: 'uinteger', value: fixture.ssId },
       status: { type: 'uinteger', value: fixture.status },
-      executionTimeFirstTc: { type: 'ulong', value: fixture.executionTimeFirstTc },
+      executionTimeFirstTc: { type: 'ulong', symbol: `${fixture.executionTimeFirstTc}` },
       apid: { type: 'uinteger', value: fixture.apid },
       pusElement: {
         lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },

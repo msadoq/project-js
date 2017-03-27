@@ -30,9 +30,8 @@ describe('protobuf/lpisis/ccsds_mc/GroupDefinition', () => {
     for (let i = 0; i < fixture.instanceIds.length; i += 1) {
       json.instanceIds[i].should.have.properties({
         type: 'long',
-        value: fixture.instanceIds[i],
+        symbol: `${fixture.instanceIds[i]}`,
       });
     }
   });
 });
-

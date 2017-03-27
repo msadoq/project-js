@@ -53,6 +53,15 @@ describe('store:pages:reducer', () => {
       newState.page1.should.not.have.property('isModified');
     });
   });
+  it('remove pages when close window', () => {
+    const state = {
+      p1: {},
+      p2: {},
+      p3: {},
+    };
+    const newState = reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { pages: ['p1', 'p2'] } });
+    newState.should.be.eql({ p3: {} });
+  });
 });
 
 /* --- Selectors ------------------------------------------------------------ */

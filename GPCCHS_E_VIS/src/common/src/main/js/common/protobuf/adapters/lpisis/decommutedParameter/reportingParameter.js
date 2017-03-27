@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const validityState = require('../ccsds_mc/validityState');
 const {
   encodeAttribute,

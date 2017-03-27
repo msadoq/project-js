@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const pus012ParameterMonitoringDefinition = require('./pus012ParameterMonitoringDefinition');
 const pusElement = require('./pusElement');

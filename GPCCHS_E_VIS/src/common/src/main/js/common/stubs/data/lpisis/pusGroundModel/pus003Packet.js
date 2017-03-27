@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _random = require('lodash/random');
 const applyOverride = require('../../applyOverride');
 const getPusElement = require('./pusElement');

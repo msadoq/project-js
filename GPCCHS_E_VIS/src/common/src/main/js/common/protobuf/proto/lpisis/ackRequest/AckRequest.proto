@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 import "ccsds_mal/types.proto";
 import "ackRequest/Ack.proto";
 

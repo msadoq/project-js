@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const pus011CommandParameter = require('./pus011CommandParameter');
 const pus011EncapsulatingTc = require('./pus011EncapsulatingTc');

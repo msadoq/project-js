@@ -1,7 +1,8 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
-import { getPage, getPageIdByViewId } from '../reducers/pages';
+import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
+import { getWindowPageIds } from '../reducers/windows';
 import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
@@ -69,3 +70,13 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 // composed
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
+
+export const getWindowAllViewsIds = createSelector(
+  getWindowPageIds,
+  getPages,
+  (ids, pages) => _.pipe(
+    _.pick(ids),
+    _.flatMap('views'),
+    _.compact
+  )(pages)
+);

@@ -53,6 +53,24 @@ describe('store:windows:reducer', () => {
       newState.should.be.an('object').that.is.empty;
     });
   });
+  describe('should modify workspace', () => {
+    const state = { window1: {}, window2: { isModified: false } };
+    it('modify if new timeline', () => {
+      const newState = reducer(state, { type: types.WS_TIMELINE_CREATE_NEW });
+      newState.window1.isModified.should.be.true;
+      newState.window2.isModified.should.be.true;
+    });
+    it('modify if remove timeline', () => {
+      const newState = reducer(state, { type: types.WS_TIMELINE_REMOVE });
+      newState.window1.isModified.should.be.true;
+      newState.window2.isModified.should.be.true;
+    });
+    it('modify if update timebarId', () => {
+      const newState = reducer(state, { type: types.WS_PAGE_UPDATE_TIMEBARID });
+      newState.window1.isModified.should.be.true;
+      newState.window2.isModified.should.be.true;
+    });
+  });
 });
 
 /* --- Selectors ------------------------------------------------------------ */

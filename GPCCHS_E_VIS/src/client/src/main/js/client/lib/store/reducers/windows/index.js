@@ -36,6 +36,11 @@ export default function windows(stateWindows = {}, action) {
       );
       return _.set(windowId, window(stateWindows[windowId], action), stateWindows);
     }
+    case types.WS_TIMELINE_CREATE_NEW:
+    case types.WS_TIMELINE_REMOVE:
+    case types.WS_PAGE_UPDATE_TIMEBARID: {
+      return _.mapValues(_.set('isModified', true), stateWindows);
+    }
     default: {
       if (
         action.payload &&

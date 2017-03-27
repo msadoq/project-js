@@ -50,6 +50,8 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_PAGE_OPEN:
     case types.WS_PAGE_ADD_BLANK:
       return _.set(action.payload.page.uuid, page(undefined, action), statePages);
+    case types.WS_WINDOW_CLOSE:
+      return _.omit(action.payload.pages, statePages);
     case types.WS_PAGE_CLOSE:
       return _.omit(action.payload.pageId, statePages);
     case types.WS_VIEW_MOVE_TO_PAGE: {

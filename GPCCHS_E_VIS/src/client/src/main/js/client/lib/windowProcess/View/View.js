@@ -73,7 +73,7 @@ export default class View extends PureComponent {
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
-        className={classnames('subdiv', styles.container, 'w100')}
+        className={classnames('subdiv', styles.container, 'w100', !maximized && 'h100')}
         style={this.borderColorStyle(borderColor)}
       >
         <HeaderContainer

@@ -97,6 +97,8 @@ export const getPageViewsIds = inPage('views', []);
 export const getPageLayout = inPage('layout', []);
 export const getEditor = inPage('editor', {});
 
+export const isEditorOpened = (state, { pageId }) => _.get(['pages', pageId, 'panels', 'editorWidth']) > 0;
+
 export const getModifiedPagesIds = createSelector(
   getPages,
   _.pipe(

@@ -1,24 +1,21 @@
-require('../utils/test');
+const { should } = require('../utils/test');
 const dcStatus = require('./dcStatus');
-const globalConstants = require('common/constants');
 
 describe('models/dcStatus', () => {
   beforeEach(() => {
     dcStatus.reset();
   });
   it('get', () => {
-    dcStatus.get()
-      .should.equal(globalConstants.HEALTH_STATUS_HEALTHY);
+    should.not.exist(dcStatus.get());
   });
   it('set', () => {
-    dcStatus.set(globalConstants.HEALTH_STATUS_CRITICAL);
-    dcStatus.get()
-      .should.equal(globalConstants.HEALTH_STATUS_CRITICAL);
+    const status = { dcQueriesDelay: 10 };
+    dcStatus.set(status);
+    dcStatus.get().should.equal(status);
   });
   it('reset', () => {
-    dcStatus.set(globalConstants.HEALTH_STATUS_CRITICAL);
+    dcStatus.set({ dcQueriesDelay: 10 });
     dcStatus.reset();
-    dcStatus.get()
-      .should.equal(globalConstants.HEALTH_STATUS_HEALTHY);
+    should.not.exist(dcStatus.get());
   });
 });

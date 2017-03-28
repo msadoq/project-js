@@ -130,30 +130,6 @@
                     "default": "Normal",
                     "enum": ["Normal", "Extended", "Sliding"]
                 },
-                "visuWindow": {
-                    "allOf": [{
-                        "$ref": "#/definitions/boundaries"
-                    }, {
-                        "properties": {
-                            "current": {
-                                "type": "number"
-                            },
-                            "defaultWidth": {
-                                "type": "number"
-                            }
-                        },
-                        "required": ["current"]
-                    }]
-                },
-                "slideWindow": {
-                    "$ref": "#/definitions/boundaries"
-                },
-                "extUpperBound": {
-                    "type": "number"
-                },
-                "rulerStart": {
-                    "type": "number"
-                },
                 "rulerResolution": {
                     "type": "number"
                 },
@@ -176,7 +152,7 @@
                     "type": "string"
                 }
             },
-            "required": ["type", "id", "mode", "visuWindow", "slideWindow", "extUpperBound", "rulerStart", "rulerResolution", "timelines"]
+            "required": ["type", "id", "mode", "rulerResolution", "timelines"]
         },
         "documentWindow": {
             "type": "object",

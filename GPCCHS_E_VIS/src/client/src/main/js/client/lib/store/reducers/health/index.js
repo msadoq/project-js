@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_CRITICAL,
@@ -21,41 +22,20 @@ const initialState = {
 
 export default function health(state = initialState, action) {
   switch (action.type) {
+    case types.HSC_CLOSE_WORKSPACE:
+      return _.set('windowsStatus', {}, state);
+    case types.WS_WINDOW_CLOSE:
+      return _.update('windowsStatus', _.omit(action.payload.windowId), state);
     case types.HSS_UPDATE_DC_STATUS:
-      return Object.assign(
-        {},
-        state,
-        { dcStatus: action.payload.status }
-      );
+      return _.set('dcStatus', action.payload.status, state);
     case types.HSS_UPDATE_HEALTH_STATUS:
-      return Object.assign(
-        {},
-        state,
-        { hssStatus: action.payload.status }
-      );
+      return _.set('hssStatus', action.payload.status, state);
     case types.HSS_UPDATE_MAIN_STATUS:
-      return Object.assign(
-        {},
-        state,
-        { mainStatus: action.payload.status }
-      );
+      return _.set('mainStatus', action.payload.status, state);
     case types.HSS_UPDATE_WINDOW_STATUS:
-      return Object.assign(
-        {},
-        state,
-        {
-          windowsStatus: {
-            ...state.windowsStatus,
-            [action.payload.windowId]: action.payload.status,
-          },
-        }
-      );
+      return _.set(['windowsStatus', action.payload.windowId], action.payload.status, state);
     case types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP:
-      return Object.assign(
-        {},
-        state,
-        { lastPubSubTimestamp: action.payload.timestamp }
-      );
+      return _.set('lastPubSubTimestamp', action.payload.timestamp, state);
     default:
       return state;
   }

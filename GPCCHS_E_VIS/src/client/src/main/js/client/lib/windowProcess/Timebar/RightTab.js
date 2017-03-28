@@ -22,7 +22,6 @@ class RightTabContent extends PureComponent {
     timebar: PropTypes.shape({
       id: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
-      extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
@@ -115,21 +114,23 @@ class RightTabContent extends PureComponent {
     }
     wich is much easier to work with int the subcomponents
   */
-  memoizeviewportDimensions = _memoize((hash, lower, upper) =>
-    ({
-      lower,
-      upper,
-    })
+  memoizeviewportDimensions = _memoize(
+    (hash, timebarRulerStart, timebarRulerResolution, containerWidth) => {
+      const upper = timebarRulerStart + (timebarRulerResolution * containerWidth);
+      return {
+        lower: timebarRulerStart,
+        upper,
+      };
+    }
   );
 
   formatViewportDimensions() {
     const { timebar, containerWidth } = this.props;
-    const lower = timebar.rulerStart;
-    const upper = timebar.rulerStart + (timebar.rulerResolution * containerWidth);
     return this.memoizeviewportDimensions(
-      `${lower}-${upper}`,
-      lower,
-      upper
+      `${timebar.rulerStart}-${timebar.rulerResolution}-${containerWidth}`,
+      timebar.rulerStart,
+      timebar.rulerResolution,
+      containerWidth
     );
   }
 

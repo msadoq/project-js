@@ -16,7 +16,6 @@ export default class TimebarWrapper extends PureComponent {
     timebar: PropTypes.shape({
       id: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
-      extUpperBound: PropTypes.number.isRequired,
       rulerResolution: PropTypes.number.isRequired,
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
@@ -55,10 +54,10 @@ export default class TimebarWrapper extends PureComponent {
     timesetterCursor: null,
   };
 
-  onTimelinesVerticalScroll = (e, el) => {
+  onTimelinesVerticalScroll = (e) => {
     e.preventDefault();
     this.setState({
-      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop,
+      timelinesVerticalScroll: e.target.scrollTop,
     });
   }
 

@@ -2,7 +2,7 @@ import { HEALTH_STATUS_CRITICAL } from 'common/constants';
 import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { isAnyEditorOpended } from '../selectors/pages';
+import { isAnyEditorOpened } from '../selectors/pages';
 import { getHealthMap } from '../reducers/health';
 import { getTimebars } from '../reducers/timebars';
 import { getIsCodeEditorOpened } from '../reducers/editor';
@@ -25,7 +25,7 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
     const health = getHealthMap(getState());
     if (
       getIsCodeEditorOpened(getState())
-      || isAnyEditorOpended(getState())
+      || isAnyEditorOpened(getState())
     ) {
       dispatch(addOnce(
         'global',

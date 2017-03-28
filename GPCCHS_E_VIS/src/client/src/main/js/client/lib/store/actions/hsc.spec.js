@@ -28,29 +28,50 @@ describe('store:actions:hsc', () => {
     },
   });
 
+  const stateWithCodeEditor = freezeMe({
+    editor: {
+      textViewId: null,
+    },
+    health: {},
+  });
+
+  const stateWithEditorOpen = freezeMe({
+    pages: {
+      page1: {
+        panels: {
+          editorWidth: 100,
+        },
+      },
+    },
+    health: {},
+  });
+
   let dispatch;
   const getState = () => state;
   const getStateCritical = () => stateCriticalWindows;
+  const getStateWithCodeEditor = () => stateWithCodeEditor;
+  const getStateWithEditorOpen = () => stateWithEditorOpen;
 
   beforeEach(() => {
     dispatch = sinon.spy();
   });
 
   describe('smartPlay', () => {
-    it('warns a message', () => {
+    it('warns a message because of application is oveloaded', () => {
       actions.smartPlay('myTimebarUuid')(dispatch, getStateCritical);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.a('function');
-
-      const dispatchedThunk = dispatch.getCall(0).args[0];
-      dispatch.reset();  // reset dispatch spy
-      dispatchedThunk(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.have.properties({
-        type: types.WS_MESSAGE_ADD,
-      });
     });
-
+    it('warns a message because of code editor is opened', () => {
+      actions.smartPlay('myTimebarUuid')(dispatch, getStateWithCodeEditor);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('object');
+    });
+    it('warns a message because of editor is opened on page', () => {
+      actions.smartPlay('myTimebarUuid')(dispatch, getStateWithEditorOpen);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
     it('plays', () => {
       actions.smartPlay('myTimebarUuid')(dispatch, getState);
       dispatch.should.have.been.calledOnce;

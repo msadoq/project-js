@@ -100,7 +100,7 @@ export default class Inspector extends PureComponent {
     const { dataId, isDisplayingTM, staticData, staticDataLoading } = this.props;
 
     if (!dataId) {
-      return this.renderInvalidData();
+      return this.renderNoData();
     }
 
     const { catalog, comObject, parameterName, sessionId, domainId } = dataId;

@@ -17,7 +17,12 @@ import Window from './Window';
 const mapStateToProps = (state, { windowId }) => {
   const pageId = getWindowFocusedPageId(state, { windowId });
   const { isModified } = getWindow(state, { windowId });
-  const { editorWidth, timebarHeight, explorerWidth } = getPanels(state, { pageId });
+  const {
+    editorWidth,
+    timebarHeight,
+    timebarCollapsed,
+    explorerWidth,
+  } = getPanels(state, { pageId });
 
   return {
     pageId,
@@ -25,6 +30,7 @@ const mapStateToProps = (state, { windowId }) => {
     isHelpDisplayed: getDisplayHelp(state, { windowId }),
     editorWidth,
     timebarHeight,
+    timebarCollapsed,
     explorerWidth,
   };
 };

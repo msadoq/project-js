@@ -111,6 +111,7 @@ const page = (statePage = initialState, action) => {
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
+    case types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR:
     case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
       return {

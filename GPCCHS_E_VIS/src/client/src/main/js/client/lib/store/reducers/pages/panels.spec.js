@@ -34,6 +34,10 @@ describe('store:pages:reducer:panels', () => {
     reducer({ myId: { timebarHeight: null } }, actions.resizeTimebar('myId', 20))
       .myId.panels.timebarHeight.should.eql(20);
   });
+  it('should support collapsed timebar', () => {
+    reducer({ myId: { timebarCollapsed: false } }, actions.collapseTimebar('myId', true))
+      .myId.panels.timebarCollapsed.should.eql(true);
+  });
   it('should focus tab in explorer', () => {
     reducer({ myId: { explorerTab: null } }, actions.focusTabInExplorer('myId', 'myTab'))
       .myId.panels.explorerTab.should.eql('myTab');

@@ -9,8 +9,10 @@ import AddTimeline from './AddTimeline';
 import styles from './LeftTab.css';
 import { main } from '../../ipc';
 
+
 export default class LeftTab extends PureComponent {
   static propTypes = {
+    collapseTimebar: PropTypes.func.isRequired,
     createNewTimeline: PropTypes.func.isRequired,
     removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
@@ -189,6 +191,11 @@ export default class LeftTab extends PureComponent {
   detach = (e) => {
     e.preventDefault();
     this.props.updateTimebarId(this.props.pageId, null);
+  }
+
+  collapse = (e) => {
+    e.preventDefault();
+    this.props.collapseTimebar(this.props.pageId, true);
   }
 
   render() {

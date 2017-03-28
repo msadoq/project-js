@@ -82,11 +82,11 @@ export function onStart() {
         callback(null);
         return;
       }
-      const socket = parameters.get('RTD_UNIX_SOCKET');
 
       splashScreen.setMessage('starting rtd simulator...');
       logger.info('starting rtd simulator...');
-      rtdStub(socket, { redisMock: true, sessionId: 0, domainId: 4 }, callback);
+      rtdStub.launch();
+      callback(null);
     },
     (callback) => {
       splashScreen.setMessage('starting data server process...');

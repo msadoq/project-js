@@ -7,15 +7,11 @@ import _memoize from 'lodash/memoize';
 import {
   Form,
 } from 'react-bootstrap';
-import {
-  HorizontalFormGroup,
-  InputField,
-  ClearSubmitButtons,
-  ButtonToggleField,
-} from '../../../../windowProcess/commonReduxForm/';
-import {
-  FormSectionFontStyle,
-} from '../../../commonEditor/FormSections/';
+import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from '../../../../windowProcess/commonReduxForm/InputField';
+import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
+import FormSectionFontStyle from '../../../commonEditor/FormSections/FormSectionFontStyle';
 import styles from './Plot.css';
 
 class PlotAxis extends PureComponent {
@@ -76,13 +72,12 @@ class PlotAxis extends PureComponent {
         unit: PropTypes.string,
       }),
     })).isRequired,
-    label: PropTypes.string,
+    axisId: PropTypes.string.isRequired,
   }
   static defaultProps = {
     showTicks: false,
     autoTick: false,
     autoLimits: false,
-    label: '',
   };
 
   componentDidMount() {
@@ -131,12 +126,13 @@ class PlotAxis extends PureComponent {
       autoTick,
       autoLimits,
       entryPoints,
-      label,
+      axisId,
+      initialValues,
     } = this.props;
 
     const relatedEntryPoints = [];
     (entryPoints || []).forEach((ep) => {
-      if (_get(ep, ['connectedDataX', 'axisId']) === label) {
+      if (_get(ep, ['connectedDataX', 'axisId']) === axisId) {
         // _.upd
         // spanInlineStyle[i]
         relatedEntryPoints.push(
@@ -149,7 +145,7 @@ class PlotAxis extends PureComponent {
           </span>
         );
       }
-      if (_get(ep, ['connectedDataY', 'axisId']) === label) {
+      if (_get(ep, ['connectedDataY', 'axisId']) === axisId) {
         relatedEntryPoints.push(
           <span
             key={ep.name}
@@ -161,6 +157,42 @@ class PlotAxis extends PureComponent {
         );
       }
     });
+
+    if (axisId === 'time') {
+      return (
+        <Form horizontal onSubmit={handleSubmit}>
+          {
+            relatedEntryPoints.length ?
+              <div>
+                <div className="page-header">
+                  <h4>Linked entry points</h4>
+                </div>
+                {relatedEntryPoints}
+              </div>
+              : null
+          }
+          <div className="page-header">
+            <h4>Name and Unit</h4>
+          </div>
+          <HorizontalFormGroup label="Label">
+            <span>{initialValues.label}</span>
+          </HorizontalFormGroup>
+          <HorizontalFormGroup label="Unit">
+            <span>{initialValues.unit}</span>
+          </HorizontalFormGroup>
+          <div className="page-header">
+            <h4>Style</h4>
+          </div>
+          <FormSectionFontStyle name="style" />
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
+          />
+        </Form>
+      );
+    }
 
     return (
       <Form horizontal onSubmit={handleSubmit}>

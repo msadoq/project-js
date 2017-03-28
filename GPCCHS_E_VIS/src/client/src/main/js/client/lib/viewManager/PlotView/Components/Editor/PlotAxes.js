@@ -7,10 +7,8 @@ import {
   Form,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
-import {
-  HorizontalFormGroup,
-  SelectButton,
-} from '../../../../windowProcess/commonReduxForm/';
+import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import SelectButton from '../../../../windowProcess/commonReduxForm/SelectButton';
 import PlotAxis from './PlotAxis';
 import Modal from '../../../../windowProcess/common/Modal';
 
@@ -179,6 +177,7 @@ export default class PlotAxes extends React.Component {
                 {this.state[`isPanel${axisId}Open`] &&
                   <PlotAxis
                     key={axisId}
+                    axisId={axisId}
                     initialValues={axis}
                     entryPoints={entryPoints}
                     onSubmit={this.handleSubmitFactory(axisId)}

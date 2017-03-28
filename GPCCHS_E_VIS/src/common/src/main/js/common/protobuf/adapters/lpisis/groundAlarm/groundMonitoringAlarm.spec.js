@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/groundAlarm/GroundMonitoringAlarm', () => {
@@ -17,11 +16,11 @@ describe('protobuf/lpisis/groundAlarm/GroundMonitoringAlarm', () => {
     const json = protobuf.decode('lpisis.groundAlarm.GroundMonitoringAlarm', buffer);
     json.should.be.an('object').that.have.properties({
       creationDate: { type: 'time', value: fixture.creationDate },
-      paramUid: { type: 'long', value: fixture.paramUid },
+      paramUid: { type: 'long', symbol: `${fixture.paramUid}` },
       updateDate: { type: 'time', value: fixture.updateDate },
       closingDate: { type: 'time', value: fixture.closingDate },
       hasAckRequest: { type: 'boolean', value: fixture.hasAckRequest },
-      alarmId: { type: 'long', value: fixture.alarmId },
+      alarmId: { type: 'long', symbol: `${fixture.alarmId}` },
       isNominal: { type: 'boolean', value: fixture.isNominal },
     });
     json.transitions.should.be.an('array').that.have.lengthOf(fixture.transitions.length);
@@ -34,7 +33,6 @@ describe('protobuf/lpisis/groundAlarm/GroundMonitoringAlarm', () => {
         rawValue: { type: 'double', value: fixture.transitions[i].rawValue },
         monitoringState: { type: 'string', value: fixture.transitions[i].monitoringState },
       });
-      
     }
   });
 });

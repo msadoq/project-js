@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/ackRequest/AckRequest', () => {
@@ -18,8 +17,8 @@ describe('protobuf/lpisis/ackRequest/AckRequest', () => {
     json.should.be.an('object').that.have.properties({
       ackRequestDate: { type: 'time', value: fixture.ackRequestDate },
       systemDate: { type: 'time', value: fixture.systemDate },
-      ack: (typeof fixture.ack === 'undefined') 
-        ? null 
+      ack: (typeof fixture.ack === 'undefined')
+        ? null
         : {
           ackDate: { type: 'time', value: fixture.ack.ackDate },
           acknowledger: {
@@ -31,7 +30,6 @@ describe('protobuf/lpisis/ackRequest/AckRequest', () => {
         },
       comment: { type: 'string', value: fixture.comment },
     });
-    
   });
 });
 

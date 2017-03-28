@@ -3,18 +3,12 @@ import {
   Form,
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import {
-  ColorPickerField,
-  InputField,
-  SelectButtonField,
-} from '../../../commonEditor/Fields/';
-import {
-  HorizontalFormGroup,
-  ClearSubmitButtons,
-} from '../../../../windowProcess/commonReduxForm/';
-import {
-  FormSectionPointStyle,
-} from '../../../commonEditor/FormSections/';
+import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ColorPickerField from '../../../../windowProcess/commonReduxForm/ColorPickerField';
+import InputField from '../../../../windowProcess/commonReduxForm/InputField';
+import SelectButtonField from '../../../../windowProcess/commonReduxForm/SelectButtonField';
+import FormSectionPointStyle from '../../../commonEditor/FormSections/FormSectionPointStyle';
 
 const lineStyleButtons = [
   { label: 'Continuous', icon: 'continuous' },

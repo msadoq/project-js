@@ -11,18 +11,8 @@ import styles from './DynamicView.css';
 
 const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
-function convertData(data) {
-  if (data.type === 'time') {
-    return moment(data.value).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
-  } else if (data.type === 'boolean') {
-    return data.value ? 'true' : 'false';
-  } else if (data.type === 'enum') {
-    return data.symbol;
-  }
-  return data.value;
-}
 function dataToShow(data) {
-  if (data.value === undefined || _isObject(data.value)) {
+  if (!data.value || (_isObject(data.value) && data.type !== 'time')) {
     if (_isObject(data)) {
       const keys = Object.keys(data);
       return (<dl
@@ -42,7 +32,7 @@ function dataToShow(data) {
             <dd>
               { Object.keys(data[k]).map((val, key) => {
                 if (data[k][val].value) {
-                  return (<li key={'li'.concat(key)}><b>{val}:</b> {convertData(data[k][val])}</li>);
+                  return (<li key={'li'.concat(key)}><b>{val}:</b> {data[k][val]}</li>);
                 }
                 return ([<dt>{val}</dt>,
                   <dd>{dataToShow(data[k][val])}</dd>]);
@@ -54,7 +44,7 @@ function dataToShow(data) {
     }
     return '';
   }
-  return convertData(data);
+  return data.value;
 }
 
 function objectHeader(ep) {
@@ -110,8 +100,8 @@ function arrayLine(arrayData) {
 export default class DynamicView extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({
-      values: PropTypes.object,
-      index: PropTypes.object,
+      value: PropTypes.object,
+      index: PropTypes.number,
     }),
     entryPoints: PropTypes.objectOf(PropTypes.object),
     formula: PropTypes.string,
@@ -134,7 +124,7 @@ export default class DynamicView extends PureComponent {
 
   render() {
     const { data, entryPoints } = this.props;
-    const ep = _get(data, ['values', 'dynamicEP', 'value']);
+    const ep = data.value;
     const error = _get(entryPoints, '[0].error');
     if (!ep) {
       return (
@@ -157,7 +147,7 @@ export default class DynamicView extends PureComponent {
           <Row><Panel>{objectHeader(ep)}</Panel></Row>
           { arrayKeys.map((key, i) => (
             <Row key={'row'.concat(i)}>
-              <header className={styles.arrayHeader}><h2>{key}</h2></header>
+              <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
               <Col sm={12}>
                 <Table striped bordered condensed hover>
                   {arrayHeader(ep[key])}

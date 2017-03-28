@@ -1,60 +1,27 @@
 /* eslint no-unused-expressions: 0 */
 import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/pages';
-import pagesReducer from '.././pages';
+import pagesReducer from '../pages';
 import * as types from '../../types';
 
 const reducer = freezeArgs(pagesReducer);
 
 describe('store:page:reducer', () => {
-  describe('un/mount view', () => {
-    it('mount', () => {
-      let state = reducer(
-        { myPageId: { views: [], title: 'aa' } },
-        actions.mountView('myPageId', 'myViewId')
-      );
-      state.myPageId.views.should.eql(['myViewId']);
-      state = reducer(
-        state,
-        actions.mountView('myPageId', 'another')
-      );
-      state.myPageId.views.should.eql(['myViewId', 'another']);
-    });
-    it('unmount', () => {
-      const state = { myPageId: { views: ['myViewId', 'another'], title: 'aa' } };
-      const nextState = reducer(state, actions.unmountView('myPageId', 'myViewId'));
-      nextState.myPageId.views.should.eql(['another']);
-    });
-  });
-  describe('open/close editor', () => {
-    const editor = {
-      isOpened: true,
-      viewId: 'myViewId',
-      viewType: 'plot',
-    };
-    it('open', () => {
-      const state = reducer(
-        reducer(undefined, actions._add('myPageId')),
-        actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar' })
-      );
-      state.myPageId.editor.should.eql(editor);
-    });
-    it('close', () => {
-      const state = reducer(
-        { myPageId: { editor } },
-        actions.closeEditor('myPageId')
-      );
-      state.myPageId.editor.should.eql(Object.assign({}, editor, { isOpened: false }));
-    });
-  });
   describe('update layout', () => {
     it('update layout simple', () => {
       const state = reducer(
-        { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
-        actions.updateLayout('myPageId', [{ key: '3' }, { key: '4' }])
+        { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
+        actions.updateLayout('myPageId', [{ i: '2', x: 1, y: 2 }])
       );
-      state.myPageId.layout.should.eql([{ key: '3' }, { key: '4' }]);
+      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', x: 1, y: 2, collapsed: true }]);
       state.myPageId.isModified.should.be.true;
+    });
+    it('does not update dimensions when collapsed', () => {
+      const state = reducer(
+        { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
+        actions.updateLayout('myPageId', [{ i: '2', h: 1, w: 2 }])
+      );
+      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', collapsed: true }]);
     });
   });
   describe('updateAbsolutePath', () => {
@@ -149,7 +116,7 @@ describe('store:page:reducer', () => {
       reducer({ myPage: { isModified: true } }, actions.setModified('myPage', true))
       .should.eql({ myPage: { isModified: true } });
     });
-    it('flase -> true', () => {
+    it('false -> true', () => {
       reducer({ myPage: { isModified: false } }, actions.setModified('myPage', true))
       .should.eql({ myPage: { isModified: true } });
     });
@@ -169,32 +136,6 @@ describe('store:page:reducer', () => {
       const action = { type: types.WS_PAGE_UPDATE_TIMEBARID, payload: { pageId: 'myPage', timebarUuid: 'newTb1' } };
       const nextState = reducer(state, action);
       nextState.myPage.timebarUuid.should.be.eql('newTb1');
-    });
-  });
-  describe('updateTimebarHeight', () => {
-    it('ok', () => {
-      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('myPage', 210))
-      .should.eql({ myPage: { timebarHeight: 210, isModified: true } });
-    });
-    it('height to small', () => {
-      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('myPage', 20))
-      .should.eql({ myPage: { timebarHeight: 135, isModified: true } });
-    });
-    it('invalid view id', () => {
-      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('noPage', 10))
-      .should.eql({ myPage: { timebarHeight: 5 } });
-    });
-  });
-  describe('collapse', () => {
-    it('collapses timebar', () => {
-      const state = { myPage: { timebarHeight: 42 } };
-      const action = actions.collapseTimebar('myPage', true);
-      const newState = reducer(state, action);
-      newState.myPage.should.be.eql({
-        timebarHeight: 42,
-        timebarCollapsed: true,
-        isModified: true,
-      });
     });
   });
 });

@@ -1,50 +1,29 @@
-import _get from 'lodash/get';
-import _findIndex from 'lodash/findIndex';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  getView,
-  getViewEntryPoints,
-} from '../../store/selectors/views';
+import { getPage } from '../../store/reducers/pages';
+import { getView } from '../../store/reducers/views';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage, setCollapsed, setMaximized } from '../../store/actions/pages';
 import View from './View';
 
 const makeMapStateToProps = () => {
-  const mapStateToProps = (state, { viewId, timebarUuid, windowId, pageId }) => {
-    const { type, configuration, oId, absolutePath, isModified }
+  const mapStateToProps = (state, { viewId, windowId, pageId }) => {
+    const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title }
         = getView(state, { viewId });
 
-    const data = _get(state, ['viewData', viewId], {});
-    const visuWindow = _get(state, ['timebars', timebarUuid, 'visuWindow']);
-    const collapsed = _get(state,
-      ['pages',
-        pageId,
-        'layout',
-        _findIndex(_get(state, ['pages', pageId, 'layout']), i => i.i === viewId),
-        'collapsed',
-      ]
-    );
-    const maximized = _get(state,
-      ['pages',
-        pageId,
-        'layout',
-        _findIndex(_get(state, ['pages', pageId, 'layout']), i => i.i === viewId),
-        'maximized',
-      ]
-    );
+    const page = getPage(state, { pageId });
+    const collapsedLayout = page.layout.find(e => e.i === viewId && e.collapsed);
+
     return {
-      entryPoints: getViewEntryPoints(state, { viewId }),
+      backgroundColor,
       type,
-      configuration,
-      data,
-      visuWindow,
+      title,
+      titleStyle,
       windowPages: getWindowPages(state, { windowId }),
       oId,
       absolutePath,
       isModified,
-      collapsed,
-      maximized,
+      collapsed: !!collapsedLayout,
     };
   };
   return mapStateToProps;
@@ -60,4 +39,4 @@ const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue
-export default () => connect(makeMapStateToProps, mapDispatchToProps)(View);
+export default connect(makeMapStateToProps, mapDispatchToProps)(View);

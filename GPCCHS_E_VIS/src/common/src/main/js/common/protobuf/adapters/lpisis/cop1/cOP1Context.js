@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const cOP1IfAutoState = require('./cOP1IfAutoState');
 const cOP1InternalState = require('./cOP1InternalState');
 const cOP1SentQueue = require('./cOP1SentQueue');

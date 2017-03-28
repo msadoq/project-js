@@ -1,8 +1,6 @@
 import React from 'react';
 import { Field, FormSection } from 'redux-form';
-import {
-  SelectButtonField,
-} from '../../../windowProcess/commonReduxForm/';
+import SelectButtonField from '../../../windowProcess/commonReduxForm/SelectButtonField';
 
 export default class FormSectionLineStyle extends FormSection {
   static defaultProps = {

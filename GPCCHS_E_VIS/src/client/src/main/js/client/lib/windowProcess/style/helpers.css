@@ -34,6 +34,11 @@
   width: 100%;
 }
 
+.s100{
+  width: 100%;
+  height: 100%;
+}
+
 .m0 {
   margin: 0;
 }

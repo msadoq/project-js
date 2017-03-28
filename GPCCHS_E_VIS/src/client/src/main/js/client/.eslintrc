@@ -1,7 +1,8 @@
 {
   "extends": [
     "airbnb",
-    "plugin:react-perf/recommended"
+    "plugin:react-perf/recommended",
+    "plugin:reselect/all"
   ],
   "parser": "babel-eslint",
   "env": {
@@ -21,7 +22,7 @@
   },
   "rules": {
     "max-statements-per-line": ["warn", { "max": 1 }],
-    "complexity": ["warn", 50],
+    "complexity": ["warn", 15],
     "max-statements": ["warn", 100],
     "max-depth": ["warn", 7],
     "no-underscore-dangle": 0,
@@ -55,8 +56,7 @@
     "no-unused-expressions": ["warn"],
     "space-in-parens": ["warn"],
     "space-before-blocks": ["warn"],
-    "no-restricted-syntax": ["warn"],
-    "reselect/signature": ["warn"]
+    "no-restricted-syntax": ["warn"]
   },
   "plugins": [
     "import",

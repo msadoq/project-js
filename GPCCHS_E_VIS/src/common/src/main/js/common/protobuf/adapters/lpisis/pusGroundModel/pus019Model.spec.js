@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus019Model', () => {
@@ -37,7 +36,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus019Model', () => {
           lastUpdateTime: { type: 'time', value: fixture.pus19EventAction[i].pusElement.lastUpdateTime },
         },
       });
-      
     }
   });
 });

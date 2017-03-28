@@ -8,8 +8,8 @@ import {
   formValueSelector,
   Field,
 } from 'redux-form';
-import { ClearSubmitButtons } from '../../../../windowProcess/commonReduxForm/';
-import { ButtonToggleField } from '../../../commonEditor/Fields/';
+import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 /*

@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus142Model', () => {
@@ -42,13 +41,14 @@ describe('protobuf/lpisis/pusGroundModel/Pus142Model', () => {
         },
       });
       json.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.should.be.an('array').that.have.lengthOf(fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length);
-      for (let ii = 0; ii < fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length; ii += 1) {
+      for (let ii = 0;
+        ii < fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length;
+        ii += 1
+      ) {
         json.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].should.be.an('object').that.have.properties({
           paramMonId: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].paramMonId },
         });
-        
       }
     }
   });
 });
-

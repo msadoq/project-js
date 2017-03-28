@@ -1,45 +1,25 @@
 import { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { makeGetLayouts, makeGetViews } from '../../store/selectors/pages';
-import { addAndMount, unmountAndRemove, updateLayout } from '../../store/actions/pages';
-import {
-  getWindowFocusedPageSelector,
-} from '../../store/selectors/windows';
+import { connect } from 'react-redux';
+
+import { updateLayout } from '../../store/actions/pages';
+import { closeView } from '../../store/actions/views';
+import selector from './ContentSelector';
 
 import Content from './Content';
 
-const getLayouts = makeGetLayouts();
-const getViews = makeGetViews();
-
-const mapStateToProps = (state, { windowId, focusedPageId }) => {
-  if (!focusedPageId) {
-    return {};
-  }
-  const focusedPage = getWindowFocusedPageSelector(state, { windowId });
-  const views = getViews(state, { pageId: focusedPageId });
-  const layouts = getLayouts(state, { pageId: focusedPageId });
-
-  return {
-    timebarUuid: focusedPage ? focusedPage.timebarUuid : undefined,
-    layouts,
-    views,
-  };
-};
-
-function mapDispatchToProps(dispatch, { focusedPageId }) {
+function mapDispatchToProps(dispatch, { pageId }) {
   return bindActionCreators({
-    addAndMount: () => addAndMount(focusedPageId),
-    unmountAndRemove: viewId => unmountAndRemove(focusedPageId, viewId),
-    updateLayout: layout => updateLayout(focusedPageId, layout),
+    closeView: viewId => closeView(pageId, viewId),
+    updateLayout: layout => updateLayout(pageId, layout),
   }, dispatch);
 }
 
-const ContentContainer = connect(mapStateToProps, mapDispatchToProps)(Content);
+const ContentContainer = connect(selector, mapDispatchToProps)(Content);
 
 ContentContainer.propTypes = {
   windowId: PropTypes.string.isRequired,
-  focusedPageId: PropTypes.string,
+  pageId: PropTypes.string,
 };
 
 export default ContentContainer;

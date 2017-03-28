@@ -2,27 +2,22 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Explorer from './Explorer';
 
-import { getExplorerTabName, getExplorerWidth } from '../../store/selectors/windows';
-import { currentExplorer, updateExplorerWidth, displayExplorer } from '../../store/actions/windows';
+import { getPanels } from '../../store/reducers/pages';
+import { focusTabInExplorer } from '../../store/actions/pages';
 
+const mapStateToProps = (state, { pageId }) => {
+  const { explorerTab: tabId } = getPanels(state, { pageId });
 
-const mapStateToProps = (state, { windowId }) => {
-  const tabName = getExplorerTabName(state, { windowId });
-  const width = getExplorerWidth(state, { windowId });
-
-  return {
-    currentTab: tabName || 'perRemoteId',
-    width,
-  };
+  return { tabId };
 };
 
 const ExplorerContainer = connect(
   mapStateToProps,
-  { currentExplorer, updateExplorerWidth, displayExplorer }
+  { focusTabInExplorer }
 )(Explorer);
 
 ExplorerContainer.propTypes = {
-  windowId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default ExplorerContainer;

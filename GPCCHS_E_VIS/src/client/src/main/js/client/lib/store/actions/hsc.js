@@ -2,8 +2,10 @@ import { HEALTH_STATUS_CRITICAL } from 'common/constants';
 import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { getHealthMap } from '../selectors/health';
-import { getTimebars } from '../selectors/timebars';
+import { isAnyEditorOpened } from '../selectors/pages';
+import { getHealthMap } from '../reducers/health';
+import { getTimebars } from '../reducers/timebars';
+import { getIsCodeEditorOpened } from '../reducers/editor';
 import { setRealTime } from './timebars';
 import { addOnce } from './messages';
 
@@ -11,9 +13,8 @@ import { addOnce } from './messages';
  * App lifecycle
  */
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
-export const setWorkspaceAsOpened = simple(types.HSC_SET_WORKSPACE_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
-export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
+export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
 
 /**
  * Play mode
@@ -23,6 +24,16 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
   (dispatch, getState) => {
     const health = getHealthMap(getState());
     if (
+      getIsCodeEditorOpened(getState())
+      || isAnyEditorOpened(getState())
+    ) {
+      dispatch(addOnce(
+        'global',
+        'warning',
+        'Please close editors before play timebar'
+        )
+      );
+    } else if (
       health.dc !== HEALTH_STATUS_CRITICAL
       && health.hss !== HEALTH_STATUS_CRITICAL
       && health.main !== HEALTH_STATUS_CRITICAL

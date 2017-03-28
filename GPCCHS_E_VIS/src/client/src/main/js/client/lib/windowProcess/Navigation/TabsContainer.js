@@ -2,7 +2,8 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getWindowPages } from '../../store/selectors/windows';
-import { focusPage, addAndMount, unmountAndRemove } from '../../store/actions/windows';
+import { focusPage } from '../../store/actions/windows';
+import { closePage } from '../../store/actions/pages';
 import Tabs from './Tabs';
 
 const mapStateToStore = (state, { windowId }) => ({
@@ -12,8 +13,7 @@ const mapStateToStore = (state, { windowId }) => ({
 function mapDispatchToProps(dispatch, { windowId }) {
   return bindActionCreators({
     focusPage: pageId => focusPage(windowId, pageId),
-    addAndMount: () => addAndMount(windowId),
-    removeAndUnmountPage: pageId => unmountAndRemove(windowId, pageId),
+    closePage: pageId => closePage(windowId, pageId),
   }, dispatch);
 }
 

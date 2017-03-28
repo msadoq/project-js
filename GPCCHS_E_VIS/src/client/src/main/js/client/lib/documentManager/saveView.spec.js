@@ -2,13 +2,11 @@
 import rimraf from 'rimraf';
 
 import { should, expect, getTmpPath, freezeMe } from '../common/test';
-import { applyDependencyToApi } from '../common/utils';
 
 import fs from '../common/fs';
-import fmdApi from '../common/fmd';
-import SaveView from './saveView';
+import * as saveViewApi from './saveView';
 
-const { saveView, saveViewAs } = applyDependencyToApi(SaveView, fmdApi);
+const { saveView, saveViewAs } = saveViewApi;
 
 describe('documentManager/saveViews', () => {
   let state;

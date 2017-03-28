@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const pus003DiagnosticPacket = require('./pus003DiagnosticPacket');
 const pus003HkPacket = require('./pus003HkPacket');

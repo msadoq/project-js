@@ -12,20 +12,25 @@ import {
   blurWindow,
 } from '../../store/actions/hsc';
 import {
-  remove,
+  closeWindow,
   updateGeometry,
   minimize,
   restore,
 } from '../../store/actions/windows';
-import {
-  getWindows,
-  getWindowsTitle,
-} from '../../store/selectors/windows';
-import { getIsWorkspaceOpening } from '../../store/selectors/hsc';
+import { getWindows } from '../../store/reducers/windows';
+import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
+import { getWindowsTitle } from './selectors';
 
 const logger = getLogger('main:windowsManager:windows');
 
 let electronWindows = {};
+
+export function executeCode(code = '', windowId) {
+  const w = electronWindows[windowId];
+  if (w) {
+    w.webContents.executeJavaScript(code);
+  }
+}
 
 function isExists(windowId) {
   return electronWindows[windowId] && !electronWindows[windowId].isDestroyed();
@@ -54,10 +59,14 @@ export function open(windowId, data, callback) {
   // prevent garbage collection
   electronWindows[windowId] = window;
 
-  const params = encodeURIComponent(JSON.stringify(parameters.getAll()));
+  const allParams = parameters.getAll();
+  allParams.IS_BUNDLED = process.env.IS_BUNDLED;
+  const params = encodeURIComponent(JSON.stringify(allParams));
   const htmlPath = `file://${parameters.get('path')}/index.html`;
+  const addReactPerfFlag = () =>
+    (parameters.get('DEBUG') === 'on' ? 'react_perf&' : '');
   logger.debug('opening', htmlPath);
-  window.loadURL(`${htmlPath}?windowId=${windowId}&params=${params}`);
+  window.loadURL(`${htmlPath}?${addReactPerfFlag()}windowId=${windowId}&params=${params}`);
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window
   window.on('ready-to-show', () => {
@@ -71,7 +80,7 @@ export function open(windowId, data, callback) {
     window[windowId] = null;
 
     // update redux store
-    getStore().dispatch(remove(windowId));
+    getStore().dispatch(closeWindow(windowId));
   });
 
   window.on('focus', () => {

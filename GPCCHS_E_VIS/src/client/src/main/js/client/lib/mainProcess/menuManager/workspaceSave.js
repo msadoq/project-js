@@ -1,13 +1,13 @@
 import path from 'path';
-import { getModifiedWindowsIds } from '../../store/selectors/windows';
-import { getModifiedPagesIds } from '../../store/selectors/pages';
-import { getModifiedViewsIds } from '../../store/selectors/views';
+import { getModifiedPagesIds } from '../../store/reducers/pages';
+import { getModifiedViewsIds } from '../../store/reducers/views';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { addOnce as addMessage } from '../../store/actions/messages';
+import { getModifiedWindowsIds } from './selectors';
 import { getPathByFilePicker } from '../dialog';
-import { saveWorkspace } from '../../common/documentManager';
+import { saveWorkspace } from '../../documentManager';
 
 module.exports = { workspaceSave, workspaceSaveAs };
 const addGlobalError = msg => addMessage('global', 'danger', msg);

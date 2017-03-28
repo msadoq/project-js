@@ -169,6 +169,7 @@ module.exports = {
     }
     let value = null;
     let type = null;
+    let symbol = null;
     if (attribute._blob != null) {
       value = attribute._blob.value;
       type = 'blob';
@@ -203,14 +204,18 @@ module.exports = {
       value = attribute._uinteger.value;
       type = 'uinteger';
     } else if (attribute._long != null) {
-      value = (attribute._long.value.constructor === Long)
-        ? attribute._long.value.toNumber()
-        : attribute._long.value;
+      if (attribute._long.value.constructor === Long) {
+        symbol = attribute._long.value.toString();
+      } else {
+        value = attribute._long.value;
+      }
       type = 'long';
     } else if (attribute._ulong != null) {
-      value = (attribute._ulong.value.constructor === Long)
-        ? attribute._ulong.value.toNumber()
-        : attribute._ulong.value;
+      if (attribute._ulong.value.constructor === Long) {
+        symbol = attribute._ulong.value.toString();
+      } else {
+        value = attribute._ulong.value;
+      }
       type = 'ulong';
     } else if (attribute._string != null) {
       value = attribute._string.value;
@@ -230,7 +235,7 @@ module.exports = {
       type = 'uri';
     }
 
-    return (type) ? { type, value } : null;
+    return (type) ? { type, value, symbol } : null;
   },
   ushortToBytes,
   bytesToUshort,

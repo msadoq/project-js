@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const pusHeader = require('./pusHeader');
 
@@ -47,7 +47,7 @@ module.exports = {
       ? { type: 'uinteger', value: data.tcSourceId.value }
       : undefined,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? { type: 'ulong', value: data.sequenceCount.value.toNumber() }
+      ? { type: 'ulong', symbol: data.sequenceCount.value.toString() }
       : undefined,
     parameterPhysicalValue: _map(data.parameterPhysicalValue, d => ({ type: 'string', value: d.value })),
     referenceTimestamp: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
@@ -55,4 +55,3 @@ module.exports = {
         : undefined,
   }),
 };
-

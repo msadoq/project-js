@@ -1,14 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Field, FieldArray } from 'redux-form';
-import {
-  FiltersFields,
-} from '../Fields/';
-import {
-  HorizontalFormGroup,
-  InputField,
-  TextareaField,
-  ReactSelectField,
-} from '../../../windowProcess/commonReduxForm/';
+import FiltersFields from '../Fields/FiltersFields';
+import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from '../../../windowProcess/commonReduxForm/InputField';
+import TextareaField from '../../../windowProcess/commonReduxForm/TextareaField';
+import ReactSelectField from '../../../windowProcess/commonReduxForm/ReactSelectField';
 
 /*
   All the fields used in Connected data form

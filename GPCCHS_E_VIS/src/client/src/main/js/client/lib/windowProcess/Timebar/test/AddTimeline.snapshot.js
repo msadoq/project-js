@@ -2,7 +2,7 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
-import AddTimeline from '../timeline/AddTimeline';
+import AddTimeline from '../LeftTab/AddTimeline';
 
 const store = createStore(
   (state = {}) => state,
@@ -14,9 +14,6 @@ const propsStub = {
   onSubmit: () => null,
   sessions: [],
   timelines: [],
-  masterId: 'masterId',
-  id: 'timelineId',
-  timelineUuid: 'aaaa-aaaa',
   store,
   initialValues: {
     id: '',

@@ -1,15 +1,14 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { v4 } from 'uuid';
-import { Col, FormGroup, Alert } from 'react-bootstrap';
+import { FormGroup, Alert } from 'react-bootstrap';
 
 export default class SelectTimebar extends PureComponent {
 
   static propTypes = {
     updateTimebarId: PropTypes.func.isRequired,
-    addTimebar: PropTypes.func.isRequired,
+    createNewTimebar: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     timebars: PropTypes.object.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
   }
 
   state = {
@@ -20,7 +19,7 @@ export default class SelectTimebar extends PureComponent {
   onSelect = (e) => {
     e.preventDefault();
     this.props.updateTimebarId(
-      this.props.focusedPageId,
+      this.props.pageId,
       this.timebarsSelect.value
     );
   }
@@ -40,12 +39,7 @@ export default class SelectTimebar extends PureComponent {
 
   onCreate = (e) => {
     e.preventDefault();
-    this.props.addTimebar(
-      v4(),
-      {
-        id: this.timebarId.value,
-      }
-    );
+    this.props.createNewTimebar(this.timebarId.value);
     this.switchForm();
   }
 
@@ -59,66 +53,64 @@ export default class SelectTimebar extends PureComponent {
   render() {
     const {
       timebars,
-      focusedPageId,
+      pageId,
     } = this.props;
     const {
       form,
       error,
     } = this.state;
 
-    if (!focusedPageId) {
+    if (!pageId) {
       return null;
     }
 
     return (
       <div>
-        <Col xs={12}>
-          <Col xs={4} className={form === 'create' ? 'hidden' : ''}>
-            <h4>Select a timebar</h4>
-            <form onSubmit={this.onSelect} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
-              <FormGroup>
-                <select
-                  ref={(el) => { this.timebarsSelect = el; }}
-                  className="form-control"
-                >
-                  {
-                    Object.keys(timebars).map(
-                      key => (
-                        <option key={timebars[key].id} value={key}>
-                          {timebars[key].id}
-                        </option>
-                      )
+        <div className={form === 'create' ? 'hidden' : 'p10'}>
+          <h4>Select a timebar</h4>
+          <form onSubmit={this.onSelect} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
+            <FormGroup>
+              <select
+                ref={(el) => { this.timebarsSelect = el; }}
+                className="form-control"
+              >
+                {
+                  Object.keys(timebars).map(
+                    key => (
+                      <option key={timebars[key].id} value={key}>
+                        {timebars[key].id}
+                      </option>
                     )
-                  }
-                </select>
-              </FormGroup>
-              <FormGroup>
-                <input type="submit" className="btn btn-primary" value="Select" />
-                {' '}
-                <button className="btn btn-info" onClick={this.switchForm}>Create a timebar</button>
-              </FormGroup>
-            </form>
-          </Col>
-          <Col xs={4} className={form === 'select' ? 'hidden' : ''}>
-            <h4>Create a timebar</h4>
-            <form onSubmit={this.onCreate} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
-              <FormGroup>
-                { error && <Alert bsStyle="danger">{ error }</Alert> }
-                <input
-                  ref={(el) => { this.timebarId = el; }}
-                  onChange={this.onChange}
-                  className="form-control"
-                  placeholder="Timebar name"
-                />
-              </FormGroup>
-              <FormGroup>
-                <input disabled={!!error} type="submit" className="btn btn-primary" value="Create" />
-                {' '}
-                <button className="btn btn-info" onClick={this.switchForm}>Select a timebar</button>
-              </FormGroup>
-            </form>
-          </Col>
-        </Col>
+                  )
+                }
+              </select>
+            </FormGroup>
+            <FormGroup>
+              <input type="submit" className="btn btn-primary" value="Select" />
+              {' '}
+              <button className="btn btn-info" onClick={this.switchForm}>Create a timebar</button>
+            </FormGroup>
+          </form>
+        </div>
+        <div className={form === 'select' ? 'hidden' : 'p10'}>
+          <h4>Create a timebar</h4>
+          <form onSubmit={this.onCreate} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
+            <FormGroup>
+              { error && <Alert bsStyle="danger">{ error }</Alert> }
+              <input
+                ref={(el) => { this.timebarId = el; }}
+                onChange={this.onChange}
+                className="form-control"
+                placeholder="Timebar name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <input disabled={!!error} type="submit" className="btn btn-primary" value="Create" />
+              {' '}
+              <button className="btn btn-info" onClick={this.switchForm}>Select a timebar</button>
+            </FormGroup>
+          </form>
+        </div>
       </div>
     );
   }

@@ -4,14 +4,10 @@ import {
   FieldArray,
 } from 'redux-form';
 import { Form } from 'react-bootstrap';
-import {
-  StateColorsFields,
-} from '../Fields/';
+import StateColorsFields from '../Fields/StateColorsFields';
 import EntryPointMonitoringStateColors from './EntryPointMonitoringStateColors';
-import {
-  ClearSubmitButtons,
-  HorizontalFormGroup,
-} from '../../../windowProcess/commonReduxForm/';
+import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 
 /*
 const filters = [

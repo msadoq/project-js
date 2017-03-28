@@ -22,7 +22,6 @@ module.exports = (reply, queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
   if (status !== globalConstants.STATUS_SUCCESS) {
     const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
     reply(queryId, { err: reason });
-    return;
   } else {
     const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffer);
     let detail;

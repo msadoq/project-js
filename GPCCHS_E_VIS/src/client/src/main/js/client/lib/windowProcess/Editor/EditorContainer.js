@@ -2,30 +2,29 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Editor from './Editor';
-import { getEditor } from '../../store/selectors/pages';
-import { getView } from '../../store/selectors/views';
-import { closeEditor } from '../../store/actions/pages';
+import { getPanels } from '../../store/reducers/pages';
+import { getView } from '../../store/reducers/views';
+import { resizeEditor } from '../../store/actions/pages';
 
-const mapStateToProps = (state, { focusedPageId }) => {
-  const editor = getEditor(state, { pageId: focusedPageId });
-  const view = getView(state, { viewId: editor.viewId });
+const mapStateToProps = (state, { pageId }) => {
+  const { editorViewId } = getPanels(state, { pageId });
+  const view = getView(state, { viewId: editorViewId });
 
   return {
-    viewId: editor.viewId,
-    viewType: view.type,
-    ...view,
-    focusedPageId,
+    pageId,
+    viewId: editorViewId,
+    type: view ? view.type : null,
   };
 };
 
-const mapDispatchToProps = (dispatch, { focusedPageId }) => bindActionCreators({
-  closeEditor: () => closeEditor(focusedPageId),
+const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
+  closeEditor: () => resizeEditor(pageId, 0),
 }, dispatch);
 
 const EditorContainer = connect(mapStateToProps, mapDispatchToProps)(Editor);
 
 EditorContainer.propTypes = {
-  focusedPageId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default EditorContainer;

@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 /* eslint global-require:0 */
 
 module.exports = {
@@ -121,18 +121,7 @@ module.exports = {
     RmPacket: require('./packet/rmPacket'),
     TmPacket: require('./packet/tmPacket'),
   },
-  ackRequest: {
-    AckRequest: require('./ackRequest/ackRequest'),
-    AckSMS: require('./ackRequest/ackSMS'),
-  },
-  computedEvent: {
-    ComputedEvent: require('./computedEvent/computedEvent'),
-  },
   opAlert: {
     OpAlert: require('./opAlert/opAlert'),
-  },
-  userEvent: {
-    ExternalEvent: require('./userEvent/externalEvent'),
-    UserEvent: require('./userEvent/userEvent'),
   },
 };

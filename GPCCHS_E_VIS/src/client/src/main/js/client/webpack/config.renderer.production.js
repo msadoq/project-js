@@ -14,15 +14,23 @@ import baseConfig from './config.base';
 const config = merge(baseConfig, {
   devtool: 'cheap-module-source-map',
 
-  entry: [
-    './lib/windowProcess/style/bootstrap',
-    '!style!css!postcss!./lib/windowProcess/style',
-    './lib/windowProcess/index',
-  ],
+  entry: {
+    renderer: [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      './lib/windowProcess/index',
+    ],
+    codeEditor: [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      './lib/codeEditorProcess/index',
+    ],
+  },
 
   output: {
     path: join(__dirname, '../dist'),
     publicPath: 'dist/',
+    filename: '[name].bundle.js',
     // pathinfo: true,
   },
 
@@ -50,17 +58,11 @@ const config = merge(baseConfig, {
 
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-        warnings: false,
-      },
-    }),
     new webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin('style.css'),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
+        // NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
         IS_BUNDLED: JSON.stringify('on'),
         APP_ENV: JSON.stringify('renderer'),
       },

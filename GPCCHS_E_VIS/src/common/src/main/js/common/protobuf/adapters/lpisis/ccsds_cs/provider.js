@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const serviceAddress = require('./serviceAddress');
 const {
   ushortToBytes,
@@ -52,7 +52,7 @@ module.exports = {
       ? { type: 'uoctet', value: bytesToUoctet(data.network.value) }
       : undefined,
     session: (data.session !== null && typeof data.session !== 'undefined')
-      ? { type: 'ulong', value: data.session.value.toNumber() }
+      ? { type: 'ulong', symbol: data.session.value.toString() }
       : undefined,
     serviceProperties: (data.serviceProperties !== null && typeof data.serviceProperties !== 'undefined')
       ? { type: 'uinteger', value: data.serviceProperties.value }
@@ -71,4 +71,3 @@ module.exports = {
         : undefined,
   }),
 };
-

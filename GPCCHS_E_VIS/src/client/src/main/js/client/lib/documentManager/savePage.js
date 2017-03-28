@@ -8,6 +8,7 @@ import {
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
+import { getRootDir } from '../common/fmd';
 import validation from './validation';
 
 /**
@@ -20,7 +21,7 @@ import validation from './validation';
  * @param callback
  * @returns Error or undefined
  */
-const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
+const savePageAs = (state, pageId, path, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
     return;
@@ -30,7 +31,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       callback(err);
       return;
     }
-    const root = fmdApi.getRootDir();
+    const root = getRootDir();
     const page = state.pages[pageId];
     const savedPage = {
       type: 'Page',
@@ -85,7 +86,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       return;
     }
     // save file
-    writeDocument(fmdApi)(path, savedPage, (errfs, oid) => {
+    writeDocument(path, savedPage, (errfs, oid) => {
       if (errfs) {
         callback(errfs);
         return;
@@ -106,7 +107,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
  * @param callback
  * @returns Error or undefined
  */
-const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
+const savePage = (state, pageId, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
@@ -115,7 +116,7 @@ const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
   if (!path) {
     return callback('Unknown path for saving the page');
   }
-  return savePageAs(fmdApi)(state, pageId, path, useRelativePath, callback);
+  return savePageAs(state, pageId, path, useRelativePath, callback);
 };
 
 

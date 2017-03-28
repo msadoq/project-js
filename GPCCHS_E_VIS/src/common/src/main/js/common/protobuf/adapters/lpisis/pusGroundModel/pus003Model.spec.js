@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus003Model', () => {
@@ -42,7 +41,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus003Model', () => {
           },
         },
       });
-      
     }
     json.pus003HkPacket.should.be.an('array').that.have.lengthOf(fixture.pus003HkPacket.length);
     for (let i = 0; i < fixture.pus003HkPacket.length; i += 1) {
@@ -61,7 +59,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus003Model', () => {
           },
         },
       });
-      
     }
   });
 });

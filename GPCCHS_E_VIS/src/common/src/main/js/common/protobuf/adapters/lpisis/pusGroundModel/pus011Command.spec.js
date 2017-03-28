@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus011Command', () => {
@@ -46,7 +45,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus011Command', () => {
         parameterName: { type: 'string', value: fixture.pus011CommandParameters[i].parameterName },
         parameterValue: { type: 'double', value: fixture.pus011CommandParameters[i].parameterValue },
       });
-      
     }
     json.pUS011TimeShift.should.be.an('array').that.have.lengthOf(fixture.pUS011TimeShift.length);
     for (let i = 0; i < fixture.pUS011TimeShift.length; i += 1) {
@@ -54,7 +52,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus011Command', () => {
         applicationTime: { type: 'time', value: fixture.pUS011TimeShift[i].applicationTime },
         timeShiftOffset: { type: 'integer', value: fixture.pUS011TimeShift[i].timeShiftOffset },
       });
-      
     }
   });
 });

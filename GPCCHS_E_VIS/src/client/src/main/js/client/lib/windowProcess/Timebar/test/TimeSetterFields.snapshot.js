@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import TimeSetterFields from '../TimeSetterFields';
+import TimeSetterFields from '../TimeSetter/TimeSetterFields';
 
 const propsStub = {
   ms: 1480417090581,

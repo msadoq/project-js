@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { remove } from '../../store/actions/messages';
-import { getMessages } from '../../store/selectors/messages';
+import { getMessages } from '../../store/reducers/messages';
 
 import Messages from './Messages';
 

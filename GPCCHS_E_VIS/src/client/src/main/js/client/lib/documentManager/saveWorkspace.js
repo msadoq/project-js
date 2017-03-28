@@ -1,18 +1,19 @@
 /* eslint no-underscore-dangle: 0 */
+import _ from 'lodash/fp';
 import _each from 'lodash/each';
 import _startsWith from 'lodash/startsWith';
 import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
-import { getTimebarTimelines } from '../store/selectors/timebarTimelines';
-import { getTimeline } from '../store/selectors/timelines';
+import { getTimebarTimelines } from '../store/reducers/timebarTimelines';
+import { getTimeline } from '../store/reducers/timelines';
 import validation from './validation';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
-const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
+const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
       callback(errFolderCreation);
@@ -67,9 +68,15 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
     });
     // timebars
     _each(state.timebars, (timebar, timebarUuid) => {
-      let tb = _cloneDeep(timebar);
-      tb = Object.assign({}, tb, { type: 'timeBarConfiguration' });
-      tb.timelines = [];
+      const tb = {
+        id: timebar.id,
+        rulerResolution: timebar.rulerResolution,
+        speed: timebar.speed,
+        masterId: timebar.masterId,
+        mode: timebar.mode,
+        type: 'timeBarConfiguration',
+        timelines: [],
+      };
       const timebarTimelines = getTimebarTimelines(state, { timebarUuid });
       _each(timebarTimelines, (timelineUuid) => {
         const timeline = getTimeline(state, { timelineUuid });
@@ -77,12 +84,12 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
           callback(new Error('timelines missing'));
           return;
         }
-        tb.timelines.push(_cloneDeep(timeline));
+        tb.timelines.push(_cloneDeep(_.omit('uuid', timeline)));
       });
       if (tb.masterId === null) {
         delete tb.masterId;
       }
-      workspace.timebars.push(tb);
+      workspace.timebars.push(_.omit('uuid', tb));
     });
     // validation
     const validationError = validation('workspace', workspace);
@@ -91,7 +98,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       return;
     }
     // save file
-    writeDocument(fmdApi)(path, workspace, (err) => {
+    writeDocument(path, workspace, (err) => {
       if (err) {
         callback(err);
         return;
@@ -102,11 +109,11 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
   });
 };
 
-const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {
+const saveWorkspace = (state, useRelativePath, callback) => {
   if (!state.hsc || !state.hsc.folder || !state.hsc.file) {
     return new Error('Unable to get path for saving workspace');
   }
-  return saveWorkspaceAs(fmdApi)(
+  return saveWorkspaceAs(
     state,
     join(state.hsc.folder, state.hsc.file),
     useRelativePath,

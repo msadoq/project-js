@@ -2,10 +2,9 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
-import { scaleLinear } from 'd3-scale';
+import _sortedIndexBy from 'lodash/sortedIndexBy';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
-import { formatDuration } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class Tooltip extends React.Component {
@@ -29,14 +28,14 @@ export default class Tooltip extends React.Component {
     showTooltip: false,
   }
 
-  componentDidMount() {
-    const { yAxes, height } = this.props;
-    this.yScales = {};
-    yAxes.forEach(axis => this.setYScale(axis.id, axis.yExtents, height));
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
-    // SCU has been called by internal this.setState
+    if (this.state.showTooltip && !nextState.showTooltip) {
+      return true;
+    }
+    if (!nextState || !nextState.showTooltip) {
+      return false;
+    }
+
     if (nextState.linesList) {
       return true;
     }
@@ -44,13 +43,11 @@ export default class Tooltip extends React.Component {
     let shouldRender = false;
     nextProps.yAxes.forEach((axis, i) => {
       if (
-        !this.yScales[axis.id] ||
         nextProps.height !== this.props.height ||
         axis.yExtents[0] !== this.props.yAxes[i].yExtents[0] ||
         axis.yExtents[1] !== this.props.yAxes[i].yExtents[1]
       ) {
         shouldRender = true;
-        this.setYScale(axis.id, axis.yExtents, nextProps.height);
       }
     });
 
@@ -61,12 +58,6 @@ export default class Tooltip extends React.Component {
     });
 
     return shouldRender;
-  }
-
-  setYScale = (axisId, yExtents, height) => {
-    this.yScales[axisId] = scaleLinear()
-      .domain([yExtents[0], yExtents[1]])
-      .range([0, height]);
   }
 
   assignEl = (el) => { this.el = el; }
@@ -90,24 +81,31 @@ export default class Tooltip extends React.Component {
     const linesList = {};
     yAxes.forEach((axis) => {
       linesList[axis.id] = [];
-      // const yInDomain = this.yScales[axis.id].invert(yInRange);
 
-      const xClosestPacket = axis.data.find(packet => packet.x > xInDomain);
-      if (!xClosestPacket) {
-        return;
-      }
       axis.lines.forEach((line) => {
-        if (xClosestPacket[line.id]) {
+        const dataLine = (line.dataAccessor && axis.data) ?
+          line.dataAccessor(axis.data) : line.data;
+        if (!dataLine) {
+          console.log(`No data for line ${line.id}`); // eslint-disable-line
+          return;
+        }
+        const index = _sortedIndexBy(dataLine, { x: xInDomain }, o => o.x);
+        if (!index) {
+          return;
+        }
+        const xClosestPacket = dataLine[index];
+        if (xClosestPacket) {
           const val = line.yAccessor(xClosestPacket);
-          const color = (line.colorAccessor ?
-            line.colorAccessor(xClosestPacket) || line.fill : line.fill) || '#222222';
+          const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;
           linesList[axis.id].push({
-            color,
-            epColor: line.fill || '#222222',
-            name: line.id,
-            value: this.memoizeFormatter(axis.format || '.2f')(val),
-            offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
-              formatDuration(xClosestPacket.x - xClosestPacket[line.id].x) : '',
+            foundColor: line.colorAccessor ? line.colorAccessor(xClosestPacket) : null,
+            lineColor: line.fill || '#222222',
+            id: line.id,
+            value: val,
+            x,
+            formattedValue: this.memoizeFormatter(axis.format || '.2f')(val),
+            packet: xClosestPacket,
+            formatter: this.memoizeFormatter(axis.format || '.2f'),
           });
         }
       });
@@ -208,6 +206,7 @@ export default class Tooltip extends React.Component {
       xLabelStyle.top = -8;
       xLabelStyle.transform += 'translateY(-100%)';
     }
+
     return (
       <div
         onMouseMove={this.mouseMove}
@@ -303,43 +302,47 @@ export default class Tooltip extends React.Component {
                     <p className={styles.tooltipNoData}>No data</p>
                   }
                   {
-                    linesList[axisId].map(line =>
-                      <div
-                        key={line.name}
-                        className={styles.tooltipLine}
-                      >
-                        <span
-                          className={styles.tooltipLineSquare}
-                          style={{ background: line.color }}
-                        />
-                        <p>
-                          <span
-                            className={styles.tooltipLineName}
-                            style={{
-                              color: line.epColor,
-                            }}
-                          >
-                            { line.name } :
-                          </span>
-                          <span
-                            className={styles.tooltipLineValue}
-                          >
-                            { line.value }
-                          </span>
-                        </p>
-                        <span
-                          className={classnames(
-                            styles.tooltipOffset,
-                            {
-                              [styles.red]: line.offset[0] === '-',
-                              [styles.green]: line.offset[0] && line.offset[0] !== '-',
-                            }
-                          )}
+                    linesList[axisId].map((line) => {
+                      const propsAxis = yAxes.find(a => a.id === axisId);
+                      const propsLine = propsAxis.lines.find(l => l.id === line.id);
+                      return (propsLine && propsLine.tooltipFormatter ?
+                        propsLine.tooltipFormatter(
+                          line.id,
+                          line.foundColor,
+                          line.lineColor,
+                          line.value,
+                          line.x,
+                          line.formattedValue,
+                          line.formatter,
+                          line.packet
+                        )
+                        :
+                        (<div
+                          key={line.id}
+                          className={styles.tooltipLine}
                         >
-                          {' '}{ line.offset }
-                        </span>
-                      </div>
-                    )
+                          <span
+                            className={styles.tooltipLineSquare}
+                            style={{ background: line.foundColor }}
+                          />
+                          <p>
+                            <span
+                              className={styles.tooltipLineName}
+                              style={{
+                                color: line.lineColor,
+                              }}
+                            >
+                              { line.id } :
+                            </span>
+                            <span
+                              className={styles.tooltipLineValue}
+                            >
+                              { line.formattedValue }
+                            </span>
+                          </p>
+                        </div>)
+                      );
+                    })
                   }
                 </div>
               )

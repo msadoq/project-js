@@ -1,46 +1,15 @@
-import _get from 'lodash/get';
 import { BrowserWindow } from 'electron';
 import { getStore } from '../../../store/mainStore';
-import { getView } from '../../../store/selectors/views';
-import { reloadView } from '../../../store/actions/views';
-import { add } from '../../../store/actions/messages';
-import { readViews } from '../../../common/documentManager';
+import { getView } from '../../../store/reducers/views';
+import { reloadView } from '../../../documentManager';
 import { showWarningMessage } from '../../dialog';
 
-function reload(viewId, absolutePath) {
-  const { dispatch } = getStore();
-  readViews([{ absolutePath }], (err, views) => {
-    if (err) {
-      return getStore().dispatch(add(
-        viewId,
-        'danger',
-        'Invalid View file selected'
-      ));
-    }
-
-    const configuration = _get(views, [0, 'configuration']);
-    if (!configuration) {
-      return dispatch(add(
-        viewId,
-        'danger',
-        'Unable to load view (is view file configuration valid ?)'
-      ));
-    }
-
-    dispatch(reloadView(viewId, configuration));
-    return dispatch(add(
-      viewId,
-      'success',
-      'View reloaded'
-    ));
-  });
-}
-
 export default function ({ viewId }) {
-  const { absolutePath, isModified } = getView(getStore().getState(), { viewId });
+  const { dispatch, getState } = getStore();
+  const { absolutePath, isModified } = getView(getState(), { viewId });
 
   if (!isModified) {
-    return reload(viewId, absolutePath);
+    return dispatch(reloadView(viewId, absolutePath));
   }
 
   // if view was modified but not already saved ask for confirmation
@@ -51,7 +20,8 @@ export default function ({ viewId }) {
     ['cancel', 'continue'],
     (button) => {
       if (button !== 0) {
-        reload(viewId, absolutePath);
+        dispatch(reloadView(viewId, absolutePath));
       }
-    });
+    }
+  );
 }

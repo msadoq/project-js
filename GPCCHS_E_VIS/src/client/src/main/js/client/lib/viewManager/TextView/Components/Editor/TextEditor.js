@@ -22,25 +22,8 @@ export default class Editor extends Component {
 
     closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
-      title: PropTypes.string,
-      type: PropTypes.string.isRequired,
       entryPoints: PropTypes.array,
-      links: PropTypes.array,
-      defaultRatio: PropTypes.shape({
-        length: PropTypes.number,
-        width: PropTypes.number
-      }),
       content: PropTypes.string.isRequired,
-      titleStyle: PropTypes.shape({
-        font: PropTypes.string,
-        size: PropTypes.number,
-        bold: PropTypes.bool,
-        italic: PropTypes.bool,
-        underline: PropTypes.bool,
-        strikeOut: PropTypes.bool,
-        align: PropTypes.string,
-        color: PropTypes.string
-      })
     })
   };
 

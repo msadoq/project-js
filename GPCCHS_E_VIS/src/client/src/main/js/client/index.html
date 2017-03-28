@@ -2,37 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-
 </head>
 <body>
-<div id="root"></div>
-<script>
-  function getQueryStringValue (key) {
-    return decodeURIComponent(
-      window.location.search.replace(
-        new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"
-      )
-    );
-  }
-
-  const allParameters = JSON.parse(getQueryStringValue('params'));
-  parameters = {
-    get: name => allParameters[name]
-  };
-
-  // load bundle
-  const bundle = document.createElement('script');
-  bundle.src = parameters.get('IS_BUNDLED') === 'on'
-    ? './dist/renderer.bundle.js'
-    : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/renderer.bundle.js`;
-  document.body.appendChild(bundle)
-
-  if (parameters.get('IS_BUNDLED')) {
-    const linkCss = document.createElement('link');
-    linkCss.setAttribute('rel', 'stylesheet');
-    linkCss.setAttribute('href', './dist/style.css');
-    document.body.appendChild(linkCss);
-  }
-</script>
+  <script type='text/javascript' src='startupApp.js'></script>
 </body>
 </html>

@@ -3,11 +3,9 @@ import {
   Form,
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import {
-  HorizontalFormGroup,
-  ClearSubmitButtons,
-  InputField,
-} from '../../../windowProcess/commonReduxForm/';
+import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from '../../../windowProcess/commonReduxForm/InputField';
 
 const EntryPointName = (props) => {
   const {

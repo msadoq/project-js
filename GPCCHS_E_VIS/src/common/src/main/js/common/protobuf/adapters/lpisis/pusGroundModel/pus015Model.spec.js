@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus015Model', () => {
@@ -52,7 +51,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus015Model', () => {
           },
           packetType: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].packetType },
         });
-        
       }
     }
   });

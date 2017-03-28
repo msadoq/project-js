@@ -1,13 +1,15 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import Dimensions from 'react-dimensions';
-import TimeBar from './Timebar';
-import ControlsContainer from './ControlsContainer';
-import styles from './Timebar.css';
+import _memoize from 'lodash/memoize';
+import TimeBar from './Timebar/Timebar';
+import ControlsContainer from './Controls/ControlsContainer';
+import styles from './RightTab.css';
+import Dimensions from '../common/Dimensions';
 
 class RightTabContent extends PureComponent {
 
   static propTypes = {
+    updateDimensions: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     setRealTime: PropTypes.func.isRequired,
@@ -17,24 +19,15 @@ class RightTabContent extends PureComponent {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
-    slideWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-    }).isRequired,
-    visuWindow: PropTypes.shape({
-      lower: PropTypes.number.isRequired,
-      upper: PropTypes.number.isRequired,
-      current: PropTypes.number.isRequired,
-    }).isRequired,
     timebar: PropTypes.shape({
-      extUpperBound: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
       rulerResolution: PropTypes.number.isRequired,
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
-      id: PropTypes.string.isRequired,
       masterId: PropTypes.string,
-      mode: PropTypes.string.isRequired,
       realTime: PropTypes.bool.isRequired,
+      mode: PropTypes.string.isRequired,
       slideWindow: PropTypes.shape({
         lower: PropTypes.number.isRequired,
         upper: PropTypes.number.isRequired,
@@ -46,19 +39,24 @@ class RightTabContent extends PureComponent {
         defaultWidth: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
-    timebarUuid: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineUuid: PropTypes.string.isRequired,
+        uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
     ).isRequired,
     containerWidth: PropTypes.number.isRequired,
     timelinesVerticalScroll: PropTypes.number.isRequired,
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
   }
 
   /*
@@ -69,7 +67,7 @@ class RightTabContent extends PureComponent {
       return;
     }
     const {
-      timebarUuid,
+      timebar,
       updateViewport,
       containerWidth,
     } = this.props;
@@ -95,7 +93,7 @@ class RightTabContent extends PureComponent {
     if (limitCursorMs > rightLimitMs) {
       const offsetMs = (limitCursorMs - rightLimitMs) + (limitCursorMs - visuWindow.lower);
       updateViewport(
-        timebarUuid,
+        timebar.uuid,
         viewport.lower + offsetMs,
         (viewport.upper - viewport.lower) / containerWidth
       );
@@ -116,16 +114,28 @@ class RightTabContent extends PureComponent {
     }
     wich is much easier to work with int the subcomponents
   */
+  memoizeviewportDimensions = _memoize(
+    (hash, timebarRulerStart, timebarRulerResolution, containerWidth) => {
+      const upper = timebarRulerStart + (timebarRulerResolution * containerWidth);
+      return {
+        lower: timebarRulerStart,
+        upper,
+      };
+    }
+  );
+
   formatViewportDimensions() {
     const { timebar, containerWidth } = this.props;
-    return {
-      lower: timebar.rulerStart,
-      upper: timebar.rulerStart +
-        (timebar.rulerResolution * containerWidth),
-    };
+    return this.memoizeviewportDimensions(
+      `${timebar.rulerStart}-${timebar.rulerResolution}-${containerWidth}`,
+      timebar.rulerStart,
+      timebar.rulerResolution,
+      containerWidth
+    );
   }
 
   retrieveFormattedFullDateEl = () => this.formattedFullDateEl;
+  assignFormattedFullDateEl = (el) => { this.formattedFullDateEl = el; }
 
   borderColorKlass = () => {
     const {
@@ -148,13 +158,10 @@ class RightTabContent extends PureComponent {
   render() {
     const {
       timelines,
-      timebarUuid,
-      visuWindow,
       isPlaying,
       play,
       pause,
       timebar,
-      slideWindow,
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
@@ -174,14 +181,14 @@ class RightTabContent extends PureComponent {
         )}
       >
         <span
-          ref={(el) => { this.formattedFullDateEl = el; }}
+          ref={this.assignFormattedFullDateEl}
           className={styles.formatedFullDate}
         />
         <ControlsContainer
           timebarRealTime={timebar.realTime}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
-          timebarUuid={timebarUuid}
+          timebarUuid={timebar.uuid}
           isPlaying={isPlaying}
           play={play}
           pause={pause}
@@ -193,12 +200,12 @@ class RightTabContent extends PureComponent {
           isPlaying={isPlaying}
           play={play}
           pause={pause}
-          timebarUuid={timebarUuid}
+          timebarUuid={timebar.uuid}
           timebarMode={timebar.mode}
           timebarRealTime={timebar.realTime}
           setRealTime={setRealTime}
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
+          visuWindow={timebar.visuWindow}
+          slideWindow={timebar.slideWindow}
           timelines={timelines}
           updateCursors={updateCursors}
           jump={jump}

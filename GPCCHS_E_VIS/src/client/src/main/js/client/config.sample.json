@@ -2,6 +2,7 @@
   "LOG": "console",
   "PROFILING": "off",
   "DEBUG": "on",
+  "WDYU": "off",
   "ISIS_DOCUMENTS_ROOT": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
   "WEBPACK_PORT": 3100,
   "NODE_PATH": "/usr/share/isis/node-v6.3.0-linux-x64/bin/node",

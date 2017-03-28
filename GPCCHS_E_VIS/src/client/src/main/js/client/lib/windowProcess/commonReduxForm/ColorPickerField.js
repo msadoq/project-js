@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { ColorPicker } from './';
+import ColorPicker from './ColorPicker';
 import { colors as initialColors } from '../common/colors';
 
 const ColorPickerField = (props) => {

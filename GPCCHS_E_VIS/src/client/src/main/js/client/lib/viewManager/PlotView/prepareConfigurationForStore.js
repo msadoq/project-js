@@ -19,5 +19,6 @@ const getDefaultConfiguration = _.defaults({
 
 export default _.pipe(
   getDefaultConfiguration,
-  indexAxes
+  indexAxes,
+  _.update('entryPoints', _.map(_.update('id', v4)))
 );

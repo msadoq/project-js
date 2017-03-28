@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import ViewParams from './ViewParams';
-import { getView } from '../../store/selectors/views';
+import { getView } from '../../store/reducers/views';
 import {
   updateBgColor,
   updateTitle,
@@ -11,9 +11,11 @@ import {
 const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, { viewId });
   return {
-    backgroundColor: view.configuration.backgroundColor,
-    title: view.configuration.title,
-    titleStyle: view.configuration.titleStyle,
+    backgroundColor: view.backgroundColor,
+    title: view.title,
+    titleStyle: view.titleStyle,
+    links: view.links,
+    defaultRatio: view.defaultRatio,
   };
 };
 

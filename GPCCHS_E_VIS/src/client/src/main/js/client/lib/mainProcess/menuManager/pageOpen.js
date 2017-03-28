@@ -1,68 +1,17 @@
-import { BrowserWindow } from 'electron';
-import _map from 'lodash/map';
-import { v4 } from 'uuid';
+// import { v4 } from 'uuid';
 import {
   LOG_DOCUMENT_OPEN,
 } from 'common/constants';
 import { server } from '../ipc';
-import { readPages, extractViews } from '../../common/documentManager';
 import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import { add as addView } from '../../store/actions/views';
-import { add as addMessage } from '../../store/actions/messages';
-import { addAndMount as addAndMountPage } from '../../store/actions/windows';
+import { addBlankPage } from '../../store/actions/pages';
 
-const addGlobalError = msg => addMessage('global', 'danger', msg);
+import { openPage } from '../../documentManager';
 
-function showSelectedPage(pageAndViews, pageId, windowId) {
-  const store = getStore();
-  const layout = _map(pageAndViews.views, v => ({
-    i: v.uuid,
-    x: v.geometry.x,
-    y: v.geometry.y,
-    w: v.geometry.w,
-    h: v.geometry.h,
-    maxH: v.geometry.maxH || 100,
-    maxW: v.geometry.maxW || 100,
-  }));
-  const viewIds = Object.keys(pageAndViews.views);
-  const page = pageAndViews.pages[pageId];
-  page.layout = layout;
-  page.views = viewIds;
-  page.isModified = false;
-
-  viewIds.forEach((index) => {
-    const view = pageAndViews.views[index];
-    store.dispatch(addView(index, view.type, view.configuration, view.path, view.oId,
-      view.absolutePath, false));
-  });
-  store.dispatch(addAndMountPage(windowId, pageId, page));
-}
-
-function pageOpenWithPath({ filePath, windowId }) {
-  const store = getStore();
-  readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
-    if (pageErr) {
-      store.dispatch(addGlobalError('Unable to load page'));
-      store.dispatch(addGlobalError(pageErr));
-    }
-    const content = { pages: {} };
-    const uuid = v4();
-    content.pages[uuid] = pages[0];
-    extractViews(content, (viewErr, pageAndViews) => {
-      if (viewErr) {
-        store.dispatch(addGlobalError('Unable to load page : invalid view'));
-        store.dispatch(addGlobalError(viewErr));
-        return;
-      }
-      showSelectedPage(pageAndViews, uuid, windowId);
-      const title = store.getState().windows[windowId].title;
-      const window = BrowserWindow.getFocusedWindow();
-      window.setTitle(title.concat(' * - VIMA')); // TODO savableMiddleware
-      server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
-    });
-  });
-}
+const pageOpenWithPath = ({ filePath, windowId }) => {
+  getStore().dispatch(openPage({ absolutePath: filePath, windowId }));
+};
 
 function pageOpen(focusedWindow) {
   const store = getStore();
@@ -77,21 +26,13 @@ function pageOpen(focusedWindow) {
   });
 }
 
-function pageAddNew(focusedWindow) {
-  if (!focusedWindow) {
-    getStore().dispatch(addGlobalError('Saving failed : no window focused'));
-    return;
-  }
-  const { dispatch, getState } = getStore();
-  const uuid = v4();
-  dispatch(addAndMountPage(focusedWindow.windowId, uuid));
-  const title = getState().windows[focusedWindow.windowId].title;
-  focusedWindow.setTitle(title.concat(' * - VIMA')); // Todo savableMiddleware
+function pageAddBlank(focusedWindow) {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
+  return getStore().dispatch(addBlankPage(focusedWindow.windowId));
 }
 
 export default {
   pageOpen,
   pageOpenWithPath,
-  pageAddNew,
+  pageAddBlank,
 };

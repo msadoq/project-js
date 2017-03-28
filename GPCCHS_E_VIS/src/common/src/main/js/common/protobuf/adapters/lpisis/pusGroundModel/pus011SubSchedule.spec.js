@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/pusGroundModel/Pus011SubSchedule', () => {
@@ -18,7 +17,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus011SubSchedule', () => {
     json.should.be.an('object').that.have.properties({
       ssId: { type: 'uinteger', value: fixture.ssId },
       status: { type: 'uinteger', value: fixture.status },
-      executionTimeFirstTc: { type: 'ulong', value: fixture.executionTimeFirstTc },
+      executionTimeFirstTc: { type: 'ulong', symbol: `${fixture.executionTimeFirstTc}` },
       apid: { type: 'uinteger', value: fixture.apid },
       pusElement: {
         lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
@@ -26,7 +25,6 @@ describe('protobuf/lpisis/pusGroundModel/Pus011SubSchedule', () => {
       },
       groundDate: { type: 'time', value: fixture.groundDate },
     });
-    
   });
 });
 

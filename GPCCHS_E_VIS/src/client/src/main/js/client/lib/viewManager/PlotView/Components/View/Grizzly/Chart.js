@@ -29,17 +29,20 @@ export default class Chart extends React.Component {
     allowYZoom: PropTypes.bool,
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
+    perfOutput: PropTypes.bool,
     xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
-        data: PropTypes.array.isRequired,
+        data: PropTypes.objectOf(PropTypes.shape),
         yExtents: PropTypes.array.isRequired,
         autoLimits: PropTypes.bool.isRequired,
         showAxis: PropTypes.bool.isRequired,
         showLabels: PropTypes.bool,
         showTicks: PropTypes.bool,
+        autoTick: PropTypes.bool,
+        tickStep: PropTypes.number,
         showGrid: PropTypes.bool,
         gridStyle: PropTypes.string,
         gridSize: PropTypes.number,
@@ -51,6 +54,7 @@ export default class Chart extends React.Component {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
+        data: PropTypes.arrayOf(PropTypes.shape),
         id: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
@@ -58,8 +62,11 @@ export default class Chart extends React.Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        yAccessor: PropTypes.func.isRequired,
+        dataAccessor: PropTypes.func,
+        yAccessor: PropTypes.func,
+        xAccessor: PropTypes.func,
         colorAccessor: PropTypes.func,
+        tooltipFormatter: PropTypes.func,
       })
     ).isRequired,
   }
@@ -73,6 +80,7 @@ export default class Chart extends React.Component {
     allowZoom: true,
     allowPan: true,
     tooltipColor: 'white',
+    perfOutput: false,
   }
 
   state = {
@@ -171,8 +179,8 @@ export default class Chart extends React.Component {
       document.addEventListener('mouseup', this.onMouseUp);
     } else if (allowPan && !hoveredAxisId) {
       this.setState({
-        mouseMoveCursorOrigin: e.pageX,
-        panOrigin: pan,
+        mouseMoveCursorOriginX: e.pageX,
+        xPanOrigin: pan,
       });
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
@@ -182,8 +190,8 @@ export default class Chart extends React.Component {
   onMouseMove = (e) => {
     e.preventDefault();
     const {
-      mouseMoveCursorOrigin,
-      panOrigin,
+      mouseMoveCursorOriginX,
+      xPanOrigin,
       zoomLevel,
       panAxisId,
       mouseMoveCursorOriginY,
@@ -203,7 +211,7 @@ export default class Chart extends React.Component {
       });
     } else {
       this.setState({
-        pan: panOrigin + ((e.pageX - mouseMoveCursorOrigin) / zoomLevel),
+        pan: xPanOrigin + ((e.pageX - mouseMoveCursorOriginX) / zoomLevel),
       });
     }
   }
@@ -260,6 +268,7 @@ export default class Chart extends React.Component {
             xExtendsUpper
           );
         }
+
         const yScale = this.memoizeYScale(
           `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}`,
           yExtents[0],
@@ -278,7 +287,7 @@ export default class Chart extends React.Component {
           rank,
         };
       })
-      .filter(axis => axis.lines.length > 0 && axis.showAxis)
+      .filter(axis => axis.showAxis && axis.lines.length > 0)
       .sort((a, b) => b.rank - a.rank);
     return sortedAndValidAxes;
   }
@@ -362,12 +371,12 @@ export default class Chart extends React.Component {
 
   memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height) =>
     scaleLinear()
-      .domain([yExtentsLower, yExtentsUpper])
+      .domain([yExtentsUpper, yExtentsLower])
       .range([0, height])
   );
 
   memoizeYExtents = _memoize((hash, orient, lower, upper) =>
-    (orient === 'top' ? [upper, lower] : [lower, upper])
+    (orient === 'top' ? [lower, upper] : [upper, lower])
   );
 
   memoizeXScale = _memoize((hash, domainLower, domainUpper, rangeUpper) =>
@@ -453,6 +462,7 @@ export default class Chart extends React.Component {
       allowYZoom,
       allowPan,
       allowZoom,
+      perfOutput,
     } = this.props;
 
     const {
@@ -597,6 +607,7 @@ export default class Chart extends React.Component {
               data={yAxis.data}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
+              perfOutput={perfOutput}
             />
           )
         }
@@ -611,6 +622,8 @@ export default class Chart extends React.Component {
               format={yAxis.format}
               showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
+              autoTick={yAxis.autoTick}
+              tickStep={yAxis.tickStep}
               showGrid={yAxis.showGrid}
               gridStyle={yAxis.gridStyle}
               axisLabel={yAxis.axisLabel}
@@ -623,6 +636,7 @@ export default class Chart extends React.Component {
               top={marginTop}
               yAxesAt={yAxesAt}
               yScale={yAxis.yScale}
+              yExtents={yAxis.yExtents}
               label={yAxis.label}
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}

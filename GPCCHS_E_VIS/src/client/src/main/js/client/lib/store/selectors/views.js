@@ -1,109 +1,82 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
-import __ from 'lodash/fp';
-import _omit from 'lodash/omit';
-import _isEqual from 'lodash/isEqual';
-import { compile } from '../../common/operators';
+import _ from 'lodash/fp';
 import makeGetPerViewData from '../../dataManager/perViewData';
-import { getPageIdByViewId, getPage } from './pages';
-// import { getPerViewData } from '../../dataManager/map';
+import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
+import { getWindowPageIds } from '../reducers/windows';
+import { configurationReducers } from '../../viewManager/';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  __.isEqual
+  _.isEqual
 );
 
-export const getViews =
-  __.prop('views');
-
-export const getView =
-  (state, { viewId }) =>
-    __.prop(viewId, getViews(state));
-
-export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
-  const epOnAxis = [];
-  if (!state.views[viewId] || !state.views[viewId].configuration.axes[axisId]) {
-    return epOnAxis;
-  }
-  state.views[viewId].configuration.entryPoints.forEach((ep) => {
-    if (ep.connectedDataX.axisId === axisId || ep.connectedDataY.axisId === axisId) {
-      epOnAxis.push(ep.name);
-    }
-  });
-  return epOnAxis;
-};
-
-export const getViewsIdsCollapsed = createSelector(
-  getViews,
-  views => __.keys(__.pickBy('configuration.collapsed', views))
-);
-
-export const getModifiedViewsIds = state =>
-  Object
-    .keys(getViews(state))
-    .filter(vId => state.views[vId].isModified);
-
-export const getViewConfiguration = createSelector(
-  getView,
-  __.prop('configuration')
-);
-
-export const getViewContent = createSelector(
-  getViewConfiguration,
-  __.prop('content')
-);
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
 // ********************************************************/
-function withoutTimebarsEqualityCheck(current, previous) {
-  return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
+function perViewDataEqualityCheck(current, previous) {
+  if (current.timelines !== previous.timelines
+    || current.windows !== previous.windows
+    || current.pages !== previous.pages
+    || current.views !== previous.views
+    || current.domains !== previous.domains
+    || current.sessions !== previous.sessions
+    || current.masterSession !== previous.masterSession
+    || current.timebarTimelines !== previous.timebarTimelines) {
+    return false;
+  }
+  const confs = Object.keys(configurationReducers);
+  for (let i = 0; i < confs.length; i += 1) {
+    if (current[confs[i]] !== previous[confs[i]]) {
+      return false;
+    }
+  }
+  // ViewId
+  if (typeof previous === 'string' && previous !== current) {
+    return false;
+  }
+  return true;
+  // return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
 }
-export const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
+export const createDeepEqualSelectorPerViewData = createSelectorCreator(
   defaultMemoize,
-  withoutTimebarsEqualityCheck
+  perViewDataEqualityCheck
 );
 const perViewDataSelectors = {};
-export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
+// composed
+export const getPerViewData = createDeepEqualSelectorPerViewData(
   state => state,
   (state, { viewId }) => viewId,
-  (state, viewId) => {
+  (state, { viewId }) => getPage(state, { pageId: getPageIdByViewId(state, { viewId }) }),
+  (state, viewId, page) => {
     if (!perViewDataSelectors[viewId]) {
       perViewDataSelectors[viewId] = makeGetPerViewData();
     }
-    const pageId = getPageIdByViewId(state, { viewId });
-    const page = getPage(state, { pageId });
+    // const pageId = getPageIdByViewId(state, { viewId });
+    // const page = getPage(state, { pageId });
     const { timebarUuid } = page;
     return perViewDataSelectors[viewId](state, { viewId, timebarUuid });
   });
 
+// composed / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
-  __.get('entryPoints', getPerViewData(state, { viewId }))
-);
+  _.get('entryPoints', getPerViewData(state, { viewId })));
 
+// composed
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>
-  __.map(ep => ep.name, entryPoints)
+  _.map(ep => ep.name, entryPoints)
 );
 
+// composed
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
 
-export const getViewEntryPointStateColors = createSelector(
-  getViewEntryPoint,
-  ep => ep.stateColors || []
+export const getWindowAllViewsIds = createSelector(
+  getWindowPageIds,
+  getPages,
+  (ids, pages) => _.pipe(
+    _.pick(ids),
+    _.flatMap('views'),
+    _.compact
+  )(pages)
 );
-
-const _getEntryPoint = (epName, entryPoints) => entryPoints.find(ep => ep.name === epName);
-
-export const _getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
-  const stateColor = __.propOr([], 'stateColors', _getEntryPoint(epName, entryPoints))
-    .filter(c =>
-      (new RegExp(`${__.pathOr('', ['condition', 'field'], c)}$`, 'g'))
-        .test(__.pathOr('', [dataProp, 'formula'], _getEntryPoint(epName, entryPoints))))
-    .find(c => compile(c.condition)(value));
-  if (__.prop('color', stateColor)) {
-    return {
-      color: __.prop('color', stateColor),
-    };
-  }
-  return undefined;
-};

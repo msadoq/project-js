@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/timeBasedDataType/TimeBasedDataIdentifier', () => {
@@ -20,7 +19,6 @@ describe('protobuf/lpisis/timeBasedDataType/TimeBasedDataIdentifier', () => {
       name: { type: 'string', value: fixture.name },
       value: { type: 'identifier', value: fixture.value },
     });
-    
   });
 });
 

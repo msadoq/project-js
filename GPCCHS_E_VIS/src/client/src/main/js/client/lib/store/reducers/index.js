@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
+
 import hsc from './hsc';
 import timebars from './timebars';
 import timebarTimelines from './timebarTimelines';
@@ -11,11 +12,15 @@ import views from './views';
 import domains from './domains';
 import sessions from './sessions';
 import masterSession from './masterSession';
-import viewData from './viewData';
 import health from './health';
 import editor from './editor';
+import plotViewData from '../../viewManager/PlotView/store/dataReducer';
+import textViewData from '../../viewManager/TextView/store/dataReducer';
+import dynamicViewData from '../../viewManager/DynamicView/store/dataReducer';
 
-const reducer = combineReducers({
+import { configurationReducers } from '../../viewManager/';
+
+const rootReducer = combineReducers({
   form,
   hsc,
   timebars,
@@ -28,9 +33,12 @@ const reducer = combineReducers({
   domains,
   sessions,
   masterSession,
-  viewData,
   health,
   editor,
+  plotViewData,
+  textViewData,
+  dynamicViewData,
+  ...configurationReducers,
 });
 
-export default reducer;
+export default rootReducer;

@@ -1,5 +1,4 @@
 import u from 'updeep';
-import '../common/test';
 import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
@@ -20,7 +19,6 @@ beforeEach(() => {
           lower: 1420106702345,
           upper: 1420107144713,
         },
-        extUpperBound: 1420107500000,
         rulerStart: 1420106041002,
         rulerResolution: 1298.7675070010687,
         speed: 1,
@@ -50,6 +48,7 @@ beforeEach(() => {
     },
     windows: {
       win1: {
+        isLoaded: true,
         title: 'Sup/Sup workspace',
         focusedPage: 'page1',
         pages: [
@@ -379,7 +378,6 @@ const viewMap = {
           domainId: 4,
           sessionId: 181,
         },
-        field: undefined,
         offset: 0,
         filter: [],
         localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',
@@ -427,6 +425,9 @@ describe('data:map', () => {
   });
   it('memoization map', () => {
     map.resetRecomputations();
+    getPerRemoteIdMap.resetRecomputations();
+    getPerViewMap.resetRecomputations();
+    map.recomputations().should.eql(0);
     map(state);
     map.recomputations().should.eql(1);
     map(state);

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import sinon from 'sinon';
 import * as types from '../types';
 import * as actions from './windows';
@@ -13,15 +12,20 @@ describe('store:actions:windows', () => {
       },
       w2: {
         focusedPage: null,
-        pages: [],
+        pages: ['p1', 'p2', 'p3', 'p4'],
       },
     },
     pages: {
       p1: {
         timebarUuid: 'tb1',
+        views: [1, 2, 3],
       },
       p2: {
         timebarUuid: 'unknown',
+        views: [4, 5, 6],
+      },
+      p3: {
+        views: [7, 8, 9],
       },
     },
     hsc: {
@@ -34,42 +38,6 @@ describe('store:actions:windows', () => {
   beforeEach(() => {
     dispatch = sinon.spy();
     getState = () => state;
-  });
-
-  describe('add', () => {
-    it('add a window without page', () => {
-      actions.add()(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
-
-      dispatch.getCall(0).calledWith({
-        type: types.WS_WINDOW_ADD,
-        payload: {
-          windowId: undefined,
-          title: undefined,
-          geometry: undefined,
-          pages: undefined,
-          focusedPage: undefined,
-          isModified: undefined,
-        },
-      });
-      dispatch.getCall(1).args[0].should.be.a('function');
-    });
-    it('add a window with page', () => {
-      actions.add(true, true, true, true, true, true)(dispatch, getState);
-      dispatch.should.have.been.calledOnce;
-
-      dispatch.getCall(0).calledWith({
-        type: types.WS_WINDOW_ADD,
-        payload: {
-          windowId: true,
-          title: true,
-          geometry: true,
-          pages: true,
-          focusedPage: true,
-          isModified: true,
-        },
-      });
-    });
   });
 
   describe('focusPage', () => {
@@ -100,71 +68,18 @@ describe('store:actions:windows', () => {
       });
     });
   });
-  describe('addAndMount', () => {
-    it('add Page with new id', () => {
-      actions.addAndMount('myWindowId')(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-
-      dispatch.getCall(0).args[0].should.be.an('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.a('function');
-
-      dispatch.getCall(1).args[0].type.should.be.eql(types.WS_WINDOW_PAGE_MOUNT);
-    });
-
-    it('add Page with existing page object', () => {
-      actions.addAndMount('myWindowId', 'myPageId', {})(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-
-      dispatch.getCall(0).args[0].should.be.an('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.a('function');
-
-      dispatch.getCall(1).args[0].type.should.be.eql(types.WS_WINDOW_PAGE_MOUNT);
-    });
-  });
-  describe('unmountAndRemove', () => {
-    it('remove unselected page', () => {
-      actions.unmountAndRemove('w1', 'p2')(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
+  describe('closeWindow', () => {
+    it('dispatches an action with all documents ids which should be close', () => {
+      actions.closeWindow('w2')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.a('function');
 
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_WINDOW_PAGE_UNMOUNT,
-        payload: {
-          windowId: 'w1',
-          pageId: 'p2',
-        },
-      });
-    });
-    it('remove selected page', () => {
-      actions.unmountAndRemove('w1', 'p1')(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.a('function');
-      dispatch.getCall(2).args[0].should.be.a('function');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_WINDOW_PAGE_UNMOUNT,
-        payload: {
-          windowId: 'w1',
-          pageId: 'p1',
-        },
-      });
-    });
-    it('remove last page', () => {
-      actions.unmountAndRemove('w2', 'unknown')(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.a('function');
-      dispatch.getCall(2).args[0].should.be.a('function');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_WINDOW_PAGE_UNMOUNT,
+        type: types.WS_WINDOW_CLOSE,
         payload: {
           windowId: 'w2',
-          pageId: 'unknown',
+          pages: ['p1', 'p2', 'p3', 'p4'],
+          views: [1, 2, 3, 4, 5, 6, 7, 8, 9],
         },
       });
     });

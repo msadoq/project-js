@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const namedValue = require('../ccsds_mal/namedValue');
 const opAlertClosingData = require('./opAlertClosingData');
@@ -50,7 +50,7 @@ module.exports = {
       ? { type: 'boolean', value: data.closingNeeded.value }
       : undefined,
     answerID: (data.answerID !== null && typeof data.answerID !== 'undefined')
-      ? { type: 'ulong', value: data.answerID.value.toNumber() }
+      ? { type: 'ulong', symbol: data.answerID.value.toString() }
       : undefined,
     systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
       ? { type: 'time', value: data.systemDate.value.toNumber() }
@@ -59,7 +59,7 @@ module.exports = {
       ? { type: 'string', value: data.mission.value }
       : undefined,
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
-      ? { type: 'ulong', value: data.satellite.value.toNumber() }
+      ? { type: 'ulong', symbol: data.satellite.value.toString() }
       : undefined,
     opAlertConfiguration: _map(data.opAlertConfiguration, d => (opAlertConfiguration.decode(d))),
     status: (data.status !== null && typeof data.status !== 'undefined')
@@ -76,4 +76,3 @@ module.exports = {
         : undefined,
   }),
 };
-

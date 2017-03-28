@@ -3,10 +3,10 @@ import any from 'lodash/fp/any';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
-import { getMasterSessionId } from '../store/selectors/masterSession';
-import { getDomains } from '../store/selectors/domains';
+import { getDomains } from '../store/reducers/domains';
+import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
-import { getView } from '../store/selectors/views';
+import { getView } from '../store/reducers/views';
 import { getStructureType, getStructureModule } from '../viewManager';
 
 // const logger = getLogger('data:perViewData');
@@ -30,12 +30,12 @@ export default function makeGetPerViewData() {
       if (anyUndefined([domains, view, timebarUuid, viewTimelines])) {
         return {};
       }
-      const { configuration } = view;
+      const { configuration, type } = view;
       // Ignore collapsed view
       if (configuration.collapsed) {
         return {};
       }
-      const { entryPoints, type } = configuration;
+      const { entryPoints } = configuration;
       const structureType = getStructureType(type);
 
       return {

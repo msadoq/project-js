@@ -8,16 +8,13 @@ import {
   addOnce as addMessage,
   reset as resetMessages,
 } from './messages';
-import { getMessages } from '../selectors/messages';
+import { getMessages } from '../reducers/messages';
 import {
-  add as addTimeline,
-  remove as removeTimeline,
   update as updateTL,
 } from './timelines';
 import { pause, smartPlay } from './hsc';
-import { getTimebar } from '../selectors/timebars';
-import { getPlayingTimebarId } from '../selectors/hsc';
-import { addTimebar, mountTimeline, unmountTimeline } from './timebarTimelines';
+import { getTimebar } from '../reducers/timebars';
+import { getPlayingTimebarId } from '../reducers/hsc';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -25,23 +22,19 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
 /**
  * Simple actions
  */
-export const _add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
-export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
-export const add = (timebarUuid, configuration) =>
-  (dispatch, getState) => {
-    const state = getState();
-    if (getTimebar(state, { timebarUuid })) {
-      return;
-    }
-
-    dispatch(_add(timebarUuid, configuration));
-    dispatch(addTimebar(timebarUuid));
-    if (configuration.timelines) {
-      configuration.timelines.forEach(tlId => dispatch(mountTimeline(timebarUuid, tlId)));
-    }
+export const createNewTimebar = timebarId =>
+  (dispatch) => {
+    // TODO : return if timebarId already exist in store
+    dispatch({
+      type: types.WS_TIMEBAR_CREATE_NEW,
+      payload: {
+        timebarUuid: v4(),
+        timebarId,
+      },
+    });
   };
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
@@ -377,19 +370,5 @@ export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarU
 /**
  * Compound actions
  */
-export function addAndMountTimeline(timebarUuid, configuration) {
-  return (dispatch) => {
-    const timelineUuid = v4();
-    dispatch(addTimeline(timelineUuid, configuration));
-    dispatch(mountTimeline(timebarUuid, timelineUuid));
-  };
-}
-
-export function unmountAndRemoveTimeline(timebarUuid, timelineUuid) {
-  return (dispatch) => {
-    dispatch(unmountTimeline(timebarUuid, timelineUuid));
-    dispatch(removeTimeline(timelineUuid));
-  };
-}
 
 export const updateTimeline = updateTL;

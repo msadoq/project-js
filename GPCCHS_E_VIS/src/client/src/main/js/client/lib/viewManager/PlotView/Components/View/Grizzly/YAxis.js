@@ -2,6 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
+import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
 import styles from './GrizzlyChart.css';
@@ -15,6 +16,9 @@ export default class YAxis extends PureComponent {
     yAxesAt: PropTypes.string,
     index: PropTypes.number.isRequired,
     yScale: PropTypes.func.isRequired,
+    yExtents: PropTypes.arrayOf(
+      PropTypes.number
+    ).isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     yAxisWidth: PropTypes.number.isRequired,
@@ -32,6 +36,8 @@ export default class YAxis extends PureComponent {
     ).isRequired,
     showLabels: PropTypes.bool,
     showTicks: PropTypes.bool,
+    autoTick: PropTypes.bool,
+    tickStep: PropTypes.number,
     showGrid: PropTypes.bool,
     gridStyle: PropTypes.string,
     gridSize: PropTypes.number,
@@ -60,6 +66,8 @@ export default class YAxis extends PureComponent {
     format: '.2f',
     yAxesAt: 'left',
     gridSize: 1,
+    tickStep: 8,
+    autoTick: false,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -80,7 +88,10 @@ export default class YAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth', 'yScale'].forEach((attr) => {
+    [
+      'yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
+      'yScale', 'autoTick', 'tickStep',
+    ].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }
@@ -182,10 +193,13 @@ export default class YAxis extends PureComponent {
       chartWidth,
       index,
       showTicks,
+      tickStep,
+      autoTick,
       format,
       showGrid,
       gridStyle,
       xAxisAt,
+      yExtents,
     } = this.props;
 
     const tickFormat = showTicks ?
@@ -211,8 +225,21 @@ export default class YAxis extends PureComponent {
       yAxisFunction = axisRight(yScale);
     }
 
+    if (autoTick) {
+      yAxisFunction = yAxisFunction
+        .ticks(8);
+    } else {
+      const tickValues = this.memoizeRange(
+        `${yExtents[0]}-${yExtents[1]}-${tickStep}`,
+        yExtents[0],
+        yExtents[1],
+        tickStep
+      );
+      yAxisFunction = yAxisFunction
+        .tickValues(tickValues);
+    }
+
     yAxisFunction = yAxisFunction
-      .ticks(8)
       .tickSize(tickSize)
       .tickFormat(tickFormat);
 
@@ -245,6 +272,10 @@ export default class YAxis extends PureComponent {
 
   memoizeFormatter = _memoize(f =>
     d => d3Format(f)(d)
+  );
+
+  memoizeRange = _memoize((hash, lower, upper, step) =>
+    range(lower, upper, step)
   );
 
   memoizeAssignRef = _memoize(lineId =>

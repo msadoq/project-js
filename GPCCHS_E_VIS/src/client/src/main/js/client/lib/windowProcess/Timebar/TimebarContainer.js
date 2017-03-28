@@ -1,26 +1,22 @@
 import { connect } from 'react-redux';
-import { updateTimebarHeight, collapseTimebar } from '../../store/actions/pages';
-import { pause } from '../../store/actions/hsc';
+import { pause, smartPlay as play } from '../../store/actions/hsc';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
-import { getPlayingTimebarId } from '../../store/selectors/hsc';
+import { getPlayingTimebarId } from '../../store/reducers/hsc';
 import TimebarWrapper from './TimebarWrapper';
 
 export default connect(
-  (state, { focusedPageId, timebar, timebarUuid }) => {
-    const playingTimebarId = getPlayingTimebarId(state, { timebarUuid });
-    const isPlaying = playingTimebarId === timebarUuid;
-    const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
+  (state, { pageId, timebar }) => {
+    const playingTimebarId = getPlayingTimebarId(state, { timebarUuid: timebar.uuid });
+    const isPlaying = playingTimebarId === timebar.uuid;
+    const timelines = getTimebarTimelinesSelector(state, { timebarUuid: timebar.uuid });
 
     return {
       isPlaying,
-      visuWindow: timebar.visuWindow,
-      slideWindow: timebar.slideWindow,
-      focusedPageId,
+      pageId,
       timelines,
     };
   }, {
-    updateTimebarHeight,
-    collapseTimebar,
     pause,
+    play,
   }
 )(TimebarWrapper);

@@ -1,13 +1,20 @@
+import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import _get from 'lodash/get';
 import DynamicView from './DynamicView';
+import { getViewEntryPoints } from '../../../../store/selectors/views';
+
+import { getData } from '../../store/dataReducer';
 
 const mapStateToProps = (state, { viewId }) => {
-  const formula = _get(state,
-    ['views', viewId, 'configuration', 'entryPoints', 0, 'connectedData', 'formula']);
+  const getFormula = _.get(`views[${viewId}].configuration.entryPoints[0].connectedData.formula`);
+  const getConfiguration = _.get(`views[${viewId}].configuration`);
+  const data = getData(state, { viewId });
   return {
-    formula,
+    formula: getFormula(state),
+    configuration: getConfiguration(state),
+    entryPoints: getViewEntryPoints(state, { viewId }),
+    data,
   };
 };
 export const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);

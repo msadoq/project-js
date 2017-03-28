@@ -8,6 +8,7 @@ import styles from '../../../commonEditor/Editor.css';
 
 const newEntryPoint = {
   name: 'NewEntryPoint',
+  timeBasedData: true,
   connectedDataX: {
     formula: '',
     unit: 's',
@@ -15,7 +16,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'Time',
+    axisId: 'time',
   },
   connectedDataY: {
     formula: '',
@@ -24,7 +25,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'Time',
+    axisId: '',
   },
   objectStyle: {
     line: {
@@ -57,28 +58,10 @@ export default class PlotEditor extends Component {
     viewId: PropTypes.string.isRequired,
     closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      links: PropTypes.array,
       procedures: PropTypes.array,
-      defaultRatio: PropTypes.shape({
-        length: PropTypes.number,
-        width: PropTypes.number,
-      }),
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
       grids: PropTypes.array,
-      title: PropTypes.string,
-      titleStyle: PropTypes.shape({
-        font: PropTypes.string,
-        size: PropTypes.number,
-        bold: PropTypes.bool,
-        italic: PropTypes.bool,
-        underline: PropTypes.bool,
-        strikeOut: PropTypes.bool,
-        align: PropTypes.string,
-        color: PropTypes.string,
-      }),
-      backgroundColor: PropTypes.string,
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,

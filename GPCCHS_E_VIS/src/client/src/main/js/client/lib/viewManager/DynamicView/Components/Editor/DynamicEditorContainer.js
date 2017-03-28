@@ -1,23 +1,25 @@
+import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DynamicEditor from './DynamicEditor';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
-import { getView } from '../../../../store/selectors/views';
-import { getPage } from '../../../../store/selectors/pages';
+import { getView } from '../../../../store/reducers/views';
+import { getPage } from '../../../../store/reducers/pages';
 import {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { viewId, focusedPageId }) => {
+const mapStateToProps = (state, { viewId, pageId }) => {
   const view = getView(state, { viewId });
-  const { timebarUuid } = getPage(state, { pageId: focusedPageId });
+  const { timebarUuid } = getPage(state, { pageId });
+  const getConfiguration = _.get(`views[${viewId}].configuration`);
   const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
   return {
-    title: view.configuration.title,
-    type: view.configuration.type,
-    titleStyle: view.configuration.titleStyle,
+    title: view.title,
+    titleStyle: view.titleStyle,
+    configuration: getConfiguration(state),
     timelines,
   };
 };
@@ -30,41 +32,6 @@ const DynamicEditorContainer = connect(mapStateToProps, {
 
 DynamicEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
-  viewType: PropTypes.string.isRequired,
-  configuration: PropTypes.shape({
-    type: PropTypes.string,
-    title: PropTypes.string,
-    titleStyle: PropTypes.shape({
-      align: PropTypes.string,
-      bgColor: PropTypes.string,
-      bold: PropTypes.bool,
-      color: PropTypes.string,
-      font: PropTypes.string,
-      italic: PropTypes.bool,
-      size: PropTypes.number,
-      strikeOut: PropTypes.bool,
-      underline: PropTypes.bool,
-    }),
-    defaultRatio: PropTypes.shape({
-      length: PropTypes.number,
-      width: PropTypes.number,
-    }),
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      connectedDate: PropTypes.shape({
-        domain: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-      }),
-    })),
-  }),
-  closeEditor: PropTypes.func,
 };
 
 export default DynamicEditorContainer;

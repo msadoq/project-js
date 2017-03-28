@@ -3,16 +3,19 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
+import _sum from 'lodash/sum';
 import classnames from 'classnames';
-import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
-
+import Dimensions from '../../../../windowProcess/common/Dimensions';
+import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
+import Legend from './Legend';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
+import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 
 const logger = getLogger('view:plot');
 
@@ -26,6 +29,7 @@ function parseDragData(data) {
     name: data.item,
     connectedDataX: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
+      unit: 's',
     },
     connectedDataY: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
@@ -34,15 +38,16 @@ function parseDragData(data) {
 }
 
 const plotPadding = 15;
+const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
 
 export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
+    updateDimensions: PropTypes.func.isRequired,
     data: PropTypes.shape({
-      lines: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
-      columns: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
+      lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     }),
     visuWindow: PropTypes.shape({
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
@@ -52,62 +57,12 @@ export class GrizzlyPlotView extends PureComponent {
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
-    // ({
-    //   connectedDataX: PropTypes.shape({
-    //     axisId: PropTypes.string,
-    //     digits: PropTypes.number,
-    //     domain: PropTypes.string,
-    //     filter: PropTypes.arrayOf(PropTypes.shape({
-    //       field: PropTypes.string,
-    //       operand: PropTypes.string,
-    //       operator: PropTypes.string,
-    //     })),
-    //     format: PropTypes.string,
-    //     formula: PropTypes.string,
-    //     timeline: PropTypes.string,
-    //     unit: PropTypes.string,
-    //   }),
-    //   connectedDataY: PropTypes.shape({
-    //     axisId: PropTypes.string,
-    //     digits: PropTypes.number,
-    //     domain: PropTypes.string,
-    //     filter: PropTypes.arrayOf(PropTypes.shape({
-    //       field: PropTypes.string,
-    //       operand: PropTypes.string,
-    //       operator: PropTypes.string,
-    //     })),
-    //     format: PropTypes.string,
-    //     formula: PropTypes.string,
-    //     timeline: PropTypes.string,
-    //     unit: PropTypes.string,
-    //   }),
-    //   name: PropTypes.string,
-    //   id: PropTypes.string,
-    // })).isRequired,
     configuration: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      links: PropTypes.array,
       procedures: PropTypes.array,
-      defaultRatio: PropTypes.shape({
-        length: PropTypes.number,
-        width: PropTypes.number,
-      }),
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
       showYAxes: PropTypes.string,
       grids: PropTypes.array,
-      title: PropTypes.string,
-      titleStyle: PropTypes.shape({
-        font: PropTypes.string,
-        size: PropTypes.number,
-        bold: PropTypes.bool,
-        italic: PropTypes.bool,
-        underline: PropTypes.bool,
-        strikeOut: PropTypes.bool,
-        align: PropTypes.string,
-        color: PropTypes.string,
-      }),
-      backgroundColor: PropTypes.string,
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
@@ -121,7 +76,17 @@ export class GrizzlyPlotView extends PureComponent {
     visuWindow: null,
   };
 
-  shouldComponentUpdate(nextProps) {
+  state = {
+    showLegend: false,
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
     const {
       data,
       entryPoints,
@@ -131,6 +96,7 @@ export class GrizzlyPlotView extends PureComponent {
       containerHeight,
     } = this.props;
     return !(
+      this.state.showLegend === nextState.showLegend &&
       data === nextProps.data &&
       entryPoints === nextProps.entryPoints &&
       visuWindow === nextProps.visuWindow &&
@@ -208,17 +174,20 @@ export class GrizzlyPlotView extends PureComponent {
     if (!visuWindow) {
       info = 'No vizualisation window';
     }
-    if (!data.columns || !data.columns.length || data.columns.length < 2) {
+    if (!data.lines || !Object.keys(data.lines).length) {
       info = 'no point';
     }
-    if (data.columns && data.columns.length < 2) {
-      info = 'only one point';
-    }
-
     if (!entryPoints || !Object.keys(entryPoints).length) {
       info = 'invalid view configuration';
     }
     return info;
+  }
+
+  toggleShowLegend = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLegend: !this.state.showLegend,
+    });
   }
 
   render() {
@@ -247,13 +216,24 @@ export class GrizzlyPlotView extends PureComponent {
       containerWidth,
       containerHeight,
       data,
-      data: { columns },
+      data: { lines },
       configuration: { showYAxes, axes, grids, entryPoints },
       visuWindow,
     } = this.props;
+    const {
+      showLegend,
+    } = this.state;
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
+    const yAxesLegendHeight = yAxes.map((a) => {
+      const eps = entryPoints.filter(ep =>
+        _get(ep, ['connectedDataY', 'axisId']) === a.id
+      ).length;
+      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 24) : 0;
+    });
     const xExtents = [visuWindow.lower, visuWindow.upper];
+    const plotHeight = containerHeight - securityTopPadding -
+      (plotPadding * 2) - (showLegend ? _sum(yAxesLegendHeight) : 0);
 
     return (
       <DroppableContainer
@@ -266,7 +246,7 @@ export class GrizzlyPlotView extends PureComponent {
         style={mainStyle}
       >
         <GrizzlyChart
-          height={containerHeight - (plotPadding * 2)}
+          height={plotHeight}
           width={containerWidth - (plotPadding * 2)}
           tooltipColor="blue"
           enableTooltip
@@ -274,6 +254,7 @@ export class GrizzlyPlotView extends PureComponent {
           allowYPan
           allowZoom
           allowPan
+          perfOutput={false}
           xExtents={xExtents}
           current={visuWindow.current}
           yAxesAt={showYAxes}
@@ -292,13 +273,15 @@ export class GrizzlyPlotView extends PureComponent {
                 ]
                 :
                 [axis.min, axis.max],
-              data: columns,
+              data: lines,
               orient: 'top',
               format: '.3f',
               showAxis: axis.showAxis === true,
               showLabels: axis.showLabels === true,
               showTicks: axis.showTicks === true,
               autoLimits: false,
+              autoTick: axis.autoTick === true,
+              tickStep: axis.tickStep,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),
@@ -310,6 +293,7 @@ export class GrizzlyPlotView extends PureComponent {
           lines={
             entryPoints.map(ep =>
               ({
+                data: null, // data is accessed through axis.data
                 id: ep.name,
                 yAxis: _get(ep, ['connectedDataY', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
@@ -317,17 +301,60 @@ export class GrizzlyPlotView extends PureComponent {
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                yAccessor: d => _get(d, [ep.name, 'value']),
-                colorAccessor: d => _get(d, [ep.name, 'color']),
+                dataAccessor: d => d[ep.name],
+                xAccessor: null, // default .x
+                yAccessor: d => d.value, // default .y
+                colorAccessor: d => d.color,
+                tooltipFormatter: (id, foundColor, color, value,
+                  x, formattedValue, formatter, packet) => {
+                  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
+                  return (
+                    <div
+                      key={id}
+                      className={grizzlyStyles.tooltipLine}
+                    >
+                      <span
+                        className={grizzlyStyles.tooltipLineSquare}
+                        style={{ background: foundColor || color }}
+                      />
+                      <p>
+                        <span
+                          className={grizzlyStyles.tooltipLineName}
+                          style={{
+                            color,
+                          }}
+                        >{ id } :</span>
+                        <span
+                          className={grizzlyStyles.tooltipLineValue}
+                        >{ packet.symbol ? packet.symbol : formattedValue }</span>
+                      </p>
+                      <span
+                        className={classnames(
+                          grizzlyStyles.tooltipOffset,
+                          {
+                            [grizzlyStyles.red]: offset[0] === '-',
+                            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
+                          }
+                        )}
+                      >{' '}{ offset }</span>
+                    </div>
+                  );
+                },
               })
             )
           }
+        />
+        <Legend
+          yAxes={yAxes}
+          lines={entryPoints}
+          show={this.state.showLegend}
+          toggleShowLegend={this.toggleShowLegend}
         />
       </DroppableContainer>
     );
   }
 }
 
-const SizeablePlotView = Dimensions()(GrizzlyPlotView);
+const SizeablePlotView = Dimensions({ elementResize: true })(GrizzlyPlotView);
 
 export default SizeablePlotView;

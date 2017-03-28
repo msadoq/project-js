@@ -18,7 +18,9 @@ const EntryPointConnectedDataFields = (props) => {
     prefix,
     unit,
     axisId,
+    timelineId,
     timeBasedData,
+    domain,
   } = props;
   let filteredAxes;
   if (axes && unit) {
@@ -34,6 +36,7 @@ const EntryPointConnectedDataFields = (props) => {
   }
 
   if (timeBasedData) {
+    const axis = Object.values(axes).find(a => a.id === axisId);
     return (
       <div>
         <HorizontalFormGroup label="Formula">
@@ -45,19 +48,16 @@ const EntryPointConnectedDataFields = (props) => {
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Unit">
-          <Field
-            name={`${prefix}unit`}
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-          {axes &&
-            <p
-              style={{ fontSize: '0.9em', paddingTop: '2px' }}
-            >
-              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-            </p>
-          }
+          <span>{unit}</span>
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Domain">
+          <span>{domain}</span>
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Timeline">
+          <span>{timelineId}</span>
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Axis">
+          <span>{axis ? axis.label : ''}</span>
         </HorizontalFormGroup>
       </div>
     );
@@ -164,6 +164,8 @@ EntryPointConnectedDataFields.propTypes = {
   prefix: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
   axisId: PropTypes.string.isRequired,
+  domain: PropTypes.string.isRequired,
+  timelineId: PropTypes.string.isRequired,
   timeBasedData: PropTypes.bool,
 };
 EntryPointConnectedDataFields.defaultProps = {

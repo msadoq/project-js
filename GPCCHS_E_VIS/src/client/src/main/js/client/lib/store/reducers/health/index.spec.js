@@ -1,6 +1,7 @@
 import globalConstants from 'common/constants';
 import { freezeArgs, should, getStore } from '../../../common/test';
 import * as actions from '../../actions/health';
+import * as types from '../../types';
 import healthReducer, {
   getHealth,
   getDcStatus,
@@ -57,6 +58,18 @@ describe('store:health:reducer', () => {
       .should.have.properties({
         windowsStatus: { id91: 91, id42: 42 },
       });
+  });
+  it('should clean windowsStatus', () => {
+    const state = { windowsStatus: { a: 1, b: 2, c: 3 } };
+    reducer(state, { type: types.HSC_CLOSE_WORKSPACE }).should.be.eql({
+      windowsStatus: {},
+    });
+  });
+  it('should remove a window from windowsStaus', () => {
+    const state = { windowsStatus: { a: 1, b: 2, c: 3 } };
+    reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { windowId: 'a' } }).should.be.eql({
+      windowsStatus: { b: 2, c: 3 },
+    });
   });
 });
 

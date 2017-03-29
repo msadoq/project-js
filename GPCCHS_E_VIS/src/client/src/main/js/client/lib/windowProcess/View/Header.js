@@ -211,13 +211,6 @@ export default class Header extends PureComponent {
 
 
     const titleStyle = this.getTitleStyle();
-<<<<<<< HEAD
-    const isPathDefined = oId || absolutePath;
-
-=======
-    const expandButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    const saveButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
->>>>>>> dev
     const choosePageDlg = (
       <Modal
         title="Choose Page to move to"

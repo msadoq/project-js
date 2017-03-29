@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import _findIndex from 'lodash/findIndex';
 import { dirname, basename } from 'path';
 
 import { LOG_DOCUMENT_OPEN } from 'common/constants';
@@ -19,7 +18,7 @@ import { createBlankWorkspace } from './createBlankWorkspace';
 import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
-import { getSessions } from '../store/reducers/sessions';
+import { getSession } from '../store/reducers/sessions';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
@@ -96,6 +95,34 @@ const logLoadedDocumentsCount = (documents) => {
   logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
 };
 
+const prepareTimebar = (timelines, state) => (timebar) => {
+  if (!timebar.masterId) {
+    return timebar;
+  }
+  const masterTimeline = _.find(['id', timebar.masterId], timelines);
+  if (!masterTimeline) {
+    return timebar;
+  }
+  const session = getSession(state, { sessionId: masterTimeline.sessionId });
+  if (!session) {
+    return timebar;
+  }
+  const current = session.timestamp.ms;
+  const lower = current - parameters.get('VISU_WINDOW_LOW_MS');
+  const upper = current + parameters.get('VISU_WINDOW_UP_MS');
+  return {
+    ...timebar,
+    visuWindow: {
+      current,
+      lower,
+      upper,
+      defaultWidth: parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
+    },
+    slideWindow: { lower, upper },
+    rulerStart: Number(lower) - (5 * 60000),
+  };
+};
+
 export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState) => {
   const path = workspaceInfo.absolutePath;
   dispatch(isWorkspaceOpening(true));
@@ -107,42 +134,9 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
     }
 
     dispatch(closeWorkspace());
-    // get session for visuWindow
-    const sessions = getSessions(getState());
-    const updatedTbs = [];
-    documents.timebars.forEach((tb) => {
-      let visuOk = false;
-      if (tb.masterId) {
-        const index = _findIndex(documents.timelines, ['id', tb.masterId]);
-        if (index !== -1) {
-          const sessionId = documents.timelines[index].sessionId;
-          const sessionIdx = _findIndex(sessions, ['id', sessionId]);
-          if (sessionIdx !== -1) {
-            const current = sessions[sessionIdx].timestamp.ms;
-            const lower = current - parameters.get('VISU_WINDOW_LOW_MS');
-            const upper = current + parameters.get('VISU_WINDOW_UP_MS');
-            updatedTbs.push({
-              ...tb,
-              visuWindow: {
-                current,
-                lower,
-                upper,
-                defaultWidth: parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
-              },
-              slideWindow: { lower, upper },
-              rulerStart: Number(lower) - (5 * 60000),
-            });
-            visuOk = true;
-          }
-        }
-      }
-      if (!visuOk) {
-        updatedTbs.push(tb);
-      }
-    });
     const payload = {
       ...documents,
-      timebars: updatedTbs,
+      timebars: documents.timebars.map(prepareTimebar(documents.timelines, getState())),
     };
     dispatch({ type: types.WS_WORKSPACE_OPEN, payload });
     dispatch(isWorkspaceOpening(false));

@@ -30,14 +30,12 @@ export default class Chart extends React.Component {
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
     perfOutput: PropTypes.bool,
-    xAxis: PropTypes.arrayOf(
-      PropTypes.shape({
-        xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
-        showTicks: PropTypes.bool,
-        autoTick: PropTypes.bool,
-        tickStep: PropTypes.number,
-      })
-    ).isRequired,
+    xAxis: PropTypes.shape({
+      xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
+      showTicks: PropTypes.bool,
+      autoTick: PropTypes.bool,
+      tickStep: PropTypes.number,
+    }).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,

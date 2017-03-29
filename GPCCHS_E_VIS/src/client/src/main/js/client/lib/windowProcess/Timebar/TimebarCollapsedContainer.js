@@ -9,9 +9,7 @@ import TimebarCollapsed from './TimebarCollapsed';
 export default connect(
   (state, { pageId }) => {
     const focusedPage = getPage(state, { pageId });
-    console.log(focusedPage);
     const { timebarUuid } = focusedPage;
-    console.log('timebarUuid', timebarUuid);
     const isPlaying = getPlayingTimebarId(state, { timebarUuid }) === timebarUuid;
     const timebar = getTimebar(state, { timebarUuid });
 

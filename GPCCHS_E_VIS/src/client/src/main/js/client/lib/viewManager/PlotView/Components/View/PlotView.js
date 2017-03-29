@@ -255,10 +255,15 @@ export class GrizzlyPlotView extends PureComponent {
           allowZoom
           allowPan
           perfOutput={false}
-          xExtents={xExtents}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxisAt="bottom"
+          xAxis={{
+            xExtents,
+            tickStep: _get(axes, ['time', 'tickStep']),
+            autoTick: _get(axes, ['time', 'autoTick']),
+            showTicks: _get(axes, ['time', 'showTicks']),
+          }}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints

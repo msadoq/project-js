@@ -16,6 +16,7 @@ describe('store:pages:reducer:panels', () => {
       editorWidth: 0,
       editorViewId: undefined,
       timebarHeight: 130,
+      timebarCollapsed: false,
       explorerWidth: 0,
       explorerTab: undefined,
     });

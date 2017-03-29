@@ -24,12 +24,13 @@ export default class Messages extends PureComponent {
     collapsed: false,
   }
 
-  updateFilter = (e) => {
+  updateFilter = (e, type) => {
+    e.preventDefault();
     if (this.state.collapsed) {
       this.collapse();
     }
     this.setState({
-      filter: e.currentTarget.getAttribute('choice'),
+      filter: type,
     });
   }
 
@@ -98,11 +99,10 @@ export default class Messages extends PureComponent {
           return (
             <Button
               key={t}
-              choice={t}
               bsStyle={t}
               bsSize="sm"
               className={cssClasses}
-              onClick={this.updateFilter}
+              onClick={e => this.updateFilter(e, t)}
             >
               {nb}
             </Button>

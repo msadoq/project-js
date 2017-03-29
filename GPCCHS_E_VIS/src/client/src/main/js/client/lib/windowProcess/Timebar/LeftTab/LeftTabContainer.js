@@ -6,7 +6,7 @@ import {
   removeTimeline,
   updateId,
   updateOffset,
-  updateSessionId,
+  updateSessionName,
   updateColor,
 } from '../../../store/actions/timelines';
 import LeftTab from './LeftTab';
@@ -17,7 +17,7 @@ export default connect(
     collapseTimebar,
     updateMasterId,
     updateOffset,
-    updateSessionId,
+    updateSessionName,
     updateColor,
     createNewTimeline,
     updateId,

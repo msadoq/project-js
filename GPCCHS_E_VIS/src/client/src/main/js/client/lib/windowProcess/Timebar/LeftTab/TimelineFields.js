@@ -21,7 +21,7 @@ export default class TimelineFields extends PureComponent {
         kind: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
-        sessionId: PropTypes.number.isRequired,
+        sessionName: PropTypes.string.isRequired,
       })
     ).isRequired,
     sessions: PropTypes.arrayOf(
@@ -98,13 +98,13 @@ export default class TimelineFields extends PureComponent {
 
         <HorizontalFormGroup label="Session">
           <Field
-            name="sessionId"
+            name="sessionName"
             component="select"
             type="text"
             className="form-control input-sm"
           >
             {sessions.map(session =>
-              <option key={session.id} value={session.id}>{session.name}</option>
+              <option key={session.id} value={session.name}>{session.name}</option>
             )}
           </Field>
         </HorizontalFormGroup>

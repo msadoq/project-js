@@ -5,7 +5,7 @@ const initialState = {
   id: null,
   offset: 0,
   kind: 'Session',
-  sessionId: null,
+  sessionName: null,
   color: '#31b0d5',
 };
 
@@ -22,8 +22,8 @@ export default function timeline(stateTimeline = initialState, action) {
     case types.WS_TIMELINE_UPDATE_COLOR: {
       return { ...stateTimeline, color: action.payload.color };
     }
-    case types.WS_TIMELINE_UPDATE_SESSIONID:
-      return { ...stateTimeline, sessionId: action.payload.sessionId };
+    case types.WS_TIMELINE_UPDATE_SESSIONNAME:
+      return { ...stateTimeline, sessionName: action.payload.sessionName };
     default:
       return stateTimeline;
   }

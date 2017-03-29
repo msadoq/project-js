@@ -107,13 +107,13 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
           },
         },
         timelines: {
-          timeline_01: { id: 'timeline01', sessionId: 'mySession' },
+          timeline_01: { id: 'timeline01', sessionName: 'mySession' },
         },
         timebarTimelines: {
           myId: ['timeline_01'],
         },
         sessions: [
-          { id: 'mySession' },
+          { id: 1, name: 'mySession' },
         ],
       };
       getCurrentSessionExists(state, { timebarUuid: 'myId' }).should.be.true;

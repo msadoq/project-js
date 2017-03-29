@@ -15,7 +15,7 @@ const propsStub = {
   createNewTimeline: () => null,
   removeTimeline: () => null,
   updateTimebarId: () => null,
-  updateSessionId: () => null,
+  updateSessionName: () => null,
   updateColor: () => null,
   collapseTimebar: () => null,
   timelines: TimelinesFixture,

@@ -84,14 +84,14 @@ describe('documentManager/saveWorkspace', () => {
           id: 'Session 1',
           kind: 'Session',
           offset: 0,
-          sessionId: 1,
+          sessionName: 'session1',
         },
         tl2: {
           color: null,
           id: 'Session 2',
           kind: 'Session',
           offset: 0,
-          sessionId: 1,
+          sessionName: 'session1',
         },
       },
       hsc:

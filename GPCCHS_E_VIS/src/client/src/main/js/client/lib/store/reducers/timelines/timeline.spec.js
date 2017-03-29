@@ -10,10 +10,10 @@ describe('store:timelines:reducer', () => {
     it('sessionId', () => {
       const state = reducer(
         { myTimelineUuid: { sessionId: 1 } },
-        actions.updateSessionId('myTimelineUuid', 2)
+        actions.updateSessionName('myTimelineUuid', 'Session2')
       );
       state.should.have.property('myTimelineUuid');
-      state.myTimelineUuid.sessionId.should.equal(2);
+      state.myTimelineUuid.sessionName.should.equal('Session2');
     });
     it('offset', () => {
       const state = reducer(

@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import { getDomains } from '../store/reducers/domains';
 import { getMasterSessionId } from '../store/reducers/masterSession';
+import { getSessions } from '../store/reducers/sessions';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
 import { getStructureType, getStructureModule } from '../viewManager';
@@ -26,8 +27,9 @@ export default function makeGetPerViewData() {
     getTimebarTimelinesSelector,
     getView,
     (state, { timebarUuid }) => timebarUuid,
-    (masterSessionId, domains, viewTimelines, view, timebarUuid) => {
-      if (anyUndefined([domains, view, timebarUuid, viewTimelines])) {
+    getSessions,
+    (masterSessionId, domains, viewTimelines, view, timebarUuid, sessions) => {
+      if (anyUndefined([domains, view, timebarUuid, viewTimelines, sessions])) {
         return {};
       }
       const { configuration, type } = view;
@@ -46,6 +48,7 @@ export default function makeGetPerViewData() {
           const val =
           getStructureModule(type).parseEntryPoint(
             domains,
+            sessions,
             viewTimelines,
             ep,
             masterSessionId,

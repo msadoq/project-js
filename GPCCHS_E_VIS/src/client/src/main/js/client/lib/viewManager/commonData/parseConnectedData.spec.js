@@ -1,9 +1,10 @@
 import parseConnectedData from './parseConnectedData';
 
-describe('data/map/parseConnectedData', () => {
+describe('viewManager/commonData/parseConnectedData', () => {
   let connectedData;
   let timelines;
   let domains;
+  let sessions;
   beforeEach(() => {
     connectedData = {
       formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
@@ -12,10 +13,15 @@ describe('data/map/parseConnectedData', () => {
       filter: [],
     };
     timelines = [
-      { id: 'tl1', sessionId: 'session1', offset: 0 },
-      { id: 'tl2', sessionId: 'session2', offset: 10 },
-      { id: 'other', sessionId: 'sessionOther', offset: -10 },
-      { id: undefined, sessionId: 'invalid', offset: 0 },
+      { id: 'tl1', sessionName: 'session1', offset: 0 },
+      { id: 'tl2', sessionName: 'session2', offset: 10 },
+      { id: 'other', sessionName: 'sessionOther', offset: -10 },
+      { id: undefined, sessionName: 'invalid', offset: 0 },
+    ];
+    sessions = [
+      { name: 'session1', id: 1 },
+      { name: 'session2', id: 2 },
+      { name: 'sessionOther', id: 3 },
     ];
     domains = [
       { domainId: 'd1', name: 'cnes' },
@@ -27,31 +33,35 @@ describe('data/map/parseConnectedData', () => {
     ];
   });
   it('no domains', () => {
-    parseConnectedData([], timelines, connectedData, 'Session master')
+    parseConnectedData([], sessions, timelines, connectedData, 'Session master')
     .should.deep.equal({ error: 'invalid entry point, no domain available' });
   });
   it('multiple domains', () => {
     connectedData.domain = 'cnes*';
-    parseConnectedData(domains, timelines, connectedData, 'Session master')
+    parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     .should.deep.equal({ error: 'invalid entry point, no domain matches' });
   });
-  it('no session', () => {
+  it('no session defined', () => {
     connectedData.timeline = 'tl10';
-    parseConnectedData(domains, timelines, connectedData, 'Session master')
+    parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     .should.deep.equal({ error: 'invalid entry point, no timeline matches' });
+  });
+  it('no session', () => {
+    parseConnectedData(domains, [], timelines, connectedData, 'Session master')
+    .should.deep.equal({ error: 'invalid entry point, no session available' });
   });
   it('multiple session', () => {
     connectedData.timeline = 'tl*';
-    parseConnectedData(domains, timelines, connectedData, 'Session master')
+    parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     .should.deep.equal({ error: 'invalid entry point, no timeline matches' });
   });
   it('invalid formula', () => {
     connectedData.formula = 'formula';
-    parseConnectedData(domains, timelines, connectedData, 'Session master')
+    parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     .should.deep.equal({ error: `unable to parse this connectedData formula ${connectedData.formula}` });
   });
   it('valid', () => {
-    const res = parseConnectedData(domains, timelines, connectedData, 'Session master');
+    const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master');
     res.should.deep.equal(
       {
         dataId: {
@@ -59,7 +69,9 @@ describe('data/map/parseConnectedData', () => {
           parameterName: 'ATT_BC_STR1VOLTAGE',
           comObject: 'ReportingParameter',
           domainId: 'd1',
-          sessionId: 'session1',
+          domain: 'cnes',
+          sessionName: 'session1',
+          sessionId: 1,
         },
         filter: [],
         field: 'extractedValue',
@@ -68,7 +80,7 @@ describe('data/map/parseConnectedData', () => {
   });
   it('decommuted param => no field', () => {
     connectedData.formula = 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>';
-    const res = parseConnectedData(domains, timelines, connectedData, 'Session master');
+    const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master');
     res.should.deep.equal(
       {
         dataId: {
@@ -76,7 +88,9 @@ describe('data/map/parseConnectedData', () => {
           parameterName: 'CLCW_TM_NOMINAL',
           comObject: 'DecommutedPacket',
           domainId: 'd1',
-          sessionId: 'session1',
+          domain: 'cnes',
+          sessionName: 'session1',
+          sessionId: 1,
         },
         filter: [],
         offset: 0,

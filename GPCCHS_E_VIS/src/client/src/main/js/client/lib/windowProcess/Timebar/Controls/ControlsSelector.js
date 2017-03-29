@@ -38,7 +38,7 @@ export const getMasterTimelineExists = createSelector(
 const getCurrentSession = (state, { ...ownProps }) => {
   const masterTimeline = getMasterTimelineById(state, ownProps);
   if (masterTimeline) {
-    const currentSession = getSession(state, { sessionId: masterTimeline.sessionId });
+    const currentSession = getSession(state, { sessionName: masterTimeline.sessionName });
     return currentSession;
   }
   return null;

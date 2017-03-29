@@ -103,7 +103,7 @@ const prepareTimebar = (timelines, state) => (timebar) => {
   if (!masterTimeline) {
     return timebar;
   }
-  const session = getSession(state, { sessionId: masterTimeline.sessionId });
+  const session = getSession(state, { sessionName: masterTimeline.sessionName });
   if (!session) {
     return timebar;
   }

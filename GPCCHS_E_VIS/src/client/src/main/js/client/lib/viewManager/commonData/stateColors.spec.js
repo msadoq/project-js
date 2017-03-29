@@ -3,7 +3,7 @@ import { get } from 'common/parameters';
 import { should } from '../../common/test';
 import { getStateColorObj } from './stateColors';
 
-describe('data/common/stateColors', () => {
+describe('viewManager/commonData/stateColors', () => {
   it('monitoring color', () => {
     const payload = {};
     const stateColors = [];

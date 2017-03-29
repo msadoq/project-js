@@ -15,6 +15,7 @@ export default class Controls extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
+    getSession: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,
@@ -32,7 +33,7 @@ export default class Controls extends PureComponent {
       kind: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
       offset: PropTypes.number.isRequired,
-      sessionId: PropTypes.number.isRequired,
+      sessionName: PropTypes.string.isRequired,
     }),
     masterSessionId: PropTypes.number,
     switchToNormalMode: PropTypes.func.isRequired,
@@ -61,6 +62,7 @@ export default class Controls extends PureComponent {
           restoreWidth={this.props.restoreWidth}
           goNow={this.props.goNow}
           jump={this.props.jump}
+          getSession={this.props.getSession}
           messages={this.props.messages}
           timebarUuid={this.props.timebarUuid}
           timebarSpeed={this.props.timebarSpeed}
@@ -74,6 +76,7 @@ export default class Controls extends PureComponent {
           switchToRealtimeMode={this.props.switchToRealtimeMode}
           switchToExtensibleMode={this.props.switchToExtensibleMode}
           switchToFixedMode={this.props.switchToFixedMode}
+          getSession={this.props.getSession}
           timebarMode={this.props.timebarMode}
           timebarUuid={this.props.timebarUuid}
           timebarRealTime={this.props.timebarRealTime}

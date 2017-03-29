@@ -2,7 +2,7 @@
 const { should } = require('../../common/test');
 const formula = require('./formula');
 
-describe('connectedData/formula', () => {
+describe('viewManager/commonData/formula', () => {
   it('empty or invalid type', () => {
     should.not.exist(formula());
     should.not.exist(formula(null));

@@ -26,13 +26,14 @@ export default function findTimelines(timelines, masterSessionId, search) {
     }
     return {
       sessionId: masterSessionId,
+      sessionName: '*',
       offset: 0,
     };
   }
 
   const sessions = _map(
     _filter(timelines, t => t.id === search),
-    t => ({ sessionId: t.sessionId, offset: t.offset })
+    t => ({ sessionName: t.sessionName, offset: t.offset })
   );
   if (sessions.length < 1) {
     return { error: 'invalid entry point, no timeline matches' };

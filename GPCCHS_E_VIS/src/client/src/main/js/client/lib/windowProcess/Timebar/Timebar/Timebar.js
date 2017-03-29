@@ -61,7 +61,7 @@ export default class Timebar extends PureComponent {
         kind: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
-        sessionId: PropTypes.number.isRequired,
+        sessionName: PropTypes.string.isRequired,
       })
     ).isRequired,
     isPlaying: PropTypes.bool.isRequired,

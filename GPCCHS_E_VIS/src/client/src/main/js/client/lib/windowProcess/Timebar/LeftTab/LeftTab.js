@@ -20,7 +20,7 @@ export default class LeftTab extends PureComponent {
     updateColor: PropTypes.func.isRequired,
     updateMasterId: PropTypes.func.isRequired,
     updateOffset: PropTypes.func.isRequired,
-    updateSessionId: PropTypes.func.isRequired,
+    updateSessionName: PropTypes.func.isRequired,
     updateTimebarId: PropTypes.func.isRequired,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
@@ -29,7 +29,7 @@ export default class LeftTab extends PureComponent {
         kind: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
-        sessionId: PropTypes.number.isRequired,
+        sessionName: PropTypes.string.isRequired,
       })
     ).isRequired,
     sessions: PropTypes.arrayOf(
@@ -107,7 +107,8 @@ export default class LeftTab extends PureComponent {
       {
         kind: values.kind,
         id: values.id,
-        sessionId: parseInt(values.sessionId, 10),
+        // sessionId: parseInt(values.sessionId, 10),
+        sessionName: values.sessionName,
         color: values.color,
         offset: values.master ? 0 : parseInt(values.offset, 10),
       }
@@ -147,7 +148,7 @@ export default class LeftTab extends PureComponent {
       updateMasterId,
       masterId,
       timelines,
-      updateSessionId,
+      updateSessionName,
     } = this.props;
 
     const timeline = timelines.find(x => x.uuid === values.uuid);
@@ -159,8 +160,9 @@ export default class LeftTab extends PureComponent {
     if (timeline.color !== values.color) {
       updateColor(values.uuid, values.color);
     }
-    if (timeline.sessionId !== parseInt(values.sessionId, 10)) {
-      updateSessionId(values.uuid, parseInt(values.sessionId, 10));
+    // if (timeline.sessionId !== parseInt(values.sessionId, 10)) {
+    if (timeline.sessionName !== values.sessionName) {
+      updateSessionName(values.uuid, values.sessionName);
     }
 
     if (values.master && masterId !== values.id) {
@@ -238,8 +240,7 @@ export default class LeftTab extends PureComponent {
             id: currentlyEditingTimeline.id,
             color: currentlyEditingTimeline.color,
             kind: currentlyEditingTimeline.kind,
-            sessionId: typeof currentlyEditingTimeline.sessionId === 'number' ?
-              currentlyEditingTimeline.sessionId.toString() : '',
+            sessionName: currentlyEditingTimeline.sessionName,
             uuid: currentlyEditingTimeline.uuid,
             offset: currentlyEditingTimeline.offset,
           }}
@@ -325,7 +326,7 @@ export default class LeftTab extends PureComponent {
           onWheel={this.onWheel}
         >
           { timelines && timelines.map((v) => {
-            const session = Object.values(sessions).find(s => s.id === v.sessionId);
+            const session = Object.values(sessions).find(s => s.name === v.sessionName);
             return (
               <Timeline
                 key={v.id}

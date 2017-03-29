@@ -1,9 +1,15 @@
 import { get } from 'common/parameters';
 import formulaParser from './formula';
 import domainsFilter from './domains';
+import sessionsFilter from './sessions';
 import timelinesFilter from './timelines';
 
-export default function parseConnectedData(domains, timelines, connectedData, masterSessionId) {
+export default function parseConnectedData(
+  domains,
+  sessions,
+  timelines,
+  connectedData,
+  masterSessionId) {
   const { formula, domain, timeline, filter } = connectedData;
   // formula
   const parameter = formulaParser(formula);
@@ -23,8 +29,18 @@ export default function parseConnectedData(domains, timelines, connectedData, ma
   if (timelineSearch.error) {
     return timelineSearch;
   }
-  const { sessionId, offset } = timelineSearch;
-  const dataId = { catalog, parameterName, comObject, domainId, sessionId };
+  const { sessionName, offset } = timelineSearch;
+  const session = sessionsFilter(sessions, sessionName, masterSessionId);
+  if (session.error) {
+    return session;
+  }
+  const dataId = { catalog,
+    parameterName,
+    comObject,
+    domainId,
+    domain,
+    sessionName,
+    sessionId: session.id };
 
   return {
     dataId,

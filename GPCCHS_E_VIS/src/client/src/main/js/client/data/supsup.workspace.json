@@ -38,7 +38,7 @@
             "id": "Session 1",
             "offset": 0,
             "kind": "Session",
-            "sessionId": 181
+            "sessionName": "Session#181"
           }
         ],
         "masterId": "Session 1"

@@ -10,6 +10,7 @@ const logger = getLogger('data:PLotView:parseEntryPoint');
 
 export default function parseEntryPoint(
   domains,
+  sessions,
   timelines,
   entryPoint,
   masterSessionId,
@@ -21,14 +22,14 @@ export default function parseEntryPoint(
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
   const { connectedDataX, connectedDataY, name, id, stateColors } = entryPoint;
-  const cdX = parseConnectedData(domains, timelines, connectedDataX, masterSessionId);
+  const cdX = parseConnectedData(domains, sessions, timelines, connectedDataX, masterSessionId);
 
   if (cdX.error) {
     logger.info('invalid entryPoint', name, cdX.error);
     return { [name]: { error: cdX.error } };
   }
 
-  const cdY = parseConnectedData(domains, timelines, connectedDataY, masterSessionId);
+  const cdY = parseConnectedData(domains, sessions, timelines, connectedDataY, masterSessionId);
 
   if (cdY.error) {
     logger.info('invalid entryPoint', name, cdY.error);

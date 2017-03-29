@@ -30,7 +30,14 @@ export default class Chart extends React.Component {
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
     perfOutput: PropTypes.bool,
-    xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
+    xAxis: PropTypes.arrayOf(
+      PropTypes.shape({
+        xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
+        showTicks: PropTypes.bool,
+        autoTick: PropTypes.bool,
+        tickStep: PropTypes.number,
+      })
+    ).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -229,7 +236,7 @@ export default class Chart extends React.Component {
     const {
       yAxes,
       lines,
-      xExtents,
+      xAxis: { xExtents },
     } = this.props;
     const {
       yZoomLevels,
@@ -455,7 +462,12 @@ export default class Chart extends React.Component {
       yAxesAt,
       xAxisAt,
       current,
-      xExtents,
+      xAxis: {
+        xExtents,
+        showTicks,
+        autoTick,
+        tickStep,
+      },
       enableTooltip,
       tooltipColor,
       allowYPan,
@@ -648,6 +660,9 @@ export default class Chart extends React.Component {
           showGrid={_get(this.yAxes, '0.showGrid')}
           gridStyle={_get(this.yAxes, '0.gridStyle')}
           gridSize={_get(this.yAxes, '0.gridSize')}
+          showTicks={showTicks}
+          autoTick={autoTick}
+          tickStep={tickStep}
           margin={marginSide}
           xAxisHeight={this.xAxisHeight}
           height={this.chartHeight}

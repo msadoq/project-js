@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _find from 'lodash/find';
 import simple from '../simpleActionCreator';
@@ -8,10 +9,9 @@ export const add = simple(
   'containerId', // global, view or page id
   'type', // success, warning, danger, info
   (param) => {
-    if (param instanceof Error) {
-      return { message: param.message };
-    }
-    return { message: param };
+    const messages = _.flatten([param]);
+    const extractErrors = _.map(x => (x instanceof Error ? x.message : x));
+    return { messages: extractErrors(messages) };
   }
 );
 export const remove = simple(

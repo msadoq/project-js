@@ -26,7 +26,7 @@ describe('documentManager:actions', () => {
         payload: {
           containerId: 1234,
           type: 'danger',
-          message: 'Error',
+          messages: ['Error'],
         },
       });
     });
@@ -61,7 +61,7 @@ describe('documentManager:actions', () => {
         payload: {
           containerId: 'global',
           type: 'danger',
-          message: 'Error',
+          messages: ['Error'],
         },
       });
     });

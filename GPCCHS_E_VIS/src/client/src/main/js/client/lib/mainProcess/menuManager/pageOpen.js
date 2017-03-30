@@ -9,8 +9,8 @@ import { addBlankPage } from '../../store/actions/pages';
 
 import { openPage } from '../../documentManager';
 
-const pageOpenWithPath = ({ filePath, windowId }) => {
-  getStore().dispatch(openPage({ absolutePath: filePath, windowId }));
+const pageOpenWithPath = ({ absolutePath, windowId }) => {
+  getStore().dispatch(openPage({ absolutePath, windowId }));
 };
 
 function pageOpen(focusedWindow) {
@@ -22,7 +22,7 @@ function pageOpen(focusedWindow) {
     if (err || !filePath) { // error or cancel
       return;
     }
-    pageOpenWithPath({ filePath, windowId: focusedWindow.windowId });
+    pageOpenWithPath({ absolutePath: filePath, windowId: focusedWindow.windowId });
   });
 }
 

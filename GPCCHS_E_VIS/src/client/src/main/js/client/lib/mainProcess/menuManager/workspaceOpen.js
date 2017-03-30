@@ -40,15 +40,15 @@ function workspaceOpen() {
     // open the file picker
     return getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
       if (filePath) {
-        workspaceOpenWithPath({ filePath });
+        workspaceOpenWithPath({ absolutePath: filePath });
       }
     });
   });
 }
 
-function workspaceOpenWithPath({ filePath }) {
+function workspaceOpenWithPath({ absolutePath }) {
   const { dispatch } = getStore();
-  dispatch(openWorkspace({ absolutePath: filePath }));
+  dispatch(openWorkspace({ absolutePath }));
 }
 
 const isPagesSaved = state => getModifiedPagesIds(state).length === 0;

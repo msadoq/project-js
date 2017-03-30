@@ -56,6 +56,7 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -154,6 +155,7 @@ export class GrizzlyPlotView extends PureComponent {
       this.props.viewId,
       parseDragData(content)
     );
+    this.props.openEditor();
 
     e.stopPropagation();
   }

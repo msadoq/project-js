@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import _map from 'lodash/map';
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
@@ -78,11 +79,18 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
 
 export function openEditor(pageId, viewId) { // TODO boxmodel test
   return (dispatch, getState) => {
-    const { editorWidth } = getPanels(getState(), { pageId });
+    let pId = pageId;
+    if (!pageId) {
+      const pages = _map(getState().pages, (v, k) => ({ ...v, id: k }));
+      const containsView = p => p.views.some(v => v === viewId);
+      const page = _.get('0', _.filter(containsView, pages));
+      pId = page.id;
+    }
+    const { editorWidth } = getPanels(getState(), { pId });
     if (!editorWidth || editorWidth < 1) {
-      dispatch(resizeEditor(pageId, 350));
+      dispatch(resizeEditor(pId, 350));
     }
 
-    dispatch(loadInEditor(pageId, viewId));
+    dispatch(loadInEditor(pId, viewId));
   };
 }

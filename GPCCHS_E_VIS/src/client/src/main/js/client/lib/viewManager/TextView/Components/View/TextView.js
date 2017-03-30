@@ -57,6 +57,7 @@ export default class TextView extends PureComponent {
     content: PropTypes.string.isRequired,
     updateContent: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
+    openEditor: PropTypes.func.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
@@ -106,9 +107,9 @@ export default class TextView extends PureComponent {
     }
 
     this.props.addEntryPoint(
-      this.props.viewId,
       parseDragData(content)
     );
+    this.props.openEditor();
 
     e.stopPropagation();
   }
@@ -178,8 +179,8 @@ export default class TextView extends PureComponent {
   }
 
   handleSubmit = (values) => {
-    const { viewId, updateContent } = this.props;
-    updateContent(viewId, values.html);
+    const { updateContent } = this.props;
+    updateContent(values.html);
   }
 
   htmlToReactParser = new Parser();

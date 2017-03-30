@@ -1,16 +1,20 @@
 import _ from 'lodash/fp';
 import { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TextView from './TextView';
 import {
   addEntryPoint,
   updateContent,
 } from '../../../../store/actions/views';
+import {
+  openEditor,
+} from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getViewContent } from '../../../../store/reducers/views';
 import { getData } from '../../store/dataReducer';
 
-const mapStateToProps = (state, { viewId }) => {
+export const mapStateToProps = (state, { viewId }) => {
   const getConfiguration = _.get(`views[${viewId}].configuration`);
   const data = getData(state, { viewId });
   return {
@@ -21,10 +25,11 @@ const mapStateToProps = (state, { viewId }) => {
   };
 };
 
-const mapDispatchToProps = {
-  updateContent,
-  addEntryPoint,
-};
+const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+  updateContent: html => updateContent(viewId, html),
+  addEntryPoint: data => addEntryPoint(viewId, data),
+  openEditor: () => openEditor(undefined, viewId),
+}, dispatch);
 
 export const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
 

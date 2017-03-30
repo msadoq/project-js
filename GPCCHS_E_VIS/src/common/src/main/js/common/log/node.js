@@ -145,7 +145,7 @@ function _getLogger(category, config = getDefaultConfig(), allTransports = avail
     function logWithFilter(...args) {
       if ((new RegExp(include, 'g')).test(category) &&
         !(new RegExp(exclude, 'g')).test(category)) {
-        const meta = args[2];
+        const meta = args[2] || {};
 
         if (params.time) {
           meta.time = meta.time || `${getTime()}ms`;

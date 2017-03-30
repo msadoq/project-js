@@ -56,6 +56,8 @@ const commands = {
         windowId,
         status,
       }),
+    openDocuWikiHelper: () =>
+      commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
   },
 };
 

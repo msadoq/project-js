@@ -64,7 +64,6 @@ class Window extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('keydown', this.closeHelpShortCut);
-
     // set in store that this is window is fully loaded and ready to run
     const { setIsLoaded, windowId } = this.props;
     setTimeout(() => setIsLoaded(windowId), 0);

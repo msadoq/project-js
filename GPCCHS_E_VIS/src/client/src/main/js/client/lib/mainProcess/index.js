@@ -186,7 +186,6 @@ export function onStart() {
         if (err) {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
-          dispatch(addMessage('global', 'danger', err));
           dispatch(openBlankWorkspace({ keepMessages: true }));
         }
         callback(null);

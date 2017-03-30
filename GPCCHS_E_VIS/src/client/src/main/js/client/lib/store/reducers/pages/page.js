@@ -54,7 +54,10 @@ const page = (statePage = initialState, action) => {
       )(newPage);
     }
     case types.WS_PAGE_ADD_BLANK: {
-      return _.merge(statePage, action.payload.page);
+      return _.merge(statePage, {
+        ...action.payload.page,
+        panels: panels(undefined, action),
+      });
     }
     case types.WS_VIEW_OPEN: {
       return _.pipe(

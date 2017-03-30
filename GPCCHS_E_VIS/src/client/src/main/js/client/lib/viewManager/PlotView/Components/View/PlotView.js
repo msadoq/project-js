@@ -194,7 +194,7 @@ export class GrizzlyPlotView extends PureComponent {
   selectLine = (e, lineId) => {
     e.preventDefault();
     this.setState({
-      selectedLineName: lineId,
+      selectedLineName: lineId === this.state.selectedLineName ? null : lineId,
     });
   }
 

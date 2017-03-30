@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import async from 'async';
 import { v4 } from 'uuid';
 
 import { readDocument } from './io';
@@ -20,7 +21,7 @@ const commonViewProperties = [
   'procedures',
 ];
 
-const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
+const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
   const { path, oId, absolutePath } = viewInfo;
   readDocument(pageFolder, path, oId, absolutePath, (err, viewContent) => {
     if (err) {
@@ -54,7 +55,7 @@ const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
       uuid,
     });
   });
-};
+});
 
 export default {
   simpleReadView,

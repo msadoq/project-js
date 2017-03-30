@@ -8,6 +8,7 @@ import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/reducers/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { updatePath } from '../../store/actions/hsc';
+import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
@@ -36,7 +37,7 @@ function workspaceOpen() {
     if (err) {
       return dispatch(addGlobalError(err));
     }
-    const folder = getState().hsc.folder;
+    const folder = getWorkspaceFolder(getState());
     // open the file picker
     return getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
       if (filePath) {

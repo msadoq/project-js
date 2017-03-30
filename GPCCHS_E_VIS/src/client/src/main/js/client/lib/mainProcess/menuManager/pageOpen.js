@@ -6,6 +6,7 @@ import { server } from '../ipc';
 import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { addBlankPage } from '../../store/actions/pages';
+import { getWorkspaceFolder } from '../../store/reducers/hsc';
 
 import { openPage } from '../../documentManager';
 
@@ -14,11 +15,12 @@ const pageOpenWithPath = ({ absolutePath, windowId }) => {
 };
 
 function pageOpen(focusedWindow) {
-  const store = getStore();
+  const { getState } = getStore();
   if (!focusedWindow) {
     return;
   }
-  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
+  const workspaceFolder = getWorkspaceFolder(getState());
+  getPathByFilePicker(workspaceFolder, 'page', 'open', (err, filePath) => {
     if (err || !filePath) { // error or cancel
       return;
     }

@@ -78,6 +78,7 @@ export class GrizzlyPlotView extends PureComponent {
 
   state = {
     showLegend: false,
+    selectedLineName: null,
   }
 
   componentDidMount() {
@@ -87,23 +88,21 @@ export class GrizzlyPlotView extends PureComponent {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const {
-      data,
-      entryPoints,
-      visuWindow,
-      configuration,
-      containerWidth,
-      containerHeight,
-    } = this.props;
-    return !(
-      this.state.showLegend === nextState.showLegend &&
-      data === nextProps.data &&
-      entryPoints === nextProps.entryPoints &&
-      visuWindow === nextProps.visuWindow &&
-      configuration === nextProps.configuration &&
-      containerWidth === nextProps.containerWidth &&
-      containerHeight === nextProps.containerHeight
-    );
+    let shouldRender = false;
+    const attrs = ['data', 'entryPoints', 'visuWindow', 'configuration',
+      'containerWidth', 'containerHeight'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
+        shouldRender = true;
+      }
+    }
+    const stateAttrs = ['showLegend', 'selectedLineName'];
+    for (let i = 0; i < stateAttrs.length; i += 1) {
+      if (nextState[stateAttrs[i]] !== this.state[stateAttrs[i]]) {
+        shouldRender = true;
+      }
+    }
+    return shouldRender;
   }
 
   onDrop = this.drop.bind(this);
@@ -190,6 +189,13 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
+  selectLine = (e, lineId) => {
+    e.preventDefault();
+    this.setState({
+      selectedLineName: lineId,
+    });
+  }
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -217,19 +223,27 @@ export class GrizzlyPlotView extends PureComponent {
       containerHeight,
       data,
       data: { lines },
-      configuration: { showYAxes, axes, grids, entryPoints },
+      configuration: { showYAxes, axes, grids },
       visuWindow,
+    } = this.props;
+    let {
+      configuration: { entryPoints },
     } = this.props;
     const {
       showLegend,
+      selectedLineName,
     } = this.state;
+
+    if (selectedLineName && showLegend) {
+      entryPoints = entryPoints.filter(ep => ep.name === selectedLineName);
+    }
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
       const eps = entryPoints.filter(ep =>
         _get(ep, ['connectedDataY', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 24) : 0;
+      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 25) : 0;
     });
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
@@ -351,9 +365,11 @@ export class GrizzlyPlotView extends PureComponent {
         />
         <Legend
           yAxes={yAxes}
-          lines={entryPoints}
-          show={this.state.showLegend}
+          lines={this.props.configuration.entryPoints}
+          show={showLegend}
+          selectedLineName={selectedLineName}
           toggleShowLegend={this.toggleShowLegend}
+          selectLine={this.selectLine}
         />
       </DroppableContainer>
     );

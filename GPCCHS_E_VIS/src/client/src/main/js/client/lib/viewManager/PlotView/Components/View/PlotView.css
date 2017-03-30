@@ -30,10 +30,13 @@
     display: block;
     li{
       display: inline-block;
-      width: 33%;
+      cursor: pointer;
+      padding: 2px 4px;
+      width: 31%;
       height: 20px;
       span{
         display: inline-block;
+        font-size: 0.9em;
       }
     }
   }
@@ -45,4 +48,8 @@
 }
 .plotLegendAxisName{
   font-weight: bold;
+}
+.selectedLegend{
+  background: #333;
+  color: #FFF;
 }

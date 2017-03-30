@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
@@ -8,7 +8,7 @@ import { axisBottom, axisTop } from 'd3-axis';
 import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
-export default class XAxis extends PureComponent {
+export default class XAxis extends Component {
 
   static propTypes = {
     yAxesAt: PropTypes.string,
@@ -17,7 +17,7 @@ export default class XAxis extends PureComponent {
     showGrid: PropTypes.bool,
     showTicks: PropTypes.bool,
     autoTick: PropTypes.bool,
-    tickStep: PropTypes.bool,
+    tickStep: PropTypes.number,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,

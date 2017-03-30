@@ -1,8 +1,8 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PropTypes, Component } from 'react';
 import _memoize from 'lodash/memoize';
 import styles from './GrizzlyChart.css';
 
-export default class LinesCanvas extends PureComponent {
+export default class LinesCanvas extends Component {
 
   static propTypes = {
     updateLabelPosition: PropTypes.func.isRequired,
@@ -45,16 +45,19 @@ export default class LinesCanvas extends PureComponent {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
 
-    ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
-      'xScale', 'showLabels', 'data', 'yScale'].forEach((attr) => {
-        if (nextProps[attr] !== this.props[attr]) {
-          shouldRender = true;
-        }
-      });
+    const attrs = ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
+      'xScale', 'showLabels', 'data', 'yScale'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
+        shouldRender = true;
+      }
+    }
 
-    if (nextProps.lines.length !== this.props.lines.length) {
+    const linesNames = nextProps.lines.map(l => l.name).join('-');
+    if (!this.linesNames || linesNames !== this.linesNames) {
       shouldRender = true;
     }
+    this.linesNames = linesNames;
 
     return shouldRender;
   }

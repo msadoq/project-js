@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,15 +10,14 @@ import {
   openEditor,
 } from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getViewContent } from '../../../../store/reducers/views';
+import { getViewContent, getViewConfiguration } from '../../../../store/reducers/views';
 import { getData } from '../../store/dataReducer';
 
 export const mapStateToProps = (state, { viewId }) => {
-  const getConfiguration = _.get(`views[${viewId}].configuration`);
   const data = getData(state, { viewId });
   return {
     content: getViewContent(state, { viewId }),
-    configuration: getConfiguration(state),
+    configuration: getViewConfiguration(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
     data,
   };

@@ -6,7 +6,7 @@ import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getPanels } from '../reducers/pages';
+import { getPanels, getPages } from '../reducers/pages';
 
 /**
  * Simple actions
@@ -81,7 +81,7 @@ export function openEditor(pageId, viewId) { // TODO boxmodel test
   return (dispatch, getState) => {
     let pId = pageId;
     if (!pageId) {
-      const pages = _map(getState().pages, (v, k) => ({ ...v, id: k }));
+      const pages = _map(getPages(getState()), (v, k) => ({ ...v, id: k }));
       const containsView = p => p.views.some(v => v === viewId);
       const page = _.get('0', _.filter(containsView, pages));
       pId = page.id;

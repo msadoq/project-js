@@ -38,7 +38,8 @@ function viewOpenWithPath({ windowId, absolutePath }) {
 
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
-  const focusedPageId = getState().windows[focusedWindow.windowId].focusedPage;
+  const { windowId } = focusedWindow;
+  const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
   const pageId = focusedPageId || v4();
   const view = {
     type,

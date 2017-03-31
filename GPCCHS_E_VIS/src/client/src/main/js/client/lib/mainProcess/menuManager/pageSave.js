@@ -81,7 +81,9 @@ function pageSaveAs(focusedWindow) {
   if (hasUnsavedViews(focusedWindow)) {
     return;
   }
-  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+  const state = getStore().getState();
+  const { windowId } = focusedWindow;
+  const pageId = getWindowFocusedPageId(state, { windowId });
   savePageByFilePicker(pageId);
 }
 

@@ -71,6 +71,11 @@ export const getWindow = createSelector(
   _.get
 );
 
+export const getWindowTitle = createSelector(
+  getWindow,
+  _.get('title')
+);
+
 export const getWindowPageIds = createSelector(
   getWindow,
   _.get('pages')

@@ -1,6 +1,7 @@
 import path from 'path';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/reducers/views';
+import { getWindowTitle } from '../../store/reducers/windows';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
@@ -92,7 +93,8 @@ function saveFile(focusedWindow, callback) {
     winIds.forEach((winId) => {
       getStore().dispatch(setModifiedWindow(winId, false));
     });
-    const title = getStore().getState().windows[focusedWindow.windowId].title;
+    const { windowId } = focusedWindow;
+    const title = getWindowTitle(getStore().getState(), { windowId });
     focusedWindow.setTitle(title.concat(' - VIMA'));
     callback(null);
   });

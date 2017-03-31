@@ -22,6 +22,41 @@ const logger = getLogger('view:plot');
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
 
+const tooltipFormatter = (id, foundColor, color, value,
+  x, formattedValue, formatter, packet) => {
+  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
+  return (
+    <div
+      key={id}
+      className={grizzlyStyles.tooltipLine}
+    >
+      <span
+        className={grizzlyStyles.tooltipLineSquare}
+        style={{ background: foundColor || color }}
+      />
+      <p>
+        <span
+          className={grizzlyStyles.tooltipLineName}
+          style={{
+            color,
+          }}
+        >{ id } :</span>
+        <span
+          className={grizzlyStyles.tooltipLineValue}
+        >{ packet.symbol ? packet.symbol : formattedValue }</span>
+      </p>
+      <span
+        className={classnames(
+          grizzlyStyles.tooltipOffset,
+          {
+            [grizzlyStyles.red]: offset[0] === '-',
+            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
+          }
+        )}
+      >{' '}{ offset }</span>
+    </div>
+  );
+};
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -150,7 +185,6 @@ export class GrizzlyPlotView extends PureComponent {
       return;
     }
 
-    // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
@@ -326,41 +360,7 @@ export class GrizzlyPlotView extends PureComponent {
                 xAccessor: null, // default .x
                 yAccessor: d => d.value, // default .y
                 colorAccessor: d => d.color,
-                tooltipFormatter: (id, foundColor, color, value,
-                  x, formattedValue, formatter, packet) => {
-                  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
-                  return (
-                    <div
-                      key={id}
-                      className={grizzlyStyles.tooltipLine}
-                    >
-                      <span
-                        className={grizzlyStyles.tooltipLineSquare}
-                        style={{ background: foundColor || color }}
-                      />
-                      <p>
-                        <span
-                          className={grizzlyStyles.tooltipLineName}
-                          style={{
-                            color,
-                          }}
-                        >{ id } :</span>
-                        <span
-                          className={grizzlyStyles.tooltipLineValue}
-                        >{ packet.symbol ? packet.symbol : formattedValue }</span>
-                      </p>
-                      <span
-                        className={classnames(
-                          grizzlyStyles.tooltipOffset,
-                          {
-                            [grizzlyStyles.red]: offset[0] === '-',
-                            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
-                          }
-                        )}
-                      >{' '}{ offset }</span>
-                    </div>
-                  );
-                },
+                tooltipFormatter,
               })
             )
           }

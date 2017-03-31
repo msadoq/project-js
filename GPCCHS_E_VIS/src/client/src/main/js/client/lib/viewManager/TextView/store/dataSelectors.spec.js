@@ -1,4 +1,4 @@
-import { getCount } from './dataSelector';
+import { getCount } from './dataSelectors';
 
 describe('viewManager/TextView/store/dataSelector', () => {
   describe('getCount', () => {

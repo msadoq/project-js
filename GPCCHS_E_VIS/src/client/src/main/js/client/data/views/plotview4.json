@@ -1,16 +1,28 @@
 {
   "type": "PlotView",
+  "title": "Plotview 4 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#000000"
+  },
+  "backgroundColor": "#FFFFFF",
   "links": [
     {
       "name": "page4",
       "path": "./pages/page4.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "ATT_BC_REVTCOUNT1",
@@ -52,7 +64,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT2",
@@ -94,7 +107,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT3",
@@ -136,7 +150,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT4",
@@ -178,7 +193,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     }
   ],
   "axes": [
@@ -244,18 +260,6 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview 4 parameters",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#000000"
-  },
-  "backgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {
     "style": {
@@ -288,4 +292,4 @@
       "relativePosY": 8.9
     }
   ]
-  }
+}

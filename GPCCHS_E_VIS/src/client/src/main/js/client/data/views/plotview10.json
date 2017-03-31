@@ -1,16 +1,29 @@
 {
   "type": "PlotView",
+  "title": "Plotview 10 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#000000",
+    "bgColor": "#aaccff"
+  },
+  "backgroundColor": "#FFFFFF",
   "links": [
     {
       "name": "page4",
       "path": "./pages/page4.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "GENE_AM_FRVERSION",
@@ -53,7 +66,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_MAG1VOLTAGE",
@@ -96,7 +110,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_NUMRJCTTC15",
@@ -139,7 +154,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_STR2QSTRREF",
@@ -181,7 +197,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ORB_BC_LVVELXJ2000",
@@ -224,7 +241,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ORB_BC_NXTDEADLINE",
@@ -267,7 +285,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "POW_BC_NUMRJCTTC18",
@@ -310,7 +329,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "SAT_BC_CCCIMMEDTC",
@@ -353,7 +373,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "SAT_BC_LASTSQNUM5",
@@ -396,7 +417,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "MIS_BC_DALMVOLTAGE",
@@ -445,7 +467,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     }
   ],
   "axes": [
@@ -582,19 +605,6 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview 10 parameters",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#000000",
-    "bgColor": "#aaccff"
-  },
-  "backgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {
     "style": {

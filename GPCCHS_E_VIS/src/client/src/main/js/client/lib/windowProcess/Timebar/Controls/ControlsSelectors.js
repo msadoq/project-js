@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 
 import { getAllMessages } from '../../../store/reducers/messages';
 import { getSession } from '../../../store/reducers/sessions';
-import { getMasterSessionId } from '../../../store/reducers/masterSession';
 import { getTimebarMasterId } from '../../../store/reducers/timebars';
 import { getTimebarTimelinesSelector } from '../../../store/selectors/timebars';
 
@@ -50,7 +49,6 @@ export const getCurrentSessionExists = createSelector(
 
 export default (state, ownProps) => ({
   messages: getTimeSetterMessages(state, ownProps),
-  masterSessionId: getMasterSessionId(state, ownProps),
   masterTimeline: getMasterTimelineById(state, ownProps),
   masterTimelineExists: getMasterTimelineExists(state, ownProps),
   currentSessionExists: getCurrentSessionExists(state, ownProps),

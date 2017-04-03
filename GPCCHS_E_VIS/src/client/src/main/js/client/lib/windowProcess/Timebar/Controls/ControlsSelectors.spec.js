@@ -5,7 +5,7 @@ import {
   getTimeSetterMessages,
   getMasterTimelineExists,
   getCurrentSessionExists,
-} from './ControlsSelector';
+} from './ControlsSelectors';
 
 describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
   describe('getMasterTimelineById', () => {

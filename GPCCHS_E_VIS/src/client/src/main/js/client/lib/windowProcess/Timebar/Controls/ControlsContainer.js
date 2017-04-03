@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import {
   switchToNormalMode,
   switchToRealtimeMode,
@@ -8,10 +9,25 @@ import {
   restoreWidth,
   goNow,
 } from '../../../store/actions/timebars';
-import { getSession } from '../../../store/reducers/sessions';
 
 import Controls from './Controls';
-import selector from './ControlsSelector';
+
+import { getSession } from '../../../store/reducers/sessions';
+import { getMasterSessionId } from '../../../store/reducers/masterSession';
+import {
+  getTimeSetterMessages,
+  getMasterTimelineById,
+  getMasterTimelineExists,
+  getCurrentSessionExists,
+} from './ControlsSelectors';
+
+const mapStateToProps = createStructuredSelector({
+  messages: getTimeSetterMessages,
+  masterSessionId: getMasterSessionId,
+  masterTimeline: getMasterTimelineById,
+  masterTimelineExists: getMasterTimelineExists,
+  currentSessionExists: getCurrentSessionExists,
+});
 
 const mapDispatchToProps = {
   switchToNormalMode,
@@ -24,4 +40,4 @@ const mapDispatchToProps = {
   getSession,
 };
 
-export default connect(selector, mapDispatchToProps)(Controls);
+export default connect(mapStateToProps, mapDispatchToProps)(Controls);

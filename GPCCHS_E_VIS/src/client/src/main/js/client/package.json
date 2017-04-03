@@ -18,7 +18,7 @@
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "stats:main": "ANALYZER_PORT=4242 NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/stats.main.js --progress --profile --colors",
     "stats:renderer": "ANALYZER_PORT=4243 NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/stats.renderer.js --progress --profile --colors",
-    "clean": "rimraf ./dist ./main.js ./main.js.map",
+    "clean": "rimraf ./dist ./main.js ./main.js.map stats.json",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
     "lint": "eslint .",

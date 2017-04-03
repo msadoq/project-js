@@ -8,6 +8,11 @@ export const getAxes = createSelector(
   _.get('axes')
 );
 
+export const getShowYAxes = createSelector(
+  getViewConfiguration,
+  _.get('showYAxes')
+);
+
 export const getGrids = createSelector(
   getViewConfiguration,
   _.get('grids')
@@ -18,7 +23,7 @@ export const getMarkers = createSelector(
   _.get('markers')
 );
 
-export const getShowYAxes = createSelector(
+export const getEntryPoints = createSelector(
   getViewConfiguration,
-  _.get('showYAxes')
+  _.getOr([], 'entryPoints')
 );

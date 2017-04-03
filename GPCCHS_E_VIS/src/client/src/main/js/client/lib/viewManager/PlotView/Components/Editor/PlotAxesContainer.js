@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import PlotAxes from './PlotAxes';
-import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getAxes, getShowYAxes } from '../../store/configurationSelectors';
+import { getAxes, getShowYAxes, getEntryPoints } from '../../store/configurationSelectors';
 import {
   removeAxis,
   updateAxis,
@@ -14,7 +13,7 @@ import {
 
 const mapStateToProps = createStructuredSelector({
   axes: getAxes,
-  entryPoints: getViewEntryPoints,
+  entryPoints: getEntryPoints,
   showYAxes: getShowYAxes,
 });
 

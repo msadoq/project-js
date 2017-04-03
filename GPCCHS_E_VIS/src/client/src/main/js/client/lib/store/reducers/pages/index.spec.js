@@ -9,6 +9,7 @@ import pagesReducer, {
   getEditor,
   getModifiedPagesIds,
   getPageIdByViewId,
+  getPageAbsolutePath,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -124,6 +125,18 @@ describe('store:page:selectors', () => {
         },
       };
       getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
+    });
+  });
+  describe('getEditor', () => {
+    it('should returns current page layout', () => {
+      const state = {
+        pages: {
+          myPageId: {
+            absolutePath: true,
+          },
+        },
+      };
+      getPageAbsolutePath(state, { pageId: 'myPageId' }).should.be.true;
     });
   });
   describe('getModifiedPagesIds', () => {

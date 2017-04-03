@@ -96,6 +96,7 @@ export const getPanels = inPage('panels', {});
 export const getPageViewsIds = inPage('views', []);
 export const getPageLayout = inPage('layout', []);
 export const getEditor = inPage('editor', {});
+export const getPageAbsolutePath = inPage('absolutePath', '');
 
 export const isEditorOpened = (state, { pageId }) => _.get(['pages', pageId, 'panels', 'editorWidth']) > 0;
 

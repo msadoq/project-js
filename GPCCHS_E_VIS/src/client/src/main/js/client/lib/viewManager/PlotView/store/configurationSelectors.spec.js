@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { should } from '../../../common/test';
-import { getAxes, getShowYAxes, getFocusedPageTimelines } from './configurationSelectors';
+import { getAxes, getShowYAxes } from './configurationSelectors';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {
   const state = {
@@ -42,14 +42,6 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
     });
     it('returns view axes', () => {
       getShowYAxes(state, { viewId: 'v1' }).should.be.true;
-    });
-  });
-  describe('getFocusedPageTimelines', () => {
-    it('returns focused page timelines', () => {
-      getFocusedPageTimelines(state, { windowId: 'w1' }).should.be.eql([2, 1]);
-    });
-    it('returns nothing when windowId is unknown', () => {
-      getFocusedPageTimelines(state, { windowId: 'unknownWindowId' }).should.be.eql([]);
     });
   });
 });

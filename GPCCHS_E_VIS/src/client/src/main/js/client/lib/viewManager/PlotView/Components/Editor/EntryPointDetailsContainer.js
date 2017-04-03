@@ -4,7 +4,8 @@ import { createStructuredSelector } from 'reselect';
 
 import EntryPointDetails from './EntryPointDetails';
 
-import { getAxes, getFocusedPageTimelines } from '../../store/configurationSelectors';
+import { getFocusedPageTimelines } from '../../../../store/selectors/timelines';
+import { getAxes } from '../../store/configurationSelectors';
 import {
   updateEntryPoint,
   removeEntryPoint,

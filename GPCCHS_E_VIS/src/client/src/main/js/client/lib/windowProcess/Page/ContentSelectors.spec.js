@@ -4,7 +4,7 @@ import {
   getPageLayoutWithCollapsed,
   getTimebarUuid,
   getMaximizedViewdUuid,
-} from './ContentSelector';
+} from './ContentSelectors';
 
 describe('windowProcess:Page:ContentSelector', () => {
   const state = freezeMe({

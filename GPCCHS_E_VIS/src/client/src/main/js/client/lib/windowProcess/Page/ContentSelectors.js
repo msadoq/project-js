@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import { getPageLayout } from '../../store/reducers/pages';
-import { getPageViews } from '../../store/selectors/pages';
 import {
   getWindowFocusedPageSelector,
 } from '../../store/selectors/windows';
@@ -37,17 +36,4 @@ export const getMaximizedViewdUuid = createSelector(
     const viewLayout = _.find(a => a.maximized === true, layout);
     return viewLayout ? viewLayout.i : null;
   }
-);
-
-export default createSelector(
-  getPageLayoutWithCollapsed,
-  getPageViews,
-  getTimebarUuid,
-  getMaximizedViewdUuid,
-  (layouts, views, timebarUuid, maximizedViewUuid) => ({
-    layouts,
-    views,
-    timebarUuid,
-    maximizedViewUuid,
-  })
 );

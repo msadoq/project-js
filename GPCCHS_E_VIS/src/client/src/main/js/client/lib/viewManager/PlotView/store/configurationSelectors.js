@@ -12,8 +12,13 @@ export const getAxes = createSelector(
   _.get('axes')
 );
 
+export const getShowYAxes = createSelector(
+  getViewConfiguration,
+  _.get('showYAxes')
+);
+
 export const getFocusedPageTimelines = createSelector(
   getState,
   getFocusedPage,
-  (state, page) => getTimebarTimelinesSelector(state, { timebarUuid: page.timebarUuid })
+  (state, page = {}) => getTimebarTimelinesSelector(state, { timebarUuid: page.timebarUuid })
 );

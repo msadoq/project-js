@@ -29,6 +29,16 @@ export function convertData(data) {
     return data.value ? 'true' : 'false';
   } else if (data.type === 'enum') {
     return data.symbol;
+  } else if (data.type === 'blob') {
+    let hexVal = '';
+    data.value.data.forEach((val) => {
+      let hVal = val.toString(16);
+      if (hVal.length < 2) {
+        hVal = '0'.concat(hVal);
+      }
+      hexVal = hexVal.concat(hVal).concat(' ');
+    });
+    return hexVal;
   } else if (!data.type) {
     return updateObjectValues(data);
   }

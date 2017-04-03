@@ -12,7 +12,7 @@ import styles from './DynamicView.css';
 const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
 function dataToShow(data) {
-  if (!data.value || (_isObject(data.value) && data.type !== 'time')) {
+  if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
     if (_isObject(data)) {
       const keys = Object.keys(data);
       return (<dl
@@ -24,14 +24,14 @@ function dataToShow(data) {
         )}
       >
         {keys.map((k) => {
-          if (data[k].value) {
+          if (data[k].value !== undefined) {
             return ([<dt>{k}</dt>,
               <dd>{data[k].value}</dd>]);
           }
           return ([<dt>{k}</dt>,
             <dd>
               { Object.keys(data[k]).map((val, key) => {
-                if (data[k][val].value) {
+                if (data[k][val].value !== undefined) {
                   return (<li key={'li'.concat(key)}><b>{val}:</b> {data[k][val]}</li>);
                 }
                 return ([<dt>{val}</dt>,

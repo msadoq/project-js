@@ -171,7 +171,11 @@ module.exports = {
     let type = null;
     let symbol = null;
     if (attribute._blob != null) {
-      value = attribute._blob.value;
+      if (ByteBuffer.isByteBuffer(attribute._blob.value)) {
+        value = attribute._blob.value.toBuffer();
+      } else {
+        value = attribute._blob.value;
+      }
       type = 'blob';
     } else if (attribute._boolean != null) {
       value = attribute._boolean.value;

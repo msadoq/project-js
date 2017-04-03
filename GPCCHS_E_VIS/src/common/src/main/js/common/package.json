@@ -16,6 +16,7 @@
     "bytebuffer": "~5.0.1",
     "debug": "~2.6.0",
     "lodash": "~4.17.2",
+    "long": "^3.2.0",
     "minimist": "~1.2.0",
     "protobufjs": "~5.0.1",
     "winston": "~2.3.0",
@@ -44,7 +45,6 @@
     "eslint-plugin-import": "^2.2.0",
     "istanbul": "~0.4.5",
     "json-loader": "~0.5.4",
-    "long": "^3.2.0",
     "mocha": "~3.2.0"
   }
 }

@@ -12,7 +12,7 @@ export default class Legend extends PureComponent {
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
-    lines: PropTypes.shape(
+    lines: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
   }

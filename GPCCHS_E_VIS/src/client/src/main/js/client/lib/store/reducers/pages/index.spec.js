@@ -10,6 +10,7 @@ import pagesReducer, {
   getModifiedPagesIds,
   getPageIdByViewId,
   getPageAbsolutePath,
+  getPageIsModified,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -137,6 +138,18 @@ describe('store:page:selectors', () => {
         },
       };
       getPageAbsolutePath(state, { pageId: 'myPageId' }).should.be.true;
+    });
+  });
+  describe('getPageIsModified', () => {
+    it('should returns current page isModified', () => {
+      const state = {
+        pages: {
+          myPageId: {
+            isModified: true,
+          },
+        },
+      };
+      getPageIsModified(state, { pageId: 'myPageId' }).should.be.true;
     });
   });
   describe('getModifiedPagesIds', () => {

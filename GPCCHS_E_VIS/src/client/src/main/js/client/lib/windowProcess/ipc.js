@@ -36,20 +36,20 @@ const commands = {
     getSessionTime: (sessionId, callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_SESSION_TIME, sessionId, callback);
     },
-    openView: ({ windowId, viewPath }) => {
+    openView: ({ windowId, absolutePath }) => {
       commands.main.message(globalConstants.IPC_METHOD_OPEN_VIEW, {
         windowId,
-        viewPath,
+        absolutePath,
       });
     },
-    openPage: ({ windowId, filePath }) =>
+    openPage: ({ windowId, absolutePath }) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_PAGE, {
         windowId,
-        filePath,
+        absolutePath,
       }),
-    openWorkspace: ({ filePath }) =>
+    openWorkspace: ({ absolutePath }) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
-        filePath,
+        absolutePath,
       }),
     sendHealthStatus: (windowId, status) =>
       commands.main.message(globalConstants.IPC_METHOD_HEALTH_STATUS, {
@@ -69,6 +69,8 @@ const commands = {
         sessionId,
         domainId,
       }, callback),
+    openDocuWikiHelper: () =>
+      commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
   },
 };
 

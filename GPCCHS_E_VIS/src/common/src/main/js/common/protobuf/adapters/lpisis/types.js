@@ -4,8 +4,6 @@ const _isNumber = require('lodash/isNumber');
 const _isUndefined = require('lodash/isUndefined');
 const _isNull = require('lodash/isNull');
 const _isString = require('lodash/isString');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const Long = require('long');
 const ByteBuffer = require('bytebuffer');
 
@@ -150,19 +148,19 @@ module.exports = {
         value = attribute;
         break;
       case 'object': {
-        // TODO : complete with real received type parsing from DC/LPISIS
         if (_isBuffer(attribute)) {
           type = '_blob';
           value = attribute;
-          break;
         }
+        break;
       }
-      default: // eslint-disable-line no-fallthrough
+      default:
         throw new Error(`Unknown data type ${mixedType}`);
     }
 
     return { [type]: { value } };
   },
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity due to MAL sub-type"
   decodeAttribute: (attribute) => {
     if (attribute === null || typeof attribute === 'undefined') {
       return undefined;
@@ -171,7 +169,11 @@ module.exports = {
     let type = null;
     let symbol = null;
     if (attribute._blob != null) {
-      value = attribute._blob.value;
+      if (ByteBuffer.isByteBuffer(attribute._blob.value)) {
+        value = attribute._blob.value.toBuffer();
+      } else {
+        value = attribute._blob.value;
+      }
       type = 'blob';
     } else if (attribute._boolean != null) {
       value = attribute._boolean.value;

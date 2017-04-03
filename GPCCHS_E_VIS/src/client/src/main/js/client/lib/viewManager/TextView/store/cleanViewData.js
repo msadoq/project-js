@@ -4,6 +4,7 @@ import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 
+/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
 export default function cleanCurrentViewData(
   currentViewState,
   oldViewDef,

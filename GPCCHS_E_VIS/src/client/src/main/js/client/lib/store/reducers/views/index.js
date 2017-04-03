@@ -7,8 +7,8 @@ import createReducerByViews from '../../createReducerByViews';
 export default createReducerByViews(view);
 
 /* --- Selectors ------------------------------------------------------------ */
-export const getViews = _.prop('views');
-export const getView = (state, { viewId }) => _.prop(viewId, getViews(state));
+export const getViews = _.get('views');
+export const getView = (state, { viewId }) => _.get(viewId, getViews(state));
 
 export const getModifiedViewsIds = state =>
   Object
@@ -17,10 +17,30 @@ export const getModifiedViewsIds = state =>
 
 export const getViewConfiguration = createSelector(
   getView,
-  _.prop('configuration')
+  _.get('configuration')
 );
 
 export const getViewContent = createSelector(
   getViewConfiguration,
-  _.prop('content')
+  _.get('content')
+);
+
+export const getViewAbsolutePath = createSelector(
+  getView,
+  _.get('absolutePath')
+);
+
+export const getViewType = createSelector(
+  getView,
+  _.get('type')
+);
+
+export const getViewTitle = createSelector(
+  getView,
+  _.get('title')
+);
+
+export const getViewTitleStyle = createSelector(
+  getView,
+  _.get('titleStyle')
 );

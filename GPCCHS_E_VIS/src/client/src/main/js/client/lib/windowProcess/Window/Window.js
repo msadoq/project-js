@@ -12,6 +12,7 @@ import EditorContainer from '../Editor/EditorContainer';
 // import Page from '../Page/Page';
 import ContentContainer from '../Page/ContentContainer';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
+import TimebarCollapsedContainer from '../Timebar/TimebarCollapsedContainer';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
 
 import styles from './Window.css';
@@ -33,6 +34,7 @@ class Window extends PureComponent {
     containerHeight: PropTypes.number,
     editorWidth: PropTypes.number,
     timebarHeight: PropTypes.number,
+    timebarCollapsed: PropTypes.bool,
     explorerWidth: PropTypes.number,
     resizeEditor: PropTypes.func.isRequired,
     resizeTimebar: PropTypes.func.isRequired,
@@ -46,6 +48,7 @@ class Window extends PureComponent {
     containerHeight: 500,
     editorWidth: 0,
     timebarHeight: 250,
+    timebarCollapsed: false,
     explorerWidth: 0,
   }
 
@@ -61,7 +64,6 @@ class Window extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('keydown', this.closeHelpShortCut);
-
     // set in store that this is window is fully loaded and ready to run
     const { setIsLoaded, windowId } = this.props;
     setTimeout(() => setIsLoaded(windowId), 0);
@@ -120,6 +122,7 @@ class Window extends PureComponent {
       editorWidth,
       timebarHeight,
       explorerWidth,
+      timebarCollapsed,
     } = this.props;
     logger.debug('render');
 
@@ -131,8 +134,9 @@ class Window extends PureComponent {
     //   `explorer: ${explorerWidth}`
     // );
 
+    const calcTimebarHeight = timebarCollapsed ? 34 : timebarHeight;
     const centralWidth = containerWidth - editorWidth - explorerWidth - (resizeHandleSize * 2);
-    const viewsHeight = containerHeight - timebarHeight - resizeHandleSize;
+    const viewsHeight = containerHeight - calcTimebarHeight - resizeHandleSize;
 
     // editor
     const editor = editorWidth < 1
@@ -149,18 +153,26 @@ class Window extends PureComponent {
           windowId={windowId}
           pageId={pageId}
           width={centralWidth - scrollHandleSize}
+          height={viewsHeight}
         />
       );
 
     // timebar
-    const timebar = timebarHeight < 1
-      ? <div />
+    const timebar = timebarCollapsed
+      ?
+        (
+          <TimebarCollapsedContainer
+            pageId={pageId}
+            width={centralWidth}
+            height={calcTimebarHeight}
+          />
+        )
       : (
         <TimebarMasterContainer
           windowId={windowId}
           pageId={pageId}
           width={centralWidth}
-          height={viewsHeight}
+          height={calcTimebarHeight}
         />
       );
 
@@ -188,7 +200,7 @@ class Window extends PureComponent {
             direction="column"
             spacing={resizeHandleSize}
             borderColor="grey"
-            panelWidths={this.verticalLayout(timebarHeight)}
+            panelWidths={this.verticalLayout(calcTimebarHeight)}
             onUpdate={this.onVerticalUpdate}
           >
             {views}

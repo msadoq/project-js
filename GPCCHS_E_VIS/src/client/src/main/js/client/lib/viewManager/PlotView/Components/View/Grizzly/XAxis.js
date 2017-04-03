@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
@@ -8,13 +8,16 @@ import { axisBottom, axisTop } from 'd3-axis';
 import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
-export default class XAxis extends PureComponent {
+export default class XAxis extends Component {
 
   static propTypes = {
     yAxesAt: PropTypes.string,
     xAxisAt: PropTypes.string,
     xAxisHeight: PropTypes.number.isRequired,
     showGrid: PropTypes.bool,
+    showTicks: PropTypes.bool,
+    autoTick: PropTypes.bool,
+    tickStep: PropTypes.number,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
@@ -31,6 +34,9 @@ export default class XAxis extends PureComponent {
     showGrid: true,
     gridStyle: 'Continuous',
     gridSize: 1,
+    showTicks: true,
+    autoTick: true,
+    tickStep: 2000,
   }
 
   componentDidMount() {
@@ -39,11 +45,13 @@ export default class XAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'xAxisAt', 'height', 'width', 'margin', 'gridStyle', 'gridSize'].forEach((attr) => {
-      if (nextProps[attr] !== this.props[attr]) {
+    const attrs = ['yAxesAt', 'xAxisAt', 'height', 'width', 'margin',
+      'gridStyle', 'gridSize', 'showTicks', 'autoTick', 'tickStep'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
       }
-    });
+    }
 
     if (
       nextProps.xExtents[0] !== this.props.xExtents[0] ||
@@ -77,7 +85,11 @@ export default class XAxis extends PureComponent {
       height,
       gridStyle,
       showGrid,
+      showTicks,
+      autoTick,
+      tickStep,
     } = this.props;
+
     const xScale = scaleTime()
       .domain([new Date(xExtents[0]), new Date(xExtents[1])])
       .range([0, width]);
@@ -95,7 +107,7 @@ export default class XAxis extends PureComponent {
     const levelRule = levelsRules[zoomLevel];
 
     xAxisFunction = xAxisFunction
-      .ticks(8)
+      .ticks(autoTick ? 8 : Math.round((xExtents[1] - xExtents[0]) / tickStep))
       .tickFormat(timeFormat(levelRule.formatD3))
       .tickSize(showGrid ? axisHeight : this.ticksYOffset);
 
@@ -117,7 +129,9 @@ export default class XAxis extends PureComponent {
         styles[gridStyle]
       ));
 
-    xAxisFunction(svgGroup);
+    if (showTicks) {
+      xAxisFunction(svgGroup);
+    }
     this.axisDidDraw();
   }
 

@@ -1,21 +1,34 @@
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { updateLayout } from '../../store/actions/pages';
 import { closeView } from '../../store/actions/views';
-import selector from './ContentSelector';
+import { getPageViews } from '../../store/selectors/pages';
+import {
+  getPageLayoutWithCollapsed,
+  getTimebarUuid,
+  getMaximizedViewdUuid,
+} from './ContentSelectors';
 
 import Content from './Content';
 
-function mapDispatchToProps(dispatch, { pageId }) {
-  return bindActionCreators({
+const mapStateToProps = createStructuredSelector({
+  layouts: getPageLayoutWithCollapsed,
+  views: getPageViews,
+  timebarUuid: getTimebarUuid,
+  maximizedViewUuid: getMaximizedViewdUuid,
+});
+
+const mapDispatchToProps = (dispatch, { pageId }) => (
+  bindActionCreators({
     closeView: viewId => closeView(pageId, viewId),
     updateLayout: layout => updateLayout(pageId, layout),
-  }, dispatch);
-}
+  }, dispatch)
+);
 
-const ContentContainer = connect(selector, mapDispatchToProps)(Content);
+const ContentContainer = connect(mapStateToProps, mapDispatchToProps)(Content);
 
 ContentContainer.propTypes = {
   windowId: PropTypes.string.isRequired,

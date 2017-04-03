@@ -75,7 +75,7 @@ export const configurationByViewType = {
         return addElementIn('markers', action.payload.marker, stateConf);
       case types.WS_VIEW_REMOVE_MARKER:
         return removeElementIn('markers', action.payload.index, stateConf);
-      case types.WS_VIEW_ADD_ENTRYPOINT: {
+      case types.WS_VIEW_ADD_ENTRYPOINT: { // TODO : move in viewManager#PlotView
         const [axisX, axisY] = getAxes(stateConf, action);
         const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
         return {

@@ -19,6 +19,7 @@ export default class ControlsRight extends PureComponent {
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
     switchToFixedMode: PropTypes.func.isRequired,
+    getSession: PropTypes.func.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timebarRealTime: PropTypes.bool.isRequired,
@@ -30,7 +31,7 @@ export default class ControlsRight extends PureComponent {
       kind: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
       offset: PropTypes.number.isRequired,
-      sessionId: PropTypes.number.isRequired,
+      sessionName: PropTypes.string.isRequired,
     }),
     masterSessionId: PropTypes.number.isRequired,
   }
@@ -51,6 +52,7 @@ export default class ControlsRight extends PureComponent {
       currentSessionExists,
       masterTimeline,
       masterSessionId,
+      getSession,
     } = this.props;
 
     const mode = e.currentTarget.getAttribute('mode');
@@ -68,7 +70,7 @@ export default class ControlsRight extends PureComponent {
       // IPC request to get master session current time
       let sessionId;
       if (currentSessionExists) {
-        sessionId = masterTimeline.sessionId;
+        sessionId = getSession({ sessionName: masterTimeline.sessionName }).id;
       } else {
         sessionId = masterSessionId;
       }

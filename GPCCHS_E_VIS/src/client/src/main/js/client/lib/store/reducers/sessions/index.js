@@ -16,7 +16,7 @@ export default function sessionsReducer(state = [], action) {
 export const getSessions = state => state.sessions;
 
 export const getSession = createSelector(
-  (state, { sessionId }) => sessionId,
+  (state, { sessionName }) => sessionName,
   getSessions,
-  (sessionId, sessions = []) => _.find(_.propEq('id', sessionId), sessions)
+  (sessionName, sessions = []) => _.find(_.propEq('name', sessionName), sessions)
 );

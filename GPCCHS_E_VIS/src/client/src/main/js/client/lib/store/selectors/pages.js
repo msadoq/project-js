@@ -15,3 +15,8 @@ export const getFocusedPage = createSelector(
   getPages,
   _.get
 );
+
+export const isAnyEditorOpened = createSelector(
+  getPages,
+  pages => _.reduce((checksum, page) => checksum || (page.panels.editorWidth > 0), false, pages)
+);

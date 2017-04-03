@@ -42,6 +42,8 @@ export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
 
 export const displayHelp = simple(types.WS_WINDOW_SET_DISPLAY_HELP, 'windowId', 'display');
 
+export const moveTabOrder = simple(types.WS_WINDOW_MOVE_TAB_ORDER, 'windowId', 'keyFrom', 'keyTarget');
+
 /**
  * Compound actions
  */

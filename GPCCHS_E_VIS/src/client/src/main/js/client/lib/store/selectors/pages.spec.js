@@ -1,5 +1,5 @@
 import {} from '../../common/test';
-import { getPageViews } from './pages';
+import { getPageViews, isAnyEditorOpened } from './pages';
 
 describe('store:page:selectors', () => {
   it('getPageViews', () => {
@@ -18,5 +18,34 @@ describe('store:page:selectors', () => {
     getPageViews(state, { pageId: 'myPageId' }).should.eql([
       { viewId: 'view1' },
     ]);
+  });
+  it('notice if any view is opened', () => {
+    const state = {
+      pages: {
+        page1: {
+          panels: {
+            editorWidth: 100,
+          },
+        },
+        page2: {
+          panels: {
+            editorWidth: 0,
+          },
+        },
+      },
+    };
+    isAnyEditorOpened(state).should.eql(true);
+  });
+  it('notice if any view is opened', () => {
+    const state = {
+      pages: {
+        page1: {
+          panels: {
+            editorWidth: 0,
+          },
+        },
+      },
+    };
+    isAnyEditorOpened(state).should.eql(false);
   });
 });

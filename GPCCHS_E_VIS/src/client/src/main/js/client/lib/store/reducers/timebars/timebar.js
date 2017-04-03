@@ -22,7 +22,8 @@ const initialState = {
   realTime: false,
 };
 
-export default function timebar(stateTimebar = initialState, action) {
+/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
+export default function timebarReducer(stateTimebar = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_CREATE_NEW: {

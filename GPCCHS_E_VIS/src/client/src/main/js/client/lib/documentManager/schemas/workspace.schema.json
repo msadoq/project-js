@@ -57,7 +57,7 @@
         "timeline": {
             "type": "object",
             "properties": {
-                "id": {
+                "name": {
                     "type": "string"
                 },
                 "offset": {

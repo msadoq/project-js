@@ -90,12 +90,16 @@ export const getPage = (state, { pageId }) => state.pages[pageId] && { // TODO u
   ...state.pages[pageId], pageId,
 };
 
-const inPage = (key, fallback) => _.compose(_.getOr(fallback, key), getPage);
+const inPage = (key, fallback = null) => _.compose(_.getOr(fallback, key), getPage);
 
 export const getPanels = inPage('panels', {});
 export const getPageViewsIds = inPage('views', []);
 export const getPageLayout = inPage('layout', []);
 export const getEditor = inPage('editor', {});
+export const getPageAbsolutePath = inPage('absolutePath', '');
+export const getPageIsModified = inPage('isModified');
+
+export const isEditorOpened = (state, { pageId }) => _.get(['pages', pageId, 'panels', 'editorWidth']) > 0;
 
 export const getModifiedPagesIds = createSelector(
   getPages,

@@ -13,6 +13,7 @@ import onOpenWorkspace from './onOpenWorkspace';
 import onHealthStatus from './onHealthStatus';
 import onOpenInspector from './onOpenInspector';
 import onResolveLink from './onResolveLink';
+import onOpenWikiHelper from './onOpenWikiHelper';
 
 const controller = {
   [globalConstants.IPC_METHOD_SESSION_TIME]: onGetSessionTime,
@@ -27,6 +28,7 @@ const controller = {
   [globalConstants.IPC_METHOD_HEALTH_STATUS]: onHealthStatus,
   [globalConstants.IPC_METHOD_OPEN_INSPECTOR]: onOpenInspector,
   [globalConstants.IPC_METHOD_RESOLVE_LINK]: onResolveLink,
+  [globalConstants.IPC_METHOD_WIKI_HELPER]: onOpenWikiHelper,
 };
 
 export default (electronEvent, data) => handle(

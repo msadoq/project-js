@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import styles from './HelpContent.css';
+import commands from '../ipc';
 
 const HelpContent = () => (
   <div className={styles.help}>
@@ -40,6 +41,17 @@ const HelpContent = () => (
         <kbd>alt</kbd> + <kbd>x</kbd> Close hovered view.<br />
         <kbd>alt</kbd> + <kbd>c</kbd> Open editor for hovered view.<br />
       </p>
+    </Col>
+    <Col xs={3}>
+      <h2 className={styles.subTitle}>Wiki</h2>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          commands.main.openDocuWikiHelper();
+        }}
+      >
+        Open wiki helper
+      </button>
     </Col>
   </div>
 );

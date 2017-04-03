@@ -45,3 +45,4 @@ release
 /main.js
 /main.js.map
 .env
+stats.json

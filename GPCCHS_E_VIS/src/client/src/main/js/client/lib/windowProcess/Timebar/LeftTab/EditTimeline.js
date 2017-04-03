@@ -21,7 +21,7 @@ class EditTimeline extends PureComponent {
         kind: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
-        sessionId: PropTypes.number.isRequired,
+        sessionName: PropTypes.string.isRequired,
       })
     ).isRequired,
     sessions: PropTypes.arrayOf(
@@ -99,7 +99,7 @@ class EditTimeline extends PureComponent {
   }
 }
 
-const requiredFields = ['id', 'sessionId'];
+const requiredFields = ['id', 'sessionName'];
 const validate = (values = {}) => {
   const errors = {};
   requiredFields.forEach((fieldPath) => {

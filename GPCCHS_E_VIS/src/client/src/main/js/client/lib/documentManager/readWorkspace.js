@@ -70,15 +70,12 @@ const simpleReadWorkspace = (workspaceInfo, cb) => {
 const initialDocuments = { pages: [], views: [] };
 const readPagesAndViews = (pagesInfo, done) => (
   async.reduce(pagesInfo, initialDocuments, (documents, pageInfo, cb) => {
-    readPageAndViews(pageInfo, (err, pageAndViews) => {
-      if (err) {
-        return cb(err);
-      }
-      return cb(null, _.pipe(
+    readPageAndViews(pageInfo, (ignoredErr, pageAndViews) => (
+      cb(null, _.pipe(
         _.update('pages', _.concat(_, pageAndViews.pages)),
         _.update('views', _.concat(_, pageAndViews.views))
-      )(documents));
-    });
+      )(documents))
+    ));
   }, done)
 );
 
@@ -94,10 +91,7 @@ const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
         workspaceFolder: dirname(workspace.absolutePath),
       }), w.pages)
     ), workspace.windows);
-    return readPagesAndViews(allPages, (errPages, documents) => {
-      if (errPages) {
-        return cb(errPages);
-      }
+    return readPagesAndViews(allPages, (ignoredErr, documents) => {
       const preparePages = _.update('windows', _.map(_.set('pages', [])));
       return cb(null, {
         ...preparePages(workspace),

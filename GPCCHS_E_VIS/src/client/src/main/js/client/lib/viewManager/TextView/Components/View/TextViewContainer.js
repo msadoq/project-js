@@ -1,30 +1,32 @@
-import _ from 'lodash/fp';
 import { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import TextView from './TextView';
 import {
   addEntryPoint,
   updateContent,
 } from '../../../../store/actions/views';
+import {
+  openEditor,
+} from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getViewContent } from '../../../../store/reducers/views';
+import { getViewContent, getViewConfiguration } from '../../../../store/reducers/views';
 import { getData } from '../../store/dataReducer';
 
-const mapStateToProps = (state, { viewId }) => {
-  const getConfiguration = _.get(`views[${viewId}].configuration`);
-  const data = getData(state, { viewId });
-  return {
-    content: getViewContent(state, { viewId }),
-    configuration: getConfiguration(state),
-    entryPoints: getViewEntryPoints(state, { viewId }),
-    data,
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  content: getViewContent,
+  configuration: getViewConfiguration,
+  entryPoints: getViewEntryPoints,
+  data: getData,
+});
 
-const mapDispatchToProps = {
-  updateContent,
-  addEntryPoint,
-};
+const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+  updateContent: html => updateContent(viewId, html),
+  addEntryPoint: data => addEntryPoint(viewId, data),
+  openEditor: () => openEditor(undefined, viewId),
+}, dispatch);
 
 export const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
 

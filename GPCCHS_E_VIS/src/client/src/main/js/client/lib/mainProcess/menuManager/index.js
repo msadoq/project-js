@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import openWikiHelper from '../controllers/renderer/onOpenWikiHelper';
 import { getStore } from '../../store/mainStore';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
@@ -205,6 +206,11 @@ const edit = {
           dispatch(displayHelp(windowId, !isHelpDisplayed));
         }
       },
+    },
+    {
+      label: 'Wiki',
+      accelerator: 'F1',
+      click: openWikiHelper,
     },
   ],
 };

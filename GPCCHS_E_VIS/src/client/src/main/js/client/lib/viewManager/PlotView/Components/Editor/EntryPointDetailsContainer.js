@@ -1,28 +1,27 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import EntryPointDetails from './EntryPointDetails';
-import { getView } from '../../../../store/reducers/views';
-import { getFocusedPage } from '../../../../store/selectors/pages';
-import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
+
+import { getFocusedPageTimelines } from '../../../../store/selectors/timelines';
+import { getAxes } from '../../store/configurationSelectors';
 import {
   updateEntryPoint,
   removeEntryPoint,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { viewId, windowId }) => {
-  const view = getView(state, { viewId });
-  const { timebarUuid } = getFocusedPage(state, { windowId });
-  const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
-  return {
-    axes: view.configuration.axes,
-    timelines,
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  axes: getAxes,
+  timelines: getFocusedPageTimelines,
+});
 
-const EntryPointDetailsContainer = connect(mapStateToProps, {
+const mapDispatchToProps = {
   updateEntryPoint,
   removeEntryPoint,
-})(EntryPointDetails);
+};
+
+const EntryPointDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(EntryPointDetails);
 
 EntryPointDetailsContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

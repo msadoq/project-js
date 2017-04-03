@@ -93,7 +93,8 @@ export default class EntryPointDetails extends PureComponent {
         ...values.x,
         domain: values.timeBasedData ? values.y.domain : values.x.domain,
         timeline: values.timeBasedData ? values.y.timeline : values.x.timeline,
-        axisId: 'Time',
+        axisId: values.timeBasedData ? 'time' : values.x.axisId,
+        unit: values.timeBasedData ? 's' : values.x.unit,
       },
       timeBasedData: values.timeBasedData,
     });

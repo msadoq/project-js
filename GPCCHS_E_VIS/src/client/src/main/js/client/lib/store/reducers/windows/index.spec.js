@@ -8,6 +8,7 @@ import windowsReducer, {
   getWindowPageIds,
   getWindowFocusedPageId,
   getDisplayHelp,
+  getWindowTitle,
 } from '../windows';
 import * as types from '../../types';
 
@@ -109,6 +110,20 @@ describe('store:windows:selectors', () => {
     });
     it('should support not existing window', () => {
       should.not.exist(getWindow(getState(), { windowId: 'unknownId' }));
+    });
+  });
+  describe('getWindowTitle', () => {
+    const state = {
+      windows: {
+        myWindowId: { title: 'Title 1' },
+      },
+    };
+    const { getState } = getStore(state);
+    it('should returns window', () => {
+      getWindowTitle(getState(), { windowId: 'myWindowId' }).should.equal(state.windows.myWindowId.title);
+    });
+    it('should support not existing window', () => {
+      should.not.exist(getWindowTitle(getState(), { windowId: 'unknownId' }));
     });
   });
   it('getWindowPageIds', () => {

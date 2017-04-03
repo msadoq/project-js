@@ -11,6 +11,9 @@ import { writeDocument } from './io';
 import { getRootDir } from '../common/fmd';
 import validation from './validation';
 
+import { getPage, getPageAbsolutePath } from '../store/reducers/pages';
+import { getView } from '../store/reducers/views';
+
 /**
  * Save plot view from state to file
  *
@@ -22,8 +25,9 @@ import validation from './validation';
  * @returns Error or undefined
  */
 const savePageAs = (state, pageId, path, useRelativePath, callback) => {
-  if (!state.pages[pageId]) {
-    callback('unknown page id');
+  const page = getPage(state, { pageId });
+  if (!page) {
+    callback('unknown page');
     return;
   }
   createFolder(dirname(path), (err) => {
@@ -32,7 +36,6 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
       return;
     }
     const root = getRootDir();
-    const page = state.pages[pageId];
     const savedPage = {
       type: 'Page',
       timebarHeight: page.timebarHeight,
@@ -42,11 +45,11 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
     };
     page.views.forEach((id) => {
       // Get view definition in stateViews
-      if (!state.views[id]) {
+      const view = getView(state, { viewId: id });
+      if (!view) {
         callback(`Invalid view in page ${page.title}`);
         return;
       }
-      const view = state.views[id];
       const current = {};
       if (view.oId) {
         current.oId = view.oId;
@@ -108,15 +111,15 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
  * @returns Error or undefined
  */
 const savePage = (state, pageId, useRelativePath, callback) => {
-  if (!state.pages[pageId]) {
-    callback('unknown page id');
+  const page = getPage(state, { pageId });
+  if (!page) {
+    callback('unknown page');
   }
-  const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
-                                                : state.pages[pageId].oId;
-  if (!path) {
+  const absolutePath = getPageAbsolutePath(state, { pageId });
+  if (!absolutePath) {
     return callback('Unknown path for saving the page');
   }
-  return savePageAs(state, pageId, path, useRelativePath, callback);
+  return savePageAs(state, pageId, absolutePath, useRelativePath, callback);
 };
 
 

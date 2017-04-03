@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getWindowPages } from '../../store/selectors/windows';
-import { focusPage } from '../../store/actions/windows';
+import { focusPage, moveTabOrder } from '../../store/actions/windows';
 import { closePage } from '../../store/actions/pages';
 import Tabs from './Tabs';
 
@@ -14,6 +14,7 @@ function mapDispatchToProps(dispatch, { windowId }) {
   return bindActionCreators({
     focusPage: pageId => focusPage(windowId, pageId),
     closePage: pageId => closePage(windowId, pageId),
+    moveTabOrder: (keyFrom, keyTarget) => moveTabOrder(windowId, keyFrom, keyTarget),
   }, dispatch);
 }
 

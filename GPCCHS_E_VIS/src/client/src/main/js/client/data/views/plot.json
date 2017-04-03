@@ -1,16 +1,29 @@
 {
   "type": "PlotView",
+  "title": "Plotview One parameter",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#ffffff",
+    "bgColor": "#009688"
+  },
+  "backgroundColor": "#FFFFFF",
   "links": [
     {
       "name": "page4",
       "path": "./pages/page4.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "TMMGT_BC_VIRTCHAN3",
@@ -53,7 +66,8 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT1",
@@ -87,7 +101,8 @@
         },
         "curveColor": "#ff9800"
       },
-      "stateColors": []
+      "stateColors": [],
+      "timeBasedData": true
     }
   ],
   "axes": [
@@ -153,19 +168,6 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview One parameter",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#ffffff",
-    "bgColor": "#009688"
-  },
-  "backgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {
     "style": {

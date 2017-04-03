@@ -1,16 +1,29 @@
 {
   "type": "PlotView",
+  "title": "Plotview Sup/Sup workspace",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#ffffff",
+    "bgColor": "#000000"
+  },
+  "backgroundColor": "3FFFFFF",
   "links": [
     {
       "name": "pageSupsup",
       "path": "./pages/pageSupsup.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "STAT_SU_PPID",
@@ -53,7 +66,8 @@
           "style": "Continuous",
           "size": 1
         }
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_TPGID",
@@ -96,7 +110,8 @@
           "style": "Continuous"
         },
         "curveColor": "#2196f3"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_MINFLT",
@@ -139,7 +154,8 @@
           "size": 1
         },
         "curveColor": "#009688"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_UTIME",
@@ -182,7 +198,8 @@
           "size": 1
         },
         "curveColor": "#2196f3"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_STIME",
@@ -225,7 +242,8 @@
           "size": 1
         },
         "curveColor": "#4caf50"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_PRIORITY",
@@ -268,7 +286,8 @@
           "size": 1
         },
         "curveColor": "#8bc34a"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_ITREALVALUE",
@@ -311,7 +330,8 @@
           "size": 1
         },
         "curveColor": "#cddc39"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_RSS",
@@ -354,7 +374,8 @@
           "size": 1
         },
         "curveColor": "#ffeb3b"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_SIGNAL",
@@ -397,7 +418,8 @@
           "size": 1
         },
         "curveColor": "#673ab7"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_SIGCATCH",
@@ -440,7 +462,8 @@
           "size": 1
         },
         "curveColor": "#9c27b0"
-      }
+      },
+      "timeBasedData": true
     }
   ],
   "axes": [
@@ -497,7 +520,7 @@
   ],
   "grids": [
     {
-      "xAxisId": "Time",
+      "xAxisId": "time",
       "yAxisId": "VBat",
       "line": {
         "style": "Dashed",
@@ -506,18 +529,6 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview Sup/Sup workspace",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#ffffff",
-    "bgColor": "#000000"
-  },
   "plotBackgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {

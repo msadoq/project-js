@@ -16,6 +16,7 @@ describe('store:pages:reducer:panels', () => {
       editorWidth: 0,
       editorViewId: undefined,
       timebarHeight: 130,
+      timebarCollapsed: false,
       explorerWidth: 0,
       explorerTab: undefined,
     });
@@ -33,6 +34,10 @@ describe('store:pages:reducer:panels', () => {
   it('should support resize timebar', () => {
     reducer({ myId: { timebarHeight: null } }, actions.resizeTimebar('myId', 20))
       .myId.panels.timebarHeight.should.eql(20);
+  });
+  it('should support collapsed timebar', () => {
+    reducer({ myId: { timebarCollapsed: false } }, actions.collapseTimebar('myId', true))
+      .myId.panels.timebarCollapsed.should.eql(true);
   });
   it('should focus tab in explorer', () => {
     reducer({ myId: { explorerTab: null } }, actions.focusTabInExplorer('myId', 'myTab'))

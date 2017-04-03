@@ -2,8 +2,10 @@ import { HEALTH_STATUS_CRITICAL } from 'common/constants';
 import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
+import { isAnyEditorOpened } from '../selectors/pages';
 import { getHealthMap } from '../reducers/health';
 import { getTimebars } from '../reducers/timebars';
+import { getIsCodeEditorOpened } from '../reducers/editor';
 import { setRealTime } from './timebars';
 import { addOnce } from './messages';
 
@@ -22,6 +24,16 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
   (dispatch, getState) => {
     const health = getHealthMap(getState());
     if (
+      getIsCodeEditorOpened(getState())
+      || isAnyEditorOpened(getState())
+    ) {
+      dispatch(addOnce(
+        'global',
+        'warning',
+        'Please close editors before play timebar'
+        )
+      );
+    } else if (
       health.dc !== HEALTH_STATUS_CRITICAL
       && health.hss !== HEALTH_STATUS_CRITICAL
       && health.main !== HEALTH_STATUS_CRITICAL

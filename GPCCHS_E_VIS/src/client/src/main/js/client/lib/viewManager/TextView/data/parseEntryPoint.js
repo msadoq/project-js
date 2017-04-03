@@ -19,14 +19,21 @@ function flattenStateColors(stateColors = []) {
   )(stateColors);
 }
 
-function parseEntryPoint(domains, timelines, entryPoint, masterSessionId, timebarUuid, viewType) {
+function parseEntryPoint(
+  domains,
+  sessions,
+  timelines,
+  entryPoint,
+  masterSessionId,
+  timebarUuid,
+  viewType) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
   const { connectedData, name, id, stateColors } = entryPoint;
-  const cd = parseConnectedData(domains, timelines, connectedData, masterSessionId);
 
+  const cd = parseConnectedData(domains, sessions, timelines, connectedData, masterSessionId);
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
     return { [name]: { error: cd.error } };

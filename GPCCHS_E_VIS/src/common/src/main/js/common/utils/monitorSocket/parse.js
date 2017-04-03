@@ -30,6 +30,7 @@ const getSize = ({
   Math.floor((convert(size) / coef) * (10 ** decimals)) / (10 ** decimals);
 
 setInterval(() => {
-  console.log(`${getSize()} Mb/s`); // eslint-disable-line no-console
+  // eslint-disable-next-line no-console, "DV6 TBC_CNES Performance benchmarking, output on console"
+  console.log(`${getSize()} Mb/s`);
   totalSize = 0;
 }, duration * 1000);

@@ -9,17 +9,17 @@ const getLogger = require('./');
 
 function start(executionMap, key) {
   if (!executionMap[key]) {
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign, "DV6 TBC_CNES Performance over immutability"
     executionMap[key] = { traces: [] };
   }
   executionMap[key].traces.push(process.hrtime());
 }
 function stop(executionMap, key, message) {
   const lastIndex = executionMap[key].traces.length - 1;
-  // eslint-disable-next-line no-param-reassign
+  // eslint-disable-next-line no-param-reassign, "DV6 TBC_CNES Performance over immutability"
   executionMap[key].traces[lastIndex] = process.hrtime(executionMap[key].traces[lastIndex]);
   if (message) {
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign, "DV6 TBC_CNES Performance over immutability"
     executionMap[key].message = message;
   }
 }

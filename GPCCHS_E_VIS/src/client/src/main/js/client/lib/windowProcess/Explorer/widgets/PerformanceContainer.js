@@ -2,8 +2,8 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getHealthMapForWindow } from '../../../store/reducers/health';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
-import textData from '../../../viewManager/TextView/store/dataSelector';
-import plotData from '../../../viewManager/PlotView/store/dataSelector';
+import textData from '../../../viewManager/TextView/store/dataSelectors';
+import plotData from '../../../viewManager/PlotView/store/dataSelectors';
 import * as constants from '../../../viewManager/constants';
 import Performance from './Performance';
 

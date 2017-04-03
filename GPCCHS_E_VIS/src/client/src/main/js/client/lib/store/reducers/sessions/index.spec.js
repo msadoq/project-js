@@ -28,16 +28,11 @@ describe('store:sessions:reducer', () => {
 describe('store:sessions:selectors', () => {
   it('getSessions', () => {
     getSessions({
-      sessions: [{ id: 'session1' }],
-    }).should.eql([{ id: 'session1' }]);
+      sessions: [{ name: 'Master' }],
+    }).should.eql([{ name: 'Master' }]);
   });
   it('getSession', () => {
-    getSession({
-      sessions: [
-        {
-          id: 'session1',
-        },
-      ],
-    }, { sessionId: 'session1' }).should.eql({ id: 'session1' });
+    getSession({ sessions: [{ name: 'Master' }, { name: 'session1' }] },
+    { sessionName: 'Master' }).should.eql({ name: 'Master' });
   });
 });

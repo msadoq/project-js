@@ -1,6 +1,5 @@
 /* eslint no-unused-expressions: "off" */
 import _ from 'lodash/fp';
-import _find from 'lodash/find';
 import * as actions from '../../actions/views';
 import * as types from '../../types';
 import viewsReducer from '.././views';

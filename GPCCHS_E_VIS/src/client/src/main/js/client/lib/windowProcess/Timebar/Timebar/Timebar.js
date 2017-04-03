@@ -61,7 +61,7 @@ export default class Timebar extends PureComponent {
         kind: PropTypes.string.isRequired,
         uuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
-        sessionId: PropTypes.number.isRequired,
+        sessionName: PropTypes.string.isRequired,
       })
     ).isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -115,7 +115,6 @@ export default class Timebar extends PureComponent {
     e.stopPropagation();
     if (this.el.parentElement.querySelector(':hover')) {
       const {
-        visuWindow,
         timebarUuid,
         updateCursors,
         jump,
@@ -124,8 +123,12 @@ export default class Timebar extends PureComponent {
         play,
         pause,
         slideWindow,
+        visuWindow: {
+          lower,
+          upper,
+          current,
+        },
       } = this.props;
-      const { lower, upper, current } = visuWindow;
       const { cursorMs } = this.state;
 
       switch (e.keyCode) {
@@ -400,7 +403,7 @@ export default class Timebar extends PureComponent {
     const {
       resizeCursor,
     } = state;
-    let cursorPosMs = this.state.cursorMs;
+    let cursorPosMs = state.cursorMs;
 
     const lower = state.lower || visuWindow.lower;
     const upper = state.upper || visuWindow.upper;

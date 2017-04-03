@@ -180,6 +180,15 @@ export function onStart() {
 
       const { dispatch } = getStore();
       const root = parameters.get('ISIS_DOCUMENTS_ROOT');
+
+      if (!root) {
+        logger.warn('No ISIS_DOCUMENTS_ROOT found');
+        dispatch(addMessage('global', 'warning', 'No FMD support'));
+        dispatch(openBlankWorkspace({ keepMessages: true }));
+        callback(null);
+        return;
+      }
+
       const file = parameters.get('WORKSPACE');
       const absolutePath = path.join(root, file);
 
@@ -199,7 +208,6 @@ export function onStart() {
         if (err) {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
-          dispatch(addMessage('global', 'danger', err));
           dispatch(openBlankWorkspace({ keepMessages: true }));
         }
         callback(null);

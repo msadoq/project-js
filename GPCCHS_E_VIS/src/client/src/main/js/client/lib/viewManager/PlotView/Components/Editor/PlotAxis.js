@@ -184,6 +184,37 @@ class PlotAxis extends PureComponent {
             <h4>Style</h4>
           </div>
           <FormSectionFontStyle name="style" />
+          <div className="page-header">
+            <h4>Parameters</h4>
+          </div>
+          <HorizontalFormGroup label="Show ticks">
+            <Field
+              name="showTicks"
+              component={ButtonToggleField}
+              styleOff="warning"
+            />
+          </HorizontalFormGroup>
+          { showTicks &&
+            <HorizontalFormGroup label="Auto Tick">
+              <Field
+                name="autoTick"
+                component={ButtonToggleField}
+                styleOff="warning"
+              />
+            </HorizontalFormGroup>
+          }
+          { showTicks && !autoTick &&
+            <HorizontalFormGroup label="Tick step (ms)">
+              <Field
+                name="tickStep"
+                component={InputField}
+                normalize={value => parseFloat(value)}
+                className="form-control input-sm"
+                type="number"
+                step="any"
+              />
+            </HorizontalFormGroup>
+          }
           <ClearSubmitButtons
             pristine={pristine}
             submitting={submitting}

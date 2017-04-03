@@ -2,7 +2,7 @@
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import getLogger from 'common/log';
-import { updateObjectValues } from '../../utils/longData';
+import { updateObjectValues } from '../../commonData/longData';
 
 const logger = getLogger('data:lastValue');
 

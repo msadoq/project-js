@@ -1,5 +1,5 @@
 import {} from '../../../common/test';
-import reducer from '.';
+import reducer, { getIsCodeEditorOpened } from '.';
 import * as actions from '../../actions/editor';
 import * as types from '../../types';
 
@@ -34,5 +34,17 @@ describe('store:editor:reducer', () => {
       payload: { viewId: 'test2' },
     });
     newState.should.have.a.property('textViewId', 'test');
+  });
+});
+
+describe('store:editor:selector', () => {
+  it('should return false', () => {
+    getIsCodeEditorOpened({ editor: { textViewId: null } }).should.eql(false);
+  });
+  it('should return false', () => {
+    getIsCodeEditorOpened({}).should.eql(false);
+  });
+  it('should return true', () => {
+    getIsCodeEditorOpened({ editor: { textViewId: 'idView' } }).should.eql(true);
   });
 });

@@ -76,6 +76,10 @@ export default class TextView extends PureComponent {
     entryPoints: PropTypes.objectOf(PropTypes.object),
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      values: PropTypes.object,
+    }),
   };
   static defaultProps = {
     data: {
@@ -90,7 +94,7 @@ export default class TextView extends PureComponent {
   }
 
   componentDidMount() {
-    this.updateSpanValues();
+    this.updateSpanValues(this.props.data);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -104,13 +108,13 @@ export default class TextView extends PureComponent {
       this.content = this.getContentComponent();
     }
     if (!shouldRender) {
-      this.updateSpanValues(nextProps);
+      this.updateSpanValues(nextProps.data);
     }
     return shouldRender;
   }
 
   componentDidUpdate() {
-    this.updateSpanValues();
+    this.updateSpanValues(this.props.data);
   }
 
   onContextMenu = (event) => {
@@ -168,9 +172,9 @@ export default class TextView extends PureComponent {
     }
 
     this.props.addEntryPoint(
-      this.props.viewId,
       parseDragData(content)
     );
+    this.props.openEditor();
 
     e.stopPropagation();
   }
@@ -213,8 +217,8 @@ export default class TextView extends PureComponent {
 
   spanValues = {};
 
-  updateSpanValues(props = this.props) {
-    if (!props.data.values) {
+  updateSpanValues(data) {
+    if (!data.values) {
       return;
     }
     requestAnimationFrame(() => {
@@ -224,7 +228,7 @@ export default class TextView extends PureComponent {
         const sv = this.spanValues[id];
         const ep = this.props.entryPoints[sv.ep];
         if (ep) {
-          const val = props.data.values[sv.ep] || {};
+          const val = data.values[sv.ep] || {};
           if (!sv.el) {
             sv.el = document.getElementById(id);
           }
@@ -242,8 +246,8 @@ export default class TextView extends PureComponent {
   }
 
   handleSubmit = (values) => {
-    const { viewId, updateContent } = this.props;
-    updateContent(viewId, values.html);
+    const { updateContent } = this.props;
+    updateContent(values.html);
   }
 
   htmlToReactParser = new Parser();

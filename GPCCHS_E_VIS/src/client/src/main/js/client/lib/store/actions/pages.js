@@ -1,11 +1,12 @@
 import _ from 'lodash/fp';
+import _map from 'lodash/map';
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getPanels } from '../reducers/pages';
+import { getPanels, getPages } from '../reducers/pages';
 
 /**
  * Simple actions
@@ -31,6 +32,7 @@ export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 
 export const loadInEditor = simple(types.WS_PAGE_PANELS_LOAD_IN_EDITOR, 'pageId', 'viewId');
 export const resizeEditor = simple(types.WS_PAGE_PANELS_RESIZE_EDITOR, 'pageId', 'size');
 export const resizeTimebar = simple(types.WS_PAGE_PANELS_RESIZE_TIMEBAR, 'pageId', 'size');
+export const collapseTimebar = simple(types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR, 'pageId', 'flag');
 export const focusTabInExplorer = simple(types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER, 'pageId', 'focusedTab');
 export const resizeExplorer = simple(types.WS_PAGE_PANELS_RESIZE_EXPLORER, 'pageId', 'size');
 
@@ -77,11 +79,18 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
 
 export function openEditor(pageId, viewId) { // TODO boxmodel test
   return (dispatch, getState) => {
-    const { editorWidth } = getPanels(getState(), { pageId });
+    let pId = pageId;
+    if (!pageId) {
+      const pages = _map(getPages(getState()), (v, k) => ({ ...v, id: k }));
+      const containsView = p => p.views.some(v => v === viewId);
+      const page = _.get('0', _.filter(containsView, pages));
+      pId = page.id;
+    }
+    const { editorWidth } = getPanels(getState(), { pId });
     if (!editorWidth || editorWidth < 1) {
-      dispatch(resizeEditor(pageId, 350));
+      dispatch(resizeEditor(pId, 350));
     }
 
-    dispatch(loadInEditor(pageId, viewId));
+    dispatch(loadInEditor(pId, viewId));
   };
 }

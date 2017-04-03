@@ -12,7 +12,7 @@ import { simpleReadView } from './readView';
 // utils
 const updateAllViews = transform => _.update('views', _.map(transform));
 
-export const simpleReadPage = (pageInfo, cb) => {
+export const simpleReadPage = async.reflect((pageInfo, cb) => {
   const { workspaceFolder, path, oId, absolutePath } = pageInfo;
   readDocument(workspaceFolder, path, oId, absolutePath, (err, page, properties) => {
     if (err) {
@@ -40,25 +40,22 @@ export const simpleReadPage = (pageInfo, cb) => {
       absolutePath: fs.getPath(), // ugly
     });
   });
-};
+});
 
 
 export const readPageAndViews = (pageInfo, done) => {
   const readViews = (viewsInfo, cb) => async.map(viewsInfo, simpleReadView, cb);
-  simpleReadPage(pageInfo, (errPage, page) => {
-    if (errPage) {
-      return done(errPage);
+  simpleReadPage(pageInfo, (ignoredErr, page) => {
+    if (page.error) {
+      return done(null, { pages: [page] });
     }
     const viewsInfo = _.map(v => ({
       ...v,
-      pageUuid: page.uuid,
-      pageFolder: dirname(page.absolutePath),
-    }), page.views);
-    return readViews(viewsInfo, (errViews, views) => {
-      if (errViews) {
-        return done(errViews);
-      }
-      const cleanViewsInPage = _.set('views', []);
+      pageUuid: page.value.uuid,
+      pageFolder: dirname(page.value.absolutePath),
+    }), page.value.views);
+    return readViews(viewsInfo, (ignoredErrViews, views) => {
+      const cleanViewsInPage = _.set('value.views', []);
       return done(null, {
         pages: [cleanViewsInPage(page)],
         views,

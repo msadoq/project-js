@@ -9,6 +9,7 @@ import { openView } from '../../documentManager';
 import { getPathByFilePicker } from '../dialog';
 import { addBlankView } from '../../store/actions/views';
 import { addBlankPage } from '../../store/actions/pages';
+import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getStore } from '../../store/mainStore';
 import { getViewModule } from '../../viewManager';
@@ -17,10 +18,8 @@ function viewOpen(focusedWindow) {
   if (!focusedWindow) {
     return;
   }
-  const { getState } = getStore();
-  const state = getState();
-
-  getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, absolutePath) => {
+  const folder = getWorkspaceFolder(getStore().getState());
+  getPathByFilePicker(folder, 'view', 'open', (err, absolutePath) => {
     viewOpenWithPath({ windowId: focusedWindow.windowId, absolutePath });
   });
 }
@@ -38,7 +37,8 @@ function viewOpenWithPath({ windowId, absolutePath }) {
 
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
-  const focusedPageId = getState().windows[focusedWindow.windowId].focusedPage;
+  const { windowId } = focusedWindow;
+  const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
   const pageId = focusedPageId || v4();
   const view = {
     type,

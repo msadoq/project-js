@@ -9,6 +9,7 @@ import validation from './validation';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
+import { getView, getViewAbsolutePath, getViewConfiguration, getViewType } from '../store/reducers/views';
 
 const saveViewAs = (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
@@ -56,19 +57,20 @@ const saveViewAs = (viewConfiguration, viewType, path, callback) => {
 };
 
 const saveView = (state, viewId, callback) => {
-  if (!state.views[viewId]) {
-    callback(new Error('Unknown view id'));
+  const view = getView(state, { viewId });
+  if (!view) {
+    callback(new Error('Unknown view'));
     return;
   }
-  const absPath = state.views[viewId].absolutePath ? state.views[viewId].absolutePath
-                                                   : state.views[viewId].oId;
-  if (!absPath) {
+  const absolutePath = getViewAbsolutePath(state, { viewId });
+  const configuration = getViewConfiguration(state, { viewId });
+  const type = getViewType(state, { viewId });
+  if (!absolutePath) {
     callback(new Error('Unknown path for saving text view'));
     return;
   }
-
   saveViewAs(
-    state.views[viewId].configuration, state.views[viewId].type, absPath, callback
+    configuration, type, absolutePath, callback
   );
 };
 

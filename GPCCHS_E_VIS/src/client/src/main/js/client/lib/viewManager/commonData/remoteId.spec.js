@@ -2,7 +2,7 @@ import globalConstants from 'common/constants';
 import '../../common/test';
 import remoteId from './remoteId';
 
-describe('utils/remoteId', () => {
+describe('viewManager/commonData/remoteId', () => {
   const dataId = {
     parameterName: 'ATT_BC_STR1STRRFQ1',
     catalog: 'Reporting',

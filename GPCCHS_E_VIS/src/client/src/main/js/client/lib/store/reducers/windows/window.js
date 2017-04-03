@@ -3,6 +3,9 @@ import _defaults from 'lodash/defaults';
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
 import _reduce from 'lodash/reduce';
+import _concat from 'lodash/concat';
+import _slice from 'lodash/slice';
+import _pullAt from 'lodash/pullAt';
 import * as types from '../../types';
 
 const initialState = {
@@ -21,6 +24,7 @@ const initialState = {
   displayHelp: false,
 };
 
+/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
 export default function window(stateWindow = initialState, action) {
   switch (action.type) {
     case types.WS_WINDOW_ADD:
@@ -84,6 +88,23 @@ export default function window(stateWindow = initialState, action) {
       }), { remaining: stateWindow.pages, sorted: [] });
       return Object.assign({}, stateWindow, {
         pages: [...sorted, ...remaining],
+        isModified: true,
+      });
+    }
+    case types.WS_WINDOW_MOVE_TAB_ORDER: {
+      const { keyFrom, keyTarget } = action.payload;
+      if (keyFrom === keyTarget) {
+        return stateWindow;
+      }
+      const newTabs = _concat(
+        _slice(stateWindow.pages, 0, keyTarget),
+        stateWindow.pages[keyFrom],
+        _slice(stateWindow.pages, keyTarget)
+      );
+      const keyToRemove = keyFrom < keyTarget ? keyFrom : keyFrom + 1;
+      _pullAt(newTabs, [keyToRemove]);
+      return Object.assign({}, stateWindow, {
+        pages: newTabs,
         isModified: true,
       });
     }

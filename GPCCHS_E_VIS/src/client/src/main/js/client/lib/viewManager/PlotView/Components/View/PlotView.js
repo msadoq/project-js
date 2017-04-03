@@ -24,6 +24,41 @@ const logger = getLogger('view:plot');
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
 
+const tooltipFormatter = (id, foundColor, color, value,
+  x, formattedValue, formatter, packet) => {
+  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
+  return (
+    <div
+      key={id}
+      className={grizzlyStyles.tooltipLine}
+    >
+      <span
+        className={grizzlyStyles.tooltipLineSquare}
+        style={{ background: foundColor || color }}
+      />
+      <p>
+        <span
+          className={grizzlyStyles.tooltipLineName}
+          style={{
+            color,
+          }}
+        >{ id } :</span>
+        <span
+          className={grizzlyStyles.tooltipLineValue}
+        >{ packet.symbol ? packet.symbol : formattedValue }</span>
+      </p>
+      <span
+        className={classnames(
+          grizzlyStyles.tooltipOffset,
+          {
+            [grizzlyStyles.red]: offset[0] === '-',
+            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
+          }
+        )}
+      >{' '}{ offset }</span>
+    </div>
+  );
+};
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -58,6 +93,7 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -82,6 +118,7 @@ export class GrizzlyPlotView extends PureComponent {
 
   state = {
     showLegend: false,
+    selectedLineName: null,
   }
 
   componentDidMount() {
@@ -91,23 +128,21 @@ export class GrizzlyPlotView extends PureComponent {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const {
-      data,
-      entryPoints,
-      visuWindow,
-      configuration,
-      containerWidth,
-      containerHeight,
-    } = this.props;
-    return !(
-      this.state.showLegend === nextState.showLegend &&
-      data === nextProps.data &&
-      entryPoints === nextProps.entryPoints &&
-      visuWindow === nextProps.visuWindow &&
-      configuration === nextProps.configuration &&
-      containerWidth === nextProps.containerWidth &&
-      containerHeight === nextProps.containerHeight
-    );
+    let shouldRender = false;
+    const attrs = ['data', 'entryPoints', 'visuWindow', 'configuration',
+      'containerWidth', 'containerHeight'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
+        shouldRender = true;
+      }
+    }
+    const stateAttrs = ['showLegend', 'selectedLineName'];
+    for (let i = 0; i < stateAttrs.length; i += 1) {
+      if (nextState[stateAttrs[i]] !== this.state[stateAttrs[i]]) {
+        shouldRender = true;
+      }
+    }
+    return shouldRender;
   }
 
   onContextMenu = () => {
@@ -179,11 +214,11 @@ export class GrizzlyPlotView extends PureComponent {
       return;
     }
 
-    // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
     );
+    this.props.openEditor();
 
     e.stopPropagation();
   }
@@ -220,6 +255,13 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
+  selectLine = (e, lineId) => {
+    e.preventDefault();
+    this.setState({
+      selectedLineName: lineId === this.state.selectedLineName ? null : lineId,
+    });
+  }
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -248,19 +290,27 @@ export class GrizzlyPlotView extends PureComponent {
       containerHeight,
       data,
       data: { lines },
-      configuration: { showYAxes, axes, grids, entryPoints },
+      configuration: { showYAxes, axes, grids },
       visuWindow,
+    } = this.props;
+    let {
+      configuration: { entryPoints },
     } = this.props;
     const {
       showLegend,
+      selectedLineName,
     } = this.state;
+
+    if (selectedLineName && showLegend) {
+      entryPoints = entryPoints.filter(ep => ep.name === selectedLineName);
+    }
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
       const eps = entryPoints.filter(ep =>
         _get(ep, ['connectedDataY', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 24) : 0;
+      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 25) : 0;
     });
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
@@ -287,10 +337,15 @@ export class GrizzlyPlotView extends PureComponent {
           allowZoom
           allowPan
           perfOutput={false}
-          xExtents={xExtents}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxisAt="bottom"
+          xAxis={{
+            xExtents,
+            tickStep: _get(axes, ['time', 'tickStep']),
+            autoTick: _get(axes, ['time', 'autoTick']),
+            showTicks: _get(axes, ['time', 'showTicks']),
+          }}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints
@@ -337,50 +392,18 @@ export class GrizzlyPlotView extends PureComponent {
                 xAccessor: null, // default .x
                 yAccessor: d => d.value, // default .y
                 colorAccessor: d => d.color,
-                tooltipFormatter: (id, foundColor, color, value,
-                  x, formattedValue, formatter, packet) => {
-                  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
-                  return (
-                    <div
-                      key={id}
-                      className={grizzlyStyles.tooltipLine}
-                    >
-                      <span
-                        className={grizzlyStyles.tooltipLineSquare}
-                        style={{ background: foundColor || color }}
-                      />
-                      <p>
-                        <span
-                          className={grizzlyStyles.tooltipLineName}
-                          style={{
-                            color,
-                          }}
-                        >{ id } :</span>
-                        <span
-                          className={grizzlyStyles.tooltipLineValue}
-                        >{ packet.symbol ? packet.symbol : formattedValue }</span>
-                      </p>
-                      <span
-                        className={classnames(
-                          grizzlyStyles.tooltipOffset,
-                          {
-                            [grizzlyStyles.red]: offset[0] === '-',
-                            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
-                          }
-                        )}
-                      >{' '}{ offset }</span>
-                    </div>
-                  );
-                },
+                tooltipFormatter,
               })
             )
           }
         />
         <Legend
           yAxes={yAxes}
-          lines={entryPoints}
-          show={this.state.showLegend}
+          lines={this.props.configuration.entryPoints}
+          show={showLegend}
+          selectedLineName={selectedLineName}
           toggleShowLegend={this.toggleShowLegend}
+          selectLine={this.selectLine}
         />
       </DroppableContainer>
     );

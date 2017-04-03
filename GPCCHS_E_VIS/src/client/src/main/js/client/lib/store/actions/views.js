@@ -5,6 +5,7 @@ import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { openEditor } from './pages';
+import { getView } from '../reducers/views';
 import { getPageIdByViewId } from '../reducers/pages';
 import { getViewModule } from '../../viewManager';
 
@@ -64,7 +65,7 @@ const simpleAddEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entr
 export function addEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
     const state = getState();
-    const currentView = state.views[viewId];
+    const currentView = getView(state, { viewId });
     const ep = getViewModule(currentView.type).setEntryPointDefault(entryPoint);
     const injectUuid = _.update('id', v4);
     dispatch(simpleAddEntryPoint(viewId, injectUuid(ep)));

@@ -79,7 +79,9 @@ class EntryPointConnectedDataXY extends React.Component {
             unit={this.props.xUnit}
             timelines={timelines}
             axes={axes}
+            timelineId={initialValues.x.timeline}
             axisId={initialValues.x.axisId}
+            domain={initialValues.x.domain}
             timeBasedData={timeBasedData}
           />
         </div>
@@ -93,7 +95,9 @@ class EntryPointConnectedDataXY extends React.Component {
           unit={this.props.yUnit}
           timelines={timelines}
           axes={axes}
+          timelineId={initialValues.y.timeline}
           axisId={initialValues.y.axisId}
+          domain={initialValues.y.domain}
         />
 
         <ClearSubmitButtons

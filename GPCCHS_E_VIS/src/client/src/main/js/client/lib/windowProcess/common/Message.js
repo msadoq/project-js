@@ -22,9 +22,7 @@ export default class Message extends PureComponent {
     this.setState({
       removing: true,
     });
-    setTimeout(() => {
-      this.props.onClose(this.props.containerId);
-    }, 600);
+    this.props.onClose(this.props.containerId);
   }
   render() {
     return (

@@ -15,6 +15,7 @@
     "max-statements": ["warn", 100],
     "max-depth": ["warn", 7],
     "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
     "comma-dangle": [
       "error",
       {

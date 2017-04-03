@@ -2,9 +2,12 @@ import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import Grid from 'react-grid-layout';
+import path from 'path';
 import getLogger from 'common/log';
 import ViewContainer from '../View/ViewContainer';
+import DroppableContainer from '../common/DroppableContainer';
 import styles from './Content.css';
+import { main } from '../ipc';
 
 const logger = getLogger('Content');
 
@@ -18,6 +21,18 @@ const filterLayoutBlockFields = [
   'moved',
   'static',
 ];
+
+const getDropItemType = _.cond([
+  [m => /ViewDoc$/i.test(m), () => 'view'],
+  [m => /PageDoc$/i.test(m), () => 'page'],
+  [m => /WorkspaceDoc$/i.test(m), () => 'workspace'],
+  [_.stubTrue, _.identity],
+]);
+
+const droppableContainerStyle = {
+  overflowY: 'scroll',
+  width: '100%',
+};
 
 export default class Content extends PureComponent {
   static propTypes = {
@@ -48,6 +63,36 @@ export default class Content extends PureComponent {
       this.props.updateLayout(newLayout);
     }
   };
+
+  onDrop = (e) => { // eslint-disable-line class-methods-use-this
+    const data = e.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    const type = getDropItemType(content.mimeType);
+
+    _.cond([
+      [_.eq('view'), () => main.openView({
+        windowId: this.props.windowId,
+        absolutePath: path.join(
+          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
+          _.getOr(_.get('filepath', content), 'filePath', content)
+        ),
+      })],
+      [_.eq('page'), () => main.openPage({
+        windowId: this.props.windowId,
+        absolutePath: path.join(
+          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
+          _.getOr(_.get('filepath', content), 'filePath', content)
+        ),
+      })],
+      [_.eq('workspace'), () => main.openWorkspace({
+        absolutePath: path.join(
+          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
+          _.getOr(_.get('filepath', content), 'filePath', content)
+        ),
+      })],
+    ])(type);
+  }
 
   render() {
     logger.debug('render');
@@ -87,7 +132,7 @@ export default class Content extends PureComponent {
     }
 
     return (
-      <div className="w100" style={{ overflowY: 'scroll' }}>
+      <DroppableContainer onDrop={this.onDrop} style={droppableContainerStyle}>
         <Grid
           layout={layouts.lg}
           className="layout"
@@ -111,7 +156,7 @@ export default class Content extends PureComponent {
             </div>
           ))}
         </Grid>
-      </div>
+      </DroppableContainer>
     );
   }
 }

@@ -1,7 +1,7 @@
 import '../../common/test';
 import filter, { reset } from './domains';
 
-describe('dataManager:domains', () => {
+describe('viewManager:commonData:domains', () => {
   beforeEach(() => {
     reset();
   });

@@ -48,8 +48,11 @@ export const readDocument = (folder, relativePath, oId, absolutePath, callback) 
   if (oId) {
     return readJsonFromOId(oId, callback);
   }
-  if (folder && !startsWith('/', relativePath)) {
+  if (folder && (!startsWith('/', relativePath))) {
     return readJsonFromRelativePath(folder, relativePath, callback);
+  }
+  if (!fmd.getRootDir()) {
+    return callback(new Error(`Unable to load document ${relativePath} due to no fmd support`));
   }
   return readJsonFromFmdPath(relativePath, callback);
 };

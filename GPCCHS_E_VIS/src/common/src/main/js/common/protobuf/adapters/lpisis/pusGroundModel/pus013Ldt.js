@@ -1,4 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
+/* eslint-disable complexity, "DV6 TBC_CNES Generated code complexity is not avoidable" */
+
 const _map = require('lodash/map');
 const pus013LdtPart = require('./pus013LdtPart');
 const pusElement = require('./pusElement');

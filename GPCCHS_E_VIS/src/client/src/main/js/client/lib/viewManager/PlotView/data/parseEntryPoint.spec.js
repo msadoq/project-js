@@ -1,10 +1,11 @@
 import globalConstants from 'common/constants';
 import parseEntryPoint from './parseEntryPoint';
 
-describe('dataManager/range/parseEntryPoint', () => {
+describe('viewManager/PlotView/data/parseEntryPoint', () => {
   let timelines;
   let domains;
   let entryPoint;
+  let sessions;
   beforeEach(() => {
     entryPoint = {
       name: 'ATT_BC_STR1VOLTAGE',
@@ -32,11 +33,16 @@ describe('dataManager/range/parseEntryPoint', () => {
         },
       ],
     };
+    sessions = [
+      { name: 'session1', id: 1 },
+      { name: 'session2', id: 2 },
+      { name: 'sessionOther', id: 3 },
+    ];
     timelines = [
-      { id: 'tl1', sessionId: 'session1', offset: 0 },
-      { id: 'tl2', sessionId: 'session2', offset: 10 },
-      { id: 'other', sessionId: 'sessionOther', offset: -10 },
-      { id: undefined, sessionId: 'invalid', offset: 0 },
+      { id: 'tl1', sessionName: 'session1', offset: 0 },
+      { id: 'tl2', sessionName: 'session2', offset: 10 },
+      { id: 'other', sessionName: 'sessionOther', offset: -10 },
+      { id: undefined, sessionName: 'invalid', offset: 0 },
     ];
     domains = [
       { domainId: 'd1', name: 'cnes' },
@@ -49,15 +55,15 @@ describe('dataManager/range/parseEntryPoint', () => {
   });
   it('no connectedData', () => {
     entryPoint.connectedDataX = { formula: '' };
-    const ep = parseEntryPoint(domains, timelines, entryPoint, 'Session 1', 'TB1', 'TextView');
+    const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView');
     ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } });
   });
   it('no timebarUuid', () => {
-    const ep = parseEntryPoint(domains, timelines, entryPoint, 'Session 1', '', 'TextView');
+    const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'TextView');
     ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } });
   });
   it('valid', () => {
-    parseEntryPoint(domains, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView')
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView')
     .should.eql({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
@@ -66,7 +72,9 @@ describe('dataManager/range/parseEntryPoint', () => {
           parameterName: 'ATT_BC_STR1VOLTAGE',
           comObject: 'ReportingParameter',
           domainId: 'd1',
-          sessionId: 'session1',
+          domain: 'cnes',
+          sessionId: 1,
+          sessionName: 'session1',
         },
         fieldX: 'groundDate',
         fieldY: 'extractedValue',
@@ -75,7 +83,7 @@ describe('dataManager/range/parseEntryPoint', () => {
         localId: 'groundDate/extractedValue.TB1:0/0',
         timebarUuid: 'TB1',
         structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
-        remoteId: 'range@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:session1:d1',
+        remoteId: 'range@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
         type: 'PlotView',
         stateColors: [
           {

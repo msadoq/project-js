@@ -24,6 +24,7 @@ export default class ControlsLeft extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
+    getSession: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,
@@ -39,7 +40,7 @@ export default class ControlsLeft extends PureComponent {
       kind: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
       offset: PropTypes.number.isRequired,
-      sessionId: PropTypes.number.isRequired,
+      sessionName: PropTypes.string.isRequired,
     }),
     masterSessionId: PropTypes.number.isRequired,
   }
@@ -108,11 +109,12 @@ export default class ControlsLeft extends PureComponent {
       currentSessionExists,
       masterTimeline,
       masterSessionId,
+      getSession,
     } = this.props;
     // IPC request to get master session current time
     let sessionId;
     if (currentSessionExists) {
-      sessionId = masterTimeline.sessionId;
+      sessionId = getSession({ sessionName: masterTimeline.sessionName }).id;
     } else {
       sessionId = masterSessionId;
     }

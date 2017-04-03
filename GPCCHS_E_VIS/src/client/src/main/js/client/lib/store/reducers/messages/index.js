@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import * as types from '../../types';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -10,12 +10,12 @@ const messageTypes = {
   info: 'info',
 };
 
-const createNewMessage = action => ({
-  message: action.payload.message || null,
-  type: messageTypes[action.payload.type] || 'danger',
-});
+const createNewMessages = (messageType, messages) => _.map((msg = null) => ({
+  message: msg,
+  type: messageTypes[messageType] || 'danger',
+}), messages);
 
-export default function messages(state = {}, action) {
+export default function messagesReducer(state = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE: {
       if (action.payload.keepMessages) {
@@ -25,16 +25,16 @@ export default function messages(state = {}, action) {
     }
     case types.WS_MESSAGE_ADD: {
       const { containerId } = action.payload;
-      const newMessage = createNewMessage(action);
-      const addNewMessage = (msgList = []) => __.concat(msgList, newMessage);
-      return __.update(containerId, addNewMessage, state);
+      const newMessage = createNewMessages(action.payload.type, action.payload.messages);
+      const addNewMessage = (msgList = []) => _.concat(msgList, newMessage);
+      return _.update(containerId, addNewMessage, state);
     }
     case types.WS_MESSAGE_REMOVE: {
       const { containerId, index } = action.payload;
-      return __.update(containerId, __.pullAt(index), state);
+      return _.update(containerId, _.pullAt(index), state);
     }
     case types.WS_MESSAGE_RESET: {
-      return __.set(action.payload.containerId, [], state);
+      return _.set(action.payload.containerId, [], state);
     }
     default:
       return state;

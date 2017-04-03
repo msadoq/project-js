@@ -17,16 +17,16 @@ describe('documentManager:actions', () => {
       const dispatch = getDispatch();
       stub = sinon.stub(readView, 'simpleReadView', (viewInfo, cb) => {
         viewInfo.should.be.eql('viewInfo');
-        cb('Error', { pageUuid: 1234 });
+        cb(null, { error: 'Error' });
       });
       actions.openView('viewInfo')(dispatch);
       dispatch.should.have.been.calledOnce;
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_MESSAGE_ADD,
         payload: {
-          containerId: 1234,
+          containerId: 'global',
           type: 'danger',
-          message: 'Error',
+          messages: ['Error'],
         },
       });
     });
@@ -34,7 +34,7 @@ describe('documentManager:actions', () => {
       const dispatch = getDispatch();
       stub = sinon.stub(readView, 'simpleReadView', (viewInfo, cb) => {
         viewInfo.should.be.eql('viewInfo');
-        cb(null, { title: 'my view' });
+        cb(null, { value: { title: 'my view' } });
       });
       actions.openView('viewInfo', 'myPageId')(dispatch);
       dispatch.should.have.been.calledOnce;
@@ -52,7 +52,7 @@ describe('documentManager:actions', () => {
       const dispatch = getDispatch();
       stub = sinon.stub(readPageApi, 'readPageAndViews', (pageInfo, cb) => {
         pageInfo.should.be.eql('page_info');
-        cb('Error');
+        cb(null, { views: [{ error: 'Error view' }], pages: [{ error: 'Error page' }] });
       });
       actions.openPage('page_info')(dispatch);
       dispatch.should.have.been.calledOnce;
@@ -61,7 +61,7 @@ describe('documentManager:actions', () => {
         payload: {
           containerId: 'global',
           type: 'danger',
-          message: 'Error',
+          messages: ['Error view', 'Error page'],
         },
       });
     });

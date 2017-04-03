@@ -7,7 +7,6 @@ import { getStructureModule } from '../viewManager';
 export function intervalPerRemoteId(timebars, remoteIdData) {
   const expectedIntervals = {};
   const { localIds } = remoteIdData;
-  // const getExpectedInterval = structures(structureType, 'getExpectedInterval');
   // loop on local ids
   _each(localIds, (localIdData, localId) => {
     const { offset, timebarUuid, viewType } = localIdData;

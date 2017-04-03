@@ -1,4 +1,4 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
@@ -7,7 +7,7 @@ import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
 import styles from './GrizzlyChart.css';
 
-export default class YAxis extends PureComponent {
+export default class YAxis extends Component {
 
   static propTypes = {
     getLabelPosition: PropTypes.func.isRequired,
@@ -88,14 +88,19 @@ export default class YAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    [
-      'yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
-      'yScale', 'autoTick', 'tickStep',
-    ].forEach((attr) => {
-      if (nextProps[attr] !== this.props[attr]) {
+    const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
+      'yScale', 'autoTick', 'tickStep'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
       }
-    });
+    }
+
+    const linesNames = nextProps.lines.map(l => l.name).join('-');
+    if (!this.linesNames || linesNames !== this.linesNames) {
+      shouldRender = true;
+    }
+    this.linesNames = linesNames;
 
     // update line label refs's style attribute
     if (!shouldRender) {

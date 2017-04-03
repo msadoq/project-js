@@ -9,7 +9,7 @@ import _head from 'lodash/head';
 import _isEmpty from 'lodash/isEmpty';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { getStateColorObj } from '../../utils/stateColors';
+import { getStateColorObj } from '../../commonData/stateColors';
 
 const logger = getLogger('data:rangeValues');
 

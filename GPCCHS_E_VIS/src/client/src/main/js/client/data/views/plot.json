@@ -27,17 +27,9 @@
   "entryPoints": [
     {
       "name": "TMMGT_BC_VIRTCHAN3",
-      "connectedDataX": {
-        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -71,17 +63,9 @@
     },
     {
       "name": "ATT_BC_REVTCOUNT1",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

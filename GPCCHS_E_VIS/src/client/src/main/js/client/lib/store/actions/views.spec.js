@@ -64,13 +64,9 @@ describe('store:actions:views', () => {
   });
   const emptyEntryPoint = {
     connectedData: {},
-    connectedDataX: {},
-    connectedDataY: {},
   };
   const entryPoint = {
     connectedData: { timeline: 1, domain: 2 },
-    connectedDataX: { timeline: 3, domain: 4 },
-    connectedDataY: { timeline: 5, domain: 5 },
   };
 
   let dispatch;
@@ -148,8 +144,6 @@ describe('store:actions:views', () => {
         payload: {
           viewId: 'textview',
           entryPoint: {
-            connectedDataX: {},
-            connectedDataY: {},
             connectedData: { timeline: '*', domain: '*' },
           },
         },
@@ -168,8 +162,6 @@ describe('store:actions:views', () => {
           viewId: 'textview',
           entryPoint: {
             connectedData: { timeline: 1, domain: 2 },
-            connectedDataX: { timeline: 3, domain: 4 },
-            connectedDataY: { timeline: 5, domain: 5 },
           },
         },
       });
@@ -187,9 +179,7 @@ describe('store:actions:views', () => {
         payload: {
           viewId: 'plotview',
           entryPoint: {
-            connectedData: { },
-            connectedDataX: { timeline: '*', domain: '*' },
-            connectedDataY: { timeline: '*', domain: '*' },
+            connectedData: { timeline: '*', domain: '*' },
           },
         },
       });
@@ -208,8 +198,6 @@ describe('store:actions:views', () => {
           viewId: 'plotview',
           entryPoint: {
             connectedData: { timeline: 1, domain: 2 },
-            connectedDataX: { timeline: 3, domain: 4 },
-            connectedDataY: { timeline: 5, domain: 5 },
           },
         },
       });

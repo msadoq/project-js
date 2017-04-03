@@ -65,6 +65,9 @@
                 "formula": {
                     "type": "string"
                 },
+                "fieldX": {
+                    "type": "string"
+                },
                 "unit": {
                     "type": "string"
                 },
@@ -87,7 +90,7 @@
                     "type": "string"
                 }
             },
-            "required": ["formula", "unit", "digits", "format", "domain", "timeline"]
+            "required": ["formula", "fieldX", "unit", "digits", "format", "domain", "timeline"]
         },
         "viewEntryPoint": {
             "type": "object",
@@ -122,18 +125,7 @@
                 "name": {
                     "type": "string"
                 },
-                "connectedDataX": {
-                    "allOf": [{
-                        "$ref": "#/definitions/connectedData"
-                    }, {
-                        "properties": {
-                            "axisId": {
-                                "type": "string"
-                            }
-                        }
-                    }]
-                },
-                "connectedDataY": {
+                "connectedData": {
                     "allOf": [{
                         "$ref": "#/definitions/connectedData"
                     }, {

@@ -44,8 +44,7 @@ describe('mainProcess/documents/savePage', () => {
             entryPoints: [
               {
                 name: 'ATT_BC_REVTCOUNT4',
-                connectedDataX: {},
-                connectedDataY: {},
+                connectedData: {},
               },
             ],
             axes: [],

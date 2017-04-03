@@ -60,17 +60,9 @@ describe('documentManager/saveViews', () => {
             entryPoints: [
               {
                 name: 'ATT_BC_REVTCOUNT4',
-                connectedDataX: {
-                  formula: 'Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.groundDate',
-                  unit: 's',
-                  digits: 5,
-                  format: 'decimal',
-                  domain: 'fr.cnes.sat1',
-                  timeline: 'Session 1',
-                  axisId: 'id1',
-                },
-                connectedDataY: {
+                connectedData: {
                   formula: 'Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.extractedValue',
+                  fieldX: 'groundDate',
                   unit: 'V',
                   digits: 5,
                   format: 'decimal',

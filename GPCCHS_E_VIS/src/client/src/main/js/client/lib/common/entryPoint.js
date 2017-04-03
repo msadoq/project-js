@@ -15,17 +15,9 @@ export const getNewTextEntryPoint = () => ({
 
 export const getNewPlotEntryPoint = () => ({
   name: 'NewEntryPoint',
-  connectedDataX: {
+  connectedData: {
     formula: '',
-    unit: 's',
-    digits: 5,
-    format: 'decimal',
-    filter: [],
-    domain: '*',
-    timeline: '*',
-  },
-  connectedDataY: {
-    formula: '',
+    fieldX: '',
     unit: 'V',
     digits: 5,
     format: 'decimal',

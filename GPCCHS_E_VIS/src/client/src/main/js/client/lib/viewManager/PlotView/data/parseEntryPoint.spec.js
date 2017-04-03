@@ -10,14 +10,9 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
     entryPoint = {
       name: 'ATT_BC_STR1VOLTAGE',
       id: 'ep1',
-      connectedDataX: {
-        formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate',
-        domain: 'cnes',
-        timeline: 'tl1',
-        filter: {},
-      },
-      connectedDataY: {
+      connectedData: {
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
+        fieldX: 'groundDate',
         domain: 'cnes',
         timeline: 'tl1',
         filter: {},
@@ -54,9 +49,9 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
     ];
   });
   it('no connectedData', () => {
-    entryPoint.connectedDataX = { formula: '' };
+    entryPoint.connectedData.fieldX = '';
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView');
-    ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } });
+    ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'No field X' } });
   });
   it('no timebarUuid', () => {
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'TextView');
@@ -80,7 +75,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         fieldY: 'extractedValue',
         offset: 0,
         filter: {},
-        localId: 'groundDate/extractedValue.TB1:0/0',
+        localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
         structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
         remoteId: 'range@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',

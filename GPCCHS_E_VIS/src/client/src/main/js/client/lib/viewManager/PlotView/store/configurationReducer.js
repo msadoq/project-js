@@ -26,28 +26,27 @@ export default (stateConf = { content: '' }, action) => {
     case types.WS_VIEW_REMOVE_MARKER:
       return removeElementIn('markers', action.payload.index, stateConf);
     case types.WS_VIEW_ADD_ENTRYPOINT: {
-      const [axisX, axisY] = getAxes(stateConf, action);
-      const addAxisXId = _.set('connectedDataX.axisId', axisX.id);
-      const addAxisYId = _.set('connectedDataY.axisId', axisY.id);
-      const addAxesIds = _.compose(addAxisXId, addAxisYId);
+      const axis = getAxes(stateConf, action);
+      const addAxisYId = _.set('connectedData.axisId', axis.id);
+      // const addAxesIds = _.compose(addAxisXId, addAxisYId);
 
       const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
       return {
         ...stateConf,
-        entryPoints: [...stateConf.entryPoints, addAxesIds(newEp)],
+        entryPoints: [...stateConf.entryPoints, addAxisYId(newEp)],
         axes: {
           ...stateConf.axes,
-          [axisX.id]: axisX,
-          [axisY.id]: axisY,
+          [axis.id]: axis,
         },
       };
     }
     case types.WS_VIEW_REMOVE_ENTRYPOINT: {
       const entryPoints = stateConf.entryPoints;
-      const getAllConnectedAxisIds = eps => _.concat(
-        _.pluck('connectedDataX.axisId', eps),
-        _.pluck('connectedDataY.axisId', eps)
-      );
+      // const getAllConnectedAxisIds = eps => _.concat(
+      //   _.pluck('connectedDataX.axisId', eps),
+      //   _.pluck('connectedDataY.axisId', eps)
+      // );
+      const getAllConnectedAxisIds = eps => _.pluck('connectedData.axisId', eps);
       const refreshAxes = _.pick(getAllConnectedAxisIds(entryPoints));
       return _.update('axes', refreshAxes, stateConf);
     }

@@ -114,14 +114,9 @@ describe('dataManager/perViewData', () => {
           entryPoints: [{
             name: 'STAT_SU_PID',
             id: 'id60',
-            connectedDataX: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            connectedDataY: {
+            connectedData: {
               formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              fieldX: 'groundDate',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
               timeline: 'Session 1',
@@ -136,14 +131,9 @@ describe('dataManager/perViewData', () => {
             }],
           }, {
             name: 'STAT_PARAMETRIC',
-            connectedDataX: {
+            connectedData: {
               formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            connectedDataY: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              fieldX: 'groundDate',
               filter: [],
               domain: 'fr.cnes.isis',
               timeline: 'Session 1',

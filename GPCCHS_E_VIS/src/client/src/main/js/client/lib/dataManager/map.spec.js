@@ -115,14 +115,9 @@ beforeEach(() => {
             {
               name: 'STAT_SU_PID',
               id: 'id60',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
+              connectedData: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'groundDate',
                 filter: [],
                 domain: 'fr.cnes.isis.simupus',
                 timeline: 'Session 1',
@@ -140,14 +135,9 @@ beforeEach(() => {
             },
             {
               name: 'STAT_PARAMETRIC',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
+              connectedData: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'groundDate',
                 filter: [],
                 domain: 'fr.cnes.isis',
                 timeline: 'Session 1',
@@ -271,7 +261,7 @@ const dataMap = {
     filter: [],
     views: ['plot1'],
     localIds: {
-      'groundDate/extractedValue.tb1:0/0': {
+      'groundDate/extractedValue.tb1:0': {
         fieldX: 'groundDate',
         fieldY: 'extractedValue',
         timebarUuid: 'tb1',
@@ -357,7 +347,7 @@ const viewMap = {
         fieldY: 'extractedValue',
         offset: 0,
         filter: [],
-        localId: 'groundDate/extractedValue.tb1:0/0',
+        localId: 'groundDate/extractedValue.tb1:0',
         timebarUuid: 'tb1',
         structureType: 'range',
         remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -417,7 +407,7 @@ const intervalMap = {
     },
   },
   'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-    'groundDate/extractedValue.tb1:0/0': {
+    'groundDate/extractedValue.tb1:0': {
       expectedInterval: [1420106790818, 1420107056239],
     },
   },

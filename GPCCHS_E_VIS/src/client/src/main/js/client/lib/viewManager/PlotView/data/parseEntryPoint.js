@@ -21,44 +21,43 @@ export default function parseEntryPoint(
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
-  const { connectedDataX, connectedDataY, name, id, stateColors } = entryPoint;
-  const cdX = parseConnectedData(domains, sessions, timelines, connectedDataX, masterSessionId);
 
-  if (cdX.error) {
-    logger.info('invalid entryPoint', name, cdX.error);
-    return { [name]: { error: cdX.error } };
+  const { connectedData, name, id, stateColors } = entryPoint;
+  if (!connectedData.fieldX) {
+    logger.info('invalid entryPoint', name, 'No field X');
+    return { [name]: { error: 'No field X' } };
   }
 
-  const cdY = parseConnectedData(domains, sessions, timelines, connectedDataY, masterSessionId);
-
-  if (cdY.error) {
-    logger.info('invalid entryPoint', name, cdY.error);
-    return { [name]: { error: cdY.error } };
+  const cd = parseConnectedData(domains, sessions, timelines, connectedData, masterSessionId);
+  if (cd.error) {
+    logger.info('invalid entryPoint', name, cd.error);
+    return { [name]: { error: cd.error } };
   }
   // ignore parametric entryPoints
-  if (!_isEqual(cdX.dataId, cdY.dataId)) {
+  if (cd.dataId.field === connectedData.fieldX) {
     logger.info('invalid entryPoint', name, 'parametric entryPoint detected for this view');
     return { [name]: { error: 'parametric entryPoint detected for this view' } };
   }
 
   const remoteIdY =
-    remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_RANGE, cdY.dataId, cdY.filter);
+    remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_RANGE, cd.dataId, cd.filter);
 
   const ep = {
     [name]: {
       remoteId: remoteIdY,
-      dataId: cdY.dataId,
-      localId: `${cdX.field}/${cdY.field}.${timebarUuid}:${cdX.offset}/${cdY.offset}`,
-      fieldX: cdX.field,
-      fieldY: cdY.field,
-      offset: cdY.offset,
+      dataId: cd.dataId,
+      localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
+      fieldX: connectedData.fieldX,
+      fieldY: cd.field,
+      offset: cd.offset,
       timebarUuid,
-      filter: cdY.filter,
+      filter: cd.filter,
       structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
       id,
       type: viewType,
     },
   };
+
   if (stateColors) {
     ep[name].stateColors = stateColors;
   }

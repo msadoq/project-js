@@ -1,7 +1,8 @@
 import sinon from 'sinon';
 import { mock as mockRedis, unmock as unmockRedis } from 'rtd/stubs/redis';
 import rtd from 'rtd/catalogs';
-import { createReportings } from 'rtd/stubs/database';
+import loadReportings from 'rtd/stubs/loaders/reporting';
+import { generate } from 'rtd/stubs/items/reporting';
 import { should } from '../../common/test';
 import {
   getShortDescription,
@@ -21,12 +22,14 @@ const sessionId = 0;
 const domainId = 3;
 
 let reporting;
-const itemNames = ['TEST_ITEM1'];
+const items = [
+  generate({ name: 'TEST_ITEM1', namespace: SDB_NAMESPACE, domainId }),
+];
 
 let monitoringStub;
 let rtdStub;
 
-describe('rtdManager/reportings', () => {
+describe.only('rtdManager/reportings', () => {
   before((done) => {
     mockRedis();
     monitoringStub = sinon.stub(monitorings, 'getTriggers', (opts, monitoring, callback) => {
@@ -35,7 +38,7 @@ describe('rtdManager/reportings', () => {
     rtd.connect(socket, (err, isConnected) => {
       should.not.exist(err);
       isConnected.should.eql(true);
-      createReportings(rtd.getDatabase().getClient(), { sessionId, domainId, itemNames }, done);
+      loadReportings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
   });
   after(() => {
@@ -44,6 +47,8 @@ describe('rtdManager/reportings', () => {
   });
   beforeEach((done) => {
     rtd.getCatalogByName('Reporting', SDB_NAMESPACE, 'TEST_ITEM1', sessionId, domainId, (getErr, item) => {
+      should.not.exist(getErr);
+      should.exist(item);
       reporting = item;
       rtdStub = sinon.stub(rtd, 'getCatalogByName', (catalog, namespace, name, session, domain, callback) => {
         callback(null, 'StubMonitoring');
@@ -52,7 +57,9 @@ describe('rtdManager/reportings', () => {
     });
   });
   afterEach(() => {
-    rtdStub.restore();
+    if (rtdStub) {
+      rtdStub.restore();
+    }
   });
   it('getShortDescription', (done) => {
     getShortDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
@@ -80,7 +87,7 @@ describe('rtdManager/reportings', () => {
       const keys = Object.keys(laws);
       keys.should.have.lengthOf(1);
       keys[0].should.be.oneOf(['OnGround', 'OnBoard']);
-      laws[keys[0]].should.be.an('array').that.has.lengthOf(1);
+      laws[keys[0]].should.be.an('array').that.has.lengthOf(2);
       laws[keys[0]][0].should.have.a.properties({ Triggers: 'StubTriggers' });
       done();
     });

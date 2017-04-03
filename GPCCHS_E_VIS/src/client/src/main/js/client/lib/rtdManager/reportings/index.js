@@ -45,7 +45,7 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
           domainId,
           (err, monitoring) => {
             if (err || !monitoring) {
-              gmCb(err);
+              gmCb(null);
               return;
             }
             getMonitoringDataTriggers(
@@ -53,7 +53,6 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
               monitoring,
               (tErr, triggers) => {
                 if (tErr) {
-                  // console.log('err', tErr)
                   gmCb(tErr);
                   return;
                 }

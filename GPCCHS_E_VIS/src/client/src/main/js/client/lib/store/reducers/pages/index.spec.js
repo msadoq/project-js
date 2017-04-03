@@ -127,8 +127,8 @@ describe('store:page:selectors', () => {
       getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
     });
   });
-  describe('getEditor', () => {
-    it('should returns current page layout', () => {
+  describe('getPageAbsolutePath', () => {
+    it('should returns current page absolutePath', () => {
       const state = {
         pages: {
           myPageId: {

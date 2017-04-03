@@ -2,6 +2,7 @@ import path from 'path';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/reducers/views';
 import { getWindowTitle } from '../../store/reducers/windows';
+import { getWorkspaceFile, getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
@@ -45,9 +46,9 @@ const hasUnsavedPages = () => {
 const saveWorkspaceByFilePicker = (focusedWindow) => {
   const { dispatch, getState } = getStore();
   const state = getState();
-  const oldFolder = state.hsc.folder;
-  const file = state.hsc.file;
-  getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
+  const oldFolder = getWorkspaceFolder(state);
+  const file = getWorkspaceFile(state);
+  getPathByFilePicker(oldFolder, 'Workspace', 'save', (err, newWsPath) => {
     dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
     saveFile(focusedWindow, (errSaving) => {
       if (errSaving) {
@@ -64,8 +65,8 @@ function workspaceSave(focusedWindow) {
     return;
   }
   const { dispatch, getState } = getStore();
-  const state = getState();
-  if (!state.hsc.file) {
+  const file = getWorkspaceFile(getState());
+  if (!file) {
     saveWorkspaceByFilePicker(focusedWindow);
   } else {
     saveFile(focusedWindow, (errSaving) => {

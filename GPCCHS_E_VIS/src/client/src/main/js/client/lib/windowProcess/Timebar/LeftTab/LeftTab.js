@@ -264,7 +264,7 @@ export default class LeftTab extends PureComponent {
             id: '',
             color: schemeCategory20b[timelines.length % 20],
             kind: 'session',
-            sessionId: typeof sessions[0].id === 'number' ?
+            sessionId: (sessions[0] && typeof sessions[0].id === 'number') ?
               sessions[0].id.toString() : '',
             offset: 0,
             master: false,

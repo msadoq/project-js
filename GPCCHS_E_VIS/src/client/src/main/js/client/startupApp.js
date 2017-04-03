@@ -1,5 +1,5 @@
 function displayLoadingContent() {
-  const loadingContainer = `
+  document.body.innerHTML = `
     <div id="waitingRenderer" style="text-align: center; margin-top: 20%;">
       <style>
         .loader {
@@ -29,15 +29,14 @@ function displayLoadingContent() {
 
     </div>
   `;
-  document.body.innerHTML = loadingContainer;
 }
 
 function initParameters() {
   function getQueryStringValue(key) {
+    const needle = encodeURIComponent(key).replace(/[.+*]/g, '\\$&');
     return decodeURIComponent(
       window.location.search.replace(
-        // eslint-disable-next-line
-        new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"
+        new RegExp(`^(?:.*[&\\?]${needle}(?:\\=([^&]*))?)?.*$`, 'i'), '$1'
       )
     );
   }

@@ -50,7 +50,8 @@ export function initStore(initialState) {
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       ipcRenderer.sendSync('renderer-reload');
-      store.replaceReducer(require('./reducers')); // eslint-disable-line global-require
+      // eslint-disable-next-line global-require, "DV6 TBC_CNES Hot reload require contxt. requires"
+      store.replaceReducer(require('./reducers'));
     });
   }
 }

@@ -19,7 +19,8 @@ initStore();
 ipcRenderer.on('global', mainController);
 
 if (global.parameters.get('WDYU') === 'on') {
-  const { whyDidYouUpdate } = require('why-did-you-update'); // eslint-disable-line global-require
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Loaded at runtime only if activated"
+  const { whyDidYouUpdate } = require('why-did-you-update');
   const excludeList = [
     'Connect', 'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable',
     'ReactGridLayout', 'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem', 'Grid', 'Row',

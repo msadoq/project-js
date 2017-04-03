@@ -17,9 +17,8 @@ const lineStyleButtons = [
 
 class PlotGrid extends React.Component {
   static propTypes = {
-    /* eslint-disable react/no-unused-prop-types */
+    // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
     initialValues: PropTypes.shape({
-      // label: PropTypes.string,
       xAxisId: PropTypes.string,
       yAxisId: PropTypes.string,
       showGrid: PropTypes.bool,
@@ -61,16 +60,6 @@ class PlotGrid extends React.Component {
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
-        {/* Keeping in case we need to name grids!
-        <HorizontalFormGroup label="Label">
-          <Field
-            name="label"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
-          />
-        </HorizontalFormGroup>
-        */}
         <HorizontalFormGroup label="Show">
           <Field
             name="showGrid"
@@ -137,7 +126,6 @@ class PlotGrid extends React.Component {
   }
 }
 
-
 const requiredFields = [];
 const validate = (values = {}) => {
   const errors = {};
@@ -150,13 +138,8 @@ const validate = (values = {}) => {
   return errors;
 };
 
-const warn = () => {
-  const warnings = {};
-  return warnings;
-};
-
 export default reduxForm({
   validate,
-  warn,
+  warn: () => ({}),
   enableReinitialize: true,
 })(PlotGrid);

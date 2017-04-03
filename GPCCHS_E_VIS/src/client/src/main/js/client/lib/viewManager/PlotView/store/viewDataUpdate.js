@@ -1,4 +1,4 @@
-/* eslint-disable no-continue */
+/* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _last from 'lodash/last';
 import _findIndex from 'lodash/findIndex';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -90,6 +90,7 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
  * @param: data to add in state
  * @return: updated state
 /* ************************************/
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
 export function viewRangeAdd(state = {}, payloads) {
   const epNames = Object.keys(payloads || {}); // get remoteIds
   if (!epNames.length || epNames.length < 5) {

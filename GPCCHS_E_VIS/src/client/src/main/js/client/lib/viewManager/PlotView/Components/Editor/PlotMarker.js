@@ -15,7 +15,7 @@ const { Addon } = InputGroup;
 
 class PlotMarker extends React.Component {
   static propTypes = {
-    /* eslint-disable react/no-unused-prop-types */
+    // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
     initialValues: PropTypes.shape({
       kind: PropTypes.string,
       label: PropTypes.string,
@@ -65,10 +65,6 @@ class PlotMarker extends React.Component {
       },
     },
   }
-
-  // handlePosX = e => this.props.handlePlotMarker(this.props.idAxe, 'posX', e.target.value);
-  // handlePosY = e => this.props.handlePlotMarker(this.props.idAxe, 'posY', e.target.value);
-  // handleLineStyle = val => this.props.handlePlotMarker(this.props.idAxe, 'style.lineStyle', val);
 
   render() {
     const {
@@ -134,74 +130,6 @@ class PlotMarker extends React.Component {
             <Addon>%</Addon>
           </InputGroup>
         </HorizontalFormGroup>}
-
-        {/*
-        {(kind === 'Vertical') ?
-          <FormGroup controlId="formHorizontalLabel">
-            <Col xs={4} >
-              Pos X
-            </Col>
-            <Col xs={8}>
-              <FormControl
-                type="number"
-                className="input-sm"
-                value={posX}
-                onChange={this.handlePosX}
-              />
-            </Col>
-          </FormGroup>
-          : null
-        }
-        {(kind === 'Horizontal') ?
-          <FormGroup controlId="formHorizontalLabel">
-            <Col xs={4} >
-              Pos Y
-            </Col>
-            <Col xs={8}>
-              <FormControl
-                type="number"
-                className="input-sm"
-                value={posY}
-                onChange={this.handlePosY}
-              />
-            </Col>
-          </FormGroup>
-          : null
-        }
-        {(kind === 'Vertical') ?
-          <FormGroup controlId="formControlsSelect">
-            <Col xs={4}>
-              X Axis
-            </Col>
-            <Col xs={8}>
-              <FormControl componentClass="select" >
-                {axes.map((axis, key) => (
-                  <option key={key}>{axis.label}</option>
-                  ))
-                }
-              </FormControl>
-            </Col>
-          </FormGroup>
-          : null
-        }
-        {(kind === 'Horizontal') ?
-          <FormGroup controlId="formControlsSelect">
-            <Col xs={4}>
-              Y Axis
-            </Col>
-            <Col xs={8}>
-              <FormControl componentClass="select" >
-                {axes.map((axis, key) => (
-                  <option key={key}>{axis.label}</option>
-                  ))
-                }
-              </FormControl>
-            </Col>
-          </FormGroup>
-          : null
-        }
-        */}
-
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}
@@ -225,11 +153,6 @@ const validate = (values = {}) => {
   return errors;
 };
 
-const warn = () => {
-  const warnings = {};
-  return warnings;
-};
-
 export default connect((state, { formName }) => {
   const kind = formValueSelector(formName)(state, 'kind');
 
@@ -243,7 +166,7 @@ export default connect((state, { formName }) => {
 })(
   reduxForm({
     validate,
-    warn,
+    warn: () => ({}),
     enableReinitialize: true,
   })(PlotMarker)
 );

@@ -65,8 +65,7 @@ const initialState = {
   isModified: true,
 };
 
-// This reducer deal with simple views
-/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 function simpleView(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD_BLANK:

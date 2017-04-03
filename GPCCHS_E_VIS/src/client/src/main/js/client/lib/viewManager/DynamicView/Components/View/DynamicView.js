@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PropTypes, PureComponent } from 'react';
 import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
 import classnames from 'classnames';
@@ -6,7 +5,6 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
-import moment from 'moment';
 import styles from './DynamicView.css';
 
 const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;

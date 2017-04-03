@@ -19,7 +19,7 @@ const bgColors = [
 
 class ViewParamsForm extends React.Component {
   static propTypes = {
-    /* eslint-disable react/no-unused-prop-types */
+    // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
     initialValues: PropTypes.shape({
       backgroundColor: PropTypes.string,
       title: PropTypes.string,
@@ -108,13 +108,8 @@ const validate = (values = {}) => {
   return errors;
 };
 
-const warn = () => {
-  const warnings = {};
-  return warnings;
-};
-
 export default reduxForm({
   validate,
-  warn,
+  warn: () => ({}),
   enableReinitialize: true,
 })(ViewParamsForm);

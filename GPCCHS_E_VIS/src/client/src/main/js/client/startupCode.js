@@ -1,7 +1,7 @@
 const electron = require('electron');
 
 function displayLoadingContent() {
-  const loadingContainer = `
+  document.body.innerHTML = `
     <div id="waitingRenderer" style="text-align: center; margin-top: 20%;">
       <style>
         .loader {
@@ -31,7 +31,6 @@ function displayLoadingContent() {
 
     </div>
   `;
-  document.body.innerHTML = loadingContainer;
 }
 
 function initParameters() {

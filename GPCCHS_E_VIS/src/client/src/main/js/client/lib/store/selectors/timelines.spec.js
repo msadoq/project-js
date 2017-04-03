@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import {} from '../../common/test';
-import { getFocusedPageTimelines } from './timelines';
+import { getPageTimelines, getFocusedPageTimelines } from './timelines';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {
   const state = {
@@ -28,6 +28,14 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
       },
     },
   };
+  describe('getPageTimelines', () => {
+    it('returns page timelines', () => {
+      getPageTimelines(state, { pageId: 'p1' }).should.be.eql([2, 1]);
+    });
+    it('returns nothing when pageId is unknown', () => {
+      getPageTimelines(state, { pageId: 'unknownPageId' }).should.be.eql([]);
+    });
+  });
   describe('getFocusedPageTimelines', () => {
     it('returns focused page timelines', () => {
       getFocusedPageTimelines(state, { windowId: 'w1' }).should.be.eql([2, 1]);

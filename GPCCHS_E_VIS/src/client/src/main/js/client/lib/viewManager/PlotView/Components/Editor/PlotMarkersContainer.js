@@ -1,18 +1,16 @@
 import { PropTypes } from 'react';
+import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import PlotMarkers from './PlotMarkers';
-import { getView } from '../../../../store/reducers/views';
+import { getMarkers, getAxes } from '../../store/configurationSelectors';
 import {
   updateMarker,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { viewId }) => {
-  const view = getView(state, { viewId });
-  return {
-    axes: view.configuration.axes,
-    markers: view.configuration.markers,
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  markers: getMarkers,
+  axes: getAxes,
+});
 
 const PlotMarkersContainer = connect(mapStateToProps, {
   updateMarker,

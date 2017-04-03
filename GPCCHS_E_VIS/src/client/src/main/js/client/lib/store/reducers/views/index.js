@@ -34,3 +34,13 @@ export const getViewType = createSelector(
   getView,
   _.get('type')
 );
+
+export const getViewTitle = createSelector(
+  getView,
+  _.get('title')
+);
+
+export const getViewTitleStyle = createSelector(
+  getView,
+  _.get('titleStyle')
+);

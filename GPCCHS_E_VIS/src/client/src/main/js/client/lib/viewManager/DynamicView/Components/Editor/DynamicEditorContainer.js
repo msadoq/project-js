@@ -1,37 +1,34 @@
-import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import DynamicEditor from './DynamicEditor';
-import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
-import { getView } from '../../../../store/reducers/views';
-import { getPage } from '../../../../store/reducers/pages';
+import { getPageTimelines } from '../../../../store/selectors/timelines';
+import { getViewConfiguration, getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
 import {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { viewId, pageId }) => {
-  const view = getView(state, { viewId });
-  const { timebarUuid } = getPage(state, { pageId });
-  const getConfiguration = _.get(`views[${viewId}].configuration`);
-  const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
-  return {
-    title: view.title,
-    titleStyle: view.titleStyle,
-    configuration: getConfiguration(state),
-    timelines,
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  title: getViewTitle,
+  titleStyle: getViewTitleStyle,
+  configuration: getViewConfiguration,
+  timelines: getPageTimelines,
+});
 
-const DynamicEditorContainer = connect(mapStateToProps, {
+const mapDispatchToProps = {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
-})(DynamicEditor);
+};
+
+const DynamicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(DynamicEditor);
 
 DynamicEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default DynamicEditorContainer;

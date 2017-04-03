@@ -1,6 +1,8 @@
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import TextView from './TextView';
 import {
   addEntryPoint,
@@ -13,15 +15,12 @@ import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getViewContent, getViewConfiguration } from '../../../../store/reducers/views';
 import { getData } from '../../store/dataReducer';
 
-export const mapStateToProps = (state, { viewId }) => {
-  const data = getData(state, { viewId });
-  return {
-    content: getViewContent(state, { viewId }),
-    configuration: getViewConfiguration(state, { viewId }),
-    entryPoints: getViewEntryPoints(state, { viewId }),
-    data,
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  content: getViewContent,
+  configuration: getViewConfiguration,
+  entryPoints: getViewEntryPoints,
+  data: getData,
+});
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),

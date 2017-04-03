@@ -3,6 +3,7 @@ import { should, freezeArgs, getStore } from '../../../common/test';
 import * as types from '../../types';
 import timebarsReducer, {
   getTimebar,
+  getTimebarId,
   getTimebars,
   getFirstTimebarId,
   getTimebarMasterId,
@@ -49,6 +50,15 @@ describe('store:timebars:selectors', () => {
     });
     getTimebar(getState(), { timebarUuid: 'myTimebarId' }).should.have.property('id', 'Id');
     should.not.exist(getTimebar(getState(), { timebarUuid: 'unknownId' }));
+  });
+  it('getTimebarId', () => {
+    const { getState } = getStore({
+      timebars: {
+        myTimebarId: { id: 'Id' },
+      },
+    });
+    getTimebarId(getState(), { timebarUuid: 'myTimebarId' }).should.be.eql('Id');
+    should.not.exist(getTimebarId(getState(), { timebarUuid: 'unknownId' }));
   });
   it('getTimebars', () => {
     const state = {

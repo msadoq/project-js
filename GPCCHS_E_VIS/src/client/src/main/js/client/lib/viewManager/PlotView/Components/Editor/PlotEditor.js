@@ -9,23 +9,15 @@ import styles from '../../../commonEditor/Editor.css';
 const newEntryPoint = {
   name: 'NewEntryPoint',
   timeBasedData: true,
-  connectedDataX: {
+  connectedData: {
     formula: '',
+    fieldX: '',
     unit: 's',
     digits: 5,
     format: 'decimal',
     domain: '',
     timeline: '',
     axisId: 'time',
-  },
-  connectedDataY: {
-    formula: '',
-    unit: 'ms',
-    digits: 5,
-    format: 'decimal',
-    domain: '',
-    timeline: '',
-    axisId: '',
   },
   objectStyle: {
     line: {

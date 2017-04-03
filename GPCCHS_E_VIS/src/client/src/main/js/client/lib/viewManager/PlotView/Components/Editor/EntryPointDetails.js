@@ -7,7 +7,7 @@ import {
 import _memoize from 'lodash/memoize';
 
 import EntryPointParameters from './EntryPointParameters';
-import EntryPointConnectedDataXY from './EntryPointConnectedDataXY';
+import EntryPointConnectedData from './EntryPointConnectedData';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 /*
@@ -23,7 +23,7 @@ export default class EntryPointDetails extends PureComponent {
     entryPoint: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-      connectedDataX: PropTypes.shape({
+      connectedData: PropTypes.shape({
         axisId: PropTypes.string,
         digit: PropTypes.number,
         domain: PropTypes.string,
@@ -34,20 +34,7 @@ export default class EntryPointDetails extends PureComponent {
         })),
         format: PropTypes.string,
         formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      connectedDataY: PropTypes.shape({
-        axisId: PropTypes.string,
-        digit: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
+        fieldX: PropTypes.string,
         timeline: PropTypes.string,
         unit: PropTypes.string,
       }),
@@ -81,23 +68,21 @@ export default class EntryPointDetails extends PureComponent {
     });
   }
 
-  handleConnectedDataXYSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
-    /*
-      If EP is timeBasedData, x values must equal y values
-    */
-    updateEntryPoint(viewId, idPoint, {
-      ...entryPoint,
-      connectedDataY: values.y,
-      connectedDataX: {
-        ...values.x,
-        domain: values.timeBasedData ? values.y.domain : values.x.domain,
-        timeline: values.timeBasedData ? values.y.timeline : values.x.timeline,
-        axisId: values.timeBasedData ? 'time' : values.x.axisId,
-        unit: values.timeBasedData ? 's' : values.x.unit,
-      },
-      timeBasedData: values.timeBasedData,
-    });
+  handleConnectedDataSubmit = (values) => {
+    const {
+      entryPoint,
+      updateEntryPoint,
+      viewId,
+      idPoint,
+    } = this.props;
+    updateEntryPoint(
+      viewId,
+      idPoint,
+      {
+        ...entryPoint,
+        connectedData: values,
+      }
+    );
   }
 
   render() {
@@ -116,12 +101,7 @@ export default class EntryPointDetails extends PureComponent {
     } = this.state;
     // TODO Rerender (new ref)
     const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
-    // TODO Rerender (new ref)
-    const initialValuesConnectedData = {
-      x: entryPoint.connectedDataX,
-      y: entryPoint.connectedDataY,
-      timeBasedData: entryPoint.timeBasedData,
-    };
+
     // TODO Rerender (new ref)
     const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
     return (
@@ -149,14 +129,14 @@ export default class EntryPointDetails extends PureComponent {
           onSelect={this.openPanel('Coordinates')}
           onExited={this.closePanel('Coordinates')}
         >
-          {isPanelCoordinatesOpen && <EntryPointConnectedDataXY
+          {isPanelCoordinatesOpen && <EntryPointConnectedData
             axes={axes}
             timelines={timelines}
             idPoint={idPoint}
             viewId={viewId}
-            form={`entrypoint-connectedDataXY-form-${idPoint}-${viewId}`}
-            onSubmit={this.handleConnectedDataXYSubmit}
-            initialValues={initialValuesConnectedData}
+            form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
+            onSubmit={this.handleConnectedDataSubmit}
+            initialValues={entryPoint.connectedData}
           />}
         </Panel>
         <Panel

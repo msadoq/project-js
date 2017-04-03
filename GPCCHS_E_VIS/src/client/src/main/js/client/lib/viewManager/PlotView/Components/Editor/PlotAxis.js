@@ -40,10 +40,11 @@ class PlotAxis extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
     initialize: PropTypes.func.isRequired,
+    axisId: PropTypes.string.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-      connectedDataX: PropTypes.shape({
+      connectedData: PropTypes.shape({
         axisId: PropTypes.string,
         digit: PropTypes.number,
         domain: PropTypes.string,
@@ -54,26 +55,13 @@ class PlotAxis extends PureComponent {
         })),
         format: PropTypes.string,
         formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      connectedDataY: PropTypes.shape({
-        axisId: PropTypes.string,
-        digit: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
+        fieldX: PropTypes.string,
         timeline: PropTypes.string,
         unit: PropTypes.string,
       }),
     })).isRequired,
-    axisId: PropTypes.string.isRequired,
   }
+
   static defaultProps = {
     showTicks: false,
     autoTick: false,
@@ -132,27 +120,14 @@ class PlotAxis extends PureComponent {
 
     const relatedEntryPoints = [];
     (entryPoints || []).forEach((ep) => {
-      if (_get(ep, ['connectedDataX', 'axisId']) === axisId) {
-        // _.upd
-        // spanInlineStyle[i]
+      if (_get(ep, ['connectedData', 'axisId']) === axisId) {
         relatedEntryPoints.push(
           <span
             key={ep.name}
             className={classnames('label', 'label-default', styles.relatedEntryPoint)}
             style={this.memoizeStyle(_get(ep, ['objectStyle', 'curveColor'], '#333'))}
           >
-            {`${ep.name} X`}<br />
-          </span>
-        );
-      }
-      if (_get(ep, ['connectedDataY', 'axisId']) === axisId) {
-        relatedEntryPoints.push(
-          <span
-            key={ep.name}
-            className={classnames('label', 'label-default', styles.relatedEntryPoint)}
-            style={this.memoizeStyle(_get(ep, ['objectStyle', 'curveColor'], '#333'))}
-          >
-            {`${ep.name} Y`}<br />
+            {ep.name}<br />
           </span>
         );
       }

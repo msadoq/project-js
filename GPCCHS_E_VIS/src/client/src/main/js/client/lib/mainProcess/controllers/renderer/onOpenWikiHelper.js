@@ -1,6 +1,11 @@
 import { get } from 'common/parameters';
-import open from 'open';
+import { shell } from 'electron';
 
 export default function () {
-  open(get('USER_MANUAL_URL'));
+  const url = get('USER_MANUAL_URL');
+  if (!url) {
+    return;
+  }
+
+  shell.openExternal(get('USER_MANUAL_URL'));
 }

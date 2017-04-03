@@ -9,6 +9,7 @@ import * as constants from '../../constants';
 
 const initialState = {};
 
+/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
 export default function dynamicViewData(state = {}, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:

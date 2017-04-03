@@ -75,7 +75,7 @@ export default class TextView extends PureComponent {
   }
 
   componentDidMount() {
-    this.updateSpanValues();
+    this.updateSpanValues(this.props.data);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -89,13 +89,13 @@ export default class TextView extends PureComponent {
       this.content = this.getContentComponent();
     }
     if (!shouldRender) {
-      this.updateSpanValues(nextProps);
+      this.updateSpanValues(nextProps.data);
     }
     return shouldRender;
   }
 
   componentDidUpdate() {
-    this.updateSpanValues();
+    this.updateSpanValues(this.props.data);
   }
 
   onDrop = (e) => {
@@ -152,8 +152,8 @@ export default class TextView extends PureComponent {
 
   spanValues = [];
 
-  updateSpanValues(props = this.props) {
-    if (!props.data.values) {
+  updateSpanValues(data) {
+    if (!data.values) {
       return;
     }
     requestAnimationFrame(() => {
@@ -161,7 +161,7 @@ export default class TextView extends PureComponent {
         const sv = this.spanValues[i];
         const ep = this.props.entryPoints[sv.ep];
         if (ep) {
-          const val = props.data.values[sv.ep] || {};
+          const val = data.values[sv.ep] || {};
           if (!sv.el) {
             sv.el = document.getElementById(sv.id);
           }

@@ -16,6 +16,7 @@ const initialState = {
   maxTime: {},
 };
 
+/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
 export default function plotViewData(state = {}, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:

@@ -6,6 +6,8 @@ import viewsReducer, {
   getModifiedViewsIds,
   getViewConfiguration,
   getViewContent,
+  getViewAbsolutePath,
+  getViewType,
 } from '.';
 import { freezeArgs, getStore, should } from '../../../common/test';
 
@@ -86,5 +88,25 @@ describe('store:views:selectors', () => {
       },
     };
     getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
+  });
+  it('getViewAbsolutePath', () => {
+    const state = {
+      views: {
+        myViewId: {
+          absolutePath: true,
+        },
+      },
+    };
+    getViewAbsolutePath(state, { viewId: 'myViewId' }).should.be.true;
+  });
+  it('getViewAbsolutePath', () => {
+    const state = {
+      views: {
+        myViewId: {
+          type: 'PlotView',
+        },
+      },
+    };
+    getViewType(state, { viewId: 'myViewId' }).should.be.eql('PlotView');
   });
 });

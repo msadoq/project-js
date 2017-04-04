@@ -62,9 +62,9 @@ const tooltipFormatter = (id, foundColor, color, value,
 function parseDragData(data) {
   return {
     name: data.item,
-    connectedDataX: {
+    connectedData: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
-      fieldX: 'groundDate',
+      fieldX: 'onBoardDate',
     },
   };
 }
@@ -278,7 +278,7 @@ export class GrizzlyPlotView extends PureComponent {
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
       const eps = entryPoints.filter(ep =>
-        _get(ep, ['connectedDataY', 'axisId']) === a.id
+        _get(ep, ['connectedData', 'axisId']) === a.id
       ).length;
       return eps > 0 ? 22 + (Math.ceil(eps / 3) * 25) : 0;
     });
@@ -318,7 +318,7 @@ export class GrizzlyPlotView extends PureComponent {
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints
-              .filter(ep => _get(ep, ['connectedDataY', 'axisId']) === axis.id);
+              .filter(ep => _get(ep, ['connectedData', 'axisId']) === axis.id);
             return {
               id: axis.id,
               yExtents:
@@ -351,7 +351,7 @@ export class GrizzlyPlotView extends PureComponent {
               ({
                 data: null, // data is accessed through axis.data
                 id: ep.name,
-                yAxis: _get(ep, ['connectedDataY', 'axisId']),
+                yAxis: _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
                 lineSize: _get(ep, ['objectStyle', 'line', 'size']),
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),

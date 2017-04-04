@@ -157,17 +157,19 @@ export default class PlotAxes extends React.Component {
                 key={axisId}
                 header={<span>
                   <span className="flex">{axis.label}</span>
-                  <Button
-                    bsSize="xsmall"
-                    className="btn-link"
-                    onClick={e => this.handleRemovePlotAxis(e, axisId)}
-                  >
-                    <Glyphicon
-                      className="text-danger"
-                      glyph="remove"
-                      title="Remove"
-                    />
-                  </Button>
+                  {axisId !== 'time' &&
+                    <Button
+                      bsSize="xsmall"
+                      className="btn-link"
+                      onClick={e => this.handleRemovePlotAxis(e, axisId)}
+                    >
+                      <Glyphicon
+                        className="text-danger"
+                        glyph="remove"
+                        title="Remove"
+                      />
+                    </Button>
+                  }
                 </span>}
                 eventKey={axisId}
                 expanded={this.state[`isPanel${axisId}Open`]}

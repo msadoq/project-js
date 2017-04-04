@@ -133,26 +133,26 @@ beforeEach(() => {
                 },
               ],
             },
-            {
-              name: 'STAT_PARAMETRIC',
-              connectedData: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-                fieldX: 'groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis',
-                timeline: 'Session 1',
-              },
-              stateColors: [
-                {
-                  color: '#000000',
-                  condition: {
-                    field: 'monitoringState',
-                    operator: '==',
-                    operand: 'waiting',
-                  },
-                },
-              ],
-            },
+            // {
+            //   name: 'STAT_PARAMETRIC',
+            //   connectedData: {
+            //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+            //     fieldX: 'groundDate',
+            //     filter: [],
+            //     domain: 'fr.cnes.isis',
+            //     timeline: 'Session 1',
+            //   },
+            //   stateColors: [
+            //     {
+            //       color: '#000000',
+            //       condition: {
+            //         field: 'monitoringState',
+            //         operator: '==',
+            //         operand: 'waiting',
+            //       },
+            //     },
+            //   ],
+            // },
           ],
           title: 'Plotview Sup/Sup workspace',
         },
@@ -361,7 +361,7 @@ const viewMap = {
           },
         }],
       },
-      STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+      // STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
     },
   },
   dynamic1: {

@@ -129,23 +129,23 @@ describe('dataManager/perViewData', () => {
                 operand: 'waiting',
               },
             }],
-          }, {
-            name: 'STAT_PARAMETRIC',
-            connectedData: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              fieldX: 'groundDate',
-              filter: [],
-              domain: 'fr.cnes.isis',
-              timeline: 'Session 1',
-            },
-            stateColors: [{
-              color: '#000000',
-              condition: {
-                field: 'monitoringState',
-                operator: '==',
-                operand: 'waiting',
-              },
-            }],
+          // }, {
+          //   name: 'STAT_PARAMETRIC',
+          //   connectedData: {
+          //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+          //     fieldX: 'groundDate',
+          //     filter: [],
+          //     domain: 'fr.cnes.isis',
+          //     timeline: 'Session 1',
+          //   },
+          //   stateColors: [{
+          //     color: '#000000',
+          //     condition: {
+          //       field: 'monitoringState',
+          //       operator: '==',
+          //       operand: 'waiting',
+          //     },
+          //   }],
           }],
         },
       },
@@ -302,7 +302,7 @@ describe('dataManager/perViewData', () => {
           fieldY: 'extractedValue',
           offset: 0,
           filter: [],
-          localId: 'groundDate/extractedValue.tb1:0/0',
+          localId: 'groundDate/extractedValue.tb1:0',
           timebarUuid: 'tb1',
           structureType: 'range',
           type: 'PlotView',
@@ -316,7 +316,7 @@ describe('dataManager/perViewData', () => {
             },
           }],
         },
-        STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+        // STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
       },
     });
   });

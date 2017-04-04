@@ -99,9 +99,7 @@ describe('store:views:axes', () => {
         name: 'ep2',
         connectedData: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
-      axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'Time', unit: 's', id: 'time' });
+      const axisY = getAxes(state, { payload: { entryPoint } });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
   });

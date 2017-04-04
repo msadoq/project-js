@@ -1,9 +1,8 @@
 /* eslint no-unused-expressions: "off" */
 import _ from 'lodash/fp';
-import _find from 'lodash/find';
 import * as actions from '../../actions/views';
 import * as types from '../../types';
-import viewsReducer from '.././views';
+import viewsReducer from '../views';
 import { freezeArgs } from '../../../common/test';
 
 const reducer = freezeArgs(viewsReducer);
@@ -232,7 +231,7 @@ describe('store:reducer:views', () => {
         connectedData: { axisId: 'axis3' },
       }]);
       state.plot1.configuration.axes.should.deep.equal({
-        time: { label: 'Time', unit: 's', id: 'time' },
+        // time: { label: 'Time', unit: 's', id: 'time' },
         axis3: { label: '3', unit: 'p', id: 'axis3' },
       });
     });
@@ -330,11 +329,11 @@ describe('store:reducer:views', () => {
         },
       };
       const state = reducer(stateViews, action);
-      // state.plot1.configuration.entryPoints[2].should.have.properties({
-      //   name: 'ep2',
-      //   connectedData: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
-      // state.plot1.configuration.axes.time.label.should.equal('Time');
-      // state.plot1.isModified.should.be.true;
+      state.plot1.configuration.entryPoints[2].should.have.properties({
+        name: 'ep2',
+        connectedData: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
+      state.plot1.configuration.axes.time.label.should.equal('Time');
+      state.plot1.isModified.should.be.true;
     });
   });
   it('reload view', () => {

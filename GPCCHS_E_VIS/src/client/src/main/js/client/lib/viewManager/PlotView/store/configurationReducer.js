@@ -42,10 +42,6 @@ export default (stateConf = { content: '' }, action) => {
     }
     case types.WS_VIEW_REMOVE_ENTRYPOINT: {
       const entryPoints = stateConf.entryPoints;
-      // const getAllConnectedAxisIds = eps => _.concat(
-      //   _.pluck('connectedDataX.axisId', eps),
-      //   _.pluck('connectedDataY.axisId', eps)
-      // );
       const getAllConnectedAxisIds = eps => _.pluck('connectedData.axisId', eps);
       const refreshAxes = _.pick(getAllConnectedAxisIds(entryPoints));
       return _.update('axes', refreshAxes, stateConf);

@@ -63,11 +63,8 @@ function parseDragData(data) {
   return {
     name: data.item,
     connectedDataX: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
-      unit: 's',
-    },
-    connectedDataY: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
+      fieldX: 'groundDate',
     },
   };
 }
@@ -259,7 +256,11 @@ export class GrizzlyPlotView extends PureComponent {
       containerHeight,
       data,
       data: { lines },
-      configuration: { showYAxes, axes, grids },
+      configuration: {
+        showYAxes,
+        axes,
+        grids,
+      },
       visuWindow,
     } = this.props;
     let {

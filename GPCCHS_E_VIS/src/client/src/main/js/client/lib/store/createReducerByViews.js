@@ -11,8 +11,12 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
       case types.WS_PAGE_CLOSE:
         return _.omit(action.payload.viewIds, stateViews);
       case types.WS_VIEW_OPEN:
-      case types.WS_VIEW_ADD_BLANK: // add a view
-        return _.set(action.payload.view.uuid, simpleReducer(undefined, action), stateViews);
+      case types.WS_VIEW_ADD_BLANK: {
+        if (action.payload.view.type === viewType || viewType === 'all') {
+          return _.set(action.payload.view.uuid, simpleReducer(undefined, action), stateViews);
+        }
+        return stateViews;
+      }
       case types.WS_WINDOW_CLOSE:
         return _.omit(action.payload.views, stateViews);
       case types.WS_VIEW_CLOSE: // remove a view

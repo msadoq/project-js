@@ -25,16 +25,27 @@ export default (stateConf = { content: '' }, action) => {
       return addElementIn('markers', action.payload.marker, stateConf);
     case types.WS_VIEW_REMOVE_MARKER:
       return removeElementIn('markers', action.payload.index, stateConf);
-    case types.WS_VIEW_ADD_ENTRYPOINT: {
+    case types.WS_VIEW_ADD_ENTRYPOINT: { // TODO : move in viewManager#PlotView
       const [axisX, axisY] = getAxes(stateConf, action);
-      const addAxisXId = _.set('connectedDataX.axisId', axisX.id);
-      const addAxisYId = _.set('connectedDataY.axisId', axisY.id);
-      const addAxesIds = _.compose(addAxisXId, addAxisYId);
-
       const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
       return {
         ...stateConf,
-        entryPoints: [...stateConf.entryPoints, addAxesIds(newEp)],
+        entryPoints: [
+          ...stateConf.entryPoints,
+          {
+            ...newEp,
+            connectedDataX: {
+              ...(newEp.connectedDataX),
+              axisId: axisX.id,
+              unit: axisX.unit,
+            },
+            connectedDataY: {
+              ...(newEp.connectedDataY),
+              axisId: axisY.id,
+              unit: axisY.unit,
+            },
+          },
+        ],
         axes: {
           ...stateConf.axes,
           [axisX.id]: axisX,

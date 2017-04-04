@@ -59,11 +59,11 @@ function createAxis(stateConf, label, unit) {
 export const getAxes = (stateConf, action) => {
   const { entryPoint } = action.payload;
   const { axes } = stateConf;
-  const { connectedDataX, connectedDataY } = entryPoint;
+  const { connectedDataY } = entryPoint;
 
-  const axisX = __.find(axis => axis.unit === connectedDataX.unit, axes);
+  const axisX = __.find(axis => axis.id === 'time' && axis.unit === 's', axes);
   const axisY = __.find(axis => axis.unit === connectedDataY.unit, axes);
-  const finalX = axisX || createAxis(stateConf, entryPoint.name, connectedDataX.unit);
+  const finalX = axisX || createAxis(stateConf, 'Time', 's');
   const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedDataY.unit);
   const prefixX = finalX.id === finalY.id ? 'X:' : '';
   const prefixY = finalX.id === finalY.id ? 'Y:' : '';

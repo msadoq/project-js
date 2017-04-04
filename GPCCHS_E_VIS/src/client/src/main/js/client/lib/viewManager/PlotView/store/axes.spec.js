@@ -78,8 +78,8 @@ describe('store:views:axes', () => {
       };
       const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'X:ep_2' });
-      axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'Y:ep_2' });
+      axisX.should.be.eql({ label: 'Time', unit: 's', id: 'time' });
+      axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'ep_2' });
     });
     it('returns 2 axes (x/y)', () => {
       const entryPoint = {
@@ -89,7 +89,7 @@ describe('store:views:axes', () => {
       };
       const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
+      axisX.should.be.eql({ label: 'Time', unit: 's', id: 'time' });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
     it('returns 1 axis (x) ans 1 generated axis (y)', () => {
@@ -100,7 +100,7 @@ describe('store:views:axes', () => {
       };
       const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
+      axisX.should.be.eql({ label: 'Time', unit: 's', id: 'time' });
       axisY.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
     });
     it('returns 1 axis (y) ans 1 generated axis (x)', () => {
@@ -111,7 +111,7 @@ describe('store:views:axes', () => {
       };
       const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
+      axisX.should.be.eql({ label: 'Time', unit: 's', id: 'time' });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
   });

@@ -96,6 +96,8 @@ export default class LinesCanvas extends Component {
 
     // let totalPoints = 0;
     // if (perfOutput) console.time();
+
+    // eslint-disable-next-line complexity, "Draw function, must not be split"
     lines.forEach((line) => {
       const dataLine = line.dataAccessor && data
         ? line.dataAccessor(data)

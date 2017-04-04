@@ -5,6 +5,7 @@ import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
+import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
@@ -262,6 +263,16 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
+  memoizeXAxisProps = _memoize(
+    (xExtents, tickStep, autoTick, showTicks) => ({
+      xExtents,
+      tickStep,
+      autoTick,
+      showTicks,
+    }),
+    (a, b, c, d) => `${a[0]}-${a[1]}-${b}-${c}-${d}`
+  )
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -310,7 +321,7 @@ export class GrizzlyPlotView extends PureComponent {
       const eps = entryPoints.filter(ep =>
         _get(ep, ['connectedDataY', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 25) : 0;
+      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 25) : 0;
     });
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
@@ -340,12 +351,12 @@ export class GrizzlyPlotView extends PureComponent {
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxisAt="bottom"
-          xAxis={{
+          xAxis={this.memoizeXAxisProps(
             xExtents,
-            tickStep: _get(axes, ['time', 'tickStep']),
-            autoTick: _get(axes, ['time', 'autoTick']),
-            showTicks: _get(axes, ['time', 'showTicks']),
-          }}
+            _get(axes, ['time', 'tickStep']),
+            _get(axes, ['time', 'autoTick']),
+            _get(axes, ['time', 'showTicks'])
+          )}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints

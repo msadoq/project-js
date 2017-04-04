@@ -2,7 +2,7 @@ import { freezeMe, testMemoization, should } from '../../../common/test';
 
 import { getMasterSession } from './InformationSelectors';
 
-describe.only('windowProcess:Explorer:InformationSelectors', () => {
+describe('windowProcess:Explorer:InformationSelectors', () => {
   const state = freezeMe({
     masterSession: { sessionId: 10 },
     sessions: [

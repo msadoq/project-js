@@ -69,28 +69,51 @@ class Window extends PureComponent {
     setTimeout(() => setIsLoaded(windowId), 0);
   }
 
-  onHorizontalUpdate = _debounce((panelWidth) => {
+  onHorizontalUpdateDebounce = _debounce((panelWidth) => {
     const { pageId, editorWidth, resizeEditor, explorerWidth, resizeExplorer } = this.props;
-
     const newEditorWidth = _get(panelWidth, [0, 'size']);
     if (editorWidth !== newEditorWidth) {
       resizeEditor(pageId, newEditorWidth);
     }
-
     const newExplorerWidth = _get(panelWidth, [2, 'size']);
     if (explorerWidth !== newExplorerWidth) {
       resizeExplorer(pageId, newExplorerWidth);
     }
   }, 250);
 
-  onVerticalUpdate = _debounce((panelWidth) => {
-    const { pageId, timebarHeight, resizeTimebar } = this.props;
+  onHorizontalUpdate = (panelWidth) => {
+    if (this.leftBarEl) {
+      this.leftBarEl.style.left = `${panelWidth[0].size}px`;
+    }
+    if (this.rightBarEl) {
+      this.rightBarEl.style.right = `${panelWidth[2].size}px`;
+    }
+    if (this.middleBarEl) {
+      this.middleBarEl.style.width = panelWidth[1].size ?
+        `${panelWidth[1].size}px` : this.middleBarEl.style.width;
+      this.middleBarEl.style.left = panelWidth[0].size ?
+        `${panelWidth[0].size + resizeHandleSize}px` : this.middleBarEl.style.left;
+    }
 
+    this.onHorizontalUpdateDebounce(panelWidth);
+  }
+
+  onVerticalUpdateDebounce = _debounce((panelWidth) => {
+    const { pageId, timebarHeight, resizeTimebar } = this.props;
     const newTimebarHeight = _get(panelWidth, [1, 'size']);
     if (timebarHeight !== newTimebarHeight) {
       resizeTimebar(pageId, newTimebarHeight);
     }
   }, 250);
+
+  onVerticalUpdate = (panelWidth) => {
+    if (this.middleBarEl) {
+      this.middleBarEl.style.top = panelWidth[0].size ?
+      `${panelWidth[0].size}px` : this.middleBarEl.style.top;
+    }
+
+    this.onVerticalUpdateDebounce(panelWidth);
+  }
 
   horizontalLayout = _memoize((editorWidth, explorerWidth) => [
     { size: editorWidth, minSize: 0, resize: 'dynamic' },
@@ -182,32 +205,66 @@ class Window extends PureComponent {
       : <ExplorerContainer windowId={windowId} pageId={pageId} />;
 
     return (
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+      >
         {isHelpDisplayed ? <HelpContent /> : ''}
         <div>
           <MessagesContainer />
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
-        <PanelGroup
-          direction="row"
-          spacing={resizeHandleSize}
-          borderColor="grey"
-          panelWidths={this.horizontalLayout(editorWidth, explorerWidth)}
-          onUpdate={this.onHorizontalUpdate}
+        <div
+          className="h100 w100 posRelative"
         >
-          {editor}
           <PanelGroup
-            direction="column"
+            direction="row"
             spacing={resizeHandleSize}
             borderColor="grey"
-            panelWidths={this.verticalLayout(calcTimebarHeight)}
-            onUpdate={this.onVerticalUpdate}
+            panelWidths={this.horizontalLayout(editorWidth, explorerWidth)}
+            onUpdate={this.onHorizontalUpdate}
           >
-            {views}
-            {timebar}
+            {editor}
+            <PanelGroup
+              direction="column"
+              spacing={resizeHandleSize}
+              borderColor="grey"
+              panelWidths={this.verticalLayout(calcTimebarHeight)}
+              onUpdate={this.onVerticalUpdate}
+            >
+              {views}
+              {timebar}
+            </PanelGroup>
+            {explorer}
           </PanelGroup>
-          {explorer}
-        </PanelGroup>
+          <div
+            ref={(el) => { this.leftBarEl = el; }}
+            style={{
+              background: 'transparent',
+              height: '100%',
+              position: 'absolute',
+              width: `${resizeHandleSize}px`,
+              top: 0,
+            }}
+          />
+          <div
+            ref={(el) => { this.rightBarEl = el; }}
+            style={{
+              background: 'transparent',
+              height: '100%',
+              position: 'absolute',
+              width: `${resizeHandleSize}px`,
+              top: 0,
+            }}
+          />
+          <div
+            ref={(el) => { this.middleBarEl = el; }}
+            style={{
+              background: 'transparent',
+              height: `${resizeHandleSize}px`,
+              position: 'absolute',
+            }}
+          />
+        </div>
       </div>
     );
   }

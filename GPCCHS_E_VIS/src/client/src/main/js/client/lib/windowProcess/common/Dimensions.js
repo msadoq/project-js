@@ -74,13 +74,8 @@ module.exports = function Dimensions({
      *
      * @return {object} The rendered React component
      **/
-    getWrappedInstance() {
-      return this.instance;
-    }
-
-    setWrappedInstance(el) {
-      this.instance = el;
-    }
+    getWrappedInstance = () => this.instance;
+    setWrappedInstance = el => (this.instance = el);
 
     render() {
       const { containerWidth, containerHeight } = this.state;

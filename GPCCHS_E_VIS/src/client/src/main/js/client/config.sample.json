@@ -10,5 +10,6 @@
   "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:5043",
   "WORKSPACE": "dev.workspace.json",
   "STUB_DC_ON": "on",
-  "STUB_RTD_ON": "on"
+  "STUB_RTD_ON": "on",
+  "RTD_UNIX_SOCKET": "/data/isis/work/redis/rtdRedisDb.sock"
 }

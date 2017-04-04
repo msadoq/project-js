@@ -45,6 +45,12 @@ export default function ({ pageId, remoteId, dataId }) {
 
   logger.info(`request ${parameterName} for session ${sessionId} and domain ${domainId}`);
   const socket = parameters.get('RTD_UNIX_SOCKET'); // TODO way to deal with that ?
+  if (!socket) {
+    dispatch(isInspectorStaticDataLoading(false));
+    dispatch(updateInspectorRemoteId(null));
+    dispatch(add('global', 'danger', 'No unix socket defined for the RTD'));
+    return;
+  }
   rtd.connect(socket, (cErr, isConnected) => {
     if (cErr || !isConnected) {
       dispatch(isInspectorStaticDataLoading(false));

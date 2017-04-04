@@ -1,4 +1,4 @@
-/* eslint-disable no-continue */
+/* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _head from 'lodash/head';
@@ -10,11 +10,11 @@ import _omit from 'lodash/omit';
 
 /** ************************************************
  * Clean viewData for current viewData
- * @param current view data State
- * @param old current view definition
- * @param new current view definition
- * @param old expected intervals for all entry points
- * @param new expected intervals for all entry points
+ * @param currentState view data State
+ * @param oldViewFromMap current view definition
+ * @param newViewFromMap current view definition
+ * @param oldIntervals expected intervals for all entry points
+ * @param newIntervals expected intervals for all entry points
  * @return cleaned state for current view
 /** ************************************************/
 export default function cleanCurrentViewData(

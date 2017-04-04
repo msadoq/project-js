@@ -48,12 +48,13 @@ const validate = (values = {}) => {
 };
 
 EntryPointName.propTypes = {
-  /* eslint-disable react/no-unused-prop-types */
+  // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
   initialValues: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
@@ -62,6 +63,7 @@ EntryPointName.propTypes = {
 EntryPointName.defaultProps = {
   initialValues: { name: '' },
 };
+
 export default reduxForm({
   validate,
   enableReinitialize: true,

@@ -22,7 +22,7 @@ const initialState = {
   realTime: false,
 };
 
-/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function timebarReducer(stateTimebar = initialState, action) {
   const { payload } = action;
   switch (action.type) {

@@ -1,10 +1,10 @@
-/* eslint-disable no-continue */
+/* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _find from 'lodash/find';
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 
-/* eslint-disable complexity, "DV6 TBC_CNESRedux reducers should be implemented as switch case" */
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function cleanCurrentViewData(
   currentViewState,
   oldViewDef,

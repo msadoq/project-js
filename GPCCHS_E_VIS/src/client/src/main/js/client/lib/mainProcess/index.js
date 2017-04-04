@@ -256,7 +256,7 @@ export function onWindowsClose() {
 }
 
 export function onError(err) {
-  console.error(err); // eslint-disable-line no-console
   server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
+  logger.error(`Application error: ${err.message}`);
   app.exit(1);
 }

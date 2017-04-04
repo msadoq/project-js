@@ -86,7 +86,6 @@ export default class Tooltip extends React.Component {
         const dataLine = (line.dataAccessor && axis.data) ?
           line.dataAccessor(axis.data) : line.data;
         if (!dataLine) {
-          console.log(`No data for line ${line.id}`); // eslint-disable-line
           return;
         }
         const index = _sortedIndexBy(dataLine, { x: xInDomain }, o => o.x);

@@ -36,10 +36,12 @@ ipcMain.on('renderer-reload', (event) => {
   );
 
   // Require and replace them
-  const reducers = require('./reducers'); // eslint-disable-line global-require
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Hot reload require contextual requires"
+  const reducers = require('./reducers');
   store.replaceReducer(reducers);
 
-  event.returnValue = true; // eslint-disable-line no-param-reassign
+  // eslint-disable-next-line no-param-reassign, "DV6 TBC_CNES Hot reload require returnValue set"
+  event.returnValue = true;
 });
 
 export function getStore() {

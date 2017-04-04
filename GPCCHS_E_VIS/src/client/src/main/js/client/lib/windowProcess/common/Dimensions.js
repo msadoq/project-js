@@ -1,5 +1,3 @@
-/* eslint-disable react/no-string-refs */
-
 import _debounce from 'lodash/debounce';
 import React from 'react';
 import onElementResize from 'element-resize-event';
@@ -8,75 +6,6 @@ function defaultGetDimensions(element) {
   return [element.clientWidth, element.clientHeight];
 }
 
-/**
- * Wraps a react component and adds properties `containerHeight` and
- * `containerWidth`. Useful for responsive design. Properties update on
- * window resize. **Note** that the parent element must have either a
- * height or a width, or nothing will be rendered
- *
- * Can be used as a
- * [higher-order component](http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers)
- * or as an [ES7 class decorator](https://github.com/wycats/javascript-decorators)
- * (see examples)
- *
- * @param {object} [options]
- * @param {function} [options.getHeight] A function that is passed an element and returns element
- * height, where element is the wrapper div. Defaults to `(element) => element.clientHeight`
- * @param {function} [options.getWidth]  A function that is passed an element and returns element
- * width, where element is the wrapper div. Defaults to `(element) => element.clientWidth`
- * @param {number} [options.debounce] Optionally debounce the `onResize` callback function by
- * supplying the delay time in milliseconds. This will prevent excessive dimension
- * updates. See
- * https://lodash.com/docs#debounce for more information. Defaults to `0`, which disables debouncing.
- * @param {object} [options.debounceOpts] Options to pass to the debounce function. See
- * https://lodash.com/docs#debounce for all available options. Defaults to `{}`.
- * @param {object} [options.containerStyle] A style object for the `<div>` that will wrap your
- * component.
- * The dimensions of this `div` are what are passed as props to your component. The default style is
- * `{ width: '100%', height: '100%', padding: 0, border: 0 }` which will cause the `div` to fill its
- * parent in most cases. If you are using a flexbox layout you will want to change this default
- * style.
- * @param {string} [options.className] Control the class name set on the wrapper `<div>`
- * @param {boolean} [options.elementResize=false] Set true to watch the wrapper `div` for changes in
- * size which are not a result of window resizing - e.g. changes to the flexbox and other layout.
- * @return {function}                   A higher-order component that can be
- * used to enhance a react component `Dimensions()(MyComponent)`
- *
- * @example
- * // ES2015
- * import React from 'react'
- * import Dimensions from 'react-dimensions'
- *
- * class MyComponent extends React.Component {
- *   render() (
- *     <div
- *       containerWidth={this.props.containerWidth}
- *       containerHeight={this.props.containerHeight}
- *     >
- *     </div>
- *   )
- * }
- *
- * export default Dimensions()(MyComponent) // Enhanced component
- *
- * @example
- * // ES5
- * var React = require('react')
- * var Dimensions = require('react-dimensions')
- *
- * var MyComponent = React.createClass({
- *   render: function() {(
- *     <div
- *       containerWidth={this.props.containerWidth}
- *       containerHeight={this.props.containerHeight}
- *     >
- *     </div>
- *   )}
- * }
- *
- * module.exports = Dimensions()(MyComponent) // Enhanced component
- *
- */
 module.exports = function Dimensions({
     getDimensions = defaultGetDimensions,
     debounce = 0,
@@ -84,8 +13,8 @@ module.exports = function Dimensions({
     elementResize = false,
   } = {}) {
   return ComposedComponent => class DimensionsHOC extends React.Component {
-      // ES7 Class properties
-      // http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers
+    // ES7 Class properties
+    // http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers
     state = {}
 
     // Using arrow functions and ES7 Class properties to autobind
@@ -110,28 +39,17 @@ module.exports = function Dimensions({
 
     onResize = () => {
       if (this.rqf) return;
-      this.rqf = this.getWindow().requestAnimationFrame(() => {
+      this.rqf = window.requestAnimationFrame(() => {
         this.rqf = null;
         this.updateDimensions();
       });
     }
 
-    // If the component is mounted in a different window to the javascript
-    // context, as with https://github.com/JakeGinnivan/react-popout
-    // then the `window` global will be different from the `window` that
-    // contains the component.
-    // Depends on `defaultView` which is not supported <IE9
-    getWindow() {
-      return this.refs.container ?
-        (this.refs.container.ownerDocument.defaultView || window)
-        : window;
-    }
-
     componentDidMount() {
-      if (!this.refs.wrappedInstance) {
+      if (!this.instance) {
         throw new Error('Cannot find wrapped instance');
       }
-      this._parent = this.refs.wrappedInstance.parentNode;
+      this._parent = this.instance.parentNode;
       this.updateDimensionsImmediate();
       if (elementResize) {
         // Experimental: `element-resize-event` fires when an element resizes.
@@ -139,12 +57,12 @@ module.exports = function Dimensions({
         // requestAnimationFrame, so we can just call `this.updateDimensions`.
         onElementResize(this._parent, this.updateDimensions);
       } else {
-        this.getWindow().addEventListener('resize', this.onResize, false);
+        window.addEventListener('resize', this.onResize, false);
       }
     }
 
     componentWillUnmount() {
-      this.getWindow().removeEventListener('resize', this.onResize);
+      window.removeEventListener('resize', this.onResize);
       // TODO: remote element-resize-event listener.
       // pending https://github.com/KyleAMathews/element-resize-event/issues/2
     }
@@ -157,7 +75,11 @@ module.exports = function Dimensions({
      * @return {object} The rendered React component
      **/
     getWrappedInstance() {
-      return this.refs.wrappedInstance;
+      return this.instance;
+    }
+
+    setWrappedInstance(el) {
+      this.instance = el;
     }
 
     render() {
@@ -168,14 +90,16 @@ module.exports = function Dimensions({
         width: 0,
       };
       if (containerWidth || containerHeight) {
-        return (<ComposedComponent
-          {...this.state}
-          {...this.props}
-          updateDimensions={this.updateDimensions}
-          ref="wrappedInstance"
-        />);
+        return (
+          <ComposedComponent
+            {...this.state}
+            {...this.props}
+            updateDimensions={this.updateDimensions}
+            ref={this.setWrappedInstance}
+          />
+        );
       }
-      return <div style={wrapperStyle} ref="wrappedInstance" />;
+      return <div style={wrapperStyle} ref={this.setWrappedInstance} />;
     }
   };
 };

@@ -29,7 +29,7 @@ const items = [
 let monitoringStub;
 let rtdStub;
 
-describe.only('rtdManager/reportings', () => {
+describe('rtdManager/reportings', () => {
   before((done) => {
     mockRedis();
     monitoringStub = sinon.stub(monitorings, 'getTriggers', (opts, monitoring, callback) => {

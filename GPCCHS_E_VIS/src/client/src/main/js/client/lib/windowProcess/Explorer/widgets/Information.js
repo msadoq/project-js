@@ -11,7 +11,8 @@ const Information = ({ configuration, masterSession }) => (
 );
 
 Information.propTypes = {
-  configuration: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  // eslint-disable-next-line react/forbid-prop-types, "DV6 TBC_CNES Unpredicatable object struct."
+  configuration: PropTypes.object.isRequired,
   masterSession: PropTypes.shape({
     name: PropTypes.string,
   }),

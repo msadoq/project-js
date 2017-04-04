@@ -20,7 +20,7 @@
     "stats:renderer": "ANALYZER_PORT=4243 NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/stats.renderer.js --progress --profile --colors",
     "clean": "rimraf ./dist ./main.js ./main.js.map stats.json",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
-    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
+    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello) && (cd ../../../../../client/src/main/js/client/node_modules/rtd && npm install)",
     "lint": "eslint .",
     "sh": "npm run start-hot",
     "start": "electron ./",

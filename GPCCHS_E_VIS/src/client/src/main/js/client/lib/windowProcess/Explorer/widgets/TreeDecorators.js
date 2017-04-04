@@ -105,7 +105,7 @@ const Toggle = (props) => {
   return (
     <div style={style.base}>
       <div style={style.wrapper}>
-        {props.toggled ? '▾' : '▸'}
+        {props.toggled ? '▼' : '►'}
       </div>
     </div>
   );

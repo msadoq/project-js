@@ -77,6 +77,10 @@ describe('viewManager/TextView/store/dataReducer', () => {
     action.payload.viewId = 'myText';
     textViewData(frozen, action).should.eql({});
   });
+  it('WS_PAGE_CLOSE', () => {
+    const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myText'] } };
+    textViewData(freezeMe({ myText: {}, myOtherText: {} }), action).should.eql({ myOtherText: {} });
+  });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myText' } };
     const frozen = freezeMe({ myText: { index: {}, values: {} } });

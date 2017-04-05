@@ -76,6 +76,10 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     action.payload.viewId = 'myDyn';
     dynamicViewData(frozen, action).should.eql({});
   });
+  it('WS_PAGE_CLOSE', () => {
+    const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myDyn', 'myText'] } };
+    dynamicViewData(freezeMe({ myDyn: {}, myOtherDyn: {} }), action).should.eql({ myOtherDyn: {} });
+  });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myDyn' } };
     const frozen = freezeMe({ myDyn: {} });

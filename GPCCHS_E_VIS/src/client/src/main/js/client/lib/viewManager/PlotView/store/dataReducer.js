@@ -52,6 +52,19 @@ export default function plotViewData(state = {}, action) {
       }
       return state;
     }
+    case types.WS_PAGE_CLOSE: {
+      const { viewIds } = action.payload;
+      if (!viewIds.length) {
+        return state;
+      }
+      let newState = state;
+      viewIds.forEach((viewId) => {
+        if (state[viewId]) {
+          newState = _omit(newState, viewId);
+        }
+      });
+      return newState;
+    }
     case types.DATA_UPDATE_VIEWDATA: {
       const oldIntervals = action.payload.oldExpectedIntervals;
       const newIntervals = action.payload.newExpectedIntervals;

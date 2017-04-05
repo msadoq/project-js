@@ -69,6 +69,10 @@ describe('viewManager/PlotView/store/dataReducer', () => {
     action.payload.viewId = 'myPlot';
     plotViewData(frozen, action).should.eql({});
   });
+  it('WS_PAGE_CLOSE', () => {
+    const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myText'] } };
+    plotViewData(freezeMe({ myPlot: {}, myOtherPlot: {} }), action).should.eql({ myOtherPlot: {} });
+  });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myPlot' } };
     const frozen = freezeMe({ myPlot: {

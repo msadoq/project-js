@@ -7,6 +7,7 @@ import commonConfigurationReducer from './commonConfiguration/reducer';
 import textViewConfigurationReducer from './TextView/store/configurationReducer';
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
+import mimicViewConfigurationReducer from './MimicView/store/configurationReducer';
 
 import * as constants from './constants';
 
@@ -34,6 +35,10 @@ const listConfigurationReducers = [
   {
     type: constants.VM_VIEW_DYNAMIC,
     reducer: dynamicViewConfigurationReducer,
+  },
+  {
+    type: constants.VM_VIEW_MIMIC,
+    reducer: mimicViewConfigurationReducer,
   },
 ];
 

@@ -18,6 +18,7 @@ import inspector from './inspector';
 import plotViewData from '../../viewManager/PlotView/store/dataReducer';
 import textViewData from '../../viewManager/TextView/store/dataReducer';
 import dynamicViewData from '../../viewManager/DynamicView/store/dataReducer';
+import mimicViewData from '../../viewManager/MimicView/store/dataReducer';
 
 import { configurationReducers } from '../../viewManager/';
 
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   plotViewData,
   textViewData,
   dynamicViewData,
+  mimicViewData,
   ...configurationReducers,
 });
 

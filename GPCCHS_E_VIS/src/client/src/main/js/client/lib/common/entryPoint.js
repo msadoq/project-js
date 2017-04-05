@@ -13,6 +13,19 @@ export const getNewTextEntryPoint = () => ({
   },
 });
 
+export const getNewMimicEntryPoint = () => ({
+  name: 'NewEntryPoint',
+  connectedData: {
+    formula: '',
+    unit: 's',
+    digits: 5,
+    format: 'decimal',
+    filter: [],
+    domain: '*',
+    timeline: '*',
+  },
+});
+
 export const getNewPlotEntryPoint = () => ({
   name: 'NewEntryPoint',
   connectedData: {

@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
 import composeReducers from '../../composeReducers';
+// import { getNewMimicEntryPoint } from '../../../common/entryPoint';
 
 import * as types from '../../types';
 

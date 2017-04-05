@@ -8,6 +8,7 @@ import MessagesContainer from './MessagesContainer';
 import PlotView from '../../viewManager/PlotView/Components/View/PlotViewContainer';
 import TextView from '../../viewManager/TextView/Components/View/TextViewContainer';
 import DynamicView from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
+import MimicView from '../../viewManager/MimicView/Components/View/MimicViewContainer';
 import UnknownView from './UnknownView';
 import { main } from '../ipc';
 
@@ -66,6 +67,9 @@ export default class View extends PureComponent {
         break;
       case 'DynamicView':
         ContentComponent = DynamicView;
+        break;
+      case 'MimicView':
+        ContentComponent = MimicView;
         break;
       default:
         ContentComponent = UnknownView;

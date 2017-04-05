@@ -20,6 +20,11 @@ export const getViewConfiguration = createSelector(
   _.get('configuration')
 );
 
+export const getViewTitle = createSelector(
+  getView,
+  _.prop('title')
+);
+
 export const getViewContent = createSelector(
   getViewConfiguration,
   _.get('content')
@@ -33,11 +38,6 @@ export const getViewAbsolutePath = createSelector(
 export const getViewType = createSelector(
   getView,
   _.get('type')
-);
-
-export const getViewTitle = createSelector(
-  getView,
-  _.get('title')
 );
 
 export const getViewTitleStyle = createSelector(

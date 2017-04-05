@@ -8,14 +8,17 @@ import {
 import plotViewData from './PlotView/data';
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
+import mimicViewData from './MimicView/data';
 
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
+import mimicViewSchema from './MimicView/MimicView.schema.json';
 
 import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
+import mimicViewModule from './MimicView';
 
 import * as constants from './constants';
 
@@ -37,6 +40,12 @@ const list = {
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
+  },
+  [constants.VM_VIEW_MIMIC]: {
+    schema: mimicViewSchema,
+    viewModule: mimicViewModule,
+    structureType: DATASTRUCTURETYPE_LAST,
+    structureModule: mimicViewData,
   },
 };
 

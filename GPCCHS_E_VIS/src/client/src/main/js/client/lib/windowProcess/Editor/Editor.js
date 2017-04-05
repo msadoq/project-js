@@ -4,6 +4,7 @@ import getLogger from 'common/log';
 import PlotEditor from '../../viewManager/PlotView/Components/Editor/PlotEditorContainer';
 import TextEditor from '../../viewManager/TextView/Components/Editor/TextEditorContainer';
 import DynamicEditor from '../../viewManager/DynamicView/Components/Editor/DynamicEditorContainer';
+import MimicEditor from '../../viewManager/MimicView/Components/Editor/MimicEditorContainer';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');
@@ -55,6 +56,9 @@ export default class Editor extends PureComponent {
           break;
         case 'DynamicView':
           ContentComponent = DynamicEditor;
+          break;
+        case 'MimicView':
+          ContentComponent = MimicEditor;
           break;
         default:
           ContentComponent = InvalidConfiguration; // unsupported type

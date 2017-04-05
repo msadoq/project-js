@@ -56,7 +56,7 @@ export default function cleanCurrentViewData(
       let newLabel;
       if (diff.length) {
         diff.forEach((name) => {
-          if (newEntryPoints[name].id === oldEntryPoints[name].id) {
+          if (newEntryPoints[name].id === oldEp.id) {
             newLabel = name;
           }
         });
@@ -71,7 +71,6 @@ export default function cleanCurrentViewData(
     if (!newEp || (newEp.error && newEp.error !== oldEp.error)
       || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
       || oldEp.remoteId !== newEp.remoteId) {
-      // newState = u({ indexes: u.omit(epName), lines: u.omit(epName) }, newState);
       newState = { ...newState,
         indexes: _omit(newState.indexes, epName),
         lines: _omit(newState.lines, epName),

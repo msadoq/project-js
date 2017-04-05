@@ -87,6 +87,7 @@ export function openEditor(pageId, viewId) { // TODO boxmodel test
       const page = _.get('0', _.filter(containsView, pages));
       pId = page.id;
     }
+    dispatch(minimizeEditor(pId, false));
     const { editorWidth } = getPanels(getState(), { pId });
     if (!editorWidth || editorWidth < 1) {
       dispatch(resizeEditor(pId, 350));

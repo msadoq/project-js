@@ -10,7 +10,7 @@ import {
   setCollapsed,
   setMaximized,
   openEditor,
-  resizeEditor,
+  minimizeEditor,
 } from '../../store/actions/pages';
 
 import Header from './Header';
@@ -26,7 +26,7 @@ const makeMapStateToProps = () => (state, { windowId, pageId, viewId }) => {
   } = getView(state, { viewId });
 
   const page = getPage(state, { pageId });
-  const { editorWidth, editorViewId } = getPanels(state, { pageId });
+  const { editorIsMinimized } = getPanels(state, { pageId });
 
   return {
     backgroundColor,
@@ -34,7 +34,7 @@ const makeMapStateToProps = () => (state, { windowId, pageId, viewId }) => {
     title,
     titleStyle,
     isModified,
-    isViewsEditorOpen: editorWidth > 0 && editorViewId === viewId,
+    isViewsEditorOpen: !editorIsMinimized,
     windowPages: getWindowPages(state, { windowId }),
     oId,
     absolutePath,
@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   maximizeView: flag => setMaximized(pageId, viewId, flag),
   closeView: () => closeView(pageId, viewId),
   openEditor: () => openEditor(pageId, viewId),
-  closeEditor: () => resizeEditor(pageId, 0),
+  closeEditor: () => minimizeEditor(pageId, true),
 }, dispatch);
 
 Header.propTypes = {

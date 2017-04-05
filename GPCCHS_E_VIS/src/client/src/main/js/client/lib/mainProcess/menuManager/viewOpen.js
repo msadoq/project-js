@@ -40,11 +40,11 @@ const viewAddBlank = (type, focusedWindow) => {
   const { windowId } = focusedWindow;
   const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
   const pageId = focusedPageId || v4();
-  const view = {
+  const view = getViewModule(type).prepareViewForStore({
     type,
-    configuration: getViewModule(type).prepareConfigurationForStore({}),
+    configuration: {},
     uuid: v4(),
-  };
+  });
   if (!focusedPageId) {
     dispatch(addBlankPage(focusedWindow.windowId, pageId));
   }

@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 
 const indexAxes = _.update('axes', _.indexBy(axis => axis.id || axis.label || v4()));
 
-const getDefaultConfiguration = _.defaults({
+const getDefaultConfiguration = _.merge({
   type: 'PlotView',
   axes: {},
   grids: [],
@@ -17,8 +17,9 @@ const getDefaultConfiguration = _.defaults({
   showYAxes: 'left',
 });
 
-export default _.pipe(
-  getDefaultConfiguration,
-  indexAxes,
-  _.update('entryPoints', _.map(_.update('id', v4)))
+export default _.update('configuration', _.pipe(
+    getDefaultConfiguration,
+    indexAxes,
+    _.update('entryPoints', _.map(_.update('id', v4)))
+  )
 );

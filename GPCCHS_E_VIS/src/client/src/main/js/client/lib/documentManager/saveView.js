@@ -34,7 +34,7 @@ const saveViewAs = (viewConfiguration, viewType, path, callback) => {
     }
 
     const configuration = getViewModule(viewType)
-      .prepareConfigurationForFile(
+      .prepareViewForFile(
         _cloneDeep(configurationToSave)
       );
 

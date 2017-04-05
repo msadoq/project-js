@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 import async from 'async';
 import { v4 } from 'uuid';
 
@@ -10,16 +10,6 @@ import {
   getSchema,
   getViewModule,
 } from '../viewManager';
-
-const commonViewProperties = [
-  'type',
-  'title',
-  'titleStyle',
-  'backgroundColor',
-  'links',
-  'defaultRatio',
-  'procedures',
-];
 
 const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
   const { path, oId, absolutePath } = viewInfo;
@@ -38,15 +28,14 @@ const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
       return cb(validationError);
     }
 
-    const configuration =
+    const view =
       getViewModule(viewContent.type)
-        .prepareConfigurationForStore(viewContent);
+        .prepareViewForStore(viewContent);
 
     const uuid = viewInfo.uuid || v4();
     return cb(null, {
       ...viewInfo,
-      ..._.pick(commonViewProperties, configuration),
-      configuration: _.omit(commonViewProperties, configuration),
+      ...view,
       isModified: false,
       type: viewContent.type,
       path: viewInfo.path,

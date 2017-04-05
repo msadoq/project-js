@@ -8,7 +8,11 @@ import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getSessions } from '../store/reducers/sessions';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
-import { getStructureType, getStructureModule } from '../viewManager';
+import {
+  getStructureType,
+  getStructureModule,
+  getConfigurationByViewId,
+} from '../viewManager';
 
 // const logger = getLogger('data:perViewData');
 
@@ -25,14 +29,15 @@ export default function makeGetPerViewData() {
     getMasterSessionId,
     getDomains,
     getTimebarTimelinesSelector,
-    getView,
     (state, { timebarUuid }) => timebarUuid,
     getSessions,
-    (masterSessionId, domains, viewTimelines, view, timebarUuid, sessions) => {
-      if (anyUndefined([domains, view, timebarUuid, viewTimelines, sessions])) {
+    getView,
+    getConfigurationByViewId,
+    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, configuration) => {
+      if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, configuration])) {
         return {};
       }
-      const { configuration, type } = view;
+      const { type } = view;
       // Ignore collapsed view
       if (configuration.collapsed) {
         return {};

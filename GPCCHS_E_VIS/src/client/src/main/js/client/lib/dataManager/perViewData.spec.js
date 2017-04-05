@@ -22,96 +22,92 @@ describe('dataManager/perViewData', () => {
       page1: {
         title: 'page Sup/Sup workspace',
         timebarUuid: 'tb1',
-        views: ['v1', 'v2'],
+        views: ['t1', 'p1'],
       },
     },
-    views: {
-      v1: {
+    TextViewConfiguration: {
+      t1: {
+        title: 'TextView Sup/Sup',
         type: 'TextView',
-        configuration: {
-          title: 'TextView Sup/Sup',
-          type: 'TextView',
-          entryPoints: [{
-            name: 'STAT_SU_PID',
-            id: 'id1',
-            connectedData: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-          }, {
-            name: 'STAT_WILDCARD_TIMELINE',
-            id: 'id46',
-            connectedData: {
-              formula: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: '*',
-            },
-          }, {
-            name: 'STAT_UNKNOW_DOMAIN',
-            id: 'id47',
-            connectedData: {
-              formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr',
-              timeline: 'Session 1',
-            },
-          }, {
-            name: 'STAT_WILDCARD_DOMAIN',
-            id: 'id48',
-            connectedData: {
-              formula: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: '*',
-              timeline: 'Session 1',
-            },
-          }, {
-            name: 'STAT_EMPTY_DOMAIN',
-            id: 'id49',
-            connectedData: {
-              formula: 'Reporting.STAT_EMPTY_DOMAIN<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: '',
-              timeline: 'Session 1',
-            },
-          }, {
-            name: 'STAT_UNKNOW_TIMELINE',
-            id: 'id50',
-            connectedData: {
-              formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session X',
-            },
-          }, {
-            name: 'STAT_EMPTY_TIMELINE',
-            id: 'id51',
-            connectedData: {
-              formula: 'Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: '',
-            },
-          }, {
-            name: 'STAT_INVALID_FORMULA',
-            id: 'id52',
-            connectedData: {
-              formula: 'Reporting.STAT_INVALID_FORMULA',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-          }],
-        },
+        entryPoints: [{
+          name: 'STAT_SU_PID',
+          id: 'id1',
+          connectedData: {
+            formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: 'Session 1',
+          },
+        }, {
+          name: 'STAT_WILDCARD_TIMELINE',
+          id: 'id46',
+          connectedData: {
+            formula: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: '*',
+          },
+        }, {
+          name: 'STAT_UNKNOW_DOMAIN',
+          id: 'id47',
+          connectedData: {
+            formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: 'fr',
+            timeline: 'Session 1',
+          },
+        }, {
+          name: 'STAT_WILDCARD_DOMAIN',
+          id: 'id48',
+          connectedData: {
+            formula: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: '*',
+            timeline: 'Session 1',
+          },
+        }, {
+          name: 'STAT_EMPTY_DOMAIN',
+          id: 'id49',
+          connectedData: {
+            formula: 'Reporting.STAT_EMPTY_DOMAIN<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: '',
+            timeline: 'Session 1',
+          },
+        }, {
+          name: 'STAT_UNKNOW_TIMELINE',
+          id: 'id50',
+          connectedData: {
+            formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: 'Session X',
+          },
+        }, {
+          name: 'STAT_EMPTY_TIMELINE',
+          id: 'id51',
+          connectedData: {
+            formula: 'Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>.extractedValue',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: '',
+          },
+        }, {
+          name: 'STAT_INVALID_FORMULA',
+          id: 'id52',
+          connectedData: {
+            formula: 'Reporting.STAT_INVALID_FORMULA',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: 'Session 1',
+          },
+        }],
       },
-      v2: {
-        type: 'PlotView',
-        configuration: {
-          title: 'Plotview Sup/Sup workspace',
-          type: 'PlotView',
-          entryPoints: [{
+    },
+    PlotViewConfiguration: {
+      p1: {
+        entryPoints: [
+          {
             name: 'STAT_SU_PID',
             id: 'id60',
             connectedData: {
@@ -129,42 +125,35 @@ describe('dataManager/perViewData', () => {
                 operand: 'waiting',
               },
             }],
-          // }, {
-          //   name: 'STAT_PARAMETRIC',
-          //   connectedData: {
-          //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-          //     fieldX: 'groundDate',
-          //     filter: [],
-          //     domain: 'fr.cnes.isis',
-          //     timeline: 'Session 1',
-          //   },
-          //   stateColors: [{
-          //     color: '#000000',
-          //     condition: {
-          //       field: 'monitoringState',
-          //       operator: '==',
-          //       operand: 'waiting',
-          //     },
-          //   }],
-          }],
-        },
+          },
+        ],
+      },
+    },
+    DynamicViewConfiguration: {
+      d1: {
+        title: 'DynamicView Sup/Sup',
+        type: 'DynamicView',
+        entryPoints: [{
+          name: 'dynamicEP',
+          id: 'id100',
+          connectedData: {
+            formula: 'Decommuted.STAT_SU_PID<DecommutedPacket>',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: 'Session 1',
+          },
+        }],
+      },
+    },
+    views: {
+      t1: {
+        type: 'TextView',
+      },
+      p1: {
+        type: 'PlotView',
       },
       d1: {
         type: 'DynamicView',
-        configuration: {
-          title: 'DynamicView Sup/Sup',
-          type: 'DynamicView',
-          entryPoints: [{
-            name: 'dynamicEP',
-            id: 'id100',
-            connectedData: {
-              formula: 'Decommuted.STAT_SU_PID<DecommutedPacket>',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-          }],
-        },
       },
     },
     domains: [{
@@ -205,7 +194,7 @@ describe('dataManager/perViewData', () => {
   };
 // ****************************************************
   it('text view', () => {
-    const map = makeGetPerViewData()(state, { viewId: 'v1', timebarUuid: 'tb1' });
+    const map = makeGetPerViewData()(state, { viewId: 't1', timebarUuid: 'tb1' });
     map.should.eql({
       type: 'TextView',
       masterSessionId: 10,
@@ -281,7 +270,7 @@ describe('dataManager/perViewData', () => {
     });
   });
   it('plot view', () => {
-    const map = makeGetPerViewData()(state, { viewId: 'v2', timebarUuid: 'tb1' });
+    const map = makeGetPerViewData()(state, { viewId: 'p1', timebarUuid: 'tb1' });
     map.should.eql({
       type: 'PlotView',
       masterSessionId: 10,
@@ -351,11 +340,11 @@ describe('dataManager/perViewData', () => {
   });
   it('memoization', () => {
     const map = makeGetPerViewData();
-    map(state, { viewId: 'v1', timebarUuid: 'tb1' });
+    map(state, { viewId: 't1', timebarUuid: 'tb1' });
     map.recomputations().should.eql(1);
-    map(state, { viewId: 'v1', timebarUuid: 'tb1' });
+    map(state, { viewId: 't1', timebarUuid: 'tb1' });
     map.recomputations().should.eql(1);
-    map(state, { viewId: 'v2', timebarUuid: 'tb1' });
+    map(state, { viewId: 'p1', timebarUuid: 'tb1' });
     map.recomputations().should.eql(2);
   });
 });

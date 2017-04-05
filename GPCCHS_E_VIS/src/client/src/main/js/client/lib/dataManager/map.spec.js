@@ -67,119 +67,151 @@ beforeEach(() => {
         ],
       },
     },
-    views: {
+    TextViewConfiguration: {
       text1: {
+        title: 'TextView Sup/Sup',
         type: 'TextView',
-        configuration: {
-          title: 'TextView Sup/Sup',
-          type: 'TextView',
-          entryPoints: [
-            {
-              name: 'STAT_SU_PID',
-              id: 'id1',
-              connectedData: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-            },
-            {
-              name: 'STAT_UNKNOW_DOMAIN',
-              id: 'id47',
-              connectedData: {
-                formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr',
-                timeline: 'Session 1',
-              },
-            },
-            {
-              name: 'STAT_UNKNOW_TIMELINE',
-              id: 'id50',
-              connectedData: {
-                formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session X',
-              },
-            },
-          ],
-        },
-      },
-      plot1: {
-        type: 'PlotView',
-        configuration: {
-          type: 'PlotView',
-          entryPoints: [
-            {
-              name: 'STAT_SU_PID',
-              id: 'id60',
-              connectedData: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-                fieldX: 'groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              stateColors: [
-                {
-                  color: '#000000',
-                  condition: {
-                    field: 'extractedValue',
-                    operator: '>',
-                    operand: '1',
-                  },
-                },
-              ],
-            },
-            // {
-            //   name: 'STAT_PARAMETRIC',
-            //   connectedData: {
-            //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-            //     fieldX: 'groundDate',
-            //     filter: [],
-            //     domain: 'fr.cnes.isis',
-            //     timeline: 'Session 1',
-            //   },
-            //   stateColors: [
-            //     {
-            //       color: '#000000',
-            //       condition: {
-            //         field: 'monitoringState',
-            //         operator: '==',
-            //         operand: 'waiting',
-            //       },
-            //     },
-            //   ],
-            // },
-          ],
-          title: 'Plotview Sup/Sup workspace',
-        },
-      },
-      dynamic1: {
-        type: 'DynamicView',
-        configuration: {
-          type: 'DynamicView',
-          entryPoints: [{
+        entryPoints: [
+          {
+            name: 'STAT_SU_PID',
+            id: 'id1',
             connectedData: {
-              formula: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
               timeline: 'Session 1',
             },
-            name: 'dynamicEP',
-            id: 'id70',
-            stateColors: [{
-              color: '#000000',
-              condition: {
-                field: 'monitoringState',
-                operator: '==',
-                operand: 'waiting',
+          },
+          {
+            name: 'STAT_UNKNOW_DOMAIN',
+            id: 'id47',
+            connectedData: {
+              formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr',
+              timeline: 'Session 1',
+            },
+          },
+          {
+            name: 'STAT_UNKNOW_TIMELINE',
+            id: 'id50',
+            connectedData: {
+              formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session X',
+            },
+          },
+        ],
+      },
+    },
+    PlotViewConfiguration: {
+      plot1: {
+        entryPoints: [
+          {
+            name: 'STAT_SU_PID',
+            id: 'id60',
+            connectedData: {
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              fieldX: 'groundDate',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session 1',
+            },
+            stateColors: [
+              {
+                color: '#000000',
+                condition: {
+                  field: 'extractedValue',
+                  operator: '>',
+                  operand: '1',
+                },
               },
-            }],
+            ],
+          },
+          {
+            name: 'STAT_SU_PID',
+            id: 'id60',
+            // connectedDataX: {
+            //   formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
+            //   filter: [],
+            //   domain: 'fr.cnes.isis.simupus',
+            //   timeline: 'Session 1',
+            // },
+            connectedData: {
+              fieldX: 'groundDate',
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session 1',
+            },
+            stateColors: [
+              {
+                color: '#000000',
+                condition: {
+                  field: 'extractedValue',
+                  operator: '>',
+                  operand: '1',
+                },
+              },
+            ],
+          },
+          // {
+          //   name: 'STAT_PARAMETRIC',
+          //   connectedData: {
+          //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+          //     fieldX: 'groundDate',
+          //     filter: [],
+          //     domain: 'fr.cnes.isis',
+          //     timeline: 'Session 1',
+          //   },
+          //   stateColors: [
+          //     {
+          //       color: '#000000',
+          //       condition: {
+          //         field: 'monitoringState',
+          //         operator: '==',
+          //         operand: 'waiting',
+          //       },
+          //     },
+          //   ],
+          // },
+        ],
+        title: 'Plotview Sup/Sup workspace',
+      },
+    },
+    DynamicViewConfiguration: {
+      dynamic1: {
+        type: 'DynamicView',
+        entryPoints: [{
+          connectedData: {
+            formula: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
+            filter: [],
+            domain: 'fr.cnes.isis.simupus',
+            timeline: 'Session 1',
+          },
+          name: 'dynamicEP',
+          id: 'id70',
+          stateColors: [{
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operator: '==',
+              operand: 'waiting',
+            },
           }],
-        },
+        }],
+      },
+    },
+    views: {
+      text1: {
+        type: 'TextView',
+      },
+      plot1: {
+        type: 'PlotView',
+      },
+      dynamic1: {
+        type: 'DynamicView',
       },
     },
     domains: [

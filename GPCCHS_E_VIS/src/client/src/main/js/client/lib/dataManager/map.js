@@ -1,6 +1,6 @@
 import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
-import _get from 'lodash/get';
+// import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
@@ -10,6 +10,7 @@ import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
+import { getEntryPointsByViewId } from '../viewManager';
 
 // const logger = getLogger('data:map');
 
@@ -19,8 +20,9 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
   getWindowsVisibleViews,
   (state, views) =>
     // Per view
-    _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
-      const ep = _get(view, ['configuration', 'entryPoints']);
+    _reduce(views, (map, { viewId, timebarUuid }) => {
+      const ep = getEntryPointsByViewId(state, { viewId });
+      // const ep = _get(view, ['configuration', 'entryPoints']);
       if (!ep || !ep.length) {
         return map;
       }

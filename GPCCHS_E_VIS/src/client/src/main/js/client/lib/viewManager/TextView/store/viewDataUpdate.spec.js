@@ -86,15 +86,25 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         entryPoints: {
           ep5: {
             remoteId: 'rId1',
-            field: 'val3',
+            field: 'valInvalid',
             offset: 0,
             localId: 'localEp5',
           },
-          ep6: {
-            remoteId: 'rId2',
+          ep4: {
+            remoteId: 'rId1',
             field: 'val3',
+            localId: 'localrId1',
             offset: 0,
-            localId: 'localEp6',
+            stateColors: [
+              {
+                color: '#0000FF',
+                condition: {
+                  field: 'val3',
+                  operator: '>',
+                  operand: '1',
+                },
+              },
+            ],
           },
         },
       },
@@ -158,6 +168,12 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       data.index.ep7.should.eql(13);
       data.values.ep4.value.should.eql(203);
       data.values.ep7.value.should.eql('val3');
+    });
+    it('DataMap with invalid entry point field', () => {
+      const oldState = { index: { ep4: 18 }, values: { ep4: { value: 201, color: '#0000FF' } } };
+      const data = selectDataPerView(viewDataMap.text2, expectedIntervals, payload, oldState);
+      data.index.should.eql({ ep4: 20 });
+      data.values.should.eql({ ep4: { value: 203, color: '#0000FF' } });
     });
   });
 });

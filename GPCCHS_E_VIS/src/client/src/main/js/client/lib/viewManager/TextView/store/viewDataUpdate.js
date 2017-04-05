@@ -49,11 +49,15 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
         logger.warn('get a payload without .referenceTimestamp key');
         continue;
       }
-      // Long conversion
       if (timestamp < lower || timestamp > current) {
         continue;
       }
+      // invalid or missing field
+      if (!p[ep.field]) {
+        continue;
+      }
       if (timestamp >= previousTime) {
+        // Long conversion
         newValue = {
           timestamp,
           value: {

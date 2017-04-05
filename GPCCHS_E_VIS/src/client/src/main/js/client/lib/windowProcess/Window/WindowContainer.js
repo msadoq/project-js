@@ -10,6 +10,8 @@ import {
   resizeEditor,
   resizeTimebar,
   resizeExplorer,
+  minimizeExplorer,
+  minimizeEditor,
 } from '../../store/actions/pages';
 
 import Window from './Window';
@@ -19,9 +21,11 @@ const mapStateToProps = (state, { windowId }) => {
   const { isModified } = getWindow(state, { windowId });
   const {
     editorWidth,
+    editorIsMinimized,
     timebarHeight,
     timebarCollapsed,
     explorerWidth,
+    explorerIsMinimized,
   } = getPanels(state, { pageId });
 
   return {
@@ -29,9 +33,11 @@ const mapStateToProps = (state, { windowId }) => {
     isModified,
     isHelpDisplayed: getDisplayHelp(state, { windowId }),
     editorWidth,
+    editorIsMinimized,
     timebarHeight,
     timebarCollapsed,
     explorerWidth,
+    explorerIsMinimized,
   };
 };
 
@@ -41,4 +47,6 @@ export default connect(mapStateToProps, {
   resizeEditor,
   resizeTimebar,
   resizeExplorer,
+  minimizeEditor,
+  minimizeExplorer,
 })(Window);

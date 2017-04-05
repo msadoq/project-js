@@ -2,14 +2,16 @@ import * as types from '../../types';
 
 const initialState = {
   // editor
-  editorWidth: 0,
+  editorWidth: 250,
   editorViewId: undefined,
+  editorIsMinimized: true,
   // timebar
   timebarHeight: 130,
   timebarCollapsed: false,
   // explorer
-  explorerWidth: 0,
+  explorerWidth: 250,
   explorerTab: undefined,
+  explorerIsMinimized: true,
 };
 
 const panels = (state = initialState, action) => {
@@ -21,6 +23,8 @@ const panels = (state = initialState, action) => {
       return { ...state, editorViewId: action.payload.viewId };
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
       return { ...state, editorWidth: action.payload.size };
+    case types.WS_PAGE_PANELS_MINIMIZE_EDITOR:
+      return { ...state, editorIsMinimized: action.payload.isMinimized };
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
       return { ...state, timebarHeight: action.payload.size };
     case types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR:
@@ -29,6 +33,8 @@ const panels = (state = initialState, action) => {
       return { ...state, explorerTab: action.payload.focusedTab };
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
       return { ...state, explorerWidth: action.payload.size };
+    case types.WS_PAGE_PANELS_MINIMIZE_EXPLORER:
+      return { ...state, explorerIsMinimized: action.payload.isMinimized };
     default:
       return state;
   }

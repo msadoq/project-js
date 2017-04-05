@@ -4,7 +4,7 @@ import { getStore } from '../../store/mainStore';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
-import { resizeEditor, resizeExplorer, resizeTimebar } from '../../store/actions/pages';
+import { minimizeEditor, minimizeExplorer, collapseTimebar } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
@@ -115,10 +115,7 @@ const panel = {
           const { windowId } = focusedWindow;
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
-          const size = (panels && panels.editorWidth === 0)
-            ? 350
-            : 0;
-          dispatch(resizeEditor(pageId, size));
+          dispatch(minimizeEditor(pageId, !panels.editorIsMinimized));
         }
       },
     },
@@ -131,10 +128,7 @@ const panel = {
           const { windowId } = focusedWindow;
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
-          const size = (panels && panels.explorerWidth === 0)
-            ? 350
-            : 0;
-          dispatch(resizeExplorer(pageId, size));
+          dispatch(minimizeExplorer(pageId, !panels.explorerIsMinimized));
         }
       },
     },
@@ -147,10 +141,7 @@ const panel = {
           const { windowId } = focusedWindow;
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
-          const size = (panels && panels.timebarHeight === 0)
-            ? 250
-            : 0;
-          dispatch(resizeTimebar(pageId, size));
+          dispatch(collapseTimebar(pageId, !panels.timebarCollapsed));
         }
       },
     },

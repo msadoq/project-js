@@ -21,6 +21,8 @@ const logger = getLogger('Window');
 
 const resizeHandleSize = 15;
 const scrollHandleSize = 15;
+const defaultExplorerWidth = 250;
+const defaultEditorWidth = 250;
 
 class Window extends PureComponent {
   static propTypes = {
@@ -33,12 +35,16 @@ class Window extends PureComponent {
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
     editorWidth: PropTypes.number,
+    editorIsMinimized: PropTypes.bool,
     timebarHeight: PropTypes.number,
     timebarCollapsed: PropTypes.bool,
+    explorerIsMinimized: PropTypes.bool,
     explorerWidth: PropTypes.number,
     resizeEditor: PropTypes.func.isRequired,
     resizeTimebar: PropTypes.func.isRequired,
     resizeExplorer: PropTypes.func.isRequired,
+    minimizeExplorer: PropTypes.func.isRequired,
+    minimizeEditor: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -46,10 +52,12 @@ class Window extends PureComponent {
     // sizes
     containerWidth: 500,
     containerHeight: 500,
-    editorWidth: 0,
+    editorWidth: defaultEditorWidth,
+    editorIsMinimized: true,
     timebarHeight: 250,
     timebarCollapsed: false,
-    explorerWidth: 0,
+    explorerWidth: defaultExplorerWidth,
+    explorerIsMinimized: true,
   }
 
   static childContextTypes = {
@@ -70,14 +78,32 @@ class Window extends PureComponent {
   }
 
   onHorizontalUpdateDebounce = _debounce((panelWidth) => {
-    const { pageId, editorWidth, resizeEditor, explorerWidth, resizeExplorer } = this.props;
+    const { pageId,
+      editorWidth,
+      resizeEditor,
+      explorerWidth,
+      resizeExplorer,
+      minimizeExplorer,
+      minimizeEditor,
+    } = this.props;
+
     const newEditorWidth = _get(panelWidth, [0, 'size']);
     if (editorWidth !== newEditorWidth) {
-      resizeEditor(pageId, newEditorWidth);
+      if (newEditorWidth < 50) {
+        minimizeEditor(pageId, true);
+      } else if (newEditorWidth > 0) {
+        minimizeEditor(pageId, false);
+        resizeEditor(pageId, newEditorWidth);
+      }
     }
     const newExplorerWidth = _get(panelWidth, [2, 'size']);
     if (explorerWidth !== newExplorerWidth) {
-      resizeExplorer(pageId, newExplorerWidth);
+      if (newExplorerWidth < 50) {
+        minimizeExplorer(pageId, true);
+      } else if (newExplorerWidth > 0) {
+        minimizeExplorer(pageId, false);
+        resizeExplorer(pageId, newExplorerWidth);
+      }
     }
   }, 250);
 
@@ -143,26 +169,28 @@ class Window extends PureComponent {
       containerWidth,
       containerHeight,
       editorWidth,
+      editorIsMinimized,
       timebarHeight,
       explorerWidth,
+      explorerIsMinimized,
       timebarCollapsed,
     } = this.props;
     logger.debug('render');
 
-    // console.log(
-    //   'render Window.js',
-    //   `size: ${containerWidth}x${containerHeight}`,
-    //   `editor: ${editorWidth}`,
-    //   `timebar: ${timebarHeight}`,
-    //   `explorer: ${explorerWidth}`
-    // );
-
+    let editorSize = editorIsMinimized ? 0 : editorWidth;
+    if (!editorIsMinimized && editorSize < 50) {
+      editorSize = defaultEditorWidth;
+    }
+    let explorerSize = explorerIsMinimized ? 0 : explorerWidth;
+    if (!explorerIsMinimized && explorerSize < 50) {
+      explorerSize = defaultExplorerWidth;
+    }
     const calcTimebarHeight = timebarCollapsed ? 34 : timebarHeight;
-    const centralWidth = containerWidth - editorWidth - explorerWidth - (resizeHandleSize * 2);
+    const centralWidth = containerWidth - editorSize - explorerSize - (resizeHandleSize * 2);
     const viewsHeight = containerHeight - calcTimebarHeight - resizeHandleSize;
 
     // editor
-    const editor = editorWidth < 1
+    const editor = editorIsMinimized
       ? <div />
       : <EditorContainer pageId={pageId} />;
 
@@ -200,7 +228,7 @@ class Window extends PureComponent {
       );
 
     // explorer
-    const explorer = explorerWidth < 1
+    const explorer = explorerIsMinimized
       ? <div />
       : <ExplorerContainer windowId={windowId} pageId={pageId} />;
 
@@ -220,7 +248,7 @@ class Window extends PureComponent {
             direction="row"
             spacing={resizeHandleSize}
             borderColor="grey"
-            panelWidths={this.horizontalLayout(editorWidth, explorerWidth)}
+            panelWidths={this.horizontalLayout(editorSize, explorerSize)}
             onUpdate={this.onHorizontalUpdate}
           >
             {editor}

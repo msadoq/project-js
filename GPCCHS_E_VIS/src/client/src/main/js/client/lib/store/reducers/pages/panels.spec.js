@@ -13,12 +13,14 @@ describe('store:pages:reducer:panels', () => {
   });
   it('should support empty state', () => {
     panelsReducer(undefined, {}).should.eql({
-      editorWidth: 0,
+      editorWidth: 250,
       editorViewId: undefined,
+      editorIsMinimized: true,
       timebarHeight: 130,
       timebarCollapsed: false,
-      explorerWidth: 0,
+      explorerWidth: 250,
       explorerTab: undefined,
+      explorerIsMinimized: true,
     });
   });
   it('should load viewId in editor', () => {

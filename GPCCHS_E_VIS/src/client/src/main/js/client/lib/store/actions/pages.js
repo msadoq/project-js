@@ -31,11 +31,12 @@ export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 
 
 export const loadInEditor = simple(types.WS_PAGE_PANELS_LOAD_IN_EDITOR, 'pageId', 'viewId');
 export const resizeEditor = simple(types.WS_PAGE_PANELS_RESIZE_EDITOR, 'pageId', 'size');
+export const minimizeEditor = simple(types.WS_PAGE_PANELS_MINIMIZE_EDITOR, 'pageId', 'isMinimized');
 export const resizeTimebar = simple(types.WS_PAGE_PANELS_RESIZE_TIMEBAR, 'pageId', 'size');
 export const collapseTimebar = simple(types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR, 'pageId', 'flag');
 export const focusTabInExplorer = simple(types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER, 'pageId', 'focusedTab');
 export const resizeExplorer = simple(types.WS_PAGE_PANELS_RESIZE_EXPLORER, 'pageId', 'size');
-
+export const minimizeExplorer = simple(types.WS_PAGE_PANELS_MINIMIZE_EXPLORER, 'pageId', 'isMinimized');
 const moveView = simple(types.WS_VIEW_MOVE_TO_PAGE, 'fromPageId', 'toPageId', 'viewId');
 
 /**

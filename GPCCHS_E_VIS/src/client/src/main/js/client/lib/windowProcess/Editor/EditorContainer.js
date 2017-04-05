@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Editor from './Editor';
 import { getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
-import { resizeEditor } from '../../store/actions/pages';
+import { minimizeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { pageId }) => {
   const { editorViewId } = getPanels(state, { pageId });
@@ -18,7 +18,7 @@ const mapStateToProps = (state, { pageId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
-  closeEditor: () => resizeEditor(pageId, 0),
+  closeEditor: () => minimizeEditor(pageId, true),
 }, dispatch);
 
 const EditorContainer = connect(mapStateToProps, mapDispatchToProps)(Editor);

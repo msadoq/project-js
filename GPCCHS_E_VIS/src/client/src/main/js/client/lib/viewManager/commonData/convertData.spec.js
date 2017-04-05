@@ -1,4 +1,4 @@
-import { isLongValue, convertLongData, updateObjectValues } from './longData';
+import { isLongValue, convertLongData, updateObjectValues } from './convertData';
 
 describe('viewManager/utils/longData', () => {
   it('isLongValue: yes', () => {

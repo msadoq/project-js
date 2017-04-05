@@ -26,7 +26,7 @@ const makeMapStateToProps = () => (state, { windowId, pageId, viewId }) => {
   } = getView(state, { viewId });
 
   const page = getPage(state, { pageId });
-  const { editorIsMinimized } = getPanels(state, { pageId });
+  const { editorIsMinimized, editorViewId } = getPanels(state, { pageId });
 
   return {
     backgroundColor,
@@ -34,7 +34,7 @@ const makeMapStateToProps = () => (state, { windowId, pageId, viewId }) => {
     title,
     titleStyle,
     isModified,
-    isViewsEditorOpen: !editorIsMinimized,
+    isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     windowPages: getWindowPages(state, { windowId }),
     oId,
     absolutePath,

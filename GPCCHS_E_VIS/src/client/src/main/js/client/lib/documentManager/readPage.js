@@ -29,7 +29,6 @@ export const simpleReadPage = async.reflect((pageInfo, cb) => {
         _.update('uuid', v4)
       )
     );
-
     const uuid = pageInfo.uuid || v4();
     return cb(null, {
       ...preparePageViews(page),
@@ -38,6 +37,7 @@ export const simpleReadPage = async.reflect((pageInfo, cb) => {
       uuid,
       isModified: false,
       absolutePath: fs.getPath(), // ugly
+      panels: page.panels,
     });
   });
 });

@@ -27,17 +27,9 @@
   "entryPoints": [
     {
       "name": "STAT_SU_PPID",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -71,17 +63,9 @@
     },
     {
       "name": "STAT_SU_TPGID",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -115,17 +99,9 @@
     },
     {
       "name": "STAT_SU_MINFLT",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -159,17 +135,9 @@
     },
     {
       "name": "STAT_SU_UTIME",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -203,17 +171,9 @@
     },
     {
       "name": "STAT_SU_STIME",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -247,17 +207,9 @@
     },
     {
       "name": "STAT_SU_PRIORITY",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -291,17 +243,9 @@
     },
     {
       "name": "STAT_SU_ITREALVALUE",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -335,17 +279,9 @@
     },
     {
       "name": "STAT_SU_RSS",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -379,17 +315,9 @@
     },
     {
       "name": "STAT_SU_SIGNAL",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -423,17 +351,9 @@
     },
     {
       "name": "STAT_SU_SIGCATCH",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

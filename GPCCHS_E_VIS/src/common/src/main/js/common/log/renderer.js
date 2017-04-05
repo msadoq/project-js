@@ -71,6 +71,7 @@ const sendToConsole = (category, levels) => {
           const localLevel = (level === 'verbose' || level === 'silly')
             ? 'debug'
             : level;
+          // eslint-disable-next-line no-console, "DV6 TBC_CNES Console output is purpose of file"
           return console[localLevel].apply(null,
             [`[${category}] ${msg} +${getConsoleTime()}ms`]
             .concat(rest));

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PropTypes, PureComponent } from 'react';
 import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
 import classnames from 'classnames';
@@ -6,13 +5,11 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
-import moment from 'moment';
 import styles from './DynamicView.css';
-
-const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
+import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 
 function dataToShow(data) {
-  if (!data.value || (_isObject(data.value) && data.type !== 'time')) {
+  if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
     if (_isObject(data)) {
       const keys = Object.keys(data);
       return (<dl
@@ -24,14 +21,14 @@ function dataToShow(data) {
         )}
       >
         {keys.map((k) => {
-          if (data[k].value) {
+          if (data[k].value !== undefined) {
             return ([<dt>{k}</dt>,
               <dd>{data[k].value}</dd>]);
           }
           return ([<dt>{k}</dt>,
             <dd>
               { Object.keys(data[k]).map((val, key) => {
-                if (data[k][val].value) {
+                if (data[k][val].value !== undefined) {
                   return (<li key={'li'.concat(key)}><b>{val}:</b> {data[k][val]}</li>);
                 }
                 return ([<dt>{val}</dt>,
@@ -104,7 +101,8 @@ export default class DynamicView extends PureComponent {
       index: PropTypes.number,
     }),
     entryPoints: PropTypes.objectOf(PropTypes.object),
-    formula: PropTypes.string,
+    pageId: PropTypes.string.isRequired,
+    openInspector: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -112,21 +110,24 @@ export default class DynamicView extends PureComponent {
     entryPoints: {},
   };
 
-  parseFormula() {
-    const { formula } = this.props;
-    if (typeof formula !== 'string' || !pattern.test(formula)) {
-      return 'No connected data';
-    }
-
-    const matches = formula.match(pattern);
-    return matches[2] ? matches[2] : 'Invalid connected data';
+  onContextMenu = () => {
+    const { entryPoints, openInspector, pageId } = this.props;
+    const { remoteId, dataId } = entryPoints.dynamicEP;
+    handleContextMenu({
+      label: `Open ${dataId.parameterName} in Inspector`,
+      click: () => openInspector({
+        pageId,
+        remoteId,
+        dataId,
+      }),
+    });
   }
 
   render() {
     const { data, entryPoints } = this.props;
     const ep = data.value;
-    const error = _get(entryPoints, '[0].error');
-    if (!ep) {
+    const error = _get(entryPoints, 'dynamicEP.error');
+    if (!ep || error) {
       return (
         <div className="flex">
           <div className={styles.renderErrorText}>
@@ -137,11 +138,14 @@ export default class DynamicView extends PureComponent {
       );
     }
 
+    const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
-      <div>
+      <div
+        onContextMenu={this.onContextMenu}
+      >
         <header className={styles.header}>
-          <h1>{this.parseFormula()}</h1>
+          <h1>{parameterName}</h1>
         </header>
         <Grid fluid className="ml10 mr10">
           <Row><Panel>{objectHeader(ep)}</Panel></Row>

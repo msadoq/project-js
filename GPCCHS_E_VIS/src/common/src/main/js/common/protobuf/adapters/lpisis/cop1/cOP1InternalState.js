@@ -1,4 +1,5 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
+/* eslint-disable complexity, "DV6 TBC_CNES Generated code complexity is not avoidable" */
 
 const {
   uoctetToBytes,

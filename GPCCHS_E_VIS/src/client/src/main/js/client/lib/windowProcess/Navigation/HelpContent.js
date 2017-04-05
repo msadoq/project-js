@@ -44,12 +44,14 @@ const HelpContent = () => (
     </Col>
     <Col xs={3}>
       <h2 className={styles.subTitle}>Wiki</h2>
-      <a
+      <button
         onClick={(e) => {
           e.preventDefault();
           commands.main.openDocuWikiHelper();
         }}
-      >Open wiki helper</a>
+      >
+        Open wiki helper
+      </button>
     </Col>
   </div>
 );

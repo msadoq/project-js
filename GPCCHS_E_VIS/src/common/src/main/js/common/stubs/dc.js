@@ -70,7 +70,8 @@ const onHssMessage = (...args) => {
     case globalConstants.MESSAGETYPE_LOG_SEND: {
       logger.info('handle log');
       const { uid, arguments: a } = protobuf.decode('dc.dataControllerUtils.SendLog', args[2]);
-      return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a); // eslint-disable-line no-console
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Stub file, output on console"
+      return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
     }
     case globalConstants.MESSAGETYPE_SESSION_TIME_QUERY: {
       logger.info('push session time');

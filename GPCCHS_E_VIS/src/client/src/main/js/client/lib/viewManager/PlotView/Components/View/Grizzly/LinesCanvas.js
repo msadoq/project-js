@@ -16,7 +16,7 @@ export default class LinesCanvas extends Component {
     yScale: PropTypes.func.isRequired,
     data: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
-    perfOutput: PropTypes.bool.isRequired,
+    // perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -78,7 +78,7 @@ export default class LinesCanvas extends Component {
 
   draw = () => {
     const {
-      perfOutput,
+      // perfOutput,
       height,
       width,
       lines,
@@ -94,13 +94,17 @@ export default class LinesCanvas extends Component {
 
     ctx.clearRect(0, 0, width, height);
 
-    let totalPoints = 0;
-    if (perfOutput) console.time(); // eslint-disable-line no-console
+    // let totalPoints = 0;
+    // if (perfOutput) console.time();
+
+    // eslint-disable-next-line complexity, "Draw function, must not be split"
     lines.forEach((line) => {
-      const dataLine = (line.dataAccessor && data) ? line.dataAccessor(data) : line.data;
-      if (perfOutput) totalPoints += dataLine.length;
+      const dataLine = line.dataAccessor && data
+        ? line.dataAccessor(data)
+        : line.data;
+      // if (perfOutput) totalPoints += dataLine.length;
       if (!dataLine) {
-        console.log(`No data for line ${line.id}`); // eslint-disable-line no-console
+        // console.log(`No data for line ${line.id}`);
         return;
       }
       // Default values
@@ -197,18 +201,18 @@ export default class LinesCanvas extends Component {
       ctx.stroke();
     });
 
-    if (perfOutput) {
-      console.log( // eslint-disable-line no-console
-        'axis',
-        axisId,
-        'Just drawed',
-        lines.length,
-        'lines, about',
-        totalPoints,
-        'total points'
-      );
-      console.timeEnd(); // eslint-disable-line no-console
-    }
+    // if (perfOutput) {
+    //   console.log(
+    //     'axis',
+    //     axisId,
+    //     'Just drawed',
+    //     lines.length,
+    //     'lines, about',
+    //     totalPoints,
+    //     'total points'
+    //   );
+    //   console.timeEnd();
+    // }
   }
 
   assignEl = (el) => { this.el = el; }

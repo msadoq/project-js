@@ -23,6 +23,8 @@ const makeMapStateToProps = () => {
       oId,
       absolutePath,
       isModified,
+      windowId,
+      pageId,
       collapsed: !!collapsedLayout,
     };
   };

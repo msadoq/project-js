@@ -14,6 +14,7 @@ import sessions from './sessions';
 import masterSession from './masterSession';
 import health from './health';
 import editor from './editor';
+import inspector from './inspector';
 import plotViewData from '../../viewManager/PlotView/store/dataReducer';
 import textViewData from '../../viewManager/TextView/store/dataReducer';
 import dynamicViewData from '../../viewManager/DynamicView/store/dataReducer';
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   masterSession,
   health,
   editor,
+  inspector,
   plotViewData,
   textViewData,
   dynamicViewData,

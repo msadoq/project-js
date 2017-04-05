@@ -1,19 +1,17 @@
-import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import PlotEditor from './PlotEditor';
 import {
   addEntryPoint,
   removeEntryPoint,
 } from '../../../../store/actions/views';
+import { getViewConfiguration } from '../../../../store/reducers/views';
 
-
-const mapStateToProps = (state, { viewId }) => {
-  const getConfiguration = _.get(`views[${viewId}].configuration`);
-  return {
-    configuration: getConfiguration(state),
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  configuration: getViewConfiguration,
+});
 
 const mapDispatchToProps = {
   addEntryPoint,

@@ -5,11 +5,13 @@ import {
 } from 'html-to-react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+import _each from 'lodash/each';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
 import { get } from 'common/parameters';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
+import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 
 const logger = getLogger('view:text');
 
@@ -50,6 +52,21 @@ const memoizedGetTextStyles = (() => {
   };
 })();
 
+const getEpSpan = (target) => {
+  const spans = target.querySelectorAll('.ep');
+  if (spans.length === 1) {
+    return spans[0];
+  }
+  if (spans.length > 1) {
+    return null;
+  }
+  const parent = target.parentNode;
+  if (!parent) {
+    return null;
+  }
+  return getEpSpan(parent);
+};
+
 export default class TextView extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
@@ -57,6 +74,8 @@ export default class TextView extends PureComponent {
     content: PropTypes.string.isRequired,
     updateContent: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
+    pageId: PropTypes.string.isRequired,
+    openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
@@ -75,7 +94,7 @@ export default class TextView extends PureComponent {
   }
 
   componentDidMount() {
-    this.updateSpanValues();
+    this.updateSpanValues(this.props.data);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -89,14 +108,60 @@ export default class TextView extends PureComponent {
       this.content = this.getContentComponent();
     }
     if (!shouldRender) {
-      this.updateSpanValues(nextProps);
+      this.updateSpanValues(nextProps.data);
     }
     return shouldRender;
   }
 
   componentDidUpdate() {
-    this.updateSpanValues();
+    this.updateSpanValues(this.props.data);
   }
+
+  onContextMenu = (event) => {
+    const { entryPoints, openInspector, pageId } = this.props;
+    const span = getEpSpan(event.target);
+    if (span) {
+      const epName = _get(this.spanValues, [span.id, 'ep']);
+      const label = `Open ${epName} in Inspector`;
+      if (_get(entryPoints, [epName, 'error'])) {
+        handleContextMenu({ label, enabled: false });
+        return;
+      }
+      const { remoteId, dataId } = entryPoints[epName];
+      const simpleMenu = {
+        label,
+        click: () => openInspector({
+          pageId,
+          remoteId,
+          dataId,
+        }),
+      };
+      handleContextMenu(simpleMenu);
+      return;
+    }
+    const complexMenu = {
+      label: 'Open parameter in Inspector',
+      submenu: [],
+    };
+    _each(entryPoints, (ep, epName) => {
+      const label = `${epName}`;
+      if (ep.error) {
+        complexMenu.submenu.push({ label, enabled: false });
+        return;
+      }
+      const { remoteId, dataId } = ep;
+      complexMenu.submenu.push({
+        label,
+        click: () => openInspector({
+          pageId,
+          remoteId,
+          dataId,
+        }),
+      });
+    });
+    handleContextMenu(complexMenu);
+  };
+
 
   onDrop = (e) => {
     const data = e.dataTransfer.getData('text/plain');
@@ -127,10 +192,10 @@ export default class TextView extends PureComponent {
 
             const id = `${this.props.viewId}_tv_${epName}`;
 
-            this.spanValues.push({ id, ep: epName });
+            this.spanValues[id] = { ep: epName };
 
             nodes.push(
-              <span key={`${epName}-${index}`} id={id} />
+              <span className="ep" key={`${epName}-${index}`} id={id} />
             );
           }
           return nodes;
@@ -150,20 +215,22 @@ export default class TextView extends PureComponent {
     return () => comp;
   }
 
-  spanValues = [];
+  spanValues = {};
 
-  updateSpanValues(props = this.props) {
-    if (!props.data.values) {
+  updateSpanValues(data) {
+    if (!data.values) {
       return;
     }
     requestAnimationFrame(() => {
-      for (let i = 0; i < this.spanValues.length; i += 1) {
-        const sv = this.spanValues[i];
+      const spanIds = Object.keys(this.spanValues);
+      for (let i = 0; i < spanIds.length; i += 1) {
+        const id = spanIds[i];
+        const sv = this.spanValues[id];
         const ep = this.props.entryPoints[sv.ep];
         if (ep) {
-          const val = props.data.values[sv.ep] || {};
+          const val = data.values[sv.ep] || {};
           if (!sv.el) {
-            sv.el = document.getElementById(sv.id);
+            sv.el = document.getElementById(id);
           }
           sv.el.innerHTML = ep.error ? 'Invalid entry point' : val.value || '';
           if (ep.error) {
@@ -192,7 +259,10 @@ export default class TextView extends PureComponent {
     logger.debug(`render ${viewId}`);
 
     return (
-      <DroppableContainer onDrop={this.onDrop}>
+      <DroppableContainer
+        onDrop={this.onDrop}
+        onContextMenu={this.onContextMenu}
+      >
         <this.content />
       </DroppableContainer>
     );

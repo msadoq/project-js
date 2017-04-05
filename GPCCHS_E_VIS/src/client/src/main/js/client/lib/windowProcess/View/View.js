@@ -9,6 +9,7 @@ import PlotView from '../../viewManager/PlotView/Components/View/PlotViewContain
 import TextView from '../../viewManager/TextView/Components/View/TextViewContainer';
 import DynamicView from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
 import UnknownView from './UnknownView';
+import { main } from '../ipc';
 
 import styles from './View.css';
 
@@ -87,7 +88,11 @@ export default class View extends PureComponent {
           style={this.backgroundColorStyle(backgroundColor)}
         >
           <MessagesContainer containerId={viewId} />
-          <ContentComponent viewId={viewId} />
+          <ContentComponent
+            viewId={viewId}
+            pageId={pageId}
+            openInspector={main.openInspector}
+          />
         </div>
       </div>
     );

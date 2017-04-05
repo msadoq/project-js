@@ -47,13 +47,13 @@ describe('documentManager/saveWorkspace', () => {
         page1: {
           type: 'Page',
           title: 'Page 1',
-          timebarUuid: 1,
+          timebarUuid: 1234,
           oId: 'oid:/testPlot.json',
         },
         page2: {
           type: 'Page',
           title: 'Page 2',
-          timebarUuid: 2,
+          timebarUuid: 1234,
           path: 'testText.json',
         },
       },

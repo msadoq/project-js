@@ -56,6 +56,19 @@ const commands = {
         windowId,
         status,
       }),
+    openInspector: ({ pageId, remoteId, dataId }, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
+        pageId,
+        remoteId,
+        dataId,
+      }, callback),
+    resolveLink: ({ link, path, sessionId, domainId }, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_RESOLVE_LINK, {
+        link,
+        path,
+        sessionId,
+        domainId,
+      }, callback),
     openDocuWikiHelper: () =>
       commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
   },

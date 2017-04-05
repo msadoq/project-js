@@ -27,17 +27,9 @@
   "entryPoints": [
     {
       "name": "GENE_AM_FRVERSION",
-      "connectedDataX": {
-        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -71,17 +63,9 @@
     },
     {
       "name": "ATT_BC_MAG1VOLTAGE",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -115,17 +99,9 @@
     },
     {
       "name": "ATT_BC_NUMRJCTTC15",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -159,17 +135,9 @@
     },
     {
       "name": "ATT_BC_STR2QSTRREF",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -202,17 +170,9 @@
     },
     {
       "name": "ORB_BC_LVVELXJ2000",
-      "connectedDataX": {
-        "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -246,17 +206,9 @@
     },
     {
       "name": "ORB_BC_NXTDEADLINE",
-      "connectedDataX": {
-        "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -290,17 +242,9 @@
     },
     {
       "name": "POW_BC_NUMRJCTTC18",
-      "connectedDataX": {
-        "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -334,17 +278,9 @@
     },
     {
       "name": "SAT_BC_CCCIMMEDTC",
-      "connectedDataX": {
-        "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -378,17 +314,9 @@
     },
     {
       "name": "SAT_BC_LASTSQNUM5",
-      "connectedDataX": {
-        "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -422,17 +350,9 @@
     },
     {
       "name": "MIS_BC_DALMVOLTAGE",
-      "connectedDataX": {
-        "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

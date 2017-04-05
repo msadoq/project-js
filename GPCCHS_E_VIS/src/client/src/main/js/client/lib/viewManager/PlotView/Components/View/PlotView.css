@@ -22,22 +22,20 @@
 }
 
 .plotLegend{
-  ul{
+  .plotLegendLegends{
     max-height: 75px;
     overflow-y: auto;
     max-width: 600px;
     margin: 0;
     display: block;
-    li{
-      display: inline-block;
-      cursor: pointer;
-      padding: 2px 4px;
-      width: 31%;
-      height: 20px;
-      span{
-        display: inline-block;
-        font-size: 0.9em;
+    button{
+      p{
+        font-size: 0.8em;
       }
+    }
+    span{
+      display: inline-block;
+      font-size: 0.9em;
     }
   }
 }
@@ -49,7 +47,18 @@
 .plotLegendAxisName{
   font-weight: bold;
 }
-.selectedLegend{
+.selectedLegend, .selectedLegend:active, .selectedLegend:focus{
   background: #333;
   color: #FFF;
+  border: 1px solid #BBB;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.legend{
+  border: 1px solid #BBB;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.plotLegendName{
+  transform: translateY(-4px);
 }

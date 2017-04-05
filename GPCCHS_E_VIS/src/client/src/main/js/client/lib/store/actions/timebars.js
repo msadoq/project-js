@@ -36,7 +36,9 @@ export const createNewTimebar = timebarId =>
       },
     });
   };
+
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Not splittable easily"
   (dispatch, getState) => {
     const state = getState();
     const timebar = getTimebar(state, { timebarUuid });
@@ -57,14 +59,13 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
     if (newSlideWindow.lower < lower || newSlideWindow.lower > current) {
       newSlideWindow.lower = lower;
     }
-    if (timebar.mode === 'Extensible') {
-      if (newSlideWindow.upper < upper) {
-        newSlideWindow.upper = upper;
-      }
-    } else if (timebar.mode === 'Fixed' || timebar.mode === 'Normal') {
-      if (newSlideWindow.upper > upper || newSlideWindow.upper < current) {
-        newSlideWindow.upper = upper;
-      }
+    if (timebar.mode === 'Extensible' && newSlideWindow.upper < upper) {
+      newSlideWindow.upper = upper;
+    } else if (
+      (timebar.mode === 'Fixed' || timebar.mode === 'Normal')
+      && (newSlideWindow.upper > upper || newSlideWindow.upper < current)
+    ) {
+      newSlideWindow.upper = upper;
     }
 
     if (messages.length) {

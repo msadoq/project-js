@@ -39,15 +39,12 @@ describe('store:editor:reducer', () => {
 
 describe('store:editor:selector', () => {
   it('should return false', () => {
-    const state = { editor: { textViewId: null }};
-    getIsCodeEditorOpened(state).should.eql(false);
+    getIsCodeEditorOpened({ editor: { textViewId: null } }).should.eql(false);
   });
   it('should return false', () => {
-    const state = {};
-    getIsCodeEditorOpened(state).should.eql(false);
+    getIsCodeEditorOpened({}).should.eql(false);
   });
   it('should return true', () => {
-    const state = { editor: { textViewId: 'idView' }};
-    getIsCodeEditorOpened(state).should.eql(true);
+    getIsCodeEditorOpened({ editor: { textViewId: 'idView' } }).should.eql(true);
   });
-})
+});

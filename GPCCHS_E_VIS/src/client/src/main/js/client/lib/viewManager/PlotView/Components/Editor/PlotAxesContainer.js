@@ -1,7 +1,9 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import PlotAxes from './PlotAxes';
-import { getView } from '../../../../store/reducers/views';
+import { getAxes, getShowYAxes, getEntryPoints } from '../../store/configurationSelectors';
 import {
   removeAxis,
   updateAxis,
@@ -9,21 +11,20 @@ import {
   updateShowYAxes,
 } from '../../../../store/actions/views';
 
-const mapStateToProps = (state, { viewId }) => {
-  const view = getView(state, { viewId });
-  return {
-    showYAxes: view.configuration.showYAxes,
-    axes: view.configuration.axes,
-    entryPoints: view.configuration.entryPoints,
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  axes: getAxes,
+  entryPoints: getEntryPoints,
+  showYAxes: getShowYAxes,
+});
 
-const PlotAxesContainer = connect(mapStateToProps, {
+const mapDispatchToProps = {
   removeAxis,
   updateAxis,
   addAxis,
   updateShowYAxes,
-})(PlotAxes);
+};
+
+const PlotAxesContainer = connect(mapStateToProps, mapDispatchToProps)(PlotAxes);
 
 PlotAxesContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

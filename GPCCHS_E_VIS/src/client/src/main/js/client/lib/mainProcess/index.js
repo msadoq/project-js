@@ -12,6 +12,8 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
+import rtdStub from 'rtd/stubs/rtd';
+
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
 import { initStore, getStore } from '../store/mainStore';
@@ -74,6 +76,17 @@ export function onStart() {
         forkOptions,
         callback
       );
+    },
+    (callback) => {
+      if (parameters.get('STUB_RTD_ON') !== 'on') {
+        callback(null);
+        return;
+      }
+
+      splashScreen.setMessage('starting rtd simulator...');
+      logger.info('starting rtd simulator...');
+      rtdStub.launch();
+      callback(null);
     },
     (callback) => {
       splashScreen.setMessage('starting data server process...');
@@ -243,7 +256,7 @@ export function onWindowsClose() {
 }
 
 export function onError(err) {
-  console.error(err); // eslint-disable-line no-console
   server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
+  logger.error('Application error:', err);
   app.exit(1);
 }

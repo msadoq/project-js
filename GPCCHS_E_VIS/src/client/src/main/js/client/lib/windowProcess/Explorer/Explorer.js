@@ -7,6 +7,7 @@ import {
 import DataMapContainer from './widgets/DataMapContainer';
 import StoreContainer from './widgets/StoreContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
+import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
 
 import styles from './Explorer.css';
@@ -16,7 +17,7 @@ const NotAlreadyImplemented = () => <div>Not already implemented</div>;
 const widgets = {
   dsex: { title: 'DataStore explorer', component: NotAlreadyImplemented },
   rte: { title: 'RTE', component: NotAlreadyImplemented },
-  inspector: { title: 'Inspector', component: NotAlreadyImplemented },
+  inspector: { title: 'Inspector', component: InspectorContainer },
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
   cache: { title: 'Cache (developer)', component: NotAlreadyImplemented },

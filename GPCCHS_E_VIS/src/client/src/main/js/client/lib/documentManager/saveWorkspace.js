@@ -6,8 +6,13 @@ import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
+import { getWindows } from '../store/reducers/windows';
+import { getPage } from '../store/reducers/pages';
+import { getTimebars, getTimebarId } from '../store/reducers/timebars';
 import { getTimebarTimelines } from '../store/reducers/timebarTimelines';
 import { getTimeline } from '../store/reducers/timelines';
+import { getWorkspaceFile, getWorkspaceFolder } from '../store/reducers/hsc';
+
 import validation from './validation';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
@@ -26,7 +31,8 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
       timebars: [],
     };
     // windows
-    _each(state.windows, (win, winIds) => {
+    const windows = getWindows(state);
+    _each(windows, (win, winIds) => {
       const current = {
         type: 'documentWindow',
         pages: [],
@@ -35,12 +41,12 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
       };
       // pages
       win.pages.forEach((pageId) => {
-        if (!state.pages[pageId]) {
+        const currentPage = getPage(state, { pageId });
+        if (!currentPage) {
           callback('Page Id is missing');
           return;
         }
         const page = {};
-        const currentPage = state.pages[pageId];
         if (currentPage.oId) {
           page.oId = currentPage.oId;
         } else if (useRelativePath && currentPage.path) {
@@ -58,16 +64,15 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
           callback(new Error('Unsaved page: no path or oId'));
           return;
         }
-        page.timebarId = (state.timebars[currentPage.timebarUuid])
-          ? state.timebars[currentPage.timebarUuid].id
-          : 'TB1';
+        const { timebarUuid } = currentPage;
+        page.timebarId = getTimebarId(state, { timebarUuid });
         current.pages.push(page);
       });
       workspace.windows.push(current);
       savedWindowsIds.push(winIds);
     });
     // timebars
-    _each(state.timebars, (timebar, timebarUuid) => {
+    _each(getTimebars(state), (timebar, timebarUuid) => {
       const tb = {
         id: timebar.id,
         rulerResolution: timebar.rulerResolution,
@@ -110,12 +115,14 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
 };
 
 const saveWorkspace = (state, useRelativePath, callback) => {
-  if (!state.hsc || !state.hsc.folder || !state.hsc.file) {
+  const file = getWorkspaceFile(state);
+  const folder = getWorkspaceFolder(state);
+  if (!file || !folder) {
     return new Error('Unable to get path for saving workspace');
   }
   return saveWorkspaceAs(
     state,
-    join(state.hsc.folder, state.hsc.file),
+    join(folder, file),
     useRelativePath,
     callback
   );

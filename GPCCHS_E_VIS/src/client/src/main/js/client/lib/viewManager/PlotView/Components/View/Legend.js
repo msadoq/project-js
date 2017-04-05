@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _get from 'lodash/get';
+import classnames from 'classnames';
 import styles from './PlotView.css';
 
 export default class Legend extends PureComponent {
@@ -12,7 +13,7 @@ export default class Legend extends PureComponent {
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
-    lines: PropTypes.shape(
+    lines: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
   }
@@ -57,11 +58,15 @@ export default class Legend extends PureComponent {
               key={axis.id}
             >
               <h4 className={styles.plotLegendAxisName}>{axis.label}</h4>
-              <ul>
+              <div className={styles.plotLegendLegends}>
                 {
                   axis.lines.map(line =>
-                    <li
-                      className={selectedLineName === line.name ? styles.selectedLegend : ''}
+                    <button
+                      className={classnames(
+                        selectedLineName === line.name ?
+                        styles.selectedLegend : styles.legend,
+                        'btn', 'btn-default', 'btn-xs'
+                      )}
                       onClick={e => selectLine(e, line.name)}
                       key={line.name}
                     >
@@ -71,13 +76,15 @@ export default class Legend extends PureComponent {
                           background: _get(line, ['objectStyle', 'curveColor']) || '#222',
                         }}
                       />
-                      <span>
+                      <span
+                        className={styles.plotLegendName}
+                      >
                         {` : ${line.name}`}
                       </span>
-                    </li>
+                    </button>
                   )
                 }
-              </ul>
+              </div>
             </div>
           )
         }

@@ -26,17 +26,24 @@ export default (stateConf = { content: '' }, action) => {
     case types.WS_VIEW_REMOVE_MARKER:
       return removeElementIn('markers', action.payload.index, stateConf);
     case types.WS_VIEW_ADD_ENTRYPOINT: {
-      const axis = getAxes(stateConf, action);
-      const addAxisYId = _.set('connectedData.axisId', axis.id);
-      // const addAxesIds = _.compose(addAxisXId, addAxisYId);
-
+      const axisY = getAxes(stateConf, action);
       const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
       return {
         ...stateConf,
-        entryPoints: [...stateConf.entryPoints, addAxisYId(newEp)],
+        entryPoints: [
+          ...stateConf.entryPoints,
+          {
+            ...newEp,
+            connectedData: {
+              ...(newEp.connectedData),
+              axisId: axisY.id,
+              unit: axisY.unit,
+            },
+          },
+        ],
         axes: {
           ...stateConf.axes,
-          [axis.id]: axis,
+          [axisY.id]: axisY,
         },
       };
     }

@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
 import u from 'updeep';
+import { createSelector } from 'reselect';
 
 import * as types from '../../types';
 import timebar from './timebar';
@@ -42,5 +43,9 @@ export default function timebarsReducer(stateTimebars = {}, action) {
 /* --- Selectors ------------------------------------------------------------ */
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];
+export const getTimebarId = createSelector(
+  getTimebar,
+  _.get('id')
+);
 export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
 export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);

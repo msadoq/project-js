@@ -158,12 +158,8 @@ function init(path, checkForRequired = false) {
   checkRequired(requiredConfig);
 }
 
-// const universalGet = _pathOr(get, ['parameters', 'get'], global);
-
-function universalGet() {
-  const __get = _get(global, ['parameters', 'get'], get);
-  // eslint-disable-next-line prefer-spread, prefer-rest-params
-  return __get.apply(null, Array.prototype.slice.call(arguments));
+function universalGet(name) {
+  return _get(global, ['parameters', 'get'], get)(name);
 }
 
 module.exports = { init, get: universalGet, getAll };

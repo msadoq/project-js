@@ -20,7 +20,7 @@
     "stats:renderer": "ANALYZER_PORT=4243 NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/stats.renderer.js --progress --profile --colors",
     "clean": "rimraf ./dist ./main.js ./main.js.map stats.json",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
-    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
+    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello) && npm run install-rtd",
     "lint": "eslint .",
     "sh": "npm run start-hot",
     "start": "electron ./",
@@ -36,6 +36,9 @@
     "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
+    "clone-rtd": "cd ../../../../../../../../ && git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS && cd GPDS && git checkout DM_5567",
+    "copy-rtd": "mkdir -p node_modules && cp -r ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ node_modules/",
+    "install-rtd": "if [ -d  ../../../../../../../../GPDS ]; then npm run copy-rtd; else npm run clone-rtd && npm run copy-rtd; fi && (cd ../../../../../client/src/main/js/client/node_modules/rtd && npm install)",
     "postinstall": "electron-rebuild",
     "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },
@@ -71,9 +74,9 @@
     "js-beautify": "~1.6.8",
     "lockfile": "~1.0.3",
     "lodash": "~4.17.4",
+    "long": "^3.2.0",
     "mkdirp": "~0.5.1",
     "moment": "~2.17.1",
-    "open": "0.0.5",
     "react": "~15.4.2",
     "react-bootstrap": "~0.30.5",
     "react-codemirror": "~0.3.0",
@@ -85,6 +88,7 @@
     "react-panelgroup": "^1.0.2",
     "react-redux": "~5.0.2",
     "react-select": "~1.0.0-rc.2",
+    "react-treebeard": "^1.1.4",
     "redux": "~3.6.0",
     "redux-electron-store": "~0.4.1",
     "redux-form": "~6.5.0",
@@ -170,6 +174,7 @@
     "why-did-you-update": "~0.0.8"
   },
   "peerDependencies": {
+    "rtd": "node_modules/rtd",
     "common": "../../../../../common/src/main/js/common",
     "d3-time": "1.0.4"
   },

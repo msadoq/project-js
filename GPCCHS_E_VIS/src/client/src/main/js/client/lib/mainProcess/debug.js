@@ -1,7 +1,8 @@
-/* eslint global-require:0 */
 import _each from 'lodash/each';
 import { get } from 'common/parameters';
+import getLogger from 'common/log';
 
+const logger = getLogger('main:debug');
 
 export default (callback) => {
   // not installable when bundled and doesn't needed when DEBUG is off
@@ -10,10 +11,12 @@ export default (callback) => {
   }
 
   // electron-debug
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Load extensions only in debug mode"
   const enableDebug = require('electron-debug');
   enableDebug();
 
   // devtools
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Load extensions only in debug mode"
   const installer = require('electron-devtools-installer');
 
   const extensions = [
@@ -24,7 +27,9 @@ export default (callback) => {
   _each(extensions, (name) => {
     try {
       installer.default(installer[name], forceDownload);
-    } catch (e) {} // eslint-disable-line
+    } catch (e) {
+      logger.error(e);
+    }
   });
 
   return callback(null);

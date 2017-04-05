@@ -35,7 +35,8 @@ const getGeometry = _.pipe(
   _.defaults(initialGeometry)
 );
 
-const page = (statePage = initialState, action) => {
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
+export default function pageReducer(statePage = initialState, action) {
   switch (action.type) {
     case types.WS_PAGE_OPEN:
     case types.WS_WORKSPACE_OPEN: {
@@ -139,6 +140,4 @@ const page = (statePage = initialState, action) => {
     default:
       return statePage;
   }
-};
-
-export default page;
+}

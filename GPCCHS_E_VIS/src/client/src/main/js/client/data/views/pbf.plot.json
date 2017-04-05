@@ -26,17 +26,9 @@
   "entryPoints": [
     {
       "name": "ATT_BC_REVTCOUNT1",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -69,17 +61,9 @@
     },
     {
       "name": "ATT_BC_REVTCOUNT2",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -112,17 +96,9 @@
     },
     {
       "name": "ATT_BC_REVTCOUNT3",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -155,17 +131,9 @@
     },
     {
       "name": "ATT_BC_REVTCOUNT4",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

@@ -1,9 +1,11 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _ from 'lodash/fp';
+import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
+import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
@@ -13,6 +15,7 @@ import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
+import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
@@ -99,6 +102,8 @@ export class GrizzlyPlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
+    openInspector: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -136,6 +141,31 @@ export class GrizzlyPlotView extends PureComponent {
       }
     }
     return shouldRender;
+  }
+
+  onContextMenu = () => {
+    const { entryPoints, openInspector, pageId } = this.props;
+    const complexMenu = {
+      label: 'Open parameter in Inspector',
+      submenu: [],
+    };
+    _each(entryPoints, (ep, epName) => {
+      const label = `${epName}`;
+      if (ep.error) {
+        complexMenu.submenu.push({ label, enabled: false });
+        return;
+      }
+      const { remoteId, dataId } = ep;
+      complexMenu.submenu.push({
+        label,
+        click: () => openInspector({
+          pageId,
+          remoteId,
+          dataId,
+        }),
+      });
+    });
+    handleContextMenu(complexMenu);
   }
 
   onDrop = this.drop.bind(this);
@@ -191,6 +221,7 @@ export class GrizzlyPlotView extends PureComponent {
     e.stopPropagation();
   }
 
+
   shouldRender() {
     const {
       containerWidth,
@@ -229,6 +260,16 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
+  memoizeXAxisProps = _memoize(
+    (xExtents, tickStep, autoTick, showTicks) => ({
+      xExtents,
+      tickStep,
+      autoTick,
+      showTicks,
+    }),
+    (a, b, c, d) => `${a[0]}-${a[1]}-${b}-${c}-${d}`
+  )
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -238,6 +279,7 @@ export class GrizzlyPlotView extends PureComponent {
       // TODO : clean message component
       return (
         <DroppableContainer
+          onContextMenu={this.onContextMenu}
           onDrop={this.onDrop}
           className={styles.errorContent}
         >
@@ -280,7 +322,7 @@ export class GrizzlyPlotView extends PureComponent {
       const eps = entryPoints.filter(ep =>
         _get(ep, ['connectedData', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 22 + (Math.ceil(eps / 3) * 25) : 0;
+      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 25) : 0;
     });
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
@@ -288,6 +330,7 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
+        onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(
@@ -309,12 +352,12 @@ export class GrizzlyPlotView extends PureComponent {
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxisAt="bottom"
-          xAxis={{
+          xAxis={this.memoizeXAxisProps(
             xExtents,
-            tickStep: _get(axes, ['time', 'tickStep']),
-            autoTick: _get(axes, ['time', 'autoTick']),
-            showTicks: _get(axes, ['time', 'showTicks']),
-          }}
+            _get(axes, ['time', 'tickStep']),
+            _get(axes, ['time', 'autoTick']),
+            _get(axes, ['time', 'showTicks'])
+          )}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints

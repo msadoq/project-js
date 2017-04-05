@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { updateMasterId } from '../../../store/actions/timebars';
 import { updateTimebarId, collapseTimebar } from '../../../store/actions/pages';
+import { getSessions } from '../../../store/reducers/sessions';
 import {
   createNewTimeline,
   removeTimeline,
@@ -11,18 +12,20 @@ import {
 } from '../../../store/actions/timelines';
 import LeftTab from './LeftTab';
 
-export default connect(
-  state => ({ sessions: state.sessions }),
-  {
-    collapseTimebar,
-    updateMasterId,
-    updateOffset,
-    updateSessionName,
-    updateColor,
-    createNewTimeline,
-    updateId,
-    removeTimeline,
-    updateTimebarId,
-  }
+const mapStateToProps = state => ({
+  sessions: getSessions(state),
+});
 
-)(LeftTab);
+const mapDispatchToProps = {
+  collapseTimebar,
+  updateMasterId,
+  updateOffset,
+  updateSessionName,
+  updateColor,
+  createNewTimeline,
+  updateId,
+  removeTimeline,
+  updateTimebarId,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftTab);

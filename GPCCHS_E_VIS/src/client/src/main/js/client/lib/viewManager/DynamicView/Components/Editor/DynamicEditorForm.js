@@ -7,13 +7,6 @@ import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSel
 import InputField from '../../../../windowProcess/commonReduxForm/InputField';
 import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
 
-/*
-  EntryPointConnectedData représente une donnée connectée à un entryPoint.
-  Dans le cas de l'éditeur de la Plot, il y en a 2 (en X et Y).
-
-  Composant react-select :
-  https://github.com/JedWatson/react-select
-*/
 const EntryPointConnectedData = (props) => {
   const {
     handleSubmit,
@@ -23,7 +16,6 @@ const EntryPointConnectedData = (props) => {
     valid,
     timelines,
   } = props;
-  // const { formula, domain, timeline } = initialValues;
 
   return (
     <Form horizontal onSubmit={handleSubmit}>
@@ -71,7 +63,7 @@ const EntryPointConnectedData = (props) => {
 };
 
 EntryPointConnectedData.propTypes = {
-  /* eslint-disable react/no-unused-prop-types */
+  // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
   initialValues: PropTypes.shape({
     formula: PropTypes.string,
     domain: PropTypes.string,

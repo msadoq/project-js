@@ -34,7 +34,7 @@ export default class Legend extends PureComponent {
     const sortedAndValidAxes = yAxes
       .map((axis) => {
         const axisLines = lines
-          .filter(line => _get(line, ['connectedDataY', 'axisId']) === axis.id);
+          .filter(line => _get(line, ['connectedData', 'axisId']) === axis.id);
         return {
           ...axis,
           lines: axisLines,

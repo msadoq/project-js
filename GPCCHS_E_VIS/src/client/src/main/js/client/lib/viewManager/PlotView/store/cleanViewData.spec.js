@@ -141,6 +141,59 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
           maxTime: { },
         });
     });
+    it('Ep renaming', () => {
+      const newPlot = { entryPoints: {
+        STAT_SU_PID10: {
+          id: 'id60',
+          dataId: {
+            catalog: 'Reporting',
+            parameterName: 'STAT_SU_PID',
+            comObject: 'ReportingParameter',
+            domainId: 4,
+            sessionId: 181,
+          },
+          fieldX: 'groundDate',
+          fieldY: 'extractedValue',
+          offset: 0,
+          filter: [],
+          localId: 'groundDate/extractedValue.tb1:0/0',
+          timebarUuid: 'tb1',
+          structureType: 'range',
+          remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          stateColors: [{
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operator: '==',
+              operand: 'waiting',
+            },
+          }],
+        },
+        STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+      } };
+      const newIntervals = _cloneDeep(oldIntervals);
+      newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0']
+        .expectedInterval = [15, 25];
+
+      cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,
+        newPlot, oldIntervals, oldIntervals).should.deep.equal({
+          indexes: { STAT_SU_PID10: [10, 11, 12, 13, 14, 15, 16] },
+          lines: {
+            STAT_SU_PID10: [
+            { masterTime: 10, value: 13, x: 10 },
+            { masterTime: 11, value: 13, x: 11 },
+            { masterTime: 12, value: 13, x: 12 },
+            { masterTime: 13, value: 13, x: 13 },
+            { masterTime: 14, value: 13, x: 14 },
+            { masterTime: 15, value: 13, x: 15 },
+            { masterTime: 16, value: 13, x: 16 },
+            ] },
+          min: { STAT_SU_PID10: 13 },
+          max: { STAT_SU_PID10: 13 },
+          minTime: { STAT_SU_PID10: 16 },
+          maxTime: { STAT_SU_PID10: 16 },
+        });
+    });
   });
   describe('updateEpLabel', () => {
     it('values ok', () => {

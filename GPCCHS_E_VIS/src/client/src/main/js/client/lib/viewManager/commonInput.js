@@ -3,6 +3,6 @@ import { VM_COMMON_PROPERTIES } from './constants';
 
 // used by all 'prepareViewForStore'
 export default view => ({
-  ..._.pick(VM_COMMON_PROPERTIES, view),
+  ...view,
   configuration: _.omit(VM_COMMON_PROPERTIES, view),
 });

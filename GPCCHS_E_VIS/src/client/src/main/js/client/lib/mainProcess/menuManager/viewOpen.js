@@ -42,7 +42,6 @@ const viewAddBlank = (type, focusedWindow) => {
   const pageId = focusedPageId || v4();
   const view = getViewModule(type).prepareViewForStore({
     type,
-    configuration: {},
     uuid: v4(),
   });
   if (!focusedPageId) {

@@ -257,6 +257,6 @@ export function onWindowsClose() {
 
 export function onError(err) {
   server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
-  logger.error(`Application error: ${err.message}`);
+  logger.error('Application error:', err);
   app.exit(1);
 }

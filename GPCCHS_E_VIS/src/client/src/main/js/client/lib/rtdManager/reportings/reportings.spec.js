@@ -23,7 +23,7 @@ const domainId = 3;
 
 let reporting;
 const items = [
-  generate({ name: 'TEST_ITEM1', namespace: SDB_NAMESPACE, domainId }),
+  generate({ name: 'TEST_ITEM1', namespace: SDB_NAMESPACE, uid: 1, domainId }),
 ];
 
 let monitoringStub;

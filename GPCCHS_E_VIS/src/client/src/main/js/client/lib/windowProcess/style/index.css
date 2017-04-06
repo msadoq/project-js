@@ -4,6 +4,7 @@
 @import './buttons.css';
 @import './components.css';
 
+@import 'react-json-inspector/json-inspector.css';
 @import 'react-grid-layout/css/styles.css';
 @import 'react-resizable/css/styles.css';
 @import './flatpickr/flatpickr.css';

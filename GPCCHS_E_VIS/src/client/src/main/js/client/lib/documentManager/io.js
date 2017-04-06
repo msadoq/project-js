@@ -3,17 +3,19 @@ import { join } from 'path';
 import _ from 'lodash/fp';
 import startsWith from 'lodash/fp/startsWith';
 
+import * as fmd from '../common/fmd';
+
 import {
   read, parse,
   readJsonFromAbsPath, readJsonFromRelativePath,
 } from '../common/fs';
 
-const readJsonFromFmdPath = fmdApi => (filepath, callback) => {
+const readJsonFromFmdPath = (filepath, callback) => {
   resolvedPath = undefined;
   if (!_.startsWith('/', filepath)) {
     return callback(new Error(`Invalid FMD path ${filepath}`));
   }
-  let resolvedPath = join(fmdApi.getRootDir(), filepath);
+  let resolvedPath = join(fmd.getRootDir(), filepath);
   // relative path from FMD
   try {
     fs.accessSync(resolvedPath, fs.constants.F_OK);
@@ -29,37 +31,40 @@ const readJsonFromFmdPath = fmdApi => (filepath, callback) => {
   });
 };
 
-const readJsonFromOId = fmdApi => (oId, callback) => {
-  fmdApi.resolveDocument(oId, (err, path, properties) => {
+const readJsonFromOId = (oId, callback) => {
+  fmd.resolveDocument(oId, (err, path, properties) => {
     if (err) {
       callback(err);
       return;
     }
-    readJsonFromFmdPath(fmdApi)(path, (error, json) => callback(error, json, properties));
+    readJsonFromFmdPath(path, (error, json) => callback(error, json, properties));
   });
 };
 
-export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, callback) => {
+export const readDocument = (folder, relativePath, oId, absolutePath, callback) => {
   if (absolutePath) {
     return readJsonFromAbsPath(absolutePath, callback);
   }
   if (oId) {
-    return readJsonFromOId(fmdApi)(oId, callback);
+    return readJsonFromOId(oId, callback);
   }
-  if (folder && !startsWith('/', relativePath)) {
+  if (folder && (!startsWith('/', relativePath))) {
     return readJsonFromRelativePath(folder, relativePath, callback);
   }
-  return readJsonFromFmdPath(fmdApi)(relativePath, callback);
+  if (!fmd.getRootDir()) {
+    return callback(new Error(`Unable to load document ${relativePath} due to no fmd support`));
+  }
+  return readJsonFromFmdPath(relativePath, callback);
 };
 
-export const writeDocument = fmdApi => (path, json, callback) => {
+export const writeDocument = (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
   if (!startsWith('/', path)) {
     return callback(new Error('path should be absolute'));
   }
-  if (fmdApi.isInFmd(path)) {
-    return fmdApi.createDocument(path, json.type, (err, oid) => {
+  if (fmd.isInFmd(path)) {
+    return fmd.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return callback(err);
       }

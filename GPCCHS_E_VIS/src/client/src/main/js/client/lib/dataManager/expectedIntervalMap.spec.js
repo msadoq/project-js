@@ -20,7 +20,6 @@ describe('dataManager/expectedIntervalMap', () => {
             lower: 1420106702345,
             upper: 1420107144713,
           },
-          extUpperBound: 1420107500000,
           rulerStart: 1420106041002,
           rulerResolution: 1298.7675070010687,
           speed: 1,
@@ -33,12 +32,12 @@ describe('dataManager/expectedIntervalMap', () => {
         tl1: {
           id: 'Session 1',
           offset: 0,
-          sessionId: 181,
+          sessionName: 'session#42',
         },
         tl2: {
           id: 'Session 2',
           offset: 0,
-          sessionId: 0,
+          sessionName: 'Master',
         },
       },
       timebarTimelines: {
@@ -139,14 +138,9 @@ describe('dataManager/expectedIntervalMap', () => {
             entryPoints: [{
               name: 'STAT_SU_PID',
               id: 'id60',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
+              connectedData: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'groundDate',
                 filter: [],
                 domain: 'fr.cnes.isis.simupus',
                 timeline: 'Session 1',
@@ -161,14 +155,9 @@ describe('dataManager/expectedIntervalMap', () => {
               }],
             }, {
               name: 'STAT_PARAMETRIC',
-              connectedDataX: {
+              connectedData: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'extractedValue',
                 filter: [],
                 domain: 'fr.cnes.isis',
                 timeline: 'Session 1',
@@ -209,8 +198,8 @@ describe('dataManager/expectedIntervalMap', () => {
         delta: 0,
         offsetWithmachineTime: 2373665,
       }, {
-        name: 'Session#42',
-        id: 42,
+        name: 'Session#181',
+        id: 181,
         timestamp: {
           ms: 1480426701831,
           ps: null,
@@ -231,6 +220,8 @@ describe('dataManager/expectedIntervalMap', () => {
       parameterName: 'STAT_SU_PID',
       comObject: 'ReportingParameter',
       domainId: 4,
+      domain: 'fr.cnes.isis.simupus',
+      sessionName: 'Session#181',
       sessionId: 181,
     },
     fieldX: 'groundDate',
@@ -273,7 +264,9 @@ describe('dataManager/expectedIntervalMap', () => {
         parameterName: 'STAT_SU_PID',
         comObject: 'ReportingParameter',
         domainId: 4,
+        domain: 'fr.cnes.isis.simupus',
         sessionId: 181,
+        sessionName: 'Session#181',
       },
       filter: [],
       localIds: {
@@ -293,6 +286,7 @@ describe('dataManager/expectedIntervalMap', () => {
         parameterName: 'STAT_WILDCARD_TIMELINE',
         comObject: 'ReportingParameter',
         domainId: 4,
+        domain: 'fr.cnes.isis.simupus',
         sessionId: 10,
       },
       filter: [],
@@ -313,7 +307,9 @@ describe('dataManager/expectedIntervalMap', () => {
         parameterName: 'STAT_SU_PID',
         comObject: 'ReportingParameter',
         domainId: 4,
+        domain: 'fr.cnes.isis.simupus',
         sessionId: 181,
+        sessionName: 'Session#181',
       },
       filter: [],
       localIds: {

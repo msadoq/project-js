@@ -1,30 +1,34 @@
 {
   "type": "PlotView",
+  "title": "Validation Plotview 4 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#000000"
+  },
+  "backgroundColor": "#FFFFFF",
   "links": [
     {
       "name": "pagePBF1",
       "path": "./pages/pagePBF1.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "ATT_BC_REVTCOUNT1",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -52,21 +56,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT2",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -94,21 +91,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT3",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -136,21 +126,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_REVTCOUNT4",
-      "connectedDataX": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedValue",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -178,13 +161,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     }
   ],
   "axes": [
     {
       "label": "Time",
-      "unit": "<DATE>",
+      "id": "time",
+      "unit": "s",
       "style": {
         "font": "Arial",
         "size": 12,
@@ -208,6 +193,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -233,7 +219,7 @@
   ],
   "grids": [
     {
-      "xAxisId": "Time",
+      "xAxisId": "time",
       "yAxisId": "VBat",
       "line": {
         "style": "Continuous",
@@ -242,18 +228,6 @@
       "showGrid": true
     }
   ],
-  "title": "Validation Plotview 4 parameters",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#000000"
-  },
-  "backgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {
     "style": {
@@ -286,4 +260,4 @@
       "relativePosY": 8.9
     }
   ]
-  }
+}

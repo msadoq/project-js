@@ -1,5 +1,4 @@
 import u from 'updeep';
-import '../common/test';
 import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
@@ -20,7 +19,6 @@ beforeEach(() => {
           lower: 1420106702345,
           upper: 1420107144713,
         },
-        extUpperBound: 1420107500000,
         rulerStart: 1420106041002,
         rulerResolution: 1298.7675070010687,
         speed: 1,
@@ -34,14 +32,14 @@ beforeEach(() => {
         id: 'Session 1',
         offset: 0,
         kind: 'Session',
-        sessionId: 181,
+        sessionName: 'Session#181',
         color: null,
       },
       tl2: {
         id: 'Session 2',
         offset: 0,
         kind: 'session',
-        sessionId: 0,
+        sessionId: 'Master',
         color: '#5254a3',
       },
     },
@@ -50,6 +48,7 @@ beforeEach(() => {
     },
     windows: {
       win1: {
+        isLoaded: true,
         title: 'Sup/Sup workspace',
         focusedPage: 'page1',
         pages: [
@@ -116,14 +115,9 @@ beforeEach(() => {
             {
               name: 'STAT_SU_PID',
               id: 'id60',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
+              connectedData: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'groundDate',
                 filter: [],
                 domain: 'fr.cnes.isis.simupus',
                 timeline: 'Session 1',
@@ -139,31 +133,26 @@ beforeEach(() => {
                 },
               ],
             },
-            {
-              name: 'STAT_PARAMETRIC',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr.cnes.isis',
-                timeline: 'Session 1',
-              },
-              stateColors: [
-                {
-                  color: '#000000',
-                  condition: {
-                    field: 'monitoringState',
-                    operator: '==',
-                    operand: 'waiting',
-                  },
-                },
-              ],
-            },
+            // {
+            //   name: 'STAT_PARAMETRIC',
+            //   connectedData: {
+            //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+            //     fieldX: 'groundDate',
+            //     filter: [],
+            //     domain: 'fr.cnes.isis',
+            //     timeline: 'Session 1',
+            //   },
+            //   stateColors: [
+            //     {
+            //       color: '#000000',
+            //       condition: {
+            //         field: 'monitoringState',
+            //         operator: '==',
+            //         operand: 'waiting',
+            //       },
+            //     },
+            //   ],
+            // },
           ],
           title: 'Plotview Sup/Sup workspace',
         },
@@ -221,8 +210,8 @@ beforeEach(() => {
         offsetWithmachineTime: 2373665,
       },
       {
-        name: 'Session#42',
-        id: 42,
+        name: 'Session#181',
+        id: 181,
         timestamp: {
           ms: 1480426701831,
           ps: null,
@@ -244,7 +233,9 @@ const dataMap = {
       parameterName: 'CLCW_TM_NOMINAL',
       comObject: 'DecommutedPacket',
       domainId: 4,
+      domain: 'fr.cnes.isis.simupus',
       sessionId: 181,
+      sessionName: 'Session#181',
     },
     filter: [],
     views: ['dynamic1'],
@@ -263,12 +254,14 @@ const dataMap = {
       parameterName: 'STAT_SU_PID',
       comObject: 'ReportingParameter',
       domainId: 4,
+      domain: 'fr.cnes.isis.simupus',
       sessionId: 181,
+      sessionName: 'Session#181',
     },
     filter: [],
     views: ['plot1'],
     localIds: {
-      'groundDate/extractedValue.tb1:0/0': {
+      'groundDate/extractedValue.tb1:0': {
         fieldX: 'groundDate',
         fieldY: 'extractedValue',
         timebarUuid: 'tb1',
@@ -284,7 +277,9 @@ const dataMap = {
       parameterName: 'STAT_SU_PID',
       comObject: 'ReportingParameter',
       domainId: 4,
+      domain: 'fr.cnes.isis.simupus',
       sessionId: 181,
+      sessionName: 'Session#181',
     },
     filter: [],
     views: ['text1'],
@@ -311,7 +306,9 @@ const viewMap = {
           parameterName: 'STAT_SU_PID',
           comObject: 'ReportingParameter',
           domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
           sessionId: 181,
+          sessionName: 'Session#181',
         },
         field: 'extractedValue',
         offset: 0,
@@ -342,13 +339,15 @@ const viewMap = {
           parameterName: 'STAT_SU_PID',
           comObject: 'ReportingParameter',
           domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
           sessionId: 181,
+          sessionName: 'Session#181',
         },
         fieldX: 'groundDate',
         fieldY: 'extractedValue',
         offset: 0,
         filter: [],
-        localId: 'groundDate/extractedValue.tb1:0/0',
+        localId: 'groundDate/extractedValue.tb1:0',
         timebarUuid: 'tb1',
         structureType: 'range',
         remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -362,7 +361,7 @@ const viewMap = {
           },
         }],
       },
-      STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+      // STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
     },
   },
   dynamic1: {
@@ -377,9 +376,10 @@ const viewMap = {
           parameterName: 'CLCW_TM_NOMINAL',
           comObject: 'DecommutedPacket',
           domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
           sessionId: 181,
+          sessionName: 'Session#181',
         },
-        field: undefined,
         offset: 0,
         filter: [],
         localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',
@@ -407,7 +407,7 @@ const intervalMap = {
     },
   },
   'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-    'groundDate/extractedValue.tb1:0/0': {
+    'groundDate/extractedValue.tb1:0': {
       expectedInterval: [1420106790818, 1420107056239],
     },
   },
@@ -427,6 +427,9 @@ describe('data:map', () => {
   });
   it('memoization map', () => {
     map.resetRecomputations();
+    getPerRemoteIdMap.resetRecomputations();
+    getPerViewMap.resetRecomputations();
+    map.recomputations().should.eql(0);
     map(state);
     map.recomputations().should.eql(1);
     map(state);

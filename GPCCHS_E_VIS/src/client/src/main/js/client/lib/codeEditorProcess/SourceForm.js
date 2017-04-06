@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';
 import { lint } from '../common/htmllint';
-import { CodeMirrorField } from '../windowProcess/Editor/Components/Fields';
+import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
 
 class SourceForm extends PureComponent {
@@ -41,6 +41,15 @@ class SourceForm extends PureComponent {
 
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
+        <div
+          className={styles.hintDiv}
+        >
+          <h3>TextView HTML Editor</h3>
+          <p>Hint :
+          template litterals to be replaced by values must be nested in
+          <code>{'<span>'}</code> any side text will be removed.s
+          ex: <code>{'<span>{{EP_PARAM_105}}</span>'}</code></p>
+        </div>
         <Field
           name="html"
           className={styles.CodeMirrorField}

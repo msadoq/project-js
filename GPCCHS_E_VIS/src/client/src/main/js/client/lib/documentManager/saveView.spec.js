@@ -2,13 +2,11 @@
 import rimraf from 'rimraf';
 
 import { should, expect, getTmpPath, freezeMe } from '../common/test';
-import { applyDependencyToApi } from '../common/utils';
 
 import fs from '../common/fs';
-import fmdApi from '../common/fmd';
-import SaveView from './saveView';
+import * as saveViewApi from './saveView';
 
-const { saveView, saveViewAs } = applyDependencyToApi(SaveView, fmdApi);
+const { saveViewAs } = saveViewApi;
 
 describe('documentManager/saveViews', () => {
   let state;
@@ -62,17 +60,9 @@ describe('documentManager/saveViews', () => {
             entryPoints: [
               {
                 name: 'ATT_BC_REVTCOUNT4',
-                connectedDataX: {
-                  formula: 'Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.groundDate',
-                  unit: 's',
-                  digits: 5,
-                  format: 'decimal',
-                  domain: 'fr.cnes.sat1',
-                  timeline: 'Session 1',
-                  axisId: 'id1',
-                },
-                connectedDataY: {
+                connectedData: {
                   formula: 'Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.extractedValue',
+                  fieldX: 'groundDate',
                   unit: 'V',
                   digits: 5,
                   format: 'decimal',
@@ -137,37 +127,10 @@ describe('documentManager/saveViews', () => {
   afterEach((done) => {
     rimraf(getTmpPath(), done);
   });
-  it('fails with unknown view', (done) => {
-    saveView(freezeMe(state), 'unknownView', (err) => {
-      err.should.be.an('error');
-      done();
-    });
-  });
-  it('fails with unknown absolutePath', (done) => {
-    saveView(freezeMe(state), 'unknownAbsPath', (err) => {
-      err.should.be.an('error');
-      done();
-    });
-  });
-  it('fails with unknown absolutePath', (done) => {
-    saveView(freezeMe(state), 'unknownViewType', (err) => {
-      err.should.be.an('error');
-      done();
-    });
-  });
   describe('PlotView', () => {
-    it('save ok', (done) => {
-      saveView(freezeMe(state), 'plot1', (err) => {
-        should.not.exist(err);
-        fs.isExists(state.views.plot1.absolutePath, (exist) => {
-          exist.should.be.true;
-          done();
-        });
-      });
-    });
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.plot1);
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.true;
@@ -175,20 +138,10 @@ describe('documentManager/saveViews', () => {
         });
       });
     });
-    it('save fail', (done) => {
-      state.views.plot1.configuration.title = undefined;
-      saveView(freezeMe(state), 'plot1', (err) => {
-        expect(err).to.be.an('error');
-        fs.isExists(state.views.plot1.absolutePath, (exist) => {
-          exist.should.be.false;
-          done();
-        });
-      });
-    });
     it('saveAs fail', (done) => {
       state.views.plot1.configuration.title = undefined;
       const view = freezeMe(state.views.plot1);
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.type, view.absolutePath, (err) => {
         expect(err).to.be.an('error');
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.false;
@@ -198,18 +151,9 @@ describe('documentManager/saveViews', () => {
     });
   });
   describe('TextView', () => {
-    it('save ok', (done) => {
-      saveView(freezeMe(state), 'text1', (err) => {
-        should.not.exist(err);
-        fs.isExists(state.views.text1.absolutePath, (exist) => {
-          exist.should.be.true;
-          done();
-        });
-      });
-    });
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.text1);
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.true;
@@ -217,20 +161,10 @@ describe('documentManager/saveViews', () => {
         });
       });
     });
-    it('save fail', (done) => {
-      state.views.text1.configuration.content = undefined;
-      saveView(freezeMe(state), 'text1', (err) => {
-        expect(err).to.be.an('error');
-        fs.isExists(state.views.text1.absolutePath, (exist) => {
-          exist.should.be.false;
-          done();
-        });
-      });
-    });
     it('saveAs fail', (done) => {
       state.views.text1.configuration.content = undefined;
       const view = freezeMe(state.views.text1);
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.type, view.absolutePath, (err) => {
         expect(err).to.be.an('error');
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.false;
@@ -240,18 +174,9 @@ describe('documentManager/saveViews', () => {
     });
   });
   describe('DynamicView', () => {
-    it('save ok', (done) => {
-      saveView(freezeMe(state), 'dynamic1', (err) => {
-        should.not.exist(err);
-        fs.isExists(state.views.dynamic1.absolutePath, (exist) => {
-          exist.should.be.true;
-          done();
-        });
-      });
-    });
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.dynamic1);
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.true;
@@ -259,20 +184,10 @@ describe('documentManager/saveViews', () => {
         });
       });
     });
-    it('save fail', (done) => {
-      state.views.dynamic1.configuration.entryPoints = ['invalid entrypoints'];
-      saveView(freezeMe(state), 'dynamic1', (err) => {
-        expect(err).to.be.an('error');
-        fs.isExists(state.views.dynamic1.absolutePath, (exist) => {
-          exist.should.be.false;
-          done();
-        });
-      });
-    });
     it('saveAs fail', (done) => {
       state.views.dynamic1.configuration.entryPoints = ['invalid entrypoints'];
       const view = freezeMe(state.views.dynamic1);
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.type, view.absolutePath, (err) => {
         expect(err).to.be.an('error');
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.false;

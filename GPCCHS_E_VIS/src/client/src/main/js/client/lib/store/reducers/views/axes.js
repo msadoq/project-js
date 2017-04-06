@@ -59,16 +59,16 @@ function createAxis(stateConf, label, unit) {
 export const getAxes = (stateConf, action) => {
   const { entryPoint } = action.payload;
   const { axes } = stateConf;
-  const { connectedDataX, connectedDataY } = entryPoint;
+  const { connectedData } = entryPoint;
 
-  const axisX = __.find(axis => axis.unit === connectedDataX.unit, axes);
-  const axisY = __.find(axis => axis.unit === connectedDataY.unit, axes);
-  const finalX = axisX || createAxis(stateConf, entryPoint.name, connectedDataX.unit);
-  const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedDataY.unit);
-  const prefixX = finalX.id === finalY.id ? 'X:' : '';
-  const prefixY = finalX.id === finalY.id ? 'Y:' : '';
-  return [
-    { ...finalX, id: `${prefixX}${finalX.id}` },
-    { ...finalY, id: `${prefixY}${finalY.id}` },
-  ];
+  // const axisX = __.find(axis => axis.id === 'time' && axis.unit === 's', axes);
+  const axisY = __.find(axis => axis.unit === connectedData.unit, axes);
+  // const finalX = axisX || createAxis(stateConf, 'Time', 's');
+  const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedData.unit);
+  // const prefixX = finalX.id === finalY.id ? 'X:' : '';
+  const prefixY = finalY.id === 'time' ? 'Y:' : '';
+  // return [
+    // { ...finalX, id: `${prefixX}${finalX.id}` },
+  return { ...finalY, id: `${prefixY}${finalY.id}` };
+  // ];
 };

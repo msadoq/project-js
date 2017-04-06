@@ -1,0 +1,10 @@
+exports[`test Navigation renders correctly 1`] = `
+<div
+  className="has-success">
+  <input
+    className="form-control input-sm"
+    placeholder=""
+    type="testType"
+    value="testval" />
+</div>
+`;

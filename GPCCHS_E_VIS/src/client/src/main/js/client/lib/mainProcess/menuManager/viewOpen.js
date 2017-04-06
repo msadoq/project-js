@@ -5,59 +5,54 @@ import {
 } from 'common/constants';
 
 import { server } from '../ipc';
-import { readViews } from '../../common/documentManager';
+import { openView } from '../../documentManager';
 import { getPathByFilePicker } from '../dialog';
-import { add as addMessage } from '../../store/actions/messages';
-import { addAndMount as addAndMountView } from '../../store/actions/pages';
-import { getWindowFocusedPageId } from '../../store/selectors/windows';
+import { addBlankView } from '../../store/actions/views';
+import { addBlankPage } from '../../store/actions/pages';
+import { getWorkspaceFolder } from '../../store/reducers/hsc';
+import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getStore } from '../../store/mainStore';
 import { getViewModule } from '../../viewManager';
-
-const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
 function viewOpen(focusedWindow) {
   if (!focusedWindow) {
     return;
   }
-  const { getState } = getStore();
-  const state = getState();
-
-  getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
-    const viewPath = [{ absolutePath: filePath }];
-    viewOpenWithPath({ windowId: focusedWindow.windowId, viewPath });
+  const folder = getWorkspaceFolder(getStore().getState());
+  getPathByFilePicker(folder, 'view', 'open', (err, absolutePath) => {
+    viewOpenWithPath({ windowId: focusedWindow.windowId, absolutePath });
   });
 }
 
-function viewOpenWithPath({ windowId, viewPath }) {
-  const { getState, dispatch } = getStore();
-  const filePath = _.get('absolutePath[0]', viewPath);
-
-  readViews(viewPath, (errView, [view]) => {
-    const state = getState();
-    const focusedPageId = getWindowFocusedPageId(state, { windowId });
-    if (errView) {
-      dispatch(addDangerMessage(focusedPageId, 'Unable to load View'));
-      dispatch(addDangerMessage(focusedPageId, errView));
-      return;
-    }
-
-    const viewId = v4();
-    dispatch(addAndMountView(focusedPageId, viewId, { ...view, absolutePath: filePath }));
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
-  });
-}
-
-const addBlankView = (type, focusedWindow) => {
+function viewOpenWithPath({ windowId, absolutePath }) {
   const { dispatch, getState } = getStore();
-  const view = { type, configuration: getViewModule(type).prepareConfigurationForStore({}) };
-  const pageId = getState().windows[focusedWindow.windowId].focusedPage;
-  const viewId = v4();
-  dispatch(addAndMountView(pageId, viewId, view));
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
+  const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
+  const pageId = focusedPageId || v4();
+  const viewInfo = { absolutePath };
+  if (!focusedPageId) {
+    dispatch(addBlankPage(windowId, pageId));
+  }
+  dispatch(openView(viewInfo, pageId));
+}
+
+const viewAddBlank = (type, focusedWindow) => {
+  const { dispatch, getState } = getStore();
+  const { windowId } = focusedWindow;
+  const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
+  const pageId = focusedPageId || v4();
+  const view = getViewModule(type).prepareViewForStore({
+    type,
+    uuid: v4(),
+  });
+  if (!focusedPageId) {
+    dispatch(addBlankPage(focusedWindow.windowId, pageId));
+  }
+  dispatch(addBlankView(view, pageId));
+  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.get('type', view)}`);
 };
 
 export default {
   viewOpen,
   viewOpenWithPath,
-  addBlankView,
+  viewAddBlank,
 };

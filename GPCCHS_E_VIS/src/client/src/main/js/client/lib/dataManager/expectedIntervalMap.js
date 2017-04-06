@@ -1,13 +1,12 @@
 import _each from 'lodash/each';
 import _set from 'lodash/set';
 import { createSelector } from 'reselect';
-import { getTimebars } from '../store/selectors/timebars';
+import { getTimebars } from '../store/reducers/timebars';
 import { getStructureModule } from '../viewManager';
 
 export function intervalPerRemoteId(timebars, remoteIdData) {
   const expectedIntervals = {};
   const { localIds } = remoteIdData;
-  // const getExpectedInterval = structures(structureType, 'getExpectedInterval');
   // loop on local ids
   _each(localIds, (localIdData, localId) => {
     const { offset, timebarUuid, viewType } = localIdData;

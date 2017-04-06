@@ -34,26 +34,39 @@ const getComObject = (comObject, timestamp, value) => {
         monitoringState: getMonitoringState(timestamp),
       });
     }
-    case 'DecommutedPacket': {
-      return stubData.getDecommutedPacketProtobuf({
-        groundDate: timestamp + 20,
-        onboardDate: timestamp,
-        decommutedValues: [
-          stubData.getDecommutedValue({
-            name: 'myDecomValue#1',
-            convertedValue: value,
-            rawValue: value,
-            extractedValue: value,
-          }),
-          stubData.getDecommutedValue({
-            name: 'myDecomValue#2',
-            convertedValue: value + 1,
-            rawValue: value + 1,
-            extractedValue: value + 1,
-          }),
-        ],
+    case 'DecommutedPacket':
+      {
+        return stubData.getDecommutedPacketProtobuf({
+          groundDate: timestamp + 20,
+          onboardDate: timestamp,
+          decommutedValues: [
+            stubData.getDecommutedValue({
+              name: 'GENE_AM_CCSDSVERS1',
+              extractedValue: Buffer.alloc(10, 2),
+              rawValue: 2,
+              convertedValue: 2,
+            }),
+            stubData.getDecommutedValue({
+              name: 'GENE_AM_CCSDSVERS2',
+              extractedValue: Buffer.alloc(10, 1),
+              rawValue: 0,
+              convertedValue: 0,
+            }),
+          ],
+        });
+      }
+    case 'Pus003Model':
+      return stubData.getPus003ModelProtobuf({
+        groundDate: timestamp,
       });
-    }
+    case 'Pus005Model':
+      return stubData.getPus005ModelProtobuf({
+        groundDate: timestamp,
+      });
+    case 'Pus012Model':
+      return stubData.getPus012ModelProtobuf({
+        groundDate: timestamp,
+      });
     default: {
       return undefined;
     }

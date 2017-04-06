@@ -13,7 +13,7 @@ const getIsModified = (action) => {
   return _.get('payload.isModified', action);
 };
 
-// This reducer take care of actions and update the isModified property
+// This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
 const viewIsModified = (stateView, action) => {
   const isModified = getIsModified(action);
@@ -25,7 +25,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_RELOAD,
   ]);
   const shouldSetModifiedToTrue = _.contains(_, [
-    types.WS_VIEW_ADD,
     types.WS_VIEW_UPDATEPATH,
     types.WS_VIEW_UPDATE_ABSOLUTEPATH,
     types.WS_VIEW_SET_OID,
@@ -41,13 +40,13 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_CONTENT,
     types.WS_VIEW_UPDATE_SHOWYAXES,
     types.WS_VIEW_UPDATE_ENTRYPOINT,
+    types.WS_VIEW_UPDATE_AXIS,
     types.WS_VIEW_ADD_LINK,
     types.WS_VIEW_REMOVE_LINK,
     types.WS_VIEW_ADD_MARKER,
     types.WS_VIEW_REMOVE_MARKER,
     types.WS_VIEW_ADD_PROCEDURE,
     types.WS_VIEW_REMOVE_PROCEDURE,
-    types.WS_VIEW_SETCOLLAPSED,
     types.WS_VIEW_ADD_ENTRYPOINT,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
@@ -58,22 +57,25 @@ const viewIsModified = (stateView, action) => {
   return stateView;
 };
 
+const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
+const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state);
+
 const initialState = {
   type: null,
   isModified: true,
 };
 
-// This reducer deal with simple views
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 function simpleView(stateView = initialState, action) {
   switch (action.type) {
-    case types.WS_VIEW_ADD:
-      return {
-        ...stateView,
-        type: action.payload.type || stateView.type,
-        path: action.payload.path,
-        oId: action.payload.oId,
-        absolutePath: action.payload.absolutePath,
-      };
+    case types.WS_VIEW_ADD_BLANK:
+    case types.WS_VIEW_RELOAD:
+    case types.WS_VIEW_OPEN:
+    case types.WS_PAGE_OPEN:
+    case types.WS_WORKSPACE_OPEN: {
+      const newView = _.omit(['windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
+      return _.defaults(initialState, newView);
+    }
     case types.WS_VIEW_UPDATEPATH:
       return {
         ...stateView,
@@ -89,6 +91,26 @@ function simpleView(stateView = initialState, action) {
         ...stateView,
         oId: action.payload.oid,
       };
+    case types.WS_VIEW_UPDATE_TITLE:
+      return _.set('title', action.payload.title, stateView);
+    case types.WS_VIEW_UPDATE_TITLESTYLE:
+      return _.set('titleStyle', action.payload.titleStyle, stateView);
+    case types.WS_VIEW_UPDATE_BGCOLOR:
+      return _.set('backgroundColor', action.payload.bgColor, stateView);
+    case types.WS_VIEW_UPDATE_LINK:
+      return _.set(`links[${action.payload.index}]`, action.payload.link, stateView);
+    case types.WS_VIEW_ADD_LINK:
+      return addElementIn('links', action.payload.link, stateView);
+    case types.WS_VIEW_REMOVE_LINK:
+      return removeElementIn('links', action.payload.index, stateView);
+    case types.WS_VIEW_UPDATE_PROCEDURE:
+      return _.set(`procedures[${action.payload.index}]`, action.payload.procedure, stateView);
+    case types.WS_VIEW_ADD_PROCEDURE:
+      return addElementIn('procedures', action.payload.procedure, stateView);
+    case types.WS_VIEW_REMOVE_PROCEDURE:
+      return removeElementIn('procedures', action.payload.index, stateView);
+    case types.WS_VIEW_UPDATE_RATIO:
+      return _.set('defaultRatio', action.payload.ratio, stateView);
     default:
       return stateView;
   }

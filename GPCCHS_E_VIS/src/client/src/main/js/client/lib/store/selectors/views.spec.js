@@ -1,15 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
-import {
-  getViews,
-  getView,
-  getEntryPointOnAxis,
-  getModifiedViewsIds,
-  getViewConfiguration,
-  getViewContent,
-  getViewEntryPoint,
-  getViewEntryPointStateColors,
-} from './views';
+import { } from '../../common/test';
+import { getViewEntryPoint, getWindowAllViewsIds } from './views';
 
 describe('store:views:selectors', () => {
   const completeState = {
@@ -26,7 +17,6 @@ describe('store:views:selectors', () => {
           lower: 1420106702345,
           upper: 1420107144713,
         },
-        extUpperBound: 1420107500000,
         rulerStart: 1420106041002,
         rulerResolution: 1298.7675070010687,
         speed: 1,
@@ -40,14 +30,14 @@ describe('store:views:selectors', () => {
         id: 'Session 1',
         offset: 0,
         kind: 'Session',
-        sessionId: 181,
+        sessionName: 'Session#181',
         color: null,
       },
       tl2: {
         id: 'Session 2',
         offset: 0,
         kind: 'session',
-        sessionId: 0,
+        sessionName: 'Master',
         color: '#5254a3',
       },
     },
@@ -65,6 +55,7 @@ describe('store:views:selectors', () => {
     },
     pages: {
       page1: {
+        uuid: 'page1',
         title: 'page Sup/Sup workspace',
         timebarUuid: 'tb1',
         views: [
@@ -76,6 +67,7 @@ describe('store:views:selectors', () => {
     },
     views: {
       text1: {
+        uuid: 'text1',
         type: 'TextView',
         configuration: {
           title: 'TextView Sup/Sup',
@@ -115,6 +107,7 @@ describe('store:views:selectors', () => {
         },
       },
       plot1: {
+        uuid: 'plot1',
         type: 'PlotView',
         configuration: {
           type: 'PlotView',
@@ -122,14 +115,9 @@ describe('store:views:selectors', () => {
             {
               name: 'STAT_SU_PID',
               id: 'id60',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-              connectedDataY: {
+              connectedData: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'groundDate',
                 filter: [],
                 domain: 'fr.cnes.isis.simupus',
                 timeline: 'Session 1',
@@ -147,14 +135,9 @@ describe('store:views:selectors', () => {
             },
             {
               name: 'STAT_PARAMETRIC',
-              connectedDataX: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
               connectedDataY: {
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                fieldX: 'extractedValue',
                 filter: [],
                 domain: 'fr.cnes.isis',
                 timeline: 'Session 1',
@@ -175,6 +158,7 @@ describe('store:views:selectors', () => {
         },
       },
       dynamic1: {
+        uuid: 'dynamic1',
         type: 'DynamicView',
         configuration: {
           type: 'DynamicView',
@@ -227,8 +211,8 @@ describe('store:views:selectors', () => {
         offsetWithmachineTime: 2373665,
       },
       {
-        name: 'Session#42',
-        id: 42,
+        name: 'Session#181',
+        id: 181,
         timestamp: {
           ms: 1480426701831,
           ps: null,
@@ -241,94 +225,6 @@ describe('store:views:selectors', () => {
       sessionId: 10,
     },
   };
-  it('getView', () => {
-    const { getState } = getStore({
-      views: {
-        myViewId: { title: 'Title 1' },
-      },
-    });
-    getView(getState(), { viewId: 'myViewId' }).should.have.property('title', 'Title 1');
-    should.not.exist(getView(getState(), { viewId: 'unknownId' }));
-  });
-  describe('getViews', () => {
-    it('should returns views', () => {
-      const state = {
-        views: {
-          myId: { title: 'Title' },
-          myOtherId: { title: 'Title other' },
-        },
-      };
-      const { getState } = getStore(state);
-      getViews(getState()).should.equal(state.views);
-    });
-  });
-  it('getEntryPointOnAxis', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-            entryPoints: [{
-              name: 'ep1',
-              connectedDataX: { axisId: 'axis1' },
-              connectedDataY: { axisId: 'axis2' },
-            }, {
-              name: 'ep2',
-              connectedDataX: { axisId: 'axis1' },
-              connectedDataY: { axisId: 'axis3' },
-            }],
-            axes: {
-              axis1: {},
-              axis2: {},
-              axis3: {},
-            },
-          },
-        },
-      },
-    };
-    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'axis1' }).should.be.an('array').with.length(2);
-    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'axis2' }).should.be.an('array').with.length(1);
-    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'invalidAxis' }).should.be.an('array').with.length(0);
-    getEntryPointOnAxis(state, { viewId: 'unknown', axisId: 'axis1' }).should.be.an('array').with.length(0);
-  });
-  it('getModifiedViewsIds', () => {
-    const state = {
-      views: {
-        view1: { isModified: true },
-        view2: { isModified: false },
-        view3: { isModified: true },
-      },
-    };
-    getModifiedViewsIds(state).should.eql(['view1', 'view3']);
-  });
-  it('getViewConfiguration', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-          },
-        },
-      },
-    };
-    getViewConfiguration(state, { viewId: 'myViewId' }).should.eql({
-      title: 'Title 1',
-    });
-  });
-
-  it('getViewContent', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-            content: '<h1>content</h1>',
-          },
-        },
-      },
-    };
-    getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
-  });
 
   it('getViewEntryPoint', () => {
     getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' }).should.eql({
@@ -338,7 +234,9 @@ describe('store:views:selectors', () => {
         parameterName: 'STAT_SU_PID',
         comObject: 'ReportingParameter',
         domainId: 4,
+        domain: 'fr.cnes.isis.simupus',
         sessionId: 181,
+        sessionName: 'Session#181',
       },
       field: 'extractedValue',
       offset: 0,
@@ -351,15 +249,29 @@ describe('store:views:selectors', () => {
       name: 'STAT_SU_PID',
     });
   });
-  it('getViewEntryPointStateColors', () => {
-    getViewEntryPointStateColors(completeState, { viewId: 'plot1', epName: 'STAT_SU_PID' }).should.eql([
-      {
-        color: '#000000',
-        condition: {
-          field: 'extractedValue',
-          operator: '>',
-          operand: '1',
-        },
-      }]);
+
+  describe('getWindowAllViewsIds', () => {
+    const emptyState = {};
+    const state = {
+      windows: {
+        w1: { pages: ['p1'] },
+        w2: { pages: ['p2', 'p3', 'p4', 'p5'] },
+        w3: { pages: [] },
+        w4: {},
+      },
+      pages: {
+        p1: { views: [1, 2, 3] },
+        p2: { views: [4, 5, 6] },
+        p3: { views: [7, 8, 9] },
+        p4: {},
+        unknownPage: { views: [42] },
+      },
+    };
+    it('returns an empty array', () => {
+      getWindowAllViewsIds(emptyState, { windowId: 'w1' }).should.be.eql([]);
+    });
+    it('returns all views ids', () => {
+      getWindowAllViewsIds(state, { windowId: 'w2' }).should.be.eql([4, 5, 6, 7, 8, 9]);
+    });
   });
 });

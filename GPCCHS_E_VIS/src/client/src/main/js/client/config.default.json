@@ -1,6 +1,7 @@
 {
   "PROFILING": "off",
   "DEBUG": "off",
+  "WDYU": "off",
   "ORCHESTRATION_FREQUENCY": 500,
   "CACHE_INVALIDATION_FREQUENCY": 300000,
   "WILDCARD_CHARACTER": "*",
@@ -13,6 +14,9 @@
   "ISIS_DOCUMENTS_ROOT": "/data/isis/documents",
   "VISUWINDOW_MAX_LENGTH": 7200000,
   "VISUWINDOW_CURRENT_UPPER_MIN_MARGIN": 0.1,
+  "VISU_WINDOW_LOW_MS": 300000,
+  "VISU_WINDOW_UP_MS": 30000,
+  "VISU_WINDOW_DEFAULT_WIDTH": 900000,
   "STATE_COLORS": {
     "alarm": "orangered",
     "critical": "red",
@@ -22,7 +26,8 @@
     "nonsignificant": "lightgrey",
     "obsolete": "tan"
   },
-  "USER_MANUAL_URL": "http://vmisisaivcontrol01.cnes-isis.toulouse.atos.net/farm/WIKI_ISIS_GPA/doku.php?id=isis:lp:sum:gpvi:gpvimajs:intro",
+  "STRING_PLOT_VALUE": 1,
+  "USER_MANUAL_URL": "http://vmisisaivcontrol01.cnes-isis.toulouse.atos.net/farm/WIKI_ISIS_GPA/doku.php?id=isis:lp:sum:gpvi:toc",
   "UNITS": {
     "distance": [
       "m",

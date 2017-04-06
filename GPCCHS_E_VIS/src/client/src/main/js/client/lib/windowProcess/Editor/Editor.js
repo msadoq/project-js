@@ -1,23 +1,26 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import { PlotEditorContainer } from './Components/Plot';
-import { TextEditorContainer } from './Components/Text';
-import DynamicEditorContainer from './Components/Dynamic/DynamicEditorContainer';
+import PlotEditor from '../../viewManager/PlotView/Components/Editor/PlotEditorContainer';
+import TextEditor from '../../viewManager/TextView/Components/Editor/TextEditorContainer';
+import DynamicEditor from '../../viewManager/DynamicView/Components/Editor/DynamicEditorContainer';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');
 
-const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;
-// TODO dedicated component
+const InvalidConfiguration = () => <div>unknown view type or invalid configuration</div>;
 
 export default class Editor extends PureComponent {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
-    viewType: PropTypes.string.isRequired,
-    configuration: PropTypes.shape({}),
+    pageId: PropTypes.string.isRequired,
+    viewId: PropTypes.string,
+    type: PropTypes.string,
     closeEditor: PropTypes.func,
+  };
+
+  static defaultProps = {
+    viewId: null,
+    type: null,
   };
 
   static childContextTypes = {
@@ -33,47 +36,38 @@ export default class Editor extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      configuration,
-      configuration: { type },
-      viewType,
+      pageId,
+      type,
       viewId,
       closeEditor,
-      focusedPageId,
     } = this.props;
 
-    if (!configuration || !configuration.type) {
-      return <InvalidConfiguration />;
+    let ContentComponent;
+    if (!viewId) {
+      ContentComponent = InvalidConfiguration; // no view set in editor
+    } else {
+      switch (type) {
+        case 'PlotView':
+          ContentComponent = PlotEditor;
+          break;
+        case 'TextView':
+          ContentComponent = TextEditor;
+          break;
+        case 'DynamicView':
+          ContentComponent = DynamicEditor;
+          break;
+        default:
+          ContentComponent = InvalidConfiguration; // unsupported type
+      }
     }
 
     return (
-      <div
-        className={styles.root}
-      >
-        <div className={classnames('subdiv', styles.editor)}>
-          {type === 'PlotView' && <PlotEditorContainer
-            key={viewId}
-            viewId={viewId}
-            focusedPageId={focusedPageId}
-            viewType={viewType}
-            configuration={configuration}
-            closeEditor={closeEditor}
-          />}
-          {type === 'TextView' && <TextEditorContainer
-            key={viewId}
-            viewId={viewId}
-            viewType={viewType}
-            configuration={configuration}
-            closeEditor={closeEditor}
-          />}
-          {type === 'DynamicView' && <DynamicEditorContainer
-            key={viewId}
-            viewId={viewId}
-            focusedPageId={focusedPageId}
-            viewType={viewType}
-            configuration={configuration}
-            closeEditor={closeEditor}
-          />}
-        </div>
+      <div className={classnames('subdiv', styles.editor)}>
+        <ContentComponent
+          viewId={viewId}
+          pageId={pageId}
+          closeEditor={closeEditor}
+        />
       </div>
     );
   }

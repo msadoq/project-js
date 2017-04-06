@@ -1,0 +1,26 @@
+import { connect } from 'react-redux';
+import { pause, smartPlay } from '../../store/actions/hsc';
+import { getTimebar } from '../../store/reducers/timebars';
+import { getPage } from '../../store/reducers/pages';
+import { getPlayingTimebarId } from '../../store/reducers/hsc';
+import { collapseTimebar } from '../../store/actions/pages';
+import TimebarCollapsed from './TimebarCollapsed';
+
+export default connect(
+  (state, { pageId }) => {
+    const focusedPage = getPage(state, { pageId });
+    const { timebarUuid } = focusedPage;
+    const isPlaying = getPlayingTimebarId(state, { timebarUuid }) === timebarUuid;
+    const timebar = getTimebar(state, { timebarUuid });
+
+    return {
+      timebarUuid,
+      isPlaying,
+      current: timebar.visuWindow.current,
+    };
+  }, {
+    pause,
+    play: smartPlay,
+    collapseTimebar,
+  }
+)(TimebarCollapsed);

@@ -2,7 +2,7 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
-import EditTimeline from '../timeline/EditTimeline';
+import EditTimeline from '../LeftTab/EditTimeline';
 
 const store = createStore(
   (state = {}) => state,
@@ -16,7 +16,7 @@ const propsStub = {
   timelines: [],
   masterId: 'masterId',
   id: 'timelineId',
-  timelineId: 'aaaa-aaaa',
+  uuid: 'aaaa-aaaa',
   store,
   initialValues: {
     master: 'masterId',
@@ -24,8 +24,8 @@ const propsStub = {
     color: '#11aa11',
     kind: 'session',
     sessionId: '10',
-    timelineId: 'timelineId',
-    offset: 0,
+    uuid: 'timelineUuid',
+    offset: 10,
   },
 };
 

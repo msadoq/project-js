@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/ccsds_mc/GroupDefinition', () => {
@@ -30,9 +29,8 @@ describe('protobuf/lpisis/ccsds_mc/GroupDefinition', () => {
     for (let i = 0; i < fixture.instanceIds.length; i += 1) {
       json.instanceIds[i].should.have.properties({
         type: 'long',
-        value: fixture.instanceIds[i],
+        symbol: `${fixture.instanceIds[i]}`,
       });
     }
   });
 });
-

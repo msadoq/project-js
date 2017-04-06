@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { tmpdir } from 'os';
 import _ from 'lodash';
 import path from 'path';
@@ -61,6 +62,28 @@ const freezeArgs = f => (...args) => {
   return f(...frozenArgs);
 };
 
+const makeGetDispatch = () => {
+  let dispatch;
+  beforeEach(() => {
+    dispatch = sinon.spy();
+  });
+  return () => dispatch;
+};
+
+const testMemoization = (selector, state, ownProps) => {
+  const newState = _.cloneDeep(state);
+  const newOwnProps = _.cloneDeep(ownProps);
+  selector.resetRecomputations();
+  selector.recomputations().should.equal(0);
+
+  const r1 = selector(newState, newOwnProps);
+  selector.recomputations().should.equal(1);
+
+  const r2 = selector(newState, newOwnProps);
+  selector.recomputations().should.equal(1);
+  r1.should.equal(r2);
+};
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
@@ -69,5 +92,8 @@ module.exports = {
   createGetState,
   freezeMe,
   freezeArgs,
+  makeGetDispatch, // redux-thunk testing
+  testMemoization, // reselect testing
+  isV4: (id = '') => id.length === v4().length,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };

@@ -8,16 +8,13 @@ import {
   addOnce as addMessage,
   reset as resetMessages,
 } from './messages';
-import { getMessages } from '../selectors/messages';
+import { getMessages } from '../reducers/messages';
 import {
-  add as addTimeline,
-  remove as removeTimeline,
   update as updateTL,
 } from './timelines';
 import { pause, smartPlay } from './hsc';
-import { getTimebar } from '../selectors/timebars';
-import { getPlayingTimebarId } from '../selectors/hsc';
-import { addTimebar, mountTimeline, unmountTimeline } from './timebarTimelines';
+import { getTimebar } from '../reducers/timebars';
+import { getPlayingTimebarId } from '../reducers/hsc';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -25,25 +22,23 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
 /**
  * Simple actions
  */
-export const _add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
-export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
-export const add = (timebarUuid, configuration) =>
-  (dispatch, getState) => {
-    const state = getState();
-    if (getTimebar(state, { timebarUuid })) {
-      return;
-    }
-
-    dispatch(_add(timebarUuid, configuration));
-    dispatch(addTimebar(timebarUuid));
-    if (configuration.timelines) {
-      configuration.timelines.forEach(tlId => dispatch(mountTimeline(timebarUuid, tlId)));
-    }
+export const createNewTimebar = timebarId =>
+  (dispatch) => {
+    // TODO : return if timebarId already exist in store
+    dispatch({
+      type: types.WS_TIMEBAR_CREATE_NEW,
+      payload: {
+        timebarUuid: v4(),
+        timebarId,
+      },
+    });
   };
+
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Not splittable easily"
   (dispatch, getState) => {
     const state = getState();
     const timebar = getTimebar(state, { timebarUuid });
@@ -64,14 +59,13 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
     if (newSlideWindow.lower < lower || newSlideWindow.lower > current) {
       newSlideWindow.lower = lower;
     }
-    if (timebar.mode === 'Extensible') {
-      if (newSlideWindow.upper < upper) {
-        newSlideWindow.upper = upper;
-      }
-    } else if (timebar.mode === 'Fixed' || timebar.mode === 'Normal') {
-      if (newSlideWindow.upper > upper || newSlideWindow.upper < current) {
-        newSlideWindow.upper = upper;
-      }
+    if (timebar.mode === 'Extensible' && newSlideWindow.upper < upper) {
+      newSlideWindow.upper = upper;
+    } else if (
+      (timebar.mode === 'Fixed' || timebar.mode === 'Normal')
+      && (newSlideWindow.upper > upper || newSlideWindow.upper < current)
+    ) {
+      newSlideWindow.upper = upper;
     }
 
     if (messages.length) {
@@ -377,19 +371,5 @@ export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarU
 /**
  * Compound actions
  */
-export function addAndMountTimeline(timebarUuid, configuration) {
-  return (dispatch) => {
-    const timelineId = v4();
-    dispatch(addTimeline(timelineId, configuration));
-    dispatch(mountTimeline(timebarUuid, timelineId));
-  };
-}
-
-export function unmountAndRemoveTimeline(timebarUuid, timelineId) {
-  return (dispatch) => {
-    dispatch(unmountTimeline(timebarUuid, timelineId));
-    dispatch(removeTimeline(timelineId));
-  };
-}
 
 export const updateTimeline = updateTL;

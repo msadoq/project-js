@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/file/Folder', () => {
@@ -31,7 +30,6 @@ describe('protobuf/lpisis/file/Folder', () => {
           userTime: { type: 'time', value: fixture.profilesAccess[i].profile.userTime },
         },
       });
-      
     }
     json.usersAccess.should.be.an('array').that.have.lengthOf(fixture.usersAccess.length);
     for (let i = 0; i < fixture.usersAccess.length; i += 1) {
@@ -46,7 +44,6 @@ describe('protobuf/lpisis/file/Folder', () => {
           userTime: { type: 'time', value: fixture.usersAccess[i].user.userTime },
         },
       });
-      
     }
   });
 });

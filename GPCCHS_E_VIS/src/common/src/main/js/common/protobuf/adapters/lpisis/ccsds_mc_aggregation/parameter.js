@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const objectId = require('../ccsds_com/objectId');
 const validityState = require('../ccsds_mc/validityState');
 const {

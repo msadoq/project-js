@@ -1,18 +1,18 @@
 import '../common/test';
 import makeGetPerViewData from './perViewData';
 
-describe('dataManager/perViewMap', () => {
+describe('dataManager/perViewData', () => {
   const state = {
     timelines: {
       tl1: {
         id: 'Session 1',
         offset: 0,
-        sessionId: 181,
+        sessionName: 'Session#181',
       },
       tl2: {
         id: 'Session 2',
         offset: 0,
-        sessionId: 0,
+        sessionName: 'Master',
       },
     },
     timebarTimelines: {
@@ -114,14 +114,9 @@ describe('dataManager/perViewMap', () => {
           entryPoints: [{
             name: 'STAT_SU_PID',
             id: 'id60',
-            connectedDataX: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            connectedDataY: {
+            connectedData: {
               formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              fieldX: 'groundDate',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
               timeline: 'Session 1',
@@ -134,28 +129,23 @@ describe('dataManager/perViewMap', () => {
                 operand: 'waiting',
               },
             }],
-          }, {
-            name: 'STAT_PARAMETRIC',
-            connectedDataX: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            connectedDataY: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis',
-              timeline: 'Session 1',
-            },
-            stateColors: [{
-              color: '#000000',
-              condition: {
-                field: 'monitoringState',
-                operator: '==',
-                operand: 'waiting',
-              },
-            }],
+          // }, {
+          //   name: 'STAT_PARAMETRIC',
+          //   connectedData: {
+          //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+          //     fieldX: 'groundDate',
+          //     filter: [],
+          //     domain: 'fr.cnes.isis',
+          //     timeline: 'Session 1',
+          //   },
+          //   stateColors: [{
+          //     color: '#000000',
+          //     condition: {
+          //       field: 'monitoringState',
+          //       operator: '==',
+          //       operand: 'waiting',
+          //     },
+          //   }],
           }],
         },
       },
@@ -200,8 +190,8 @@ describe('dataManager/perViewMap', () => {
       delta: 0,
       offsetWithmachineTime: 2373665,
     }, {
-      name: 'Session#42',
-      id: 42,
+      name: 'Session#181',
+      id: 181,
       timestamp: {
         ms: 1480426701831,
         ps: null,
@@ -228,7 +218,9 @@ describe('dataManager/perViewMap', () => {
             parameterName: 'STAT_SU_PID',
             comObject: 'ReportingParameter',
             domainId: 4,
+            domain: 'fr.cnes.isis.simupus',
             sessionId: 181,
+            sessionName: 'Session#181',
           },
           field: 'extractedValue',
           offset: 0,
@@ -246,7 +238,9 @@ describe('dataManager/perViewMap', () => {
             parameterName: 'STAT_WILDCARD_TIMELINE',
             comObject: 'ReportingParameter',
             domainId: 4,
+            domain: 'fr.cnes.isis.simupus',
             sessionId: 10,
+            sessionName: '*',
           },
           field: 'extractedValue',
           offset: 0,
@@ -268,7 +262,9 @@ describe('dataManager/perViewMap', () => {
             parameterName: 'STAT_EMPTY_TIMELINE',
             comObject: 'ReportingParameter',
             domainId: 4,
+            domain: 'fr.cnes.isis.simupus',
             sessionId: 10,
+            sessionName: '*',
           },
           field: 'extractedValue',
           offset: 0,
@@ -298,13 +294,15 @@ describe('dataManager/perViewMap', () => {
             parameterName: 'STAT_SU_PID',
             comObject: 'ReportingParameter',
             domainId: 4,
+            domain: 'fr.cnes.isis.simupus',
             sessionId: 181,
+            sessionName: 'Session#181',
           },
           fieldX: 'groundDate',
           fieldY: 'extractedValue',
           offset: 0,
           filter: [],
-          localId: 'groundDate/extractedValue.tb1:0/0',
+          localId: 'groundDate/extractedValue.tb1:0',
           timebarUuid: 'tb1',
           structureType: 'range',
           type: 'PlotView',
@@ -318,7 +316,7 @@ describe('dataManager/perViewMap', () => {
             },
           }],
         },
-        STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+        // STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
       },
     });
   });
@@ -336,11 +334,12 @@ describe('dataManager/perViewMap', () => {
             parameterName: 'STAT_SU_PID',
             comObject: 'DecommutedPacket',
             domainId: 4,
+            domain: 'fr.cnes.isis.simupus',
             sessionId: 181,
+            sessionName: 'Session#181',
           },
           offset: 0,
           filter: [],
-          field: undefined,
           localId: 'undefined.tb1:0',
           timebarUuid: 'tb1',
           structureType: 'last',

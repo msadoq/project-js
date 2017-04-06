@@ -18,27 +18,17 @@ initStore();
 // ipc with main
 ipcRenderer.on('global', mainController);
 
-if (global.parameters.get('DEBUG') === 'on') {
-  // Enable why-did-you-update when necessary only
-  window.whyDidYouUpdate = () => {
-    // eslint-disable-next-line global-require
-    const { whyDidYouUpdate } = require('why-did-you-update');
-    const internal = [
-      'Connect',
-    ];
-    const dependencies = [
-      'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable', 'ReactGridLayout',
-      'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem',
-      'Grid', 'Row', 'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip',
-      'Modal',
-    ];
-    const excludeList = internal.concat(dependencies).join('|');
-    whyDidYouUpdate(React, {
-      // include: /^TextView$/,
-      exclude: new RegExp(excludeList),
-    });
-    window.whyDidYouUpdate.loaded = true;
-  };
+if (global.parameters.get('WDYU') === 'on') {
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Loaded at runtime only if activated"
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  const excludeList = [
+    'Connect', 'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable',
+    'ReactGridLayout', 'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem', 'Grid', 'Row',
+    'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip', 'Modal',
+  ];
+  whyDidYouUpdate(React, {
+    exclude: new RegExp(excludeList.join('|')),
+  });
 }
 
 const store = getStore();

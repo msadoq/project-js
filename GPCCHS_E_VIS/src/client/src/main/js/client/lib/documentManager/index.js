@@ -1,31 +1,27 @@
-import { applyDependencyToApi } from '../common/utils';
-
-// views
-import { extractViews, readViews } from './extractViews';
+import {
+  reloadView,
+  openView,
+  openPage,
+  openWorkspace,
+  openBlankWorkspace,
+} from './actions';
 import { saveView, saveViewAs } from './saveView';
-
-// pages
-import { readPages } from './extractPages';
 import { savePage } from './savePage';
-
-// workspaces
-import { readWorkspace } from './extractWorkspace';
 import { saveWorkspace } from './saveWorkspace';
 
-const documentManagerApi = {
-  readViews,
-  extractViews,
+export default {
+  // save
   saveView,
   saveViewAs,
-
-  readPages,
   savePage,
-
-  readWorkspace,
   saveWorkspace,
+
+  // open
+  openView,
+  openPage,
+  openWorkspace,
+  openBlankWorkspace,
+
+  // reload
+  reloadView,
 };
-
-const createDocumentManager = applyDependencyToApi(documentManagerApi);
-
-// documentManager api is available in lib/common/documentManager
-export default createDocumentManager;

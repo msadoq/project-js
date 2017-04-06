@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const pus012ParameterMonitoringDefinition = require('./pus012ParameterMonitoringDefinition');
 const pusElement = require('./pusElement');
@@ -8,7 +8,10 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? { value: data.apid }
       : null,
-    pus012ParameterMonitoringDefinition: _map(data.pus012ParameterMonitoringDefinition, d => (pus012ParameterMonitoringDefinition.encode(d))),
+    pus012ParameterMonitoringDefinition: _map(
+      data.pus012ParameterMonitoringDefinition,
+      d => (pus012ParameterMonitoringDefinition.encode(d))
+    ),
     noOfParameterMonitoringDefinition: (data.noOfParameterMonitoringDefinition !== null && typeof data.noOfParameterMonitoringDefinition !== 'undefined')
       ? { value: data.noOfParameterMonitoringDefinition }
       : null,
@@ -26,7 +29,10 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? { type: 'uinteger', value: data.apid.value }
       : undefined,
-    pus012ParameterMonitoringDefinition: _map(data.pus012ParameterMonitoringDefinition, d => (pus012ParameterMonitoringDefinition.decode(d))),
+    pus012ParameterMonitoringDefinition: _map(
+      data.pus012ParameterMonitoringDefinition,
+      d => (pus012ParameterMonitoringDefinition.decode(d))
+    ),
     noOfParameterMonitoringDefinition: (data.noOfParameterMonitoringDefinition !== null && typeof data.noOfParameterMonitoringDefinition !== 'undefined')
       ? { type: 'uinteger', value: data.noOfParameterMonitoringDefinition.value }
       : undefined,
@@ -44,4 +50,3 @@ module.exports = {
         : undefined,
   }),
 };
-

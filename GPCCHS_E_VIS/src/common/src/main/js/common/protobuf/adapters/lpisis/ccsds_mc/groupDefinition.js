@@ -1,4 +1,4 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 const _map = require('lodash/map');
 const objectType = require('../ccsds_com/objectType');
 const {
@@ -38,7 +38,6 @@ module.exports = {
     domain: (data.domain !== null && typeof data.domain !== 'undefined')
       ? { type: 'ushort', value: bytesToUshort(data.domain.value) }
       : undefined,
-    instanceIds: _map(data.instanceIds, d => ({ type: 'long', value: d.value.toNumber() })),
+    instanceIds: _map(data.instanceIds, d => ({ type: 'long', symbol: d.value.toString() })),
   }),
 };
-

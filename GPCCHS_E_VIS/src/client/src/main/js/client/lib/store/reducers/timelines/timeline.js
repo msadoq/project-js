@@ -1,27 +1,19 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import * as types from '../../types';
 
 const initialState = {
   id: null,
   offset: 0,
   kind: 'Session',
-  sessionId: null,
+  sessionName: null,
   color: '#31b0d5',
 };
 
 export default function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
-    case types.WS_TIMELINE_ADD: {
-      const configuration = __.getOr({}, 'payload.configuration', action);
-      return Object.assign({}, stateTimeline, {
-        id: configuration.id || initialState.id,
-        offset: configuration.offset || initialState.offset,
-        kind: configuration.kind || initialState.kind,
-        color: configuration.color || initialState.color,
-        sessionId: (__.isNumber(configuration.sessionId))
-          ? configuration.sessionId
-          : initialState.sessionId,
-      });
+    case types.WS_TIMELINE_CREATE_NEW:
+    case types.WS_WORKSPACE_OPEN: {
+      return _.merge(stateTimeline, action.payload.timeline);
     }
     case types.WS_TIMELINE_UPDATE_ID:
       return { ...stateTimeline, id: action.payload.id };
@@ -30,8 +22,8 @@ export default function timeline(stateTimeline = initialState, action) {
     case types.WS_TIMELINE_UPDATE_COLOR: {
       return { ...stateTimeline, color: action.payload.color };
     }
-    case types.WS_TIMELINE_UPDATE_SESSIONID:
-      return { ...stateTimeline, sessionId: action.payload.sessionId };
+    case types.WS_TIMELINE_UPDATE_SESSIONNAME:
+      return { ...stateTimeline, sessionName: action.payload.sessionName };
     default:
       return stateTimeline;
   }

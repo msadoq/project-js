@@ -5,36 +5,40 @@ import { compose, prop, split } from 'lodash/fp';
 
 import mimeTypes from 'common/constants/mimeTypes';
 
-import { should, expect, getTmpPath } from '../common/test';
-// import { should, expect, getTmpPath } from '../common/test';
-import fmdApi from '../common/fmd';
-import * as IO from './io';
-import { applyDependencyToApi } from '../common/utils';
+import { sinon, should, expect, getTmpPath } from '../common/test';
+import * as fmdApi from '../common/fmd';
+import { readDocument, writeDocument } from './io';
 
-const getPathFromOid = compose(prop(1), split(':'));
-const mockFmdApi = fmd => ({
-  ...fmd,
-  resolveDocument: (oid, cb) => {
-    const resolvedPath = getPathFromOid(oid);
-    if (!resolvedPath) {
-      return cb(new Error('no resolved path'));
-    }
-    return cb(null, resolvedPath, 42);
-  },
-  createDocument: (path, documentType, cb) => {
-    const mimeType = mimeTypes[documentType];
-    if (!mimeType) {
-      return cb(new Error(`Unknown documentType : ${documentType}`));
-    }
-    const oid = `oid:${fmd.getRelativeFmdPath(path)}`;
-    return cb(null, oid);
-  },
-});
+const mockedCreateDocument = (path, documentType, cb) => {
+  const mimeType = mimeTypes[documentType];
+  if (!mimeType) {
+    return cb(new Error(`Unknown documentType : ${documentType}`));
+  }
+  const oid = `oid:${fmdApi.getRelativeFmdPath(path)}`;
+  return cb(null, oid);
+};
 
-const { readDocument, writeDocument } = applyDependencyToApi(IO, mockFmdApi(fmdApi));
+const mockedResolveDocument = (oid, cb) => {
+  const getPathFromOid = compose(prop(1), split(':'));
+  const resolvedPath = getPathFromOid(oid);
+  if (!resolvedPath) {
+    return cb(new Error('no resolved path'));
+  }
+  return cb(null, resolvedPath, 42);
+};
 
 describe('documentManager/io', () => {
   const folder = fmdApi.getRootDir();
+  let stubCreateDocument;
+  let stubResolveDocument;
+  before(() => {
+    stubCreateDocument = sinon.stub(fmdApi, 'createDocument', mockedCreateDocument);
+    stubResolveDocument = sinon.stub(fmdApi, 'resolveDocument', mockedResolveDocument);
+  });
+  after(() => {
+    stubCreateDocument.restore();
+    stubResolveDocument.restore();
+  });
   describe('readDocument', () => {
     it('exists', () => {
       readDocument.should.be.a('function');

@@ -1,24 +1,15 @@
-/* eslint global-require:0 */
-
 const ProtoBuf = require('protobufjs');
 const _each = require('lodash/each');
-const _forOwn = require('lodash/forOwn');
-const _isUndefined = require('lodash/isUndefined');
-const _isNull = require('lodash/isNull');
-const _isNaN = require('lodash/isNaN');
-const _isString = require('lodash/isString');
-const _isEmpty = require('lodash/isEmpty');
-const _isObject = require('lodash/isObject');
-const _isFunction = require('lodash/isFunction');
-const _isArray = require('lodash/isArray');
-const _pull = require('lodash/pull');
 const _get = require('lodash/get');
 const { join } = require('path');
+
+const dc = require('./adapters/dc');
+const lpisis = require('./adapters/lpisis');
 
 const types = {};
 const comObjectProtobufTypes = {};
 
-const register = (tree) => {
+function register(tree) {
   _each(tree, (namespaces, root) => {
     if (!types[root]) {
       types[root] = {};
@@ -53,7 +44,7 @@ const register = (tree) => {
       });
     });
   });
-};
+}
 
 const getProtobufType = (key) => {
   const type = _get(types, key);
@@ -65,52 +56,31 @@ const getProtobufType = (key) => {
   return type;
 };
 
-const removeEmpty = (collection) => {
-  _forOwn(collection, (value, key) => {
-    if (
-      _isUndefined(value)
-      || _isNull(value)
-      || _isNaN(value)
-      || (_isString(value) && _isEmpty(value))
-      || (_isObject(value) && !_isFunction(value) && _isEmpty(removeEmpty(value)))
-    ) {
-      // eslint-disable-next-line no-param-reassign
-      delete collection[key];
-    }
-  });
+module.exports.encode = function encode(type, raw) {
+  const Builder = getProtobufType(type);
 
-  if (_isArray(collection)) {
-    _pull(collection, undefined);
-  }
+  const payload = Builder.mapper
+    ? Builder.mapper.encode(raw)
+    : raw;
 
-  return collection;
+  const p = new Builder(payload);
+
+  return p.toBuffer();
 };
 
-module.exports = {
-  encode: (type, raw) => {
-    const Builder = getProtobufType(type);
+module.exports.decode = function decode(type, buffer) {
+  const builder = getProtobufType(type);
+  const raw = builder.decode(buffer);
+  return builder.mapper
+    ? builder.mapper.decode(raw)
+    : raw;
+};
 
-    let payload = Builder.mapper
-      ? Builder.mapper.encode(raw)
-      : raw;
-
-    payload = removeEmpty(payload);
-
-    const p = new Builder(payload);
-
-    return p.toBuffer();
-  },
-  decode: (type, buffer) => {
-    const builder = getProtobufType(type);
-    const raw = builder.decode(buffer);
-    return builder.mapper
-      ? builder.mapper.decode(raw)
-      : raw;
-  },
-  getType: comObject => comObjectProtobufTypes[comObject],
+module.exports.getType = function getType(comObject) {
+  return comObjectProtobufTypes[comObject];
 };
 
 register({
-  dc: require('./adapters/dc'),
-  lpisis: Object.assign(require('./adapters/lpisis'), { ccsds_mal: { types: null } }),
+  dc,
+  lpisis: Object.assign(lpisis, { ccsds_mal: { types: null } }),
 });

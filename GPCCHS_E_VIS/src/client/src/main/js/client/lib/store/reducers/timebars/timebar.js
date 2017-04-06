@@ -1,5 +1,5 @@
+import _ from 'lodash/fp';
 import u from 'updeep';
-import _get from 'lodash/get';
 import * as types from '../../types';
 
 const initialState = {
@@ -8,12 +8,12 @@ const initialState = {
     lower: Date.now() - (12 * 60 * 1000),
     current: Date.now() - (9 * 60 * 1000),
     upper: Date.now() - (6 * 60 * 1000),
+    defaultWidth: 720000,
   },
   slideWindow: {
     lower: Date.now() - (11 * 60 * 1000),
     upper: Date.now() - (7 * 60 * 1000),
   },
-  extUpperBound: Date.now() - (20 * 60 * 1000),
   rulerStart: Date.now() - (20 * 60 * 1000),
   rulerResolution: 2250,
   speed: 1.0,
@@ -22,25 +22,17 @@ const initialState = {
   realTime: false,
 };
 
-export default function timebar(stateTimebar = initialState, action) {
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
+export default function timebarReducer(stateTimebar = initialState, action) {
   const { payload } = action;
   switch (action.type) {
-    case types.WS_TIMEBAR_ADD: {
-      const configuration = _get(action, 'payload.configuration', {});
-      return Object.assign({}, stateTimebar, {
-        id: configuration.id || initialState.id,
-        visuWindow: configuration.visuWindow || initialState.visuWindow,
-        slideWindow: configuration.slideWindow || initialState.slideWindow,
-        extUpperBound: configuration.extUpperBound || initialState.extUpperBound,
-        rulerStart: configuration.rulerStart || initialState.rulerStart,
-        rulerResolution: configuration.rulerResolution || initialState.rulerResolution,
-        speed: configuration.speed || initialState.speed,
-        masterId: configuration.masterId || initialState.masterId,
-        mode: configuration.mode || initialState.mode,
-      });
+    case types.WS_TIMEBAR_CREATE_NEW: {
+      return _.merge(initialState, { id: action.payload.timebarId });
     }
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
+    case types.WS_WORKSPACE_OPEN:
+      return _.merge(stateTimebar, action.payload.timebar);
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
       return {
         ...stateTimebar,

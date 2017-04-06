@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import ControlsLeft from '../ControlsLeft';
+import ControlsLeft from '../Controls/ControlsLeft';
 
 const propsStub = {
   updateSpeed: () => null,
@@ -12,6 +12,8 @@ const propsStub = {
   goNow: () => null,
   jump: () => null,
   isPlaying: true,
+  currentSessionExists: false,
+  masterSessionId: 0,
   timebarSpeed: TimebarFixture.speed,
   timebarMode: TimebarFixture.mode,
   timebarUuid: TimebarFixture.timebarUuid,

@@ -44,6 +44,7 @@ module.exports = (reply, queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
       }
       default:
         reply(queryId, { err: `received unknown file type '${type}'` });
+        return;
     }
 
     reply(queryId, {

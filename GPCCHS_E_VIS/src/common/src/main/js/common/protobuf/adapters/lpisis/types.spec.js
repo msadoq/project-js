@@ -167,6 +167,6 @@ describe('protobuf/lpisis/types', () => {
       it('true', () => testEncodeDecode(true, 'boolean'));
       it('false', () => testEncodeDecode(false, 'boolean'));
     });
-    it('buffer', () => testEncodeDecode(new Buffer('foo'), 'blob'));
+    it('buffer', () => testEncodeDecode(Buffer.from('foo'), 'blob'));
   });
 });

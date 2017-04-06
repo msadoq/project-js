@@ -1,36 +1,41 @@
 {
   "type": "PlotView",
+  "title": "Plotview 10 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#000000",
+    "bgColor": "#aaccff"
+  },
+  "backgroundColor": "#FFFFFF",
   "links": [
     {
       "name": "page4",
       "path": "./pages/page4.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "GENE_AM_FRVERSION",
-      "connectedDataX": {
-        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat 2"
+        "axisId": "vbat2"
       },
       "objectStyle": {
         "line": {
@@ -53,21 +58,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_MAG1VOLTAGE",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -96,21 +94,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_NUMRJCTTC15",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -139,21 +130,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ATT_BC_STR2QSTRREF",
-      "connectedDataX": {
-        "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -181,21 +165,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ORB_BC_LVVELXJ2000",
-      "connectedDataX": {
-        "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -224,21 +201,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "ORB_BC_NXTDEADLINE",
-      "connectedDataX": {
-        "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -267,21 +237,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "POW_BC_NUMRJCTTC18",
-      "connectedDataX": {
-        "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -310,21 +273,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "SAT_BC_CCCIMMEDTC",
-      "connectedDataX": {
-        "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -353,21 +309,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "SAT_BC_LASTSQNUM5",
-      "connectedDataX": {
-        "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -396,21 +345,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     },
     {
       "name": "MIS_BC_DALMVOLTAGE",
-      "connectedDataX": {
-        "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -445,12 +387,14 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "timeBasedData": true
     }
   ],
   "axes": [
     {
       "label": "Time",
+      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -474,6 +418,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -496,7 +441,8 @@
       "showAxis": true
     },
     {
-      "label": "VBat 2",
+      "label": "vBat 2",
+      "id": "vbat2",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -521,6 +467,7 @@
     },
     {
       "label": "VBat 3",
+      "id": "vbat3",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -544,6 +491,7 @@
     },
     {
       "label": "VBat 4",
+      "id": "vbat4",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -568,7 +516,7 @@
   ],
   "grids": [
     {
-      "xAxisId": "Time",
+      "xAxisId": "time",
       "yAxisId": "VBat",
       "line": {
         "style": "Dashed",
@@ -577,19 +525,6 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview 10 parameters",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#000000",
-    "bgColor": "#aaccff"
-  },
-  "backgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {
     "style": {

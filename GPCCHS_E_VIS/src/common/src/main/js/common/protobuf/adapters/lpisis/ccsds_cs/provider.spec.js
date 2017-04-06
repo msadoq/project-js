@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/ccsds_cs/Provider', () => {
@@ -20,7 +19,7 @@ describe('protobuf/lpisis/ccsds_cs/Provider', () => {
       factoryID: { type: 'ushort', value: fixture.factoryID },
       providerName: { type: 'string', value: fixture.providerName },
       network: { type: 'uoctet', value: fixture.network },
-      session: { type: 'ulong', value: fixture.session },
+      session: { type: 'ulong', symbol: `${fixture.session}` },
       serviceProperties: { type: 'uinteger', value: fixture.serviceProperties },
       serviceAddress: {
         supportedCapabilities: { type: 'uinteger', value: fixture.serviceAddress.supportedCapabilities },
@@ -34,7 +33,6 @@ describe('protobuf/lpisis/ccsds_cs/Provider', () => {
       providerProperties: { type: 'string', value: fixture.providerProperties },
       providerTime: { type: 'time', value: fixture.providerTime },
     });
-    
   });
 });
 

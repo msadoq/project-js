@@ -2,11 +2,14 @@
   "LOG": "console",
   "PROFILING": "off",
   "DEBUG": "on",
+  "WDYU": "off",
   "ISIS_DOCUMENTS_ROOT": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
   "WEBPACK_PORT": 3100,
   "NODE_PATH": "/usr/share/isis/node-v6.3.0-linux-x64/bin/node",
   "ZMQ_GPCCDC_PUSH": "tcp://127.0.0.1:5042",
   "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:5043",
   "WORKSPACE": "dev.workspace.json",
-  "STUB_DC_ON": "on"
+  "STUB_DC_ON": "on",
+  "STUB_RTD_ON": "on",
+  "RTD_UNIX_SOCKET": "/data/isis/work/redis/rtdRedisDb.sock"
 }

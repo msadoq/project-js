@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/execution/ExecutionStatus', () => {
@@ -19,7 +18,6 @@ describe('protobuf/lpisis/execution/ExecutionStatus', () => {
       status: { type: 'integer', value: fixture.status },
       statusTime: { type: 'time', value: fixture.statusTime },
     });
-    
   });
 });
 

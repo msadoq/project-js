@@ -1,0 +1,119 @@
+@import '../../style/variables.css';
+
+.visuWindow{
+    top: 0px;
+    position: absolute;
+    background: linear-gradient(90deg,
+      rgba(50, 50, 50,0.5) 0%,
+      rgba(50, 50, 50,0.4) 4%,
+      rgba(50, 50, 50,0.3) 8%,
+      rgba(50, 50, 50,0.3) 92%,
+      rgba(50, 50, 50,0.4) 96%,
+      rgba(50, 50, 50,0.5) 100%);
+    height: 100%;
+    cursor: pointer;
+    z-index: 1;
+}
+.viewportDragging{
+    background: linear-gradient(90deg,
+      rgba(20, 20, 20,0.5) 0%,
+      rgba(20, 20, 20,0.4) 4%,
+      rgba(20, 20, 20,0.3) 8%,
+      rgba(20, 20, 20,0.3) 92%,
+      rgba(20, 20, 20,0.4) 96%,
+      rgba(20, 20, 20,0.5) 100%);
+    cursor: move;
+}
+.viewportResizing{
+    background: linear-gradient(90deg,
+      rgba(20, 20, 20,0.5) 0%,
+      rgba(20, 20, 20,0.4) 4%,
+      rgba(20, 20, 20,0.3) 8%,
+      rgba(20, 20, 20,0.3) 92%,
+      rgba(20, 20, 20,0.4) 96%,
+      rgba(20, 20, 20,0.5) 100%);
+}
+.lower, .upper, .current {
+    z-index: 4;
+    cursor: col-resize;
+    position: absolute;
+    height: 100%;
+    width: 3px;
+}
+.current{
+  border-left: 2px solid var(--currentCursorColor);
+}
+.lower{
+    left: 0px;
+    border-left: 1px solid var(--boundCursorsColor);
+}
+.upper{
+    right: 0px;
+    border-right: 1px solid var(--boundCursorsColor);
+}
+
+.moved{
+  top: -24px;
+}
+
+.lowerFormattedTime{
+  position: absolute;
+  top: -14px;
+  transform: translateX(-100%);
+  color: #d34;
+  font-weight: bold;
+  font-size: .9em;
+}
+.upperFormattedTime{
+  position: absolute;
+  top: -14px;
+  right: 0;
+  color: #d34;
+  transform: translateX(100%);
+  font-weight: bold;
+  font-size: .9em;
+}
+.currentFormattedTime{
+  position: absolute;
+  top: -14px;
+  color: #1A2;
+  white-space: nowrap;
+  z-index: 2;
+  transform: translateX(-50%);
+  font-weight: bold;
+  font-size: .9em;
+}
+
+.handle{
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 12;
+  cursor: pointer;
+  filter: brightness(0.9);
+  &:hover{
+    filter: brightness(0.8);
+  }
+  &.undisplayed {
+    display: none;
+  }
+  transition: width 0.1s, height 0.1s;
+  &.handleLower, &.handleUpper{
+    top: 5px;
+    background: var(--boundCursorsColor);
+  }
+  &.handleLower{
+    left: 0;
+    transform: translateX(-50%);
+  }
+  &.handleUpper{
+    right: 0;
+    transform: translateX(50%);
+  }
+  &.handleCurrent{
+    top: 20px;
+    background: var(--currentCursorColor);
+    transform: translateX(-40%);
+  }
+}

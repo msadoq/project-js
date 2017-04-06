@@ -1,0 +1,15 @@
+.container {
+  background: #FAFAFA;
+  border-top: 1px solid #aaa;
+  z-index: 2;
+  padding: 0 5px;
+  flex: 1;
+}
+.resizeTimebarContainer{
+  margin: 0;
+  height: 4px;
+  cursor: row-resize;
+}
+.h100minus13{
+  height: calc(100% - 13px);
+}

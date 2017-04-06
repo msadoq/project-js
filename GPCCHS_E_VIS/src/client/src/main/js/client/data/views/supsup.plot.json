@@ -14,17 +14,9 @@
   "entryPoints": [
     {
       "name": "STAT_SU_UTIME_EV",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -57,24 +49,16 @@
     },
     {
       "name": "STAT_SU_UTIME_CV",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.convertedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "STAT_SU_UTIME"
+        "axisId": "vbat"
       },
       "objectStyle": {
         "line": {
@@ -100,24 +84,16 @@
     },
 {
       "name": "STAT_SU_UTIME_RV",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.rawValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "STAT_SU_UTIME"
+        "axisId": "vbat"
       },
       "objectStyle": {
         "line": {
@@ -145,6 +121,7 @@
   "axes": [
     {
       "label": "Time",
+      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -169,6 +146,7 @@
     },
     {
       "label": "VBat",
+      "id": "vbat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -195,7 +173,7 @@
   "grids": [
     {
       "xAxisId": "Time",
-      "yAxisId": "VBat",
+      "yAxisId": "vbat",
       "line": {
         "style": "Continuous",
         "size": 1

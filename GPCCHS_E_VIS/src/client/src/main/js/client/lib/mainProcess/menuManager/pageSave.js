@@ -1,24 +1,22 @@
 import { getStore } from '../../store/mainStore';
-import { getWindowFocusedPageId } from '../../store/selectors/windows';
-import { getPageModifiedViewsIds } from '../../store/selectors/pages';
+import { getWorkspaceFolder } from '../../store/reducers/hsc';
+import { getWindowFocusedPageId } from '../../store/reducers/windows';
+import { getPageIsModified, getPage } from '../../store/reducers/pages';
 import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { getPathByFilePicker } from '../dialog';
-import { savePage } from '../../common/documentManager';
+import { savePage } from '../../documentManager';
 import { addOnce as addMessage } from '../../store/actions/messages';
+import { getPageModifiedViewsIds } from './selectors';
 
 module.exports = { pageSave, pageSaveAs };
 
 const hasUnsavedViews = (focusedWindow) => {
-  const state = getStore().getState();
-  const pageId = state.windows[focusedWindow.windowId].focusedPage;
+  const { getState, dispatch } = getStore();
+  const state = getState();
+  const { windowId } = focusedWindow;
+  const pageId = getWindowFocusedPageId(state, { windowId });
   if (getPageModifiedViewsIds(state, { pageId }).length > 0) {
-    getStore().dispatch(
-      addMessage(getWindowFocusedPageId(getStore().getState(), {
-        windowId: focusedWindow.windowId,
-      }),
-        'danger',
-        'Please, save the views of this page')
-    );
+    dispatch(addMessage(pageId, 'danger', 'Please, save the views of this page'));
     return true;
   }
   return false;
@@ -27,8 +25,10 @@ const hasUnsavedViews = (focusedWindow) => {
 const pageAlreadySaved = (focusedWindow) => {
   const { dispatch, getState } = getStore();
   const state = getState();
-  const pageId = state.windows[focusedWindow.windowId].focusedPage;
-  if (!state.pages[pageId].isModified) {
+  const { windowId } = focusedWindow;
+  const pageId = getWindowFocusedPageId(state, { windowId });
+  const isModified = getPageIsModified(state, { pageId });
+  if (!isModified) {
     dispatch(addMessage(pageId, 'info', 'Page already saved'));
     return true;
   }
@@ -40,8 +40,9 @@ const savePageByFilePicker = (pageId) => {
   const { dispatch, getState } = store;
   const state = getState();
 
-  const page = state.pages[pageId];
-  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
+  const page = getPage(state, { pageId });
+  const folder = getWorkspaceFolder(state);
+  getPathByFilePicker(folder, 'Page', 'save', (err, newPagePath) => {
     dispatch(updateAbsolutePath(pageId, newPagePath));
     saveFile(pageId, store, (errSaving) => {
       if (errSaving) {
@@ -62,8 +63,9 @@ function pageSave(focusedWindow) {
   const { dispatch, getState } = store;
   const state = getState();
 
-  const pageId = state.windows[focusedWindow.windowId].focusedPage;
-  const page = state.pages[pageId];
+  const { windowId } = focusedWindow;
+  const pageId = getWindowFocusedPageId(state, { windowId });
+  const page = getPage(state, { pageId });
   if (!page.oId && !page.absolutePath) {
     savePageByFilePicker(pageId);
   } else {
@@ -81,7 +83,9 @@ function pageSaveAs(focusedWindow) {
   if (hasUnsavedViews(focusedWindow)) {
     return;
   }
-  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+  const state = getStore().getState();
+  const { windowId } = focusedWindow;
+  const pageId = getWindowFocusedPageId(state, { windowId });
   savePageByFilePicker(pageId);
 }
 

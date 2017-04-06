@@ -2,7 +2,7 @@ package dataControllerUtils.protobuf;
 
 message Header {
 extensions 2 to 102;
-      enum MESSAGE_TYPE {
+    enum MESSAGE_TYPE {
         DOMAIN_QUERY = 0;
         TIMEBASED_QUERY = 1;
         TIMEBASED_SUBSCRIPTION = 2;
@@ -20,10 +20,11 @@ extensions 2 to 102;
         FMD_CREATE_QUERY = 15;
         FMD_CREATE_DOCUMENT_QUERY = 16;
         FMD_CREATE_DATA = 17;
-        SESSION_MASTER_DATA = 18;
-        SESSION_MASTER_QUERY = 19;
-        DC_STATUS = 20;
-      }
-
+        SESSION_MASTER_QUERY = 18;
+        SESSION_MASTER_DATA = 19;
+        DC_STATUS_QUERY = 20;
+        DC_STATUS_DATA = 21;
+    }
+    
     required MESSAGE_TYPE messageType = 1;
 }

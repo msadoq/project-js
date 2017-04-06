@@ -26,7 +26,7 @@ describe('store:actions:messages', () => {
         payload: {
           containerId: 'global',
           type: 'success',
-          message: 'hello world',
+          messages: ['hello world'],
         },
       });
     });
@@ -37,7 +37,7 @@ describe('store:actions:messages', () => {
         payload: {
           containerId: 'global',
           type: 'danger',
-          message: 'error message',
+          messages: ['error message'],
         },
       });
     });
@@ -54,7 +54,7 @@ describe('store:actions:messages', () => {
         payload: {
           containerId: 'unknownContainerId',
           type: 'info',
-          message: 'yolo',
+          messages: ['yolo'],
         },
       });
     });

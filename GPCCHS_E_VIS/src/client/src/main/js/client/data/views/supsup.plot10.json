@@ -1,30 +1,35 @@
 {
   "type": "PlotView",
+  "title": "Plotview Sup/Sup workspace",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#ffffff",
+    "bgColor": "#000000"
+  },
+  "backgroundColor": "3FFFFFF",
   "links": [
     {
       "name": "pageSupsup",
       "path": "./pages/pageSupsup.json"
     }
   ],
-  "procedures": [],
   "defaultRatio": {
     "length": 50,
     "width": 50
   },
+  "procedures": [],
   "entryPoints": [
     {
       "name": "STAT_SU_PPID",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -53,21 +58,14 @@
           "style": "Continuous",
           "size": 1
         }
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_TPGID",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -96,21 +94,14 @@
           "style": "Continuous"
         },
         "curveColor": "#2196f3"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_MINFLT",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -139,21 +130,14 @@
           "size": 1
         },
         "curveColor": "#009688"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_UTIME",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -182,21 +166,14 @@
           "size": 1
         },
         "curveColor": "#2196f3"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_STIME",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -225,21 +202,14 @@
           "size": 1
         },
         "curveColor": "#4caf50"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_PRIORITY",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -268,21 +238,14 @@
           "size": 1
         },
         "curveColor": "#8bc34a"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_ITREALVALUE",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -311,21 +274,14 @@
           "size": 1
         },
         "curveColor": "#cddc39"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_RSS",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -354,21 +310,14 @@
           "size": 1
         },
         "curveColor": "#ffeb3b"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_SIGNAL",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -397,21 +346,14 @@
           "size": 1
         },
         "curveColor": "#673ab7"
-      }
+      },
+      "timeBasedData": true
     },
     {
       "name": "STAT_SU_SIGCATCH",
-      "connectedDataX": {
-        "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.groundDate",
-        "unit": "s",
-        "digits": 5,
-        "format": "decimal",
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "Time"
-      },
-      "connectedDataY": {
+      "connectedData": {
         "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -440,12 +382,14 @@
           "size": 1
         },
         "curveColor": "#9c27b0"
-      }
+      },
+      "timeBasedData": true
     }
   ],
   "axes": [
     {
       "label": "Time",
+      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -470,6 +414,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -490,13 +435,12 @@
       "showTickLabels": true,
       "isLogarithmic": false,
       "showAxis": true,
-      "showLabels": true,
-      "id": "VBat"
+      "showLabels": true
     }
   ],
   "grids": [
     {
-      "xAxisId": "Time",
+      "xAxisId": "time",
       "yAxisId": "VBat",
       "line": {
         "style": "Dashed",
@@ -505,18 +449,6 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview Sup/Sup workspace",
-  "titleStyle": {
-    "font": "Arial",
-    "size": 12,
-    "bold": false,
-    "italic": false,
-    "underline": true,
-    "strikeOut": false,
-    "align": "center",
-    "color": "#ffffff",
-    "bgColor": "#000000"
-  },
   "plotBackgroundColor": "#FFFFFF",
   "showYAxes": "left",
   "legend": {

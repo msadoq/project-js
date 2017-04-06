@@ -7,7 +7,7 @@ const _startsWith = require('lodash/startsWith');
 
 let resolvedPath;
 
-const self = module.exports = {
+const self = {
   getPath: () => resolvedPath,
   resolve: (folder, relativePath) => join(folder, relativePath),
   isExists: (path, callback) => fs.access(path, fs.constants.F_OK, err => callback(!err)),
@@ -25,6 +25,7 @@ const self = module.exports = {
           if (err) {
             return callback(new Error(err));
           }
+          resolvedPath = path;
           return callback(null, content);
         });
       });
@@ -102,3 +103,5 @@ const self = module.exports = {
     });
   },
 };
+
+module.exports = self;

@@ -4,8 +4,6 @@ const _isNumber = require('lodash/isNumber');
 const _isUndefined = require('lodash/isUndefined');
 const _isNull = require('lodash/isNull');
 const _isString = require('lodash/isString');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const Long = require('long');
 const ByteBuffer = require('bytebuffer');
 
@@ -150,27 +148,32 @@ module.exports = {
         value = attribute;
         break;
       case 'object': {
-        // TODO : complete with real received type parsing from DC/LPISIS
         if (_isBuffer(attribute)) {
           type = '_blob';
           value = attribute;
-          break;
         }
+        break;
       }
-      default: // eslint-disable-line no-fallthrough
+      default:
         throw new Error(`Unknown data type ${mixedType}`);
     }
 
     return { [type]: { value } };
   },
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity due to MAL sub-type"
   decodeAttribute: (attribute) => {
     if (attribute === null || typeof attribute === 'undefined') {
       return undefined;
     }
     let value = null;
     let type = null;
+    let symbol = null;
     if (attribute._blob != null) {
-      value = attribute._blob.value;
+      if (ByteBuffer.isByteBuffer(attribute._blob.value)) {
+        value = attribute._blob.value.toBuffer();
+      } else {
+        value = attribute._blob.value;
+      }
       type = 'blob';
     } else if (attribute._boolean != null) {
       value = attribute._boolean.value;
@@ -203,14 +206,18 @@ module.exports = {
       value = attribute._uinteger.value;
       type = 'uinteger';
     } else if (attribute._long != null) {
-      value = (attribute._long.value.constructor === Long)
-        ? attribute._long.value.toNumber()
-        : attribute._long.value;
+      if (attribute._long.value.constructor === Long) {
+        symbol = attribute._long.value.toString();
+      } else {
+        value = attribute._long.value;
+      }
       type = 'long';
     } else if (attribute._ulong != null) {
-      value = (attribute._ulong.value.constructor === Long)
-        ? attribute._ulong.value.toNumber()
-        : attribute._ulong.value;
+      if (attribute._ulong.value.constructor === Long) {
+        symbol = attribute._ulong.value.toString();
+      } else {
+        value = attribute._ulong.value;
+      }
       type = 'ulong';
     } else if (attribute._string != null) {
       value = attribute._string.value;
@@ -230,7 +237,7 @@ module.exports = {
       type = 'uri';
     }
 
-    return (type) ? { type, value } : null;
+    return (type) ? { type, value, symbol } : null;
   },
   ushortToBytes,
   bytesToUshort,

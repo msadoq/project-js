@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { ipcRenderer } from 'electron';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
 import { get } from 'common/parameters';
 import getLogger from 'common/log';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import * as types from './types';
 
 import reducers from './reducers';
@@ -47,9 +48,11 @@ export function initStore(initialState) {
   store = createStore(reducers, initialState, enhancer);
 
   if (module.hot) {
-    module.hot.accept('./reducers', () =>
-      store.replaceReducer(require('./reducers')) // eslint-disable-line global-require
-    );
+    module.hot.accept('./reducers', () => {
+      ipcRenderer.sendSync('renderer-reload');
+      // eslint-disable-next-line global-require, "DV6 TBC_CNES Hot reload require contxt. requires"
+      store.replaceReducer(require('./reducers'));
+    });
   }
 }
 

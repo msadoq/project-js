@@ -73,45 +73,33 @@ describe('store:views:axes', () => {
     it('returns 2 generated axes (x/y)', () => {
       const entryPoint = {
         name: 'ep2',
-        connectedDataX: { unit: 'unknown' },
-        connectedDataY: { unit: 'useless' },
+        connectedData: { unit: 'useless' },
       };
-      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
-      axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'X:ep_2' });
-      axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'Y:ep_2' });
+      const axisY = getAxes(state, { payload: { entryPoint } });
+      axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'ep_2' });
     });
     it('returns 2 axes (x/y)', () => {
       const entryPoint = {
         name: 'ep2',
-        connectedDataX: { unit: 'seconds' },
-        connectedDataY: { unit: 'volts' },
+        connectedData: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
-      axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
+      const axisY = getAxes(state, { payload: { entryPoint } });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
-    it('returns 1 axis (x) ans 1 generated axis (y)', () => {
+    it('returns 1 axis (x) and 1 generated axis (y)', () => {
       const entryPoint = {
         name: 'ep2',
-        connectedDataX: { unit: 'seconds' },
-        connectedDataY: { unit: 'unknown' },
+        connectedData: { unit: 'unknown' },
       };
-      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
-      axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
+      const axisY = getAxes(state, { payload: { entryPoint } });
       axisY.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
     });
-    it('returns 1 axis (y) ans 1 generated axis (x)', () => {
+    it('returns 1 axis (y) and 1 generated axis (x)', () => {
       const entryPoint = {
         name: 'ep2',
-        connectedDataX: { unit: 'unknown' },
-        connectedDataY: { unit: 'volts' },
+        connectedData: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
-      axisX.id.should.not.be.eql(axisY.id);
-      axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
+      const axisY = getAxes(state, { payload: { entryPoint } });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
   });

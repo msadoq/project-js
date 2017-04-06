@@ -1,0 +1,8 @@
+# Monitor unix socket bandwidth of a process
+# Takes process PID as first argument
+
+# Be sure to have strace installed
+# To install strace, execute this line in root
+# export http_proxy=http://80.78.6.10:8080 && export https_proxy=http://80.78.6.10:8080 && wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && rpm -Uvh epel-release-latest-7*.rpm && yum list && yum install -y strace
+
+strace -s 5000 -e recvmsg -p $1 2>&1 | ./parse.js

@@ -13,7 +13,8 @@ const domainIdTest = 4;
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
 
-const logger = (...args) => console.log(...args); // eslint-disable-line no-console
+// eslint-disable-next-line no-console, "DV6 TBC_CNES Integration test file, output on console"
+const logger = (...args) => console.log(...args);
 
 const queryArguments = {
   filters: [],

@@ -1,13 +1,15 @@
 import path from 'path';
-import { getModifiedWindowsIds } from '../../store/selectors/windows';
-import { getModifiedPagesIds } from '../../store/selectors/pages';
-import { getModifiedViewsIds } from '../../store/selectors/views';
+import { getModifiedPagesIds } from '../../store/reducers/pages';
+import { getModifiedViewsIds } from '../../store/reducers/views';
+import { getWindowTitle } from '../../store/reducers/windows';
+import { getWorkspaceFile, getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { addOnce as addMessage } from '../../store/actions/messages';
+import { getModifiedWindowsIds } from './selectors';
 import { getPathByFilePicker } from '../dialog';
-import { saveWorkspace } from '../../common/documentManager';
+import { saveWorkspace } from '../../documentManager';
 
 module.exports = { workspaceSave, workspaceSaveAs };
 const addGlobalError = msg => addMessage('global', 'danger', msg);
@@ -44,9 +46,9 @@ const hasUnsavedPages = () => {
 const saveWorkspaceByFilePicker = (focusedWindow) => {
   const { dispatch, getState } = getStore();
   const state = getState();
-  const oldFolder = state.hsc.folder;
-  const file = state.hsc.file;
-  getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
+  const oldFolder = getWorkspaceFolder(state);
+  const file = getWorkspaceFile(state);
+  getPathByFilePicker(oldFolder, 'Workspace', 'save', (err, newWsPath) => {
     dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
     saveFile(focusedWindow, (errSaving) => {
       if (errSaving) {
@@ -63,8 +65,8 @@ function workspaceSave(focusedWindow) {
     return;
   }
   const { dispatch, getState } = getStore();
-  const state = getState();
-  if (!state.hsc.file) {
+  const file = getWorkspaceFile(getState());
+  if (!file) {
     saveWorkspaceByFilePicker(focusedWindow);
   } else {
     saveFile(focusedWindow, (errSaving) => {
@@ -92,7 +94,8 @@ function saveFile(focusedWindow, callback) {
     winIds.forEach((winId) => {
       getStore().dispatch(setModifiedWindow(winId, false));
     });
-    const title = getStore().getState().windows[focusedWindow.windowId].title;
+    const { windowId } = focusedWindow;
+    const title = getWindowTitle(getStore().getState(), { windowId });
     focusedWindow.setTitle(title.concat(' - VIMA'));
     callback(null);
   });

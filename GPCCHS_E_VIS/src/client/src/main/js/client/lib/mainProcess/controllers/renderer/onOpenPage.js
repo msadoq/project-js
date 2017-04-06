@@ -1,5 +1,5 @@
 import { pageOpenWithPath } from '../../menuManager/pageOpen';
 
-export default function ({ windowId, filePath }) {
-  pageOpenWithPath({ windowId, filePath });
+export default function ({ windowId, absolutePath }) {
+  pageOpenWithPath({ windowId, absolutePath });
 }

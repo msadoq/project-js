@@ -5,24 +5,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-  <div id='root'></div>
-  <script>
-    // https://github.com/electron/electron/issues/5224
-    global.parameters = require('electron').remote.getCurrentWindow().parameters;
-
-    // load bundle
-    const bundle = document.createElement('script');
-    bundle.src = parameters.get('IS_BUNDLED') === 'on'
-      ? './dist/codeEditor.bundle.js'
-      : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/codeEditor.bundle.js`;
-    document.body.appendChild(bundle);
-
-    if (parameters.get('IS_BUNDLED')) {
-      const linkCss = document.createElement('link');
-      linkCss.setAttribute('rel', 'stylesheet');
-      linkCss.setAttribute('href', './dist/style.css');
-      document.body.appendChild(linkCss);
-    }
-  </script>
+  <script type='text/javascript' src='startupCode.js'></script>
 </body>
 </html>

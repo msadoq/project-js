@@ -1,0 +1,64 @@
+.disconnected {
+  border: 2px solid #E45;
+}
+.disconnectedButton{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 10;
+}
+.errorContent {
+  padding: 1em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.renderErrorText {
+  margin: auto;
+  font-size: 3em;
+  color: #CCC;
+  text-align: center;
+  font-weight: 600;
+}
+
+.plotLegend{
+  .plotLegendLegends{
+    max-height: 75px;
+    overflow-y: auto;
+    max-width: 600px;
+    margin: 0;
+    display: block;
+    button{
+      p{
+        font-size: 0.8em;
+      }
+    }
+    span{
+      display: inline-block;
+      font-size: 0.9em;
+    }
+  }
+}
+.plotLegendColor{
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+}
+.plotLegendAxisName{
+  font-weight: bold;
+}
+.selectedLegend, .selectedLegend:active, .selectedLegend:focus{
+  background: #333;
+  color: #FFF;
+  border: 1px solid #BBB;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.legend{
+  border: 1px solid #BBB;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.plotLegendName{
+  transform: translateY(-4px);
+}

@@ -2,7 +2,7 @@
 import sinon from 'sinon';
 import * as types from '../types';
 import * as actions from './views';
-import { freezeMe } from '../../common/test';
+import { freezeMe, isV4 } from '../../common/test';
 
 describe('store:actions:views', () => {
   const state = freezeMe({
@@ -11,6 +11,7 @@ describe('store:actions:views', () => {
     ],
     views: {
       textview: {
+        uuid: 'textview',
         type: 'TextView',
         configuration: { collapsed: false },
         path: '/folder1/oldPath',
@@ -18,12 +19,14 @@ describe('store:actions:views', () => {
         pages: ['pageWithLayout'],
       },
       plotview: {
+        uuid: 'plotview',
         type: 'PlotView',
         pages: ['emptyPage'],
       },
     },
     pages: {
       pageWithLayout: {
+        uuid: 'pageWithLayout',
         views: ['textview'],
         timebarUuid: 'tb1',
         layout: [
@@ -48,6 +51,7 @@ describe('store:actions:views', () => {
         ],
       },
       emptyPage: {
+        uuid: 'emptyPage',
         views: ['plotview'],
         timebarUuid: 'unknownTimbarId',
       },
@@ -60,13 +64,9 @@ describe('store:actions:views', () => {
   });
   const emptyEntryPoint = {
     connectedData: {},
-    connectedDataX: {},
-    connectedDataY: {},
   };
   const entryPoint = {
     connectedData: { timeline: 1, domain: 2 },
-    connectedDataX: { timeline: 3, domain: 4 },
-    connectedDataY: { timeline: 5, domain: 5 },
   };
 
   let dispatch;
@@ -131,116 +131,6 @@ describe('store:actions:views', () => {
       });
     });
   });
-
-  describe('setCollapsedAndUpdateLayout', () => {
-    it('collapses', () => {
-      actions.setCollapsedAndUpdateLayout('pageWithLayout', 'textview', true)(dispatch, getState);
-
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.an('object');
-
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_VIEW_SETCOLLAPSED,
-        payload: { viewId: 'textview', flag: true },
-      });
-      dispatch.getCall(2).should.have.been.calledWith({
-        type: types.WS_VIEW_SETMODIFIED,
-        payload: { viewId: 'textview', flag: true },
-      });
-
-      const dispatchedThunk = dispatch.getCall(0).args[0];
-
-      dispatch.reset(); // reset dispatch spy
-      dispatchedThunk(dispatch, getState);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_UPDATE_LAYOUT,
-        payload: {
-          pageId: 'pageWithLayout',
-          layout: [
-            {
-              minW: 3,
-              minH: 3,
-              i: 'textview',
-              maxH: 3,
-              maxW: 5,
-              x: 0,
-              y: 0,
-              h: 1,
-              w: 3,
-            },
-            {
-              minW: 3,
-              minH: 3,
-              i: 'unknown',
-              maxH: 100,
-              maxW: 100,
-              x: 0,
-              y: 0,
-              h: 3,
-              w: 5,
-            },
-          ],
-        },
-      });
-    });
-    it('uncollapses', () => {
-      actions.setCollapsedAndUpdateLayout('pageWithLayout', 'textview', false)(dispatch, getState);
-
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.an('object');
-
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_VIEW_SETCOLLAPSED,
-        payload: { viewId: 'textview', flag: false },
-      });
-      dispatch.getCall(2).should.have.been.calledWith({
-        type: types.WS_VIEW_SETMODIFIED,
-        payload: { viewId: 'textview', flag: true },
-      });
-
-      const dispatchedThunk = dispatch.getCall(0).args[0];
-
-      dispatch.reset(); // reset dispatch spy
-      dispatchedThunk(dispatch, getState);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_UPDATE_LAYOUT,
-        payload: {
-          pageId: 'pageWithLayout',
-          layout: [
-            {
-              minW: 3,
-              minH: 3,
-              i: 'textview',
-              maxH: undefined,
-              maxW: undefined,
-              x: 0,
-              y: 0,
-              h: 100,
-              w: 100,
-            },
-            {
-              minW: 3,
-              minH: 3,
-              i: 'unknown',
-              maxH: 100,
-              maxW: 100,
-              x: 0,
-              y: 0,
-              h: 3,
-              w: 5,
-            },
-          ],
-        },
-      });
-    });
-  });
-
   describe('addEntryPoint', () => {
     it('should works with a TexView, with empty entryPoint', () => {
       actions.addEntryPoint('textview', emptyEntryPoint)(dispatch, getState);
@@ -248,13 +138,12 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
           entryPoint: {
-            connectedDataX: {},
-            connectedDataY: {},
             connectedData: { timeline: '*', domain: '*' },
           },
         },
@@ -266,14 +155,13 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
           entryPoint: {
             connectedData: { timeline: 1, domain: 2 },
-            connectedDataX: { timeline: 3, domain: 4 },
-            connectedDataY: { timeline: 5, domain: 5 },
           },
         },
       });
@@ -285,14 +173,13 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
           entryPoint: {
-            connectedData: { },
-            connectedDataX: { timeline: '*', domain: '*' },
-            connectedDataY: { timeline: '*', domain: '*' },
+            connectedData: { timeline: '*', domain: '*' },
           },
         },
       });
@@ -304,14 +191,13 @@ describe('store:actions:views', () => {
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
+      dispatch.getCall(0).args[0].should.have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
           entryPoint: {
             connectedData: { timeline: 1, domain: 2 },
-            connectedDataX: { timeline: 3, domain: 4 },
-            connectedDataY: { timeline: 5, domain: 5 },
           },
         },
       });
@@ -323,65 +209,68 @@ describe('store:actions:views', () => {
 
       dispatch.should.have.been.callCount(2);
       dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
 
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'pageWithLayout',
-          viewId: 'textview',
-          viewType: 'TextView',
-        },
-      });
+      // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
+      // dispatch.getCall(1).args[0].should.be.an('object');
+      //        open editor
+      // dispatch.getCall(1).should.have.been.calledWith({
+      //   type: types.WS_PAGE_EDITOR_OPEN,
+      //   payload: {
+      //     pageId: 'pageWithLayout',
+      //     viewId: 'textview',
+      //   },
+      // });
     });
     it('should works with a TexView, with entryPoint', () => {
       actions.dropEntryPoint('textview', entryPoint)(dispatch, getState);
 
       dispatch.should.have.been.callCount(2);
       dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
 
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'pageWithLayout',
-          viewId: 'textview',
-          viewType: 'TextView',
-        },
-      });
+      // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
+      // dispatch.getCall(1).args[0].should.be.an('object');
+      //        open editor
+      // dispatch.getCall(1).should.have.been.calledWith({
+      //   type: types.WS_PAGE_EDITOR_OPEN,
+      //   payload: {
+      //     pageId: 'pageWithLayout',
+      //     viewId: 'textview',
+      //   },
+      // });
     });
-
     it('should works with a PlotView, with empty entryPoint', () => {
       actions.dropEntryPoint('plotview', emptyEntryPoint)(dispatch, getState);
 
       dispatch.should.have.been.callCount(2);
       dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
 
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'emptyPage',
-          viewId: 'plotview',
-          viewType: 'PlotView',
-        },
-      });
+      // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
+      // dispatch.getCall(1).args[0].should.be.an('object');
+      //        open editor
+      // dispatch.getCall(1).should.have.been.calledWith({
+      //   type: types.WS_PAGE_EDITOR_OPEN,
+      //   payload: {
+      //     pageId: 'emptyPage',
+      //     viewId: 'plotview',
+      //   },
+      // });
     });
-
     it('should works with a TexView, with entryPoint', () => {
       actions.dropEntryPoint('plotview', entryPoint)(dispatch, getState);
 
       dispatch.should.have.been.callCount(2);
       dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'emptyPage',
-          viewId: 'plotview',
-          viewType: 'PlotView',
-        },
-      });
+
+      // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
+      // dispatch.getCall(1).args[0].should.be.an('object');
+      //        open editor
+      // dispatch.getCall(1).should.have.been.calledWith({
+      //   type: types.WS_PAGE_EDITOR_OPEN,
+      //   payload: {
+      //     pageId: 'emptyPage',
+      //     viewId: 'plotview',
+      //   },
+      // });
     });
   });
 });

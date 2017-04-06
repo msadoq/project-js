@@ -28,18 +28,6 @@
         "type": "timeBarConfiguration",
         "id": "TB1",
         "mode": "Normal",
-        "visuWindow": {
-          "lower": 1485648000000,
-          "upper": 1485648900000,
-          "current": 1485648450000,
-          "defaultWidth": 900000
-        },
-        "slideWindow": {
-          "lower": 1485648000000,
-          "upper": 1485648900000
-        },
-        "extUpperBound": 1485648960000,
-        "rulerStart": 1485647940000,
         "rulerResolution": 1500,
         "speed": 1.0,
         "playingState": "pause",
@@ -50,7 +38,7 @@
             "id": "Session 1",
             "offset": 0,
             "kind": "Session",
-            "sessionId": 181
+            "sessionName": "Session#181"
           }
         ],
         "masterId": "Session 1"

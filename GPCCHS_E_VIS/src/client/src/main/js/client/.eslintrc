@@ -21,11 +21,18 @@
   },
   "rules": {
     "max-statements-per-line": ["warn", { "max": 1 }],
-    "complexity": ["warn", 50],
+    "complexity": ["warn", 15],
     "max-statements": ["warn", 100],
     "max-depth": ["warn", 7],
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
+    "max-len": ["error", 100, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": true,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
     "import/no-extraneous-dependencies": [
       "error",
       { "devDependencies": true, "peerDependencies": true }
@@ -55,14 +62,12 @@
     "no-unused-expressions": ["warn"],
     "space-in-parens": ["warn"],
     "space-before-blocks": ["warn"],
-    "no-restricted-syntax": ["warn"],
-    "reselect/signature": ["warn"]
+    "no-restricted-syntax": ["warn"]
   },
   "plugins": [
     "import",
     "react",
-    "react-perf",
-    "reselect"
+    "react-perf"
   ],
   "settings": {
     "import/resolver": {

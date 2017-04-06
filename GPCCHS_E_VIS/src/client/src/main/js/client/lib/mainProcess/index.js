@@ -1,5 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
+import path from 'path';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
@@ -10,6 +11,8 @@ import {
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
+
+import rtdStub from 'rtd/stubs/rtd';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
@@ -22,14 +25,25 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
+// import { getFocusedWindowId } from '../store/reducers/hsc';
 import setMenu from './menuManager';
-import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
+import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 
-export function start() {
+function scheduleTimeout(message) {
+  let timeout = setTimeout(() => {
+    logger.error(`Timeout while retrieving launching data: ${message}`);
+    timeout = null;
+    app.quit();
+  }, 2500);
+
+  return () => timeout !== null && clearTimeout(timeout);
+}
+
+export function onStart() {
   setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
@@ -64,6 +78,17 @@ export function start() {
       );
     },
     (callback) => {
+      if (parameters.get('STUB_RTD_ON') !== 'on') {
+        callback(null);
+        return;
+      }
+
+      splashScreen.setMessage('starting rtd simulator...');
+      logger.info('starting rtd simulator...');
+      rtdStub.launch();
+      callback(null);
+    },
+    (callback) => {
       splashScreen.setMessage('starting data server process...');
       logger.info('starting data server process...');
       fork(
@@ -93,7 +118,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting master session...');
       logger.info('requesting master session...');
+      const cancelTimeout = scheduleTimeout('master session');
       server.requestMasterSession(({ err, masterSessionId }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -110,7 +138,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting sessions...');
       logger.info('requesting sessions...');
+      const cancelTimeout = scheduleTimeout('session');
       server.requestSessions(({ err, sessions }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -127,7 +158,10 @@ export function start() {
     (callback) => {
       splashScreen.setMessage('requesting domains...');
       logger.info('requesting domains...');
+      const cancelTimeout = scheduleTimeout('domains');
       server.requestDomains(({ err, domains }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -144,31 +178,40 @@ export function start() {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
 
-      const { dispatch, getState } = getStore();
+      const { dispatch } = getStore();
       const root = parameters.get('ISIS_DOCUMENTS_ROOT');
+
+      if (!root) {
+        logger.warn('No ISIS_DOCUMENTS_ROOT found');
+        dispatch(addMessage('global', 'warning', 'No FMD support'));
+        dispatch(openBlankWorkspace({ keepMessages: true }));
+        callback(null);
+        return;
+      }
+
       const file = parameters.get('WORKSPACE');
+      const absolutePath = path.join(root, file);
 
       if (!file) {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        openDefaultWorkspace(dispatch, root, callback);
+        dispatch(openBlankWorkspace({ keepMessages: true }));
+        callback(null);
         return;
       }
 
       splashScreen.setMessage(`loading ${file}`);
       logger.info(`loading ${file}`);
 
-      openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
+      dispatch(openWorkspace({ absolutePath }, (err) => {
         if (err) {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
-          dispatch(addMessage('global', 'danger', err));
-          openDefaultWorkspace(dispatch, root, callback);
-          return;
+          dispatch(openBlankWorkspace({ keepMessages: true }));
         }
-        callback(null, value);
-      });
+        callback(null);
+      }));
     },
   ], (err) => {
     if (err) {
@@ -183,7 +226,7 @@ export function start() {
   });
 }
 
-export function stop() {
+export function onStop() {
   server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('stopping application');
 
@@ -213,7 +256,7 @@ export function onWindowsClose() {
 }
 
 export function onError(err) {
-  console.error(err); // eslint-disable-line no-console
   server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
+  logger.error('Application error:', err);
   app.exit(1);
 }

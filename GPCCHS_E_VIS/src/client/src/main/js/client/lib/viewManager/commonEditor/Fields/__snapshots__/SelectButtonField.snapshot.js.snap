@@ -1,0 +1,10 @@
+exports[`test Navigation renders correctly 1`] = `
+<div
+  className="root btn-group">
+  <button
+    className="button btn btn-xs btn-default"
+    disabled={false}
+    onClick={[Function]}
+    type="button" />
+</div>
+`;

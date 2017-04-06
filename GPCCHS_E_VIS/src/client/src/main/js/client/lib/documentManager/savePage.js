@@ -8,7 +8,11 @@ import {
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
+import { getRootDir } from '../common/fmd';
 import validation from './validation';
+
+import { getPage, getPageAbsolutePath } from '../store/reducers/pages';
+import { getView } from '../store/reducers/views';
 
 /**
  * Save plot view from state to file
@@ -20,9 +24,10 @@ import validation from './validation';
  * @param callback
  * @returns Error or undefined
  */
-const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
-  if (!state.pages[pageId]) {
-    callback('unknown page id');
+const savePageAs = (state, pageId, path, useRelativePath, callback) => {
+  const page = getPage(state, { pageId });
+  if (!page) {
+    callback('unknown page');
     return;
   }
   createFolder(dirname(path), (err) => {
@@ -30,22 +35,22 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       callback(err);
       return;
     }
-    const root = fmdApi.getRootDir();
-    const page = state.pages[pageId];
+    const root = getRootDir();
     const savedPage = {
       type: 'Page',
       timebarHeight: page.timebarHeight,
       timebarCollapsed: page.timebarCollapsed,
       title: page.title,
       views: [],
+      panels: page.panels,
     };
     page.views.forEach((id) => {
       // Get view definition in stateViews
-      if (!state.views[id]) {
+      const view = getView(state, { viewId: id });
+      if (!view) {
         callback(`Invalid view in page ${page.title}`);
         return;
       }
-      const view = state.views[id];
       const current = {};
       if (view.oId) {
         current.oId = view.oId;
@@ -62,14 +67,16 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
         callback('not fount page layout');
         return;
       }
-      const layout = page.layout[index];
+      const geometry = page.layout[index];
       current.geometry = {
-        x: layout.x,
-        y: layout.y,
-        w: layout.w,
-        h: layout.h,
-        maxH: layout.maxH,
-        maxW: layout.maxW,
+        x: geometry.x,
+        y: geometry.y,
+        w: geometry.w,
+        h: geometry.h,
+        maxH: geometry.maxH,
+        maxW: geometry.maxW,
+        collapsed: geometry.collapsed,
+        maximized: geometry.maximized,
       };
       current.hideBorders = (page.hideBorders ? page.hideBorders : false);
       current.windowState = (page.windowState ? page.windowState : 'Normalized');
@@ -83,7 +90,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       return;
     }
     // save file
-    writeDocument(fmdApi)(path, savedPage, (errfs, oid) => {
+    writeDocument(path, savedPage, (errfs, oid) => {
       if (errfs) {
         callback(errfs);
         return;
@@ -104,16 +111,16 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
  * @param callback
  * @returns Error or undefined
  */
-const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
-  if (!state.pages[pageId]) {
-    callback('unknown page id');
+const savePage = (state, pageId, useRelativePath, callback) => {
+  const page = getPage(state, { pageId });
+  if (!page) {
+    callback('unknown page');
   }
-  const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
-                                                : state.pages[pageId].oId;
-  if (!path) {
+  const absolutePath = getPageAbsolutePath(state, { pageId });
+  if (!absolutePath) {
     return callback('Unknown path for saving the page');
   }
-  return savePageAs(fmdApi)(state, pageId, path, useRelativePath, callback);
+  return savePageAs(state, pageId, absolutePath, useRelativePath, callback);
 };
 
 

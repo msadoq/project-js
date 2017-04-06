@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import TimeSetter from '../TimeSetter';
+import TimeSetter from '../TimeSetter/TimeSetter';
 
 const propsStub = {
   visuWindow: TimebarFixture.visuWindow,

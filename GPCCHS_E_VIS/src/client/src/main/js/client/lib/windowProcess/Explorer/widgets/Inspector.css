@@ -1,0 +1,18 @@
+.general {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 24px;
+  color: #333;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.loading {
+  font-weight: bold;
+  color: #999;
+}

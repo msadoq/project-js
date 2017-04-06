@@ -6,7 +6,7 @@ import {
   getDcStatus,
   getHssStatus,
   getLastPubSubTimestamp,
-} from '../selectors/health';
+} from '../reducers/health';
 
 export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'status');
 export const updateHssStatus = simple(types.HSS_UPDATE_HEALTH_STATUS, 'status');

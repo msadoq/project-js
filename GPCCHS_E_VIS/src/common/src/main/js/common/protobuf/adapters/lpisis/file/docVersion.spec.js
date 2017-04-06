@@ -1,9 +1,8 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
 const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
-
 
 
 describe('protobuf/lpisis/file/DocVersion', () => {
@@ -18,8 +17,8 @@ describe('protobuf/lpisis/file/DocVersion', () => {
     json.should.be.an('object').that.have.properties({
       externalVersion: { type: 'string', value: fixture.externalVersion },
       internalVersion: { type: 'ushort', value: fixture.internalVersion },
-      content: (typeof fixture.content === 'undefined') 
-        ? null 
+      content: (typeof fixture.content === 'undefined')
+        ? null
         : { type: 'double', value: fixture.content },
     });
     json.properties.should.be.an('array').that.have.lengthOf(fixture.properties.length);
@@ -28,7 +27,6 @@ describe('protobuf/lpisis/file/DocVersion', () => {
         name: { type: 'identifier', value: fixture.properties[i].name },
         value: { type: 'double', value: fixture.properties[i].value },
       });
-      
     }
   });
 });

@@ -1,11 +1,11 @@
 import { dirname } from 'path';
 import { getStore } from '../../../store/mainStore';
-import { getView } from '../../../store/selectors/views';
 import { setModified, updatePath, updateAbsolutePath, setViewOid } from '../../../store/actions/views';
 import { addOnce as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
-import { saveViewAs } from '../../../common/documentManager';
+import { saveViewAs } from '../../../documentManager';
 
+import { getViewWithConfiguration } from '../../../viewManager';
 import { getRootDir, isInFmd, getRelativeFmdPath } from '../../../common/fmd';
 
 const getPath = path => (isInFmd(path) ? getRelativeFmdPath(path) : path);
@@ -15,13 +15,14 @@ const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);
 
 export default function ({ viewId, saveMode }) {
   const { getState, dispatch } = getStore();
-  const { type, configuration, absolutePath, isModified } = getView(getState(), { viewId });
+  const view = getViewWithConfiguration(getState(), { viewId });
+  const { type, absolutePath, isModified } = view;
 
   function oncePath(savingAbsolutePath) {
     if (!isModified && saveMode === savingAbsolutePath) {
       return getStore().dispatch(addMessage(viewId, 'info', 'View already saved'));
     }
-    return saveViewAs(configuration, type, savingAbsolutePath, (err, oid) => {
+    return saveViewAs(view, type, savingAbsolutePath, (err, oid) => {
       if (err) {
         return getStore().dispatch(addViewError(viewId, err));
       }

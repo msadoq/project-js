@@ -1,42 +1,48 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
-import { v4 } from 'uuid';
+import { Button, MenuItem } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 
 import styles from './Header.css';
 import Modal from '../common/Modal';
 import ChoosePage from './ChoosePage';
+import Tooltip from '../common/Tooltip';
 import { main } from '../ipc';
 
 export default class Header extends PureComponent {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
-    configuration: PropTypes.shape({
-      title: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-      titleStyle: PropTypes.object,
+    title: PropTypes.string.isRequired,
+    titleStyle: PropTypes.shape({
+      font: PropTypes.string,
+      size: PropTypes.number,
+      bold: PropTypes.bool,
+      italic: PropTypes.bool,
+      underline: PropTypes.bool,
+      strikeOut: PropTypes.bool,
+      align: PropTypes.string,
+      color: PropTypes.string,
     }),
     viewId: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
     collapsed: PropTypes.bool.isRequired,
+    maximized: PropTypes.bool.isRequired,
     oId: PropTypes.string.isRequired,
     absolutePath: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
+    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    unmountAndRemove: PropTypes.func.isRequired,
+    closeView: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
-    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     collapseView: PropTypes.func.isRequired,
+    maximizeView: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    configuration: {
-      title: 'Untitled',
-    },
+    title: 'Untitled',
+    titleStyle: {},
   };
   static contextTypes = {
     windowId: PropTypes.string,
-    focusedPageId: PropTypes.string,
   };
 
   constructor(...args) {
@@ -51,27 +57,22 @@ export default class Header extends PureComponent {
   onDropDownClick = (key) => {
     const {
       viewId,
-      type,
-      configuration,
       isViewsEditorOpen,
       openEditor,
       closeEditor,
-      unmountAndRemove,
+      closeView,
       windowPages,
       collapseView,
       collapsed,
+      maximizeView,
+      maximized,
     } = this.props;
-
-    const {
-      focusedPageId,
-    } = this.context;
-
     switch (key) {
       case 'editor': {
-        if (isViewsEditorOpen && closeEditor) {
+        if (isViewsEditorOpen) {
           closeEditor();
-        } else if (!isViewsEditorOpen && openEditor) {
-          openEditor(viewId, type, configuration);
+        } else if (!isViewsEditorOpen) {
+          openEditor();
         }
         break;
       }
@@ -79,19 +80,23 @@ export default class Header extends PureComponent {
         const pageTitles = windowPages.reduce((list, page) => (
           [...list, { title: page.title, id: page.pageId }]
         ), []);
-        pageTitles.push({ title: 'New page', id: v4() });
+        pageTitles.push({ title: 'New page', id: '' });
         this.setState({ pageTitles, choosePage: true });
         break;
       }
       case 'close': {
-        unmountAndRemove(viewId);
+        closeView();
         if (isViewsEditorOpen && closeEditor) {
           closeEditor();
         }
         break;
       }
       case 'collapse': {
-        collapseView(focusedPageId, viewId, !collapsed);
+        collapseView(!collapsed);
+        break;
+      }
+      case 'maximize': {
+        maximizeView(!maximized);
         break;
       }
       case 'save':
@@ -110,8 +115,41 @@ export default class Header extends PureComponent {
     }
   };
 
+  getTooltipContent = () => {
+    const {
+      isViewsEditorOpen,
+      oId,
+      absolutePath,
+      isModified,
+      maximized,
+    } = this.props;
+    const isPathDefined = oId || absolutePath;
+    const ulStyle = { display: 'block', top: '0', left: '0' };
+    return (
+      <ul className="dropdown-menu open" style={ulStyle} id={`menu${this.props.viewId}`}>
+        <MenuItem onSelect={this.onDropDownClick} eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick} eventKey="move">Move to another page</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick} eventKey="collapse">Collapse</MenuItem>
+        {
+          maximized ? <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Minimize</MenuItem> :
+          <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Maximize</MenuItem>
+        }
+        {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="reload">Reload view</MenuItem>
+                       : <MenuItem onSelect={this.onDropDownClick} eventKey="reload" disabled>Reload view</MenuItem>}
+        <MenuItem divider />
+        {isPathDefined ? <MenuItem onSelect={this.onDropDownClick} eventKey="save">Save</MenuItem>
+                       : <MenuItem onSelect={this.onDropDownClick} eventKey="save" disabled>Save</MenuItem>}
+        <MenuItem onSelect={this.onDropDownClick} eventKey="saveAs">Save as</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick}eventKey="createModel">Create a model from view</MenuItem>
+        <MenuItem divider />
+        <MenuItem onSelect={this.onDropDownClick} eventKey="close">Close view</MenuItem>
+      </ul>
+    );
+  }
+
+
   getTitleStyle() {
-    const { configuration: { titleStyle = {} } } = this.props;
+    const { titleStyle } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
@@ -138,6 +176,19 @@ export default class Header extends PureComponent {
     return style;
   }
 
+  moveView = (toPage) => {
+    const { isViewsEditorOpen, closeEditor } = this.props;
+    if (isViewsEditorOpen) {
+      closeEditor();
+    }
+    const { moveViewToPage } = this.props;
+    moveViewToPage(toPage);
+  }
+
+  expand = () => {
+    const { collapseView, collapsed } = this.props;
+    collapseView(!collapsed);
+  }
   save = (e) => {
     if (e) e.preventDefault();
     const {
@@ -149,48 +200,17 @@ export default class Header extends PureComponent {
       { saveMode: absolutePath, viewId }
     );
   }
-
-  moveView = (toPage) => {
-    const { isViewsEditorOpen, closeEditor } = this.props;
-    if (isViewsEditorOpen && closeEditor) {
-      closeEditor();
-    }
-    const { viewId, moveViewToPage } = this.props;
-    const { windowId } = this.context;
-    moveViewToPage(windowId, toPage, viewId);
-  }
-
-  expand = () => {
-    const {
-      viewId,
-      collapseView,
-      collapsed,
-    } = this.props;
-    const { focusedPageId } = this.context;
-
-    collapseView(focusedPageId, viewId, !collapsed);
-  }
-
   render() {
     const {
-      configuration,
       isViewsEditorOpen,
       collapsed,
-      oId,
-      absolutePath,
       isModified,
     } = this.props;
-    let title = configuration.title;
-    if (isModified) {
-      title = title.concat(' *');
-    }
+
+    const title = `${this.props.title} ${isModified ? ' *' : ''}`;
+
 
     const titleStyle = this.getTitleStyle();
-    const expandButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    const saveButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-
-    const isPathDefined = oId || absolutePath;
-
     const choosePageDlg = (
       <Modal
         title="Choose Page to move to"
@@ -217,34 +237,29 @@ export default class Header extends PureComponent {
           {title}
         </div>
         {choosePageDlg}
+
         <div className={styles.dropDownButtonContainer} >
-          {!collapsed && <DropdownButton
-            pullRight
-            noCaret
-            className={styles.dropDownButton}
-            bsStyle="link"
-            title="MENU"
-            bsSize="xsmall"
-            onSelect={this.onDropDownClick}
-            id={`menu${this.props.viewId}`}
-          >
-            <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
-            <MenuItem eventKey="move">Move to another page</MenuItem>
-            <MenuItem eventKey="collapse">Collapse</MenuItem>
-            {isPathDefined && isModified ? <MenuItem eventKey="reload">Reload view</MenuItem>
-                           : <MenuItem eventKey="reload" disabled>Reload view</MenuItem>}
-            <MenuItem divider />
-            {isPathDefined ? <MenuItem eventKey="save">Save</MenuItem>
-                           : <MenuItem eventKey="save" disabled>Save</MenuItem>}
-            <MenuItem eventKey="saveAs">Save as</MenuItem>
-            <MenuItem eventKey="createModel">Create a model from view</MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey="close">Close view</MenuItem>
-          </DropdownButton>}
+          {!collapsed &&
+            [
+              <Button
+                key="menu_button"
+                className={styles.dropDownButton}
+                bsStyle="link"
+                bsSize="xsmall"
+                ref={(c) => { this.menuButton = c; }}
+              > MENU
+            </Button>,
+              <Tooltip
+                key="Tooltip"
+                getTarget={() => this.menuButton}
+                getContent={() => this.getTooltipContent()}
+              />,
+            ]
+          }
           {collapsed &&
             [
-              <button key={1} style={expandButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</button>,
-              <button key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</button>,
+              <button key={1} className={classnames('btn', 'btn-sm', 'btn-default', styles.expandButton)} onClick={this.expand}>Expand</button>,
+              <button key={2} className={classnames('btn', 'btn-sm', 'btn-default', styles.saveButton)} onClick={this.save}>Save</button>,
             ]
           }
         </div>

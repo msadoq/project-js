@@ -5,14 +5,14 @@ import mimeTypes from 'common/constants/mimeTypes';
 import parameters from 'common/parameters';
 import globalConstants from 'common/constants';
 
-import ipc from '../mainProcess/ipc';
+import ipcApi from '../mainProcess/ipc';
 import { checkPath } from './fs';
 
-const getRootDir = () => parameters.get('ISIS_DOCUMENTS_ROOT');
-const isInFmd = path => startsWith(getRootDir(), path);
-const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
+export const getRootDir = () => parameters.get('ISIS_DOCUMENTS_ROOT');
+export const isInFmd = path => startsWith(getRootDir(), path);
+export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
-const resolveDocument = ipcApi => (oId, callback) => {
+export const resolveDocument = (oId, callback) => {
   ipcApi.server.requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {
       return callback(err);
@@ -28,7 +28,7 @@ const resolveDocument = ipcApi => (oId, callback) => {
   });
 };
 
-const createDocument = ipcApi => (path, documentType, callback) => {
+export const createDocument = (path, documentType, callback) => {
   const mimeType = mimeTypes[documentType];
   if (!mimeType) {
     return callback(new Error(`Unknown documentType : ${documentType}`));
@@ -47,13 +47,3 @@ const createDocument = ipcApi => (path, documentType, callback) => {
     });
   });
 };
-
-const createFmdApi = (dep = ipc) => ({
-  getRootDir,
-  isInFmd,
-  getRelativeFmdPath,
-  createDocument: createDocument(dep),
-  resolveDocument: resolveDocument(dep),
-});
-
-export default { createFmdApi, ...createFmdApi() };

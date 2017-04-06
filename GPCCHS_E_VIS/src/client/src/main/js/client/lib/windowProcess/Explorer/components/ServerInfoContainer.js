@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import ServerInfo from './ServerInfo';
-import { getSessions } from '../../../store/selectors/sessions';
-import { getDomains } from '../../../store/selectors/domains';
+import { getDomains } from '../../../store/reducers/domains';
+import { getSessions } from '../../../store/reducers/sessions';
 
 const mapStateToProps = state => ({
   sessions: getSessions(state),

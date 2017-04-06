@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { getViewContent, getViewEntryPointsName } from '../store/selectors/views';
+import { getViewContent } from '../store/reducers/views';
+import { getViewEntryPointsName } from '../store/selectors/views';
 import { updateContent } from '../store/actions/views';
 import { closeHtmlEditor } from '../store/actions/editor';
 import Source from './Source';

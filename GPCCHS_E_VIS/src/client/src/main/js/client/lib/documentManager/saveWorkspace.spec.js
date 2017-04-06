@@ -3,39 +3,34 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { should, expect, getTmpPath, freezeMe } from '../common/test';
-import { applyDependencyToApi } from '../common/utils';
+import { sinon, should, expect, getTmpPath, freezeMe } from '../common/test';
 
-import SaveWorkspace from './saveWorkspace';
-import fmdApi from '../common/fmd';
+import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
+import * as fmdApi from '../common/fmd';
 import fs from '../common/fs';
 
-const mockFmdApi = fmd => ({
-  ...fmd,
-  createDocument: (path, documentType, cb) => {
-    const mimeType = mimeTypes[documentType];
-    if (!mimeType) {
-      return cb(`Unknown documentType : ${documentType}`);
-    }
-    const oid = `oid:${fmd.getRelativeFmdPath(path)}`;
-    return cb(null, oid);
-  },
-});
-
-const mockedFmdApi = mockFmdApi(fmdApi);
-
-const { saveWorkspace, saveWorkspaceAs } = applyDependencyToApi(SaveWorkspace, mockedFmdApi);
+const mockedCreateDocument = (path, documentType, cb) => {
+  const mimeType = mimeTypes[documentType];
+  if (!mimeType) {
+    return cb(`Unknown documentType : ${documentType}`);
+  }
+  const oid = `oid:${fmdApi.getRelativeFmdPath(path)}`;
+  return cb(null, oid);
+};
 
 describe('documentManager/saveWorkspace', () => {
+  let stub;
+  before(() => {
+    stub = sinon.stub(fmdApi, 'createDocument', mockedCreateDocument);
+  });
+  after(() => {
+    stub.restore();
+  });
   let state;
   beforeEach(() => {
     state = {
       windows: {
         win1: {
-          debug: {
-            timebarVisibility: true,
-            whyDidYouUpdate: false,
-          },
           focusedPage: 'page1',
           geometry: {
             h: 800,
@@ -52,19 +47,18 @@ describe('documentManager/saveWorkspace', () => {
         page1: {
           type: 'Page',
           title: 'Page 1',
-          timebarUuid: 1,
+          timebarUuid: 1234,
           oId: 'oid:/testPlot.json',
         },
         page2: {
           type: 'Page',
           title: 'Page 2',
-          timebarUuid: 2,
+          timebarUuid: 1234,
           path: 'testText.json',
         },
       },
       timebars: {
         1234: {
-          extUpperBound: 1420107500000,
           id: 'tb1',
           masterId: 'Session 1',
           rulerResolution: 11250,
@@ -90,14 +84,14 @@ describe('documentManager/saveWorkspace', () => {
           id: 'Session 1',
           kind: 'Session',
           offset: 0,
-          sessionId: 1,
+          sessionName: 'session1',
         },
         tl2: {
           color: null,
           id: 'Session 2',
           kind: 'Session',
           offset: 0,
-          sessionId: 1,
+          sessionName: 'session1',
         },
       },
       hsc:

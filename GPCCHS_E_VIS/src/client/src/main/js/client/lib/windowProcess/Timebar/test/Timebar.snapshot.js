@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import TimelinesFixture from '../../../../test/__mocks__/Timelines';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import Timebar from '../Timebar';
+import Timebar from '../Timebar/Timebar';
 
 const propsStub = {
   retrieveFormattedFullDateEl: () => null,
@@ -13,6 +13,7 @@ const propsStub = {
   pause: () => null,
   play: () => null,
   jump: () => null,
+  setRealTime: () => null,
   isPlaying: true,
   visuWindow: TimebarFixture.visuWindow,
   slideWindow: TimebarFixture.slideWindow,
@@ -22,6 +23,7 @@ const propsStub = {
   },
   timelines: TimelinesFixture,
   timebarSpeed: TimebarFixture.speed,
+  timebarRealTime: TimebarFixture.realTime,
   timebarMode: TimebarFixture.mode,
   timebarUuid: TimebarFixture.timebarUuid,
   verticalScroll: 0,

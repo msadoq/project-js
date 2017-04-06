@@ -1,5 +1,5 @@
-// Generated file
-/* eslint global-require:0 */
+// Produced by Acceleo JavaScript Generator 1.1.0
+/* eslint-disable global-require, "DV6 TBC_CNES generated file" */
 
 module.exports = {
   tcHistory: {
@@ -121,18 +121,7 @@ module.exports = {
     RmPacket: require('./packet/rmPacket'),
     TmPacket: require('./packet/tmPacket'),
   },
-  ackRequest: {
-    AckRequest: require('./ackRequest/ackRequest'),
-    AckSMS: require('./ackRequest/ackSMS'),
-  },
-  computedEvent: {
-    ComputedEvent: require('./computedEvent/computedEvent'),
-  },
   opAlert: {
     OpAlert: require('./opAlert/opAlert'),
-  },
-  userEvent: {
-    ExternalEvent: require('./userEvent/externalEvent'),
-    UserEvent: require('./userEvent/userEvent'),
   },
 };

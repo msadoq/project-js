@@ -1,4 +1,6 @@
-// Generated file
+// Produced by Acceleo JavaScript Generator 1.1.0
+/* eslint-disable complexity, "DV6 TBC_CNES Generated code complexity is not avoidable" */
+
 const _map = require('lodash/map');
 const pus011CommandParameter = require('./pus011CommandParameter');
 const pus011EncapsulatingTc = require('./pus011EncapsulatingTc');
@@ -43,7 +45,10 @@ module.exports = {
     pus011EncapsulatingTc: (data.pus011EncapsulatingTc !== null && typeof data.pus011EncapsulatingTc !== 'undefined')
       ? pus011EncapsulatingTc.encode(data.pus011EncapsulatingTc)
       : null,
-    pus011CommandParameters: _map(data.pus011CommandParameters, d => (pus011CommandParameter.encode(d))),
+    pus011CommandParameters: _map(
+      data.pus011CommandParameters,
+      d => (pus011CommandParameter.encode(d))
+    ),
     pUS011TimeShift: _map(data.pUS011TimeShift, d => (pus011TimeShift.encode(d))),
     invalidBinaryTcDetected: (data.invalidBinaryTcDetected !== null && typeof data.invalidBinaryTcDetected !== 'undefined')
       ? { value: data.invalidBinaryTcDetected }
@@ -95,7 +100,10 @@ module.exports = {
     pus011EncapsulatingTc: (data.pus011EncapsulatingTc !== null && typeof data.pus011EncapsulatingTc !== 'undefined')
       ? pus011EncapsulatingTc.decode(data.pus011EncapsulatingTc)
       : undefined,
-    pus011CommandParameters: _map(data.pus011CommandParameters, d => (pus011CommandParameter.decode(d))),
+    pus011CommandParameters: _map(
+      data.pus011CommandParameters,
+      d => (pus011CommandParameter.decode(d))
+    ),
     pUS011TimeShift: _map(data.pUS011TimeShift, d => (pus011TimeShift.decode(d))),
     invalidBinaryTcDetected: (data.invalidBinaryTcDetected !== null && typeof data.invalidBinaryTcDetected !== 'undefined')
       ? { type: 'boolean', value: data.invalidBinaryTcDetected.value }
@@ -114,4 +122,3 @@ module.exports = {
         : undefined,
   }),
 };
-

@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
 import commonInput from '../commonInput';
+import commonOutput from '../commonOutput';
 import setEntryPointDefault from './setEntryPointDefault';
 import prepareViewForFile from './prepareViewForFile';
 import prepareViewForModel from './prepareViewForModel';
@@ -8,7 +9,7 @@ import prepareViewForStore from './prepareViewForStore';
 
 export default {
   setEntryPointDefault,
-  prepareViewForFile,
   prepareViewForModel,
+  prepareViewForFile: _.compose(prepareViewForFile, commonOutput),
   prepareViewForStore: _.compose(prepareViewForStore, commonInput),
 };

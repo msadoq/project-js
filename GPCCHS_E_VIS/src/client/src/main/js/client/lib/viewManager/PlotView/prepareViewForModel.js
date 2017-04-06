@@ -7,5 +7,5 @@ const resetFormulas = _.compose(resetFieldX, resetformula);
 const resetEntryPointsFormulas = _.update('entryPoints', _.map(resetFormulas));
 
 export default _.pipe(
-  resetEntryPointsFormulas
+  _.update('configuration', resetEntryPointsFormulas)
 );

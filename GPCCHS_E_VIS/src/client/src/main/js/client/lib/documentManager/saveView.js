@@ -10,9 +10,9 @@ import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
 
-const saveViewAs = (viewConfiguration, viewType, path, callback) => {
-  if (!viewConfiguration) {
-    callback(new Error('Empty view configuration'));
+const saveViewAs = (view, viewType, path, callback) => {
+  if (!view) {
+    callback(new Error('No view'));
     return;
   }
   createFolder(dirname(path), (err) => {
@@ -21,30 +21,28 @@ const saveViewAs = (viewConfiguration, viewType, path, callback) => {
       return;
     }
     if (!isViewTypeSupported(viewType)) {
-      callback(new Error(`Invalid view type '${viewType}'`), viewConfiguration);
+      callback(new Error(`Invalid view type '${viewType}'`), view);
       return;
     }
 
-    const configurationToSave = _cloneDeep(viewConfiguration);
+    const viewToSave = _cloneDeep(view);
 
     // Remove entry point id
-    if (_isArray(configurationToSave.entryPoints)) {
-      configurationToSave.entryPoints = configurationToSave.entryPoints.map(_omit('id'));
+    // TODO -> viewManager
+    if (_isArray(viewToSave.configuration.entryPoints)) {
+      viewToSave.configuration.entryPoints = viewToSave.configuration.entryPoints.map(_omit('id'));
     }
 
-    const configuration = getViewModule(viewType)
-      .prepareViewForFile(
-        _cloneDeep(configurationToSave)
-      );
+    const preparedView = getViewModule(viewType).prepareViewForFile(viewToSave);
 
     const schema = getSchema(viewType);
-    const validationError = validation(viewType, configuration, schema);
+    const validationError = validation(viewType, preparedView, schema);
     if (validationError) {
       callback(validationError);
       return;
     }
 
-    writeDocument(path, configuration, (errWrite, oId) => {
+    writeDocument(path, preparedView, (errWrite, oId) => {
       if (errWrite) {
         callback(errWrite);
         return;

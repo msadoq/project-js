@@ -69,12 +69,10 @@ export function getViewModule(type) {
 
 export function getStructureType(type) {
   isViewTypeExists(type);
-
   return list[type].structureType;
 }
 
 export function getStructureModule(type) {
   isViewTypeExists(type);
-
   return list[type].structureModule;
 }

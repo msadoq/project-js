@@ -7,5 +7,5 @@ const keepFirstEntryPoint = _.pipe(
 );
 
 export default _.pipe(
-  keepFirstEntryPoint
+  _.update('configuration', keepFirstEntryPoint)
 );

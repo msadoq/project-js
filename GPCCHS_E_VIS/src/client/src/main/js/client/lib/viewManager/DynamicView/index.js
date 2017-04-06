@@ -10,6 +10,6 @@ import prepareViewForStore from './prepareViewForStore';
 export default {
   setEntryPointDefault,
   prepareViewForModel,
-  prepareViewForFile: _.compose(prepareViewForFile, commonOutput),
+  prepareViewForFile: _.compose(commonOutput, prepareViewForFile),
   prepareViewForStore: _.compose(prepareViewForStore, commonInput),
 };

@@ -24,12 +24,14 @@ describe('store:page:selectors', () => {
       pages: {
         page1: {
           panels: {
-            editorWidth: 100,
+            editorIsMinimized: false,
+            editorWidth: 250,
           },
         },
         page2: {
           panels: {
-            editorWidth: 0,
+            editorIsMinimized: true,
+            editorWidth: 250,
           },
         },
       },
@@ -41,7 +43,8 @@ describe('store:page:selectors', () => {
       pages: {
         page1: {
           panels: {
-            editorWidth: 0,
+            editorWidth: 250,
+            editorIsMinimized: true,
           },
         },
       },

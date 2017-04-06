@@ -232,7 +232,11 @@ export default class TextView extends PureComponent {
           if (!sv.el) {
             sv.el = document.getElementById(id);
           }
-          sv.el.innerHTML = ep.error ? 'Invalid entry point' : val.value || '';
+          let v = val.value;
+          if (v === undefined) {
+            v = '';
+          }
+          sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
           if (ep.error) {
             sv.el.setAttribute('title', ep.error);
           }

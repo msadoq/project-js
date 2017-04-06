@@ -42,7 +42,7 @@ export default function pageReducer(statePage = initialState, action) {
     case types.WS_WORKSPACE_OPEN: {
       const newPage = _.merge(statePage, {
         ...action.payload.page,
-        panels: panels(action.payload.page.panels, action),
+        panels: panels(undefined, action),
       });
 
       const views = _.groupBy('pageUuid', action.payload.views)[newPage.uuid];

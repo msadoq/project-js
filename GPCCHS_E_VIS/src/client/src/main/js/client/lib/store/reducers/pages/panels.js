@@ -17,8 +17,8 @@ const initialState = {
 const panels = (state = initialState, action) => {
   switch (action.type) {
     case types.WS_PAGE_OPEN:
-    case types.WS_PAGE_ADD_BLANK:
-      return { ...state };
+    case types.WS_WORKSPACE_OPEN:
+      return { ...state, ...action.payload.page.panels };
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
       return { ...state, editorViewId: action.payload.viewId };
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:

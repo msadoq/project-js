@@ -37,6 +37,7 @@ export default class CodeMirrorField extends React.Component {
       touched: PropTypes.bool,
       visited: PropTypes.bool,
       valid: PropTypes.bool,
+      error: PropTypes.string,
     }).isRequired,
     options: PropTypes.shape({}),
   }

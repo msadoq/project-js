@@ -1,6 +1,7 @@
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Unavoidable complexity"
 export default function cleanCurrentViewData(
   currentViewState,
   oldViewDef,

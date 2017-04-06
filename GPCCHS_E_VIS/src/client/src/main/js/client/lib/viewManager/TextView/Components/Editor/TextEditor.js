@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { Component, PropTypes } from 'react';
 import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
@@ -9,11 +7,14 @@ import TextTabContainer from './TextTabContainer';
 
 const newEntryPoint = {
   name: 'NewEntryPoint',
-  connectedData: {}
+  connectedData: {},
 };
+
+const navBarItems = ['Entry Points', 'Text'];
 
 export default class Editor extends Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
     // actions
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
@@ -24,13 +25,16 @@ export default class Editor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
-    })
+    }).isRequired,
   };
 
   state = { currentDisplay: 0, search: '' };
 
   addEntryPoint = (values) => {
-    const { addEntryPoint, viewId } = this.props;
+    const {
+      addEntryPoint,
+      viewId,
+    } = this.props;
     addEntryPoint(
       viewId,
       {
@@ -54,7 +58,7 @@ export default class Editor extends Component {
     const { configuration, updateTitleStyle, viewId } = this.props;
     updateTitleStyle(viewId, {
       ...configuration.titleStyle,
-      [label]: newVal
+      [label]: newVal,
     });
   }
 
@@ -65,20 +69,16 @@ export default class Editor extends Component {
     const { currentDisplay, search } = this.state;
     const {
       closeEditor,
-      updateTitleStyle,
-      updateTitle,
       configuration: {
         entryPoints,
-        title,
-        titleStyle
-      }
+      },
     } = this.props;
 
     return (
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Text']}
+          items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={closeEditor}
         />

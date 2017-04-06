@@ -85,7 +85,7 @@ export default class EntryPointDetails extends React.Component {
           {isPanelNameOpen && <EntryPointName
             onSubmit={this.handleSubmit}
             form={`entrypoint-title-form-${idPoint}-${viewId}`}
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
             initialValues={{
               name: entryPoint.name,
             }}
@@ -115,7 +115,7 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
             initialValues={{
               stateColors: entryPoint.stateColors || [],
             }}

@@ -208,7 +208,7 @@ export default class TimeSetter extends PureComponent {
               /* flatpickr fails on jest test */
               process.env.NODE_ENV !== 'snapshot' &&
               <Flatpickr
-                // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES Flatpickr"
                 options={{
                   minDate: '1990-01-01',
                   maxDate: moment().add(1, 'year').format('YYYY-MM-DD'),

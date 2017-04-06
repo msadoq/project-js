@@ -111,7 +111,7 @@ export default class Timebar extends PureComponent {
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
-  // eslint-disable-next-line complexity, "Shortcuts handling, must not be split"
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Shortcuts handling, must not be split"
   onShortcut = (e) => {
     e.stopPropagation();
     if (this.el.parentElement.querySelector(':hover')) {
@@ -244,7 +244,7 @@ export default class Timebar extends PureComponent {
     e.stopPropagation();
   }
 
-  // eslint-disable-next-line complexity, "mouseUp handling, must not be split"
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES mouseUp handling, must not be split"
   onMouseUp = (e) => {
     e.preventDefault();
     const {
@@ -394,7 +394,7 @@ export default class Timebar extends PureComponent {
     });
   }
 
-  // eslint-disable-next-line complexity, "mouseMove w/ 3rd cursors handling, must not be split"
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES mouseMove handling, must not be split"
   onMouseMoveResizing = () => {
     const {
       timebarMode,
@@ -468,7 +468,7 @@ export default class Timebar extends PureComponent {
     }
   }
 
-  // eslint-disable-next-line complexity, "mouseMove w/ current cursor handling, must not be split"
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES mouseMove handling, must not be split"
   onMouseMoveNavigating = () => {
     const {
       visuWindow,
@@ -631,7 +631,7 @@ export default class Timebar extends PureComponent {
     e.stopPropagation();
   }
 
-  // eslint-disable-next-line complexity, "wheel handling, must not be split"
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES wheel handling, must not be split"
   onWheel = (e) => {
     e.preventDefault();
 

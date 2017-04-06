@@ -234,7 +234,7 @@ export default class LeftTab extends PureComponent {
           masterId={masterId}
           id={currentlyEditingTimeline.id}
           uuid={currentlyEditingTimeline.uuid}
-          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
           initialValues={{
             master: masterId === currentlyEditingTimeline.id,
             id: currentlyEditingTimeline.id,
@@ -259,7 +259,7 @@ export default class LeftTab extends PureComponent {
           sessions={sessions}
           timelines={timelines}
           onSubmit={this.willAddTimeline}
-          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
           initialValues={{
             id: '',
             color: schemeCategory20b[timelines.length % 20],

@@ -6,8 +6,7 @@ export default class SelectTimebar extends PureComponent {
   static propTypes = {
     updateTimebarId: PropTypes.func.isRequired,
     createNewTimebar: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    timebars: PropTypes.object.isRequired,
+    timebars: PropTypes.shape.isRequired,
     pageId: PropTypes.string.isRequired,
   }
 

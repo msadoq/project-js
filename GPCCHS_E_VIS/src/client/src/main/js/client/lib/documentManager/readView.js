@@ -28,20 +28,20 @@ const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
       return cb(validationError);
     }
 
+    const uuid = viewInfo.uuid || v4();
     const view =
       getViewModule(viewContent.type)
-        .prepareViewForStore(viewContent);
+        .prepareViewForStore({ ...viewContent, uuid });
 
-    const uuid = viewInfo.uuid || v4();
+    console.warn(viewContent);
+
     return cb(null, {
       ...viewInfo,
       ...view,
       isModified: false,
-      type: viewContent.type,
       path: viewInfo.path,
       oId: viewInfo.oId,
       absolutePath: fs.getPath(), // TODO : this is ugly
-      uuid,
     });
   });
 });

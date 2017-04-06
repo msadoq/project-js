@@ -33,8 +33,6 @@ const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
       getViewModule(viewContent.type)
         .prepareViewForStore({ ...viewContent, uuid });
 
-    console.warn(viewContent);
-
     return cb(null, {
       ...viewInfo,
       ...view,

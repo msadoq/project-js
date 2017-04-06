@@ -8,9 +8,6 @@ import {
   addEntryPoint,
   updateContent,
 } from '../../../../store/actions/views';
-import {
-  openEditor,
-} from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { getData } from '../../store/dataReducer';
@@ -26,7 +23,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
-  openEditor: () => openEditor(undefined, viewId),
 }, dispatch);
 
 const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);

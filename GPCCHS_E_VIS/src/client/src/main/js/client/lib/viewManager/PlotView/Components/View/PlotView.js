@@ -91,7 +91,6 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -102,8 +101,12 @@ export class GrizzlyPlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
-    openInspector: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
+    openInspector: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   static defaultProps = {
@@ -143,20 +146,29 @@ export class GrizzlyPlotView extends PureComponent {
     return shouldRender;
   }
 
-  onContextMenu = () => {
-    const { entryPoints, openInspector, pageId } = this.props;
-    const complexMenu = {
+  onContextMenu = (event) => {
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      pageId,
+      isViewsEditorOpen,
+      closeEditor,
+      openEditor,
+      mainMenu,
+    } = this.props;
+    const inspectorMenu = {
       label: 'Open parameter in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
       const label = `${epName}`;
       if (ep.error) {
-        complexMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
       const { remoteId, dataId } = ep;
-      complexMenu.submenu.push({
+      inspectorMenu.submenu.push({
         label,
         click: () => openInspector({
           pageId,
@@ -165,7 +177,16 @@ export class GrizzlyPlotView extends PureComponent {
         }),
       });
     });
-    handleContextMenu(complexMenu);
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => openEditor(),
+    };
+    const separator = { type: 'separator' };
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
   onDrop = this.drop.bind(this);

@@ -103,6 +103,10 @@ export default class DynamicView extends PureComponent {
     entryPoints: PropTypes.objectOf(PropTypes.object),
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   static defaultProps = {
@@ -110,17 +114,36 @@ export default class DynamicView extends PureComponent {
     entryPoints: {},
   };
 
-  onContextMenu = () => {
-    const { entryPoints, openInspector, pageId } = this.props;
+  onContextMenu = (event) => {
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      pageId,
+      closeEditor,
+      openEditor,
+      isViewsEditorOpen,
+      mainMenu,
+    } = this.props;
     const { remoteId, dataId } = entryPoints.dynamicEP;
-    handleContextMenu({
+    const inspectorMenu = {
       label: `Open ${dataId.parameterName} in Inspector`,
       click: () => openInspector({
         pageId,
         remoteId,
         dataId,
       }),
-    });
+    };
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: `Open ${dataId.parameterName} in Editor`,
+      click: () => openEditor(),
+    };
+    const separator = { type: 'separator' };
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
   render() {

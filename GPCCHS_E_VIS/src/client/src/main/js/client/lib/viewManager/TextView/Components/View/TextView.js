@@ -77,9 +77,12 @@ export default class TextView extends PureComponent {
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
   static defaultProps = {
     data: {
@@ -118,39 +121,69 @@ export default class TextView extends PureComponent {
   }
 
   onContextMenu = (event) => {
-    const { entryPoints, openInspector, pageId } = this.props;
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      isViewsEditorOpen,
+      openEditor,
+      closeEditor,
+      pageId,
+      mainMenu,
+    } = this.props;
     const span = getEpSpan(event.target);
+    const separator = { type: 'separator' };
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
-      const label = `Open ${epName} in Inspector`;
+      const editorMenu = (isViewsEditorOpen) ?
+      {
+        label: 'Close Editor',
+        click: () => closeEditor(),
+      } : {
+        label: `Open ${epName} in Editor`,
+        click: () => openEditor(),
+      };
+      const inspectorLabel = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
-        handleContextMenu({ label, enabled: false });
+        const inspectorMenu = {
+          label: inspectorLabel,
+          enabled: false,
+        };
+        handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
         return;
       }
       const { remoteId, dataId } = entryPoints[epName];
-      const simpleMenu = {
-        label,
+      const inspectorMenu = {
+        label: inspectorLabel,
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
       };
-      handleContextMenu(simpleMenu);
+      handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
       return;
     }
-    const complexMenu = {
-      label: 'Open parameter in Inspector',
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => openEditor(),
+    };
+    const inspectorMenu = {
+      label: 'Open in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
       const label = `${epName}`;
       if (ep.error) {
-        complexMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
       const { remoteId, dataId } = ep;
-      complexMenu.submenu.push({
+      inspectorMenu.submenu.push({
         label,
         click: () => openInspector({
           pageId,
@@ -159,7 +192,7 @@ export default class TextView extends PureComponent {
         }),
       });
     });
-    handleContextMenu(complexMenu);
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
 
 

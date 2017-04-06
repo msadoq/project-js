@@ -1,8 +1,7 @@
 {
   "extends": [
     "airbnb",
-    "plugin:react-perf/recommended",
-    "plugin:reselect/all"
+    "plugin:react-perf/recommended"
   ],
   "parser": "babel-eslint",
   "env": {
@@ -68,8 +67,7 @@
   "plugins": [
     "import",
     "react",
-    "react-perf",
-    "reselect"
+    "react-perf"
   ],
   "settings": {
     "import/resolver": {

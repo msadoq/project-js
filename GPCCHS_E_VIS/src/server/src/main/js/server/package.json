@@ -14,7 +14,7 @@
     "tw": "npm test -- --watch"
   },
   "dependencies": {
-    "async": "~2.1.4",
+    "async": "~2.3.0",
     "exit": "~0.1.2",
     "lodash": "~4.17.4",
     "lokijs": "~1.4.2",

@@ -4,7 +4,7 @@ import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
 import { get } from 'common/parameters';
 import getLogger from 'common/log';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import * as types from './types';
 
 import reducers from './reducers';

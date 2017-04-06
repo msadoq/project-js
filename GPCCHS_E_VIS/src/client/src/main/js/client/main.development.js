@@ -7,9 +7,8 @@ init(__dirname, true);
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 app.commandLine.appendSwitch('no-proxy-server');
 
-const { start } = require('./lib/common/utils/gcMonitoring');
-
-start();
+// const { start } = require('./lib/common/utils/gcMonitoring');
+// start();
 
 app.on('ready', () => {
   // https://github.com/electron/electron/issues/1412

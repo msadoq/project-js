@@ -21,7 +21,7 @@ const mockedCreateDocument = (path, documentType, cb) => {
 describe('documentManager/saveWorkspace', () => {
   let stub;
   before(() => {
-    stub = sinon.stub(fmdApi, 'createDocument', mockedCreateDocument);
+    stub = sinon.stub(fmdApi, 'createDocument').callsFake(mockedCreateDocument);
   });
   after(() => {
     stub.restore();

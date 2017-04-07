@@ -32,7 +32,7 @@ let rtdStub;
 describe('rtdManager/reportings', () => {
   before((done) => {
     mockRedis();
-    monitoringStub = sinon.stub(monitorings, 'getTriggers', (opts, monitoring, callback) => {
+    monitoringStub = sinon.stub(monitorings, 'getTriggers').callsFake((opts, monitoring, callback) => {
       callback(null, 'StubTriggers');
     });
     rtd.connect(socket, (err, isConnected) => {
@@ -50,7 +50,7 @@ describe('rtdManager/reportings', () => {
       should.not.exist(getErr);
       should.exist(item);
       reporting = item;
-      rtdStub = sinon.stub(rtd, 'getCatalogByName', (catalog, namespace, name, session, domain, callback) => {
+      rtdStub = sinon.stub(rtd, 'getCatalogByName').callsFake((catalog, namespace, name, session, domain, callback) => {
         callback(null, 'StubMonitoring');
       });
       done(null);

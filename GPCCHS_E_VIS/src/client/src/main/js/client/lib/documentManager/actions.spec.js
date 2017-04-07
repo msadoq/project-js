@@ -15,7 +15,7 @@ describe('documentManager:actions', () => {
   describe('openView', () => {
     it('dispatches a message in case of error', () => {
       const dispatch = getDispatch();
-      stub = sinon.stub(readView, 'simpleReadView', (viewInfo, cb) => {
+      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         viewInfo.should.be.eql('viewInfo');
         cb(null, { error: 'Error' });
       });
@@ -32,7 +32,7 @@ describe('documentManager:actions', () => {
     });
     it('dispatches a WS_VIEW_OPEN when view is loaded', () => {
       const dispatch = getDispatch();
-      stub = sinon.stub(readView, 'simpleReadView', (viewInfo, cb) => {
+      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         viewInfo.should.be.eql('viewInfo');
         cb(null, { value: { title: 'my view' } });
       });
@@ -50,7 +50,7 @@ describe('documentManager:actions', () => {
   describe('openPage', () => {
     it('dispatches a global error message in case of error', () => {
       const dispatch = getDispatch();
-      stub = sinon.stub(readPageApi, 'readPageAndViews', (pageInfo, cb) => {
+      stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
         pageInfo.should.be.eql('page_info');
         cb(null, { views: [{ error: 'Error view' }], pages: [{ error: 'Error page' }] });
       });

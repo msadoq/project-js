@@ -13,3 +13,10 @@
   height: 100%;
   overflow: auto;
 }
+
+
+.buttonGroup {
+  margin-top: 13px;
+  margin-bottom: 13px;
+  margin-right: 14px;
+}

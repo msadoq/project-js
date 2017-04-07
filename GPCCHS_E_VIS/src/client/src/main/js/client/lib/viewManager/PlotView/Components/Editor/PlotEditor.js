@@ -16,7 +16,7 @@ export default class PlotEditor extends Component {
     // actions
     openModal: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
-
+    updateEditorSearch: PropTypes.func.isRequired,
     // rest
     viewId: PropTypes.string.isRequired,
     closeEditor: PropTypes.func.isRequired,
@@ -27,13 +27,13 @@ export default class PlotEditor extends Component {
       grids: PropTypes.array,
       legend: PropTypes.object,
       markers: PropTypes.array,
+      search: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   componentWillMount() {
     this.setState({
       currentDisplay: 0,
-      search: '',
     });
   }
 
@@ -42,7 +42,7 @@ export default class PlotEditor extends Component {
     removeEntryPoint(viewId, key);
   }
 
-  changeSearch = s => this.setState({ search: s });
+  changeSearch = s => this.props.updateEditorSearch(s);
   /*
     Appelée lorsque le un item de la navbar est cliqué.
     param id :
@@ -53,7 +53,7 @@ export default class PlotEditor extends Component {
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
 
   render() {
-    const { currentDisplay, search } = this.state;
+    const { currentDisplay } = this.state;
     const {
       openModal,
       viewId,
@@ -65,6 +65,7 @@ export default class PlotEditor extends Component {
         title,
         titleStyle,
         markers,
+        search,
       },
     } = this.props;
     return (
@@ -90,6 +91,7 @@ export default class PlotEditor extends Component {
               viewId={viewId}
               openModal={openModal}
               changeSearch={this.changeSearch}
+              search={search}
             />,
             <EntryPointTree
               key="EntryPointTree"

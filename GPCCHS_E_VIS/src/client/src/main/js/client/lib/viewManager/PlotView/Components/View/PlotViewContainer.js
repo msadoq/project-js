@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SizablePlotView from './PlotView';
-import { addEntryPoint } from '../../../../store/actions/views';
+import { addEntryPoint, updateEditorSearch } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 import { getTimebar } from '../../../../store/reducers/timebars';
@@ -23,6 +23,7 @@ const mapStateToProps = (state, { viewId }) => {
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   addEntryPoint: data => addEntryPoint(viewId, data),
+  updateEditorSearch: search => updateEditorSearch(viewId, search),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

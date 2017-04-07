@@ -1,10 +1,12 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import PlotEditor from './PlotEditor';
 import {
   removeEntryPoint,
+  updateEditorSearch,
 } from '../../../../store/actions/views';
 import {
   open as openModal,
@@ -15,10 +17,11 @@ const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
 });
 
-const mapDispatchToProps = {
-  removeEntryPoint,
+const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   openModal,
-};
+  removeEntryPoint,
+  updateEditorSearch: search => updateEditorSearch(viewId, search),
+}, dispatch);
 
 const PlotEditorContainer = connect(mapStateToProps, mapDispatchToProps)(PlotEditor);
 

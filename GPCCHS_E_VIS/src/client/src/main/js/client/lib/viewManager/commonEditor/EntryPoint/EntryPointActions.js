@@ -8,7 +8,12 @@ export default class EntryPointActions extends React.Component {
     changeSearch: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
-  }
+    search: PropTypes.string,
+  };
+
+  static defaultProps = {
+    search: '',
+  };
 
   static contextTypes = {
     windowId: PropTypes.string,
@@ -29,6 +34,8 @@ export default class EntryPointActions extends React.Component {
   }
 
   render() {
+    const { search } = this.props;
+
     return (
       <div>
         <FormGroup
@@ -40,6 +47,7 @@ export default class EntryPointActions extends React.Component {
               <FormControl
                 type="text"
                 onChange={this.searchName}
+                value={search}
               />
               <Addon>
                 <Glyphicon glyph="search" />

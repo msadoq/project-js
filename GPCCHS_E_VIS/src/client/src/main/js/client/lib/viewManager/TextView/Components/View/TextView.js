@@ -83,6 +83,7 @@ export default class TextView extends PureComponent {
       values: PropTypes.object,
     }),
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    updateEditorSearch: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: {
@@ -128,6 +129,7 @@ export default class TextView extends PureComponent {
       isViewsEditorOpen,
       openEditor,
       closeEditor,
+      updateEditorSearch,
       pageId,
       mainMenu,
     } = this.props;
@@ -135,21 +137,26 @@ export default class TextView extends PureComponent {
     const separator = { type: 'separator' };
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
-      const editorMenu = (isViewsEditorOpen) ?
-      {
-        label: 'Close Editor',
-        click: () => closeEditor(),
-      } : {
+      const editorMenu = [{
         label: `Open ${epName} in Editor`,
-        click: () => openEditor(),
-      };
+        click: () => {
+          updateEditorSearch(epName);
+          openEditor();
+        },
+      }];
+      if (isViewsEditorOpen) {
+        editorMenu.push({
+          label: 'Close Editor',
+          click: () => closeEditor(),
+        });
+      }
       const inspectorLabel = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
         const inspectorMenu = {
           label: inspectorLabel,
           enabled: false,
         };
-        handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
         return;
       }
       const { remoteId, dataId } = entryPoints[epName];
@@ -161,7 +168,7 @@ export default class TextView extends PureComponent {
           dataId,
         }),
       };
-      handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
       return;
     }
     const editorMenu = (isViewsEditorOpen) ?
@@ -170,7 +177,10 @@ export default class TextView extends PureComponent {
       click: () => closeEditor(),
     } : {
       label: 'Open Editor',
-      click: () => openEditor(),
+      click: () => {
+        updateEditorSearch('');
+        openEditor();
+      },
     };
     const inspectorMenu = {
       label: 'Open in Inspector',

@@ -7,7 +7,7 @@ const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), st
 
 const addElementIn = (key, val, state) => _.update(key, x => _.compact(_.concat(x, val)), state);
 
-export default (stateConf = {}, action) => {
+export default (stateConf = { search: '' }, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_LEGEND:
       return _.set('legend', action.payload.legend, stateConf);
@@ -59,6 +59,8 @@ export default (stateConf = {}, action) => {
       return addAxis(stateConf, action);
     case types.WS_VIEW_REMOVE_AXIS:
       return removeAxis(stateConf, action);
+    case types.WS_VIEW_UPDATE_EDITOR_SEARCH:
+      return _.set('search', action.payload.search, stateConf);
     default:
       return stateConf;
   }

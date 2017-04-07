@@ -16,6 +16,7 @@ export default class Legend extends PureComponent {
     lines: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
+    onContextMenu: PropTypes.func.isRequired,
   }
 
   render() {
@@ -25,6 +26,7 @@ export default class Legend extends PureComponent {
       show,
       selectLine,
       selectedLineNames,
+      onContextMenu,
     } = this.props;
 
     const sortedAndValidAxes = yAxes
@@ -65,6 +67,7 @@ export default class Legend extends PureComponent {
                       )}
                       onClick={e => selectLine(e, line.name)}
                       key={line.name}
+                      onContextMenu={event => onContextMenu(event, line.name)}
                     >
                       <span
                         className={styles.plotLegendColor}

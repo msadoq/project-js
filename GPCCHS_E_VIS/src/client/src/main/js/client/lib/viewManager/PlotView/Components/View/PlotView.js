@@ -107,6 +107,7 @@ export class GrizzlyPlotView extends PureComponent {
     closeEditor: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    updateEditorSearch: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -146,7 +147,7 @@ export class GrizzlyPlotView extends PureComponent {
     return shouldRender;
   }
 
-  onContextMenu = (event) => {
+  onContextMenu = (event, name) => {
     event.stopPropagation();
     const {
       entryPoints,
@@ -156,7 +157,44 @@ export class GrizzlyPlotView extends PureComponent {
       closeEditor,
       openEditor,
       mainMenu,
+      updateEditorSearch,
     } = this.props;
+    const separator = { type: 'separator' };
+    if (name) {
+      const editorMenu = [{
+        label: `Open ${name} in Editor`,
+        click: () => {
+          updateEditorSearch(name);
+          openEditor();
+        },
+      }];
+      if (isViewsEditorOpen) {
+        editorMenu.push({
+          label: 'Close Editor',
+          click: () => closeEditor(),
+        });
+      }
+      const inspectorLabel = `Open ${name} in Inspector`;
+      if (_get(entryPoints, [name, 'error'])) {
+        const inspectorMenu = {
+          label: inspectorLabel,
+          enabled: false,
+        };
+        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+        return;
+      }
+      const { remoteId, dataId } = entryPoints[name];
+      const inspectorMenu = {
+        label: inspectorLabel,
+        click: () => openInspector({
+          pageId,
+          remoteId,
+          dataId,
+        }),
+      };
+      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+      return;
+    }
     const inspectorMenu = {
       label: 'Open parameter in Inspector',
       submenu: [],
@@ -183,9 +221,11 @@ export class GrizzlyPlotView extends PureComponent {
       click: () => closeEditor(),
     } : {
       label: 'Open Editor',
-      click: () => openEditor(),
+      click: () => {
+        updateEditorSearch('');
+        openEditor();
+      },
     };
-    const separator = { type: 'separator' };
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
@@ -312,7 +352,7 @@ export class GrizzlyPlotView extends PureComponent {
       // TODO : clean message component
       return (
         <DroppableContainer
-          onContextMenu={this.onContextMenu}
+          onContextMenu={event => this.onContextMenu(event)}
           onDrop={this.onDrop}
           className={styles.errorContent}
         >
@@ -363,7 +403,7 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        onContextMenu={this.onContextMenu}
+        onContextMenu={event => this.onContextMenu(event)}
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(
@@ -449,6 +489,7 @@ export class GrizzlyPlotView extends PureComponent {
           selectedLineNames={selectedLineNames}
           toggleShowLegend={this.toggleShowLegend}
           selectLine={this.selectLine}
+          onContextMenu={this.onContextMenu}
         />
       </DroppableContainer>
     );

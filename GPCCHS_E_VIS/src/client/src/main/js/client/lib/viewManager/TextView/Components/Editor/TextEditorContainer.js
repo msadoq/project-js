@@ -1,12 +1,13 @@
 import { createStructuredSelector } from 'reselect';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 import TextEditor from './TextEditor';
 import {
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
+  updateEditorSearch,
 } from '../../../../store/actions/views';
 import {
   open as openModal,
@@ -17,12 +18,13 @@ const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
 });
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+  openModal,
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
-  openModal,
-};
+  updateEditorSearch: search => updateEditorSearch(viewId, search),
+}, dispatch);
 
 const TextEditorContainer = connect(mapStateToProps, mapDispatchToProps)(TextEditor);
 

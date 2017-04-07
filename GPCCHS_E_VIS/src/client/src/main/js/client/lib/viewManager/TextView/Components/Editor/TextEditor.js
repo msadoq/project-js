@@ -16,14 +16,16 @@ export default class Editor extends Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
 
+    updateEditorSearch: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
+      search: PropTypes.string,
     }).isRequired,
   };
 
-  state = { currentDisplay: 0, search: '' };
+  state = { currentDisplay: 0 };
 
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
@@ -43,17 +45,18 @@ export default class Editor extends Component {
     });
   }
 
-  changeSearch = s => this.setState({ search: s });
+  changeSearch = s => this.props.updateEditorSearch(s);
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
 
   render() {
-    const { currentDisplay, search } = this.state;
+    const { currentDisplay } = this.state;
     const {
       closeEditor,
       openModal,
       viewId,
       configuration: {
         entryPoints,
+        search,
       },
     } = this.props;
 
@@ -71,6 +74,7 @@ export default class Editor extends Component {
               changeSearch={this.changeSearch}
               openModal={openModal}
               viewId={viewId}
+              search={search}
             />
             <EntryPointTree
               entryPoints={entryPoints}

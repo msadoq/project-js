@@ -7,6 +7,7 @@ import TextView from './TextView';
 import {
   addEntryPoint,
   updateContent,
+  updateEditorSearch,
 } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
@@ -23,6 +24,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
+  updateEditorSearch: pattern => updateEditorSearch(viewId, pattern),
 }, dispatch);
 
 const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);

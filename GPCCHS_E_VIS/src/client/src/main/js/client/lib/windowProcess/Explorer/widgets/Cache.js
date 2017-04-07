@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, ControlLabel, Col, Panel, Button } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';
+// import Perf from 'react-dom/lib/ReactPerf';
 import moment from 'moment';
 import { main } from '../../ipc';
 import styles from '../Explorer.css';
@@ -8,6 +9,8 @@ import styles from '../Explorer.css';
 export default class Cache extends PureComponent {
   static propTypes = {
     updateCacheInvalidation: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
     lastCacheCleanUp: PropTypes.number,
   };
 
@@ -28,6 +31,24 @@ export default class Cache extends PureComponent {
     main.serverDebug(debug => this.setState({ serverInfo: debug }));
       // <Inspector data={debug} />); // eslint-disable-line no-console
   };
+
+  // printReactWastedRenders = () => {
+  //   this.props.play(this.props.focusedPage.timebarUuid);
+  //   Perf.start();
+  //   setTimeout(() => {
+  //     Perf.stop();
+  //     // eslint-disable-next-line no-console
+  //     console.log('WASTED');
+  //     Perf.printWasted();
+  //     // eslint-disable-next-line no-console
+  //     console.log('INCLUSIVE');
+  //     Perf.printInclusive();
+  //     // eslint-disable-next-line no-console
+  //     console.log('EXCLUSIVE');
+  //     Perf.printExclusive();
+  //     this.props.pause(this.props.focusedPage.timebarUuid);
+  //   }, get('ORCHESTRATION_FREQUENCY'));
+  // }
 
   render() {
     const { lastCacheCleanUp } = this.props;

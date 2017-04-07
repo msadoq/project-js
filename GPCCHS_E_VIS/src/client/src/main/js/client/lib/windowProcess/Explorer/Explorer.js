@@ -9,6 +9,7 @@ import StoreContainer from './widgets/StoreContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
 import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
+import CacheContainer from './widgets/CacheContainer';
 
 import styles from './Explorer.css';
 
@@ -20,7 +21,7 @@ const widgets = {
   inspector: { title: 'Inspector', component: InspectorContainer },
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
-  cache: { title: 'Cache (developer)', component: NotAlreadyImplemented },
+  cache: { title: 'Cache (developer)', component: CacheContainer },
   performance: { title: 'Performance (developer)', component: PerformanceContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
 };

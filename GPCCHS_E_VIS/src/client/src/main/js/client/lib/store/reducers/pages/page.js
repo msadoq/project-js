@@ -115,7 +115,7 @@ export default function pageReducer(statePage = initialState, action) {
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
-    case types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR:
+    case types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR:
     case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
     case types.WS_PAGE_PANELS_MINIMIZE_EDITOR:

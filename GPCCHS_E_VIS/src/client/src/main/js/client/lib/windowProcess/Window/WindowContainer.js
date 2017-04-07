@@ -12,6 +12,7 @@ import {
   resizeExplorer,
   minimizeExplorer,
   minimizeEditor,
+  minimizeTimebar,
 } from '../../store/actions/pages';
 
 import Window from './Window';
@@ -23,7 +24,7 @@ const mapStateToProps = (state, { windowId }) => {
     editorWidth,
     editorIsMinimized,
     timebarHeight,
-    timebarCollapsed,
+    timebarIsMinimized,
     explorerWidth,
     explorerIsMinimized,
   } = getPanels(state, { pageId });
@@ -35,7 +36,7 @@ const mapStateToProps = (state, { windowId }) => {
     editorWidth,
     editorIsMinimized,
     timebarHeight,
-    timebarCollapsed,
+    timebarIsMinimized,
     explorerWidth,
     explorerIsMinimized,
   };
@@ -49,4 +50,5 @@ export default connect(mapStateToProps, {
   resizeExplorer,
   minimizeEditor,
   minimizeExplorer,
+  minimizeTimebar,
 })(Window);

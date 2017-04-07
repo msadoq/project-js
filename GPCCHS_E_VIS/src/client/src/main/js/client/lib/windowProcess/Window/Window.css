@@ -8,3 +8,50 @@
 .tabs {
   //height: 40px;
 }
+
+.leftBarEl{
+  text-align: center;
+  z-index: 105;
+  position: absolute;
+  top: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.rightBarEl{
+  text-align: center;
+  z-index: 105;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  pointer-events: none;
+}
+.middleBarEl{
+  z-index: 105;
+  position: absolute;
+  background: transparent;
+  pointer-events: none;
+}
+.horizontalBarButton{
+  transform: translateY(3px);
+}
+.verticalBarButton{
+  margin-top: 2px;
+}
+.barButton{
+  width: 22px;
+  height: 20px;
+  border-radius: 1px;
+  height: 20px;
+  text-align: center;
+  background: #FFF;
+  color: #333;
+  pointer-events: all;
+  border-width: 0px;
+  &:hover{
+    background: #DDD;
+  }
+  &:active{
+    background: #888;
+    color: #FFF;
+  }
+}

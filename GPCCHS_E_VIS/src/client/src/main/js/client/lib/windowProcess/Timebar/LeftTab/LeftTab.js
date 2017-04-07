@@ -12,7 +12,6 @@ import { main } from '../../ipc';
 
 export default class LeftTab extends PureComponent {
   static propTypes = {
-    collapseTimebar: PropTypes.func.isRequired,
     createNewTimeline: PropTypes.func.isRequired,
     removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
@@ -195,11 +194,6 @@ export default class LeftTab extends PureComponent {
     this.props.updateTimebarId(this.props.pageId, null);
   }
 
-  collapse = (e) => {
-    e.preventDefault();
-    this.props.collapseTimebar(this.props.pageId, true);
-  }
-
   render() {
     const {
       timelines,
@@ -292,16 +286,6 @@ export default class LeftTab extends PureComponent {
           >
             <Glyphicon
               glyph="remove"
-            />
-          </Button>
-          <Button
-            title="Collapse timebar"
-            bsSize="xs"
-            onClick={this.collapse}
-            className={classnames('btn-transp', styles.btnCollapse)}
-          >
-            <Glyphicon
-              glyph="resize-small"
             />
           </Button>
           <h5 className={styles.timebarName}>

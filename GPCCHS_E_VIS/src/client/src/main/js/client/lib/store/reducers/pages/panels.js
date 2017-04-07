@@ -7,7 +7,7 @@ const initialState = {
   editorIsMinimized: true,
   // timebar
   timebarHeight: 130,
-  timebarCollapsed: false,
+  timebarIsMinimized: false,
   // explorer
   explorerWidth: 250,
   explorerTab: undefined,
@@ -27,8 +27,8 @@ const panels = (state = initialState, action) => {
       return { ...state, editorIsMinimized: action.payload.isMinimized };
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
       return { ...state, timebarHeight: action.payload.size };
-    case types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR:
-      return { ...state, timebarCollapsed: action.payload.flag };
+    case types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR:
+      return { ...state, timebarIsMinimized: action.payload.isMinimized };
     case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
       return { ...state, explorerTab: action.payload.focusedTab };
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:

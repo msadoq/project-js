@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { updateMasterId } from '../../../store/actions/timebars';
-import { updateTimebarId, collapseTimebar } from '../../../store/actions/pages';
+import { updateTimebarId } from '../../../store/actions/pages';
 import { getSessions } from '../../../store/reducers/sessions';
 import {
   createNewTimeline,
@@ -17,7 +17,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  collapseTimebar,
   updateMasterId,
   updateOffset,
   updateSessionName,

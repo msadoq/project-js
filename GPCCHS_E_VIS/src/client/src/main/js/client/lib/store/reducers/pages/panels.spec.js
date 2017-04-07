@@ -17,7 +17,7 @@ describe('store:pages:reducer:panels', () => {
       editorViewId: undefined,
       editorIsMinimized: true,
       timebarHeight: 130,
-      timebarCollapsed: false,
+      timebarIsMinimized: false,
       explorerWidth: 250,
       explorerTab: undefined,
       explorerIsMinimized: true,
@@ -33,13 +33,17 @@ describe('store:pages:reducer:panels', () => {
     reducer({ myId: { editorWidth: null } }, actions.resizeEditor('myId', 20))
       .myId.panels.editorWidth.should.eql(20);
   });
+  it('should support minimize editor', () => {
+    reducer({ myId: { editorIsMinimized: false } }, actions.minimizeEditor('myId', true))
+      .myId.panels.editorIsMinimized.should.eql(true);
+  });
   it('should support resize timebar', () => {
     reducer({ myId: { timebarHeight: null } }, actions.resizeTimebar('myId', 20))
       .myId.panels.timebarHeight.should.eql(20);
   });
-  it('should support collapsed timebar', () => {
-    reducer({ myId: { timebarCollapsed: false } }, actions.collapseTimebar('myId', true))
-      .myId.panels.timebarCollapsed.should.eql(true);
+  it('should support minimize timebar', () => {
+    reducer({ myId: { timebarIsMinimized: false } }, actions.minimizeTimebar('myId', true))
+      .myId.panels.timebarIsMinimized.should.eql(true);
   });
   it('should focus tab in explorer', () => {
     reducer({ myId: { explorerTab: null } }, actions.focusTabInExplorer('myId', 'myTab'))
@@ -48,5 +52,9 @@ describe('store:pages:reducer:panels', () => {
   it('should support resize explorer', () => {
     reducer({ myId: { explorerWidth: null } }, actions.resizeExplorer('myId', 20))
       .myId.panels.explorerWidth.should.eql(20);
+  });
+  it('should support minimize explorer', () => {
+    reducer({ myId: { explorerIsMinimized: false } }, actions.minimizeExplorer('myId', true))
+      .myId.panels.explorerIsMinimized.should.eql(true);
   });
 });

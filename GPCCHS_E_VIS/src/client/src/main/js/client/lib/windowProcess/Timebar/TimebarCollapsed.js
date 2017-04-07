@@ -7,7 +7,7 @@ import styles from './TimebarCollapsed.css';
 export default class TimebarCollapsed extends PureComponent {
 
   static propTypes = {
-    collapseTimebar: PropTypes.func.isRequired,
+    minimizeTimebar: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -26,9 +26,9 @@ export default class TimebarCollapsed extends PureComponent {
     this.props.play(this.props.timebarUuid);
   }
 
-  collapse = (e) => {
+  minimize = (e) => {
     e.preventDefault();
-    this.props.collapseTimebar(this.props.pageId, false);
+    this.props.minimizeTimebar(this.props.pageId, false);
   }
 
   render() {
@@ -47,7 +47,7 @@ export default class TimebarCollapsed extends PureComponent {
         </span>
         <button
           className={classnames('pull-right', 'btn', 'btn-sm', 'btn-control')}
-          onClick={this.collapse}
+          onClick={this.minimize}
           title="Expand timebar"
         >
           <Glyphicon glyph="resize-full" />

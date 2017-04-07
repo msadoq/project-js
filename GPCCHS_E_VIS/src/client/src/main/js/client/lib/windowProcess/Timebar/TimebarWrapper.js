@@ -13,6 +13,8 @@ export default class TimebarWrapper extends PureComponent {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
     timebar: PropTypes.shape({
       id: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
@@ -98,6 +100,7 @@ export default class TimebarWrapper extends PureComponent {
       isPlaying,
       timebar,
       pageId,
+      height,
     } = this.props;
     const {
       displayTimesetter,
@@ -106,7 +109,10 @@ export default class TimebarWrapper extends PureComponent {
     } = this.state;
 
     return (
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        style={{ height }}
+      >
         <Modal
           title="Manual time setter"
           onClose={this.toggleTimesetter}

@@ -1,5 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { Glyphicon } from 'react-bootstrap';
 import PanelGroup from 'react-panelgroup';
+import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
@@ -19,10 +21,12 @@ import styles from './Window.css';
 
 const logger = getLogger('Window');
 
-const resizeHandleSize = 15;
+const resizeHandleSize = 24;
 const scrollHandleSize = 15;
 const defaultExplorerWidth = 250;
 const defaultEditorWidth = 250;
+const minimizedTimebarHeigh = 70;
+const panelBorderColor = '#252525';
 
 class Window extends PureComponent {
   static propTypes = {
@@ -37,7 +41,7 @@ class Window extends PureComponent {
     editorWidth: PropTypes.number,
     editorIsMinimized: PropTypes.bool,
     timebarHeight: PropTypes.number,
-    timebarCollapsed: PropTypes.bool,
+    timebarIsMinimized: PropTypes.bool,
     explorerIsMinimized: PropTypes.bool,
     explorerWidth: PropTypes.number,
     resizeEditor: PropTypes.func.isRequired,
@@ -45,6 +49,7 @@ class Window extends PureComponent {
     resizeExplorer: PropTypes.func.isRequired,
     minimizeExplorer: PropTypes.func.isRequired,
     minimizeEditor: PropTypes.func.isRequired,
+    minimizeTimebar: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -55,7 +60,7 @@ class Window extends PureComponent {
     editorWidth: defaultEditorWidth,
     editorIsMinimized: true,
     timebarHeight: 250,
-    timebarCollapsed: false,
+    timebarIsMinimized: false,
     explorerWidth: defaultExplorerWidth,
     explorerIsMinimized: true,
   }
@@ -125,10 +130,21 @@ class Window extends PureComponent {
   }
 
   onVerticalUpdateDebounce = _debounce((panelWidth) => {
-    const { pageId, timebarHeight, resizeTimebar } = this.props;
+    const {
+      pageId,
+      timebarHeight,
+      resizeTimebar,
+      minimizeTimebar,
+      timebarIsMinimized,
+    } = this.props;
     const newTimebarHeight = _get(panelWidth, [1, 'size']);
     if (timebarHeight !== newTimebarHeight) {
       resizeTimebar(pageId, newTimebarHeight);
+    }
+    if (newTimebarHeight < minimizedTimebarHeigh && !timebarIsMinimized) {
+      minimizeTimebar(pageId, true);
+    } else if (newTimebarHeight > minimizedTimebarHeigh && timebarIsMinimized) {
+      minimizeTimebar(pageId, false);
     }
   }, 250);
 
@@ -160,6 +176,36 @@ class Window extends PureComponent {
     }
   }
 
+  willMinimizeEditor = (e) => {
+    e.preventDefault();
+    const {
+      minimizeEditor,
+      editorIsMinimized,
+      pageId,
+    } = this.props;
+    minimizeEditor(pageId, !editorIsMinimized);
+  }
+
+  willMinimizeExplorer = (e) => {
+    e.preventDefault();
+    const {
+      minimizeExplorer,
+      explorerIsMinimized,
+      pageId,
+    } = this.props;
+    minimizeExplorer(pageId, !explorerIsMinimized);
+  }
+
+  willMinimizeTimebar = (e) => {
+    e.preventDefault();
+    const {
+      minimizeTimebar,
+      timebarIsMinimized,
+      pageId,
+    } = this.props;
+    minimizeTimebar(pageId, !timebarIsMinimized);
+  }
+
   render() {
     const {
       pageId,
@@ -173,8 +219,9 @@ class Window extends PureComponent {
       timebarHeight,
       explorerWidth,
       explorerIsMinimized,
-      timebarCollapsed,
+      timebarIsMinimized,
     } = this.props;
+
     logger.debug('render');
 
     let editorSize = editorIsMinimized ? 0 : editorWidth;
@@ -185,7 +232,7 @@ class Window extends PureComponent {
     if (!explorerIsMinimized && explorerSize < 50) {
       explorerSize = defaultExplorerWidth;
     }
-    const calcTimebarHeight = timebarCollapsed ? 34 : timebarHeight;
+    const calcTimebarHeight = timebarIsMinimized ? minimizedTimebarHeigh : timebarHeight;
     const centralWidth = containerWidth - editorSize - explorerSize - (resizeHandleSize * 2);
     const viewsHeight = containerHeight - calcTimebarHeight - resizeHandleSize;
 
@@ -209,7 +256,7 @@ class Window extends PureComponent {
       );
 
     // timebar
-    const timebar = timebarCollapsed
+    const timebar = timebarIsMinimized
       ?
         (
           <TimebarCollapsedContainer
@@ -223,7 +270,7 @@ class Window extends PureComponent {
           windowId={windowId}
           pageId={pageId}
           width={centralWidth}
-          height={calcTimebarHeight}
+          height={timebarHeight}
         />
       );
 
@@ -247,15 +294,15 @@ class Window extends PureComponent {
           <PanelGroup
             direction="row"
             spacing={resizeHandleSize}
-            borderColor="grey"
+            borderColor={panelBorderColor}
             panelWidths={this.horizontalLayout(editorSize, explorerSize)}
             onUpdate={this.onHorizontalUpdate}
           >
             {editor}
             <PanelGroup
               direction="column"
-              spacing={resizeHandleSize}
-              borderColor="grey"
+              spacing={timebarIsMinimized ? 0 : resizeHandleSize}
+              borderColor={panelBorderColor}
               panelWidths={this.verticalLayout(calcTimebarHeight)}
               onUpdate={this.onVerticalUpdate}
             >
@@ -266,32 +313,65 @@ class Window extends PureComponent {
           </PanelGroup>
           <div
             ref={(el) => { this.leftBarEl = el; }}
+            className={
+              classnames('h100', styles.leftBarEl)
+            }
             style={{
-              background: 'transparent',
-              height: '100%',
-              position: 'absolute',
               width: `${resizeHandleSize}px`,
-              top: 0,
+              left: editorSize,
             }}
-          />
+          >
+            <button
+              className={classnames(styles.barButton, styles.verticalBarButton)}
+              onClick={this.willMinimizeEditor}
+              title="Collapse editor"
+            >
+              <Glyphicon
+                glyph={editorIsMinimized ? 'resize-full' : 'resize-small'}
+              />
+            </button>
+          </div>
           <div
             ref={(el) => { this.rightBarEl = el; }}
+            className={
+              classnames('h100', styles.rightBarEl)
+            }
             style={{
-              background: 'transparent',
-              height: '100%',
-              position: 'absolute',
               width: `${resizeHandleSize}px`,
-              top: 0,
+              right: explorerSize,
             }}
-          />
+          >
+            <button
+              className={classnames(styles.barButton, styles.verticalBarButton)}
+              onClick={this.willMinimizeExplorer}
+              title="Collapse explorer"
+            >
+              <Glyphicon
+                glyph={explorerIsMinimized ? 'resize-full' : 'resize-small'}
+              />
+            </button>
+          </div>
           <div
             ref={(el) => { this.middleBarEl = el; }}
+            className={
+              classnames(styles.middleBarEl)
+            }
             style={{
-              background: 'transparent',
               height: `${resizeHandleSize}px`,
-              position: 'absolute',
+              top: viewsHeight,
+              left: editorSize + resizeHandleSize,
             }}
-          />
+          >
+            {!timebarIsMinimized && <button
+              className={classnames(styles.barButton, styles.horizontalBarButton)}
+              onClick={this.willMinimizeTimebar}
+              title="Minimize timebar"
+            >
+              <Glyphicon
+                glyph="resize-small"
+              />
+            </button> }
+          </div>
         </div>
       </div>
     );

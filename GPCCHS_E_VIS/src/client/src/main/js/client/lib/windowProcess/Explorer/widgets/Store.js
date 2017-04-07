@@ -9,7 +9,7 @@ import { getAvailableViews } from '../../../viewManager';
 export default class Store extends PureComponent {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types, "DV6 TBC_CNES Unpredicatable object struct."
-    state: PropTypes.object.isRequired, 
+    state: PropTypes.object.isRequired,
   };
 
   copyToClipboard = (eventKey) => {

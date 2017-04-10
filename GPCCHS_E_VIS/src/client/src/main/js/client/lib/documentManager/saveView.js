@@ -28,7 +28,7 @@ const saveViewAs = (view, viewType, path, callback) => {
     const viewToSave = _cloneDeep(view);
 
     // Remove entry point id
-    // TODO -> viewManager
+    // TODO garm -> viewManager + add test
     if (_isArray(viewToSave.configuration.entryPoints)) {
       viewToSave.configuration.entryPoints = viewToSave.configuration.entryPoints.map(_omit('id'));
     }

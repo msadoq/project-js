@@ -11,7 +11,7 @@ export const getEditorWindowTitle = (state, { viewId }) => {
 
   const props = { viewId };
   const view = getView(state, props);
-  if (!view || !view.configuration) {
+  if (!view) {
     return '';
   }
 

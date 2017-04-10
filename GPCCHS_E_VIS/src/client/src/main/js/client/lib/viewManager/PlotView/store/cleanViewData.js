@@ -47,7 +47,8 @@ export default function cleanCurrentViewData(
   const oldEntryPoints = oldViewFromMap.entryPoints;
   const newEntryPoints = newViewFromMap.entryPoints;
   const epNames = Object.keys(oldEntryPoints);
-  epNames.forEach((epName) => {
+  for (let i = 0; i < epNames.length; i += 1) {
+    const epName = epNames[i];
     const oldEp = oldEntryPoints[epName];
     const newEp = newEntryPoints[epName];
     // check if only label has changed
@@ -63,7 +64,7 @@ export default function cleanCurrentViewData(
       }
       if (newLabel) {
         newState = updateEpLabel(newState, epName, newLabel);
-        return;
+        continue;
       }
     }
     // removed entry point if invalid
@@ -79,11 +80,11 @@ export default function cleanCurrentViewData(
         max: _omit(newState.max, epName),
         maxTime: _omit(newState.maxTime, epName),
       };
-      return;
+      continue;
     }
     // Case of point already in error
     if (newEp.error) {
-      return;
+      continue;
     }
     // update on expected interval
     const oldInterval = _get(oldIntervals, [oldEp.remoteId, oldEp.localId, 'expectedInterval']);
@@ -96,7 +97,7 @@ export default function cleanCurrentViewData(
       // Update of min and max if needed
       newState = scanForMinAndMax(newData);
     }
-  });
+  }
   return newState;
 }
 

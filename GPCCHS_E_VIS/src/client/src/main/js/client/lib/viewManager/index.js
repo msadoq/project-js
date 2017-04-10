@@ -1,21 +1,26 @@
-import _ from 'lodash/fp';
-
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
+  DATASTRUCTURETYPE_LIST,
 } from 'common/constants';
 
 import plotViewData from './PlotView/data';
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
+import historyViewData from './HistoryView/data';
+import packetViewData from './PacketView/data';
 
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
+import historyViewSchema from './HistoryView/HistoryView.schema.json';
+import packetViewSchema from './PacketView/PacketView.schema.json';
 
 import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
+import historyViewModule from './HistoryView';
+import packetViewModule from './PacketView';
 
 import * as constants from './constants';
 
@@ -38,13 +43,27 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
   },
+  [constants.VM_VIEW_HISTORY]: {
+    schema: historyViewSchema,
+    viewModule: historyViewModule,
+    structureType: DATASTRUCTURETYPE_LIST,
+    structureModule: historyViewData,
+  },
+  [constants.VM_VIEW_PACKET]: {
+    schema: packetViewSchema,
+    viewModule: packetViewModule,
+    structureType: DATASTRUCTURETYPE_LIST,
+    structureModule: packetViewData,
+  },
 };
 
 export default list;
 export * from './selectors';
 export { default as configurationReducers } from './reducers';
 
-export const getAvailableViews = _.always(_.keys(list));
+export function getAvailableViews() {
+  return Object.keys(list);
+}
 
 export function isViewTypeSupported(type) {
   return !!list[type];

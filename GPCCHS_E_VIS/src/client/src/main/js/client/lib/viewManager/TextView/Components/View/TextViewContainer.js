@@ -12,12 +12,13 @@ import {
   openEditor,
 } from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getViewContent, getViewConfiguration } from '../../../../store/reducers/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
 import { getData } from '../../store/dataReducer';
+import { getViewContent } from '../../store/configurationSelectors';
 
 const mapStateToProps = createStructuredSelector({
   content: getViewContent,
-  configuration: getViewConfiguration,
+  configuration: getConfigurationByViewId,
   entryPoints: getViewEntryPoints,
   data: getData,
 });

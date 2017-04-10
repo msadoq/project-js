@@ -341,7 +341,6 @@ describe('store:reducer:views', () => {
       isModified: true,
       title: 'myView',
       type: 'PlotView',
-      configuration: { axes: { a1: { label: 'axis1', unit: 's' } } },
     };
     const action = { type: types.WS_VIEW_RELOAD, payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);

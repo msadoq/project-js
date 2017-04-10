@@ -20,11 +20,6 @@ export const getViewConfiguration = createSelector(
   _.get('configuration')
 );
 
-export const getViewContent = createSelector(
-  getViewConfiguration,
-  _.get('content')
-);
-
 export const getViewAbsolutePath = createSelector(
   getView,
   _.get('absolutePath')

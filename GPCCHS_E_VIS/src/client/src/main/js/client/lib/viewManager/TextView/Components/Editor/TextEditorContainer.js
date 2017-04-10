@@ -1,6 +1,7 @@
-import _ from 'lodash/fp';
+import { createStructuredSelector } from 'reselect';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import TextEditor from './TextEditor';
 import {
   addEntryPoint,
@@ -8,13 +9,11 @@ import {
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
 
-const mapStateToProps = (state, { viewId }) => {
-  const getConfiguration = _.get(`views[${viewId}].configuration`);
-  return {
-    configuration: getConfiguration(state),
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  configuration: getConfigurationByViewId,
+});
 
 const mapDispatchToProps = {
   addEntryPoint,

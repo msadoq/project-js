@@ -7,10 +7,10 @@ import {
   addEntryPoint,
   removeEntryPoint,
 } from '../../../../store/actions/views';
-import { getViewConfiguration } from '../../../../store/reducers/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
-  configuration: getViewConfiguration,
+  configuration: getConfigurationByViewId,
 });
 
 const mapDispatchToProps = {

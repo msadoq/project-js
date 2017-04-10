@@ -7,7 +7,7 @@ export const getConfigurationByViewId = createSelector(
   state => state,
   (state, { viewId }) => viewId,
   getViewType,
-  (state, viewId, viewType) => state[`${viewType}Configuration`][viewId]
+  (state, viewId, viewType) => _.get(`${viewType}Configuration.${viewId}`, state)
 );
 
 export const getViewWithConfiguration = createSelector(

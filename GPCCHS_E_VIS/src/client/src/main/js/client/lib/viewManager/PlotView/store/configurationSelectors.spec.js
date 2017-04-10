@@ -25,15 +25,18 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
       __tl1: 1,
       __tl2: 2,
     },
+    PlotViewConfiguration: {
+      v1: {
+        entryPoints: [1, 2, 3],
+        axes: true,
+        showYAxes: true,
+        grids: true,
+        markers: true,
+      },
+    },
     views: {
       v1: {
-        configuration: {
-          entryPoints: [1, 2, 3],
-          axes: true,
-          showYAxes: true,
-          grids: true,
-          markers: true,
-        },
+        type: 'PlotView',
       },
     },
   };

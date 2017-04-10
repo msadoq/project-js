@@ -9,7 +9,7 @@ import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 import { getTimebar } from '../../../../store/reducers/timebars';
 import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
-import { getViewConfiguration } from '../../../../store/reducers/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -17,7 +17,7 @@ const mapStateToProps = (state, { viewId }) => {
   const timebar = getTimebar(state, { timebarUuid: page.timebarUuid });
 
   return {
-    configuration: getViewConfiguration(state, { viewId }),
+    configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
     data: getData(state, { viewId }),
     visuWindow: timebar ? timebar.visuWindow : null,

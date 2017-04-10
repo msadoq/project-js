@@ -1,24 +1,13 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { getView } from '../store/reducers/views';
-import * as configurationReducers from './reducers';
-
-const mergeAllConfigurations = x => _.compose(
-  _.mergeAll,
-  _.values,
-  _.pick(_.keys(configurationReducers))
-)(x);
-
-const getAllConfigurations = createSelector(
-  _.identity,
-  mergeAllConfigurations
-);
+import { getView, getViewType } from '../store/reducers/views';
 
 export const getConfigurationByViewId = createSelector(
+  state => state,
   (state, { viewId }) => viewId,
-  getAllConfigurations,
-  (viewId, allConfigurations) => allConfigurations[viewId]
+  getViewType,
+  (state, viewId, viewType) => state[`${viewType}Configuration`][viewId]
 );
 
 export const getViewWithConfiguration = createSelector(

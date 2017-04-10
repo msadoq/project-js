@@ -1,6 +1,5 @@
 import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
-// import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
@@ -22,7 +21,6 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
     // Per view
     _reduce(views, (map, { viewId, timebarUuid }) => {
       const ep = getEntryPointsByViewId(state, { viewId });
-      // const ep = _get(view, ['configuration', 'entryPoints']);
       if (!ep || !ep.length) {
         return map;
       }

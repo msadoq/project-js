@@ -8,7 +8,14 @@ import styles from './Editor.css';
 
 const logger = getLogger('Editor');
 
-const InvalidConfiguration = () => <div>unknown view type or invalid configuration</div>;
+const InvalidConfiguration = () => (
+  <div>
+    <p
+      className={classnames('p10', 'text-center', styles.invalidConfiguration)}
+    >
+      Unknown view type or invalid configuration
+    </p>
+  </div>);
 
 export default class Editor extends PureComponent {
   static propTypes = {

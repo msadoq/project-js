@@ -4,9 +4,9 @@
   height: 100%;
   overflow: hidden;
 }
-
-.tabs {
-  //height: 40px;
+.panelsContainer{
+  flex-direction: column;
+  display: flex;
 }
 
 .leftBarEl{

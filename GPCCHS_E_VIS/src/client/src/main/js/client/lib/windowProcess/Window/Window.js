@@ -25,8 +25,9 @@ const resizeHandleSize = 24;
 const scrollHandleSize = 15;
 const defaultExplorerWidth = 250;
 const defaultEditorWidth = 250;
-const minimizedTimebarHeigh = 70;
+const minimizedTimebarHeigh = 35;
 const panelBorderColor = '#252525';
+const tabsContainerStyle = { height: 40 };
 
 class Window extends PureComponent {
   static propTypes = {
@@ -206,6 +207,10 @@ class Window extends PureComponent {
     minimizeTimebar(pageId, !timebarIsMinimized);
   }
 
+  assignMiddleBarEl = (el) => { this.middleBarEl = el; }
+  assignRightBarEl = (el) => { this.rightBarEl = el; }
+  assignLeftBarEl = (el) => { this.leftBarEl = el; }
+
   render() {
     const {
       pageId,
@@ -232,9 +237,10 @@ class Window extends PureComponent {
     if (!explorerIsMinimized && explorerSize < 50) {
       explorerSize = defaultExplorerWidth;
     }
+    const height = containerHeight - tabsContainerStyle.height;
     const calcTimebarHeight = timebarIsMinimized ? minimizedTimebarHeigh : timebarHeight;
     const centralWidth = containerWidth - editorSize - explorerSize - (resizeHandleSize * 2);
-    const viewsHeight = containerHeight - calcTimebarHeight - resizeHandleSize;
+    const viewsHeight = height - calcTimebarHeight - resizeHandleSize;
 
     // editor
     const editor = editorIsMinimized
@@ -284,12 +290,14 @@ class Window extends PureComponent {
         className={styles.container}
       >
         {isHelpDisplayed ? <HelpContent /> : ''}
-        <div>
+        <div
+          style={tabsContainerStyle}
+        >
           <MessagesContainer />
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
         <div
-          className="h100 w100 posRelative"
+          className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
         >
           <PanelGroup
             direction="row"
@@ -312,7 +320,7 @@ class Window extends PureComponent {
             {explorer}
           </PanelGroup>
           <div
-            ref={(el) => { this.leftBarEl = el; }}
+            ref={this.assignLeftBarEl}
             className={
               classnames('h100', styles.leftBarEl)
             }
@@ -332,7 +340,7 @@ class Window extends PureComponent {
             </button>
           </div>
           <div
-            ref={(el) => { this.rightBarEl = el; }}
+            ref={this.assignRightBarEl}
             className={
               classnames('h100', styles.rightBarEl)
             }
@@ -352,7 +360,7 @@ class Window extends PureComponent {
             </button>
           </div>
           <div
-            ref={(el) => { this.middleBarEl = el; }}
+            ref={this.assignMiddleBarEl}
             className={
               classnames(styles.middleBarEl)
             }

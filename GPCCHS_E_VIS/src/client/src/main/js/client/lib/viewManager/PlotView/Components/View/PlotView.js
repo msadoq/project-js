@@ -103,6 +103,8 @@ export class GrizzlyPlotView extends PureComponent {
     }).isRequired,
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorRemoteId: PropTypes.string,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
@@ -116,6 +118,7 @@ export class GrizzlyPlotView extends PureComponent {
       columns: [],
     },
     visuWindow: null,
+    inspectorRemoteId: null,
   };
 
   state = {
@@ -158,6 +161,8 @@ export class GrizzlyPlotView extends PureComponent {
       openEditor,
       mainMenu,
       updateEditorSearch,
+      inspectorRemoteId,
+      isInspectorOpened,
     } = this.props;
     const separator = { type: 'separator' };
     if (name) {
@@ -184,13 +189,16 @@ export class GrizzlyPlotView extends PureComponent {
         return;
       }
       const { remoteId, dataId } = entryPoints[name];
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
       const inspectorMenu = {
         label: inspectorLabel,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       };
       handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
       return;
@@ -206,13 +214,16 @@ export class GrizzlyPlotView extends PureComponent {
         return;
       }
       const { remoteId, dataId } = ep;
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
       inspectorMenu.submenu.push({
         label,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       });
     });
     const editorMenu = (isViewsEditorOpen) ?

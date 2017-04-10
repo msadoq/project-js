@@ -84,12 +84,15 @@ export default class TextView extends PureComponent {
     }),
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorRemoteId: PropTypes.string,
   };
   static defaultProps = {
     data: {
       values: {},
     },
     entryPoints: {},
+    inspectorRemoteId: null,
   };
 
   componentWillMount() {
@@ -132,6 +135,8 @@ export default class TextView extends PureComponent {
       updateEditorSearch,
       pageId,
       mainMenu,
+      isInspectorOpened,
+      inspectorRemoteId,
     } = this.props;
     const span = getEpSpan(event.target);
     const separator = { type: 'separator' };
@@ -160,13 +165,16 @@ export default class TextView extends PureComponent {
         return;
       }
       const { remoteId, dataId } = entryPoints[epName];
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
       const inspectorMenu = {
         label: inspectorLabel,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       };
       handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
       return;
@@ -193,13 +201,17 @@ export default class TextView extends PureComponent {
         return;
       }
       const { remoteId, dataId } = ep;
+      console.log(inspectorRemoteId, remoteId, isInspectorOpened);
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
       inspectorMenu.submenu.push({
         label,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       });
     });
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);

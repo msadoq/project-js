@@ -5,8 +5,10 @@ import { addEntryPoint, updateEditorSearch } from '../../../../store/actions/vie
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 import { getTimebar } from '../../../../store/reducers/timebars';
+import { getInspectorRemoteId } from '../../../../store/reducers/inspector';
 import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
 import { getConfigurationByViewId } from '../../../../viewManager';
+import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -18,6 +20,8 @@ const mapStateToProps = (state, { viewId }) => {
     entryPoints: getViewEntryPoints(state, { viewId }),
     data: getData(state, { viewId }),
     visuWindow: timebar ? timebar.visuWindow : null,
+    isInspectorOpened: isAnyInspectorOpened(state),
+    inspectorRemoteId: getInspectorRemoteId(state),
   };
 };
 

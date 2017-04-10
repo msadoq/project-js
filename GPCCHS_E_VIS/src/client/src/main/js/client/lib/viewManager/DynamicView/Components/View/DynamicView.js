@@ -107,11 +107,14 @@ export default class DynamicView extends PureComponent {
     closeEditor: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorRemoteId: PropTypes.string,
   };
 
   static defaultProps = {
     formula: 0,
     entryPoints: {},
+    inspectorRemoteId: null,
   };
 
   onContextMenu = (event) => {
@@ -124,15 +127,20 @@ export default class DynamicView extends PureComponent {
       openEditor,
       isViewsEditorOpen,
       mainMenu,
+      isInspectorOpened,
+      inspectorRemoteId,
     } = this.props;
     const { remoteId, dataId } = entryPoints.dynamicEP;
+    const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
     const inspectorMenu = {
       label: `Open ${dataId.parameterName} in Inspector`,
+      type: 'checkbox',
       click: () => openInspector({
         pageId,
         remoteId,
         dataId,
       }),
+      checked: opened,
     };
     const editorMenu = (isViewsEditorOpen) ?
     {

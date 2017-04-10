@@ -4,17 +4,18 @@ import { createStructuredSelector } from 'reselect';
 
 import DynamicEditor from './DynamicEditor';
 import { getPageTimelines } from '../../../../store/selectors/timelines';
-import { getViewConfiguration, getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
+import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
 import {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,
   titleStyle: getViewTitleStyle,
-  configuration: getViewConfiguration,
+  configuration: getConfigurationByViewId,
   timelines: getPageTimelines,
 });
 

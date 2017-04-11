@@ -32,7 +32,7 @@ const list = {
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: plotViewData,
     getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
-    getEditorComponent: () => null,
+    getEditorComponent: () => require('./PlotView/Components/Editor/PlotEditorContainer'),
   },
   [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
@@ -40,7 +40,7 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: textViewData,
     getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
-    getEditorComponent: () => null,
+    getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
   },
   [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
@@ -48,7 +48,7 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
     getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
-    getEditorComponent: () => null,
+    getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,

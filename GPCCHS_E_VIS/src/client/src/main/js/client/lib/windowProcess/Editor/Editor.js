@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
+import { Glyphicon } from 'react-bootstrap';
 import { getEditorComponent } from '../../viewManager';
 import styles from './Editor.css';
 
@@ -22,7 +23,7 @@ export default class Editor extends PureComponent {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string,
     type: PropTypes.string,
-    closeEditor: PropTypes.func,
+    closeEditor: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -39,6 +40,11 @@ export default class Editor extends PureComponent {
     return {
       viewId: this.props.viewId,
     };
+  }
+
+  willMinimizeEditor = (e) => {
+    e.preventDefault();
+    this.props.closeEditor();
   }
 
   render() {
@@ -59,6 +65,15 @@ export default class Editor extends PureComponent {
 
     return (
       <div className={classnames('subdiv', styles.editor)}>
+        <button
+          className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
+          onClick={this.willMinimizeEditor}
+          title="Collapse editor"
+        >
+          <Glyphicon
+            glyph="resize-small"
+          />
+        </button>
         <EditorComponent
           viewId={viewId}
           pageId={pageId}

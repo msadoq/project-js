@@ -38,3 +38,11 @@
 .invalidConfiguration{
   font-size: 1.2em;
 }
+.verticalBarButton{
+  margin-top: 2px;
+}
+.barButton{
+  position: absolute;
+  top: 0px;
+  right: -23px;
+}

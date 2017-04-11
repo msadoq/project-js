@@ -14,7 +14,6 @@
   overflow: auto;
 }
 
-
 .buttonGroup {
   margin-top: 13px;
   margin-bottom: 13px;
@@ -23,4 +22,12 @@
 
 .panel {
   overflow: auto;
+}
+.verticalBarButton{
+  margin-top: 2px;
+}
+.barButton{
+  position: absolute;
+  top: 0px;
+  left: -22px;
 }

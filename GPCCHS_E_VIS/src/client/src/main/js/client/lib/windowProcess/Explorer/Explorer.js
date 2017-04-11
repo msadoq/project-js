@@ -3,7 +3,9 @@ import _get from 'lodash/get';
 import {
   FormGroup,
   FormControl,
+  Glyphicon,
 } from 'react-bootstrap';
+import classnames from 'classnames';
 import DataMapContainer from './widgets/DataMapContainer';
 import StoreContainer from './widgets/StoreContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
@@ -32,6 +34,7 @@ export default class Explorer extends PureComponent {
     pageId: PropTypes.string.isRequired,
     tabId: PropTypes.string,
     focusTabInExplorer: PropTypes.func.isRequired,
+    minimizeExplorer: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -44,6 +47,15 @@ export default class Explorer extends PureComponent {
       const { pageId, focusTabInExplorer } = this.props;
       focusTabInExplorer(pageId, tabId);
     }
+  }
+
+  willExpandExplorer = (e) => {
+    e.preventDefault();
+    const {
+      minimizeExplorer,
+      pageId,
+    } = this.props;
+    minimizeExplorer(pageId, true);
   }
 
   /**
@@ -90,6 +102,15 @@ export default class Explorer extends PureComponent {
 
     return (
       <div className={styles.container}>
+        <button
+          className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
+          onClick={this.willExpandExplorer}
+          title="Collapse explorer"
+        >
+          <Glyphicon
+            glyph="resize-small"
+          />
+        </button>
         <FormGroup controlId="formControlsSelect">
           <FormControl
             componentClass="select"

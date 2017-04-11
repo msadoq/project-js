@@ -38,20 +38,12 @@
   margin-top: 2px;
 }
 .barButton{
-  width: 22px;
-  height: 20px;
-  border-radius: 1px;
-  height: 20px;
-  text-align: center;
-  background: #FFF;
-  color: #333;
-  pointer-events: all;
-  border-width: 0px;
-  &:hover{
-    background: #DDD;
-  }
-  &:active{
-    background: #888;
-    color: #FFF;
-  }
+  position: absolute;
+  top: 0px;
+  right: -23px;
+}
+.barButtonLeft{
+  position: absolute;
+  top: 0px;
+  left: -22px;
 }

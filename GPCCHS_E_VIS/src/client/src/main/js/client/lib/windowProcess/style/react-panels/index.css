@@ -1,0 +1,25 @@
+.panelWrapper{
+  overflow: visible !important;
+  z-index: 10;
+}
+.divider{
+  z-index: 9;
+}
+.panel-button{
+  width: 21px;
+  height: 20px;
+  border-radius: 1px;
+  height: 20px;
+  text-align: center;
+  background: #FFF;
+  color: #333;
+  pointer-events: all;
+  border-width: 0px;
+  &:hover{
+    background: #DDD;
+  }
+  &:active{
+    background: #888;
+    color: #FFF;
+  }
+}

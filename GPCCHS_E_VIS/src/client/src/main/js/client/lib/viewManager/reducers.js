@@ -8,39 +8,41 @@ import textViewConfigurationReducer from './TextView/store/configurationReducer'
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
 
+import textViewDataReducer from './TextView/store/dataReducer';
+import plotViewDataReducer from './PlotView/store/dataReducer';
+import dynamicViewDataReducer from './DynamicView/store/dataReducer';
+
 import * as constants from './constants';
 
 /* --- Utils ---------------------------------------------------------------- */
 const appendString = _.curry((x, str) => str.concat(x));
 
-const createViewReducer = ({ type, reducer }) => ({
-  reducer: createReducerByViews(
+const createViewConfigurationReducer = ([type, reducer]) => ([
+  type,
+  createReducerByViews(
     composeReducers(reducer, commonConfigurationReducer),
     type
   ),
-  type,
-});
+]);
+
+const createConfigurationReducers = _.pipe(
+  _.toPairs,
+  _.map(createViewConfigurationReducer),
+  _.fromPairs,
+  _.mapKeys(appendString('Configuration'))
+);
+
+const createDataReducers = _.mapKeys(appendString('Data'));
 
 /* --- Reducers ------------------------------------------------------------- */
-const listConfigurationReducers = [
-  {
-    type: constants.VM_VIEW_TEXT,
-    reducer: textViewConfigurationReducer,
-  },
-  {
-    type: constants.VM_VIEW_PLOT,
-    reducer: plotViewConfigurationReducer,
-  },
-  {
-    type: constants.VM_VIEW_DYNAMIC,
-    reducer: dynamicViewConfigurationReducer,
-  },
-];
+export const configurationReducers = createConfigurationReducers({
+  [constants.VM_VIEW_TEXT]: textViewConfigurationReducer,
+  [constants.VM_VIEW_PLOT]: plotViewConfigurationReducer,
+  [constants.VM_VIEW_DYNAMIC]: dynamicViewConfigurationReducer,
+});
 
-export default _.compose(
-  _.omitBy(_.isUndefined),
-  _.mapKeys(appendString('Configuration')),
-  _.mapValues('reducer'),
-  _.indexBy('type'),
-  _.map(createViewReducer)
-)(listConfigurationReducers);
+export const dataReducers = createDataReducers({
+  [constants.VM_VIEW_TEXT]: textViewDataReducer,
+  [constants.VM_VIEW_PLOT]: plotViewDataReducer,
+  [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
+});

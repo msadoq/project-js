@@ -59,7 +59,7 @@ const list = {
 
 export default list;
 export * from './selectors';
-export { default as configurationReducers } from './reducers';
+export * from './reducers';
 
 export function getAvailableViews() {
   return Object.keys(list);

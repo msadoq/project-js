@@ -111,6 +111,6 @@ export default function plotViewData(state = {}, action) {
   }
 }
 
-export const getPlotViewData = state => state.plotViewData;
+export const getPlotViewData = state => state.PlotViewData;
 
-export const getData = (state, { viewId }) => state.plotViewData[viewId];
+export const getData = (state, { viewId }) => state.PlotViewData[viewId];

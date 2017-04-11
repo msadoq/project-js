@@ -15,11 +15,8 @@ import masterSession from './masterSession';
 import health from './health';
 import editor from './editor';
 import inspector from './inspector';
-import plotViewData from '../../viewManager/PlotView/store/dataReducer';
-import textViewData from '../../viewManager/TextView/store/dataReducer';
-import dynamicViewData from '../../viewManager/DynamicView/store/dataReducer';
 
-import { configurationReducers } from '../../viewManager/';
+import { configurationReducers, dataReducers } from '../../viewManager/';
 
 const rootReducer = combineReducers({
   form,
@@ -37,10 +34,8 @@ const rootReducer = combineReducers({
   health,
   editor,
   inspector,
-  plotViewData,
-  textViewData,
-  dynamicViewData,
   ...configurationReducers,
+  ...dataReducers,
 });
 
 export default rootReducer;

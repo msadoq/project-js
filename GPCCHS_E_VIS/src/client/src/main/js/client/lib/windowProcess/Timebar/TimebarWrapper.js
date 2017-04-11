@@ -1,5 +1,4 @@
 import React, { PureComponent, PropTypes } from 'react';
-import classnames from 'classnames';
 import getLogger from 'common/log';
 import styles from './TimebarWrapper.css';
 import LeftTabContainer from './LeftTab/LeftTabContainer';
@@ -101,6 +100,7 @@ export default class TimebarWrapper extends PureComponent {
       timebar,
       pageId,
       height,
+      width,
     } = this.props;
     const {
       displayTimesetter,
@@ -133,8 +133,9 @@ export default class TimebarWrapper extends PureComponent {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <div className={classnames('col-xs-9', styles.h100minus13)}>
+        <div className={styles.timebarWrapper}>
           <RightTabContainer
+            containerWidth={width * 0.75}
             timebar={timebar}
             isPlaying={isPlaying}
             timelines={timelines}

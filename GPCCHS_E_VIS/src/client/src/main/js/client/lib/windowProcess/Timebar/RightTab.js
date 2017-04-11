@@ -4,7 +4,6 @@ import _memoize from 'lodash/memoize';
 import TimeBar from './Timebar/Timebar';
 import ControlsContainer from './Controls/ControlsContainer';
 import styles from './RightTab.css';
-import Dimensions from '../common/Dimensions';
 
 class RightTabContent extends PureComponent {
 
@@ -221,4 +220,4 @@ class RightTabContent extends PureComponent {
   }
 }
 
-export default Dimensions()(RightTabContent);
+export default RightTabContent;

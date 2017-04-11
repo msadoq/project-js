@@ -1,3 +1,4 @@
+/* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
@@ -10,15 +11,15 @@ import dynamicViewData from './DynamicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
 
-import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
+import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import historyViewSchema from './HistoryView/HistoryView.schema.json';
 import packetViewSchema from './PacketView/PacketView.schema.json';
 
-import dynamicViewModule from './DynamicView';
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
+import dynamicViewModule from './DynamicView';
 import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
 
@@ -30,36 +31,56 @@ const list = {
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: plotViewData,
+    getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
+    getEditorComponent: () => null,
   },
   [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: textViewData,
+    getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
+    getEditorComponent: () => null,
   },
   [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
+    getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
+    getEditorComponent: () => null,
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,
     viewModule: historyViewModule,
     structureType: DATASTRUCTURETYPE_LIST,
     structureModule: historyViewData,
+    getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
+    getEditorComponent: () => null,
   },
   [constants.VM_VIEW_PACKET]: {
     schema: packetViewSchema,
     viewModule: packetViewModule,
     structureType: DATASTRUCTURETYPE_LIST,
     structureModule: packetViewData,
+    getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
+    getEditorComponent: () => null,
   },
 };
 
 export default list;
 export * from './selectors';
 export * from './reducers';
+
+export const getViewComponent = (type) => {
+  isViewTypeExists(type);
+  return list[type].getViewComponent();
+};
+
+export const getEditorComponent = (type) => {
+  isViewTypeExists(type);
+  return list[type].getEditorComponent();
+};
 
 export function getAvailableViews() {
   return Object.keys(list);

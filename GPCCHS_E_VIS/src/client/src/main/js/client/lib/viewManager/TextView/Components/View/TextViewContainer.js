@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   openEditor: () => openEditor(undefined, viewId),
 }, dispatch);
 
-export const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
+const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
 
 TextViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

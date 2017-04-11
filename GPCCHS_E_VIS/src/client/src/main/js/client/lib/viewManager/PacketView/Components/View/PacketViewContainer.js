@@ -11,7 +11,7 @@ const mapStateToProps = createStructuredSelector({
   },
 });
 
-export const PacketViewContainer = connect(mapStateToProps)(PacketView);
+const PacketViewContainer = connect(mapStateToProps)(PacketView);
 
 PacketViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

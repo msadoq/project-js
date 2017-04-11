@@ -11,7 +11,7 @@ const mapStateToProps = createStructuredSelector({
   },
 });
 
-export const HistoryViewContainer = connect(mapStateToProps)(HistoryView);
+const HistoryViewContainer = connect(mapStateToProps)(HistoryView);
 
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

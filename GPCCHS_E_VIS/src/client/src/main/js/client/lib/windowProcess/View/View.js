@@ -5,10 +5,7 @@ import classnames from 'classnames';
 import getLogger from 'common/log';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
-import PlotView from '../../viewManager/PlotView/Components/View/PlotViewContainer';
-import TextView from '../../viewManager/TextView/Components/View/TextViewContainer';
-import DynamicView from '../../viewManager/DynamicView/Components/View/DynamicViewContainer';
-import UnknownView from './UnknownView';
+import { getViewComponent } from '../../viewManager';
 import { main } from '../ipc';
 
 import styles from './View.css';
@@ -56,20 +53,8 @@ export default class View extends PureComponent {
       backgroundColor,
       maximized,
     } = this.props;
-    let ContentComponent;
-    switch (type) {
-      case 'PlotView':
-        ContentComponent = PlotView;
-        break;
-      case 'TextView':
-        ContentComponent = TextView;
-        break;
-      case 'DynamicView':
-        ContentComponent = DynamicView;
-        break;
-      default:
-        ContentComponent = UnknownView;
-    }
+    const ContentComponent = getViewComponent(type);
+    // console.warn(ContentComponent);
     const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (

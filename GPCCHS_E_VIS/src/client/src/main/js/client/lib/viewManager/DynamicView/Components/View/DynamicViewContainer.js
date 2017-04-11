@@ -15,7 +15,7 @@ const mapStateToProps = createStructuredSelector({
   data: getData,
 });
 
-export const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);
+const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);
 
 DynamicViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

@@ -11,8 +11,10 @@ const initialState = {
   folder: null,
   file: null,
   focusWindow: null,
+  isModified: true,
 };
 
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function hsc(state = initialState, action) {
   switch (action.type) {
     case types.HSC_PLAY:
@@ -40,6 +42,21 @@ export default function hsc(state = initialState, action) {
         });
       }
       return state;
+    case types.WS_TIMEBAR_UPDATE_CURSORS:
+    case types.WS_TIMELINE_CREATE_NEW:
+    case types.WS_TIMELINE_REMOVE:
+    case types.WS_PAGE_UPDATE_TIMEBARID:
+    case types.WS_PAGE_OPEN:
+    case types.WS_PAGE_ADD_BLANK:
+    case types.WS_PAGE_CLOSE:
+    case types.WS_WINDOW_PAGE_REORDER:
+    case types.WS_WINDOW_MOVE_TAB_ORDER:
+    case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
+      return _.set('isModified', true, state);
+    case types.WS_WORKSPACE_SET_MODIFIED:
+      return _.set('isModified', action.payload.flag, state);
+    case types.WS_WORKSPACE_OPEN:
+      return _.set('isModified', false, state);
     default:
       return state;
   }
@@ -57,3 +74,4 @@ export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
+export const getWorkspaceIsModified = inHsc('isModified');

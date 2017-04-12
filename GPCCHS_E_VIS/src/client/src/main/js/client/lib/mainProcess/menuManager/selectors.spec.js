@@ -1,5 +1,5 @@
 import { testMemoization } from '../../common/test';
-import { getPageModifiedViewsIds, getModifiedWindowsIds } from './selectors';
+import { getPageModifiedViewsIds } from './selectors';
 
 describe('store:page:selectors', () => {
   describe('getPageModifiedViewsIds', () => {
@@ -19,23 +19,6 @@ describe('store:page:selectors', () => {
     });
     it('should memoize', () => {
       testMemoization(getPageModifiedViewsIds, state, { pageId: 'myPageId1' });
-    });
-  });
-
-  describe('getModifiedWindowsIds', () => {
-    const state = {
-      windows: {
-        a: { isModified: true },
-        b: {},
-        c: { isModified: true },
-        d: {},
-      },
-    };
-    it('returns modified windows ids', () => {
-      getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
-    });
-    it('should memoize', () => {
-      testMemoization(getModifiedWindowsIds, state);
     });
   });
 });

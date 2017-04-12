@@ -35,7 +35,6 @@ describe('store:windows:reducer', () => {
         geometry: { w: 800, h: 600, x: 110, y: 10 },
         minimized: false,
         isLoaded: false,
-        isModified: true,
         uuid: 'myWindowId',
       });
     });
@@ -43,7 +42,6 @@ describe('store:windows:reducer', () => {
       const state = reducer(undefined, actions.addWindow('myWindowId'));
       const win = state.myWindowId;
       win.title.should.eql('Unknown');
-      win.isModified.should.eql(true);
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
     });

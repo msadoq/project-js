@@ -89,13 +89,6 @@ describe('store:windows:reducer:window', () => {
       reducer(state, action).myWindowId.minimized.should.not.be.true;
     });
   });
-  describe('setModified', () => {
-    it('ok', () => {
-      reducer({ myWindowId: { title: 'Title', isModified: false } },
-      actions.setModified('myWindowId', true))
-        .should.eql({ myWindowId: { title: 'Title', isModified: true } });
-    });
-  });
   describe('setIsLoaded', () => {
     it('should set is loaded', () => {
       reducer({ myWindowId: { title: 'Title', isLoaded: false } },

@@ -16,6 +16,7 @@ import ContentContainer from '../Page/ContentContainer';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import TimebarCollapsedContainer from '../Timebar/TimebarCollapsedContainer';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
+import ModalGeneric from '../common/ModalGeneric';
 
 import styles from './Window.css';
 
@@ -51,6 +52,8 @@ class Window extends PureComponent {
     minimizeExplorer: PropTypes.func.isRequired,
     minimizeEditor: PropTypes.func.isRequired,
     minimizeTimebar: PropTypes.func.isRequired,
+    modal: PropTypes.objectOf(PropTypes.shape),
+    closeModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -64,6 +67,7 @@ class Window extends PureComponent {
     timebarIsMinimized: false,
     explorerWidth: defaultExplorerWidth,
     explorerIsMinimized: true,
+    modal: null,
   }
 
   static childContextTypes = {
@@ -201,6 +205,14 @@ class Window extends PureComponent {
     minimizeExplorer(pageId, !explorerIsMinimized);
   }
 
+  closeModal = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    const { windowId, closeModal } = this.props;
+    closeModal(windowId);
+  }
+
   render() {
     const {
       pageId,
@@ -215,6 +227,7 @@ class Window extends PureComponent {
       explorerWidth,
       explorerIsMinimized,
       timebarIsMinimized,
+      modal,
     } = this.props;
 
     logger.debug('render');
@@ -327,11 +340,22 @@ class Window extends PureComponent {
         </div>
       );
 
+    const modalComponent = modal ?
+      (
+        <ModalGeneric
+          isOpened={modal.opened}
+          onClose={this.closeModal}
+          props={modal}
+        />
+      )
+      : null;
+
     return (
       <div
         className={styles.container}
       >
         {isHelpDisplayed ? <HelpContent /> : ''}
+        {modalComponent}
         <div
           style={tabsContainerStyle}
         >

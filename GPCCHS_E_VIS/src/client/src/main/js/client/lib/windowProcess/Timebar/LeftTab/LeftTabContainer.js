@@ -1,15 +1,13 @@
 import { connect } from 'react-redux';
-import { updateMasterId } from '../../../store/actions/timebars';
 import { updateTimebarId } from '../../../store/actions/pages';
 import { getSessions } from '../../../store/reducers/sessions';
 import {
   createNewTimeline,
   removeTimeline,
-  updateId,
-  updateOffset,
-  updateSessionName,
-  updateColor,
 } from '../../../store/actions/timelines';
+import {
+  open as openModal,
+} from '../../../store/actions/modals';
 import LeftTab from './LeftTab';
 
 const mapStateToProps = state => ({
@@ -17,14 +15,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  updateMasterId,
-  updateOffset,
-  updateSessionName,
-  updateColor,
   createNewTimeline,
-  updateId,
   removeTimeline,
   updateTimebarId,
+  openModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeftTab);

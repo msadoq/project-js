@@ -5,6 +5,7 @@ import hsc from './hsc';
 import timebars from './timebars';
 import timebarTimelines from './timebarTimelines';
 import messages from './messages';
+import modals from './modals';
 import timelines from './timelines';
 import windows from './windows';
 import pages from './pages';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   timebars,
   timebarTimelines,
   messages,
+  modals,
   timelines,
   windows,
   pages,

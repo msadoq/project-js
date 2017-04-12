@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import HistoryView from './HistoryView';
+import SkeletonView from './SkeletonView';
 
 
 const mapStateToProps = createStructuredSelector({
@@ -11,9 +11,9 @@ const mapStateToProps = createStructuredSelector({
   }),
 });
 
-const HistoryViewContainer = connect(mapStateToProps)(HistoryView);
+const SkeletonViewContainer = connect(mapStateToProps)(SkeletonView);
 
-HistoryViewContainer.propTypes = {
+SkeletonViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
 };
-export default HistoryViewContainer;
+export default SkeletonViewContainer;

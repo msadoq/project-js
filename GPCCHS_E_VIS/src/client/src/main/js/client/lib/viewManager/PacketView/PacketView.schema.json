@@ -85,7 +85,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["PacketView"]
+            "enum": ["HistoryView"]
           },
           "entryPoint": {
             "type": "object",

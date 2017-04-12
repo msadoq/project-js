@@ -1,16 +1,5 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React from 'react';
 
-export default class PacketView extends PureComponent {
-  static propTypes = {
-    data: PropTypes.shapeOf({
-      indexes: PropTypes.object.isRequired,
-      values: PropTypes.object.isRequired,
-    }).isRequired,
-  };
+const PacketView = () => <div>Here is the view</div>;
 
-  render() {
-    return (
-      <div />
-    );
-  }
-}
+export default PacketView;

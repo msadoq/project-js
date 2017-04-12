@@ -8,11 +8,13 @@ import textViewConfigurationReducer from './TextView/store/configurationReducer'
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
+import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
 
 import textViewDataReducer from './TextView/store/dataReducer';
 import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
 import historyViewDataReducer from './HistoryView/store/dataReducer';
+import packetViewDataReducer from './PacketView/store/dataReducer';
 
 import * as constants from './constants';
 
@@ -42,6 +44,7 @@ export const configurationReducers = createConfigurationReducers({
   [constants.VM_VIEW_PLOT]: plotViewConfigurationReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewConfigurationReducer,
   [constants.VM_VIEW_HISTORY]: historyViewConfigurationReducer,
+  [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
 });
 
 export const dataReducers = createDataReducers({
@@ -49,4 +52,5 @@ export const dataReducers = createDataReducers({
   [constants.VM_VIEW_PLOT]: plotViewDataReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
   [constants.VM_VIEW_HISTORY]: historyViewDataReducer,
+  [constants.VM_VIEW_PACKET]: packetViewDataReducer,
 });

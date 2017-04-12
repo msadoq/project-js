@@ -5,10 +5,10 @@ import PacketView from './PacketView';
 
 
 const mapStateToProps = createStructuredSelector({
-  data: {
+  data: () => ({
     indexes: {},
     values: {},
-  },
+  }),
 });
 
 const PacketViewContainer = connect(mapStateToProps)(PacketView);

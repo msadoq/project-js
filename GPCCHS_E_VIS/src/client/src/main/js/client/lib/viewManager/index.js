@@ -64,7 +64,7 @@ const list = {
     structureType: DATASTRUCTURETYPE_LIST,
     structureModule: packetViewData,
     getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
-    getEditorComponent: () => null,
+    getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
   },
 };
 

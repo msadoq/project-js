@@ -181,22 +181,24 @@ class Window extends PureComponent {
     }
   }
 
-  willExpandEditor = (e) => {
+  willMinimizeEditor = (e) => {
     e.preventDefault();
     const {
       minimizeEditor,
+      editorIsMinimized,
       pageId,
     } = this.props;
-    minimizeEditor(pageId, false);
+    minimizeEditor(pageId, !editorIsMinimized);
   }
 
-  willExpandExplorer = (e) => {
+  willMinimizedExplorer = (e) => {
     e.preventDefault();
     const {
       minimizeExplorer,
+      explorerIsMinimized,
       pageId,
     } = this.props;
-    minimizeExplorer(pageId, false);
+    minimizeExplorer(pageId, !explorerIsMinimized);
   }
 
   render() {
@@ -236,7 +238,7 @@ class Window extends PureComponent {
         <div>
           <button
             className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
-            onClick={this.willExpandEditor}
+            onClick={this.willMinimizeEditor}
             title="Expand editor"
           >
             <Glyphicon
@@ -245,7 +247,21 @@ class Window extends PureComponent {
           </button>
         </div>
       )
-      : <EditorContainer pageId={pageId} />;
+      :
+      (
+        <div className={classnames('subdiv', styles.editorContainer)}>
+          <button
+            className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
+            onClick={this.willMinimizeEditor}
+            title="Collapse editor"
+          >
+            <Glyphicon
+              glyph="resize-small"
+            />
+          </button>
+          <EditorContainer pageId={pageId} />
+        </div>
+      );
 
     // views
     const views = centralWidth < 1
@@ -285,8 +301,8 @@ class Window extends PureComponent {
       ? (
         <div>
           <button
-            className={classnames('panel-button', styles.barButtonLeft, styles.verticalBarButton)}
-            onClick={this.willExpandExplorer}
+            className={classnames('panel-button', styles.barButtonExplorer)}
+            onClick={this.willMinimizedExplorer}
             title="Expand explorer"
           >
             <Glyphicon
@@ -295,7 +311,21 @@ class Window extends PureComponent {
           </button>
         </div>
       )
-      : <ExplorerContainer windowId={windowId} pageId={pageId} />;
+      :
+      (
+        <div className={styles.explorerCnotainer}>
+          <button
+            className={classnames('panel-button', styles.barButtonExplorer)}
+            onClick={this.willMinimizedExplorer}
+            title="Collapse explorer"
+          >
+            <Glyphicon
+              glyph="resize-small"
+            />
+          </button>
+          <ExplorerContainer windowId={windowId} pageId={pageId} />
+        </div>
+      );
 
     return (
       <div

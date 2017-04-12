@@ -3,9 +3,7 @@ import _get from 'lodash/get';
 import {
   FormGroup,
   FormControl,
-  Glyphicon,
 } from 'react-bootstrap';
-import classnames from 'classnames';
 import DataMapContainer from './widgets/DataMapContainer';
 import StoreContainer from './widgets/StoreContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
@@ -101,16 +99,7 @@ export default class Explorer extends PureComponent {
     const Widget = _get(widgets, [tabId, 'component'], NotAlreadyImplemented);
 
     return (
-      <div className={styles.container}>
-        <button
-          className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
-          onClick={this.willExpandExplorer}
-          title="Collapse explorer"
-        >
-          <Glyphicon
-            glyph="resize-small"
-          />
-        </button>
+      <div>
         <FormGroup controlId="formControlsSelect">
           <FormControl
             componentClass="select"

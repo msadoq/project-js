@@ -8,6 +8,7 @@ export const updateInspectorDataId = simple(types.HSC_UPDATE_INSPECTOR_DATA_ID, 
 // STATIC DATA
 export const setInspectorStaticData = simple(types.HSC_SET_INSPECTOR_STATIC_DATA, 'data');
 export const isInspectorStaticDataLoading = simple(types.HSC_IS_INSPECTOR_STATIC_DATA_LOADING, 'loading');
+export const toggleAllInspectorStaticDataNodes = simple(types.HSC_TOGGLE_ALL_INSPECTOR_STATIC_DATA_NODES, 'toggled');
 // STATIC DATA NODE
 export const updateInspectorStaticDataNode = simple(types.HSC_UPDATE_INSPECTOR_STATIC_DATA_NODE, 'path', 'data');
 export const isInspectorStaticDataNodeLoading = simple(types.HSC_IS_INSPECTOR_STATIC_DATA_NODE_LOADING, 'path', 'loading');

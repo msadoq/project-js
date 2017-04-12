@@ -8,6 +8,8 @@ import {
 } from '../../../store/reducers/inspector';
 import {
   isInspectorStaticDataNodeToggled as toggleNode,
+  isInspectorStaticDataNodeLoading as loadingNode,
+  toggleAllInspectorStaticDataNodes as toggleAllNodes,
 } from '../../../store/actions/inspector';
 
 const mapStateToProps = (state) => {
@@ -23,6 +25,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-const InspectorContainer = connect(mapStateToProps, { toggleNode })(Inspector);
+const InspectorContainer = connect(mapStateToProps, {
+  toggleNode,
+  toggleAllNodes,
+  loadingNode,
+})(Inspector);
 
 export default InspectorContainer;

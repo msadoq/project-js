@@ -1,4 +1,4 @@
-import { freezeArgs } from '../../../common/test';
+import { should, freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/inspector';
 import inspectorReducer, {
   getInspectorDataId,
@@ -62,13 +62,49 @@ describe('store:inspector:reducer', () => {
     reducer({ staticData: { name: 'param' } }, actions.isInspectorStaticDataLoading(true))
     .should.have.a.property('staticData').that.have.properties({ name: 'param', loading: true });
   });
+  it('should toggled all inspector static data nodes', () => {
+    should.not.exist(
+      reducer(undefined, actions.toggleAllInspectorStaticDataNodes(false)).staticData
+    );
+    const state = {
+      staticData: {
+        name: 'node1',
+        children: [
+          { name: 'node11' },
+          {
+            name: 'node12',
+            children: [
+              { name: 'node121' },
+              { name: 'node122' },
+            ],
+          },
+        ],
+      },
+    };
+    reducer(state, actions.toggleAllInspectorStaticDataNodes(true))
+    .should.have.a.property('staticData').that.have.properties({
+      name: 'node1',
+      toggled: true,
+      children: [
+        { name: 'node11', toggled: true, children: [] },
+        {
+          name: 'node12',
+          toggled: true,
+          children: [
+            { name: 'node121', toggled: true, children: [] },
+            { name: 'node122', toggled: true, children: [] },
+          ],
+        },
+      ],
+    });
+  });
   // STATIC DATA NODE
   it('should update inspector static data node', () => {
     reducer(undefined, actions.updateInspectorStaticDataNode(['children', '0'], { name: 'param' }))
     .should.have.a.property('staticData').that.have.properties({ children: [{ name: 'param' }] });
-    reducer({ staticData: { name: 'param', children: [{ name: 'foo' }] } },
+    reducer({ staticData: { name: 'param', children: [{ name: 'foo' }, { name: 'other' }] } },
     actions.updateInspectorStaticDataNode(['children', '0'], { foo: 'bar' }))
-    .should.have.a.property('staticData').that.have.properties({ name: 'param', children: [{ name: 'foo', foo: 'bar' }] });
+    .should.have.a.property('staticData').that.have.properties({ name: 'param', children: [{ name: 'foo', foo: 'bar' }, { name: 'other' }] });
   });
   it('should update inspector static data node loading state', () => {
     reducer(undefined, actions.isInspectorStaticDataNodeLoading(['children', '0'], true))

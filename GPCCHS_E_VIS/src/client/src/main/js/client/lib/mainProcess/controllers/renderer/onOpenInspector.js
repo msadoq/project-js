@@ -65,9 +65,8 @@ export default function ({ pageId, remoteId, dataId }) {
         ));
         return;
       }
-      const staticData = prepareDataToTree(data, { noRoot: true });
+      const staticData = prepareDataToTree(data);
       dispatch(setInspectorStaticData(staticData));
-      dispatch(isInspectorStaticDataLoading(false));
     });
   });
 }

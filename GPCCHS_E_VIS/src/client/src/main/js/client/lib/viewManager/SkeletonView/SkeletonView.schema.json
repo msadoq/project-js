@@ -85,7 +85,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["HistoryView"]
+            "enum": ["SkeletonView"]
           },
           "entryPoint": {
             "type": "object",

@@ -10,9 +10,8 @@ export function addEpInRemoteIdMap(remoteIdMap, ep, viewId) {
   }
   const newMap = remoteIdMap || {};
   if (!newMap[remoteId]) {
-    const { dataId, filter, structureType } = ep;
+    const { dataId, filter } = ep;
     newMap[remoteId] = {
-      structureType,
       dataId,
       filter,
       localIds: {},

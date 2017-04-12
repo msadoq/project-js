@@ -198,7 +198,6 @@ describe('dataManager/perViewData', () => {
     map.should.eql({
       type: 'TextView',
       masterSessionId: 10,
-      structureType: 'last',
       entryPoints: {
         STAT_SU_PID: {
           id: 'id1',
@@ -216,8 +215,7 @@ describe('dataManager/perViewData', () => {
           filter: [],
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
-          structureType: 'last',
-          remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           type: 'TextView',
         },
         STAT_WILDCARD_TIMELINE: {
@@ -236,8 +234,7 @@ describe('dataManager/perViewData', () => {
           filter: [],
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
-          structureType: 'last',
-          remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+          remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
           type: 'TextView',
         },
         STAT_UNKNOW_DOMAIN: { error: 'invalid entry point, no domain matches' },
@@ -260,8 +257,7 @@ describe('dataManager/perViewData', () => {
           filter: [],
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
-          structureType: 'last',
-          remoteId: 'last@Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>:10:4',
+          remoteId: 'Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>:10:4',
           type: 'TextView',
         },
         STAT_INVALID_FORMULA: {
@@ -274,7 +270,6 @@ describe('dataManager/perViewData', () => {
     map.should.eql({
       type: 'PlotView',
       masterSessionId: 10,
-      structureType: 'range',
       entryPoints: {
         STAT_SU_PID: {
           id: 'id60',
@@ -293,9 +288,8 @@ describe('dataManager/perViewData', () => {
           filter: [],
           localId: 'groundDate/extractedValue.tb1:0',
           timebarUuid: 'tb1',
-          structureType: 'range',
           type: 'PlotView',
-          remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           stateColors: [{
             color: '#000000',
             condition: {
@@ -314,7 +308,6 @@ describe('dataManager/perViewData', () => {
     map.should.eql({
       type: 'DynamicView',
       masterSessionId: 10,
-      structureType: 'last',
       entryPoints: {
         dynamicEP: {
           id: 'id100',
@@ -331,8 +324,7 @@ describe('dataManager/perViewData', () => {
           filter: [],
           localId: 'undefined.tb1:0',
           timebarUuid: 'tb1',
-          structureType: 'last',
-          remoteId: 'last@Decommuted.STAT_SU_PID<DecommutedPacket>:181:4',
+          remoteId: 'Decommuted.STAT_SU_PID<DecommutedPacket>:181:4',
           type: 'DynamicView',
         },
       },

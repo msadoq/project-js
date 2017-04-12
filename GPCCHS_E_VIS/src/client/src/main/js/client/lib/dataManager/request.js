@@ -1,12 +1,12 @@
 import _isObject from 'lodash/isObject';
 import _each from 'lodash/each';
-import _map from 'lodash/map';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
+import { addInterval, retrieveNeededIntervals } from '../viewManager/commonData/intervalManagement';
 
-import { operators } from '../common/operators';
+// import { operators } from '../common/operators';
 import { getStructureModule } from '../viewManager';
 
 const logger = getLogger('data:requests');
@@ -42,11 +42,9 @@ const logger = getLogger('data:requests');
  */
 export function missingRemoteIds(dataMap, lastMap) {
   const queries = {};
-  _each(dataMap.perRemoteId, ({ dataId, filter, localIds, views, structureType }, remoteId) => {
-    // const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
-    // const addInterval = structures(structureType, 'addInterval');
+  _each(dataMap.perRemoteId, ({ dataId, localIds, views }, remoteId) => {
     _each(localIds, ({ viewType }, localId) => {
-      const retrieveNeededIntervals = getStructureModule(viewType).retrieveNeededIntervals;
+      // const retrieveNeededIntervals = getStructureModule(viewType).retrieveNeededIntervals;
 
       const knownInterval =
         _get(lastMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
@@ -65,26 +63,24 @@ export function missingRemoteIds(dataMap, lastMap) {
       }
 
       if (!queries[remoteId]) {
-        const filters = (typeof filter === 'undefined') ?
-          [] :
-          _map(
-            filter,
-            f => ({
-              fieldName: f.field,
-              type: operators[f.operator],
-              fieldValue: f.operand,
-            })
-          );
+        // const filters = (typeof filter === 'undefined') ?
+        //   [] :
+        //   _map(
+        //     filter,
+        //     f => ({
+        //       fieldName: f.field,
+        //       type: operators[f.operator],
+        //       fieldValue: f.operand,
+        //     })
+        //   );
 
         queries[remoteId] = {
-          type: structureType,
           dataId,
           intervals: [],
-          filters,
         };
       }
 
-      const addInterval = getStructureModule(viewType).addInterval;
+      // const addInterval = getStructureModule(viewType).addInterval;
       _each(needed, (m) => {
         queries[remoteId].intervals = addInterval(queries[remoteId].intervals, m);
       });

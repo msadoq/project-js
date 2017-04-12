@@ -245,8 +245,7 @@ describe('store:views:selectors', () => {
       filter: [],
       localId: 'extractedValue.tb1:0',
       timebarUuid: 'tb1',
-      structureType: 'last',
-      remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+      remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
       type: 'TextView',
       name: 'STAT_SU_PID',
     });

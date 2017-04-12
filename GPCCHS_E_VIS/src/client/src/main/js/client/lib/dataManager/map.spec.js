@@ -258,8 +258,7 @@ beforeEach(() => {
   };
 });
 const dataMap = {
-  'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
-    structureType: 'last',
+  'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
     dataId: {
       catalog: 'TelemetryPacket',
       parameterName: 'CLCW_TM_NOMINAL',
@@ -279,8 +278,7 @@ const dataMap = {
       },
     },
   },
-  'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-    structureType: 'range',
+  'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
     dataId: {
       catalog: 'Reporting',
       parameterName: 'STAT_SU_PID',
@@ -291,7 +289,7 @@ const dataMap = {
       sessionName: 'Session#181',
     },
     filter: [],
-    views: ['plot1'],
+    views: ['text1', 'plot1'],
     localIds: {
       'groundDate/extractedValue.tb1:0': {
         fieldX: 'groundDate',
@@ -300,22 +298,6 @@ const dataMap = {
         offset: 0,
         viewType: 'PlotView',
       },
-    },
-  },
-  'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_PID',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      domain: 'fr.cnes.isis.simupus',
-      sessionId: 181,
-      sessionName: 'Session#181',
-    },
-    filter: [],
-    views: ['text1'],
-    localIds: {
       'extractedValue.tb1:0': {
         field: 'extractedValue',
         timebarUuid: 'tb1',
@@ -329,7 +311,6 @@ const viewMap = {
   text1: {
     type: 'TextView',
     masterSessionId: 10,
-    structureType: 'last',
     entryPoints: {
       STAT_SU_PID: {
         id: 'id1',
@@ -347,8 +328,7 @@ const viewMap = {
         filter: [],
         localId: 'extractedValue.tb1:0',
         timebarUuid: 'tb1',
-        structureType: 'last',
-        remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+        remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
         type: 'TextView',
       },
       STAT_UNKNOW_DOMAIN: {
@@ -362,7 +342,6 @@ const viewMap = {
   plot1: {
     type: 'PlotView',
     masterSessionId: 10,
-    structureType: 'range',
     entryPoints: {
       STAT_SU_PID: {
         id: 'id60',
@@ -381,8 +360,7 @@ const viewMap = {
         filter: [],
         localId: 'groundDate/extractedValue.tb1:0',
         timebarUuid: 'tb1',
-        structureType: 'range',
-        remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+        remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
         type: 'PlotView',
         stateColors: [{
           color: '#000000',
@@ -399,7 +377,6 @@ const viewMap = {
   dynamic1: {
     type: 'DynamicView',
     masterSessionId: 10,
-    structureType: 'last',
     entryPoints: {
       dynamicEP: {
         id: 'id70',
@@ -416,8 +393,7 @@ const viewMap = {
         filter: [],
         localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',
         timebarUuid: 'tb1',
-        structureType: 'last',
-        remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
         type: 'DynamicView',
         stateColors: [{
           color: '#000000',
@@ -433,17 +409,15 @@ const viewMap = {
 };
 
 const intervalMap = {
-  'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+  'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
     'extractedValue.tb1:0': {
       expectedInterval: [1420106790818, 1420106843902],
     },
-  },
-  'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
     'groundDate/extractedValue.tb1:0': {
       expectedInterval: [1420106790818, 1420107056239],
     },
   },
-  'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+  'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
     'undefined.tb1:0:#000000.monitoringState.==.waiting': {
       expectedInterval: [1420106790818, 1420106843902],
     },

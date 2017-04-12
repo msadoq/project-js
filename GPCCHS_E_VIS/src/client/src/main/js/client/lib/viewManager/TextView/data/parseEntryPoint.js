@@ -40,7 +40,7 @@ function parseEntryPoint(
   }
   const { dataId, field, offset, filter } = cd;
   // compute remoteId
-  const remoteId = remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_LAST, dataId, filter);
+  const remoteId = remoteIdGenerator(dataId);
 
   const ep = {
     [name]: {
@@ -51,7 +51,6 @@ function parseEntryPoint(
       offset,
       filter,
       timebarUuid,
-      structureType: globalConstants.DATASTRUCTURETYPE_LAST,
       id,
       type: viewType,
     },

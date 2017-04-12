@@ -68,7 +68,6 @@ export const getPerRemoteIdMap = createSelector(
  *     'viewId': {
  *       type: 'TextView',
  *       masterSessionId: number,
- *       structureType: 'last',
  *       entryPoints: {
  *         'name': {
  *           remoteId: string,
@@ -78,7 +77,6 @@ export const getPerRemoteIdMap = createSelector(
  *           offset: number,
  *           filter: [],
  *           timebarUuid: string,
- *           structureType: last,
  *           id: string,
  ----        error: string, // if exists => no other parameter
  *         },
@@ -87,7 +85,6 @@ export const getPerRemoteIdMap = createSelector(
  *     'viewId': {
  *       type: 'PlotView',
  *       masterSessionId: number,
- *       structureType: 'range',
  *       entryPoints: {
  *         'name': {
  *           remoteId: string,
@@ -98,7 +95,6 @@ export const getPerRemoteIdMap = createSelector(
  *           offset: number,
  *           filter: [],
  *           timebarUuid: string,
- *           structureType: range,
  *           id: string,
  ----        error: string, // if exists => no other parameter
  *         },
@@ -106,7 +102,6 @@ export const getPerRemoteIdMap = createSelector(
  *     },
  *     'viewId': {
  *       type: 'DynamicView',
- *       structureType: 'last',
  *       entryPoints: {
  *         dynamicEP: {
  *            remoteId: string,

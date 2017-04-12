@@ -9,7 +9,6 @@ import { getSessions } from '../store/reducers/sessions';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
 import {
-  getStructureType,
   getStructureModule,
   getConfigurationByViewId,
 } from '../viewManager';
@@ -43,12 +42,10 @@ export default function makeGetPerViewData() {
         return {};
       }
       const { entryPoints } = configuration;
-      const structureType = getStructureType(type);
 
       return {
         type,
         masterSessionId,
-        structureType,
         entryPoints: entryPoints.reduce((acc, ep) => {
           const val =
           getStructureModule(type).parseEntryPoint(

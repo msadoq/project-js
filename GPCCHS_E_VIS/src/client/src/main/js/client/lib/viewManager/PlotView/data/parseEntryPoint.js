@@ -39,12 +39,11 @@ export default function parseEntryPoint(
     return { [name]: { error: 'parametric entryPoint detected for this view' } };
   }
 
-  const remoteIdY =
-    remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_RANGE, cd.dataId, cd.filter);
+  const remoteId = remoteIdGenerator(cd.dataId);
 
   const ep = {
     [name]: {
-      remoteId: remoteIdY,
+      remoteId,
       dataId: cd.dataId,
       localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
       fieldX: connectedData.fieldX,
@@ -52,7 +51,6 @@ export default function parseEntryPoint(
       offset: cd.offset,
       timebarUuid,
       filter: cd.filter,
-      structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
       id,
       type: viewType,
     },

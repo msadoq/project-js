@@ -66,8 +66,7 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
         filter: {},
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
-        structureType: globalConstants.DATASTRUCTURETYPE_LAST,
-        remoteId: 'last@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
         type: 'TextView',
       },
     });

@@ -65,8 +65,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         filter: {},
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
-        structureType: globalConstants.DATASTRUCTURETYPE_LAST,
-        remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
         type: 'DynamicView',
       },
     });

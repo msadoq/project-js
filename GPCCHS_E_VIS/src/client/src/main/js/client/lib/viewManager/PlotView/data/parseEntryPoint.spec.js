@@ -77,8 +77,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         filter: {},
         localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
-        structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
-        remoteId: 'range@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
         type: 'PlotView',
         stateColors: [
           {

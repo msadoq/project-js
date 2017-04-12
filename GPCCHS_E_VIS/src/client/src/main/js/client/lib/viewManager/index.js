@@ -56,7 +56,7 @@ const list = {
     structureType: DATASTRUCTURETYPE_LIST,
     structureModule: historyViewData,
     getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
-    getEditorComponent: () => null,
+    getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
   },
   [constants.VM_VIEW_PACKET]: {
     schema: packetViewSchema,

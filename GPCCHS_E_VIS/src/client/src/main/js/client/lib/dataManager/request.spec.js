@@ -71,7 +71,7 @@ const newMap = _cloneDeep(dataMap);
 newMap.expectedIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
 = [1420106800818, 1420106853902];
 
-describe.only('data:request', () => {
+describe('data:request', () => {
   it('missingRemoteIds from empty dataMap', () => {
     const queries = missingRemoteIds(dataMap, { perRemoteId: {}, expectedIntervals: {} });
     queries.should.eql({

@@ -2,8 +2,8 @@ import __ from 'lodash/fp';
 
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
+import remoteIdGenerator from 'common/utils/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
-import remoteIdGenerator from '../../commonData/remoteId';
 
 const logger = getLogger('data:DynamicView:parseEntryPoint');
 function flattenStateColors(stateColors = []) {

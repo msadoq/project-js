@@ -33,7 +33,6 @@ module.exports = function sendArchiveData(
   queryId,
   dataId,
   interval,
-  queryArguments,
   zmq
 ) {
   const from = interval.startTime.ms;
@@ -49,22 +48,9 @@ module.exports = function sendArchiveData(
 
   const payloads = [];
   const now = Date.now();
-
-  if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
-    // compute number of steps from lower time to current
-    const n = Math.floor((to - from) / globalConstants.DC_STUB_VALUE_TIMESTEP);
-    payloads.push(
-      getPayload(
-        from + (n * globalConstants.DC_STUB_VALUE_TIMESTEP),
-        dataId.comObject,
-        dataId.parameterName
-      )
-    );
-  } else {
-    for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
-      if (shouldPushANewValue(queryKey, i)) {
-        payloads.push(getPayload(i, dataId.comObject, dataId.parameterName));
-      }
+  for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
+    if (shouldPushANewValue(queryKey, i)) {
+      payloads.push(getPayload(i, dataId.comObject, dataId.parameterName));
     }
   }
 

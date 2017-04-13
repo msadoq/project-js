@@ -1,12 +1,10 @@
 import _isEqual from 'lodash/isEqual';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
+import remoteIdGenerator from 'common/utils/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
 
-import remoteIdGenerator from '../../commonData/remoteId';
-
 const logger = getLogger('data:PLotView:parseEntryPoint');
-
 
 export default function parseEntryPoint(
   domains,

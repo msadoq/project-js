@@ -1,5 +1,4 @@
 const _concat = require('lodash/concat');
-const globalConstants = require('common/constants');
 const dataStub = require('common/stubs/data');
 const { decode } = require('common/protobuf');
 const registeredCallbacks = require('common/callbacks');
@@ -39,12 +38,9 @@ describe('controllers/client/onCacheCleanup', () => {
   // Declaring test data
   const dataId1 = dataStub.getDataId({ parameterName: 'data1' });
   const dataId2 = dataStub.getDataId({ parameterName: 'data2' });
-  const filter11 = dataStub.getFilter({ fieldValue: 7 });
-  const filter21 = dataStub.getFilter({ fieldValue: 13 });
-  const filter22 = dataStub.getFilter({ fieldValue: 42 });
-  const remoteId11 = dataStub.getRemoteId(Object.assign({}, dataId1, { filters: [filter11] }));
-  const remoteId21 = dataStub.getRemoteId(Object.assign({}, dataId2, { filters: [filter21] }));
-  const remoteId22 = dataStub.getRemoteId(Object.assign({}, dataId2, { filters: [filter22] }));
+  const remoteId11 = dataStub.getRemoteId(Object.assign({}, dataId1));
+  const remoteId21 = dataStub.getRemoteId(Object.assign({}, dataId2));
+  const remoteId22 = dataStub.getRemoteId(Object.assign({}, dataId2));
   const queryId111 = 'queryId111';
   const interval111 = [0, 4];
   const queryId112 = 'queryId112';
@@ -78,9 +74,9 @@ describe('controllers/client/onCacheCleanup', () => {
     cleanRegisteredQueries();
     registeredCallbacks.clear();
     // Init models and singletons
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId11, dataId1);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId21, dataId2);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId22, dataId2);
+    connectedDataModel.addRecord(remoteId11, dataId1);
+    connectedDataModel.addRecord(remoteId21, dataId2);
+    connectedDataModel.addRecord(remoteId22, dataId2);
     connectedDataModel.addRequestedInterval(remoteId11, queryId111, interval111);
     connectedDataModel.addRequestedInterval(remoteId11, queryId112, interval112);
     connectedDataModel.addRequestedInterval(remoteId21, queryId211, interval211);
@@ -95,13 +91,6 @@ describe('controllers/client/onCacheCleanup', () => {
     registerQuery(queryId222, remoteId22);
     subscriptionsModel.addRecord(dataId1);
     subscriptionsModel.addRecord(dataId2);
-    subscriptionsModel.addFilters(dataId1, {
-      [remoteId11]: [filter11],
-    });
-    subscriptionsModel.addFilters(dataId2, {
-      [remoteId21]: [filter21],
-      [remoteId22]: [filter22],
-    });
     const timebasedDataModel11 = getOrCreateTimebasedDataModel(remoteId11);
     const timebasedDataModel21 = getOrCreateTimebasedDataModel(remoteId21);
     const timebasedDataModel22 = getOrCreateTimebasedDataModel(remoteId22);
@@ -127,8 +116,8 @@ describe('controllers/client/onCacheCleanup', () => {
     onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
-    connectedData.should.have.lengthOf(3);
-    connectedData.should.have.properties([
+    connectedData.should.have.lengthOf(2);
+    connectedData[0].should.have.properties(
       {
         remoteId: remoteId11,
         dataId: dataId1,
@@ -137,30 +126,28 @@ describe('controllers/client/onCacheCleanup', () => {
           received: [],
           requested: { [queryId112]: interval112 },
         },
-      }, {
+      });
+    connectedData[1].should.have.properties(
+      {
         remoteId: remoteId21,
         dataId: dataId2,
         intervals: {
-          all: [interval211],
+          all: [interval211, interval222],
           received: [],
-          requested: { [queryId211]: interval211 },
+          requested: {
+            [queryId211]: interval211,
+            [queryId221]: interval221,
+            [queryId222]: interval222,
+          },
         },
-      }, {
-        remoteId: remoteId22,
-        dataId: dataId2,
-        intervals: {
-          all: [interval221, interval222],
-          received: [],
-          requested: { [queryId221]: interval221, [queryId222]: interval222 },
-        },
-      },
-    ]);
+      });
     // check registered queries
     const queries = getRegisteredQueries();
-    queries.should.have.lengthOf(4);
+    queries.should.have.lengthOf(5);
     queries.should.have.properties([
       { queryId: queryId112, remoteId: remoteId11 },
       { queryId: queryId211, remoteId: remoteId21 },
+      { queryId: queryId212, remoteId: remoteId21 },
       { queryId: queryId221, remoteId: remoteId22 },
       { queryId: queryId222, remoteId: remoteId22 },
     ]);
@@ -169,7 +156,7 @@ describe('controllers/client/onCacheCleanup', () => {
     const tbdModel2 = getTimebasedDataModel(remoteId21);
     const tbdModel3 = getTimebasedDataModel(remoteId22);
     tbdModel1.count().should.equal(2);
-    tbdModel2.count().should.equal(2);
+    tbdModel2.count().should.equal(4);
     tbdModel3.count().should.equal(4);
     tbdModel1.find().should.have.properties([
       { timestamp: ts3, payload: rp },
@@ -178,6 +165,8 @@ describe('controllers/client/onCacheCleanup', () => {
     tbdModel2.find().should.have.properties([
       { timestamp: ts1, payload: rp },
       { timestamp: ts2, payload: rp },
+      { timestamp: ts3, payload: rp },
+      { timestamp: ts4, payload: rp },
     ]);
     tbdModel3.find().should.have.properties([
       { timestamp: ts1, payload: rp },
@@ -190,15 +179,8 @@ describe('controllers/client/onCacheCleanup', () => {
     subscriptionsModel.find().should.have.properties([
       {
         dataId: dataId1,
-        filters: {
-          [remoteId11]: [filter11],
-        },
       }, {
         dataId: dataId2,
-        filters: {
-          [remoteId21]: [filter21],
-          [remoteId22]: [filter22],
-        },
       },
     ]);
     // check zmq message
@@ -244,17 +226,20 @@ describe('controllers/client/onCacheCleanup', () => {
     ]);
     // check registered queries
     const queries = getRegisteredQueries();
-    queries.should.have.lengthOf(3);
+    queries.should.have.lengthOf(5);
     queries.should.have.properties([
       { queryId: queryId112, remoteId: remoteId11 },
+      { queryId: queryId211, remoteId: remoteId21 },
+      { queryId: queryId212, remoteId: remoteId21 },
       { queryId: queryId221, remoteId: remoteId22 },
       { queryId: queryId222, remoteId: remoteId22 },
     ]);
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId11);
-    should.not.exist(getTimebasedDataModel(remoteId21));
+    const tbdModel2 = getTimebasedDataModel(remoteId21);
     const tbdModel3 = getTimebasedDataModel(remoteId22);
     tbdModel1.count().should.equal(2);
+    tbdModel2.count().should.equal(4);
     tbdModel3.count().should.equal(4);
     tbdModel1.find().should.have.properties([
       { timestamp: ts3, payload: rp },
@@ -271,14 +256,8 @@ describe('controllers/client/onCacheCleanup', () => {
     subscriptionsModel.find().should.have.properties([
       {
         dataId: dataId1,
-        filters: {
-          [remoteId11]: [filter11],
-        },
       }, {
         dataId: dataId2,
-        filters: {
-          [remoteId22]: [filter22],
-        },
       },
     ]);
     // check zmq message
@@ -323,14 +302,7 @@ describe('controllers/client/onCacheCleanup', () => {
     ]);
     // check subscriptions model
     subscriptionsModel.count().should.equal(1);
-    subscriptionsModel.find().should.have.properties([
-      {
-        dataId: dataId1,
-        filters: {
-          [remoteId11]: [filter11],
-        },
-      },
-    ]);
+    subscriptionsModel.find().should.have.properties([{ dataId: dataId1 }]);
     // check zmq message
     calls.should.have.lengthOf(4);
     calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());

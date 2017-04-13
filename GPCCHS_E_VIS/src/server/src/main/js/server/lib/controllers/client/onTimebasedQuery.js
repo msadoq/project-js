@@ -1,11 +1,6 @@
 const logger = require('common/log')('controllers:client:onTimebasedQuery');
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
-const {
-  DATASTRUCTURETYPE_LAST,
-  DATASTRUCTURETYPE_RANGE,
-  GETLASTTYPE_GET_LAST,
-} = require('common/constants');
 const executionMonitor = require('common/log/execution');
 
 const { add: addToQueue } = require('../../models/dataQueue');
@@ -53,27 +48,16 @@ module.exports = (sendMessageToDc, { queries }) => {
   const messageQueue = [];
   // loop over remoteIds
   _each(queries, (query, remoteId) => {
+    // Invalid query
+    if (!query.dataId) {
+      return;
+    }
     let missingIntervals = [];
-    const queryArguments = {};
 
     logger.debug('add a query on', remoteId);
-    // add query arguments depending on the type
-    switch (query.type) {
-      case DATASTRUCTURETYPE_LAST:
-        queryArguments.getLastType = GETLASTTYPE_GET_LAST;
-        queryArguments.filters = query.filters;
-        break;
-      case DATASTRUCTURETYPE_RANGE:
-        queryArguments.filters = query.filters;
-        break;
-      default:
-        logger.warn(`Invalid query type not valid ${query.type}`);
-        return;
-    }
-
     execution.start('add loki connectedData');
-    logger.silly('add loki connectedData', { remoteId, queryType: query.type });
-    const connectedData = connectedDataModel.addRecord(query.type, remoteId, query.dataId);
+    logger.silly('add loki connectedData', { remoteId });
+    const connectedData = connectedDataModel.addRecord(remoteId, query.dataId);
     execution.stop('add loki connectedData');
 
     // loop over intervals
@@ -99,7 +83,6 @@ module.exports = (sendMessageToDc, { queries }) => {
         remoteId,
         query.dataId,
         missingInterval,
-        queryArguments,
         execution
       );
 
@@ -131,16 +114,6 @@ module.exports = (sendMessageToDc, { queries }) => {
     }
     execution.stop('creating dc subscription');
 
-    // add remoteId and corresponding filters to subscriptions model
-    execution.start('add loki subscription filters');
-    logger.silly('add', query.filters.length, 'filters to', remoteId);
-    subscriptionsModel.addFilters(
-      query.dataId,
-      { [remoteId]: query.filters },
-      subscription
-    );
-    execution.stop('add loki subscription filters');
-
     // loop over intervals
     execution.start('finding cache model');
     const timebasedDataModel = getTimebasedDataModel(remoteId);
@@ -159,11 +132,6 @@ module.exports = (sendMessageToDc, { queries }) => {
       );
       // queue a ws newData message (sent periodically)
       if (cachedData.length === 0) {
-        return;
-      }
-      if (query.type === DATASTRUCTURETYPE_LAST) {
-        const lastData = cachedData[cachedData.length - 1];
-        addToQueue(remoteId, lastData.timestamp, lastData.payload);
         return;
       }
       execution.start('queue cache for sending');

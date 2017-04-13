@@ -116,15 +116,6 @@ module.exports = (sendMessageToDc, dataMap) => {
     execution.start('remove remoteId from sub');
     subscriptionsModel.removeRemoteId(dataId, remoteId);
     execution.stop('remove remoteId from sub');
-    // if there are still remoteIds in subscriptions model for this dataId
-    execution.start('get remaining remoteIds for this subscription');
-    if (subscriptionsModel.getRemoteIds(dataId).length !== 0) {
-      execution.stop('get remaining remoteIds for this subscription');
-      return undefined;
-    }
-    execution.stop('get remaining remoteIds for this subscription');
-    logger.silly('no more remoteIds');
-    // else, no more remoteIds for this dataId
     // remove dataId from subscriptions model
     execution.start('remove subscription');
     subscriptionsModel.removeByDataId(dataId);

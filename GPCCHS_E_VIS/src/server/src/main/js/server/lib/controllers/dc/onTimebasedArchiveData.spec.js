@@ -43,7 +43,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
   it('unknown queryId', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     // launch test
     onTimebasedArchiveData(
@@ -73,7 +73,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
   it('works', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registerQuery(queryId, remoteId);
     // launch test
@@ -123,7 +123,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
   it('last chunk', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registerQuery(queryId, remoteId);
     // launch test
@@ -173,7 +173,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     const isLast = dataStub.getBooleanProtobuf(true);
     const queryIds = ['queryId1', 'queryId2', 'queryId3', 'queryId4', 'queryId5', 'queryId6'];
     const intervals = [[0, 5], [0, 7], [5, 20], [12, 17], [25, 30], [42, 91]];
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     for (let i = 0; i < 6; i += 1) {
       connectedDataModel.addRequestedInterval(remoteId, queryIds[i], intervals[i]);

@@ -6,7 +6,6 @@ const globalConstants = require('../constants');
 const protobuf = require('../protobuf/index');
 const stubData = require('./data');
 
-const createQueryKey = require('./dc/createQueryKey');
 const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
@@ -103,11 +102,8 @@ const onHssMessage = (...args) => {
         );
       }
       const interval = protobuf.decode('dc.dataControllerUtils.TimeInterval', args[3]);
-      const queryArguments = protobuf.decode(
-        'dc.dataControllerUtils.QueryArguments', args[4]
-      );
-      const queryKey = createQueryKey(dataId, queryArguments);
-      queries.push({ queryKey, queryId, dataId, interval, queryArguments });
+      const queryKey = JSON.stringify(dataId);
+      queries.push({ queryKey, queryId, dataId, interval }); // , queryArguments });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
@@ -164,7 +160,6 @@ function dcCall() {
       query.queryId,
       query.dataId,
       query.interval,
-      query.queryArguments,
       zmq
     );
   });

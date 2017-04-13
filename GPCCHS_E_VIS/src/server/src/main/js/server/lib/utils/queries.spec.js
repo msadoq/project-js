@@ -25,17 +25,15 @@ describe('utils/subscriptions', () => {
     const myDataIdProto = dataStub.getDataIdProtobuf(myDataId);
     const myRemoteId = dataStub.getRemoteId(myDataId);
     const myInterval = [0, 10];
-    const myQueryArgs = dataStub.getQueryArguments();
-    const myQueryArgsProto = dataStub.getQueryArgumentsProtobuf(myQueryArgs);
 
     const query1 = 'query1';
 
     const { args, queryId } =
-      createQueryMessage(myRemoteId, myDataId, myInterval, myQueryArgs, testExecutionHandler);
+      createQueryMessage(myRemoteId, myDataId, myInterval, testExecutionHandler);
 
     queryId.should.equal(query1);
 
-    args.should.have.lengthOf(5);
+    args.should.have.lengthOf(4);
     args[0].should.eql(dataStub.getTimebasedQueryHeaderProtobuf());
     args[1].should.eql(dataStub.getStringProtobuf(query1));
     args[2].should.eql(myDataIdProto);
@@ -43,7 +41,6 @@ describe('utils/subscriptions', () => {
       startTime: { ms: myInterval[0] },
       endTime: { ms: myInterval[1] },
     }));
-    args[4].should.eql(myQueryArgsProto);
 
     should.exist(getRegisteredCallback(query1));
     getRegisteredQuery(query1).should.eql(myRemoteId);

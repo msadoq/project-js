@@ -3,14 +3,12 @@ const booleanStub = require('./dataControllerUtils/boolean');
 const dataIdStub = require('./dataControllerUtils/dataId');
 const domainStub = require('./dataControllerUtils/domain');
 const domainsStub = require('./dataControllerUtils/domains');
-const filterStub = require('./dataControllerUtils/filter');
 const fMDCreateDocumentStub = require('./dataControllerUtils/fMDCreateDocument');
 const fMDDocumentPropertyStub = require('./dataControllerUtils/fMDDocumentProperty');
 const fMDFileInfoStub = require('./dataControllerUtils/fMDFileInfo');
 const fMDFileTypeStub = require('./dataControllerUtils/fMDFileType');
 const fMDGetStub = require('./dataControllerUtils/fMDGet');
 const headerStub = require('./dataControllerUtils/header');
-const queryArgumentsStub = require('./dataControllerUtils/queryArguments');
 const sendLogStub = require('./dataControllerUtils/sendLog');
 const sessionStub = require('./dataControllerUtils/session');
 const sessionGetTimeStub = require('./dataControllerUtils/sessionGetTime');
@@ -29,14 +27,12 @@ module.exports = Object.assign(
   dataIdStub,
   domainStub,
   domainsStub,
-  filterStub,
   fMDCreateDocumentStub,
   fMDDocumentPropertyStub,
   fMDFileInfoStub,
   fMDFileTypeStub,
   fMDGetStub,
   headerStub,
-  queryArgumentsStub,
   sendLogStub,
   sessionStub,
   sessionGetTimeStub,

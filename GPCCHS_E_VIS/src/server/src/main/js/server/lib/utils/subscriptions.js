@@ -3,7 +3,7 @@ const registeredCallbacks = require('common/callbacks');
 const { encode } = require('common/protobuf');
 const globalConstants = require('common/constants');
 
-const flattenDataId = require('./flattenDataId');
+const flattenDataId = require('common/utils/flattenDataId');
 const subscriptionsModel = require('../models/subscriptions');
 const { main } = require('../ipc');
 

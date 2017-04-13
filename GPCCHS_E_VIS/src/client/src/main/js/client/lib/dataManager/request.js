@@ -6,9 +6,6 @@ import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 import { addInterval, retrieveNeededIntervals } from '../viewManager/commonData/intervalManagement';
 
-// import { operators } from '../common/operators';
-import { getStructureModule } from '../viewManager';
-
 const logger = getLogger('data:requests');
 
 /**
@@ -63,24 +60,12 @@ export function missingRemoteIds(dataMap, lastMap) {
       }
 
       if (!queries[remoteId]) {
-        // const filters = (typeof filter === 'undefined') ?
-        //   [] :
-        //   _map(
-        //     filter,
-        //     f => ({
-        //       fieldName: f.field,
-        //       type: operators[f.operator],
-        //       fieldValue: f.operand,
-        //     })
-        //   );
-
         queries[remoteId] = {
           dataId,
           intervals: [],
         };
       }
 
-      // const addInterval = getStructureModule(viewType).addInterval;
       _each(needed, (m) => {
         queries[remoteId].intervals = addInterval(queries[remoteId].intervals, m);
       });

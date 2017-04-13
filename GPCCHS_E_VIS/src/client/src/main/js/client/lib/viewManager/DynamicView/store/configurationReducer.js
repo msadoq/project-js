@@ -10,7 +10,10 @@ export default (stateConf = { content: '' }, action) => {
     case types.WS_WORKSPACE_OPEN:
     case types.WS_VIEW_ADD_BLANK: {
       const config = action.payload.view.configuration;
-      const nextConf = _.set('entryPoints', [config.entryPoint], config);
+      const nextConf = _.set('entryPoints', [{
+        ...config.entryPoint,
+        name: 'dynamicEP',
+      }], config);
       return _.omit('entryPoint', nextConf);
     }
 

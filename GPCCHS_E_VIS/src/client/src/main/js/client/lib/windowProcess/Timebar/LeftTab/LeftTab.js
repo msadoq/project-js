@@ -6,7 +6,6 @@ import styles from './LeftTab.css';
 
 export default class LeftTab extends PureComponent {
   static propTypes = {
-    createNewTimeline: PropTypes.func.isRequired,
     removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateTimebarId: PropTypes.func.isRequired,

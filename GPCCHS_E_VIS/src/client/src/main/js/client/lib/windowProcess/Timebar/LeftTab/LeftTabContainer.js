@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { updateTimebarId } from '../../../store/actions/pages';
 import { getSessions } from '../../../store/reducers/sessions';
 import {
-  createNewTimeline,
   removeTimeline,
 } from '../../../store/actions/timelines';
 import {
@@ -15,7 +14,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  createNewTimeline,
   removeTimeline,
   updateTimebarId,
   openModal,

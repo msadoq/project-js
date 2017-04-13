@@ -9,7 +9,6 @@ export default class AddTimelineWrapper extends PureComponent {
     updateMasterId: PropTypes.func.isRequired,
     updateOffset: PropTypes.func.isRequired,
     timebarUuid: PropTypes.string.isRequired,
-    masterId: PropTypes.string,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
@@ -32,10 +31,6 @@ export default class AddTimelineWrapper extends PureComponent {
         }),
       })
     ).isRequired,
-  }
-
-  static defaultProps = {
-    masterId: null,
   }
 
   willAddTimeline = (values) => {

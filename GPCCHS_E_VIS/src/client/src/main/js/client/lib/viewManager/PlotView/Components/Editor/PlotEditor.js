@@ -6,35 +6,6 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import styles from '../../../commonEditor/Editor.css';
 
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  timeBasedData: true,
-  connectedData: {
-    formula: '',
-    fieldX: '',
-    unit: 's',
-    digits: 5,
-    format: 'decimal',
-    domain: '',
-    timeline: '',
-    axisId: 'time',
-  },
-  objectStyle: {
-    line: {
-      style: 'Continuous',
-      size: 3,
-    },
-    points: {
-      style: 'None',
-      size: 3,
-    },
-    curveColor: '#222222',
-  },
-  stateColors: [
-
-  ],
-};
-
 const navbarItems = ['Entry Points', 'Plot'];
 
 /*
@@ -43,7 +14,7 @@ const navbarItems = ['Entry Points', 'Plot'];
 export default class PlotEditor extends Component {
   static propTypes = {
     // actions
-    addEntryPoint: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
 
     // rest
@@ -66,17 +37,6 @@ export default class PlotEditor extends Component {
     });
   }
 
-  handleAddEntryPoint = (values) => {
-    const { addEntryPoint, viewId } = this.props;
-    addEntryPoint(
-      viewId,
-      {
-        ...newEntryPoint,
-        ...values,
-      }
-    );
-  }
-
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
@@ -95,6 +55,9 @@ export default class PlotEditor extends Component {
   render() {
     const { currentDisplay, search } = this.state;
     const {
+      openModal,
+      viewId,
+      closeEditor,
       configuration: {
         entryPoints,
         axes,
@@ -110,7 +73,7 @@ export default class PlotEditor extends Component {
           currentDisplay={currentDisplay}
           items={navbarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={this.props.closeEditor}
+          closeEditor={closeEditor}
         />
         <div className={styles.content}>
           {currentDisplay === 2 && <Misc />}
@@ -124,8 +87,9 @@ export default class PlotEditor extends Component {
           {currentDisplay === 0 && [
             <EntryPointActions
               key="EntryPointActions"
+              viewId={viewId}
+              openModal={openModal}
               changeSearch={this.changeSearch}
-              addEntryPoint={this.handleAddEntryPoint}
             />,
             <EntryPointTree
               key="EntryPointTree"

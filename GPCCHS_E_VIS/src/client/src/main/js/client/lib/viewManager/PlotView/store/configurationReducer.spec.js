@@ -91,22 +91,7 @@ describe('store:reducer:PlotViewConfiguration', () => {
       const state = reducer(stateConf, action);
       state.entryPoints[2].should.have.properties({
         name: 'ep2',
-        connectedData: {
-          formula: '',
-          fieldX: '',
-          unit: 'w',
-          digits: 5,
-          format: 'decimal',
-          filter: [],
-          domain: 'd2',
-          timeline: 't2',
-          axisId: 'axis2',
-        },
-        objectStyle: {
-          line: { style: 'Continuous', size: 3 },
-          points: { style: 'None', size: 3 },
-        },
-        stateColors: [],
+        connectedData: { timeline: 't2', domain: 'd2', unit: 'w' },
       });
     });
     it('removes should refresh only axes', () => {

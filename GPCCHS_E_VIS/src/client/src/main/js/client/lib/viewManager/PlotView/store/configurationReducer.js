@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 
 import { getAxes, updateAxis, addAxis, removeAxis } from './axes';
-import { getNewPlotEntryPoint } from '../../../common/entryPoint';
 import * as types from '../../../store/types';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
@@ -28,15 +27,14 @@ export default (stateConf = {}, action) => {
       return removeElementIn('markers', action.payload.index, stateConf);
     case types.WS_VIEW_ADD_ENTRYPOINT: {
       const axisY = getAxes(stateConf, action);
-      const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
       return {
         ...stateConf,
         entryPoints: [
           ...stateConf.entryPoints,
           {
-            ...newEp,
+            ...action.payload.entryPoint,
             connectedData: {
-              ...(newEp.connectedData),
+              ...(action.payload.entryPoint.connectedData),
               axisId: axisY.id,
               unit: axisY.unit,
             },

@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 import TextEditor from './TextEditor';
 import {
-  addEntryPoint,
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
+import {
+  open as openModal,
+} from '../../../../store/actions/modals';
 import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
@@ -16,10 +18,10 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = {
-  addEntryPoint,
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
+  openModal,
 };
 
 const TextEditorContainer = connect(mapStateToProps, mapDispatchToProps)(TextEditor);

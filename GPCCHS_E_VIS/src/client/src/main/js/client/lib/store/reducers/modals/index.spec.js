@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs, getStore } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/modals';
 import modalsReducer from '.';
 
@@ -21,7 +21,7 @@ describe('store:modals:reducer', () => {
     it('should close', () => {
       reducer(
         {
-          myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true }
+          myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true },
         },
         actions.close('myId')
       ).should.eql({ myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: false } });

@@ -5,18 +5,13 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import TextTabContainer from './TextTabContainer';
 
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  connectedData: {},
-};
-
 const navBarItems = ['Entry Points', 'Text'];
 
 export default class Editor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     // actions
-    addEntryPoint: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
@@ -29,20 +24,6 @@ export default class Editor extends Component {
   };
 
   state = { currentDisplay: 0, search: '' };
-
-  addEntryPoint = (values) => {
-    const {
-      addEntryPoint,
-      viewId,
-    } = this.props;
-    addEntryPoint(
-      viewId,
-      {
-        ...newEntryPoint,
-        ...values,
-      }
-    );
-  }
 
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
@@ -69,6 +50,8 @@ export default class Editor extends Component {
     const { currentDisplay, search } = this.state;
     const {
       closeEditor,
+      openModal,
+      viewId,
       configuration: {
         entryPoints,
       },
@@ -86,7 +69,8 @@ export default class Editor extends Component {
           {currentDisplay === 0 && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
-              addEntryPoint={this.addEntryPoint}
+              openModal={openModal}
+              viewId={viewId}
             />
             <EntryPointTree
               entryPoints={entryPoints}

@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import classnames from 'classnames';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
+import AddEntryPointContainer from '../../viewManager/commonEditor/EntryPoint/AddEntryPointContainer';
 
 const ModalGeneric = (props) => {
   let child;
@@ -20,6 +21,14 @@ const ModalGeneric = (props) => {
       title = 'Edit timeline';
       child =
         (<EditTimelineContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />);
+      break;
+    case 'addEntryPoint':
+      title = 'Add entry point';
+      child = (
+        <AddEntryPointContainer
           {...props.props}
           closeModal={props.onClose}
         />);

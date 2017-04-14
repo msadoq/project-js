@@ -7,7 +7,6 @@ const {
   getAllTimebasedDataModelRemoteIds,
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const subscriptionsModel = require('../../models/subscriptions');
 const dataStub = require('common/stubs/data');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
 const {
@@ -24,7 +23,6 @@ const {
 
 describe('controllers/dc/onTimebasedPubSubData', () => {
   beforeEach(() => {
-    subscriptionsModel.cleanup();
     connectedDataModel.cleanup();
     clearFactory();
     resetQueue();
@@ -70,7 +68,6 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
 
   it('no query for this dataId', () => {
     // init test
-    subscriptionsModel.addRecord(dataId);
     // launch test
     onTimebasedPubSubData(
       queryIdProto,
@@ -88,7 +85,6 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
 
   it('one in interval', () => {
     // init test
-    subscriptionsModel.addRecord(dataId);
     connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, halfInterval);
     // launch test

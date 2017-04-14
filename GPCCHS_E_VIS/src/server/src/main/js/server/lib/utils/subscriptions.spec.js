@@ -6,7 +6,6 @@ const {
   resetSubId,
 } = require('./subscriptions');
 const registeredCallbacks = require('common/callbacks');
-const subscriptionsModel = require('../models/subscriptions');
 const dataStub = require('common/stubs/data');
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('./test');
 
@@ -92,9 +91,6 @@ describe('utils/subscriptions', () => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
     const myDataId2 = dataStub.getDataId({ parameterName: 'myParam2' });
 
-    subscriptionsModel.addRecord(myDataId);
-    subscriptionsModel.addRecord(myDataId2);
-
     unsubscribeAll(testHandler);
     const messages = getTestHandlerArgs();
 
@@ -118,8 +114,5 @@ describe('utils/subscriptions', () => {
       .that.has.lengthOf(2);
     messages[0].should.deep.equal(args);
     messages[1].should.deep.equal(args2);
-
-    const subscriptions = subscriptionsModel.getAll();
-    subscriptions.should.be.an('array').that.has.lengthOf(0);
   });
 });

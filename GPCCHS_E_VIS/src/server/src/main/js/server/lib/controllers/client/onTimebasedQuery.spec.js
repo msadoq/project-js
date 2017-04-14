@@ -7,7 +7,6 @@ const dataStub = require('common/stubs/data');
 
 const { should } = require('../../utils/test');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
-const flattenDataId = require('common/utils/flattenDataId');
 const {
   cleanup: cleanRegisteredQueries,
   getAll: getAllRegisteredQueries,
@@ -16,7 +15,6 @@ const registeredCallbacks = require('common/callbacks');
 
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const subscriptionsModel = require('../../models/subscriptions');
 
 const onTimebasedQuery = require('./onTimebasedQuery');
 
@@ -43,7 +41,6 @@ describe('controllers/client/onTimebasedQuery', () => {
     registeredCallbacks.clear();
     connectedDataModel.cleanup();
     clearFactory();
-    subscriptionsModel.cleanup();
     resetQueue();
     calls.length = 0;
   });
@@ -95,7 +92,6 @@ describe('controllers/client/onTimebasedQuery', () => {
   describe('query', () => {
     it('interval not missing', () => {
       // init test
-      subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
@@ -126,20 +122,12 @@ describe('controllers/client/onTimebasedQuery', () => {
           received: [],
         },
       });
-      // check subscriptionsModel
-      subscriptionsModel.count().should.equal(1);
-      const subscriptions = subscriptionsModel.find();
-      subscriptions[0].should.have.properties({
-        flatDataId: flattenDataId(dataId),
-        dataId,
-      });
     });
 
     it('interval missing', () => {
       // init test
       const otherQueryId = 'otherId';
       const otherInterval = [5, 42];
-      subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
@@ -173,13 +161,6 @@ describe('controllers/client/onTimebasedQuery', () => {
           received: [],
         },
       });
-      // check subscriptionsModel
-      subscriptionsModel.count().should.equal(1);
-      const subscriptions = subscriptionsModel.find();
-      subscriptions[0].should.have.properties({
-        flatDataId: flattenDataId(dataId),
-        dataId,
-      });
     });
 
     it('dataId not in subscriptions', () => {
@@ -201,14 +182,15 @@ describe('controllers/client/onTimebasedQuery', () => {
       const queryIdProto = dataStub.getStringProtobuf(queryId);
       const subIdProto = dataStub.getStringProtobuf(subId);
       calls.length.should.equal(8);
-      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      // calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
       calls[1].should.have.properties(queryIdProto);
       calls[2].should.have.properties(dataIdProto);
       calls[3].should.have.properties(intervalProto);
-      calls[4].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-      calls[5].should.have.properties(subIdProto);
-      calls[6].should.have.properties(dataIdProto);
-      calls[7].should.have.properties(dataStub.getAddActionProtobuf());
+      // calls[4].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+      // calls[5].should.have.properties(subIdProto);
+      // calls[6].should.have.properties(dataIdProto);
+      // calls[7].should.have.properties(dataStub.getAddActionProtobuf());
       // check ws messages
       getQueue().should.have.properties({});
       // check connectedDataModel
@@ -221,13 +203,6 @@ describe('controllers/client/onTimebasedQuery', () => {
           requested: { [queryId]: interval },
           received: [],
         },
-      });
-      // check subscriptionsModel
-      subscriptionsModel.count().should.equal(1);
-      const subscriptions = subscriptionsModel.find();
-      subscriptions[0].should.have.properties({
-        flatDataId: flattenDataId(dataId),
-        dataId,
       });
     });
   });

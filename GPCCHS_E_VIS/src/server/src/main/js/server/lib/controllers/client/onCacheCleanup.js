@@ -10,7 +10,6 @@ const {
   removeTimebasedDataModel,
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const subscriptionsModel = require('../../models/subscriptions');
 
 /**
  * Cache Cleanup: clear expired queries from models, stop subscriptions if needed
@@ -22,7 +21,6 @@ const subscriptionsModel = require('../../models/subscriptions');
  *    - get corresponding dataId from connectedData model
  *    - remove remoteId from connectedData model
  *    - remove data corresponding to remoteId from timebasedData model
- *    - remove remoteId for corresponding dataId from subscriptions model
  *    - if there are still remoteIds in subscriptions model for this dataId, stop logic
  *    - remove dataId from subscriptions model
  *    - create a queryId and register a queryid/callback association
@@ -99,6 +97,7 @@ module.exports = (sendMessageToDc, dataMap) => {
       });
     }
     logger.silly('no more interval');
+    console.log('..............no more interval');
     // else, no more intervals for this remoteId
     // get corresponding dataId from connectedData model
     execution.start('get dataId');
@@ -112,14 +111,6 @@ module.exports = (sendMessageToDc, dataMap) => {
     execution.start('remove tbd model');
     removeTimebasedDataModel(remoteId);
     execution.stop('remove tbd model');
-    // remove remoteId for corresponding dataId from subscriptions model
-    execution.start('remove remoteId from sub');
-    subscriptionsModel.removeRemoteId(dataId, remoteId);
-    execution.stop('remove remoteId from sub');
-    // remove dataId from subscriptions model
-    execution.start('remove subscription');
-    subscriptionsModel.removeByDataId(dataId);
-    execution.stop('remove subscription');
     const message = createDeleteSubscriptionMessage(dataId);
     execution.start('create and push sub message');
     // queue the message

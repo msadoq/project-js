@@ -8,7 +8,6 @@ const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const subscriptionsModel = require('../../models/subscriptions');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -22,10 +21,8 @@ const subscriptionsModel = require('../../models/subscriptions');
  *        - register queryId in registeredCallbacks singleton
  *        - queue a zmq dataQuery message (with dataId, query id, interval and filter)
  *        - add requested { queryId: interval } to connectedData model
- *    - if dataId not in subscriptions model
- *        - add dataId to subscriptions model
+ *    - if dataId not in connectedData model
  *        - queue a zmq dataSubscription message (with 'ADD' action)
- *    - add remoteId and corresponding filters to subscriptions model
  *    - loop over intervals
  *        - retrieve data in timebasedData model
  *        - queue a ws newData message (sent periodically)
@@ -57,6 +54,14 @@ module.exports = (sendMessageToDc, { queries }) => {
     logger.debug('add a query on', remoteId);
     execution.start('add loki connectedData');
     logger.silly('add loki connectedData', { remoteId });
+    // Create a subscription if needed
+    if (!connectedDataModel.exists(remoteId)) {
+      logger.debug('add a subscription on', remoteId);
+      // create subscription message
+      const message = createAddSubscriptionMessage(query.dataId);
+      // queue the message
+      messageQueue.push(message.args);
+    }
     const connectedData = connectedDataModel.addRecord(remoteId, query.dataId);
     execution.stop('add loki connectedData');
 
@@ -99,19 +104,6 @@ module.exports = (sendMessageToDc, { queries }) => {
       );
       execution.stop('add requested interval');
     });
-
-    // if dataId not in subscriptions model
-    execution.start('creating dc subscription');
-    let subscription = subscriptionsModel.getByDataId(query.dataId);
-    if (!subscription) {
-      // add dataId to subscriptions model
-      subscription = subscriptionsModel.addRecord(query.dataId);
-      logger.debug('add a subscription on', subscription.flatDataId);
-      // create subscription message
-      const message = createAddSubscriptionMessage(query.dataId);
-      // queue the message
-      messageQueue.push(message.args);
-    }
     execution.stop('creating dc subscription');
 
     // loop over intervals

@@ -11,13 +11,11 @@ const loggerData = require('common/log')('controllers:incomingData');
 const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const subscriptionsModel = require('../../models/subscriptions');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
  *
- * - if dataId not in subscriptions model, stop logic
  * - if there is no remoteId for this dataId, stop logic
  * - loop over arguments (timestamp, payload) peers
  *    - loop over remoteId
@@ -53,14 +51,6 @@ module.exports = (
   }
 
   execution.start('retrieve subscription');
-  // if dataId not in subscriptions model, stop logic
-  logger.silly('retrieve subscription');
-  const subscription = subscriptionsModel.getByDataId(dataId);
-  if (!subscription) {
-    return;
-  }
-  execution.stop('retrieve subscription');
-
   const remoteId = flattenDataId(dataId);
   if (!connectedDataModel.exists(remoteId)) {
     logger.silly('no query registered for this dataId', dataId);

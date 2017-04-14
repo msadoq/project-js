@@ -17,7 +17,6 @@ const {
   getOrCreateTimebasedDataModel,
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const subscriptionsModel = require('../../models/subscriptions');
 
 const onCacheCleanup = require('./onCacheCleanup');
 
@@ -69,7 +68,6 @@ describe('controllers/client/onCacheCleanup', () => {
   beforeEach(() => {
     // Clear models and singletons
     connectedDataModel.cleanup();
-    subscriptionsModel.cleanup();
     clearFactory();
     cleanRegisteredQueries();
     registeredCallbacks.clear();
@@ -89,8 +87,6 @@ describe('controllers/client/onCacheCleanup', () => {
     registerQuery(queryId212, remoteId21);
     registerQuery(queryId221, remoteId22);
     registerQuery(queryId222, remoteId22);
-    subscriptionsModel.addRecord(dataId1);
-    subscriptionsModel.addRecord(dataId2);
     const timebasedDataModel11 = getOrCreateTimebasedDataModel(remoteId11);
     const timebasedDataModel21 = getOrCreateTimebasedDataModel(remoteId21);
     const timebasedDataModel22 = getOrCreateTimebasedDataModel(remoteId22);
@@ -174,15 +170,6 @@ describe('controllers/client/onCacheCleanup', () => {
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    // check subscriptions model
-    subscriptionsModel.count().should.equal(2);
-    subscriptionsModel.find().should.have.properties([
-      {
-        dataId: dataId1,
-      }, {
-        dataId: dataId2,
-      },
-    ]);
     // check zmq message
     calls.should.have.lengthOf(0);
     // check registered callbacks
@@ -251,15 +238,6 @@ describe('controllers/client/onCacheCleanup', () => {
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    // check subscriptions model
-    subscriptionsModel.count().should.equal(2);
-    subscriptionsModel.find().should.have.properties([
-      {
-        dataId: dataId1,
-      }, {
-        dataId: dataId2,
-      },
-    ]);
     // check zmq message
     calls.should.have.lengthOf(0);
     // check registered callbacks
@@ -300,9 +278,6 @@ describe('controllers/client/onCacheCleanup', () => {
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    // check subscriptions model
-    subscriptionsModel.count().should.equal(1);
-    subscriptionsModel.find().should.have.properties([{ dataId: dataId1 }]);
     // check zmq message
     calls.should.have.lengthOf(4);
     calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());

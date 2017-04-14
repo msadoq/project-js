@@ -4,7 +4,7 @@ const { encode } = require('common/protobuf');
 const globalConstants = require('common/constants');
 
 const flattenDataId = require('common/utils/flattenDataId');
-const subscriptionsModel = require('../models/subscriptions');
+const connectedDataModel = require('../models/connectedData');
 const { main } = require('../ipc');
 
 function errorCallback(err) {
@@ -80,8 +80,8 @@ const createDeleteSubscriptionMessage = (dataId) => {
  * @param sendMessageToDc
  */
 const unsubscribeAll = (sendMessageToDc) => {
-  const subscriptions = subscriptionsModel.getAll();
-  subscriptionsModel.cleanup();
+  const subscriptions = connectedDataModel.getAll();
+  connectedDataModel.cleanup();
 
   if (subscriptions.length) {
     subscriptions.forEach((subscription) => {

@@ -116,7 +116,7 @@ export class GrizzlyPlotView extends PureComponent {
 
   state = {
     showLegend: false,
-    selectedLineName: null,
+    selectedLineNames: [],
   }
 
   componentDidMount() {
@@ -134,11 +134,11 @@ export class GrizzlyPlotView extends PureComponent {
         shouldRender = true;
       }
     }
-    const stateAttrs = ['showLegend', 'selectedLineName'];
-    for (let i = 0; i < stateAttrs.length; i += 1) {
-      if (nextState[stateAttrs[i]] !== this.state[stateAttrs[i]]) {
-        shouldRender = true;
-      }
+    if (nextState.showLegend !== this.state.showLegend) {
+      shouldRender = true;
+    }
+    if (nextState.selectedLineNames !== this.state.selectedLineNames) {
+      shouldRender = true;
     }
     return shouldRender;
   }
@@ -255,9 +255,21 @@ export class GrizzlyPlotView extends PureComponent {
 
   selectLine = (e, lineId) => {
     e.preventDefault();
-    this.setState({
-      selectedLineName: lineId === this.state.selectedLineName ? null : lineId,
-    });
+    const {
+      selectedLineNames,
+    } = this.state;
+    if (selectedLineNames.includes(lineId)) {
+      const index = selectedLineNames.indexOf(lineId);
+      selectedLineNames.splice(index, 1);
+      this.setState({
+        selectedLineNames: [].concat(selectedLineNames),
+      });
+    } else {
+      selectedLineNames.push(lineId);
+      this.setState({
+        selectedLineNames: [].concat(selectedLineNames),
+      });
+    }
   }
 
   memoizeXAxisProps = _memoize(
@@ -310,11 +322,11 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     const {
       showLegend,
-      selectedLineName,
+      selectedLineNames,
     } = this.state;
 
-    if (selectedLineName && showLegend) {
-      entryPoints = entryPoints.filter(ep => ep.name === selectedLineName);
+    if (selectedLineNames.length && showLegend) {
+      entryPoints = entryPoints.filter(ep => selectedLineNames.includes(ep.name));
     }
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
@@ -413,7 +425,7 @@ export class GrizzlyPlotView extends PureComponent {
           yAxes={yAxes}
           lines={this.props.configuration.entryPoints}
           show={showLegend}
-          selectedLineName={selectedLineName}
+          selectedLineNames={selectedLineNames}
           toggleShowLegend={this.toggleShowLegend}
           selectLine={this.selectLine}
         />

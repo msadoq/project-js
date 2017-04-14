@@ -9,7 +9,7 @@ export default class Legend extends PureComponent {
     show: PropTypes.bool.isRequired,
     toggleShowLegend: PropTypes.func.isRequired,
     selectLine: PropTypes.func.isRequired,
-    selectedLineName: PropTypes.string,
+    selectedLineNames: PropTypes.array.isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
@@ -18,17 +18,13 @@ export default class Legend extends PureComponent {
     ).isRequired,
   }
 
-  static defaultProps = {
-    selectedLineName: null,
-  }
-
   render() {
     const {
       yAxes,
       lines,
       show,
       selectLine,
-      selectedLineName,
+      selectedLineNames,
     } = this.props;
 
     const sortedAndValidAxes = yAxes
@@ -63,7 +59,7 @@ export default class Legend extends PureComponent {
                   axis.lines.map(line =>
                     <button
                       className={classnames(
-                        selectedLineName === line.name ?
+                        selectedLineNames.includes(line.name) ?
                         styles.selectedLegend : styles.legend,
                         'btn', 'btn-default', 'btn-xs'
                       )}

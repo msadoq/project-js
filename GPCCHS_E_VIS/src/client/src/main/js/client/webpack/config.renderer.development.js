@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { get } from 'common/parameters';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
@@ -11,6 +12,12 @@ import postCssBrowserReporter from 'postcss-browser-reporter';
 import baseConfig from './config.base';
 
 const port = get('WEBPACK_PORT');
+
+const eslintLoader = process.env.WEBPACK_NO_ESLINT ? undefined : {
+  test: /\.jsx?$/,
+  loader: 'eslint',
+  exclude: [/src\/common/, /node_modules/],
+};
 
 export default merge(baseConfig, {
   devtool: 'eval-source-map',
@@ -36,11 +43,7 @@ export default merge(baseConfig, {
   },
 
   module: {
-    preLoaders: [{
-      test: /\.jsx?$/,
-      loader: 'eslint',
-      exclude: [/src\/common/, /node_modules/],
-    }],
+    preLoaders: _.compact([eslintLoader]),
     loaders: [
       {
         test: /.+\.(svg|eot|ttf|woff|woff2)/,

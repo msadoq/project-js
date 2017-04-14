@@ -38,9 +38,8 @@ function parseEntryPoint(
     logger.info('invalid entryPoint', name, cd.error);
     return { [name]: { error: cd.error } };
   }
-  const { dataId, field, offset, filter } = cd;
+  const { dataId, field, offset } = cd;
   // compute remoteId
-  // const remoteId = remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_LAST, dataId, filter);
   const remoteId = remoteIdGenerator(dataId);
 
   const ep = {
@@ -49,9 +48,7 @@ function parseEntryPoint(
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
       offset,
-      filter,
       timebarUuid,
-      // structureType: globalConstants.DATASTRUCTURETYPE_LAST,
       id,
       type: viewType,
     },

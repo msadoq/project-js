@@ -14,7 +14,7 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
         domain: 'cnes',
         timeline: 'tl1',
-        filter: {},
+        filter: [],
       },
     };
     timelines = [
@@ -63,7 +63,7 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
         },
         field: 'extractedValue',
         offset: 0,
-        filter: {},
+        filters: [],
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',

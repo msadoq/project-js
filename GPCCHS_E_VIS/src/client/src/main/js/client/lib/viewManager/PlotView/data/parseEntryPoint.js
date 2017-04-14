@@ -48,7 +48,7 @@ export default function parseEntryPoint(
       fieldY: cd.field,
       offset: cd.offset,
       timebarUuid,
-      filter: cd.filter,
+      filters: cd.filters,
       id,
       type: viewType,
     },

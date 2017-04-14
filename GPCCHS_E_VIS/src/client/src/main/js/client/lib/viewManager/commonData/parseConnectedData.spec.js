@@ -73,7 +73,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
           sessionName: 'session1',
           sessionId: 1,
         },
-        filter: [],
+        filters: [],
         field: 'extractedValue',
         offset: 0,
       });
@@ -92,7 +92,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
           sessionName: 'session1',
           sessionId: 1,
         },
-        filter: [],
+        filters: [],
         offset: 0,
         field: undefined,
       });

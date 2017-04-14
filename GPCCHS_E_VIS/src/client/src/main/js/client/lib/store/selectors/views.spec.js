@@ -242,7 +242,7 @@ describe('store:views:selectors', () => {
       },
       field: 'extractedValue',
       offset: 0,
-      filter: [],
+      filters: [],
       localId: 'extractedValue.tb1:0',
       timebarUuid: 'tb1',
       remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',

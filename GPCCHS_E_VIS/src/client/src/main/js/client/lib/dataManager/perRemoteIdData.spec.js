@@ -15,7 +15,7 @@ describe('dataManager/perRemoteIdData', () => {
     fieldX: 'groundDate',
     fieldY: 'extractedValue',
     offset: 0,
-    filter: [],
+    filters: [],
     localId: 'groundDate/extractedValue.tb1:0/0',
     timebarUuid: 'tb1',
     remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -43,7 +43,6 @@ describe('dataManager/perRemoteIdData', () => {
     },
     field: undefined,
     offset: 0,
-    filter: [],
     localId: 'undefined.tb1:0/0',
     timebarUuid: 'tb1',
     remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
@@ -61,7 +60,7 @@ describe('dataManager/perRemoteIdData', () => {
     },
     field: 'extractedValue',
     offset: 0,
-    filter: [],
+    filters: [],
     localId: 'extractedValue.tb1:0',
     timebarUuid: 'tb1',
     remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -71,7 +70,6 @@ describe('dataManager/perRemoteIdData', () => {
     addEpInRemoteIdMap({}, epValid, 'plot1').should.eql({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
-        filter: epValid.filter,
         localIds: {
           [epValid.localId]: {
             fieldX: epValid.fieldX,
@@ -89,7 +87,6 @@ describe('dataManager/perRemoteIdData', () => {
     addEpInRemoteIdMap({}, epTextValid, 'text1').should.eql({
       [epTextValid.remoteId]: {
         dataId: epTextValid.dataId,
-        filter: epTextValid.filter,
         localIds: {
           [epTextValid.localId]: {
             field: epTextValid.field,
@@ -111,7 +108,6 @@ describe('dataManager/perRemoteIdData', () => {
     addEpInRemoteIdMap(map, epValid2, 'plot2').should.eql({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
-        filter: epValid.filter,
         localIds: {
           [epValid.localId]: {
             fieldX: epValid.fieldX,
@@ -125,7 +121,6 @@ describe('dataManager/perRemoteIdData', () => {
       },
       [epValid2.remoteId]: {
         dataId: epValid2.dataId,
-        filter: epValid2.filter,
         localIds: {
           [epValid2.localId]: {
             fieldX: epValid2.fieldX,
@@ -144,7 +139,6 @@ describe('dataManager/perRemoteIdData', () => {
     addEpInRemoteIdMap(map, epError, 'plot1').should.eql({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
-        filter: epValid.filter,
         localIds: {
           [epValid.localId]: {
             fieldX: epValid.fieldX,
@@ -162,7 +156,6 @@ describe('dataManager/perRemoteIdData', () => {
     addEpInRemoteIdMap({}, epDecommuted, 'dynamic1').should.eql({
       [epDecommuted.remoteId]: {
         dataId: epDecommuted.dataId,
-        filter: epDecommuted.filter,
         localIds: {
           [epDecommuted.localId]: {
             offset: epDecommuted.offset,
@@ -179,7 +172,6 @@ describe('dataManager/perRemoteIdData', () => {
     addEpInRemoteIdMap(map, epValid3, 'plot2').should.eql({
       [epValid2.remoteId]: {
         dataId: epValid2.dataId,
-        filter: epValid2.filter,
         localIds: {
           [epValid2.localId]: {
             fieldX: epValid2.fieldX,
@@ -217,7 +209,7 @@ describe('dataManager/perRemoteIdData', () => {
             },
             field: 'extractedValue',
             offset: 0,
-            filter: [],
+            filters: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
             remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -234,7 +226,7 @@ describe('dataManager/perRemoteIdData', () => {
             },
             field: 'extractedValue',
             offset: 0,
-            filter: [],
+            filters: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
             remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
@@ -259,7 +251,7 @@ describe('dataManager/perRemoteIdData', () => {
             fieldX: 'groundDate',
             fieldY: 'extractedValue',
             offset: 0,
-            filter: [],
+            filters: [],
             localId: 'groundDate/extractedValue.tb1:0/0',
             timebarUuid: 'tb1',
             remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -278,7 +270,6 @@ describe('dataManager/perRemoteIdData', () => {
           domainId: 4,
           sessionId: 181,
         },
-        filter: [],
         localIds: {
           'extractedValue.tb1:0': {
             field: 'extractedValue',
@@ -304,7 +295,6 @@ describe('dataManager/perRemoteIdData', () => {
           domainId: 4,
           sessionId: 10,
         },
-        filter: [],
         localIds: {
           'extractedValue.tb1:0': {
             field: 'extractedValue',

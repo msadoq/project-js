@@ -75,7 +75,7 @@ export const getPerRemoteIdMap = createSelector(
  *           localId: string,
  *           field: string,
  *           offset: number,
- *           filter: [],
+ *           filters: [],
  *           timebarUuid: string,
  *           id: string,
  ----        error: string, // if exists => no other parameter
@@ -93,7 +93,7 @@ export const getPerRemoteIdMap = createSelector(
  *           fieldX: string,
  *           fieldY: string,
  *           offset: number,
- *           filter: [],
+ *           filters: [],
  *           timebarUuid: string,
  *           id: string,
  ----        error: string, // if exists => no other parameter

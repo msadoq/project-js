@@ -15,7 +15,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         fieldX: 'groundDate',
         domain: 'cnes',
         timeline: 'tl1',
-        filter: {},
+        filter: [],
       },
       stateColors: [
         {
@@ -74,7 +74,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         fieldX: 'groundDate',
         fieldY: 'extractedValue',
         offset: 0,
-        filter: {},
+        filters: [],
         localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',

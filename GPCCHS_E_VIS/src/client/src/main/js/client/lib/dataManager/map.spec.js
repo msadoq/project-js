@@ -268,7 +268,6 @@ const dataMap = {
       sessionId: 181,
       sessionName: 'Session#181',
     },
-    filter: [],
     views: ['dynamic1'],
     localIds: {
       'undefined.tb1:0:#000000.monitoringState.==.waiting': {
@@ -288,7 +287,6 @@ const dataMap = {
       sessionId: 181,
       sessionName: 'Session#181',
     },
-    filter: [],
     views: ['text1', 'plot1'],
     localIds: {
       'groundDate/extractedValue.tb1:0': {
@@ -325,7 +323,7 @@ const viewMap = {
         },
         field: 'extractedValue',
         offset: 0,
-        filter: [],
+        filters: [],
         localId: 'extractedValue.tb1:0',
         timebarUuid: 'tb1',
         remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -357,7 +355,7 @@ const viewMap = {
         fieldX: 'groundDate',
         fieldY: 'extractedValue',
         offset: 0,
-        filter: [],
+        filters: [],
         localId: 'groundDate/extractedValue.tb1:0',
         timebarUuid: 'tb1',
         remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
@@ -390,7 +388,6 @@ const viewMap = {
           sessionName: 'Session#181',
         },
         offset: 0,
-        filter: [],
         localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',
         timebarUuid: 'tb1',
         remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',

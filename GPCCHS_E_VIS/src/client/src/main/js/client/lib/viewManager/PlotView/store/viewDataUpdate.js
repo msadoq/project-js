@@ -10,6 +10,7 @@ import _isEmpty from 'lodash/isEmpty';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { getStateColorObj } from '../../commonData/stateColors';
+import { applyFilters } from '../../commonData/applyFilters';
 
 const logger = getLogger('data:rangeValues');
 
@@ -241,6 +242,11 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
     if (timestamp < lower || timestamp > upper) {
       continue;
     }
+    // check value verify filters
+    if (!applyFilters(value, ep.filters)) {
+      continue;
+    }
+
     const masterTime = timestamp + ep.offset;
 
     const valX = _get(value, [ep.fieldX, 'value']);

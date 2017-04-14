@@ -210,6 +210,9 @@ describe('dataManager/expectedIntervalMap', () => {
       masterSession: {
         sessionId: 10,
       },
+      hsc: {
+        playingTimebarId: null,
+      },
     };
   });
 

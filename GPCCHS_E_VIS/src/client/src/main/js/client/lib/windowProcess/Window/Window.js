@@ -326,7 +326,7 @@ class Window extends PureComponent {
       )
       :
       (
-        <div className={styles.explorerCnotainer}>
+        <div className={styles.explorerContainer}>
           <button
             className={classnames('panel-button', styles.barButtonExplorer)}
             onClick={this.willMinimizedExplorer}

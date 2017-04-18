@@ -22,12 +22,12 @@ import styles from './Window.css';
 
 const logger = getLogger('Window');
 
-const resizeHandleSize = 24;
+const resizeHandleSize = 3;
 const scrollHandleSize = 15;
 const defaultExplorerWidth = 250;
 const defaultEditorWidth = 250;
 const minimizedTimebarHeigh = 35;
-const panelBorderColor = '#252525';
+const panelBorderColor = '#888';
 const tabsContainerStyle = { height: 40 };
 
 class Window extends PureComponent {
@@ -205,6 +205,15 @@ class Window extends PureComponent {
     minimizeExplorer(pageId, !explorerIsMinimized);
   }
 
+  willMinimizeTimebar = (e) => {
+    e.preventDefault();
+    const {
+      pageId,
+      minimizeTimebar,
+    } = this.props;
+    minimizeTimebar(pageId, true);
+  }
+
   closeModal = (e) => {
     if (e) {
       e.preventDefault();
@@ -232,11 +241,11 @@ class Window extends PureComponent {
 
     logger.debug('render');
 
-    let editorSize = editorIsMinimized ? 0 : editorWidth;
+    let editorSize = editorIsMinimized ? 24 : editorWidth;
     if (!editorIsMinimized && editorSize < 50) {
       editorSize = defaultEditorWidth;
     }
-    let explorerSize = explorerIsMinimized ? 0 : explorerWidth;
+    let explorerSize = explorerIsMinimized ? 24 : explorerWidth;
     if (!explorerIsMinimized && explorerSize < 50) {
       explorerSize = defaultExplorerWidth;
     }
@@ -248,9 +257,11 @@ class Window extends PureComponent {
     // editor
     const editor = editorIsMinimized
       ? (
-        <div>
+        <div
+          className={classnames(styles.editorContainerCollapsed)}
+        >
           <button
-            className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
+            className={classnames('panel-button', styles.barButtonLeft)}
             onClick={this.willMinimizeEditor}
             title="Expand editor"
           >
@@ -262,16 +273,20 @@ class Window extends PureComponent {
       )
       :
       (
-        <div className={classnames('subdiv', styles.editorContainer)}>
-          <button
-            className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
-            onClick={this.willMinimizeEditor}
-            title="Collapse editor"
+        <div className={styles.editorContainer}>
+          <div
+            className={styles.verticalBar}
           >
-            <Glyphicon
-              glyph="resize-small"
-            />
-          </button>
+            <button
+              className={classnames('panel-button', styles.barButtonLeft)}
+              onClick={this.willMinimizeEditor}
+              title="Collapse editor"
+            >
+              <Glyphicon
+                glyph="resize-small"
+              />
+            </button>
+          </div>
           <EditorContainer pageId={pageId} />
         </div>
       );
@@ -301,20 +316,33 @@ class Window extends PureComponent {
           />
         )
       : (
-        <TimebarMasterContainer
-          windowId={windowId}
-          pageId={pageId}
-          width={centralWidth}
-          height={timebarHeight}
-        />
+        <div className={classnames('h100', 'w100')}>
+          <button
+            className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
+            onClick={this.willMinimizeTimebar}
+            title="Collapse timebar"
+          >
+            <Glyphicon
+              glyph="resize-small"
+            />
+          </button>
+          <TimebarMasterContainer
+            windowId={windowId}
+            pageId={pageId}
+            width={centralWidth}
+            height={timebarHeight}
+          />
+        </div>
       );
 
     // explorer
     const explorer = explorerIsMinimized
       ? (
-        <div>
+        <div
+          className={styles.verticalBarRight}
+        >
           <button
-            className={classnames('panel-button', styles.barButtonExplorer)}
+            className={classnames('panel-button', styles.barButtonRight)}
             onClick={this.willMinimizedExplorer}
             title="Expand explorer"
           >
@@ -327,16 +355,20 @@ class Window extends PureComponent {
       :
       (
         <div className={styles.explorerContainer}>
-          <button
-            className={classnames('panel-button', styles.barButtonExplorer)}
-            onClick={this.willMinimizedExplorer}
-            title="Collapse explorer"
-          >
-            <Glyphicon
-              glyph="resize-small"
-            />
-          </button>
           <ExplorerContainer windowId={windowId} pageId={pageId} />
+          <div
+            className={styles.verticalBarRight}
+          >
+            <button
+              className={classnames('panel-button', styles.barButtonRight)}
+              onClick={this.willMinimizedExplorer}
+              title="Collapse explorer"
+            >
+              <Glyphicon
+                glyph="resize-small"
+              />
+            </button>
+          </div>
         </div>
       );
 
@@ -375,7 +407,7 @@ class Window extends PureComponent {
             {editor}
             <PanelGroup
               direction="column"
-              spacing={timebarIsMinimized ? 0 : resizeHandleSize}
+              spacing={timebarIsMinimized ? 0 : 24}
               borderColor={panelBorderColor}
               panelWidths={this.verticalLayout(calcTimebarHeight)}
               onUpdate={this.onVerticalUpdate}

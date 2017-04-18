@@ -1,7 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
 import getLogger from 'common/log';
-import classnames from 'classnames';
-import { Glyphicon } from 'react-bootstrap';
 import styles from './TimebarWrapper.css';
 import LeftTabContainer from './LeftTab/LeftTabContainer';
 import RightTabContainer from './RightTabContainer';
@@ -49,7 +47,6 @@ export default class TimebarWrapper extends PureComponent {
     ).isRequired,
     pause: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
-    minimizeTimebar: PropTypes.func.isRequired,
   }
 
   state = {
@@ -95,15 +92,6 @@ export default class TimebarWrapper extends PureComponent {
     this.props.play(this.props.timebar.uuid);
   }
 
-  willMinimizeTimebar = (e) => {
-    e.preventDefault();
-    const {
-      pageId,
-      minimizeTimebar,
-    } = this.props;
-    minimizeTimebar(pageId, true);
-  }
-
   render() {
     logger.debug('render');
     const {
@@ -125,15 +113,6 @@ export default class TimebarWrapper extends PureComponent {
         className={styles.container}
         style={{ height }}
       >
-        <button
-          className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
-          onClick={this.willMinimizeTimebar}
-          title="Collapse timebar"
-        >
-          <Glyphicon
-            glyph="resize-small"
-          />
-        </button>
         <Modal
           title="Manual time setter"
           onClose={this.toggleTimesetter}

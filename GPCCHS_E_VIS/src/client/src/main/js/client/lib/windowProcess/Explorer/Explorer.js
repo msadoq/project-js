@@ -99,7 +99,7 @@ export default class Explorer extends PureComponent {
     const Widget = _get(widgets, [tabId, 'component'], NotAlreadyImplemented);
 
     return (
-      <div>
+      <div className={styles.explorer}>
         <FormGroup controlId="formControlsSelect">
           <FormControl
             componentClass="select"

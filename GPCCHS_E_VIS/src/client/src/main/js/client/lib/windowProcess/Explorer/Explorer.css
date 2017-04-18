@@ -17,5 +17,6 @@
 }
 .explorer{
   padding: 3px;
-  display: table-cell;
+  width: calc(100% - 24px);
+  height: 100%;
 }

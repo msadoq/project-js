@@ -149,14 +149,14 @@ export default class Chart extends React.Component {
         const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
         const newYZoomLevels = {
           ...yZoomLevels,
-          [hoveredAxisId]: yZoomLevel * (e.deltaY > 0 ? 1.1 : 0.9),
+          [hoveredAxisId]: yZoomLevel * (e.deltaY > 0 ? 0.9 : 1.1),
         };
         this.setState({
           yZoomLevels: newYZoomLevels,
         });
       } else if (allowZoom) {
         this.setState({
-          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 1.1 : 0.9)).toFixed(2),
+          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1)).toFixed(2),
         });
       }
     }

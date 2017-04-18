@@ -8,10 +8,10 @@ export default class Controls extends PureComponent {
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
     timebarRealTime: PropTypes.bool.isRequired,
+    openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
@@ -58,7 +58,6 @@ export default class Controls extends PureComponent {
           play={this.props.play}
           pause={this.props.pause}
           updateSpeed={this.props.updateSpeed}
-          toggleTimesetter={this.props.toggleTimesetter}
           restoreWidth={this.props.restoreWidth}
           goNow={this.props.goNow}
           jump={this.props.jump}
@@ -69,6 +68,7 @@ export default class Controls extends PureComponent {
           currentSessionExists={this.props.currentSessionExists}
           masterTimeline={this.props.masterTimeline}
           masterSessionId={this.props.masterSessionId}
+          openModal={this.props.openModal}
         />
         <ControlsRight
           play={this.props.play}

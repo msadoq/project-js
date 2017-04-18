@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import AddEntryPointContainer from '../../viewManager/commonEditor/EntryPoint/AddEntryPointContainer';
+import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 
 const ModalGeneric = (props) => {
   let child;
@@ -29,6 +30,14 @@ const ModalGeneric = (props) => {
       title = 'Add entry point';
       child = (
         <AddEntryPointContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />);
+      break;
+    case 'timeSetter':
+      title = 'Time setter';
+      child = (
+        <TimeSetterContainer
           {...props.props}
           closeModal={props.onClose}
         />);

@@ -17,10 +17,10 @@ export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
+    openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
@@ -48,7 +48,11 @@ export default class ControlsLeft extends PureComponent {
   static defaultProps = {
     masterTimeline: null,
     messages: [],
-  }
+  };
+
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
 
   changeSpeed = (e) => {
     e.preventDefault();
@@ -136,6 +140,22 @@ export default class ControlsLeft extends PureComponent {
     );
   }
 
+  willOpenModal = (e) => {
+    e.preventDefault();
+    const {
+      openModal,
+      timebarUuid,
+    } = this.props;
+    openModal(
+      this.context.windowId,
+      {
+        type: 'timeSetter',
+        timebarUuid,
+        cursor: 'all',
+      }
+    );
+  }
+
   render() {
     const {
       timebarUuid,
@@ -143,7 +163,6 @@ export default class ControlsLeft extends PureComponent {
       isPlaying,
       play,
       pause,
-      toggleTimesetter,
       messages,
     } = this.props;
 
@@ -184,7 +203,7 @@ export default class ControlsLeft extends PureComponent {
           <li className={styles.controlsLi}>
             <button
               className={classnames('btn', 'btn-xs', 'btn-danger')}
-              onClick={() => toggleTimesetter()}
+              onClick={this.willOpenModal}
               title="Display time setter"
               style={{ fontSize: '1.1em' }}
             >
@@ -290,7 +309,7 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            onClick={() => toggleTimesetter()}
+            onClick={this.willOpenModal}
             title="Display time setter"
           >
             <Glyphicon glyph="align-justify" />

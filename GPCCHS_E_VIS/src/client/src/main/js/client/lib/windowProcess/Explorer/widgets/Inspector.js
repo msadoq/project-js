@@ -114,7 +114,15 @@ export default class Inspector extends PureComponent {
       return this.renderNoData();
     }
 
-    const { catalog, comObject, parameterName, sessionId, domainId } = dataId;
+    const {
+      catalog,
+      comObject,
+      parameterName,
+      sessionName,
+      sessionId,
+      domain,
+      domainId,
+    } = dataId;
 
     const hasData = !staticDataLoading && staticData;
     const hasNoData = !staticDataLoading && !staticData;
@@ -128,8 +136,16 @@ export default class Inspector extends PureComponent {
             <li><span className={styles.title}>ParameterName: </span>{parameterName}</li>
             <li><span className={styles.title}>Catalog: </span>{catalog}</li>
             <li><span className={styles.title}>COMObject: </span>{comObject}</li>
-            <li><span className={styles.title}>SessionId: </span>{sessionId}</li>
-            <li><span className={styles.title}>DomainId: </span>{domainId}</li>
+            <li>
+              <span className={styles.title}>Session: </span>{sessionName}
+              {' '}
+              <span className={styles.title}>Id: </span>{sessionId}
+            </li>
+            <li>
+              <span className={styles.title}>Domain: </span>{domain}
+              {' '}
+              <span className={styles.title}>Id: </span>{domainId}
+            </li>
           </ul>
         </Panel>
         {

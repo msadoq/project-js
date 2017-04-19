@@ -30,7 +30,7 @@ const zmqEmulator = (payload) => {
  * - check registerQueries for the queryId
  * - check zmq messages for both timebasedQuery and timebasedSubscription if needed
  * - check connectedDataModel for requested interval
- * - check subscriptionsModel for dataId and remoteIds
+ * - check subscriptionsModel for dataId and flatDataIds
  * - check ws messages for timebasedData
  *
  */
@@ -47,7 +47,7 @@ describe('controllers/client/onTimebasedQuery', () => {
 
   const dataId = dataStub.getDataId();
   const dataIdProto = dataStub.getDataIdProtobuf(dataId);
-  const remoteId = dataStub.getRemoteId(dataId);
+  const flatDataId = dataStub.getRemoteId(dataId);
   const interval = [1, 5];
   const intervalProto = dataStub.getTimeIntervalProtobuf({
     startTime: { ms: 1 },
@@ -64,7 +64,7 @@ describe('controllers/client/onTimebasedQuery', () => {
   ];
 
   const query = {
-    [remoteId]: {
+    [flatDataId]: {
       dataId,
       intervals: [interval],
     },
@@ -92,9 +92,9 @@ describe('controllers/client/onTimebasedQuery', () => {
   describe('query', () => {
     it('interval not missing', () => {
       // init test
-      connectedDataModel.addRecord(remoteId, dataId);
-      connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
-      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
+      connectedDataModel.addRecord(dataId);
+      connectedDataModel.addRequestedInterval(flatDataId, 'queryId', interval);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: query });
@@ -106,16 +106,16 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls.length.should.equal(0);
       // check ws messages
       getQueue().should.have.properties({
-        [remoteId]: {
+        [flatDataId]: {
           [payloads[1].timestamp]: payloads[1].payload,
         },
       });
-      Object.keys(getQueue()[remoteId]).should.have.lengthOf(2);
+      Object.keys(getQueue()[flatDataId]).should.have.lengthOf(2);
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        remoteId,
+        flatDataId,
         intervals: {
           all: [interval],
           requested: { queryId: interval },
@@ -128,9 +128,9 @@ describe('controllers/client/onTimebasedQuery', () => {
       // init test
       const otherQueryId = 'otherId';
       const otherInterval = [5, 42];
-      connectedDataModel.addRecord(remoteId, dataId);
-      connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
-      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
+      connectedDataModel.addRecord(dataId);
+      connectedDataModel.addRequestedInterval(flatDataId, otherQueryId, otherInterval);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: query });
@@ -153,7 +153,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        remoteId,
+        flatDataId,
         dataId,
         intervals: {
           all: [[1, 42]],
@@ -165,7 +165,7 @@ describe('controllers/client/onTimebasedQuery', () => {
 
     it('dataId not in subscriptions', () => {
       // init test
-      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: query });
@@ -182,22 +182,21 @@ describe('controllers/client/onTimebasedQuery', () => {
       const queryIdProto = dataStub.getStringProtobuf(queryId);
       const subIdProto = dataStub.getStringProtobuf(subId);
       calls.length.should.equal(8);
-      // calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
       calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-      calls[1].should.have.properties(queryIdProto);
+      calls[1].should.have.properties(subIdProto);
       calls[2].should.have.properties(dataIdProto);
-      calls[3].should.have.properties(intervalProto);
-      // calls[4].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-      // calls[5].should.have.properties(subIdProto);
-      // calls[6].should.have.properties(dataIdProto);
-      // calls[7].should.have.properties(dataStub.getAddActionProtobuf());
+      calls[3].should.have.properties(dataStub.getAddActionProtobuf());
+      calls[4].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[5].should.have.properties(queryIdProto);
+      calls[6].should.have.properties(dataIdProto);
+      calls[7].should.have.properties(intervalProto);
       // check ws messages
       getQueue().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        remoteId,
+        flatDataId,
         intervals: {
           all: [interval],
           requested: { [queryId]: interval },

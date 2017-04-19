@@ -12,7 +12,7 @@ const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 /**
  * Triggered when the data consumer query for timebased data
  *
- * - loop over remoteIds
+ * - loop over flatDataIds
  *    - loop over intervals
  *        - retrieve missing intervals from connectedData model
  *    - loop over missing intervals
@@ -38,31 +38,31 @@ module.exports = (sendMessageToDc, { queries }) => {
     return;
   }
 
-  logger.silly('called', Object.keys(queries).length, 'remoteIds');
+  logger.silly('called', Object.keys(queries).length, 'flatDataIds');
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
   const messageQueue = [];
-  // loop over remoteIds
-  _each(queries, (query, remoteId) => {
+  // loop over flatDataIds
+  _each(queries, (query, flatDataId) => {
     // Invalid query
     if (!query.dataId) {
       return;
     }
     let missingIntervals = [];
 
-    logger.debug('add a query on', remoteId);
+    logger.debug('add a query on', flatDataId);
     execution.start('add loki connectedData');
-    logger.silly('add loki connectedData', { remoteId });
+    logger.silly('add loki connectedData', { flatDataId });
     // Create a subscription if needed
-    if (!connectedDataModel.exists(remoteId)) {
-      logger.debug('add a subscription on', remoteId);
+    if (!connectedDataModel.exists(flatDataId)) {
+      logger.debug('add a subscription on', flatDataId);
       // create subscription message
       const message = createAddSubscriptionMessage(query.dataId);
       // queue the message
       messageQueue.push(message.args);
     }
-    const connectedData = connectedDataModel.addRecord(remoteId, query.dataId);
+    const connectedData = connectedDataModel.addRecord(query.dataId);
     execution.stop('add loki connectedData');
 
     // loop over intervals
@@ -72,7 +72,7 @@ module.exports = (sendMessageToDc, { queries }) => {
       missingIntervals = _concat(
         missingIntervals,
         connectedDataModel.retrieveMissingIntervals(
-          remoteId,
+          flatDataId,
           interval,
           connectedData
         )
@@ -80,12 +80,12 @@ module.exports = (sendMessageToDc, { queries }) => {
     });
     execution.stop('finding missing intervals');
     // debug.debug('missing intervals', missingIntervals);
-    logger.silly('found', missingIntervals.length, 'missing intervals for', remoteId);
+    logger.silly('found', missingIntervals.length, 'missing intervals for', flatDataId);
     // loop over missing intervals
     _each(missingIntervals, (missingInterval) => {
       logger.silly('request interval', missingInterval);
       const message = createQueryMessage(
-        remoteId,
+        flatDataId,
         query.dataId,
         missingInterval,
         execution
@@ -97,7 +97,7 @@ module.exports = (sendMessageToDc, { queries }) => {
       // add requested interval to connectedData model
       execution.start('add requested interval');
       connectedDataModel.addRequestedInterval(
-        remoteId,
+        flatDataId,
         message.queryId,
         missingInterval,
         connectedData
@@ -108,10 +108,10 @@ module.exports = (sendMessageToDc, { queries }) => {
 
     // loop over intervals
     execution.start('finding cache model');
-    const timebasedDataModel = getTimebasedDataModel(remoteId);
+    const timebasedDataModel = getTimebasedDataModel(flatDataId);
     execution.stop('finding cache model');
     if (!timebasedDataModel) {
-      logger.silly('no cached data found for', remoteId);
+      logger.silly('no cached data found for', flatDataId);
       return;
     }
 
@@ -128,7 +128,7 @@ module.exports = (sendMessageToDc, { queries }) => {
       }
       execution.start('queue cache for sending');
       _each(cachedData, (datum) => {
-        addToQueue(remoteId, datum.timestamp, datum.payload);
+        addToQueue(flatDataId, datum.timestamp, datum.payload);
       });
       execution.stop('queue cache for sending');
     });

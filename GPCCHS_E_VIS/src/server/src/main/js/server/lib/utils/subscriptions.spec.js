@@ -5,12 +5,14 @@ const {
   unsubscribeAll,
   resetSubId,
 } = require('./subscriptions');
+const connectedDataModel = require('../models/connectedData');
 const registeredCallbacks = require('common/callbacks');
 const dataStub = require('common/stubs/data');
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('./test');
 
 describe('utils/subscriptions', () => {
   beforeEach(() => {
+    connectedDataModel.cleanup();
     resetSubId();
     resetTestHandlerArgs();
     registeredCallbacks.clear();
@@ -90,6 +92,8 @@ describe('utils/subscriptions', () => {
   it('unsubscribeAll', () => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
     const myDataId2 = dataStub.getDataId({ parameterName: 'myParam2' });
+    connectedDataModel.addRecord(myDataId);
+    connectedDataModel.addRecord(myDataId2);
 
     unsubscribeAll(testHandler);
     const messages = getTestHandlerArgs();

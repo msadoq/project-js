@@ -14,21 +14,19 @@ const connectedDataModel = require('../../models/connectedData');
 /**
  * Cache Cleanup: clear expired queries from models, stop subscriptions if needed
  *
- * - loop over expired requests ('remoteId': [interval])
+ * - loop over expired requests ('flatDataId': [interval])
  *    - remove intervals from connectedData model
- *    - if there are still requested intervals in connectedData model for this remoteId
+ *    - if there are still requested intervals in connectedData model for this flatDataId
  *        - remove data corresponding to expired intervals from timebasedData model and stop logic
  *    - get corresponding dataId from connectedData model
- *    - remove remoteId from connectedData model
- *    - remove data corresponding to remoteId from timebasedData model
- *    - if there are still remoteIds in subscriptions model for this dataId, stop logic
- *    - remove dataId from subscriptions model
+ *    - remove flatDataId from connectedData model
+ *    - remove data corresponding to flatDataId from timebasedData model
  *    - create a queryId and register a queryid/callback association
  *    - queue a zmq timebasedSubscription message (with 'DELETE' action)
  * - send queued messages to DC
  *
  * @param sendMessageToDc
- * @param dataMap
+ * @param dataMap = { perRemoteId, expectedIntervals }
  */
 
 module.exports = (sendMessageToDc, dataMap) => {
@@ -40,15 +38,16 @@ module.exports = (sendMessageToDc, dataMap) => {
   const connectedData = connectedDataModel.getAll();
   execution.stop('get all connected data');
   const expiredRequests = {};
-  _each(connectedData, ({ remoteId, intervals }) => {
+  _each(connectedData, ({ flatDataId, intervals }) => {
     let expiredIntervals = intervals.all;
-    // get visible localIds for this remoteId if any
+    // get visible localIds for this flatDataId if any
     execution.start('get localIds');
-    const localIds = _get(dataMap, [remoteId, 'localIds']);
+    const localIds = _get(dataMap, ['perRemoteId', flatDataId, 'localIds']);
     execution.stop('get localIds');
-    _each(localIds, (localValue) => {
+    _each(localIds, (localValue, localId) => {
       // extract visible interval from expired intervals
-      const expectedInterval = localValue.expectedInterval;
+      const expectedInterval =
+        _get(dataMap, ['expectedIntervals', flatDataId, localId, 'expectedInterval']);
       // TODO getLast optimize .remove code to only remove exact matching interval if getLast cd
       execution.start('keep only expired intervals');
       expiredIntervals = removeIntervals(expiredIntervals, expectedInterval);
@@ -57,66 +56,64 @@ module.exports = (sendMessageToDc, dataMap) => {
     execution.start('add to invalidation');
     // if some expired intervals, add to invalidation
     if (expiredIntervals.length > 0) {
-      expiredRequests[remoteId] = { intervals: expiredIntervals };
+      expiredRequests[flatDataId] = { intervals: expiredIntervals };
     }
     execution.stop('add to invalidation');
   });
 
-  // loop over expired requests ('remoteId': [interval])
-  _each(expiredRequests, ({ intervals }, remoteId) => {
-    logger.silly('intervals', intervals, 'remoteId', remoteId);
+
+  // loop over expired requests ('flatDataId': [interval])
+  _each(expiredRequests, ({ intervals }, flatDataId) => {
+    logger.silly('intervals', intervals, 'flatDataId', flatDataId);
     // remove intervals from connectedData model
     execution.start('remove intervals');
-    const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
+    const queryIds = connectedDataModel.removeIntervals(flatDataId, intervals);
     execution.stop('remove intervals');
     execution.start('remove queries');
     removeRegisteredQuery(queryIds);
     execution.stop('remove queries');
     logger.silly('Query Ids no longer needed', queryIds);
-    // if there are still requested intervals in connectedData model for this remoteId
+    // if there are still requested intervals in connectedData model for this flatDataId
     execution.start('get remaining intervals');
-    const remainingIntervals = connectedDataModel.getIntervals(remoteId);
+    const remainingIntervals = connectedDataModel.getIntervals(flatDataId);
     execution.stop('get remaining intervals');
     if (!remainingIntervals) {
-      return undefined;
+      return;
     }
     if (remainingIntervals.length !== 0) {
       logger.silly('still requested');
       // remove data corresponding to expired intervals from timebasedData model
       execution.start('get tbd model');
-      const timebasedDataModel = getTimebasedDataModel(remoteId);
+      const timebasedDataModel = getTimebasedDataModel(flatDataId);
       execution.stop('get tbd model');
-      if (!timebasedDataModel) {
-        return undefined;
+      if (timebasedDataModel) {
+        _each(intervals, (interval) => {
+          execution.start('find and remove tbd');
+          timebasedDataModel.removeByInterval(interval[0], interval[1]);
+          execution.stop('find and remove tbd');
+        });
       }
-
-      return _each(intervals, (interval) => {
-        execution.start('find and remove tbd');
-        timebasedDataModel.removeByInterval(interval[0], interval[1]);
-        execution.stop('find and remove tbd');
-      });
+      return;
     }
     logger.silly('no more interval');
-    console.log('..............no more interval');
-    // else, no more intervals for this remoteId
+    // else, no more intervals for this flatDataId
     // get corresponding dataId from connectedData model
     execution.start('get dataId');
-    const dataId = connectedDataModel.getDataId(remoteId);
+    const dataId = connectedDataModel.getDataId(flatDataId);
     execution.stop('get dataId');
-    // remove remoteId from connectedData model
+    // remove flatDataId from connectedData model
     execution.start('remove connected data');
-    connectedDataModel.removeByRemoteId(remoteId);
+    connectedDataModel.removeByFlatDataId(flatDataId);
     execution.stop('remove connected data');
-    // remove data corresponding to remoteId from timebasedData model
+    // remove data corresponding to flatDataId from timebasedData model
     execution.start('remove tbd model');
-    removeTimebasedDataModel(remoteId);
+    removeTimebasedDataModel(flatDataId);
     execution.stop('remove tbd model');
     const message = createDeleteSubscriptionMessage(dataId);
     execution.start('create and push sub message');
     // queue the message
     messageQueue.push(message.args);
     execution.stop('create and push sub message');
-    return undefined;
   });
   logger.silly('message queue length', messageQueue.length);
   // send queued messages to DC

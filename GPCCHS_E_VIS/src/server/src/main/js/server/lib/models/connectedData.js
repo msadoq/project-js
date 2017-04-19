@@ -6,11 +6,12 @@ const _some = require('lodash/some');
 const _has = require('lodash/has');
 const logger = require('common/log')('models:connectedData');
 const intervalManager = require('common/intervals');
+const flattenDataId = require('common/utils/flattenDataId');
 
 const database = require('./loki');
 
-const createConnectedData = (remoteId, dataId) => ({
-  remoteId,
+const createConnectedData = dataId => ({
+  flatDataId: flattenDataId(dataId),
   dataId,
   intervals: {
     all: [],
@@ -21,19 +22,19 @@ const createConnectedData = (remoteId, dataId) => ({
 
 const collection = database.addCollection('connectedData',
   {
-    unique: 'remoteId',
+    unique: 'flatDataId',
   }
 );
 
-collection.getRemoteIdIndex = () => collection.constraints.unique.remoteId;
+collection.getFlatDataIdIndex = () => collection.constraints.unique.flatDataId;
 
-collection.getAll = () => _remove(_values(collection.getRemoteIdIndex().keyMap), undefined);
+collection.getAll = () => _remove(_values(collection.getFlatDataIdIndex().keyMap), undefined);
 
-collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData) => {
-  // Return timestamps that are currently in intervals known or requested for this remoteId
+collection.areTimestampsInKnownIntervals = (flatDataId, timestamps, connectedData) => {
+  // Return timestamps that are currently in intervals known or requested for this flatDataId
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       logger.silly('timestamps not in known intervals');
       return [];
@@ -47,11 +48,11 @@ collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData)
   );
 };
 
-collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) => {
-  // Check if timestamp is currently in intervals known or requested for this remoteId
+collection.isTimestampInKnownIntervals = (flatDataId, timestamp, connectedData) => {
+  // Check if timestamp is currently in intervals known or requested for this flatDataId
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       logger.silly('timestamp not in known intervals');
       return false;
@@ -67,11 +68,11 @@ collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) =>
   return false;
 };
 
-collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
-  // Set query interval as received for this remoteId
+collection.setIntervalAsReceived = (flatDataId, queryUuid, connectedData) => {
+  // Set query interval as received for this flatDataId
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -82,26 +83,26 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
   }
   cd.intervals.received = intervalManager.merge(cd.intervals.received, interval);
   delete cd.intervals.requested[queryUuid];
-  logger.silly('set interval', interval, 'as received for', remoteId);
+  logger.silly('set interval', interval, 'as received for', flatDataId);
   return cd;
 };
 
-collection.addRecord = (remoteId, dataId) => {
-  let connectedData = collection.by('remoteId', remoteId);
+collection.addRecord = (dataId) => {
+  let connectedData = collection.by('flatDataId', flattenDataId(dataId));
   if (connectedData) {
     return connectedData;
   }
-  connectedData = createConnectedData(remoteId, dataId);
+  connectedData = createConnectedData(dataId);
   return collection.insert(connectedData);
 };
 
-collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData) => {
+collection.addRequestedInterval = (flatDataId, queryUuid, interval, connectedData) => {
   // Add a query interval in the list of requested intervals for this flatDataId
   // And create the flatDataId if it doesnt exist
 
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -111,10 +112,10 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData)
   return cd;
 };
 
-collection.removeIntervals = (remoteId, intervals, connectedData) => {
+collection.removeIntervals = (flatDataId, intervals, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return [];
     }
@@ -145,10 +146,10 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
   return queryIds;
 };
 
-collection.getIntervals = (remoteId, connectedData) => {
+collection.getIntervals = (flatDataId, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -156,10 +157,10 @@ collection.getIntervals = (remoteId, connectedData) => {
   return cd.intervals.all;
 };
 
-collection.getDataId = (remoteId, connectedData) => {
+collection.getDataId = (flatDataId, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -167,20 +168,20 @@ collection.getDataId = (remoteId, connectedData) => {
   return cd.dataId;
 };
 
-collection.isRequested = (remoteId, queryUuid, connectedData) => {
+collection.isRequested = (flatDataId, queryUuid, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
   }
 
   return _has(cd, ['intervals', 'requested', queryUuid]);
 };
 
-collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
-  // Retrieve missing intervals for this remoteId for the given interval
+collection.retrieveMissingIntervals = (flatDataId, interval, connectedData) => {
+  // Retrieve missing intervals for this flatDataId for the given interval
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       logger.silly('no connectedData');
       return [interval];
@@ -189,12 +190,12 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
   return intervalManager.missing(cd.intervals.all, interval);
 };
 
-collection.exists = remoteId => typeof collection.by('remoteId', remoteId) !== 'undefined';
+collection.exists = flatDataId => typeof collection.by('flatDataId', flatDataId) !== 'undefined';
 
-collection.removeByRemoteId = (remoteId, connectedData) => {
+collection.removeByFlatDataId = (flatDataId, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return;
     }
@@ -203,12 +204,12 @@ collection.removeByRemoteId = (remoteId, connectedData) => {
   collection.remove(cd);
 };
 
-collection.getByRemoteId = remoteId => collection.by('remoteId', remoteId);
+collection.getByFlatDataId = flatDataId => collection.by('flatDataId', flatDataId);
 
 collection.cleanup = () => {
   logger.debug('connectedData cleared');
   collection.clear();
-  collection.getRemoteIdIndex().clear();
+  collection.getFlatDataIdIndex().clear();
 };
 
 module.exports = collection;

@@ -215,7 +215,7 @@ export function tick() {
       if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
         execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(now)); // schedule next run
-        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
+        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap);
         execution.stop('cache invalidation');
 
         logger.debug('cache invalidation requested, skipping current tick');

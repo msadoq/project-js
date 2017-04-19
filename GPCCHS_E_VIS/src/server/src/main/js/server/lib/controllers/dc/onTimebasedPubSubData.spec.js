@@ -85,7 +85,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
 
   it('one in interval', () => {
     // init test
-    connectedDataModel.addRecord(remoteId, dataId);
+    connectedDataModel.addRecord(dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, halfInterval);
     // launch test
     onTimebasedPubSubData(

@@ -38,8 +38,8 @@ describe('models/registeredQueries', () => {
     registeredQueries.addRecord('id2', 'remoteId2');
     const ids = registeredQueries.getAll();
     ids.should.have.properties([
-      { queryId: 'id1', remoteId: 'remoteId1' },
-      { queryId: 'id2', remoteId: 'remoteId2' },
+      { queryId: 'id1', flatDataId: 'remoteId1' },
+      { queryId: 'id2', flatDataId: 'remoteId2' },
     ]);
   });
   it('cleanup', () => {

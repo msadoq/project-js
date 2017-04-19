@@ -89,7 +89,7 @@ const recursiveFormatChildren = (parentPath, parentType, data) => {
   });
 };
 
-export default function (data, { rootName = 'root', path = [], type = OBJECT }) {
+export default function (data, { rootName = 'root', path = [], type = OBJECT } = {}) {
   return {
     path,
     name: rootName,

@@ -5,10 +5,10 @@ import HistoryView from './HistoryView';
 
 
 const mapStateToProps = createStructuredSelector({
-  data: {
+  data: () => ({
     indexes: {},
     values: {},
-  },
+  }),
 });
 
 const HistoryViewContainer = connect(mapStateToProps)(HistoryView);

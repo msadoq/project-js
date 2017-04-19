@@ -5,7 +5,9 @@ import {
   getDisplayHelp,
 } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
+import { getModal } from '../../store/reducers/modals';
 import { setIsLoaded, displayHelp } from '../../store/actions/windows';
+import { close as closeModal } from '../../store/actions/modals';
 import {
   resizeEditor,
   resizeTimebar,
@@ -39,6 +41,7 @@ const mapStateToProps = (state, { windowId }) => {
     timebarIsMinimized,
     explorerWidth,
     explorerIsMinimized,
+    modal: getModal(state, { windowId }),
   };
 };
 
@@ -51,4 +54,5 @@ export default connect(mapStateToProps, {
   minimizeEditor,
   minimizeExplorer,
   minimizeTimebar,
+  closeModal,
 })(Window);

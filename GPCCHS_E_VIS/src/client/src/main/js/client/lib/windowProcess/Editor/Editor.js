@@ -2,7 +2,6 @@ import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import { Glyphicon } from 'react-bootstrap';
 import { getEditorComponent } from '../../viewManager';
 import styles from './Editor.css';
 
@@ -64,16 +63,7 @@ export default class Editor extends PureComponent {
     }
 
     return (
-      <div className={classnames('subdiv', styles.editor)}>
-        <button
-          className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
-          onClick={this.willMinimizeEditor}
-          title="Collapse editor"
-        >
-          <Glyphicon
-            glyph="resize-small"
-          />
-        </button>
+      <div className={classnames('subdiv', 'h100', styles.editor)}>
         <EditorComponent
           viewId={viewId}
           pageId={pageId}

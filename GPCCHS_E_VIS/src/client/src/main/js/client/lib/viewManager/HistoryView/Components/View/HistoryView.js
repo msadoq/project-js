@@ -1,16 +1,5 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React from 'react';
 
-export default class HistoryView extends PureComponent {
-  static propTypes = {
-    data: PropTypes.shapeOf({
-      indexes: PropTypes.object.isRequired,
-      values: PropTypes.object.isRequired,
-    }),
-  };
+const HistoryView = () => <div>Here is the view</div>;
 
-  render() {
-    return (
-      <div />
-    );
-  }
-}
+export default HistoryView;

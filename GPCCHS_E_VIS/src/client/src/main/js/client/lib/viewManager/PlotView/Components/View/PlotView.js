@@ -91,7 +91,6 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -102,8 +101,15 @@ export class GrizzlyPlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
-    openInspector: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
+    openInspector: PropTypes.func.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorRemoteId: PropTypes.string,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    updateEditorSearch: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -112,11 +118,12 @@ export class GrizzlyPlotView extends PureComponent {
       columns: [],
     },
     visuWindow: null,
+    inspectorRemoteId: null,
   };
 
   state = {
     showLegend: false,
-    selectedLineName: null,
+    selectedLineNames: [],
   }
 
   componentDidMount() {
@@ -134,38 +141,103 @@ export class GrizzlyPlotView extends PureComponent {
         shouldRender = true;
       }
     }
-    const stateAttrs = ['showLegend', 'selectedLineName'];
-    for (let i = 0; i < stateAttrs.length; i += 1) {
-      if (nextState[stateAttrs[i]] !== this.state[stateAttrs[i]]) {
-        shouldRender = true;
-      }
+    if (nextState.showLegend !== this.state.showLegend) {
+      shouldRender = true;
+    }
+    if (nextState.selectedLineNames !== this.state.selectedLineNames) {
+      shouldRender = true;
     }
     return shouldRender;
   }
 
-  onContextMenu = () => {
-    const { entryPoints, openInspector, pageId } = this.props;
-    const complexMenu = {
+  onContextMenu = (event, name) => {
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      pageId,
+      isViewsEditorOpen,
+      closeEditor,
+      openEditor,
+      mainMenu,
+      updateEditorSearch,
+      inspectorRemoteId,
+      isInspectorOpened,
+    } = this.props;
+    const separator = { type: 'separator' };
+    if (name) {
+      const editorMenu = [{
+        label: `Open ${name} in Editor`,
+        click: () => {
+          updateEditorSearch(name);
+          openEditor();
+        },
+      }];
+      if (isViewsEditorOpen) {
+        editorMenu.push({
+          label: 'Close Editor',
+          click: () => closeEditor(),
+        });
+      }
+      const inspectorLabel = `Open ${name} in Inspector`;
+      if (_get(entryPoints, [name, 'error'])) {
+        const inspectorMenu = {
+          label: inspectorLabel,
+          enabled: false,
+        };
+        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+        return;
+      }
+      const { remoteId, dataId } = entryPoints[name];
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      const inspectorMenu = {
+        label: inspectorLabel,
+        type: 'checkbox',
+        click: () => openInspector({
+          pageId,
+          remoteId,
+          dataId,
+        }),
+        checked: opened,
+      };
+      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+      return;
+    }
+    const inspectorMenu = {
       label: 'Open parameter in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
       const label = `${epName}`;
       if (ep.error) {
-        complexMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
       const { remoteId, dataId } = ep;
-      complexMenu.submenu.push({
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      inspectorMenu.submenu.push({
         label,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       });
     });
-    handleContextMenu(complexMenu);
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => {
+        updateEditorSearch('');
+        openEditor();
+      },
+    };
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
   onDrop = this.drop.bind(this);
@@ -255,9 +327,21 @@ export class GrizzlyPlotView extends PureComponent {
 
   selectLine = (e, lineId) => {
     e.preventDefault();
-    this.setState({
-      selectedLineName: lineId === this.state.selectedLineName ? null : lineId,
-    });
+    const {
+      selectedLineNames,
+    } = this.state;
+    if (selectedLineNames.includes(lineId)) {
+      const index = selectedLineNames.indexOf(lineId);
+      selectedLineNames.splice(index, 1);
+      this.setState({
+        selectedLineNames: [].concat(selectedLineNames),
+      });
+    } else {
+      selectedLineNames.push(lineId);
+      this.setState({
+        selectedLineNames: [].concat(selectedLineNames),
+      });
+    }
   }
 
   memoizeXAxisProps = _memoize(
@@ -279,7 +363,7 @@ export class GrizzlyPlotView extends PureComponent {
       // TODO : clean message component
       return (
         <DroppableContainer
-          onContextMenu={this.onContextMenu}
+          onContextMenu={event => this.onContextMenu(event)}
           onDrop={this.onDrop}
           className={styles.errorContent}
         >
@@ -310,11 +394,11 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     const {
       showLegend,
-      selectedLineName,
+      selectedLineNames,
     } = this.state;
 
-    if (selectedLineName && showLegend) {
-      entryPoints = entryPoints.filter(ep => ep.name === selectedLineName);
+    if (selectedLineNames.length && showLegend) {
+      entryPoints = entryPoints.filter(ep => selectedLineNames.includes(ep.name));
     }
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
@@ -330,7 +414,7 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        onContextMenu={this.onContextMenu}
+        onContextMenu={event => this.onContextMenu(event)}
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(
@@ -413,9 +497,10 @@ export class GrizzlyPlotView extends PureComponent {
           yAxes={yAxes}
           lines={this.props.configuration.entryPoints}
           show={showLegend}
-          selectedLineName={selectedLineName}
+          selectedLineNames={selectedLineNames}
           toggleShowLegend={this.toggleShowLegend}
           selectLine={this.selectLine}
+          onContextMenu={this.onContextMenu}
         />
       </DroppableContainer>
     );

@@ -1,13 +1,10 @@
 import path from 'path';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/reducers/views';
-import { getWindowTitle } from '../../store/reducers/windows';
-import { getWorkspaceFile, getWorkspaceFolder } from '../../store/reducers/hsc';
+import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
 import { getStore } from '../../store/mainStore';
-import { updatePath } from '../../store/actions/hsc';
-import { setModified as setModifiedWindow } from '../../store/actions/windows';
+import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
 import { addOnce as addMessage } from '../../store/actions/messages';
-import { getModifiedWindowsIds } from './selectors';
 import { getPathByFilePicker } from '../dialog';
 import { saveWorkspace } from '../../documentManager';
 
@@ -26,7 +23,7 @@ const hasNoWindowsFocused = (focusedWindow) => {
 const hasAlreadySaved = () => {
   const { dispatch, getState } = getStore();
   const state = getState();
-  if (getModifiedWindowsIds(state).length === 0) {
+  if (!getWorkspaceIsModified(state)) {
     dispatch(addMessage('global', 'info', 'The workspace is already saved'));
     return true;
   }
@@ -86,17 +83,12 @@ function workspaceSaveAs(focusedWindow) {
 }
 
 function saveFile(focusedWindow, callback) {
-  saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
+  saveWorkspace(getStore().getState(), true, (errWin) => {
     if (errWin) {
       callback(errWin);
       return;
     }
-    winIds.forEach((winId) => {
-      getStore().dispatch(setModifiedWindow(winId, false));
-    });
-    const { windowId } = focusedWindow;
-    const title = getWindowTitle(getStore().getState(), { windowId });
-    focusedWindow.setTitle(title.concat(' - VIMA'));
+    getStore().dispatch(setWorkspaceModified(false));
     callback(null);
   });
 }

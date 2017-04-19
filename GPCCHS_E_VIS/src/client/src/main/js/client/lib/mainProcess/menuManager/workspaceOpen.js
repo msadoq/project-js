@@ -4,12 +4,10 @@ import find from 'lodash/fp/find';
 import equals from 'lodash/fp/equals';
 
 import { add as addMessage } from '../../store/actions/messages';
-import { getWindows } from '../../store/reducers/windows';
 import { getPages, getModifiedPagesIds } from '../../store/reducers/pages';
 import { getViews, getModifiedViewsIds } from '../../store/reducers/views';
-import { setModified as setModifiedWindow } from '../../store/actions/windows';
-import { updatePath } from '../../store/actions/hsc';
-import { getWorkspaceFile, getWorkspaceFolder } from '../../store/reducers/hsc';
+import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
+import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
 import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
@@ -85,14 +83,12 @@ function allDocumentsAreSaved(store, cb) {
             return;
           }
           store.dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
-          saveWorkspace(store.getState(), true, (err, winIds) => {
+          saveWorkspace(store.getState(), true, (err) => {
             if (err) {
               cb(err);
               return;
             }
-            winIds.forEach((id) => {
-              store.dispatch(setModifiedWindow(id, false));
-            });
+            store.dispatch(setWorkspaceModified(false));
             cb(null);
           });
         });
@@ -105,10 +101,10 @@ function allDocumentsAreSaved(store, cb) {
 // Returns if at least one file is modified
 function isSaveNeeded(state) {
   const findIsModified = find(['isModified', true]);
-  const win = findIsModified(getWindows(state));
+  const workspace = getWorkspaceIsModified(state);
   const page = findIsModified(getPages(state));
   const view = findIsModified(getViews(state));
-  return !(!win && !page && !view);
+  return workspace || page || view;
 }
 
 export default {

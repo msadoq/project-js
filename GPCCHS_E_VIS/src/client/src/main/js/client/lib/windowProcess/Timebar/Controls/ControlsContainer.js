@@ -9,6 +9,9 @@ import {
   restoreWidth,
   goNow,
 } from '../../../store/actions/timebars';
+import {
+  open as openModal,
+} from '../../../store/actions/modals';
 
 import Controls from './Controls';
 
@@ -38,6 +41,7 @@ const mapDispatchToProps = {
   restoreWidth,
   goNow,
   getSession,
+  openModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controls);

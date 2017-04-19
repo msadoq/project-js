@@ -6,6 +6,9 @@ import {
   jump,
 } from '../../store/actions/timebars';
 import { smartPlay, pause } from '../../store/actions/hsc';
+import {
+  open as openModal,
+} from '../../store/actions/modals';
 import RightTab from './RightTab';
 
 export default connect(
@@ -17,5 +20,6 @@ export default connect(
     pause,
     updateCursors,
     jump,
+    openModal,
   }
 )(RightTab);

@@ -16,7 +16,7 @@ class RightTabContent extends PureComponent {
     isPlaying: PropTypes.bool.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     timebar: PropTypes.shape({
       id: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
@@ -154,7 +154,7 @@ class RightTabContent extends PureComponent {
       play,
       pause,
       timebar,
-      toggleTimesetter,
+      openModal,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
       setRealTime,
@@ -184,7 +184,6 @@ class RightTabContent extends PureComponent {
           isPlaying={isPlaying}
           play={play}
           pause={pause}
-          toggleTimesetter={toggleTimesetter}
           jump={jump}
         />
         <TimeBar
@@ -204,7 +203,7 @@ class RightTabContent extends PureComponent {
           updateViewport={updateViewport}
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}
-          toggleTimesetter={toggleTimesetter}
+          openModal={openModal}
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
           widthPx={containerWidth}
         />

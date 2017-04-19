@@ -3,9 +3,6 @@ import { pause, smartPlay as play } from '../../store/actions/hsc';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import { getPlayingTimebarId } from '../../store/reducers/hsc';
 import TimebarWrapper from './TimebarWrapper';
-import {
-  minimizeTimebar,
-} from '../../store/actions/pages';
 
 export default connect(
   (state, { pageId, timebar }) => {
@@ -21,6 +18,5 @@ export default connect(
   }, {
     pause,
     play,
-    minimizeTimebar,
   }
 )(TimebarWrapper);

@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import classnames from 'classnames';
 import Message from '../common/Message';
 import styles from './Messages.css';
@@ -75,7 +75,7 @@ export default class Messages extends PureComponent {
 
     // TODO dbrugne : fix react warning about choice prop
     return (
-      <ButtonGroup>
+      <div className={classnames('btn-group', styles.messages)}>
         <Button onClick={this.collapse} choice="collapse" bsSize="sm">
           { this.state.collapsed ? 'show messages' : 'hide messages' }
         </Button>
@@ -111,7 +111,7 @@ export default class Messages extends PureComponent {
         <div className={styles.container}>
           {children}
         </div>
-      </ButtonGroup>
+      </div>
     );
   }
 }

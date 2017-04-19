@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Panel } from 'react-bootstrap';
+import { Panel, Button } from 'react-bootstrap';
 import getLogger from 'common/log';
 import {
   NODE_TYPE_LINK as LINK,
@@ -35,6 +35,8 @@ export default class Inspector extends PureComponent {
     staticData: PropTypes.arrayOf(PropTypes.object),
     staticDataLoading: PropTypes.bool,
     toggleNode: PropTypes.func.isRequired,
+    toggleAllNodes: PropTypes.func.isRequired,
+    loadingNode: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -48,20 +50,23 @@ export default class Inspector extends PureComponent {
     const { dataId } = this.props;
     const { sessionId, domainId } = dataId;
     if (event.buttons === 1) {
-      this.props.toggleNode(node.path, !node.toggled);
-      if (node.type === LINK) {
-        logger.info('Linking to', node.value);
-        main.resolveLink({
-          link: node.value,
-          path: node.path,
-          sessionId,
-          domainId,
-        });
+      if (node.type !== LINK) {
+        this.props.toggleNode(node.path, !node.toggled);
+        return;
       }
+      logger.info('Linking to', node.value);
+      this.props.loadingNode(node.path, true);
+      main.resolveLink({
+        link: node.value,
+        path: node.path,
+        sessionId,
+        domainId,
+      });
       return;
     }
     if (event.buttons === 2) {
       if (node.type === LINK || node.type === RESOLVED_LINK) {
+        this.props.loadingNode(node.path, true);
         const workspace = {
           label: 'Resolve link through RTD',
           click: () => main.resolveLink({
@@ -97,13 +102,27 @@ export default class Inspector extends PureComponent {
 
   render() {
     logger.debug('render');
-    const { dataId, isDisplayingTM, staticData, staticDataLoading } = this.props;
+    const {
+      dataId,
+      isDisplayingTM,
+      staticData,
+      staticDataLoading,
+      toggleAllNodes,
+    } = this.props;
 
     if (!dataId) {
       return this.renderNoData();
     }
 
-    const { catalog, comObject, parameterName, sessionId, domainId } = dataId;
+    const {
+      catalog,
+      comObject,
+      parameterName,
+      sessionName,
+      sessionId,
+      domain,
+      domainId,
+    } = dataId;
 
     const hasData = !staticDataLoading && staticData;
     const hasNoData = !staticDataLoading && !staticData;
@@ -117,8 +136,16 @@ export default class Inspector extends PureComponent {
             <li><span className={styles.title}>ParameterName: </span>{parameterName}</li>
             <li><span className={styles.title}>Catalog: </span>{catalog}</li>
             <li><span className={styles.title}>COMObject: </span>{comObject}</li>
-            <li><span className={styles.title}>SessionId: </span>{sessionId}</li>
-            <li><span className={styles.title}>DomainId: </span>{domainId}</li>
+            <li>
+              <span className={styles.title}>Session: </span>{sessionName}
+              {' '}
+              <span className={styles.title}>Id: </span>{sessionId}
+            </li>
+            <li>
+              <span className={styles.title}>Domain: </span>{domain}
+              {' '}
+              <span className={styles.title}>Id: </span>{domainId}
+            </li>
           </ul>
         </Panel>
         {
@@ -130,10 +157,15 @@ export default class Inspector extends PureComponent {
               { staticDataLoading && this.renderLoading() }
               { hasNoData && this.renderNoData() }
               { hasData &&
-                <Tree
-                  data={staticData}
-                  onMouseDown={this.onMouseDown}
-                />
+                [
+                  <Button onClick={() => toggleAllNodes(true)}>Expand All</Button>,
+                  ' ',
+                  <Button onClick={() => toggleAllNodes(false)}>Collapse All</Button>,
+                  <Tree
+                    data={staticData}
+                    onMouseDown={this.onMouseDown}
+                  />,
+                ]
               }
             </Panel>,
             <Panel

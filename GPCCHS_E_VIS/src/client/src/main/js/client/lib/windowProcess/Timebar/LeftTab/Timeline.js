@@ -1,6 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
-import _memoize from 'lodash/memoize';
 import { formatDuration } from '../../common/timeFormats';
 import styles from './LeftTab.css';
 
@@ -38,9 +37,14 @@ export default class Timeline extends PureComponent {
     }
   }
 
-  willEditTimeline = _memoize(
-    id => () => this.props.willEditTimeline(id)
-  );
+  willEditTimeline = (e) => {
+    e.preventDefault();
+    const {
+      uuid,
+      willEditTimeline,
+    } = this.props;
+    willEditTimeline(uuid);
+  }
 
   render() {
     const {
@@ -83,7 +87,7 @@ export default class Timeline extends PureComponent {
       <button
         className={styles.editButton}
         title="Upate this track"
-        onClick={this.willEditTimeline(id)}
+        onClick={this.willEditTimeline}
         style={{
           right: (isMaster && timelinesLength !== 1) ? '0px' : '26px',
         }}

@@ -7,12 +7,12 @@ import TextView from './TextView';
 import {
   addEntryPoint,
   updateContent,
+  updateEditorSearch,
 } from '../../../../store/actions/views';
-import {
-  openEditor,
-} from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
+import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
+import { getInspectorRemoteId } from '../../../../store/reducers/inspector';
 import { getData } from '../../store/dataReducer';
 import { getViewContent } from '../../store/configurationSelectors';
 
@@ -21,12 +21,14 @@ const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
   entryPoints: getViewEntryPoints,
   data: getData,
+  isInspectorOpened: isAnyInspectorOpened,
+  inspectorRemoteId: getInspectorRemoteId,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
-  openEditor: () => openEditor(undefined, viewId),
+  updateEditorSearch: pattern => updateEditorSearch(viewId, pattern),
 }, dispatch);
 
 const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);

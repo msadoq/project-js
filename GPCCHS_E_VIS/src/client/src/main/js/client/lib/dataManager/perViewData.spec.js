@@ -197,7 +197,6 @@ describe('dataManager/perViewData', () => {
     const map = makeGetPerViewData()(state, { viewId: 't1', timebarUuid: 'tb1' });
     map.should.eql({
       type: 'TextView',
-      masterSessionId: 10,
       entryPoints: {
         STAT_SU_PID: {
           id: 'id1',
@@ -269,7 +268,6 @@ describe('dataManager/perViewData', () => {
     const map = makeGetPerViewData()(state, { viewId: 'p1', timebarUuid: 'tb1' });
     map.should.eql({
       type: 'PlotView',
-      masterSessionId: 10,
       entryPoints: {
         STAT_SU_PID: {
           id: 'id60',
@@ -307,7 +305,6 @@ describe('dataManager/perViewData', () => {
     const map = makeGetPerViewData()(state, { viewId: 'd1', timebarUuid: 'tb1' });
     map.should.eql({
       type: 'DynamicView',
-      masterSessionId: 10,
       entryPoints: {
         dynamicEP: {
           id: 'id100',

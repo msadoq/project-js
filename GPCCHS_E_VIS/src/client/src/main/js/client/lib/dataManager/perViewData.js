@@ -45,7 +45,6 @@ export default function makeGetPerViewData() {
 
       return {
         type,
-        masterSessionId,
         entryPoints: entryPoints.reduce((acc, ep) => {
           const val =
           getStructureModule(type).parseEntryPoint(

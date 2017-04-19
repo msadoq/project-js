@@ -308,7 +308,6 @@ const dataMap = {
 const viewMap = {
   text1: {
     type: 'TextView',
-    masterSessionId: 10,
     entryPoints: {
       STAT_SU_PID: {
         id: 'id1',
@@ -339,7 +338,6 @@ const viewMap = {
   },
   plot1: {
     type: 'PlotView',
-    masterSessionId: 10,
     entryPoints: {
       STAT_SU_PID: {
         id: 'id60',
@@ -374,7 +372,6 @@ const viewMap = {
   },
   dynamic1: {
     type: 'DynamicView',
-    masterSessionId: 10,
     entryPoints: {
       dynamicEP: {
         id: 'id70',

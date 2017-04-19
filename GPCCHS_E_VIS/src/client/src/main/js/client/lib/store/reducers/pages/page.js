@@ -107,11 +107,16 @@ export default function pageReducer(statePage = initialState, action) {
         isModified: true,
       };
     }
-    case types.WS_PAGE_SETMODIFIED: {
+    case types.WS_PAGE_SETMODIFIED:
       return _.set('isModified', action.payload.flag, statePage);
-    }
     case types.WS_PAGE_UPDATE_TIMEBARID:
       return _.set('timebarUuid', action.payload.timebarUuid, statePage);
+    case types.WS_PAGE_UPDATE_TITLE:
+      return {
+        ...statePage,
+        title: action.payload.title,
+        isModified: true,
+      };
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:

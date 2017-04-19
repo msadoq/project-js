@@ -31,7 +31,7 @@ export function convertData(data) {
     return data.symbol;
   } else if (data.type === 'blob') {
     let hexVal = '';
-    data.value.data.forEach((val) => {
+    data.value.forEach((val) => {
       let hVal = val.toString(16);
       if (hVal.length < 2) {
         hVal = '0'.concat(hVal);

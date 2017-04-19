@@ -13,6 +13,8 @@ import {
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
+import { decode, getType } from 'common/protobuf';
+
 import { server } from './ipc';
 import { getStore } from '../store/mainStore';
 import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/reducers/hsc';
@@ -250,6 +252,33 @@ export function tick() {
       execution.start('data retrieving');
       server.requestData((dataToInject) => {
         execution.stop('data retrieving');
+        const remoteIds = Object.keys(dataToInject.data);
+        const decodedData = {};
+        if (remoteIds.length) {
+          // loop on remoteIds
+          for (let i = 0; i < remoteIds.length; i += 1) {
+            const remoteId = remoteIds[i];
+            decodedData[remoteId] = {};
+            const ep = dataMap.perRemoteId[remoteId];
+            if (ep) {
+              // get payload type to deprotobufferize
+              const payloadProtobufType = getType(ep.dataId.comObject);
+              if (typeof payloadProtobufType === 'undefined') {
+                logger.error('unsupported comObject', ep.dataId.comObject);
+              } else {
+                // loop on remoteId payloads
+                const remoteIdPayload = dataToInject.data[remoteId];
+                const timestamps = Object.keys(remoteIdPayload);
+                for (let j = 0; j < timestamps.length; j += 1) {
+                  const p = remoteIdPayload[timestamps[j]];
+                  // deprotobufferize payload
+                  const decodedPayload = decode(payloadProtobufType, p.data);
+                  decodedData[remoteId][timestamps[j]] = decodedPayload;
+                }
+              }
+            }
+          }
+        }
 
         // viewData
         execution.start('data injection');
@@ -258,9 +287,9 @@ export function tick() {
           dataMap.perView,
           previous.injectionIntervals,
           dataMap.expectedIntervals,
-          dataToInject.data));
-        const message = Object.keys(dataToInject.data).length
-          ? `${Object.keys(dataToInject.data).length} remoteId`
+          decodedData));
+        const message = Object.keys(decodedData).length
+          ? `${Object.keys(decodedData).length} remoteId`
           : undefined;
         execution.stop('data injection', message);
 

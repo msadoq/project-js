@@ -36,7 +36,6 @@ class Window extends PureComponent {
     pageId: PropTypes.string.isRequired,
     isHelpDisplayed: PropTypes.bool,
     setIsLoaded: PropTypes.func.isRequired,
-    displayHelp: PropTypes.func.isRequired,
     // sizes
     containerWidth: PropTypes.number,
     containerHeight: PropTypes.number,
@@ -81,7 +80,6 @@ class Window extends PureComponent {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.closeHelpShortCut);
     // set in store that this is window is fully loaded and ready to run
     const { setIsLoaded, windowId } = this.props;
     setTimeout(() => setIsLoaded(windowId), 0);
@@ -176,14 +174,6 @@ class Window extends PureComponent {
     { resize: 'stretch' },
     { size: timebarHeight, minSize: 0, resize: 'dynamic' },
   ]);
-
-  closeHelpShortCut = (e) => {
-    if (e.keyCode === 27 && this.props.isHelpDisplayed) {
-      e.preventDefault();
-      const { displayHelp, windowId, isHelpDisplayed } = this.props;
-      displayHelp(windowId, !isHelpDisplayed);
-    }
-  }
 
   willMinimizeEditor = (e) => {
     e.preventDefault();
@@ -316,7 +306,7 @@ class Window extends PureComponent {
           />
         )
       : (
-        <div className={classnames('h100', 'w100')}>
+        <div className="h100 w100">
           <button
             className={classnames('panel-button', styles.barButton, styles.verticalBarButton)}
             onClick={this.willMinimizeTimebar}

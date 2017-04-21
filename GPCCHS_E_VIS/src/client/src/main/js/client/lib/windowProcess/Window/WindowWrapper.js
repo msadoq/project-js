@@ -1,58 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Window from './Window';
 
 export default class WindowWrapper extends Component {
+  static propTypes = {
+    windowId: PropTypes.string.isRequired,
+    displayHelp: PropTypes.func.isRequired,
+    isHelpDisplayed: PropTypes.bool,
+  };
 
-  state = {
-    displayHelp: false,
-    displayExplorer: false,
+  static defaultProps = {
+    isHelpDisplayed: false,
   }
 
   componentDidMount() {
     document.body.addEventListener('mouseleave', this.triggerMouseUpMouseLeave);
     document.addEventListener('keydown', this.triggerMouseUpEscape);
-
-    document.addEventListener('keydown', this.toggleHelpShortCut);
-    document.addEventListener('keydown', this.toggleExplorerShortCut);
+    document.addEventListener('keydown', this.closeHelpShortCut);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.toggleHelpShortCut);
-    document.removeEventListener('keydown', this.toggleExplorerShortCut);
-
     document.body.removeEventListener('mouseleave', this.triggerMouseUpMouseLeave);
     document.removeEventListener('keydown', this.triggerMouseUpEscape);
+    document.removeEventListener('keydown', this.closeHelpShortCut);
   }
 
-  toggleHelpShortCut = (e) => {
-    if (e.keyCode === 72 && e.ctrlKey) {
-      this.toggleHelp();
-    } else if (e.keyCode === 27 && this.state.displayHelp) {
-      this.toggleHelp();
+  closeHelpShortCut = (e) => {
+    const { displayHelp, windowId, isHelpDisplayed } = this.props;
+    if (e.keyCode === 27 && isHelpDisplayed) {
+      displayHelp(windowId, !isHelpDisplayed);
     }
-  }
-
-  toggleHelp = (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    this.setState({
-      displayHelp: !this.state.displayHelp,
-    });
-  }
-
-  toggleExplorerShortCut = (e) => {
-    if (e.keyCode === 72 && e.ctrlKey) {
-      this.toggleExplorer();
-    } else if (e.keyCode === 27 && this.state.displayExplorer) {
-      this.toggleExplorer();
-    }
-  }
-
-  toggleExplorer = () => {
-    this.setState({
-      displayExplorer: !this.state.displayExplorer,
-    });
   }
 
   triggerMouseUpMouseLeave = (e) => {
@@ -73,16 +49,8 @@ export default class WindowWrapper extends Component {
   }
 
   render() {
-    const {
-      displayHelp,
-      displayExplorer,
-    } = this.state;
     return (
-      <Window
-        {...this.props}
-        displayHelp={displayHelp}
-        displayExplorer={displayExplorer}
-      />
+      <Window {...this.props} />
     );
   }
 }

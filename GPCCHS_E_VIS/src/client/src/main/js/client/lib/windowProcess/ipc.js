@@ -56,11 +56,15 @@ const commands = {
         windowId,
         status,
       }),
-    openInspector: ({ pageId, remoteId, dataId }, callback) =>
+    openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
         pageId,
-        remoteId,
+        viewId,
+        viewType,
+        epId,
+        epName,
         dataId,
+        field,
       }, callback),
     resolveLink: ({ link, path, sessionId, domainId }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_RESOLVE_LINK, {

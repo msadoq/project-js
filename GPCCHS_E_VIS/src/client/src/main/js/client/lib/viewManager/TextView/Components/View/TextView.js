@@ -74,7 +74,6 @@ export default class TextView extends PureComponent {
     content: PropTypes.string.isRequired,
     updateContent: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
-    pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
@@ -85,14 +84,14 @@ export default class TextView extends PureComponent {
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorRemoteId: PropTypes.string,
+    inspectorEpId: PropTypes.string,
   };
   static defaultProps = {
     data: {
       values: {},
     },
     entryPoints: {},
-    inspectorRemoteId: null,
+    inspectorEpId: null,
   };
 
   componentWillMount() {
@@ -133,10 +132,9 @@ export default class TextView extends PureComponent {
       openEditor,
       closeEditor,
       updateEditorSearch,
-      pageId,
       mainMenu,
       isInspectorOpened,
-      inspectorRemoteId,
+      inspectorEpId,
     } = this.props;
     const span = getEpSpan(event.target);
     const separator = { type: 'separator' };
@@ -164,15 +162,16 @@ export default class TextView extends PureComponent {
         handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
         return;
       }
-      const { remoteId, dataId } = entryPoints[epName];
-      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      const { id, dataId, field } = entryPoints[epName];
+      const opened = isInspectorOpened && (inspectorEpId === id);
       const inspectorMenu = {
         label: inspectorLabel,
         type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
           dataId,
+          epName,
+          field,
         }),
         checked: opened,
       };
@@ -200,16 +199,16 @@ export default class TextView extends PureComponent {
         inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
-      const { remoteId, dataId } = ep;
-      console.log(inspectorRemoteId, remoteId, isInspectorOpened);
-      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      const { id, dataId, field } = ep;
+      const opened = isInspectorOpened && (inspectorEpId === id);
       inspectorMenu.submenu.push({
         label,
         type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
           dataId,
+          epName,
+          field,
         }),
         checked: opened,
       });

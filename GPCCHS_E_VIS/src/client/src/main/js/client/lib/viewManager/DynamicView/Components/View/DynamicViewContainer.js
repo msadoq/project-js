@@ -6,7 +6,7 @@ import DynamicView from './DynamicView';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
-import { getInspectorRemoteId } from '../../../../store/reducers/inspector';
+import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getFormula } from './selectors';
 import { getData } from '../../store/dataReducer';
 
@@ -16,7 +16,7 @@ const mapStateToProps = createStructuredSelector({
   entryPoints: getViewEntryPoints,
   data: getData,
   isInspectorOpened: isAnyInspectorOpened,
-  inspectorRemoteId: getInspectorRemoteId,
+  inspectorEpId: getInspectorEpId,
 });
 
 const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);

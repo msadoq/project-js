@@ -12,7 +12,7 @@ import {
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
-import { getInspectorRemoteId } from '../../../../store/reducers/inspector';
+import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getData } from '../../store/dataReducer';
 import { getViewContent } from '../../store/configurationSelectors';
 
@@ -22,7 +22,7 @@ const mapStateToProps = createStructuredSelector({
   entryPoints: getViewEntryPoints,
   data: getData,
   isInspectorOpened: isAnyInspectorOpened,
-  inspectorRemoteId: getInspectorRemoteId,
+  inspectorEpId: getInspectorEpId,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({

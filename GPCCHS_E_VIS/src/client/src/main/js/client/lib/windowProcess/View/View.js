@@ -202,7 +202,7 @@ export default class View extends PureComponent {
           <ContentComponent
             viewId={viewId}
             pageId={pageId}
-            openInspector={main.openInspector}
+            openInspector={args => main.openInspector(pageId, viewId, type, args)}
             isViewsEditorOpen={isViewsEditorOpen}
             openEditor={openEditor}
             closeEditor={closeEditor}

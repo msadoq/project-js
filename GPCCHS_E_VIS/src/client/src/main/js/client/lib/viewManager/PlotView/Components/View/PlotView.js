@@ -113,10 +113,9 @@ export class GrizzlyPlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
-    pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorRemoteId: PropTypes.string,
+    inspectorEpId: PropTypes.string,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
@@ -131,7 +130,7 @@ export class GrizzlyPlotView extends PureComponent {
       columns: [],
     },
     visuWindow: null,
-    inspectorRemoteId: null,
+    inspectorEpId: null,
   };
 
   state = {
@@ -168,13 +167,12 @@ export class GrizzlyPlotView extends PureComponent {
     const {
       entryPoints,
       openInspector,
-      pageId,
       isViewsEditorOpen,
       closeEditor,
       openEditor,
       mainMenu,
       updateEditorSearch,
-      inspectorRemoteId,
+      inspectorEpId,
       isInspectorOpened,
     } = this.props;
     const separator = { type: 'separator' };
@@ -201,15 +199,16 @@ export class GrizzlyPlotView extends PureComponent {
         handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
         return;
       }
-      const { remoteId, dataId } = entryPoints[name];
-      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      const { id, dataId, fieldY } = entryPoints[name];
+      const opened = isInspectorOpened && (inspectorEpId === id);
       const inspectorMenu = {
         label: inspectorLabel,
         type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
+          epName: name,
           dataId,
+          field: fieldY,
         }),
         checked: opened,
       };
@@ -226,15 +225,16 @@ export class GrizzlyPlotView extends PureComponent {
         inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
-      const { remoteId, dataId } = ep;
-      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      const { id, dataId, fieldY } = ep;
+      const opened = isInspectorOpened && (inspectorEpId === id);
       inspectorMenu.submenu.push({
         label,
         type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
+          epName,
           dataId,
+          field: fieldY,
         }),
         checked: opened,
       });

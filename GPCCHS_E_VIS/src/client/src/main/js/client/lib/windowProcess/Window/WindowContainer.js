@@ -17,7 +17,7 @@ import {
   minimizeTimebar,
 } from '../../store/actions/pages';
 
-import Window from './Window';
+import WindowWrapper from './WindowWrapper';
 
 const mapStateToProps = (state, { windowId }) => {
   const pageId = getWindowFocusedPageId(state, { windowId });
@@ -55,4 +55,4 @@ export default connect(mapStateToProps, {
   minimizeExplorer,
   minimizeTimebar,
   closeModal,
-})(Window);
+})(WindowWrapper);

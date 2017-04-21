@@ -1,5 +1,5 @@
 import _round from 'lodash/round';
-import { series } from 'async';
+import { series, eachSeries } from 'async';
 import { get } from 'common/parameters';
 import {
   HSC_ORCHESTRATION_WARNING_STEP,
@@ -252,12 +252,14 @@ export function tick() {
       execution.start('data retrieving');
       server.requestData((dataToInject) => {
         execution.stop('data retrieving');
+        let count = 0;
         const remoteIds = Object.keys(dataToInject.data);
         const decodedData = {};
         if (remoteIds.length) {
+          eachSeries(remoteIds, (remoteId, cb) => {
           // loop on remoteIds
-          for (let i = 0; i < remoteIds.length; i += 1) {
-            const remoteId = remoteIds[i];
+          // for (let i = 0; i < remoteIds.length; i += 1) {
+            // const remoteId = remoteIds[i];
             decodedData[remoteId] = {};
             const ep = dataMap.perRemoteId[remoteId];
             if (ep) {
@@ -269,17 +271,21 @@ export function tick() {
                 // loop on remoteId payloads
                 const remoteIdPayload = dataToInject.data[remoteId];
                 const timestamps = Object.keys(remoteIdPayload);
+                count += timestamps.length;
                 for (let j = 0; j < timestamps.length; j += 1) {
                   const p = remoteIdPayload[timestamps[j]];
                   // deprotobufferize payload
+                  execution.start('data decoding');
                   const decodedPayload = decode(payloadProtobufType, p.data);
+                  execution.stop('data decoding', count);
                   decodedData[remoteId][timestamps[j]] = decodedPayload;
                 }
               }
             }
-          }
+            cb(null);
+          }, () => { console.log('*****************end'); });
+          // }
         }
-
         // viewData
         execution.start('data injection');
         dispatch(updateViewData(

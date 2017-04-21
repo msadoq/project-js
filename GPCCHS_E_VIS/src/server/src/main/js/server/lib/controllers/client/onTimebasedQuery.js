@@ -104,7 +104,6 @@ module.exports = (sendMessageToDc, { queries }) => {
       );
       execution.stop('add requested interval');
     });
-    execution.stop('creating dc subscription');
 
     // loop over intervals
     execution.start('finding cache model');

@@ -32,17 +32,7 @@ const HelpContent = () => (
         - By dragging on the time scale (bellow the timebar).<br />
       </p>
     </Col>
-    <Col xs={4} xsOffset={1}>
-      <h2 className={styles.subTitle}>Page</h2>
-      <p className={styles.para}>
-        <br />
-        <b>Views</b><br /><br />
-        <kbd>alt</kbd> + <kbd>w</kbd> Collapse / expand hovered view.<br />
-        <kbd>alt</kbd> + <kbd>x</kbd> Close hovered view.<br />
-        <kbd>alt</kbd> + <kbd>c</kbd> Open editor for hovered view.<br />
-      </p>
-    </Col>
-    <Col xs={3}>
+    <Col xs={3} xsOffset={1}>
       <h2 className={styles.subTitle}>Wiki</h2>
       <button
         onClick={(e) => {

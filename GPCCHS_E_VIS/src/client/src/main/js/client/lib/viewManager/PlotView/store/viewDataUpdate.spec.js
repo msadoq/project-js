@@ -270,7 +270,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
     for (let j = 10; j < 21; j += 1) {
       payload.rId1[j] = {
         val1: { type: 'uinteger', value: (j * 10) + 1 },
-        val2: { type: 'uinteger', value: (j * 10) + 2 },
+        val2: { type: 'long', symbol: (j * 10) + 2 },
         val3: { type: 'uinteger', value: (j * 10) + 3 },
         referenceTimestamp: { type: 'time', value: j },
         time: { type: 'time', value: j + 0.2 },

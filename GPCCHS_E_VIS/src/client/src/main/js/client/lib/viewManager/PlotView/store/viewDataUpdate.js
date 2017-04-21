@@ -244,7 +244,14 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
     const masterTime = timestamp + ep.offset;
 
     const valX = _get(value, [ep.fieldX, 'value']);
-    const valY = _get(value, [ep.fieldY, 'value']);
+    let valY = _get(value, [ep.fieldY, 'value']);
+    if (!valY) {
+      const symbol = _get(value, [ep.fieldY, 'symbol']);
+      // Case of long values
+      if (symbol) {
+        valY = Number(symbol);
+      }
+    }
     if (valX !== undefined && valY !== undefined) {
       if (!min || valY <= min) {
         min = valY;
@@ -263,6 +270,7 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
         value: valY,
         ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
         // Case of enum : add symbol to show it in tooltip
+        // Case of long : add string representation in tooltip to keep precision
         symbol: _get(value, [ep.fieldY, 'symbol']),
       };
     }

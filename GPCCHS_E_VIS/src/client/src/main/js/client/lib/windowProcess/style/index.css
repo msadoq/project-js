@@ -7,7 +7,6 @@
 @import 'react-json-inspector/json-inspector.css';
 @import 'react-grid-layout/css/styles.css';
 @import 'react-resizable/css/styles.css';
-@import './flatpickr/flatpickr.css';
-@import './flatpickr/flatpickr-airbnb-theme.css';
-@import './flatpickr/additional.css';
+@import 'flatpickr/dist/flatpickr.css';
+@import 'flatpickr/dist/themes/material_green.css';
 @import './react-panels/index.css';

@@ -2,6 +2,7 @@ import _isObject from 'lodash/isObject';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
+import _intersection from 'lodash/intersection';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 import { addInterval, retrieveNeededIntervals } from '../viewManager/commonData/intervalManagement';
@@ -51,7 +52,8 @@ export function missingRemoteIds(dataMap, lastMap) {
       if (!needed.length) {
         // Check if there is not a new view requesting the data
         const lastViews = lastMap.perRemoteId[remoteId].views;
-        if (_isEqual(views, lastViews) || views.length < lastViews.length) {
+        // same views or view removed
+        if (_isEqual(views, lastViews) || _isEqual(_intersection(views, lastViews), views)) {
           return;
         }
         // If a new view has been opened, add a request on the whole expected interval
@@ -82,7 +84,6 @@ export default function request(dataMap, lastMap, send) {
 
   const n = Object.keys(dataQueries).length;
   logger.debug(`dataQueries was generated for ${n}`, dataQueries);
-
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
     send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, { queries: dataQueries });
   }

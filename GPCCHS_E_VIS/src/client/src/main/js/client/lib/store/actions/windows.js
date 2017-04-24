@@ -37,6 +37,7 @@ export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
 );
 export const minimize = simple(types.WS_WINDOW_MINIMIZE, 'windowId');
 export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
+export const updateTitle = simple(types.WS_WINDOW_UPDATE_TITLE, 'windowId', 'title');
 
 export const displayHelp = simple(types.WS_WINDOW_SET_DISPLAY_HELP, 'windowId', 'display');
 

@@ -4,6 +4,7 @@ import { getStore } from '../../store/mainStore';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
+import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, collapseTimebar } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageOpen, pageAddBlank } from './pageOpen';
@@ -52,6 +53,22 @@ const window = {
     {
       label: 'New',
       click() { getStore().dispatch(addWindow(v4(), 'New window')); },
+    },
+    {
+      label: 'Rename',
+      click(item, focusedWindow) {
+        if (focusedWindow && focusedWindow.windowId) {
+          getStore().dispatch(
+            openModal(
+              focusedWindow.windowId,
+              {
+                type: 'editWindowTitle',
+                windowId: focusedWindow.windowId,
+              }
+            )
+          );
+        }
+      },
     },
     { type: 'separator' },
     { label: 'Minimize', role: 'minimize' },

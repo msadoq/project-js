@@ -63,7 +63,9 @@ export default class View extends PureComponent {
       click: () => closeEditor(),
     } : {
       label: 'Open Editor',
-      click: () => openEditor(),
+      click: () => {
+        openEditor();
+      },
     };
     handleContextMenu([editorMenu, { type: 'separator' }, ...mainMenu]);
   }

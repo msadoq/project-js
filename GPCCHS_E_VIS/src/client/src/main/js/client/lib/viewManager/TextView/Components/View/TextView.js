@@ -82,7 +82,6 @@ export default class TextView extends PureComponent {
       values: PropTypes.object,
     }),
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    updateEditorSearch: PropTypes.func.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
   };
@@ -131,7 +130,6 @@ export default class TextView extends PureComponent {
       isViewsEditorOpen,
       openEditor,
       closeEditor,
-      updateEditorSearch,
       mainMenu,
       isInspectorOpened,
       inspectorEpId,
@@ -143,8 +141,7 @@ export default class TextView extends PureComponent {
       const editorMenu = [{
         label: `Open ${epName} in Editor`,
         click: () => {
-          updateEditorSearch(epName);
-          openEditor();
+          openEditor(epName);
         },
       }];
       if (isViewsEditorOpen) {
@@ -185,7 +182,6 @@ export default class TextView extends PureComponent {
     } : {
       label: 'Open Editor',
       click: () => {
-        updateEditorSearch('');
         openEditor();
       },
     };

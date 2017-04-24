@@ -120,7 +120,6 @@ export class GrizzlyPlotView extends PureComponent {
     closeEditor: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    updateEditorSearch: PropTypes.func.isRequired,
     defaultTimelineId: PropTypes.string.isRequired,
   };
 
@@ -171,7 +170,6 @@ export class GrizzlyPlotView extends PureComponent {
       closeEditor,
       openEditor,
       mainMenu,
-      updateEditorSearch,
       inspectorEpId,
       isInspectorOpened,
     } = this.props;
@@ -180,8 +178,7 @@ export class GrizzlyPlotView extends PureComponent {
       const editorMenu = [{
         label: `Open ${name} in Editor`,
         click: () => {
-          updateEditorSearch(name);
-          openEditor();
+          openEditor(name);
         },
       }];
       if (isViewsEditorOpen) {
@@ -246,7 +243,6 @@ export class GrizzlyPlotView extends PureComponent {
     } : {
       label: 'Open Editor',
       click: () => {
-        updateEditorSearch('');
         openEditor();
       },
     };

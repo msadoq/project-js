@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getPage, getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
 import { getWindowPages } from '../../store/selectors/windows';
-import { closeView } from '../../store/actions/views';
+import { closeView, updateEditorSearch } from '../../store/actions/views';
 import { moveViewToPage, setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
 import View from './View';
 
@@ -41,7 +41,10 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
     setCollapsed(pageId, viewId, flag),
   maximizeView: flag =>
     setMaximized(pageId, viewId, flag),
-  openEditor: () => openEditor(pageId, viewId),
+  openEditor: (pattern = '') => (disp) => {
+    disp(updateEditorSearch(viewId, pattern));
+    disp(openEditor(pageId, viewId));
+  },
   closeEditor: () => minimizeEditor(pageId, true),
   closeView: () => closeView(pageId, viewId),
 }, dispatch);

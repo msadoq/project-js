@@ -2,13 +2,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
-import { getWindowPages } from '../../store/selectors/windows';
 import { closeView, updateEditorSearch } from '../../store/actions/views';
-import { moveViewToPage, setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
+import { open as openModal } from '../../store/actions/modals';
+import { setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
 import View from './View';
 
 const makeMapStateToProps = () => {
-  const mapStateToProps = (state, { viewId, windowId, pageId }) => {
+  const mapStateToProps = (state, { viewId, pageId }) => {
     const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title }
         = getView(state, { viewId });
 
@@ -21,11 +21,9 @@ const makeMapStateToProps = () => {
       type,
       title,
       titleStyle,
-      windowPages: getWindowPages(state, { windowId }),
       oId,
       absolutePath,
       isModified,
-      windowId,
       pageId,
       collapsed: !!collapsedLayout,
       isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
@@ -35,8 +33,6 @@ const makeMapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActionCreators({
-  moveViewToPage: toPageId =>
-    moveViewToPage(windowId, pageId, toPageId, viewId),
   collapseView: flag =>
     setCollapsed(pageId, viewId, flag),
   maximizeView: flag =>
@@ -47,6 +43,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   },
   closeEditor: () => minimizeEditor(pageId, true),
   closeView: () => closeView(pageId, viewId),
+  openModal: args => openModal(windowId, { windowId, pageId, viewId, ...args }),
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

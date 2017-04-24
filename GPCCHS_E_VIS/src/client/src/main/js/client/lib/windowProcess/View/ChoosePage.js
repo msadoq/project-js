@@ -6,9 +6,11 @@ import styles from './choosePage.css';
 export default class ChoosePage extends Component {
 
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
-    // onChange: PropTypes.func.isRequired,
     pageTitles: PropTypes.arrayOf(PropTypes.object).isRequired,
+    closeModal: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    moveViewToPage: PropTypes.func.isRequired,
   }
 
   state = {
@@ -18,7 +20,17 @@ export default class ChoosePage extends Component {
 
   toPageChosen = (e) => {
     e.preventDefault();
-    this.props.onClose(this.toPage.value);
+    const {
+      isViewsEditorOpen,
+      closeEditor,
+      moveViewToPage,
+      closeModal,
+    } = this.props;
+    if (isViewsEditorOpen) {
+      closeEditor();
+    }
+    moveViewToPage(this.toPage.value);
+    closeModal();
   }
 
   render() {

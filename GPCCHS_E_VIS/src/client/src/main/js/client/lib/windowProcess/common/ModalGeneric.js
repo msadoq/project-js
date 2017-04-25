@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
-import classnames from 'classnames';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import AddEntryPointContainer from '../../viewManager/commonEditor/EntryPoint/AddEntryPointContainer';
@@ -45,7 +44,7 @@ const ModalGeneric = (props) => {
         />);
       break;
     case 'editWindowTitle':
-      title = 'Edit window title';
+      title = 'Rename window';
       child = (
         <EditWindowContainer
           {...props.props}
@@ -53,7 +52,7 @@ const ModalGeneric = (props) => {
         />);
       break;
     case 'editPageTitle':
-      title = 'Edit page title';
+      title = 'Rename page';
       child = (
         <EditPageContainer
           {...props.props}
@@ -71,12 +70,7 @@ const ModalGeneric = (props) => {
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
           <button
-            className={classnames(
-              'btn-sm',
-              'btn',
-              'btn-danger',
-              'btn-close'
-            )}
+            className="btn-sm btn btn-danger btn-close"
             onClick={props.onClose}
           >
             x

@@ -5,8 +5,6 @@ import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 
 // import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
 
-import handleContextMenu from '../common/handleContextMenu';
-
 const popoverDraggingStyle = { display: 'none' };
 
 function popoverHoverFocus(page) {
@@ -42,29 +40,10 @@ export default class Tabs extends PureComponent {
   static propTypes = {
     pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
-    windowId: PropTypes.string.isRequired,
     focusPage: PropTypes.func.isRequired,
     closePage: PropTypes.func.isRequired,
     moveTabOrder: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
   };
-
-  onContextMenu = (e, uuid) => {
-    e.preventDefault();
-    const { openModal, windowId } = this.props;
-    handleContextMenu([{
-      label: 'Edit title',
-      click: () => {
-        openModal(
-          windowId,
-          {
-            type: 'editPageTitle',
-            pageUuid: uuid,
-          }
-        );
-      },
-    }]);
-  }
 
   handleSelect = (eventKey) => {
     if (eventKey) {
@@ -140,7 +119,6 @@ export default class Tabs extends PureComponent {
               eventKey={page.pageId}
               onDragOver={this.handleDragOver}
               onDragLeave={this.handleDragLeave}
-              onContextMenu={(e) => { this.onContextMenu(e, page.uuid); }}
               onDrop={(e) => { this.handleDrop(e, page.title, key); }}
             >
               <div

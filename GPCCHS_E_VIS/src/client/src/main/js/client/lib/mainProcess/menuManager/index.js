@@ -55,14 +55,14 @@ const window = {
       click() { getStore().dispatch(addWindow(v4(), 'New window')); },
     },
     {
-      label: 'Rename',
+      label: 'Edit',
       click(item, focusedWindow) {
         if (focusedWindow && focusedWindow.windowId) {
           getStore().dispatch(
             openModal(
               focusedWindow.windowId,
               {
-                type: 'editWindowTitle',
+                type: 'editWindow',
                 windowId: focusedWindow.windowId,
               }
             )
@@ -86,6 +86,26 @@ const page = {
     label: 'Open...',
     click(item, focusedWindow) {
       pageOpen(focusedWindow);
+    },
+  }, {
+    label: 'Edit',
+    click(item, focusedWindow) {
+      if (focusedWindow && focusedWindow.windowId) {
+        const {
+          getState,
+          dispatch,
+        } = getStore();
+        const state = getState();
+        dispatch(
+          openModal(
+            focusedWindow.windowId,
+            {
+              type: 'editPage',
+              pageUuid: getWindowFocusedPageId(state, { windowId: focusedWindow.windowId }),
+            }
+          )
+        );
+      }
     },
   }, {
     label: 'Save',

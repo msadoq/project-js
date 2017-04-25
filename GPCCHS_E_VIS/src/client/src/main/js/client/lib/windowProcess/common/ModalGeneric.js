@@ -43,16 +43,16 @@ const ModalGeneric = (props) => {
           closeModal={props.onClose}
         />);
       break;
-    case 'editWindowTitle':
-      title = 'Rename window';
+    case 'editWindow':
+      title = 'Edit window';
       child = (
         <EditWindowContainer
           {...props.props}
           closeModal={props.onClose}
         />);
       break;
-    case 'editPageTitle':
-      title = 'Rename page';
+    case 'editPage':
+      title = 'Edit page';
       child = (
         <EditPageContainer
           {...props.props}

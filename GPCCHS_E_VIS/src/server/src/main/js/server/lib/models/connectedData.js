@@ -4,6 +4,7 @@ const _filter = require('lodash/filter');
 const _each = require('lodash/each');
 const _some = require('lodash/some');
 const _has = require('lodash/has');
+const _reduce = require('lodash/reduce');
 const logger = require('common/log')('models:connectedData');
 const intervalManager = require('common/intervals');
 const flattenDataId = require('common/utils/flattenDataId');
@@ -18,6 +19,7 @@ const createConnectedData = dataId => ({
     received: [],
     requested: {},
   },
+  lastQueries: {},
 });
 
 const collection = database.addCollection('connectedData',
@@ -60,11 +62,21 @@ collection.isTimestampInKnownIntervals = (flatDataId, timestamp, connectedData) 
   }
 
   logger.debug('check intervals');
+  // range
   if (intervalManager.includesTimestamp(cd.intervals.all, timestamp)) {
     logger.silly('timestamp in intervals');
     return true;
   }
-
+  // last
+  // create an array with all last query intervals
+  const intervals = _reduce(cd.lastQueries, (acc, interval) => {
+    (acc || []).push(interval);
+    return acc;
+  }, []);
+  if (intervalManager.includesTimestamp(intervals, timestamp)) {
+    logger.silly('timestamp in intervals');
+    return true;
+  }
   return false;
 };
 
@@ -109,6 +121,38 @@ collection.addRequestedInterval = (flatDataId, queryUuid, interval, connectedDat
   }
   cd.intervals.requested[queryUuid] = interval;
   cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
+  return cd;
+};
+
+collection.addLastQuery = (flatDataId, queryUuid, interval, connectedData) => {
+  // Add a query id in the list of getLast requested for this flatDataId
+  // And create the flatDataId if it doesnt exist
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('flatDataId', flatDataId);
+    if (!cd) {
+      return undefined;
+    }
+  }
+  cd.lastQueries[queryUuid] = interval;
+  return cd;
+};
+collection.removeLastQuery = (flatDataId, queryUuid, connectedData) => {
+  // Add a query id in the list of getLast requested for this flatDataId
+  // And create the flatDataId if it doesnt exist
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('flatDataId', flatDataId);
+    if (!cd) {
+      return undefined;
+    }
+  }
+  cd.lastQueries = _reduce(cd.lastQueries, (acc, interval, queryId) => {
+    if (queryId === queryUuid) {
+      return acc;
+    }
+    return Object.assign({}, acc, { [queryId]: interval });
+  }, {});
   return cd;
 };
 
@@ -175,6 +219,16 @@ collection.isRequested = (flatDataId, queryUuid, connectedData) => {
   }
 
   return _has(cd, ['intervals', 'requested', queryUuid]);
+};
+
+collection.isLastQuery = (flatDataId, queryUuid, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('flatDataId', flatDataId);
+  }
+  console.log(cd);
+
+  return _has(cd, ['lastQueries', queryUuid]);
 };
 
 collection.retrieveMissingIntervals = (flatDataId, interval, connectedData) => {

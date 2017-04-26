@@ -112,7 +112,63 @@ describe('models/connectedData', () => {
       connectedDatum2.should.deep.equal(connectedData[1]);
     });
   });
+  describe('lastQueries', () => {
+    const myDataId = getDataId({ parameterName: 'dataId' });
+    const myRemoteId = getRemoteId({ parameterName: 'dataId' });
+    const myQueryId = 'queryId';
+    const myQueryId2 = 'queryId2';
+    const myInterval = [0, 4];
 
+    it('add', () => {
+      model.addRecord(myDataId);
+      const connectedDatum = model.addLastQuery(myRemoteId, myQueryId, myInterval);
+      model.count().should.equal(1);
+      const connectedData = model.find();
+      connectedData[0].should.have.properties({
+        flatDataId: myRemoteId,
+        dataId: myDataId,
+        intervals: {
+          all: [],
+          received: [],
+          requested: { },
+        },
+        lastQueries: { [myQueryId]: myInterval },
+      });
+      connectedDatum.should.deep.equal(connectedData[0]);
+      const connectedDatum2 = model.addLastQuery(myRemoteId, myQueryId2, myInterval);
+      model.count().should.equal(1);
+      const connectedData2 = model.find();
+      connectedData[0].should.have.properties({
+        flatDataId: myRemoteId,
+        dataId: myDataId,
+        intervals: {
+          all: [],
+          received: [],
+          requested: { },
+        },
+        lastQueries: { [myQueryId]: myInterval, [myQueryId2]: myInterval },
+      });
+      connectedDatum2.should.deep.equal(connectedData2[0]);
+    });
+    it('remove', () => {
+      model.addRecord(myDataId);
+      model.addLastQuery(myRemoteId, myQueryId, myInterval);
+      model.addLastQuery(myRemoteId, myQueryId2, myInterval);
+      const connectedDatum = model.removeLastQuery(myRemoteId, myQueryId);
+      const connectedData = model.find();
+      connectedData[0].should.have.properties({
+        flatDataId: myRemoteId,
+        dataId: myDataId,
+        intervals: {
+          all: [],
+          received: [],
+          requested: { },
+        },
+        lastQueries: { [myQueryId2]: myInterval },
+      });
+      connectedDatum.should.deep.equal(connectedData[0]);
+    });
+  });
   describe('setIntervalAsReceived', () => {
     const myDataId = getDataId();
     const myRemoteId = getRemoteId();
@@ -216,7 +272,30 @@ describe('models/connectedData', () => {
       model.isRequested(myRemoteId2, myQueryId, cd2).should.equal(true);
     });
   });
-
+  describe('isLastQuery', () => {
+    const myDataId = getDataId();
+    const myRemoteId = getRemoteId();
+    const myQueryId = 'queryId';
+    const myQueryId2 = 'queryId2';
+    const myInterval = [0, 5];
+    it('no', () => {
+      model.addRecord(myDataId);
+      model.isLastQuery(myRemoteId, myQueryId).should.equal(false);
+    });
+    it('yes', () => {
+      model.addRecord(myDataId);
+      model.addLastQuery(myRemoteId, myQueryId, myInterval);
+      model.isLastQuery(myRemoteId, myQueryId).should.equal(true);
+    });
+    it('no more', () => {
+      model.addRecord(myDataId);
+      model.addLastQuery(myRemoteId, myQueryId, myInterval);
+      model.addLastQuery(myRemoteId, myQueryId2, myInterval);
+      model.removeLastQuery(myRemoteId, myQueryId);
+      model.isLastQuery(myRemoteId, myQueryId).should.equal(false);
+      model.isLastQuery(myRemoteId, myQueryId2).should.equal(true);
+    });
+  });
   describe('isTimestampInKnownIntervals', () => {
     const timestamp = Date.now();
     const myDataId = getDataId();

@@ -80,6 +80,8 @@ module.exports = (sendMessageToDc, { queries }) => {
       );
       // queue the message
       messageQueue.push(message.args);
+      // add lastQuery info in connectedDataModel
+      connectedDataModel.addLastQuery(flatDataId, message.queryId, interval, connectedData);
     });
     execution.stop('getLast intervals');
 

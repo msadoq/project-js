@@ -62,10 +62,17 @@ module.exports = (
   execution.stop('decode isLast');
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
+  let isLastQuery = false;
   if (endOfQuery) {
     logger.silly('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
-    connectedDataModel.setIntervalAsReceived(remoteId, queryId);
+    // Check if query is getLast or not
+    if (connectedDataModel.isLastQuery(remoteId, queryId)) {
+      connectedDataModel.removeLastQuery(remoteId, queryId);
+      isLastQuery = true;
+    } else {
+      connectedDataModel.setIntervalAsReceived(remoteId, queryId);
+    }
     removeRegisteredQuery(queryId);
     execution.stop('set interval as received');
   }
@@ -104,9 +111,12 @@ module.exports = (
   }
 
   // retrieve cache collection
-  execution.start('retrieve store');
-  const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
-  execution.stop('retrieve store');
+  let timebasedDataModel;
+  if (!isLastQuery) {
+    execution.start('retrieve store');
+    timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
+    execution.stop('retrieve store');
+  }
 
   // only one loop to decode, insert in cache, and add to queue
   eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
@@ -129,15 +139,21 @@ module.exports = (
       extractedValue: payload.extractedValue,
       convertedValue: payload.convertedValue,
     });
-    // store in cache
-    execution.start('store payloads');
-    timebasedDataModel.addRecord(timestamp, payload);
-    execution.stop('store payloads');
 
-    // queue new data in spool
-    execution.start('queue payloads');
-    addToQueue(remoteId, timestamp, payload);
-    execution.stop('queue payloads');
+    // different behaviour if it is a last query or not:
+    // not last => storage in cache
+    // last => queue data in spool
+    if (!isLastQuery) {
+      // store in cache
+      execution.start('store payloads');
+      timebasedDataModel.addRecord(timestamp, payload);
+      execution.stop('store payloads');
+    } else {
+      // queue new data in spool
+      execution.start('queue payloads');
+      addToQueue(remoteId, timestamp, payload);
+      execution.stop('queue payloads');
+    }
     callback(null);
   }, () => {
     loggerData.debug({

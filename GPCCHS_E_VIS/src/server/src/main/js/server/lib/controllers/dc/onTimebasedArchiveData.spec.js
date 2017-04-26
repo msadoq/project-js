@@ -64,12 +64,13 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
           received: [],
           requested: { [queryId]: interval },
         },
+        lastQueries: {},
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     should.not.exist(timebasedDataModel);
     getQueue().should.deep.equal({});
   });
-  it('works', () => {
+  it('works when range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
     connectedDataModel.addRecord(dataId);
@@ -96,6 +97,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
           received: [],
           requested: { [queryId]: interval },
         },
+        lastQueries: {},
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     should.exist(timebasedDataModel);
@@ -110,16 +112,16 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-
-    getQueue().should.have.properties({
-      [flatDataId]: {
-        [t1]: deprotoRp,
-        [t2]: deprotoRp,
-      },
-    });
+    getQueue().should.deep.equal({});
+    // getQueue().should.have.properties({
+    //   [flatDataId]: {
+    //     [t1]: deprotoRp,
+    //     [t2]: deprotoRp,
+    //   },
+    // });
   });
 
-  it('last chunk', () => {
+  it('last chunk with range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     connectedDataModel.addRecord(dataId);
@@ -146,6 +148,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
           received: [interval],
           requested: {},
         },
+        lastQueries: {},
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     should.exist(timebasedDataModel);
@@ -160,10 +163,46 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
+    getQueue().should.deep.equal({});
+    // getQueue().should.have.properties({
+    //   [flatDataId]: {
+    //     [t1]: deprotoRp,
+    //     [t2]: deprotoRp,
+    //   },
+    // });
+  });
+  it('last chunk with last query', () => {
+    // init test
+    const isLast = dataStub.getBooleanProtobuf(true);
+    connectedDataModel.addRecord(dataId);
+    connectedDataModel.addLastQuery(flatDataId, queryId, interval);
+    registerQuery(queryId, flatDataId);
+    // launch test
+    onTimebasedArchiveData(
+      queryIdProto,
+      dataIdProto,
+      isLast,
+      timestamp1,
+      protoRp
+    );
+    // check data
+    should.not.exist(getRegisteredQuery(queryId));
+    const cd = connectedDataModel.getByFlatDataId(flatDataId);
+    cd.should.be.an('object')
+      .that.have.properties({
+        flatDataId,
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
+        lastQueries: { },
+      });
+    const timebasedDataModel = getTimebasedDataModel(flatDataId);
+    should.not.exist(timebasedDataModel);
     getQueue().should.have.properties({
       [flatDataId]: {
         [t1]: deprotoRp,
-        [t2]: deprotoRp,
       },
     });
   });

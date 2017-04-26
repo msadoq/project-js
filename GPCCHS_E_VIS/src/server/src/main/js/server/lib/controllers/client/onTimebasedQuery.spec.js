@@ -148,6 +148,7 @@ describe('controllers/client/onTimebasedQuery', () => {
           requested: { queryId: intervalRange },
           received: [],
         },
+        lastQueries: {},
       });
     });
 
@@ -188,6 +189,7 @@ describe('controllers/client/onTimebasedQuery', () => {
           requested: { [otherQueryId]: otherInterval, [queryId]: intervalRange },
           received: [],
         },
+        lastQueries: {},
       });
     });
     it('getLast', () => {
@@ -222,6 +224,7 @@ describe('controllers/client/onTimebasedQuery', () => {
           requested: { },
           received: [],
         },
+        lastQueries: { [queryId]: intervalLast },
       });
     });
     it('dataId not in subscriptions (last + range)', () => {
@@ -262,13 +265,14 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
-      connectedData[0].should.have.properties({
+      connectedData[0].should.have.all.properties({
         flatDataId,
         intervals: {
           all: [intervalRange],
           requested: { [queryId1]: intervalRange },
           received: [],
         },
+        lastQueries: { [queryId0]: intervalLast },
       });
     });
   });

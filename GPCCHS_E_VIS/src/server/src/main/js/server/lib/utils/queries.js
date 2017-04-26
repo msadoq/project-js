@@ -41,7 +41,7 @@ function getDataIdProtobuf(remoteId, dataId) {
 /**
  * Message creation
  */
-const createQueryMessage = (remoteId, dataId, interval, execution) => {
+const createQueryMessage = (remoteId, dataId, interval, queryArguments, execution) => {
   execution.start('set query handling');
   const queryId = generateQueryId();
   registeredCallbacks.set(queryId, errorCallback);
@@ -57,6 +57,7 @@ const createQueryMessage = (remoteId, dataId, interval, execution) => {
       startTime: { ms: interval[0] },
       endTime: { ms: interval[1] },
     }),
+    encode('dc.dataControllerUtils.QueryArguments', queryArguments),
   ];
   execution.stop('encode dc query');
   return { args, queryId };

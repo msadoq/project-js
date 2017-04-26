@@ -55,8 +55,11 @@ export default function hsc(state = initialState, action) {
       return _.set('isModified', true, state);
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);
+    case types.WS_WINDOW_UPDATE_TITLE:
+      return _.set('isModified', true, state);
     case types.WS_WORKSPACE_OPEN:
       return _.set('isModified', false, state);
+
     default:
       return state;
   }

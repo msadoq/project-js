@@ -71,7 +71,6 @@ export default function window(stateWindow = initialState, action) {
       return {
         ...stateWindow,
         title: action.payload.title,
-        isModified: true,
       };
     }
     case types.WS_WINDOW_PAGE_FOCUS:

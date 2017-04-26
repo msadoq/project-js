@@ -119,18 +119,24 @@ module.exports = (
 
     execution.start('decode payloads');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
-    // const payload = decode(payloadProtobufType, payloadBuffer[1]);
+    const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
+    loggerData.silly({
+      controller: 'onTimebasedArchiveData',
+      remoteId,
+      rawValue: payload.rawValue,
+      extractedValue: payload.extractedValue,
+      convertedValue: payload.convertedValue,
+    });
     // store in cache
     execution.start('store payloads');
-    // timebasedDataModel.addRecord(timestamp, payload);
-    timebasedDataModel.addRecord(timestamp, payloadBuffer[1]);
+    timebasedDataModel.addRecord(timestamp, payload);
     execution.stop('store payloads');
 
     // queue new data in spool
     execution.start('queue payloads');
-    addToQueue(remoteId, timestamp, payloadBuffer[1]);
+    addToQueue(remoteId, timestamp, payload);
     execution.stop('queue payloads');
     callback(null);
   }, () => {

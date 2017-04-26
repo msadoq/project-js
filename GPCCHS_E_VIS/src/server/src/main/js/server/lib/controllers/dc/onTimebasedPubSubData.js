@@ -82,7 +82,7 @@ module.exports = (
 
     setLastPubSubTimestamp(timestamp.ms);
 
-    // let decodedPayload;
+    let decodedPayload;
     execution.start('control interval');
     // if timestamp not in interval in connectedData model, continue to next iteration
     const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
@@ -102,18 +102,40 @@ module.exports = (
     }
     execution.stop('control interval');
 
+    // decode Payload only once by payloadBuffer loop to avoid resource-consuming
+    if (!decodedPayload) {
+      execution.start('decode payload');
+      // deprotobufferize payload
+      decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
+      execution.stop('decode payload');
+    }
+
+    loggerData.debug({
+      controller: 'onTimebasedPubSubData',
+      flatDataId,
+      date,
+      rawValue: decodedPayload.rawValue,
+      extractedValue: decodedPayload.extractedValue,
+      convertedValue: decodedPayload.convertedValue,
+    });
+
+    const tbd = {
+      timestamp: timestamp.ms,
+      payload: decodedPayload,
+    };
+
     execution.start('retrieve timebasedData model');
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     execution.stop('retrieve timebasedData model');
 
     execution.start('store in timebasedData model');
-    timebasedDataModel.addRecord(timestamp.ms, payloadBuffer[1]);
+    timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
     execution.stop('store in timebasedData model');
 
     execution.start('queue payloads');
     logger.silly('queue pubSub point to client');
     // queue a ws newData message (sent periodically)
-    addToQueue(flatDataId, timestamp.ms, payloadBuffer[1]);
+    addToQueue(flatDataId, tbd.timestamp, tbd.payload);
     execution.stop('queue payloads');
 
     execution.stop('global');

@@ -62,7 +62,7 @@ export default class EntryPointTree extends PureComponent {
           const isOpen = this.state[`panel${key}IsOpen`];
           return (
             <Panel
-              key={entryPoint.name}
+              key={entryPoint.id}
               header={<span>
                 {entryPoint.objectStyle && entryPoint.objectStyle.curveColor && <div
                   style={{

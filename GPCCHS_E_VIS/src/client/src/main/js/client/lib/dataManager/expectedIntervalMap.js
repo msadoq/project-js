@@ -25,14 +25,6 @@ export function intervalPerRemoteId(timebars, remoteIdData) { // , tbUuidPlaying
       return;
     }
     _set(expectedIntervals, [localId, 'expectedInterval'], expectedInterval);
-    // add interval in play mode with 1 minute more and save it has requestedInterval
-    // console.log('***tbId', tbUuidPlaying, timebarUuid);
-    // if (tbUuidPlaying === timebarUuid) {
-    //   const requestedInterval = [expectedInterval[0], expectedInterval[1] + 60000];
-    //   _set(expectedIntervals, [localId, 'requestedInterval'], requestedInterval);
-    // } else {
-    //   _set(expectedIntervals, [localId, 'requestedInterval'], expectedInterval);
-    // }
   });
 
   return expectedIntervals;

@@ -65,6 +65,21 @@ const intervalMap = {
     },
   },
 };
+const forecastIntervals = {
+  'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+    'extractedValue.tb1:0': {
+      expectedInterval: [1420106800818, 1420106853902],
+    },
+    'groundDate/extractedValue.tb1:0/0': {
+      expectedInterval: [1420106800818, 1420107066239],
+    },
+  },
+  'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+    'undefined.tb1:0': {
+      expectedInterval: [1420106800818, 1420106853902],
+    },
+  },
+};
 
 const dataMap = { perRemoteId: remoteIdMap, expectedIntervals: intervalMap };
 const newMap = _cloneDeep(dataMap);
@@ -83,7 +98,8 @@ describe('data:request', () => {
           domainId: 4,
           sessionId: 181,
         },
-        intervals: [[1420106790818, 1420106843902]],
+        last: [[1420106790818, 1420106843902]],
+        range: [],
       },
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         dataId: {
@@ -93,7 +109,8 @@ describe('data:request', () => {
           domainId: 4,
           sessionId: 181,
         },
-        intervals: [[1420106790818, 1420107056239]],
+        last: [[1420106790818, 1420106843902]],
+        range: [[1420106790818, 1420107056239]],
       },
     });
   });
@@ -108,7 +125,35 @@ describe('data:request', () => {
           domainId: 4,
           sessionId: 181,
         },
-        intervals: [[1420106843902, 1420106853902]],
+        last: [[1420106843902, 1420106853902]],
+        range: [],
+      },
+    });
+  });
+  it('forecast', () => {
+    const queries = missingRemoteIds(newMap, dataMap, forecastIntervals);
+    queries.should.eql({
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 4,
+          sessionId: 181,
+        },
+        last: [],
+        range: [[1420106800818, 1420106853902]],
+      },
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_SU_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          sessionId: 181,
+        },
+        last: [],
+        range: [[1420106800818, 1420107066239]],
       },
     });
   });

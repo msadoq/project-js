@@ -2,7 +2,6 @@
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
-  DATASTRUCTURETYPE_LIST,
 } from 'common/constants';
 
 import plotViewData from './PlotView/data';
@@ -53,7 +52,7 @@ const list = {
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,
     viewModule: historyViewModule,
-    structureType: DATASTRUCTURETYPE_LIST,
+    structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: historyViewData,
     getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
     getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
@@ -61,7 +60,7 @@ const list = {
   [constants.VM_VIEW_PACKET]: {
     schema: packetViewSchema,
     viewModule: packetViewModule,
-    structureType: DATASTRUCTURETYPE_LIST,
+    structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: packetViewData,
     getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
     getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),

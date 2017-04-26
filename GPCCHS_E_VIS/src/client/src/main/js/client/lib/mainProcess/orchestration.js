@@ -1,5 +1,6 @@
 import _round from 'lodash/round';
-import { series, eachSeries } from 'async';
+import _reduce from 'lodash/reduce';
+import { series } from 'async';
 import { get } from 'common/parameters';
 import {
   HSC_ORCHESTRATION_WARNING_STEP,
@@ -13,13 +14,22 @@ import {
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
-import { decode, getType } from 'common/protobuf';
 
 import { server } from './ipc';
 import { getStore } from '../store/mainStore';
-import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/reducers/hsc';
+import {
+  getWindowsOpened,
+  getLastCacheInvalidation,
+  getPlayingTimebarId,
+  getForecast,
+} from '../store/reducers/hsc';
 import { getHealthMap, getMainStatus } from '../store/reducers/health';
-import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
+import {
+  setWindowsAsOpened,
+  updateCacheInvalidation,
+  pause,
+  updateForecast,
+} from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import windowsObserver from './windowsManager';
@@ -27,6 +37,7 @@ import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
+import { getTimebar } from '../store/reducers/timebars';
 
 let logger;
 
@@ -43,7 +54,24 @@ const previous = {
     main: HEALTH_STATUS_HEALTHY,
     windows: HEALTH_STATUS_HEALTHY,
   },
+  forecastIntervals: {},
 };
+
+export function addForecast(expectedIntervals, forecast) {
+  // Loop on remoteId/localId and create a new interval
+  return _reduce(expectedIntervals, (acc, value, remoteId) =>
+    ({ ...acc,
+      [remoteId]:
+      _reduce(value, (accInt, intervals, localId) =>
+        ({ ...accInt,
+          [localId]: {
+            expectedInterval: [
+              intervals.expectedInterval[1],
+              intervals.expectedInterval[1] + forecast],
+          } })
+      , {}) }),
+  {});
+}
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -233,7 +261,21 @@ export function tick() {
       }
 
       execution.start('data requests');
-      request(dataMap, previous, server.message);
+      const timebarUuid = getPlayingTimebarId(getState());
+      // Add forecast in play mode
+      let forecastIntervals;
+      if (timebarUuid) {
+        // Get playing mode
+        const { visuWindow } = getTimebar(getState(), { timebarUuid });
+        // Check old forecast
+        const forecast = getForecast(getState());
+        if (!forecast || forecast - visuWindow.upper < 10) {
+          // add forecast in intervals
+          forecastIntervals = addForecast(dataMap.expectedIntervals, get('FORECAST'));
+          dispatch(updateForecast(visuWindow.upper));
+        }
+      }
+      request(dataMap, previous, forecastIntervals, server.message);
 
       // request module should receive only the last 'analysed' map
       previous.perRemoteId = dataMap.perRemoteId;
@@ -252,40 +294,6 @@ export function tick() {
       execution.start('data retrieving');
       server.requestData((dataToInject) => {
         execution.stop('data retrieving');
-        let count = 0;
-        const remoteIds = Object.keys(dataToInject.data);
-        const decodedData = {};
-        if (remoteIds.length) {
-          eachSeries(remoteIds, (remoteId, cb) => {
-          // loop on remoteIds
-          // for (let i = 0; i < remoteIds.length; i += 1) {
-            // const remoteId = remoteIds[i];
-            decodedData[remoteId] = {};
-            const ep = dataMap.perRemoteId[remoteId];
-            if (ep) {
-              // get payload type to deprotobufferize
-              const payloadProtobufType = getType(ep.dataId.comObject);
-              if (typeof payloadProtobufType === 'undefined') {
-                logger.error('unsupported comObject', ep.dataId.comObject);
-              } else {
-                // loop on remoteId payloads
-                const remoteIdPayload = dataToInject.data[remoteId];
-                const timestamps = Object.keys(remoteIdPayload);
-                count += timestamps.length;
-                for (let j = 0; j < timestamps.length; j += 1) {
-                  const p = remoteIdPayload[timestamps[j]];
-                  // deprotobufferize payload
-                  execution.start('data decoding');
-                  const decodedPayload = decode(payloadProtobufType, p.data);
-                  execution.stop('data decoding', count);
-                  decodedData[remoteId][timestamps[j]] = decodedPayload;
-                }
-              }
-            }
-            cb(null);
-          }, () => { console.log('*****************end'); });
-          // }
-        }
         // viewData
         execution.start('data injection');
         dispatch(updateViewData(
@@ -293,9 +301,9 @@ export function tick() {
           dataMap.perView,
           previous.injectionIntervals,
           dataMap.expectedIntervals,
-          decodedData));
-        const message = Object.keys(decodedData).length
-          ? `${Object.keys(decodedData).length} remoteId`
+          dataToInject.data));
+        const message = Object.keys(dataToInject.data).length
+          ? `${Object.keys(dataToInject.data).length} remoteId`
           : undefined;
         execution.stop('data injection', message);
 

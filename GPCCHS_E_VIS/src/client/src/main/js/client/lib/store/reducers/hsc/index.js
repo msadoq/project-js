@@ -12,6 +12,7 @@ const initialState = {
   file: null,
   focusWindow: null,
   isModified: true,
+  forecast: null,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -57,6 +58,8 @@ export default function hsc(state = initialState, action) {
       return _.set('isModified', action.payload.flag, state);
     case types.WS_WORKSPACE_OPEN:
       return _.set('isModified', false, state);
+    case types.HSC_UPDATE_FORECAST:
+      return Object.assign({}, state, { forecast: action.payload.upper });
     default:
       return state;
   }
@@ -75,3 +78,4 @@ export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
+export const getForecast = inHsc('forecast');

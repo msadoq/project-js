@@ -2,30 +2,32 @@ const logger = require('common/log')('controllers:client:onTimebasedQuery');
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const executionMonitor = require('common/log/execution');
-
-const { add: addToQueue } = require('../../models/dataQueue');
+const { GETLASTTYPE_GET_LAST } = require('common/constants');
+// const { add: addToQueue } = require('../../models/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
-const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
+// const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 
 /**
  * Triggered when the data consumer query for timebased data
  *
  * - loop over flatDataIds
- *    - loop over intervals
+ *    - loop over 'last' intervals
+ *        - queue a zmq dataQuery message (with dataId, query id, interval, getLast)
+ *    - loop over 'range' intervals
  *        - retrieve missing intervals from connectedData model
- *    - loop over missing intervals
+ *    - loop over missing intervals (from range intervals)
  *        - create a queryId
  *        - register queryId in registeredQueries singleton
  *        - register queryId in registeredCallbacks singleton
- *        - queue a zmq dataQuery message (with dataId, query id, interval and filter)
+ *        - queue a zmq dataQuery message (with dataId, query id, interval)
  *        - add requested { queryId: interval } to connectedData model
  *    - if dataId not in connectedData model
  *        - queue a zmq dataSubscription message (with 'ADD' action)
- *    - loop over intervals
- *        - retrieve data in timebasedData model
- *        - queue a ws newData message (sent periodically)
+ // *    - loop over intervals
+ // *        - retrieve data in timebasedData model
+ // *        - queue a ws newData message (sent periodically)
  * - send queued messages to DC
  *
  * @param queries
@@ -65,9 +67,25 @@ module.exports = (sendMessageToDc, { queries }) => {
     const connectedData = connectedDataModel.addRecord(query.dataId);
     execution.stop('add loki connectedData');
 
-    // loop over intervals
+    // getLast queries
+    execution.start('getLast intervals');
+    _each(query.last, (interval) => {
+      logger.silly('request getLast on interval', interval);
+      const message = createQueryMessage(
+        flatDataId,
+        query.dataId,
+        interval,
+        { getLastType: GETLASTTYPE_GET_LAST },
+        execution
+      );
+      // queue the message
+      messageQueue.push(message.args);
+    });
+    execution.stop('getLast intervals');
+
+    // loop over range intervals
     execution.start('finding missing intervals');
-    _each(query.intervals, (interval) => {
+    _each(query.range, (interval) => {
       // retrieve missing intervals from connectedData model
       missingIntervals = _concat(
         missingIntervals,
@@ -88,6 +106,7 @@ module.exports = (sendMessageToDc, { queries }) => {
         flatDataId,
         query.dataId,
         missingInterval,
+        {},
         execution
       );
 
@@ -105,33 +124,33 @@ module.exports = (sendMessageToDc, { queries }) => {
       execution.stop('add requested interval');
     });
 
-    // loop over intervals
-    execution.start('finding cache model');
-    const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    execution.stop('finding cache model');
-    if (!timebasedDataModel) {
-      logger.silly('no cached data found for', flatDataId);
-      return;
-    }
+    // // loop over range intervals
+    // execution.start('finding cache model');
+    // const timebasedDataModel = getTimebasedDataModel(flatDataId);
+    // execution.stop('finding cache model');
+    // if (!timebasedDataModel) {
+    //   logger.silly('no cached data found for', flatDataId);
+    //   return;
+    // }
 
-    execution.start('finding cache data');
-    _each(query.intervals, (interval) => {
-      // retrieve data in timebasedData model
-      const cachedData = timebasedDataModel.findByInterval(
-        interval[0],
-        interval[1]
-      );
-      // queue a ws newData message (sent periodically)
-      if (cachedData.length === 0) {
-        return;
-      }
-      execution.start('queue cache for sending');
-      _each(cachedData, (datum) => {
-        addToQueue(flatDataId, datum.timestamp, datum.payload);
-      });
-      execution.stop('queue cache for sending');
-    });
-    execution.stop('finding cache data');
+  //   execution.start('finding cache data');
+  //   _each(query.range, (interval) => {
+  //     // retrieve data in timebasedData model
+  //     const cachedData = timebasedDataModel.findByInterval(
+  //       interval[0],
+  //       interval[1]
+  //     );
+  //     // queue a ws newData message (sent periodically)
+  //     if (cachedData.length === 0) {
+  //       return;
+  //     }
+  //     execution.start('queue cache for sending');
+  //     _each(cachedData, (datum) => {
+  //       addToQueue(flatDataId, datum.timestamp, datum.payload);
+  //     });
+  //     execution.stop('queue cache for sending');
+  //   });
+  //   execution.stop('finding cache data');
   });
 
   // send queued zmq messages to DC

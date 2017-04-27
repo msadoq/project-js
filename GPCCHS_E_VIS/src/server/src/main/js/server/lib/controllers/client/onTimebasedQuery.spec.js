@@ -7,7 +7,7 @@ const globalConstants = require('common/constants');
 const dataStub = require('common/stubs/data');
 
 const { should } = require('../../utils/test');
-const { get: getQueue /* , reset: resetQueue */} = require('../../models/dataQueue');
+const { get: getQueue } = require('../../models/dataQueue');
 const {
   cleanup: cleanRegisteredQueries,
   getAll: getAllRegisteredQueries,
@@ -15,7 +15,7 @@ const {
 const registeredCallbacks = require('common/callbacks');
 
 const connectedDataModel = require('../../models/connectedData');
-// const { clearFactory } = require('../../models/timebasedDataFactory');
+
 
 const onTimebasedQuery = require('./onTimebasedQuery');
 
@@ -65,16 +65,6 @@ describe('controllers/client/onTimebasedQuery', () => {
   );
   const lastQueryArgumentsProto = dataStub.getQueryArgumentsProtobuf(lastQueryArguments);
   const queryArgumentsProto = dataStub.getQueryArgumentsProtobuf(dataStub.getQueryArguments());
-  //
-  // const rp = dataStub.getReportingParameter();
-  // const t1 = 3;
-  // const t2 = 5;
-  //
-  // const payloads = [
-  //   { timestamp: t1, payload: rp },
-  //   { timestamp: t2, payload: rp },
-  // ];
-
   const queryRange = {
     [flatDataId]: {
       dataId,
@@ -120,8 +110,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       // init test
       connectedDataModel.addRecord(dataId);
       connectedDataModel.addRequestedInterval(flatDataId, 'queryId', intervalRange);
-      // const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
-      // timebasedDataModel.addRecords(payloads);
+
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: queryRange });
       // check registeredQueries
@@ -130,14 +119,6 @@ describe('controllers/client/onTimebasedQuery', () => {
       _isEmpty(registeredCallbacks.getAll()).should.equal(true);
       // check zmq messages
       calls.length.should.equal(0);
-      // check ws messages
-      // --> data pull
-      // getQueue().should.have.properties({
-      //   [flatDataId]: {
-      //     [payloads[1].timestamp]: payloads[1].payload,
-      //   },
-      // });
-      // Object.keys(getQueue()[flatDataId]).should.have.lengthOf(2);
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
@@ -176,8 +157,6 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[2].should.have.properties(dataIdProto);
       calls[3].should.have.properties(intervalRangeProto);
       calls[4].should.have.properties(queryArgumentsProto);
-      // check ws messages
-      // getQueue().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();

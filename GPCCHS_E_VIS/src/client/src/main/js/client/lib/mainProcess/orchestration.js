@@ -32,6 +32,7 @@ import {
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
+import displayQueries from '../dataManager/displayQueries';
 import windowsObserver from './windowsManager';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
@@ -48,6 +49,7 @@ let criticalTimeout = null;
 const previous = {
   requestedDataMap: {},
   injectionViewMap: {},
+  injectionRemoteIdMap: {},
   health: {
     dc: HEALTH_STATUS_HEALTHY,
     hss: HEALTH_STATUS_HEALTHY,
@@ -56,6 +58,7 @@ const previous = {
   },
   forecastIntervals: {},
 };
+const requestedDataMap = [];
 
 export function addForecast(expectedIntervals, forecast) {
   // Loop on remoteId/localId and create a new interval
@@ -72,6 +75,7 @@ export function addForecast(expectedIntervals, forecast) {
       , {}) }),
   {});
 }
+
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -280,6 +284,7 @@ export function tick() {
       // request module should receive only the last 'analysed' map
       previous.perRemoteId = dataMap.perRemoteId;
       previous.expectedIntervals = dataMap.expectedIntervals;
+      requestedDataMap.push(dataMap);
 
       execution.stop('data requests');
       callback(null);
@@ -292,7 +297,10 @@ export function tick() {
       }
 
       execution.start('data retrieving');
-      server.requestData((dataToInject) => {
+      // Create object with data to display
+      const isPlayingMode = !!getPlayingTimebarId(getState());
+      const queries = displayQueries(requestedDataMap, dataMap, isPlayingMode);
+      server.requestData(queries, (dataToInject) => {
         execution.stop('data retrieving');
         // viewData
         execution.start('data injection');
@@ -307,9 +315,11 @@ export function tick() {
           : undefined;
         execution.stop('data injection', message);
 
-        previous.injectionViewMap = dataMap.perView;
-        previous.injectionIntervals = dataMap.expectedIntervals;
-
+        if (Object.keys(queries).length && Object.keys(dataToInject.data).length) {
+          previous.injectionViewMap = dataMap.perView;
+          previous.injectionRemoteIdMap = dataMap.perRemoteId;
+          previous.injectionIntervals = dataMap.expectedIntervals;
+        }
         callback(null);
       });
     },

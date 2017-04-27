@@ -15,6 +15,7 @@ const sendFmdGet = require('./dc/sendFmdGet');
 const sendFmdCreate = require('./dc/sendFmdCreate');
 const sendSessionTime = require('./dc/sendSessionTime');
 const sendMasterSession = require('./dc/sendMasterSession');
+const createQueryKey = require('./dc/createQueryKey');
 // const sendDcStatus = require('./dc/sendDcStatus');
 
 process.title = 'gpcchs_dc_stub';
@@ -102,8 +103,11 @@ const onHssMessage = (...args) => {
         );
       }
       const interval = protobuf.decode('dc.dataControllerUtils.TimeInterval', args[3]);
-      const queryKey = JSON.stringify(dataId);
-      queries.push({ queryKey, queryId, dataId, interval }); // , queryArguments });
+      const queryArguments = protobuf.decode(
+        'dc.dataControllerUtils.QueryArguments', args[4]
+      );
+      const queryKey = JSON.stringify(dataId, queryArguments);
+      queries.push({ queryKey, queryId, dataId, interval, queryArguments });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
@@ -160,6 +164,7 @@ function dcCall() {
       query.queryId,
       query.dataId,
       query.interval,
+      query.queryArguments,
       zmq
     );
   });

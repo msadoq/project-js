@@ -3,11 +3,9 @@ const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const executionMonitor = require('common/log/execution');
 const { GETLASTTYPE_GET_LAST } = require('common/constants');
-// const { add: addToQueue } = require('../../models/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
-// const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -125,34 +123,6 @@ module.exports = (sendMessageToDc, { queries }) => {
       );
       execution.stop('add requested interval');
     });
-
-    // // loop over range intervals
-    // execution.start('finding cache model');
-    // const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    // execution.stop('finding cache model');
-    // if (!timebasedDataModel) {
-    //   logger.silly('no cached data found for', flatDataId);
-    //   return;
-    // }
-
-  //   execution.start('finding cache data');
-  //   _each(query.range, (interval) => {
-  //     // retrieve data in timebasedData model
-  //     const cachedData = timebasedDataModel.findByInterval(
-  //       interval[0],
-  //       interval[1]
-  //     );
-  //     // queue a ws newData message (sent periodically)
-  //     if (cachedData.length === 0) {
-  //       return;
-  //     }
-  //     execution.start('queue cache for sending');
-  //     _each(cachedData, (datum) => {
-  //       addToQueue(flatDataId, datum.timestamp, datum.payload);
-  //     });
-  //     execution.stop('queue cache for sending');
-  //   });
-  //   execution.stop('finding cache data');
   });
 
   // send queued zmq messages to DC

@@ -2,7 +2,7 @@
 import __ from 'lodash/fp';
 import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/timebars';
-import timebarsReducer from '.././timebars';
+import timebarsReducer from '../timebars';
 import * as types from '../../types';
 
 const reducer = freezeArgs(timebarsReducer);

@@ -226,8 +226,6 @@ collection.isLastQuery = (flatDataId, queryUuid, connectedData) => {
   if (!cd) {
     cd = collection.by('flatDataId', flatDataId);
   }
-  console.log(cd);
-
   return _has(cd, ['lastQueries', queryUuid]);
 };
 

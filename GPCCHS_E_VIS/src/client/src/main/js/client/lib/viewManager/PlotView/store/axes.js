@@ -66,8 +66,8 @@ export const getYAxis = (stateConf, action) => {
   const { entryPoint } = action.payload;
   const { connectedData } = entryPoint;
   const { axes } = stateConf;
-  console.log('connectedData', connectedData);
-  const axisY = __.find(axis => axis.id === connectedData.axisId, axes);
+  const axisYKey = Object.keys(axes).find(k => axes[k].id && axes[k].id === connectedData.axisId);
+  const axisY = axisYKey ? axes[axisYKey] : null;
   const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedData.unit);
   const prefixY = finalY.id === 'time' ? 'Y:' : '';
 

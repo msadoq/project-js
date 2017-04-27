@@ -429,7 +429,7 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        onContextMenu={this.onContextMenu}
+        onContextMenu={e => this.onContextMenu(e)}
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(

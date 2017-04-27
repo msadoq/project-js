@@ -30,7 +30,7 @@ const mapStateToProps = (state, { viewId }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
   addEntryPoint,
 }, dispatch);
 

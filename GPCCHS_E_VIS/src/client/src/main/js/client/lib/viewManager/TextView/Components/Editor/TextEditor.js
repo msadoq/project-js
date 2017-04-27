@@ -74,6 +74,7 @@ export default class Editor extends Component {
               changeSearch={this.changeSearch}
               openModal={openModal}
               viewId={viewId}
+              viewType="TextView"
               search={search}
             />
             <EntryPointTree

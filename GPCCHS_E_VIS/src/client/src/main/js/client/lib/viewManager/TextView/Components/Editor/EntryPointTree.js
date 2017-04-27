@@ -59,7 +59,7 @@ export default class EntryPointTree extends React.Component {
 
   render() {
     const { viewId, windowId } = this.context;
-    const mask = `${this.props.search}.*`;
+    const mask = `${this.props.search || ''}.*`;
     const { entryPoints } = this.props;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
@@ -76,7 +76,7 @@ export default class EntryPointTree extends React.Component {
           const isOpen = this.state[`panel${key}IsOpen`];
           return (
             <Panel
-              key={entryPoint.name}
+              key={entryPoint.id}
               header={<span>
                 {entryPoint.objectStyle && entryPoint.objectStyle.curveColor && <div
                   style={{

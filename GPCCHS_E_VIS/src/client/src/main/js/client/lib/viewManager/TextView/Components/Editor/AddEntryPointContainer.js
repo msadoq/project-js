@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import {
   addEntryPoint,
-} from '../../../store/actions/views';
+} from '../../../../store/actions/views';
 import AddEntryPointWrapper from './AddEntryPointWrapper';
 
 export default connect(

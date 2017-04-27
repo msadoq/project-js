@@ -35,7 +35,7 @@
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
     "clone-rtd": "cd ../../../../../../../../ && git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS && cd GPDS && git checkout DM_5567",
-    "copy-rtd": "mkdir -p node_modules && cp -r ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd node_modules/",
+    "copy-rtd": "mkdir -p node_modules && rm -rf node_modules/rtd && cp -r ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd node_modules/",
     "install-rtd": "if [ -d  ../../../../../../../../GPDS ]; then npm run copy-rtd; else npm run clone-rtd && npm run copy-rtd; fi && (cd ../../../../../client/src/main/js/client/node_modules/rtd && npm install)",
     "postinstall": "electron-rebuild",
     "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"

@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 import { mock as mockRedis, unmock as unmockRedis } from 'rtd/stubs/redis';
 import rtd from 'rtd/catalogs';
-import loadReportings from 'rtd/stubs/loaders/reporting';
-import { generate } from 'rtd/stubs/items/reporting';
+import { Reporting as loadReportings } from 'rtd/stubs/loaders';
+import { Reporting as generateReporting } from 'rtd/stubs/generators';
 import { should } from '../../common/test';
 import {
   getShortDescription,
@@ -23,7 +23,7 @@ const domainId = 3;
 
 let reporting;
 const items = [
-  generate({ name: 'TEST_ITEM1', namespace: SDB_NAMESPACE, uid: 1, domainId }),
+  generateReporting({ name: 'TEST_ITEM1', namespace: SDB_NAMESPACE, uid: 1, domainId }),
 ];
 
 let monitoringStub;

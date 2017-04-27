@@ -231,11 +231,11 @@ class Window extends PureComponent {
 
     logger.debug('render');
 
-    let editorSize = editorIsMinimized ? 24 : editorWidth;
+    let editorSize = editorIsMinimized ? 16 : editorWidth;
     if (!editorIsMinimized && editorSize < 50) {
       editorSize = defaultEditorWidth;
     }
-    let explorerSize = explorerIsMinimized ? 24 : explorerWidth;
+    let explorerSize = explorerIsMinimized ? 16 : explorerWidth;
     if (!explorerIsMinimized && explorerSize < 50) {
       explorerSize = defaultExplorerWidth;
     }
@@ -384,30 +384,40 @@ class Window extends PureComponent {
           <MessagesContainer />
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
-        <div
-          className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
-        >
-          <PanelGroup
-            direction="row"
-            spacing={resizeHandleSize}
-            borderColor={panelBorderColor}
-            panelWidths={this.horizontalLayout(editorSize, explorerSize)}
-            onUpdate={this.onHorizontalUpdate}
-          >
-            {editor}
-            <PanelGroup
-              direction="column"
-              spacing={timebarIsMinimized ? 0 : 24}
-              borderColor={panelBorderColor}
-              panelWidths={this.verticalLayout(calcTimebarHeight)}
-              onUpdate={this.onVerticalUpdate}
+        {
+          pageId ?
+            (<div
+              className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
             >
-              {views}
-              {timebar}
-            </PanelGroup>
-            {explorer}
-          </PanelGroup>
-        </div>
+              <PanelGroup
+                direction="row"
+                spacing={resizeHandleSize}
+                borderColor={panelBorderColor}
+                panelWidths={this.horizontalLayout(editorSize, explorerSize)}
+                onUpdate={this.onHorizontalUpdate}
+              >
+                {editor}
+                <PanelGroup
+                  direction="column"
+                  spacing={timebarIsMinimized ? 0 : 16}
+                  borderColor={panelBorderColor}
+                  panelWidths={this.verticalLayout(calcTimebarHeight)}
+                  onUpdate={this.onVerticalUpdate}
+                >
+                  {views}
+                  {timebar}
+                </PanelGroup>
+                {explorer}
+              </PanelGroup>
+            </div>)
+            :
+            (<div
+              className="h100 w100"
+            >
+              <br /><br />
+              <h2 className={styles.noPage}>No page ...</h2>
+            </div>)
+        }
       </div>
     );
   }

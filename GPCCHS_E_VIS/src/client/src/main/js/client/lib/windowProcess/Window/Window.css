@@ -56,12 +56,12 @@
   background: #FFF;
 }
 .editorContainerCollapsed{
-  width: 24px;
+  width: 16px;
   height: 100%;
   background: #888;
 }
 .verticalBar{
-  width: 24px;
+  width: 18px;
   height: 100%;
   top: 0;
   background: #888;
@@ -69,7 +69,7 @@
   left: 0;
 }
 .verticalBarRight{
-  width: 24px;
+  width: 18px;
   height: 100%;
   position: absolute;
   right: 0;
@@ -81,6 +81,13 @@
 }
 .barButton{
   position: absolute;
-  top: -24px;
+  top: -17px;
   right: 2px;
+}
+.noPage {
+  text-align: center;
+  font-size: 5rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, .1);
 }

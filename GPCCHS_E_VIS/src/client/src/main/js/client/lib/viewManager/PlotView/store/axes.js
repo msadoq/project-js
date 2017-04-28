@@ -49,6 +49,12 @@ function getUniqueAxisId(stateConf, label) {
 
 function createAxis(stateConf, label, unit) {
   return {
+    autoLimits: true,
+    autoTick: true,
+    showAxis: true,
+    showLabels: true,
+    max: 300,
+    min: -300,
     label,
     unit,
     id: getUniqueAxisId(stateConf, label),
@@ -56,19 +62,14 @@ function createAxis(stateConf, label, unit) {
 }
 
 // This is not a reducer because it returns pair of axes
-export const getAxes = (stateConf, action) => {
+export const getYAxis = (stateConf, action) => {
   const { entryPoint } = action.payload;
-  const { axes } = stateConf;
   const { connectedData } = entryPoint;
-
-  // const axisX = __.find(axis => axis.unit === connectedDataX.unit, axes);
-  const axisY = __.find(axis => axis.unit === connectedData.unit, axes);
-  // const finalX = axisX || createAxis(stateConf, entryPoint.name, connectedDataX.unit);
+  const { axes } = stateConf;
+  const axisYKey = Object.keys(axes).find(k => axes[k].id && axes[k].id === connectedData.axisId);
+  const axisY = axisYKey ? axes[axisYKey] : null;
   const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedData.unit);
-  // const prefixX = finalX.id === finalY.id ? 'X:' : '';
   const prefixY = finalY.id === 'time' ? 'Y:' : '';
-  // return [
-    // { ...finalX, id: `${prefixX}${finalX.id}` },
+
   return { ...finalY, id: `${prefixY}${finalY.id}` };
-  // ];
 };

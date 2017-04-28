@@ -197,7 +197,12 @@ export default class LinesCanvas extends Component {
         xScale(line.xAccessor ? line.xAccessor(dataLine[0]) : dataLine[0].x),
         lastYPosition
       );
-      updateLabelPosition(axisId, line.id, lastYPosition);
+
+      updateLabelPosition(
+        axisId,
+        line.id,
+        (lastYPosition < 0 || lastYPosition > height) ? null : lastYPosition
+      );
       ctx.stroke();
     });
 

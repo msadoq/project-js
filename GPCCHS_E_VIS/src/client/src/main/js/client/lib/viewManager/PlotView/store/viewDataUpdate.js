@@ -250,16 +250,22 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
     const masterTime = timestamp + ep.offset;
 
     const valX = _get(value, [ep.fieldX, 'value']);
-    const valY = _get(value, [ep.fieldY, 'value']);
+    let valY = _get(value, [ep.fieldY, 'value']);
+    if (!valY) {
+      const symbol = _get(value, [ep.fieldY, 'symbol']);
+      // Case of long values
+      if (symbol) {
+        valY = Number(symbol);
+      }
+    }
     if (valX !== undefined && valY !== undefined) {
-      if (!min || valY <= min) {
-        min = valY;
-        minTime = masterTime;
-      }
-      if (!max || valY >= max) {
-        max = valY;
-        maxTime = masterTime;
-      }
+      const newMin = getMin(min, valY, minTime, masterTime);
+      min = newMin.min;
+      minTime = newMin.minTime;
+
+      const newMax = getMax(max, valY, maxTime, masterTime);
+      max = newMax.max;
+      maxTime = newMax.maxTime;
 
       if (!newState[epName]) {
         newState[epName] = {};
@@ -269,23 +275,36 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
         value: valY,
         ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
         // Case of enum : add symbol to show it in tooltip
+        // Case of long : add string representation in tooltip to keep precision
         symbol: _get(value, [ep.fieldY, 'symbol']),
       };
     }
   }
-  if (!Object.keys(newState).length) {
-    return {};
-  }
-  if (viewState) {
-    newState.min = { ...viewState.min, [epName]: min };
-    newState.max = { ...viewState.max, [epName]: max };
-    newState.minTime = { ...viewState.minTime, [epName]: minTime };
-    newState.maxTime = { ...viewState.maxTime, [epName]: maxTime };
-  } else {
-    newState.min = { [epName]: min };
-    newState.max = { [epName]: max };
-    newState.minTime = { [epName]: minTime };
-    newState.maxTime = { [epName]: maxTime };
+  if (Object.keys(newState).length) {
+    if (viewState) {
+      newState.min = { ...viewState.min, [epName]: min };
+      newState.max = { ...viewState.max, [epName]: max };
+      newState.minTime = { ...viewState.minTime, [epName]: minTime };
+      newState.maxTime = { ...viewState.maxTime, [epName]: maxTime };
+    } else {
+      newState.min = { [epName]: min };
+      newState.max = { [epName]: max };
+      newState.minTime = { [epName]: minTime };
+      newState.maxTime = { [epName]: maxTime };
+    }
   }
   return newState;
+}
+
+function getMin(lastMin, valY, lastTime, masterTime) {
+  if (!lastMin || valY <= lastMin) {
+    return { min: valY, minTime: masterTime };
+  }
+  return { min: lastMin, minTime: lastTime };
+}
+function getMax(lastMax, valY, lastTime, masterTime) {
+  if (!lastMax || valY >= lastMax) {
+    return { max: valY, maxTime: masterTime };
+  }
+  return { max: lastMax, maxTime: lastTime };
 }

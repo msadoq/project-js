@@ -8,6 +8,7 @@ export default class EntryPointActions extends React.Component {
     changeSearch: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
+    viewType: PropTypes.string.isRequired,
     search: PropTypes.string,
   };
 
@@ -26,11 +27,12 @@ export default class EntryPointActions extends React.Component {
     const {
       openModal,
       viewId,
+      viewType,
     } = this.props;
     const {
       windowId,
     } = this.context;
-    openModal(windowId, { type: 'addEntryPoint', viewId });
+    openModal(windowId, { type: 'addEntryPoint', viewType, viewId });
   }
 
   render() {

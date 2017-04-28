@@ -67,6 +67,12 @@ export default function window(stateWindow = initialState, action) {
         geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
       });
     }
+    case types.WS_WINDOW_UPDATE_TITLE: {
+      return {
+        ...stateWindow,
+        title: action.payload.title,
+      };
+    }
     case types.WS_WINDOW_PAGE_FOCUS:
       return Object.assign({}, stateWindow, {
         focusedPage: action.payload.pageId,

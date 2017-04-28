@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { getAxes, updateAxis, addAxis, removeAxis } from './axes';
+import { getYAxis, updateAxis, addAxis, removeAxis } from './axes';
 import * as types from '../../../store/types';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
@@ -26,7 +26,7 @@ export default (stateConf = { search: '' }, action) => {
     case types.WS_VIEW_REMOVE_MARKER:
       return removeElementIn('markers', action.payload.index, stateConf);
     case types.WS_VIEW_ADD_ENTRYPOINT: {
-      const axisY = getAxes(stateConf, action);
+      const axisY = getYAxis(stateConf, action);
       return {
         ...stateConf,
         entryPoints: [
@@ -36,7 +36,6 @@ export default (stateConf = { search: '' }, action) => {
             connectedData: {
               ...(action.payload.entryPoint.connectedData),
               axisId: axisY.id,
-              unit: axisY.unit,
             },
           },
         ],

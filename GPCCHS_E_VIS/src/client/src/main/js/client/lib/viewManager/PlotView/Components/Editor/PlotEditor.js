@@ -89,6 +89,7 @@ export default class PlotEditor extends Component {
             <EntryPointActions
               key="EntryPointActions"
               viewId={viewId}
+              viewType="PlotView"
               openModal={openModal}
               changeSearch={this.changeSearch}
               search={search}

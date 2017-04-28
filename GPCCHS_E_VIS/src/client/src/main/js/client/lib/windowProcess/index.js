@@ -7,8 +7,7 @@ import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
 import mainController from './controllers/main';
 
-const search = global.location.search;
-const windowId = search.match('windowId=(.*)&')[1];
+const windowId = global.windowId; // see index.html
 
 process.title = 'gpcchs_renderer';
 

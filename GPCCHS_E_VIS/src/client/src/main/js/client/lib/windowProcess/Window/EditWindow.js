@@ -11,12 +11,12 @@ import {
 import InputField from '../commonReduxForm/InputField';
 import HorizontalFormGroup from '../commonReduxForm/HorizontalFormGroup';
 
-class EditPage extends PureComponent {
+class EditWindow extends PureComponent {
 
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
-    pages: PropTypes.shape().isRequired,
+    windows: PropTypes.shape().isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
@@ -32,7 +32,7 @@ class EditPage extends PureComponent {
       uuid,
       submitting,
       valid,
-      pages,
+      windows,
       handleSubmit,
     } = this.props;
 
@@ -47,7 +47,9 @@ class EditPage extends PureComponent {
             className="form-control input-sm"
             validate={(val) => {
               if (
-                Object.keys(pages).find(uid => pages[uid].title === val && pages[uid].uuid !== uuid)
+                Object.keys(windows).find(uid =>
+                  windows[uid].title === val && windows[uid].uuid !== uuid
+                )
               ) {
                 return 'This title is already taken';
               }
@@ -72,7 +74,7 @@ class EditPage extends PureComponent {
   }
 }
 
-const requiredFields = ['uuid'];
+const requiredFields = ['uuid', 'title'];
 const validate = (values = {}) => {
   const errors = {};
   requiredFields.forEach((fieldPath) => {
@@ -87,4 +89,4 @@ const validate = (values = {}) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-})(EditPage);
+})(EditWindow);

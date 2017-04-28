@@ -2,10 +2,12 @@ import React, { PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import {
   reduxForm,
   Field,
   FieldArray,
+  formValueSelector,
 } from 'redux-form';
 import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
@@ -30,17 +32,18 @@ const EntryPointConnectedData = (props) => {
     valid,
     axes,
     timelines,
-    initialValues,
+    unit,
+    axisId,
   } = props;
 
   let filteredAxes;
-  if (axes && initialValues.unit) {
+  if (axes && unit) {
     filteredAxes = Object.keys(axes)
     .map(key => ({
       ...axes[key],
-      axeId: key,
-    })).filter(axe =>
-      axe.unit === initialValues.unit || axe.id === initialValues.axisId
+      axisId: key,
+    })).filter(axis =>
+      axis.unit === unit || axis.id === axisId
     );
   } else {
     filteredAxes = [];
@@ -116,9 +119,9 @@ const EntryPointConnectedData = (props) => {
             clearable={false}
             component={ReactSelectField}
             options={
-              filteredAxes.map(axe => ({
-                label: axe.label,
-                value: axe.axeId,
+              filteredAxes.map(axis => ({
+                label: axis.label,
+                value: axis.axisId,
               })).concat({
                 label: '-',
                 value: '',
@@ -144,6 +147,7 @@ const EntryPointConnectedData = (props) => {
 };
 
 EntryPointConnectedData.propTypes = {
+  // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
   initialValues: PropTypes.shape({
     axisId: PropTypes.string,
     digit: PropTypes.number,
@@ -166,6 +170,8 @@ EntryPointConnectedData.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   valid: PropTypes.bool.isRequired,
+  axisId: PropTypes.string.isRequired,
+  unit: PropTypes.string.isRequired,
 };
 
 EntryPointConnectedData.defaultProps = {
@@ -192,4 +198,14 @@ const validate = (values = {}) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-})(EntryPointConnectedData);
+})(
+  connect(
+    (state, props) => {
+      const selector = formValueSelector(props.form);
+      return {
+        axisId: selector(state, 'axisId'),
+        unit: selector(state, 'unit'),
+      };
+    }
+  )(EntryPointConnectedData)
+);

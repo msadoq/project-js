@@ -7,6 +7,15 @@ import * as types from '../../types';
 const reducer = freezeArgs(windowsReducer);
 
 describe('store:windows:reducer:window', () => {
+  describe('update title', () => {
+    it('updates title', () => {
+      const state = reducer(
+        { myWindowId: { title: 'window 1' } },
+        actions.updateTitle('myWindowId', 'window 2')
+      );
+      state.myWindowId.title.should.eql('window 2');
+    });
+  });
   describe('update geometry', () => {
     it('update only one', () => {
       const state = reducer(

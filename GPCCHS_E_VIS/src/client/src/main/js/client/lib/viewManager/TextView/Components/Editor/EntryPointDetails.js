@@ -6,7 +6,7 @@ import {
 import _memoize from 'lodash/memoize';
 
 import EntryPointConnectedData from './EntryPointConnectedData';
-import AddEntryPoint from '../../../commonEditor/EntryPoint/AddEntryPoint';
+import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 /*

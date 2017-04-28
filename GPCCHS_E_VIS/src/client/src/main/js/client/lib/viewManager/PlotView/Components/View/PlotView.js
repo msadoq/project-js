@@ -25,6 +25,17 @@ const logger = getLogger('view:plot');
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
 
+const getUniqueEpId = (id, entryPoints) => {
+  let i = 2;
+  let newId = id;
+  // eslint-disable-next-line no-loop-func, "DV6 TBC_CNES Check if name is taken"
+  while (Object.keys(entryPoints).find(k => entryPoints[k].name === newId)) {
+    newId = `${id}_${i}`;
+    i += 1;
+  }
+  return newId;
+};
+
 const tooltipFormatter = (id, foundColor, color, value,
   x, formattedValue, formatter, packet) => {
   const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
@@ -62,12 +73,13 @@ const tooltipFormatter = (id, foundColor, color, value,
 };
 
 // parse clipboard data to create partial entry point
-function parseDragData(data) {
+function parseDragData(data, id, defaultTimelineId) {
   return {
-    name: data.item,
+    name: id,
     connectedData: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
-      fieldX: 'onBoardDate',
+      fieldX: 'onboardDate',
+      timeline: defaultTimelineId,
     },
   };
 }
@@ -110,6 +122,7 @@ export class GrizzlyPlotView extends PureComponent {
     isViewsEditorOpen: PropTypes.bool.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
+    defaultTimelineId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -277,22 +290,28 @@ export class GrizzlyPlotView extends PureComponent {
   }
 
   drop(e) {
+    const {
+      addEntryPoint,
+      openEditor,
+      viewId,
+      configuration,
+      defaultTimelineId,
+    } = this.props;
+
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-
     if (!_get(content, 'catalogName')) {
       return;
     }
-
-    this.props.addEntryPoint(
-      this.props.viewId,
-      parseDragData(content)
+    const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
+    addEntryPoint(
+      viewId,
+      parseDragData(content, epId, defaultTimelineId)
     );
-    this.props.openEditor();
+    openEditor();
 
     e.stopPropagation();
   }
-
 
   shouldRender() {
     const {
@@ -363,7 +382,7 @@ export class GrizzlyPlotView extends PureComponent {
       // TODO : clean message component
       return (
         <DroppableContainer
-          onContextMenu={event => this.onContextMenu(event)}
+          onContextMenu={this.onContextMenu}
           onDrop={this.onDrop}
           className={styles.errorContent}
         >
@@ -414,7 +433,7 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        onContextMenu={event => this.onContextMenu(event)}
+        onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(

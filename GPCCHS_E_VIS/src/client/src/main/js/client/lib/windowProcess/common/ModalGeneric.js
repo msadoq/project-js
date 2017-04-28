@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
-import classnames from 'classnames';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
-import AddEntryPointContainer from '../../viewManager/commonEditor/EntryPoint/AddEntryPointContainer';
+import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
+import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
+import EditWindowContainer from '../Window/EditWindowContainer';
 
 const ModalGeneric = (props) => {
   let child;
@@ -29,11 +30,24 @@ const ModalGeneric = (props) => {
       break;
     case 'addEntryPoint':
       title = 'Add entry point';
-      child = (
-        <AddEntryPointContainer
-          {...props.props}
-          closeModal={props.onClose}
-        />);
+      switch (props.props.viewType) {
+        case 'TextView':
+          child = (
+            <TextAddEntryPointContainer
+              {...props.props}
+              closeModal={props.onClose}
+            />);
+          break;
+        case 'PlotView':
+          child = (
+            <PlotAddEntryPointContainer
+              {...props.props}
+              closeModal={props.onClose}
+            />);
+          break;
+        default:
+          child = <div />;
+      }
       break;
     case 'timeSetter':
       title = 'Time setter';
@@ -43,8 +57,16 @@ const ModalGeneric = (props) => {
           closeModal={props.onClose}
         />);
       break;
-    case 'editPageTitle':
-      title = 'Edit page title';
+    case 'editWindow':
+      title = 'Edit window';
+      child = (
+        <EditWindowContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />);
+      break;
+    case 'editPage':
+      title = 'Edit page';
       child = (
         <EditPageContainer
           {...props.props}
@@ -62,12 +84,7 @@ const ModalGeneric = (props) => {
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
           <button
-            className={classnames(
-              'btn-sm',
-              'btn',
-              'btn-danger',
-              'btn-close'
-            )}
+            className="btn-sm btn btn-danger btn-close"
             onClick={props.onClose}
           >
             x

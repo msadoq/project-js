@@ -28,7 +28,6 @@ module.exports = ({ queries }) => {
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     execution.stop('finding cache model');
     if (!timebasedDataModel) {
-      console.log('timebasedDataModel', timebasedDataModel);
       logger.silly('no cached data found for', flatDataId);
       return;
     }

@@ -50,15 +50,14 @@ const previous = {
   requestedDataMap: {},
   injectionViewMap: {},
   injectionRemoteIdMap: {},
+  injectionIntervals: {},
   health: {
     dc: HEALTH_STATUS_HEALTHY,
     hss: HEALTH_STATUS_HEALTHY,
     main: HEALTH_STATUS_HEALTHY,
     windows: HEALTH_STATUS_HEALTHY,
   },
-  forecastIntervals: {},
 };
-const requestedDataMap = [];
 
 export function addForecast(expectedIntervals, forecast) {
   // Loop on remoteId/localId and create a new interval
@@ -271,20 +270,22 @@ export function tick() {
       if (timebarUuid) {
         // Get playing mode
         const { visuWindow } = getTimebar(getState(), { timebarUuid });
+        const { upper } = visuWindow;
         // Check old forecast
-        const forecast = getForecast(getState());
-        if (!forecast || forecast - visuWindow.upper < 10) {
-          // add forecast in intervals
-          forecastIntervals = addForecast(dataMap.expectedIntervals, get('FORECAST'));
-          dispatch(updateForecast(visuWindow.upper));
+        const lastForecast = getForecast(getState());
+        if (!lastForecast || lastForecast - upper < 100) {
+          const forecastTime = get('FORECAST');
+          forecastIntervals = addForecast(dataMap.expectedIntervals, forecastTime);
+          dispatch(updateForecast(upper + forecastTime));
+          request(dataMap, previous, forecastIntervals, server.message);
         }
+      } else {
+        request(dataMap, previous, forecastIntervals, server.message);
       }
-      request(dataMap, previous, forecastIntervals, server.message);
 
       // request module should receive only the last 'analysed' map
       previous.perRemoteId = dataMap.perRemoteId;
       previous.expectedIntervals = dataMap.expectedIntervals;
-      requestedDataMap.push(dataMap);
 
       execution.stop('data requests');
       callback(null);
@@ -299,7 +300,7 @@ export function tick() {
       execution.start('data retrieving');
       // Create object with data to display
       const isPlayingMode = !!getPlayingTimebarId(getState());
-      const queries = displayQueries(requestedDataMap, dataMap, isPlayingMode);
+      const queries = displayQueries(previous, dataMap, isPlayingMode);
       server.requestData(queries, (dataToInject) => {
         execution.stop('data retrieving');
         // viewData

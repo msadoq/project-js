@@ -142,18 +142,18 @@ module.exports = (
 
     // different behaviour if it is a last query or not:
     // not last => storage in cache
-    // last => queue data in spool
+    // last and range => queue data in spool
     if (!isLastQuery) {
       // store in cache
       execution.start('store payloads');
       timebasedDataModel.addRecord(timestamp, payload);
       execution.stop('store payloads');
-    } else {
-      // queue new data in spool
-      execution.start('queue payloads');
-      addToQueue(remoteId, timestamp, payload);
-      execution.stop('queue payloads');
     }
+    // queue new data in spool
+    execution.start('queue payloads');
+    addToQueue(remoteId, timestamp, payload);
+    execution.stop('queue payloads');
+
     callback(null);
   }, () => {
     loggerData.debug({

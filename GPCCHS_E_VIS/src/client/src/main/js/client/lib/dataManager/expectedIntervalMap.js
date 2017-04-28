@@ -5,7 +5,7 @@ import { getTimebars } from '../store/reducers/timebars';
 import { getStructureModule } from '../viewManager';
 import { getPlayingTimebarId } from '../store/reducers/hsc';
 
-export function intervalPerRemoteId(timebars, remoteIdData) { // , tbUuidPlaying) {
+export function intervalPerRemoteId(timebars, remoteIdData) {
   const expectedIntervals = {};
   const { localIds } = remoteIdData;
   // loop on local ids

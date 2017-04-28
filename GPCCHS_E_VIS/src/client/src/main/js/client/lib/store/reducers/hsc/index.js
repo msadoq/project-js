@@ -59,7 +59,7 @@ export default function hsc(state = initialState, action) {
     case types.WS_WORKSPACE_OPEN:
       return _.set('isModified', false, state);
     case types.HSC_UPDATE_FORECAST:
-      return Object.assign({}, state, { forecast: action.payload.upper });
+      return Object.assign({}, state, { forecast: action.payload.forecast });
     default:
       return state;
   }

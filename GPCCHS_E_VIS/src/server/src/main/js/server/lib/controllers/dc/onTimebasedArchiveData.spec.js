@@ -112,13 +112,12 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    getQueue().should.deep.equal({});
-    // getQueue().should.have.properties({
-    //   [flatDataId]: {
-    //     [t1]: deprotoRp,
-    //     [t2]: deprotoRp,
-    //   },
-    // });
+    getQueue().should.have.properties({
+      [flatDataId]: {
+        [t1]: deprotoRp,
+        [t2]: deprotoRp,
+      },
+    });
   });
 
   it('last chunk with range query', () => {
@@ -163,13 +162,12 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    getQueue().should.deep.equal({});
-    // getQueue().should.have.properties({
-    //   [flatDataId]: {
-    //     [t1]: deprotoRp,
-    //     [t2]: deprotoRp,
-    //   },
-    // });
+    getQueue().should.have.properties({
+      [flatDataId]: {
+        [t1]: deprotoRp,
+        [t2]: deprotoRp,
+      },
+    });
   });
   it('last chunk with last query', () => {
     // init test
@@ -228,40 +226,5 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       timestamp2,
       protoRp
     );
-    // check data
-    /* should.not.exist(getRegisteredQuery(queryId));
-    const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [interval],
-          requested: {},
-        },
-      });
-    const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(2);
-    const timebasedData = timebasedDataModel.find();
-    timebasedData.should.have.properties([
-      {
-        timestamp: t1,
-        payload: rp,
-      }, {
-        timestamp: t2,
-        payload: rp,
-      },
-    ]);
-    flushTestQueue();
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [flatDataId]: {
-          [t1]: rp,
-          [t2]: rp,
-        },
-      },
-    });*/
   });
 });

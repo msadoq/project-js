@@ -24,7 +24,6 @@ export default class DynamicEditor extends Component {
     }).isRequired,
     timelines: PropTypes.arrayOf(PropTypes.object).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
   }
@@ -67,7 +66,6 @@ export default class DynamicEditor extends Component {
           currentDisplay={currentDisplay}
           changeCurrentDisplay={this.changeCurrentDisplay}
           items={navItems}
-          closeEditor={this.props.closeEditor}
         />
         {currentDisplay === 0 && <div className={styles.content}>
           <DynamicEditorForm

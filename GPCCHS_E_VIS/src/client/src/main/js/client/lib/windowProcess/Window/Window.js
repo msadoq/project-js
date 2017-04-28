@@ -231,11 +231,11 @@ class Window extends PureComponent {
 
     logger.debug('render');
 
-    let editorSize = editorIsMinimized ? 16 : editorWidth;
+    let editorSize = editorIsMinimized ? 0 : editorWidth;
     if (!editorIsMinimized && editorSize < 50) {
       editorSize = defaultEditorWidth;
     }
-    let explorerSize = explorerIsMinimized ? 16 : explorerWidth;
+    let explorerSize = explorerIsMinimized ? 17 : explorerWidth;
     if (!explorerIsMinimized && explorerSize < 50) {
       explorerSize = defaultExplorerWidth;
     }
@@ -249,34 +249,20 @@ class Window extends PureComponent {
       ? (
         <div
           className={classnames(styles.editorContainerCollapsed)}
-        >
-          <button
-            className={classnames('panel-button', styles.barButtonLeft)}
-            onClick={this.willMinimizeEditor}
-            title="Expand editor"
-          >
-            <Glyphicon
-              glyph="resize-full"
-            />
-          </button>
-        </div>
+        />
       )
       :
       (
         <div className={styles.editorContainer}>
-          <div
-            className={styles.verticalBar}
+          <button
+            className={classnames('panel-editor-button', styles.barButtonLeft)}
+            onClick={this.willMinimizeEditor}
+            title="Collapse editor"
           >
-            <button
-              className={classnames('panel-button', styles.barButtonLeft)}
-              onClick={this.willMinimizeEditor}
-              title="Collapse editor"
-            >
-              <Glyphicon
-                glyph="resize-small"
-              />
-            </button>
-          </div>
+            <Glyphicon
+              glyph="minus"
+            />
+          </button>
           <EditorContainer pageId={pageId} />
         </div>
       );
@@ -336,9 +322,7 @@ class Window extends PureComponent {
             onClick={this.willMinimizedExplorer}
             title="Expand explorer"
           >
-            <Glyphicon
-              glyph="resize-full"
-            />
+            &#9633;
           </button>
         </div>
       )
@@ -355,7 +339,7 @@ class Window extends PureComponent {
               title="Collapse explorer"
             >
               <Glyphicon
-                glyph="resize-small"
+                glyph="minus"
               />
             </button>
           </div>
@@ -384,40 +368,30 @@ class Window extends PureComponent {
           <MessagesContainer />
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
-        {
-          pageId ?
-            (<div
-              className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
+        <div
+          className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
+        >
+          <PanelGroup
+            direction="row"
+            spacing={resizeHandleSize}
+            borderColor={panelBorderColor}
+            panelWidths={this.horizontalLayout(editorSize, explorerSize)}
+            onUpdate={this.onHorizontalUpdate}
+          >
+            {editor}
+            <PanelGroup
+              direction="column"
+              spacing={timebarIsMinimized ? 0 : 24}
+              borderColor={panelBorderColor}
+              panelWidths={this.verticalLayout(calcTimebarHeight)}
+              onUpdate={this.onVerticalUpdate}
             >
-              <PanelGroup
-                direction="row"
-                spacing={resizeHandleSize}
-                borderColor={panelBorderColor}
-                panelWidths={this.horizontalLayout(editorSize, explorerSize)}
-                onUpdate={this.onHorizontalUpdate}
-              >
-                {editor}
-                <PanelGroup
-                  direction="column"
-                  spacing={timebarIsMinimized ? 0 : 16}
-                  borderColor={panelBorderColor}
-                  panelWidths={this.verticalLayout(calcTimebarHeight)}
-                  onUpdate={this.onVerticalUpdate}
-                >
-                  {views}
-                  {timebar}
-                </PanelGroup>
-                {explorer}
-              </PanelGroup>
-            </div>)
-            :
-            (<div
-              className="h100 w100"
-            >
-              <br /><br />
-              <h2 className={styles.noPage}>No page ...</h2>
-            </div>)
-        }
+              {views}
+              {timebar}
+            </PanelGroup>
+            {explorer}
+          </PanelGroup>
+        </div>
       </div>
     );
   }

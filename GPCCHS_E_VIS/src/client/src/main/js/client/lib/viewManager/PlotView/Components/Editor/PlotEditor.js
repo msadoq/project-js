@@ -19,7 +19,6 @@ export default class PlotEditor extends Component {
     updateEditorSearch: PropTypes.func.isRequired,
     // rest
     viewId: PropTypes.string.isRequired,
-    closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
       entryPoints: PropTypes.array,
@@ -57,7 +56,6 @@ export default class PlotEditor extends Component {
     const {
       openModal,
       viewId,
-      closeEditor,
       configuration: {
         entryPoints,
         axes,
@@ -74,7 +72,6 @@ export default class PlotEditor extends Component {
           currentDisplay={currentDisplay}
           items={navbarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={closeEditor}
         />
         <div className={styles.content}>
           {currentDisplay === 2 && <Misc />}

@@ -17,7 +17,6 @@ export default class Editor extends Component {
     updateTitleStyle: PropTypes.func.isRequired,
 
     updateEditorSearch: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
@@ -51,7 +50,6 @@ export default class Editor extends Component {
   render() {
     const { currentDisplay } = this.state;
     const {
-      closeEditor,
       openModal,
       viewId,
       configuration: {
@@ -66,7 +64,6 @@ export default class Editor extends Component {
           currentDisplay={currentDisplay}
           items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={closeEditor}
         />
         <div className={styles.content}>
           {currentDisplay === 0 && <div>

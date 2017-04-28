@@ -50,7 +50,7 @@ export default class TimebarCollapsed extends PureComponent {
           onClick={this.minimize}
           title="Expand timebar"
         >
-          <Glyphicon glyph="resize-full" />
+          <span className={styles.expand}>&#9633;</span>
         </button>
         {
           isPlaying ?

@@ -171,10 +171,19 @@ class Window extends PureComponent {
     }
   }, 250);
 
-  openExplorerTab = _memoize((tabId, pageId) =>
+  openExplorerTab = _memoize(tabId =>
     (e) => {
+      const {
+        minimizeExplorer,
+        explorerIsMinimized,
+        pageId,
+        focusTabInExplorer,
+      } = this.props;
       e.preventDefault();
-      this.props.focusTabInExplorer(pageId, tabId);
+      if (explorerIsMinimized) {
+        minimizeExplorer(pageId, false);
+      }
+      focusTabInExplorer(pageId, tabId);
     }
   );
 
@@ -313,7 +322,7 @@ class Window extends PureComponent {
             title="Collapse timebar"
           >
             <Glyphicon
-              glyph="resize-small"
+              glyph="minus"
             />
           </button>
           <TimebarMasterContainer
@@ -343,7 +352,7 @@ class Window extends PureComponent {
               <button
                 key={widget[2]}
                 className={classnames('panel-button', 'panel-button-expand', styles.barButtonRight)}
-                onClick={this.openExplorerTab(widget[2], pageId)}
+                onClick={this.openExplorerTab(widget[2])}
                 title={`Open ${widget[1]} in explorer`}
               >
                 <b>{widget[0]}</b>
@@ -373,7 +382,7 @@ class Window extends PureComponent {
                 <button
                   key={widget[2]}
                   className={classnames('panel-button', 'panel-button-expand', styles.barButtonRight)}
-                  onClick={this.openExplorerTab(widget[2], pageId)}
+                  onClick={this.openExplorerTab(widget[2])}
                   title={`Open ${widget[1]} in explorer`}
                 >
                   <b>{widget[0]}</b>

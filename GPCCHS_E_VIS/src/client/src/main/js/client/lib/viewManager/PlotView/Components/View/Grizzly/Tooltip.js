@@ -22,6 +22,7 @@ export default class Tooltip extends React.Component {
     xScale: PropTypes.func.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
+    current: PropTypes.number.isRequired,
   }
 
   state = {
@@ -35,7 +36,6 @@ export default class Tooltip extends React.Component {
     if (!nextState || !nextState.showTooltip) {
       return false;
     }
-
     if (nextState.linesList) {
       return true;
     }
@@ -57,6 +57,10 @@ export default class Tooltip extends React.Component {
       }
     });
 
+    if (!shouldRender && nextProps.current !== this.props.current) {
+      this.fillAndDisplayTooltip();
+    }
+
     return shouldRender;
   }
 
@@ -75,8 +79,8 @@ export default class Tooltip extends React.Component {
       yAxes,
       xScale,
     } = this.props;
-    const xInRange = e.clientX - this.el.getBoundingClientRect().left;
-    const yInRange = e.clientY - this.el.getBoundingClientRect().top;
+    const xInRange = (e ? e.clientX : this.state.clientX) - this.el.getBoundingClientRect().left;
+    const yInRange = (e ? e.clientY : this.state.clientY) - this.el.getBoundingClientRect().top;
     const xInDomain = xScale.invert(xInRange);
     const linesList = {};
     yAxes.forEach((axis) => {
@@ -110,7 +114,7 @@ export default class Tooltip extends React.Component {
       });
     });
 
-    this.setState({
+    const futureState = {
       showTooltip: true,
       linesList,
       xInDomain,
@@ -118,7 +122,14 @@ export default class Tooltip extends React.Component {
       yInRange,
       tooltipOnRight: xInRange > (this.el.clientWidth / 2),
       tooltipOnBottom: yInRange > (this.el.clientHeight / 2),
-    });
+    };
+
+    if (e) {
+      futureState.clientX = e.clientX;
+      futureState.clientY = e.clientY;
+    }
+
+    this.setState(futureState);
   }
 
   memoizeFormatter = _memoize(f =>

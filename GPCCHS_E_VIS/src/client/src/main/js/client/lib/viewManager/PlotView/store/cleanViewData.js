@@ -55,13 +55,11 @@ export default function cleanCurrentViewData(
     if (!newEp) {
       const diff = _difference(Object.keys(newEntryPoints), Object.keys(oldEntryPoints));
       let newLabel;
-      if (diff.length) {
-        diff.forEach((name) => {
-          if (newEntryPoints[name].id === oldEp.id) {
-            newLabel = name;
-          }
-        });
-      }
+      diff.forEach((name) => {
+        if (newEntryPoints[name].id === oldEp.id) {
+          newLabel = name;
+        }
+      });
       if (newLabel) {
         newState = updateEpLabel(newState, epName, newLabel);
         continue;
@@ -69,9 +67,7 @@ export default function cleanCurrentViewData(
     }
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
-    if (!newEp || (newEp.error && newEp.error !== oldEp.error)
-      || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
-      || oldEp.remoteId !== newEp.remoteId) {
+    if (isInvalidEntryPoint(oldEp, newEp)) {
       newState = { ...newState,
         indexes: _omit(newState.indexes, epName),
         lines: _omit(newState.lines, epName),
@@ -100,6 +96,15 @@ export default function cleanCurrentViewData(
   }
   return newState;
 }
+function isInvalidEntryPoint(oldEp, newEp) {
+  if (!newEp || (newEp.error && newEp.error !== oldEp.error)
+    || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
+    || oldEp.remoteId !== newEp.remoteId) {
+    return true;
+  }
+  return false;
+}
+
 
 export function updateEpLabel(viewData, oldLabel, newLabel) {
   if (!oldLabel || !newLabel || oldLabel === newLabel) {

@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { Button, MenuItem } from 'react-bootstrap';
+import { Button, MenuItem, Glyphicon } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 
 import styles from './Header.css';
@@ -241,6 +241,9 @@ export default class Header extends PureComponent {
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&
             [
+              <button key={1} className={styles.expandButton} onClick={this.expand}>
+                <Glyphicon glyph="minus" />
+              </button>,
               <Button
                 key="menu_button"
                 className={styles.dropDownButton}
@@ -258,8 +261,20 @@ export default class Header extends PureComponent {
           }
           {collapsed &&
             [
-              <button key={1} className={classnames('btn', 'btn-sm', 'btn-default', styles.expandButton)} onClick={this.expand}>Expand</button>,
-              <button key={2} className={classnames('btn', 'btn-sm', 'btn-default', styles.saveButton)} onClick={this.save}>Save</button>,
+              <button
+                key={1}
+                className={styles.expandButton}
+                onClick={this.expand}
+              >
+                &#9633;
+              </button>,
+              <button
+                key={2}
+                className={classnames(styles.expandButton, styles.saveButton)}
+                onClick={this.save}
+              >
+                SAVE
+              </button>,
             ]
           }
         </div>

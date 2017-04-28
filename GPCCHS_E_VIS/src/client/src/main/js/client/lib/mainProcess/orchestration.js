@@ -270,13 +270,15 @@ export function tick() {
       if (timebarUuid) {
         // Get playing mode
         const { visuWindow } = getTimebar(getState(), { timebarUuid });
-        const { upper } = visuWindow;
+        const { lower, upper } = visuWindow;
         // Check old forecast
         const lastForecast = getForecast(getState());
-        if (!lastForecast || lastForecast - upper < 100) {
+        if (!lastForecast.upper ||
+          lastForecast.upper - upper < 100 ||
+          upper < lastForecast.lower) {
           const forecastTime = get('FORECAST');
           forecastIntervals = addForecast(dataMap.expectedIntervals, forecastTime);
-          dispatch(updateForecast(upper + forecastTime));
+          dispatch(updateForecast(lower, upper + forecastTime));
           request(dataMap, previous, forecastIntervals, server.message);
         }
       } else {

@@ -12,7 +12,7 @@ const initialState = {
   file: null,
   focusWindow: null,
   isModified: true,
-  forecast: null,
+  forecast: {},
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -47,21 +47,30 @@ export default function hsc(state = initialState, action) {
     case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_TIMELINE_REMOVE:
     case types.WS_PAGE_UPDATE_TIMEBARID:
-    case types.WS_PAGE_OPEN:
-    case types.WS_PAGE_ADD_BLANK:
-    case types.WS_PAGE_CLOSE:
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
+    case types.WS_WINDOW_UPDATE_TITLE:
       return _.set('isModified', true, state);
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);
-    case types.WS_WINDOW_UPDATE_TITLE:
-      return _.set('isModified', true, state);
     case types.WS_WORKSPACE_OPEN:
       return _.set('isModified', false, state);
+    // Forecast Management
+    case types.WS_PAGE_OPEN:
+    case types.WS_PAGE_ADD_BLANK:
+    case types.WS_PAGE_CLOSE:
+      return Object.assign({}, state, {
+        forecast: {},
+        isModified: true,
+      });
+    case types.WS_WINDOW_PAGE_FOCUS:
+      return Object.assign({}, state, { forecast: {} });
     case types.HSC_UPDATE_FORECAST:
-      return Object.assign({}, state, { forecast: action.payload.forecast });
+      return Object.assign({}, state, { forecast: {
+        upper: action.payload.upper,
+        lower: action.payload.lower,
+      } });
     default:
       return state;
   }

@@ -16,7 +16,7 @@ export const setWorkspaceModified = simple(types.WS_WORKSPACE_SET_MODIFIED, 'fla
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
 export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
-export const updateForecast = simple(types.HSC_UPDATE_FORECAST, 'forecast');
+export const updateForecast = simple(types.HSC_UPDATE_FORECAST, 'lower', 'upper');
 /**
  * Play mode
  */

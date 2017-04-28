@@ -1,10 +1,8 @@
 import { PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Editor from './Editor';
 import { getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
-import { minimizeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { pageId }) => {
   const { editorViewId } = getPanels(state, { pageId });
@@ -17,11 +15,7 @@ const mapStateToProps = (state, { pageId }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
-  closeEditor: () => minimizeEditor(pageId, true),
-}, dispatch);
-
-const EditorContainer = connect(mapStateToProps, mapDispatchToProps)(Editor);
+const EditorContainer = connect(mapStateToProps)(Editor);
 
 EditorContainer.propTypes = {
   pageId: PropTypes.string.isRequired,

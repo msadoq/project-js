@@ -2,9 +2,7 @@
 
 .editor {
   padding: 3px;
-  width: calc(100% - 24px);
-  position: absolute;
-  left: 24px;
+  width: 100%;
   :global {
     .panel-group{
       margin-bottom: 0;

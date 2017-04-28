@@ -15,6 +15,7 @@ import {
   minimizeExplorer,
   minimizeEditor,
   minimizeTimebar,
+  focusTabInExplorer,
 } from '../../store/actions/pages';
 
 import WindowWrapper from './WindowWrapper';
@@ -55,4 +56,5 @@ export default connect(mapStateToProps, {
   minimizeExplorer,
   minimizeTimebar,
   closeModal,
+  focusTabInExplorer,
 })(WindowWrapper);

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Nav, NavItem, Glyphicon } from 'react-bootstrap';
+import { Nav, NavItem } from 'react-bootstrap';
 import styles from './style.css';
 
 export default class Navbar extends React.Component {
@@ -8,7 +8,6 @@ export default class Navbar extends React.Component {
     currentDisplay: PropTypes.number.isRequired,
     changeCurrentDisplay: PropTypes.func.isRequired,
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
-    closeEditor: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -21,7 +20,7 @@ export default class Navbar extends React.Component {
   }
 
   render() {
-    const { items, closeEditor } = this.props;
+    const { items } = this.props;
     const { activeTab } = this.state;
     return (
       <Nav
@@ -38,12 +37,6 @@ export default class Navbar extends React.Component {
             {item}
           </NavItem>
         ))}
-        <NavItem className="pull-right" onClick={closeEditor}>
-          <Glyphicon
-            glyph="remove-circle"
-            className="text-danger"
-          />
-        </NavItem>
       </Nav>
     );
   }

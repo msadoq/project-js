@@ -22,7 +22,6 @@ export default class Editor extends PureComponent {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string,
     type: PropTypes.string,
-    closeEditor: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -41,18 +40,12 @@ export default class Editor extends PureComponent {
     };
   }
 
-  willMinimizeEditor = (e) => {
-    e.preventDefault();
-    this.props.closeEditor();
-  }
-
   render() {
     logger.debug('render');
     const {
       pageId,
       type,
       viewId,
-      closeEditor,
     } = this.props;
 
     let EditorComponent;
@@ -67,7 +60,6 @@ export default class Editor extends PureComponent {
         <EditorComponent
           viewId={viewId}
           pageId={pageId}
-          closeEditor={closeEditor}
         />
       </div>
     );

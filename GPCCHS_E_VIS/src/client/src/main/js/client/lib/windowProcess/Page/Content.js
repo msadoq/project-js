@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import classnames from 'classnames';
 import Grid from 'react-grid-layout';
 import path from 'path';
 import getLogger from 'common/log';
@@ -109,13 +110,13 @@ export default class Content extends PureComponent {
 
     if (!pageId) {
       return (
-        <div className={styles.noPage}>No page ...</div> // TODO boxmodel in Window.js
+        <div className={classnames('w100', styles.noPage)}><br /><br />No page ...</div> // TODO boxmodel in Window.js
       );
     }
 
     if (!views.length) {
       return (
-        <div className={styles.noPage}>No view yet ...</div> // TODO boxmodel in Window.js
+        <div className={classnames('w100', styles.noPage)}><br /><br />No view yet ...</div> // TODO boxmodel in Window.js
       );
     }
 

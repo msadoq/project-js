@@ -6,6 +6,7 @@
   font-weight: bolder;
   text-transform: uppercase;
   color: rgba(0, 0, 0, .1);
+  text-align: center;
 }
 
 :global {

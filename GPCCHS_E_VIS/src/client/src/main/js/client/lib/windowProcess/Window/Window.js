@@ -27,8 +27,14 @@ const scrollHandleSize = 15;
 const defaultExplorerWidth = 250;
 const defaultEditorWidth = 250;
 const minimizedTimebarHeigh = 35;
-const panelBorderColor = '#888';
+const panelBorderColor = '#444';
 const tabsContainerStyle = { height: 40 };
+
+const explorerWidgets = [
+  ['D', 'Datastore Explorer', 'dsex'],
+  ['R', 'RTE', 'rte'],
+  ['I', 'Inspector', 'inspector'],
+];
 
 class Window extends PureComponent {
   static propTypes = {
@@ -51,6 +57,7 @@ class Window extends PureComponent {
     minimizeExplorer: PropTypes.func.isRequired,
     minimizeEditor: PropTypes.func.isRequired,
     minimizeTimebar: PropTypes.func.isRequired,
+    focusTabInExplorer: PropTypes.func.isRequired,
     modal: PropTypes.objectOf(PropTypes.shape),
     closeModal: PropTypes.func.isRequired,
   };
@@ -164,6 +171,13 @@ class Window extends PureComponent {
     }
   }, 250);
 
+  openExplorerTab = _memoize((tabId, pageId) =>
+    (e) => {
+      e.preventDefault();
+      this.props.focusTabInExplorer(pageId, tabId);
+    }
+  );
+
   horizontalLayout = _memoize((editorWidth, explorerWidth) => [
     { size: editorWidth, minSize: 0, resize: 'dynamic' },
     { resize: 'stretch' },
@@ -231,11 +245,11 @@ class Window extends PureComponent {
 
     logger.debug('render');
 
-    let editorSize = editorIsMinimized ? 24 : editorWidth;
+    let editorSize = editorIsMinimized ? 0 : editorWidth;
     if (!editorIsMinimized && editorSize < 50) {
       editorSize = defaultEditorWidth;
     }
-    let explorerSize = explorerIsMinimized ? 24 : explorerWidth;
+    let explorerSize = explorerIsMinimized ? 17 : explorerWidth;
     if (!explorerIsMinimized && explorerSize < 50) {
       explorerSize = defaultExplorerWidth;
     }
@@ -249,34 +263,20 @@ class Window extends PureComponent {
       ? (
         <div
           className={classnames(styles.editorContainerCollapsed)}
-        >
-          <button
-            className={classnames('panel-button', styles.barButtonLeft)}
-            onClick={this.willMinimizeEditor}
-            title="Expand editor"
-          >
-            <Glyphicon
-              glyph="resize-full"
-            />
-          </button>
-        </div>
+        />
       )
       :
       (
         <div className={styles.editorContainer}>
-          <div
-            className={styles.verticalBar}
+          <button
+            className={classnames('panel-editor-button', styles.barButtonLeft)}
+            onClick={this.willMinimizeEditor}
+            title="Collapse editor"
           >
-            <button
-              className={classnames('panel-button', styles.barButtonLeft)}
-              onClick={this.willMinimizeEditor}
-              title="Collapse editor"
-            >
-              <Glyphicon
-                glyph="resize-small"
-              />
-            </button>
-          </div>
+            <Glyphicon
+              glyph="minus"
+            />
+          </button>
           <EditorContainer pageId={pageId} />
         </div>
       );
@@ -332,14 +332,24 @@ class Window extends PureComponent {
           className={styles.verticalBarRight}
         >
           <button
-            className={classnames('panel-button', styles.barButtonRight)}
+            className={classnames('panel-button', 'panel-button-expand', styles.barButtonRight)}
             onClick={this.willMinimizedExplorer}
             title="Expand explorer"
           >
-            <Glyphicon
-              glyph="resize-full"
-            />
+            &#9633;
           </button>
+          {
+            explorerWidgets.map(widget =>
+              <button
+                key={widget[2]}
+                className={classnames('panel-button', 'panel-button-expand', styles.barButtonRight)}
+                onClick={this.openExplorerTab(widget[2], pageId)}
+                title={`Open ${widget[1]} in explorer`}
+              >
+                <b>{widget[0]}</b>
+              </button>
+            )
+          }
         </div>
       )
       :
@@ -355,9 +365,21 @@ class Window extends PureComponent {
               title="Collapse explorer"
             >
               <Glyphicon
-                glyph="resize-small"
+                glyph="minus"
               />
             </button>
+            {
+              explorerWidgets.map(widget =>
+                <button
+                  key={widget[2]}
+                  className={classnames('panel-button', 'panel-button-expand', styles.barButtonRight)}
+                  onClick={this.openExplorerTab(widget[2], pageId)}
+                  title={`Open ${widget[1]} in explorer`}
+                >
+                  <b>{widget[0]}</b>
+                </button>
+              )
+            }
           </div>
         </div>
       );
@@ -397,7 +419,7 @@ class Window extends PureComponent {
             {editor}
             <PanelGroup
               direction="column"
-              spacing={timebarIsMinimized ? 0 : 24}
+              spacing={timebarIsMinimized ? 0 : 17}
               borderColor={panelBorderColor}
               panelWidths={this.verticalLayout(calcTimebarHeight)}
               onUpdate={this.onVerticalUpdate}

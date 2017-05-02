@@ -25,18 +25,11 @@ export default class Tooltip extends React.Component {
     current: PropTypes.number.isRequired,
   }
 
-  state = {
-    showTooltip: false,
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.showTooltip && !nextState.showTooltip) {
-      return true;
-    }
-    if (!nextState || !nextState.showTooltip) {
+  shouldComponentUpdate(nextProps) {
+    if (!this.pseudoState.showTooltip) {
       return false;
     }
-    if (nextState.linesList) {
+    if (nextProps.current !== this.props.current) {
       return true;
     }
 
@@ -57,32 +50,37 @@ export default class Tooltip extends React.Component {
       }
     });
 
-    if (!shouldRender && nextProps.current !== this.props.current) {
-      this.fillAndDisplayTooltip();
-    }
-
     return shouldRender;
   }
 
   assignEl = (el) => { this.el = el; }
 
+  pseudoState = {
+    showTooltip: false,
+  }
+
   mouseMove = (e) => {
-    this.fillAndDisplayTooltip(e);
+    this.fillAndDisplayTooltip(e, true);
   }
 
   mouseLeave = () => {
-    this.setState({ showTooltip: false });
+    this.pseudoState = { showTooltip: false };
+    this.forceUpdate();
   }
 
-  fillAndDisplayTooltip = (e) => {
+  fillAndDisplayTooltip = (e, forceRender = false) => {
     const {
       yAxes,
       xScale,
     } = this.props;
-    const xInRange = (e ? e.clientX : this.state.clientX) - this.el.getBoundingClientRect().left;
-    const yInRange = (e ? e.clientY : this.state.clientY) - this.el.getBoundingClientRect().top;
+
+    const yInRange = (e ? e.clientY : this.pseudoState.clientY) -
+      this.el.getBoundingClientRect().top;
+    const xInRange = (e ? e.clientX : this.pseudoState.clientX) -
+      this.el.getBoundingClientRect().left;
     const xInDomain = xScale.invert(xInRange);
     const linesList = {};
+
     yAxes.forEach((axis) => {
       linesList[axis.id] = [];
 
@@ -122,14 +120,15 @@ export default class Tooltip extends React.Component {
       yInRange,
       tooltipOnRight: xInRange > (this.el.clientWidth / 2),
       tooltipOnBottom: yInRange > (this.el.clientHeight / 2),
+      clientX: e ? e.clientX : this.pseudoState.clientX,
+      clientY: e ? e.clientY : this.pseudoState.clientY,
     };
 
-    if (e) {
-      futureState.clientX = e.clientX;
-      futureState.clientY = e.clientY;
-    }
+    this.pseudoState = futureState;
 
-    this.setState(futureState);
+    if (forceRender) {
+      this.forceUpdate();
+    }
   }
 
   memoizeFormatter = _memoize(f =>
@@ -141,6 +140,9 @@ export default class Tooltip extends React.Component {
   tooltipWidth = 350;
 
   render() {
+    if (this.pseudoState.showTooltip) {
+      this.fillAndDisplayTooltip(null, false);
+    }
     const {
       height,
       width,
@@ -160,7 +162,7 @@ export default class Tooltip extends React.Component {
       yInRange,
       tooltipOnRight,
       tooltipOnBottom,
-    } = this.state;
+    } = this.pseudoState;
 
     const style = {};
     // horizontal position

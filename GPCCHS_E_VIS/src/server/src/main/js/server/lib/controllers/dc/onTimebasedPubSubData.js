@@ -1,7 +1,4 @@
 const { decode, getType } = require('common/protobuf');
-const {
-  HSS_MAX_PAYLOADS_PER_MESSAGE,
-} = require('common/constants');
 const executionMonitor = require('common/log/execution');
 const flattenDataId = require('common/utils/flattenDataId');
 const _each = require('lodash/each');
@@ -58,19 +55,6 @@ module.exports = (
   }
   if (payloadsBuffers.length % 2 !== 0) {
     logger.silly('payloads should be sent by (timestamp, payloads) peers');
-    return;
-  }
-
-  // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
-  const payloadNumber = payloadsBuffers.length / 2;
-  if (payloadNumber > HSS_MAX_PAYLOADS_PER_MESSAGE) {
-    // TODO send error to client
-    execution.stop(
-      'global',
-      `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
-    );
-    execution.print();
-    logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
     return;
   }
 

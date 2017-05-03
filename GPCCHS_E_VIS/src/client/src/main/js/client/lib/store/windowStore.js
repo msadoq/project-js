@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
 import { get } from 'common/parameters';
@@ -47,13 +47,14 @@ if (isDebugOn) {
 export function initStore(initialState) {
   store = createStore(reducers, initialState, enhancer);
 
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      ipcRenderer.sendSync('renderer-reload');
-      // eslint-disable-next-line global-require, "DV6 TBC_CNES Hot reload require contxt. requires"
-      store.replaceReducer(require('./reducers'));
-    });
-  }
+  // disable store hot reloading: not fully functional and could occurs weird behavior in dev
+  // if (module.hot) {
+  //   module.hot.accept('./reducers', () => {
+  //     ipcRenderer.sendSync('redux-renderer-reload');
+  //     // eslint-disable-next-line global-require, "DV6 TBC_CNES Hot reload require contxt. requires"
+  //     store.replaceReducer(require('./reducers'));
+  //   });
+  // }
 }
 
 export function getStore() {

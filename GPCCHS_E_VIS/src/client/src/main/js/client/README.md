@@ -49,6 +49,25 @@ Run Jest snapshot watcher:
 Clean out of date snapshots:
 >npm run snapshot-clean
 
+### Development IDE
+
+#### VSCode
+
+Launch VSCode in working directory:
+```
+/usr/share/code/code --new-window .
+```
+then install eslint  plugin by Dirk Baeumer.
+
+#### Atom
+
+Launch Atom in working directory:
+```
+atom .
+```
+then install linter-eslint  plugin by AtomLinter.
+
+
 ### Webpack bundle analyzer
 
 #### Configuration

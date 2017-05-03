@@ -8,6 +8,7 @@ import * as types from '../../types';
 import plotViewReducer from '../../../viewManager/PlotView/store/configurationReducer';
 import textViewReducer from '../../../viewManager/TextView/store/configurationReducer';
 import dynamicViewReducer from '../../../viewManager/DynamicView/store/configurationReducer';
+import mimicViewReducer from '../../../viewManager/MimicView/store/configurationReducer';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 
@@ -31,6 +32,7 @@ export const configurationByViewType = {
   TextView: textViewReducer,
   DynamicView: dynamicViewReducer,
   PlotView: plotViewReducer,
+  MimicView: mimicViewReducer,
 };
 
 

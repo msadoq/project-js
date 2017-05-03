@@ -13,6 +13,6 @@ export const defaultRules = {
 };
 
 export const lint = (html, rules = {}) =>
-  HTMLHint.verify(html, { ...rules, ...defaultRules });
+  HTMLHint.verify(html, Object.assign(defaultRules, rules));
 
 export default lint;

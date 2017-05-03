@@ -2,7 +2,7 @@
 import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { getStateColorObj } from '../../commonData/stateColors';
-import { convertData } from '../../commonData/longData';
+import { convertData } from '../../commonData/convertData';
 
 const logger = getLogger('data:lastValue');
 
@@ -51,6 +51,9 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
       }
       // Long conversion
       if (timestamp < lower || timestamp > current) {
+        continue;
+      }
+      if (!p[ep.field]) {
         continue;
       }
       if (timestamp >= previousTime) {

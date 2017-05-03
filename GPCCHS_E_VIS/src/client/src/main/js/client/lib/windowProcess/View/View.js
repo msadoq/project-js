@@ -7,9 +7,7 @@ import globalConstants from 'common/constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
 import { getViewComponent } from '../../viewManager';
-import ChoosePage from './ChoosePage';
 import { main } from '../ipc';
-import Modal from '../common/Modal';
 import handleContextMenu from '../common/handleContextMenu';
 
 import styles from './View.css';
@@ -18,7 +16,6 @@ const logger = getLogger('View');
 
 export default class View extends PureComponent {
   static propTypes = {
-    windowId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -33,7 +30,7 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
-    moveViewToPage: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -50,11 +47,6 @@ export default class View extends PureComponent {
     focusedPageId: PropTypes.string,
   };
 
-  state = {
-    choosePage: false,
-    pageTitles: [],
-  };
-
   onContextMenu = (mainMenu) => {
     const { isViewsEditorOpen, closeEditor, openEditor } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
@@ -63,7 +55,9 @@ export default class View extends PureComponent {
       click: () => closeEditor(),
     } : {
       label: 'Open Editor',
-      click: () => openEditor(),
+      click: () => {
+        openEditor();
+      },
     };
     handleContextMenu([editorMenu, { type: 'separator' }, ...mainMenu]);
   }
@@ -71,7 +65,7 @@ export default class View extends PureComponent {
   getMainContextMenu = ({
     viewId,
     isViewsEditorOpen,
-    windowPages,
+    openModal,
     collapsed,
     maximized,
     oId,
@@ -83,13 +77,7 @@ export default class View extends PureComponent {
     return [
       {
         label: 'Move view to another page',
-        click: () => {
-          const pageTitles = windowPages.reduce((list, page) => (
-            [...list, { title: page.title, id: page.pageId }]
-          ), []);
-          pageTitles.push({ title: 'New page', id: '' });
-          this.setState({ pageTitles, choosePage: true });
-        },
+        click: () => openModal({ type: 'moveViewToPage' }),
       },
       {
         label: (collapsed) ? 'Expand view' : 'Collapse view',
@@ -137,15 +125,6 @@ export default class View extends PureComponent {
     ];
   };
 
-  moveView = (toPage) => {
-    const { isViewsEditorOpen, closeEditor } = this.props;
-    if (isViewsEditorOpen) {
-      closeEditor();
-    }
-    const { moveViewToPage } = this.props;
-    moveViewToPage(toPage);
-  }
-
   borderColorStyle = _memoize(c => ({ borderColor: c }));
   backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
 
@@ -153,7 +132,6 @@ export default class View extends PureComponent {
   render() {
     logger.debug('render');
     const {
-      windowId,
       pageId,
       viewId,
       type,
@@ -163,23 +141,15 @@ export default class View extends PureComponent {
       isViewsEditorOpen,
       openEditor,
       closeEditor,
+      collapseView,
+      maximizeView,
+      closeView,
+      openModal,
     } = this.props;
     const ContentComponent = getViewComponent(type);
     // console.warn(ContentComponent);
     const mainMenu = this.getMainContextMenu(this.props);
     const borderColor = _get(titleStyle, 'bgColor');
-    const choosePageDlg = (
-      <Modal
-        title="Choose Page to move to"
-        isOpened={this.state.choosePage}
-        onClose={() => this.setState({ choosePage: false })}
-      >
-        <ChoosePage
-          onClose={this.moveView}
-          pageTitles={this.state.pageTitles}
-        />
-      </Modal>
-    );
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
@@ -187,12 +157,16 @@ export default class View extends PureComponent {
         style={this.borderColorStyle(borderColor)}
         onContextMenu={() => this.onContextMenu(mainMenu)}
       >
-        {choosePageDlg}
         <HeaderContainer
-          windowId={windowId}
           pageId={pageId}
           viewId={viewId}
           maximized={!!maximized}
+          openEditor={openEditor}
+          closeEditor={closeEditor}
+          collapseView={collapseView}
+          maximizeView={maximizeView}
+          closeView={closeView}
+          openModal={openModal}
         />
         <div
           className={styles.content}
@@ -202,7 +176,7 @@ export default class View extends PureComponent {
           <ContentComponent
             viewId={viewId}
             pageId={pageId}
-            openInspector={main.openInspector}
+            openInspector={args => main.openInspector(pageId, viewId, type, args)}
             isViewsEditorOpen={isViewsEditorOpen}
             openEditor={openEditor}
             closeEditor={closeEditor}

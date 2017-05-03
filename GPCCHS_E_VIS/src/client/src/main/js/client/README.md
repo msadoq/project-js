@@ -4,7 +4,17 @@ Desktop visualisation application for ISIS project.
 
 ## Installation
 
-Clone the project and switch to client folder:
+Clone the vima (if needed):
+> cd /data/work/gitRepositories/LPISIS/
+> git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCCHS.git GPCCHS
+> git checkout dev
+
+Clone the rtd (if needed):
+> cd /data/work/gitRepositories/LPISIS/
+> git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS
+> git checkout R8-fwk
+
+Switch to client folder:
 > cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client
 
 Set configuration files and install dependencies:

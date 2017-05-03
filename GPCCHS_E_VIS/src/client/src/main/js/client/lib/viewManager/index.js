@@ -10,6 +10,12 @@ import dynamicViewData from './DynamicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
 
+import plotViewDataSelectors from './PlotView/store/dataSelectors';
+import textViewDataSelectors from './TextView/store/dataSelectors';
+import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
+// import historyViewDataSelectors from './HistoryView/store/dataSelectors';
+// import packetViewDataSelectors from './PacketView/store/dataSelectors';
+
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
@@ -30,6 +36,7 @@ const list = {
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: plotViewData,
+    dataSelectors: plotViewDataSelectors,
     getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
     getEditorComponent: () => require('./PlotView/Components/Editor/PlotEditorContainer'),
   },
@@ -38,6 +45,7 @@ const list = {
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: textViewData,
+    dataSelectors: textViewDataSelectors,
     getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
     getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
   },
@@ -46,6 +54,7 @@ const list = {
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
+    dataSelectors: dynamicViewDataSelectors,
     getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
     getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
   },
@@ -54,6 +63,7 @@ const list = {
     viewModule: historyViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: historyViewData,
+    // dataSelectors: historyViewDataSelectors,
     getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
     getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
   },
@@ -62,6 +72,7 @@ const list = {
     viewModule: packetViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: packetViewData,
+    // dataSelectors: packetViewDataSelectors,
     getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
     getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
   },
@@ -114,4 +125,9 @@ export function getStructureType(type) {
 export function getStructureModule(type) {
   isViewTypeExists(type);
   return list[type].structureModule;
+}
+
+export function getDataSelectors(type) {
+  isViewTypeExists(type);
+  return list[type].dataSelectors;
 }

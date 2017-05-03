@@ -320,11 +320,9 @@ export function tick() {
           : undefined;
         execution.stop('data injection', message);
 
-        if (Object.keys(queries).length && Object.keys(dataToInject.data).length) {
-          previous.injectionViewMap = dataMap.perView;
-          previous.injectionRemoteIdMap = dataMap.perRemoteId;
-          previous.injectionIntervals = dataMap.expectedIntervals;
-        }
+        previous.injectionIntervals = dataMap.expectedIntervals;
+        previous.injectionRemoteIdMap = dataMap.perRemoteId;
+        previous.injectionViewMap = dataMap.perView;
         callback(null);
       });
     },

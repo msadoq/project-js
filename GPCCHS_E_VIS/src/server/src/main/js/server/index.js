@@ -8,6 +8,8 @@ const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');
 const schedulerController = require('./lib/controllers/scheduler');
 
+// const { initStore } = require('../../../../../client/src/main/js/client/lib/store/isomorphic');
+
 process.title = 'gpcchs_hss';
 
 // ZeroMQ
@@ -36,6 +38,9 @@ zmq.open(zmqConfiguration, (err) => {
 
   // ipc with main
   process.on('message', clientController);
+
+  // const store = initStore();
+  // store.subscribe(state => console.log('STORE SUBSCRIPTION'));
 
   process.send('ready');
 });

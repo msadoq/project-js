@@ -16,7 +16,7 @@ import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 
 import { server } from './ipc';
-import { getStore } from '../store/mainStore';
+import { getStore } from '../store/isomorphic';
 import {
   getWindowsOpened,
   getLastCacheInvalidation,

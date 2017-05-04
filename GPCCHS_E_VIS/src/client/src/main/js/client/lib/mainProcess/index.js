@@ -16,7 +16,7 @@ import rtdStub from 'rtd/stubs/rtd';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
-import { initStore, getStore } from '../store/mainStore';
+import { initStore, getStore } from '../store/isomorphic';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
@@ -25,7 +25,6 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
-// import { getFocusedWindowId } from '../store/reducers/hsc';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
@@ -45,10 +44,6 @@ function scheduleTimeout(message) {
 
 export function onStart() {
   setMenu();
-  const forkOptions = {
-    execPath: parameters.get('NODE_PATH'),
-    env: parameters.getAll(),
-  };
 
   series([
     callback => splashScreen.open(callback),
@@ -57,7 +52,6 @@ export function onStart() {
       splashScreen.setMessage('loading data store...');
       logger.info('loading data store...');
 
-      // redux store
       initStore();
 
       callback(null);
@@ -73,7 +67,10 @@ export function onStart() {
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
-        forkOptions,
+        {
+          execPath: parameters.get('NODE_PATH'),
+          env: parameters.getAll(),
+        },
         callback
       );
     },
@@ -91,10 +88,15 @@ export function onStart() {
     (callback) => {
       splashScreen.setMessage('starting data server process...');
       logger.info('starting data server process...');
+
       fork(
         CHILD_PROCESS_SERVER,
         `${parameters.get('path')}/node_modules/server/index.js`,
-        forkOptions,
+        {
+          execPath: parameters.get('NODE_PATH'),
+          execArgv: process.env.HOT ? ['-r', 'babel-register', '-r', 'babel-polyfill'] : [],
+          env: parameters.getAll(),
+        },
         callback
       );
     },

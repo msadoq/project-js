@@ -4,7 +4,7 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from 'common/constants';
 import { parse as parseLink } from 'rtd/catalogs/utils/links';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../../store/isomorphic';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
 import {

@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../../store/isomorphic';
 import { setModified, updatePath, updateAbsolutePath, setViewOid } from '../../../store/actions/views';
 import { addOnce as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';

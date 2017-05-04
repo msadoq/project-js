@@ -1,4 +1,4 @@
-import { getStore } from '../../store/mainStore';
+import { getStore } from '../../store/isomorphic';
 import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getPageIsModified, getPage } from '../../store/reducers/pages';

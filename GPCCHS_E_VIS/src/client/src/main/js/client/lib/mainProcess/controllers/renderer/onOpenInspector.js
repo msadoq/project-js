@@ -1,7 +1,7 @@
 import rtd from 'rtd/catalogs';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../../store/isomorphic';
 import getTelemetryStaticElements from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';

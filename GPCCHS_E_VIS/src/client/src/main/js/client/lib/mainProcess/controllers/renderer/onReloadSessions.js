@@ -1,7 +1,7 @@
 import getLogger from 'common/log';
 import reply from 'common/ipc/reply';
 import { server } from '../../ipc';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../../store/isomorphic';
 import { updateSessions } from '../../../store/actions/sessions';
 
 const logger = getLogger('main:controllers:renderer:onReloadSessions');

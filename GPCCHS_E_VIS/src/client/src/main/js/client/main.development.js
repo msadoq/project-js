@@ -5,6 +5,7 @@ import { onStart, onStop, onWindowsClose, onError } from './lib/mainProcess';
 init(__dirname, true);
 
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
+// but block chromium DevTools downloads (comment and start to re-install DevTools)
 app.commandLine.appendSwitch('no-proxy-server');
 
 // const { start } = require('./lib/common/utils/gcMonitoring');

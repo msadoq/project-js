@@ -6,7 +6,7 @@ import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
-import { getViewComponent } from '../../viewManager';
+import { getViewComponent } from '../../viewManager/components';
 import { main } from '../ipc';
 import handleContextMenu from '../common/handleContextMenu';
 

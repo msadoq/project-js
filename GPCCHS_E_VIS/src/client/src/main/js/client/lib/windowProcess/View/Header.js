@@ -4,8 +4,6 @@ import { Button, MenuItem, Glyphicon } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 
 import styles from './Header.css';
-import Modal from '../common/Modal';
-import ChoosePage from './ChoosePage';
 import Tooltip from '../common/Tooltip';
 import { main } from '../ipc';
 
@@ -29,30 +27,17 @@ export default class Header extends PureComponent {
     oId: PropTypes.string.isRequired,
     absolutePath: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
-    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
-    moveViewToPage: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
     title: 'Untitled',
     titleStyle: {},
   };
-  static contextTypes = {
-    windowId: PropTypes.string,
-  };
-
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      choosePage: false,
-      pageTitles: [],
-      // errorMessage: null,
-    };
-  }
 
   onDropDownClick = (key) => {
     const {
@@ -61,11 +46,11 @@ export default class Header extends PureComponent {
       openEditor,
       closeEditor,
       closeView,
-      windowPages,
       collapseView,
       collapsed,
       maximizeView,
       maximized,
+      openModal,
     } = this.props;
     switch (key) {
       case 'editor': {
@@ -77,11 +62,7 @@ export default class Header extends PureComponent {
         break;
       }
       case 'move': {
-        const pageTitles = windowPages.reduce((list, page) => (
-          [...list, { title: page.title, id: page.pageId }]
-        ), []);
-        pageTitles.push({ title: 'New page', id: '' });
-        this.setState({ pageTitles, choosePage: true });
+        openModal({ type: 'moveViewToPage' });
         break;
       }
       case 'close': {
@@ -176,15 +157,6 @@ export default class Header extends PureComponent {
     return style;
   }
 
-  moveView = (toPage) => {
-    const { isViewsEditorOpen, closeEditor } = this.props;
-    if (isViewsEditorOpen) {
-      closeEditor();
-    }
-    const { moveViewToPage } = this.props;
-    moveViewToPage(toPage);
-  }
-
   expand = () => {
     const { collapseView, collapsed } = this.props;
     collapseView(!collapsed);
@@ -211,18 +183,6 @@ export default class Header extends PureComponent {
 
 
     const titleStyle = this.getTitleStyle();
-    const choosePageDlg = (
-      <Modal
-        title="Choose Page to move to"
-        isOpened={this.state.choosePage}
-        onClose={() => this.setState({ choosePage: false })}
-      >
-        <ChoosePage
-          onClose={this.moveView}
-          pageTitles={this.state.pageTitles}
-        />
-      </Modal>
-    );
 
     return (
       <div
@@ -236,8 +196,6 @@ export default class Header extends PureComponent {
         >
           {title}
         </div>
-        {choosePageDlg}
-
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&
             [

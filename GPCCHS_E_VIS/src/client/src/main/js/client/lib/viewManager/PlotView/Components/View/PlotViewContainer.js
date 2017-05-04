@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SizablePlotView from './PlotView';
-import { addEntryPoint, updateEditorSearch } from '../../../../store/actions/views';
+import { addEntryPoint } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 import { getTimebar } from '../../../../store/reducers/timebars';
-import { getInspectorRemoteId } from '../../../../store/reducers/inspector';
+import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
 import { getTimebarTimelines } from '../../../../store/reducers/timebarTimelines';
 import { getTimeline } from '../../../../store/reducers/timelines';
@@ -25,14 +25,13 @@ const mapStateToProps = (state, { viewId }) => {
     data: getData(state, { viewId }),
     visuWindow: timebar ? timebar.visuWindow : null,
     isInspectorOpened: isAnyInspectorOpened(state),
-    inspectorRemoteId: getInspectorRemoteId(state),
     defaultTimelineId: defaultTimeline ? defaultTimeline.id : null,
+    inspectorEpId: getInspectorEpId(state),
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
   addEntryPoint,
-  updateEditorSearch: search => updateEditorSearch(viewId, search),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

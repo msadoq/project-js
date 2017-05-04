@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import Inspector from './Inspector';
 import {
+  getInspectorViewId,
+  getInspectorViewType,
   getInspectorDataId,
+  getInspectorEpName,
+  getInspectorField,
   getInspectorDisplayingTM,
   getInspectorStaticDataChildren,
   getInspectorStaticDataLoading,
@@ -11,17 +15,30 @@ import {
   isInspectorStaticDataNodeLoading as loadingNode,
   toggleAllInspectorStaticDataNodes as toggleAllNodes,
 } from '../../../store/actions/inspector';
+import {
+  getDataSelectors,
+} from '../../../viewManager';
 
 const mapStateToProps = (state) => {
+  const viewId = getInspectorViewId(state);
+  const viewType = getInspectorViewType(state);
+  const epName = getInspectorEpName(state);
+  const field = getInspectorField(state);
   const dataId = getInspectorDataId(state);
   const isDisplayingTM = getInspectorDisplayingTM(state);
   const staticData = getInspectorStaticDataChildren(state);
   const staticDataLoading = getInspectorStaticDataLoading(state);
+  const dynamicData = (viewType && viewId && epName)
+    ? getDataSelectors(viewType).getLastValue(state, { epName, viewId })
+    : null;
   return {
+    epName,
+    field,
     dataId,
     isDisplayingTM,
     staticData,
     staticDataLoading,
+    dynamicData,
   };
 };
 

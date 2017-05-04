@@ -33,12 +33,13 @@ export default class EntryPointTree extends React.Component {
         unit: PropTypes.string,
       }),
     })),
-    search: PropTypes.string.isRequired,
+    search: PropTypes.string,
     remove: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     entryPoints: [],
+    search: '',
   };
 
   static contextTypes = {

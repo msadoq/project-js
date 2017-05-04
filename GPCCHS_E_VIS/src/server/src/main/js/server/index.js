@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
@@ -27,7 +25,6 @@ const zmqConfiguration = {
   },
 };
 
-// start
 zmq.open(zmqConfiguration, (err) => {
   if (err) {
     throw err;

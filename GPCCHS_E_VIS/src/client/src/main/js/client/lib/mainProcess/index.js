@@ -11,7 +11,6 @@ import {
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
-
 import rtdStub from 'rtd/stubs/rtd';
 
 import enableDebug from './debug';

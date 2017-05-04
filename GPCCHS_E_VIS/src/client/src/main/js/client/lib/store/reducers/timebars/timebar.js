@@ -27,7 +27,13 @@ export default function timebarReducer(stateTimebar = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_CREATE_NEW: {
-      return _.merge(initialState, { id: action.payload.timebarId });
+      return _.merge(
+        initialState,
+        {
+          id: action.payload.timebarId,
+          uuid: action.payload.timebarUuid,
+        }
+      );
     }
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };

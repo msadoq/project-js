@@ -7,28 +7,31 @@ import TextView from './TextView';
 import {
   addEntryPoint,
   updateContent,
+  updateEditorSearch,
 } from '../../../../store/actions/views';
-import {
-  openEditor,
-} from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getViewContent, getViewConfiguration } from '../../../../store/reducers/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
+import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
+import { getInspectorRemoteId } from '../../../../store/reducers/inspector';
 import { getData } from '../../store/dataReducer';
+import { getViewContent } from '../../store/configurationSelectors';
 
 const mapStateToProps = createStructuredSelector({
   content: getViewContent,
-  configuration: getViewConfiguration,
+  configuration: getConfigurationByViewId,
   entryPoints: getViewEntryPoints,
   data: getData,
+  isInspectorOpened: isAnyInspectorOpened,
+  inspectorRemoteId: getInspectorRemoteId,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
-  openEditor: () => openEditor(undefined, viewId),
+  updateEditorSearch: pattern => updateEditorSearch(viewId, pattern),
 }, dispatch);
 
-export const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
+const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
 
 TextViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

@@ -5,8 +5,7 @@ import { getStore } from '../../../store/mainStore';
 import getTelemetryStaticElements from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
-import { resizeExplorer, focusTabInExplorer } from '../../../store/actions/pages';
-import { getPanels } from '../../../store/reducers/pages';
+import { minimizeExplorer, focusTabInExplorer } from '../../../store/actions/pages';
 import {
   updateInspectorRemoteId,
   updateInspectorDataId,
@@ -22,11 +21,7 @@ export default function ({ pageId, remoteId, dataId }) {
   const { getState, dispatch } = getStore();
   const { parameterName, catalog, sessionId, domainId } = dataId;
 
-  const panels = getPanels(getState(), { pageId });
-  const size = 350; // Default explorer size
-  if (!panels || panels.explorerWidth === 0) {
-    dispatch(resizeExplorer(pageId, size));
-  }
+  dispatch(minimizeExplorer(pageId, false));
   dispatch(focusTabInExplorer(pageId, 'inspector'));
 
   if (getInspectorRemoteId(getState()) === remoteId) {
@@ -70,9 +65,8 @@ export default function ({ pageId, remoteId, dataId }) {
         ));
         return;
       }
-      const staticData = prepareDataToTree(data, { noRoot: true });
+      const staticData = prepareDataToTree(data);
       dispatch(setInspectorStaticData(staticData));
-      dispatch(isInspectorStaticDataLoading(false));
     });
   });
 }

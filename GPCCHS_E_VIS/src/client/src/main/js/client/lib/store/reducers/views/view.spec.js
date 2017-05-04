@@ -125,37 +125,10 @@ describe('store:reducer:views', () => {
     },
   };
   describe('update action', () => {
-    it('Entry Point', () => {
-      const newEp = {
-        name: 'new EP',
-        connectedData: { formula: 'cdY', fieldX: 'cdx', axisId: 'axis2' },
-        objectStyle: {
-          line: { style: 'Continuous', size: 4 },
-          points: { style: 'None', size: 5 },
-          curveColor: '#DF013A',
-        },
-        stateColors: [],
-      };
-      const state = reducer(stateViews, actions.updateEntryPoint('plot1', 0, newEp));
-      state.plot1.configuration.entryPoints[0].should.deep.equal(newEp);
-      state.plot1.isModified.should.be.true;
-    });
-    it('Grid', () => {
-      const grid = { grid: '3' };
-      const state = reducer(stateViews, actions.updateGrid('plot1', 0, grid));
-      state.plot1.configuration.grids[0].should.deep.equal(grid);
-      state.plot1.isModified.should.be.true;
-    });
     it('Link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.updateLink('plot1', 1, link));
       state.plot1.links[1].should.deep.equal(link);
-      state.plot1.isModified.should.be.true;
-    });
-    it('Marker', () => {
-      const marker = { m: '3' };
-      const state = reducer(stateViews, actions.updateMarker('plot1', 0, marker));
-      state.plot1.configuration.markers[0].should.deep.equal(marker);
       state.plot1.isModified.should.be.true;
     });
     it('Procedure', () => {
@@ -186,35 +159,13 @@ describe('store:reducer:views', () => {
       state.plot1.backgroundColor.should.deep.equal('#FFFFAA');
       state.plot1.isModified.should.be.true;
     });
-    it('Legend', () => {
-      const state = reducer(stateViews, actions.updateLegend('plot1', 'new Legend'));
-      state.plot1.configuration.legend.should.deep.equal('new Legend');
-      state.plot1.isModified.should.be.true;
-    });
-    it('content', () => {
-      const state = reducer(stateViews, actions.updateContent('text1', 'new content'));
-      state.text1.configuration.content.should.deep.equal('new content');
-      state.text1.isModified.should.be.true;
-    });
   });
   describe('Add element in array', () => {
-    it('grid', () => {
-      const grid = { grid: '3' };
-      const state = reducer(stateViews, actions.addGrid('plot1', grid));
-      state.plot1.configuration.grids.should.deep.equal(
-        [{ grid: '1' }, { grid: '2' }, { grid: '3' }]);
-    });
     it('link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.addLink('plot1', link));
       state.plot1.links.should.deep.equal(
         [{ l: '1' }, { l: '2' }, { l: '3' }]);
-    });
-    it('marker', () => {
-      const marker = { m: '3' };
-      const state = reducer(stateViews, actions.addMarker('plot1', marker));
-      state.plot1.configuration.markers.should.deep.equal(
-        [{ m: '1' }, { m: '2' }, { m: '3' }]);
     });
     it('procedure', () => {
       const proc = { p: '3' };
@@ -224,116 +175,13 @@ describe('store:reducer:views', () => {
     });
   });
   describe('Remove element in array', () => {
-    it('entry point', () => {
-      const state = reducer(stateViews, actions.removeEntryPoint('plot1', 0));
-      state.plot1.configuration.entryPoints.should.deep.equal([{
-        name: 'ATT_BC_REVTCOUNT3',
-        connectedData: { axisId: 'axis3' },
-      }]);
-      state.plot1.configuration.axes.should.deep.equal({
-        // time: { label: 'Time', unit: 's', id: 'time' },
-        axis3: { label: '3', unit: 'p', id: 'axis3' },
-      });
-    });
-    it('grid', () => {
-      const state = reducer(stateViews, actions.removeGrid('plot1', 1));
-      state.plot1.configuration.grids.should.deep.equal([{ grid: '1' }]);
-    });
     it('link', () => {
       const state = reducer(stateViews, actions.removeLink('plot1', 1));
       state.plot1.links.should.deep.equal([{ l: '1' }]);
     });
-    it('marker', () => {
-      const state = reducer(stateViews, actions.removeMarker('plot1', 1));
-      state.plot1.configuration.markers.should.deep.equal([{ m: '1' }]);
-    });
     it('procedure', () => {
       const state = reducer(stateViews, actions.removeProcedure('plot1', 0));
       state.plot1.procedures.should.deep.equal([{ p: '2' }]);
-    });
-  });
-  describe('axis', () => {
-    it('remove axis', () => {
-      const state = reducer(stateViews, actions.removeAxis('plot1', 'axis2'));
-      state.plot1.configuration.axes.should.deep.equal(
-        { time: { label: 'Time', unit: 's', id: 'time' },
-          axis3: { label: '3', unit: 'p', id: 'axis3' } });
-    });
-    it('add axis', () => {
-      const axis = { label: 'axis4', unit: 's' };
-      const state = reducer(stateViews, actions.addAxis('plot1', axis));
-      const keys = Object.keys(state.plot1.configuration.axes);
-      keys.should.have.length(4);
-      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: 'Time', unit: 's', id: 'time' });
-      state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', id: 'axis2' });
-      state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3', unit: 'p', id: 'axis3' });
-      state.plot1.configuration.axes[keys[3]].should.deep.equal({ label: 'axis4', unit: 's', id: keys[3] });
-    });
-    it('update axis', () => {
-      const axis = { label: '3', unit: 'z' };
-      const state = reducer(stateViews, actions.updateAxis('plot1', 'axis1', axis));
-      state.plot1.configuration.axes.axis1.should.deep.equal(Object.assign({}, axis, { id: 'axis1' }));
-    });
-  });
-  describe('add entry point', () => {
-    it('addEntryPoint: text view', () => {
-      const action = {
-        type: types.WS_VIEW_ADD_ENTRYPOINT,
-        payload: {
-          viewId: 'text1',
-          entryPoint: { name: 'ep2', connectedData: {} },
-        },
-      };
-      const state = reducer(stateViews, action);
-      state.text1.configuration.entryPoints[1].should.have.properties(
-        { name: 'ep2', connectedData: { timeline: '*', domain: '*' } });
-      state.text1.isModified.should.be.true;
-    });
-    it('addEntryPoint: text view', () => {
-      const action = {
-        type: types.WS_VIEW_ADD_ENTRYPOINT,
-        payload: {
-          viewId: 'text1',
-          entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } },
-        },
-      };
-      const state = reducer(stateViews, action);
-      state.text1.configuration.entryPoints[1].should.have.properties(
-        { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } });
-      state.text1.isModified.should.be.true;
-    });
-    it('addEntryPoint: plot view', () => {
-      const action = {
-        type: types.WS_VIEW_ADD_ENTRYPOINT,
-        payload: {
-          viewId: 'plot1',
-          entryPoint: {
-            name: 'ep2',
-            connectedData: { timeline: 't2', domain: 'd2', unit: 'w' } },
-        },
-      };
-      const state = reducer(stateViews, action);
-      state.plot1.configuration.entryPoints[2].should.have.properties({
-        name: 'ep2',
-        connectedData: { timeline: 't2', domain: 'd2', unit: 'w', axisId: 'axis2' } });
-      state.plot1.isModified.should.be.true;
-    });
-    it('addEntryPoint: plot view', () => {
-      const action = {
-        type: types.WS_VIEW_ADD_ENTRYPOINT,
-        payload: {
-          viewId: 'plot1',
-          entryPoint: {
-            name: 'ep2',
-            connectedData: { domain: 'd2', unit: 'w' } },
-        },
-      };
-      const state = reducer(stateViews, action);
-      state.plot1.configuration.entryPoints[2].should.have.properties({
-        name: 'ep2',
-        connectedData: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
-      state.plot1.configuration.axes.time.label.should.equal('Time');
-      state.plot1.isModified.should.be.true;
     });
   });
   it('reload view', () => {
@@ -341,16 +189,11 @@ describe('store:reducer:views', () => {
       isModified: true,
       title: 'myView',
       type: 'PlotView',
-      configuration: { axes: { a1: { label: 'axis1', unit: 's' } } },
     };
     const action = { type: types.WS_VIEW_RELOAD, payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);
 
     state.plot1.should.deep.equal(_.set('isModified', false, myView));
-  });
-  it('updateShowYAxes', () => {
-    const state = reducer(stateViews, actions.updateShowYAxes('plot1', 'right'));
-    state.plot1.configuration.showYAxes.should.eql('right');
   });
   it('close_workspace', () => {
     const newState = reducer({ myView: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });

@@ -32,8 +32,11 @@ export const getTimebarUuid = createSelector(
 
 export const getMaximizedViewdUuid = createSelector(
   getWindowFocusedPageSelector,
-  ({ layout } = {}) => {
-    const viewLayout = _.find(a => a.maximized === true, layout);
+  ({ layout, views } = {}) => {
+    const viewLayout = _.find(
+      a => a.maximized === true && views.includes(a.i),
+      layout
+    );
     return viewLayout ? viewLayout.i : null;
   }
 );

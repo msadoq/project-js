@@ -32,8 +32,8 @@ describe('documentManager/io', () => {
   let stubCreateDocument;
   let stubResolveDocument;
   before(() => {
-    stubCreateDocument = sinon.stub(fmdApi, 'createDocument', mockedCreateDocument);
-    stubResolveDocument = sinon.stub(fmdApi, 'resolveDocument', mockedResolveDocument);
+    stubCreateDocument = sinon.stub(fmdApi, 'createDocument').callsFake(mockedCreateDocument);
+    stubResolveDocument = sinon.stub(fmdApi, 'resolveDocument').callsFake(mockedResolveDocument);
   });
   after(() => {
     stubCreateDocument.restore();

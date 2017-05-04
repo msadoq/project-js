@@ -77,15 +77,22 @@ export default class TextView extends PureComponent {
     pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    updateEditorSearch: PropTypes.func.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorRemoteId: PropTypes.string,
   };
   static defaultProps = {
     data: {
       values: {},
     },
     entryPoints: {},
+    inspectorRemoteId: null,
   };
 
   componentWillMount() {
@@ -118,48 +125,96 @@ export default class TextView extends PureComponent {
   }
 
   onContextMenu = (event) => {
-    const { entryPoints, openInspector, pageId } = this.props;
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      isViewsEditorOpen,
+      openEditor,
+      closeEditor,
+      updateEditorSearch,
+      pageId,
+      mainMenu,
+      isInspectorOpened,
+      inspectorRemoteId,
+    } = this.props;
     const span = getEpSpan(event.target);
+    const separator = { type: 'separator' };
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
-      const label = `Open ${epName} in Inspector`;
+      const editorMenu = [{
+        label: `Open ${epName} in Editor`,
+        click: () => {
+          updateEditorSearch(epName);
+          openEditor();
+        },
+      }];
+      if (isViewsEditorOpen) {
+        editorMenu.push({
+          label: 'Close Editor',
+          click: () => closeEditor(),
+        });
+      }
+      const inspectorLabel = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
-        handleContextMenu({ label, enabled: false });
+        const inspectorMenu = {
+          label: inspectorLabel,
+          enabled: false,
+        };
+        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
         return;
       }
       const { remoteId, dataId } = entryPoints[epName];
-      const simpleMenu = {
-        label,
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      const inspectorMenu = {
+        label: inspectorLabel,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       };
-      handleContextMenu(simpleMenu);
+      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
       return;
     }
-    const complexMenu = {
-      label: 'Open parameter in Inspector',
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => {
+        updateEditorSearch('');
+        openEditor();
+      },
+    };
+    const inspectorMenu = {
+      label: 'Open in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
       const label = `${epName}`;
       if (ep.error) {
-        complexMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
       const { remoteId, dataId } = ep;
-      complexMenu.submenu.push({
+      console.log(inspectorRemoteId, remoteId, isInspectorOpened);
+      const opened = isInspectorOpened && (inspectorRemoteId === remoteId);
+      inspectorMenu.submenu.push({
         label,
+        type: 'checkbox',
         click: () => openInspector({
           pageId,
           remoteId,
           dataId,
         }),
+        checked: opened,
       });
     });
-    handleContextMenu(complexMenu);
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
 
 

@@ -4,12 +4,10 @@ import _memoize from 'lodash/memoize';
 import TimeBar from './Timebar/Timebar';
 import ControlsContainer from './Controls/ControlsContainer';
 import styles from './RightTab.css';
-import Dimensions from '../common/Dimensions';
 
 class RightTabContent extends PureComponent {
 
   static propTypes = {
-    updateDimensions: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     setRealTime: PropTypes.func.isRequired,
@@ -18,7 +16,7 @@ class RightTabContent extends PureComponent {
     isPlaying: PropTypes.bool.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     timebar: PropTypes.shape({
       id: PropTypes.string.isRequired,
       uuid: PropTypes.string.isRequired,
@@ -51,12 +49,6 @@ class RightTabContent extends PureComponent {
     ).isRequired,
     containerWidth: PropTypes.number.isRequired,
     timelinesVerticalScroll: PropTypes.number.isRequired,
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.updateDimensions();
-    });
   }
 
   /*
@@ -162,7 +154,7 @@ class RightTabContent extends PureComponent {
       play,
       pause,
       timebar,
-      toggleTimesetter,
+      openModal,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
       setRealTime,
@@ -192,7 +184,6 @@ class RightTabContent extends PureComponent {
           isPlaying={isPlaying}
           play={play}
           pause={pause}
-          toggleTimesetter={toggleTimesetter}
           jump={jump}
         />
         <TimeBar
@@ -212,7 +203,7 @@ class RightTabContent extends PureComponent {
           updateViewport={updateViewport}
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}
-          toggleTimesetter={toggleTimesetter}
+          openModal={openModal}
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
           widthPx={containerWidth}
         />
@@ -221,4 +212,4 @@ class RightTabContent extends PureComponent {
   }
 }
 
-export default Dimensions()(RightTabContent);
+export default RightTabContent;

@@ -6,6 +6,7 @@ import { BrowserWindow, app } from 'electron';
 import { series, each } from 'async';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
+import getHtmlPath from './getHtmlPath';
 import { getStore } from '../../store/mainStore';
 import {
   focusWindow,
@@ -59,14 +60,10 @@ export function open(windowId, data, callback) {
   // prevent garbage collection
   electronWindows[windowId] = window;
 
-  const allParams = parameters.getAll();
-  allParams.IS_BUNDLED = process.env.IS_BUNDLED;
-  const params = encodeURIComponent(JSON.stringify(allParams));
-  const htmlPath = `file://${parameters.get('path')}/index.html`;
-  const addReactPerfFlag = () =>
-    (parameters.get('DEBUG') === 'on' ? 'react_perf&' : '');
+  // load HTML page
+  const htmlPath = getHtmlPath(windowId);
   logger.debug('opening', htmlPath);
-  window.loadURL(`${htmlPath}?${addReactPerfFlag()}windowId=${windowId}&params=${params}`);
+  window.loadURL(htmlPath);
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window
   window.on('ready-to-show', () => {

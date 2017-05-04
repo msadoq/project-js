@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react';
 import Inspector from 'react-json-inspector';
 
-const Information = ({ configuration, masterSession }) => (
+const Information = ({ parameters, masterSession }) => (
   <div>
     <h3>Master Session</h3>
     <Inspector data={masterSession} />
     <h3>Configuration</h3>
-    <Inspector data={configuration} />
+    <Inspector data={parameters} />
   </div>
 );
 
 Information.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types, "DV6 TBC_CNES Unpredicatable object struct."
-  configuration: PropTypes.object.isRequired,
+  parameters: PropTypes.object.isRequired,
   masterSession: PropTypes.shape({
     name: PropTypes.string,
   }),

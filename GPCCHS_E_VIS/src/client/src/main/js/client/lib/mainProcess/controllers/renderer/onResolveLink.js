@@ -10,7 +10,6 @@ import { add } from '../../../store/actions/messages';
 import {
   isInspectorStaticDataNodeLoading,
   updateInspectorStaticDataNode,
-  isInspectorStaticDataNodeToggled,
 } from '../../../store/actions/inspector';
 
 const logger = getLogger('main:controllers:renderer:onResolveLink');
@@ -18,15 +17,12 @@ const logger = getLogger('main:controllers:renderer:onResolveLink');
 export default function ({ link, path, sessionId, domainId }) {
   const { dispatch } = getStore();
   logger.info(`resolve ${link} Link for session ${sessionId} and domain ${domainId}`);
-
   const socket = parameters.get('RTD_UNIX_SOCKET'); // TODO way to deal with that ?
   rtd.connect(socket, (cErr, isConnected) => {
     if (cErr || !isConnected) {
       dispatch(add('global', 'danger', 'Cannot connect to RTD'));
       return;
     }
-    dispatch(isInspectorStaticDataNodeToggled(path, true));
-    dispatch(isInspectorStaticDataNodeLoading(path, true));
 
     const { catalog, namespace, name } = parseLink(link);
 
@@ -41,7 +37,6 @@ export default function ({ link, path, sessionId, domainId }) {
         return;
       }
       const staticData = prepareDataToTree(data, { rootName: RTD_LINK, path, type: RESOLVED_LINK });
-      dispatch(isInspectorStaticDataNodeLoading(path, false));
       dispatch(updateInspectorStaticDataNode(path, staticData));
     });
   });

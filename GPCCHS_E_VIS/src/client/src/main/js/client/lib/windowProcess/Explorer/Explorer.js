@@ -32,6 +32,7 @@ export default class Explorer extends PureComponent {
     pageId: PropTypes.string.isRequired,
     tabId: PropTypes.string,
     focusTabInExplorer: PropTypes.func.isRequired,
+    minimizeExplorer: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -44,6 +45,15 @@ export default class Explorer extends PureComponent {
       const { pageId, focusTabInExplorer } = this.props;
       focusTabInExplorer(pageId, tabId);
     }
+  }
+
+  willExpandExplorer = (e) => {
+    e.preventDefault();
+    const {
+      minimizeExplorer,
+      pageId,
+    } = this.props;
+    minimizeExplorer(pageId, true);
   }
 
   /**
@@ -89,7 +99,7 @@ export default class Explorer extends PureComponent {
     const Widget = _get(widgets, [tabId, 'component'], NotAlreadyImplemented);
 
     return (
-      <div className={styles.container}>
+      <div className={styles.explorer}>
         <FormGroup controlId="formControlsSelect">
           <FormControl
             componentClass="select"

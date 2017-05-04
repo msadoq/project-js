@@ -1,21 +1,23 @@
-// import { PropTypes } from 'react';
+import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { getViewConfiguration, getViewContent } from '../../../../store/reducers/views';
+import { getConfigurationByViewId } from '../../../../viewManager';
+import { getViewContent } from '../../store/configurationSelectors';
 import MimicView from './MimicView';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 
 const mapStateToProps = createStructuredSelector({
   content: getViewContent,
-  configuration: getViewConfiguration,
+  configuration: getConfigurationByViewId,
   entryPoints: getViewEntryPoints,
   data: getData,
 });
-/*
+
+const MimicViewContainer = connect(mapStateToProps)(MimicView);
+
 MimicViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
-};*/
+};
 
-export const MimicViewContainer = connect(mapStateToProps, null)(MimicView);
-export default connect(mapStateToProps)(MimicViewContainer);
+export default MimicViewContainer;

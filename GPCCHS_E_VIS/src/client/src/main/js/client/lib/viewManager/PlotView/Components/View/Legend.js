@@ -9,17 +9,14 @@ export default class Legend extends PureComponent {
     show: PropTypes.bool.isRequired,
     toggleShowLegend: PropTypes.func.isRequired,
     selectLine: PropTypes.func.isRequired,
-    selectedLineName: PropTypes.string,
+    selectedLineNames: PropTypes.array.isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
-  }
-
-  static defaultProps = {
-    selectedLineName: null,
+    onContextMenu: PropTypes.func.isRequired,
   }
 
   render() {
@@ -28,7 +25,8 @@ export default class Legend extends PureComponent {
       lines,
       show,
       selectLine,
-      selectedLineName,
+      selectedLineNames,
+      onContextMenu,
     } = this.props;
 
     const sortedAndValidAxes = yAxes
@@ -63,12 +61,13 @@ export default class Legend extends PureComponent {
                   axis.lines.map(line =>
                     <button
                       className={classnames(
-                        selectedLineName === line.name ?
+                        selectedLineNames.includes(line.name) ?
                         styles.selectedLegend : styles.legend,
                         'btn', 'btn-default', 'btn-xs'
                       )}
                       onClick={e => selectLine(e, line.name)}
                       key={line.name}
+                      onContextMenu={event => onContextMenu(event, line.name)}
                     >
                       <span
                         className={styles.plotLegendColor}

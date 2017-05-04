@@ -6,35 +6,6 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import styles from '../../../commonEditor/Editor.css';
 
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  timeBasedData: true,
-  connectedData: {
-    formula: '',
-    fieldX: '',
-    unit: 's',
-    digits: 5,
-    format: 'decimal',
-    domain: '',
-    timeline: '',
-    axisId: 'time',
-  },
-  objectStyle: {
-    line: {
-      style: 'Continuous',
-      size: 3,
-    },
-    points: {
-      style: 'None',
-      size: 3,
-    },
-    curveColor: '#222222',
-  },
-  stateColors: [
-
-  ],
-};
-
 const navbarItems = ['Entry Points', 'Plot'];
 
 /*
@@ -43,12 +14,11 @@ const navbarItems = ['Entry Points', 'Plot'];
 export default class PlotEditor extends Component {
   static propTypes = {
     // actions
-    addEntryPoint: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
-
+    updateEditorSearch: PropTypes.func.isRequired,
     // rest
     viewId: PropTypes.string.isRequired,
-    closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
       entryPoints: PropTypes.array,
@@ -56,25 +26,14 @@ export default class PlotEditor extends Component {
       grids: PropTypes.array,
       legend: PropTypes.object,
       markers: PropTypes.array,
+      search: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   componentWillMount() {
     this.setState({
       currentDisplay: 0,
-      search: '',
     });
-  }
-
-  handleAddEntryPoint = (values) => {
-    const { addEntryPoint, viewId } = this.props;
-    addEntryPoint(
-      viewId,
-      {
-        ...newEntryPoint,
-        ...values,
-      }
-    );
   }
 
   removeEntryPoint = (key) => {
@@ -82,7 +41,7 @@ export default class PlotEditor extends Component {
     removeEntryPoint(viewId, key);
   }
 
-  changeSearch = s => this.setState({ search: s });
+  changeSearch = s => this.props.updateEditorSearch(s);
   /*
     Appelée lorsque le un item de la navbar est cliqué.
     param id :
@@ -93,8 +52,10 @@ export default class PlotEditor extends Component {
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
 
   render() {
-    const { currentDisplay, search } = this.state;
+    const { currentDisplay } = this.state;
     const {
+      openModal,
+      viewId,
       configuration: {
         entryPoints,
         axes,
@@ -102,6 +63,7 @@ export default class PlotEditor extends Component {
         title,
         titleStyle,
         markers,
+        search,
       },
     } = this.props;
     return (
@@ -110,7 +72,6 @@ export default class PlotEditor extends Component {
           currentDisplay={currentDisplay}
           items={navbarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={this.props.closeEditor}
         />
         <div className={styles.content}>
           {currentDisplay === 2 && <Misc />}
@@ -124,8 +85,11 @@ export default class PlotEditor extends Component {
           {currentDisplay === 0 && [
             <EntryPointActions
               key="EntryPointActions"
+              viewId={viewId}
+              viewType="PlotView"
+              openModal={openModal}
               changeSearch={this.changeSearch}
-              addEntryPoint={this.handleAddEntryPoint}
+              search={search}
             />,
             <EntryPointTree
               key="EntryPointTree"

@@ -25,11 +25,6 @@ export const getViewTitle = createSelector(
   _.prop('title')
 );
 
-export const getViewContent = createSelector(
-  getViewConfiguration,
-  _.get('content')
-);
-
 export const getViewAbsolutePath = createSelector(
   getView,
   _.get('absolutePath')

@@ -1,27 +1,32 @@
+// import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import PlotEditor from '../../viewManager/PlotView/Components/Editor/PlotEditorContainer';
-import TextEditor from '../../viewManager/TextView/Components/Editor/TextEditorContainer';
-import DynamicEditor from '../../viewManager/DynamicView/Components/Editor/DynamicEditorContainer';
-import MimicEditor from '../../viewManager/MimicView/Components/Editor/MimicEditorContainer';
+import { getEditorComponent } from '../../viewManager';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');
 
-const InvalidConfiguration = () => <div>unknown view type or invalid configuration</div>;
+const InvalidConfiguration = () => (
+  <div>
+    <p
+      className={classnames('p10', 'text-center', styles.invalidConfiguration)}
+    >
+      Unknown view type or invalid configuration
+    </p>
+  </div>
+);
 
 export default class Editor extends PureComponent {
   static propTypes = {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string,
-    type: PropTypes.string,
-    closeEditor: PropTypes.func,
+    type: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
+    // closeEditor: _.noop,
     viewId: null,
-    type: null,
   };
 
   static childContextTypes = {
@@ -40,37 +45,20 @@ export default class Editor extends PureComponent {
       pageId,
       type,
       viewId,
-      closeEditor,
     } = this.props;
 
-    let ContentComponent;
+    let EditorComponent;
     if (!viewId) {
-      ContentComponent = InvalidConfiguration; // no view set in editor
+      EditorComponent = InvalidConfiguration;
     } else {
-      switch (type) {
-        case 'PlotView':
-          ContentComponent = PlotEditor;
-          break;
-        case 'TextView':
-          ContentComponent = TextEditor;
-          break;
-        case 'DynamicView':
-          ContentComponent = DynamicEditor;
-          break;
-        case 'MimicView':
-          ContentComponent = MimicEditor;
-          break;
-        default:
-          ContentComponent = InvalidConfiguration; // unsupported type
-      }
+      EditorComponent = getEditorComponent(type);
     }
 
     return (
-      <div className={classnames('subdiv', styles.editor)}>
-        <ContentComponent
+      <div className={classnames('subdiv', 'h100', styles.editor)}>
+        <EditorComponent
           viewId={viewId}
           pageId={pageId}
-          closeEditor={closeEditor}
         />
       </div>
     );

@@ -40,9 +40,9 @@ export default class Tabs extends PureComponent {
   static propTypes = {
     pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
-    focusPage: PropTypes.func,
-    closePage: PropTypes.func,
-    moveTabOrder: PropTypes.func,
+    focusPage: PropTypes.func.isRequired,
+    closePage: PropTypes.func.isRequired,
+    moveTabOrder: PropTypes.func.isRequired,
   };
 
   handleSelect = (eventKey) => {
@@ -86,11 +86,13 @@ export default class Tabs extends PureComponent {
       }
     }
   }
+
   handleDragLeave = (e) => {
     const ev = e.currentTarget.parentNode;
     ev.style.borderLeft = 'none';
     ev.style.borderRight = 'none';
   }
+
   handleDrop = (e, pageId, key) => {
     const ev = e.currentTarget.parentNode;
     ev.style.borderLeft = 'none';

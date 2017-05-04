@@ -110,6 +110,6 @@ export default function mimicViewData(state = {}, action) {
   }
 }
 
-export const getMimicViewData = state => state.mimicViewData;
+export const getMimicViewData = state => state.MimicViewData;
 
-export const getData = (state, { viewId }) => state.mimicViewData[viewId];
+export const getData = (state, { viewId }) => state.MimicViewData[viewId];

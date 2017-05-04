@@ -48,16 +48,15 @@ const prepareWorkspace = _.pipe(
 
 const simpleReadWorkspace = (workspaceInfo, cb) => {
   const { absolutePath } = workspaceInfo;
-  readDocument(undefined, undefined, undefined, absolutePath, (err, workspaceContent) => {
+  readDocument(undefined, undefined, undefined, absolutePath, (err, workspace) => {
     if (err) {
       return cb(err);
     }
-    const validationError = validation('workspace', workspaceContent);
+    const validationError = validation('workspace', workspace);
     if (validationError) {
       return cb(validationError);
     }
 
-    const workspace = _.update('windows', _.map(_.set('isModified', false)), workspaceContent);
     const documents = {
       ...workspace,
       ...workspaceInfo,

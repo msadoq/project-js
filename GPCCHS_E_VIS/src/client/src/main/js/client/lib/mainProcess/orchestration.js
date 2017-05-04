@@ -1,4 +1,5 @@
 import _round from 'lodash/round';
+import _reduce from 'lodash/reduce';
 import { series } from 'async';
 import { get } from 'common/parameters';
 import {
@@ -13,18 +14,31 @@ import {
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
+
 import { server } from './ipc';
 import { getStore } from '../store/mainStore';
-import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/reducers/hsc';
+import {
+  getWindowsOpened,
+  getLastCacheInvalidation,
+  getPlayingTimebarId,
+  getForecast,
+} from '../store/reducers/hsc';
 import { getHealthMap, getMainStatus } from '../store/reducers/health';
-import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
+import {
+  setWindowsAsOpened,
+  updateCacheInvalidation,
+  pause,
+  updateForecast,
+} from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
+import displayQueries from '../dataManager/displayQueries';
 import windowsObserver from './windowsManager';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
+import { getTimebar } from '../store/reducers/timebars';
 
 let logger;
 
@@ -35,6 +49,8 @@ let criticalTimeout = null;
 const previous = {
   requestedDataMap: {},
   injectionViewMap: {},
+  injectionRemoteIdMap: {},
+  injectionIntervals: {},
   health: {
     dc: HEALTH_STATUS_HEALTHY,
     hss: HEALTH_STATUS_HEALTHY,
@@ -42,6 +58,23 @@ const previous = {
     windows: HEALTH_STATUS_HEALTHY,
   },
 };
+
+export function addForecast(expectedIntervals, forecast) {
+  // Loop on remoteId/localId and create a new interval
+  return _reduce(expectedIntervals, (acc, value, remoteId) =>
+    ({ ...acc,
+      [remoteId]:
+      _reduce(value, (accInt, intervals, localId) =>
+        ({ ...accInt,
+          [localId]: {
+            expectedInterval: [
+              intervals.expectedInterval[1],
+              intervals.expectedInterval[1] + forecast],
+          } })
+      , {}) }),
+  {});
+}
+
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -215,7 +248,7 @@ export function tick() {
       if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
         execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(now)); // schedule next run
-        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
+        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap);
         execution.stop('cache invalidation');
 
         logger.debug('cache invalidation requested, skipping current tick');
@@ -231,7 +264,28 @@ export function tick() {
       }
 
       execution.start('data requests');
-      request(dataMap, previous, server.message);
+      const timebarUuid = getPlayingTimebarId(getState());
+      // Add forecast in play mode
+      let forecastIntervals;
+      if (timebarUuid) {
+        // Get playing mode
+        const { visuWindow } = getTimebar(getState(), { timebarUuid });
+        const { upper } = visuWindow;
+        // Check old forecast
+        const lastForecast = getForecast(getState());
+        // Add forecast if neede
+        if (!lastForecast.upper ||            // 1rst forecast
+          lastForecast.upper - upper < 100 || // forecast is too thin
+          upper < lastForecast.lower          // visu has moved backwards
+        ) {
+          const forecastTime = get('FORECAST');
+          forecastIntervals = addForecast(dataMap.expectedIntervals, forecastTime);
+          dispatch(updateForecast(upper, upper + forecastTime));
+          request(dataMap, previous, forecastIntervals, server.message);
+        }
+      } else {
+        request(dataMap, previous, forecastIntervals, server.message);
+      }
 
       // request module should receive only the last 'analysed' map
       previous.perRemoteId = dataMap.perRemoteId;
@@ -248,9 +302,11 @@ export function tick() {
       }
 
       execution.start('data retrieving');
-      server.requestData((dataToInject) => {
+      // Create object with data to display
+      const isPlayingMode = !!getPlayingTimebarId(getState());
+      const queries = displayQueries(previous, dataMap, isPlayingMode);
+      server.requestData(queries, (dataToInject) => {
         execution.stop('data retrieving');
-
         // viewData
         execution.start('data injection');
         dispatch(updateViewData(
@@ -264,9 +320,11 @@ export function tick() {
           : undefined;
         execution.stop('data injection', message);
 
-        previous.injectionViewMap = dataMap.perView;
-        previous.injectionIntervals = dataMap.expectedIntervals;
-
+        if (Object.keys(queries).length && Object.keys(dataToInject.data).length) {
+          previous.injectionViewMap = dataMap.perView;
+          previous.injectionRemoteIdMap = dataMap.perRemoteId;
+          previous.injectionIntervals = dataMap.expectedIntervals;
+        }
         callback(null);
       });
     },

@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { getWindows } from '../../store/reducers/windows';
 import { getEditorTitle } from '../../store/reducers/editor';
 import { getView } from '../../store/reducers/views';
+import { getWorkspaceIsModified } from '../../store/reducers/hsc';
 
 export const getEditorWindowTitle = (state, { viewId }) => {
   if (!viewId) {
@@ -11,15 +12,16 @@ export const getEditorWindowTitle = (state, { viewId }) => {
 
   const props = { viewId };
   const view = getView(state, props);
-  if (!view || !view.configuration) {
+  if (!view) {
     return '';
   }
 
   return `${getEditorTitle(state)} - ${view.title}`;
 };
 
-const formatWindowTitle = win => `${win.title}${(win.isModified === true) ? ' *' : ''} - VIMA`;
+const formatWindowTitle = isModified => win => `${win.title}${(isModified === true) ? ' *' : ''} - VIMA`;
 export const getWindowsTitle = createSelector(
   getWindows,
-  _.mapValues(formatWindowTitle)
+  getWorkspaceIsModified,
+  (windows, isModified) => _.mapValues(formatWindowTitle(isModified), windows)
 );

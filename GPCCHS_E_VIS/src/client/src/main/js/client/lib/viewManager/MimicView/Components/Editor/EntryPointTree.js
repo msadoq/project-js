@@ -73,7 +73,6 @@ export default class EntryPointTree extends React.Component {
     return (
       <Accordion>
         {list.map((entryPoint, key) => {
-          console.log('here3');
           const isOpen = this.state[`panel${key}IsOpen`];
           return (
             <Panel

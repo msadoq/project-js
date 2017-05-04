@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, ControlLabel, Col, Panel, Button } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';
+
 import moment from 'moment';
 import { main } from '../../ipc';
 import styles from '../Explorer.css';

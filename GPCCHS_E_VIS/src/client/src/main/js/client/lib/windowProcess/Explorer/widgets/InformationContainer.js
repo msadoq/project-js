@@ -6,7 +6,7 @@ import Information from './Information';
 
 const mapStateToProps = createStructuredSelector({
   masterSession: getMasterSession,
-  configuration: () => getAll(),
+  parameters: () => getAll(),
 });
 
 const InformationContainer = connect(mapStateToProps)(Information);

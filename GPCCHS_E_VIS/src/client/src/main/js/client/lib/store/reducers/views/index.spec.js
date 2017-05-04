@@ -5,7 +5,6 @@ import viewsReducer, {
   getViews,
   getModifiedViewsIds,
   getViewConfiguration,
-  getViewContent,
   getViewAbsolutePath,
   getViewType,
   getViewTitle,
@@ -76,20 +75,6 @@ describe('store:views:selectors', () => {
     getViewConfiguration(state, { viewId: 'myViewId' }).should.eql({
       title: 'Title 1',
     });
-  });
-
-  it('getViewContent', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-            content: '<h1>content</h1>',
-          },
-        },
-      },
-    };
-    getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
   });
   it('getViewAbsolutePath', () => {
     const state = {

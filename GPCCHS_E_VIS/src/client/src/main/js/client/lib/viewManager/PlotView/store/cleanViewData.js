@@ -47,30 +47,27 @@ export default function cleanCurrentViewData(
   const oldEntryPoints = oldViewFromMap.entryPoints;
   const newEntryPoints = newViewFromMap.entryPoints;
   const epNames = Object.keys(oldEntryPoints);
-  epNames.forEach((epName) => {
+  for (let i = 0; i < epNames.length; i += 1) {
+    const epName = epNames[i];
     const oldEp = oldEntryPoints[epName];
     const newEp = newEntryPoints[epName];
     // check if only label has changed
     if (!newEp) {
       const diff = _difference(Object.keys(newEntryPoints), Object.keys(oldEntryPoints));
       let newLabel;
-      if (diff.length) {
-        diff.forEach((name) => {
-          if (newEntryPoints[name].id === oldEp.id) {
-            newLabel = name;
-          }
-        });
-      }
+      diff.forEach((name) => {
+        if (newEntryPoints[name].id === oldEp.id) {
+          newLabel = name;
+        }
+      });
       if (newLabel) {
         newState = updateEpLabel(newState, epName, newLabel);
-        return;
+        continue;
       }
     }
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
-    if (!newEp || (newEp.error && newEp.error !== oldEp.error)
-      || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
-      || oldEp.remoteId !== newEp.remoteId) {
+    if (isInvalidEntryPoint(oldEp, newEp)) {
       newState = { ...newState,
         indexes: _omit(newState.indexes, epName),
         lines: _omit(newState.lines, epName),
@@ -79,11 +76,11 @@ export default function cleanCurrentViewData(
         max: _omit(newState.max, epName),
         maxTime: _omit(newState.maxTime, epName),
       };
-      return;
+      continue;
     }
     // Case of point already in error
     if (newEp.error) {
-      return;
+      continue;
     }
     // update on expected interval
     const oldInterval = _get(oldIntervals, [oldEp.remoteId, oldEp.localId, 'expectedInterval']);
@@ -96,9 +93,18 @@ export default function cleanCurrentViewData(
       // Update of min and max if needed
       newState = scanForMinAndMax(newData);
     }
-  });
+  }
   return newState;
 }
+function isInvalidEntryPoint(oldEp, newEp) {
+  if (!newEp || (newEp.error && newEp.error !== oldEp.error)
+    || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
+    || oldEp.remoteId !== newEp.remoteId) {
+    return true;
+  }
+  return false;
+}
+
 
 export function updateEpLabel(viewData, oldLabel, newLabel) {
   if (!oldLabel || !newLabel || oldLabel === newLabel) {

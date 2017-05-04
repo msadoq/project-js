@@ -5,7 +5,9 @@ import {
   getDisplayHelp,
 } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
+import { getModal } from '../../store/reducers/modals';
 import { setIsLoaded, displayHelp } from '../../store/actions/windows';
+import { close as closeModal } from '../../store/actions/modals';
 import {
   resizeEditor,
   resizeTimebar,
@@ -13,9 +15,10 @@ import {
   minimizeExplorer,
   minimizeEditor,
   minimizeTimebar,
+  focusTabInExplorer,
 } from '../../store/actions/pages';
 
-import Window from './Window';
+import WindowWrapper from './WindowWrapper';
 
 const mapStateToProps = (state, { windowId }) => {
   const pageId = getWindowFocusedPageId(state, { windowId });
@@ -39,6 +42,7 @@ const mapStateToProps = (state, { windowId }) => {
     timebarIsMinimized,
     explorerWidth,
     explorerIsMinimized,
+    modal: getModal(state, { windowId }),
   };
 };
 
@@ -51,4 +55,6 @@ export default connect(mapStateToProps, {
   minimizeEditor,
   minimizeExplorer,
   minimizeTimebar,
-})(Window);
+  closeModal,
+  focusTabInExplorer,
+})(WindowWrapper);

@@ -6,6 +6,7 @@ import { closeHtmlEditor } from '../../store/actions/editor';
 import { getEditorTextViewId } from '../../store/reducers/editor';
 import { getEditorWindowTitle } from './selectors';
 import getCenteredPosition from './common/getCenteredPosition';
+import getHtmlPath from './getHtmlPath';
 
 const logger = getLogger('main:windowsManager:codeEditor');
 
@@ -30,8 +31,10 @@ export function open(callback) {
     height: DEFAULT_HEIGHT,
     show: false,
   });
-  // win.setMenuBarVisibility(false);
-  win.loadURL(`file://${parameters.get('path')}/code.html`);
+
+  const htmlPath = getHtmlPath('code');
+  logger.debug('opening', htmlPath);
+  win.loadURL(htmlPath);
 
   // mount module(s) to allow access from renderer process
   win.parameters = parameters;

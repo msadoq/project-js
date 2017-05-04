@@ -53,6 +53,9 @@
   border: 1px solid #BBB;
   margin-right: 4px;
   margin-bottom: 4px;
+  &:hover{
+    background: #2a2a2a;
+  }
 }
 .legend{
   border: 1px solid #BBB;

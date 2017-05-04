@@ -138,4 +138,12 @@ describe('store:page:reducer', () => {
       nextState.myPage.timebarUuid.should.be.eql('newTb1');
     });
   });
+  describe('updateTItle', () => {
+    it('ok', () => {
+      const state = { myPage: { title: 'tb 1' } };
+      const action = { type: types.WS_PAGE_UPDATE_TITLE, payload: { pageId: 'myPage', title: 'tb 2' } };
+      const nextState = reducer(state, action);
+      nextState.myPage.should.eql({ title: 'tb 2', isModified: true });
+    });
+  });
 });

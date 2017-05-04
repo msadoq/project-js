@@ -90,6 +90,12 @@ describe('store:hsc:reducer', () => {
       focusWindow: 'some window id',
     });
   });
+  it('should update forecast', () => {
+    reducer({ }, actions.updateForecast(20, 30))
+    .should.eql({ forecast: { lower: 20, upper: 30 } });
+    reducer({ forecast: { lower: 20, upper: 30 } }, actions.updateForecast(25, 35))
+    .should.eql({ forecast: { lower: 25, upper: 35 } });
+  });
 });
 
 

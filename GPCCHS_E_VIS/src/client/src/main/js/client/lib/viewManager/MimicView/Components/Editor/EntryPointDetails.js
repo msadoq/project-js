@@ -6,7 +6,7 @@ import {
 import _memoize from 'lodash/memoize';
 
 import EntryPointConnectedData from './EntryPointConnectedData';
-import EntryPointName from '../../../commonEditor/EntryPoint/EntryPointName';
+import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 /*
@@ -82,7 +82,7 @@ export default class EntryPointDetails extends React.Component {
           onSelect={this.openPanel('Name')}
           onExited={this.closePanel('Name')}
         >
-          {isPanelNameOpen && <EntryPointName
+          {isPanelNameOpen && <AddEntryPoint
             onSubmit={this.handleSubmit}
             form={`entrypoint-title-form-${idPoint}-${viewId}`}
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop

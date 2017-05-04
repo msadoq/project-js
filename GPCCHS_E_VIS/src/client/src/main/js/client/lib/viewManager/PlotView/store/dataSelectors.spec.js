@@ -7,7 +7,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
     });
     it('counts data', () => {
       const state = {
-        plotViewData: {
+        PlotViewData: {
           v1: { lines: { ep1: [{ a: true, b: true }] } },
           v2: { lines: {
             ep1: [{ a: true, x: 1 }, { a: false, x: 2 }],

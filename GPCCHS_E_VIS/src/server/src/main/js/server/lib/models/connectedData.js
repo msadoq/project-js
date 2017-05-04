@@ -1,42 +1,42 @@
-const _concat = require('lodash/concat');
 const _remove = require('lodash/remove');
 const _values = require('lodash/values');
 const _filter = require('lodash/filter');
 const _each = require('lodash/each');
 const _some = require('lodash/some');
 const _has = require('lodash/has');
+const _reduce = require('lodash/reduce');
 const logger = require('common/log')('models:connectedData');
-const globalConstants = require('common/constants');
 const intervalManager = require('common/intervals');
+const flattenDataId = require('common/utils/flattenDataId');
 
 const database = require('./loki');
 
-const createConnectedData = (type, remoteId, dataId) => ({
-  type,
-  remoteId,
+const createConnectedData = dataId => ({
+  flatDataId: flattenDataId(dataId),
   dataId,
   intervals: {
     all: [],
     received: [],
     requested: {},
   },
+  lastQueries: {},
 });
 
 const collection = database.addCollection('connectedData',
   {
-    unique: 'remoteId',
+    unique: 'flatDataId',
   }
 );
 
-collection.getRemoteIdIndex = () => collection.constraints.unique.remoteId;
+collection.getFlatDataIdIndex = () => collection.constraints.unique.flatDataId;
 
-collection.getAll = () => _remove(_values(collection.getRemoteIdIndex().keyMap), undefined);
+collection.getAll = () => _remove(_values(collection.getFlatDataIdIndex().keyMap), undefined);
 
-collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData) => {
-  // Return timestamps that are currently in intervals known or requested for this remoteId
+collection.areTimestampsInKnownIntervals = (flatDataId, timestamps, connectedData) => {
+  // Return timestamps that are currently in intervals known or requested for this flatDataId
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       logger.silly('timestamps not in known intervals');
       return [];
@@ -50,11 +50,11 @@ collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData)
   );
 };
 
-collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) => {
-  // Check if timestamp is currently in intervals known or requested for this remoteId
+collection.isTimestampInKnownIntervals = (flatDataId, timestamp, connectedData) => {
+  // Check if timestamp is currently in intervals known or requested for this flatDataId
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       logger.silly('timestamp not in known intervals');
       return false;
@@ -62,19 +62,29 @@ collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) =>
   }
 
   logger.debug('check intervals');
+  // range
   if (intervalManager.includesTimestamp(cd.intervals.all, timestamp)) {
     logger.silly('timestamp in intervals');
     return true;
   }
-
+  // last
+  // create an array with all last query intervals
+  const intervals = _reduce(cd.lastQueries, (acc, interval) => {
+    (acc || []).push(interval);
+    return acc;
+  }, []);
+  if (intervalManager.includesTimestamp(intervals, timestamp)) {
+    logger.silly('timestamp in intervals');
+    return true;
+  }
   return false;
 };
 
-collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
-  // Set query interval as received for this remoteId
+collection.setIntervalAsReceived = (flatDataId, queryUuid, connectedData) => {
+  // Set query interval as received for this flatDataId
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -83,68 +93,73 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
   if (typeof interval === 'undefined') {
     return undefined;
   }
-  switch (cd.type) {
-    case globalConstants.DATASTRUCTURETYPE_LAST:
-      cd.intervals.received.push(interval);
-      break;
-    case globalConstants.DATASTRUCTURETYPE_RANGE:
-      cd.intervals.received =
-        intervalManager.merge(cd.intervals.received, interval);
-      break;
-    default:
-      throw new Error('Consuming type not valid:', cd.type);
-  }
+  cd.intervals.received = intervalManager.merge(cd.intervals.received, interval);
   delete cd.intervals.requested[queryUuid];
-  logger.silly('set interval', interval, 'as received for', remoteId);
+  logger.silly('set interval', interval, 'as received for', flatDataId);
   return cd;
 };
 
-collection.addRecord = (type, remoteId, dataId) => {
-  let connectedData = collection.by('remoteId', remoteId);
+collection.addRecord = (dataId) => {
+  let connectedData = collection.by('flatDataId', flattenDataId(dataId));
   if (connectedData) {
     return connectedData;
   }
-  switch (type) {
-    case globalConstants.DATASTRUCTURETYPE_LAST:
-    case globalConstants.DATASTRUCTURETYPE_RANGE:
-      connectedData = createConnectedData(type, remoteId, dataId);
-      return collection.insert(connectedData);
-    default:
-      throw new Error('Consuming type not valid:', type);
-  }
+  connectedData = createConnectedData(dataId);
+  return collection.insert(connectedData);
 };
 
-collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData) => {
+collection.addRequestedInterval = (flatDataId, queryUuid, interval, connectedData) => {
   // Add a query interval in the list of requested intervals for this flatDataId
   // And create the flatDataId if it doesnt exist
 
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
   }
-  switch (cd.type) {
-    case globalConstants.DATASTRUCTURETYPE_LAST:
-      cd.intervals.requested[queryUuid] = interval;
-      cd.intervals.all.push(interval);
-      break;
-    case globalConstants.DATASTRUCTURETYPE_RANGE:
-      cd.intervals.requested[queryUuid] = interval;
-      cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
-      break;
-    default:
-      throw new Error('Consuming type not valid:', cd.type);
-  }
-
+  cd.intervals.requested[queryUuid] = interval;
+  cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
   return cd;
 };
 
-collection.removeIntervals = (remoteId, intervals, connectedData) => {
+collection.addLastQuery = (flatDataId, queryUuid, interval, connectedData) => {
+  // Add a query id in the list of getLast requested for this flatDataId
+  // And create the flatDataId if it doesnt exist
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
+    if (!cd) {
+      return undefined;
+    }
+  }
+  cd.lastQueries[queryUuid] = interval;
+  return cd;
+};
+collection.removeLastQuery = (flatDataId, queryUuid, connectedData) => {
+  // Add a query id in the list of getLast requested for this flatDataId
+  // And create the flatDataId if it doesnt exist
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('flatDataId', flatDataId);
+    if (!cd) {
+      return undefined;
+    }
+  }
+  cd.lastQueries = _reduce(cd.lastQueries, (acc, interval, queryId) => {
+    if (queryId === queryUuid) {
+      return acc;
+    }
+    return Object.assign({}, acc, { [queryId]: interval });
+  }, {});
+  return cd;
+};
+
+collection.removeIntervals = (flatDataId, intervals, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return [];
     }
@@ -168,35 +183,17 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
     });
   });
 
-  switch (cd.type) {
-    case globalConstants.DATASTRUCTURETYPE_LAST:
-      _each(intervals, (interval) => {
-        const index = receivedIntervals.indexOf(interval);
-        if (index > -1) {
-          receivedIntervals = [
-            ...receivedIntervals.slice(0, index),
-            ...receivedIntervals.slice(index + 1),
-          ];
-        }
-      });
-      cd.intervals.all = _concat(receivedIntervals, _values(requestedIntervals));
-      break;
-    case globalConstants.DATASTRUCTURETYPE_RANGE:
-      receivedIntervals = intervalManager.remove(receivedIntervals, intervals);
-      cd.intervals.all = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
-      break;
-    default:
-      throw new Error('Consuming type not valid:', cd.type);
-  }
+  receivedIntervals = intervalManager.remove(receivedIntervals, intervals);
+  cd.intervals.all = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
   cd.intervals.requested = requestedIntervals;
   cd.intervals.received = receivedIntervals;
   return queryIds;
 };
 
-collection.getIntervals = (remoteId, connectedData) => {
+collection.getIntervals = (flatDataId, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -204,10 +201,10 @@ collection.getIntervals = (remoteId, connectedData) => {
   return cd.intervals.all;
 };
 
-collection.getDataId = (remoteId, connectedData) => {
+collection.getDataId = (flatDataId, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return undefined;
     }
@@ -215,44 +212,42 @@ collection.getDataId = (remoteId, connectedData) => {
   return cd.dataId;
 };
 
-collection.isRequested = (remoteId, queryUuid, connectedData) => {
+collection.isRequested = (flatDataId, queryUuid, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
   }
 
   return _has(cd, ['intervals', 'requested', queryUuid]);
 };
 
-collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
-  // Retrieve missing intervals for this remoteId for the given interval
+collection.isLastQuery = (flatDataId, queryUuid, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
+  }
+  return _has(cd, ['lastQueries', queryUuid]);
+};
+
+collection.retrieveMissingIntervals = (flatDataId, interval, connectedData) => {
+  // Retrieve missing intervals for this flatDataId for the given interval
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       logger.silly('no connectedData');
       return [interval];
     }
   }
-
-  const allIntervals = cd.intervals.all;
-
-  switch (cd.type) {
-    case globalConstants.DATASTRUCTURETYPE_LAST:
-      return intervalManager.notIncluded(allIntervals, interval);
-    case globalConstants.DATASTRUCTURETYPE_RANGE:
-      return intervalManager.missing(allIntervals, interval);
-    default:
-      throw new Error('Consuming type not valid:', cd.type);
-  }
+  return intervalManager.missing(cd.intervals.all, interval);
 };
 
-collection.exists = remoteId => typeof collection.by('remoteId', remoteId) !== 'undefined';
+collection.exists = flatDataId => typeof collection.by('flatDataId', flatDataId) !== 'undefined';
 
-collection.removeByRemoteId = (remoteId, connectedData) => {
+collection.removeByFlatDataId = (flatDataId, connectedData) => {
   let cd = connectedData;
   if (!cd) {
-    cd = collection.by('remoteId', remoteId);
+    cd = collection.by('flatDataId', flatDataId);
     if (!cd) {
       return;
     }
@@ -261,12 +256,12 @@ collection.removeByRemoteId = (remoteId, connectedData) => {
   collection.remove(cd);
 };
 
-collection.getByRemoteId = remoteId => collection.by('remoteId', remoteId);
+collection.getByFlatDataId = flatDataId => collection.by('flatDataId', flatDataId);
 
 collection.cleanup = () => {
   logger.debug('connectedData cleared');
   collection.clear();
-  collection.getRemoteIdIndex().clear();
+  collection.getFlatDataIdIndex().clear();
 };
 
 module.exports = collection;

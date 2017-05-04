@@ -6,7 +6,7 @@ export default class SelectTimebar extends PureComponent {
   static propTypes = {
     updateTimebarId: PropTypes.func.isRequired,
     createNewTimebar: PropTypes.func.isRequired,
-    timebars: PropTypes.shape.isRequired,
+    timebars: PropTypes.shape().isRequired,
     pageId: PropTypes.string.isRequired,
   }
 

@@ -6,7 +6,6 @@ const globalConstants = require('../constants');
 const protobuf = require('../protobuf/index');
 const stubData = require('./data');
 
-const createQueryKey = require('./dc/createQueryKey');
 const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
@@ -16,6 +15,7 @@ const sendFmdGet = require('./dc/sendFmdGet');
 const sendFmdCreate = require('./dc/sendFmdCreate');
 const sendSessionTime = require('./dc/sendSessionTime');
 const sendMasterSession = require('./dc/sendMasterSession');
+const createQueryKey = require('./dc/createQueryKey');
 // const sendDcStatus = require('./dc/sendDcStatus');
 
 process.title = 'gpcchs_dc_stub';
@@ -106,7 +106,7 @@ const onHssMessage = (...args) => {
       const queryArguments = protobuf.decode(
         'dc.dataControllerUtils.QueryArguments', args[4]
       );
-      const queryKey = createQueryKey(dataId, queryArguments);
+      const queryKey = JSON.stringify(dataId, queryArguments);
       queries.push({ queryKey, queryId, dataId, interval, queryArguments });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);

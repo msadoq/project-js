@@ -7,7 +7,7 @@ describe('viewManager/TextView/store/dataSelector', () => {
     });
     it('counts data', () => {
       const state = {
-        textViewData: {
+        TextViewData: {
           v1: { index: { ep1: 10 } },
           v2: { index: { ep1: 10, ep2: 2, ep3: 5 } },
           v3: {},

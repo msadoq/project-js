@@ -38,7 +38,6 @@ const isValidNode = () => true;
 export default class MimicView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
     data: PropTypes.shape({
@@ -47,7 +46,6 @@ export default class MimicView extends Component {
   };
 
   componentWillMount() {
-    // console.log('willMount', this.getContentComponent());
     this.content = this.getContentComponent();
   }
   componentDidMount() {
@@ -55,7 +53,6 @@ export default class MimicView extends Component {
     this.updateSvgsValues(this.props.data);
   }
   shouldComponentUpdate(nextProps) {
-    // console.log('shouldUpdate', nextProps);
     let shouldRender = false;
     if (
       nextProps.content !== this.props.content ||
@@ -86,7 +83,7 @@ export default class MimicView extends Component {
             domain,
             fixed,
           });
-          return (<g id={id}>{children}</g>);
+          return (<g id={id} key={id}>{children}</g>);
         },
       },
       {
@@ -104,7 +101,7 @@ export default class MimicView extends Component {
             domain,
             width,
           });
-          return (<g id={id}>{children}</g>);
+          return (<g id={id} key={id}>{children}</g>);
         },
       },
       {
@@ -123,7 +120,7 @@ export default class MimicView extends Component {
             bgColorLevels,
           });
           return (
-            <g>
+            <g key={id}>
               <rect id={`${id}-bg`} x={node.attribs.x} y={node.attribs.y} width={0} height={0} />
               <text id={id} x={node.attribs.x} y={node.attribs.y}>{children}</text>
             </g>
@@ -133,7 +130,6 @@ export default class MimicView extends Component {
       {
         shouldProcessNode: (node => node.attribs && node.attribs.animation === 'colour'),
         processNode: (node, children) => {
-          console.log('HERE0', node);
           const epName = node.attribs.ep;
           const operators = node.attribs.operators.split('*');
           const rand = Math.round(Math.random() * 100000);
@@ -145,7 +141,7 @@ export default class MimicView extends Component {
             operators,
           });
           return (
-            <g id={id}>
+            <g id={id} key={id}>
               { children }
             </g>
           );
@@ -253,12 +249,10 @@ export default class MimicView extends Component {
             color = stateColor[2];
           }
         }
-        console.log('color found: ', color);
         const nodes = el.childNodes;
         if (color) {
           for (let i = 0; i < nodes.length; i += 1) {
             if (nodes[i].style) {
-              console.log('node found: ', nodes[i]);
               nodes[i].style.fill = color;
             }
           }

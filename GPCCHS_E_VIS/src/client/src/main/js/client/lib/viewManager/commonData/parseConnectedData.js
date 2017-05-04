@@ -44,7 +44,7 @@ export default function parseConnectedData(
 
   return {
     dataId,
-    filter, // TODO : filter"s"
+    filters: filter,
     field: expectedField,
     offset,
   };

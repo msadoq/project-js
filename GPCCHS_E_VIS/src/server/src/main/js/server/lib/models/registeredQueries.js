@@ -16,22 +16,22 @@ const collection = database.addCollection('registeredQueries',
 
 collection.getQueryIdIndex = () => collection.constraints.unique.queryId;
 
-collection.addRecord = (queryId, remoteId) => {
+collection.addRecord = (queryId, flatDataId) => {
   if (!_isString(queryId) || _isEmpty(queryId)) {
     throw new Error(`setting a new query require a string id '${queryId}'`);
   }
-  if (!_isString(remoteId) || _isEmpty(remoteId)) {
-    throw new Error(`setting a new remoteId require a string id '${queryId}'`);
+  if (!_isString(flatDataId) || _isEmpty(flatDataId)) {
+    throw new Error(`setting a new flat DataId require a string id '${queryId}'`);
   }
 
   logger.silly(`query registered for '${queryId}'`);
   collection.insert({
     queryId,
-    remoteId,
+    flatDataId,
   });
 };
 
-collection.getByQueryId = queryId => _get(collection.by('queryId', queryId), 'remoteId');
+collection.getByQueryId = queryId => _get(collection.by('queryId', queryId), 'flatDataId');
 
 collection.getAll = () => _remove(_values(collection.getQueryIdIndex().keyMap), undefined);
 

@@ -15,5 +15,3 @@ export default (stateConf = { content: '' }, action) => {
       return stateConf;
   }
 };
-
-export const getConfiguration = viewId => _.get(`MimicViewConfiguration[${viewId}]`);

@@ -12,15 +12,17 @@ const newEntryPoint = {
   connectedData: {}
 };
 
+const navBarItems = ['Entry Points', 'Text'];
+
 export default class Editor extends Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
     // actions
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-
-    closeEditor: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
@@ -67,6 +69,8 @@ export default class Editor extends Component {
       closeEditor,
       updateTitleStyle,
       updateTitle,
+      openModal,
+      viewId,
       configuration: {
         entryPoints,
         title,
@@ -78,7 +82,7 @@ export default class Editor extends Component {
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Text']}
+          items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={closeEditor}
         />
@@ -86,7 +90,10 @@ export default class Editor extends Component {
           {currentDisplay === 0 && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
-              addEntryPoint={this.addEntryPoint}
+              openModal={openModal}
+              viewId={viewId}
+              viewType="MimicView"
+              search={search}
             />
             <EntryPointTree
               entryPoints={entryPoints}

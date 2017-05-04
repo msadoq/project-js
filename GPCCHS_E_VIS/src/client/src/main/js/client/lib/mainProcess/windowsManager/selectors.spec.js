@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { freezeMe, testMemoization } from '../../common/test';
 import { getEditorWindowTitle, getWindowsTitle } from './selectors';
 
@@ -16,17 +17,24 @@ describe('windowsManager:selectors', () => {
   });
   describe('getWindowsTitle', () => {
     const state = {
+      hsc: {
+        isModified: true,
+      },
       windows: {
-        notModified: { title: 'Not modified', isModified: false },
-        modified: { title: 'Modified', isModified: true },
-        noField: { title: 'No field' },
+        w1: { title: 'First window' },
+        w2: { title: 'Second window' },
       },
     };
-    it('should returns windows titles', () => {
+    it('returns windows titles with star', () => {
       getWindowsTitle(state).should.eql({
-        notModified: 'Not modified - VIMA',
-        modified: 'Modified * - VIMA',
-        noField: 'No field - VIMA',
+        w1: 'First window * - VIMA',
+        w2: 'Second window * - VIMA',
+      });
+    });
+    it('returns windows titles without star', () => {
+      getWindowsTitle(_.set('hsc.isModified', false, state)).should.eql({
+        w1: 'First window - VIMA',
+        w2: 'Second window - VIMA',
       });
     });
     it('should memoize', () => {

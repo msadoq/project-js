@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
-import { getViewContent, getViewType } from '../store/reducers/views';
+import { getViewType } from '../store/reducers/views';
+import { getConfigurationByViewId } from '../viewManager';
 import { getViewEntryPointsName } from '../store/selectors/views';
 import { updateContent } from '../store/actions/views';
 import { closeHtmlEditor } from '../store/actions/editor';
 import Source from './Source';
 
 const mapStateToProps = (state, { viewId }) => {
-  const content = getViewContent(state, { viewId });
   const type = getViewType(state, { viewId });
-  // console.log('CONTENT: ', content);
+  const configuration = getConfigurationByViewId(state, { viewId });
   const entryPointsName = getViewEntryPointsName(state, { viewId });
-  // console.log('EP NAME: ', entryPointsName);
   return {
-    content,
+    content: configuration.content,
     entryPointsName,
     type,
   };

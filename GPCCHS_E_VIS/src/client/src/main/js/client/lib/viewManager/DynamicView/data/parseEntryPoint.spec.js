@@ -14,7 +14,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         formula: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
         domain: 'cnes',
         timeline: 'tl1',
-        filter: {},
+        filter: [],
       },
     };
     timelines = [
@@ -62,11 +62,9 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
           sessionName:'session1',
         },
         offset: 0,
-        filter: {},
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
-        structureType: globalConstants.DATASTRUCTURETYPE_LAST,
-        remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
         type: 'DynamicView',
       },
     });

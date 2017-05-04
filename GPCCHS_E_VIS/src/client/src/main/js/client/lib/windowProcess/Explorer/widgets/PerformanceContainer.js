@@ -2,6 +2,9 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getHealthMapForWindow } from '../../../store/reducers/health';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
+import { getWindowFocusedPageId } from '../../../store/reducers/windows';
+import { getPage } from '../../../store/reducers/pages';
+import { play, pause } from '../../../store/actions/hsc';
 import textData from '../../../viewManager/TextView/store/dataSelectors';
 import plotData from '../../../viewManager/PlotView/store/dataSelectors';
 import * as constants from '../../../viewManager/constants';
@@ -30,9 +33,19 @@ const mapStateToProps = (state, { windowId }) => {
   viewInfo[constants.VM_VIEW_TEXT].all = viewCount[constants.VM_VIEW_TEXT].all;
   viewInfo[constants.VM_VIEW_DYNAMIC].all = Object.keys(viewInfo[constants.VM_VIEW_DYNAMIC]).length;
 
+  const focusedPageId = getWindowFocusedPageId(state, { windowId });
+  const focusedPage = getPage(state, { pageId: focusedPageId });
+  let timebarUuid = '';
+  if (focusedPage) {
+    timebarUuid = focusedPage.timebarUuid;
+  }
+
   return {
     ...getHealthMapForWindow(state, { windowId }),
     viewInfo,
+    play,
+    pause,
+    timebarUuid,
   };
 };
 

@@ -1,5 +1,5 @@
 const { reset: resetDataQueue } = require('../../models/dataQueue');
-
+const onDataPull = require('./onDataPull');
 /**
  * Triggered when HSC main process pull data spooled by HSC
  *
@@ -8,7 +8,10 @@ const { reset: resetDataQueue } = require('../../models/dataQueue');
  * @param reply
  * @param queryId
  */
-module.exports = (reply, queryId) => {
+module.exports = (reply, queryId, { queries }) => {
+  // Add data to queue using queries
+  onDataPull({ queries });
+  // send data to client
   reply(
     queryId,
     {

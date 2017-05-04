@@ -72,22 +72,19 @@ module.exports = function sendArchiveData(
     return;
   }
 
-  // no more than 1000 payloads per sending
-  _each(_chunk(payloads, globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE), (thousandPayloads) => {
-    const buffer = [
-      null,
-      header,
-      stubData.getStringProtobuf(queryId),
-      stubData.getDataIdProtobuf(dataId),
-      (_last(payloads) === _last(thousandPayloads)) ? thisIsTheEnd : thisIsNotTheEnd,
-    ];
-    _each(thousandPayloads, (payload) => {
-      buffer.push(payload.timestamp);
-      buffer.push(payload.payload);
-    });
-
-    zmq.push('stubData', buffer);
+  const buffer = [
+    null,
+    header,
+    stubData.getStringProtobuf(queryId),
+    stubData.getDataIdProtobuf(dataId),
+    thisIsTheEnd,
+  ];
+  _each(payloads, (payload) => {
+    buffer.push(payload.timestamp);
+    buffer.push(payload.payload);
   });
+
+  zmq.push('stubData', buffer);
 
   logger.debug(`push ${payloads.length} data from query from: ${new Date(from)} to ${new Date(to)} now`);
 };

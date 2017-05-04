@@ -1,11 +1,15 @@
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import _reduce from 'lodash/reduce';
+import _get from 'lodash/get';
 import _isObject from 'lodash/isObject';
 import classnames from 'classnames';
 import {
   Panel,
+  Button,
 } from 'react-bootstrap';
+import Perf from 'react-dom/lib/ReactPerf';
+import { get } from 'common/parameters';
 import getLogger from 'common/log';
 import {
   HEALTH_STATUS_HEALTHY,
@@ -40,6 +44,9 @@ export default class Performance extends Component {
       [constants.VM_VIEW_TEXT]: PropTypes.object,
       [constants.VM_VIEW_PLOT]: PropTypes.object,
     }),
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -54,6 +61,33 @@ export default class Performance extends Component {
       [constants.VM_VIEW_PLOT]: {},
     },
   };
+
+  printReactWastedRenders = () => {
+    this.props.play(this.props.timebarUuid);
+    Perf.start();
+    setTimeout(() => {
+      Perf.stop();
+      // eslint-disable-next-line no-console
+      console.log('WASTED');
+      Perf.printWasted();
+      // eslint-disable-next-line no-console
+      console.log('INCLUSIVE');
+      Perf.printInclusive();
+      // eslint-disable-next-line no-console
+      console.log('EXCLUSIVE');
+      Perf.printExclusive();
+      this.props.pause(this.props.timebarUuid);
+    }, get('ORCHESTRATION_FREQUENCY'));
+  }
+
+  profileTick = () => {
+    this.props.play(this.props.timebarUuid);
+    _get(console, ['profile'])('tick');
+    setTimeout(() => {
+      _get(console, ['profileEnd'])('tick');
+      this.props.pause(this.props.timebarUuid);
+    }, get('ORCHESTRATION_FREQUENCY') * 2 * 3);
+  }
 
   render() {
     logger.debug('render');
@@ -85,15 +119,15 @@ export default class Performance extends Component {
         </span>
       );
     }
-    const plotPts = _reduce(viewInfo[constants.VM_VIEW_PLOT], (acc, v) => {
+    const plotPts = _reduce(viewInfo[constants.VM_VIEW_PLOT], (acc, v, idx) => {
       if (_isObject(v)) {
-        acc.push((<li>{v.title}: {v.nbPt}</li>));
+        acc.push((<li key={'plot'.concat(idx)}>{v.title}: {v.nbPt}</li>));
       }
       return acc;
     }, []);
-    const textPts = _reduce(viewInfo[constants.VM_VIEW_TEXT], (acc, v) => {
+    const textPts = _reduce(viewInfo[constants.VM_VIEW_TEXT], (acc, v, idx) => {
       if (_isObject(v)) {
-        acc.push((<li>{v.title}: {v.nbPt}</li>));
+        acc.push((<li key={'text'.concat(idx)}>{v.title}: {v.nbPt}</li>));
       }
       return acc;
     }, []);
@@ -123,9 +157,9 @@ export default class Performance extends Component {
         <Panel header={<h3>Numbers</h3>}>
           <div>Number of views:
           <ul>
-            <li>Plot Views: {Object.keys(viewInfo[constants.VM_VIEW_PLOT]).length - 1}</li>
-            <li>Text Views: {Object.keys(viewInfo[constants.VM_VIEW_TEXT]).length - 1}</li>
-            <li>Dynamic View: {viewInfo[constants.VM_VIEW_DYNAMIC].all}</li>
+            <li key="v1">Plot Views: {Object.keys(viewInfo[constants.VM_VIEW_PLOT]).length - 1}</li>
+            <li key="v2">Text Views: {Object.keys(viewInfo[constants.VM_VIEW_TEXT]).length - 1}</li>
+            <li key="v3">Dynamic View: {viewInfo[constants.VM_VIEW_DYNAMIC].all}</li>
           </ul>
           </div>
           <div>Number of points:
@@ -137,6 +171,22 @@ export default class Performance extends Component {
             </ul>
           </div>
         </Panel>
+        <Button
+          bsStyle="primary"
+          block
+          onClick={this.printReactWastedRenders}
+          type="button"
+        >
+        Print React wasted renderers
+        </Button>
+        <Button
+          bsStyle="primary"
+          block
+          onClick={this.profileTick}
+          type="button"
+        >
+        Profile tick
+        </Button>
       </div>
     );
   }

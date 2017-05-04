@@ -5,44 +5,26 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import TextTabContainer from './TextTabContainer';
 
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  connectedData: {},
-};
-
 const navBarItems = ['Entry Points', 'Text'];
 
 export default class Editor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     // actions
-    addEntryPoint: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
 
-    closeEditor: PropTypes.func.isRequired,
+    updateEditorSearch: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
+      search: PropTypes.string,
     }).isRequired,
   };
 
-  state = { currentDisplay: 0, search: '' };
-
-  addEntryPoint = (values) => {
-    const {
-      addEntryPoint,
-      viewId,
-    } = this.props;
-    addEntryPoint(
-      viewId,
-      {
-        ...newEntryPoint,
-        ...values,
-      }
-    );
-  }
+  state = { currentDisplay: 0 };
 
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
@@ -62,15 +44,17 @@ export default class Editor extends Component {
     });
   }
 
-  changeSearch = s => this.setState({ search: s });
+  changeSearch = s => this.props.updateEditorSearch(s);
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
 
   render() {
-    const { currentDisplay, search } = this.state;
+    const { currentDisplay } = this.state;
     const {
-      closeEditor,
+      openModal,
+      viewId,
       configuration: {
         entryPoints,
+        search,
       },
     } = this.props;
 
@@ -80,13 +64,15 @@ export default class Editor extends Component {
           currentDisplay={currentDisplay}
           items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={closeEditor}
         />
         <div className={styles.content}>
           {currentDisplay === 0 && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
-              addEntryPoint={this.addEntryPoint}
+              openModal={openModal}
+              viewId={viewId}
+              viewType="TextView"
+              search={search}
             />
             <EntryPointTree
               entryPoints={entryPoints}

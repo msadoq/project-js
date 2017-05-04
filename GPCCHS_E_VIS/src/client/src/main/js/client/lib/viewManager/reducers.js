@@ -8,44 +8,53 @@ import textViewConfigurationReducer from './TextView/store/configurationReducer'
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
 import mimicViewConfigurationReducer from './MimicView/store/configurationReducer';
+import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
+import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
+
+import textViewDataReducer from './TextView/store/dataReducer';
+import plotViewDataReducer from './PlotView/store/dataReducer';
+import dynamicViewDataReducer from './DynamicView/store/dataReducer';
+import mimicViewDataReducer from './MimicView/store/dataReducer';
+import historyViewDataReducer from './HistoryView/store/dataReducer';
+import packetViewDataReducer from './PacketView/store/dataReducer';
 
 import * as constants from './constants';
 
 /* --- Utils ---------------------------------------------------------------- */
 const appendString = _.curry((x, str) => str.concat(x));
 
-const createViewReducer = ({ type, reducer }) => ({
-  reducer: createReducerByViews(
+const createViewConfigurationReducer = ([type, reducer]) => ([
+  type,
+  createReducerByViews(
     composeReducers(reducer, commonConfigurationReducer),
     type
   ),
-  type,
-});
+]);
+
+const createConfigurationReducers = _.pipe(
+  _.toPairs,
+  _.map(createViewConfigurationReducer),
+  _.fromPairs,
+  _.mapKeys(appendString('Configuration'))
+);
+
+const createDataReducers = _.mapKeys(appendString('Data'));
 
 /* --- Reducers ------------------------------------------------------------- */
-const listConfigurationReducers = [
-  {
-    type: constants.VM_VIEW_TEXT,
-    reducer: textViewConfigurationReducer,
-  },
-  {
-    type: constants.VM_VIEW_PLOT,
-    reducer: plotViewConfigurationReducer,
-  },
-  {
-    type: constants.VM_VIEW_DYNAMIC,
-    reducer: dynamicViewConfigurationReducer,
-  },
-  {
-    type: constants.VM_VIEW_MIMIC,
-    reducer: mimicViewConfigurationReducer,
-  },
-];
+export const configurationReducers = createConfigurationReducers({
+  [constants.VM_VIEW_TEXT]: textViewConfigurationReducer,
+  [constants.VM_VIEW_PLOT]: plotViewConfigurationReducer,
+  [constants.VM_VIEW_DYNAMIC]: dynamicViewConfigurationReducer,
+  [constants.VM_VIEW_MIMIC]: mimicViewConfigurationReducer,
+  [constants.VM_VIEW_HISTORY]: historyViewConfigurationReducer,
+  [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
+});
 
-export default _.compose(
-  _.omitBy(_.isUndefined),
-  _.mapKeys(appendString('Configuration')),
-  _.mapValues('reducer'),
-  _.indexBy('type'),
-  _.map(createViewReducer)
-)(listConfigurationReducers);
+export const dataReducers = createDataReducers({
+  [constants.VM_VIEW_TEXT]: textViewDataReducer,
+  [constants.VM_VIEW_PLOT]: plotViewDataReducer,
+  [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
+  [constants.VM_VIEW_MIMIC]: mimicViewDataReducer,
+  [constants.VM_VIEW_HISTORY]: historyViewDataReducer,
+  [constants.VM_VIEW_PACKET]: packetViewDataReducer,
+});

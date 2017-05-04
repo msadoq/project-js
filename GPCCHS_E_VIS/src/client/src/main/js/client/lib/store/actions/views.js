@@ -37,6 +37,8 @@ export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legen
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 
+export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
+
 // ************ Axis
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');
 export const removeAxis = simple(types.WS_VIEW_REMOVE_AXIS, 'viewId', 'axisId');

@@ -37,8 +37,8 @@ const list = {
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: plotViewData,
     dataSelectors: plotViewDataSelectors,
-    // getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
-    // getEditorComponent: () => require('./PlotView/Components/Editor/PlotEditorContainer'),
+    getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
+    getEditorComponent: () => require('./PlotView/Components/Editor/PlotEditorContainer'),
   },
   [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
@@ -46,8 +46,8 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: textViewData,
     dataSelectors: textViewDataSelectors,
-    // getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
-    // getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
+    getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
+    getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
   },
   [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
@@ -55,8 +55,8 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
     dataSelectors: dynamicViewDataSelectors,
-    // getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
-    // getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
+    getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
+    getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,
@@ -64,8 +64,8 @@ const list = {
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: historyViewData,
     // dataSelectors: historyViewDataSelectors,
-    // getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
-    // getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
+    getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
+    getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
   },
   [constants.VM_VIEW_PACKET]: {
     schema: packetViewSchema,
@@ -73,8 +73,8 @@ const list = {
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: packetViewData,
     // dataSelectors: packetViewDataSelectors,
-    // getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
-    // getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
+    getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
+    getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
   },
 };
 

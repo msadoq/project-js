@@ -93,7 +93,7 @@ if [ "$#" -eq 1 ]; then
       shift
       ;;
     --update)
-      goToGPDS && pullGPDS
+      goToGPDS && checkoutGPDS && pullGPDS
       shift
       ;;
     *)

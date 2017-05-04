@@ -15,8 +15,6 @@ const sendFmdGet = require('./dc/sendFmdGet');
 const sendFmdCreate = require('./dc/sendFmdCreate');
 const sendSessionTime = require('./dc/sendSessionTime');
 const sendMasterSession = require('./dc/sendMasterSession');
-const createQueryKey = require('./dc/createQueryKey');
-// const sendDcStatus = require('./dc/sendDcStatus');
 
 process.title = 'gpcchs_dc_stub';
 
@@ -193,7 +191,7 @@ zmq.open(
   },
   (err) => {
     if (err) {
-      return;
+      throw err;
     }
 
     logger.info('sockets opened');

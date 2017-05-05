@@ -81,6 +81,8 @@ export default class PlotEditor extends Component {
             title={title}
             grids={grids}
             titleStyle={titleStyle}
+            openModal={openModal}
+            viewId={viewId}
           />}
           {currentDisplay === 0 && [
             <EntryPointActions

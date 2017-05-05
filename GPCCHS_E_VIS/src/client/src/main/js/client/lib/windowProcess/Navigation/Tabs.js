@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 
-// import DummyDrag from './DummyDrag';
+import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
 
 const popoverDraggingStyle = { display: 'none' };
@@ -154,7 +154,7 @@ export default class Tabs extends PureComponent {
             </NavItem>
           )
         }
-        {/* <DummyDrag /> */}
+        <DummyDrag />
       </Nav>
     );
   }

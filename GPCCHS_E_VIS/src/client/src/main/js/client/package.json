@@ -127,6 +127,7 @@
     "postcss-reporter": "~3.0.0",
     "postcss-smart-import": "~0.6.10",
     "postcss-url": "~6.0.3",
+    "rc-collapse": "^1.7.3",
     "react": "~15.4.2",
     "react-addons-test-utils": "~15.4.2",
     "react-bootstrap": "~0.30.8",

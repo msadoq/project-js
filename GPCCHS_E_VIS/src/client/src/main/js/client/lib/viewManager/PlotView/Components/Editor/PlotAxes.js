@@ -1,24 +1,25 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
-  Accordion,
-  Panel,
   Button,
   Glyphicon,
   Form,
 } from 'react-bootstrap';
+import classnames from 'classnames';
+import Collapse from 'rc-collapse';
 import _memoize from 'lodash/memoize';
 import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import SelectButton from '../../../../windowProcess/commonReduxForm/SelectButton';
-import PlotAxis from './PlotAxis';
-import Modal from '../../../../windowProcess/common/Modal';
+import AddPlotAxis from './AddPlotAxis';
+import styles from './EntryPointTree.css';
 
+const { Panel } = Collapse;
 const alignButtons = [
   { label: '', icon: 'none' },
   { label: 'left', icon: 'alignLeft' },
   { label: 'right', icon: 'alignRight' },
 ];
 
-export default class PlotAxes extends React.Component {
+export default class PlotAxes extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     axes: PropTypes.objectOf(PropTypes.object),
@@ -27,14 +28,6 @@ export default class PlotAxes extends React.Component {
     removeAxis: PropTypes.func.isRequired,
     updateAxis: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
-    expanded: PropTypes.bool.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    open: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired,
-    headerRole: PropTypes.string.isRequired,
-    panelRole: PropTypes.string.isRequired,
-    eventKey: PropTypes.string.isRequired,
-    collapsible: PropTypes.bool.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.object),
   }
 
@@ -44,22 +37,16 @@ export default class PlotAxes extends React.Component {
     axes: {},
   };
 
-  state = { isCreationModalOpen: false };
+  state = { openPanels: [] };
 
-  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
-  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
+  onChange = openPanels =>
+    this.setState({ openPanels })
 
   handleRemovePlotAxis = (e, key) => {
     const { removeAxis, viewId } = this.props;
     e.preventDefault();
     e.stopPropagation();
     removeAxis(viewId, key);
-  }
-
-  handleAddPlotAxis = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.openCreationModal();
   }
 
   handleCreateAxis = (values) => {
@@ -91,55 +78,19 @@ export default class PlotAxes extends React.Component {
     updateShowYAxes(viewId, value);
   }
 
-  openParentAccordion = (key, e) => {
-    const {
-      open,
-      onSelect,
-    } = this.props;
-
-    onSelect(key, e);
-    open();
-  }
-
   render() {
     const {
       axes,
       showYAxes,
       viewId,
-      expanded,
-      close,
-      eventKey,
-      headerRole,
-      panelRole,
-      collapsible,
       entryPoints,
     } = this.props;
-    const { isCreationModalOpen } = this.state;
+    const {
+      openPanels,
+    } = this.state;
 
     return (
-      <Panel
-        header={<span>
-          <span className="flex">Axes</span>
-          <Button
-            bsSize="xsmall"
-            className="pull-right btn-link"
-            onClick={this.handleAddPlotAxis}
-          >
-            <Glyphicon
-              className="text-success"
-              glyph="plus"
-              title="Add"
-            />
-          </Button>
-        </span>}
-        onSelect={this.openParentAccordion}
-        onExited={close}
-        collapsible={collapsible}
-        expanded={expanded}
-        eventKey={eventKey}
-        headerRole={headerRole}
-        panelRole={panelRole}
-      >
+      <div>
         {Object.keys(axes).length && <Form horizontal>
           <HorizontalFormGroup label="Align">
             <SelectButton
@@ -149,57 +100,48 @@ export default class PlotAxes extends React.Component {
             />
           </HorizontalFormGroup>
         </Form>}
-        <Accordion>
+        <Collapse accordion={false} onChange={this.onChange}>
           {Object.keys(axes).map((axisId) => {
             const axis = axes[axisId];
             return (
               <Panel
                 key={axisId}
-                header={<span>
-                  <span className="flex">{axis.label}</span>
-                  {axisId !== 'time' &&
-                    <Button
-                      bsSize="xsmall"
-                      className="btn-link"
-                      onClick={e => this.handleRemovePlotAxis(e, axisId)}
-                    >
-                      <Glyphicon
-                        className="text-danger"
-                        glyph="remove"
-                        title="Remove"
-                      />
-                    </Button>
-                  }
-                </span>}
-                eventKey={axisId}
-                expanded={this.state[`isPanel${axisId}Open`]}
-                onSelect={this.openPanel(axisId)}
-                onExited={this.closePanel(axisId)}
+                header={
+                  <div className="rc-collapse-header-inner">
+                    <span className="">&nbsp;&nbsp;&nbsp;{axis.label}</span>
+                    {axisId !== 'time' &&
+                      <div>
+                        <Button
+                          bsSize="xsmall"
+                          className={classnames(styles.removeButton, 'btn-link')}
+                          onClick={e => this.handleRemovePlotAxis(e, axisId)}
+                        >
+                          <Glyphicon
+                            className="text-danger"
+                            glyph="remove"
+                            title="Remove"
+                          />
+                        </Button>
+                      </div>
+                    }
+                  </div>
+                }
               >
-                {this.state[`isPanel${axisId}Open`] &&
-                  <PlotAxis
+                {openPanels.includes(axisId) &&
+                  <AddPlotAxis
                     key={axisId}
                     axisId={axisId}
                     initialValues={axis}
+                    axes={axes}
                     entryPoints={entryPoints}
                     onSubmit={this.handleSubmitFactory(axisId)}
-                    form={`axis-form-${axisId}-${viewId}`}
+                    form={`edit-plot-axis-${axis.id}-${viewId}`}
                   />}
               </Panel>
             );
           })}
-        </Accordion>
-        <Modal
-          title="Add a new Axis"
-          isOpened={isCreationModalOpen}
-          onClose={this.closeCreationModal}
-        >
-          <PlotAxis
-            onSubmit={this.handleCreateAxis}
-            form="axis-form-new"
-          />
-        </Modal>
-      </Panel>
+        </Collapse>
+      </div>
     );
   }
 }

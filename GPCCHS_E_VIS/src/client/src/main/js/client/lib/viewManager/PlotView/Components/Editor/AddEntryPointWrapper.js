@@ -13,7 +13,6 @@ export default class AddEntryPointWrapper extends Component {
   };
 
   willAddEntryPoint = (values) => {
-    console.log('will add EP', values);
     const {
       addEntryPoint,
       closeModal,

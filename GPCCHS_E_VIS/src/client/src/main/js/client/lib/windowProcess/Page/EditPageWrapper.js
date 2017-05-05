@@ -6,19 +6,25 @@ export default class EditPageWrapper extends PureComponent {
     page: PropTypes.shape().isRequired,
     pages: PropTypes.shape().isRequired,
     updateTitle: PropTypes.func.isRequired,
+    updateDomainName: PropTypes.func.isRequired,
+    updateSessionName: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }
 
   willEditPage = (values) => {
     const {
       page,
       updateTitle,
+      updateDomainName,
+      updateSessionName,
       closeModal,
     } = this.props;
-    updateTitle(
-      page.uuid,
-      values.title
-    );
+
+    updateTitle(page.uuid, values.title);
+    updateDomainName(page.uuid, values.domainName);
+    updateSessionName(page.uuid, values.sessionName);
     closeModal();
   }
 
@@ -26,6 +32,8 @@ export default class EditPageWrapper extends PureComponent {
     const {
       page,
       pages,
+      domains,
+      sessions,
     } = this.props;
 
     return (
@@ -37,7 +45,11 @@ export default class EditPageWrapper extends PureComponent {
         // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
         initialValues={{
           title: page.title,
+          domainName: page.domainName,
+          sessionName: page.sessionName,
         }}
+        domains={domains}
+        sessions={sessions}
       />
     );
   }

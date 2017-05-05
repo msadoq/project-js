@@ -8,6 +8,7 @@ import ClearSubmitButtons from '../../windowProcess/commonReduxForm/ClearSubmitB
 import InputField from '../../windowProcess/commonReduxForm/InputField';
 import ColorPickerField from '../../windowProcess/commonReduxForm/ColorPickerField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
+import ReactSelectField from '../../windowProcess/commonReduxForm/ReactSelectField';
 
 const bgColors = [
   '#FFFFFF', '#eceff1', '#fafafa', '#efebe9',
@@ -40,6 +41,8 @@ class ViewParamsForm extends React.Component {
     reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }
 
   handleTitle = ({ target: { value: title } }) => {
@@ -53,6 +56,8 @@ class ViewParamsForm extends React.Component {
       reset,
       submitting,
       valid,
+      domains,
+      sessions,
     } = this.props;
 
     return (
@@ -83,6 +88,37 @@ class ViewParamsForm extends React.Component {
           />
         </HorizontalFormGroup>
 
+        <div className="page-header">
+          <h4>Configuration</h4>
+        </div>
+        <HorizontalFormGroup label="Domain Name">
+          <Field
+            name="domainName"
+            component={ReactSelectField}
+            free
+            clearable
+            options={domains.map(domain =>
+              ({
+                label: domain.name,
+                value: domain.name,
+              })
+            )}
+          />
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Session Name">
+          <Field
+            name="sessionName"
+            component={ReactSelectField}
+            free
+            clearable
+            options={sessions.map(session =>
+              ({
+                label: session.name,
+                value: session.name,
+              })
+            )}
+          />
+        </HorizontalFormGroup>
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}

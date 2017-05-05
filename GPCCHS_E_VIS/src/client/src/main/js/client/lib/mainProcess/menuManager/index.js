@@ -30,6 +30,18 @@ const workspace = {
       workspaceOpen(focusedWindow);
     },
   }, {
+    label: 'Edit...',
+    click(item, focusedWindow) {
+      if (focusedWindow && focusedWindow.windowId) {
+        getStore().dispatch(
+          openModal(
+            focusedWindow.windowId,
+            { type: 'editWorkspace' }
+          )
+        );
+      }
+    },
+  }, {
     label: 'Save',
     accelerator: 'CmdOrCtrl+S',
     click: (item, focusedWindow) => {
@@ -55,7 +67,7 @@ const window = {
       click() { getStore().dispatch(addWindow(v4(), 'New window')); },
     },
     {
-      label: 'Edit',
+      label: 'Edit...',
       click(item, focusedWindow) {
         if (focusedWindow && focusedWindow.windowId) {
           getStore().dispatch(
@@ -88,7 +100,7 @@ const page = {
       pageOpen(focusedWindow);
     },
   }, {
-    label: 'Edit',
+    label: 'Edit...',
     click(item, focusedWindow) {
       if (focusedWindow && focusedWindow.windowId) {
         const {

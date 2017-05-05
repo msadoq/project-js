@@ -8,6 +8,7 @@ import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Ed
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
+import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 
 const ModalGeneric = (props) => {
@@ -80,6 +81,14 @@ const ModalGeneric = (props) => {
       title = 'Edit page';
       child = (
         <EditPageContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />);
+      break;
+    case 'editWorkspace':
+      title = 'Edit Workspace';
+      child = (
+        <EditWorkspaceContainer
           {...props.props}
           closeModal={props.onClose}
         />);

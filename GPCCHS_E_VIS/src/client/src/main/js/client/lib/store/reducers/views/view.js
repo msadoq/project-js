@@ -48,6 +48,8 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_ADD_PROCEDURE,
     types.WS_VIEW_REMOVE_PROCEDURE,
     types.WS_VIEW_ADD_ENTRYPOINT,
+    types.WS_VIEW_UPDATE_DOMAINNAME,
+    types.WS_VIEW_UPDATE_SESSIONNAME,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     return setIsModified(true, stateView);
@@ -111,6 +113,16 @@ function simpleView(stateView = initialState, action) {
       return removeElementIn('procedures', action.payload.index, stateView);
     case types.WS_VIEW_UPDATE_RATIO:
       return _.set('defaultRatio', action.payload.ratio, stateView);
+    case types.WS_VIEW_UPDATE_DOMAINNAME:
+      if (action.payload.domainName) {
+        return { ...stateView, domainName: action.payload.domainName };
+      }
+      return _.omit('domainName', stateView);
+    case types.WS_VIEW_UPDATE_SESSIONNAME:
+      if (action.payload.sessionName) {
+        return { ...stateView, sessionName: action.payload.sessionName };
+      }
+      return _.omit('sessionName', stateView);
     default:
       return stateView;
   }

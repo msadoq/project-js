@@ -18,6 +18,10 @@ const simpleUpdateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'view
 
 export const updatePath = ifPathChanged(simpleUpdatePath, 'views', 'path', 'viewId');
 export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'views', 'absolutePath', 'viewId');
+
+export const updateDomainName = simple(types.WS_VIEW_UPDATE_DOMAINNAME, 'viewId', 'domainName');
+export const updateSessionName = simple(types.WS_VIEW_UPDATE_SESSIONNAME, 'viewId', 'sessionName');
+
 /* ------------------------ */
 
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');

@@ -17,6 +17,10 @@ export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
 export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
 export const updateForecast = simple(types.HSC_UPDATE_FORECAST, 'lower', 'upper');
+
+export const updateDomainName = simple(types.WS_WORKSPACE_UPDATE_DOMAINNAME, 'domainName');
+export const updateSessionName = simple(types.WS_WORKSPACE_UPDATE_SESSIONNAME, 'sessionName');
+
 /**
  * Play mode
  */

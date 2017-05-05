@@ -144,6 +144,16 @@ export default function pageReducer(statePage = initialState, action) {
       );
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
       return { ...statePage, isModified: true };
+    case types.WS_PAGE_UPDATE_DOMAINNAME:
+      if (action.payload.domainName) {
+        return { ...statePage, domainName: action.payload.domainName, isModified: true };
+      }
+      return Object.assign({}, _.omit('domainName', statePage), { isModified: true });
+    case types.WS_PAGE_UPDATE_SESSIONNAME:
+      if (action.payload.sessionName) {
+        return { ...statePage, sessionName: action.payload.sessionName, isModified: true };
+      }
+      return Object.assign({}, _.omit('sessionName', statePage), { isModified: true });
     default:
       return statePage;
   }

@@ -112,4 +112,14 @@ describe('store:windows:reducer:window', () => {
     reducer(nextState, actions.displayHelp('myId', false))
       .myId.displayHelp.should.equal(false);
   });
+  it('should update sessionName', () => {
+    const newState = reducer({ w1: {} }, actions.updateSessionName('w1', 'mySession'));
+    newState.w1.sessionName.should.eql('mySession');
+    reducer(newState, actions.updateSessionName('w1', null)).should.eql({ w1: {} });
+  });
+  it('should update domainName', () => {
+    const newState = reducer({ w1: {} }, actions.updateDomainName('w1', 'myDomain'));
+    newState.w1.domainName.should.eql('myDomain');
+    reducer(newState, actions.updateDomainName('w1', null)).should.eql({ w1: {} });
+  });
 });

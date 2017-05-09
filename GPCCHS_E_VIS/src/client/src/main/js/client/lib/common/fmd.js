@@ -1,4 +1,5 @@
 import startsWith from 'lodash/fp/startsWith';
+import fs from 'fs';
 import { relative, join, basename, dirname } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
@@ -6,7 +7,10 @@ import parameters from 'common/parameters';
 import globalConstants from 'common/constants';
 
 import ipcApi from '../mainProcess/ipc';
-import { checkPath } from './fs';
+
+const checkPath = (path, cb) => (
+  fs.exists(path, pathExist => cb(null, !!pathExist))
+);
 
 export const getRootDir = () => parameters.get('ISIS_DOCUMENTS_ROOT');
 export const isInFmd = path => startsWith(getRootDir(), path);

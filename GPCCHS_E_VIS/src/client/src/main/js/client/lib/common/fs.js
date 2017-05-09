@@ -66,22 +66,6 @@ const self = {
   },
 
   /**
-   * Checks if a path exists
-   *
-   * @param path folder
-   * @param cb
-   */
-  checkPath: (path, cb) => {
-    fs.exists(path, (pathExist) => {
-      if (pathExist) {
-        cb(null, true);
-      } else {
-        cb(null, false);
-      }
-    });
-  },
-
-  /**
    * Checks if folder exists and if not, creates it
    *
    * @param folder

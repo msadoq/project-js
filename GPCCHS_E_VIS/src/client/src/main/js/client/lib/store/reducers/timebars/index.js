@@ -24,6 +24,9 @@ export default function timebarsReducer(stateTimebars = {}, action) {
         _.map(singleTimebarReducer)          // 1. apply single timebar reducer on all timebars
       )(action.payload.timebars);
     }
+    case types.HSC_PAUSE: {
+      return _.mapValues(t => _.set('realTime', false, t), stateTimebars);
+    }
     default: {
       if (
         action.payload &&

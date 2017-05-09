@@ -56,8 +56,12 @@ describe('store:actions:windows', () => {
     it('set pause then set focus', () => {
       actions.focusPage('myWindowId', 'p2')(dispatch, getState);
       dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(0).args[0].should.be.a('object');
       dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.HSC_PAUSE,
+        payload: { },
+      });
 
       dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_WINDOW_PAGE_FOCUS,

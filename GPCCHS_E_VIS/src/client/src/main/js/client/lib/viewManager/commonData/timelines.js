@@ -8,27 +8,18 @@ import { get } from 'common/parameters';
  * Apply search on timelines and return corresponding sessionId.
  *
  * @param timelines
- * @param masterSessionId
  * @param search
  * @returns {*}
  */
-export default function findTimelines(timelines, masterSessionId, search) {
+export default function findTimelines(timelines, search) {
+  if (search === get('WILDCARD_CHARACTER')) {
+    return { sessionName: get('WILDCARD_CHARACTER'), offset: 0 };
+  }
+  if (search === '' || _isNull(search) || _isUndefined(search)) {
+    return { error: 'invalid entry point, no timeline set' };
+  }
   if (!timelines || !timelines.length) {
     return { error: 'invalid entry point, no timeline available' };
-  }
-  if (search === get('WILDCARD_CHARACTER')
-    || search === ''
-    || _isNull(search)
-    || _isUndefined(search)
-  ) {
-    if (!masterSessionId) {
-      return { error: 'invalid entry point, no timeline set and no master session found' };
-    }
-    return {
-      sessionId: masterSessionId,
-      sessionName: '*',
-      offset: 0,
-    };
   }
 
   const sessions = _map(

@@ -26,13 +26,32 @@ function parseEntryPoint(
   entryPoint,
   masterSessionId,
   timebarUuid,
-  viewType) {
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName
+) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
   const { connectedData, name, id, stateColors } = entryPoint;
-  const cd = parseConnectedData(domains, sessions, timelines, connectedData, masterSessionId);
+  const cd = parseConnectedData(
+    domains,
+    sessions,
+    timelines,
+    connectedData,
+    masterSessionId,
+    viewDomain,
+    pageDomain,
+    workspaceDomain,
+    viewSessionName,
+    pageSessionName,
+    workspaceSessionName
+  );
 
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);

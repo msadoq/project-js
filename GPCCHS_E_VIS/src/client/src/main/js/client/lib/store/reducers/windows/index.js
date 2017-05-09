@@ -43,11 +43,6 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_PAGE_TIMEBAR_UNMOUNT: {
       return _.mapValues(_.set('isModified', true), stateWindows);
     }
-    case types.WS_WINDOW_UPDATE_DOMAINNAME:
-    case types.WS_WINDOW_UPDATE_SESSIONNAME: {
-      const windowId = action.payload.windowId;
-      return _.set(windowId, window(stateWindows[windowId], action), stateWindows);
-    }
     default: {
       if (
         action.payload &&
@@ -96,13 +91,3 @@ export const getWindowFocusedPageId = createSelector(
 export function getDisplayHelp(state, { windowId }) {
   return _.get(['windows', windowId, 'displayHelp'], state);
 }
-
-export const getWindowDomainName = createSelector(
-  getWindow,
-  _.get('domainName')
-);
-
-export const getWindowSessionName = createSelector(
-  getWindow,
-  _.get('sessionName')
-);

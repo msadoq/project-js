@@ -10,7 +10,6 @@ import {
   Button,
 } from 'react-bootstrap';
 import InputField from '../commonReduxForm/InputField';
-import ReactSelectField from '../commonReduxForm/ReactSelectField';
 import HorizontalFormGroup from '../commonReduxForm/HorizontalFormGroup';
 
 class EditWindow extends PureComponent {
@@ -22,8 +21,6 @@ class EditWindow extends PureComponent {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-    sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }
 
   static defaultProps = {
@@ -38,8 +35,6 @@ class EditWindow extends PureComponent {
       valid,
       windows,
       handleSubmit,
-      domains,
-      sessions,
     } = this.props;
 
     return (
@@ -63,35 +58,6 @@ class EditWindow extends PureComponent {
             }}
           />
         </HorizontalFormGroup>
-        <HorizontalFormGroup label="Domain Name">
-          <Field
-            name="domainName"
-            component={ReactSelectField}
-            free
-            clearable
-            options={domains.map(domain =>
-              ({
-                label: domain.name,
-                value: domain.name,
-              })
-            )}
-          />
-        </HorizontalFormGroup>
-        <HorizontalFormGroup label="Session Name">
-          <Field
-            name="sessionName"
-            component={ReactSelectField}
-            free
-            clearable
-            options={sessions.map(session =>
-              ({
-                label: session.name,
-                value: session.name,
-              })
-            )}
-          />
-        </HorizontalFormGroup>
-
         <div className="text-right">
           <ButtonGroup>
             <Button

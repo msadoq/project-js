@@ -13,7 +13,13 @@ export default function parseEntryPoint(
   entryPoint,
   masterSessionId,
   timebarUuid,
-  viewType
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName
 ) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
@@ -26,7 +32,19 @@ export default function parseEntryPoint(
     return { [name]: { error: 'No field X' } };
   }
 
-  const cd = parseConnectedData(domains, sessions, timelines, connectedData, masterSessionId);
+  const cd = parseConnectedData(
+    domains,
+    sessions,
+    timelines,
+    connectedData,
+    masterSessionId,
+    viewDomain,
+    pageDomain,
+    workspaceDomain,
+    viewSessionName,
+    pageSessionName,
+    workspaceSessionName
+  );
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
     return { [name]: { error: cd.error } };

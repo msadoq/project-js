@@ -16,13 +16,13 @@ const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);
 export default function ({ viewId, saveMode }) {
   const { getState, dispatch } = getStore();
   const view = getViewWithConfiguration(getState(), { viewId });
-  const { type, absolutePath, isModified } = view;
+  const { absolutePath, isModified } = view;
 
   function oncePath(savingAbsolutePath) {
     if (!isModified && saveMode === savingAbsolutePath) {
       return getStore().dispatch(addMessage(viewId, 'info', 'View already saved'));
     }
-    return saveViewAs(view, type, savingAbsolutePath, (err, oid) => {
+    return saveViewAs(view, savingAbsolutePath, (err, oid) => {
       if (err) {
         return getStore().dispatch(addViewError(viewId, err));
       }

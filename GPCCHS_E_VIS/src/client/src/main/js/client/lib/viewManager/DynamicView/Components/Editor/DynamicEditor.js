@@ -5,9 +5,12 @@ import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
 import DynamicTab from './DynamicTab';
 
+const navItems = ['Connected Data', 'View'];
+
 export default class DynamicEditor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
+    tab: PropTypes.number,
     titleStyle: PropTypes.shape({
       align: PropTypes.string,
       bgColor: PropTypes.string,
@@ -26,10 +29,17 @@ export default class DynamicEditor extends Component {
     updateEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
   }
-  state = { currentDisplay: 0 };
 
-  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+  static defaultProps = {
+    tab: null,
+  }
+
+  changeCurrentDisplay = (id) => {
+    const { updateViewTab, viewId } = this.props;
+    updateViewTab(viewId, id);
+  }
 
   handleTextTitle = (newVal) => {
     const { updateTitle, viewId } = this.props;
@@ -56,18 +66,16 @@ export default class DynamicEditor extends Component {
 
   render() {
     const { entryPoints } = this.props.configuration;
-    const { timelines, viewId } = this.props;
-    const { currentDisplay } = this.state;
-    const navItems = ['Connected Data', 'View'];
+    const { timelines, viewId, tab } = this.props;
     const nullObject = {};
     return (
       <div className={styles.contentWrapper}>
         <Navbar
-          currentDisplay={currentDisplay}
+          currentDisplay={tab === null ? 0 : tab}
           changeCurrentDisplay={this.changeCurrentDisplay}
           items={navItems}
         />
-        {currentDisplay === 0 && <div className={styles.content}>
+        {(tab === 0 || tab === null) && <div className={styles.content}>
           <DynamicEditorForm
             timelines={timelines}
             form={`entrypoint-connectedData-form-${viewId}`}
@@ -75,7 +83,7 @@ export default class DynamicEditor extends Component {
             initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
           />
         </div>}
-        {currentDisplay === 1 && <DynamicTab />}
+        {tab === 1 && <DynamicTab />}
       </div>
     );
   }

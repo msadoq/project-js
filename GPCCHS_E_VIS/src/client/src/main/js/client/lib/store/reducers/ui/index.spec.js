@@ -6,6 +6,19 @@ import uiReducer from '.';
 const reducer = freezeArgs(uiReducer);
 
 describe('store:ui:reducer', () => {
+  describe('update tab', () => {
+    it('should update tab', () => {
+      reducer(undefined, actions.updateViewTab('myId', 1))
+        .should.eql({
+          editor: {
+            myId: {
+              tab: 1,
+            },
+          },
+        });
+    });
+  });
+
   describe('update panels', () => {
     it('should update panels', () => {
       reducer(undefined, actions.updateViewPanels('myId', 'panels', ['panelOne', 'panelTwo']))

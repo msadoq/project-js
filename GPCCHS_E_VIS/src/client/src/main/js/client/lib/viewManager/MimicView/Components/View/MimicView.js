@@ -46,11 +46,12 @@ export default class MimicView extends Component {
   };
 
   componentWillMount() {
-    this.content = this.getContentComponent();
-  }
-  componentDidMount() {
+    this.svgEls = [];
     this.content = this.getContentComponent();
     this.updateSvgsValues(this.props.data);
+  }
+  componentDidMount() {
+    // this.content = this.getContentComponent();
   }
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
@@ -60,6 +61,7 @@ export default class MimicView extends Component {
     ) {
       shouldRender = true;
       this.content = this.getContentComponent();
+      // this.updateSvgsValues(nextProps.data);
     }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
@@ -164,7 +166,11 @@ export default class MimicView extends Component {
     if (!data || !data.values) {
       return;
     }
-    this.svgEls.forEach((g) => {
+    this.svgEls.forEach((g, key) => {
+      if (!g.el) {
+        this.svgEls[key].el = document.getElementById(g.id);
+        this.svgEls[key].elBg = document.getElementById(`${g.id}-bg`);
+      }
       if (g.type === 'scaleY' || g.type === 'scaleX') {
         if (!data.values[g.epName]) {
           return;
@@ -172,7 +178,7 @@ export default class MimicView extends Component {
         const epLastVal = data.values[g.epName].value;
         let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
         ratio = ratio < 0 ? 0 : ratio;
-        const el = document.getElementById(g.id);
+        const el = g.el;
         if (!el) { return; }
         if (g.type === 'scaleY') {
           el.style.transform = `scaleY(${ratio})`;
@@ -188,7 +194,7 @@ export default class MimicView extends Component {
         let distance = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
         distance = distance < 0 ? 0 : distance;
         distance = distance > g.width ? g.width : distance;
-        const el = document.getElementById(g.id);
+        const el = g.el;
         if (!el) { return; }
         if (g.type === 'translateY') {
           el.style.transform = `translate(0px, ${distance}px)`;
@@ -200,8 +206,8 @@ export default class MimicView extends Component {
           return;
         }
         const epLastVal = data.values[g.epName].value;
-        const el = document.getElementById(g.id);
-        const elBg = document.getElementById(`${g.id}-bg`);
+        const el = g.el;
+        const elBg = g.elBg;
         if (el) {
           const SVGRect = el.getBBox();
           elBg.setAttribute('width', SVGRect.width);
@@ -230,7 +236,7 @@ export default class MimicView extends Component {
           return;
         }
         const epLastVal = data.values[g.epName].value;
-        const el = document.getElementById(g.id);
+        const el = g.el;
         if ( !el ) { return; }
         let color;
         for (let i = 0; i < g.operators.length; i += 1) {

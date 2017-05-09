@@ -3,7 +3,6 @@ const {
   join,
 } = require('path');
 const mkdirp = require('mkdirp');
-const _startsWith = require('lodash/startsWith');
 
 let resolvedPath;
 
@@ -32,37 +31,11 @@ const self = {
     });
   },
   parse: (content, callback) => {
-    let json;
     try {
-      json = JSON.parse(content);
+      callback(null, JSON.parse(content));
     } catch (e) {
-      return callback(e);
+      callback(e);
     }
-    return callback(null, json);
-  },
-  readJsonFromAbsPath: (absolutePath, callback) => {
-    resolvedPath = absolutePath;
-    self.read(absolutePath, (err, content) => {
-      if (err) {
-        return callback(err);
-      }
-      return self.parse(content, callback);
-    });
-  },
-  readJsonFromRelativePath: (folder, path, callback) => {
-    resolvedPath = undefined;
-    // Relative path from local folder
-    if (!folder || _startsWith(path, '/')) {
-      // relative path from folder
-      return callback(new Error(`Invalid relative path: ${folder}, ${path}`));
-    }
-    resolvedPath = join(folder, path);
-    return self.read(resolvedPath, (err, content) => {
-      if (err) {
-        return callback(err);
-      }
-      return self.parse(content, callback);
-    });
   },
 
   /**

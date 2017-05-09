@@ -155,21 +155,6 @@ describe('common/fs', () => {
     });
   });
 
-  describe('checkPath', () => {
-    it('path exists', (done) => {
-      fs.checkPath('/', (err, res) => {
-        res.should.be.true;
-        done();
-      });
-    });
-    it('path does not exists', (done) => {
-      fs.checkPath('/unknownPath', (err, res) => {
-        res.should.be.false;
-        done();
-      });
-    });
-  });
-
   describe('createFolder', () => {
     it('folder already exists', (done) => {
       fs.createFolder('/', (err, res) => {

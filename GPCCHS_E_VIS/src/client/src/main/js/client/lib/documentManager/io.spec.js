@@ -50,8 +50,8 @@ describe('documentManager/io', () => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           properties.should.be.eql(42);
+          done();
         });
-        done();
       });
       it('fails with unknow oid', (done) => {
         readDocument(null, null, 'unknownOid', null, (err) => {

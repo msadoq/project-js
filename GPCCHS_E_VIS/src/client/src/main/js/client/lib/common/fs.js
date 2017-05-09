@@ -4,10 +4,7 @@ const {
 } = require('path');
 const mkdirp = require('mkdirp');
 
-let resolvedPath;
-
 const self = {
-  getPath: () => resolvedPath,
   resolve: (folder, relativePath) => join(folder, relativePath),
   isExists: (path, callback) => fs.access(path, fs.constants.F_OK, err => callback(!err)),
   isReadable: (path, callback) => fs.access(path, fs.constants.R_OK, err => callback(!err)),
@@ -24,7 +21,6 @@ const self = {
           if (err) {
             return callback(new Error(err));
           }
-          resolvedPath = path;
           return callback(null, content);
         });
       });

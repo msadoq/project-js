@@ -21,7 +21,7 @@ export const readDocument = ({ pageFolder, workspaceFolder, path, oId, absoluteP
         if (parseErr) {
           return cb(parseErr);
         }
-        return cb(null, parsedJson, properties);
+        return cb(null, parsedJson, properties, resolvedPath);
       });
     });
   });

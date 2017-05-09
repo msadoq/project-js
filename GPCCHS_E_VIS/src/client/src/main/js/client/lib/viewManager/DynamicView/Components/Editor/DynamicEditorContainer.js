@@ -10,6 +10,8 @@ import {
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
+import { updateViewTab } from '../../../../store/actions/ui';
+import { getViewTab } from '../../../../store/reducers/ui';
 import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
@@ -17,12 +19,14 @@ const mapStateToProps = createStructuredSelector({
   titleStyle: getViewTitleStyle,
   configuration: getConfigurationByViewId,
   timelines: getPageTimelines,
+  tab: getViewTab,
 });
 
 const mapDispatchToProps = {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
+  updateViewTab,
 };
 
 const DynamicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(DynamicEditor);

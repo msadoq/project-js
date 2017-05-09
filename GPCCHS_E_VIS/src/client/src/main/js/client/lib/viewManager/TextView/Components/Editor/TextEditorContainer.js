@@ -12,13 +12,14 @@ import {
 import {
   open as openModal,
 } from '../../../../store/actions/modals';
-import { updateViewPanels } from '../../../../store/actions/ui';
-import { getViewPanels, getViewEntryPointsPanels } from '../../../../store/reducers/ui';
+import { updateViewPanels, updateViewTab } from '../../../../store/actions/ui';
+import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui';
 import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
   panels: getViewPanels,
+  tab: getViewTab,
   entryPointsPanels: getViewEntryPointsPanels,
 });
 
@@ -27,6 +28,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
+  updateViewTab,
   updateViewPanels,
   updateEditorSearch: search => updateEditorSearch(viewId, search),
 }, dispatch);

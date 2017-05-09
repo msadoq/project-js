@@ -27,19 +27,10 @@ export default function uiReducer(state = {}, action) {
         state
       );
     }
-    case types.WS_EDITOR_UI_EP_PANEL: {
-      const entryPoints = action.payload.entryPoints.reduce(
-        (result, key) => {
-          // eslint-disable-next-line
-          result[key] = _get(state, ['editor', action.payload.viewId, 'entryPoints', key], true);
-          return result;
-        },
-        {}
-      );
-
+    case types.WS_EDITOR_UI_TAB: {
       return _.set(
-        ['editor', action.payload.viewId, 'entryPoints'],
-        entryPoints,
+        ['editor', action.payload.viewId, 'tab'],
+        action.payload.tab,
         state
       );
     }
@@ -49,6 +40,8 @@ export default function uiReducer(state = {}, action) {
 }
 
 /* --- Selectors ------------------------------------------------------------ */
+
+export const getViewTab = (state, { viewId }) => _get(state, ['ui', 'editor', viewId, 'tab'], null);
 
 export const getViewPanels = (state, { viewId }) => _get(state, ['ui', 'editor', viewId, 'panels'], {});
 export const getViewSubPanels = (state, { viewId, panel }) => _get(state, ['ui', 'editor', viewId, 'panels', panel], []);

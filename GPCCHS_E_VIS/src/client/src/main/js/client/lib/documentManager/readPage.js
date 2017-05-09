@@ -13,8 +13,7 @@ import { simpleReadView } from './readView';
 const updateAllViews = transform => _.update('views', _.map(transform));
 
 export const simpleReadPage = async.reflect((pageInfo, cb) => {
-  const { workspaceFolder, path, oId, absolutePath } = pageInfo;
-  readDocument(workspaceFolder, path, oId, absolutePath, (err, page, properties) => {
+  readDocument(pageInfo, (err, page, properties) => {
     if (err) {
       return cb(err);
     }

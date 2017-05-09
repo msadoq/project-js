@@ -7,39 +7,44 @@ import { isExists } from './fs';
 
 const resolveFmdPath = (path, cb) => {
   if (!_.startsWith('/', path)) {
-    return cb(new Error(`Invalid FMD path ${path}`), {});
+    return cb(new Error(`Invalid FMD path ${path}`));
   }
-  const fmdPath = join(fmd.getRootDir(), path);
-  return isExists(fmdPath, (exist) => {
+  const resolvedPath = join(fmd.getRootDir(), path);
+  return isExists(resolvedPath, (exist) => {
     if (exist) {
-      return cb(null, { path: fmdPath, resolution: 'fmd' });
+      return cb(null, resolvedPath);
     }
-    return cb(null, { path, resolution: 'absolute' });
+    return cb(null, path);
   });
 };
 
 export default ({ folder, relativePath, oId, absolutePath }, cb) => {
   if (absolutePath) {
-    return cb(null, { path: absolutePath, resolution: 'absolute' });
+    return cb(null, { resolvedPath: absolutePath });
   }
   if (oId) {
     return fmd.resolveDocument(oId, (resErr, resolvedPath, properties) => {
       if (resErr) {
         return cb(resErr, {});
       }
-      return resolveFmdPath(resolvedPath, (err, { path }) => {
+      return resolveFmdPath(resolvedPath, (err, resolvedFmdPath) => {
         if (err) {
           return cb(err, {});
         }
-        return cb(null, { path, properties, resolution: 'oId' });
+        return cb(null, { resolvedPath: resolvedFmdPath, properties });
       });
     });
   }
   if (folder && (!startsWith('/', relativePath))) {
-    return cb(null, { path: join(folder, relativePath), resolution: 'relative' });
+    return cb(null, { resolvedPath: join(folder, relativePath) });
   }
   if (!fmd.getRootDir()) {
     return cb(new Error(`Unable to load document ${relativePath} due to no fmd support`), {});
   }
-  return resolveFmdPath(relativePath, cb);
+  return resolveFmdPath(relativePath, (err, resolvedFmdPath) => {
+    if (err) {
+      return cb(err, {});
+    }
+    return cb(null, { resolvedPath: resolvedFmdPath });
+  });
 };

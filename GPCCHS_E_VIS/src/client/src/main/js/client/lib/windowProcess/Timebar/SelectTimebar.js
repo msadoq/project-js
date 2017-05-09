@@ -4,7 +4,7 @@ import { FormGroup, Alert } from 'react-bootstrap';
 export default class SelectTimebar extends PureComponent {
 
   static propTypes = {
-    updateTimebarId: PropTypes.func.isRequired,
+    mountPageTimebar: PropTypes.func.isRequired,
     createNewTimebar: PropTypes.func.isRequired,
     timebars: PropTypes.shape().isRequired,
     pageId: PropTypes.string.isRequired,
@@ -17,7 +17,7 @@ export default class SelectTimebar extends PureComponent {
 
   onSelect = (e) => {
     e.preventDefault();
-    this.props.updateTimebarId(
+    this.props.mountPageTimebar(
       this.props.pageId,
       this.timebarsSelect.value
     );

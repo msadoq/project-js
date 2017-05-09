@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateTimebarId } from '../../../store/actions/pages';
+import { unmountPageTimebar } from '../../../store/actions/pages';
 import { getSessions } from '../../../store/reducers/sessions';
 import {
   removeTimeline,
@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   removeTimeline,
-  updateTimebarId,
+  unmountPageTimebar,
   openModal,
 };
 

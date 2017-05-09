@@ -8,7 +8,7 @@ export default class LeftTab extends PureComponent {
   static propTypes = {
     removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
-    updateTimebarId: PropTypes.func.isRequired,
+    unmountPageTimebar: PropTypes.func.isRequired,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
@@ -101,7 +101,7 @@ export default class LeftTab extends PureComponent {
 
   detach = (e) => {
     e.preventDefault();
-    this.props.updateTimebarId(this.props.pageId, null);
+    this.props.unmountPageTimebar(this.props.pageId);
   }
 
   render() {

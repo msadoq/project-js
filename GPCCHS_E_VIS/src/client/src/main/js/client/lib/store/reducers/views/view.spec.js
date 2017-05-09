@@ -199,4 +199,16 @@ describe('store:reducer:views', () => {
     const newState = reducer({ myView: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
     newState.should.be.an('object').that.is.empty;
   });
+  it('should update sessionName', () => {
+    const newState = reducer({ v1: {} }, actions.updateSessionName('v1', 'mySession'));
+    newState.v1.should.eql({ sessionName: 'mySession', isModified: true });
+    reducer(newState, actions.updateSessionName('v1', null))
+      .should.eql({ v1: { isModified: true } });
+  });
+  it('should update domainName', () => {
+    const newState = reducer({ v1: {} }, actions.updateDomainName('v1', 'myDomain'));
+    newState.v1.should.eql({ domainName: 'myDomain', isModified: true });
+    reducer(newState, actions.updateDomainName('v1', null))
+      .should.eql({ v1: { isModified: true } });
+  });
 });

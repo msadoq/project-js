@@ -9,6 +9,8 @@ import windowsReducer, {
   getWindowFocusedPageId,
   getDisplayHelp,
   getWindowTitle,
+  getWindowDomainName,
+  getWindowSessionName,
 } from '../windows';
 import * as types from '../../types';
 
@@ -152,5 +154,23 @@ describe('store:windows:selectors', () => {
     };
     getDisplayHelp(state, { windowId: 'w1' }).should.be.true;
     should.not.exist(getDisplayHelp({}, {}));
+  });
+  describe('getWindowDomainName', () => {
+    it('should return domainName', () => {
+      const state = { windows: { w1: { domainName: 'myDomain' } } };
+      getWindowDomainName(state, { windowId: 'w1' }).should.eql('myDomain');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getWindowDomainName({ windows: { w1: {} } }, { windowId: 'w1' }));
+    });
+  });
+  describe('getWindowSessionName', () => {
+    it('should return sessionName', () => {
+      const state = { windows: { w1: { sessionName: 'mySession' } } };
+      getWindowSessionName(state, { windowId: 'w1' }).should.eql('mySession');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getWindowSessionName({ windows: { w1: {} } }, { windowId: 'w1' }));
+    });
   });
 });

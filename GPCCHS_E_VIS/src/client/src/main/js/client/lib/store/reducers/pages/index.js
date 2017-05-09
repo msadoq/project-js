@@ -67,6 +67,11 @@ const pagesReducer = (statePages = {}, action) => {
       );
       return _.set(pageId, page(statePages[pageId], action), statePages);
     }
+    case types.WS_PAGE_UPDATE_DOMAINNAME:
+    case types.WS_PAGE_UPDATE_SESSIONNAME: {
+      const pageId = action.payload.pageId;
+      return _.set(pageId, page(statePages[pageId], action), statePages);
+    }
     default: {
       if (
         action.payload &&
@@ -98,6 +103,8 @@ export const getPageLayout = inPage('layout', []);
 export const getEditor = inPage('editor', {});
 export const getPageAbsolutePath = inPage('absolutePath', '');
 export const getPageIsModified = inPage('isModified');
+export const getPageDomainName = inPage('domainName');
+export const getPageSessionName = inPage('sessionName');
 
 export const isEditorOpened = (state, { pageId }) => _.get(['pages', pageId, 'panels', 'editorWidth']) > 0;
 

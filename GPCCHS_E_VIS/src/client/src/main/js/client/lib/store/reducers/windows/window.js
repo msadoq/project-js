@@ -115,6 +115,16 @@ export default function window(stateWindow = initialState, action) {
     case types.WS_WINDOW_SET_IS_LOADED: {
       return Object.assign({}, stateWindow, { isLoaded: true });
     }
+    case types.WS_WINDOW_UPDATE_DOMAINNAME:
+      if (action.payload.domainName) {
+        return { ...stateWindow, domainName: action.payload.domainName };
+      }
+      return _.omit('domainName', stateWindow);
+    case types.WS_WINDOW_UPDATE_SESSIONNAME:
+      if (action.payload.sessionName) {
+        return { ...stateWindow, sessionName: action.payload.sessionName };
+      }
+      return _.omit('sessionName', stateWindow);
     default:
       return stateWindow;
   }

@@ -9,6 +9,8 @@ import hscReducer, {
   getPlayingTimebarId,
   getFocusedWindowId,
   getIsWorkspaceOpening,
+  getDomainName,
+  getSessionName,
 } from '.';
 
 const reducer = freezeArgs(hscReducer);
@@ -22,6 +24,8 @@ describe('store:hsc:reducer', () => {
     r.should.have.property('playingTimebarId', null);
     r.should.have.property('folder', null);
     r.should.have.property('file', null);
+    r.should.have.property('sessionName', null);
+    r.should.have.property('domainName', null);
   });
   it('should ignore unknown action', () => {
     const state = {
@@ -96,6 +100,18 @@ describe('store:hsc:reducer', () => {
     reducer({ forecast: { lower: 20, upper: 30 } }, actions.updateForecast(25, 35))
     .should.eql({ forecast: { lower: 25, upper: 35 } });
   });
+  it('should update sessionName', () => {
+    reducer({}, actions.updateSessionName('mySession'))
+      .should.eql({ sessionName: 'mySession', isModified: true });
+    reducer({ sessionName: 'mySession' }, actions.updateSessionName(null))
+      .should.eql({ isModified: true });
+  });
+  it('should update domainName', () => {
+    reducer({}, actions.updateDomainName('myDomain'))
+      .should.eql({ domainName: 'myDomain', isModified: true });
+    reducer({ domainName: 'myDomain' }, actions.updateDomainName(null))
+      .should.eql({ isModified: true });
+  });
 });
 
 
@@ -145,6 +161,24 @@ describe('store:hsc:selectors', () => {
     });
     it('should support empty state', () => {
       should.not.exist(getIsWorkspaceOpening(emptyState));
+    });
+  });
+  describe('getDomainName', () => {
+    it('should return domainName', () => {
+      const state = { hsc: { domainName: 'myDomain' } };
+      getDomainName(state).should.eql('myDomain');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getDomainName(emptyState));
+    });
+  });
+  describe('getSessionName', () => {
+    it('should return sessionName', () => {
+      const state = { hsc: { sessionName: 'mySession' } };
+      getSessionName(state).should.eql('mySession');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getSessionName(emptyState));
     });
   });
 });

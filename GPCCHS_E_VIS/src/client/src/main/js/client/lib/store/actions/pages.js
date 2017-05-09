@@ -40,6 +40,8 @@ export const resizeExplorer = simple(types.WS_PAGE_PANELS_RESIZE_EXPLORER, 'page
 export const minimizeExplorer = simple(types.WS_PAGE_PANELS_MINIMIZE_EXPLORER, 'pageId', 'isMinimized');
 const moveView = simple(types.WS_VIEW_MOVE_TO_PAGE, 'fromPageId', 'toPageId', 'viewId');
 
+export const updateDomainName = simple(types.WS_PAGE_UPDATE_DOMAINNAME, 'pageId', 'domainName');
+export const updateSessionName = simple(types.WS_PAGE_UPDATE_SESSIONNAME, 'pageId', 'sessionName');
 /**
  * Compound actions
  */

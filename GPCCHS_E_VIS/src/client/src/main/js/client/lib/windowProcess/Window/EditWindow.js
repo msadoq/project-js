@@ -2,6 +2,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import classnames from 'classnames';
 import { reduxForm, Field } from 'redux-form';
 import {
   Form,
@@ -9,6 +10,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import InputField from '../commonReduxForm/InputField';
+import ReactSelectField from '../commonReduxForm/ReactSelectField';
 import HorizontalFormGroup from '../commonReduxForm/HorizontalFormGroup';
 
 class EditWindow extends PureComponent {
@@ -20,6 +22,8 @@ class EditWindow extends PureComponent {
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }
 
   static defaultProps = {
@@ -34,17 +38,19 @@ class EditWindow extends PureComponent {
       valid,
       windows,
       handleSubmit,
+      domains,
+      sessions,
     } = this.props;
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
 
-        <HorizontalFormGroup label="Name">
+        <HorizontalFormGroup label="Title">
           <Field
             name="title"
             component={InputField}
             type="text"
-            className="form-control input-sm"
+            className={classnames('form-control', 'pt15', 'pb15')}
             validate={(val) => {
               if (
                 Object.keys(windows).find(uid =>
@@ -55,6 +61,34 @@ class EditWindow extends PureComponent {
               }
               return undefined;
             }}
+          />
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Domain Name">
+          <Field
+            name="domainName"
+            component={ReactSelectField}
+            free
+            clearable
+            options={domains.map(domain =>
+              ({
+                label: domain.name,
+                value: domain.name,
+              })
+            )}
+          />
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Session Name">
+          <Field
+            name="sessionName"
+            component={ReactSelectField}
+            free
+            clearable
+            options={sessions.map(session =>
+              ({
+                label: session.name,
+                value: session.name,
+              })
+            )}
           />
         </HorizontalFormGroup>
 

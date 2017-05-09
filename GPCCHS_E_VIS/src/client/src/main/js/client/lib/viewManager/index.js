@@ -11,6 +11,12 @@ import mimicViewData from './MimicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
 
+import plotViewDataSelectors from './PlotView/store/dataSelectors';
+import textViewDataSelectors from './TextView/store/dataSelectors';
+import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
+// import historyViewDataSelectors from './HistoryView/store/dataSelectors';
+// import packetViewDataSelectors from './PacketView/store/dataSelectors';
+
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
 import mimicViewSchema from './MimicView/MimicView.schema.json';
@@ -33,40 +39,45 @@ const list = {
     viewModule: plotViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: plotViewData,
-    getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
-    getEditorComponent: () => require('./PlotView/Components/Editor/PlotEditorContainer'),
+    dataSelectors: plotViewDataSelectors,
+    // getViewComponent: () => require('./PlotView/Components/View/PlotViewContainer'),
+    // getEditorComponent: () => require('./PlotView/Components/Editor/PlotEditorContainer'),
   },
   [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
     viewModule: textViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: textViewData,
-    getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
-    getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
+    dataSelectors: textViewDataSelectors,
+    // getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
+    // getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
   },
   [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
     viewModule: dynamicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
-    getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
-    getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
+    dataSelectors: dynamicViewDataSelectors,
+    // getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
+    // getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,
     viewModule: historyViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: historyViewData,
-    getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
-    getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
+    // dataSelectors: historyViewDataSelectors,
+    // getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
+    // getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),
   },
   [constants.VM_VIEW_PACKET]: {
     schema: packetViewSchema,
     viewModule: packetViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: packetViewData,
-    getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
-    getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
+    // dataSelectors: packetViewDataSelectors,
+    // getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
+    // getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
   },
   [constants.VM_VIEW_MIMIC]: {
     schema: mimicViewSchema,
@@ -126,4 +137,9 @@ export function getStructureType(type) {
 export function getStructureModule(type) {
   isViewTypeExists(type);
   return list[type].structureModule;
+}
+
+export function getDataSelectors(type) {
+  isViewTypeExists(type);
+  return list[type].dataSelectors;
 }

@@ -108,12 +108,6 @@ export default class Content extends PureComponent {
       width,
     } = this.props;
 
-    if (!pageId) {
-      return (
-        <div className={classnames('w100', styles.noPage)}><br /><br />No page ...</div> // TODO boxmodel in Window.js
-      );
-    }
-
     if (!views.length) {
       return (
         <div className={classnames('w100', styles.noPage)}><br /><br />No view yet ...</div> // TODO boxmodel in Window.js

@@ -39,3 +39,13 @@ export const getViewTitleStyle = createSelector(
   getView,
   _.get('titleStyle')
 );
+
+export const getViewDomainName = createSelector(
+  getView,
+  _.get('domainName')
+);
+
+export const getViewSessionName = createSelector(
+  getView,
+  _.get('sessionName')
+);

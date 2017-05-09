@@ -1,18 +1,18 @@
 import React, { PropTypes, PureComponent } from 'react';
 import {
-  Accordion,
-  Panel,
   Glyphicon,
   Alert,
   Button,
 } from 'react-bootstrap';
-import _memoize from 'lodash/memoize';
-
+import classnames from 'classnames';
+import Collapse from 'rc-collapse';
+import styles from './EntryPointTree.css';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
 */
+const { Panel } = Collapse;
 
 export default class EntryPointTree extends PureComponent {
   static propTypes = {
@@ -31,10 +31,10 @@ export default class EntryPointTree extends PureComponent {
     windowId: React.PropTypes.string,
   }
 
-  state = {};
+  state = { openPanels: [] };
 
-  openPanel = _memoize(key => () => this.setState({ [`panel${key}IsOpen`]: true }));
-  closePanel = _memoize(key => () => this.setState({ [`panel${key}IsOpen`]: false }));
+  onChange = openPanels =>
+    this.setState({ openPanels })
 
   handleRemove = (e, key) => {
     e.preventDefault();
@@ -46,6 +46,7 @@ export default class EntryPointTree extends PureComponent {
     const { viewId, windowId } = this.context;
     const mask = `${this.props.search}.*`;
     const { entryPoints } = this.props;
+    const { openPanels } = this.state;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
@@ -57,38 +58,40 @@ export default class EntryPointTree extends PureComponent {
 
 
     return (
-      <Accordion>
+      <Collapse accordion={false} onChange={this.onChange}>
         {list.map((entryPoint, key) => {
-          const isOpen = this.state[`panel${key}IsOpen`];
+          const isOpen = openPanels.includes(entryPoint.id);
           return (
             <Panel
               key={entryPoint.id}
-              header={<span>
-                {entryPoint.objectStyle && entryPoint.objectStyle.curveColor && <div
-                  style={{
-                    height: '20px',
-                    width: '20px',
-                    marginRight: '10px',
-                    backgroundColor: entryPoint.objectStyle.curveColor,
-                  }}
-                />}
-                <span className="flex">{entryPoint.name}</span>
-                <Button
-                  bsSize="xsmall"
-                  className="btn-link"
-                  onClick={e => this.handleRemove(e, key)}
-                >
-                  <Glyphicon
-                    className="text-danger"
-                    glyph="remove"
-                    title="Remove"
-                  />
-                </Button>
-              </span>}
-              eventKey={key}
-              expanded={isOpen}
-              onSelect={this.openPanel(key)}
-              onExited={this.closePanel(key)}
+              header={
+                <div className="rc-collapse-header-inner">
+                  {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
+                    <div style={{ width: '30px' }}>
+                      <div
+                        className={styles.colorSquare}
+                        style={{
+                          backgroundColor: entryPoint.objectStyle.curveColor,
+                        }}
+                      />
+                    </div>
+                  }
+                  <span className="flex">{entryPoint.name}</span>
+                  <div>
+                    <Button
+                      bsSize="xsmall"
+                      className={classnames('btn-link', styles.removeButton)}
+                      onClick={e => this.handleRemove(e, key)}
+                    >
+                      <Glyphicon
+                        className="text-danger"
+                        glyph="remove"
+                        title="Remove"
+                      />
+                    </Button>
+                  </div>
+                </div>
+              }
             >
               {isOpen && <EntryPointDetailsContainer
                 key={`${entryPoint.name}#details`}
@@ -100,7 +103,7 @@ export default class EntryPointTree extends PureComponent {
             </Panel>
           );
         })}
-      </Accordion>
+      </Collapse>
     );
   }
 }

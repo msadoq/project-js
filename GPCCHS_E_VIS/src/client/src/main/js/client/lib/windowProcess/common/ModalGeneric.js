@@ -2,11 +2,14 @@ import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
+import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
 import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
+import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
+import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 
 const ModalGeneric = (props) => {
   let child;
@@ -27,6 +30,15 @@ const ModalGeneric = (props) => {
           {...props.props}
           closeModal={props.onClose}
         />);
+      break;
+    case 'addPlotAxis':
+      title = 'Add plot axis';
+      child = (
+        <PlotAddAxisContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
       break;
     case 'addEntryPoint':
       title = 'Add entry point';
@@ -69,6 +81,22 @@ const ModalGeneric = (props) => {
       title = 'Edit page';
       child = (
         <EditPageContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />);
+      break;
+    case 'editWorkspace':
+      title = 'Edit Workspace';
+      child = (
+        <EditWorkspaceContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />);
+      break;
+    case 'moveViewToPage':
+      title = 'Move view to another page';
+      child = (
+        <MoveViewToPageContainer
           {...props.props}
           closeModal={props.onClose}
         />);

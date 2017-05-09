@@ -14,7 +14,7 @@ import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonT
 import FormSectionFontStyle from '../../../commonEditor/FormSections/FormSectionFontStyle';
 import styles from './Plot.css';
 
-class PlotAxis extends PureComponent {
+class AddPlotAxis extends PureComponent {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
@@ -40,7 +40,7 @@ class PlotAxis extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
     initialize: PropTypes.func.isRequired,
-    axisId: PropTypes.string.isRequired,
+    axisId: PropTypes.string,
     entryPoints: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
@@ -59,13 +59,15 @@ class PlotAxis extends PureComponent {
         timeline: PropTypes.string,
         unit: PropTypes.string,
       }),
-    })).isRequired,
+    })),
   }
 
   static defaultProps = {
     showTicks: false,
     autoTick: false,
     autoLimits: false,
+    axisId: null,
+    entryPoints: [],
   };
 
   componentDidMount() {
@@ -331,32 +333,37 @@ class PlotAxis extends PureComponent {
 }
 
 const requiredFields = ['label'];
-const validate = (values = {}) => {
+const validate = (values = {}, props) => {
   const errors = {};
+
+  if (
+      Object.keys(props.axes).find(key => props.axes[key].label === values.label) &&
+      !props.axisId // form used for creation and not edition
+  ) {
+    errors.label = 'Label already taken';
+  }
 
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
     }
   });
+
   return errors;
 };
 
-export default connect((state, { form }) => {
-  const showTicks = formValueSelector(form)(state, 'showTicks');
-  const autoTick = formValueSelector(form)(state, 'autoTick');
-  const autoLimits = formValueSelector(form)(state, 'autoLimits');
-  const label = formValueSelector(form)(state, 'label');
-  return {
-    showTicks,
-    autoTick,
-    autoLimits,
-    label,
-  };
-})(
-  reduxForm({
-    validate,
-    enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
-  })(PlotAxis)
-);
+export default connect(
+  (state, { form }) =>
+    ({
+      showTicks: formValueSelector(form)(state, 'showTicks'),
+      autoTick: formValueSelector(form)(state, 'autoTick'),
+      autoLimits: formValueSelector(form)(state, 'autoLimits'),
+      label: formValueSelector(form)(state, 'label'),
+    })
+  )(
+    reduxForm({
+      validate,
+      enableReinitialize: true,
+      keepDirtyOnReinitialize: true,
+    })(AddPlotAxis)
+  );

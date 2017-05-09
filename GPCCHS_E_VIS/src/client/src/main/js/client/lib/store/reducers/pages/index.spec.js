@@ -1,6 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import { freezeArgs, should } from '../../../common/test';
 import * as types from '../../types';
+import * as actions from '../../actions/pages';
 import pagesReducer, {
   getPages,
   getPage,
@@ -11,6 +12,8 @@ import pagesReducer, {
   getPageIdByViewId,
   getPageAbsolutePath,
   getPageIsModified,
+  getPageDomainName,
+  getPageSessionName,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -63,6 +66,18 @@ describe('store:pages:reducer', () => {
     };
     const newState = reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { pages: ['p1', 'p2'] } });
     newState.should.be.eql({ p3: {} });
+  });
+  it('should update sessionName', () => {
+    const newState = reducer({ p1: {} }, actions.updateSessionName('p1', 'mySession'));
+    newState.p1.should.eql({ sessionName: 'mySession', isModified: true });
+    reducer(newState, actions.updateSessionName('p1', null))
+      .should.eql({ p1: { isModified: true } });
+  });
+  it('should update domainName', () => {
+    const newState = reducer({ p1: {} }, actions.updateDomainName('p1', 'myDomain'));
+    newState.p1.should.eql({ domainName: 'myDomain', isModified: true });
+    reducer(newState, actions.updateDomainName('p1', null))
+      .should.eql({ p1: { isModified: true } });
   });
 });
 
@@ -178,6 +193,24 @@ describe('store:page:selectors', () => {
       };
       getPageIdByViewId(state, { viewId: 'view2' }).should.equal('myId');
       getPageIdByViewId(state, { viewId: 'view3' }).should.equal('myOtherId');
+    });
+  });
+  describe('getPageDomainName', () => {
+    it('should return domainName', () => {
+      const state = { pages: { p1: { domainName: 'myDomain' } } };
+      getPageDomainName(state, { pageId: 'p1' }).should.eql('myDomain');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getPageDomainName({ pages: { p1: {} } }, { pageId: 'p1' }));
+    });
+  });
+  describe('getSessionName', () => {
+    it('should return sessionName', () => {
+      const state = { pages: { p1: { sessionName: 'mySession' } } };
+      getPageSessionName(state, { pageId: 'p1' }).should.eql('mySession');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getPageSessionName({ pages: { p1: {} } }, { pageId: 'p1' }));
     });
   });
 });

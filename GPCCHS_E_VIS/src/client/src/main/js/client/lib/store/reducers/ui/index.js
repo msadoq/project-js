@@ -8,7 +8,7 @@ export default function uiReducer(state = {}, action) {
     case types.WS_EDITOR_UI_PANEL: {
       const panels = action.payload.panels.reduce(
         (result, key) => {
-          // eslint-disable-next-line
+          // eslint-disable-next-line no-param-reassign, "Must reassign params in reduce"
           result[key] = _get(state, ['editor', action.payload.viewId, action.payload.section, key], true);
           return result;
         },

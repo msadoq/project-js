@@ -3,8 +3,11 @@
 .rc-collapse-header{
   position: relative;
 }
-.rc-collapse-content{
-  padding: 0px 8px;
+.rc-collapse-content-active{
+  padding: 4px 8px;
+}
+.rc-collapse-content-active:not(.rc-collapse-anim){
+  overflow: inherit;
 }
 .rc-collapse-header-inner{
   display: table;

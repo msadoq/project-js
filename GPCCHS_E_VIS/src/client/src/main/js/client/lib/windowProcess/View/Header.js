@@ -218,24 +218,25 @@ export default class Header extends PureComponent {
               />,
             ]
           }
-          {collapsed &&
-            [
-              <button
-                key={1}
-                className={styles.expandButton}
-                onClick={this.expand}
-              >
-                &#9633;
-              </button>,
-              <button
-                key={2}
-                className={classnames(styles.expandButton, styles.saveButton)}
-                onClick={this.save}
-              >
-                SAVE
-              </button>,
-            ]
+          {
+            collapsed &&
+            <button
+              className={styles.expandButton}
+              onClick={this.expand}
+            >
+              &#9633;
+            </button>
           }
+          {
+            (collapsed && isModified) &&
+            <button
+              key={2}
+              className={classnames(styles.expandButton, styles.saveButton)}
+              onClick={this.save}
+            >
+              SAVE
+            </button>
+          },
         </div>
       </div>
     );

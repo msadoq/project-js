@@ -14,11 +14,25 @@ describe('viewManager:commonData:domains', () => {
     { domainId: 'invalid', name: undefined },
   ];
   it('should retrieve corresponding domain', () => {
-    filter(list, 'cnes').should.eql({ domainId: 'd1' });
-    filter(list, 'cnes.isis.sat1').should.eql({ domainId: 'd3' });
+    filter(list, 'cnes').should.eql({ domainId: 'd1', domainName: 'cnes' });
+    filter(list, 'cnes.isis.sat1').should.eql({ domainId: 'd3', domainName: 'cnes.isis.sat1' });
   });
-  it('should return error while receiving wildcard', () => {
-    filter(list, '*').should.eql({ error: 'invalid entry point, domain wildcard not already supported' });
+  it('should return error while receiving wildcard and no domain defined on entities', () => {
+    filter(list, '*').should.eql({ error: 'invalid entry point, domain not defined on entities' });
+  });
+  it('should return view domain in case of wilcard', () => {
+    filter(list, '*', 'cnes', 'cnes.isis').should.eql({ domainId: 'd1', domainName: 'cnes' });
+  });
+  it('should return page domain in case of wilcard', () => {
+    filter(list, '*', undefined, 'cnes', 'cnes.isis')
+      .should.eql({ domainId: 'd1', domainName: 'cnes' });
+  });
+  it('should return workspace domain in case of wilcard', () => {
+    filter(list, '*', undefined, undefined, 'cnes.isis')
+    .should.eql({ domainId: 'd2', domainName: 'cnes.isis' });
+  });
+  it('should return view domain in case of wilcard', () => {
+    filter(list, '*', 'cnes').should.eql({ domainId: 'd1', domainName: 'cnes' });
   });
   it('should support no domain', () => {
     filter(undefined, 'cnes').should.eql({ error: 'invalid entry point, no domain available' });
@@ -41,9 +55,9 @@ describe('viewManager:commonData:domains', () => {
     filter(list, 'cnes').should.equal(result);
   });
   it('should reset memoize on new domains list', () => {
-    filter(list, 'cnes').should.eql({ domainId: 'd1' });
+    filter(list, 'cnes').should.eql({ domainId: 'd1', domainName: 'cnes' });
     const otherList = [...list];
     otherList[0] = { domainId: 'd100', name: 'cnes' };
-    filter(otherList, 'cnes').should.eql({ domainId: 'd100' });
+    filter(otherList, 'cnes').should.eql({ domainId: 'd100', domainName: 'cnes' });
   });
 });

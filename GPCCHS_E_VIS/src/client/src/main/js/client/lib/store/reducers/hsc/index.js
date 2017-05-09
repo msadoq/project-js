@@ -54,8 +54,6 @@ export default function hsc(state = initialState, action) {
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
     case types.WS_WINDOW_UPDATE_TITLE:
-    case types.WS_WINDOW_UPDATE_DOMAINNAME:
-    case types.WS_WINDOW_UPDATE_SESSIONNAME:
       return _.set('isModified', true, state);
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);

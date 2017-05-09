@@ -8,6 +8,8 @@ import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getSessions } from '../store/reducers/sessions';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
+import { getPageDomainName, getPageSessionName } from '../store/reducers/pages';
+import { getDomainName, getSessionName } from '../store/reducers/hsc';
 import {
   getStructureModule,
   getConfigurationByViewId,
@@ -22,6 +24,7 @@ const anyUndefined = any(_isUndefined);
 * @param state
 * @param timebarUuid
 * @param viewId
+* @param pageId
 */
 export default function makeGetPerViewData() {
   return createSelector(
@@ -32,7 +35,12 @@ export default function makeGetPerViewData() {
     getSessions,
     getView,
     getConfigurationByViewId,
-    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, configuration) => {
+    (state, { pageId }) => getPageDomainName(state, { pageId }),
+    (state, { pageId }) => getPageSessionName(state, { pageId }),
+    getDomainName, // in HSC
+    getSessionName, // in HSC
+    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, configuration,
+    pageDomain, pageSessionName, workspaceDomain, workspaceSessionName) => {
       if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, configuration])) {
         return {};
       }
@@ -42,7 +50,6 @@ export default function makeGetPerViewData() {
         return {};
       }
       const { entryPoints } = configuration;
-
       return {
         type,
         entryPoints: entryPoints.reduce((acc, ep) => {
@@ -54,7 +61,13 @@ export default function makeGetPerViewData() {
             ep,
             masterSessionId,
             timebarUuid,
-            type
+            type,
+            view.domainName,
+            pageDomain,
+            workspaceDomain,
+            view.sessionName,
+            pageSessionName,
+            workspaceSessionName
           );
           return Object.assign({}, acc, val);
         }, {}

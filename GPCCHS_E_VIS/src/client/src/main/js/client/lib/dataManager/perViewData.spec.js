@@ -23,6 +23,8 @@ describe('dataManager/perViewData', () => {
         title: 'page Sup/Sup workspace',
         timebarUuid: 'tb1',
         views: ['t1', 'p1'],
+        sessionName: 'Session#181',
+        domainName: 'fr.cnes.isis.simupus',
       },
     },
     TextViewConfiguration: {
@@ -194,7 +196,7 @@ describe('dataManager/perViewData', () => {
   };
 // ****************************************************
   it('text view', () => {
-    const map = makeGetPerViewData()(state, { viewId: 't1', timebarUuid: 'tb1' });
+    const map = makeGetPerViewData()(state, { viewId: 't1', timebarUuid: 'tb1', pageId: 'page1' });
     map.should.eql({
       type: 'TextView',
       entryPoints: {
@@ -225,40 +227,40 @@ describe('dataManager/perViewData', () => {
             comObject: 'ReportingParameter',
             domainId: 4,
             domain: 'fr.cnes.isis.simupus',
-            sessionId: 10,
-            sessionName: '*',
+            sessionId: 181,
+            sessionName: 'Session#181',
           },
           field: 'extractedValue',
           offset: 0,
           filters: [],
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
-          remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+          remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:181:4',
           type: 'TextView',
         },
         STAT_UNKNOW_DOMAIN: { error: 'invalid entry point, no domain matches' },
-        STAT_WILDCARD_DOMAIN: { error: 'invalid entry point, domain wildcard not already supported' },
-        STAT_EMPTY_DOMAIN: { error: 'invalid entry point, invalid domain field' },
-        STAT_UNKNOW_TIMELINE: { error: 'invalid entry point, no timeline matches' },
-        STAT_EMPTY_TIMELINE: {
-          id: 'id51',
+        STAT_WILDCARD_DOMAIN: {
           dataId: {
             catalog: 'Reporting',
-            parameterName: 'STAT_EMPTY_TIMELINE',
             comObject: 'ReportingParameter',
-            domainId: 4,
             domain: 'fr.cnes.isis.simupus',
-            sessionId: 10,
-            sessionName: '*',
+            domainId: 4,
+            parameterName: 'STAT_WILDCARD_DOMAIN',
+            sessionId: 181,
+            sessionName: 'Session#181',
           },
           field: 'extractedValue',
-          offset: 0,
           filters: [],
+          id: 'id48',
           localId: 'extractedValue.tb1:0',
+          offset: 0,
+          remoteId: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>:181:4',
           timebarUuid: 'tb1',
-          remoteId: 'Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>:10:4',
           type: 'TextView',
         },
+        STAT_EMPTY_DOMAIN: { error: 'invalid entry point, invalid domain field' },
+        STAT_UNKNOW_TIMELINE: { error: 'invalid entry point, no timeline matches' },
+        STAT_EMPTY_TIMELINE: { error: 'invalid entry point, no timeline set' },
         STAT_INVALID_FORMULA: {
           error: 'unable to parse this connectedData formula Reporting.STAT_INVALID_FORMULA' },
       },

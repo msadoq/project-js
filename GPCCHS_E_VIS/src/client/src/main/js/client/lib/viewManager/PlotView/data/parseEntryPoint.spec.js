@@ -92,4 +92,118 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
       },
     });
   });
+  it('wildcard => view data', () => {
+    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView',
+      'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName: 'session2',
+        },
+        fieldX: 'groundDate',
+        fieldY: 'extractedValue',
+        offset: 0,
+        filters: [],
+        localId: 'groundDate/extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        type: 'PlotView',
+        stateColors: [
+          {
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operator: '==',
+              operand: 'waiting',
+            },
+          },
+        ],
+      },
+    });
+  });
+  it('wildcard => page data', () => {
+    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView',
+      undefined, 'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName: 'session2',
+        },
+        fieldX: 'groundDate',
+        fieldY: 'extractedValue',
+        offset: 0,
+        filters: [],
+        localId: 'groundDate/extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        type: 'PlotView',
+        stateColors: [
+          {
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operator: '==',
+              operand: 'waiting',
+            },
+          },
+        ],
+      },
+    });
+  });
+  it('wildcard => workspace data', () => {
+    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView',
+      undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName: 'session2',
+        },
+        fieldX: 'groundDate',
+        fieldY: 'extractedValue',
+        offset: 0,
+        filters: [],
+        localId: 'groundDate/extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        type: 'PlotView',
+        stateColors: [
+          {
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operator: '==',
+              operand: 'waiting',
+            },
+          },
+        ],
+      },
+    });
+  });
 });

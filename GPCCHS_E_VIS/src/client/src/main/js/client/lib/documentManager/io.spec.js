@@ -1,4 +1,5 @@
-import { access, mkdir, readFileSync } from 'fs';
+/* eslint-disable no-unused-expressions */
+import fs, { access, accessSync, mkdir, readFileSync } from 'fs';
 import rimraf from 'rimraf';
 import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
@@ -27,6 +28,15 @@ const mockedResolveDocument = (oid, cb) => {
   return cb(null, resolvedPath, 42);
 };
 
+const fileExist = (path) => {
+  try {
+    accessSync(path, fs.constants.F_OK);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 describe('documentManager/io', () => {
   const folder = fmdApi.getRootDir();
   let stubCreateDocument;
@@ -46,10 +56,12 @@ describe('documentManager/io', () => {
 
     describe('inside fmd folder', () => {
       it('works with oid', (done) => {
-        readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties) => {
+        readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           properties.should.be.eql(42);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
@@ -61,10 +73,12 @@ describe('documentManager/io', () => {
       });
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
-        readDocument({ absolutePath }, (err, data, properties) => {
+        readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
@@ -77,10 +91,12 @@ describe('documentManager/io', () => {
       });
       it('works with relative path', (done) => {
         const path = 'views/text1.json';
-        readDocument({ pageFolder: folder, path }, (err, data, properties) => {
+        readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
@@ -93,10 +109,12 @@ describe('documentManager/io', () => {
       });
       it('works with relative fmd path', (done) => {
         const path = '/views/text1.json';
-        readDocument({ path }, (err, data, properties) => {
+        readDocument({ path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
@@ -118,10 +136,12 @@ describe('documentManager/io', () => {
       });
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
-        readDocument({ absolutePath }, (err, data, properties) => {
+        readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
@@ -134,10 +154,12 @@ describe('documentManager/io', () => {
       });
       it('works with relative path', (done) => {
         const path = 'views/text1.json';
-        readDocument({ pageFolder: folder, path }, (err, data, properties) => {
+        readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
@@ -150,10 +172,12 @@ describe('documentManager/io', () => {
       });
       it('works with relative fmd path', (done) => {
         const path = '/../fixtures/views/text1.json';
-        readDocument({ path }, (err, data, properties) => {
+        readDocument({ path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });

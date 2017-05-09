@@ -35,14 +35,21 @@ export default class EntryPointDetails extends PureComponent {
       }),
     }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
+    ]).isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
   }
 
-  state = {
-    openPanels: [],
-  };
-
-  onChange = openPanels =>
-    this.setState({ openPanels })
+  onChange = (openPanels) => {
+    const {
+      updateViewSubPanels,
+      viewId,
+      entryPoint,
+    } = this.props;
+    updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
+  }
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -85,23 +92,25 @@ export default class EntryPointDetails extends PureComponent {
       viewId,
       axes,
       timelines,
+      panels,
     } = this.props;
 
-    const {
-      openPanels,
-    } = this.state;
     // TODO Rerender (new ref)
     const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
 
     // TODO Rerender (new ref)
     const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
     return (
-      <Collapse accordion={false} onChange={this.onChange}>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={Array.isArray(panels) ? panels : []}
+      >
         <Panel
-          key="Parameters"
+          key="parameters"
           header="Parameters"
         >
-          {openPanels.includes('Parameters') && <EntryPointParameters
+          {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
             form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
             initialValues={initialValuesParameters}
@@ -109,10 +118,10 @@ export default class EntryPointDetails extends PureComponent {
         </Panel>
 
         <Panel
-          key="Coordinates"
+          key="coordinates"
           header="Coordinates"
         >
-          {openPanels.includes('Coordinates') && <EntryPointConnectedData
+          {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
             axes={axes}
             timelines={timelines}
             idPoint={idPoint}
@@ -123,10 +132,10 @@ export default class EntryPointDetails extends PureComponent {
           />}
         </Panel>
         <Panel
-          key="State colors"
+          key="stateColors"
           header="State colors"
         >
-          {openPanels.includes('State colors') && <EntryPointStateColors
+          {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={initialValuesStateColors}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}

@@ -4,6 +4,8 @@ import { createStructuredSelector } from 'reselect';
 
 import PlotAxes from './PlotAxes';
 import { getAxes, getShowYAxes, getEntryPoints } from '../../store/configurationSelectors';
+import { getViewSubPanels } from '../../../../store/reducers/ui';
+import { updateViewSubPanels } from '../../../../store/actions/ui';
 import {
   removeAxis,
   updateAxis,
@@ -15,6 +17,7 @@ const mapStateToProps = createStructuredSelector({
   axes: getAxes,
   entryPoints: getEntryPoints,
   showYAxes: getShowYAxes,
+  panels: getViewSubPanels,
 });
 
 const mapDispatchToProps = {
@@ -22,6 +25,7 @@ const mapDispatchToProps = {
   updateAxis,
   addAxis,
   updateShowYAxes,
+  updateViewSubPanels,
 };
 
 const PlotAxesContainer = connect(mapStateToProps, mapDispatchToProps)(PlotAxes);

@@ -15,8 +15,12 @@ export default class PlotEditor extends Component {
   static propTypes = {
     // actions
     openModal: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    updateViewEntryPointsPanels: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
     // rest
     viewId: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
@@ -55,7 +59,10 @@ export default class PlotEditor extends Component {
     const { currentDisplay } = this.state;
     const {
       openModal,
+      panels,
+      entryPointsPanels,
       viewId,
+      updateViewPanels,
       configuration: {
         entryPoints,
         axes,
@@ -66,6 +73,7 @@ export default class PlotEditor extends Component {
         search,
       },
     } = this.props;
+
     return (
       <div className={styles.contentWrapper}>
         <Navbar
@@ -82,6 +90,8 @@ export default class PlotEditor extends Component {
             grids={grids}
             titleStyle={titleStyle}
             openModal={openModal}
+            updateViewPanels={updateViewPanels}
+            panels={panels}
             viewId={viewId}
           />}
           {currentDisplay === 0 && [
@@ -96,8 +106,11 @@ export default class PlotEditor extends Component {
             <EntryPointTree
               key="EntryPointTree"
               entryPoints={entryPoints}
+              entryPointsPanels={entryPointsPanels}
+              updateViewPanels={updateViewPanels}
               search={search}
               remove={this.removeEntryPoint}
+              viewId={viewId}
             />,
           ]}
         </div>

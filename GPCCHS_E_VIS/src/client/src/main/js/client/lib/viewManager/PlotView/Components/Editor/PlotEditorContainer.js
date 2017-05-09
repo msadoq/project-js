@@ -11,15 +11,21 @@ import {
 import {
   open as openModal,
 } from '../../../../store/actions/modals';
+import { updateViewPanels, updateViewEntryPointsPanels } from '../../../../store/actions/ui';
+import { getViewPanels, getViewEntryPointsPanels } from '../../../../store/reducers/ui';
 import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
+  panels: getViewPanels,
+  entryPointsPanels: getViewEntryPointsPanels,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   openModal,
   removeEntryPoint,
+  updateViewPanels,
+  updateViewEntryPointsPanels,
   updateEditorSearch: search => updateEditorSearch(viewId, search),
 }, dispatch);
 

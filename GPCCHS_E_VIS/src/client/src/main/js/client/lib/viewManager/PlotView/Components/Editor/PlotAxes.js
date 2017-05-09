@@ -28,6 +28,11 @@ export default class PlotAxes extends Component {
     removeAxis: PropTypes.func.isRequired,
     updateAxis: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
+    ]).isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.object),
   }
 
@@ -37,10 +42,10 @@ export default class PlotAxes extends Component {
     axes: {},
   };
 
-  state = { openPanels: [] };
-
-  onChange = openPanels =>
-    this.setState({ openPanels })
+  onChange = (openPanels) => {
+    const { updateViewSubPanels, viewId } = this.props;
+    updateViewSubPanels(viewId, 'panels', 'axes', openPanels);
+  }
 
   handleRemovePlotAxis = (e, key) => {
     const { removeAxis, viewId } = this.props;
@@ -54,9 +59,6 @@ export default class PlotAxes extends Component {
     addAxis(viewId, values);
     this.closeCreationModal();
   }
-
-  openCreationModal = () => this.setState({ isCreationModalOpen: true })
-  closeCreationModal = () => this.setState({ isCreationModalOpen: false })
 
   handleSubmit(key, values) {
     const { updateAxis, viewId } = this.props;
@@ -84,10 +86,8 @@ export default class PlotAxes extends Component {
       showYAxes,
       viewId,
       entryPoints,
+      panels,
     } = this.props;
-    const {
-      openPanels,
-    } = this.state;
 
     return (
       <div>
@@ -100,7 +100,11 @@ export default class PlotAxes extends Component {
             />
           </HorizontalFormGroup>
         </Form>}
-        <Collapse accordion={false} onChange={this.onChange}>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={Array.isArray(panels) ? panels : []}
+        >
           {Object.keys(axes).map((axisId) => {
             const axis = axes[axisId];
             return (
@@ -127,7 +131,7 @@ export default class PlotAxes extends Component {
                   </div>
                 }
               >
-                {openPanels.includes(axisId) &&
+                { Array.isArray(panels) && panels.includes(axisId) &&
                   <AddPlotAxis
                     key={axisId}
                     axisId={axisId}

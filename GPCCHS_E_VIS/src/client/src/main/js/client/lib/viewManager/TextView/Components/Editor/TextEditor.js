@@ -15,7 +15,9 @@ export default class Editor extends Component {
     removeEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-
+    panels: PropTypes.shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
@@ -52,6 +54,9 @@ export default class Editor extends Component {
     const {
       openModal,
       viewId,
+      panels,
+      entryPointsPanels,
+      updateViewPanels,
       configuration: {
         entryPoints,
         search,
@@ -75,12 +80,22 @@ export default class Editor extends Component {
               search={search}
             />
             <EntryPointTree
+              viewId={viewId}
               entryPoints={entryPoints}
               search={search}
               remove={this.removeEntryPoint}
+              entryPointsPanels={entryPointsPanels}
+              updateViewPanels={updateViewPanels}
             />
           </div>}
-          {currentDisplay === 1 && <TextTabContainer />}
+          {
+            currentDisplay === 1 &&
+            <TextTabContainer
+              viewId={viewId}
+              updateViewPanels={updateViewPanels}
+              panels={panels}
+            />
+          }
         </div>
       </div>
     );

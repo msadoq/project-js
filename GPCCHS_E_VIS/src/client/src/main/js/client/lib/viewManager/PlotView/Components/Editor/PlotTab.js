@@ -18,18 +18,18 @@ export default class PlotTab extends Component {
   static propTypes = {
     viewId: PropTypes.string,
     openModal: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
   };
 
   static contextTypes = {
     windowId: PropTypes.string,
   };
 
-  state = {
-    openPanels: [],
-  };
-
-  onChange = openPanels =>
-    this.setState({ openPanels })
+  onChange = (openPanels) => {
+    const { updateViewPanels, viewId } = this.props;
+    updateViewPanels(viewId, 'panels', openPanels);
+  }
 
   handleAddPlotAxis = (e) => {
     e.preventDefault();
@@ -40,34 +40,35 @@ export default class PlotTab extends Component {
   }
 
   render() {
-    const { viewId } = this.props;
-    const {
-      openPanels,
-    } = this.state;
+    const { viewId, panels } = this.props;
 
     return (
-      <Collapse accordion={false} onChange={this.onChange}>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={Object.keys(panels)}
+      >
         <Panel
           header="Parameters"
-          key="Parameters"
+          key="parameters"
         >
           {
-            openPanels.includes('Parameters') &&
+            panels.parameters &&
             <ViewParamsContainer viewId={viewId} />
           }
         </Panel>
         <Panel
           header="Grid"
-          key="Grid"
+          key="grid"
         >
           {
-            openPanels.includes('Grid') &&
+            panels.grid &&
             <PlotGridsContainer viewId={viewId} />
           }
         </Panel>
 
         <Panel
-          key="Axes"
+          key="axes"
           header={
             <div className="rc-collapse-header-inner">
               <span className="flex" style={{ paddingLeft: '13px' }}>Axes</span>
@@ -86,9 +87,10 @@ export default class PlotTab extends Component {
           }
         >
           {
-            openPanels.includes('Axes') &&
+            panels.axes &&
             <PlotAxesContainer
               viewId={viewId}
+              panel="axes"
             />
           }
         </Panel>

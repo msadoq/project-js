@@ -84,8 +84,6 @@ const list = {
     viewModule: mimicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: mimicViewData,
-    getViewComponent: () => require('./MimicView/Components/View/MimicViewContainer'),
-    getEditorComponent: () => require('./MimicView/Components/Editor/MimicEditorContainer'),
   },
 };
 

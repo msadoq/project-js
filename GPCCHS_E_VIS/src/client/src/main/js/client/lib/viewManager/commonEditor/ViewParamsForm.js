@@ -10,14 +10,6 @@ import ColorPickerField from '../../windowProcess/commonReduxForm/ColorPickerFie
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
 import ReactSelectField from '../../windowProcess/commonReduxForm/ReactSelectField';
 
-const bgColors = [
-  '#FFFFFF', '#eceff1', '#fafafa', '#efebe9',
-  '#fbe9e7', '#fff3e0', '#fff8e1', '#fffde7',
-  '#f9fbe7', '#f1f8e9', '#e8f5e9', '#e0f2f1',
-  '#e0f7fa', '#e1f5fe', '#e3f2fd', '#e8eaf6',
-  '#ede7f6', '#f3e5f5', '#fce4ec', '#ffebee',
-];
-
 class ViewParamsForm extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
@@ -84,7 +76,6 @@ class ViewParamsForm extends React.Component {
           <Field
             name="backgroundColor"
             component={ColorPickerField}
-            colors={bgColors}
           />
         </HorizontalFormGroup>
 

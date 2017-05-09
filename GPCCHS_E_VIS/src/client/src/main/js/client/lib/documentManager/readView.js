@@ -11,9 +11,8 @@ import {
   getViewModule,
 } from '../viewManager';
 
-const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
-  const { path, oId, absolutePath } = viewInfo;
-  readDocument(pageFolder, path, oId, absolutePath, (err, viewContent) => {
+const simpleReadView = async.reflect((viewInfo, cb) => {
+  readDocument(viewInfo, (err, viewContent) => {
     if (err) {
       return cb(err);
     }

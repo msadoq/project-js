@@ -47,8 +47,7 @@ const prepareWorkspace = _.pipe(
 /* ----------------- */
 
 const simpleReadWorkspace = (workspaceInfo, cb) => {
-  const { absolutePath } = workspaceInfo;
-  readDocument(undefined, undefined, undefined, absolutePath, (err, workspace) => {
+  readDocument(workspaceInfo, (err, workspace) => {
     if (err) {
       return cb(err);
     }

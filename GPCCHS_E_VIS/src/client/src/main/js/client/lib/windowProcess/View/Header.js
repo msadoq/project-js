@@ -109,19 +109,20 @@ export default class Header extends PureComponent {
     return (
       <ul className="dropdown-menu open" style={ulStyle} id={`menu${this.props.viewId}`}>
         <MenuItem onSelect={this.onDropDownClick} eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick} eventKey="move">Move to another page</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick} eventKey="collapse">Collapse</MenuItem>
+        <MenuItem divider />
+        <MenuItem onSelect={this.onDropDownClick} eventKey="move">Move view to...</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick} eventKey="collapse">Collapse view</MenuItem>
         {
-          maximized ? <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Minimize</MenuItem> :
-          <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Maximize</MenuItem>
+          maximized ? <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Minimize view</MenuItem> :
+          <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Maximize view</MenuItem>
         }
         {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="reload">Reload view</MenuItem>
                        : <MenuItem onSelect={this.onDropDownClick} eventKey="reload" disabled>Reload view</MenuItem>}
         <MenuItem divider />
-        {isPathDefined ? <MenuItem onSelect={this.onDropDownClick} eventKey="save">Save</MenuItem>
-                       : <MenuItem onSelect={this.onDropDownClick} eventKey="save" disabled>Save</MenuItem>}
-        <MenuItem onSelect={this.onDropDownClick} eventKey="saveAs">Save as</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick}eventKey="createModel">Create a model from view</MenuItem>
+        {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="save">Save view</MenuItem>
+                       : <MenuItem onSelect={this.onDropDownClick} eventKey="save" disabled>Save view</MenuItem>}
+        <MenuItem onSelect={this.onDropDownClick} eventKey="saveAs">Save view as...</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick}eventKey="createModel">Save view as a model...</MenuItem>
         <MenuItem divider />
         <MenuItem onSelect={this.onDropDownClick} eventKey="close">Close view</MenuItem>
       </ul>

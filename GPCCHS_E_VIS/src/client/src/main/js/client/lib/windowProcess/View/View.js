@@ -76,7 +76,7 @@ export default class View extends PureComponent {
     const isPathDefined = oId || absolutePath;
     return [
       {
-        label: 'Move view to another page',
+        label: 'Move view to...',
         click: () => openModal({ type: 'moveViewToPage' }),
       },
       {
@@ -95,21 +95,20 @@ export default class View extends PureComponent {
       { type: 'separator' },
       {
         label: 'Save view',
-        click: (e) => {
-          if (e) e.preventDefault();
+        click: () => {
           main.message(
             globalConstants.IPC_METHOD_SAVE_VIEW,
             { saveMode: absolutePath, viewId }
           );
         },
-        enabled: isPathDefined,
+        enabled: (isPathDefined && isModified),
       },
       {
-        label: 'Save view as',
+        label: 'Save view as...',
         click: () => main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId }),
       },
       {
-        label: 'Create a model from view',
+        label: 'Save view as a model...',
         click: () => main.message(globalConstants.IPC_METHOD_CREATE_MODEL, { viewId }),
       },
       { type: 'separator' },

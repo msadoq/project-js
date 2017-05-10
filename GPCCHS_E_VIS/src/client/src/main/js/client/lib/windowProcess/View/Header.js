@@ -84,7 +84,7 @@ export default class Header extends PureComponent {
         this.save();
         break;
       case 'saveAs':
-        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
+        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs: true });
         break;
       case 'reload':
         main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId });
@@ -164,14 +164,8 @@ export default class Header extends PureComponent {
   }
   save = (e) => {
     if (e) e.preventDefault();
-    const {
-      viewId,
-      absolutePath,
-    } = this.props;
-    main.message(
-      globalConstants.IPC_METHOD_SAVE_VIEW,
-      { saveMode: absolutePath, viewId }
-    );
+    const { viewId } = this.props;
+    main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
   }
   render() {
     const {
@@ -236,7 +230,7 @@ export default class Header extends PureComponent {
             >
               SAVE
             </button>
-          },
+          }
         </div>
       </div>
     );

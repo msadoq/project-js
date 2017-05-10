@@ -11,7 +11,12 @@ import { getPage } from '../store/reducers/pages';
 import { getTimebars, getTimebarId } from '../store/reducers/timebars';
 import { getTimebarTimelines } from '../store/reducers/timebarTimelines';
 import { getTimeline } from '../store/reducers/timelines';
-import { getWorkspaceFile, getWorkspaceFolder } from '../store/reducers/hsc';
+import {
+  getWorkspaceFile,
+  getWorkspaceFolder,
+  getDomainName,
+  getSessionName,
+} from '../store/reducers/hsc';
 
 import validation from './validation';
 import { server } from '../mainProcess/ipc';
@@ -29,7 +34,10 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
       type: 'WorkSpace',
       windows: [],
       timebars: [],
+      sessionName: getSessionName(state),
+      domainName: getDomainName(state),
     };
+
     // windows
     const windows = getWindows(state);
     _each(windows, (win, winIds) => {

@@ -108,7 +108,7 @@ describe('documentManager/saveWorkspace', () => {
   });
   it('save ok', (done) => {
     const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), true, (err, windows) => {
+    saveWorkspace(freezeMe(state), (err, windows) => {
       expect(err).to.not.be.an('error');
       windows.should.have.length(1);
       windows.should.be.eql(Object.keys(state.windows));
@@ -120,7 +120,7 @@ describe('documentManager/saveWorkspace', () => {
   });
   it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, true, (err, windows) => {
+    saveWorkspaceAs(freezeMe(state), path, (err, windows) => {
       expect(err).to.not.be.an('error');
       windows.should.have.length(1);
       windows.should.be.eql(Object.keys(state.windows));
@@ -133,7 +133,7 @@ describe('documentManager/saveWorkspace', () => {
   it('save fail', (done) => {
     state.timebars[1234].mode = null;
     const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), true, (err, windows) => {
+    saveWorkspace(freezeMe(state), (err, windows) => {
       expect(err).to.be.an('error');
       should.not.exist(windows);
       fs.isExists(path, (exist) => {
@@ -145,7 +145,7 @@ describe('documentManager/saveWorkspace', () => {
   it('saveAs fail', (done) => {
     state.timebars[1234].mode = null;
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, true, (err, windows) => {
+    saveWorkspaceAs(freezeMe(state), path, (err, windows) => {
       expect(err).to.be.an('error');
       should.not.exist(windows);
       fs.isExists(path, (exist) => {

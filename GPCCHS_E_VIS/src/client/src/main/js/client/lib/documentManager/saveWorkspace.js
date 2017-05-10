@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 import _ from 'lodash/fp';
 import _each from 'lodash/each';
-import _startsWith from 'lodash/startsWith';
 import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
@@ -23,7 +22,7 @@ import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
-const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
+const saveWorkspaceAs = (state, path, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
       callback(errFolderCreation);
@@ -57,17 +56,10 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
         const page = {};
         if (currentPage.oId) {
           page.oId = currentPage.oId;
-        } else if (useRelativePath && currentPage.path) {
+        } else if (currentPage.path) {
           page.path = currentPage.path;
         } else if (currentPage.absolutePath) {
-          if (useRelativePath) {
-            page.path = relative(dirname(path), currentPage.absolutePath);
-          } else {
-            page.path = currentPage.absolutePath;
-            if (_startsWith(current.path, '/')) {
-              current.path = '/'.concat(relative('/', currentPage.absolutePath));
-            }
-          }
+          page.path = relative(dirname(path), currentPage.absolutePath);
         } else {
           callback(new Error('Unsaved page: no path or oId'));
           return;
@@ -122,7 +114,7 @@ const saveWorkspaceAs = (state, path, useRelativePath, callback) => {
   });
 };
 
-const saveWorkspace = (state, useRelativePath, callback) => {
+const saveWorkspace = (state, callback) => {
   const file = getWorkspaceFile(state);
   const folder = getWorkspaceFolder(state);
   if (!file || !folder) {
@@ -131,7 +123,6 @@ const saveWorkspace = (state, useRelativePath, callback) => {
   return saveWorkspaceAs(
     state,
     join(folder, file),
-    useRelativePath,
     callback
   );
 };

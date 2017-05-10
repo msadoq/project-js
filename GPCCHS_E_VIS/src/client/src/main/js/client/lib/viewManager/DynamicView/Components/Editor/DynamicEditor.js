@@ -25,7 +25,8 @@ export default class DynamicEditor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }).isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.object).isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
@@ -66,7 +67,7 @@ export default class DynamicEditor extends Component {
 
   render() {
     const { entryPoints } = this.props.configuration;
-    const { timelines, viewId, tab } = this.props;
+    const { timelines, viewId, tab, domains } = this.props;
     const nullObject = {};
     return (
       <div className={styles.contentWrapper}>
@@ -77,6 +78,7 @@ export default class DynamicEditor extends Component {
         />
         {(tab === 0 || tab === null) && <div className={styles.content}>
           <DynamicEditorForm
+            domains={domains}
             timelines={timelines}
             form={`entrypoint-connectedData-form-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}

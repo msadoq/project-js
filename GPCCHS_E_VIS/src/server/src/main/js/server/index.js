@@ -1,6 +1,8 @@
 const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
+require('common/protobuf/adapters/dc');
+require('common/protobuf/adapters/lpisis');
 const clientController = require('./lib/controllers/client');
 const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');

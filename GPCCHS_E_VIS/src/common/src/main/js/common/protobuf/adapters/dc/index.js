@@ -1,3 +1,4 @@
+const { register } = require('../../index');
 const Action = require('./dataControllerUtils/action');
 const Boolean = require('./dataControllerUtils/boolean');
 const DataId = require('./dataControllerUtils/dataId');
@@ -18,7 +19,7 @@ const String = require('./dataControllerUtils/string');
 const TimeInterval = require('./dataControllerUtils/timeInterval');
 const Timestamp = require('./dataControllerUtils/timestamp');
 
-module.exports = {
+register('dc', {
   dataControllerUtils: {
     Action,
     Boolean,
@@ -40,4 +41,4 @@ module.exports = {
     TimeInterval,
     Timestamp,
   },
-};
+});

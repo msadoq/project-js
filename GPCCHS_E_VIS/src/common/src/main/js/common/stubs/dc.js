@@ -1,11 +1,13 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
+
 const logger = require('../log')('stubs:dc');
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
-const protobuf = require('../protobuf/index');
+const protobuf = require('../protobuf');
+require('../protobuf/adapters/dc');
+require('../protobuf/adapters/lpisis');
 const stubData = require('./data');
-
 const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');

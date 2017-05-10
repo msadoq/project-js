@@ -28,7 +28,6 @@ const saveWorkspaceAs = (state, path, callback) => {
       callback(errFolderCreation);
       return;
     }
-    const savedWindowsIds = [];
     const workspace = {
       type: 'WorkSpace',
       windows: [],
@@ -39,7 +38,7 @@ const saveWorkspaceAs = (state, path, callback) => {
 
     // windows
     const windows = getWindows(state);
-    _each(windows, (win, winIds) => {
+    _each(windows, (win) => {
       const current = {
         type: 'documentWindow',
         pages: [],
@@ -69,7 +68,6 @@ const saveWorkspaceAs = (state, path, callback) => {
         current.pages.push(page);
       });
       workspace.windows.push(current);
-      savedWindowsIds.push(winIds);
     });
     // timebars
     _each(getTimebars(state), (timebar, timebarUuid) => {
@@ -109,7 +107,7 @@ const saveWorkspaceAs = (state, path, callback) => {
         return;
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
-      callback(null, savedWindowsIds);
+      callback(null);
     });
   });
 };

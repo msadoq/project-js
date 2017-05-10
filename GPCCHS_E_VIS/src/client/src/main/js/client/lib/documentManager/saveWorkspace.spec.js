@@ -108,10 +108,8 @@ describe('documentManager/saveWorkspace', () => {
   });
   it('save ok', (done) => {
     const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), (err, windows) => {
+    saveWorkspace(freezeMe(state), (err) => {
       expect(err).to.not.be.an('error');
-      windows.should.have.length(1);
-      windows.should.be.eql(Object.keys(state.windows));
       fs.isExists(path, (exist) => {
         exist.should.be.true;
         done();
@@ -120,10 +118,8 @@ describe('documentManager/saveWorkspace', () => {
   });
   it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, (err, windows) => {
+    saveWorkspaceAs(freezeMe(state), path, (err) => {
       expect(err).to.not.be.an('error');
-      windows.should.have.length(1);
-      windows.should.be.eql(Object.keys(state.windows));
       fs.isExists(path, (exist) => {
         exist.should.be.true;
         done();

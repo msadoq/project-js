@@ -461,16 +461,18 @@ export class GrizzlyPlotView extends PureComponent {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints
               .filter(ep => _get(ep, ['connectedData', 'axisId']) === axis.id);
+            const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+            const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
             return {
               id: axis.id,
               yExtents:
                 axis.autoLimits === true ?
-                [
-                  _min(axisEntryPoints.map(ep => data.min[ep.name])),
-                  _max(axisEntryPoints.map(ep => data.max[ep.name])),
-                ]
+                [min, max]
                 :
-                [axis.min, axis.max],
+                [
+                  min < axis.min ? min : axis.min,
+                  max > axis.max ? max : axis.max,
+                ],
               data: lines,
               orient: 'top',
               format: '.3f',

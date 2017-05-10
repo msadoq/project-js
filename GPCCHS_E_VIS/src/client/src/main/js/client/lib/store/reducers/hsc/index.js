@@ -58,11 +58,7 @@ export default function hsc(state = initialState, action) {
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);
     case types.WS_WORKSPACE_OPEN:
-      return { ...state,
-        isModified: false,
-        domainName: action.payload.domainName,
-        sessionName: action.payload.sessionName,
-      };
+      return _.set('isModified', false, state);
     // Forecast Management
     case types.WS_PAGE_OPEN:
     case types.WS_PAGE_ADD_BLANK:

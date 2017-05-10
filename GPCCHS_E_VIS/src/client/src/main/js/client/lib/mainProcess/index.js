@@ -24,8 +24,12 @@ import { add as addMessage } from '../store/actions/messages';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
-import { getIsWorkspaceOpening } from '../store/actions/hsc';
-// import { getFocusedWindowId } from '../store/reducers/hsc';
+import { getIsWorkspaceOpening, smartPlay } from '../store/actions/hsc';
+import { setRealTime } from '../store/actions/timebars';
+import { getFocusedWindowId } from '../store/reducers/hsc';
+import { getWindowFocusedPageId } from '../store/reducers/windows';
+import { getPage } from '../store/reducers/pages';
+import { getTimebars } from '../store/reducers/timebars';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
@@ -221,8 +225,25 @@ export function onStart() {
     splashScreen.setMessage('ready!');
     logger.info('ready!');
     server.sendProductLog(LOG_APPLICATION_START);
-
     startOrchestration();
+    // start on play
+    if (parameters.get('REALTIME') === 'on') {
+      logger.info('Start in playing mode');
+      // get focused window
+      setTimeout(() => {
+        const { getState, dispatch } = getStore();
+        const state = getState();
+        const windowId = getFocusedWindowId(getState());
+        const pageId = getWindowFocusedPageId(state, { windowId });
+        const page = getPage(state, { pageId });
+        // All timebar switch to real time
+        Object.keys(getTimebars(state)).forEach((timebarUuid) => {
+          dispatch(setRealTime(timebarUuid, true));
+        });
+        const { timebarUuid } = page;
+        dispatch(smartPlay(timebarUuid));
+      }, 2000);
+    }
   });
 }
 

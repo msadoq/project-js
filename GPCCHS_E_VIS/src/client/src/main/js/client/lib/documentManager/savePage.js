@@ -1,6 +1,5 @@
-import _findIndex from 'lodash/findIndex';
-import _startsWith from 'lodash/startsWith';
-import { dirname, relative } from 'path';
+import _ from 'lodash/fp';
+import { dirname } from 'path';
 import {
   LOG_DOCUMENT_SAVE,
 } from 'common/constants';
@@ -8,11 +7,29 @@ import {
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
-import { getRootDir } from '../common/fmd';
 import validation from './validation';
 
 import { getPage, getPageAbsolutePath } from '../store/reducers/pages';
 import { getView } from '../store/reducers/views';
+
+const preparePage = (state, page) => ({
+  type: 'Page',
+  timebarHeight: page.timebarHeight,
+  timebarCollapsed: page.timebarCollapsed,
+  title: page.title,
+  sessionName: page.sessionName,
+  domainName: page.domainName,
+  views: page.views.map((viewId) => {
+    const { oId, absolutePath } = getView(state, { viewId });
+    const viewLocation = oId ? { oId } : { path: absolutePath };
+    return {
+      ...viewLocation,
+      geometry: _.find(_.propEq('i', viewId), page.layout),
+      hideBorders: page.hideBorders ? page.hideBorders : false,
+      windowState: page.windowState ? page.windowState : 'Normalized',
+    };
+  }),
+});
 
 /**
  * Save plot view from state to file
@@ -20,11 +37,9 @@ import { getView } from '../store/reducers/views';
  * @param state
  * @param pageId
  * @param path
- * @param useRelativePath
  * @param callback
- * @returns Error or undefined
  */
-const savePageAs = (state, pageId, path, useRelativePath, callback) => {
+const savePageAs = (state, pageId, path, callback) => {
   const page = getPage(state, { pageId });
   if (!page) {
     callback('unknown page');
@@ -35,70 +50,18 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
       callback(err);
       return;
     }
-    const root = getRootDir();
-    const savedPage = {
-      type: 'Page',
-      timebarHeight: page.timebarHeight,
-      timebarCollapsed: page.timebarCollapsed,
-      title: page.title,
-      views: [],
-      sessionName: page.sessionName,
-      domainName: page.domainName,
-    };
-    page.views.forEach((id) => {
-      // Get view definition in stateViews
-      const view = getView(state, { viewId: id });
-      if (!view) {
-        callback(`Invalid view in page ${page.title}`);
-        return;
-      }
-      const current = {};
-      if (view.oId) {
-        current.oId = view.oId;
-      } else if (useRelativePath) {
-        current.path = relative(dirname(path), view.absolutePath);
-      } else {
-        current.path = view.absolutePath;
-        if (_startsWith(current.path, root)) {
-          current.path = '/'.concat(relative(root, view.absolutePath));
-        }
-      }
-      const index = _findIndex(page.layout, item => item.i === id);
-      if (index === -1) {
-        callback('not fount page layout');
-        return;
-      }
-      const geometry = page.layout[index];
-      current.geometry = {
-        x: geometry.x,
-        y: geometry.y,
-        w: geometry.w,
-        h: geometry.h,
-        maxH: geometry.maxH,
-        maxW: geometry.maxW,
-        collapsed: geometry.collapsed,
-        maximized: geometry.maximized,
-      };
-      current.hideBorders = (page.hideBorders ? page.hideBorders : false);
-      current.windowState = (page.windowState ? page.windowState : 'Normalized');
-
-      savedPage.views.push(current);
-    });
-    // validation
+    const savedPage = preparePage(state, page);
     const validationError = validation('page', savedPage);
     if (validationError) {
       callback(validationError);
       return;
     }
-    // save file
     writeDocument(path, savedPage, (errfs, oid) => {
       if (errfs) {
         callback(errfs);
         return;
       }
-
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
-
       callback(null, oid);
     });
   });
@@ -108,11 +71,9 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
  *
  * @param state
  * @param pageId
- * @param useRelativePath
  * @param callback
- * @returns Error or undefined
  */
-const savePage = (state, pageId, useRelativePath, callback) => {
+const savePage = (state, pageId, callback) => {
   const page = getPage(state, { pageId });
   if (!page) {
     callback('unknown page');
@@ -121,7 +82,7 @@ const savePage = (state, pageId, useRelativePath, callback) => {
   if (!absolutePath) {
     return callback('Unknown path for saving the page');
   }
-  return savePageAs(state, pageId, absolutePath, useRelativePath, callback);
+  return savePageAs(state, pageId, absolutePath, callback);
 };
 
 

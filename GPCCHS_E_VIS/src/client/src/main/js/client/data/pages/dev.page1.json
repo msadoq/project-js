@@ -54,5 +54,15 @@
       "hideBorders": false,
       "windowState": "Normalized"
     }
-  ]
+  ],
+  "panels": {
+    "editorWidth": 250,
+    "editorIsMinimized": true,
+    "timebarHeight": 130,
+    "timebarIsMinimized": false,
+    "explorerWidth": 250,
+    "explorerIsMinimized": true
+  },
+  "sessionName": "Master",
+  "domainName": "fr.cnes.isis.simupus"
 }

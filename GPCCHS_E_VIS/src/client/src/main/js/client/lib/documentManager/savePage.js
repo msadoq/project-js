@@ -42,6 +42,8 @@ const savePageAs = (state, pageId, path, useRelativePath, callback) => {
       timebarCollapsed: page.timebarCollapsed,
       title: page.title,
       views: [],
+      sessionName: page.sessionName,
+      domainName: page.domainName,
     };
     page.views.forEach((id) => {
       // Get view definition in stateViews

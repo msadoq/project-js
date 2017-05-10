@@ -12,4 +12,6 @@ export const VM_COMMON_PROPERTIES = [
   'links',
   'defaultRatio',
   'procedures',
+  'domainName',
+  'sessionName',
 ];

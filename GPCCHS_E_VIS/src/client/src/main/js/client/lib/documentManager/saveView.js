@@ -23,6 +23,7 @@ const saveViewAs = (view, path, callback) => {
 
     const schema = getSchema(view.type);
     const validationError = validation(view.type, preparedView, schema);
+
     if (validationError) {
       return callback(validationError);
     }

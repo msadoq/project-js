@@ -98,14 +98,14 @@ export default class View extends PureComponent {
         click: () => {
           main.message(
             globalConstants.IPC_METHOD_SAVE_VIEW,
-            { saveMode: absolutePath, viewId }
+            { viewId }
           );
         },
         enabled: (isPathDefined && isModified),
       },
       {
         label: 'Save view as...',
-        click: () => main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId }),
+        click: () => main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs: true }),
       },
       {
         label: 'Save view as a model...',

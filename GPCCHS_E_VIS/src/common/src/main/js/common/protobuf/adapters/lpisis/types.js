@@ -6,6 +6,7 @@ const _isNull = require('lodash/isNull');
 const _isString = require('lodash/isString');
 const Long = require('long');
 const ByteBuffer = require('bytebuffer');
+const ProtoBuf = require('protobufjs');
 
 const ushortToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
@@ -15,7 +16,7 @@ const ushortToBytes = (number) => {
   if (!_isNumber(number)) {
     throw new Error(`Unable to convert '${number}' to short buffer`);
   }
-
+  // return new ProtoBuf.BufferWriter().
   return new ByteBuffer(null, true).writeUint16(number).flip();
 };
 const bytesToUshort = (buffer) => {
@@ -100,17 +101,23 @@ const stringToBytes = (string) => {
   if (!_isString(string)) {
     throw new Error(`unable to convert '${string}' to byte buffer`);
   }
-
-  return new ByteBuffer(null, true).writeString(string).flip();
+  return new ProtoBuf.BufferWriter().string(string).finish();
+  // return new ByteBuffer(null, true).writeString(string).flip();
 };
 const bytesToString = (buffer) => {
   if (!buffer || !buffer.buffer) {
+    console.log("-------------- (!buffer || !buffer.buffer) : ");
     return undefined;
   }
-  if (!_isBuffer(buffer.buffer)) {
+  /* if (!_isBuffer(buffer.buffer)) {
+    console.log("-------------- (!_isBuffer(buffer.buffer)) : ");
+    console.log("-------------- ", buffer.buffer);
     return undefined;
-  }
-  return buffer.readString(buffer.limit - buffer.offset, ByteBuffer.METRICS_BYTES);
+  } */
+  const t = new ProtoBuf.BufferReader(buffer);
+  
+  return t.string();
+  // return buffer.readString(buffer.limit - buffer.offset, ByteBuffer.METRICS_BYTES);
 };
 
 module.exports = {

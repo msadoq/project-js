@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/Session.proto";
+import "./Session.proto";
 
 message Sessions {
 extensions 2 to 102;

@@ -1,5 +1,5 @@
 package dataControllerUtils.protobuf;
-
+syntax = "proto3";
 message Action {
 extensions 2 to 102;
       enum ACTION {

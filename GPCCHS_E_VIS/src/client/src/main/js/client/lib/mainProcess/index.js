@@ -12,7 +12,8 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
-import rtdStub from 'rtd/stubs/rtd';
+import { connect as createRtd } from 'rtd/catalogs';
+import { setRtd } from '../rtdManager';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
@@ -82,15 +83,21 @@ export function onStart() {
       );
     },
     (callback) => {
-      if (parameters.get('STUB_RTD_ON') !== 'on') {
-        callback(null);
-        return;
+      const socket = parameters.get('RTD_UNIX_SOCKET');
+      let stub = false;
+      if (parameters.get('STUB_RTD_ON') === 'on') {
+        stub = true;
       }
-
-      splashScreen.setMessage('starting rtd simulator...');
-      logger.info('starting rtd simulator...');
-      rtdStub.launch();
-      callback(null);
+      splashScreen.setMessage('connecting rtd...');
+      logger.info('connecting rtd...');
+      createRtd({ socket, stub }, (err, rtd) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        setRtd(rtd);
+        callback(null);
+      });
     },
     (callback) => {
       splashScreen.setMessage('starting data server process...');

@@ -21,7 +21,11 @@ export function initStore() {
       ),
     });
 
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const isThereDevTools = typeof window !== 'undefined'
+      && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+    const composeEnhancers = isThereDevTools
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      : compose;
 
     enhancer = composeEnhancers(
       applyMiddleware(thunk, reduxLogger),

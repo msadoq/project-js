@@ -118,6 +118,7 @@ export class GrizzlyPlotView extends PureComponent {
     inspectorEpId: PropTypes.string,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
+    removeEntryPoint: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     defaultTimelineId: PropTypes.string.isRequired,
@@ -134,7 +135,8 @@ export class GrizzlyPlotView extends PureComponent {
 
   state = {
     showLegend: false,
-    selectedLineNames: [],
+    showEpNames: [],
+    hideEpNames: [],
   }
 
   componentDidMount() {
@@ -155,7 +157,10 @@ export class GrizzlyPlotView extends PureComponent {
     if (nextState.showLegend !== this.state.showLegend) {
       shouldRender = true;
     }
-    if (nextState.selectedLineNames !== this.state.selectedLineNames) {
+    if (nextState.showEpNames !== this.state.showEpNames) {
+      shouldRender = true;
+    }
+    if (nextState.hideEpNames !== this.state.hideEpNames) {
       shouldRender = true;
     }
     return shouldRender;
@@ -340,23 +345,54 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
-  selectLine = (e, lineId) => {
+  showEp = (e, lineId) => {
     e.preventDefault();
     const {
-      selectedLineNames,
+      showEpNames,
+      hideEpNames,
     } = this.state;
-    if (selectedLineNames.includes(lineId)) {
-      const index = selectedLineNames.indexOf(lineId);
-      selectedLineNames.splice(index, 1);
-      this.setState({
-        selectedLineNames: [].concat(selectedLineNames),
-      });
+    const newState = {};
+
+    if (showEpNames.includes(lineId)) {
+      const index = showEpNames.indexOf(lineId);
+      showEpNames.splice(index, 1);
+      newState.showEpNames = [].concat(showEpNames);
     } else {
-      selectedLineNames.push(lineId);
-      this.setState({
-        selectedLineNames: [].concat(selectedLineNames),
-      });
+      showEpNames.push(lineId);
+      newState.showEpNames = [].concat(showEpNames);
     }
+    if (hideEpNames.includes(lineId)) {
+      const index = hideEpNames.indexOf(lineId);
+      hideEpNames.splice(index, 1);
+      newState.hideEpNames = [].concat(hideEpNames);
+    }
+
+    this.setState(newState);
+  }
+
+  hideEp = (e, lineId) => {
+    e.preventDefault();
+    const {
+      hideEpNames,
+      showEpNames,
+    } = this.state;
+    const newState = {};
+
+    if (hideEpNames.includes(lineId)) {
+      const index = hideEpNames.indexOf(lineId);
+      hideEpNames.splice(index, 1);
+      newState.hideEpNames = [].concat(hideEpNames);
+    } else {
+      hideEpNames.push(lineId);
+      newState.hideEpNames = [].concat(hideEpNames);
+    }
+    if (showEpNames.includes(lineId)) {
+      const index = showEpNames.indexOf(lineId);
+      showEpNames.splice(index, 1);
+      newState.showEpNames = [].concat(showEpNames);
+    }
+
+    this.setState(newState);
   }
 
   memoizeXAxisProps = _memoize(
@@ -368,6 +404,17 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     (a, b, c, d) => `${a[0]}-${a[1]}-${b}-${c}-${d}`
   )
+
+  removeEntryPoint = (e, id) => {
+    e.preventDefault();
+    const {
+      removeEntryPoint,
+      viewId,
+      configuration: { entryPoints },
+    } = this.props;
+    const index = entryPoints.findIndex(a => a.id === id);
+    removeEntryPoint(viewId, index);
+  }
 
   render() {
     logger.debug('render');
@@ -409,19 +456,22 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     const {
       showLegend,
-      selectedLineNames,
+      showEpNames,
+      hideEpNames,
     } = this.state;
 
-    if (selectedLineNames.length && showLegend) {
-      entryPoints = entryPoints.filter(ep => selectedLineNames.includes(ep.name));
+    if (showEpNames.length) {
+      entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
+    } else if (hideEpNames.length) {
+      entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
     }
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
-      const eps = entryPoints.filter(ep =>
+      const eps = this.props.configuration.entryPoints.filter(ep =>
         _get(ep, ['connectedData', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 25) : 0;
+      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 29) : 0;
     });
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
@@ -429,13 +479,10 @@ export class GrizzlyPlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        onContextMenu={e => this.onContextMenu(e)}
+        onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
-        className={classnames(
-          'h100',
-          'posRelative'
-        )}
+        className="h100 posRelative"
         style={mainStyle}
       >
         <GrizzlyChart
@@ -514,10 +561,13 @@ export class GrizzlyPlotView extends PureComponent {
           yAxes={yAxes}
           lines={this.props.configuration.entryPoints}
           show={showLegend}
-          selectedLineNames={selectedLineNames}
           toggleShowLegend={this.toggleShowLegend}
-          selectLine={this.selectLine}
+          showEp={this.showEp}
+          showEpNames={showEpNames}
+          hideEp={this.hideEp}
+          hideEpNames={hideEpNames}
           onContextMenu={this.onContextMenu}
+          removeEntryPoint={this.removeEntryPoint}
         />
       </DroppableContainer>
     );

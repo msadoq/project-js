@@ -24,6 +24,8 @@
   --borderRealtime: lightgreen;
   --borderAcc: yellow;
   --borderDesc: lightblue;
+
+  --controlBlue: #60a7e5;
 }
 .collapsed {
   .react-resizable-handle{

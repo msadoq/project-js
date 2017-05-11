@@ -15,29 +15,19 @@ const inlineStyles = {
 export default class ControlsRight extends PureComponent {
 
   static propTypes = {
+    sessionId: PropTypes.string,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
     switchToFixedMode: PropTypes.func.isRequired,
-    getSession: PropTypes.func.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timebarRealTime: PropTypes.bool.isRequired,
-    currentSessionExists: PropTypes.bool.isRequired,
-    masterTimelineExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.shape({
-      color: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      kind: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-      offset: PropTypes.number.isRequired,
-      sessionName: PropTypes.string.isRequired,
-    }),
-    masterSessionId: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     masterTimeline: null,
+    sessionId: null,
   }
 
   switchMode = (e) => {
@@ -49,10 +39,7 @@ export default class ControlsRight extends PureComponent {
       switchToRealtimeMode,
       switchToExtensibleMode,
       switchToFixedMode,
-      currentSessionExists,
-      masterTimeline,
-      masterSessionId,
-      getSession,
+      sessionId,
     } = this.props;
 
     const mode = e.currentTarget.getAttribute('mode');
@@ -68,17 +55,12 @@ export default class ControlsRight extends PureComponent {
       switchToFixedMode(timebarUuid);
     } else if (mode === 'Realtime') {
       // IPC request to get master session current time
-      let sessionId;
-      if (currentSessionExists) {
-        sessionId = getSession({ sessionName: masterTimeline.sessionName }).id;
-      } else {
-        sessionId = masterSessionId;
-      }
       main.getSessionTime(sessionId, ({ err, timestamp }) => {
         if (err) {
           // TODO Show message
           return;
         }
+        console.log('here');
         switchToRealtimeMode(timebarUuid, timestamp);
       });
     }
@@ -87,14 +69,13 @@ export default class ControlsRight extends PureComponent {
   render() {
     const {
       timebarMode,
-      currentSessionExists,
-      masterTimelineExists,
       timebarRealTime,
+      sessionId,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
-    const realTimeDisabled = !masterTimelineExists || !currentSessionExists;
+    const realTimeDisabled = sessionId === null;
     let disabledTooltip;
     if (realTimeDisabled) {
       disabledTooltip = (
@@ -103,8 +84,7 @@ export default class ControlsRight extends PureComponent {
           style={inlineStyles.width200}
         >
           <b>Cannot go realtime</b><br />
-          { !masterTimelineExists && 'No master timeline'}<br />
-          { !currentSessionExists && 'No master session'}
+           No master timeline<br />
         </Tooltip>
       );
     }

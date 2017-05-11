@@ -189,7 +189,7 @@ export default class Header extends PureComponent {
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}
         >
-          {title}
+          {`${title} ${isViewsEditorOpen ? '(in edition)' : ''}`}
         </div>
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&

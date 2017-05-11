@@ -43,7 +43,6 @@ export function find(search, domains, viewDomain, pageDomain, workspaceDomain) {
   }
 
   const domainIds = _map(_filter(domains, d => d.name === domainName), d => d.domainId);
-  console.log('domainIds', domainIds, domainName, viewDomain, pageDomain, workspaceDomain);
   if (domainIds.length < 1) {
     return { error: 'invalid entry point, no domain matches' };
   } else if (domainIds.length > 1) {

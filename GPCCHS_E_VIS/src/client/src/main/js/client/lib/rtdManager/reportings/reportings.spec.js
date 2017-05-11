@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { mock as mockRedis, unmock as unmockRedis } from 'rtd/stubs/redis';
-import rtd from 'rtd/catalogs';
+import { connect } from 'rtd/catalogs';
 import { Reporting as loadReportings } from 'rtd/stubs/loaders';
 import { Reporting as generateReporting } from 'rtd/stubs/generators';
 import { should } from '../../common/test';
@@ -26,6 +26,8 @@ const items = [
   generateReporting({ name: 'TEST_ITEM1', namespace: SDB_NAMESPACE, uid: 1, domainId }),
 ];
 
+let rtd;
+
 let monitoringStub;
 let rtdStub;
 
@@ -35,9 +37,10 @@ describe('rtdManager/reportings', () => {
     monitoringStub = sinon.stub(monitorings, 'getTriggers').callsFake((opts, monitoring, callback) => {
       callback(null, 'StubTriggers');
     });
-    rtd.connect(socket, (err, isConnected) => {
+    connect({ socket }, (err, catalogApi) => {
       should.not.exist(err);
-      isConnected.should.eql(true);
+      should.exist(catalogApi);
+      rtd = catalogApi;
       loadReportings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
   });

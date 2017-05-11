@@ -1,5 +1,5 @@
 import { mock as mockRedis, unmock as unmockRedis } from 'rtd/stubs/redis';
-import rtd from 'rtd/catalogs';
+import { connect } from 'rtd/catalogs';
 import { Monitoring as loadMonitorings } from 'rtd/stubs/loaders';
 import { Monitoring as generateMonitoring } from 'rtd/stubs/generators';
 import { should } from '../../common/test';
@@ -22,14 +22,17 @@ const items = [
   generateMonitoring({ name: 'FUNCTIONAL', namespace: SDB_NAMESPACE, domainId, type: 'functional' }),
 ];
 
+let rtd;
+
 // TODO tests to complete
 
 describe('rtdManager/monitorings', () => {
   before((done) => {
     mockRedis();
-    rtd.connect(socket, (err, isConnected) => {
+    connect({ socket }, (err, api) => {
       should.not.exist(err);
-      isConnected.should.eql(true);
+      should.exist(api);
+      rtd = api;
       loadMonitorings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
   });

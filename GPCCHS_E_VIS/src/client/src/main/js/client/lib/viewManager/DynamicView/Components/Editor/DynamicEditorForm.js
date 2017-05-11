@@ -4,7 +4,6 @@ import { Field, reduxForm } from 'redux-form';
 import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
 import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
 
 const EntryPointConnectedData = (props) => {
@@ -15,6 +14,7 @@ const EntryPointConnectedData = (props) => {
     submitting,
     valid,
     timelines,
+    domains,
   } = props;
 
   return (
@@ -26,12 +26,21 @@ const EntryPointConnectedData = (props) => {
           className="form-control input-sm"
         />
       </HorizontalFormGroup>
+
       <HorizontalFormGroup label="Domain">
         <Field
           name="domain"
-          component={InputField}
-          type="text"
-          className="form-control input-sm"
+          clearable={false}
+          component={ReactSelectField}
+          options={domains.map(d =>
+            ({
+              label: d.name,
+              value: d.name,
+            })
+          ).concat({
+            label: '*',
+            value: '*',
+          })}
         />
       </HorizontalFormGroup>
 
@@ -40,7 +49,6 @@ const EntryPointConnectedData = (props) => {
           name="timeline"
           clearable={false}
           component={ReactSelectField}
-          free
           options={timelines.map(t =>
             ({
               label: t.id,
@@ -72,6 +80,7 @@ EntryPointConnectedData.propTypes = {
   timelines: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
   })).isRequired,
+  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,

@@ -5,6 +5,7 @@ import { getFocusedPage } from '../../../../store/selectors/pages';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import { updateViewSubPanels } from '../../../../store/actions/ui';
 import { getViewEntryPointsSubPanels } from '../../../../store/reducers/ui';
+import { getDomains } from '../../../../store/reducers/domains';
 import {
   updateEntryPoint,
   removeEntryPoint,
@@ -15,6 +16,7 @@ const mapStateToProps = (state, { windowId, viewId, entryPoint }) => {
   return {
     timelines: getTimebarTimelinesSelector(state, { timebarUuid }),
     panels: getViewEntryPointsSubPanels(state, { viewId, entryPoint }),
+    domains: getDomains(state),
   };
 };
 

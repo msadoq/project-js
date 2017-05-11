@@ -1,5 +1,6 @@
 import _round from 'lodash/round';
 import _reduce from 'lodash/reduce';
+import _get from 'lodash/get';
 import { series } from 'async';
 import { get } from 'common/parameters';
 import {
@@ -267,7 +268,8 @@ export function tick() {
       const timebarUuid = getPlayingTimebarId(getState());
       // Add forecast in play mode
       let forecastIntervals;
-      if (timebarUuid) {
+      // Check validity of previous datamap to avoid empty data when launching in realtime mode
+      if (timebarUuid && Object.keys(_get(previous, 'requestedDataMap', {})).length) {
         // Get playing mode
         const { visuWindow } = getTimebar(getState(), { timebarUuid });
         const { upper } = visuWindow;

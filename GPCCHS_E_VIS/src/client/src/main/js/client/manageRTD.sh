@@ -96,6 +96,10 @@ if [ "$#" -eq 1 ]; then
       goToGPDS && checkoutGPDS && pullGPDS
       shift
       ;;
+    --copy)
+      copyRTD
+      shift
+      ;;
     *)
       usage
       shift

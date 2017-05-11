@@ -40,6 +40,7 @@ export default class EntryPointDetails extends PureComponent {
       PropTypes.bool,
     ]).isRequired,
     updateViewSubPanels: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
 
   onChange = (openPanels) => {
@@ -93,6 +94,7 @@ export default class EntryPointDetails extends PureComponent {
       axes,
       timelines,
       panels,
+      domains,
     } = this.props;
 
     // TODO Rerender (new ref)
@@ -124,6 +126,7 @@ export default class EntryPointDetails extends PureComponent {
           {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
             axes={axes}
             timelines={timelines}
+            domains={domains}
             idPoint={idPoint}
             viewId={viewId}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}

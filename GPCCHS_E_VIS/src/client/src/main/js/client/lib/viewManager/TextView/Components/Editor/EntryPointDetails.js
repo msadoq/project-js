@@ -39,6 +39,7 @@ export default class EntryPointDetails extends React.Component {
       PropTypes.bool,
     ]).isRequired,
     updateViewSubPanels: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
 
   onChange = (openPanels) => {
@@ -65,6 +66,7 @@ export default class EntryPointDetails extends React.Component {
       viewId,
       timelines,
       panels,
+      domains,
     } = this.props;
 
     return (
@@ -92,6 +94,7 @@ export default class EntryPointDetails extends React.Component {
         >
           {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedData
             timelines={timelines}
+            domains={domains}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}

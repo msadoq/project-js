@@ -83,6 +83,30 @@ const commands = {
         globalConstants.IPC_METHOD_SAVE_PAGE,
         { windowId, stopOnUnsavedView },
         callback),
+    getRteDomains: (sessionId, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
+        sessionId,
+      }, callback),
+    getRteCatalogs: (sessionId, domainId, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_CATALOGS, {
+        sessionId,
+        domainId,
+      }, callback),
+    getRteItemNames: (catalog, version, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_ITEM_NAMES, {
+        catalog,
+        version,
+      }, callback),
+    openRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_OPEN_RTE_ITEM, {
+        sessionId,
+        domainId,
+        catalog,
+        version,
+        namespace,
+        name,
+        key,
+      }, callback),
   },
 };
 

@@ -18,6 +18,10 @@ import onOpenWorkspace from './onOpenWorkspace';
 import onOpenInspector from './onOpenInspector';
 import onResolveLink from './onResolveLink';
 import onOpenWikiHelper from './onOpenWikiHelper';
+import onGetRteDomains from './onGetRteDomains';
+import onGetRteCatalogs from './onGetRteCatalogs';
+import onGetRteItemNames from './onGetRteItemNames';
+import onOpenRteItem from './onOpenRteItem';
 
 const controller = {
   [constants.IPC_METHOD_REDUX_CURRENT_STATE]: (...args) => onReduxCurrentState(reply, ...args),
@@ -35,6 +39,10 @@ const controller = {
   [constants.IPC_METHOD_OPEN_INSPECTOR]: onOpenInspector,
   [constants.IPC_METHOD_RESOLVE_LINK]: onResolveLink,
   [constants.IPC_METHOD_WIKI_HELPER]: onOpenWikiHelper,
+  [constants.IPC_METHOD_GET_RTE_DOMAINS]: onGetRteDomains,
+  [constants.IPC_METHOD_GET_RTE_CATALOGS]: onGetRteCatalogs,
+  [constants.IPC_METHOD_GET_RTE_ITEM_NAMES]: onGetRteItemNames,
+  [constants.IPC_METHOD_OPEN_RTE_ITEM]: onOpenRteItem,
 };
 
 export default (electronEvent, data) => handle(

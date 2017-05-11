@@ -17,6 +17,7 @@ import health from './health';
 import codeEditor from './codeEditor';
 import inspector from './inspector';
 import ui from './ui';
+import rte from './rte';
 
 import { configurationReducers, dataReducers } from '../../viewManager/';
 
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   codeEditor,
   inspector,
   ui,
+  rte,
   ...configurationReducers,
   ...dataReducers,
 });

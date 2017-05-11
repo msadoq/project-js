@@ -1,0 +1,67 @@
+.general {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 24px;
+  color: #333;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.loading {
+  font-weight: bold;
+  color: #999;
+}
+
+.button {
+  padding: 5px;
+}
+
+.session {
+  background: #f4f4f4;
+  color: #666;
+}
+
+.panel {
+  background: #f4f4f4;
+  color: #666;
+  height: calc(50% - 60px);
+  > div {
+    height: 100%;
+  }
+  .innerPanel {
+    overflow: auto;
+    height: calc(100% - 22px);
+    > div {
+      height: 100%;
+    }
+  }
+}
+
+.root {
+  height: 100%;
+}
+
+.title {
+  padding: 4px;
+  margin: auto;
+}
+
+
+.stacked {
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  > li {
+    display: table;
+  }
+}

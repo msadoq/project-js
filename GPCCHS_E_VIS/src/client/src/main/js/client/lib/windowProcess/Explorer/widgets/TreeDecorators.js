@@ -115,6 +115,10 @@ const createContainer = (func) => {
   const Container = (props) => {
     const { node, style } = props;
     const onMouseDown = event => func(event, node);
+    const containerStyle = style.link;
+    const activeStyle = (node.active)
+      ? Object.assign({}, style.link, style.activeLink)
+      : style.link;
     switch (node.type) {
       case OBJECT:
       case ARRAY:
@@ -124,7 +128,7 @@ const createContainer = (func) => {
         return (
           <div
             onMouseDown={onMouseDown}
-            style={style.container}
+            style={containerStyle}
           >
             <Header
               node={node}
@@ -141,7 +145,7 @@ const createContainer = (func) => {
         return (
           <div
             onMouseDown={onMouseDown}
-            style={style.container}
+            style={activeStyle}
           >
             <Header
               node={node}

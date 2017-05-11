@@ -13,7 +13,8 @@ import {
   SERVER_PROCESS_LAUNCHING_TIMEOUT,
 } from '../constants';
 import { clear } from '../common/callbacks';
-import { setRtd } from '../rtdManager';
+import { setRtd, getRtd } from '../rtdManager';
+
 import enableDebug from './debug';
 import { fork, get, kill } from '../common/processManager';
 import makeCreateStore, { getStore } from './store';
@@ -22,6 +23,7 @@ import serverController from './controllers/server';
 import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
+import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
@@ -149,6 +151,25 @@ export function onStart() {
       } else {
         callback(null);
       }
+    },
+    function requestCatalogSessions(callback) {
+    // should have rte sessions in store at start
+      splashScreen.setMessage('requesting catalog explorer sessions...');
+      logger.info('requesting catalog explorer sessions...');
+      const cancelTimeout = scheduleTimeout('rteSession');
+      const rtdApi = getRtd();
+      rtdApi.getDatabase().getSessionList((err, sessions) => {
+        cancelTimeout();
+        if (err) {
+          callback(err);
+          return;
+        }
+        splashScreen.setMessage('injecting catalog explorer sessions...');
+        logger.info('injecting catalog explorer sessions...');
+
+        getStore().dispatch(setRteSessions(sessions));
+        callback(null);
+      });
     },
     function openInitialWorkspace(callback) {
       splashScreen.setMessage('searching workspace...');

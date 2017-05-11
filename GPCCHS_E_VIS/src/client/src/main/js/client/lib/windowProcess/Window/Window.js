@@ -32,7 +32,7 @@ const tabsContainerStyle = { height: 40 };
 
 const explorerWidgets = [
   ['D', 'Datastore Explorer', 'dsex'],
-  ['R', 'RTE', 'rte'],
+  ['C', 'Catalog Explorer', 'rte'],
   ['I', 'Inspector', 'inspector'],
 ];
 

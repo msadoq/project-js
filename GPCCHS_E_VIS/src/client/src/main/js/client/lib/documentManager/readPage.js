@@ -35,7 +35,6 @@ export const simpleReadPage = async.reflect((pageInfo, cb) => {
       uuid,
       isModified: false,
       absolutePath: pagePath,
-      panels: page.panels,
     });
   });
 });

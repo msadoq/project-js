@@ -3,12 +3,19 @@ const executionMonitor = require('common/log/execution');
 const flattenDataId = require('common/utils/flattenDataId');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
+const { writeFile } = require('fs');
+const { join } = require('path');
+
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const loggerData = require('common/log')('controllers:incomingData');
+const { get } = require('common/parameters');
 const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
+const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+
+const dump = (get('DUMP') === 'on');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -58,6 +65,11 @@ module.exports = (
     return;
   }
 
+  let dumpFolder;
+  if (dump) {
+    createDumpFolder(dataId);
+    dumpFolder = getDumpFolder(dataId);
+  }
   // loop over arguments peers (timestamp, payload)
   _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
     execution.start('decode timestamp');
@@ -92,6 +104,16 @@ module.exports = (
       // deprotobufferize payload
       decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
       execution.stop('decode payload');
+    }
+
+    // dump
+    if (dump && dumpFolder) {
+      // save a file per timestamp with binary payload
+      writeFile(join(dumpFolder, timestamp.ms.toString()), payloadBuffer[1], (err) => {
+        if (err) {
+          loggerData.warn(`Error writing dump file ${timestamp}`);
+        }
+      });
     }
 
     loggerData.debug({

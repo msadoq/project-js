@@ -19,7 +19,7 @@ describe('documentManager:readView', () => {
     stub.restore();
   });
 
-  it('creates a simple view', (done) => {
+  it('creates a simple view using readed document', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
       content.should.be.eql({

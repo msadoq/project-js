@@ -22,6 +22,7 @@ describe('documentManager:readView', () => {
   it('creates a simple view using readed document', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
+      should.not.exist(err);
       content.should.be.eql({
         value: {
           uuid: 'fake-uuid',

@@ -5,7 +5,7 @@ import '../../common/test';
 
 import { applyFilters } from './applyFilters';
 
-describe.only('utils/filters', () => {
+describe('utils/filters', () => {
   describe('applyFilters', () => {
     it('=', () => {
       const filter = [

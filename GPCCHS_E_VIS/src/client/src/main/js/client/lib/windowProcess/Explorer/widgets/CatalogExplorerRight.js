@@ -1,7 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import {
+  Navbar,
   Nav,
   NavItem,
+  Panel,
   Button,
   Glyphicon,
 } from 'react-bootstrap';
@@ -118,20 +120,31 @@ export default class CatalogExplorerRight extends PureComponent {
     ));
 
     return (
-      <div>
-        <Nav
-          bsStyle="tabs"
-          className={styles.tabs}
-          activeKey={focusedKey}
-          onSelect={this.onClickTabItem}
+      <div className={styles.root}>
+        <Navbar
+          fluid
+          className={styles.navbar}
         >
-          {itemTabs}
-        </Nav>
-        { item &&
-          <Tree
-            data={item.children}
-          />
-        }
+          <Nav
+            bsStyle="tabs"
+            className={styles.nav}
+            activeKey={focusedKey}
+            onSelect={this.onClickTabItem}
+          >
+            {itemTabs}
+          </Nav>
+        </Navbar>
+        <Panel
+          className={styles.rightPanel}
+        >
+          <Panel className={styles.rightInnerPanel}>
+            { item &&
+              <Tree
+                data={item.children}
+              />
+            }
+          </Panel>
+        </Panel>
       </div>
     );
   }

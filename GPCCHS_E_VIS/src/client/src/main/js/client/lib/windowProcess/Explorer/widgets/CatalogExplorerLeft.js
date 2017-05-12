@@ -139,7 +139,7 @@ export default class CatalogExplorerLeft extends PureComponent {
       <div className={styles.root}>
         <Panel className={styles.session}>
           <div className={styles.stacked}>
-            <span className={styles.title}>SessionId</span>
+            <span className={styles.label}>SessionId</span>
             <FormControl
               componentClass="select"
               placeholder="select"
@@ -150,7 +150,7 @@ export default class CatalogExplorerLeft extends PureComponent {
             </FormControl>
           </div>
           <div className={styles.stacked}>
-            <span className={styles.title}>DomainId</span>
+            <span className={styles.label}>DomainId</span>
             <FormControl
               componentClass="select"
               placeholder="select"
@@ -161,18 +161,18 @@ export default class CatalogExplorerLeft extends PureComponent {
             </FormControl>
           </div>
         </Panel>
-        <Panel className={styles.panel}>
-          <div className={styles.title}>Catalogs / Versions</div>
-          <Panel className={styles.innerPanel}>
+        <Panel className={styles.leftPanel}>
+          <div className={styles.label}>Catalogs / Versions</div>
+          <Panel className={styles.leftInnerPanel}>
             <Tree
               data={catalogs}
               onMouseDown={(...args) => this.onMouseDown('catalogs', ...args)}
             />
           </Panel>
         </Panel>
-        <Panel className={styles.panel}>
-          <div className={styles.title}>Namespaces / Names</div>
-          <Panel className={styles.innerPanel}>
+        <Panel className={styles.leftPanel}>
+          <div className={styles.label}>Namespaces / Names</div>
+          <Panel className={styles.leftInnerPanel}>
             <Tree
               data={itemNames}
               onMouseDown={(...args) => this.onMouseDown('itemNames', ...args)}

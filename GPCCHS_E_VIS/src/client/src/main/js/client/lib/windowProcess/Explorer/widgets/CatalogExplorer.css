@@ -1,67 +1,114 @@
-.general {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 24px;
-  color: #333;
-  font-size: 14px;
-  margin: 0;
-  padding: 0;
-}
+.catalogExplorer {
+  height: calc(100% - 15px);
+  display: flex;
+  flex-direction: row;
 
-.title {
-  font-weight: bold;
-}
-
-.loading {
-  font-weight: bold;
-  color: #999;
-}
-
-.button {
-  padding: 5px;
-}
-
-.session {
-  background: #f4f4f4;
-  color: #666;
-}
-
-.panel {
-  background: #f4f4f4;
-  color: #666;
-  height: calc(50% - 60px);
-  > div {
+  .root {
     height: 100%;
   }
-  .innerPanel {
-    overflow: auto;
-    height: calc(100% - 22px);
+}
+
+.catalogExplorerLeft {
+  float: left;
+  height: 100%;
+  width: 300px;
+  padding: 2px;
+
+  .session {
+    background: #f4f4f4;
+    color: #666;
+  }
+
+  .stacked {
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .label {
+    padding: 4px;
+    margin: auto;
+  }
+
+  .leftPanel {
+    background: #f4f4f4;
+    color: #666;
+    height: calc(50% - 60px);
     > div {
       height: 100%;
     }
+    .leftInnerPanel {
+      margin-bottom: 0;
+      overflow: auto;
+      height: calc(100% - 22px);
+      > div {
+        height: 100%;
+      }
+    }
   }
-}
+};
 
-.root {
-  height: 100%;
-}
+.catalogExplorerRight {
+  float: left;
+  height: calc(100% - 15px);
+  width: calc(100% - 300px);
+  padding: 2px;
 
-.title {
-  padding: 4px;
-  margin: auto;
-}
+  .navbar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #f4f4f4;
+    height: 80px;
+    .nav {
+      display: flex;
+      flex-direction: row;
+      > li {
+        display: table;
+      }
+      .tab {
+        border-color: #ccc;
+        .button {
+          padding: 5px;
+        }
+      }
+    }
+  }
 
+  .rightPanel {
+    background: #f4f4f4;
+    color: #666;
+    height: calc(100% - 93px);
+    > div {
+      height: 100%;
+    }
+    .rightInnerPanel {
+      margin-bottom: 0;
+      overflow: auto;
+      height: 100%;
+      > div {
+        height: 100%;
+      }
+    }
+  }
+};
 
-.stacked {
-  padding: 4px;
-  display: flex;
-  flex-direction: row;
-}
+.tree {
+  .general {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 24px;
+    color: #333;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+  }
 
-.tabs {
-  display: flex;
-  flex-direction: row;
-  > li {
-    display: table;
+  .title {
+    font-weight: bold;
+  }
+
+  .loading {
+    font-weight: bold;
+    color: #999;
   }
 }

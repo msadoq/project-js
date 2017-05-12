@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import getLogger from 'common/log';
 import CatalogExplorerRight from './CatalogExplorerRight';
 import CatalogExplorerLeft from './CatalogExplorerLeft';
+import styles from './CatalogExplorer.css';
 
 const logger = getLogger('CatalogExplorer');
 
@@ -34,30 +35,15 @@ export default class CatalogExplorer extends PureComponent {
 
     const noOpenedItems = Object.keys(openedItems).length === 0;
 
-    const catalogExplorerStyle = { height: '100%' };
-    const style = noOpenedItems ?
-    {
-      float: 'left',
-      height: '100%',
-      width: 'calc(100% - 4px)',
-      padding: '2px',
-    } :
-    {
-      float: 'left',
-      height: '100%',
-      width: 'calc(50% - 4px)',
-      padding: '2px',
-    };
-
     return (
-      <div style={catalogExplorerStyle}>
-        <div style={style}>
+      <div className={styles.catalogExplorer}>
+        <div className={styles.catalogExplorerLeft}>
           <CatalogExplorerLeft
             {...this.props}
           />
         </div>
         { !noOpenedItems &&
-          <div style={style}>
+          <div className={styles.catalogExplorerRight}>
             <CatalogExplorerRight
               focusedItem={focusedItem}
               openedItems={openedItems}

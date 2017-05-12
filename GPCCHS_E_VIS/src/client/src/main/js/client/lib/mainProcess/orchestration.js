@@ -1,7 +1,9 @@
 import _round from 'lodash/round';
 import _reduce from 'lodash/reduce';
 import _get from 'lodash/get';
+import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
+import { tmpdir } from 'os';
 import { get } from 'common/parameters';
 import {
   HSC_ORCHESTRATION_WARNING_STEP,
@@ -127,6 +129,10 @@ export function onCritical() {
 
 export function start() {
   logger = getLogger('main:orchestration');
+  if (get('DUMP') === 'on') {
+    const dumpDir = (_isEmpty(get('DUMP_DIR')) ? tmpdir() : get('DUMP_DIR'));
+    logger.warn(`Received payloads are dumped in ${dumpDir}`);
+  }
   schedule();
 }
 

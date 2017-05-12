@@ -217,6 +217,7 @@ export default class Header extends PureComponent {
             <button
               className={styles.expandButton}
               onClick={this.expand}
+              title="Expand"
             >
               &#9633;
             </button>

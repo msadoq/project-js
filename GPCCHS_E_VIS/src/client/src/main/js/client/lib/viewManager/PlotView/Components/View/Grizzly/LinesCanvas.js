@@ -253,7 +253,7 @@ export default class LinesCanvas extends Component {
         width={width}
         className={styles.canvas}
         style={this.memoizeStyle(
-          `${top}-${margin.left}-${margin.right}`,
+          `${top}-${style.left}-${style.right}`,
           style,
           top
         )}

@@ -5,6 +5,11 @@ import { isAnyEditorOpened } from '../selectors/pages';
 import { getHealthMap } from '../reducers/health';
 import { getIsCodeEditorOpened } from '../reducers/editor';
 import { addOnce } from './messages';
+import { setRealTime } from '../actions/timebars';
+import { getFocusedWindowId } from '../reducers/hsc';
+import { getWindowFocusedPageId } from '../reducers/windows';
+import { getPage } from '../reducers/pages';
+import { getTimebars } from '../reducers/timebars';
 
 /**
  * App lifecycle
@@ -51,6 +56,20 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
         )
       );
     }
+  };
+
+export const startInPlayMode = () =>
+  (dispatch, getState) => {
+    const state = getState();
+    const windowId = getFocusedWindowId(state);
+    const pageId = getWindowFocusedPageId(state, { windowId });
+    const page = getPage(state, { pageId });
+    // All timebar switch to real time
+    Object.keys(getTimebars(state)).forEach((timebarUuid) => {
+      dispatch(setRealTime(timebarUuid, true));
+    });
+    const { timebarUuid } = page;
+    dispatch(smartPlay(timebarUuid));
   };
   /*
 export const pause = () =>

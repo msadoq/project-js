@@ -9,5 +9,7 @@
 @import 'react-resizable/css/styles.css';
 @import 'flatpickr/dist/flatpickr.css';
 @import 'flatpickr/dist/themes/material_green.css';
+
 @import './react-panels/index.css';
 @import './rc-collapse/index.css';
+@import './react-grid-layout/index.css';

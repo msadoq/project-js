@@ -131,14 +131,14 @@ export default class Header extends PureComponent {
 
 
   getTitleStyle() {
-    const { titleStyle } = this.props;
+    const { titleStyle, isViewsEditorOpen } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
       color: titleStyle.color ? titleStyle.color : null,
       background: titleStyle.bgColor ? titleStyle.bgColor : null,
-      fontWeight: 'normal',
+      fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
       textDecoration: 'none',
       paddingRight: '57px',
@@ -187,9 +187,9 @@ export default class Header extends PureComponent {
       >
         <div
           style={titleStyle}
-          className={`${styles.title} moveHandler ellipsis`}
+          className={`moveHandler ellipsis ${styles.title}`}
         >
-          {`${title} ${isViewsEditorOpen ? '(in edition)' : ''}`}
+          {title}{isViewsEditorOpen ? ' (in edition)' : ''}
         </div>
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&

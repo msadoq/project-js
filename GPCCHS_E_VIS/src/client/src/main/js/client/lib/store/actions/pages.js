@@ -27,7 +27,8 @@ export const updateAbsolutePath = ifPathChanged(
 /* ------------------------ */
 
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
-export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 'timebarUuid');
+export const mountPageTimebar = simple(types.WS_PAGE_TIMEBAR_MOUNT, 'pageId', 'timebarUuid');
+export const unmountPageTimebar = simple(types.WS_PAGE_TIMEBAR_UNMOUNT, 'pageId');
 export const updateTitle = simple(types.WS_PAGE_UPDATE_TITLE, 'pageId', 'title');
 
 export const loadInEditor = simple(types.WS_PAGE_PANELS_LOAD_IN_EDITOR, 'pageId', 'viewId');

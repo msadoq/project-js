@@ -13,6 +13,7 @@ import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSel
 const EntryPointConnectedDataFields = (props) => {
   const {
     timelines,
+    domains,
   } = props;
   return (
     <div>
@@ -46,9 +47,17 @@ const EntryPointConnectedDataFields = (props) => {
       <HorizontalFormGroup label="Domain">
         <Field
           name="domain"
-          component={InputField}
-          type="text"
-          className="form-control input-sm"
+          clearable={false}
+          component={ReactSelectField}
+          options={domains.map(d =>
+            ({
+              label: d.name,
+              value: d.name,
+            })
+          ).concat({
+            label: '*',
+            value: '*',
+          })}
         />
       </HorizontalFormGroup>
 
@@ -57,7 +66,6 @@ const EntryPointConnectedDataFields = (props) => {
           name="timeline"
           clearable={false}
           component={ReactSelectField}
-          free
           options={timelines.map(t =>
             ({
               label: t.id,
@@ -80,6 +88,7 @@ const EntryPointConnectedDataFields = (props) => {
 
 EntryPointConnectedDataFields.propTypes = {
   timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
+  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default EntryPointConnectedDataFields;

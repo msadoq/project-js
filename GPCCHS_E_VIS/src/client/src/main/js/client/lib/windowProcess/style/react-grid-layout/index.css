@@ -1,0 +1,4 @@
+.react-grid-item > .react-resizable-handle {
+    width: 10px;
+    height: 10px;
+}

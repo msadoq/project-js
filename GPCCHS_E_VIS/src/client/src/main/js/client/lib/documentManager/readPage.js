@@ -4,7 +4,6 @@ import async from 'async';
 import { v4 } from 'uuid';
 
 import { readDocument } from './io';
-import fs from '../common/fs';
 import validation from './validation';
 
 import { simpleReadView } from './readView';
@@ -13,8 +12,7 @@ import { simpleReadView } from './readView';
 const updateAllViews = transform => _.update('views', _.map(transform));
 
 export const simpleReadPage = async.reflect((pageInfo, cb) => {
-  const { workspaceFolder, path, oId, absolutePath } = pageInfo;
-  readDocument(workspaceFolder, path, oId, absolutePath, (err, page, properties) => {
+  readDocument(pageInfo, (err, page, properties, pagePath) => {
     if (err) {
       return cb(err);
     }
@@ -36,7 +34,7 @@ export const simpleReadPage = async.reflect((pageInfo, cb) => {
       properties, // Table with document props from FMD
       uuid,
       isModified: false,
-      absolutePath: fs.getPath(), // ugly
+      absolutePath: pagePath,
       panels: page.panels,
     });
   });

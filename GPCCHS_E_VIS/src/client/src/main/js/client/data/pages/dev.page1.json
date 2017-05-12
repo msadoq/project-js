@@ -56,13 +56,13 @@
     }
   ],
   "panels": {
-    "editorWidth": 350,
-    "editorViewId": "89ec4389-451c-4df7-8df7-f2c5a0b9b1cd",
+    "editorWidth": 250,
     "editorIsMinimized": true,
     "timebarHeight": 130,
     "timebarIsMinimized": false,
-    "explorerWidth": 121,
-    "explorerIsMinimized": true,
-    "timebarCollapsed": false
-  }
+    "explorerWidth": 250,
+    "explorerIsMinimized": true
+  },
+  "sessionName": "Master",
+  "domainName": "fr.cnes.isis.simupus"
 }

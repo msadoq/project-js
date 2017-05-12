@@ -44,10 +44,6 @@ export const displayHelp = simple(types.WS_WINDOW_SET_DISPLAY_HELP, 'windowId', 
 export const moveTabOrder =
   simple(types.WS_WINDOW_MOVE_TAB_ORDER, 'windowId', 'keyFrom', 'keyTarget');
 
-export const updateDomainName = simple(types.WS_WINDOW_UPDATE_DOMAINNAME, 'windowId', 'domainName');
-export const updateSessionName =
-  simple(types.WS_WINDOW_UPDATE_SESSIONNAME, 'windowId', 'sessionName');
-
 /**
  * Compound actions
  */

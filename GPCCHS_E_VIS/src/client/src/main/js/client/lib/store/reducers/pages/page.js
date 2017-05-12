@@ -109,8 +109,10 @@ export default function pageReducer(statePage = initialState, action) {
     }
     case types.WS_PAGE_SETMODIFIED:
       return _.set('isModified', action.payload.flag, statePage);
-    case types.WS_PAGE_UPDATE_TIMEBARID:
+    case types.WS_PAGE_TIMEBAR_MOUNT:
       return _.set('timebarUuid', action.payload.timebarUuid, statePage);
+    case types.WS_PAGE_TIMEBAR_UNMOUNT:
+      return _.set('timebarUuid', null, statePage);
     case types.WS_PAGE_UPDATE_TITLE:
       return {
         ...statePage,

@@ -5,6 +5,7 @@ import {
   getTimeSetterMessages,
   getMasterTimelineExists,
   getCurrentSessionExists,
+  getCurrentSessionId,
 } from './ControlsSelectors';
 
 describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
@@ -117,6 +118,30 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
         ],
       };
       getCurrentSessionExists(state, { timebarUuid: 'myId' }).should.be.true;
+    });
+  });
+  describe('getCurrentSessionId', () => {
+    const state = {
+      timebars: {
+        myId: {
+          masterId: 'timeline01',
+        },
+      },
+      timelines: {
+        timeline_01: { id: 'timeline01', sessionName: 'mySession' },
+      },
+      timebarTimelines: {
+        myId: ['timeline_01'],
+      },
+      sessions: [
+        { id: 1, name: 'mySession' },
+      ],
+    };
+    it('returns 1', () => {
+      getCurrentSessionId(state, { timebarUuid: 'myId' }).should.be.eql(1);
+    });
+    it('returns null', () => {
+      should.not.exist(getCurrentSessionId(state, { timebarUuid: 'toto' }));
     });
   });
   describe('getTimeSetterMessages', () => {

@@ -8,16 +8,16 @@ import styles from '../../../commonEditor/Editor.css';
 
 const navbarItems = ['Entry Points', 'Plot'];
 
-/*
-  Composant racine de l'éditeur Plot.
-*/
 export default class PlotEditor extends Component {
   static propTypes = {
-    // actions
     openModal: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
-    // rest
+    panels: PropTypes.shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
+    tab: PropTypes.number,
     viewId: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -30,10 +30,8 @@ export default class PlotEditor extends Component {
     }).isRequired,
   };
 
-  componentWillMount() {
-    this.setState({
-      currentDisplay: 0,
-    });
+  static defaultProps = {
+    tab: null,
   }
 
   removeEntryPoint = (key) => {
@@ -42,20 +40,20 @@ export default class PlotEditor extends Component {
   }
 
   changeSearch = s => this.props.updateEditorSearch(s);
-  /*
-    Appelée lorsque le un item de la navbar est cliqué.
-    param id :
-      0 : EntryPoints
-      1 : PlotTab
-      2 : Misc
-  */
-  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+
+  changeCurrentDisplay = (id) => {
+    const { updateViewTab, viewId } = this.props;
+    updateViewTab(viewId, id);
+  }
 
   render() {
-    const { currentDisplay } = this.state;
     const {
       openModal,
+      tab,
+      panels,
+      entryPointsPanels,
       viewId,
+      updateViewPanels,
       configuration: {
         entryPoints,
         axes,
@@ -66,40 +64,52 @@ export default class PlotEditor extends Component {
         search,
       },
     } = this.props;
+
     return (
       <div className={styles.contentWrapper}>
         <Navbar
-          currentDisplay={currentDisplay}
+          currentDisplay={tab === null ? 0 : tab}
           items={navbarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
         />
         <div className={styles.content}>
-          {currentDisplay === 2 && <Misc />}
-          {currentDisplay === 1 && <PlotTab
-            axes={axes}
-            markers={markers}
-            title={title}
-            grids={grids}
-            titleStyle={titleStyle}
-            openModal={openModal}
-            viewId={viewId}
-          />}
-          {currentDisplay === 0 && [
-            <EntryPointActions
-              key="EntryPointActions"
-              viewId={viewId}
-              viewType="PlotView"
+          {
+            (tab === 0 || tab === null) &&
+              [
+                <EntryPointActions
+                  key="EntryPointActions"
+                  viewId={viewId}
+                  viewType="PlotView"
+                  openModal={openModal}
+                  changeSearch={this.changeSearch}
+                  search={search}
+                />,
+                <EntryPointTree
+                  key="EntryPointTree"
+                  entryPoints={entryPoints}
+                  entryPointsPanels={entryPointsPanels}
+                  updateViewPanels={updateViewPanels}
+                  search={search}
+                  remove={this.removeEntryPoint}
+                  viewId={viewId}
+                />,
+              ]
+          }
+          {
+            tab === 1 &&
+            <PlotTab
+              axes={axes}
+              markers={markers}
+              title={title}
+              grids={grids}
+              titleStyle={titleStyle}
               openModal={openModal}
-              changeSearch={this.changeSearch}
-              search={search}
-            />,
-            <EntryPointTree
-              key="EntryPointTree"
-              entryPoints={entryPoints}
-              search={search}
-              remove={this.removeEntryPoint}
-            />,
-          ]}
+              updateViewPanels={updateViewPanels}
+              panels={panels}
+              viewId={viewId}
+            />
+          }
+          {tab === 2 && <Misc />}
         </div>
       </div>
     );

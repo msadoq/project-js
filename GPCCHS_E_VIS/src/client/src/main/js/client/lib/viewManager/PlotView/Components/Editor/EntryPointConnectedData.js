@@ -34,6 +34,7 @@ const EntryPointConnectedData = (props) => {
     timelines,
     unit,
     axisId,
+    domains,
   } = props;
 
   let filteredAxes;
@@ -89,9 +90,17 @@ const EntryPointConnectedData = (props) => {
         <HorizontalFormGroup label="Domain">
           <Field
             name="domain"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
+            clearable={false}
+            component={ReactSelectField}
+            options={domains.map(d =>
+              ({
+                label: d.name,
+                value: d.name,
+              })
+            ).concat({
+              label: '*',
+              value: '*',
+            })}
           />
         </HorizontalFormGroup>
 
@@ -100,7 +109,6 @@ const EntryPointConnectedData = (props) => {
             name="timeline"
             clearable={false}
             component={ReactSelectField}
-            free
             options={timelines.map(t =>
               ({
                 label: t.id,
@@ -172,6 +180,7 @@ EntryPointConnectedData.propTypes = {
   valid: PropTypes.bool.isRequired,
   axisId: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
+  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 EntryPointConnectedData.defaultProps = {

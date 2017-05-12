@@ -18,7 +18,10 @@ export default class EntryPointTree extends PureComponent {
   static propTypes = {
     entryPoints: PropTypes.arrayOf(PropTypes.object),
     search: PropTypes.string,
+    viewId: PropTypes.string.isRequired,
     remove: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
   }
 
   static defaultProps = {
@@ -27,14 +30,13 @@ export default class EntryPointTree extends PureComponent {
   };
 
   static contextTypes = {
-    viewId: React.PropTypes.string,
     windowId: React.PropTypes.string,
   }
 
-  state = { openPanels: [] };
-
-  onChange = openPanels =>
-    this.setState({ openPanels })
+  onChange = (openPanels) => {
+    const { updateViewPanels, viewId } = this.props;
+    updateViewPanels(viewId, 'entryPoints', openPanels);
+  }
 
   handleRemove = (e, key) => {
     e.preventDefault();
@@ -43,10 +45,9 @@ export default class EntryPointTree extends PureComponent {
   }
 
   render() {
-    const { viewId, windowId } = this.context;
+    const { windowId } = this.context;
     const mask = `${this.props.search}.*`;
-    const { entryPoints } = this.props;
-    const { openPanels } = this.state;
+    const { entryPoints, entryPointsPanels, viewId } = this.props;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
@@ -56,11 +57,14 @@ export default class EntryPointTree extends PureComponent {
       </Alert>);
     }
 
-
     return (
-      <Collapse accordion={false} onChange={this.onChange}>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={Object.keys(entryPointsPanels)}
+      >
         {list.map((entryPoint, key) => {
-          const isOpen = openPanels.includes(entryPoint.id);
+          const isOpen = entryPointsPanels[entryPoint.id];
           return (
             <Panel
               key={entryPoint.id}

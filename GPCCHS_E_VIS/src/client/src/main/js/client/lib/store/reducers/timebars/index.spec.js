@@ -20,6 +20,10 @@ describe('store:timebars:reducer', () => {
     reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })
       .should.eql({ tb1: { id: 'tb1' } });
   });
+  it('pause disable realTime', () => {
+    reducer({ tb1: { realTime: true }, tb2: { realTime: false } }, { type: types.HSC_PAUSE })
+      .should.eql({ tb1: { realTime: false }, tb2: { realTime: false } });
+  });
   describe('HSC workspace', () => {
     const state = {
       tb1: {

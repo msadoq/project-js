@@ -5,7 +5,6 @@ import { v4 } from 'uuid';
 
 import { copyProp } from 'common/utils/fp';
 
-import fs from '../common/fs';
 import validation from './validation';
 
 import { readDocument } from './io';
@@ -47,8 +46,7 @@ const prepareWorkspace = _.pipe(
 /* ----------------- */
 
 const simpleReadWorkspace = (workspaceInfo, cb) => {
-  const { absolutePath } = workspaceInfo;
-  readDocument(undefined, undefined, undefined, absolutePath, (err, workspace) => {
+  readDocument(workspaceInfo, (err, workspace, properties, workspacePath) => {
     if (err) {
       return cb(err);
     }
@@ -60,7 +58,7 @@ const simpleReadWorkspace = (workspaceInfo, cb) => {
     const documents = {
       ...workspace,
       ...workspaceInfo,
-      absolutePath: fs.getPath(), // ugly side effects
+      absolutePath: workspacePath,
     };
     return cb(null, prepareWorkspace(documents));
   });

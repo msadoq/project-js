@@ -15,21 +15,14 @@ import {
 
 import Controls from './Controls';
 
-import { getSession } from '../../../store/reducers/sessions';
-import { getMasterSessionId } from '../../../store/reducers/masterSession';
 import {
   getTimeSetterMessages,
-  getMasterTimelineById,
-  getMasterTimelineExists,
-  getCurrentSessionExists,
+  getCurrentSessionId,
 } from './ControlsSelectors';
 
 const mapStateToProps = createStructuredSelector({
   messages: getTimeSetterMessages,
-  masterSessionId: getMasterSessionId,
-  masterTimeline: getMasterTimelineById,
-  masterTimelineExists: getMasterTimelineExists,
-  currentSessionExists: getCurrentSessionExists,
+  sessionId: getCurrentSessionId,
 });
 
 const mapDispatchToProps = {
@@ -40,7 +33,6 @@ const mapDispatchToProps = {
   updateSpeed,
   restoreWidth,
   goNow,
-  getSession,
   openModal,
 };
 

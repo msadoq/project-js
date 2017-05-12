@@ -55,12 +55,13 @@ export const getPerViewData = createDeepEqualSelectorPerViewData(
     // const pageId = getPageIdByViewId(state, { viewId });
     // const page = getPage(state, { pageId });
     const { timebarUuid } = page;
-    return perViewDataSelectors[viewId](state, { viewId, timebarUuid });
+    return perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId: page.uuid });
   });
 
 // composed / to rename ?
 export const getViewEntryPoints = (state, { viewId }) => (
-  _.get('entryPoints', getPerViewData(state, { viewId })));
+  _.get('entryPoints',
+    getPerViewData(state, { viewId })));
 
 // composed
 export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>

@@ -48,13 +48,12 @@ export default function hsc(state = initialState, action) {
     case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_TIMELINE_REMOVE:
-    case types.WS_PAGE_UPDATE_TIMEBARID:
+    case types.WS_PAGE_TIMEBAR_MOUNT:
+    case types.WS_PAGE_TIMEBAR_UNMOUNT:
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
     case types.WS_WINDOW_UPDATE_TITLE:
-    case types.WS_WINDOW_UPDATE_DOMAINNAME:
-    case types.WS_WINDOW_UPDATE_SESSIONNAME:
       return _.set('isModified', true, state);
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);

@@ -36,6 +36,7 @@
     "wp": "npm run webpack",
     "update-rtd": "./manageRTD.sh --update",
     "install-rtd": "./manageRTD.sh --install && cd node_modules/rtd && npm install",
+    "copy-rtd": "./manageRTD.sh --copy",
     "postinstall": "electron-rebuild",
     "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },

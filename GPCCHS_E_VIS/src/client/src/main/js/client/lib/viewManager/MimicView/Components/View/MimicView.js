@@ -94,6 +94,7 @@ export default class MimicView extends Component {
           const epName = node.attribs.ep;
           const domain = node.attribs.domain.split(',');
           const width = node.attribs.width;
+          const direction = node.attribs.direction;
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -102,6 +103,7 @@ export default class MimicView extends Component {
             epName,
             domain,
             width,
+            direction,
           });
           return (<g id={id} key={id}>{children}</g>);
         },
@@ -197,8 +199,14 @@ export default class MimicView extends Component {
         const el = g.el;
         if (!el) { return; }
         if (g.type === 'translateY') {
+          if (g.direction === 'top') {
+            distance *= -1;
+          }
           el.style.transform = `translate(0px, ${distance}px)`;
         } else {
+          if (g.direction === 'left') {
+            distance *= -1;
+          }
           el.style.transform = `translate(${distance}px, 0px)`;
         }
       } else if (g.type === 'textBox') {

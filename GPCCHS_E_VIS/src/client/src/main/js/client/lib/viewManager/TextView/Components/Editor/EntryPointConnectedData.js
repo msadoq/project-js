@@ -21,12 +21,14 @@ const EntryPointConnectedData = (props) => {
     submitting,
     valid,
     timelines,
+    domains,
   } = props;
 
   return (
     <Form horizontal onSubmit={handleSubmit}>
       <EntryPointConnectedDataFields
         timelines={timelines}
+        domains={domains}
       />
       <ClearSubmitButtons
         pristine={pristine}
@@ -117,6 +119,7 @@ const EntryPointConnectedData = (props) => {
 
 EntryPointConnectedData.propTypes = {
   timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
+  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,

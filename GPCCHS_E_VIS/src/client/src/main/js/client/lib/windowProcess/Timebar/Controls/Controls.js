@@ -15,7 +15,7 @@ export default class Controls extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    getSession: PropTypes.func.isRequired,
+    sessionId: PropTypes.string,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,
@@ -25,17 +25,6 @@ export default class Controls extends PureComponent {
     timebarUuid: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
-    currentSessionExists: PropTypes.bool.isRequired,
-    masterTimelineExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.shape({
-      color: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      kind: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-      offset: PropTypes.number.isRequired,
-      sessionName: PropTypes.string.isRequired,
-    }),
-    masterSessionId: PropTypes.number,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
@@ -43,8 +32,8 @@ export default class Controls extends PureComponent {
   }
 
   static defaultProps = {
-    masterTimeline: null,
     masterSessionId: null,
+    sessionId: null,
     messages: [],
   }
 
@@ -54,6 +43,7 @@ export default class Controls extends PureComponent {
         className={styles.controls}
       >
         <ControlsLeft
+          sessionId={this.props.sessionId}
           isPlaying={this.props.isPlaying}
           play={this.props.play}
           pause={this.props.pause}
@@ -61,29 +51,20 @@ export default class Controls extends PureComponent {
           restoreWidth={this.props.restoreWidth}
           goNow={this.props.goNow}
           jump={this.props.jump}
-          getSession={this.props.getSession}
           messages={this.props.messages}
           timebarUuid={this.props.timebarUuid}
           timebarSpeed={this.props.timebarSpeed}
-          currentSessionExists={this.props.currentSessionExists}
-          masterTimeline={this.props.masterTimeline}
-          masterSessionId={this.props.masterSessionId}
           openModal={this.props.openModal}
         />
         <ControlsRight
-          play={this.props.play}
+          sessionId={this.props.sessionId}
           switchToNormalMode={this.props.switchToNormalMode}
           switchToRealtimeMode={this.props.switchToRealtimeMode}
           switchToExtensibleMode={this.props.switchToExtensibleMode}
           switchToFixedMode={this.props.switchToFixedMode}
-          getSession={this.props.getSession}
           timebarMode={this.props.timebarMode}
           timebarUuid={this.props.timebarUuid}
           timebarRealTime={this.props.timebarRealTime}
-          currentSessionExists={this.props.currentSessionExists}
-          masterTimelineExists={this.props.masterTimelineExists}
-          masterTimeline={this.props.masterTimeline}
-          masterSessionId={this.props.masterSessionId}
         />
       </div>
     );

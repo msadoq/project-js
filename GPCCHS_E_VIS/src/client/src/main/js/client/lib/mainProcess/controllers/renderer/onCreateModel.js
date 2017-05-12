@@ -15,7 +15,7 @@ export default function ({ viewId }) {
   const folder = absolutePath ? dirname(absolutePath) : root;
   const viewToSave = getViewModule(type).prepareViewForModel(view);
   return getPathByFilePicker(folder, 'model', 'save', (err, path) => {
-    saveViewAs(viewToSave, type, path, (errSaving) => {
+    saveViewAs(viewToSave, path, (errSaving) => {
       if (errSaving) {
         dispatch(add(viewId, 'danger', `Model unsaved ${errSaving}`));
       } else {

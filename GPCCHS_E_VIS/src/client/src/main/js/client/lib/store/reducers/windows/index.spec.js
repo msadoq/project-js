@@ -67,7 +67,12 @@ describe('store:windows:reducer', () => {
       newState.window2.isModified.should.be.true;
     });
     it('modify if update timebarId', () => {
-      const newState = reducer(state, { type: types.WS_PAGE_UPDATE_TIMEBARID });
+      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_MOUNT });
+      newState.window1.isModified.should.be.true;
+      newState.window2.isModified.should.be.true;
+    });
+    it('modify if update timebarId', () => {
+      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_UNMOUNT });
       newState.window1.isModified.should.be.true;
       newState.window2.isModified.should.be.true;
     });
@@ -154,23 +159,5 @@ describe('store:windows:selectors', () => {
     };
     getDisplayHelp(state, { windowId: 'w1' }).should.be.true;
     should.not.exist(getDisplayHelp({}, {}));
-  });
-  describe('getWindowDomainName', () => {
-    it('should return domainName', () => {
-      const state = { windows: { w1: { domainName: 'myDomain' } } };
-      getWindowDomainName(state, { windowId: 'w1' }).should.eql('myDomain');
-    });
-    it('should support empty state', () => {
-      should.not.exist(getWindowDomainName({ windows: { w1: {} } }, { windowId: 'w1' }));
-    });
-  });
-  describe('getWindowSessionName', () => {
-    it('should return sessionName', () => {
-      const state = { windows: { w1: { sessionName: 'mySession' } } };
-      getWindowSessionName(state, { windowId: 'w1' }).should.eql('mySession');
-    });
-    it('should support empty state', () => {
-      should.not.exist(getWindowSessionName({ windows: { w1: {} } }, { windowId: 'w1' }));
-    });
   });
 });

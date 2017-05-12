@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
+import Collapse, { Panel } from 'rc-collapse';
 import {
-  Accordion,
-  Panel,
   Button,
 } from 'react-bootstrap';
 import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
@@ -9,42 +8,49 @@ import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
 export default class TextTab extends React.Component {
   static propTypes = {
     openHtmlEditor: PropTypes.func.isRequired,
+    viewId: PropTypes.string.isRequired,
     closeHtmlEditor: PropTypes.func.isRequired,
     htmlEditorViewId: PropTypes.string,
+    updateViewPanels: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
   }
+
   static defaultProps = {
     htmlEditorViewId: null,
   }
-  static contextTypes = {
-    viewId: React.PropTypes.string,
-  };
-  state = {
-    isTitleOpen: false,
-  };
 
-  openTitle = () => this.setState({ isTitleOpen: true });
-  closeTitle = () => this.setState({ isTitleOpen: false });
+  onChange = (openPanels) => {
+    const { updateViewPanels, viewId } = this.props;
+    updateViewPanels(viewId, 'panels', openPanels);
+  }
 
   render() {
-    const { viewId } = this.context;
-    const { isTitleOpen } = this.state;
+    const {
+      closeHtmlEditor,
+      htmlEditorViewId,
+      openHtmlEditor,
+      panels,
+      viewId,
+    } = this.props;
+
     return (
       <div>
-        <Accordion>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={Object.keys(panels)}
+        >
           <Panel
             header="Parameters"
-            eventKey="1"
-            expanded={isTitleOpen}
-            onSelect={this.openTitle}
-            onExited={this.closeTitle}
+            key="parameters"
           >
-            {isTitleOpen && <ViewParamsContainer viewId={viewId} />}
+            {panels.parameters && <ViewParamsContainer viewId={viewId} />}
           </Panel>
-        </Accordion>
+        </Collapse>
         {
-          this.props.htmlEditorViewId === viewId ?
-            <Button onClick={() => this.props.closeHtmlEditor()} className="center-block mt20">Close HTML Editor</Button> :
-            <Button onClick={() => this.props.openHtmlEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
+          htmlEditorViewId === viewId ?
+            <Button onClick={() => closeHtmlEditor()} className="center-block mt20">Close HTML Editor</Button> :
+            <Button onClick={() => openHtmlEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
         }
       </div>
     );

@@ -12,7 +12,8 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
-import rtdStub from 'rtd/stubs/rtd';
+import { connect as createRtd } from 'rtd/catalogs';
+import { setRtd } from '../rtdManager';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
@@ -24,8 +25,12 @@ import { add as addMessage } from '../store/actions/messages';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
-import { getIsWorkspaceOpening } from '../store/actions/hsc';
-// import { getFocusedWindowId } from '../store/reducers/hsc';
+import { getIsWorkspaceOpening, smartPlay } from '../store/actions/hsc';
+import { setRealTime } from '../store/actions/timebars';
+import { getFocusedWindowId } from '../store/reducers/hsc';
+import { getWindowFocusedPageId } from '../store/reducers/windows';
+import { getPage } from '../store/reducers/pages';
+import { getTimebars } from '../store/reducers/timebars';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
@@ -78,15 +83,21 @@ export function onStart() {
       );
     },
     (callback) => {
-      if (parameters.get('STUB_RTD_ON') !== 'on') {
-        callback(null);
-        return;
+      const socket = parameters.get('RTD_UNIX_SOCKET');
+      let stub = false;
+      if (parameters.get('STUB_RTD_ON') === 'on') {
+        stub = true;
       }
-
-      splashScreen.setMessage('starting rtd simulator...');
-      logger.info('starting rtd simulator...');
-      rtdStub.launch();
-      callback(null);
+      splashScreen.setMessage('connecting rtd...');
+      logger.info('connecting rtd...');
+      createRtd({ socket, stub }, (err, rtd) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        setRtd(rtd);
+        callback(null);
+      });
     },
     (callback) => {
       splashScreen.setMessage('starting data server process...');
@@ -221,8 +232,25 @@ export function onStart() {
     splashScreen.setMessage('ready!');
     logger.info('ready!');
     server.sendProductLog(LOG_APPLICATION_START);
-
     startOrchestration();
+    // start on play
+    if (parameters.get('REALTIME') === 'on') {
+      logger.info('Start in playing mode');
+      // get focused window
+      setTimeout(() => {
+        const { getState, dispatch } = getStore();
+        const state = getState();
+        const windowId = getFocusedWindowId(getState());
+        const pageId = getWindowFocusedPageId(state, { windowId });
+        const page = getPage(state, { pageId });
+        // All timebar switch to real time
+        Object.keys(getTimebars(state)).forEach((timebarUuid) => {
+          dispatch(setRealTime(timebarUuid, true));
+        });
+        const { timebarUuid } = page;
+        dispatch(smartPlay(timebarUuid));
+      }, 2000);
+    }
   });
 }
 

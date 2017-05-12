@@ -4,6 +4,7 @@ import {
   Popover,
   OverlayTrigger,
   Form,
+  Tooltip,
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
@@ -13,9 +14,12 @@ const inlineStyles = {
   width200: { width: '200px' },
 };
 
+const OverlayTriggerTrigger = ['hover', 'focus'];
+
 export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
+    sessionId: PropTypes.string,
     isPlaying: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
@@ -24,7 +28,6 @@ export default class ControlsLeft extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    getSession: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,
@@ -33,21 +36,12 @@ export default class ControlsLeft extends PureComponent {
     ),
     timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
-    currentSessionExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.shape({
-      color: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      kind: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-      offset: PropTypes.number.isRequired,
-      sessionName: PropTypes.string.isRequired,
-    }),
-    masterSessionId: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     masterTimeline: null,
     messages: [],
+    sessionId: null,
   };
 
   static contextTypes = {
@@ -110,18 +104,9 @@ export default class ControlsLeft extends PureComponent {
     const {
       timebarUuid,
       goNow,
-      currentSessionExists,
-      masterTimeline,
-      masterSessionId,
-      getSession,
+      sessionId,
     } = this.props;
     // IPC request to get master session current time
-    let sessionId;
-    if (currentSessionExists) {
-      sessionId = getSession({ sessionName: masterTimeline.sessionName }).id;
-    } else {
-      sessionId = masterSessionId;
-    }
     main.getSessionTime(sessionId, ({ err, timestamp }) => {
       if (err) {
         // TODO Show message
@@ -164,10 +149,20 @@ export default class ControlsLeft extends PureComponent {
       play,
       pause,
       messages,
+      sessionId,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
-
+    const nowDisabled = sessionId === null;
+    const disabledTooltip = (
+      <Tooltip
+        id="RTTooltip"
+        style={inlineStyles.width200}
+      >
+        <b>Cannot go now</b><br />
+         No master timeline<br />
+      </Tooltip>
+    );
     const speedPopover =
       (<Popover
         title="Playing speed"
@@ -289,13 +284,28 @@ export default class ControlsLeft extends PureComponent {
           </button>
         </li>
         <li className={styles.controlsLi}>
-          <button
+          { nowDisabled && <OverlayTrigger
+            trigger={OverlayTriggerTrigger}
+            placement="top"
+            overlay={disabledTooltip}
+            container={this}
+          >
+            <span
+              className={classnames(
+                allButtonsKlasses,
+                styles.controlButtonDisabled
+              )}
+            >
+              Now
+            </span>
+          </OverlayTrigger> }
+          { !nowDisabled && <button
             className={allButtonsKlasses}
             onClick={this.goNow}
             title="Go now"
           >
             NOW
-          </button>
+          </button> }
         </li>
         <li className={styles.controlsLi}>
           <button

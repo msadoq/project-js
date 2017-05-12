@@ -1,4 +1,5 @@
-import { access, mkdir, readFileSync } from 'fs';
+/* eslint-disable no-unused-expressions */
+import fs, { access, accessSync, mkdir, readFileSync } from 'fs';
 import rimraf from 'rimraf';
 import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
@@ -27,6 +28,15 @@ const mockedResolveDocument = (oid, cb) => {
   return cb(null, resolvedPath, 42);
 };
 
+const fileExist = (path) => {
+  try {
+    accessSync(path, fs.constants.F_OK);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 describe('documentManager/io', () => {
   const folder = fmdApi.getRootDir();
   let stubCreateDocument;
@@ -46,63 +56,71 @@ describe('documentManager/io', () => {
 
     describe('inside fmd folder', () => {
       it('works with oid', (done) => {
-        readDocument(null, null, 'oid:/small.workspace.json', null, (err, data, properties) => {
+        readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           properties.should.be.eql(42);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
+          done();
         });
-        done();
       });
       it('fails with unknow oid', (done) => {
-        readDocument(null, null, 'unknownOid', null, (err) => {
+        readDocument({ oId: 'unknownOid' }, (err) => {
           expect(err).to.be.an('error');
           done();
         });
       });
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
-        readDocument(null, null, null, absolutePath, (err, data, properties) => {
+        readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
       it('fails with unknown absolute path', (done) => {
         const absolutePath = join(folder, 'unknown.json');
-        readDocument(null, null, null, absolutePath, (err) => {
+        readDocument({ absolutePath }, (err) => {
           expect(err).to.be.an('error');
           done();
         });
       });
       it('works with relative path', (done) => {
-        const relativePath = 'views/text1.json';
-        readDocument(folder, relativePath, null, null, (err, data, properties) => {
+        const path = 'views/text1.json';
+        readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
       it('fails with unknown relative path', (done) => {
-        const relativePath = 'views/unknown.json';
-        readDocument(folder, relativePath, null, null, (err) => {
+        const path = 'views/unknown.json';
+        readDocument({ pageFolder: folder, path }, (err) => {
           expect(err).to.be.an('error');
           done();
         });
       });
       it('works with relative fmd path', (done) => {
-        const relativePath = '/views/text1.json';
-        readDocument(null, relativePath, null, null, (err, data, properties) => {
+        const path = '/views/text1.json';
+        readDocument({ path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
       it('fails with unknown relative fmd path', (done) => {
-        const relativePath = '/views/unknown.json';
-        readDocument(null, relativePath, null, null, (err) => {
+        const path = '/views/unknown.json';
+        readDocument({ path }, (err) => {
           expect(err).to.be.an('error');
           done();
         });
@@ -118,48 +136,54 @@ describe('documentManager/io', () => {
       });
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
-        readDocument(null, null, null, absolutePath, (err, data, properties) => {
+        readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
       it('fails with unknown absolute path', (done) => {
         const absolutePath = join(folder, 'unknown.json');
-        readDocument(null, null, null, absolutePath, (err) => {
+        readDocument({ absolutePath }, (err) => {
           expect(err).to.be.an('error');
           done();
         });
       });
       it('works with relative path', (done) => {
-        const relativePath = 'views/text1.json';
-        readDocument(folder, relativePath, null, null, (err, data, properties) => {
+        const path = 'views/text1.json';
+        readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
       it('fails with unknown relative path', (done) => {
-        const relativePath = 'views/unknown.json';
-        readDocument(folder, relativePath, null, null, (err) => {
+        const path = 'views/unknown.json';
+        readDocument({ pageFolder: folder, path }, (err) => {
           expect(err).to.be.an('error');
           done();
         });
       });
       it('works with relative fmd path', (done) => {
-        const relativePath = '/../fixtures/views/text1.json';
-        readDocument(null, relativePath, null, null, (err, data, properties) => {
+        const path = '/../fixtures/views/text1.json';
+        readDocument({ path }, (err, data, properties, resolvedPath) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');
           should.not.exist(properties);
+          resolvedPath.should.be.a('string');
+          fileExist(resolvedPath).should.be.true;
           done();
         });
       });
       it('fails with unknown relative fmd path', (done) => {
-        const relativePath = '/../lib/documentManager/fixtures/views/unknown.json';
-        readDocument(null, relativePath, null, null, (err) => {
+        const path = '/../lib/documentManager/fixtures/views/unknown.json';
+        readDocument({ path }, (err) => {
           expect(err).to.be.an('error');
           done();
         });

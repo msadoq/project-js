@@ -15,7 +15,7 @@ const inlineStyles = {
 export default class ControlsRight extends PureComponent {
 
   static propTypes = {
-    sessionId: PropTypes.string,
+    sessionId: PropTypes.number,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,

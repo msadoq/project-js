@@ -19,7 +19,7 @@ const OverlayTriggerTrigger = ['hover', 'focus'];
 export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
-    sessionId: PropTypes.string,
+    sessionId: PropTypes.number,
     isPlaying: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,

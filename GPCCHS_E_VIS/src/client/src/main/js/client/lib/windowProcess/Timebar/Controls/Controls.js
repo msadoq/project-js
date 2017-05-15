@@ -15,7 +15,7 @@ export default class Controls extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    sessionId: PropTypes.string,
+    sessionId: PropTypes.number,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,

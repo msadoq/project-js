@@ -146,7 +146,6 @@ export default class View extends PureComponent {
       openModal,
     } = this.props;
     const ContentComponent = getViewComponent(type);
-    // console.warn(ContentComponent);
     const mainMenu = this.getMainContextMenu(this.props);
     const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering

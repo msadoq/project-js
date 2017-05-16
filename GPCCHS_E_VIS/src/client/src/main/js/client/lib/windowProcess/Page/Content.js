@@ -140,7 +140,14 @@ export default class Content extends PureComponent {
           onDragStop={this.onResizeView}
         >
           {views.map(v => (
-            <div key={v.viewId}>
+            <div
+              key={v.viewId}
+              className={
+                layouts.lg.find(l => l.i === v.viewId && l.collapsed)
+                ?
+                'collapsed-grid-layout' : null
+              }
+            >
               <ViewContainer
                 key={v.viewId}
                 timebarUuid={timebarUuid}

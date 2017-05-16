@@ -1,4 +1,3 @@
-import { mock as mockRedis, unmock as unmockRedis } from 'rtd/stubs/redis';
 import { connect } from 'rtd/catalogs';
 import { Monitoring as loadMonitorings } from 'rtd/stubs/loaders';
 import { Monitoring as generateMonitoring } from 'rtd/stubs/generators';
@@ -8,6 +7,7 @@ import { SDB_NAMESPACE } from '../constants';
 
 
 const socket = '/tmp/rtd.sock';
+const mockRedis = true;
 const sessionId = 0;
 const domainId = 3;
 
@@ -28,16 +28,12 @@ let rtd;
 
 describe('rtdManager/monitorings', () => {
   before((done) => {
-    mockRedis();
-    connect({ socket }, (err, api) => {
+    connect({ socket, mockRedis }, (err, api) => {
       should.not.exist(err);
       should.exist(api);
       rtd = api;
       loadMonitorings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
-  });
-  after(() => {
-    unmockRedis();
   });
   it('getTriggers OnBoard Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_DELTA', sessionId, domainId, (getErr, item) => {

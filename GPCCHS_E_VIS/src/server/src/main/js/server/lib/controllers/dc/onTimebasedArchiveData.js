@@ -1,10 +1,14 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const _isBuffer = require('lodash/isBuffer');
+const { writeFile } = require('fs');
+const { join } = require('path');
 const { decode, encode, getType } = require('common/protobuf');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
+const { get } = require('common/parameters');
+const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
 const {
   removeByQueryId: removeRegisteredQuery,
   getByQueryId: getRegisteredQuery,
@@ -14,6 +18,8 @@ const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFac
 const connectedDataModel = require('../../models/connectedData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
+
+const dump = (get('DUMP') === 'on');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -105,6 +111,11 @@ module.exports = (
     timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
     execution.stop('retrieve store');
   }
+  let dumpFolder;
+  if (dump) {
+    createDumpFolder(dataId);
+    dumpFolder = getDumpFolder(dataId);
+  }
 
   // only one loop to decode, insert in cache, and add to queue
   eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
@@ -119,6 +130,16 @@ module.exports = (
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
+
+    // dump
+    if (dump && dumpFolder) {
+      // save a file per timestamp with binary payload
+      writeFile(join(dumpFolder, timestamp.toString()), payloadBuffer[1], (err) => {
+        if (err) {
+          loggerData.warn(`Error writing dump file ${timestamp}`);
+        }
+      });
+    }
 
     loggerData.silly({
       controller: 'onTimebasedArchiveData',

@@ -22,6 +22,10 @@ const list = {
     getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
     getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
   },
+  [constants.VM_VIEW_MIMIC]: {
+    getViewComponent: () => require('./MimicView/Components/View/MimicViewContainer'),
+    getEditorComponent: () => require('./MimicView/Components/Editor/MimicEditorContainer'),
+  },
 };
 
 export const getViewComponent = (type) => {

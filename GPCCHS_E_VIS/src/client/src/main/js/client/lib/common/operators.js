@@ -7,8 +7,8 @@ export const operators = {
   '<=': globalConstants.FILTERTYPE_LE,
   '>': globalConstants.FILTERTYPE_GT,
   '>=': globalConstants.FILTERTYPE_GE,
-  contains: globalConstants.FILTERTYPE_CONTAINS,
-  icontains: globalConstants.FILTERTYPE_ICONTAINS,
+  CONTAINS: globalConstants.FILTERTYPE_CONTAINS,
+  ICONTAINS: globalConstants.FILTERTYPE_ICONTAINS,
 };
 
 const operatorFns = {
@@ -18,8 +18,8 @@ const operatorFns = {
   '<=': (f, o) => f <= o,
   '>': (f, o) => f > o,
   '>=': (f, o) => f >= o,
-  contains: (f, o) => (new RegExp(o, 'i')).test(f),
-  icontains: (f, o) => !(new RegExp(o, 'i')).test(f),
+  CONTAINS: (f, o) => (new RegExp(o, 'i')).test(f),
+  ICONTAINS: (f, o) => !(new RegExp(o, 'i')).test(f),
 };
 
 const tryParseNumber = n => (isNaN(Number(n)) ? n : Number(n));

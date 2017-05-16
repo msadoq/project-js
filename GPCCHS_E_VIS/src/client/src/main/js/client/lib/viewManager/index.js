@@ -7,6 +7,7 @@ import {
 import plotViewData from './PlotView/data';
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
+import mimicViewData from './MimicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
 
@@ -18,12 +19,14 @@ import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
 
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
+import mimicViewSchema from './MimicView/MimicView.schema.json';
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import historyViewSchema from './HistoryView/HistoryView.schema.json';
 import packetViewSchema from './PacketView/PacketView.schema.json';
 
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
+import mimicViewModule from './MimicView';
 import dynamicViewModule from './DynamicView';
 import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
@@ -76,6 +79,12 @@ const list = {
     // getViewComponent: () => require('./PacketView/Components/View/PacketViewContainer'),
     // getEditorComponent: () => require('./PacketView/Components/Editor/PacketEditorContainer'),
   },
+  [constants.VM_VIEW_MIMIC]: {
+    schema: mimicViewSchema,
+    viewModule: mimicViewModule,
+    structureType: DATASTRUCTURETYPE_LAST,
+    structureModule: mimicViewData,
+  },
 };
 
 export default list;
@@ -84,7 +93,8 @@ export * from './reducers';
 
 export const getViewComponent = (type) => {
   isViewTypeExists(type);
-  return list[type].getViewComponent();
+  const ret = list[type].getViewComponent();
+  return ret;
 };
 
 export const getEditorComponent = (type) => {

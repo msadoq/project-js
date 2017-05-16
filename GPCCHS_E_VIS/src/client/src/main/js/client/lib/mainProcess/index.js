@@ -101,16 +101,17 @@ export function onStart() {
       splashScreen.setMessage('starting data server process...');
       logger.info('starting data server process...');
 
-      fork(
-        CHILD_PROCESS_SERVER,
-        `${parameters.get('path')}/node_modules/server/index.js`,
-        {
-          execPath: parameters.get('NODE_PATH'),
-          execArgv: process.env.HOT ? ['-r', 'babel-register', '-r', 'babel-polyfill'] : [],
-          env: parameters.getAll(),
-        },
-        callback
-      );
+      const serverUrl = parameters.get('IS_BUNDLED') === 'on'
+        ? `${parameters.get('path')}/server.js`
+        : `${parameters.get('path')}/node_modules/server/index.js`;
+
+      fork(CHILD_PROCESS_SERVER, serverUrl, {
+        execPath: parameters.get('NODE_PATH'),
+        execArgv: parameters.get('IS_BUNDLED') === 'on'
+          ? []
+          : ['-r', 'babel-register', '-r', 'babel-polyfill'],
+        env: parameters.getAll(),
+      }, callback);
     },
     (callback) => {
       splashScreen.setMessage('synchronizing processes...');

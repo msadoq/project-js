@@ -33,8 +33,7 @@ module.exports = {
         uid: { type: 'long', symbol: test.uint64().toString() },
       },
     };*/ 
-    const tempData = new Buffer(data.value); 
-    console.log("DATA : ",tempData);
+    const tempData = new Buffer(data.value);
     return {
       objectType: {
         area: { type: 'ushort', value: tempData.readUInt16LE() },

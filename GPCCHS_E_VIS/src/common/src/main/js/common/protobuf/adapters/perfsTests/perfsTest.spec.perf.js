@@ -12,19 +12,24 @@ const { getReportingParameterProtobuf,
   getGroupDefinitionProtobuf,
  } = require('../../../stubs/data/lpisis');
 
-const arraySize = 1000;
+const arraySize = 10000;
 const numberIterationDecode = 15;
 const tabPerfGlobal = [];
 
 const renderGlobalPerf = () => {
-  tabPerfGlobal.sort(comparePerf);
+  tabPerfGlobal.sort(comparePerfRatio);
   console.log('--- GLOBAL PERF ON DECODING PROTOBUFF ---\n');
   console.log('# Average on %d iterations, on a batch of %d encoded protobuff', numberIterationDecode, arraySize);
   console.log('# Results ordered by descending ratio of [WITH ADAPTERS/WITHOUT ADAPTERS]\n');
-  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d of ratio', index, perf.type, perf.avg)));
+  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d of ratio', index, perf.type, perf.data.averageRatio)));
+
+  tabPerfGlobal.sort(comparePerfTime);
+  console.log('\n# Results ordered by average time with adapters\n');
+  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d ms', index, perf.type, perf.data.averageTimeWithA)));
 };
 
-const comparePerf = (a, b) => (b.avg - a.avg);
+const comparePerfRatio = (a, b) => (b.data.averageRatio - a.data.averageRatio);
+const comparePerfTime = (a, b) => (b.data.averageTimeWithA - a.data.averageTimeWithA);
 
 describe('Test performance deprotobuff', () => {
   it('Test ReportingParameter', function () { // eslint-disable-line

@@ -26,8 +26,6 @@ function register(tree) {
         }
 
         const test = builder.resolve();
-        //console.log(`---------${namespace}/${proto}---------`);
-        // console.log(test.nested[namespace].nested.protobuf.nested);
         
          for (var key in test.nested[namespace].nested.protobuf.nested) {
            types[root][namespace][key] = {};
@@ -76,13 +74,28 @@ module.exports.encode = function encode(type, raw) {
   return p;
 };
 
+module.exports.decodeAdapter = function decode(type, buffer) {
+  const builder = getProtobufType(type);
+  const raw = builder.decode(buffer);
+  const r = builder.mapper
+    ? builder.mapper.decode(raw)
+    : raw;
+  return r;
+};
+
+module.exports.decodeNoAdapter = function decode(type, buffer) {
+  const builder = getProtobufType(type);
+  const raw = builder.decode(buffer);
+  return raw;
+};
+
 module.exports.decode = function decode(type, buffer) {
   const builder = getProtobufType(type);
   const raw = builder.decode(buffer);
   const r = builder.mapper
     ? builder.mapper.decode(raw)
     : raw;
-    return r;
+  return r;
 };
 
 module.exports.getType = function getType(comObject) {

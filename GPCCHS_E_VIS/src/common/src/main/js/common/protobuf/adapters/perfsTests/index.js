@@ -11,7 +11,7 @@ module.exports.testProtobuf = function testProtobuf(type, proto, arraySize, numb
     timeArray[i] = tmpTimeObject;
   }
   // tabPerfGlobal.push({ avg: renderTabPerf(timeArray, numberIterationDecode), type });
-  return { avg: renderTabPerf(timeArray, numberIterationDecode), type };
+  return { data: renderTabPerf(timeArray, numberIterationDecode), type };
 };
 
 const initArrayToDecode = (getProto, arraySize) => {
@@ -93,7 +93,7 @@ const renderTabPerf = (timeArray, numberIterationDecode) => {
   console.log('Average ratio : %d', averageRatio);
   console.log('Average time with adapters : %ss%sms', averageTimeWithA.toString().split('.')[0], averageTimeWithA.toString().split('.')[1].substring(0, 3));
   console.log('Average time without adapters : %ss%sms', averageTimeWithoutA.toString().split('.')[0], averageTimeWithoutA.toString().split('.')[1].substring(0, 3));
-  return averageRatio;
+  return { averageRatio, averageTimeWithA, averageTimeWithoutA };
 };
 
 const pad = (m, width, z) => {

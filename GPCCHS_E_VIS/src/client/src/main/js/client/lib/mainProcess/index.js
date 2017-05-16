@@ -81,8 +81,8 @@ export function onStart() {
       if (parameters.get('STUB_RTD_ON') === 'on') {
         stub = true;
       }
-      splashScreen.setMessage('connecting rtd...');
-      logger.info('connecting rtd...');
+      splashScreen.setMessage('starting data RTD client...');
+      logger.info('starting RTD client...');
       createRtd({ socket, stub }, (err, rtd) => {
         if (err) {
           callback(err);
@@ -93,20 +93,24 @@ export function onStart() {
       });
     },
     (callback) => {
-      splashScreen.setMessage('starting data server process...');
-      logger.info('starting data server process...');
+      if (parameters.get('IS_BUNDLED') === 'on') {
+        splashScreen.setMessage('starting data server process...');
+        logger.info('starting data server process...');
 
-      const serverUrl = parameters.get('IS_BUNDLED') === 'on'
-        ? `${parameters.get('path')}/server.js`
-        : `${parameters.get('path')}/node_modules/server/index.js`;
+        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/server.js`, {
+          execPath: parameters.get('NODE_PATH'),
+          env: parameters.getAll(),
+        }, callback);
+      } else {
+        splashScreen.setMessage('starting data server process... (dev)');
+        logger.info('starting data server process... (dev)');
 
-      fork(CHILD_PROCESS_SERVER, serverUrl, {
-        execPath: parameters.get('NODE_PATH'),
-        execArgv: parameters.get('IS_BUNDLED') === 'on'
-          ? []
-          : ['-r', 'babel-register', '-r', 'babel-polyfill'],
-        env: parameters.getAll(),
-      }, callback);
+        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/node_modules/server/index.js`, {
+          execPath: parameters.get('NODE_PATH'),
+          execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+          env: parameters.getAll(),
+        }, callback);
+      }
     },
     (callback) => {
       splashScreen.setMessage('synchronizing processes...');

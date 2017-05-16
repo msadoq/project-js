@@ -35,4 +35,8 @@ export default merge(baseConfig, {
 
   target: 'node',
 
+  node: {
+    __dirname: true,
+  },
+
 });

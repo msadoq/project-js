@@ -1,7 +1,6 @@
 const ProtoBuf = require('protobufjs');
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const { join } = require('path');
 
 const types = {};
 const comObjectProtobufTypes = {};
@@ -16,12 +15,10 @@ function getProtobufType(key) {
   return type;
 }
 
-module.exports.register = function register(root, namespaces) {
+module.exports.register = function register(rootPath, root, namespaces) {
   if (!types[root]) {
     types[root] = {};
   }
-  const rootPath = join(__dirname, 'proto', root);
-  // const rootPath = join('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/', 'proto', root);
   _each(namespaces, (protos, namespace) => {
     const namespaceBuilder = ProtoBuf.newBuilder();
     const attach = {};
@@ -33,7 +30,7 @@ module.exports.register = function register(root, namespaces) {
       }, namespaceBuilder);
 
       if (!builder) {
-        throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
+        throw new Error(`Unable to read path: ${rootPath}/${namespace}/${proto}.proto`);
       }
 
       // store builder and mapper pour further linking

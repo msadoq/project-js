@@ -126,12 +126,13 @@ export default class XAxis extends Component {
       .attr('style', gStyle)
       .attr('class', classnames(
         styles.xAxisGroup,
-        styles[gridStyle]
+        styles[gridStyle],
+        {
+          [styles.xAxisHideTicks]: !showTicks,
+        }
       ));
 
-    if (showTicks) {
-      xAxisFunction(svgGroup);
-    }
+    xAxisFunction(svgGroup);
     this.axisDidDraw();
   }
 

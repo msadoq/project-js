@@ -61,6 +61,11 @@
     stroke: #AAA;
   }
 }
+.xAxisHideTicks {
+  & > g > text {
+    display: none;
+  }
+}
 
 .Dotted{
   line {

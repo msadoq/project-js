@@ -4,13 +4,6 @@
     "stage-0"
   ],
   "plugins": [
-    "add-module-exports"
-  ],
-  "env": {
-    "production": {
-      "plugins": [
-        "babel-plugin-dev-expression"
-      ]
-    }
-  }
+    "babel-plugin-lodash"
+  ]
 }

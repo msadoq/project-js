@@ -3,11 +3,7 @@
     "es2015",
     "stage-0"
   ],
-  "env": {
-    "production": {
-      "plugins": [
-        "babel-plugin-dev-expression"
-      ]
-    }
-  }
+  "plugins": [
+    "babel-plugin-lodash"
+  ]
 }

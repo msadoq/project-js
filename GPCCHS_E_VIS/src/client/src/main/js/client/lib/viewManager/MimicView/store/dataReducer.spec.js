@@ -40,45 +40,45 @@ describe('viewManager/TextView/store/dataReducer', () => {
     const action = { type: types.WS_VIEW_RELOAD,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     mimicViewData(freezeMe({}), action).should.eql({});
-    action.payload.view = { type: 'TextView', uuid: 'myText' };
-    mimicViewData(freezeMe({}), action).should.eql({ myText: { index: {}, values: {} } });
+    action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
+    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
   });
   it('WS_VIEW_OPEN', () => {
     const action = { type: types.WS_VIEW_OPEN,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     mimicViewData(freezeMe({}), action).should.eql({});
-    action.payload.view = { type: 'TextView', uuid: 'myText' };
-    mimicViewData(freezeMe({}), action).should.eql({ myText: { index: {}, values: {} } });
+    action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
+    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
   });
   it('WS_VIEW_ADD_BLANK', () => {
     const action = { type: types.WS_VIEW_ADD_BLANK,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     mimicViewData(freezeMe({}), action).should.eql({});
-    action.payload.view = { type: 'TextView', uuid: 'myText' };
-    mimicViewData(freezeMe({}), action).should.eql({ myText: { index: {}, values: {} } });
+    action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
+    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
   });
   it('WS_PAGE_OPEN', () => {
     const action = { type: types.WS_PAGE_OPEN,
       payload: { views:
-        [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
-    mimicViewData(freezeMe({}), action).should.eql({ myText: { index: {}, values: {} } });
+        [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'MimicView', uuid: 'myMimic' }] } };
+    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
   });
   it('WS_WORKSPACE_OPEN', () => {
     const action = { type: types.WS_WORKSPACE_OPEN,
       payload: { views:
-        [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
-    mimicViewData(freezeMe({}), action).should.eql({ myText: { index: {}, values: {} } });
+        [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'MimicView', uuid: 'myMimic' }] } };
+    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
   });
   it('WS_VIEW_CLOSE', () => {
     const action = { type: types.WS_VIEW_CLOSE, payload: { viewId: 'myPlot' } };
     mimicViewData(freezeMe({}), action).should.eql({});
-    const frozen = freezeMe({ myText: { index: {}, values: {} } });
+    const frozen = freezeMe({ myMimic: { index: {}, values: {} } });
     mimicViewData(freezeMe(frozen), action).should.equal(frozen);
-    action.payload.viewId = 'myText';
+    action.payload.viewId = 'myMimic';
     mimicViewData(frozen, action).should.eql({});
   });
   it('WS_PAGE_CLOSE', () => {
-    const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myMimic', 'myText'] } };
+    const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myMimic'] } };
     mimicViewData(freezeMe({ myMimic: {}, myOtherMimic: {} }), action)
     .should.eql({ myOtherMimic: {} });
   });

@@ -109,6 +109,26 @@ export default class MimicView extends Component {
         },
       },
       {
+        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'rotate'),
+        processNode: (node, children) => {
+          const epName = node.attribs.ep;
+          const domain = node.attribs.domain.split(',');
+          const angle = node.attribs.angle;
+          const center = node.attribs.center.split(',');
+          const rand = Math.round(Math.random() * 100000);
+          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          this.svgEls.push({
+            id,
+            type: node.attribs.animation,
+            epName,
+            domain,
+            angle,
+            center,
+          });
+          return (<g id={id} key={id}>{children}</g>);
+        },
+      },
+      {
         shouldProcessNode: (node => node.attribs && node.attribs.animation === 'textBox'),
         processNode: (node, children) => {
           const epName = node.attribs.ep;
@@ -209,6 +229,18 @@ export default class MimicView extends Component {
           }
           el.style.transform = `translate(${distance}px, 0px)`;
         }
+      } else if (g.type === 'rotate') {
+        if (!data.values[g.epName]) {
+          return;
+        }
+        const epLastVal = data.values[g.epName].value;
+        let angle = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
+        angle = angle < 0 ? 0 : angle;
+        angle = angle > g.angle ? g.angle : angle;
+        const el = g.el;
+        if (!el) { return; }
+        el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
+        el.style.transform = `rotate(${angle}deg)`;
       } else if (g.type === 'textBox') {
         if (!data.values[g.epName]) {
           return;

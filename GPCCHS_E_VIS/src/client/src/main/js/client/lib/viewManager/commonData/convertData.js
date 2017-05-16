@@ -27,7 +27,7 @@ export function convertData(data) {
     return convertLongData(data);
   } else if (data.type === 'boolean') {
     return data.value ? 'true' : 'false';
-  } else if (data.type === 'enum') {
+  } else if (data.type === 'enum' || data.type === 'double') {
     return data.symbol;
   } else if (data.type === 'blob') {
     let hexVal = '';

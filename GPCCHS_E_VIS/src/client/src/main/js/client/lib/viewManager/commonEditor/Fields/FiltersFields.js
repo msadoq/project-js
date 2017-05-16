@@ -51,7 +51,7 @@ export default class FiltersFields extends React.Component {
       {
         field: this.fieldField.value,
         operator: this.operatorField.value,
-        operand: this.operandField.value,
+        operand: this.operandField.value.toString(),
       }
     );
     this.resetFields();

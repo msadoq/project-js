@@ -233,7 +233,6 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
   for (let i = 0; i < timestamps.length; i += 1) {
     const value = remoteIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
-
     if (typeof timestamp === 'undefined') {
       logger.warn('get a payload without .referenceTimestamp key');
       continue;
@@ -276,6 +275,7 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
         ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
         // Case of enum : add symbol to show it in tooltip
         // Case of long : add string representation in tooltip to keep precision
+        // Case of double : add string representation in tooltip to keep precision
         symbol: _get(value, [ep.fieldY, 'symbol']),
       };
     }

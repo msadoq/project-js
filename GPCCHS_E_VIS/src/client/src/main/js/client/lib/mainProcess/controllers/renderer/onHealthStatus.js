@@ -1,6 +1,6 @@
 import getLogger from 'common/log';
 import { updateWindowStatus } from '../../../store/actions/health';
-import { getStore } from '../../../store/isomorphic';
+import { getStore } from '../../../store/createStore';
 
 const logger = getLogger('main:controllers:renderer:onHealthStatus');
 

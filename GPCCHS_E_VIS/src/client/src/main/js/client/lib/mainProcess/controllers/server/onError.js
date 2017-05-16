@@ -1,4 +1,4 @@
-import { getStore } from '../../../store/isomorphic';
+import { getStore } from '../../../store/createStore';
 import { addOnce } from '../../../store/actions/messages';
 
 export default function onError({ err }) {

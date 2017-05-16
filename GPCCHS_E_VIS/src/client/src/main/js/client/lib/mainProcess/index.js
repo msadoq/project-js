@@ -17,7 +17,7 @@ import { setRtd } from '../rtdManager';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
-import { initStore, getStore } from '../store/isomorphic';
+import makeCreateStore, { getStore } from '../store/createStore';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
@@ -53,7 +53,7 @@ export function onStart() {
       splashScreen.setMessage('loading data store...');
       logger.info('loading data store...');
 
-      initStore();
+      makeCreateStore('main', get('DEBUG') === 'on')();
 
       callback(null);
     },

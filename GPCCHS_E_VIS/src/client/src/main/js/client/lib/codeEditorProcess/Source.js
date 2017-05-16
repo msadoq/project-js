@@ -9,6 +9,7 @@ export default class Source extends PureComponent {
     viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.string),
+    type: PropTypes.string.isRequired,
   }
   static defaultProps = {
     entryPoints: [],
@@ -24,6 +25,7 @@ export default class Source extends PureComponent {
       content,
       entryPoints,
       closeHtmlEditor,
+      type,
     } = this.props;
     const initialValues = { html: beautifyHtml(content, { indent_size: 2 }) };
 
@@ -35,6 +37,7 @@ export default class Source extends PureComponent {
         onSubmit={this.updateContent}
         form={`textView-form-${viewId}`}
         initialValues={initialValues}
+        viewType={type}
       />
     );
   }

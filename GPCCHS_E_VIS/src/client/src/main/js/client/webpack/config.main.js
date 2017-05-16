@@ -16,6 +16,7 @@ export default merge(baseConfig, {
     'source-map-support',
     'package.json',
     'electron-debug',
+    'hiredis',
   ],
 
   plugins: [

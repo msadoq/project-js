@@ -121,55 +121,6 @@ describe('common/fs', () => {
     });
   });
 
-  describe('readJsonFromAbsPath', () => {
-    it('works', (done) => {
-      fs.readJsonFromAbsPath(getTmpPath('foo.json'), (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    it('readJsonFromAbsPath error', (done) => {
-      fs.readJsonFromAbsPath(getTmpPath('not-exists.txt'), (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
-        done();
-      });
-    });
-  });
-
-  describe('readJsonFromRelativePath', () => {
-    it('works', (done) => {
-      fs.readJsonFromRelativePath(getTmpPath(), 'foo.json', (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    it('readJsonFromRelativePath error', (done) => { // dc stub send oid as filepath
-      fs.readJsonFromRelativePath(getTmpPath(), 'not-exists.txt', (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
-        done();
-      });
-    });
-  });
-
-  describe('checkPath', () => {
-    it('path exists', (done) => {
-      fs.checkPath('/', (err, res) => {
-        res.should.be.true;
-        done();
-      });
-    });
-    it('path does not exists', (done) => {
-      fs.checkPath('/unknownPath', (err, res) => {
-        res.should.be.false;
-        done();
-      });
-    });
-  });
-
   describe('createFolder', () => {
     it('folder already exists', (done) => {
       fs.createFolder('/', (err, res) => {

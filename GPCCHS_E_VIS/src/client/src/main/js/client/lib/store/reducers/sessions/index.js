@@ -20,3 +20,9 @@ export const getSession = createSelector(
   getSessions,
   (sessionName, sessions = []) => _.find(_.propEq('name', sessionName), sessions)
 );
+
+
+export const getSessionId = createSelector(
+  getSession,
+  session => session && session.id
+);

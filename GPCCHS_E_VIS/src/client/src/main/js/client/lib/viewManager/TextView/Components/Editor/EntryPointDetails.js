@@ -1,10 +1,5 @@
 import React, { PropTypes } from 'react';
-import {
-  Accordion,
-  Panel,
-} from 'react-bootstrap';
-import _memoize from 'lodash/memoize';
-
+import Collapse, { Panel } from 'rc-collapse';
 import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
@@ -39,13 +34,22 @@ export default class EntryPointDetails extends React.Component {
       }),
     }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
+    ]).isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
 
-  state = {
-    isPanelNameOpen: false,
-    isPanelConnDataOpen: false,
-    isPanelStateColorsOpen: false,
-  };
+  onChange = (openPanels) => {
+    const {
+      updateViewSubPanels,
+      viewId,
+      entryPoint,
+    } = this.props;
+    updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
+  }
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -55,34 +59,27 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
-  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
-
   render() {
     const {
       idPoint,
       entryPoint,
       viewId,
       timelines,
+      panels,
+      domains,
     } = this.props;
 
-    const {
-      isPanelNameOpen,
-      isPanelConnDataOpen,
-      isPanelStateColorsOpen,
-     } = this.state;
-
     return (
-      <Accordion>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={Array.isArray(panels) ? panels : []}
+      >
         <Panel
-          key={'Name'}
+          key="name"
           header="Name"
-          eventKey={'Name'}
-          expanded={isPanelNameOpen}
-          onSelect={this.openPanel('Name')}
-          onExited={this.closePanel('Name')}
         >
-          {isPanelNameOpen && <AddEntryPoint
+          {Array.isArray(panels) && panels.includes('name') && <AddEntryPoint
             onSubmit={this.handleSubmit}
             form={`entrypoint-title-form-${idPoint}-${viewId}`}
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
@@ -92,29 +89,22 @@ export default class EntryPointDetails extends React.Component {
           />}
         </Panel>
         <Panel
-          key={'ConnData'}
-          header="Conn Data"
-          eventKey={'ConnData'}
-          expanded={isPanelConnDataOpen}
-          onSelect={this.openPanel('ConnData')}
-          onExited={this.closePanel('ConnData')}
+          key="ConnData"
+          header="Connected data"
         >
-          {isPanelConnDataOpen && <EntryPointConnectedData
+          {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedData
             timelines={timelines}
+            domains={domains}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}
           />}
         </Panel>
         <Panel
-          key={'StateColors'}
+          key="stateColors"
           header="State colors"
-          eventKey={'StateColors'}
-          expanded={isPanelStateColorsOpen}
-          onSelect={this.openPanel('StateColors')}
-          onExited={this.closePanel('StateColors')}
         >
-          {isPanelStateColorsOpen && <EntryPointStateColors
+          {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
             initialValues={{
               stateColors: entryPoint.stateColors || [],
@@ -123,7 +113,7 @@ export default class EntryPointDetails extends React.Component {
             onSubmit={this.handleSubmit}
           />}
         </Panel>
-      </Accordion>
+      </Collapse>
     );
   }
 }

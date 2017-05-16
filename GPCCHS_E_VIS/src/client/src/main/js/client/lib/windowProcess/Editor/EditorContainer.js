@@ -7,7 +7,6 @@ import { getView } from '../../store/reducers/views';
 const mapStateToProps = (state, { pageId }) => {
   const { editorViewId } = getPanels(state, { pageId });
   const view = getView(state, { viewId: editorViewId });
-
   return {
     pageId,
     viewId: editorViewId,

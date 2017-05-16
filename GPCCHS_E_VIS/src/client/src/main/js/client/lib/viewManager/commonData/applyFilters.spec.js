@@ -81,25 +81,49 @@ describe('utils/filters', () => {
       const filter = [
         {
           field: 'stringDataValue',
-          operator: 'contains',
+          operator: 'CONTAINS',
           operand: 'foo',
         },
       ];
-      applyFilters({ stringDataValue: { type: 'string', value: 'foo' } }, filter).should.equal(true);
-      applyFilters({ stringDataValue: { type: 'string', value: 'bar foo bar' } }, filter).should.equal(true);
-      applyFilters({ stringDataValue: { type: 'string', value: 'bar' } }, filter).should.equal(false);
+      applyFilters({ stringDataValue: { type: 'string', value: 'foo' } }, filter)
+        .should.equal(true);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar foo bar' } }, filter)
+        .should.equal(true);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar' } }, filter)
+        .should.equal(false);
+      const regex = [
+        {
+          field: 'stringDataValue',
+          operator: 'CONTAINS',
+          operand: '/^FO*/i',
+        },
+      ];
+      applyFilters({ stringDataValue: { type: 'string', value: 'foo bar' } }, regex)
+        .should.equal(true);
     });
     it('icontains', () => {
       const filter = [
         {
           field: 'stringDataValue',
-          operator: 'icontains',
+          operator: 'ICONTAINS',
           operand: 'foo',
         },
       ];
-      applyFilters({ stringDataValue: { type: 'string', value: 'foo' } }, filter).should.equal(false);
-      applyFilters({ stringDataValue: { type: 'string', value: 'bar foo bar' } }, filter).should.equal(false);
-      applyFilters({ stringDataValue: { type: 'string', value: 'bar' } }, filter).should.equal(true);
+      applyFilters({ stringDataValue: { type: 'string', value: 'foo' } }, filter)
+        .should.equal(false);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar foo bar' } }, filter)
+        .should.equal(false);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar' } }, filter)
+        .should.equal(true);
+      const regex = [
+        {
+          field: 'stringDataValue',
+          operator: 'ICONTAINS',
+          operand: '/^FO*/i',
+        },
+      ];
+      applyFilters({ stringDataValue: { type: 'string', value: 'foo bar' } }, regex)
+        .should.equal(false);
     });
     it('multi', () => {
       const filter = [

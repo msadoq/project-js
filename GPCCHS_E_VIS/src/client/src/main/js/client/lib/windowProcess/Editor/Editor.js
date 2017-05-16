@@ -1,8 +1,8 @@
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import { getEditorComponent } from '../../viewManager';
+import { getEditorComponent } from '../../viewManager/components';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');
@@ -21,13 +21,12 @@ export default class Editor extends PureComponent {
   static propTypes = {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string,
-    type: PropTypes.string,
+    type: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    closeEditor: _.noop,
+    // closeEditor: _.noop,
     viewId: null,
-    type: null,
   };
 
   static childContextTypes = {

@@ -1,6 +1,9 @@
 import _round from 'lodash/round';
 import _reduce from 'lodash/reduce';
+import _get from 'lodash/get';
+import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
+import { tmpdir } from 'os';
 import { get } from 'common/parameters';
 import {
   HSC_ORCHESTRATION_WARNING_STEP,
@@ -126,6 +129,10 @@ export function onCritical() {
 
 export function start() {
   logger = getLogger('main:orchestration');
+  if (get('DUMP') === 'on') {
+    const dumpDir = (_isEmpty(get('DUMP_DIR')) ? tmpdir() : get('DUMP_DIR'));
+    logger.warn(`Received payloads are dumped in ${dumpDir}`);
+  }
   schedule();
 }
 
@@ -267,7 +274,8 @@ export function tick() {
       const timebarUuid = getPlayingTimebarId(getState());
       // Add forecast in play mode
       let forecastIntervals;
-      if (timebarUuid) {
+      // Check validity of previous datamap to avoid empty data when launching in realtime mode
+      if (timebarUuid && Object.keys(_get(previous, 'requestedDataMap', {})).length) {
         // Get playing mode
         const { visuWindow } = getTimebar(getState(), { timebarUuid });
         const { upper } = visuWindow;

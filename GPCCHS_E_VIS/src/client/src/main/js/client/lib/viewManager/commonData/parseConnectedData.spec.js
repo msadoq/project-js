@@ -97,4 +97,64 @@ describe('viewManager/commonData/parseConnectedData', () => {
         field: undefined,
       });
   });
+  it('wildcard => view Data', () => {
+    connectedData.domain = '*';
+    connectedData.timeline = '*';
+    const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
+      'cnes', 'cnes.isis', 'cnes', 'session1', 'session2');
+    res.should.deep.eql({
+      dataId: {
+        catalog: 'Reporting',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
+        comObject: 'ReportingParameter',
+        domainId: 'd1',
+        domain: 'cnes',
+        sessionName: 'session1',
+        sessionId: 1,
+      },
+      filters: [],
+      field: 'extractedValue',
+      offset: 0,
+    });
+  });
+  it('wildcard => page Data', () => {
+    connectedData.domain = '*';
+    connectedData.timeline = '*';
+    const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
+      undefined, 'cnes.isis', 'cnes', undefined, 'session1', 'session2');
+    res.should.deep.eql({
+      dataId: {
+        catalog: 'Reporting',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
+        comObject: 'ReportingParameter',
+        domainId: 'd2',
+        domain: 'cnes.isis',
+        sessionName: 'session1',
+        sessionId: 1,
+      },
+      filters: [],
+      field: 'extractedValue',
+      offset: 0,
+    });
+  });
+  it('wildcard => workspace Data', () => {
+    connectedData.domain = '*';
+    connectedData.timeline = '*';
+    const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
+      undefined, undefined, 'cnes.isis', undefined, undefined, 'session1');
+    res.should.deep.eql({
+      dataId: {
+        catalog: 'Reporting',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
+        comObject: 'ReportingParameter',
+        domainId: 'd2',
+        domain: 'cnes.isis',
+        sessionName: 'session1',
+        sessionId: 1,
+      },
+      filters: [],
+      field: 'extractedValue',
+      offset: 0,
+    });
+  });
 });

@@ -90,7 +90,7 @@ function pageSaveAs(focusedWindow) {
 }
 
 function saveFile(pageId, store, callback) {
-  savePage(store.getState(), pageId, false, (err, oid) => {
+  savePage(store.getState(), pageId, (err, oid) => {
     if (err) {
       callback(err);
       return;

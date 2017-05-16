@@ -1,0 +1,20 @@
+@import '../../../../node_modules/rc-collapse/assets/index.css';
+
+.rc-collapse-header{
+  position: relative;
+}
+.rc-collapse-content-active{
+  padding: 4px 8px;
+}
+.rc-collapse-content-active:not(.rc-collapse-anim){
+  overflow: inherit;
+}
+.rc-collapse-header-inner{
+  display: table;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.rc-collapse-header-inner > * {
+  display: table-cell;
+}

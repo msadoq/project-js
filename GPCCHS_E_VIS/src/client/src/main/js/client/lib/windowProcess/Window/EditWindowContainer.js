@@ -7,8 +7,6 @@ import EditWindowWrapper from './EditWindowWrapper';
 
 const mapStateToProps = (state, { windowId }) => {
   const window = getWindow(state, { windowId });
-  console.log(window);
-  console.log(getWindows(state));
   return {
     window,
     windows: getWindows(state),

@@ -3,7 +3,7 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { sinon, should, expect, getTmpPath, freezeMe } from '../common/test';
+import { sinon, expect, getTmpPath, freezeMe } from '../common/test';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
 import * as fmdApi from '../common/fmd';
@@ -16,6 +16,15 @@ const mockedCreateDocument = (path, documentType, cb) => {
   }
   const oid = `oid:${fmdApi.getRelativeFmdPath(path)}`;
   return cb(null, oid);
+};
+
+const readJson = (path, cb) => {
+  fs.read(path, (err, content) => {
+    if (err) {
+      return cb(err);
+    }
+    return cb(null, JSON.parse(content));
+  });
 };
 
 describe('documentManager/saveWorkspace', () => {
@@ -47,18 +56,19 @@ describe('documentManager/saveWorkspace', () => {
         page1: {
           type: 'Page',
           title: 'Page 1',
-          timebarUuid: 1234,
+          timebarUuid: 'abcd',
           oId: 'oid:/testPlot.json',
         },
         page2: {
           type: 'Page',
           title: 'Page 2',
-          timebarUuid: 1234,
+          timebarUuid: 'abcd',
           path: 'testText.json',
         },
       },
       timebars: {
-        1234: {
+        abcd: {
+          uuid: 'abcd',
           id: 'tb1',
           masterId: 'Session 1',
           rulerResolution: 11250,
@@ -94,6 +104,9 @@ describe('documentManager/saveWorkspace', () => {
           sessionName: 'session1',
         },
       },
+      timebarTimelines: {
+        abcd: ['tl1', 'tl2'],
+      },
       hsc:
       {
         file: 'workspace1.json',
@@ -108,10 +121,8 @@ describe('documentManager/saveWorkspace', () => {
   });
   it('save ok', (done) => {
     const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), true, (err, windows) => {
+    saveWorkspace(freezeMe(state), (err) => {
       expect(err).to.not.be.an('error');
-      windows.should.have.length(1);
-      windows.should.be.eql(Object.keys(state.windows));
       fs.isExists(path, (exist) => {
         exist.should.be.true;
         done();
@@ -120,10 +131,8 @@ describe('documentManager/saveWorkspace', () => {
   });
   it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, true, (err, windows) => {
+    saveWorkspaceAs(freezeMe(state), path, (err) => {
       expect(err).to.not.be.an('error');
-      windows.should.have.length(1);
-      windows.should.be.eql(Object.keys(state.windows));
       fs.isExists(path, (exist) => {
         exist.should.be.true;
         done();
@@ -131,11 +140,10 @@ describe('documentManager/saveWorkspace', () => {
     });
   });
   it('save fail', (done) => {
-    state.timebars[1234].mode = null;
+    state.timebars.abcd.mode = null;
     const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), true, (err, windows) => {
+    saveWorkspace(freezeMe(state), (err) => {
       expect(err).to.be.an('error');
-      should.not.exist(windows);
       fs.isExists(path, (exist) => {
         exist.should.be.false;
         done();
@@ -143,13 +151,74 @@ describe('documentManager/saveWorkspace', () => {
     });
   });
   it('saveAs fail', (done) => {
-    state.timebars[1234].mode = null;
+    state.timebars.abcd.mode = null;
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, true, (err, windows) => {
+    saveWorkspaceAs(freezeMe(state), path, (err) => {
       expect(err).to.be.an('error');
-      should.not.exist(windows);
       fs.isExists(path, (exist) => {
         exist.should.be.false;
+        done();
+      });
+    });
+  });
+  it('save correct content', (done) => {
+    const path = join(state.hsc.folder, state.hsc.file);
+    saveWorkspace(freezeMe(state), () => {
+      readJson(path, (err, content) => {
+        // console.warn(err);
+        // console.warn('CONTENT : ', content);
+        content.should.be.eql({
+          type: 'WorkSpace',
+          windows: [
+            {
+              type: 'documentWindow',
+              pages: [
+                {
+                  oId: 'oid:/testPlot.json',
+                  timebarId: 'tb1',
+                },
+                {
+                  path: 'testText.json',
+                  timebarId: 'tb1',
+                },
+              ],
+              title: 'window1',
+              geometry: {
+                h: 800,
+                kind: 'Absolute',
+                w: 1310,
+                x: 110,
+                y: 10,
+              },
+            },
+          ],
+          timebars: [
+            {
+              id: 'tb1',
+              rulerResolution: 11250,
+              speed: 1,
+              masterId: 'Session 1',
+              mode: 'Normal',
+              type: 'timeBarConfiguration',
+              timelines: [
+                {
+                  color: null,
+                  id: 'Session 1',
+                  kind: 'Session',
+                  offset: 0,
+                  sessionName: 'session1',
+                },
+                {
+                  color: null,
+                  id: 'Session 2',
+                  kind: 'Session',
+                  offset: 0,
+                  sessionName: 'session1',
+                },
+              ],
+            },
+          ],
+        });
         done();
       });
     });

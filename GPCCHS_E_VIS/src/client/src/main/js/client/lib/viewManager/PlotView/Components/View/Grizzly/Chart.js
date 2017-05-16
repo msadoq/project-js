@@ -539,7 +539,9 @@ export default class Chart extends React.Component {
         >
           {
             Object.keys(yPans).map((key) => {
-              const axisLabel = this.yAxes.find(a => a.id === key).label;
+              const axis = this.yAxes.find(a => a.id === key);
+              if (!axis) return null;
+              const axisLabel = axis.label;
               return (yPans[key] !== 0 &&
               <Button
                 key={key}
@@ -551,7 +553,9 @@ export default class Chart extends React.Component {
           }
           {
             Object.keys(yZoomLevels).map((key) => {
-              const axisLabel = this.yAxes.find(a => a.id === key).label;
+              const axis = this.yAxes.find(a => a.id === key);
+              if (!axis) return null;
+              const axisLabel = axis.label;
               return (yZoomLevels[key] !== 1 &&
               <Button
                 key={key}

@@ -13,8 +13,18 @@ import {
   getComputedParameterTriggers,
 } from './reportings';
 
-export default function getTelemetryStaticElements(
-  { rtd, sessionId, domainId }, parameterName, callback) {
+let rtd;
+
+export function setRtd(rtdApi) {
+  rtd = rtdApi;
+}
+
+export function getRtd() {
+  return rtd;
+}
+
+export function getTelemetryStaticElements(
+  { sessionId, domainId }, parameterName, callback) {
   rtd.getCatalogByName('Reporting', SDB_NAMESPACE, parameterName, sessionId, domainId, (err, reporting) => {
     if (err || !reporting) {
       callback(err);

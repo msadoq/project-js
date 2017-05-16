@@ -13,6 +13,8 @@ const initialState = {
   focusWindow: null,
   isModified: true,
   forecast: {},
+  domainName: null,
+  sessionName: null,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -46,7 +48,8 @@ export default function hsc(state = initialState, action) {
     case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_TIMELINE_REMOVE:
-    case types.WS_PAGE_UPDATE_TIMEBARID:
+    case types.WS_PAGE_TIMEBAR_MOUNT:
+    case types.WS_PAGE_TIMEBAR_UNMOUNT:
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
@@ -71,6 +74,16 @@ export default function hsc(state = initialState, action) {
         upper: action.payload.upper,
         lower: action.payload.lower,
       } });
+    case types.WS_WORKSPACE_UPDATE_DOMAINNAME:
+      if (action.payload.domainName) {
+        return { ...state, domainName: action.payload.domainName, isModified: true };
+      }
+      return Object.assign({}, _.omit('domainName', state), { isModified: true });
+    case types.WS_WORKSPACE_UPDATE_SESSIONNAME:
+      if (action.payload.sessionName) {
+        return { ...state, sessionName: action.payload.sessionName, isModified: true };
+      }
+      return Object.assign({}, _.omit('sessionName', state), { isModified: true });
     default:
       return state;
   }
@@ -90,3 +103,5 @@ export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
 export const getForecast = inHsc('forecast');
+export const getDomainName = inHsc('domainName');
+export const getSessionName = inHsc('sessionName');

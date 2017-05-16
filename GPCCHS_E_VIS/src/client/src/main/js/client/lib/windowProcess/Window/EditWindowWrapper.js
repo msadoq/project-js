@@ -15,11 +15,7 @@ export default class EditWindowWrapper extends PureComponent {
       updateTitle,
       closeModal,
     } = this.props;
-    console.log(window);
-    updateTitle(
-      window.uuid,
-      values.title
-    );
+    updateTitle(window.uuid, values.title);
     closeModal();
   }
 
@@ -28,7 +24,6 @@ export default class EditWindowWrapper extends PureComponent {
       window,
       windows,
     } = this.props;
-    console.log(window);
     return (
       <EditWindow
         form={`edit-window-title-${window.uuid}`}

@@ -8,6 +8,7 @@ import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
+import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 import { getEntryPointsByViewId } from '../viewManager';
 
@@ -27,7 +28,8 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
       if (!perViewDataSelectors[viewId]) {
         perViewDataSelectors[viewId] = makeGetPerViewData();
       }
-      const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid });
+      const pageId = getPageIdByViewId(state, { viewId });
+      const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId });
 
       // Case of invalid view or collapsed view
       if (!Object.keys(props).length) {
@@ -38,6 +40,7 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
       return map;
     }, {})
   );
+
 export const getPerRemoteIdMap = createSelector(
   getPerViewMap,
   (perViewMap) => {

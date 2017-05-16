@@ -2,6 +2,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import classnames from 'classnames';
 import { reduxForm, Field } from 'redux-form';
 import {
   Form,
@@ -39,12 +40,12 @@ class EditWindow extends PureComponent {
     return (
       <Form horizontal onSubmit={handleSubmit}>
 
-        <HorizontalFormGroup label="Name">
+        <HorizontalFormGroup label="Title">
           <Field
             name="title"
             component={InputField}
             type="text"
-            className="form-control input-sm"
+            className={classnames('form-control', 'pt15', 'pb15')}
             validate={(val) => {
               if (
                 Object.keys(windows).find(uid =>
@@ -57,7 +58,6 @@ class EditWindow extends PureComponent {
             }}
           />
         </HorizontalFormGroup>
-
         <div className="text-right">
           <ButtonGroup>
             <Button

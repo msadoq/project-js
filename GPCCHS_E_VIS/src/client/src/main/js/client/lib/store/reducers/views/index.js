@@ -20,6 +20,11 @@ export const getViewConfiguration = createSelector(
   _.get('configuration')
 );
 
+export const getViewTitle = createSelector(
+  getView,
+  _.prop('title')
+);
+
 export const getViewAbsolutePath = createSelector(
   getView,
   _.get('absolutePath')
@@ -30,12 +35,17 @@ export const getViewType = createSelector(
   _.get('type')
 );
 
-export const getViewTitle = createSelector(
-  getView,
-  _.get('title')
-);
-
 export const getViewTitleStyle = createSelector(
   getView,
   _.get('titleStyle')
+);
+
+export const getViewDomainName = createSelector(
+  getView,
+  _.get('domainName')
+);
+
+export const getViewSessionName = createSelector(
+  getView,
+  _.get('sessionName')
 );

@@ -6,7 +6,7 @@ import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
-import { getViewComponent } from '../../viewManager';
+import { getViewComponent } from '../../viewManager/components';
 import { main } from '../ipc';
 import handleContextMenu from '../common/handleContextMenu';
 
@@ -76,7 +76,7 @@ export default class View extends PureComponent {
     const isPathDefined = oId || absolutePath;
     return [
       {
-        label: 'Move view to another page',
+        label: 'Move view to...',
         click: () => openModal({ type: 'moveViewToPage' }),
       },
       {
@@ -95,21 +95,20 @@ export default class View extends PureComponent {
       { type: 'separator' },
       {
         label: 'Save view',
-        click: (e) => {
-          if (e) e.preventDefault();
+        click: () => {
           main.message(
             globalConstants.IPC_METHOD_SAVE_VIEW,
-            { saveMode: absolutePath, viewId }
+            { viewId }
           );
         },
-        enabled: isPathDefined,
+        enabled: (isPathDefined && isModified),
       },
       {
-        label: 'Save view as',
-        click: () => main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId }),
+        label: 'Save view as...',
+        click: () => main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs: true }),
       },
       {
-        label: 'Create a model from view',
+        label: 'Save view as a model...',
         click: () => main.message(globalConstants.IPC_METHOD_CREATE_MODEL, { viewId }),
       },
       { type: 'separator' },
@@ -147,7 +146,6 @@ export default class View extends PureComponent {
       openModal,
     } = this.props;
     const ContentComponent = getViewComponent(type);
-    // console.warn(ContentComponent);
     const mainMenu = this.getMainContextMenu(this.props);
     const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering

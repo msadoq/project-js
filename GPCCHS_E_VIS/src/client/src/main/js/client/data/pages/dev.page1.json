@@ -23,7 +23,7 @@
         "x": 5,
         "y": 0,
         "w": 7,
-        "h": 19,
+        "h": 24,
         "maxH": 100,
         "maxW": 100
       },
@@ -34,25 +34,35 @@
       "path": "/views/dynamicView.json",
       "geometry": {
         "x": 0,
-        "y": 6,
+        "y": 11,
         "w": 5,
-        "h": 15
+        "h": 14
       },
       "hideBorders": false,
       "windowState": "Normalized"
     },
     {
-      "oId": "oid:/views/empty.text.json",
+      "path": "/views/mimic.json",
       "geometry": {
         "x": 0,
         "y": 3,
         "w": 5,
-        "h": 3,
-        "collapsed": true,
+        "h": 8,
+        "collapsed": false,
         "maximized": false
       },
       "hideBorders": false,
       "windowState": "Normalized"
     }
-  ]
+  ],
+  "panels": {
+    "editorWidth": 250,
+    "editorIsMinimized": true,
+    "timebarHeight": 130,
+    "timebarIsMinimized": false,
+    "explorerWidth": 250,
+    "explorerIsMinimized": true
+  },
+  "sessionName": "Master",
+  "domainName": "fr.cnes.isis.simupus"
 }

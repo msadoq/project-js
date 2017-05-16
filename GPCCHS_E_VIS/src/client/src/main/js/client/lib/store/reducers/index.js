@@ -16,6 +16,7 @@ import masterSession from './masterSession';
 import health from './health';
 import editor from './editor';
 import inspector from './inspector';
+import ui from './ui';
 
 import { configurationReducers, dataReducers } from '../../viewManager/';
 
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   health,
   editor,
   inspector,
+  ui,
   ...configurationReducers,
   ...dataReducers,
 });

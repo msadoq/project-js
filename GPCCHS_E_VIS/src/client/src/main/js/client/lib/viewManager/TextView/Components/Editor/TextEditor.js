@@ -10,12 +10,15 @@ const navBarItems = ['Entry Points', 'Text'];
 export default class Editor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    // actions
+    tab: PropTypes.number,
     openModal: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-
+    panels: PropTypes.shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
@@ -24,7 +27,9 @@ export default class Editor extends Component {
     }).isRequired,
   };
 
-  state = { currentDisplay: 0 };
+  static defaultProps = {
+    tab: null,
+  }
 
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
@@ -45,13 +50,20 @@ export default class Editor extends Component {
   }
 
   changeSearch = s => this.props.updateEditorSearch(s);
-  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+
+  changeCurrentDisplay = (id) => {
+    const { updateViewTab, viewId } = this.props;
+    updateViewTab(viewId, id);
+  }
 
   render() {
-    const { currentDisplay } = this.state;
     const {
       openModal,
+      tab,
       viewId,
+      panels,
+      entryPointsPanels,
+      updateViewPanels,
       configuration: {
         entryPoints,
         search,
@@ -61,12 +73,12 @@ export default class Editor extends Component {
     return (
       <div className={styles.contentWrapper}>
         <Navbar
-          currentDisplay={currentDisplay}
+          currentDisplay={tab === null ? 0 : tab}
           items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
         />
         <div className={styles.content}>
-          {currentDisplay === 0 && <div>
+          {(tab === 0 || tab === null) && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
               openModal={openModal}
@@ -75,12 +87,22 @@ export default class Editor extends Component {
               search={search}
             />
             <EntryPointTree
+              viewId={viewId}
               entryPoints={entryPoints}
               search={search}
               remove={this.removeEntryPoint}
+              entryPointsPanels={entryPointsPanels}
+              updateViewPanels={updateViewPanels}
             />
           </div>}
-          {currentDisplay === 1 && <TextTabContainer />}
+          {
+            tab === 1 &&
+            <TextTabContainer
+              viewId={viewId}
+              updateViewPanels={updateViewPanels}
+              panels={panels}
+            />
+          }
         </div>
       </div>
     );

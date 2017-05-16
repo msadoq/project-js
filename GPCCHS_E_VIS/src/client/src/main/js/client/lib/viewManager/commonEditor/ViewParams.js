@@ -7,6 +7,8 @@ export default class ViewParams extends React.Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     updateBgColor: PropTypes.func.isRequired,
+    updateDomainName: PropTypes.func.isRequired,
+    updateSessionName: PropTypes.func.isRequired,
     backgroundColor: PropTypes.string,
     title: PropTypes.string,
     titleStyle: PropTypes.shape({
@@ -27,6 +29,10 @@ export default class ViewParams extends React.Component {
       length: PropTypes.number.isRequired,
       width: PropTypes.number.isRequired,
     }).isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    domainName: PropTypes.string,
+    sessionName: PropTypes.string,
   }
 
   static defaultProps = {
@@ -42,12 +48,15 @@ export default class ViewParams extends React.Component {
       color: '#000000',
     },
     backgroundColor: '#000000',
+    domainName: '',
+    sessionName: '',
   }
 
   handleSubmit = (values) => {
     const {
       updateTitle, updateTitleStyle,
       updateBgColor, viewId,
+      updateDomainName, updateSessionName,
     } = this.props;
 
     if (this.props.backgroundColor !== values.backgroundColor) {
@@ -59,6 +68,12 @@ export default class ViewParams extends React.Component {
     if (this.props.titleStyle !== values.titleStyle) {
       updateTitleStyle(viewId, values.titleStyle);
     }
+    if (this.props.domainName !== values.domainName) {
+      updateDomainName(viewId, values.domainName);
+    }
+    if (this.props.sessionName !== values.sessionName) {
+      updateSessionName(viewId, values.sessionName);
+    }
   }
 
   render() {
@@ -69,6 +84,10 @@ export default class ViewParams extends React.Component {
       links,
       defaultRatio,
       viewId,
+      domains,
+      sessions,
+      domainName,
+      sessionName,
     } = this.props;
     const initVals = {
       backgroundColor,
@@ -76,12 +95,16 @@ export default class ViewParams extends React.Component {
       titleStyle,
       links,
       defaultRatio,
+      domainName,
+      sessionName,
     };
     return (
       <ViewParamsForm
         initialValues={initVals}
         onSubmit={this.handleSubmit}
         form={`view-title-form-${viewId}`}
+        domains={domains}
+        sessions={sessions}
       />
     );
   }

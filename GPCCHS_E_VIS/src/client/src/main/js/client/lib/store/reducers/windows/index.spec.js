@@ -9,6 +9,8 @@ import windowsReducer, {
   getWindowFocusedPageId,
   getDisplayHelp,
   getWindowTitle,
+  getWindowDomainName,
+  getWindowSessionName,
 } from '../windows';
 import * as types from '../../types';
 
@@ -65,7 +67,12 @@ describe('store:windows:reducer', () => {
       newState.window2.isModified.should.be.true;
     });
     it('modify if update timebarId', () => {
-      const newState = reducer(state, { type: types.WS_PAGE_UPDATE_TIMEBARID });
+      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_MOUNT });
+      newState.window1.isModified.should.be.true;
+      newState.window2.isModified.should.be.true;
+    });
+    it('modify if update timebarId', () => {
+      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_UNMOUNT });
       newState.window1.isModified.should.be.true;
       newState.window2.isModified.should.be.true;
     });

@@ -41,7 +41,8 @@ export const updateTitle = simple(types.WS_WINDOW_UPDATE_TITLE, 'windowId', 'tit
 
 export const displayHelp = simple(types.WS_WINDOW_SET_DISPLAY_HELP, 'windowId', 'display');
 
-export const moveTabOrder = simple(types.WS_WINDOW_MOVE_TAB_ORDER, 'windowId', 'keyFrom', 'keyTarget');
+export const moveTabOrder =
+  simple(types.WS_WINDOW_MOVE_TAB_ORDER, 'windowId', 'keyFrom', 'keyTarget');
 
 /**
  * Compound actions

@@ -16,28 +16,40 @@ export function reset(domains) {
 }
 
 export function save(search, result) {
-  _set(memoizedSearchs, [search], result);
+  if (search !== get('WILDCARD_CHARACTER')) {
+    _set(memoizedSearchs, [search], result);
+  }
 }
 
-export function find(search, domains) {
-  if (search === get('WILDCARD_CHARACTER')) {
-    return { error: 'invalid entry point, domain wildcard not already supported' };
-  }
+export function find(search, domains, viewDomain, pageDomain, workspaceDomain) {
   if (!domains || !domains.length) {
     return { error: 'invalid entry point, no domain available' };
   }
   if (search === '' || _isNull(search) || _isUndefined(search)) {
     return { error: 'invalid entry point, invalid domain field' };
   }
+  let domainName = search;
+  if (search === get('WILDCARD_CHARACTER')) {
+    // Look to domainNames defined on
+    if (viewDomain) { // 1. view
+      domainName = viewDomain;
+    } else if (pageDomain) {  // 2. page
+      domainName = pageDomain;
+    } else if (workspaceDomain) { // 3. workspace
+      domainName = workspaceDomain;
+    } else {
+      return { error: 'invalid entry point, domain not defined on entities' };
+    }
+  }
 
-  const domainIds = _map(_filter(domains, d => d.name === search), d => d.domainId);
+  const domainIds = _map(_filter(domains, d => d.name === domainName), d => d.domainId);
   if (domainIds.length < 1) {
     return { error: 'invalid entry point, no domain matches' };
   } else if (domainIds.length > 1) {
     return { error: 'invalid entry point, more than one domains match' };
   }
 
-  return { domainId: domainIds[0] };
+  return { domainId: domainIds[0], domainName };
 }
 
 /**
@@ -47,9 +59,17 @@ export function find(search, domains) {
  *
  * @param domains
  * @param search
+ * @param viewDomain
+ * @param pageDomain
+ * @param workspaceDomain
  * @returns {*}
  */
-export default function findDomain(domains, search) {
+export default function findDomain(
+  domains,
+  search,
+  viewDomain,
+  pageDomain,
+  workspaceDomain) {
   // domains have changed
   if (memoizedDomains !== domains) {
     reset(domains);
@@ -57,7 +77,10 @@ export default function findDomain(domains, search) {
 
   // perform new search
   if (!_has(memoizedSearchs, [search])) {
-    save(search, find(search, memoizedDomains));
+    const domain =
+      find(search, memoizedDomains, viewDomain, pageDomain, workspaceDomain);
+    save(search, domain);
+    return domain;
   }
 
   return _get(memoizedSearchs, [search]);

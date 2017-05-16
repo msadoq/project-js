@@ -11,7 +11,7 @@ export default class InputField extends React.Component {
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     placeholder: PropTypes.string,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     type: PropTypes.string.isRequired,
     meta: PropTypes.shape({
       active: PropTypes.bool,
@@ -30,6 +30,7 @@ export default class InputField extends React.Component {
 
   static defaultProps = {
     placeholder: '',
+    className: 'form-control input-sm',
   }
 
   render() {
@@ -55,7 +56,7 @@ export default class InputField extends React.Component {
       >
         <input
           {...input}
-          className={classnames('form-control input-sm', className)}
+          className={className}
           placeholder={placeholder}
           type={type}
         />

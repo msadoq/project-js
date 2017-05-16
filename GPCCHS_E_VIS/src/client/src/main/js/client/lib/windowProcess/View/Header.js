@@ -84,7 +84,7 @@ export default class Header extends PureComponent {
         this.save();
         break;
       case 'saveAs':
-        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
+        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs: true });
         break;
       case 'reload':
         main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId });
@@ -109,19 +109,20 @@ export default class Header extends PureComponent {
     return (
       <ul className="dropdown-menu open" style={ulStyle} id={`menu${this.props.viewId}`}>
         <MenuItem onSelect={this.onDropDownClick} eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick} eventKey="move">Move to another page</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick} eventKey="collapse">Collapse</MenuItem>
+        <MenuItem divider />
+        <MenuItem onSelect={this.onDropDownClick} eventKey="move">Move view to...</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick} eventKey="collapse">Collapse view</MenuItem>
         {
-          maximized ? <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Minimize</MenuItem> :
-          <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Maximize</MenuItem>
+          maximized ? <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Minimize view</MenuItem> :
+          <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Maximize view</MenuItem>
         }
         {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="reload">Reload view</MenuItem>
                        : <MenuItem onSelect={this.onDropDownClick} eventKey="reload" disabled>Reload view</MenuItem>}
         <MenuItem divider />
-        {isPathDefined ? <MenuItem onSelect={this.onDropDownClick} eventKey="save">Save</MenuItem>
-                       : <MenuItem onSelect={this.onDropDownClick} eventKey="save" disabled>Save</MenuItem>}
-        <MenuItem onSelect={this.onDropDownClick} eventKey="saveAs">Save as</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick}eventKey="createModel">Create a model from view</MenuItem>
+        {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="save">Save view</MenuItem>
+                       : <MenuItem onSelect={this.onDropDownClick} eventKey="save" disabled>Save view</MenuItem>}
+        <MenuItem onSelect={this.onDropDownClick} eventKey="saveAs">Save view as...</MenuItem>
+        <MenuItem onSelect={this.onDropDownClick}eventKey="createModel">Save view as a model...</MenuItem>
         <MenuItem divider />
         <MenuItem onSelect={this.onDropDownClick} eventKey="close">Close view</MenuItem>
       </ul>
@@ -130,14 +131,14 @@ export default class Header extends PureComponent {
 
 
   getTitleStyle() {
-    const { titleStyle } = this.props;
+    const { titleStyle, isViewsEditorOpen } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
       color: titleStyle.color ? titleStyle.color : null,
       background: titleStyle.bgColor ? titleStyle.bgColor : null,
-      fontWeight: 'normal',
+      fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
       textDecoration: 'none',
       paddingRight: '57px',
@@ -163,14 +164,8 @@ export default class Header extends PureComponent {
   }
   save = (e) => {
     if (e) e.preventDefault();
-    const {
-      viewId,
-      absolutePath,
-    } = this.props;
-    main.message(
-      globalConstants.IPC_METHOD_SAVE_VIEW,
-      { saveMode: absolutePath, viewId }
-    );
+    const { viewId } = this.props;
+    main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
   }
   render() {
     const {
@@ -192,9 +187,9 @@ export default class Header extends PureComponent {
       >
         <div
           style={titleStyle}
-          className={`${styles.title} moveHandler ellipsis`}
+          className={`moveHandler ellipsis ${styles.title}`}
         >
-          {title}
+          {title}{isViewsEditorOpen ? ' (in edition)' : ''}
         </div>
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&
@@ -217,23 +212,25 @@ export default class Header extends PureComponent {
               />,
             ]
           }
-          {collapsed &&
-            [
-              <button
-                key={1}
-                className={styles.expandButton}
-                onClick={this.expand}
-              >
-                &#9633;
-              </button>,
-              <button
-                key={2}
-                className={classnames(styles.expandButton, styles.saveButton)}
-                onClick={this.save}
-              >
-                SAVE
-              </button>,
-            ]
+          {
+            collapsed &&
+            <button
+              className={styles.expandButton}
+              onClick={this.expand}
+              title="Expand"
+            >
+              &#9633;
+            </button>
+          }
+          {
+            (collapsed && isModified) &&
+            <button
+              key={2}
+              className={classnames(styles.expandButton, styles.saveButton)}
+              onClick={this.save}
+            >
+              SAVE
+            </button>
           }
         </div>
       </div>

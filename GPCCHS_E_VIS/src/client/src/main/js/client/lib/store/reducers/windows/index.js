@@ -39,7 +39,8 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_TIMELINE_REMOVE:
-    case types.WS_PAGE_UPDATE_TIMEBARID: {
+    case types.WS_PAGE_TIMEBAR_MOUNT:
+    case types.WS_PAGE_TIMEBAR_UNMOUNT: {
       return _.mapValues(_.set('isModified', true), stateWindows);
     }
     default: {

@@ -1,7 +1,4 @@
 import { dirname } from 'path';
-import _omit from 'lodash/fp/omit';
-import _isArray from 'lodash/fp/isArray';
-import _cloneDeep from 'lodash/cloneDeep';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
 import { server } from '../mainProcess/ipc';
@@ -10,45 +7,33 @@ import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
 
-const saveViewAs = (view, viewType, path, callback) => {
+const saveViewAs = (view, path, callback) => {
   if (!view) {
-    callback(new Error('No view'));
-    return;
+    return callback(new Error('No view'));
   }
-  createFolder(dirname(path), (err) => {
+  return createFolder(dirname(path), (err) => {
     if (err) {
-      callback(err);
-      return;
+      return callback(err);
     }
-    if (!isViewTypeSupported(viewType)) {
-      callback(new Error(`Invalid view type '${viewType}'`), view);
-      return;
+    if (!isViewTypeSupported(view.type)) {
+      return callback(new Error(`Invalid view type '${view.type}'`), view);
     }
 
-    const viewToSave = _cloneDeep(view);
+    const preparedView = getViewModule(view.type).prepareViewForFile(view);
 
-    // Remove entry point id
-    // TODO garm -> viewManager + add test
-    if (_isArray(viewToSave.configuration.entryPoints)) {
-      viewToSave.configuration.entryPoints = viewToSave.configuration.entryPoints.map(_omit('id'));
-    }
+    const schema = getSchema(view.type);
+    const validationError = validation(view.type, preparedView, schema);
 
-    const preparedView = getViewModule(viewType).prepareViewForFile(viewToSave);
-
-    const schema = getSchema(viewType);
-    const validationError = validation(viewType, preparedView, schema);
     if (validationError) {
-      callback(validationError);
-      return;
+      return callback(validationError);
     }
 
-    writeDocument(path, preparedView, (errWrite, oId) => {
+    return writeDocument(path, preparedView, (errWrite, oId) => {
       if (errWrite) {
-        callback(errWrite);
-        return;
+        return callback(errWrite);
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
-      callback(null, oId);
+      return callback(null, oId);
     });
   });
 };

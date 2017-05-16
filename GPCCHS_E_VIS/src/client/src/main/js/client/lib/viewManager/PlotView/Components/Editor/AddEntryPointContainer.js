@@ -8,7 +8,6 @@ import AddEntryPointWrapper from './AddEntryPointWrapper';
 export default connect(
   (state, { viewId }) => {
     const viewConfiguration = getConfigurationByViewId(state, { viewId });
-    console.log('viewConfiguration', viewConfiguration);
     return {
       axes: viewConfiguration.axes,
     };

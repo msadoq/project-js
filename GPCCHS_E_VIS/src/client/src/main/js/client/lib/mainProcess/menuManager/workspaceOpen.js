@@ -83,7 +83,7 @@ function allDocumentsAreSaved(store, cb) {
             return;
           }
           store.dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
-          saveWorkspace(store.getState(), true, (err) => {
+          saveWorkspace(store.getState(), (err) => {
             if (err) {
               cb(err);
               return;

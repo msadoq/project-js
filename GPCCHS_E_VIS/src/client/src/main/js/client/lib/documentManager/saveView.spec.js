@@ -130,7 +130,7 @@ describe('documentManager/saveViews', () => {
   describe('PlotView', () => {
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.plot1);
-      saveViewAs(view, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.absolutePath, (err) => {
         should.not.exist(err);
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.true;
@@ -141,7 +141,7 @@ describe('documentManager/saveViews', () => {
     it('saveAs fail', (done) => {
       state.views.plot1.configuration.title = undefined;
       const view = freezeMe(state.views.plot1);
-      saveViewAs(view, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.absolutePath, (err) => {
         expect(err).to.be.an('error');
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.false;
@@ -153,7 +153,7 @@ describe('documentManager/saveViews', () => {
   describe('TextView', () => {
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.text1);
-      saveViewAs(view, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.absolutePath, (err) => {
         should.not.exist(err);
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.true;
@@ -164,7 +164,7 @@ describe('documentManager/saveViews', () => {
     it('saveAs fail', (done) => {
       state.views.text1.configuration.content = undefined;
       const view = freezeMe(state.views.text1);
-      saveViewAs(view, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.absolutePath, (err) => {
         expect(err).to.be.an('error');
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.false;
@@ -176,7 +176,7 @@ describe('documentManager/saveViews', () => {
   describe('DynamicView', () => {
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.dynamic1);
-      saveViewAs(view, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.absolutePath, (err) => {
         should.not.exist(err);
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.true;
@@ -187,7 +187,7 @@ describe('documentManager/saveViews', () => {
     it('saveAs fail', (done) => {
       state.views.dynamic1.configuration.entryPoints = ['invalid entrypoints'];
       const view = freezeMe(state.views.dynamic1);
-      saveViewAs(view, view.type, view.absolutePath, (err) => {
+      saveViewAs(view, view.absolutePath, (err) => {
         expect(err).to.be.an('error');
         fs.isExists(view.absolutePath, (exist) => {
           exist.should.be.false;

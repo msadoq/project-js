@@ -84,44 +84,4 @@ describe('store:actions:hsc', () => {
       });
     });
   });
-
-  describe('pause', () => {
-    it('just dispatch pause', () => {
-      actions.pause()(dispatch, getStateCritical);
-      dispatch.should.have.been.calledOnce;
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSC_PAUSE,
-      });
-    });
-
-    it('pause and setRealTime to false for all windows', () => {
-      actions.pause()(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.an('object');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSC_PAUSE,
-      });
-
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_TIMEBAR_SET_REALTIME,
-        payload: {
-          timebarUuid: 'a',
-          flag: false,
-        },
-      });
-
-      dispatch.getCall(2).should.have.been.calledWith({
-        type: types.WS_TIMEBAR_SET_REALTIME,
-        payload: {
-          timebarUuid: 'b',
-          flag: false,
-        },
-      });
-    });
-  });
 });

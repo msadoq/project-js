@@ -1,0 +1,42 @@
+{
+  "type": "MimicView",
+  "title": "New Mimic View",
+  "titleStyle": {
+    "color": "#FFF",
+    "underline": true,
+    "bgColor": "#2196f3",
+    "align": "center"
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "content": "<path d=\"M50,180 l16,0 l0,-160 l-16,0 z\" style=\" fill:#EEE\" />\n<g animation='scaleY' ep='Toto' domain='137,140' fixed='bottom'>\n  <path d=\"M50,180 l16,0 l0,-160 l-16,0 z\" style=\" fill:#A49\" />\n</g>\n<g animation='translateY' ep='Toto' domain='137,140' width='160' direction='top'>\n  <path d=\"M46,181 l24,0 l0,-2 l-24,0 z\" style=\" fill: #666\" />\n</g>\n<g x='40' y='200' animation='textBox' ep='Toto' textcolor='0$#00F;139$#F00' bgcolor='0$#FFF;139$#FDD'>-</g>\n\n<path d=\"M100,180 l16,0 l0,-160 l-16,0 z\" style=\" fill:#EEE\" />\n<g animation='scaleY' ep='Titi' domain='117,121' fixed='bottom'>\n  <path d=\"M100,180 l16,0 l0,-160 l-16,0 z\" style=\" fill:#5C2\" />\n</g>\n<g animation='translateY' ep='Titi' domain='117,121' width='160' direction='top'>\n  <path d=\"M96,181 l24,0 l0,-2 l-24,0 z\" style=\" fill: #666\" />\n</g>\n<g x='90' y='200' animation='textBox' ep='Titi' textcolor='0$#00F;118$#F00' bgcolor='0$#FFF;118$#FDD'>-</g>\n\n<path d=\"M200,90 l160,0 l0,-16 l-160,0 z\" style=\" fill:#EEE\" />\n<g animation='scaleX' ep='Titi' domain='117,120' fixed='left'>\n  <g animation='colour' ep='Titi' operators='<=$119$#8AE*>$118$#45C'>\n    <path d=\"M200,90 l160,0 l0,-16 l-160,0 z\" style=\" fill:#67D\" />\n  </g>\n</g>\n<g animation='translateX' ep='Titi' domain='117,120' width='160' direction='right'>\n  <path d=\"M199,94 l2,0 l0,-24 l-2,0 z\" style=\" fill: #666\" />\n</g>\n<g x='284' y='111' animation='textBox' ep='Titi' textcolor='0$#00F;118$#F00' bgcolor='0$#FFF;118$#FDD'>-</g>\n<text x=\"220\" y=\"110\" fill=\"#666\" style=\"font-weight:bold;\">EP [ Titi ] : </text>\n\n<path d=\"M200,40 l160,0 l0,-4, l-160,0 z\" style=\" fill: #EEE; stroke: #CCC;\" />\n<g animation='translateX' ep='Titi' domain='117,121' width='160'>\n  <ellipse cx=\"200\" cy=\"38\" rx=\"8\" ry=\"8\" style=\"fill: #DDD; stroke: #CCC;\" />\n</g>",
+  "entryPoints": [
+    {
+      "name": "Toto",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "Titi",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    }
+  ]
+}

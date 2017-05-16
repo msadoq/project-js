@@ -1,0 +1,12 @@
+.colorSquare{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+.removeButton{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}

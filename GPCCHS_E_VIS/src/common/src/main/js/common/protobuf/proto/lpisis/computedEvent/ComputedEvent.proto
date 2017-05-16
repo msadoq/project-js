@@ -2,7 +2,7 @@
 import "../ccsds_mal/types.proto";
 import "../ccsds_cs/Provider.proto";
 import "../ccsds_mal/NamedValue.proto";
-import "./computedEvent/EventClass.proto";
+import "./EventClass.proto";
 
 package computedEvent.protobuf;
 

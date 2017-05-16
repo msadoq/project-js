@@ -1,7 +1,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "file/ProfileRight.proto";
-import "file/UserRight.proto";
+import "../ccsds_mal/types.proto";
+import "./ProfileRight.proto";
+import "./UserRight.proto";
 
 
 package file.protobuf;

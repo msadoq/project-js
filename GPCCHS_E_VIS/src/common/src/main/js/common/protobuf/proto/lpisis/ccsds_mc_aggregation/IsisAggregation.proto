@@ -1,8 +1,8 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "ccsds_mc_aggregation/Parameter.proto";
-import "ccsds_mc_aggregation/GenerationMode.proto";
-import "ccsds_mc_aggregation/packetType.proto";
+import "../ccsds_mal/types.proto";
+import "./Parameter.proto";
+import "./GenerationMode.proto";
+import "./packetType.proto";
 
 package ccsds_mc_aggregation.protobuf;
 

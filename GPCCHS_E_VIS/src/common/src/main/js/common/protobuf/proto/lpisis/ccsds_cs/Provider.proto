@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "ccsds_cs/ServiceAddress.proto";
+import "../ccsds_mal/types.proto";
+import "./ServiceAddress.proto";
 
 
 package ccsds_cs.protobuf;

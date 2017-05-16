@@ -1,8 +1,8 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "pusGroundModel/Pus018ConfiguredObcp.proto";
-import "pusGroundModel/Pus018Obcp.proto";
-import "pusGroundModel/PusElement.proto";
+import "../ccsds_mal/types.proto";
+import "./Pus018ConfiguredObcp.proto";
+import "./Pus018Obcp.proto";
+import "./PusElement.proto";
 
 
 package pusGroundModel.protobuf;

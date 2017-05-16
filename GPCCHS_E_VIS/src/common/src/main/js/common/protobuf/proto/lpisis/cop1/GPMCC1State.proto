@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "cop1/ProccessedTC.proto";
+import "../ccsds_mal/types.proto";
+import "./ProccessedTC.proto";
 
 
 package cop1.protobuf;

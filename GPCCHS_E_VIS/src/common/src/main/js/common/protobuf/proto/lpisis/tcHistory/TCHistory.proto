@@ -1,8 +1,8 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "tcHistory/ExpectedAck.proto";
-import "tcHistory/SuccessiveAck.proto";
-import "tcHistory/SendTypeEnum.proto";
+import "../ccsds_mal/types.proto";
+import "./ExpectedAck.proto";
+import "./SuccessiveAck.proto";
+import "./SendTypeEnum.proto";
 
 package tcHistory.protobuf;
 

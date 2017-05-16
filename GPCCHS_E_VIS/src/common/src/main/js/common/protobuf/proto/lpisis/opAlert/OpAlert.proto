@@ -1,9 +1,9 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "ccsds_mal/NamedValue.proto";
-import "opAlert/OpAlertClosingData.proto";
-import "opAlert/OpAlertConfiguration.proto";
-import "opAlert/Status.proto";
+import "../ccsds_mal/types.proto";
+import "../ccsds_mal/NamedValue.proto";
+import "./OpAlertClosingData.proto";
+import "./OpAlertConfiguration.proto";
+import "./Status.proto";
 
 package opAlert.protobuf;
 

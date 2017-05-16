@@ -17,10 +17,8 @@ function register(tree) {
     const rootPath = join(__dirname, 'proto', root);
     _each(namespaces, (protos, namespace) => {
       const attach = {};
-      types[root][namespace] = {};
-      
+      types[root][namespace] = {};    
       _each(protos, (mapper, proto) => {
-        
         // append definition to builder
         const builder = ProtoBuf.loadSync(`${rootPath}/${namespace}/${proto}.proto`);
         if (!builder) {
@@ -69,6 +67,7 @@ const getProtobufType = (key) => {
 
 module.exports.encode = function encode(type, raw) {
   const Builder = getProtobufType(type);
+
   // console.log(Builder);
   const payload = Builder.mapper
     ? Builder.mapper.encode(raw)
@@ -80,7 +79,6 @@ module.exports.encode = function encode(type, raw) {
 module.exports.decode = function decode(type, buffer) {
   const builder = getProtobufType(type);
   const raw = builder.decode(buffer);
-  
   const r = builder.mapper
     ? builder.mapper.decode(raw)
     : raw;

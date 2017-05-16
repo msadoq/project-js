@@ -16,7 +16,7 @@ const rootpath = `${__dirname}`;
 // TODO add missing MAL types
 const decoders = {
   ATTRIBUTE: arg => decodeAttribute(arg).value,
-  BLOB: arg => arg.value.toBuffer(),
+  BLOB: arg => arg.value,
   BOOLEAN: arg => arg.value,
   DURATION: arg => arg.value,
   FLOAT: arg => arg.value,
@@ -41,11 +41,11 @@ const decoders = {
 
 const checkBuffer = (type, file, value, decoder) => {
   const data = fs.readFileSync(file);
-  // console.log(type, value, 'BUF', data);
+  //console.log(type, value, 'BUF', data);
   const buf = protobuf.decode(protobuf.getType(type), data);
-  // console.log(type, value, 'BUF', buf);
+  //console.log(type, value, 'BUF', buf);
   const json = decoder(buf);
-  // console.log(type, value, 'JSON', json);
+  console.log(type, value, 'JSON', json);
   json.should.deep.equal(value);
 };
 

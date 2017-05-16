@@ -1,10 +1,10 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "cop1/ClcwSegmentMask.proto";
-import "cop1/IfQueueElement.proto";
-import "cop1/DecoderType.proto";
-import "cop1/ModeType.proto";
-import "cop1/TerminateType.proto";
+import "../ccsds_mal/types.proto";
+import "./ClcwSegmentMask.proto";
+import "./IfQueueElement.proto";
+import "./DecoderType.proto";
+import "./ModeType.proto";
+import "./TerminateType.proto";
 
 package cop1.protobuf;
 

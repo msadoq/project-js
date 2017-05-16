@@ -4,6 +4,7 @@ const stubData = require('../../../../stubs/data');
 
 describe('protobuf/dc/dataControllerUtils/queryArguments', () => {
   const fixture = stubData.getQueryArguments();
+  console.log("FIXTURE : ",fixture);
   let buffer;
   it('encode', () => {
     buffer = protobuf.encode('dc.dataControllerUtils.QueryArguments', fixture);

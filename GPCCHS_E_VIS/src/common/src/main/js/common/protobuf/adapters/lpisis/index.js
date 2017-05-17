@@ -1,7 +1,10 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 /* eslint-disable global-require, "DV6 TBC_CNES generated file" */
+const { register } = require('../../index');
+const { join } = require('path');
 
-module.exports = {
+register(join(__dirname, '../../proto/lpisis'), 'lpisis', { // TODO .proto should be collocated with adapters
+  ccsds_mal: { types: null }, // TODO rperrot why this line is needed?
   tcHistory: {
     TC11: require('./tcHistory/tC11'),
     TC13: require('./tcHistory/tC13'),
@@ -124,4 +127,4 @@ module.exports = {
   opAlert: {
     OpAlert: require('./opAlert/opAlert'),
   },
-};
+});

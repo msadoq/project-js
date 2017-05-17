@@ -7,7 +7,7 @@ import { series, each } from 'async';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import getHtmlPath from './getHtmlPath';
-import { getStore } from '../../store/mainStore';
+import { getStore } from '../../store/isomorphic';
 import {
   focusWindow,
   blurWindow,

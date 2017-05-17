@@ -13,10 +13,11 @@
     "coverageDirectory": "coverage/snapshot"
   },
   "scripts": {
-    "build": "npm run build:main && npm run build:renderer",
+    "build": "npm run build:main && npm run build:renderer && npm run build:server",
     "build:main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
-    "clean": "rimraf ./dist ./main.js ./main.js.map stats.json",
+    "build:server": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.server.js --progress --profile --colors",
+    "clean": "rimraf ./dist ./main.js ./main.js.map ./server.js ./server.js.map stats.json",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello) && npm run install-rtd",
     "lint": "eslint .",
@@ -38,7 +39,7 @@
     "install-rtd": "./manageRTD.sh --install && cd node_modules/rtd && npm install",
     "copy-rtd": "./manageRTD.sh --copy",
     "postinstall": "electron-rebuild",
-    "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
+    "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -53,13 +54,11 @@
   "dependencies": {
     "ajv": "~4.11.5",
     "asar": "~0.13.0",
-    "async": "~2.3.0",
+    "async": "~2.4.0",
     "babel-core": "~6.24.0",
     "babel-eslint": "~7.2.1",
     "babel-jest": "~19.0.0",
     "babel-loader": "~6.4.1",
-    "babel-plugin-add-module-exports": "~0.2.1",
-    "babel-plugin-dev-expression": "~0.2.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-class-properties": "~6.23.0",
     "babel-polyfill": "~6.23.0",
@@ -81,6 +80,7 @@
     "d3-scale": "~1.0.5",
     "d3-selection": "^1.0.5",
     "d3-time-format": "~2.0.5",
+    "decimal.js": "^7.2.1",
     "deep-diff": "~0.3.4",
     "deep-freeze": "~0.0.1",
     "devtron": "~1.4.0",
@@ -162,7 +162,8 @@
     "webpack-dev-middleware": "~1.10.1",
     "webpack-hot-middleware": "~2.18.0",
     "webpack-merge": "~1.1.2",
-    "why-did-you-update": "~0.0.8"
+    "why-did-you-update": "~0.0.8",
+    "zmq": "^2.15.3"
   },
   "peerDependencies": {
     "rtd": "node_modules/rtd",
@@ -189,5 +190,8 @@
     ],
     "report-dir": "./coverage/test"
   },
-  "style": "./lib/app.global.css"
+  "style": "./lib/app.global.css",
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1"
+  }
 }

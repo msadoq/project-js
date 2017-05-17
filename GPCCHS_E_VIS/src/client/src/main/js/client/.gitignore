@@ -44,5 +44,7 @@ dist
 release
 /main.js
 /main.js.map
+/server.js
+/server.js.map
 .env
 stats.json

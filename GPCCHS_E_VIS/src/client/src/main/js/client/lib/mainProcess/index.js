@@ -17,7 +17,7 @@ import { setRtd } from '../rtdManager';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
-import { initStore, getStore } from '../store/mainStore';
+import { initStore, getStore } from '../store/isomorphic';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
@@ -45,10 +45,6 @@ function scheduleTimeout(message) {
 
 export function onStart() {
   setMenu();
-  const forkOptions = {
-    execPath: parameters.get('NODE_PATH'),
-    env: parameters.getAll(),
-  };
 
   series([
     callback => splashScreen.open(callback),
@@ -57,7 +53,6 @@ export function onStart() {
       splashScreen.setMessage('loading data store...');
       logger.info('loading data store...');
 
-      // redux store
       initStore();
 
       callback(null);
@@ -73,7 +68,10 @@ export function onStart() {
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
-        forkOptions,
+        {
+          execPath: parameters.get('NODE_PATH'),
+          env: parameters.getAll(),
+        },
         callback
       );
     },
@@ -83,8 +81,8 @@ export function onStart() {
       if (parameters.get('STUB_RTD_ON') === 'on') {
         stub = true;
       }
-      splashScreen.setMessage('connecting rtd...');
-      logger.info('connecting rtd...');
+      splashScreen.setMessage('starting data RTD client...');
+      logger.info('starting RTD client...');
       createRtd({ socket, stub }, (err, rtd) => {
         if (err) {
           callback(err);
@@ -95,14 +93,24 @@ export function onStart() {
       });
     },
     (callback) => {
-      splashScreen.setMessage('starting data server process...');
-      logger.info('starting data server process...');
-      fork(
-        CHILD_PROCESS_SERVER,
-        `${parameters.get('path')}/node_modules/server/index.js`,
-        forkOptions,
-        callback
-      );
+      if (parameters.get('IS_BUNDLED') === 'on') {
+        splashScreen.setMessage('starting data server process...');
+        logger.info('starting data server process...');
+
+        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/server.js`, {
+          execPath: parameters.get('NODE_PATH'),
+          env: parameters.getAll(),
+        }, callback);
+      } else {
+        splashScreen.setMessage('starting data server process... (dev)');
+        logger.info('starting data server process... (dev)');
+
+        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/node_modules/server/index.js`, {
+          execPath: parameters.get('NODE_PATH'),
+          execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+          env: parameters.getAll(),
+        }, callback);
+      }
     },
     (callback) => {
       splashScreen.setMessage('synchronizing processes...');

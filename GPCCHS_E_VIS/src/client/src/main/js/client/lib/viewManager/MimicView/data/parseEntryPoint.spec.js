@@ -1,7 +1,7 @@
 import globalConstants from 'common/constants';
 import parseEntryPoint from './parseEntryPoint';
 
-describe('viewManager/TextView/data/parseEntryPoint', () => {
+describe('viewManager/MimicView/data/parseEntryPoint', () => {
   let timelines;
   let domains;
   let entryPoint;
@@ -40,7 +40,7 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
   it('no connectedData', () => {
     const ep = parseEntryPoint(domains, sessions, timelines,
       { name: 'ATT_BC_STR1VOLTAGE', connectedData: { formula: '' } },
-      'Session 1', 'TB1', 'TextView');
+      'Session 1', 'TB1', 'MimicView');
     ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } });
   });
   it('no timebarUuid', () => {
@@ -48,7 +48,7 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
     ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } });
   });
   it('valid', () => {
-    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView')
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'MimicView')
     .should.eql({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
@@ -63,12 +63,12 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
         },
         field: 'extractedValue',
         offset: 0,
-        filter: {},
+        filters: {},
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
         structureType: globalConstants.DATASTRUCTURETYPE_LAST,
-        remoteId: 'last@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
-        type: 'TextView',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        type: 'MimicView',
       },
     });
   });

@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { getStore } from '../../store/mainStore';
+import { getStore } from '../../store/isomorphic';
 import { closeHtmlEditor } from '../../store/actions/editor';
 import { getEditorTextViewId } from '../../store/reducers/editor';
 import { getEditorWindowTitle } from './selectors';

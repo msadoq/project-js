@@ -1,12 +1,14 @@
-#!/usr/bin/env node
-
 const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
+require('common/protobuf/adapters/dc');
+require('common/protobuf/adapters/lpisis');
 const clientController = require('./lib/controllers/client');
 const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');
 const schedulerController = require('./lib/controllers/scheduler');
+
+// const { initStore } = require('../../../../../client/src/main/js/client/lib/store/isomorphic');
 
 process.title = 'gpcchs_hss';
 
@@ -25,7 +27,6 @@ const zmqConfiguration = {
   },
 };
 
-// start
 zmq.open(zmqConfiguration, (err) => {
   if (err) {
     throw err;
@@ -36,6 +37,9 @@ zmq.open(zmqConfiguration, (err) => {
 
   // ipc with main
   process.on('message', clientController);
+
+  // const store = initStore();
+  // store.subscribe(state => console.log('STORE SUBSCRIPTION'));
 
   process.send('ready');
 });

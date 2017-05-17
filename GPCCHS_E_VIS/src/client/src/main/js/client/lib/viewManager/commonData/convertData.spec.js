@@ -1,6 +1,6 @@
 import { isLongValue, convertLongData, updateObjectValues } from './convertData';
 
-describe('viewManager/utils/longData', () => {
+describe('viewManager/commonData/convertData', () => {
   it('isLongValue: yes', () => {
     const data = { type: 'long' };
     isLongValue(data).should.eql(true);
@@ -70,7 +70,7 @@ describe('viewManager/utils/longData', () => {
           sid: { type: 'uinteger', value: 100 },
           validityParameterId: { type: 'uinteger', value: 100 },
           validityParameterMask: { type: 'string', value: 'mySTRING' },
-          validityParameterExpectedValue: { type: 'double', value: 88.0390526054104 },
+          validityParameterExpectedValue: { type: 'double', symbol: '88.0390526054104' },
           collectionInterval: { type: 'duration', value: 4242 },
           status: { type: 'uinteger', value: 100 },
           pusElement: {
@@ -88,7 +88,7 @@ describe('viewManager/utils/longData', () => {
             sid: { type: 'uinteger', value: 100 },
             validityParameterId: { type: 'uinteger', value: 100 },
             validityParameterMask: { type: 'string', value: 'mySTRING' },
-            validityParameterExpectedValue: { type: 'double', value: 88.0390526054104 },
+            validityParameterExpectedValue: { type: 'double', symbol: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
@@ -102,7 +102,7 @@ describe('viewManager/utils/longData', () => {
             sid: { type: 'uinteger', value: 100 },
             validityParameterId: { type: 'uinteger', value: 100 },
             validityParameterMask: { type: 'string', value: 'mySTRING' },
-            validityParameterExpectedValue: { type: 'double', value: 88.0390526054104 },
+            validityParameterExpectedValue: { type: 'double', symbol: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
@@ -118,7 +118,8 @@ describe('viewManager/utils/longData', () => {
             sid: { type: 'uinteger', value: 100 },
             validityParameterId: { type: 'uinteger', value: 100 },
             validityParameterMask: { type: 'string', value: 'mySTRING' },
-            validityParameterExpectedValue: { type: 'double', value: 88.0390526054104 },
+            validityParameterExpectedValue:
+              { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
@@ -136,7 +137,8 @@ describe('viewManager/utils/longData', () => {
             sid: { type: 'uinteger', value: 100 },
             validityParameterId: { type: 'uinteger', value: 100 },
             validityParameterMask: { type: 'string', value: 'mySTRING' },
-            validityParameterExpectedValue: { type: 'double', value: 88.0390526054104 },
+            validityParameterExpectedValue:
+              { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
@@ -150,7 +152,8 @@ describe('viewManager/utils/longData', () => {
             sid: { type: 'uinteger', value: 100 },
             validityParameterId: { type: 'uinteger', value: 100 },
             validityParameterMask: { type: 'string', value: 'mySTRING' },
-            validityParameterExpectedValue: { type: 'double', value: 88.0390526054104 },
+            validityParameterExpectedValue:
+              { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
             status: { type: 'uinteger', value: 100 },
             pusElement: {

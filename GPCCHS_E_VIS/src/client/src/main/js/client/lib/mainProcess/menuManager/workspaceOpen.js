@@ -10,7 +10,7 @@ import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
 import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
 import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
-import { getStore } from '../../store/mainStore';
+import { getStore } from '../../store/isomorphic';
 
 const isYes = equals(0);
 const isNo = equals(1);

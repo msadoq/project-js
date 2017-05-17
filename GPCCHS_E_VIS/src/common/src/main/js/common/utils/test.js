@@ -1,6 +1,3 @@
-// disable HTTP server logs for test run
-process.env.HTTP_LOGS = 0;
-
 const _each = require('lodash/each');
 // eslint-disable-next-line import/no-extraneous-dependencies, "DV6 TBC_CNES Only used by UT files"
 const Long = require('long');

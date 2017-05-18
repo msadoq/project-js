@@ -1,7 +1,7 @@
 const _each = require('lodash/each');
-const { Long } = require('../../../utils/test');
+const { Long } = require('../../utils/test');
 const fs = require('fs');
-const protobuf = require('../../');
+const protobuf = require('../');
 const {
   bytesToOctet,
   bytesToUoctet,
@@ -9,7 +9,7 @@ const {
   bytesToUshort,
   bytesToString,
   decodeAttribute,
-} = require('../lpisis/types');
+} = require('../adapters/lpisis/types');
 
 const rootpath = `${__dirname}`;
 

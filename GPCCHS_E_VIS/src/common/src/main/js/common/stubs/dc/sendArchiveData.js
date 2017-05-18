@@ -1,7 +1,5 @@
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const _chunk = require('lodash/chunk');
-const _last = require('lodash/last');
 
 const logger = require('../../log')('stubs:dc');
 
@@ -11,7 +9,6 @@ const getPayload = require('./getPayload');
 
 const header = stubData.getTimebasedArchiveDataHeaderProtobuf();
 const thisIsTheEnd = stubData.getBooleanProtobuf(true);
-const thisIsNotTheEnd = stubData.getBooleanProtobuf(false);
 
 const queries = {};
 

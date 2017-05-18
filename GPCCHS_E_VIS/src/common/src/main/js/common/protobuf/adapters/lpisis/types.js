@@ -6,7 +6,6 @@ const _isNull = require('lodash/isNull');
 const _isString = require('lodash/isString');
 const Long = require('long');
 const ByteBuffer = require('bytebuffer');
-const ProtoBuf = require('protobufjs');
 
 const ushortToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
@@ -99,8 +98,8 @@ const stringToBytes = (string) => {
   if (!_isString(string)) {
     throw new Error(`unable to convert '${string}' to byte buffer`);
   }
-  return new ProtoBuf.BufferWriter().string(string).finish();
-  // return new ByteBuffer(null, true).writeString(string).flip();
+  // return new ProtoBuf.BufferWriter().string(string).finish();
+  return new ByteBuffer(null, true).writeString(string).flip().buffer;
 };
 const bytesToString = (buffer) => {
   if (!buffer || !buffer.buffer) {
@@ -109,10 +108,7 @@ const bytesToString = (buffer) => {
   if (!_isBuffer(buffer)) {
     return undefined;
   }
-  const t = new ProtoBuf.BufferReader(buffer);
-  
-  return t.string();
-  // return buffer.readString(buffer.limit - buffer.offset, ByteBuffer.METRICS_BYTES);
+  return buffer.toString();
 };
 
 module.exports = {
@@ -159,7 +155,6 @@ module.exports = {
       default:
         throw new Error(`Unknown data type ${mixedType}`);
     }
-
     return { [type]: { value } };
   },
   // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity due to MAL sub-type"

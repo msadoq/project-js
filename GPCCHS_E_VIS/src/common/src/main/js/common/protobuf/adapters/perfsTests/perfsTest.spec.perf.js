@@ -18,13 +18,13 @@ const tabPerfGlobal = [];
 
 const renderGlobalPerf = () => {
   tabPerfGlobal.sort(comparePerfRatio);
-  console.log('--- GLOBAL PERF ON DECODING PROTOBUFF ---\n');
-  console.log('# Average on %d iterations, on a batch of %d encoded protobuff', numberIterationDecode, arraySize);
-  console.log('# Results ordered by descending ratio of [WITH ADAPTERS/WITHOUT ADAPTERS]\n');
-  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d of ratio', index, perf.type, perf.data.averageRatio)));
+  console.log('--- GLOBAL PERF ON DECODING PROTOBUFF ---\n'); // eslint-disable-line
+  console.log('# Average on %d iterations, on a batch of %d encoded protobuff', numberIterationDecode, arraySize); // eslint-disable-line
+  console.log('# Results ordered by descending ratio of [WITH ADAPTERS/WITHOUT ADAPTERS]\n'); // eslint-disable-line
+  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d of ratio', index, perf.type, perf.data.averageRatio))); 
 
   tabPerfGlobal.sort(comparePerfTime);
-  console.log('\n# Results ordered by average time with adapters\n');
+  console.log('\n# Results ordered by average time with adapters\n'); // eslint-disable-line
   tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d ms', index, perf.type, perf.data.averageTimeWithA)));
 };
 

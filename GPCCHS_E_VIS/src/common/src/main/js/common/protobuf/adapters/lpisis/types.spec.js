@@ -11,15 +11,20 @@ const {
   octetToBytes,
   bytesToOctet,
 } = require('./types');
-const ByteBuffer = require('bytebuffer');
 
 describe('protobuf/lpisis/types', () => {
   describe('uoctetToBytes/bytesToUoctet', () => {
-    const number = 21;
-    let buffer;
+    const numberPositive = 21;
+    const numberNegative = -21;
+    const numberOverflow = 256;
+    let bufferPositive;
+    let bufferNegative;
+    let bufferOverflow;
     describe('uoctetToBytes', () => {
       it('works', () => {
-        buffer = uoctetToBytes(number);
+        bufferPositive = uoctetToBytes(numberPositive);
+        bufferNegative = uoctetToBytes(numberNegative);
+        bufferOverflow = uoctetToBytes(numberOverflow);
         // (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
       });
       it('invalid input', () => {
@@ -30,22 +35,34 @@ describe('protobuf/lpisis/types', () => {
       });
     });
     describe('bytesToUoctet', () => {
-      it('works', () => {
-        bytesToUoctet(buffer).should.equal(number);
+      it('works with positive value', () => {
+        bytesToUoctet(bufferPositive).should.equal(numberPositive);
       });
       it('invalid input', () => {
         should.not.exist(bytesToUoctet(NaN));
         should.not.exist(bytesToUoctet(null));
         should.not.exist(bytesToUoctet());
       });
+      it('should not work with negative value', () => {
+        bytesToUoctet(bufferNegative).should.not.equal(numberNegative);
+      });
+      it('should not work with out of range number', () => {
+        bytesToUoctet(bufferOverflow).should.not.equal(numberOverflow);
+      });
     });
   });
   describe('octetToBytes/bytesToOctet', () => {
-    const number = 21;
-    let buffer;
+    const numberPositive = 21;
+    const numberNegative = -21;
+    const numberOverflow = 128;
+    let bufferPositive;
+    let bufferNegative;
+    let bufferOverflow;
     describe('octetToBytes', () => {
       it('works', () => {
-        buffer = octetToBytes(number);
+        bufferPositive = octetToBytes(numberPositive);
+        bufferNegative = octetToBytes(numberNegative);
+        bufferOverflow = octetToBytes(numberOverflow);
         // (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
       });
       it('invalid input', () => {
@@ -56,8 +73,8 @@ describe('protobuf/lpisis/types', () => {
       });
     });
     describe('bytesToOctet', () => {
-      it('works', () => {
-        bytesToOctet(buffer).should.equal(number);
+      it('works with positive value', () => {
+        bytesToOctet(bufferPositive).should.equal(numberPositive);
       });
       it('invalid input', () => {
         should.not.exist(bytesToOctet('string'));
@@ -65,14 +82,26 @@ describe('protobuf/lpisis/types', () => {
         should.not.exist(bytesToOctet(null));
         should.not.exist(bytesToOctet());
       });
+      it('works with negative value', () => {
+        bytesToOctet(bufferNegative).should.equal(numberNegative);
+      });
+      it('should not work with out of range number', () => {
+        bytesToOctet(bufferOverflow).should.not.equal(numberOverflow);
+      });
     });
   });
   describe('ushortToBytes/bytesToUshort', () => {
-    const number = 21;
-    let buffer;
+    const numberPositive = 21;
+    const numberNegative = -21;
+    const numberOverflow = 65536;
+    let bufferPositive;
+    let bufferNegative;
+    let bufferOverflow;
     describe('ushortToBytes', () => {
       it('works', () => {
-        buffer = ushortToBytes(number);
+        bufferPositive = ushortToBytes(numberPositive);
+        bufferNegative = ushortToBytes(numberNegative);
+        bufferOverflow = ushortToBytes(numberOverflow);
         // (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
       });
       it('invalid input', () => {
@@ -83,9 +112,9 @@ describe('protobuf/lpisis/types', () => {
       });
     });
     describe('bytesToUshort', () => {
-      it('works', () => {
+      it('works with positive value', () => {
         // bytesToUshort(buffer.toBuffer()).should.equal(number);
-        bytesToUshort(buffer).should.equal(number);
+        bytesToUshort(bufferPositive).should.equal(numberPositive);
       });
       it('invalid input', () => {
         should.not.exist(bytesToUshort('string'));
@@ -93,14 +122,26 @@ describe('protobuf/lpisis/types', () => {
         should.not.exist(bytesToUshort(null));
         should.not.exist(bytesToUshort());
       });
+      it('not works with negative value', () => {
+        bytesToUshort(bufferNegative).should.not.equal(numberNegative);
+      });
+      it('should not work with out of range number', () => {
+        bytesToUshort(bufferOverflow).should.not.equal(numberOverflow);
+      });
     });
   });
   describe('shortToBytes/bytesToShort', () => {
-    const number = 21;
-    let buffer;
+    const numberPositive = 21;
+    const numberNegative = -21;
+    const numberOverflow = 32768;
+    let bufferPositive;
+    let bufferNegative;
+    let bufferOverflow;
     describe('shortToBytes', () => {
       it('works', () => {
-        buffer = shortToBytes(number);
+        bufferPositive = shortToBytes(numberPositive);
+        bufferNegative = shortToBytes(numberNegative);
+        bufferOverflow = shortToBytes(numberOverflow);
         // (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
       });
       it('invalid input', () => {
@@ -111,15 +152,21 @@ describe('protobuf/lpisis/types', () => {
       });
     });
     describe('bytesToShort', () => {
-      it('works', () => {
+      it('works with positive value', () => {
         // bytesToUshort(buffer.toBuffer()).should.equal(number);
-        bytesToUshort(buffer).should.equal(number);
+        bytesToShort(bufferPositive).should.equal(numberPositive);
       });
       it('invalid input', () => {
         should.not.exist(bytesToShort('string'));
         should.not.exist(bytesToShort(NaN));
         should.not.exist(bytesToShort(null));
         should.not.exist(bytesToShort());
+      });
+      it('not works with negative value', () => {
+        bytesToShort(bufferNegative).should.equal(numberNegative);
+      });
+      it('should not work with out of range number', () => {
+        bytesToShort(bufferOverflow).should.not.equal(numberOverflow);
       });
     });
   });

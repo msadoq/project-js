@@ -10,7 +10,6 @@ const validityState = require('../ccsds_mc/validityState');
 
 describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
   const fixture = stubData.getIsisAggregation();
-  
   let buffer;
   it('encode', () => {
     buffer = protobuf.encode('lpisis.ccsds_mc_aggregation.IsisAggregation', fixture);
@@ -34,7 +33,6 @@ describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
     });
     json.values.should.be.an('array').that.have.lengthOf(fixture.values.length);
     for (let i = 0; i < fixture.values.length; i += 1) {
-      console.log("FIXTURE : ",fixture.values[i].definition);
       json.values[i].should.be.an('object').that.have.properties({
         definition: {
           objectType: {

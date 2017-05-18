@@ -9,7 +9,7 @@ const modeType = require('./modeType');
 const sequenceType = require('./sequenceType');
 const terminateType = require('./terminateType');
 
-/* describe('protobuf/lpisis/cop1/COP1Context', () => {
+describe('protobuf/lpisis/cop1/COP1Context', () => {
   const fixture = stubData.getCOP1Context();
   let buffer;
   it('encode', () => {
@@ -160,5 +160,5 @@ const terminateType = require('./terminateType');
       entityKeyTime: { type: 'time', value: fixture.entityKeyTime },
     });
   });
-}); */
+});
 

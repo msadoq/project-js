@@ -73,7 +73,7 @@ const renderTabPerf = (timeArray, numberIterationDecode) => {
   averageTimeWithA /= 1000;
   averageTimeWithoutA /= numberIterationDecode;
   averageTimeWithoutA /= 1000;
-  console.log(averageDiff.toString().split('.')[0]);
+  console.log(averageDiff.toString().split('.')[0]); // eslint-disable-line
   tabRender += topBar;
   tabRender += '\n';
   tabRender += indiceBar;
@@ -88,11 +88,11 @@ const renderTabPerf = (timeArray, numberIterationDecode) => {
   tabRender += '\n';
   tabRender += topBar;
   tabRender += '\n';
-  console.log(tabRender);
-  console.log('\nAverage diff : %ss%sms', averageDiff.toString().split('.')[0], averageDiff.toString().split('.')[1].substring(0, 3));
-  console.log('Average ratio : %d', averageRatio);
-  console.log('Average time with adapters : %ss%sms', averageTimeWithA.toString().split('.')[0], averageTimeWithA.toString().split('.')[1].substring(0, 3));
-  console.log('Average time without adapters : %ss%sms', averageTimeWithoutA.toString().split('.')[0], averageTimeWithoutA.toString().split('.')[1].substring(0, 3));
+  console.log(tabRender); // eslint-disable-line
+  console.log('\nAverage diff : %ss%sms', averageDiff.toString().split('.')[0], averageDiff.toString().split('.')[1].substring(0, 3)); // eslint-disable-line
+  console.log('Average ratio : %d', averageRatio); // eslint-disable-line
+  console.log('Average time with adapters : %ss%sms', averageTimeWithA.toString().split('.')[0], averageTimeWithA.toString().split('.')[1].substring(0, 3)); // eslint-disable-line
+  console.log('Average time without adapters : %ss%sms', averageTimeWithoutA.toString().split('.')[0], averageTimeWithoutA.toString().split('.')[1].substring(0, 3)); // eslint-disable-line
   return { averageRatio, averageTimeWithA, averageTimeWithoutA };
 };
 

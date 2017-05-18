@@ -5,6 +5,9 @@ const _get = require('lodash/get');
 const types = {};
 const comObjectProtobufTypes = {};
 
+const getLogger = require('../log');
+
+const logger = getLogger('common:registerProtobuf');
 
 module.exports.register = function register(rootPath, root, namespaces) {
   if (!types[root]) {
@@ -18,28 +21,19 @@ module.exports.register = function register(rootPath, root, namespaces) {
       if (!builder) {
         throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
       }
-      const test = builder.resolve();
-      for ( const key in test.nested[namespace].nested.protobuf.nested) {
+      const resolvedNamespace = builder.resolve();
+      for (const key in resolvedNamespace.nested[namespace].nested.protobuf.nested) { // TODO Can't be this be done in a more proper way ?
         types[root][namespace][key] = {};
         comObjectProtobufTypes[key] = `${root}.${namespace}.${key}`;
         try {
-          const AwesomeMessage = builder.lookupType(`${namespace}.protobuf.${key}`);
-          AwesomeMessage.mapper = mapper;
-          // store builder and mapper pour further linking
-          types[root][namespace][key] = AwesomeMessage;
-          // attach[proto.charAt(0).toUpperCase() + proto.slice(1)] = AwesomeMessage;
+          const lookedUpType = builder.lookup(`${namespace}.protobuf.${key}`);
+          lookedUpType.mapper = mapper;
+          types[root][namespace][key] = lookedUpType;
         } catch (e) {
-          console.log("error");
+          logger.error(`${namespace}.protobuf.${key} can't be lookedUp`);
         }
       }
     });
-
-      // store parser and attach
-       // types[root][namespace] = namespaceBuilder.build(namespace).protobuf;
-      /* _each(types[root][namespace], (type, typeKey) => {
-        Object.assign(type, attach[typeKey]);
-        comObjectProtobufTypes[typeKey] = `${root}.${namespace}.${typeKey}`;
-      });*/
   });
 };
 
@@ -51,7 +45,7 @@ const getProtobufType = (key) => {
   }
 
   return type;
-}
+};
 
 /* module.exports.register = function register(rootPath, root, namespaces) {
   if (!types[root]) {

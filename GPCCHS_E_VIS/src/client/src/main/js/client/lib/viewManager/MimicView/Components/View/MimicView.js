@@ -132,10 +132,11 @@ export default class MimicView extends Component {
         shouldProcessNode: (node => node.attribs && node.attribs.animation === 'textBox'),
         processNode: (node, children) => {
           const epName = node.attribs.ep;
-          const textColorLevels = node.attribs.textcolor.split(';');
-          const bgColorLevels = node.attribs.bgcolor.split(';');
+          const textColorLevels = node.attribs.textcolor ? node.attribs.textcolor.split(';') : [];
+          const bgColorLevels = node.attribs.bgcolor ? node.attribs.bgcolor.split(';') : [];
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const size = node.attribs.size ? node.attribs.size : '12px';
           this.svgEls.push({
             id,
             type: node.attribs.animation,
@@ -146,7 +147,14 @@ export default class MimicView extends Component {
           return (
             <g key={id}>
               <rect id={`${id}-bg`} x={node.attribs.x} y={node.attribs.y} width={0} height={0} />
-              <text id={id} x={node.attribs.x} y={node.attribs.y}>{children}</text>
+              <text
+                id={id}
+                x={node.attribs.x}
+                y={node.attribs.y}
+                style={{ fontSize: size }}
+              >
+                {children}
+              </text>
             </g>
           );
         },
@@ -253,7 +261,7 @@ export default class MimicView extends Component {
           elBg.setAttribute('width', SVGRect.width);
           elBg.setAttribute('height', SVGRect.height);
           elBg.setAttribute('y', SVGRect.y);
-          el.innerHTML = Math.round(epLastVal * 100) / 100;
+          el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
           let fillText = '#000';
           let fillBg = '#FFF';
           for (let i = 0; i < g.textColorLevels.length; i += 1) {

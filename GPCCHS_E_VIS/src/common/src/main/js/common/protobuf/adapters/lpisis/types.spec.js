@@ -174,10 +174,17 @@ describe('protobuf/lpisis/types', () => {
     const testEncodeDecode = (value, type) => {
       const encoded = encodeAttribute(value);
       encoded.should.have.properties({ [`_${type}`]: { value } });
-      decodeAttribute(encoded).should.have.properties({
-        type,
-        value,
-      });
+      if (type === 'double') {
+        decodeAttribute(encoded).should.have.properties({
+          type,
+          symbol: value.toString(),
+        });
+      } else {
+        decodeAttribute(encoded).should.have.properties({
+          type,
+          value,
+        });
+      }
     };
 
     it('undefined/null/NaN', () => {

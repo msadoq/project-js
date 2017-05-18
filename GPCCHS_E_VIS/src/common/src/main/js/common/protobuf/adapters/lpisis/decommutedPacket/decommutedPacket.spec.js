@@ -24,9 +24,9 @@ describe('protobuf/lpisis/decommutedPacket/DecommutedPacket', () => {
     for (let i = 0; i < fixture.decommutedValues.length; i += 1) {
       json.decommutedValues[i].should.be.an('object').that.have.properties({
         name: { type: 'identifier', value: fixture.decommutedValues[i].name },
-        extractedValue: { type: 'double', value: fixture.decommutedValues[i].extractedValue },
-        rawValue: { type: 'double', value: fixture.decommutedValues[i].rawValue },
-        convertedValue: { type: 'double', value: fixture.decommutedValues[i].convertedValue },
+        extractedValue: { type: 'double', symbol: fixture.decommutedValues[i].extractedValue.toString() },
+        rawValue: { type: 'double', symbol: fixture.decommutedValues[i].rawValue.toString() },
+        convertedValue: { type: 'double', symbol: fixture.decommutedValues[i].convertedValue.toString() },
         validityState: { type: 'enum', value: fixture.decommutedValues[i].validityState, symbol: validityState[fixture.decommutedValues[i].validityState] },
       });
     }

@@ -1,6 +1,6 @@
 const data = require('./data');
-require('../protobuf/adapters/dc');
-require('../protobuf/adapters/lpisis');
+require('./../protobuf/adapters/dc');
+require('./../protobuf/adapters/lpisis');
 
 describe('stubs/data', () => {
   Object.keys(data).map((key) => {

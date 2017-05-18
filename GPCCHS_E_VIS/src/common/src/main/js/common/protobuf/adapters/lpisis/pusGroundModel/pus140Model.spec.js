@@ -28,7 +28,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus140Model', () => {
       json.pus140Parameter[i].should.be.an('object').that.have.properties({
         parameterId: { type: 'uinteger', value: fixture.pus140Parameter[i].parameterId },
         apid: { type: 'uinteger', value: fixture.pus140Parameter[i].apid },
-        currentValue: { type: 'double', value: fixture.pus140Parameter[i].currentValue },
+        currentValue: { type: 'double', symbol: fixture.pus140Parameter[i].currentValue.toString() },
         pusElement: {
           lastUpdateMode: { type: 'uinteger', value: fixture.pus140Parameter[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: fixture.pus140Parameter[i].pusElement.lastUpdateTime },

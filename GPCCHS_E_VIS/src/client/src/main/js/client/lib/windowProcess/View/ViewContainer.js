@@ -1,43 +1,49 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getPage } from '../../store/reducers/pages';
+import { getPage, getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
-import { getWindowPages } from '../../store/selectors/windows';
-import { moveViewToPage, setCollapsed, setMaximized } from '../../store/actions/pages';
+import { closeView, updateEditorSearch } from '../../store/actions/views';
+import { open as openModal } from '../../store/actions/modals';
+import { setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
 import View from './View';
 
 const makeMapStateToProps = () => {
-  const mapStateToProps = (state, { viewId, windowId, pageId }) => {
+  const mapStateToProps = (state, { viewId, pageId }) => {
     const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title }
         = getView(state, { viewId });
 
     const page = getPage(state, { pageId });
     const collapsedLayout = page.layout.find(e => e.i === viewId && e.collapsed);
+    const { editorIsMinimized, editorViewId } = getPanels(state, { pageId });
 
     return {
       backgroundColor,
       type,
       title,
       titleStyle,
-      windowPages: getWindowPages(state, { windowId }),
       oId,
       absolutePath,
       isModified,
-      windowId,
       pageId,
       collapsed: !!collapsedLayout,
+      isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     };
   };
   return mapStateToProps;
 };
 
-const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
-  moveViewToPage: (windowId, toPageId, viewId) =>
-    moveViewToPage(windowId, pageId, toPageId, viewId),
-  collapseView: (viewId, flag) =>
+const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActionCreators({
+  collapseView: flag =>
     setCollapsed(pageId, viewId, flag),
-  maximizeView: (viewId, flag) =>
+  maximizeView: flag =>
     setMaximized(pageId, viewId, flag),
+  openEditor: (pattern = '') => (disp) => {
+    disp(updateEditorSearch(viewId, pattern));
+    disp(openEditor(pageId, viewId));
+  },
+  closeEditor: () => minimizeEditor(pageId, true),
+  closeView: () => closeView(pageId, viewId),
+  openModal: args => openModal(windowId, { windowId, pageId, viewId, ...args }),
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

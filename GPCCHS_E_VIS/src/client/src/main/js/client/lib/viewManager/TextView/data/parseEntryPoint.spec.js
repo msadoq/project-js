@@ -14,7 +14,7 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
         domain: 'cnes',
         timeline: 'tl1',
-        filter: {},
+        filter: [],
       },
     };
     timelines = [
@@ -63,11 +63,91 @@ describe('viewManager/TextView/data/parseEntryPoint', () => {
         },
         field: 'extractedValue',
         offset: 0,
-        filter: {},
+        filters: [],
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
-        structureType: globalConstants.DATASTRUCTURETYPE_LAST,
-        remoteId: 'last@Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        type: 'TextView',
+      },
+    });
+  });
+  it('wilcard => view data', () => {
+    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView',
+      'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName: 'session2',
+        },
+        field: 'extractedValue',
+        offset: 0,
+        filters: [],
+        localId: 'extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        type: 'TextView',
+      },
+    });
+  });
+  it('wilcard => page data', () => {
+    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView',
+      undefined, 'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName: 'session2',
+        },
+        field: 'extractedValue',
+        offset: 0,
+        filters: [],
+        localId: 'extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        type: 'TextView',
+      },
+    });
+  });
+  it('wilcard => workspace data', () => {
+    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView',
+      undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName: 'session2',
+        },
+        field: 'extractedValue',
+        offset: 0,
+        filters: [],
+        localId: 'extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
         type: 'TextView',
       },
     });

@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs, should } from '../../../common/test';
 import * as actions from '../../actions/pages';
 import pagesReducer from '../pages';
 import * as types from '../../types';
@@ -130,12 +130,26 @@ describe('store:page:reducer', () => {
       .should.eql(state);
     });
   });
-  describe('updateTimebarId', () => {
-    it('ok', () => {
+  describe('mount and unmount timebar', () => {
+    it('tb1 -> newTb1', () => {
       const state = { myPage: { timebarUuid: 'tb1' } };
-      const action = { type: types.WS_PAGE_UPDATE_TIMEBARID, payload: { pageId: 'myPage', timebarUuid: 'newTb1' } };
+      const action = { type: types.WS_PAGE_TIMEBAR_MOUNT, payload: { pageId: 'myPage', timebarUuid: 'newTb1' } };
       const nextState = reducer(state, action);
       nextState.myPage.timebarUuid.should.be.eql('newTb1');
+    });
+    it('tb1 -> null', () => {
+      const state = { myPage: { timebarUuid: 'tb1' } };
+      const action = { type: types.WS_PAGE_TIMEBAR_UNMOUNT, payload: { pageId: 'myPage' } };
+      const nextState = reducer(state, action);
+      should.not.exist(nextState.myPage.timebarUuid);
+    });
+  });
+  describe('updateTItle', () => {
+    it('ok', () => {
+      const state = { myPage: { title: 'tb 1' } };
+      const action = { type: types.WS_PAGE_UPDATE_TITLE, payload: { pageId: 'myPage', title: 'tb 2' } };
+      const nextState = reducer(state, action);
+      nextState.myPage.should.eql({ title: 'tb 2', isModified: true });
     });
   });
 });

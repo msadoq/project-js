@@ -15,12 +15,14 @@ describe('windowProcess:Page:ContentSelector', () => {
     pages: {
       myPage: {
         timebarUuid: 'tbuuid',
+        views: ['layout1', 'layout2'],
         layout: [
           { i: 'layout1' },
           { i: 'layout2' },
         ],
       },
       pageWithMaximised: {
+        views: ['geometry1'],
         layout: [{ i: 'geometry1', maximized: true }],
       },
     },

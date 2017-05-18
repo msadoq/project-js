@@ -18,6 +18,10 @@ const simpleUpdateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'view
 
 export const updatePath = ifPathChanged(simpleUpdatePath, 'views', 'path', 'viewId');
 export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'views', 'absolutePath', 'viewId');
+
+export const updateDomainName = simple(types.WS_VIEW_UPDATE_DOMAINNAME, 'viewId', 'domainName');
+export const updateSessionName = simple(types.WS_VIEW_UPDATE_SESSIONNAME, 'viewId', 'sessionName');
+
 /* ------------------------ */
 
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
@@ -36,6 +40,8 @@ export const updateBgColor = simple(types.WS_VIEW_UPDATE_BGCOLOR, 'viewId', 'bgC
 export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legend');
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
+
+export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
 
 // ************ Axis
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');

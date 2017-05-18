@@ -4,6 +4,7 @@ import {
   Popover,
   OverlayTrigger,
   Form,
+  Tooltip,
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
@@ -13,18 +14,20 @@ const inlineStyles = {
   width200: { width: '200px' },
 };
 
+const OverlayTriggerTrigger = ['hover', 'focus'];
+
 export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
+    sessionId: PropTypes.number,
     isPlaying: PropTypes.bool.isRequired,
+    openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    getSession: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,
@@ -33,22 +36,17 @@ export default class ControlsLeft extends PureComponent {
     ),
     timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
-    currentSessionExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.shape({
-      color: PropTypes.string,
-      id: PropTypes.string.isRequired,
-      kind: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
-      offset: PropTypes.number.isRequired,
-      sessionName: PropTypes.string.isRequired,
-    }),
-    masterSessionId: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     masterTimeline: null,
     messages: [],
-  }
+    sessionId: null,
+  };
+
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
 
   changeSpeed = (e) => {
     e.preventDefault();
@@ -106,18 +104,9 @@ export default class ControlsLeft extends PureComponent {
     const {
       timebarUuid,
       goNow,
-      currentSessionExists,
-      masterTimeline,
-      masterSessionId,
-      getSession,
+      sessionId,
     } = this.props;
     // IPC request to get master session current time
-    let sessionId;
-    if (currentSessionExists) {
-      sessionId = getSession({ sessionName: masterTimeline.sessionName }).id;
-    } else {
-      sessionId = masterSessionId;
-    }
     main.getSessionTime(sessionId, ({ err, timestamp }) => {
       if (err) {
         // TODO Show message
@@ -136,6 +125,22 @@ export default class ControlsLeft extends PureComponent {
     );
   }
 
+  willOpenModal = (e) => {
+    e.preventDefault();
+    const {
+      openModal,
+      timebarUuid,
+    } = this.props;
+    openModal(
+      this.context.windowId,
+      {
+        type: 'timeSetter',
+        timebarUuid,
+        cursor: 'all',
+      }
+    );
+  }
+
   render() {
     const {
       timebarUuid,
@@ -143,12 +148,21 @@ export default class ControlsLeft extends PureComponent {
       isPlaying,
       play,
       pause,
-      toggleTimesetter,
       messages,
+      sessionId,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
-
+    const nowDisabled = sessionId === null;
+    const disabledTooltip = (
+      <Tooltip
+        id="RTTooltip"
+        style={inlineStyles.width200}
+      >
+        <b>Cannot go now</b><br />
+         No master timeline<br />
+      </Tooltip>
+    );
     const speedPopover =
       (<Popover
         title="Playing speed"
@@ -184,7 +198,7 @@ export default class ControlsLeft extends PureComponent {
           <li className={styles.controlsLi}>
             <button
               className={classnames('btn', 'btn-xs', 'btn-danger')}
-              onClick={() => toggleTimesetter()}
+              onClick={this.willOpenModal}
               title="Display time setter"
               style={{ fontSize: '1.1em' }}
             >
@@ -270,13 +284,28 @@ export default class ControlsLeft extends PureComponent {
           </button>
         </li>
         <li className={styles.controlsLi}>
-          <button
+          { nowDisabled && <OverlayTrigger
+            trigger={OverlayTriggerTrigger}
+            placement="top"
+            overlay={disabledTooltip}
+            container={this}
+          >
+            <span
+              className={classnames(
+                allButtonsKlasses,
+                styles.controlButtonDisabled
+              )}
+            >
+              Now
+            </span>
+          </OverlayTrigger> }
+          { !nowDisabled && <button
             className={allButtonsKlasses}
             onClick={this.goNow}
             title="Go now"
           >
             NOW
-          </button>
+          </button> }
         </li>
         <li className={styles.controlsLi}>
           <button
@@ -290,7 +319,7 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            onClick={() => toggleTimesetter()}
+            onClick={this.willOpenModal}
             title="Display time setter"
           >
             <Glyphicon glyph="align-justify" />

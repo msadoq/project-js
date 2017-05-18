@@ -5,11 +5,12 @@ import viewsReducer, {
   getViews,
   getModifiedViewsIds,
   getViewConfiguration,
-  getViewContent,
   getViewAbsolutePath,
   getViewType,
   getViewTitle,
   getViewTitleStyle,
+  getViewDomainName,
+  getViewSessionName,
 } from '.';
 import { freezeArgs, getStore, should } from '../../../common/test';
 
@@ -77,20 +78,6 @@ describe('store:views:selectors', () => {
       title: 'Title 1',
     });
   });
-
-  it('getViewContent', () => {
-    const state = {
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-            content: '<h1>content</h1>',
-          },
-        },
-      },
-    };
-    getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
-  });
   it('getViewAbsolutePath', () => {
     const state = {
       views: {
@@ -130,5 +117,23 @@ describe('store:views:selectors', () => {
       },
     };
     getViewTitleStyle(state, { viewId: 'myViewId' }).should.be.eql('TITLE_STYLE');
+  });
+  describe('getDomainName', () => {
+    it('should return domainName', () => {
+      const state = { views: { v1: { domainName: 'myDomain' } } };
+      getViewDomainName(state, { viewId: 'v1' }).should.eql('myDomain');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getViewDomainName({ views: { v1: {} } }, { viewId: 'v1' }));
+    });
+  });
+  describe('getSessionName', () => {
+    it('should return sessionName', () => {
+      const state = { views: { v1: { sessionName: 'mySession' } } };
+      getViewSessionName(state, { viewId: 'v1' }).should.eql('mySession');
+    });
+    it('should support empty state', () => {
+      should.not.exist(getViewSessionName({ views: { v1: {} } }, { viewId: 'v1' }));
+    });
   });
 });

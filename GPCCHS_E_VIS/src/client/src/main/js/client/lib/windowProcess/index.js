@@ -4,16 +4,12 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import HealthMonitor from './Window/HealthMonitor';
 import WindowContainer from './Window/WindowContainer';
-import { initStore, getStore } from '../store/windowStore';
+import { initStore } from '../store/isomorphic';
 import mainController from './controllers/main';
 
-const search = global.location.search;
-const windowId = search.match('windowId=(.*)&')[1];
+const windowId = global.windowId; // see index.html
 
 process.title = 'gpcchs_renderer';
-
-// store
-initStore();
 
 // ipc with main
 ipcRenderer.on('global', mainController);
@@ -31,7 +27,8 @@ if (global.parameters.get('WDYU') === 'on') {
   });
 }
 
-const store = getStore();
+const store = initStore();
+
 render(
   <HealthMonitor windowId={windowId}>
     <Provider store={store}>

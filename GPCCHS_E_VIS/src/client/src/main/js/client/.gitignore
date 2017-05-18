@@ -27,7 +27,7 @@ build/Release
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
+*node_modules
 
 # OSX
 .DS_Store
@@ -44,5 +44,7 @@ dist
 release
 /main.js
 /main.js.map
+/server.js
+/server.js.map
 .env
 stats.json

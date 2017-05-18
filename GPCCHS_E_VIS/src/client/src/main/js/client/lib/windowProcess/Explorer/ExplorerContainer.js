@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Explorer from './Explorer';
 
 import { getPanels } from '../../store/reducers/pages';
-import { focusTabInExplorer } from '../../store/actions/pages';
+import { focusTabInExplorer, minimizeExplorer } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { pageId }) => {
   const { explorerTab: tabId } = getPanels(state, { pageId });
@@ -13,7 +13,7 @@ const mapStateToProps = (state, { pageId }) => {
 
 const ExplorerContainer = connect(
   mapStateToProps,
-  { focusTabInExplorer }
+  { focusTabInExplorer, minimizeExplorer }
 )(Explorer);
 
 ExplorerContainer.propTypes = {

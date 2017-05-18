@@ -6,6 +6,9 @@ import EntryPointDetails from './EntryPointDetails';
 
 import { getFocusedPageTimelines } from '../../../../store/selectors/timelines';
 import { getAxes } from '../../store/configurationSelectors';
+import { updateViewSubPanels } from '../../../../store/actions/ui';
+import { getViewEntryPointsSubPanels } from '../../../../store/reducers/ui';
+import { getDomains } from '../../../../store/reducers/domains';
 import {
   updateEntryPoint,
   removeEntryPoint,
@@ -14,9 +17,12 @@ import {
 const mapStateToProps = createStructuredSelector({
   axes: getAxes,
   timelines: getFocusedPageTimelines,
+  panels: getViewEntryPointsSubPanels,
+  domains: getDomains,
 });
 
 const mapDispatchToProps = {
+  updateViewSubPanels,
   updateEntryPoint,
   removeEntryPoint,
 };

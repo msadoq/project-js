@@ -21,7 +21,7 @@ describe('protobuf/lpisis/connection/UCPReport', () => {
     for (let i = 0; i < fixture.parameters.length; i += 1) {
       json.parameters[i].should.be.an('object').that.have.properties({
         name: { type: 'string', value: fixture.parameters[i].name },
-        value: { type: 'double', value: fixture.parameters[i].value },
+        value: { type: 'double', symbol: fixture.parameters[i].value.toString() },
       });
     }
   });

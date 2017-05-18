@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import classnames from 'classnames';
 import Grid from 'react-grid-layout';
 import path from 'path';
 import getLogger from 'common/log';
@@ -107,15 +108,9 @@ export default class Content extends PureComponent {
       width,
     } = this.props;
 
-    if (!pageId) {
-      return (
-        <div className={styles.noPage}>No page ...</div> // TODO boxmodel in Window.js
-      );
-    }
-
     if (!views.length) {
       return (
-        <div className={styles.noPage}>No view yet ...</div> // TODO boxmodel in Window.js
+        <div className={classnames('w100', styles.noPage)}><br /><br />No view yet ...</div> // TODO boxmodel in Window.js
       );
     }
 
@@ -145,7 +140,14 @@ export default class Content extends PureComponent {
           onDragStop={this.onResizeView}
         >
           {views.map(v => (
-            <div key={v.viewId}>
+            <div
+              key={v.viewId}
+              className={
+                layouts.lg.find(l => l.i === v.viewId && l.collapsed)
+                ?
+                'collapsed-grid-layout' : null
+              }
+            >
               <ViewContainer
                 key={v.viewId}
                 timebarUuid={timebarUuid}

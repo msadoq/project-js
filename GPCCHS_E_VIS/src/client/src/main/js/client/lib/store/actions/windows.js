@@ -12,8 +12,7 @@ import { getWindowPageIds } from '../reducers/windows';
 /**
  * Simple actions
  */
-export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages',
-  'focusedPage', 'isModified');
+export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'focusedPage');
 
 export const closeWindow = windowId => (dispatch, getState) => {
   const state = getState();
@@ -36,13 +35,14 @@ export const reorderPages = simple(types.WS_WINDOW_PAGE_REORDER, 'windowId', 'pa
 export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
   'windowId', 'x', 'y', 'w', 'h'
 );
-export const setModified = simple(types.WS_WINDOW_SETMODIFIED, 'windowId', 'flag');
 export const minimize = simple(types.WS_WINDOW_MINIMIZE, 'windowId');
 export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
+export const updateTitle = simple(types.WS_WINDOW_UPDATE_TITLE, 'windowId', 'title');
 
 export const displayHelp = simple(types.WS_WINDOW_SET_DISPLAY_HELP, 'windowId', 'display');
 
-export const moveTabOrder = simple(types.WS_WINDOW_MOVE_TAB_ORDER, 'windowId', 'keyFrom', 'keyTarget');
+export const moveTabOrder =
+  simple(types.WS_WINDOW_MOVE_TAB_ORDER, 'windowId', 'keyFrom', 'keyTarget');
 
 /**
  * Compound actions

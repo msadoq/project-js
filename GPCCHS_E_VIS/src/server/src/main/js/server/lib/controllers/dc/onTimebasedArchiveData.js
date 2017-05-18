@@ -1,11 +1,14 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const _isBuffer = require('lodash/isBuffer');
+const { writeFile } = require('fs');
+const { join } = require('path');
 const { decode, encode, getType } = require('common/protobuf');
-const { HSS_MAX_PAYLOADS_PER_MESSAGE } = require('common/constants');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
+const { get } = require('common/parameters');
+const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
 const {
   removeByQueryId: removeRegisteredQuery,
   getByQueryId: getRegisteredQuery,
@@ -15,6 +18,8 @@ const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFac
 const connectedDataModel = require('../../models/connectedData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
+
+const dump = (get('DUMP') === 'on');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -62,10 +67,17 @@ module.exports = (
   execution.stop('decode isLast');
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
+  let isLastQuery = false;
   if (endOfQuery) {
     logger.silly('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
-    connectedDataModel.setIntervalAsReceived(remoteId, queryId);
+    // Check if query is getLast or not
+    if (connectedDataModel.isLastQuery(remoteId, queryId)) {
+      connectedDataModel.removeLastQuery(remoteId, queryId);
+      isLastQuery = true;
+    } else {
+      connectedDataModel.setIntervalAsReceived(remoteId, queryId);
+    }
     removeRegisteredQuery(queryId);
     execution.stop('set interval as received');
   }
@@ -92,21 +104,18 @@ module.exports = (
 
   // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
   const payloadCount = payloadBuffers.length / 2;
-  if (payloadCount > HSS_MAX_PAYLOADS_PER_MESSAGE) {
-    // TODO send error to client
-    execution.stop(
-      'global',
-      `${dataId.parameterName} message ignored, too many payloads: ${payloadCount}`
-    );
-    execution.print();
-    logger.warn(`message ignored, too many payloads: ${payloadCount}`);
-    return;
-  }
-
   // retrieve cache collection
-  execution.start('retrieve store');
-  const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
-  execution.stop('retrieve store');
+  let timebasedDataModel;
+  if (!isLastQuery) {
+    execution.start('retrieve store');
+    timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
+    execution.stop('retrieve store');
+  }
+  let dumpFolder;
+  if (dump) {
+    createDumpFolder(dataId);
+    dumpFolder = getDumpFolder(dataId);
+  }
 
   // only one loop to decode, insert in cache, and add to queue
   eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
@@ -122,6 +131,16 @@ module.exports = (
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
+    // dump
+    if (dump && dumpFolder) {
+      // save a file per timestamp with binary payload
+      writeFile(join(dumpFolder, timestamp.toString()), payloadBuffer[1], (err) => {
+        if (err) {
+          loggerData.warn(`Error writing dump file ${timestamp}`);
+        }
+      });
+    }
+
     loggerData.silly({
       controller: 'onTimebasedArchiveData',
       remoteId,
@@ -130,15 +149,20 @@ module.exports = (
       convertedValue: payload.convertedValue,
     });
 
-    // store in cache
-    execution.start('store payloads');
-    timebasedDataModel.addRecord(timestamp, payload);
-    execution.stop('store payloads');
-
+    // different behaviour if it is a last query or not:
+    // not last => storage in cache
+    // last and range => queue data in spool
+    if (!isLastQuery) {
+      // store in cache
+      execution.start('store payloads');
+      timebasedDataModel.addRecord(timestamp, payload);
+      execution.stop('store payloads');
+    }
     // queue new data in spool
     execution.start('queue payloads');
     addToQueue(remoteId, timestamp, payload);
     execution.stop('queue payloads');
+
     callback(null);
   }, () => {
     loggerData.debug({

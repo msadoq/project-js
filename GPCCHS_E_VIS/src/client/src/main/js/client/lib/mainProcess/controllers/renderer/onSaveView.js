@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../../store/isomorphic';
 import { setModified, updatePath, updateAbsolutePath, setViewOid } from '../../../store/actions/views';
 import { addOnce as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
@@ -13,20 +13,20 @@ const getPath = path => (isInFmd(path) ? getRelativeFmdPath(path) : path);
 const root = getRootDir();
 const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);
 
-export default function ({ viewId, saveMode }) {
+export default function ({ viewId, saveAs }) {
   const { getState, dispatch } = getStore();
   const view = getViewWithConfiguration(getState(), { viewId });
-  const { type, absolutePath, isModified } = view;
+  const { absolutePath, isModified } = view;
 
   function oncePath(savingAbsolutePath) {
-    if (!isModified && saveMode === savingAbsolutePath) {
-      return getStore().dispatch(addMessage(viewId, 'info', 'View already saved'));
+    if (!isModified && absolutePath === savingAbsolutePath) {
+      return dispatch(addMessage(viewId, 'info', 'View already saved'));
     }
-    return saveViewAs(view, type, savingAbsolutePath, (err, oid) => {
+    return saveViewAs(view, savingAbsolutePath, (err, oid) => {
       if (err) {
-        return getStore().dispatch(addViewError(viewId, err));
+        return dispatch(addViewError(viewId, err));
       }
-      if (saveMode !== savingAbsolutePath) {
+      if (absolutePath !== savingAbsolutePath) {
         // only for 'Save as...' action
         dispatch(updatePath(viewId, getPath(savingAbsolutePath)));
         dispatch(updateAbsolutePath(viewId, savingAbsolutePath));
@@ -40,8 +40,8 @@ export default function ({ viewId, saveMode }) {
     });
   }
 
-  if (saveMode) {
-    return oncePath(saveMode);
+  if (!saveAs) {
+    return oncePath(absolutePath);
   }
 
   const folder = absolutePath ? dirname(absolutePath) : root;

@@ -5,43 +5,30 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import TextTabContainer from './TextTabContainer';
 
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  connectedData: {},
-};
-
 const navBarItems = ['Entry Points', 'Text'];
 
 export default class Editor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    // actions
-    addEntryPoint: PropTypes.func.isRequired,
+    tab: PropTypes.number,
+    openModal: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-
-    closeEditor: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    updateEditorSearch: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
+      search: PropTypes.string,
     }).isRequired,
   };
 
-  state = { currentDisplay: 0, search: '' };
-
-  addEntryPoint = (values) => {
-    const {
-      addEntryPoint,
-      viewId,
-    } = this.props;
-    addEntryPoint(
-      viewId,
-      {
-        ...newEntryPoint,
-        ...values,
-      }
-    );
+  static defaultProps = {
+    tab: null,
   }
 
   removeEntryPoint = (key) => {
@@ -62,39 +49,60 @@ export default class Editor extends Component {
     });
   }
 
-  changeSearch = s => this.setState({ search: s });
-  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+  changeSearch = s => this.props.updateEditorSearch(s);
+
+  changeCurrentDisplay = (id) => {
+    const { updateViewTab, viewId } = this.props;
+    updateViewTab(viewId, id);
+  }
 
   render() {
-    const { currentDisplay, search } = this.state;
     const {
-      closeEditor,
+      openModal,
+      tab,
+      viewId,
+      panels,
+      entryPointsPanels,
+      updateViewPanels,
       configuration: {
         entryPoints,
+        search,
       },
     } = this.props;
 
     return (
       <div className={styles.contentWrapper}>
         <Navbar
-          currentDisplay={currentDisplay}
+          currentDisplay={tab === null ? 0 : tab}
           items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={closeEditor}
         />
         <div className={styles.content}>
-          {currentDisplay === 0 && <div>
+          {(tab === 0 || tab === null) && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
-              addEntryPoint={this.addEntryPoint}
+              openModal={openModal}
+              viewId={viewId}
+              viewType="TextView"
+              search={search}
             />
             <EntryPointTree
+              viewId={viewId}
               entryPoints={entryPoints}
               search={search}
               remove={this.removeEntryPoint}
+              entryPointsPanels={entryPointsPanels}
+              updateViewPanels={updateViewPanels}
             />
           </div>}
-          {currentDisplay === 1 && <TextTabContainer />}
+          {
+            tab === 1 &&
+            <TextTabContainer
+              viewId={viewId}
+              updateViewPanels={updateViewPanels}
+              panels={panels}
+            />
+          }
         </div>
       </div>
     );

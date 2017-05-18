@@ -1,20 +1,20 @@
-import React, { PropTypes } from 'react';
-import _memoize from 'lodash/memoize';
+import React, { PropTypes, Component } from 'react';
 import {
-  Accordion,
-  Panel,
   Glyphicon,
   Alert,
   Button,
 } from 'react-bootstrap';
-
+import Collapse, { Panel } from 'rc-collapse';
+import classnames from 'classnames';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
+import styles from './EntryPointTree.css';
+
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
 */
 
-export default class EntryPointTree extends React.Component {
+export default class EntryPointTree extends Component {
   static propTypes = {
     entryPoints: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
@@ -33,20 +33,28 @@ export default class EntryPointTree extends React.Component {
         unit: PropTypes.string,
       }),
     })),
-    search: PropTypes.string.isRequired,
+    search: PropTypes.string,
     remove: PropTypes.func.isRequired,
+    viewId: PropTypes.string.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
   }
 
   static defaultProps = {
     entryPoints: [],
+    search: '',
   };
 
   static contextTypes = {
-    viewId: React.PropTypes.string,
     windowId: React.PropTypes.string,
   }
 
-  state = {};
+  state = { openPanels: [] };
+
+  onChange = (openPanels) => {
+    const { updateViewPanels, viewId } = this.props;
+    updateViewPanels(viewId, 'entryPoints', openPanels);
+  }
 
   handleRemove = (e, key) => {
     e.preventDefault();
@@ -54,13 +62,15 @@ export default class EntryPointTree extends React.Component {
     this.props.remove(key);
   }
 
-  openPanel = _memoize(key => () => this.setState({ [`panel${key}IsOpen`]: true }));
-  closePanel = _memoize(key => () => this.setState({ [`panel${key}IsOpen`]: false }));
-
   render() {
-    const { viewId, windowId } = this.context;
-    const mask = `${this.props.search}.*`;
-    const { entryPoints } = this.props;
+    const { windowId } = this.context;
+    const {
+      entryPoints,
+      viewId,
+      entryPointsPanels,
+    } = this.props;
+
+    const mask = `${this.props.search || ''}.*`;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
@@ -71,38 +81,42 @@ export default class EntryPointTree extends React.Component {
     }
 
     return (
-      <Accordion>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={Object.keys(entryPointsPanels)}
+      >
         {list.map((entryPoint, key) => {
-          const isOpen = this.state[`panel${key}IsOpen`];
+          const isOpen = entryPointsPanels[entryPoint.id];
           return (
             <Panel
-              key={entryPoint.name}
-              header={<span>
-                {entryPoint.objectStyle && entryPoint.objectStyle.curveColor && <div
-                  style={{
-                    height: '20px',
-                    width: '20px',
-                    marginRight: '10px',
-                    backgroundColor: entryPoint.objectStyle.curveColor,
-                  }}
-                />}
-                <span className="flex">{entryPoint.name}</span>
-                <Button
-                  bsSize="xsmall"
-                  className="btn-link"
-                  onClick={e => this.handleRemove(e, key)}
-                >
-                  <Glyphicon
-                    className="text-danger"
-                    glyph="remove"
-                    title="Remove"
-                  />
-                </Button>
-              </span>}
-              eventKey={key}
-              expanded={isOpen}
-              onSelect={this.openPanel(key)}
-              onExited={this.closePanel(key)}
+              key={entryPoint.id}
+              header={
+                <div className="rc-collapse-header-inner">
+                  {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
+                    <div
+                      className={styles.colorSquare}
+                      style={{
+                        backgroundColor: entryPoint.objectStyle.curveColor,
+                      }}
+                    />
+                  }
+                  <span className="flex">&nbsp;&nbsp;&nbsp;{entryPoint.name}</span>
+                  <div>
+                    <Button
+                      bsSize="xsmall"
+                      className={classnames('btn-link', styles.removeButton)}
+                      onClick={e => this.handleRemove(e, key)}
+                    >
+                      <Glyphicon
+                        className="text-danger"
+                        glyph="remove"
+                        title="Remove"
+                      />
+                    </Button>
+                  </div>
+                </div>
+              }
             >
               {isOpen && <EntryPointDetailsContainer
                 key={`${entryPoint.name}#detailsContainer`}
@@ -114,7 +128,7 @@ export default class EntryPointTree extends React.Component {
             </Panel>
           );
         })}
-      </Accordion>
+      </Collapse>
     );
   }
 }

@@ -1,12 +1,10 @@
 import _isEqual from 'lodash/isEqual';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
+import remoteIdGenerator from 'common/utils/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
 
-import remoteIdGenerator from '../../commonData/remoteId';
-
 const logger = getLogger('data:PLotView:parseEntryPoint');
-
 
 export default function parseEntryPoint(
   domains,
@@ -15,7 +13,13 @@ export default function parseEntryPoint(
   entryPoint,
   masterSessionId,
   timebarUuid,
-  viewType
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName
 ) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
@@ -28,7 +32,19 @@ export default function parseEntryPoint(
     return { [name]: { error: 'No field X' } };
   }
 
-  const cd = parseConnectedData(domains, sessions, timelines, connectedData, masterSessionId);
+  const cd = parseConnectedData(
+    domains,
+    sessions,
+    timelines,
+    connectedData,
+    masterSessionId,
+    viewDomain,
+    pageDomain,
+    workspaceDomain,
+    viewSessionName,
+    pageSessionName,
+    workspaceSessionName
+  );
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
     return { [name]: { error: cd.error } };
@@ -39,20 +55,18 @@ export default function parseEntryPoint(
     return { [name]: { error: 'parametric entryPoint detected for this view' } };
   }
 
-  const remoteIdY =
-    remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_RANGE, cd.dataId, cd.filter);
+  const remoteId = remoteIdGenerator(cd.dataId);
 
   const ep = {
     [name]: {
-      remoteId: remoteIdY,
+      remoteId,
       dataId: cd.dataId,
       localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
       fieldX: connectedData.fieldX,
       fieldY: cd.field,
       offset: cd.offset,
       timebarUuid,
-      filter: cd.filter,
-      structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
+      filters: cd.filters,
       id,
       type: viewType,
     },

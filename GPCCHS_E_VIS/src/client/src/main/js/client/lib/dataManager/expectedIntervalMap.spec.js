@@ -210,6 +210,9 @@ describe('dataManager/expectedIntervalMap', () => {
       masterSession: {
         sessionId: 10,
       },
+      hsc: {
+        playingTimebarId: null,
+      },
     };
   });
 
@@ -230,8 +233,7 @@ describe('dataManager/expectedIntervalMap', () => {
     filter: [],
     localId: 'groundDate/extractedValue.tb1:0/0',
     timebarUuid: 'tb1',
-    structureType: 'range',
-    remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+    remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
     type: 'PlotView',
   };
   const epValidData = {
@@ -253,12 +255,10 @@ describe('dataManager/expectedIntervalMap', () => {
         viewType: 'PlotView',
       },
     },
-    structureType: epValid.structureType,
     views: ['plot1'],
   };
   const perRemoteIdMap = {
-    'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-      structureType: 'last',
+    'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
       dataId: {
         catalog: 'Reporting',
         parameterName: 'STAT_SU_PID',
@@ -276,11 +276,17 @@ describe('dataManager/expectedIntervalMap', () => {
           timebarUuid: 'tb1',
           viewType: 'TextView',
         },
+        'groundDate/extractedValue.tb1:0/0': {
+          fieldX: 'groundDate',
+          fieldY: 'extractedValue',
+          offset: 0,
+          timebarUuid: 'tb1',
+          viewType: 'PlotView',
+        },
       },
-      views: ['text'],
+      views: ['text', 'plot'],
     },
-    'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-      structureType: 'last',
+    'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
       dataId: {
         catalog: 'Reporting',
         parameterName: 'STAT_WILDCARD_TIMELINE',
@@ -299,29 +305,6 @@ describe('dataManager/expectedIntervalMap', () => {
         },
       },
       views: ['text'],
-    },
-    'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-      structureType: 'range',
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'STAT_SU_PID',
-        comObject: 'ReportingParameter',
-        domainId: 4,
-        domain: 'fr.cnes.isis.simupus',
-        sessionId: 181,
-        sessionName: 'Session#181',
-      },
-      filter: [],
-      localIds: {
-        'groundDate/extractedValue.tb1:0/0': {
-          fieldX: 'groundDate',
-          fieldY: 'extractedValue',
-          offset: 0,
-          timebarUuid: 'tb1',
-          viewType: 'PlotView',
-        },
-      },
-      views: ['plot'],
     },
   };
 
@@ -351,19 +334,17 @@ describe('dataManager/expectedIntervalMap', () => {
   });
   it('perRemoteIdMap valid', () => {
     expectedIntervalMap(state.timebars, perRemoteIdMap).should.eql({
-      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': {
           expectedInterval: [1420106790818, 1420106843902],
         },
-      },
-      'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-        'extractedValue.tb1:0': {
-          expectedInterval: [1420106790818, 1420106843902],
-        },
-      },
-      'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'groundDate/extractedValue.tb1:0/0': {
           expectedInterval: [1420106790818, 1420107056239],
+        },
+      },
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+        'extractedValue.tb1:0': {
+          expectedInterval: [1420106790818, 1420106843902],
         },
       },
     });
@@ -376,19 +357,17 @@ describe('dataManager/expectedIntervalMap', () => {
     expectedIntervalSelector.recomputations().should.eql(1);
     const newState = u({ timebars: { tb1: { visuWindow: { lower: 1420106790828 } } } }, state);
     expectedIntervalSelector(newState, { perRemoteIdMap }).should.eql({
-      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': {
           expectedInterval: [1420106790828, 1420106843902],
         },
-      },
-      'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-        'extractedValue.tb1:0': {
-          expectedInterval: [1420106790828, 1420106843902],
-        },
-      },
-      'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'groundDate/extractedValue.tb1:0/0': {
           expectedInterval: [1420106790828, 1420107056239],
+        },
+      },
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+        'extractedValue.tb1:0': {
+          expectedInterval: [1420106790828, 1420106843902],
         },
       },
     });

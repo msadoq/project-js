@@ -74,18 +74,23 @@ export default class TextView extends PureComponent {
     content: PropTypes.string.isRequired,
     updateContent: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
-    pageId: PropTypes.string.isRequired,
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorEpId: PropTypes.string,
   };
   static defaultProps = {
     data: {
       values: {},
     },
     entryPoints: {},
+    inspectorEpId: null,
   };
 
   componentWillMount() {
@@ -118,48 +123,93 @@ export default class TextView extends PureComponent {
   }
 
   onContextMenu = (event) => {
-    const { entryPoints, openInspector, pageId } = this.props;
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      isViewsEditorOpen,
+      openEditor,
+      closeEditor,
+      mainMenu,
+      isInspectorOpened,
+      inspectorEpId,
+    } = this.props;
     const span = getEpSpan(event.target);
+    const separator = { type: 'separator' };
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
-      const label = `Open ${epName} in Inspector`;
+      const editorMenu = [{
+        label: `Open ${epName} in Editor`,
+        click: () => {
+          openEditor(epName);
+        },
+      }];
+      if (isViewsEditorOpen) {
+        editorMenu.push({
+          label: 'Close Editor',
+          click: () => closeEditor(),
+        });
+      }
+      const inspectorLabel = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
-        handleContextMenu({ label, enabled: false });
+        const inspectorMenu = {
+          label: inspectorLabel,
+          enabled: false,
+        };
+        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
         return;
       }
-      const { remoteId, dataId } = entryPoints[epName];
-      const simpleMenu = {
-        label,
+      const { id, dataId, field } = entryPoints[epName];
+      const opened = isInspectorOpened && (inspectorEpId === id);
+      const inspectorMenu = {
+        label: inspectorLabel,
+        type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
           dataId,
+          epName,
+          field,
         }),
+        checked: opened,
       };
-      handleContextMenu(simpleMenu);
+      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
       return;
     }
-    const complexMenu = {
-      label: 'Open parameter in Inspector',
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => {
+        openEditor();
+      },
+    };
+    const inspectorMenu = {
+      label: 'Open in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
       const label = `${epName}`;
       if (ep.error) {
-        complexMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
-      const { remoteId, dataId } = ep;
-      complexMenu.submenu.push({
+      const { id, dataId, field } = ep;
+      const opened = isInspectorOpened && (inspectorEpId === id);
+      inspectorMenu.submenu.push({
         label,
+        type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
           dataId,
+          epName,
+          field,
         }),
+        checked: opened,
       });
     });
-    handleContextMenu(complexMenu);
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
 
 
@@ -232,7 +282,11 @@ export default class TextView extends PureComponent {
           if (!sv.el) {
             sv.el = document.getElementById(id);
           }
-          sv.el.innerHTML = ep.error ? 'Invalid entry point' : val.value || '';
+          let v = val.value;
+          if (v === undefined) {
+            v = '';
+          }
+          sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
           if (ep.error) {
             sv.el.setAttribute('title', ep.error);
           }

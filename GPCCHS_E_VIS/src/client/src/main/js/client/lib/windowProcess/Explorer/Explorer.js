@@ -9,6 +9,7 @@ import StoreContainer from './widgets/StoreContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
 import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
+import CacheContainer from './widgets/CacheContainer';
 
 import styles from './Explorer.css';
 
@@ -20,7 +21,7 @@ const widgets = {
   inspector: { title: 'Inspector', component: InspectorContainer },
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
-  cache: { title: 'Cache (developer)', component: NotAlreadyImplemented },
+  cache: { title: 'Cache (developer)', component: CacheContainer },
   performance: { title: 'Performance (developer)', component: PerformanceContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
 };
@@ -31,6 +32,7 @@ export default class Explorer extends PureComponent {
     pageId: PropTypes.string.isRequired,
     tabId: PropTypes.string,
     focusTabInExplorer: PropTypes.func.isRequired,
+    minimizeExplorer: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -43,6 +45,15 @@ export default class Explorer extends PureComponent {
       const { pageId, focusTabInExplorer } = this.props;
       focusTabInExplorer(pageId, tabId);
     }
+  }
+
+  willExpandExplorer = (e) => {
+    e.preventDefault();
+    const {
+      minimizeExplorer,
+      pageId,
+    } = this.props;
+    minimizeExplorer(pageId, true);
   }
 
   /**
@@ -88,7 +99,7 @@ export default class Explorer extends PureComponent {
     const Widget = _get(widgets, [tabId, 'component'], NotAlreadyImplemented);
 
     return (
-      <div className={styles.container}>
+      <div className={styles.explorer}>
         <FormGroup controlId="formControlsSelect">
           <FormControl
             componentClass="select"

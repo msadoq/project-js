@@ -1,15 +1,10 @@
 import React, { PropTypes, PureComponent } from 'react';
-
-import {
-  Accordion,
-  Panel,
-} from 'react-bootstrap';
-import _memoize from 'lodash/memoize';
-
+import Collapse from 'rc-collapse';
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
+const { Panel } = Collapse;
 /*
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
@@ -40,16 +35,22 @@ export default class EntryPointDetails extends PureComponent {
       }),
     }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
+    ]).isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
 
-  state = {
-    isPanelCoordinatesOpen: false,
-    isPanelStateColorsOpen: false,
-    isPanelParametersOpen: false,
-  };
-
-  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
-  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
+  onChange = (openPanels) => {
+    const {
+      updateViewSubPanels,
+      viewId,
+      entryPoint,
+    } = this.props;
+    updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
+  }
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -92,29 +93,26 @@ export default class EntryPointDetails extends PureComponent {
       viewId,
       axes,
       timelines,
+      panels,
+      domains,
     } = this.props;
 
-    const {
-      isPanelCoordinatesOpen,
-      isPanelStateColorsOpen,
-      isPanelParametersOpen,
-    } = this.state;
     // TODO Rerender (new ref)
     const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
 
     // TODO Rerender (new ref)
     const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
     return (
-      <Accordion>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={Array.isArray(panels) ? panels : []}
+      >
         <Panel
-          key={'Parameters'}
+          key="parameters"
           header="Parameters"
-          eventKey={'Parameters'}
-          expanded={isPanelParametersOpen}
-          onSelect={this.openPanel('Parameters')}
-          onExited={this.closePanel('Parameters')}
         >
-          {isPanelParametersOpen && <EntryPointParameters
+          {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
             form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
             initialValues={initialValuesParameters}
@@ -122,16 +120,13 @@ export default class EntryPointDetails extends PureComponent {
         </Panel>
 
         <Panel
-          key={'Coordinates'}
+          key="coordinates"
           header="Coordinates"
-          eventKey={'Coordinates'}
-          expanded={isPanelCoordinatesOpen}
-          onSelect={this.openPanel('Coordinates')}
-          onExited={this.closePanel('Coordinates')}
         >
-          {isPanelCoordinatesOpen && <EntryPointConnectedData
+          {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
             axes={axes}
             timelines={timelines}
+            domains={domains}
             idPoint={idPoint}
             viewId={viewId}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
@@ -140,21 +135,17 @@ export default class EntryPointDetails extends PureComponent {
           />}
         </Panel>
         <Panel
-          key={'StateColors'}
+          key="stateColors"
           header="State colors"
-          eventKey={'StateColors'}
-          expanded={isPanelStateColorsOpen}
-          onSelect={this.openPanel('StateColors')}
-          onExited={this.closePanel('StateColors')}
         >
-          {isPanelStateColorsOpen && <EntryPointStateColors
+          {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={initialValuesStateColors}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
         </Panel>
-      </Accordion>
+      </Collapse>
     );
   }
 }

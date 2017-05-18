@@ -1,13 +1,13 @@
 import _ from 'lodash/fp';
 
-import { getAxes, updateAxis, addAxis, removeAxis } from './axes';
-import { getNewPlotEntryPoint } from '../../../common/entryPoint';
+import { getYAxis, updateAxis, addAxis, removeAxis } from './axes';
 import * as types from '../../../store/types';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
-const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state);
 
-export default (stateConf = { content: '' }, action) => {
+const addElementIn = (key, val, state) => _.update(key, x => _.compact(_.concat(x, val)), state);
+
+export default (stateConf = { search: '' }, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_LEGEND:
       return _.set('legend', action.payload.legend, stateConf);
@@ -26,18 +26,16 @@ export default (stateConf = { content: '' }, action) => {
     case types.WS_VIEW_REMOVE_MARKER:
       return removeElementIn('markers', action.payload.index, stateConf);
     case types.WS_VIEW_ADD_ENTRYPOINT: {
-      const axisY = getAxes(stateConf, action);
-      const newEp = _.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
+      const axisY = getYAxis(stateConf, action);
       return {
         ...stateConf,
         entryPoints: [
           ...stateConf.entryPoints,
           {
-            ...newEp,
+            ...action.payload.entryPoint,
             connectedData: {
-              ...(newEp.connectedData),
+              ...(action.payload.entryPoint.connectedData),
               axisId: axisY.id,
-              unit: axisY.unit,
             },
           },
         ],
@@ -60,6 +58,8 @@ export default (stateConf = { content: '' }, action) => {
       return addAxis(stateConf, action);
     case types.WS_VIEW_REMOVE_AXIS:
       return removeAxis(stateConf, action);
+    case types.WS_VIEW_UPDATE_EDITOR_SEARCH:
+      return _.set('search', action.payload.search, stateConf);
     default:
       return stateConf;
   }

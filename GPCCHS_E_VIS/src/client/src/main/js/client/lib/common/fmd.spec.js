@@ -24,8 +24,8 @@ describe('common/fmd', () => {
   let stubs = [];
   before(() => {
     stubs = [
-      sinon.stub(ipcApi.server, 'requestFmdCreate', mockedRequestFmdCreate),
-      sinon.stub(ipcApi.server, 'requestFmdGet', mockedRequestFmdGet),
+      sinon.stub(ipcApi.server, 'requestFmdCreate').callsFake(mockedRequestFmdCreate),
+      sinon.stub(ipcApi.server, 'requestFmdGet').callsFake(mockedRequestFmdGet),
     ];
   });
   after(() => {

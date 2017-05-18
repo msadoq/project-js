@@ -3,7 +3,6 @@ import async from 'async';
 import { v4 } from 'uuid';
 
 import { readDocument } from './io';
-import fs from '../common/fs';
 import validation from './validation';
 import {
   isViewTypeSupported,
@@ -11,9 +10,8 @@ import {
   getViewModule,
 } from '../viewManager';
 
-const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
-  const { path, oId, absolutePath } = viewInfo;
-  readDocument(pageFolder, path, oId, absolutePath, (err, viewContent) => {
+const simpleReadView = async.reflect((viewInfo, cb) => {
+  readDocument(viewInfo, (err, viewContent, properties, viewPath) => {
     if (err) {
       return cb(err);
     }
@@ -29,9 +27,7 @@ const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
     }
 
     const uuid = viewInfo.uuid || v4();
-    const view =
-      getViewModule(viewContent.type)
-        .prepareViewForStore({ ...viewContent, uuid });
+    const view = getViewModule(viewContent.type).prepareViewForStore({ ...viewContent, uuid });
 
     return cb(null, {
       ...viewInfo,
@@ -39,7 +35,7 @@ const simpleReadView = async.reflect(({ pageFolder, ...viewInfo }, cb) => {
       isModified: false,
       path: viewInfo.path,
       oId: viewInfo.oId,
-      absolutePath: fs.getPath(), // TODO : this is ugly
+      absolutePath: viewPath,
     });
   });
 });

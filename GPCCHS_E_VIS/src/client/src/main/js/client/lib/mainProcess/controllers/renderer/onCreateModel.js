@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../../store/isomorphic';
 import { add } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
 import { saveViewAs } from '../../../documentManager';
@@ -15,7 +15,7 @@ export default function ({ viewId }) {
   const folder = absolutePath ? dirname(absolutePath) : root;
   const viewToSave = getViewModule(type).prepareViewForModel(view);
   return getPathByFilePicker(folder, 'model', 'save', (err, path) => {
-    saveViewAs(viewToSave, type, path, (errSaving) => {
+    saveViewAs(viewToSave, path, (errSaving) => {
       if (errSaving) {
         dispatch(add(viewId, 'danger', `Model unsaved ${errSaving}`));
       } else {

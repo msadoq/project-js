@@ -1,8 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
-
-// import DummyDrag from './DummyDrag';
+import { get } from 'common/parameters';
+import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
 
 const popoverDraggingStyle = { display: 'none' };
@@ -40,9 +40,9 @@ export default class Tabs extends PureComponent {
   static propTypes = {
     pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
-    focusPage: PropTypes.func,
-    closePage: PropTypes.func,
-    moveTabOrder: PropTypes.func,
+    focusPage: PropTypes.func.isRequired,
+    closePage: PropTypes.func.isRequired,
+    moveTabOrder: PropTypes.func.isRequired,
   };
 
   handleSelect = (eventKey) => {
@@ -86,11 +86,13 @@ export default class Tabs extends PureComponent {
       }
     }
   }
+
   handleDragLeave = (e) => {
     const ev = e.currentTarget.parentNode;
     ev.style.borderLeft = 'none';
     ev.style.borderRight = 'none';
   }
+
   handleDrop = (e, pageId, key) => {
     const ev = e.currentTarget.parentNode;
     ev.style.borderLeft = 'none';
@@ -107,9 +109,13 @@ export default class Tabs extends PureComponent {
 
   render() {
     const { pages, focusedPageId } = this.props;
+    let dumpColor = '';
+    if (get('DUMP') === 'on') {
+      dumpColor = styles.band;
+    }
 
     return (
-      <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect}>
+      <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect} className={dumpColor}>
         {
           pages.map((page, key) =>
             <NavItem
@@ -152,7 +158,7 @@ export default class Tabs extends PureComponent {
             </NavItem>
           )
         }
-        {/* <DummyDrag /> */}
+        <DummyDrag />
       </Nav>
     );
   }

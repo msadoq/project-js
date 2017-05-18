@@ -1,0 +1,55 @@
+@import '../../../../windowProcess/style/variables.css';
+
+.removeButton {
+    padding-left: 9px;
+    cursor: pointer;
+}
+
+.eyeButton{
+    font-size: 1.4em;
+    padding-left: 6px;
+    background: transparent;
+    cursor: pointer;
+}
+.showEyeSelected{
+    color: var(--controlBlue);
+}
+.hideEyeSelected{
+    color: #a94442;
+}
+
+.plotLegend{
+  .plotLegendLegends{
+    max-height: 75px;
+    overflow-y: auto;
+    max-width: 700px;
+    margin: 0;
+    display: block;
+    button{
+      p{
+        font-size: 0.8em;
+      }
+    }
+    span{
+      display: inline-block;
+      font-size: 0.9em;
+    }
+  }
+}
+.plotLegendColor{
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  transform: translateY(3px);
+}
+.plotLegendAxisName{
+  font-weight: bold;
+}
+.legend{
+  border: 1px solid #DDD;
+  border-radius: 2px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  display: inline-block;
+  padding: 2px;
+}

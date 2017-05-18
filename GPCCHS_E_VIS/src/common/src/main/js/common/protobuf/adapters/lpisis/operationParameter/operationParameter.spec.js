@@ -17,7 +17,7 @@ describe('protobuf/lpisis/operationParameter/OperationParameter', () => {
     json.should.be.an('object').that.have.properties({
       name: { type: 'string', value: fixture.name },
       timestamp: { type: 'finetime', value: fixture.timestamp },
-      value: { type: 'double', value: fixture.value },
+      value: { type: 'double', symbol: fixture.value.toString() },
     });
   });
 });

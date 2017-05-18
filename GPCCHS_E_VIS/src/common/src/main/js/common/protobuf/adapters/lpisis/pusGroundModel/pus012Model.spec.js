@@ -31,8 +31,8 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
         parameterId: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].parameterId },
         validityParameterId: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].validityParameterId },
         validityParameterMask: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].validityParameterMask },
-        parameterCurrentValue: { type: 'double', value: fixture.pus012ParameterMonitoringDefinition[i].parameterCurrentValue },
-        validityParameterExpectedValue: { type: 'double', value: fixture.pus012ParameterMonitoringDefinition[i].validityParameterExpectedValue },
+        parameterCurrentValue: { type: 'double', symbol: fixture.pus012ParameterMonitoringDefinition[i].parameterCurrentValue.toString() },
+        validityParameterExpectedValue: { type: 'double', symbol: fixture.pus012ParameterMonitoringDefinition[i].validityParameterExpectedValue.toString() },
         monitoringInterval: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].monitoringInterval },
         repetitionNumber: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].repetitionNumber },
         checkType: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].checkType },
@@ -42,7 +42,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
           : {
             ridStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.ridStatus },
             actionStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.actionStatus },
-            value: { type: 'double', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.value },
+            value: { type: 'double', symbol: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.value.toString() },
             rid: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.rid },
             mask: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.mask },
             actionName: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesLow.actionName },
@@ -52,7 +52,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
           : {
             ridStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.ridStatus },
             actionStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.actionStatus },
-            value: { type: 'double', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.value },
+            value: { type: 'double', symbol: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.value.toString() },
             rid: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.rid },
             mask: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.mask },
             actionName: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesHigh.actionName },
@@ -62,7 +62,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus012Model', () => {
           : {
             ridStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.ridStatus },
             actionStatus: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.actionStatus },
-            value: { type: 'double', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.value },
+            value: { type: 'double', symbol: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.value.toString() },
             rid: { type: 'uinteger', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.rid },
             mask: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.mask },
             actionName: { type: 'string', value: fixture.pus012ParameterMonitoringDefinition[i].pus012MonitoringCheckPropertiesExpected.actionName },

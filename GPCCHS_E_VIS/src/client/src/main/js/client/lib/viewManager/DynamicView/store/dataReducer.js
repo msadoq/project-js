@@ -107,6 +107,6 @@ export default function dynamicViewData(state = {}, action) {
   }
 }
 
-export const getDynamicViewData = state => state.dynamicViewData;
+export const getDynamicViewData = state => state.DynamicViewData;
 
-export const getData = (state, { viewId }) => state.dynamicViewData[viewId];
+export const getData = (state, { viewId }) => state.DynamicViewData[viewId];

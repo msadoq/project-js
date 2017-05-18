@@ -1,4 +1,5 @@
 {
+  "type": "DynamicView",
   "title": "Dynamic view",
   "titleStyle": {
     "font": "Arial",
@@ -11,18 +12,20 @@
     "color": "#ffffff",
     "bgColor": "#E91E63"
   },
-  "type": "DynamicView",
   "links": [],
   "defaultRatio": {
     "length": 5,
     "width": 3
   },
+  "domainName": "fr.cnes.isis",
+  "sessionName": "Master",
   "entryPoint": {
     "connectedData": {
       "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
       "filter": [],
       "domain": "fr.cnes.isis.simupus",
       "timeline": "Session 1"
-    }
+    },
+    "name": "dynamicEP"
   }
 }

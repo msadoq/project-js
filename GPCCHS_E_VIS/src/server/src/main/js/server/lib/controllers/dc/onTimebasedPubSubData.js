@@ -1,32 +1,30 @@
 const { decode, getType } = require('common/protobuf');
-const {
-  HSS_MAX_PAYLOADS_PER_MESSAGE,
-} = require('common/constants');
 const executionMonitor = require('common/log/execution');
-const _isEmpty = require('lodash/isEmpty');
+const flattenDataId = require('common/utils/flattenDataId');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
+const { writeFile } = require('fs');
+const { join } = require('path');
+
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const loggerData = require('common/log')('controllers:incomingData');
+const { get } = require('common/parameters');
 const { add: addToQueue } = require('../../models/dataQueue');
-const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const subscriptionsModel = require('../../models/subscriptions');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
+const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+
+const dump = (get('DUMP') === 'on');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
  *
- * - if dataId not in subscriptions model, stop logic
- * - get { remoteId: filters } from subscriptions model
  * - if there is no remoteId for this dataId, stop logic
  * - loop over arguments (timestamp, payload) peers
  *    - loop over remoteId
  *        - if timestamp not in interval in connectedData model, continue to next iteration
- *        - apply filters on decode payload
  *        - deprotobufferize payload
- *        - store filtered payload in timebasedData model
  *        - queue a ws newData message (sent periodically)
  *
  * @param queryIdBuffer (not used for now)
@@ -57,22 +55,8 @@ module.exports = (
   }
 
   execution.start('retrieve subscription');
-  // if dataId not in subscriptions model, stop logic
-  logger.silly('retrieve subscription');
-  const subscription = subscriptionsModel.getByDataId(dataId);
-  if (!subscription) {
-    return;
-  }
-  execution.stop('retrieve subscription');
-
-  execution.start('retrieve filters');
-  // get { remoteId: filters } from subscriptions model
-  logger.silly('retrieve filters');
-  const filtersByRemoteId = subscriptionsModel.getFilters(dataId, subscription);
-  execution.stop('retrieve filters');
-
-  // if there is no remoteId for this dataId, stop logic
-  if (_isEmpty(filtersByRemoteId)) {
+  const flatDataId = flattenDataId(dataId);
+  if (!connectedDataModel.exists(flatDataId)) {
     logger.silly('no query registered for this dataId', dataId);
     return;
   }
@@ -81,19 +65,11 @@ module.exports = (
     return;
   }
 
-  // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
-  const payloadNumber = payloadsBuffers.length / 2;
-  if (payloadNumber > HSS_MAX_PAYLOADS_PER_MESSAGE) {
-    // TODO send error to client
-    execution.stop(
-      'global',
-      `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
-    );
-    execution.print();
-    logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
-    return;
+  let dumpFolder;
+  if (dump) {
+    createDumpFolder(dataId);
+    dumpFolder = getDumpFolder(dataId);
   }
-
   // loop over arguments peers (timestamp, payload)
   _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
     execution.start('decode timestamp');
@@ -103,78 +79,72 @@ module.exports = (
     setLastPubSubTimestamp(timestamp.ms);
 
     let decodedPayload;
-    _each(filtersByRemoteId, (filters, remoteId) => {
-      execution.start('control interval');
-      // if timestamp not in interval in connectedData model, continue to next iteration
-      const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
-        remoteId, timestamp.ms
-      );
+    execution.start('control interval');
+    // if timestamp not in interval in connectedData model, continue to next iteration
+    const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
+      flatDataId, timestamp.ms
+    );
 
-      const date = new Date(timestamp.ms);
+    const date = new Date(timestamp.ms);
 
-      if (!isKnownInterval) {
-        loggerData.debug({
-          controller: 'onTimebasedPubSubData',
-          remoteId,
-          date,
-          isKnownInterval,
-        });
-        return;
-      }
-      execution.stop('control interval');
-
-      // decode Payload only once by payloadBuffer loop to avoid resource-consuming
-      if (!decodedPayload) {
-        execution.start('decode payload');
-        // deprotobufferize payload
-        decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
-        execution.stop('decode payload');
-      }
-
-      execution.start('apply filters');
-      // apply filters on decoded payload
-      const isMatchingFilters = applyFilters(decodedPayload, filters);
-      if (!isMatchingFilters) {
-        loggerData.debug({
-          controller: 'onTimebasedPubSubData',
-          remoteId,
-          date,
-          isMatchingFilters,
-        });
-        return;
-      }
-      execution.stop('apply filters');
-
+    if (!isKnownInterval) {
       loggerData.debug({
         controller: 'onTimebasedPubSubData',
-        remoteId,
+        flatDataId,
         date,
-        rawValue: decodedPayload.rawValue,
-        extractedValue: decodedPayload.extractedValue,
-        convertedValue: decodedPayload.convertedValue,
+        isKnownInterval,
       });
+      return;
+    }
+    execution.stop('control interval');
 
-      const tbd = {
-        timestamp: timestamp.ms,
-        payload: decodedPayload,
-      };
+    // decode Payload only once by payloadBuffer loop to avoid resource-consuming
+    if (!decodedPayload) {
+      execution.start('decode payload');
+      // deprotobufferize payload
+      decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
+      execution.stop('decode payload');
+    }
 
-      execution.start('retrieve timebasedData model');
-      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
-      execution.stop('retrieve timebasedData model');
+    // dump
+    if (dump && dumpFolder) {
+      // save a file per timestamp with binary payload
+      writeFile(join(dumpFolder, timestamp.ms.toString()), payloadBuffer[1], (err) => {
+        if (err) {
+          loggerData.warn(`Error writing dump file ${timestamp}`);
+        }
+      });
+    }
 
-      execution.start('store in timebasedData model');
-      timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
-      execution.stop('store in timebasedData model');
-
-      execution.start('queue payloads');
-      logger.silly('queue pubSub point to client');
-      // queue a ws newData message (sent periodically)
-      addToQueue(remoteId, tbd.timestamp, tbd.payload);
-      execution.stop('queue payloads');
-
-      execution.stop('global');
-      execution.print();
+    loggerData.debug({
+      controller: 'onTimebasedPubSubData',
+      flatDataId,
+      date,
+      rawValue: decodedPayload.rawValue,
+      extractedValue: decodedPayload.extractedValue,
+      convertedValue: decodedPayload.convertedValue,
     });
+
+    const tbd = {
+      timestamp: timestamp.ms,
+      payload: decodedPayload,
+    };
+
+    execution.start('retrieve timebasedData model');
+    const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
+    execution.stop('retrieve timebasedData model');
+
+    execution.start('store in timebasedData model');
+    timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
+    execution.stop('store in timebasedData model');
+
+    execution.start('queue payloads');
+    logger.silly('queue pubSub point to client');
+    // queue a ws newData message (sent periodically)
+    addToQueue(flatDataId, tbd.timestamp, tbd.payload);
+    execution.stop('queue payloads');
+
+    execution.stop('global');
+    execution.print();
   });
 };

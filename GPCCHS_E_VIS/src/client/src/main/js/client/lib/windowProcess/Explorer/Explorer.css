@@ -1,15 +1,24 @@
 @import '../style/variables';
 
-.container {
-  width: 100%;
-  height: 100%;
-  background: #FFF;
-  border-left: 1px solid #aaa;
-  padding: 0 5px;
-}
-
 .widgetContainer {
   width: 100%;
   height: 100%;
   overflow: auto;
+}
+
+.buttonGroup {
+  margin-top: 13px;
+  margin-bottom: 13px;
+  margin-right: 14px;
+}
+
+.panel {
+  overflow: auto;
+}
+.explorer{
+  padding: 3px;
+  width: calc(100% - 24px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

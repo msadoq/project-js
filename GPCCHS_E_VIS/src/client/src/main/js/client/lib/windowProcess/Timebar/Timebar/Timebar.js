@@ -35,7 +35,7 @@ export default class Timebar extends PureComponent {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     setRealTime: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
@@ -71,6 +71,10 @@ export default class Timebar extends PureComponent {
     verticalScroll: PropTypes.number.isRequired,
     widthPx: PropTypes.number.isRequired,
   }
+
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
 
   state = {
     dragging: false,
@@ -1013,11 +1017,26 @@ export default class Timebar extends PureComponent {
   bindRePositionLeft = this.rePosition.bind(this, 'left')
   bindRePositionRight = this.rePosition.bind(this, 'right')
 
+  willOpenModal = (e) => {
+    e.preventDefault();
+    const {
+      openModal,
+      timebarUuid,
+    } = this.props;
+    openModal(
+      this.context.windowId,
+      {
+        type: 'timeSetter',
+        timebarUuid,
+        cursor: e.currentTarget.getAttribute('cursor'),
+      }
+    );
+  }
+
   render() {
     const {
       visuWindow,
       timelines,
-      toggleTimesetter,
       timebarMode,
       viewport,
       slideWindow,
@@ -1126,7 +1145,7 @@ export default class Timebar extends PureComponent {
             current={current}
             upper={upper}
             formatDate={this.formatDate}
-            toggleTimesetter={toggleTimesetter}
+            toggleTimesetter={this.willOpenModal}
             onMouseDown={this.onMouseDown}
             onMouseDownResize={this.onMouseDownResize}
             onMouseDownNavigate={this.onMouseDownNavigate}
@@ -1146,7 +1165,7 @@ export default class Timebar extends PureComponent {
           { timebarMode !== 'Normal' &&
             <SlideWindow
               timebarMode={timebarMode}
-              toggleTimesetter={toggleTimesetter}
+              toggleTimesetter={this.willOpenModal}
               slideUpperPercentOffset={calc.slideUpperPercentOffset}
               slideLowerPercentOffset={calc.slideLowerPercentOffset}
               widthPx={widthPx}

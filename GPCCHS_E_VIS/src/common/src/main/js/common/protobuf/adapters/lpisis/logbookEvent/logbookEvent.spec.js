@@ -49,7 +49,7 @@ describe('protobuf/lpisis/logbookEvent/LogbookEvent', () => {
     for (let i = 0; i < fixture.specificAttributes.length; i += 1) {
       json.specificAttributes[i].should.be.an('object').that.have.properties({
         name: { type: 'identifier', value: fixture.specificAttributes[i].name },
-        value: { type: 'double', value: fixture.specificAttributes[i].value },
+        value: { type: 'double', symbol: fixture.specificAttributes[i].value.toString() },
       });
     }
   });

@@ -1,5 +1,4 @@
 const connectedDataModel = require('./../models/connectedData');
-const subscriptionsModel = require('./../models/subscriptions');
 const {
   getAllTimebasedDataModelRemoteIds,
   getTimebasedDataModel,
@@ -12,11 +11,10 @@ const { get: getLastPubSubTimestamp } = require('./../models/lastPubSubTimestamp
 /**
  * Return object that represents current server models state
  *
- * @return {{connectedData, subscriptions, timebasedData: *}}
+ * @return {{connectedData, timebasedData: *}}
  */
 module.exports = () => {
   const connectedData = connectedDataModel.getAll();
-  const subscriptions = subscriptionsModel.getAll();
   const tbdModels = getAllTimebasedDataModelRemoteIds();
 
   const timebasedData = tbdModels.reduce((list, model) => Object.assign(
@@ -34,7 +32,6 @@ module.exports = () => {
 
   return {
     connectedData,
-    subscriptions,
     timebasedData,
     dataQueue,
     registeredQueries,

@@ -5,6 +5,7 @@ import hsc from './hsc';
 import timebars from './timebars';
 import timebarTimelines from './timebarTimelines';
 import messages from './messages';
+import modals from './modals';
 import timelines from './timelines';
 import windows from './windows';
 import pages from './pages';
@@ -15,11 +16,9 @@ import masterSession from './masterSession';
 import health from './health';
 import editor from './editor';
 import inspector from './inspector';
-import plotViewData from '../../viewManager/PlotView/store/dataReducer';
-import textViewData from '../../viewManager/TextView/store/dataReducer';
-import dynamicViewData from '../../viewManager/DynamicView/store/dataReducer';
+import ui from './ui';
 
-import { configurationReducers } from '../../viewManager/';
+import { configurationReducers, dataReducers } from '../../viewManager/';
 
 const rootReducer = combineReducers({
   form,
@@ -27,6 +26,7 @@ const rootReducer = combineReducers({
   timebars,
   timebarTimelines,
   messages,
+  modals,
   timelines,
   windows,
   pages,
@@ -37,10 +37,9 @@ const rootReducer = combineReducers({
   health,
   editor,
   inspector,
-  plotViewData,
-  textViewData,
-  dynamicViewData,
+  ui,
   ...configurationReducers,
+  ...dataReducers,
 });
 
 export default rootReducer;

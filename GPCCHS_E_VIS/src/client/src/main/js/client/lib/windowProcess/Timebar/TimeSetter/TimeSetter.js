@@ -332,7 +332,9 @@ export default class TimeSetter extends PureComponent {
               className={classnames(
                 'btn',
                 'btn-info',
-                { disabled: changed }
+                {
+                  disabled: !changed,
+                }
               )}
               onClick={this.cancel}
             >

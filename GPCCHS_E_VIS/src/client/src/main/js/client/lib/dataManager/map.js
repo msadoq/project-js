@@ -1,6 +1,5 @@
 import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
-import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
@@ -9,7 +8,9 @@ import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
+import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
+import { getEntryPointsByViewId } from '../viewManager';
 
 // const logger = getLogger('data:map');
 
@@ -19,15 +20,16 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
   getWindowsVisibleViews,
   (state, views) =>
     // Per view
-    _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
-      const ep = _get(view, ['configuration', 'entryPoints']);
+    _reduce(views, (map, { viewId, timebarUuid }) => {
+      const ep = getEntryPointsByViewId(state, { viewId });
       if (!ep || !ep.length) {
         return map;
       }
       if (!perViewDataSelectors[viewId]) {
         perViewDataSelectors[viewId] = makeGetPerViewData();
       }
-      const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid });
+      const pageId = getPageIdByViewId(state, { viewId });
+      const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId });
 
       // Case of invalid view or collapsed view
       if (!Object.keys(props).length) {
@@ -38,6 +40,7 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
       return map;
     }, {})
   );
+
 export const getPerRemoteIdMap = createSelector(
   getPerViewMap,
   (perViewMap) => {
@@ -68,7 +71,6 @@ export const getPerRemoteIdMap = createSelector(
  *     'viewId': {
  *       type: 'TextView',
  *       masterSessionId: number,
- *       structureType: 'last',
  *       entryPoints: {
  *         'name': {
  *           remoteId: string,
@@ -76,9 +78,8 @@ export const getPerRemoteIdMap = createSelector(
  *           localId: string,
  *           field: string,
  *           offset: number,
- *           filter: [],
+ *           filters: [],
  *           timebarUuid: string,
- *           structureType: last,
  *           id: string,
  ----        error: string, // if exists => no other parameter
  *         },
@@ -87,7 +88,6 @@ export const getPerRemoteIdMap = createSelector(
  *     'viewId': {
  *       type: 'PlotView',
  *       masterSessionId: number,
- *       structureType: 'range',
  *       entryPoints: {
  *         'name': {
  *           remoteId: string,
@@ -96,9 +96,8 @@ export const getPerRemoteIdMap = createSelector(
  *           fieldX: string,
  *           fieldY: string,
  *           offset: number,
- *           filter: [],
+ *           filters: [],
  *           timebarUuid: string,
- *           structureType: range,
  *           id: string,
  ----        error: string, // if exists => no other parameter
  *         },
@@ -106,7 +105,6 @@ export const getPerRemoteIdMap = createSelector(
  *     },
  *     'viewId': {
  *       type: 'DynamicView',
- *       structureType: 'last',
  *       entryPoints: {
  *         dynamicEP: {
  *            remoteId: string,

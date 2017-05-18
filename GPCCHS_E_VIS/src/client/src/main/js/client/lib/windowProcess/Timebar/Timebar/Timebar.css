@@ -1,4 +1,3 @@
-@import '../../style/variables.css';
 
 .viewportWrapper{
     padding-top: 24px;
@@ -82,8 +81,3 @@
   background-color: #F45;
 }
 
-.play{ border-color: var(--borderPlay); }
-.pause{ border-color: var(--borderPause); }
-.realtime{ border-color: var(--borderRealtime); }
-.acc{ border-color: var(--borderAcc); }
-.desc{ border-color: var(--borderDesc); }

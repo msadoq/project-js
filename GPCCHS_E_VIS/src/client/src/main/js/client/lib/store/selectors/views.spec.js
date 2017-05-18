@@ -65,46 +65,48 @@ describe('store:views:selectors', () => {
         ],
       },
     },
+    TextViewConfiguration: {
+      text1: {
+        title: 'TextView Sup/Sup',
+        type: 'TextView',
+        entryPoints: [
+          {
+            name: 'STAT_SU_PID',
+            id: 'id1',
+            connectedData: {
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session 1',
+            },
+          },
+          {
+            name: 'STAT_UNKNOW_DOMAIN',
+            id: 'id47',
+            connectedData: {
+              formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr',
+              timeline: 'Session 1',
+            },
+          },
+          {
+            name: 'STAT_UNKNOW_TIMELINE',
+            id: 'id50',
+            connectedData: {
+              formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session X',
+            },
+          },
+        ],
+      },
+    },
     views: {
       text1: {
         uuid: 'text1',
         type: 'TextView',
-        configuration: {
-          title: 'TextView Sup/Sup',
-          type: 'TextView',
-          entryPoints: [
-            {
-              name: 'STAT_SU_PID',
-              id: 'id1',
-              connectedData: {
-                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session 1',
-              },
-            },
-            {
-              name: 'STAT_UNKNOW_DOMAIN',
-              id: 'id47',
-              connectedData: {
-                formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr',
-                timeline: 'Session 1',
-              },
-            },
-            {
-              name: 'STAT_UNKNOW_TIMELINE',
-              id: 'id50',
-              connectedData: {
-                formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
-                filter: [],
-                domain: 'fr.cnes.isis.simupus',
-                timeline: 'Session X',
-              },
-            },
-          ],
-        },
       },
       plot1: {
         uuid: 'plot1',
@@ -240,11 +242,10 @@ describe('store:views:selectors', () => {
       },
       field: 'extractedValue',
       offset: 0,
-      filter: [],
+      filters: [],
       localId: 'extractedValue.tb1:0',
       timebarUuid: 'tb1',
-      structureType: 'last',
-      remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+      remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
       type: 'TextView',
       name: 'STAT_SU_PID',
     });

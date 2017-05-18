@@ -1,25 +1,26 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _get from 'lodash/get';
+import { Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
-import styles from './PlotView.css';
+import styles from './Legend.css';
 
 export default class Legend extends PureComponent {
 
   static propTypes = {
     show: PropTypes.bool.isRequired,
     toggleShowLegend: PropTypes.func.isRequired,
-    selectLine: PropTypes.func.isRequired,
-    selectedLineName: PropTypes.string,
+    removeEntryPoint: PropTypes.func.isRequired,
+    hideEp: PropTypes.func.isRequired,
+    hideEpNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+    showEp: PropTypes.func.isRequired,
+    showEpNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
-  }
-
-  static defaultProps = {
-    selectedLineName: null,
+    onContextMenu: PropTypes.func.isRequired,
   }
 
   render() {
@@ -27,8 +28,12 @@ export default class Legend extends PureComponent {
       yAxes,
       lines,
       show,
-      selectLine,
-      selectedLineName,
+      showEp,
+      showEpNames,
+      hideEp,
+      hideEpNames,
+      removeEntryPoint,
+      onContextMenu,
     } = this.props;
 
     const sortedAndValidAxes = yAxes
@@ -61,14 +66,12 @@ export default class Legend extends PureComponent {
               <div className={styles.plotLegendLegends}>
                 {
                   axis.lines.map(line =>
-                    <button
+                    <div
                       className={classnames(
-                        selectedLineName === line.name ?
-                        styles.selectedLegend : styles.legend,
-                        'btn', 'btn-default', 'btn-xs'
+                        styles.legend
                       )}
-                      onClick={e => selectLine(e, line.name)}
                       key={line.name}
+                      onContextMenu={event => onContextMenu(event, line.name)}
                     >
                       <span
                         className={styles.plotLegendColor}
@@ -81,7 +84,44 @@ export default class Legend extends PureComponent {
                       >
                         {` : ${line.name}`}
                       </span>
-                    </button>
+                      <Glyphicon
+                        glyph="eye-open"
+                        onClick={e => showEp(e, line.id)}
+                        className={
+                          classnames(
+                            {
+                              [styles.showEyeSelected]: showEpNames.includes(line.id),
+                            },
+                            styles.eyeButton
+                          )
+                        }
+                      />
+
+                      <Glyphicon
+                        glyph="eye-close"
+                        onClick={e => hideEp(e, line.id)}
+                        className={
+                          classnames(
+                            {
+                              [styles.hideEyeSelected]: hideEpNames.includes(line.id),
+                            },
+                            styles.eyeButton
+                          )
+                        }
+                      />
+
+                      <Glyphicon
+                        glyph="remove"
+                        onClick={e => removeEntryPoint(e, line.id)}
+                        className={
+                          classnames(
+                            styles.removeButton,
+                            'text-danger'
+                          )
+                        }
+                      />
+
+                    </div>
                   )
                 }
               </div>

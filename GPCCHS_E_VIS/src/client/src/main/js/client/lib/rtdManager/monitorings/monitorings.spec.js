@@ -1,40 +1,39 @@
-import { mock as mockRedis, unmock as unmockRedis } from 'rtd/stubs/redis';
-import rtd from 'rtd/catalogs';
-import loadMonitorings from 'rtd/stubs/loaders/monitoring';
-import { generate } from 'rtd/stubs/items/monitoring';
+import { connect } from 'rtd/catalogs';
+import { Monitoring as loadMonitorings } from 'rtd/stubs/loaders';
+import { Monitoring as generateMonitoring } from 'rtd/stubs/generators';
 import { should } from '../../common/test';
 import { getTriggers } from './';
 import { SDB_NAMESPACE } from '../constants';
 
 
 const socket = '/tmp/rtd.sock';
+const mockRedis = true;
 const sessionId = 0;
 const domainId = 3;
 
 const items = [
-  generate({ name: 'ONBOARD_DELTA', namespace: SDB_NAMESPACE, domainId, type: 'onBoard', checkType: 'delta' }),
-  generate({ name: 'ONBOARD_LIMIT', namespace: SDB_NAMESPACE, domainId, type: 'onBoard', checkType: 'limit' }),
-  generate({ name: 'ONBOARD_EXPECTED', namespace: SDB_NAMESPACE, domainId, type: 'onBoard', checkType: 'expected' }),
-  generate({ name: 'ONGROUND_LIMIT', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'limit' }),
-  generate({ name: 'ONGROUND_MAX_DELTA', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'maxDelta' }),
-  generate({ name: 'ONGROUND_MIN_DELTA', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'minDelta' }),
-  generate({ name: 'ONGROUND_EXPECTED', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'expected' }),
-  generate({ name: 'FUNCTIONAL', namespace: SDB_NAMESPACE, domainId, type: 'functional' }),
+  generateMonitoring({ name: 'ONBOARD_DELTA', namespace: SDB_NAMESPACE, domainId, type: 'onBoard', checkType: 'delta' }),
+  generateMonitoring({ name: 'ONBOARD_LIMIT', namespace: SDB_NAMESPACE, domainId, type: 'onBoard', checkType: 'limit' }),
+  generateMonitoring({ name: 'ONBOARD_EXPECTED', namespace: SDB_NAMESPACE, domainId, type: 'onBoard', checkType: 'expected' }),
+  generateMonitoring({ name: 'ONGROUND_LIMIT', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'limit' }),
+  generateMonitoring({ name: 'ONGROUND_MAX_DELTA', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'maxDelta' }),
+  generateMonitoring({ name: 'ONGROUND_MIN_DELTA', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'minDelta' }),
+  generateMonitoring({ name: 'ONGROUND_EXPECTED', namespace: SDB_NAMESPACE, domainId, type: 'onGround', checkType: 'expected' }),
+  generateMonitoring({ name: 'FUNCTIONAL', namespace: SDB_NAMESPACE, domainId, type: 'functional' }),
 ];
+
+let rtd;
 
 // TODO tests to complete
 
 describe('rtdManager/monitorings', () => {
   before((done) => {
-    mockRedis();
-    rtd.connect(socket, (err, isConnected) => {
+    connect({ socket, mockRedis }, (err, api) => {
       should.not.exist(err);
-      isConnected.should.eql(true);
+      should.exist(api);
+      rtd = api;
       loadMonitorings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
-  });
-  after(() => {
-    unmockRedis();
   });
   it('getTriggers OnBoard Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_DELTA', sessionId, domainId, (getErr, item) => {

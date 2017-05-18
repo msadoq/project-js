@@ -6,10 +6,16 @@
   font-weight: bolder;
   text-transform: uppercase;
   color: rgba(0, 0, 0, .1);
+  text-align: center;
 }
 
 :global {
   .react-resizable-handle{
     z-index: 10;
+  }
+  .collapsed-grid-layout {
+    .react-resizable-handle {
+      display: none;
+    }
   }
 }

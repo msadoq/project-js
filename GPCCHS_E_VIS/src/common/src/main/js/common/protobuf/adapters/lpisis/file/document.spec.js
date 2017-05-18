@@ -31,7 +31,7 @@ describe('protobuf/lpisis/file/Document', () => {
     for (let i = 0; i < fixture.properties.length; i += 1) {
       json.properties[i].should.be.an('object').that.have.properties({
         name: { type: 'identifier', value: fixture.properties[i].name },
-        value: { type: 'double', value: fixture.properties[i].value },
+        value: { type: 'double', symbol: fixture.properties[i].value.toString() },
       });
     }
     json.usersAccess.should.be.an('array').that.have.lengthOf(fixture.usersAccess.length);

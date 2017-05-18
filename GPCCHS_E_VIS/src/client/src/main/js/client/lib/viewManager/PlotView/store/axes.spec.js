@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import { freezeMe, should } from '../../../common/test';
-import { updateAxis, addAxis, removeAxis, getAxes } from './axes';
+import { updateAxis, addAxis, removeAxis, getYAxis } from './axes';
 
 describe('store:views:axes', () => {
   const state = freezeMe({
@@ -70,36 +70,22 @@ describe('store:views:axes', () => {
   });
 
   describe('getAxes', () => {
-    it('returns 2 generated axes (x/y)', () => {
+    it('returns 1 generated Y axis', () => {
       const entryPoint = {
         name: 'time',
         connectedData: { unit: 'useless' },
       };
-      const axisY = getAxes(state, { payload: { entryPoint } });
-      axisY.should.be.eql({ label: 'time', unit: 'useless', id: 'Y:time' });
+      const axisY = getYAxis(state, { payload: { entryPoint } });
+      axisY.label.should.eql('time');
+      axisY.id.should.eql('Y:time');
+      axisY.unit.should.eql('useless');
     });
-    it('returns 2 axes (x/y)', () => {
+    it('returns found Y Axis', () => {
       const entryPoint = {
         name: 'ep2',
-        connectedData: { unit: 'volts' },
+        connectedData: { axisId: 'axis_1' },
       };
-      const axisY = getAxes(state, { payload: { entryPoint } });
-      axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
-    });
-    it('returns 1 axis (x) and 1 generated axis (y)', () => {
-      const entryPoint = {
-        name: 'ep2',
-        connectedData: { unit: 'unknown' },
-      };
-      const axisY = getAxes(state, { payload: { entryPoint } });
-      axisY.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
-    });
-    it('returns 1 axis (y) and 1 generated axis (x)', () => {
-      const entryPoint = {
-        name: 'ep2',
-        connectedData: { unit: 'volts' },
-      };
-      const axisY = getAxes(state, { payload: { entryPoint } });
+      const axisY = getYAxis(state, { payload: { entryPoint } });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
   });

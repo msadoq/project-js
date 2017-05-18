@@ -2,8 +2,8 @@ import __ from 'lodash/fp';
 
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
+import remoteIdGenerator from 'common/utils/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
-import remoteIdGenerator from '../../commonData/remoteId';
 
 const logger = getLogger('data:DynamicView:parseEntryPoint');
 function flattenStateColors(stateColors = []) {
@@ -26,21 +26,40 @@ function parseEntryPoint(
   entryPoint,
   masterSessionId,
   timebarUuid,
-  viewType) {
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName
+) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
   const { connectedData, name, id, stateColors } = entryPoint;
-  const cd = parseConnectedData(domains, sessions, timelines, connectedData, masterSessionId);
+  const cd = parseConnectedData(
+    domains,
+    sessions,
+    timelines,
+    connectedData,
+    masterSessionId,
+    viewDomain,
+    pageDomain,
+    workspaceDomain,
+    viewSessionName,
+    pageSessionName,
+    workspaceSessionName
+  );
 
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
     return { [name]: { error: cd.error } };
   }
-  const { dataId, field, offset, filter } = cd;
+  const { dataId, field, offset } = cd;
   // compute remoteId
-  const remoteId = remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_LAST, dataId, filter);
+  const remoteId = remoteIdGenerator(dataId);
 
   const ep = {
     [name]: {
@@ -48,9 +67,7 @@ function parseEntryPoint(
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
       offset,
-      filter,
       timebarUuid,
-      structureType: globalConstants.DATASTRUCTURETYPE_LAST,
       id,
       type: viewType,
     },

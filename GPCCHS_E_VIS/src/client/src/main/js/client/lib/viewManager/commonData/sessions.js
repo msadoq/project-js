@@ -15,23 +15,40 @@ export function reset(sessions) {
 }
 
 export function save(search, result) {
-  _set(memoizedSearchs, [search], result);
+  if (search !== get('WILDCARD_CHARACTER')) {
+    _set(memoizedSearchs, [search], result);
+  }
 }
 
-export function find(search, sessions, masterSessionId) {
+export function find(
+  search,
+  sessions,
+  masterSessionId,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName
+) {
+  let sessionName = search;
   if (search === get('WILDCARD_CHARACTER')) {
-    // return { error: 'invalid entry point, session wildcard not already supported' };
-    return { id: masterSessionId };
+    // Look to sessionNames defined on
+    if (viewSessionName) {
+      sessionName = viewSessionName;
+    } else if (pageSessionName) {
+      sessionName = pageSessionName;
+    } else if (workspaceSessionName) {
+      sessionName = workspaceSessionName;
+    } else {
+      return { id: masterSessionId, name: '*' };
+    }
   }
   if (!sessions || !sessions.length) {
     return { error: 'invalid entry point, no session available' };
   }
-  if (search === '' || _isNull(search) || _isUndefined(search)) {
+  if (sessionName === '' || _isNull(sessionName) || _isUndefined(sessionName)) {
     return { error: 'invalid entry point, invalid session name' };
   }
 
-  // const sessionIds = _map(_filter(sessions, d => d.name === search), d => d.id);
-  const sessionIds = _filter(sessions, d => d.name === search);
+  const sessionIds = _filter(sessions, d => d.name === sessionName);
   if (sessionIds.length < 1) {
     return { error: 'invalid entry point, no session matches' };
   } else if (sessionIds.length > 1) {
@@ -48,9 +65,19 @@ export function find(search, sessions, masterSessionId) {
  *
  * @param sessions
  * @param search
+ * @param viewSessionName
+ * @param pageSessionName
+ * @param workspaceSessionName
  * @returns {*}
  */
-export default function findSession(sessions, sessionName, masterSessionId) {
+export default function findSession(
+  sessions,
+  sessionName,
+  masterSessionId,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName
+) {
   // sessions have changed
   if (memoizedSessions !== sessions) {
     reset(sessions);
@@ -58,7 +85,16 @@ export default function findSession(sessions, sessionName, masterSessionId) {
 
   // perform new search
   if (!_has(memoizedSearchs, [sessionName])) {
-    save(sessionName, find(sessionName, memoizedSessions, masterSessionId));
+    const sessionId = find(
+      sessionName,
+      memoizedSessions,
+      masterSessionId,
+      viewSessionName,
+      pageSessionName,
+      workspaceSessionName
+    );
+    save(sessionName, sessionId);
+    return sessionId;
   }
 
   return _get(memoizedSearchs, [sessionName]);

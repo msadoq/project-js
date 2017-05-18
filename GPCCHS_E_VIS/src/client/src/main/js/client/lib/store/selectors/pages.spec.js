@@ -1,5 +1,9 @@
 import {} from '../../common/test';
-import { getPageViews, isAnyEditorOpened } from './pages';
+import {
+  getPageViews,
+  isAnyEditorOpened,
+  isAnyInspectorOpened,
+} from './pages';
 
 describe('store:page:selectors', () => {
   it('getPageViews', () => {
@@ -50,5 +54,31 @@ describe('store:page:selectors', () => {
       },
     };
     isAnyEditorOpened(state).should.eql(false);
+  });
+  it('notice if any inspector is opened', () => {
+    const state = {
+      pages: {
+        page1: {
+          panels: {
+            explorerIsMinimized: false,
+            explorerTab: 'inspector',
+          },
+        },
+      },
+    };
+    isAnyInspectorOpened(state).should.eql(true);
+  });
+  it('notice if no inspector is opened', () => {
+    const state = {
+      pages: {
+        page1: {
+          panels: {
+            explorerIsMinimized: true,
+            explorerTab: 'inspector',
+          },
+        },
+      },
+    };
+    isAnyInspectorOpened(state).should.eql(false);
   });
 });

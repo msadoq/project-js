@@ -120,9 +120,13 @@ describe('store:actions:timebars', () => {
       const slideWindow = { lower: 100, upper: 200 };
       actions.updateCursors('tb2', visuWindow, slideWindow)(dispatch, getState);
       dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(0).args[0].should.be.a('object');
+      dispatch.getCall(1).args[0].should.be.an('function');
       dispatch.getCall(2).args[0].should.be.a('function');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.HSC_PAUSE,
+        payload: { },
+      });
     });
   });
 

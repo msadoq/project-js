@@ -9,6 +9,8 @@ import windowsReducer, {
   getWindowFocusedPageId,
   getDisplayHelp,
   getWindowTitle,
+  getWindowDomainName,
+  getWindowSessionName,
 } from '../windows';
 import * as types from '../../types';
 
@@ -35,7 +37,6 @@ describe('store:windows:reducer', () => {
         geometry: { w: 800, h: 600, x: 110, y: 10 },
         minimized: false,
         isLoaded: false,
-        isModified: true,
         uuid: 'myWindowId',
       });
     });
@@ -43,7 +44,6 @@ describe('store:windows:reducer', () => {
       const state = reducer(undefined, actions.addWindow('myWindowId'));
       const win = state.myWindowId;
       win.title.should.eql('Unknown');
-      win.isModified.should.eql(true);
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
     });
@@ -67,7 +67,12 @@ describe('store:windows:reducer', () => {
       newState.window2.isModified.should.be.true;
     });
     it('modify if update timebarId', () => {
-      const newState = reducer(state, { type: types.WS_PAGE_UPDATE_TIMEBARID });
+      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_MOUNT });
+      newState.window1.isModified.should.be.true;
+      newState.window2.isModified.should.be.true;
+    });
+    it('modify if update timebarId', () => {
+      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_UNMOUNT });
       newState.window1.isModified.should.be.true;
       newState.window2.isModified.should.be.true;
     });

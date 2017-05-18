@@ -8,7 +8,12 @@ import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getSessions } from '../store/reducers/sessions';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
-import { getStructureType, getStructureModule } from '../viewManager';
+import { getPageDomainName, getPageSessionName } from '../store/reducers/pages';
+import { getDomainName, getSessionName } from '../store/reducers/hsc';
+import {
+  getStructureModule,
+  getConfigurationByViewId,
+} from '../viewManager';
 
 // const logger = getLogger('data:perViewData');
 
@@ -19,31 +24,34 @@ const anyUndefined = any(_isUndefined);
 * @param state
 * @param timebarUuid
 * @param viewId
+* @param pageId
 */
 export default function makeGetPerViewData() {
   return createSelector(
     getMasterSessionId,
     getDomains,
     getTimebarTimelinesSelector,
-    getView,
     (state, { timebarUuid }) => timebarUuid,
     getSessions,
-    (masterSessionId, domains, viewTimelines, view, timebarUuid, sessions) => {
-      if (anyUndefined([domains, view, timebarUuid, viewTimelines, sessions])) {
+    getView,
+    getConfigurationByViewId,
+    (state, { pageId }) => getPageDomainName(state, { pageId }),
+    (state, { pageId }) => getPageSessionName(state, { pageId }),
+    getDomainName, // in HSC
+    getSessionName, // in HSC
+    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, configuration,
+    pageDomain, pageSessionName, workspaceDomain, workspaceSessionName) => {
+      if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, configuration])) {
         return {};
       }
-      const { configuration, type } = view;
+      const { type } = view;
       // Ignore collapsed view
       if (configuration.collapsed) {
         return {};
       }
       const { entryPoints } = configuration;
-      const structureType = getStructureType(type);
-
       return {
         type,
-        masterSessionId,
-        structureType,
         entryPoints: entryPoints.reduce((acc, ep) => {
           const val =
           getStructureModule(type).parseEntryPoint(
@@ -53,7 +61,13 @@ export default function makeGetPerViewData() {
             ep,
             masterSessionId,
             timebarUuid,
-            type
+            type,
+            view.domainName,
+            pageDomain,
+            workspaceDomain,
+            view.sessionName,
+            pageSessionName,
+            workspaceSessionName
           );
           return Object.assign({}, acc, val);
         }, {}

@@ -4,7 +4,98 @@
   height: 100%;
   overflow: hidden;
 }
+.panelsContainer{
+  flex-direction: column;
+  display: flex;
+}
 
-.tabs {
-  //height: 40px;
+.leftBarEl{
+  text-align: center;
+  z-index: 105;
+  position: absolute;
+  top: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.rightBarEl{
+  text-align: center;
+  z-index: 105;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  pointer-events: none;
+}
+.middleBarEl{
+  z-index: 105;
+  position: absolute;
+  background: transparent;
+  pointer-events: none;
+}
+.horizontalBarButton{
+  transform: translateY(3px);
+}
+.barButtonLeft{
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+.barButtonRight{
+  transform: translate(2px, 3px);
+  margin-bottom: 3px;
+}
+.barButtonExplorer{
+  margin-top: 2px;
+  position: absolute;
+  top: 0px;
+  left: -22px;
+}
+.editorContainer, .explorerContainer{
+  width: 100%;
+  height: 100%;
+  background: #FFF;
+}
+.editorContainerCollapsed{
+  width: 16px;
+  height: 100%;
+  background: #888;
+}
+.verticalBar{
+  width: 18px;
+  height: 100%;
+  top: 0;
+  background: #888;
+  position: absolute;
+  left: 0;
+}
+.verticalBarRight{
+  width: 18px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #444;
+}
+.verticalBarButton{
+  margin-top: 2px;
+}
+.barButton{
+  position: absolute;
+  top: -17px;
+  right: 2px;
+}
+.noPage {
+  text-align: center;
+  font-size: 5rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, .1);
+}
+
+.noPage {
+  text-align: center;
+  font-size: 5rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, .1);
+  text-align: center;
 }

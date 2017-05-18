@@ -20,3 +20,9 @@ export const isAnyEditorOpened = createSelector(
   getPages,
   pages => _.reduce((checksum, page) => checksum || (!page.panels.editorIsMinimized), false, pages)
 );
+
+export const isAnyInspectorOpened = createSelector(
+  getPages,
+  pages =>
+    _.reduce((checksum, page) => checksum || (!page.panels.explorerIsMinimized && page.panels.explorerTab === 'inspector'), false, pages)
+);

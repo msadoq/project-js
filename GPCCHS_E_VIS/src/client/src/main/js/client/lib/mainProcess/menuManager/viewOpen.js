@@ -11,7 +11,7 @@ import { addBlankView } from '../../store/actions/views';
 import { addBlankPage } from '../../store/actions/pages';
 import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
-import { getStore } from '../../store/mainStore';
+import { getStore } from '../../store/isomorphic';
 import { getViewModule } from '../../viewManager';
 
 function viewOpen(focusedWindow) {

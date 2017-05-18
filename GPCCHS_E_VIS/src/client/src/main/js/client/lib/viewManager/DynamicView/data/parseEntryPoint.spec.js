@@ -14,7 +14,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         formula: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
         domain: 'cnes',
         timeline: 'tl1',
-        filter: {},
+        filter: [],
       },
     };
     timelines = [
@@ -62,11 +62,84 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
           sessionName:'session1',
         },
         offset: 0,
-        filter: {},
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
-        structureType: globalConstants.DATASTRUCTURETYPE_LAST,
-        remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
+        type: 'DynamicView',
+      },
+    });
+  });
+  it('wildcard => view data', () => {
+    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
+      'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName:'session2',
+        },
+        offset: 0,
+        localId: 'undefined.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
+        type: 'DynamicView',
+      },
+    });
+  });
+  it('wildcard => page data', () => {
+    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
+      undefined, 'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName:'session2',
+        },
+        offset: 0,
+        localId: 'undefined.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
+        type: 'DynamicView',
+      },
+    });
+  });
+  it('wildcard => workspace data', () => {
+    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = '*';
+    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
+      undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
+    .should.eql({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionId: 2,
+          sessionName:'session2',
+        },
+        offset: 0,
+        localId: 'undefined.TB1:0',
+        timebarUuid: 'TB1',
+        remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
         type: 'DynamicView',
       },
     });

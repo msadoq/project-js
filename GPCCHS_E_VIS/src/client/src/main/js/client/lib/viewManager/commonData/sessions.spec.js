@@ -13,7 +13,18 @@ describe('viewManager:commonData:sessions', () => {
     filter(list, 'Session#181', 10).should.eql({ name: 'Session#181', id: 181 });
   });
   it('should return masterSessionId while receiving wildcard', () => {
-    filter(list, '*', 10).should.eql({ id: 10 });
+    filter(list, '*', 10).should.eql({ id: 10, name: '*' });
+  });
+  it('should return viewSession while receiving wildcard', () => {
+    filter(list, '*', 10, 'Session#181', 'Master').should.eql({ name: 'Session#181', id: 181 });
+  });
+  it('should return pageSession while receiving wildcard', () => {
+    filter(list, '*', 10, undefined, 'Session#181', 'Master')
+    .should.eql({ name: 'Session#181', id: 181 });
+  });
+  it('should return workspace while receiving wildcard', () => {
+    filter(list, '*', 10, undefined, undefined, 'Session#181')
+    .should.eql({ name: 'Session#181', id: 181 });
   });
   it('should support no domain', () => {
     filter(undefined, 'Master', 10)

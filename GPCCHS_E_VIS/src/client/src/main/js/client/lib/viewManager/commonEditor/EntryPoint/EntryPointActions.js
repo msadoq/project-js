@@ -1,52 +1,42 @@
 import React, { PropTypes } from 'react';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
-import Modal from '../../../windowProcess/common/Modal';
-import EntryPointName from './EntryPointName';
 
 const { Addon } = InputGroup;
 
-/*
-  EntryPointActions représente la barre des actions qui peuvent être effectuées sur les entryPoints.
-    - Une barre de recherche pour filtrer les entryPoint en fonction de leurs nom.
-    - Un bouton qui permet d'ajouter un entryPoint avec les attributs par defaut.
-    - Un bouton qui permet de détacher un entryPoint.
-*/
 export default class EntryPointActions extends React.Component {
   static propTypes = {
-    /*
-      changeSearch prend en parametre le filtre (chaine de caractères) à appliquer.
-    */
     changeSearch: PropTypes.func.isRequired,
-    addEntryPoint: PropTypes.func.isRequired,
-  }
-
-  state = {
-    isCreationModalOpened: false,
+    openModal: PropTypes.func.isRequired,
+    viewId: PropTypes.string.isRequired,
+    viewType: PropTypes.string.isRequired,
+    search: PropTypes.string,
   };
 
-  /*
-    Fonction appelée lorsque la valeur du filtre de recherche est modifiée.
-    Parametre e : évenement detecté (click)
-  */
-  searchName = e => this.props.changeSearch(e.target.value);
-  /*
-    Fonction appelée lorsque le bouton d'ajout d'entryPoint est cliqué.
-    @TODO : Ajouter un entryPoint par défaut au composant racine
-            qui contient dans ses states la liste des entryPoints
-            Cela necessite d'ajouter une fonction de callback aux props de ce composant
-  */
-  openCreationModal = () => this.setState({ isCreationModalOpened: true });
-  closeCreationModal = () => this.setState({ isCreationModalOpened: false });
+  static defaultProps = {
+    search: '',
+  };
 
-  handleAddEntryPoint = (values) => {
-    this.props.addEntryPoint(values);
-    this.closeCreationModal();
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
+
+  searchName = e => this.props.changeSearch(e.target.value);
+
+  willAddEntryPoint = (e) => {
+    e.preventDefault();
+    const {
+      openModal,
+      viewId,
+      viewType,
+    } = this.props;
+    const {
+      windowId,
+    } = this.context;
+    openModal(windowId, { type: 'addEntryPoint', viewType, viewId });
   }
 
   render() {
-    const {
-      isCreationModalOpened,
-    } = this.state;
+    const { search } = this.props;
 
     return (
       <div>
@@ -59,6 +49,7 @@ export default class EntryPointActions extends React.Component {
               <FormControl
                 type="text"
                 onChange={this.searchName}
+                value={search}
               />
               <Addon>
                 <Glyphicon glyph="search" />
@@ -68,26 +59,13 @@ export default class EntryPointActions extends React.Component {
           <Col xs={4} className="text-right">
             <Button
               bsSize="small"
-              onClick={this.openCreationModal}
+              onClick={this.willAddEntryPoint}
               title="Add entry point"
             >
               <Glyphicon glyph="plus" />
             </Button>
-            {/* <Button bsSize="small" style={{ marginLeft: '6px' }}>
-              <Glyphicon glyph="link" />
-            </Button> */}
           </Col>
         </FormGroup>
-        <Modal
-          title="Add a new Entry point"
-          isOpened={isCreationModalOpened}
-          onClose={this.closeCreationModal}
-        >
-          <EntryPointName
-            onSubmit={this.handleAddEntryPoint}
-            form="new-entrypoint-parameters-form"
-          />
-        </Modal>
       </div>
     );
   }

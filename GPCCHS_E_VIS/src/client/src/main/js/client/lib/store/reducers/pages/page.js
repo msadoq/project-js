@@ -107,15 +107,22 @@ export default function pageReducer(statePage = initialState, action) {
         isModified: true,
       };
     }
-    case types.WS_PAGE_SETMODIFIED: {
+    case types.WS_PAGE_SETMODIFIED:
       return _.set('isModified', action.payload.flag, statePage);
-    }
-    case types.WS_PAGE_UPDATE_TIMEBARID:
+    case types.WS_PAGE_TIMEBAR_MOUNT:
       return _.set('timebarUuid', action.payload.timebarUuid, statePage);
+    case types.WS_PAGE_TIMEBAR_UNMOUNT:
+      return _.set('timebarUuid', null, statePage);
+    case types.WS_PAGE_UPDATE_TITLE:
+      return {
+        ...statePage,
+        title: action.payload.title,
+        isModified: true,
+      };
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
-    case types.WS_PAGE_PANELS_COLLAPSE_TIMEBAR:
+    case types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR:
     case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
     case types.WS_PAGE_PANELS_MINIMIZE_EDITOR:
@@ -139,6 +146,16 @@ export default function pageReducer(statePage = initialState, action) {
       );
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
       return { ...statePage, isModified: true };
+    case types.WS_PAGE_UPDATE_DOMAINNAME:
+      if (action.payload.domainName) {
+        return { ...statePage, domainName: action.payload.domainName, isModified: true };
+      }
+      return Object.assign({}, _.omit('domainName', statePage), { isModified: true });
+    case types.WS_PAGE_UPDATE_SESSIONNAME:
+      if (action.payload.sessionName) {
+        return { ...statePage, sessionName: action.payload.sessionName, isModified: true };
+      }
+      return Object.assign({}, _.omit('sessionName', statePage), { isModified: true });
     default:
       return statePage;
   }

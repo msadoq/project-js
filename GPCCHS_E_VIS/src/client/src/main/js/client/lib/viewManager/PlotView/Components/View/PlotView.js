@@ -25,6 +25,17 @@ const logger = getLogger('view:plot');
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
 
+const getUniqueEpId = (id, entryPoints) => {
+  let i = 2;
+  let newId = id;
+  // eslint-disable-next-line no-loop-func, "DV6 TBC_CNES Check if name is taken"
+  while (Object.keys(entryPoints).find(k => entryPoints[k].name === newId)) {
+    newId = `${id}_${i}`;
+    i += 1;
+  }
+  return newId;
+};
+
 const tooltipFormatter = (id, foundColor, color, value,
   x, formattedValue, formatter, packet) => {
   const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
@@ -62,12 +73,13 @@ const tooltipFormatter = (id, foundColor, color, value,
 };
 
 // parse clipboard data to create partial entry point
-function parseDragData(data) {
+function parseDragData(data, id, defaultTimelineId) {
   return {
-    name: data.item,
+    name: id,
     connectedData: {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
-      fieldX: 'onBoardDate',
+      fieldX: 'onboardDate',
+      timeline: defaultTimelineId,
     },
   };
 }
@@ -91,7 +103,6 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -103,7 +114,14 @@ export class GrizzlyPlotView extends PureComponent {
       markers: PropTypes.array,
     }).isRequired,
     openInspector: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorEpId: PropTypes.string,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    removeEntryPoint: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    defaultTimelineId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -112,11 +130,13 @@ export class GrizzlyPlotView extends PureComponent {
       columns: [],
     },
     visuWindow: null,
+    inspectorEpId: null,
   };
 
   state = {
     showLegend: false,
-    selectedLineName: null,
+    showEpNames: [],
+    hideEpNames: [],
   }
 
   componentDidMount() {
@@ -134,38 +154,104 @@ export class GrizzlyPlotView extends PureComponent {
         shouldRender = true;
       }
     }
-    const stateAttrs = ['showLegend', 'selectedLineName'];
-    for (let i = 0; i < stateAttrs.length; i += 1) {
-      if (nextState[stateAttrs[i]] !== this.state[stateAttrs[i]]) {
-        shouldRender = true;
-      }
+    if (nextState.showLegend !== this.state.showLegend) {
+      shouldRender = true;
+    }
+    if (nextState.showEpNames !== this.state.showEpNames) {
+      shouldRender = true;
+    }
+    if (nextState.hideEpNames !== this.state.hideEpNames) {
+      shouldRender = true;
     }
     return shouldRender;
   }
 
-  onContextMenu = () => {
-    const { entryPoints, openInspector, pageId } = this.props;
-    const complexMenu = {
+  onContextMenu = (event, name) => {
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      isViewsEditorOpen,
+      closeEditor,
+      openEditor,
+      mainMenu,
+      inspectorEpId,
+      isInspectorOpened,
+    } = this.props;
+    const separator = { type: 'separator' };
+    if (name) {
+      const editorMenu = [{
+        label: `Open ${name} in Editor`,
+        click: () => {
+          openEditor(name);
+        },
+      }];
+      if (isViewsEditorOpen) {
+        editorMenu.push({
+          label: 'Close Editor',
+          click: () => closeEditor(),
+        });
+      }
+      const inspectorLabel = `Open ${name} in Inspector`;
+      if (_get(entryPoints, [name, 'error'])) {
+        const inspectorMenu = {
+          label: inspectorLabel,
+          enabled: false,
+        };
+        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+        return;
+      }
+      const { id, dataId, fieldY } = entryPoints[name];
+      const opened = isInspectorOpened && (inspectorEpId === id);
+      const inspectorMenu = {
+        label: inspectorLabel,
+        type: 'checkbox',
+        click: () => openInspector({
+          epId: id,
+          epName: name,
+          dataId,
+          field: fieldY,
+        }),
+        checked: opened,
+      };
+      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+      return;
+    }
+    const inspectorMenu = {
       label: 'Open parameter in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
       const label = `${epName}`;
       if (ep.error) {
-        complexMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label, enabled: false });
         return;
       }
-      const { remoteId, dataId } = ep;
-      complexMenu.submenu.push({
+      const { id, dataId, fieldY } = ep;
+      const opened = isInspectorOpened && (inspectorEpId === id);
+      inspectorMenu.submenu.push({
         label,
+        type: 'checkbox',
         click: () => openInspector({
-          pageId,
-          remoteId,
+          epId: id,
+          epName,
           dataId,
+          field: fieldY,
         }),
+        checked: opened,
       });
     });
-    handleContextMenu(complexMenu);
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => {
+        openEditor();
+      },
+    };
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
   onDrop = this.drop.bind(this);
@@ -205,22 +291,28 @@ export class GrizzlyPlotView extends PureComponent {
   }
 
   drop(e) {
+    const {
+      addEntryPoint,
+      openEditor,
+      viewId,
+      configuration,
+      defaultTimelineId,
+    } = this.props;
+
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-
     if (!_get(content, 'catalogName')) {
       return;
     }
-
-    this.props.addEntryPoint(
-      this.props.viewId,
-      parseDragData(content)
+    const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
+    addEntryPoint(
+      viewId,
+      parseDragData(content, epId, defaultTimelineId)
     );
-    this.props.openEditor();
+    openEditor();
 
     e.stopPropagation();
   }
-
 
   shouldRender() {
     const {
@@ -253,11 +345,54 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
-  selectLine = (e, lineId) => {
+  showEp = (e, lineId) => {
     e.preventDefault();
-    this.setState({
-      selectedLineName: lineId === this.state.selectedLineName ? null : lineId,
-    });
+    const {
+      showEpNames,
+      hideEpNames,
+    } = this.state;
+    const newState = {};
+
+    if (showEpNames.includes(lineId)) {
+      const index = showEpNames.indexOf(lineId);
+      showEpNames.splice(index, 1);
+      newState.showEpNames = [].concat(showEpNames);
+    } else {
+      showEpNames.push(lineId);
+      newState.showEpNames = [].concat(showEpNames);
+    }
+    if (hideEpNames.includes(lineId)) {
+      const index = hideEpNames.indexOf(lineId);
+      hideEpNames.splice(index, 1);
+      newState.hideEpNames = [].concat(hideEpNames);
+    }
+
+    this.setState(newState);
+  }
+
+  hideEp = (e, lineId) => {
+    e.preventDefault();
+    const {
+      hideEpNames,
+      showEpNames,
+    } = this.state;
+    const newState = {};
+
+    if (hideEpNames.includes(lineId)) {
+      const index = hideEpNames.indexOf(lineId);
+      hideEpNames.splice(index, 1);
+      newState.hideEpNames = [].concat(hideEpNames);
+    } else {
+      hideEpNames.push(lineId);
+      newState.hideEpNames = [].concat(hideEpNames);
+    }
+    if (showEpNames.includes(lineId)) {
+      const index = showEpNames.indexOf(lineId);
+      showEpNames.splice(index, 1);
+      newState.showEpNames = [].concat(showEpNames);
+    }
+
+    this.setState(newState);
   }
 
   memoizeXAxisProps = _memoize(
@@ -269,6 +404,17 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     (a, b, c, d) => `${a[0]}-${a[1]}-${b}-${c}-${d}`
   )
+
+  removeEntryPoint = (e, id) => {
+    e.preventDefault();
+    const {
+      removeEntryPoint,
+      viewId,
+      configuration: { entryPoints },
+    } = this.props;
+    const index = entryPoints.findIndex(a => a.id === id);
+    removeEntryPoint(viewId, index);
+  }
 
   render() {
     logger.debug('render');
@@ -310,19 +456,22 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     const {
       showLegend,
-      selectedLineName,
+      showEpNames,
+      hideEpNames,
     } = this.state;
 
-    if (selectedLineName && showLegend) {
-      entryPoints = entryPoints.filter(ep => ep.name === selectedLineName);
+    if (showEpNames.length) {
+      entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
+    } else if (hideEpNames.length) {
+      entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
     }
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const yAxesLegendHeight = yAxes.map((a) => {
-      const eps = entryPoints.filter(ep =>
+      const eps = this.props.configuration.entryPoints.filter(ep =>
         _get(ep, ['connectedData', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 25) : 0;
+      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 29) : 0;
     });
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
@@ -333,10 +482,7 @@ export class GrizzlyPlotView extends PureComponent {
         onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
-        className={classnames(
-          'h100',
-          'posRelative'
-        )}
+        className="h100 posRelative"
         style={mainStyle}
       >
         <GrizzlyChart
@@ -362,16 +508,18 @@ export class GrizzlyPlotView extends PureComponent {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints
               .filter(ep => _get(ep, ['connectedData', 'axisId']) === axis.id);
+            const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+            const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
             return {
               id: axis.id,
               yExtents:
                 axis.autoLimits === true ?
-                [
-                  _min(axisEntryPoints.map(ep => data.min[ep.name])),
-                  _max(axisEntryPoints.map(ep => data.max[ep.name])),
-                ]
+                [min, max]
                 :
-                [axis.min, axis.max],
+                [
+                  min < axis.min ? min : axis.min,
+                  max > axis.max ? max : axis.max,
+                ],
               data: lines,
               orient: 'top',
               format: '.3f',
@@ -413,9 +561,13 @@ export class GrizzlyPlotView extends PureComponent {
           yAxes={yAxes}
           lines={this.props.configuration.entryPoints}
           show={showLegend}
-          selectedLineName={selectedLineName}
           toggleShowLegend={this.toggleShowLegend}
-          selectLine={this.selectLine}
+          showEp={this.showEp}
+          showEpNames={showEpNames}
+          hideEp={this.hideEp}
+          hideEpNames={hideEpNames}
+          onContextMenu={this.onContextMenu}
+          removeEntryPoint={this.removeEntryPoint}
         />
       </DroppableContainer>
     );

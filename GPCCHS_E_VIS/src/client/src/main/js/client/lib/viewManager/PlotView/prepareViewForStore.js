@@ -10,8 +10,27 @@ const getDefaultView = _.merge({
   defaultRatio: { length: 5, width: 5 },
   links: [],
   configuration: {
-    axes: {},
-    grids: [],
+    axes: {
+      time: {
+        id: 'time',
+        label: 'Time',
+        autoTick: true,
+        showTicks: true,
+        tickStep: 0.5,
+        style: {
+          size: 12,
+          font: 'Arial',
+          align: 'center',
+        },
+      },
+    },
+    grids: [{
+      showGrid: true,
+      line: {
+        size: 1,
+        style: 'Dashed',
+      },
+    }],
     legend: {},
     markers: [],
     entryPoints: [],

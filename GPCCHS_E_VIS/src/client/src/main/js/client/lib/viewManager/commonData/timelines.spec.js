@@ -10,25 +10,21 @@ describe('viewManager/commonData/timelines', () => {
     { id: undefined, sessionName: 'invalid', offset: 0 },
   ];
   it('exact', () => {
-    filter(list, 10, 'tl1').should.eql({ sessionName: 'session1', offset: 0 });
+    filter(list, 'tl1').should.eql({ sessionName: 'session1', offset: 0 });
   });
   it('wildcard', () => {
-    filter(list, 10, '*').should.eql({
-      sessionId: 10,
-      sessionName: '*',
-      offset: 0,
-    });
-    filter(list, 10, 'tl*').should.eql({ error: 'invalid entry point, no timeline matches' });
+    filter(list, '*').should.eql({ sessionName: '*', offset: 0 });
+    filter(list, 'tl*').should.eql({ error: 'invalid entry point, no timeline matches' });
   });
   it('no timeline', () => {
-    filter(undefined, 10, 'tl1').should.eql({ error: 'invalid entry point, no timeline available' });
-    filter([], 10, 'tl1').should.eql({ error: 'invalid entry point, no timeline available' });
+    filter(undefined, 'tl1').should.eql({ error: 'invalid entry point, no timeline available' });
+    filter([], 'tl1').should.eql({ error: 'invalid entry point, no timeline available' });
   });
   it('no search', () => {
-    filter(list, null, '').should.eql(
-      { error: 'invalid entry point, no timeline set and no master session found' });
+    filter(list, '').should.eql(
+      { error: 'invalid entry point, no timeline set' });
   });
   it('no match', () => {
-    filter(list, 10, 'unknown').should.eql({ error: 'invalid entry point, no timeline matches' });
+    filter(list, 'unknown').should.eql({ error: 'invalid entry point, no timeline matches' });
   });
 });

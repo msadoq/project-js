@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import composeReducers from '../../composeReducers';
 import * as types from '../../types';
 
-import createConfiguration from './configuration';
+// import createConfiguration from './configuration';
 
 const setIsModified = _.set('isModified');
 const getIsModified = (action) => {
@@ -48,6 +48,8 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_ADD_PROCEDURE,
     types.WS_VIEW_REMOVE_PROCEDURE,
     types.WS_VIEW_ADD_ENTRYPOINT,
+    types.WS_VIEW_UPDATE_DOMAINNAME,
+    types.WS_VIEW_UPDATE_SESSIONNAME,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     return setIsModified(true, stateView);
@@ -73,7 +75,7 @@ function simpleView(stateView = initialState, action) {
     case types.WS_VIEW_OPEN:
     case types.WS_PAGE_OPEN:
     case types.WS_WORKSPACE_OPEN: {
-      const newView = _.omit(['windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
+      const newView = _.omit(['configuration', 'windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
       return _.defaults(initialState, newView);
     }
     case types.WS_VIEW_UPDATEPATH:
@@ -111,16 +113,26 @@ function simpleView(stateView = initialState, action) {
       return removeElementIn('procedures', action.payload.index, stateView);
     case types.WS_VIEW_UPDATE_RATIO:
       return _.set('defaultRatio', action.payload.ratio, stateView);
+    case types.WS_VIEW_UPDATE_DOMAINNAME:
+      if (action.payload.domainName) {
+        return { ...stateView, domainName: action.payload.domainName };
+      }
+      return _.omit('domainName', stateView);
+    case types.WS_VIEW_UPDATE_SESSIONNAME:
+      if (action.payload.sessionName) {
+        return { ...stateView, sessionName: action.payload.sessionName };
+      }
+      return _.omit('sessionName', stateView);
     default:
       return stateView;
   }
 }
 
 // This reducer take care of the '.configuration' property of a view
-const viewConfiguration = (stateView, action) => {
-  const configuration = createConfiguration(stateView.type);
-  return _.set('configuration', configuration(stateView.configuration, action), stateView);
-};
+// const viewConfiguration = (stateView, action) => {
+//   const configuration = createConfiguration(stateView.type);
+//   return _.set('configuration', configuration(stateView.configuration, action), stateView);
+// };
 
 // expose a single reducer that deal with one view
-export default composeReducers(viewConfiguration, viewIsModified, simpleView);
+export default composeReducers(viewIsModified, simpleView);

@@ -38,7 +38,7 @@ class SourceForm extends PureComponent {
       valid,
       entryPoints,
     } = this.props;
-
+    console.log(pristine, submitting, !valid);
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
         <div
@@ -101,16 +101,19 @@ class SourceForm extends PureComponent {
 }
 
 const requiredFields = ['html'];
-const validate = (values = {}) => {
+const validate = (values = {}, props) => {
   const errors = {};
-
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
     }
   });
 
-  const htmlErrors = lint(values.html);
+  const htmlErrors = props.viewType === 'MimicView' ?
+    lint(values.html, { 'spec-char-escape': false }) :
+    lint(values.html);
+
+  console.log(htmlErrors);
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }

@@ -149,14 +149,14 @@ export default class Chart extends React.Component {
         const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
         const newYZoomLevels = {
           ...yZoomLevels,
-          [hoveredAxisId]: yZoomLevel * (e.deltaY > 0 ? 1.1 : 0.9),
+          [hoveredAxisId]: yZoomLevel * (e.deltaY > 0 ? 0.9 : 1.1),
         };
         this.setState({
           yZoomLevels: newYZoomLevels,
         });
       } else if (allowZoom) {
         this.setState({
-          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 1.1 : 0.9)).toFixed(2),
+          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1)).toFixed(2),
         });
       }
     }
@@ -539,7 +539,9 @@ export default class Chart extends React.Component {
         >
           {
             Object.keys(yPans).map((key) => {
-              const axisLabel = this.yAxes.find(a => a.id === key).label;
+              const axis = this.yAxes.find(a => a.id === key);
+              if (!axis) return null;
+              const axisLabel = axis.label;
               return (yPans[key] !== 0 &&
               <Button
                 key={key}
@@ -551,7 +553,9 @@ export default class Chart extends React.Component {
           }
           {
             Object.keys(yZoomLevels).map((key) => {
-              const axisLabel = this.yAxes.find(a => a.id === key).label;
+              const axis = this.yAxes.find(a => a.id === key);
+              if (!axis) return null;
+              const axisLabel = axis.label;
               return (yZoomLevels[key] !== 1 &&
               <Button
                 key={key}
@@ -594,6 +598,7 @@ export default class Chart extends React.Component {
           width={this.chartWidth}
           height={this.chartHeight}
           top={marginTop}
+          current={current}
           margin={marginSide}
           xScale={xScale}
           yAxesAt={yAxesAt}

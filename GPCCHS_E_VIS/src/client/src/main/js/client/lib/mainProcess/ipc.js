@@ -60,8 +60,8 @@ const commands = {
         mimeType,
       }, callback);
     },
-    requestData: (callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, null, callback);
+    requestData: (queries, callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, { queries }, callback);
     },
     requestHealth: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_HEALTH_PULL, null, callback);

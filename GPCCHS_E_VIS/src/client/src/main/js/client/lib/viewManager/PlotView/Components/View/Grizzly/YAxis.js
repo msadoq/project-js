@@ -122,7 +122,7 @@ export default class YAxis extends Component {
     const {
       gridSize,
     } = this.props;
-    select(this.canvasEl).selectAll('line').attr('stroke-width', gridSize);
+    select(this.svgAxisEl).selectAll('line').attr('stroke-width', gridSize);
   }
 
   drawLinesLabel = () => {
@@ -234,10 +234,11 @@ export default class YAxis extends Component {
       yAxisFunction = yAxisFunction
         .ticks(8);
     } else {
+      const offset = yExtents[1] % tickStep;
       const tickValues = this.memoizeRange(
-        `${yExtents[0]}-${yExtents[1]}-${tickStep}`,
-        yExtents[0],
-        yExtents[1],
+        `${yExtents[0]}-${yExtents[1]}-${tickStep}-${offset}`,
+        (yExtents[0] - offset) + tickStep,
+        (yExtents[1] - offset) + tickStep,
         tickStep
       );
       yAxisFunction = yAxisFunction
@@ -257,8 +258,8 @@ export default class YAxis extends Component {
       gStyle += `transform: translate(${translateX}px, ${yMiniOffset}px);`;
     }
 
-    this.canvasEl.innerHTML = '';
-    const svgGroup = select(this.canvasEl)
+    this.svgAxisEl.innerHTML = '';
+    const svgGroup = select(this.svgAxisEl)
       .append('g')
       .attr('style', gStyle)
       .attr('class', classnames(
@@ -272,7 +273,7 @@ export default class YAxis extends Component {
     this.axisDidDraw();
   }
 
-  assignEl = (el) => { this.canvasEl = el; }
+  assignEl = (el) => { this.svgAxisEl = el; }
   assignLabelEl = (el) => { this.labelEl = el; }
 
   memoizeFormatter = _memoize(f =>

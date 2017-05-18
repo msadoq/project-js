@@ -1,6 +1,5 @@
 .leftTab{
-  position: relative;
-  height: calc(100% - 13px);
+  height: 100%;
 }
 .timebarName{
   position: absolute;

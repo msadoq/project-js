@@ -1,1 +1,2 @@
-module.exports = (dataId, queryArguments) => `${JSON.stringify(dataId)}${JSON.stringify(queryArguments)}`;
+module.exports = (dataId, queryArguments) =>
+  `${JSON.stringify(dataId)}${JSON.stringify(queryArguments)}`;

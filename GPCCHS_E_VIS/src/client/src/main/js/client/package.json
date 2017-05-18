@@ -1,6 +1,6 @@
 {
   "name": "lpisis_gpcchs_e_clt",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "",
   "main": "main.js",
   "jest": {
@@ -13,12 +13,16 @@
     "coverageDirectory": "coverage/snapshot"
   },
   "scripts": {
-    "build": "npm run build:main && npm run build:renderer",
+    "build": "npm run build:main && npm run build:renderer && npm run build:server",
     "build:main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
-    "clean": "rimraf ./dist ./main.js ./main.js.map stats.json",
+    "build:server": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.server.js --progress --profile --colors",
+    "clean": "rimraf ./dist ./main.js ./main.js.map ./server.js ./server.js.map stats.json",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
-    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello) && npm run install-rtd",
+    "link:common": "npm link ../../../../../common/src/main/js/common && (cd ../../../../../common/src/main/js/common && npm install)",
+    "link:server": "npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
+    "link:rtd": "npm link ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && (cd ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && npm install)",
+    "link": "npm run link:common && npm run link:server && npm run link:rtd",
     "lint": "eslint .",
     "sh": "npm run start-hot",
     "start": "electron ./",
@@ -34,11 +38,11 @@
     "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
-    "clone-rtd": "cd ../../../../../../../../ && git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS && cd GPDS && git checkout DM_5567",
-    "copy-rtd": "mkdir -p node_modules && cp -r ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ node_modules/",
-    "install-rtd": "if [ -d  ../../../../../../../../GPDS ]; then npm run copy-rtd; else npm run clone-rtd && npm run copy-rtd; fi && (cd ../../../../../client/src/main/js/client/node_modules/rtd && npm install)",
+    "update-rtd": "./manageRTD.sh --update",
+    "install-rtd": "./manageRTD.sh --install && (cd node_modules/rtd && npm install)",
+    "copy-rtd": "./manageRTD.sh --copy",
     "postinstall": "electron-rebuild",
-    "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
+    "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -48,18 +52,16 @@
     "url": "gitolite@isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCCHS.git"
   },
   "author": "ATOS",
-  "license": "ISC",
+  "license": "ATOS",
   "keywords": [],
   "dependencies": {
     "ajv": "~4.11.5",
     "asar": "~0.13.0",
-    "async": "~2.3.0",
+    "async": "~2.4.0",
     "babel-core": "~6.24.0",
     "babel-eslint": "~7.2.1",
     "babel-jest": "~19.0.0",
     "babel-loader": "~6.4.1",
-    "babel-plugin-add-module-exports": "~0.2.1",
-    "babel-plugin-dev-expression": "~0.2.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-class-properties": "~6.23.0",
     "babel-polyfill": "~6.23.0",
@@ -81,6 +83,7 @@
     "d3-scale": "~1.0.5",
     "d3-selection": "^1.0.5",
     "d3-time-format": "~2.0.5",
+    "decimal.js": "^7.2.1",
     "deep-diff": "~0.3.4",
     "deep-freeze": "~0.0.1",
     "devtron": "~1.4.0",
@@ -100,7 +103,7 @@
     "eslint-plugin-react": "~6.10.3",
     "eslint-plugin-react-perf": "~2.0.4",
     "express": "~4.15.2",
-    "extract-text-webpack-plugin": "~2.1.0",
+    "extract-text-webpack-plugin": "~1.0.1",
     "fbjs-scripts": "~0.7.1",
     "file-loader": "~0.11.1",
     "html-to-react": "~1.2.4",
@@ -128,6 +131,7 @@
     "postcss-reporter": "~3.0.0",
     "postcss-smart-import": "~0.6.10",
     "postcss-url": "~6.0.3",
+    "rc-collapse": "^1.7.3",
     "react": "~15.4.2",
     "react-addons-test-utils": "~15.4.2",
     "react-bootstrap": "~0.30.8",
@@ -162,6 +166,9 @@
     "webpack-hot-middleware": "~2.18.0",
     "webpack-merge": "~1.1.2",
     "why-did-you-update": "~0.0.8"
+  },
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1"
   },
   "peerDependencies": {
     "rtd": "node_modules/rtd",

@@ -3,6 +3,7 @@ import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { getStateColorObj } from '../../commonData/stateColors';
 import { convertData } from '../../commonData/convertData';
+import { applyFilters } from '../../commonData/applyFilters';
 
 const logger = getLogger('data:lastValue');
 
@@ -54,6 +55,10 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
       }
       // invalid or missing field
       if (!p[ep.field]) {
+        continue;
+      }
+      // check value verify filters
+      if (!applyFilters(p, ep.filters)) {
         continue;
       }
       if (timestamp >= previousTime) {

@@ -1,13 +1,10 @@
 import path from 'path';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/reducers/views';
-import { getWindowTitle } from '../../store/reducers/windows';
-import { getWorkspaceFile, getWorkspaceFolder } from '../../store/reducers/hsc';
-import { getStore } from '../../store/mainStore';
-import { updatePath } from '../../store/actions/hsc';
-import { setModified as setModifiedWindow } from '../../store/actions/windows';
+import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
+import { getStore } from '../../store/isomorphic';
+import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
 import { addOnce as addMessage } from '../../store/actions/messages';
-import { getModifiedWindowsIds } from './selectors';
 import { getPathByFilePicker } from '../dialog';
 import { saveWorkspace } from '../../documentManager';
 
@@ -26,7 +23,7 @@ const hasNoWindowsFocused = (focusedWindow) => {
 const hasAlreadySaved = () => {
   const { dispatch, getState } = getStore();
   const state = getState();
-  if (getModifiedWindowsIds(state).length === 0) {
+  if (!getWorkspaceIsModified(state)) {
     dispatch(addMessage('global', 'info', 'The workspace is already saved'));
     return true;
   }
@@ -43,14 +40,14 @@ const hasUnsavedPages = () => {
   return false;
 };
 
-const saveWorkspaceByFilePicker = (focusedWindow) => {
+const saveWorkspaceByFilePicker = () => {
   const { dispatch, getState } = getStore();
   const state = getState();
   const oldFolder = getWorkspaceFolder(state);
   const file = getWorkspaceFile(state);
   getPathByFilePicker(oldFolder, 'Workspace', 'save', (err, newWsPath) => {
     dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
-    saveFile(focusedWindow, (errSaving) => {
+    saveFile((errSaving) => {
       if (errSaving) {
         dispatch(updatePath(oldFolder, file));
         return dispatch(addGlobalError(errSaving));
@@ -67,9 +64,9 @@ function workspaceSave(focusedWindow) {
   const { dispatch, getState } = getStore();
   const file = getWorkspaceFile(getState());
   if (!file) {
-    saveWorkspaceByFilePicker(focusedWindow);
+    saveWorkspaceByFilePicker();
   } else {
-    saveFile(focusedWindow, (errSaving) => {
+    saveFile((errSaving) => {
       if (errSaving) {
         return dispatch(addGlobalError(errSaving));
       }
@@ -82,21 +79,16 @@ function workspaceSaveAs(focusedWindow) {
   if (hasNoWindowsFocused(focusedWindow) || hasUnsavedPages()) {
     return;
   }
-  saveWorkspaceByFilePicker(focusedWindow);
+  saveWorkspaceByFilePicker();
 }
 
-function saveFile(focusedWindow, callback) {
-  saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
+function saveFile(callback) {
+  saveWorkspace(getStore().getState(), (errWin) => {
     if (errWin) {
       callback(errWin);
       return;
     }
-    winIds.forEach((winId) => {
-      getStore().dispatch(setModifiedWindow(winId, false));
-    });
-    const { windowId } = focusedWindow;
-    const title = getWindowTitle(getStore().getState(), { windowId });
-    focusedWindow.setTitle(title.concat(' - VIMA'));
+    getStore().dispatch(setWorkspaceModified(false));
     callback(null);
   });
 }

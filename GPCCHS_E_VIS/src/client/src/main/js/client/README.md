@@ -4,7 +4,17 @@ Desktop visualisation application for ISIS project.
 
 ## Installation
 
-Clone the project and switch to client folder:
+Clone the vima (if needed):
+> cd /data/work/gitRepositories/LPISIS/
+> git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCCHS.git GPCCHS
+> git checkout dev
+
+Clone the rtd (if needed):
+> cd /data/work/gitRepositories/LPISIS/
+> git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS
+> git checkout R8-fwk
+
+Switch to client folder:
 > cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client
 
 Set configuration files and install dependencies:
@@ -48,6 +58,25 @@ Run Jest snapshot watcher:
 
 Clean out of date snapshots:
 >npm run snapshot-clean
+
+### Development IDE
+
+#### VSCode
+
+Launch VSCode in working directory:
+```
+/usr/share/code/code --new-window .
+```
+then install eslint  plugin by Dirk Baeumer.
+
+#### Atom
+
+Launch Atom in working directory:
+```
+atom .
+```
+then install linter-eslint  plugin by AtomLinter.
+
 
 ### Webpack bundle analyzer
 

@@ -39,7 +39,7 @@
         <groupId>fr.cnes.lpisis.gpds.js</groupId>
         <artifactId>gpds_rtd</artifactId>
         <type>isis-js-module-dependency</type>
-        <classifier>unix_dev</classifier>
+       <classifier>unix_dev</classifier>
         <version>${gpds.version}</version>
       </dependency>
     </dependencies>

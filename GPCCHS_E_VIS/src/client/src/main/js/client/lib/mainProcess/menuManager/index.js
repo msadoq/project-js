@@ -1,9 +1,10 @@
 import { v4 } from 'uuid';
 import openWikiHelper from '../controllers/renderer/onOpenWikiHelper';
-import { getStore } from '../../store/mainStore';
+import { getStore } from '../../store/isomorphic';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
+import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, collapseTimebar } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageOpen, pageAddBlank } from './pageOpen';
@@ -27,6 +28,18 @@ const workspace = {
     accelerator: 'CmdOrCtrl+O',
     click(item, focusedWindow) {
       workspaceOpen(focusedWindow);
+    },
+  }, {
+    label: 'Edit...',
+    click(item, focusedWindow) {
+      if (focusedWindow && focusedWindow.windowId) {
+        getStore().dispatch(
+          openModal(
+            focusedWindow.windowId,
+            { type: 'editWorkspace' }
+          )
+        );
+      }
     },
   }, {
     label: 'Save',
@@ -53,6 +66,22 @@ const window = {
       label: 'New',
       click() { getStore().dispatch(addWindow(v4(), 'New window')); },
     },
+    {
+      label: 'Edit...',
+      click(item, focusedWindow) {
+        if (focusedWindow && focusedWindow.windowId) {
+          getStore().dispatch(
+            openModal(
+              focusedWindow.windowId,
+              {
+                type: 'editWindow',
+                windowId: focusedWindow.windowId,
+              }
+            )
+          );
+        }
+      },
+    },
     { type: 'separator' },
     { label: 'Minimize', role: 'minimize' },
     { label: 'Close', role: 'close' }],
@@ -69,6 +98,26 @@ const page = {
     label: 'Open...',
     click(item, focusedWindow) {
       pageOpen(focusedWindow);
+    },
+  }, {
+    label: 'Edit...',
+    click(item, focusedWindow) {
+      if (focusedWindow && focusedWindow.windowId) {
+        const {
+          getState,
+          dispatch,
+        } = getStore();
+        const state = getState();
+        dispatch(
+          openModal(
+            focusedWindow.windowId,
+            {
+              type: 'editPage',
+              pageUuid: getWindowFocusedPageId(state, { windowId: focusedWindow.windowId }),
+            }
+          )
+        );
+      }
     },
   }, {
     label: 'Save',

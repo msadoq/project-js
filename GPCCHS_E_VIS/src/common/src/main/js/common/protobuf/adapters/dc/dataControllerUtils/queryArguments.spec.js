@@ -20,13 +20,14 @@ describe('protobuf/dc/dataControllerUtils/queryArguments', () => {
       getLastFromTime: (typeof fixture.getLastFromTime === 'undefined') ? null : fixture.getLastFromTime,
       getLastNumber: (typeof fixture.getLastNumber === 'undefined') ? null : fixture.getLastNumber,
     });
-    json.filters.should.be.an('array').that.have.lengthOf(fixture.filters.length);
-    for (let i = 0; i < fixture.filters.length; i += 1) {
-      json.filters[i].should.be.an('object').that.have.properties({
-        fieldName: fixture.filters[i].fieldName,
-        type: fixture.filters[i].type,
-        fieldValue: { type: 'ulong', symbol: `${fixture.filters[i].fieldValue}` },
-      });
-    }
+    // --> filters removed from server
+    // json.filters.should.be.an('array').that.have.lengthOf(fixture.filters.length);
+    // for (let i = 0; i < fixture.filters.length; i += 1) {
+    //   json.filters[i].should.be.an('object').that.have.properties({
+    //     fieldName: fixture.filters[i].fieldName,
+    //     type: fixture.filters[i].type,
+    //     fieldValue: { type: 'ulong', symbol: `${fixture.filters[i].fieldValue}` },
+    //   });
+    // }
   });
 });

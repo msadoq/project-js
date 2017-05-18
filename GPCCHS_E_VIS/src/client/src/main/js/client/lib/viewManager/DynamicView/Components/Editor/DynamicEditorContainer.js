@@ -4,24 +4,31 @@ import { createStructuredSelector } from 'reselect';
 
 import DynamicEditor from './DynamicEditor';
 import { getPageTimelines } from '../../../../store/selectors/timelines';
-import { getViewConfiguration, getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
+import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
 import {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
+import { updateViewTab } from '../../../../store/actions/ui';
+import { getViewTab } from '../../../../store/reducers/ui';
+import { getDomains } from '../../../../store/reducers/domains';
+import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,
   titleStyle: getViewTitleStyle,
-  configuration: getViewConfiguration,
+  configuration: getConfigurationByViewId,
   timelines: getPageTimelines,
+  domains: getDomains,
+  tab: getViewTab,
 });
 
 const mapDispatchToProps = {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
+  updateViewTab,
 };
 
 const DynamicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(DynamicEditor);

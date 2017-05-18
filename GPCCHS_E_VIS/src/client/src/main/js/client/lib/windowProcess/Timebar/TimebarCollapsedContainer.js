@@ -3,7 +3,7 @@ import { pause, smartPlay } from '../../store/actions/hsc';
 import { getTimebar } from '../../store/reducers/timebars';
 import { getPage } from '../../store/reducers/pages';
 import { getPlayingTimebarId } from '../../store/reducers/hsc';
-import { collapseTimebar } from '../../store/actions/pages';
+import { minimizeTimebar } from '../../store/actions/pages';
 import TimebarCollapsed from './TimebarCollapsed';
 
 export default connect(
@@ -21,6 +21,6 @@ export default connect(
   }, {
     pause,
     play: smartPlay,
-    collapseTimebar,
+    minimizeTimebar,
   }
 )(TimebarCollapsed);

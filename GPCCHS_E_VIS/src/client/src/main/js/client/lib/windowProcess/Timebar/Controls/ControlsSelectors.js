@@ -34,7 +34,7 @@ export const getMasterTimelineExists = createSelector(
   Boolean
 );
 
-const getCurrentSession = (state, { ...ownProps }) => {
+const getCurrentSession = (state, ownProps) => {
   const masterTimeline = getMasterTimelineById(state, ownProps);
   if (masterTimeline) {
     const currentSession = getSession(state, { sessionName: masterTimeline.sessionName });
@@ -42,14 +42,13 @@ const getCurrentSession = (state, { ...ownProps }) => {
   }
   return null;
 };
+
+export const getCurrentSessionId = createSelector(
+  getCurrentSession,
+  _.get('id')
+);
+
 export const getCurrentSessionExists = createSelector(
   getCurrentSession,
   Boolean
 );
-
-export default (state, ownProps) => ({
-  messages: getTimeSetterMessages(state, ownProps),
-  masterTimeline: getMasterTimelineById(state, ownProps),
-  masterTimelineExists: getMasterTimelineExists(state, ownProps),
-  currentSessionExists: getCurrentSessionExists(state, ownProps),
-});

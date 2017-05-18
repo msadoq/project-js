@@ -12,6 +12,9 @@ const { getReportingParameterProtobuf,
   getGroupDefinitionProtobuf,
  } = require('../../../stubs/data/lpisis');
 
+require('../dc');
+require('../lpisis');
+
 const arraySize = 10000;
 const numberIterationDecode = 15;
 const tabPerfGlobal = [];

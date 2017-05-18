@@ -15,7 +15,7 @@ describe('protobuf/lpisis/lifeCycle/LifeCycle', () => {
   it('decode', () => {
     const json = protobuf.decode('lpisis.lifeCycle.LifeCycle', buffer);
     json.should.be.an('object').that.have.properties({
-      launchingParameters: { type: 'double', value: fixture.launchingParameters },
+      launchingParameters: { type: 'double', symbol: fixture.launchingParameters.toString() },
       launchingTime: { type: 'time', value: fixture.launchingTime },
     });
   });

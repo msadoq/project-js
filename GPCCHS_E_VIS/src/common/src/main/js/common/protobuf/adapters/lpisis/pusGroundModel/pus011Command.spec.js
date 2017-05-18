@@ -43,7 +43,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus011Command', () => {
     for (let i = 0; i < fixture.pus011CommandParameters.length; i += 1) {
       json.pus011CommandParameters[i].should.be.an('object').that.have.properties({
         parameterName: { type: 'string', value: fixture.pus011CommandParameters[i].parameterName },
-        parameterValue: { type: 'double', value: fixture.pus011CommandParameters[i].parameterValue },
+        parameterValue: { type: 'double', symbol: fixture.pus011CommandParameters[i].parameterValue.toString() },
       });
     }
     json.pUS011TimeShift.should.be.an('array').that.have.lengthOf(fixture.pUS011TimeShift.length);

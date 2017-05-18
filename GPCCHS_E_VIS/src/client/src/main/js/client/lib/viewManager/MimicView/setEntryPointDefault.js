@@ -1,12 +1,19 @@
+import _ from 'lodash/fp';
 import { get } from 'common/parameters';
 
 export default function (entryPoint) {
-  return {
-    ...entryPoint,
-    connectedData: {
-      ...entryPoint.connectedData,
-      timeline: entryPoint.connectedData.timeline || get('WILDCARD_CHARACTER'),
-      domain: entryPoint.connectedData.domain || get('WILDCARD_CHARACTER'),
-    },
-  };
+  return _.merge(getNewMimicEntryPoint(), entryPoint);
 }
+
+const getNewMimicEntryPoint = () => ({
+  name: 'NewEntryPoint',
+  connectedData: {
+    formula: '',
+    unit: 's',
+    digits: 5,
+    format: 'decimal',
+    filter: [],
+    domain: get('WILDCARD_CHARACTER'),
+    timeline: get('WILDCARD_CHARACTER'),
+  },
+});

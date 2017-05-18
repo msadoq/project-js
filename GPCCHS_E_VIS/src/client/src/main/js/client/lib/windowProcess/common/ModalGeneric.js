@@ -5,6 +5,7 @@ import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
 import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
+import MimicAddEntryPointContainer from '../../viewManager/MimicView/Components/Editor/AddEntryPointContainer';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
@@ -53,6 +54,13 @@ const ModalGeneric = (props) => {
         case 'PlotView':
           child = (
             <PlotAddEntryPointContainer
+              {...props.props}
+              closeModal={props.onClose}
+            />);
+          break;
+        case 'MimicView':
+          child = (
+            <MimicAddEntryPointContainer
               {...props.props}
               closeModal={props.onClose}
             />);

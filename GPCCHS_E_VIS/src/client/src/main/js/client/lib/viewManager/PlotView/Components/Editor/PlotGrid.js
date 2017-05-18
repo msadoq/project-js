@@ -86,18 +86,7 @@ class PlotGrid extends React.Component {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="X Axis">
-          <Field
-            name="xAxisId"
-            className="form-control input-sm"
-            component="select"
-          >
-            {Object.keys(axes).map((axisId) => {
-              const axis = axes[axisId];
-              return (
-                <option key={axisId} value={axisId}>{axis.label}</option>
-              );
-            })}
-          </Field>
+          <span>Time</span>
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Y Axis">
@@ -106,12 +95,13 @@ class PlotGrid extends React.Component {
             className="form-control input-sm"
             component="select"
           >
-            {Object.keys(axes).map((axisId) => {
-              const axis = axes[axisId];
-              return (
-                <option key={axisId} value={axisId}>{axis.label}</option>
-              );
-            })}
+            {
+              Object.keys(axes)
+              .filter(key => key !== 'time')
+              .map(axisId =>
+                <option key={axisId} value={axisId}>{axes[axisId].label}</option>
+              )
+            }
           </Field>
         </HorizontalFormGroup>
 

@@ -27,6 +27,10 @@ const config = merge(baseConfig, {
     ],
   },
 
+  stats: {
+    children: false,
+  },
+
   output: {
     path: join(__dirname, '../dist'),
     publicPath: 'dist/',
@@ -37,6 +41,7 @@ const config = merge(baseConfig, {
   externals: [
     'commmon',
     'why-did-you-update',
+    'htmlhint',
   ],
 
   module: {

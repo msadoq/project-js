@@ -30,7 +30,6 @@ export default {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),

@@ -6,27 +6,34 @@ It's may be useful to have some additional git local hooks.
 
 here is a little script to add automatically prefix in the commit message :
 
-```bash
-#!/bin/sh
+```js
+#!/usr/bin/env node
+const fs = require('fs');
 
-# keep the original commit content
-FILE_CONTENT="$(cat $1)"
+const fileName = process.argv[2];
+const [firstLine, ...content] = fs.readFileSync(fileName).toString().split('\n');
+const writeMsg = (content) => fs.writeFileSync(fileName, content.join('\n'));
 
-if [[ "$BYPASS_HOOKS" -eq "1" ]]; then
-  exit 0
-fi
+const hasBracketPrefix = () => /^\[.*\]/.test(firstLine.trim());
+const isHL = () => !!process.env['HL'];
 
-# erase commit content
-echo -n > $1
+if (process.env['BYPASS_HOOKS']) {
+  return;
+}
 
-if [[ "$HL" -eq "" ]]; then
-        echo -n "[FT:#$TICKET] " >> $1
-else
-        echo -n "[HL] " >> $1
-fi
+if (hasBracketPrefix()) {
+  return;
+}
 
-# rewrite original commit content
-echo "$FILE_CONTENT" >> $1
+if (!isHL() && !process.env['TICKET']) {
+  console.error('Unable to commit, please set the TICKET environment variable');
+  process.exit(1);
+}
+
+const prefix = process.env['HL'] ? '[HL] ' : `[FT:#${process.env['TICKET']}] `;
+
+writeMsg([prefix + firstLine, ...content])
+
 ```
 
 #### Installation

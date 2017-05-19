@@ -1,6 +1,6 @@
 # Git hooks
 
-## Git prepare-commit-msg hook
+## prepare-commit-msg
 
 It's may be useful to have some additional git local hooks.
 
@@ -55,7 +55,7 @@ example:
 BYPASS_HOOKS=1 git commit
 ```
 
-## Git pre-commit hook
+## pre-commit
 
 ```bash
 #!/bin/sh
@@ -103,3 +103,51 @@ example:
 ```bash
 BYPASS_HOOKS=1 git commit
 ```
+
+## commit-msg
+
+```js
+#!/usr/bin/env node
+const fs = require('fs');
+
+const minWords = 5;
+const fileName = process.argv[2];
+const [firstLine, ...content] = fs.readFileSync(fileName).toString().split('\n');
+const writeMsg = (content) => fs.writeFileSync(fileName, content.join('\n'));
+
+const hasBracketPrefix = (str) => /^\[.*\]/.test(str.trim());
+const removeBracketPrefix = (str) => str.trim().match(/^(\[.*\])(.*)/)[2];
+const wordCount = (str) => str.trim().split(' ').filter(x => x !== '').length;
+
+if (process.env['BYPASS_HOOKS']) {
+  return;
+}
+
+const firstLineWithoutPrefix = (
+  (hasBracketPrefix(firstLine) ? removeBracketPrefix(firstLine) : firstLine)
+  .trim()
+)
+
+if (firstLineWithoutPrefix === '') {
+  console.error('Unable to commit, Plase write a valid commit message');
+  process.exit(1)
+}
+
+const nbWords = wordCount(firstLineWithoutPrefix);
+
+if (nbWords >= minWords) {
+  return;
+}
+
+const newFirstLine = firstLine + ' .'.repeat(minWords - nbWords);
+
+writeMsg([newFirstLine, ...content]);
+
+```
+
+#### Installation
+copy this script in `/data/work/gitRepositories/LPISIS/GPCCHS/.git/hooks/commit-msg`
+
+#### Usage
+Just commit normally
+you can use BYPASS_HOOKS environment variable

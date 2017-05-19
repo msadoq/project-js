@@ -3,6 +3,7 @@ import webpack from 'webpack';
 
 export default {
   module: {
+    exprContextCritical: false,
     loaders: [
       {
         test: /\.jsx?$/,

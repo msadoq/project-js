@@ -15,6 +15,7 @@ export default merge(baseConfig, {
   externals: [
     'source-map-support',
     'package.json',
+    'memcpy',
     {
       zmq: './node_modules/common/node_modules/zmq',
       bindings: './node_modules/common/node_modules/bindings',

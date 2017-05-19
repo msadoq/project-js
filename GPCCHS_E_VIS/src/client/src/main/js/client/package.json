@@ -55,7 +55,7 @@
   "license": "ATOS",
   "keywords": [],
   "dependencies": {
-    "ajv": "~4.11.5",
+    "ajv": "~5.1.1",
     "asar": "~0.13.0",
     "async": "~2.4.0",
     "babel-core": "~6.24.0",

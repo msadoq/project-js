@@ -9,7 +9,7 @@
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
     },
-    "collectCoverageFrom": "lib/windowProcess/**/*.js",
+    "collectCoverageFrom": ["lib/windowProcess/**/*.js"],
     "coverageDirectory": "coverage/snapshot"
   },
   "scripts": {
@@ -30,6 +30,7 @@
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
     "test": "NODE_ENV=test mocha --compilers js:babel-register \"lib/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
+    "jest": "jest",
     "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:test-coverage",
     "open:test-coverage": "firefox coverage/test/lcov-report/index.html",
     "snapshot": "NODE_ENV=snapshot BABEL_DISABLE_CACHE=1 jest",
@@ -62,7 +63,7 @@
     "async": "~2.4.0",
     "babel-core": "~6.24.0",
     "babel-eslint": "~7.2.1",
-    "babel-jest": "~19.0.0",
+    "babel-jest": "~20.0.3",
     "babel-loader": "~6.4.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-lodash": "^3.2.11",
@@ -115,7 +116,7 @@
     "html-to-react": "~1.2.4",
     "htmlhint": "~0.9.13",
     "identity-obj-proxy": "~3.0.0",
-    "jest": "~19.0.2",
+    "jest": "~20.0.4",
     "js-beautify": "~1.6.12",
     "jsdom": "~9.12.0",
     "json-loader": "~0.5.4",

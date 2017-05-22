@@ -105,7 +105,7 @@ export function onStart() {
         splashScreen.setMessage('starting data server process... (dev)');
         logger.info('starting data server process... (dev)');
 
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/node_modules/server/index.js`, {
+        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/lib/serverProcess/index.js`, {
           execPath: parameters.get('NODE_PATH'),
           execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
           env: parameters.getAll(),

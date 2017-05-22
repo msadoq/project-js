@@ -102,7 +102,6 @@ module.exports = (
     return;
   }
 
-  // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
   const payloadCount = payloadBuffers.length / 2;
   // retrieve cache collection
   let timebasedDataModel;

@@ -1,12 +1,17 @@
-exports[`test Navigation renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation renders correctly 1`] = `
 <div
-  className="ClearSubmitButtons root">
+  className="ClearSubmitButtons root"
+>
   <div
-    className="btn-group">
+    className="btn-group"
+  >
     <button
       className="btn btn-success"
       disabled={true}
-      type="submit">
+      type="submit"
+    >
       Submit
     </button>
   </div>

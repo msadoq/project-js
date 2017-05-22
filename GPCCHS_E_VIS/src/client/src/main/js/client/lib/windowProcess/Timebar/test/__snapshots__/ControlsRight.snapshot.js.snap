@@ -1,45 +1,60 @@
-exports[`test Controls renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Controls renders correctly 1`] = `
 <div>
   <ul
-    className="controlsUl controlsUlRight">
+    className="controlsUl controlsUlRight"
+  >
     <li
-      className="controlsLi">
+      className="controlsLi"
+    >
       <button
         className="btn btn-xs btn-control controlButtonActive"
         mode="Normal"
         onClick={[Function]}
-        title="Normal mode">
+        title="Normal mode"
+      >
         Normal
       </button>
     </li>
     <li
-      className="controlsLi">
+      className="controlsLi"
+    >
       <button
         className="btn btn-xs btn-control"
         mode="Extensible"
         onClick={[Function]}
-        title="Extensible mode">
+        title="Extensible mode"
+      >
         Extensible
       </button>
     </li>
     <li
-      className="controlsLi">
+      className="controlsLi"
+    >
       <button
         className="btn btn-xs btn-control"
         mode="Fixed"
         onClick={[Function]}
-        title="Fixed mode">
+        title="Fixed mode"
+      >
         Fixed
       </button>
     </li>
     <li
-      className="controlsLi">
-      <button
-        className="btn btn-xs btn-control"
+      className="controlsLi"
+    >
+      <span
+        className="btn btn-xs btn-control controlButtonDisabled"
         mode="Realtime"
-        onClick={[Function]}>
+        onBlur={[Function]}
+        onClick={null}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
         Real time
-      </button>
+      </span>
     </li>
   </ul>
 </div>

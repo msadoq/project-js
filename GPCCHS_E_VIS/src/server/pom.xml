@@ -5,12 +5,12 @@
   <groupId>fr.cnes.lpisis.gpcc.js</groupId>
   <artifactId>gpcchs_e_vis_server</artifactId>
   <packaging>isis-js-bundle</packaging>
-  <version>1.1.0-R7S4-SNAPSHOT</version>
+  <version>1.1.1-R8S1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs_e_vis-parent</artifactId>
-    <version>1.1.0-R7S4-SNAPSHOT</version>
+    <version>1.1.1-R8S1-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <properties>
@@ -19,7 +19,7 @@
     <api.target.dir>${basedir}/target</api.target.dir>
     <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
     <api.work.dir>${api.target.dir}/work</api.work.dir>
-    <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
+    <api.main.dir>${api.work.dir}/${project.artifactId}-${project.version}</api.main.dir>
     <isis.rpm.skip>true</isis.rpm.skip>
   </properties>
   <dependencies>

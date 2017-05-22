@@ -1,6 +1,6 @@
 {
   "name": "lpisis_gpcchs_e_clt",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "",
   "main": "main.js",
   "jest": {
@@ -19,7 +19,10 @@
     "build:server": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.server.js --progress --profile --colors",
     "clean": "rimraf ./dist ./main.js ./main.js.map ./server.js ./server.js.map stats.json",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
-    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello) && npm run install-rtd",
+    "link:common": "npm link ../../../../../common/src/main/js/common && (cd ../../../../../common/src/main/js/common && npm install)",
+    "link:server": "npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
+    "link:rtd": "npm link ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && (cd ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && npm install)",
+    "link": "npm run link:common && npm run link:server && npm run link:rtd",
     "lint": "eslint .",
     "sh": "npm run start-hot",
     "start": "electron ./",
@@ -36,7 +39,7 @@
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
     "update-rtd": "./manageRTD.sh --update",
-    "install-rtd": "./manageRTD.sh --install && cd node_modules/rtd && npm install",
+    "install-rtd": "./manageRTD.sh --install && (cd node_modules/rtd && npm install)",
     "copy-rtd": "./manageRTD.sh --copy",
     "postinstall": "electron-rebuild",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
@@ -49,7 +52,7 @@
     "url": "gitolite@isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCCHS.git"
   },
   "author": "ATOS",
-  "license": "ISC",
+  "license": "ATOS",
   "keywords": [],
   "dependencies": {
     "ajv": "~4.11.5",
@@ -80,6 +83,7 @@
     "d3-scale": "~1.0.5",
     "d3-selection": "^1.0.5",
     "d3-time-format": "~2.0.5",
+    "decimal.js": "^7.2.1",
     "deep-diff": "~0.3.4",
     "deep-freeze": "~0.0.1",
     "devtron": "~1.4.0",
@@ -161,8 +165,10 @@
     "webpack-dev-middleware": "~1.10.1",
     "webpack-hot-middleware": "~2.18.0",
     "webpack-merge": "~1.1.2",
-    "why-did-you-update": "~0.0.8",
-    "zmq": "^2.15.3"
+    "why-did-you-update": "~0.0.8"
+  },
+  "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1"
   },
   "peerDependencies": {
     "rtd": "node_modules/rtd",
@@ -189,8 +195,5 @@
     ],
     "report-dir": "./coverage/test"
   },
-  "style": "./lib/app.global.css",
-  "devDependencies": {
-    "babel-plugin-add-module-exports": "^0.2.1"
-  }
+  "style": "./lib/app.global.css"
 }

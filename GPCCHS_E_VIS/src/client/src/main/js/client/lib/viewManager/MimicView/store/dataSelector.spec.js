@@ -1,13 +1,13 @@
 import { getCount } from './dataSelector';
 
-describe('viewManager/TextView/store/dataSelector', () => {
+describe('viewManager/MimicView/store/dataSelector', () => {
   describe('getCount', () => {
     it('counts data: empty state', () => {
-      getCount({ textViewData: {} }).should.be.eql({ all: 0 });
+      getCount({ MimicViewData: {} }).should.be.eql({ all: 0 });
     });
     it('counts data', () => {
       const state = {
-        textViewData: {
+        MimicViewData: {
           v1: { index: { ep1: 10 } },
           v2: { index: { ep1: 10, ep2: 2, ep3: 5 } },
           v3: {},

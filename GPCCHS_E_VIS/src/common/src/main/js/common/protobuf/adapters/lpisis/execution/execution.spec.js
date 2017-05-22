@@ -21,7 +21,7 @@ describe('protobuf/lpisis/execution/Execution', () => {
     for (let i = 0; i < fixture.launchingParameter.length; i += 1) {
       json.launchingParameter[i].should.be.an('object').that.have.properties({
         name: { type: 'identifier', value: fixture.launchingParameter[i].name },
-        value: { type: 'double', value: fixture.launchingParameter[i].value },
+        value: { type: 'double', symbol: fixture.launchingParameter[i].value.toString() },
       });
     }
   });

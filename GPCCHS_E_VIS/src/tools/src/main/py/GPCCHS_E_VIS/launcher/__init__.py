@@ -13,9 +13,7 @@ Component : GPCCHS_E_VIS
 """
 # ====================================================================
 # HISTORY
-#
-# VERSION  : 1.0  : Creation
-#
+# VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 # END-HISTORY
 # ====================================================================
 # Start of user code init

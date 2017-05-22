@@ -26,7 +26,7 @@ describe('protobuf/lpisis/ccsds_mc/StatisticValue', () => {
         : { type: 'time', value: fixture.valueTime },
       value: (typeof fixture.value === 'undefined')
         ? null
-        : { type: 'double', value: fixture.value },
+        : { type: 'double', symbol: fixture.value.toString() },
       sampleCount: { type: 'uinteger', value: fixture.sampleCount },
       timestamp: { type: 'time', value: fixture.timestamp },
     });

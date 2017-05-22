@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import { getTextViewData } from './dataReducer';
+import { getMimicViewData } from './dataReducer';
 
 const getCount = createSelector(
-  getTextViewData,
+  getMimicViewData,
   (dataState) => {
     if (!dataState || !Object.keys(dataState).length) {
       return { all: 0 };

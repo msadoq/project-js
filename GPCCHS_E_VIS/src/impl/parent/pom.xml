@@ -4,12 +4,12 @@
   <groupId>fr.cnes.lpisis.gpcc</groupId>
   <artifactId>gpcchs_e_vis-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.0-R7S4-SNAPSHOT</version>
+  <version>1.1.1-R8S1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs-parent</artifactId>
-    <version>1.1.0-R7S4-SNAPSHOT</version>
+    <version>1.1.1-R8S1-SNAPSHOT</version>
     <relativePath>../../../../src/impl/parent</relativePath>
   </parent>
   <dependencyManagement>
@@ -34,6 +34,13 @@
         <type>isis-js-bundle</type>
         <classifier>unix_dev</classifier>
         <version>${gpcchs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.js</groupId>
+        <artifactId>gpds_rtd</artifactId>
+        <type>isis-js-module-dependency</type>
+       <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -16,10 +16,10 @@ deploy_cots() {
   rm -rf ${api.lib.dir}
   mkdir -p ${api.lib.dir}/js
 
-  cp -RT ${basedir}/src/main/js/server ${api.lib.dir}/js/${artifactId}
-  rm -rf ${api.lib.dir}/js/${artifactId}/node_modules
+  cp -RT ${basedir}/src/main/js/server ${api.lib.dir}/js/${project.artifactId}
+  rm -rf ${api.lib.dir}/js/${project.artifactId}/node_modules
 
-  cd ${api.lib.dir}/js/${artifactId}
+  cd ${api.lib.dir}/js/${project.artifactId}
 
   python3 << EOF
 import json

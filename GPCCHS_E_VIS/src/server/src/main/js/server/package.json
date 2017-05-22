@@ -9,8 +9,6 @@
     "start": "node index",
     "test": "mocha \"lib/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",
-    "e2e": "mocha \"e2e/**/*.spec.js\"",
-    "e2e:updateSnapshots": "CHAI_JEST_SNAPSHOT_UPDATE_ALL=1 npm run e2e",
     "tw": "npm test -- --watch"
   },
   "dependencies": {

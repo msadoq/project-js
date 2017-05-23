@@ -1,5 +1,4 @@
 const protobuf = require('../../../index');
-// const globalConstants = require('../../../../constants');
 const applyOverride = require('../../applyOverride');
 
 const getQueryArguments = override => applyOverride({

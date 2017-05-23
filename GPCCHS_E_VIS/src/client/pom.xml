@@ -19,7 +19,7 @@
     <api.target.dir>${basedir}/target</api.target.dir>
     <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
     <api.work.dir>${api.target.dir}/work</api.work.dir>
-    <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
+    <api.main.dir>${api.work.dir}/${project.artifactId}-${project.version}</api.main.dir>
     <isis.rpm.skip>true</isis.rpm.skip>
   </properties>
   <dependencies>

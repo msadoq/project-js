@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-06/schema#",
     "definitions": {
         "condition": {
             "type": "object",
@@ -9,7 +9,16 @@
                 },
                 "operator": {
                     "type": "string",
-                    "enum": ["==", "!=", "<", ">", "<=", ">=", "CONTAINS", "ICONTAINS"]
+                    "enum": [
+                        "==",
+                        "!=",
+                        "<",
+                        ">",
+                        "<=",
+                        ">=",
+                        "CONTAINS",
+                        "ICONTAINS"
+                    ]
                 },
                 "operand": {
                     "type": "string"
@@ -32,10 +41,10 @@
                     "type": "string"
                 },
                 "filter": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/condition"
-                  }
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/condition"
+                    }
                 },
                 "domain": {
                     "type": "string"
@@ -44,7 +53,14 @@
                     "type": "string"
                 }
             },
-            "required": ["formula", "unit", "digits", "format", "domain", "timeline"]
+            "required": [
+                "formula",
+                "unit",
+                "digits",
+                "format",
+                "domain",
+                "timeline"
+            ]
         },
         "viewEntryPoint": {
             "type": "object",
@@ -67,11 +83,16 @@
                                 "$ref": "#/definitions/condition"
                             }
                         },
-                        "required": ["colour", "condition"]
+                        "required": [
+                            "colour",
+                            "condition"
+                        ]
                     }
                 }
             },
-            "required": ["name"]
+            "required": [
+                "name"
+            ]
         },
         "textViewEntryPoint": {
             "$ref": "#/definitions/viewEntryPoint"
@@ -114,31 +135,40 @@
                             "type": "number"
                         }
                     },
-                    "required": ["length", "width"]
+                    "required": [
+                        "length",
+                        "width"
+                    ]
                 }
             }
         }
     },
-
     "type": "object",
-    "allOf": [{
-        "$ref": "#/definitions/viewCommonAttributes"
-    }, {
-        "properties": {
-            "type": {
-                "type": "string",
-                "enum": ["TextView"]
-            },
-            "entryPoints": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/definitions/textViewEntryPoint"
+    "allOf": [
+        {
+            "$ref": "#/definitions/viewCommonAttributes"
+        },
+        {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "const": "TextView"
+                },
+                "entryPoints": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/textViewEntryPoint"
+                    }
+                },
+                "content": {
+                    "type": "string"
                 }
             },
-            "content": {
-                "type": "string"
-            }
-        },
-        "required": ["type", "entryPoints", "content"]
-    }]
+            "required": [
+                "type",
+                "entryPoints",
+                "content"
+            ]
+        }
+    ]
 }

@@ -127,7 +127,7 @@ EntryPointConnectedData.propTypes = {
   valid: PropTypes.bool.isRequired,
 };
 
-const requiredFields = ['formula', 'domain', 'timeline'];
+const requiredFields = [/* 'formula', 'domain', 'timeline'*/];
 const validate = (values = {}) => {
   const errors = {};
 

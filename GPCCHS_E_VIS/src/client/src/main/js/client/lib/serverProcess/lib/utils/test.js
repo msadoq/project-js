@@ -5,6 +5,9 @@ const chai = require('chai');
 const properties = require('chai-properties');
 const database = require('../models/loki');
 
+require('common/protobuf/adapters/dc');
+require('common/protobuf/adapters/lpisis');
+
 chai.use(properties);
 
 let testHandlerArgs = [];

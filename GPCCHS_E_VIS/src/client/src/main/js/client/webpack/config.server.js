@@ -6,7 +6,7 @@ import baseConfig from './config.base';
 export default merge(baseConfig, {
   devtool: 'source-map',
 
-  entry: ['babel-polyfill', '../../../../../server/src/main/js/server/index'],
+  entry: ['babel-polyfill', './lib/serverProcess/index'],
 
   output: {
     path: join(__dirname, '..'),
@@ -15,6 +15,7 @@ export default merge(baseConfig, {
   externals: [
     'source-map-support',
     'package.json',
+    'memcpy',
     {
       zmq: './node_modules/common/node_modules/zmq',
       bindings: './node_modules/common/node_modules/bindings',

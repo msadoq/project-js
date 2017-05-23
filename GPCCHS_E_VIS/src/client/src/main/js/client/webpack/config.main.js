@@ -33,6 +33,10 @@ export default merge(baseConfig, {
     }),
   ],
 
+  resolve: {
+    packageMains: ['webpack', 'main'],
+  },
+
   target: 'electron-main',
 
   node: {

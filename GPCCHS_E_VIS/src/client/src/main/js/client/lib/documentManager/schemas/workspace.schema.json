@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-06/schema#",
     "definitions": {
         "geometry": {
             "type": "object",
@@ -7,7 +7,10 @@
                 "kind": {
                     "type": "string",
                     "default": "Relative",
-                    "enum": ["Relative", "Absolute"]
+                    "enum": [
+                        "Relative",
+                        "Absolute"
+                    ]
                 },
                 "x": {
                     "type": "number"
@@ -22,25 +25,37 @@
                     "type": "number"
                 }
             },
-            "required": ["x", "y", "w", "h"],
+            "required": [
+                "x",
+                "y",
+                "w",
+                "h"
+            ],
             "additionalProperties": false
         },
         "docLocation": {
-            "oneOf": [{
-                "properties": {
-                    "oId": {
-                        "type": "string"
-                    }
+            "oneOf": [
+                {
+                    "properties": {
+                        "oId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "oId"
+                    ]
                 },
-                "required": ["oId"]
-            }, {
-                "properties": {
-                    "path": {
-                        "type": "string"
-                    }
-                },
-                "required": ["path"]
-            }]
+                {
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "path"
+                    ]
+                }
+            ]
         },
         "boundaries": {
             "type": "object",
@@ -52,7 +67,10 @@
                     "type": "number"
                 }
             },
-            "required": ["lower", "upper"]
+            "required": [
+                "lower",
+                "upper"
+            ]
         },
         "timeline": {
             "type": "object",
@@ -65,62 +83,83 @@
                     "default": 0
                 }
             },
-            "required": ["id", "offset"]
+            "required": [
+                "id",
+                "offset"
+            ]
         },
         "sessionLine": {
-            "allOf": [{
-                "$ref": "#/definitions/timeline"
-            }, {
-                "properties": {
-                    "kind": {
-                        "type": "string",
-                        "enum": ["Session"]
-                    },
-                    "sessionId": {
-                        "type": "number"
-                    }
+            "allOf": [
+                {
+                    "$ref": "#/definitions/timeline"
                 },
-                "required": ["kind", "sessionId"]
-            }]
+                {
+                    "properties": {
+                        "kind": {
+                            "type": "string",
+                            "const": "Session"
+                        },
+                        "sessionId": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "kind",
+                        "sessionId"
+                    ]
+                }
+            ]
         },
         "datasetLine": {
-            "allOf": [{
-                "$ref": "#/definitions/timeline"
-            }, {
-                "properties": {
-                    "kind": {
-                        "type": "string",
-                        "enum": ["Dataset"]
-                    },
-                    "dsPath": {
-                        "type": "string"
-                    }
+            "allOf": [
+                {
+                    "$ref": "#/definitions/timeline"
                 },
-                "required": ["kind", "dsPath"]
-            }]
+                {
+                    "properties": {
+                        "kind": {
+                            "type": "string",
+                            "const": "Dataset"
+                        },
+                        "dsPath": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "kind",
+                        "dsPath"
+                    ]
+                }
+            ]
         },
         "recordsetLine": {
-            "allOf": [{
-                "$ref": "#/definitions/timeline"
-            }, {
-                "properties": {
-                    "kind": {
-                        "type": "string",
-                        "enum": ["Recordset"]
-                    },
-                    "rsPath": {
-                        "type": "string"
-                    }
+            "allOf": [
+                {
+                    "$ref": "#/definitions/timeline"
                 },
-                "required": ["kind", "rsPath"]
-            }]
+                {
+                    "properties": {
+                        "kind": {
+                            "type": "string",
+                            "const": "Recordset"
+                        },
+                        "rsPath": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "kind",
+                        "rsPath"
+                    ]
+                }
+            ]
         },
         "timeBar": {
             "type": "object",
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["timeBarConfiguration"]
+                    "const": "timeBarConfiguration"
                 },
                 "id": {
                     "type": "string"
@@ -128,18 +167,22 @@
                 "mode": {
                     "type": "string",
                     "default": "Normal",
-                    "enum": ["Normal", "Extended", "Sliding"]
+                    "enum": [
+                        "Normal",
+                        "Extended",
+                        "Sliding"
+                    ]
                 },
                 "rulerResolution": {
                     "type": "number"
                 },
                 "speed": {
                     "type": "number",
-                    "default": 1.0
+                    "default": 1
                 },
                 "timeSpec": {
                     "type": "string",
-                    "enum": ["LocalTime"]
+                    "const": "LocalTime"
                 },
                 "offsetFromUTC": {
                     "type": "number",
@@ -152,14 +195,20 @@
                     "type": "string"
                 }
             },
-            "required": ["type", "id", "mode", "rulerResolution", "timelines"]
+            "required": [
+                "type",
+                "id",
+                "mode",
+                "rulerResolution",
+                "timelines"
+            ]
         },
         "documentWindow": {
             "type": "object",
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["documentWindow"]
+                    "const": "documentWindow"
                 },
                 "title": {
                     "type": "string"
@@ -167,23 +216,32 @@
                 "pages": {
                     "type": "array",
                     "items": {
-                      "allOf": [{
-                        "$ref": "#/definitions/docLocation"
-                      }, {
-                        "properties": {
-                          "timebarId": {
-                              "type": "string"
-                          }
-                        },
-                        "required": ["timebarId"]
-                      }]
+                        "allOf": [
+                            {
+                                "$ref": "#/definitions/docLocation"
+                            },
+                            {
+                                "properties": {
+                                    "timebarId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "timebarId"
+                                ]
+                            }
+                        ]
                     }
                 },
                 "geometry": {
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "geometry", "title"],
+            "required": [
+                "type",
+                "geometry",
+                "title"
+            ],
             "additionalProperties": false
         },
         "globalViewWindow": {
@@ -191,11 +249,14 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["globalViewWindow"]
+                    "const": "globalViewWindow"
                 },
                 "kind": {
                     "type": "string",
-                    "enum": ["GMAView", "OBAView"]
+                    "enum": [
+                        "GMAView",
+                        "OBAView"
+                    ]
                 },
                 "timebarId": {
                     "type": "string"
@@ -204,7 +265,12 @@
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "kind", "timebarId", "geometry"],
+            "required": [
+                "type",
+                "kind",
+                "timebarId",
+                "geometry"
+            ],
             "additionalProperties": false
         },
         "sideWindow": {
@@ -212,45 +278,61 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["sideWindow"]
+                    "const": "sideWindow"
                 },
                 "kind": {
                     "type": "string",
-                    "enum": ["DocumentExplorer", "RTDExplorer", "InspectorView", "Console", "InputErrors"]
+                    "enum": [
+                        "DocumentExplorer",
+                        "RTDExplorer",
+                        "InspectorView",
+                        "Console",
+                        "InputErrors"
+                    ]
                 },
                 "geometry": {
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "kind", "geometry"],
+            "required": [
+                "type",
+                "kind",
+                "geometry"
+            ],
             "additionalProperties": false
         }
     },
-
     "type": "object",
     "properties": {
         "type": {
             "type": "string",
-            "enum": ["WorkSpace"]
+            "const": "WorkSpace"
         },
         "windows": {
             "type": "array",
             "items": {
-                "oneOf": [{
-                    "$ref": "#/definitions/documentWindow"
-                }, {
-                    "$ref": "#/definitions/globalViewWindow"
-                }, {
-                    "$ref": "#/definitions/sideWindow"
-                }]
+                "oneOf": [
+                    {
+                        "$ref": "#/definitions/documentWindow"
+                    },
+                    {
+                        "$ref": "#/definitions/globalViewWindow"
+                    },
+                    {
+                        "$ref": "#/definitions/sideWindow"
+                    }
+                ]
             }
         },
         "timebars": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/timeBar"
-          }
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/timeBar"
+            }
         }
     },
-    "required": ["windows", "timebars"]
+    "required": [
+        "windows",
+        "timebars"
+    ]
 }

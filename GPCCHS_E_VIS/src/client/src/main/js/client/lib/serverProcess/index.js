@@ -8,7 +8,8 @@ const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');
 const schedulerController = require('./lib/controllers/scheduler');
 
-// const { initStore } = require('../../../../../client/src/main/js/client/lib/store/isomorphic');
+// const makeCreateStore =
+//  require('../../../../../client/src/main/js/client/lib/store/createStore').default;
 
 process.title = 'gpcchs_hss';
 
@@ -38,8 +39,8 @@ zmq.open(zmqConfiguration, (err) => {
   // ipc with main
   process.on('message', clientController);
 
-  // const store = initStore();
-  // store.subscribe(state => console.log('STORE SUBSCRIPTION'));
+  // const store = makeCreateStore('server', process.env.DEBUG === 'on')();
+  // store.subscribe(() => console.log('SERVER STORE SUBSCRIPTION'));
 
   process.send('ready');
 });

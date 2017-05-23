@@ -42,7 +42,6 @@
        <classifier>unix_dev</classifier>
         <version>${gpds.version}</version>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
 </project>

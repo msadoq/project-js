@@ -1,5 +1,5 @@
 const onDataPull = require('./onDataPull');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
 

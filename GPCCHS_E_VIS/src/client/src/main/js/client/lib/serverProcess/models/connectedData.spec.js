@@ -1,6 +1,6 @@
 const { should } = require('../utils/test');
 const model = require('./connectedData');
-const { getDataId, getRemoteId } = require('common/stubs/data');
+const { getDataId, getRemoteId } = require('common/protobuf/stubs');
 
 describe('models/connectedData', () => {
   beforeEach(() => {

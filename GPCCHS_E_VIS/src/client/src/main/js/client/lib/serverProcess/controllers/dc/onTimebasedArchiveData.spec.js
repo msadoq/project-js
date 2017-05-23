@@ -7,7 +7,7 @@ const {
 } = require('../../models/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
 
 /*

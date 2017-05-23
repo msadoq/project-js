@@ -1,6 +1,6 @@
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 const onDomainsData = require('./onDomainsData');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const registeredCallbacks = require('../../../utils/callbacks');
 
 describe('controllers/utils/onDomainsData', () => {

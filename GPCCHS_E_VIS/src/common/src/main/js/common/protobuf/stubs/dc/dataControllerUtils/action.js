@@ -1,4 +1,4 @@
-const protobuf = require('../../../../protobuf/index');
+const protobuf = require('../../../index');
 const globalConstants = require('../../../../constants/index');
 
 const getAddAction = () => ({

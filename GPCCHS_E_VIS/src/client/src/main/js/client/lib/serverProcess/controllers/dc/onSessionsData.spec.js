@@ -1,6 +1,6 @@
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 const onSessionsData = require('./onSessionsData');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 
 describe('controllers/utils/onSessionData', () => {
   beforeEach(() => {

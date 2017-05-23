@@ -1,6 +1,6 @@
 require('../utils/test');
 const flattenDataId = require('./flattenDataId');
-const { getDataId } = require('../stubs/data');
+const { getDataId } = require('./index');
 
 describe('models/getLocalId', () => {
   it('works', () => {

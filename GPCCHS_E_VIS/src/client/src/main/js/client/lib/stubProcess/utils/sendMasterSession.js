@@ -1,4 +1,4 @@
-const stubData = require('common/stubs/data');
+const stubData = require('common/protobuf/stubs');
 const { encode, getType } = require('common/protobuf');
 
 const MASTER_SESSION_ID = 42;

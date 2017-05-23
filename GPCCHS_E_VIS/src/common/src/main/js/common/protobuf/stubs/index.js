@@ -1,6 +1,6 @@
-const dc = require('./data/dc');
-const lpisis = require('./data/lpisis');
-const flattenDataId = require('../utils/flattenDataId');
+const dc = require('./dc');
+const lpisis = require('./lpisis');
+const flattenDataId = require('../../utils/flattenDataId');
 
 const stubs = Object.assign({}, dc, lpisis);
 

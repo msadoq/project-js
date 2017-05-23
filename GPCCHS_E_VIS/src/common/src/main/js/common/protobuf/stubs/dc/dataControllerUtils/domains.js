@@ -1,4 +1,4 @@
-const protobuf = require('../../../../protobuf/index');
+const protobuf = require('../../../index');
 const applyOverride = require('../../applyOverride');
 
 const { getDomain } = require('./domain');

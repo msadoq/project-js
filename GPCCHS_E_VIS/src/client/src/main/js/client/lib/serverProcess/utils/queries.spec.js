@@ -1,7 +1,7 @@
 const { should } = require('test');
 const { resetQueryId, createQueryMessage } = require('./queries');
 const globalConstants = require('common/constants');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 
 const {
   clear: cleanRegisteredCallbacks,

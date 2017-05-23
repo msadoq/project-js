@@ -7,7 +7,7 @@ const {
   getAllTimebasedDataModelRemoteIds,
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
 const {
   get: getLastPubSubTimestamp,

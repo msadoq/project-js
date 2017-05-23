@@ -2,7 +2,7 @@ const _each = require('lodash/each');
 const _get = require('lodash/get');
 const logger = require('common/log')('stubs:utils');
 const globalConstants = require('common/constants');
-const stubData = require('common/stubs/data');
+const stubData = require('common/protobuf/stubs');
 
 const getPayload = require('./getPayload');
 

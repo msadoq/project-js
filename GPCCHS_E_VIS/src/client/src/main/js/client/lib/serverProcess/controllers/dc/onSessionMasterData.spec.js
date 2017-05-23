@@ -1,4 +1,4 @@
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const protobuf = require('common/protobuf');
 
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');

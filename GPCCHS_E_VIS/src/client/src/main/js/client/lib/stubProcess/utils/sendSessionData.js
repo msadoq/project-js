@@ -1,4 +1,4 @@
-const stubData = require('common/stubs/data');
+const stubData = require('common/protobuf/stubs');
 
 module.exports = function sendSessionData(queryId, zmq) {
   const buffer = [

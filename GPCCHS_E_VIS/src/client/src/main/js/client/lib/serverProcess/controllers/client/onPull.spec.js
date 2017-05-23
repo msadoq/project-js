@@ -9,7 +9,7 @@ const {
   get: getDataQueue,
 } = require('../../models/dataQueue');
 const onPull = require('./onPull');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 
 describe('controllers/client/onPull', () => {

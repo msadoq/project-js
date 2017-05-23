@@ -1,4 +1,4 @@
-const data = require('./data');
+const data = require('./index');
 // require('../protobuf/adapters/dc');
 // require('../protobuf/adapters/lpisis');
 

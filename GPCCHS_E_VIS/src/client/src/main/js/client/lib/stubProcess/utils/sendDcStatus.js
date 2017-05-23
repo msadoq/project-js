@@ -1,5 +1,5 @@
 const logger = require('common/log')('stubs:utils');
-const stubData = require('common/stubs/data');
+const stubData = require('common/protobuf/stubs');
 
 const header = stubData.getDcStatusHeaderProtobuf();
 const healthy = stubData.getHealthyDcStatusProtobuf();

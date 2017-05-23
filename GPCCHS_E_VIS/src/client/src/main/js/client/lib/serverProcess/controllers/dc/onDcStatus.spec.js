@@ -1,5 +1,5 @@
 const onDcStatus = require('./onDcStatus');
-const dataStub = require('common/stubs/data');
+const dataStub = require('common/protobuf/stubs');
 const globalConstants = require('common/constants');
 const { get: getDcStatus, reset: resetDcStatus } = require('../dcStatus');
 

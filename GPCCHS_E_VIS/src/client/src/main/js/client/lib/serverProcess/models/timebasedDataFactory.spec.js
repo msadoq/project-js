@@ -6,7 +6,7 @@ const {
   removeTimebasedDataModel,
   getAllTimebasedDataModelRemoteIds,
 } = require('./timebasedDataFactory');
-const { getReportingParameter } = require('common/stubs/data');
+const { getReportingParameter } = require('common/protobuf/stubs');
 
 describe('models/timebasedDataFactory', () => {
   beforeEach(() => {

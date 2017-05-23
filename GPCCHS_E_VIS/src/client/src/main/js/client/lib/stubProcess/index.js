@@ -7,7 +7,7 @@ const globalConstants = require('common/constants');
 const protobuf = require('common/protobuf');
 require('common/protobuf/adapters/dc');
 require('common/protobuf/adapters/lpisis');
-const stubData = require('common/stubs/data');
+const stubData = require('common/protobuf/stubs');
 
 const isParameterSupported = require('./utils/isParameterSupported');
 const sendDomainData = require('./utils/sendDomainData');

@@ -1,6 +1,6 @@
 const _now = require('lodash/now');
 
-const protobuf = require('../../../../protobuf');
+const protobuf = require('../../../../protobuf/index');
 const applyOverride = require('../../applyOverride');
 
 const now = _now();

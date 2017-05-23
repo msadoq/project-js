@@ -1,22 +1,23 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 
-const logger = require('../log')('stubs:dc');
-const zmq = require('../zmq');
-const globalConstants = require('../constants');
-const protobuf = require('../protobuf');
-require('../protobuf/adapters/dc');
-require('../protobuf/adapters/lpisis');
-const stubData = require('./data');
-const isParameterSupported = require('./dc/isParameterSupported');
-const sendDomainData = require('./dc/sendDomainData');
-const sendPubSubData = require('./dc/sendPubSubData');
-const sendArchiveData = require('./dc/sendArchiveData');
-const sendSessionData = require('./dc/sendSessionData');
-const sendFmdGet = require('./dc/sendFmdGet');
-const sendFmdCreate = require('./dc/sendFmdCreate');
-const sendSessionTime = require('./dc/sendSessionTime');
-const sendMasterSession = require('./dc/sendMasterSession');
+const logger = require('common/log/index')('stubs:utils');
+const zmq = require('common/zmq');
+const globalConstants = require('common/constants');
+const protobuf = require('common/protobuf');
+require('common/protobuf/adapters/dc');
+require('common/protobuf/adapters/lpisis');
+const stubData = require('common/stubs/data');
+
+const isParameterSupported = require('./utils/isParameterSupported');
+const sendDomainData = require('./utils/sendDomainData');
+const sendPubSubData = require('./utils/sendPubSubData');
+const sendArchiveData = require('./utils/sendArchiveData');
+const sendSessionData = require('./utils/sendSessionData');
+const sendFmdGet = require('./utils/sendFmdGet');
+const sendFmdCreate = require('./utils/sendFmdCreate');
+const sendSessionTime = require('./utils/sendSessionTime');
+const sendMasterSession = require('./utils/sendMasterSession');
 
 process.title = 'gpcchs_dc_stub';
 

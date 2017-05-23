@@ -1,7 +1,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 /* eslint-disable global-require, "DV6 TBC_CNES generated file" */
 
-const protobuf = require('../../../protobuf');
+const protobuf = require('../../../protobuf/index');
 
 module.exports = {
   getAck: require('./ackRequest/ack'),

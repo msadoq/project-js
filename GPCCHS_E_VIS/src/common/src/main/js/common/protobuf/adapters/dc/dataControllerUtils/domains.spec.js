@@ -2,7 +2,7 @@ require('../../../../utils/test');
 const protobuf = require('../../../index');
 const stubData = require('../../../../stubs/data');
 
-describe('protobuf/dc/dataControllerUtils/domains', () => {
+describe('protobuf/utils/dataControllerUtils/domains', () => {
   const fixture = stubData.getDomains();
   let buffer;
   it('encode', () => {

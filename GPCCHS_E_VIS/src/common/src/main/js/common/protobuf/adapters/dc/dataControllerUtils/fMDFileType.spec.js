@@ -2,7 +2,7 @@ require('../../../../utils/test');
 const protobuf = require('../../../index');
 const stubData = require('../../../../stubs/data');
 
-describe('protobuf/dc/dataControllerUtils/fMDFileType', () => {
+describe('protobuf/utils/dataControllerUtils/fMDFileType', () => {
   const fixture = stubData.getFMDFileType();
   let buffer;
   it('encode', () => {

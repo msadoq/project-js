@@ -1,5 +1,5 @@
-const protobuf = require('../../../../protobuf');
-const globalConstants = require('../../../../constants');
+const protobuf = require('../../../../protobuf/index');
+const globalConstants = require('../../../../constants/index');
 
 const getAddAction = () => ({
   action: globalConstants.SUBSCRIPTIONACTION_ADD,

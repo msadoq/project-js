@@ -174,7 +174,7 @@ export function tick() {
   execution.stop('dataMap generation');
 
   series([
-    // dc & server health
+    // utils & server health
     (callback) => {
       execution.start('health retrieving');
       server.requestHealth((data) => {

@@ -1,12 +1,12 @@
 const async = require('async');
+const parseArgs = require('minimist');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
-const parseArgs = require('minimist');
-const { should } = require('../utils/test');
-const zmq = require('../zmq');
-const { getType, encode, decode } = require('../protobuf');
-const constants = require('../constants');
+const { should } = require('common/utils/test');
+const zmq = require('common/zmq/index');
+const { getType, encode, decode } = require('common/protobuf/index');
+const constants = require('common/constants/index');
 
 const sessionIdTest = 1;
 const domainIdTest = 4;
@@ -60,7 +60,7 @@ const sendZmqMessage = (args) => {
 let trashFlag = true;
 // TRASH DATA
 const trashPullHandler = (callback) => {
-  logger('receiving trash from dc');
+  logger('receiving trash from utils');
   if (trashFlag) {
     logger('...end test');
   }
@@ -70,7 +70,7 @@ const trashPullHandler = (callback) => {
 
 // DOMAIN DATA
 const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  logger('receiving a message from dc');
+  logger('receiving a message from utils');
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
   header.messageType.should.equal(constants.MESSAGETYPE_DOMAIN_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
@@ -83,7 +83,7 @@ const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
 
 // SESSION DATA
 const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  logger('receiving a message from dc');
+  logger('receiving a message from utils');
   logger();
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
   header.messageType.should.equal(constants.MESSAGETYPE_SESSION_DATA);
@@ -97,7 +97,7 @@ const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
 
 // ARCHIVE DATA
 const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  logger('receiving a message from dc');
+  logger('receiving a message from utils');
   logger(step);
   switch (step) {
     case steps.RESPONSE:
@@ -344,12 +344,12 @@ const myComObjectDataId = {
 
 // // timebased query
 // const tbQueryMessageArgs = [
-//   encode('dc.dataControllerUtils.Header',
+//   encode('utils.dataControllerUtils.Header',
 //      { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
-//   encode('dc.dataControllerUtils.String', { string: myQueryId }),
-//   encode('dc.dataControllerUtils.DataId', myDataId),
-//   encode('dc.dataControllerUtils.TimeInterval', timeInterval),
-//   encode('dc.dataControllerUtils.QueryArguments', queryArguments),
+//   encode('utils.dataControllerUtils.String', { string: myQueryId }),
+//   encode('utils.dataControllerUtils.DataId', myDataId),
+//   encode('utils.dataControllerUtils.TimeInterval', timeInterval),
+//   encode('utils.dataControllerUtils.QueryArguments', queryArguments),
 // ];
 
 // domain query
@@ -393,11 +393,11 @@ const makeSub = (parameter) => {
 //   const dataId = Object.assign({}, myDataId);
 //   dataId.parameterName = parameter;
 //   return [
-//     encode('dc.dataControllerUtils.Header',
+//     encode('utils.dataControllerUtils.Header',
 //       { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
-//     encode('dc.dataControllerUtils.String', { string: dataId.parameterName }),
-//     encode('dc.dataControllerUtils.DataId', dataId),
-//     encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
+//     encode('utils.dataControllerUtils.String', { string: dataId.parameterName }),
+//     encode('utils.dataControllerUtils.DataId', dataId),
+//     encode('utils.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
 //   ];
 // };
 
@@ -435,11 +435,11 @@ const sendLogMessageArgs = [
 
 // // timebased subscription start
 // const tbStartSubMessageArgs = [
-//   encode('dc.dataControllerUtils.Header',
+//   encode('utils.dataControllerUtils.Header',
 //     { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
-//   encode('dc.dataControllerUtils.String', { string: myQueryId }),
-//   encode('dc.dataControllerUtils.DataId', myDataId),
-//   encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
+//   encode('utils.dataControllerUtils.String', { string: myQueryId }),
+//   encode('utils.dataControllerUtils.DataId', myDataId),
+//   encode('utils.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
 // ];
 
 // timebased subscription start
@@ -477,7 +477,7 @@ const documentGetQueryMessageArgs = makeDocumentGetQueryMessageArgs('00670008010
 
 // START PUBSUB DATA
 const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  logger('receiving a message from dc');
+  logger('receiving a message from utils');
   logger(step);
   switch (step) {
     case steps.RESPONSE: {

@@ -2,7 +2,7 @@ require('../../../../utils/test');
 const protobuf = require('../../../index');
 const stubData = require('../../../../stubs/data');
 
-describe('protobuf/dc/dataControllerUtils/header', () => {
+describe('protobuf/utils/dataControllerUtils/header', () => {
   const fixture = stubData.getTimebasedQueryHeader();
   let buffer;
   it('encode', () => {

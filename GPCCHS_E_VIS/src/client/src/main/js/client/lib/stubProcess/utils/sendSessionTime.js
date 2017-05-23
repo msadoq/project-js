@@ -1,4 +1,4 @@
-const stubData = require('../data');
+const stubData = require('common/stubs/data');
 
 module.exports = function sendSessionTime(queryId, sessionId, zmq) {
   const sessionTime = Date.now() + ((parseInt(sessionId, 10) + 1) * 1000);

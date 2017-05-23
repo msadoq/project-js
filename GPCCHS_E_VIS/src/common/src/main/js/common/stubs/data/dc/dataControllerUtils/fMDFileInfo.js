@@ -1,6 +1,6 @@
-const protobuf = require('../../../../protobuf');
+const protobuf = require('../../../../protobuf/index');
 const applyOverride = require('../../applyOverride');
-const globalConstants = require('../../../../constants');
+const globalConstants = require('../../../../constants/index');
 
 const getFMDFileInfo = override => applyOverride({
   type: globalConstants.FMDFILETYPE_DOCUMENT,

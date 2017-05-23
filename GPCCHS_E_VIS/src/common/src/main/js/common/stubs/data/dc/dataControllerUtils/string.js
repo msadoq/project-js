@@ -1,4 +1,4 @@
-const protobuf = require('../../../../protobuf');
+const protobuf = require('../../../../protobuf/index');
 
 const getString = (string = 'defaultString') => ({
   string,

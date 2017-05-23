@@ -21,7 +21,7 @@ const {
  *
  */
 
-describe('controllers/dc/onTimebasedPubSubData', () => {
+describe('controllers/utils/onTimebasedPubSubData', () => {
   beforeEach(() => {
     connectedDataModel.cleanup();
     clearFactory();

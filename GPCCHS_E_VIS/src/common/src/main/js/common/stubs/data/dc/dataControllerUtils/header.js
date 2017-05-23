@@ -1,5 +1,5 @@
-const protobuf = require('../../../../protobuf');
-const globalConstants = require('../../../../constants');
+const protobuf = require('../../../../protobuf/index');
+const globalConstants = require('../../../../constants/index');
 
 const getDcStatusQueryHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_DC_STATUS_QUERY,

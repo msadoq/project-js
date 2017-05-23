@@ -1,4 +1,4 @@
-const stubData = require('../data');
+const stubData = require('common/stubs/data');
 
 const buffer = [
   null,

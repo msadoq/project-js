@@ -3,7 +3,7 @@ const onDomainsData = require('./onDomainsData');
 const dataStub = require('common/stubs/data');
 const registeredCallbacks = require('../../../utils/callbacks');
 
-describe('controllers/dc/onDomainsData', () => {
+describe('controllers/utils/onDomainsData', () => {
   beforeEach(() => {
     resetTestHandlerArgs();
   });

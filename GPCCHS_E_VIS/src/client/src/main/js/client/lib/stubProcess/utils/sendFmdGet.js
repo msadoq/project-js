@@ -1,7 +1,7 @@
 const { join, dirname, basename } = require('path');
 const { existsSync } = require('fs');
-const { get } = require('../../parameters');
-const stubData = require('../data');
+const { get } = require('common/parameters');
+const stubData = require('common/stubs/data');
 
 module.exports = function sendFmdGet(queryId, oid, zmq) {
   const buffer = [

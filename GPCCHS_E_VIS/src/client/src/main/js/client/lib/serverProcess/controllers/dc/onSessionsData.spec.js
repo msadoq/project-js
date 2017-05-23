@@ -2,7 +2,7 @@ const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../..
 const onSessionsData = require('./onSessionsData');
 const dataStub = require('common/stubs/data');
 
-describe('controllers/dc/onSessionData', () => {
+describe('controllers/utils/onSessionData', () => {
   beforeEach(() => {
     resetTestHandlerArgs();
   });

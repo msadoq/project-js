@@ -1,5 +1,5 @@
-const stubData = require('../data');
-const { encode, getType } = require('../../protobuf');
+const stubData = require('common/stubs/data');
+const { encode, getType } = require('common/protobuf');
 
 const MASTER_SESSION_ID = 42;
 

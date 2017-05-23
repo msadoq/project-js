@@ -48,7 +48,7 @@ const createQueryMessage = (remoteId, dataId, interval, queryArguments, executio
   registerQuery(queryId, remoteId);
   execution.stop('set query handling');
 
-  execution.start('encode dc query');
+  execution.start('encode utils query');
   const args = [
     protobufQueryHeader,
     encode('dc.dataControllerUtils.String', { string: queryId }),
@@ -59,7 +59,7 @@ const createQueryMessage = (remoteId, dataId, interval, queryArguments, executio
     }),
     encode('dc.dataControllerUtils.QueryArguments', queryArguments),
   ];
-  execution.stop('encode dc query');
+  execution.stop('encode utils query');
   return { args, queryId };
 };
 

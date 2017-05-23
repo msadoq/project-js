@@ -127,9 +127,9 @@ module.exports = (sendMessageToDc, { queries }) => {
 
   // send queued zmq messages to DC
   if (messageQueue.length) {
-    execution.start('send to dc');
+    execution.start('send to utils');
     _each(messageQueue, args => sendMessageToDc(args));
-    execution.stop('send to dc');
+    execution.stop('send to utils');
   }
   execution.stop('global');
   execution.print();

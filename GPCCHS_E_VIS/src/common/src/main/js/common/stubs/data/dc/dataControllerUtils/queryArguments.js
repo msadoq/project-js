@@ -1,4 +1,4 @@
-const protobuf = require('../../../../protobuf');
+const protobuf = require('../../../../protobuf/index');
 // const globalConstants = require('../../../../constants');
 const applyOverride = require('../../applyOverride');
 

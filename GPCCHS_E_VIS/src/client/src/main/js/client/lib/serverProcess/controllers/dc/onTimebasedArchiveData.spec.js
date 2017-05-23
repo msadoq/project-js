@@ -17,7 +17,7 @@ const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
  * - check ws messages for timebasedData
  */
 
-describe('controllers/dc/onTimebasedArchiveData', () => {
+describe('controllers/utils/onTimebasedArchiveData', () => {
   beforeEach(() => {
     cleanRegisteredQueries();
     connectedDataModel.cleanup();

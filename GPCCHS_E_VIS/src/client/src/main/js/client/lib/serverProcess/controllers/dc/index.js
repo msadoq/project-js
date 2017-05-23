@@ -1,4 +1,4 @@
-const logger = require('common/log')('controllers/dc');
+const logger = require('common/log')('controllers/utils');
 const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
 

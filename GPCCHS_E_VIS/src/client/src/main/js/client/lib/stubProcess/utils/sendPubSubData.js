@@ -1,7 +1,7 @@
 const _each = require('lodash/each');
 const _random = require('lodash/random');
-const globalConstants = require('../../constants');
-const stubData = require('../data');
+const globalConstants = require('common/constants');
+const stubData = require('common/stubs/data');
 const getPayload = require('./getPayload');
 
 const header = stubData.getTimebasedPubSubDataHeaderProtobuf();

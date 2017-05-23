@@ -17,22 +17,6 @@ deploy_cots() {
   rm -rf ${api.lib.dir}/js/${project.artifactId}/node_modules
 
   cd ${api.lib.dir}/js/${project.artifactId}
-
-  python3 << EOF
-import json
-import collections
-
-with open("package.json") as package_file:
-    package_json=json.load(package_file, object_pairs_hook=collections.OrderedDict)
-    if "peerDependencies" in package_json:
-         if "common" in package_json["peerDependencies"]:
-             del package_json["peerDependencies"]["common"]
-
-with open("package.json", "w") as package_file:
-    package_file.write(json.dumps(package_json, indent=2))
-
-EOF
-
 }
 
 Log "generate" "generate all" ${INFO}

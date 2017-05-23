@@ -29,13 +29,6 @@
         <version>${gpcchs.version}</version>
       </dependency>
       <dependency>
-        <groupId>fr.cnes.lpisis.gpcc.js</groupId>
-        <artifactId>gpcchs_e_vis_server</artifactId>
-        <type>isis-js-bundle</type>
-        <classifier>unix_dev</classifier>
-        <version>${gpcchs.version}</version>
-      </dependency>
-      <dependency>
         <groupId>fr.cnes.lpisis.gpds.js</groupId>
         <artifactId>gpds_rtd</artifactId>
         <type>isis-js-module-dependency</type>

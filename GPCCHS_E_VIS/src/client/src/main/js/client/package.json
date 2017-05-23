@@ -173,7 +173,7 @@
     "babel-plugin-add-module-exports": "^0.2.1"
   },
   "peerDependencies": {
-    "rtd": "node_modules/rtd",
+    "rtd": "../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd",
     "common": "../../../../../common/src/main/js/common",
     "d3-time": "1.0.4"
   },

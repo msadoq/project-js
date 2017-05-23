@@ -16,10 +16,12 @@ export default merge(baseConfig, {
     'source-map-support',
     'package.json',
     'memcpy',
-    {
-      zmq: './node_modules/common/node_modules/zmq',
-      bindings: './node_modules/common/node_modules/bindings',
-    },
+    'zmq',
+    'bindings',
+    // {
+    //   zmq: './node_modules/common/node_modules/zmq',
+    //   bindings: './node_modules/common/node_modules/bindings',
+    // },
   ],
 
   plugins: [

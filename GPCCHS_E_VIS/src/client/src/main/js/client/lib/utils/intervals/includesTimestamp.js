@@ -1,8 +1,6 @@
 const _some = require('lodash/some');
 const _isArray = require('lodash/isArray');
 
-const logger = require('../log')('common:intervals');
-
 const includesTimestamp = (interval, timestamp) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);
 
@@ -21,7 +19,6 @@ module.exports = (intervals, timestamp) => {
   if (_isArray(intervals[0])) {
     return _some(intervals, (interval) => {
       const isIn = includesTimestamp(interval, timestamp);
-      logger.silly('checking interval', interval, timestamp, !!isIn);
       return includesTimestamp(interval, timestamp);
     });
   }

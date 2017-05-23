@@ -1,5 +1,5 @@
-const { should } = require('common/utils/test');
-const callbacks = require('./index');
+const { should } = require('../../common/test');
+const callbacks = require('./');
 
 describe('utils/callbacks', () => {
   beforeEach(() => callbacks.clear());

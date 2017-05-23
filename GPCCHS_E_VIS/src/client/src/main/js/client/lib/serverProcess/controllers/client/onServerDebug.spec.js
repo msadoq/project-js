@@ -1,5 +1,5 @@
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-const getModelsState = require('../getModelsState');
+const getModelsState = require('../../utils/getModelsState');
 
 const onServerDebug = require('./onServerDebug');
 

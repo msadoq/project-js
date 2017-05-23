@@ -1,3 +1,4 @@
+require('../../common/test');
 const remove = require('./remove');
 
 describe('intervals/remove', () => {

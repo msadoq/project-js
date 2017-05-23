@@ -4,7 +4,7 @@ const {
   resetTestHandlerArgs,
 } = require('../../utils/test');
 const globalConstants = require('common/constants');
-const { set: setDcStatus } = require('../dcStatus');
+const { set: setDcStatus } = require('../../models/dcStatus');
 const {
   reset: resetLastPubSub,
   set: setLastPubSub,

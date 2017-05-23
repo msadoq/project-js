@@ -1,4 +1,4 @@
-const { should } = require('test');
+const { should } = require('../../common/test');
 const {
   createAddSubscriptionMessage,
   createDeleteSubscriptionMessage,
@@ -7,7 +7,7 @@ const {
 } = require('./subscriptions');
 const connectedDataModel = require('../models/connectedData');
 const dataStub = require('common/protobuf/stubs');
-const registeredCallbacks = require('../../../utils/callbacks');
+const registeredCallbacks = require('../../utils/callbacks');
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('./test');
 
 describe('utils/subscriptions', () => {

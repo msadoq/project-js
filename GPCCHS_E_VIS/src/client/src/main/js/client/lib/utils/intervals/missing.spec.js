@@ -1,4 +1,4 @@
-require('../utils/test');
+require('../../common/test');
 const missing = require('./missing');
 
 describe('retrieveMissingIntervals', () => {

@@ -3,10 +3,10 @@ const logger = require('common/log')('main');
 const zmq = require('common/zmq');
 require('common/protobuf/adapters/dc');
 require('common/protobuf/adapters/lpisis');
-const clientController = require('./lib/controllers/client');
-const dcController = require('./lib/controllers/dc');
-const { unsubscribeAll } = require('./lib/utils/subscriptions');
-const schedulerController = require('./lib/controllers/scheduler');
+
+const clientController = require('./controllers/client');
+const dcController = require('./controllers/dc');
+const { unsubscribeAll } = require('./utils/subscriptions');
 
 // const makeCreateStore =
 //  require('../../../../../client/src/main/js/client/lib/store/createStore').default;
@@ -33,9 +33,6 @@ zmq.open(zmqConfiguration, (err) => {
     throw err;
   }
 
-  // Start Job Scheduler
-  schedulerController.start();
-
   // ipc with main
   process.on('message', clientController);
 
@@ -54,7 +51,6 @@ process.once('SIGTERM', () => {
   logger.info('gracefully close server (SIGTERM)');
 
   unsubscribeAll(args => zmq.push('dcPush', args));
-  schedulerController.stop();
 
   logger.info('good bye!');
   exit(0);

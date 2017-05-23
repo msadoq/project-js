@@ -1,7 +1,7 @@
 const onDcStatus = require('./onDcStatus');
 const dataStub = require('common/stubs/data');
 const globalConstants = require('common/constants');
-const { get: getDcStatus, reset: resetDcStatus } = require('../../models/dcStatus');
+const { get: getDcStatus, reset: resetDcStatus } = require('../dcStatus');
 
 describe('controllers/dc/onDcStatus', () => {
   beforeEach(() => {

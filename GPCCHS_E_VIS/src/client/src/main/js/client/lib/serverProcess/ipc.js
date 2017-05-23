@@ -1,7 +1,7 @@
 const { v4 } = require('uuid');
 const logger = require('common/log')('main:ipc');
 const globalConstants = require('common/constants');
-const { set: setCallback } = require('../../utils/callbacks');
+const { set: setCallback } = require('../utils/callbacks');
 
 module.exports = {
   main: {

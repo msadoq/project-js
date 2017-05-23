@@ -1,11 +1,13 @@
 const _concat = require('lodash/concat');
-const { decode } = require('common/protobuf');
+
 const globalConstants = require('common/constants');
-const registeredCallbacks = require('../../../../utils/callbacks');
+const { decode } = require('common/protobuf');
+const registeredCallbacks = require('../../../utils/callbacks');
 
 require('../../utils/test');
 
-const onDomainsQuery = require('./onDomainsQuery');
+
+const onSessionsQuery = require('./onSessionsQuery');
 
 
 let calls = [];
@@ -13,7 +15,7 @@ const zmqEmulator = (payload) => {
   calls = _concat(calls, payload);
 };
 
-describe('controllers/client/onDomainsQuery', () => {
+describe('controllers/client/onSessionQuery', () => {
   beforeEach(() => {
     calls.length = 0;
     registeredCallbacks.clear();
@@ -21,12 +23,12 @@ describe('controllers/client/onDomainsQuery', () => {
   it('with queryId', () => {
     const myQueryId = 'totolasticot';
     // launch test
-    onDomainsQuery(zmqEmulator, myQueryId);
+    onSessionsQuery(zmqEmulator, myQueryId);
     // check data
     calls.should.be.an('array')
       .that.has.lengthOf(2);
     calls[0].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_DOMAIN_QUERY);
+    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_SESSION_QUERY);
     calls[1].constructor.should.equal(Buffer);
     decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
   });

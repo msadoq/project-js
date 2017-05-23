@@ -1,4 +1,4 @@
-const { should } = require('../utils/test');
+require('../utils/test');
 const dcStatus = require('./dcStatus');
 
 describe('models/dcStatus', () => {

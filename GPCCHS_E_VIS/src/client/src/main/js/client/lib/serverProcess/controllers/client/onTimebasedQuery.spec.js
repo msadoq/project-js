@@ -11,7 +11,7 @@ const {
   cleanup: cleanRegisteredQueries,
   getAll: getAllRegisteredQueries,
 } = require('../../models/registeredQueries');
-const registeredCallbacks = require('../../../../utils/callbacks');
+const registeredCallbacks = require('../../../utils/callbacks');
 const connectedDataModel = require('../../models/connectedData');
 
 

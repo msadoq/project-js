@@ -1,4 +1,4 @@
-const { should } = require('../utils/test');
+const { should } = require('test');
 const { resetQueryId, createQueryMessage } = require('./queries');
 const globalConstants = require('common/constants');
 const dataStub = require('common/stubs/data');

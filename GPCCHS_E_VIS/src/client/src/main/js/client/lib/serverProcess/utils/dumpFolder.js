@@ -4,7 +4,6 @@ const fs = require('fs');
 const _isEmpty = require('lodash/isEmpty');
 const { get } = require('common/parameters');
 const getLogger = require('common/log');
-// const { createFolder } = require('./fs');
 
 const logger = getLogger('controllers:onTimebasedArchiveData');
 let dumpFolder;

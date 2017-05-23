@@ -7,7 +7,7 @@ const _has = require('lodash/has');
 const _reduce = require('lodash/reduce');
 const logger = require('common/log')('models:connectedData');
 const flattenDataId = require('common/utils/flattenDataId');
-const intervalManager = require('../../../utils/intervals');
+const intervalManager = require('../../utils/intervals');
 
 const database = require('./loki');
 

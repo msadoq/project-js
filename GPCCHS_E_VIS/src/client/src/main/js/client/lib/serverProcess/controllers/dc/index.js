@@ -2,7 +2,7 @@ const logger = require('common/log')('controllers/dc');
 const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
 
-const reply = require('../../../../utils/ipc/reply');
+const reply = require('../../../utils/ipc/reply');
 
 const onResponse = require('./onResponse');
 const onDomainsData = require('./onDomainsData');

@@ -1,4 +1,4 @@
-const { should } = require('../utils/test');
+const { should } = require('test');
 const {
   createAddSubscriptionMessage,
   createDeleteSubscriptionMessage,

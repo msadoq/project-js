@@ -1,16 +1,14 @@
 const _concat = require('lodash/concat');
 const dataStub = require('common/stubs/data');
 const { decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
 
+const registeredCallbacks = require('../../../../utils/callbacks');
 const { should } = require('../../utils/test');
 const {
   addRecord: registerQuery,
   getAll: getRegisteredQueries,
   cleanup: cleanRegisteredQueries,
 } = require('../../models/registeredQueries');
-
-
 const {
   clearFactory,
   getTimebasedDataModel,

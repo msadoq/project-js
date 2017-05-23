@@ -1,4 +1,4 @@
-const { should } = require('../utils/test');
+const { should } = require('common/utils/test');
 const callbacks = require('./index');
 
 describe('utils/callbacks', () => {

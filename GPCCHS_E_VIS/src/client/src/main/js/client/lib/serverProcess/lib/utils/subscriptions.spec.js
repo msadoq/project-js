@@ -6,8 +6,8 @@ const {
   resetSubId,
 } = require('./subscriptions');
 const connectedDataModel = require('../models/connectedData');
-const registeredCallbacks = require('common/callbacks');
 const dataStub = require('common/stubs/data');
+const registeredCallbacks = require('../../../utils/callbacks');
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('./test');
 
 describe('utils/subscriptions', () => {

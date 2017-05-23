@@ -3,7 +3,7 @@ const _isEmpty = require('lodash/isEmpty');
 const _has = require('lodash/has');
 const _isFunction = require('lodash/isFunction');
 
-const getLogger = require('../log');
+const getLogger = require('common/log');
 
 const logger = getLogger('common:registeredCallbacks');
 

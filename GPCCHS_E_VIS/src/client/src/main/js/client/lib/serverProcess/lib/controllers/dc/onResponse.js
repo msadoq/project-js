@@ -3,7 +3,7 @@ const _isEqual = require('lodash/isEqual');
 const logger = require('common/log')('controllers:onResponse');
 const globalConstants = require('common/constants');
 const { encode, decode } = require('common/protobuf');
-const { pop } = require('common/callbacks');
+const { pop } = require('../../../../utils/callbacks');
 
 const protobufSuccess = encode('dc.dataControllerUtils.Status', {
   status: globalConstants.STATUS_SUCCESS,

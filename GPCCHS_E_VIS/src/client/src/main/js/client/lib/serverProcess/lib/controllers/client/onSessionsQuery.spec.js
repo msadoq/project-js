@@ -2,7 +2,7 @@ const _concat = require('lodash/concat');
 
 const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
+const registeredCallbacks = require('../../../../utils/callbacks');
 
 require('../../utils/test');
 

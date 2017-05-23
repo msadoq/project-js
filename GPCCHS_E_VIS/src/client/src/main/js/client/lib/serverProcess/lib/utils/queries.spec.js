@@ -1,17 +1,16 @@
 const { should } = require('../utils/test');
 const { resetQueryId, createQueryMessage } = require('./queries');
+const globalConstants = require('common/constants');
+const dataStub = require('common/stubs/data');
 
 const {
   clear: cleanRegisteredCallbacks,
   get: getRegisteredCallback,
-} = require('common/callbacks');
-const globalConstants = require('common/constants');
-
+} = require('../../../utils/callbacks');
 const {
   getByQueryId: getRegisteredQuery,
   cleanup: cleanRegisteredQueries,
  } = require('../models/registeredQueries');
-const dataStub = require('common/stubs/data');
 const { resetTestHandlerArgs } = require('./test');
 
 const testExecutionHandler = {

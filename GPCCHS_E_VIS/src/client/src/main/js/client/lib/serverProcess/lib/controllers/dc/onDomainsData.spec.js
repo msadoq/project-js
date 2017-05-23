@@ -1,7 +1,7 @@
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 const onDomainsData = require('./onDomainsData');
 const dataStub = require('common/stubs/data');
-const registeredCallbacks = require('common/callbacks');
+const registeredCallbacks = require('../../../../utils/callbacks');
 
 describe('controllers/dc/onDomainsData', () => {
   beforeEach(() => {

@@ -2,7 +2,6 @@ const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');
 const _concat = require('lodash/concat');
-
 const globalConstants = require('common/constants');
 const dataStub = require('common/stubs/data');
 
@@ -12,8 +11,7 @@ const {
   cleanup: cleanRegisteredQueries,
   getAll: getAllRegisteredQueries,
 } = require('../../models/registeredQueries');
-const registeredCallbacks = require('common/callbacks');
-
+const registeredCallbacks = require('../../../../utils/callbacks');
 const connectedDataModel = require('../../models/connectedData');
 
 

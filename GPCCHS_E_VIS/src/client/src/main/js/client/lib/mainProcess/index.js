@@ -10,11 +10,10 @@ import {
 } from 'common/constants';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { clear } from 'common/callbacks';
-
 import { connect as createRtd } from 'rtd/catalogs';
-import { setRtd } from '../rtdManager';
 
+import { clear } from '../utils/callbacks';
+import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
 import makeCreateStore, { getStore } from '../store/createStore';

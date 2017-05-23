@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
-import { set as setCallback } from 'common/callbacks';
+import { set as setCallback } from '../utils/callbacks';
 import { get as getChildProcess } from './childProcess';
 
 const logger = getLogger('main:ipc');

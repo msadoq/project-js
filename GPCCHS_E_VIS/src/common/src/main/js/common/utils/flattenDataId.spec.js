@@ -1,6 +1,6 @@
-require('../utils/test');
+require('./test');
 const flattenDataId = require('./flattenDataId');
-const { getDataId } = require('./index');
+const { getDataId } = require('../protobuf/stubs');
 
 describe('models/getLocalId', () => {
   it('works', () => {

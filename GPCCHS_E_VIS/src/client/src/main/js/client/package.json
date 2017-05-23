@@ -24,6 +24,7 @@
     "link:rtd": "npm link ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && (cd ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && npm install)",
     "link": "npm run link:common && npm run link:rtd",
     "lint": "eslint .",
+    "lint:report": "node -r babel-register lint-reporter/lint-reporter.js",
     "sh": "npm run start-hot",
     "start": "./scripts/start.sh",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",

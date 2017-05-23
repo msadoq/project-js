@@ -36,6 +36,9 @@ build/Release
 config.local.json
 config.local.json.bak
 
+# lint reporting
+lint-reporter/*.csv
+
 # IDE
 .idea
 

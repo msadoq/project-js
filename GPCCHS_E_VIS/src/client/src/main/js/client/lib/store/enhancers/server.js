@@ -16,7 +16,7 @@ export default function serverStoreEnhancer(previousStoreCreator) {
     // TODO : enhance
     const storeDotDispatch = store.dispatch;
     store.dispatch = (action) => {
-      //console.log('VIMA ACTION on serverStoreEnhancer');
+      // console.log('VIMA ACTION on serverStoreEnhancer');
       storeDotDispatch(action);
     };
 

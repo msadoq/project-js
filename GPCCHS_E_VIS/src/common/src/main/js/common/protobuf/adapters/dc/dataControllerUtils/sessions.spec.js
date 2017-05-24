@@ -1,6 +1,6 @@
 require('../../../../utils/test');
 const protobuf = require('../../../index');
-const stubData = require('../.././index');
+const stubData = require('../../../stubs/index');
 
 describe('protobuf/utils/dataControllerUtils/sessions', () => {
   const fixture = stubData.getSessions();

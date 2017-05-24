@@ -9,6 +9,7 @@ import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
+import Long  from 'long';
 import reducer from '../store/reducers/index';
 
 global.testConfig = {
@@ -84,6 +85,13 @@ const testMemoization = (selector, state, ownProps) => {
   r1.should.equal(r2);
 };
 
+const testPayloads = [];
+const testHandler = (...args) => {
+  _.each(args, (arg) => {
+    testPayloads.push(arg);
+  });
+};
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
@@ -96,4 +104,7 @@ module.exports = {
   testMemoization, // reselect testing
   isV4: (id = '') => id.length === v4().length,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
+  testHandler,
+  testPayloads,
+  Long,
 };

@@ -1,0 +1,31 @@
+const logger = require('common/log')('stubs:utils');
+const stubData = require('common/protobuf/stubs');
+
+const header = stubData.getDcStatusHeaderProtobuf();
+const healthy = stubData.getHealthyDcStatusProtobuf();
+const congestion = stubData.getCongestionDcStatusProtobuf();
+
+const current = {
+  isCongestionned: false,
+  from: Date.now(),
+};
+
+const DC_STUB_CONGESTION_FREQUENCY = 12e4; // 2mn
+
+module.exports = function sendDcStatus(zmq) {
+  const now = Date.now();
+  const { from, isCongestionned } = current;
+
+  // it's time to switch
+  if ((now - from) > DC_STUB_CONGESTION_FREQUENCY) {
+    current.isCongestionned = !isCongestionned;
+    current.from = now;
+    const buffer = [
+      null,
+      header,
+      isCongestionned ? congestion : healthy,
+    ];
+    zmq.push('stubData', buffer);
+    logger.debug(isCongestionned ? 'congestion' : 'healthy');
+  }
+};

@@ -10,11 +10,10 @@ import {
 } from 'common/constants';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { clear } from 'common/callbacks';
-
 import { connect as createRtd } from 'rtd/catalogs';
-import { setRtd } from '../rtdManager';
 
+import { clear } from '../utils/callbacks';
+import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
 import makeCreateStore, { getStore } from '../store/createStore';
@@ -67,7 +66,7 @@ export function onStart() {
       logger.info('starting data simulator process...');
       fork(
         CHILD_PROCESS_DC,
-        `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
+        `${parameters.get('path')}/lib/stubProcess/index.js`,
         {
           execPath: parameters.get('NODE_PATH'),
           env: parameters.getAll(),

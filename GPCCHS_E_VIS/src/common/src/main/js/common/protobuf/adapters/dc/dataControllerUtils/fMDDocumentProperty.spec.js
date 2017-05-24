@@ -1,8 +1,8 @@
 require('../../../../utils/test');
 const protobuf = require('../../../index');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
-describe('protobuf/dc/dataControllerUtils/fMDDocumentProperty', () => {
+describe('protobuf/utils/dataControllerUtils/fMDDocumentProperty', () => {
   const fixture = stubData.getFMDDocumentProperty();
   let buffer;
   it('encode', () => {

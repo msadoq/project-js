@@ -78,6 +78,9 @@ deploy_cots() {
   Log "deploy_cots" "installing NPM dependencies in server" ${INFO}
   npm ${NPM_OPTS2} install
   npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common
+
+  # Workaround for protobuf files being ignore as a rule for normal isis modules
+  find node_modules -name *.proto | sed -e "s:^:lib/js/${project.artifactId}/client/resources/app/node_modules/server/:" >> ${api.target.dir}/rpm/filelist.init
 }
 
 Log "generate" "generate all" ${INFO}

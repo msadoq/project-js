@@ -14,12 +14,12 @@
     <relativePath/>
   </parent>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
     <api.target.dir>${basedir}/target</api.target.dir>
     <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
     <api.work.dir>${api.target.dir}/work</api.work.dir>
     <api.main.dir>${api.work.dir}/${project.artifactId}-${project.version}</api.main.dir>
+    <isis.rpm.defattr>%defattr(440,isis,isisexec,550)</isis.rpm.defattr>
   </properties>
   <dependencies>
     <dependency>

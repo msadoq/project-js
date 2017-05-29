@@ -10,7 +10,7 @@ const { getReportingParameterProtobuf,
   getFolderProtobuf,
   getGroundMonitoringAlarmProtobuf,
   getGroupDefinitionProtobuf,
- } = require('../../../stubs/data/lpisis');
+ } = require('../../stubs/lpisis');
 
 require('../dc');
 require('../lpisis');
@@ -24,7 +24,7 @@ const renderGlobalPerf = () => {
   console.log('--- GLOBAL PERF ON DECODING PROTOBUFF ---\n'); // eslint-disable-line
   console.log('# Average on %d iterations, on a batch of %d encoded protobuff', numberIterationDecode, arraySize); // eslint-disable-line
   console.log('# Results ordered by descending ratio of [WITH ADAPTERS/WITHOUT ADAPTERS]\n'); // eslint-disable-line
-  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d of ratio', index, perf.type, perf.data.averageRatio))); 
+  tabPerfGlobal.map((perf, index) => (console.log('%d - [%s] : %d of ratio', index, perf.type, perf.data.averageRatio)));
 
   tabPerfGlobal.sort(comparePerfTime);
   console.log('\n# Results ordered by average time with adapters\n'); // eslint-disable-line

@@ -1,9 +1,9 @@
 const protobuf = require('../../index');
 
-module.exports.testProtobuf = function testProtobuf(type, proto, arraySize, numberIterationDecode){
+module.exports.testProtobuf = function testProtobuf(type, proto, arraySize, numberIterationDecode) {
   const arrayToDecode = initArrayToDecode(proto, arraySize);
   const timeArray = [];
-  console.log('[%s] Decode %d elements ', type, arraySize);
+  console.log('[%s] Decode %d elements ', type, arraySize); // eslint-disable-line
   for (let i = 0; i < numberIterationDecode; i += 1) {
     const tmpTimeObject = {};
     tmpTimeObject.adapter = testWithAdapters(type, arrayToDecode);

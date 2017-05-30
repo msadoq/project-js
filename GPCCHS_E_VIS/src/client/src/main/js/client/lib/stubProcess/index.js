@@ -198,7 +198,9 @@ zmq.open(
     }
 
     logger.info('sockets opened');
-    process.send('ready');
+    if (process.send) {
+      process.send('ready');
+    }
 
     nextDcCall();
   }

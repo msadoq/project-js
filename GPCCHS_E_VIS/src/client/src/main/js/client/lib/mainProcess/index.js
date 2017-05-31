@@ -10,14 +10,13 @@ import {
 } from 'common/constants';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { clear } from 'common/callbacks';
-
 import { connect as createRtd } from 'rtd/catalogs';
-import { setRtd } from '../rtdManager';
 
+import { clear } from '../utils/callbacks';
+import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
-import { initStore, getStore } from '../store/isomorphic';
+import makeCreateStore, { getStore } from '../store/createStore';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
@@ -53,7 +52,7 @@ export function onStart() {
       splashScreen.setMessage('loading data store...');
       logger.info('loading data store...');
 
-      initStore();
+      makeCreateStore('main', get('DEBUG') === 'on')();
 
       callback(null);
     },
@@ -67,7 +66,7 @@ export function onStart() {
       logger.info('starting data simulator process...');
       fork(
         CHILD_PROCESS_DC,
-        `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
+        `${parameters.get('path')}/lib/stubProcess/index.js`,
         {
           execPath: parameters.get('NODE_PATH'),
           env: parameters.getAll(),
@@ -105,7 +104,7 @@ export function onStart() {
         splashScreen.setMessage('starting data server process... (dev)');
         logger.info('starting data server process... (dev)');
 
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/node_modules/server/index.js`, {
+        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/lib/serverProcess/index.js`, {
           execPath: parameters.get('NODE_PATH'),
           execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
           env: parameters.getAll(),

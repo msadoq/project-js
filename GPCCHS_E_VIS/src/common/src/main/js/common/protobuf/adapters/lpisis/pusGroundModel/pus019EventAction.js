@@ -30,7 +30,7 @@ module.exports = {
       ? { type: 'uinteger', value: data.actionStatus.value }
       : undefined,
     actionTcPacketHeader: (data.actionTcPacketHeader !== null && typeof data.actionTcPacketHeader !== 'undefined')
-      ? { type: 'blob', value: data.actionTcPacketHeader.value.toBuffer() }
+      ? { type: 'blob', value: data.actionTcPacketHeader.value }
       : undefined,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.decode(data.pusElement)

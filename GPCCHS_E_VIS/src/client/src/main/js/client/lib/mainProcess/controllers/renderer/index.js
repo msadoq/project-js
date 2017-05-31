@@ -1,5 +1,5 @@
-import handle from 'common/ipc/handle';
 import globalConstants from 'common/constants';
+import handle from '../../../utils/ipc/handle';
 
 import onGetSessionTime from './onGetSessionTime';
 import onReloadSessions from './onReloadSessions';

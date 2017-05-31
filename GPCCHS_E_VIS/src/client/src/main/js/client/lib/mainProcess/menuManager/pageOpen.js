@@ -4,7 +4,7 @@ import {
 } from 'common/constants';
 import { server } from '../ipc';
 import { getPathByFilePicker } from '../dialog';
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../../store/createStore';
 import { addBlankPage } from '../../store/actions/pages';
 import { getWorkspaceFolder } from '../../store/reducers/hsc';
 

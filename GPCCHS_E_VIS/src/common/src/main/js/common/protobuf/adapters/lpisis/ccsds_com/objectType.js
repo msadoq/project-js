@@ -11,10 +11,10 @@ module.exports = {
     return { value: objectType.flip().buffer };
   },
   decode: data => ({
-    area: { type: 'ushort', value: data.value.readUint16() },
-    service: { type: 'ushort', value: data.value.readUint16() },
-    version: { type: 'uoctet', value: data.value.readUint8() },
-    number: { type: 'ushort', value: data.value.readUint16() },
+    area: { type: 'ushort', value: data.value.readUInt16LE() },
+    service: { type: 'ushort', value: data.value.readUInt16LE(2) },
+    version: { type: 'uoctet', value: data.value.readUInt8(4) },
+    number: { type: 'ushort', value: data.value.readUInt16LE(5) },
   }),
 };
 

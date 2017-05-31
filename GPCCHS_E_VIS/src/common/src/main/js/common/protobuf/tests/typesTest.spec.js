@@ -1,7 +1,7 @@
 const _each = require('lodash/each');
-const { Long } = require('../../../utils/test');
+const { Long } = require('../../utils/test');
 const fs = require('fs');
-const protobuf = require('../../');
+const protobuf = require('../');
 const {
   bytesToOctet,
   bytesToUoctet,
@@ -9,14 +9,14 @@ const {
   bytesToUshort,
   bytesToString,
   decodeAttribute,
-} = require('../lpisis/types');
+} = require('../adapters/lpisis/types');
 
 const rootpath = `${__dirname}`;
 
 // TODO add missing MAL types
 const decoders = {
   ATTRIBUTE: arg => decodeAttribute(arg).value,
-  BLOB: arg => arg.value.toBuffer(),
+  BLOB: arg => arg.value,
   BOOLEAN: arg => arg.value,
   DURATION: arg => arg.value,
   FLOAT: arg => arg.value,

@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -20,7 +20,7 @@ describe('protobuf/lpisis/opAlert/OpAlert', () => {
       alertDate: { type: 'time', value: fixture.alertDate },
       specificAttributes: {
         name: { type: 'identifier', value: fixture.specificAttributes.name },
-        value: { type: 'double', value: fixture.specificAttributes.value },
+        value: { type: 'double', symbol: fixture.specificAttributes.value.toString() },
       },
       closingNeeded: { type: 'boolean', value: fixture.closingNeeded },
       answerID: { type: 'ulong', symbol: `${fixture.answerID}` },

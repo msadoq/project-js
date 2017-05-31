@@ -4,8 +4,9 @@ import DynamicEditorForm from './DynamicEditorForm';
 import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
 import DynamicTab from './DynamicTab';
+import { Misc } from '../../../commonEditor/Misc';
 
-const navItems = ['Connected Data', 'View'];
+const navItems = ['Connected Data', 'View', 'Misc'];
 
 export default class DynamicEditor extends Component {
   static propTypes = {
@@ -31,6 +32,9 @@ export default class DynamicEditor extends Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
   }
 
   static defaultProps = {
@@ -67,7 +71,7 @@ export default class DynamicEditor extends Component {
 
   render() {
     const { entryPoints } = this.props.configuration;
-    const { timelines, viewId, tab, domains } = this.props;
+    const { timelines, viewId, tab, domains, updateViewPanels, panels, openModal } = this.props;
     const nullObject = {};
     return (
       <div className={styles.contentWrapper}>
@@ -76,16 +80,25 @@ export default class DynamicEditor extends Component {
           changeCurrentDisplay={this.changeCurrentDisplay}
           items={navItems}
         />
-        {(tab === 0 || tab === null) && <div className={styles.content}>
-          <DynamicEditorForm
-            domains={domains}
-            timelines={timelines}
-            form={`entrypoint-connectedData-form-${viewId}`}
-            onSubmit={values => this.handleSubmit({ connectedData: values })}
-            initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
-          />
-        </div>}
-        {tab === 1 && <DynamicTab />}
+        <div className={styles.content}>
+          {(tab === 0 || tab === null) && <div className={styles.content}>
+            <DynamicEditorForm
+              domains={domains}
+              timelines={timelines}
+              form={`entrypoint-connectedData-form-${viewId}`}
+              onSubmit={values => this.handleSubmit({ connectedData: values })}
+              initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
+            />
+          </div>}
+          {tab === 1 && <DynamicTab />}
+          {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+              openModal={openModal}
+            />}
+        </div>
       </div>
     );
   }

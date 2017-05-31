@@ -6,7 +6,7 @@ import baseConfig from './config.base';
 export default merge(baseConfig, {
   devtool: 'source-map',
 
-  entry: ['babel-polyfill', '../../../../../server/src/main/js/server/index'],
+  entry: ['babel-polyfill', './lib/serverProcess/index'],
 
   output: {
     path: join(__dirname, '..'),
@@ -15,8 +15,11 @@ export default merge(baseConfig, {
   externals: [
     'source-map-support',
     'package.json',
-    'zmq',
-    'bindings',
+    'memcpy',
+    {
+      zmq: './node_modules/common/node_modules/zmq',
+      bindings: './node_modules/common/node_modules/bindings',
+    },
   ],
 
   plugins: [
@@ -25,12 +28,6 @@ export default merge(baseConfig, {
       'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
-        IS_BUNDLED: JSON.stringify('on'),
-      },
-    }),
   ],
 
   target: 'node',

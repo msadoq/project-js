@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import openWikiHelper from '../controllers/renderer/onOpenWikiHelper';
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../../store/createStore';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';

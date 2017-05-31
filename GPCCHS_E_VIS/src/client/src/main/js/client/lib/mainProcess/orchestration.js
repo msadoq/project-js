@@ -19,7 +19,7 @@ import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 
 import { server } from './ipc';
-import { getStore } from '../store/isomorphic';
+import { getStore } from '../store/createStore';
 import {
   getWindowsOpened,
   getLastCacheInvalidation,
@@ -174,7 +174,7 @@ export function tick() {
   execution.stop('dataMap generation');
 
   series([
-    // dc & server health
+    // utils & server health
     (callback) => {
       execution.start('health retrieving');
       server.requestHealth((data) => {

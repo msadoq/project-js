@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -28,9 +28,9 @@ describe('protobuf/lpisis/groundAlarm/GroundMonitoringAlarm', () => {
       json.transitions[i].should.be.an('object').that.have.properties({
         onboardDate: { type: 'time', value: fixture.transitions[i].onboardDate },
         groundDate: { type: 'time', value: fixture.transitions[i].groundDate },
-        convertedValue: { type: 'double', value: fixture.transitions[i].convertedValue },
-        extractedValue: { type: 'double', value: fixture.transitions[i].extractedValue },
-        rawValue: { type: 'double', value: fixture.transitions[i].rawValue },
+        convertedValue: { type: 'double', symbol: fixture.transitions[i].convertedValue.toString() },
+        extractedValue: { type: 'double', symbol: fixture.transitions[i].extractedValue.toString() },
+        rawValue: { type: 'double', symbol: fixture.transitions[i].rawValue.toString() },
         monitoringState: { type: 'string', value: fixture.transitions[i].monitoringState },
       });
     }

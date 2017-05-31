@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -46,9 +46,9 @@ describe('protobuf/lpisis/ccsds_mc_aggregation/IsisAggregation', () => {
             uid: { type: 'long', symbol: `${fixture.values[i].definition.objectKey.uid}` },
           },
         },
-        extractedValue: { type: 'double', value: fixture.values[i].extractedValue },
-        rawValue: { type: 'double', value: fixture.values[i].rawValue },
-        convertedValue: { type: 'double', value: fixture.values[i].convertedValue },
+        extractedValue: { type: 'double', symbol: fixture.values[i].extractedValue.toString() },
+        rawValue: { type: 'double', symbol: fixture.values[i].rawValue.toString() },
+        convertedValue: { type: 'double', symbol: fixture.values[i].convertedValue.toString() },
         triggerCounter: { type: 'ushort', value: fixture.values[i].triggerCounter },
         monitoringState: { type: 'string', value: fixture.values[i].monitoringState },
         validityState: { type: 'enum', value: fixture.values[i].validityState, symbol: validityState[fixture.values[i].validityState] },

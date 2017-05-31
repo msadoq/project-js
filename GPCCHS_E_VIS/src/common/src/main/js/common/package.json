@@ -6,6 +6,8 @@
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"!(node_modules)/**/*.spec.js\"",
     "lint": "eslint .",
     "test": "mocha \"!(node_modules)/**/*.spec.js\"",
+    "test-proto" : "mocha \"!(node_modules)/**/*.spec.js\" --grep protobuf/lpisis/execution/Execution",
+    "perf": "mocha \"!(node_modules)/**/*.spec.perf.js\"",
     "test:watch": "npm run test -- --watch",
     "tw": "npm test -- --watch",
     "dc-stub": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dc.js",
@@ -17,7 +19,7 @@
     "lodash": "~4.17.2",
     "long": "^3.2.0",
     "minimist": "~1.2.0",
-    "protobufjs": "~5.0.1",
+    "protobufjs": "~6.7.3",
     "winston": "~2.3.0",
     "zmq": "~2.15.3"
   },

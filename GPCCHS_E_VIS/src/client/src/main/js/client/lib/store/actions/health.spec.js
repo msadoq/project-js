@@ -56,7 +56,7 @@ describe('store:actions:health', () => {
       setTimeout(done, 20); // waiting 10 ms throttle
     });
 
-    it('does update dc status', (done) => {
+    it('does update utils status', (done) => {
       const status = { dcStatus: true, hssStatus: false, lastPubSubTimestamp: 0 };
       actions.updateHealth(status, 10)(dispatch, getState);
 

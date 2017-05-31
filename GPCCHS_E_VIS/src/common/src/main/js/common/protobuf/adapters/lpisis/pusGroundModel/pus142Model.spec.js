@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -34,7 +34,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus142Model', () => {
         rid: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].rid },
         validityParameterId: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].validityParameterId },
         validityParameterMask: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].validityParameterMask },
-        validityParameterExpectedValue: { type: 'double', value: fixture.pus142FunctionalMonitoring[i].validityParameterExpectedValue },
+        validityParameterExpectedValue: { type: 'double', symbol: fixture.pus142FunctionalMonitoring[i].validityParameterExpectedValue.toString() },
         pusElement: {
           lastUpdateMode: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: fixture.pus142FunctionalMonitoring[i].pusElement.lastUpdateTime },

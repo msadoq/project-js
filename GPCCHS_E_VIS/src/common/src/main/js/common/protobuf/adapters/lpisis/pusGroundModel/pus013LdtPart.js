@@ -45,7 +45,7 @@ module.exports = {
       ? { type: 'uinteger', value: data.sequenceCount.value }
       : undefined,
     serviceDataUnit: (data.serviceDataUnit !== null && typeof data.serviceDataUnit !== 'undefined')
-      ? { type: 'blob', value: data.serviceDataUnit.value.toBuffer() }
+      ? { type: 'blob', value: data.serviceDataUnit.value }
       : undefined,
   }),
 };

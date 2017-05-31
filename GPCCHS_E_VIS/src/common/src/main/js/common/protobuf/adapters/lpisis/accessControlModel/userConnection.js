@@ -39,7 +39,7 @@ module.exports = {
       ? { type: 'time', value: data.loginTime.value.toNumber() }
       : undefined,
     authID: (data.authID !== null && typeof data.authID !== 'undefined')
-      ? { type: 'blob', value: data.authID.value.toBuffer() }
+      ? { type: 'blob', value: data.authID.value }
       : undefined,
     referenceTimestamp: (data.loginTime !== null && typeof data.loginTime !== 'undefined')
         ? { type: 'time', value: data.loginTime.value.toNumber() }

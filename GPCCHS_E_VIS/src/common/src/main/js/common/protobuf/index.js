@@ -5,7 +5,39 @@ const _get = require('lodash/get');
 const types = {};
 const comObjectProtobufTypes = {};
 
-function getProtobufType(key) {
+const getLogger = require('../log');
+
+const logger = getLogger('common:registerProtobuf');
+
+module.exports.register = function register(rootPath, root, namespaces) {
+  if (!types[root]) {
+    types[root] = {};
+  }
+  _each(namespaces, (protos, namespace) => {
+    types[root][namespace] = {};
+    _each(protos, (mapper, proto) => {
+      // append definition to builder
+      const builder = ProtoBuf.loadSync(`${rootPath}/${namespace}/${proto}.proto`);
+      if (!builder) {
+        throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
+      }
+      const resolvedNamespace = builder.resolve();
+      for (const key in resolvedNamespace.nested[namespace].nested.protobuf.nested) { // TODO Can't be this be done in a more proper way ?
+        types[root][namespace][key] = {};
+        comObjectProtobufTypes[key] = `${root}.${namespace}.${key}`;
+        try {
+          const lookedUpType = builder.lookup(`${namespace}.protobuf.${key}`);
+          lookedUpType.mapper = mapper;
+          types[root][namespace][key] = lookedUpType;
+        } catch (e) {
+          logger.error(`${namespace}.protobuf.${key} can't be lookedUp`);
+        }
+      }
+    });
+  });
+};
+
+const getProtobufType = (key) => {
   const type = _get(types, key);
 
   if (typeof type === 'undefined') {
@@ -13,9 +45,9 @@ function getProtobufType(key) {
   }
 
   return type;
-}
+};
 
-module.exports.register = function register(rootPath, root, namespaces) {
+/* module.exports.register = function register(rootPath, root, namespaces) {
   if (!types[root]) {
     types[root] = {};
   }
@@ -47,25 +79,41 @@ module.exports.register = function register(rootPath, root, namespaces) {
       comObjectProtobufTypes[typeKey] = `${root}.${namespace}.${typeKey}`;
     });
   });
-};
+}; */
 
 module.exports.encode = function encode(type, raw) {
   const Builder = getProtobufType(type);
 
+  // console.log(Builder);
   const payload = Builder.mapper
     ? Builder.mapper.encode(raw)
     : raw;
+  const p = Builder.encode(payload).finish();
+  return p;
+};
 
-  const p = new Builder(payload);
-  return p.toBuffer();
+module.exports.decodeAdapter = function decode(type, buffer) {
+  const builder = getProtobufType(type);
+  const raw = builder.decode(buffer);
+  const r = builder.mapper
+    ? builder.mapper.decode(raw)
+    : raw;
+  return r;
+};
+
+module.exports.decodeNoAdapter = function decode(type, buffer) {
+  const builder = getProtobufType(type);
+  const raw = builder.decode(buffer);
+  return raw;
 };
 
 module.exports.decode = function decode(type, buffer) {
   const builder = getProtobufType(type);
   const raw = builder.decode(buffer);
-  return builder.mapper
+  const r = builder.mapper
     ? builder.mapper.decode(raw)
     : raw;
+  return r;
 };
 
 module.exports.getType = function getType(comObject) {

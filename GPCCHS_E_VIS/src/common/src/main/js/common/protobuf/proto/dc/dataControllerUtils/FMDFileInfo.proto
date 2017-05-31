@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/FMDFileType.proto";
+import "./FMDFileType.proto";
 
 message FMDFileInfo {
 extensions 3 to 106;

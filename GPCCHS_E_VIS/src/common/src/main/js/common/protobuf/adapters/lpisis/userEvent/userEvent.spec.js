@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -49,7 +49,7 @@ describe('protobuf/lpisis/userEvent/UserEvent', () => {
     for (let i = 0; i < fixture.specificAttributes.length; i += 1) {
       json.specificAttributes[i].should.be.an('object').that.have.properties({
         name: { type: 'identifier', value: fixture.specificAttributes[i].name },
-        value: { type: 'double', value: fixture.specificAttributes[i].value },
+        value: { type: 'double', symbol: fixture.specificAttributes[i].value.toString() },
       });
     }
   });

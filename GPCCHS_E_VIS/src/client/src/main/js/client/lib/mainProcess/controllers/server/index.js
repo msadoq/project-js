@@ -1,5 +1,6 @@
-import handle from 'common/ipc/handle';
 import globalConstants from 'common/constants';
+import handle from '../../../utils/ipc/handle';
+
 import onError from './onError';
 
 const controller = {

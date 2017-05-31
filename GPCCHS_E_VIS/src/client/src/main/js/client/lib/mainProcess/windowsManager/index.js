@@ -1,6 +1,6 @@
 import { series } from 'async';
 import getLogger from 'common/log';
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../../store/createStore';
 import { observer as windowsObserver } from './windows';
 import { observer as splashObserver } from './splashScreen';
 import { observer as codeObserver } from './codeEditor';

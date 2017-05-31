@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -26,7 +26,7 @@ describe('protobuf/lpisis/ccsds_mc/StatisticValue', () => {
         : { type: 'time', value: fixture.valueTime },
       value: (typeof fixture.value === 'undefined')
         ? null
-        : { type: 'double', value: fixture.value },
+        : { type: 'double', symbol: fixture.value.toString() },
       sampleCount: { type: 'uinteger', value: fixture.sampleCount },
       timestamp: { type: 'time', value: fixture.timestamp },
     });

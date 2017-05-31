@@ -1,5 +1,5 @@
 package dataControllerUtils.protobuf;
-import "../lpisis/ccsds_mal/types.proto";
+import "../../lpisis/ccsds_mal/types.proto";
 
 message SendLog {
 extensions 9 to 109;

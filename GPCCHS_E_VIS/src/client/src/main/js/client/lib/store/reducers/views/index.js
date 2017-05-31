@@ -49,3 +49,13 @@ export const getViewSessionName = createSelector(
   getView,
   _.get('sessionName')
 );
+
+export const getLinks = createSelector(
+  getView,
+  _.get('links')
+);
+
+export const getProcedures = createSelector(
+  getView,
+  _.get('procedures')
+);

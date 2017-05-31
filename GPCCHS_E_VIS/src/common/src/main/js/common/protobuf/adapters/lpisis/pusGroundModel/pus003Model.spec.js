@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -32,7 +32,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus003Model', () => {
           sid: { type: 'uinteger', value: fixture.pus003DiagPacket[i].pus003Packet.sid },
           validityParameterId: { type: 'uinteger', value: fixture.pus003DiagPacket[i].pus003Packet.validityParameterId },
           validityParameterMask: { type: 'string', value: fixture.pus003DiagPacket[i].pus003Packet.validityParameterMask },
-          validityParameterExpectedValue: { type: 'double', value: fixture.pus003DiagPacket[i].pus003Packet.validityParameterExpectedValue },
+          validityParameterExpectedValue: { type: 'double', symbol: fixture.pus003DiagPacket[i].pus003Packet.validityParameterExpectedValue.toString() },
           collectionInterval: { type: 'duration', value: fixture.pus003DiagPacket[i].pus003Packet.collectionInterval },
           status: { type: 'uinteger', value: fixture.pus003DiagPacket[i].pus003Packet.status },
           pusElement: {
@@ -50,7 +50,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus003Model', () => {
           sid: { type: 'uinteger', value: fixture.pus003HkPacket[i].pus003Packet.sid },
           validityParameterId: { type: 'uinteger', value: fixture.pus003HkPacket[i].pus003Packet.validityParameterId },
           validityParameterMask: { type: 'string', value: fixture.pus003HkPacket[i].pus003Packet.validityParameterMask },
-          validityParameterExpectedValue: { type: 'double', value: fixture.pus003HkPacket[i].pus003Packet.validityParameterExpectedValue },
+          validityParameterExpectedValue: { type: 'double', symbol: fixture.pus003HkPacket[i].pus003Packet.validityParameterExpectedValue.toString() },
           collectionInterval: { type: 'duration', value: fixture.pus003HkPacket[i].pus003Packet.collectionInterval },
           status: { type: 'uinteger', value: fixture.pus003HkPacket[i].pus003Packet.status },
           pusElement: {

@@ -36,7 +36,7 @@ describe('store:health:reducer', () => {
     };
     reducer(state, {}).should.equal(state);
   });
-  it('should update dc status', () => {
+  it('should update utils status', () => {
     reducer(undefined, actions.updateDcStatus(globalConstants.HEALTH_STATUS_CRITICAL))
       .should.have.a.property('dcStatus', globalConstants.HEALTH_STATUS_CRITICAL);
   });

@@ -39,6 +39,10 @@ function enumFilter(value, operator, expected) {
 }
 
 function longFilter(value, operator, expected) {
+  // Check validity of expected to avoid exception
+  if (Number.isNaN(Number(expected))) {
+    return true;
+  }
   // value and expected are stringToBytes
   const longValue = Long.fromString(value);
   const longExpected = Long.fromString(expected);
@@ -61,6 +65,10 @@ function longFilter(value, operator, expected) {
 }
 
 function doubleFilter(value, operator, expected) {
+  // Check validity of expected to avoid exception
+  if (Number.isNaN(Number(expected))) {
+    return true;
+  }
   // value and expected are stringToBytes
   const doubleValue = new Decimal(value);
   switch (operators[operator]) {

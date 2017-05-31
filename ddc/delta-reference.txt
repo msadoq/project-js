@@ -1,10 +1,12 @@
-#Host Structure 1.1.0 16/02/2017 delta-reference.txt
+#GPCCHS 1.1.0 21/02/2017 delta-reference.txt
 
 
 Fichiers modifies :
+===================
 Pas de fichiers modifies.
 
 Fichiers ajoutes :
+==================
 GPCCHS_E_VIS/pom.xml
 GPCCHS_E_VIS/pom_parents.xml
 GPCCHS_E_VIS/pom_stubs.xml
@@ -522,6 +524,7 @@ GPCCHS_E_VIS/src/client/src/script/gen/generate.sh
 GPCCHS_E_VIS/src/client/src/script/gen/lib/const.sh
 GPCCHS_E_VIS/src/client/src/script/gen/lib/logging.sh
 GPCCHS_E_VIS/src/common/pom.xml
+GPCCHS_E_VIS/src/common/src/main/js/common/.babelrc
 GPCCHS_E_VIS/src/common/src/main/js/common/.eslintrc
 GPCCHS_E_VIS/src/common/src/main/js/common/README.md
 GPCCHS_E_VIS/src/common/src/main/js/common/callbacks/callbacks.spec.js
@@ -1389,102 +1392,36 @@ src/impl/resources/src/main/assembly/resources.xml
 src/impl/system/pom.xml
 
 Fichiers supprimes :
-src/impl/js/proto/main.js
-src/impl/js/proto/package.json
-src/impl/js/proto/public/bootstrap/css/bootstrap-responsive.css
-src/impl/js/proto/public/bootstrap/css/bootstrap-responsive.min.css
-src/impl/js/proto/public/bootstrap/css/bootstrap.css
-src/impl/js/proto/public/bootstrap/css/bootstrap.min.css
-src/impl/js/proto/public/bootstrap/img/glyphicons-halflings-white.png
-src/impl/js/proto/public/bootstrap/img/glyphicons-halflings.png
-src/impl/js/proto/public/bootstrap/js/bootstrap.js
-src/impl/js/proto/public/bootstrap/js/bootstrap.min.js
-src/impl/js/proto/public/javascripts/LICENSE
-src/impl/js/proto/public/javascripts/contentView.js
-src/impl/js/proto/public/javascripts/d3/d3.js
-src/impl/js/proto/public/javascripts/d3/d3.min.js
-src/impl/js/proto/public/javascripts/historyView.js
-src/impl/js/proto/public/javascripts/jquery.min.js
-src/impl/js/proto/public/javascripts/plotLibraryJs/GPCCCM_L_CML_plotLibrary.js
-src/impl/js/proto/public/javascripts/plotLibraryJs/plotIndexTest.html
-src/impl/js/proto/public/javascripts/react/react-dom.js
-src/impl/js/proto/public/javascripts/react/react-dom.min.js
-src/impl/js/proto/public/javascripts/react/react-with-addons.js
-src/impl/js/proto/public/javascripts/react/react-with-addons.min.js
-src/impl/js/proto/public/javascripts/react/react.js
-src/impl/js/proto/public/javascripts/react/react.min.js
-src/impl/js/proto/public/javascripts/reactStockcharts/GPCCCM_L_CML_react-stockcharts.js
-src/impl/js/proto/public/javascripts/socket.io.js
-src/impl/js/proto/public/stylesheets/style.css
-src/impl/js/proto/routes/binCacheRoute.js
-src/impl/js/proto/routes/dataCacheRoute.js
-src/impl/js/proto/routes/dataTypesControlerRoute.js
-src/impl/js/proto/routes/index.js
-src/impl/js/proto/routes/jsonCacheRoute.js
-src/impl/js/proto/routes/subscriptionRoute.js
-src/impl/js/proto/routes/timeLinesRoute.js
-src/impl/js/proto/routes/zmqProviderRoute.js
-src/impl/js/proto/tests_modules/index.js
-src/impl/js/proto/tests_modules/zmqProvider/files/isisAggregation.proto.js
-src/impl/js/proto/tests_modules/zmqProvider/index.js
-src/impl/js/proto/tests_modules/zmqProvider/lib/zmqTimeUtils.js
-src/impl/js/proto/tests_modules/zmqProvider/lib/zmqUtils.js
-src/impl/js/proto/tests_modules/zmqProvider/lib/zmqUtilsTest.js
-src/impl/js/proto/views/cache.pug
-src/impl/js/proto/views/chartView.html
-src/impl/js/proto/views/error.pug
-src/impl/js/proto/views/historyView.pug
-src/impl/js/proto/views/index.pug
-src/impl/js/proto/views/layout.pug
-src/impl/js/proto/views/pagesIndex.html
-src/impl/js/proto/views/parametersView.pug
-src/impl/js/proto/views/plotIndex.html
-src/impl/js/proto/views/plotIndex.pug
-src/impl/js/proto/views/timeLines.html
-src/impl/js/proto/vima_mwr/binCache/files/test.proto
-src/impl/js/proto/vima_mwr/binCache/index.js
-src/impl/js/proto/vima_mwr/binCache/lib/binCache.js
-src/impl/js/proto/vima_mwr/binCache/lib/binCacheApi.js
-src/impl/js/proto/vima_mwr/binCache/lib/binCacheZmq.js
-src/impl/js/proto/vima_mwr/dataCache/index.js
-src/impl/js/proto/vima_mwr/dataCache/lib/cacheMgr.js
-src/impl/js/proto/vima_mwr/dataCache/lib/dataCacheApi.js
-src/impl/js/proto/vima_mwr/dataCache/subscriptionManager/index.js
-src/impl/js/proto/vima_mwr/dataTypesControler/ctrls/isisAggregationCtrl/files/IsisAggregation.proto
-src/impl/js/proto/vima_mwr/dataTypesControler/ctrls/isisAggregationCtrl/files/isisAggregation.proto.js
-src/impl/js/proto/vima_mwr/dataTypesControler/ctrls/isisAggregationCtrl/index.js
-src/impl/js/proto/vima_mwr/dataTypesControler/ctrls/isisAggregationCtrl/lib/utils.js
-src/impl/js/proto/vima_mwr/dataTypesControler/index.js
-src/impl/js/proto/vima_mwr/dataTypesControler/lib/dataTypeCtrlApi.js
-src/impl/js/proto/vima_mwr/index.js
-src/impl/js/proto/vima_mwr/jsonCache/index.js
-src/impl/js/proto/vima_mwr/jsonCache/lib/jsonCacheApi.js
-src/impl/js/proto/vima_mwr/timeLineManager/index.js
-src/impl/js/proto/vima_mwr/timeLineManager/lib/timeLineManager.js
-src/impl/js/proto/vima_mwr/timeLineManager/lib/timeLineManagerApi.js
-src/impl/js/proto/vima_mwr/timeLineManager/schema/timeLine.json
-src/impl/js/proto/vima_mwr/timeLineManager/schema/updateTimeLineReq.json
+====================
+Pas de fichiers supprimes.
 
-===== 
 
 Operations sur les fichiers de l'article.
+*****************************************
 
 Fichiers copies:
+================
 Sans objet.
 
 Fichiers renommes:
+==================
 Sans objet.
 
 Fichiers dont la nature a ete modifiee:
+=======================================
 Sans objet.
 
-Fichiers dont la fusion n'a pas ete effectue:
+Fichiers dont la fusion n'a pas ete effectuee:
+==============================================
 Sans objet.
 
 Fichier inconnus:
+=================
 Sans objet.
 
 Fichiers dont l'appariement est brise:
+======================================
 Sans objet.
 
 
+#Generated by Framework DDC-ng (version 0.8a)

@@ -6,7 +6,7 @@ import schema from './schemas/page.schema.json';
 const page = { type: 'Page', hideBorders: false, title: 'Page example', views: [] };
 const pageInvalid = { type: 'View', foo: 'bar' };
 const pageSchema = {
-  $schema: 'http://json-schema.org/draft-04/schema#',
+  $schema: 'http://json-schema.org/draft-06/schema#',
   type: 'object',
   definitions: {},
   properties: {

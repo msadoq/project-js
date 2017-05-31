@@ -23,6 +23,8 @@ export default class Tooltip extends React.Component {
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
     current: PropTypes.number.isRequired,
+    parametric: PropTypes.bool.isRequired,
+    xFormat: PropTypes.string.isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -58,6 +60,10 @@ export default class Tooltip extends React.Component {
   pseudoState = {
     showTooltip: false,
   }
+
+  memoizeXFormatter = _memoize(f =>
+    d => d3Format(f)(d)
+  );
 
   mouseMove = (e) => {
     this.fillAndDisplayTooltip(e, true);
@@ -153,6 +159,8 @@ export default class Tooltip extends React.Component {
       yAxes,
       yAxisWidth,
       xAxisAt,
+      parametric,
+      xFormat,
     } = this.props;
     const {
       showTooltip,
@@ -284,7 +292,10 @@ export default class Tooltip extends React.Component {
               ...xLabelStyle,
             }}
           >
-            {this.timeFormat(new Date(xInDomain))}
+            {
+              parametric ?
+              this.memoizeXFormatter(xFormat)(xInDomain) : this.timeFormat(new Date(xInDomain))
+            }
           </span>
         }
         {

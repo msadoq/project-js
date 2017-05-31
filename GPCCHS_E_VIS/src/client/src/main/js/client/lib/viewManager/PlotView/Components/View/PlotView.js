@@ -396,13 +396,14 @@ export class GrizzlyPlotView extends PureComponent {
   }
 
   memoizeXAxisProps = _memoize(
-    (xExtents, tickStep, autoTick, showTicks) => ({
+    (xExtents, tickStep, autoTick, showTicks, format) => ({
       xExtents,
       tickStep,
       autoTick,
       showTicks,
+      format,
     }),
-    (a, b, c, d) => `${a[0]}-${a[1]}-${b}-${c}-${d}`
+    (a, b, c, d, e) => `${a[0]}-${a[1]}-${b}-${c}-${d}-${e}`
   )
 
   removeEntryPoint = (e, id) => {
@@ -502,7 +503,8 @@ export class GrizzlyPlotView extends PureComponent {
             xExtents,
             _get(axes, ['time', 'tickStep']),
             _get(axes, ['time', 'autoTick']),
-            _get(axes, ['time', 'showTicks'])
+            _get(axes, ['time', 'showTicks']),
+            '.2f'
           )}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);

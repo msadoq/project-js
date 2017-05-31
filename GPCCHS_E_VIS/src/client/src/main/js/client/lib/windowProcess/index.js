@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import HealthMonitor from './Window/HealthMonitor';
 import WindowContainer from './Window/WindowContainer';
-import { initStore } from '../store/isomorphic';
+import makeCreateStore from '../store/createStore';
 import mainController from './controllers/main';
 
 const windowId = global.windowId; // see index.html
@@ -27,7 +27,7 @@ if (global.parameters.get('WDYU') === 'on') {
   });
 }
 
-const store = initStore();
+const store = makeCreateStore('renderer', global.parameters.get('DEBUG') === 'on')();
 
 render(
   <HealthMonitor windowId={windowId}>

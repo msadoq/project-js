@@ -12,16 +12,19 @@ module.exports = {
     objectId.writeInt64(data.objectKey.uid);
     return { value: objectId.flip().buffer };
   },
-  decode: data => ({
-    objectType: {
-      area: { type: 'ushort', value: data.value.readUint16() },
-      service: { type: 'ushort', value: data.value.readUint16() },
-      version: { type: 'uoctet', value: data.value.readUint8() },
-      number: { type: 'ushort', value: data.value.readUint16() },
-    },
-    objectKey: {
-      domaineId: { type: 'ushort', value: data.value.readUint16() },
-      uid: { type: 'long', symbol: data.value.readInt64().toString() },
-    },
-  }),
+  decode: (data) => {
+    const tempData = new Buffer(data.value);
+    return {
+      objectType: {
+        area: { type: 'ushort', value: tempData.readUInt16LE() },
+        service: { type: 'ushort', value: tempData.readUInt16LE(2) },
+        version: { type: 'uoctet', value: tempData.readUInt8(4) },
+        number: { type: 'ushort', value: tempData.readUInt16LE(5) },
+      },
+      objectKey: {
+        domaineId: { type: 'ushort', value: tempData.readUInt16LE(7) },
+        uid: { type: 'long', symbol: tempData.readInt32LE(9).toString() },
+      },
+    };
+  },
 };

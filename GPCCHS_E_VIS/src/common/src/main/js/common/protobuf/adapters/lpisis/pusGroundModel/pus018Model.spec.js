@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
 require('../../../../utils/test');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
 const protobuf = require('../../../index');
 
@@ -43,7 +43,7 @@ describe('protobuf/lpisis/pusGroundModel/Pus018Model', () => {
         json.pus018Obcp[i].pus18Parameter[ii].should.be.an('object').that.have.properties({
           parameterId: { type: 'uinteger', value: fixture.pus018Obcp[i].pus18Parameter[ii].parameterId },
           parameterName: { type: 'string', value: fixture.pus018Obcp[i].pus18Parameter[ii].parameterName },
-          value: { type: 'double', value: fixture.pus018Obcp[i].pus18Parameter[ii].value },
+          value: { type: 'double', symbol: fixture.pus018Obcp[i].pus18Parameter[ii].value.toString() },
         });
       }
     }

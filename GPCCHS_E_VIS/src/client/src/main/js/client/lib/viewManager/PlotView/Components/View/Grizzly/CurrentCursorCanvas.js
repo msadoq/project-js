@@ -4,6 +4,7 @@ import styles from './GrizzlyChart.css';
 export default class CurrentCursorCanvas extends PureComponent {
 
   static propTypes = {
+    parametric: PropTypes.bool.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     margin: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired,
@@ -27,19 +28,22 @@ export default class CurrentCursorCanvas extends PureComponent {
       xScale,
       height,
       width,
+      parametric,
     } = this.props;
 
-    const ctx = this.el.getContext('2d');
+    if (!parametric) {
+      const ctx = this.el.getContext('2d');
 
-    ctx.clearRect(0, 0, width, height);
-    // =============== DRAWING
-    ctx.beginPath();
-    ctx.strokeStyle = '#11EE22';
-    ctx.lineWidth = 2;
-    ctx.moveTo(xScale(current), 0);
-    ctx.lineTo(xScale(current), height);
-    ctx.stroke();
-    // ===============
+      ctx.clearRect(0, 0, width, height);
+      // =============== DRAWING
+      ctx.beginPath();
+      ctx.strokeStyle = '#11EE22';
+      ctx.lineWidth = 2;
+      ctx.moveTo(xScale(current), 0);
+      ctx.lineTo(xScale(current), height);
+      ctx.stroke();
+      // ===============
+    }
   }
 
   assignEl = (el) => { this.el = el; }

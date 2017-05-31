@@ -40,14 +40,18 @@ export default function uiReducer(state = {}, action) {
 }
 
 /* --- Selectors ------------------------------------------------------------ */
+const emptyObject = {};
+const emptyArray = [];
 
 export const getViewTab = (state, { viewId }) => _get(state, ['ui', 'editor', viewId, 'tab'], null);
 
-export const getViewPanels = (state, { viewId }) => _get(state, ['ui', 'editor', viewId, 'panels'], {});
-export const getViewSubPanels = (state, { viewId, panel }) => _get(state, ['ui', 'editor', viewId, 'panels', panel], []);
+export const getViewPanels = (state, { viewId }) => _get(state, ['ui', 'editor', viewId, 'panels'],
+  emptyObject);
+export const getViewSubPanels = (state, { viewId, panel }) =>
+  _get(state, ['ui', 'editor', viewId, 'panels', panel], emptyArray);
 
 export const getViewEntryPointsPanels = (state, { viewId }) =>
-  _get(state, ['ui', 'editor', viewId, 'entryPoints'], {});
+  _get(state, ['ui', 'editor', viewId, 'entryPoints'], emptyObject);
 
 export const getViewEntryPointsSubPanels = (state, { viewId, entryPoint }) =>
-  _get(state, ['ui', 'editor', viewId, 'entryPoints', entryPoint.id], []);
+  _get(state, ['ui', 'editor', viewId, 'entryPoints', entryPoint.id], emptyArray);

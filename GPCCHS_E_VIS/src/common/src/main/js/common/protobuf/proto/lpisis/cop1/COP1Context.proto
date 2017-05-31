@@ -1,12 +1,12 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "cop1/COP1IfAutoState.proto";
-import "cop1/COP1InternalState.proto";
-import "cop1/COP1SentQueue.proto";
-import "cop1/COP1Status.proto";
-import "cop1/COP1WaitQueue.proto";
-import "cop1/GPMCC1State.proto";
-import "cop1/DecoderType.proto";
+import "../ccsds_mal/types.proto";
+import "./COP1IfAutoState.proto";
+import "./COP1InternalState.proto";
+import "./COP1SentQueue.proto";
+import "./COP1Status.proto";
+import "./COP1WaitQueue.proto";
+import "./GPMCC1State.proto";
+import "./DecoderType.proto";
 
 package cop1.protobuf;
 

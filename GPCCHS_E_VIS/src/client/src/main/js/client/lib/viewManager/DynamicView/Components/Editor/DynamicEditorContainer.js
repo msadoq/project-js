@@ -10,10 +10,11 @@ import {
   updateTitle,
   updateTitleStyle,
 } from '../../../../store/actions/views';
-import { updateViewTab } from '../../../../store/actions/ui';
-import { getViewTab } from '../../../../store/reducers/ui';
+import { updateViewTab, updateViewPanels } from '../../../../store/actions/ui';
+import { getViewTab, getViewPanels } from '../../../../store/reducers/ui';
 import { getDomains } from '../../../../store/reducers/domains';
 import { getConfigurationByViewId } from '../../../../viewManager';
+import { open as openModal } from '../../../../store/actions/modals';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,
@@ -22,6 +23,7 @@ const mapStateToProps = createStructuredSelector({
   timelines: getPageTimelines,
   domains: getDomains,
   tab: getViewTab,
+  panels: getViewPanels,
 });
 
 const mapDispatchToProps = {
@@ -29,6 +31,8 @@ const mapDispatchToProps = {
   updateTitle,
   updateTitleStyle,
   updateViewTab,
+  updateViewPanels,
+  openModal,
 };
 
 const DynamicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(DynamicEditor);

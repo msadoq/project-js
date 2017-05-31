@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import TextTab from './TextTab';
+import MimicTab from './MimicTab';
 import { openHtmlEditor, closeHtmlEditor } from '../../../../store/actions/editor';
 import { getEditorTextViewId } from '../../../../store/reducers/editor';
 
@@ -11,6 +11,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const TextTabContainer = connect(mapStateToProps, { openHtmlEditor, closeHtmlEditor })(TextTab);
+const MimicTabContainer = connect(mapStateToProps, { openHtmlEditor, closeHtmlEditor })(MimicTab);
 
-export default TextTabContainer;
+export default MimicTabContainer;

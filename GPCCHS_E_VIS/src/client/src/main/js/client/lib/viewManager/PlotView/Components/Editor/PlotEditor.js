@@ -6,7 +6,7 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import styles from '../../../commonEditor/Editor.css';
 
-const navbarItems = ['Entry Points', 'Plot'];
+const navbarItems = ['Entry Points', 'Plot', 'Misc'];
 
 export default class PlotEditor extends Component {
   static propTypes = {
@@ -32,6 +32,7 @@ export default class PlotEditor extends Component {
 
   static defaultProps = {
     tab: null,
+    links: [],
   }
 
   removeEntryPoint = (key) => {
@@ -109,7 +110,13 @@ export default class PlotEditor extends Component {
               viewId={viewId}
             />
           }
-          {tab === 2 && <Misc />}
+          {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+              openModal={openModal}
+            />}
         </div>
       </div>
     );

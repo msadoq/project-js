@@ -10,6 +10,7 @@ import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
 import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
+import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 
 const ModalGeneric = (props) => {
   let child;
@@ -100,6 +101,15 @@ const ModalGeneric = (props) => {
           {...props.props}
           closeModal={props.onClose}
         />);
+      break;
+    case 'addLink':
+      title = 'Add link';
+      child = (
+        <AddLinkContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
       break;
     default:
       child = (<div />);

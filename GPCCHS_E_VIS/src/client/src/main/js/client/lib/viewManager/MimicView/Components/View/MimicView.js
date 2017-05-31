@@ -37,12 +37,11 @@ const isValidNode = () => true;
 
 export default class MimicView extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    entryPoints: PropTypes.objectOf(PropTypes.object),
+    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
-    }),
+    }).isRequired,
   };
 
   componentWillMount() {
@@ -132,6 +131,7 @@ export default class MimicView extends Component {
         shouldProcessNode: (node => node.attribs && node.attribs.animation === 'textBox'),
         processNode: (node, children) => {
           const epName = node.attribs.ep;
+          const font = node.attribs.font ? node.attribs.font : 'arial';
           const textColorLevels = node.attribs.textcolor ? node.attribs.textcolor.split(';') : [];
           const bgColorLevels = node.attribs.bgcolor ? node.attribs.bgcolor.split(';') : [];
           const rand = Math.round(Math.random() * 100000);
@@ -143,6 +143,7 @@ export default class MimicView extends Component {
             epName,
             textColorLevels,
             bgColorLevels,
+            font,
           });
           return (
             <g key={id}>
@@ -151,7 +152,7 @@ export default class MimicView extends Component {
                 id={id}
                 x={node.attribs.x}
                 y={node.attribs.y}
-                style={{ fontSize: size }}
+                style={{ fontSize: size, fontFamily: font }}
               >
                 {children}
               </text>
@@ -209,7 +210,9 @@ export default class MimicView extends Component {
         let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
         ratio = ratio < 0 ? 0 : ratio;
         const el = g.el;
-        if (!el) { return; }
+        if (!el) {
+          return;
+        }
         if (g.type === 'scaleY') {
           el.style.transform = `scaleY(${ratio})`;
         } else {
@@ -225,7 +228,9 @@ export default class MimicView extends Component {
         distance = distance < 0 ? 0 : distance;
         distance = distance > g.width ? g.width : distance;
         const el = g.el;
-        if (!el) { return; }
+        if (!el) {
+          return;
+        }
         if (g.type === 'translateY') {
           if (g.direction === 'top') {
             distance *= -1;
@@ -246,7 +251,9 @@ export default class MimicView extends Component {
         angle = angle < 0 ? 0 : angle;
         angle = angle > g.angle ? g.angle : angle;
         const el = g.el;
-        if (!el) { return; }
+        if (!el) {
+          return;
+        }
         el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
         el.style.transform = `rotate(${angle}deg)`;
       } else if (g.type === 'textBox') {
@@ -285,7 +292,9 @@ export default class MimicView extends Component {
         }
         const epLastVal = data.values[g.epName].value;
         const el = g.el;
-        if ( !el ) { return; }
+        if (!el) {
+          return;
+        }
         let color;
         for (let i = 0; i < g.operators.length; i += 1) {
           const stateColor = g.operators[i].split('$');

@@ -13,3 +13,10 @@
 @import './react-panels/index.css';
 @import './rc-collapse/index.css';
 @import './react-grid-layout/index.css';
+
+@font-face {
+    font-family: 'Digital';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Digital'), url('./fonts/digital.ttf') format('truetype')
+}

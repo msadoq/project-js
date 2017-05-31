@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import Links from '../../../../windowProcess/View/Links';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
+
 
 const htmlToReactParser = new HtmlToReactParser();
 /*
@@ -42,7 +45,20 @@ export default class MimicView extends Component {
     data: PropTypes.shape({
       values: PropTypes.object,
     }).isRequired,
+    viewId: PropTypes.string.isRequired,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    links: [],
+  };
+
+  state = {
+    showLinks: false,
+  }
 
   componentWillMount() {
     this.svgEls = [];
@@ -52,7 +68,7 @@ export default class MimicView extends Component {
   componentDidMount() {
     // this.content = this.getContentComponent();
   }
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     let shouldRender = false;
     if (
       nextProps.content !== this.props.content ||
@@ -61,6 +77,9 @@ export default class MimicView extends Component {
       shouldRender = true;
       this.content = this.getContentComponent();
       // this.updateSvgsValues(nextProps.data);
+    }
+    if (nextState.showLinks !== this.state.showLinks) {
+      shouldRender = true;
     }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
@@ -326,9 +345,39 @@ export default class MimicView extends Component {
 
   svgEls = [];
 
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLinks: !this.state.showLinks,
+    });
+  }
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink, viewId } = this.props;
+    removeLink(viewId, index);
+  }
+
   render() {
+    const { showLinks } = this.state;
+    const { links } = this.props;
+    const style = { padding: '15px' };
+
     return (
-      <svg width="100%" height="100%">{this.content}</svg>
+      <div>
+        <Row>
+          <Col xs={12}>
+            <svg width="100%" height="100%">{this.content}</svg>
+          </Col>
+          <Col xs={12} style={style}>
+            <Links
+              show={showLinks}
+              toggleShowLinks={this.toggleShowLinks}
+              links={links}
+              removeLink={this.removeLink}
+            />
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

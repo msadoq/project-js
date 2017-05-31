@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { Row, Col } from 'react-bootstrap';
 import {
   Parser,
   ProcessNodeDefinitions,
@@ -9,6 +10,7 @@ import _each from 'lodash/each';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
 import { get } from 'common/parameters';
+import Links from '../../../../windowProcess/View/Links';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
@@ -84,6 +86,11 @@ export default class TextView extends PureComponent {
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: {
@@ -91,7 +98,11 @@ export default class TextView extends PureComponent {
     },
     entryPoints: {},
     inspectorEpId: null,
+    links: [],
   };
+  state = {
+    showLinks: false,
+  }
 
   componentWillMount() {
     this.template = { html: beautifyHtml(this.props.content, { indent_size: 2 }) };
@@ -102,7 +113,7 @@ export default class TextView extends PureComponent {
     this.updateSpanValues(this.props.data);
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     let shouldRender = false;
     if (
       nextProps.content !== this.props.content ||
@@ -111,6 +122,9 @@ export default class TextView extends PureComponent {
       shouldRender = true;
       this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
       this.content = this.getContentComponent();
+    }
+    if (nextState.showLinks !== this.state.showLinks) {
+      shouldRender = true;
     }
     if (!shouldRender) {
       this.updateSpanValues(nextProps.data);
@@ -304,20 +318,47 @@ export default class TextView extends PureComponent {
     updateContent(values.html);
   }
 
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLinks: !this.state.showLinks,
+    });
+  }
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink } = this.props;
+    removeLink(index);
+  }
+
   htmlToReactParser = new Parser();
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
-    const { viewId } = this.props;
+    const { viewId, links } = this.props;
+    const { showLinks } = this.state;
 
     logger.debug(`render ${viewId}`);
+    const style = { padding: '15px' };
 
     return (
       <DroppableContainer
         onDrop={this.onDrop}
         onContextMenu={this.onContextMenu}
+        className="h100 posRelative"
       >
-        <this.content />
+        <Row>
+          <Col xs={12}>
+            <this.content />
+          </Col>
+          <Col xs={12} style={style}>
+            <Links
+              show={showLinks}
+              toggleShowLinks={this.toggleShowLinks}
+              links={links}
+              removeLink={this.removeLink}
+            />
+          </Col>
+        </Row>
       </DroppableContainer>
     );
   }

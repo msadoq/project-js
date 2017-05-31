@@ -7,6 +7,7 @@ import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
 import styles from './DynamicView.css';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import Links from '../../../../windowProcess/View/Links';
 
 function dataToShow(data) {
   if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
@@ -108,13 +109,23 @@ export default class DynamicView extends PureComponent {
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     formula: 0,
     entryPoints: {},
     inspectorEpId: null,
+    links: [],
   };
+
+  state = {
+    showLinks: false,
+  }
 
   onContextMenu = (event) => {
     event.stopPropagation();
@@ -151,8 +162,21 @@ export default class DynamicView extends PureComponent {
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    this.setState({
+      showLinks: !this.state.showLinks,
+    });
+  }
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink } = this.props;
+    removeLink(index);
+  }
+
   render() {
-    const { data, entryPoints } = this.props;
+    const { data, entryPoints, links } = this.props;
+    const { showLinks } = this.state;
     const ep = data.value;
     const error = _get(entryPoints, 'dynamicEP.error');
     if (!ep || error) {
@@ -190,6 +214,14 @@ export default class DynamicView extends PureComponent {
               </Col>
             </Row>))}
         </Grid>
+        <div style={{ padding: '10px' }}>
+          <Links
+            show={showLinks}
+            toggleShowLinks={this.toggleShowLinks}
+            links={links}
+            removeLink={this.removeLink}
+          />
+        </div>
       </div>
     );
   }

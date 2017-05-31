@@ -13,6 +13,7 @@ import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
+import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
 
 export default class Chart extends React.Component {
@@ -25,6 +26,7 @@ export default class Chart extends React.Component {
     current: PropTypes.number.isRequired,
     enableTooltip: PropTypes.bool,
     tooltipColor: PropTypes.string,
+    parametric: PropTypes.bool,
     allowZoom: PropTypes.bool,
     allowYZoom: PropTypes.bool,
     allowYPan: PropTypes.bool,
@@ -35,6 +37,7 @@ export default class Chart extends React.Component {
       showTicks: PropTypes.bool,
       autoTick: PropTypes.bool,
       tickStep: PropTypes.number,
+      format: PropTypes.string,
     }).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -86,6 +89,7 @@ export default class Chart extends React.Component {
     allowPan: true,
     tooltipColor: 'white',
     perfOutput: false,
+    parametric: false,
   }
 
   state = {
@@ -456,6 +460,7 @@ export default class Chart extends React.Component {
   render() {
     const {
       height,
+      parametric,
       width,
       yAxesAt,
       xAxisAt,
@@ -465,6 +470,7 @@ export default class Chart extends React.Component {
         showTicks,
         autoTick,
         tickStep,
+        format,
       },
       enableTooltip,
       tooltipColor,
@@ -583,6 +589,7 @@ export default class Chart extends React.Component {
           }
         </div>
         <CurrentCursorCanvas
+          parametric={parametric}
           width={this.chartWidth}
           height={this.chartHeight}
           xAxisAt={xAxisAt}
@@ -593,6 +600,7 @@ export default class Chart extends React.Component {
           xScale={xScale}
         />
         { enableTooltip && <Tooltip
+          parametric={parametric}
           tooltipColor={tooltipColor}
           yAxes={this.yAxes}
           width={this.chartWidth}
@@ -601,6 +609,7 @@ export default class Chart extends React.Component {
           current={current}
           margin={marginSide}
           xScale={xScale}
+          xFormat={format}
           yAxesAt={yAxesAt}
           xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
@@ -608,6 +617,7 @@ export default class Chart extends React.Component {
         {
           this.yAxes.map(yAxis =>
             <LinesCanvas
+              parametric={parametric}
               key={yAxis.id}
               width={this.chartWidth}
               height={this.chartHeight}
@@ -659,21 +669,42 @@ export default class Chart extends React.Component {
             />
           )
         }
-        <XAxis
-          showGrid={_get(this.yAxes, '0.showGrid')}
-          gridStyle={_get(this.yAxes, '0.gridStyle')}
-          gridSize={_get(this.yAxes, '0.gridSize')}
-          showTicks={showTicks}
-          autoTick={autoTick}
-          tickStep={tickStep}
-          margin={marginSide}
-          xAxisHeight={this.xAxisHeight}
-          height={this.chartHeight}
-          width={this.chartWidth}
-          xAxisAt={xAxisAt}
-          yAxesAt={yAxesAt}
-          xExtents={calculatedXExtents}
-        />
+        {
+          parametric ?
+            <XAxisParametric
+              xScale={xScale}
+              yAxesAt={yAxesAt}
+              xAxisAt={xAxisAt}
+              xAxisHeight={this.xAxisHeight}
+              showGrid={_get(this.yAxes, '0.showGrid')}
+              showTicks={showTicks}
+              autoTick={autoTick}
+              tickStep={tickStep}
+              width={this.chartWidth}
+              height={this.chartHeight}
+              margin={marginSide}
+              gridStyle={_get(this.yAxes, '0.gridStyle')}
+              gridSize={_get(this.yAxes, '0.gridSize')}
+              format={'.2f'}
+              xExtents={calculatedXExtents}
+            />
+            :
+            <XAxis
+              showGrid={_get(this.yAxes, '0.showGrid')}
+              gridStyle={_get(this.yAxes, '0.gridStyle')}
+              gridSize={_get(this.yAxes, '0.gridSize')}
+              showTicks={showTicks}
+              autoTick={autoTick}
+              tickStep={tickStep}
+              margin={marginSide}
+              xAxisHeight={this.xAxisHeight}
+              height={this.chartHeight}
+              width={this.chartWidth}
+              xAxisAt={xAxisAt}
+              yAxesAt={yAxesAt}
+              xExtents={calculatedXExtents}
+            />
+        }
         <Zones
           xAxisAt={xAxisAt}
           xAxisHeight={this.xAxisHeight}

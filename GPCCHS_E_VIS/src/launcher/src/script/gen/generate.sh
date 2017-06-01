@@ -42,6 +42,8 @@ deploy_cots() {
   # workaround for electron downloads
   HOME=${find.dependencies.dir}
 
+  MAVEN_BUILDING=1
+
   Log "deploy_cots" "installing NPM dependencies in client" ${INFO}
   npm ${NPM_OPTS2} install
   Log "deploy_cots" "installing common dependency in client" ${INFO}

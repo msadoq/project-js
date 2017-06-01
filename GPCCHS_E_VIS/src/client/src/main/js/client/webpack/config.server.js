@@ -3,6 +3,14 @@ import webpack from 'webpack';
 import merge from 'webpack-merge';
 import baseConfig from './config.base';
 
+const zmqExternals = (process.env.MAVEN_BUILDING
+  ? ['zmq', 'bindings']
+  : [{
+    zmq: './node_modules/common/node_modules/zmq',
+    bindings: './node_modules/common/node_modules/bindings',
+  }]
+);
+
 export default merge(baseConfig, {
   devtool: 'source-map',
 
@@ -15,8 +23,7 @@ export default merge(baseConfig, {
   externals: [
     'source-map-support',
     'memcpy',
-    'zmq',
-    'bindings',
+    ...zmqExternals,
   ],
 
   plugins: [

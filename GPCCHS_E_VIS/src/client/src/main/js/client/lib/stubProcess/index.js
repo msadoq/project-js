@@ -1,12 +1,20 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 
+const path = require('path');
 const logger = require('common/log/index')('stubs:utils');
 const zmq = require('common/zmq');
 const globalConstants = require('common/constants');
 const protobuf = require('common/protobuf');
-require('common/protobuf/adapters/dc');
-require('common/protobuf/adapters/lpisis');
+
+const registerDc = require('common/protobuf/adapters/dc');
+const registerLpisis = require('common/protobuf/adapters/lpisis');
+
+const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
+
+registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
+registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
+
 const stubData = require('common/protobuf/stubs');
 
 const isParameterSupported = require('./utils/isParameterSupported');

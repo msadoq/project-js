@@ -11,5 +11,6 @@
   "WORKSPACE": "dev.workspace.json",
   "STUB_DC_ON": "on",
   "STUB_RTD_ON": "on",
+  "RTD_ON": "on",
   "RTD_UNIX_SOCKET": "/data/isis/work/redis/rtdRedisDb.sock"
 }

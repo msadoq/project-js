@@ -75,21 +75,25 @@ export function onStart() {
       );
     },
     (callback) => {
-      const socket = parameters.get('RTD_UNIX_SOCKET');
-      let stub = false;
-      if (parameters.get('STUB_RTD_ON') === 'on') {
-        stub = true;
-      }
-      splashScreen.setMessage('starting data RTD client...');
-      logger.info('starting RTD client...');
-      createRtd({ socket, stub }, (err, rtd) => {
-        if (err) {
-          callback(err);
-          return;
+      if (parameters.get('RTD_ON') === 'on') {
+        const socket = parameters.get('RTD_UNIX_SOCKET');
+        let stub = false;
+        if (parameters.get('STUB_RTD_ON') === 'on') {
+          stub = true;
         }
-        setRtd(rtd);
+        splashScreen.setMessage('starting data RTD client...');
+        logger.info('starting RTD client...');
+        createRtd({ socket, stub }, (err, rtd) => {
+          if (err) {
+            callback(err);
+            return;
+          }
+          setRtd(rtd);
+          callback(null);
+        });
+      } else {
         callback(null);
-      });
+      }
     },
     (callback) => {
       if (process.env.IS_BUNDLED === 'on') {

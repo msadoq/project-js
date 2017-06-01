@@ -1,3 +1,4 @@
+import { get } from 'common/parameters';
 import asyncParallel from 'async/parallel';
 import { SDB_NAMESPACE } from './constants';
 import {
@@ -14,18 +15,21 @@ import {
 } from './reportings';
 
 let rtd;
+const disabledRtd = {
+  getCatalogByName: (a, b, c, d, e, cb) => cb(null),
+};
 
 export function setRtd(rtdApi) {
   rtd = rtdApi;
 }
 
 export function getRtd() {
-  return rtd;
+  return get('RTD_ON') === 'on' ? rtd : disabledRtd;
 }
 
 export function getTelemetryStaticElements(
   { sessionId, domainId }, parameterName, callback) {
-  rtd.getCatalogByName('Reporting', SDB_NAMESPACE, parameterName, sessionId, domainId, (err, reporting) => {
+  getRtd().getCatalogByName('Reporting', SDB_NAMESPACE, parameterName, sessionId, domainId, (err, reporting) => {
     if (err || !reporting) {
       callback(err);
       return;

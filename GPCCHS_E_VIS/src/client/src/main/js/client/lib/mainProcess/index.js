@@ -207,7 +207,6 @@ export function onStart() {
       }
 
       const file = parameters.get('WORKSPACE');
-      const absolutePath = path.join(root, file);
 
       if (!file) {
         splashScreen.setMessage('loading default workspace...');
@@ -217,6 +216,8 @@ export function onStart() {
         callback(null);
         return;
       }
+
+      const absolutePath = path.join(root, file);
 
       splashScreen.setMessage(`loading ${file}`);
       logger.info(`loading ${file}`);

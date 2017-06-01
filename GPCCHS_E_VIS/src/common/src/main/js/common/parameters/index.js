@@ -2,11 +2,7 @@ const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
 const _get = require('lodash/get');
-const _keys = require('lodash/keys');
-const _concat = require('lodash/concat');
-const _uniq = require('lodash/uniq');
 const _merge = require('lodash/merge');
-const _reduce = require('lodash/reduce');
 const _omit = require('lodash/omit');
 
 const REQUIRED = 'config.required.json'; // required
@@ -35,21 +31,7 @@ function getEnv(name) {
 }
 
 function getAllEnv() {
-  const keys = _concat(
-    _keys(localConfig),
-    _keys(defaultConfig),
-    _keys(getAllArgv)
-  );
-  const uniqueKeys = _uniq(keys);
-  return _reduce(uniqueKeys, (acc, k) => {
-    const value = getEnv(k);
-    if (value) {
-      _merge(acc, {
-        [k]: value,
-      });
-    }
-    return acc;
-  }, {});
+  return process.env;
 }
 
 function getLocal(name) {
@@ -105,7 +87,6 @@ function get(name) {
 
 function getAll() {
   const all = _merge(
-    {},
     defaultConfig,
     getAllEnv(),
     localConfig,

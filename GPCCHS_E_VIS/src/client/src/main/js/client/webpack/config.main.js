@@ -14,7 +14,6 @@ export default merge(baseConfig, {
   },
   externals: [
     'source-map-support',
-    'package.json',
     'electron-debug',
     'hiredis',
   ],
@@ -26,10 +25,8 @@ export default merge(baseConfig, {
       { raw: true, entryOnly: false }
     ),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
-        IS_BUNDLED: JSON.stringify('on'),
-      },
+      'process.env.IS_BUNDLED': JSON.stringify('on'),
+      'process.env.APP_ENV': JSON.stringify('main'),
     }),
   ],
 

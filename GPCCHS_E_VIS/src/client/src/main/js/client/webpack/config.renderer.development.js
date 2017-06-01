@@ -65,9 +65,7 @@ export default merge(baseConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env': {
-        APP_ENV: JSON.stringify('renderer'),
-      },
+      'process.env.APP_ENV': JSON.stringify('renderer'),
     }),
   ],
 

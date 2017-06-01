@@ -92,7 +92,7 @@ export function onStart() {
       });
     },
     (callback) => {
-      if (parameters.get('IS_BUNDLED') === 'on') {
+      if (process.env.IS_BUNDLED === 'on') {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');
 

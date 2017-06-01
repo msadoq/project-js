@@ -6,7 +6,7 @@ const logger = getLogger('main:debug');
 
 export default (callback) => {
   // not installable when bundled and doesn't needed when DEBUG is off
-  if (get('IS_BUNDLED') === 'on' || get('DEBUG') !== 'on') {
+  if (process.env.IS_BUNDLED === 'on' || get('DEBUG') !== 'on') {
     return callback(null);
   }
 

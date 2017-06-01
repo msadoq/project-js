@@ -66,11 +66,9 @@ const config = merge(baseConfig, {
     new webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin('style.css'),
     new webpack.DefinePlugin({
-      'process.env': {
-        // NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
-        IS_BUNDLED: JSON.stringify('on'),
-        APP_ENV: JSON.stringify('renderer'),
-      },
+      'process.env.IS_BUNDLED': JSON.stringify('on'),
+      'process.env.APP_ENV': JSON.stringify('renderer'),
+      'process.env.NODE_ENV': JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
     }),
   ],
 

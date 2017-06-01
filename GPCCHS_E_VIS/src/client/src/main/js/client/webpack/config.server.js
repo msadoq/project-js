@@ -14,14 +14,9 @@ export default merge(baseConfig, {
   },
   externals: [
     'source-map-support',
-    'package.json',
     'memcpy',
     'zmq',
     'bindings',
-    // {
-    //   zmq: './node_modules/common/node_modules/zmq',
-    //   bindings: './node_modules/common/node_modules/bindings',
-    // },
   ],
 
   plugins: [
@@ -30,6 +25,10 @@ export default merge(baseConfig, {
       'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
+    new webpack.DefinePlugin({
+      'process.env.IS_BUNDLED': JSON.stringify('on'),
+      'process.env.APP_ENV': JSON.stringify('server'),
+    }),
   ],
 
   target: 'node',

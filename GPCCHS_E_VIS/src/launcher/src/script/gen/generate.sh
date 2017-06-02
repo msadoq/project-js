@@ -37,19 +37,19 @@ deploy_cots() {
   NPM_OPTS2="--userconfig=${NPM_USER_CONFIG}"
   PATH=${find.dependencies.dir}/bin:$PATH
   export npm_config_nodedir=${find.dependencies.dir}
+
   npm ${NPM_OPTS1} config set cache ${find.dependencies.dir}/npm_cache
   npm ${NPM_OPTS1} config set cache-min ${NPM_CACHE_DURATION}
   # workaround for electron downloads
   HOME=${find.dependencies.dir}
 
-  MAVEN_BUILDING=1
+  export dependencies_dir=${find.dependencies.dir}
+
+  Log 'deploy_cots' "prepare package.json" ${INFO}
+  npm run prepare:maven:build
 
   Log "deploy_cots" "installing NPM dependencies in client" ${INFO}
   npm ${NPM_OPTS2} install
-  Log "deploy_cots" "installing common dependency in client" ${INFO}
-  npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common || true
-  Log "deploy_cots" "installing rtd dependency in client" ${INFO}
-  npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/rtd || true
 
   Log "deploy_cots" "building main process package" ${INFO}
   npm run build:main
@@ -63,7 +63,6 @@ deploy_cots() {
   Log "deploy_cots" "packaging electron application" ${INFO}
   npm run package:electron -- --download.cache=${find.dependencies.dir}/.electron/
   mv ./dist/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
-#  ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --no-prune --out=${api.lib.dir}/js/${project.artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
 }
 
 Log "generate" "generate all" ${INFO}

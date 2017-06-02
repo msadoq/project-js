@@ -41,6 +41,7 @@
     "update-rtd": "./manageRTD.sh --update",
     "install-rtd": "./manageRTD.sh --install && (cd node_modules/rtd && npm install)",
     "copy-rtd": "./manageRTD.sh --copy",
+    "prepare:maven:build": "node ./scripts/prepareMavenBuild.js",
     "postinstall": "electron-rebuild",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
   },
@@ -177,6 +178,10 @@
     "rtd": "../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd",
     "common": "../../../../../common/src/main/js/common"
   },
+  "mavenDependencies": [
+    "rtd",
+    "common"
+  ],
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"

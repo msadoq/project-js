@@ -25,7 +25,7 @@
     "link": "npm run link:common && npm run link:rtd",
     "lint": "eslint .",
     "sh": "npm run start-hot",
-    "start": "cp config.local.json ./dist/lpisis_gpcchs_e_clt-linux-x64/resources/app && ./dist/lpisis_gpcchs_e_clt-linux-x64/lpisis_gpcchs_e_clt",
+    "start": "./scripts/start.sh",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
     "test": "NODE_ENV=test mocha --compilers js:babel-register \"lib/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",

@@ -1,7 +1,8 @@
-import { join } from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import merge from 'webpack-merge';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+
 import postCssImport from 'postcss-smart-import';
 import postCssUrl from 'postcss-url';
 import postCssProperties from 'postcss-custom-properties';
@@ -32,8 +33,6 @@ const config = merge(baseConfig, {
   },
 
   output: {
-    path: join(__dirname, '../dist'),
-    publicPath: 'dist/',
     filename: '[name].bundle.js',
     // pathinfo: true,
   },
@@ -70,6 +69,10 @@ const config = merge(baseConfig, {
       'process.env.APP_ENV': JSON.stringify('renderer'),
       'process.env.NODE_ENV': JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
     }),
+    new CopyWebpackPlugin([
+      { from: 'index.html' },
+      { from: 'splash.html' },
+    ]),
   ],
 
   postcss: [

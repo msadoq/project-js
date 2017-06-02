@@ -60,28 +60,10 @@ deploy_cots() {
   Log "deploy_cots" "building server process package" ${INFO}
   npm run build:server
 
-  Log "deploy_cots" "copying client files" ${INFO}
-  mkdir -p ${api.work.dir}/js/client/toPackage/node_modules
-  cp -R ./node_modules/source-map-support ./toPackage/node_modules/
-  cp -R ./node_modules/source-map ./toPackage/node_modules/
-  cp -R ./node_modules/common ./toPackage/node_modules/
-  cp -R ./node_modules/zmq ./toPackage/node_modules/
-  cp -R ./node_modules/bindings ./toPackage/node_modules/
-  cp -R ./node_modules/long ./toPackage/node_modules/
-  cp -R ${api.work.dir}/js/client/dist ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/main.js ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/main.js.map ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/server.js ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/server.js.map ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/index.html ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/splash.html ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/package.json ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/config.default.json ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/config.required.json ${api.work.dir}/js/client/toPackage/
-
   Log "deploy_cots" "packaging electron application" ${INFO}
-  ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --no-prune --out=${api.lib.dir}/js/${project.artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
-  mv ${api.lib.dir}/js/${project.artifactId}/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
+  npm run package:electron -- --download.cache=${find.dependencies.dir}/.electron/
+  mv ./dist/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
+#  ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --no-prune --out=${api.lib.dir}/js/${project.artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
 }
 
 Log "generate" "generate all" ${INFO}

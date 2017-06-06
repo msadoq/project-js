@@ -11,20 +11,20 @@ const COMMON_FOLDER = resolve(CLIENT_FOLDER, '../../../../../common/src/main/js/
 
 const ESLINT = 'eslint';
 const ESLINT_ARGS = '. -f json'.split(' ');
-const ESLINT_ARGS_NO_RELAX = '. -f json --no-inline-config'.split(' ');
+const ESLINT_ARGS_WITH_RELAX = '. -f json --no-inline-config'.split(' ');
 
-const OUTPUT_CSV_FILE_NO_RELAX = resolve(__dirname, 'lint-report-no-relax.csv');
+const OUTPUT_CSV_FILE_ALL = resolve(__dirname, 'lint-report-all.csv');
 const OUTPUT_CSV_FILE = resolve(__dirname, 'lint-report.csv');
 
-const execEslint = relax => (cwd, cb) => {
-  const args = relax ? ESLINT_ARGS : ESLINT_ARGS_NO_RELAX;
+const execEslint = withRelaxed => (cwd, cb) => {
+  const args = withRelaxed ? ESLINT_ARGS_WITH_RELAX : ESLINT_ARGS;
   const result = [];
   const child = spawn(ESLINT, args, { cwd, silent: true });
   child.stdout.on('data', (data) => {
     result.push(data);
   });
   child.on('close', () => {
-    log(`lint ${basename(cwd)} ${relax ? '' : '(no relax)'}`);
+    log(`lint ${basename(cwd)} ${withRelaxed ? '(+ relaxed)' : ''}`);
     if (result.length) {
       return cb(null, JSON.parse(result.join('')));
     }
@@ -44,27 +44,51 @@ const getSeverity = _.cond([
   [otherwise, _.always('unknown')],
 ]);
 
-const formatMessageToCSV = lintError => _.map(({ severity, message, ruleId, line, column }) => (
-  `${lintError.filePath}; ${getSeverity(severity)}; ${message}; ${ruleId}; ${line}; ${column}`
-), lintError.messages);
+const getRelaxed = relaxed => (relaxed ? 'Yes' : 'No');
+
+const formatMessageToCSV = ({ severity, message, ruleId, line, column, filePath, relaxed }) => (
+  `${filePath}; ${getSeverity(severity)}; ${message}; ${ruleId}; ${line}; ${column}; ${getRelaxed(relaxed)}`
+);
 
 const prepend = _.concat;
 
-const createCSV = ({ relax }) => {
-  async.map([CLIENT_FOLDER, COMMON_FOLDER], execEslint(relax), (err, res) => {
-    const csvLintErrors = _.pipe(
-      _.flatten,
-      _.reject(hasNoErrors),
-      _.flatMap(formatMessageToCSV),
-      prepend('file; severity; error; eslint rule; line; column'),
-      _.join('\n')
-    )(res);
-    const outputPath = relax ? OUTPUT_CSV_FILE : OUTPUT_CSV_FILE_NO_RELAX;
-    writeFileSync(outputPath, csvLintErrors);
-    log(`-> file '${basename(outputPath)}' created`);
+const getLintMessages = ({ withRelax }, cb) => {
+  async.map([CLIENT_FOLDER, COMMON_FOLDER], execEslint(withRelax), (err, res) => {
+    if (err) {
+      return cb(err);
+    }
+    return cb(null,
+        _.pipe(
+          _.flatten,
+          _.reject(hasNoErrors),
+          _.flatMap(lintReport => (
+            _.map(_.set('filePath', lintReport.filePath), lintReport.messages)
+          ))
+      )(res)
+    );
   });
 };
 
+const createCSV = _.pipe(
+  _.map(formatMessageToCSV),
+  prepend('file; severity; error; eslint rule; line; column; relaxed'),
+  _.join('\n')
+);
+const diffLintReport = _.differenceBy(formatMessageToCSV);
+
 log('creating lint reports...');
-createCSV({ relax: true });
-createCSV({ relax: false });
+getLintMessages({ withRelax: false }, (err, reportWithoutRelax) => {
+  getLintMessages({ withRelax: true }, (errWithRelax, completeReport) => {
+    const reportWithRelax = diffLintReport(completeReport, reportWithoutRelax);
+
+    const messagesRelaxed = _.map(_.set('relaxed', true), reportWithRelax);
+    const messagesNoRelaxed = _.map(_.set('relaxed', false), reportWithoutRelax);
+    const allMessages = _.concat(messagesNoRelaxed, messagesRelaxed);
+
+    writeFileSync(OUTPUT_CSV_FILE, createCSV(messagesNoRelaxed));
+    log(`write ${OUTPUT_CSV_FILE}`);
+
+    writeFileSync(OUTPUT_CSV_FILE_ALL, createCSV(allMessages));
+    log(`write ${OUTPUT_CSV_FILE_ALL}`);
+  });
+});

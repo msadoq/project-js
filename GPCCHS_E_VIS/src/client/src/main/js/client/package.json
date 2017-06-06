@@ -192,7 +192,8 @@
     "cache": true,
     "exclude": [
       "**/*.spec.js",
-      "lib/windowProcess/**"
+      "lib/windowProcess/**",
+      "dist/**"
     ],
     "include": [
       "lib/**/*.js"

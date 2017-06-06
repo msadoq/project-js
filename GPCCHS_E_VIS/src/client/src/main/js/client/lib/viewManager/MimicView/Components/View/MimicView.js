@@ -363,11 +363,8 @@ export default class MimicView extends Component {
     const style = { padding: '15px' };
 
     return (
-      <div>
-        <Row>
-          <Col xs={12}>
-            <svg width="100%" height="100%">{this.content}</svg>
-          </Col>
+      <div className="h100 posRelative">
+        <Row className="h100 posRelative">
           <Col xs={12} style={style}>
             <Links
               show={showLinks}
@@ -375,6 +372,9 @@ export default class MimicView extends Component {
               links={links}
               removeLink={this.removeLink}
             />
+          </Col>
+          <Col xs={12} className="h100 posRelative">
+            <svg width="100%" height="100%" >{this.content}</svg>
           </Col>
         </Row>
       </div>

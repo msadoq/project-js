@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Col, Form, Button, ControlLabel, Glyphicon, FormGroup } from 'react-bootstrap';
+// import { Col, Form, Button, ControlLabel, Glyphicon, FormGroup } from 'react-bootstrap';
+import { Glyphicon, Button, Col } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Links.css';
 
@@ -35,28 +36,26 @@ export default class Links extends PureComponent {
         </button>
         {show &&
           links.map((link, key) =>
-          (<Form horizontal key={link.name.concat(key).concat('form')}>
-            <FormGroup controlId={link.name.concat(key)} className={styles.link}>
-              <Col componentClass={ControlLabel} sm={3} >
-                {link.name}
-              </Col>
-              <Col sm={8}>
-                <Button bsStyle="link" >{link.path}</Button>
-              </Col>
-              <Col sm={1}>
-                <Glyphicon
-                  glyph="remove"
-                  onClick={e => removeLink(e, key)}
-                  className={
-                    classnames(
-                      styles.removeButton,
-                      'text-danger'
-                    )
-                  }
-                />
-              </Col>
-            </FormGroup>
-          </Form>)
+          (<div
+            className={classnames(
+              styles.link
+            )}
+            key={link.name.concat(key)}
+          >
+            <Col xs={6}>
+              <Button bsStyle="link" >{link.name}</Button>
+              <Glyphicon
+                glyph="remove"
+                onClick={e => removeLink(e, key)}
+                className={
+                  classnames(
+                    styles.removeButton,
+                    'text-danger'
+                  )
+                }
+              />
+            </Col>
+          </div>)
           )
         }
       </div>

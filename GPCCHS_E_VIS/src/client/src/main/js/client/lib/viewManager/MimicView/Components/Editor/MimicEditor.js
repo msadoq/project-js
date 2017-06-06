@@ -13,7 +13,7 @@ const newEntryPoint = {
   connectedData: {}
 };
 
-const navBarItems = ['Entry Points', 'Mimic'];
+const navBarItems = ['Entry Points', 'Mimic', 'Misc'];
 
 export default class Editor extends Component {
   static propTypes = {

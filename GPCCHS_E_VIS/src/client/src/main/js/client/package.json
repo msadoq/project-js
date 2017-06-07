@@ -5,10 +5,13 @@
   "main": "main.js",
   "jest": {
     "verbose": true,
-    "testRegex": "(snapshot)\\.(js|jsx)$",
+    "testRegex": "(spec)\\.(js|jsx)$",
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
     },
+    "transformIgnorePatterns": [
+      "node_modules\/(?!common)|(node_modules\/common\/node_modules)"
+    ],
     "collectCoverageFrom": ["lib/windowProcess/**/*.js"],
     "coverageDirectory": "coverage/snapshot"
   },

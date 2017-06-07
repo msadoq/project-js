@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-const { should } = require('../../common/test');
 const formula = require('./formula');
 
 describe('viewManager/commonData/formula', () => {
@@ -19,25 +17,21 @@ describe('viewManager/commonData/formula', () => {
     expect(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.')).toBeFalsy();
   });
   it('works without field', () => {
-    expect(typeof formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>')).toBe('object')
-      .with.properties({
-        formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-        catalog: 'Reporting',
-        parameterName: 'ATT_BC_STR1VOLTAGE',
-        comObject: 'ReportingParameter',
-        field: undefined,
-      });
+    const parsedFormula = formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>');
+    expect(parsedFormula).toBeAnObject();
+    expect(parsedFormula).toHaveProperty('formula', 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>');
+    expect(parsedFormula).toHaveProperty('catalog', 'Reporting');
+    expect(parsedFormula).toHaveProperty('parameterName', 'ATT_BC_STR1VOLTAGE');
+    expect(parsedFormula).toHaveProperty('comObject', 'ReportingParameter');
+    expect(parsedFormula).toHaveProperty('field', undefined);
   });
   it('works with field', () => {
-    expect(
-      typeof formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue')
-    ).toBe('object')
-      .with.properties({
-        formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
-        catalog: 'Reporting',
-        parameterName: 'ATT_BC_STR1VOLTAGE',
-        comObject: 'ReportingParameter',
-        field: 'extractedValue',
-      });
+    const parsedFormula = formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue');
+    expect(parsedFormula).toBeAnObject();
+    expect(parsedFormula).toHaveProperty('formula', 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue');
+    expect(parsedFormula).toHaveProperty('catalog', 'Reporting');
+    expect(parsedFormula).toHaveProperty('parameterName', 'ATT_BC_STR1VOLTAGE');
+    expect(parsedFormula).toHaveProperty('comObject', 'ReportingParameter');
+    expect(parsedFormula).toHaveProperty('field', 'extractedValue');
   });
 });

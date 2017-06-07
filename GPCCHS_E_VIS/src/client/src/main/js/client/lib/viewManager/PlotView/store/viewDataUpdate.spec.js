@@ -402,11 +402,11 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
     describe('selectDataPerView', () => {
       it('empty state', () => {
         const bag = selectDataPerView(viewDataMap.plot1, intervals, payload);
-        expect(bag).toEqual(expect.arrayContaining(['ep1', 'min', 'max', 'minTime', 'maxTime']));
+        expect(bag).toHaveKeys(['ep1', 'min', 'max', 'minTime', 'maxTime']);
 
         const bag2 = selectDataPerView(viewDataMap.plot2, intervals, payload);
-        expect(bag2).toEqual(expect.arrayContaining(['ep2', 'ep3', 'min', 'max', 'minTime', 'maxTime']));
-        expect(bag2.ep2).toEqual(expect.arrayContaining(['14', '15', '16', '17', '18']));
+        expect(bag2).toHaveKeys(['ep2', 'ep3', 'min', 'max', 'minTime', 'maxTime']);
+        expect(bag2.ep2).toHaveKeys(['14', '15', '16', '17', '18']);
       });
       it('viewMap undefined', () => {
         const newState = selectDataPerView(viewDataMap.plot4, intervals, payload);

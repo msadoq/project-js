@@ -86,7 +86,7 @@ describe('store:reducer:PlotViewConfiguration', () => {
         },
       };
       const state = reducer(stateConf, action);
-      expect(state.entryPoints[2]).have.properties({
+      expect(state.entryPoints[2]).toMatchObject({
         name: 'ep2',
         connectedData: { timeline: 't2', domain: 'd2', unit: 'w' },
       });

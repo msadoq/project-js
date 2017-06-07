@@ -1,4 +1,4 @@
-import { freezeMe, testMemoization, should } from '../../common/test';
+import { freezeMe, testMemoization } from '../../common/test';
 
 import {
   getPageLayoutWithCollapsed,
@@ -29,9 +29,9 @@ describe('windowProcess:Page:ContentSelector', () => {
   });
   describe('getPageLayoutWithCollapsed', () => {
     it('returns page layout with collapsed geometries', () => {
-      expect(getPageLayoutWithCollapsed(state, { pageId: 'myPage' })).have.properties({
-        lg: [{ i: 'layout1' }, { i: 'layout2' }],
-      });
+      const layout = getPageLayoutWithCollapsed(state, { pageId: 'myPage' });
+      expect(layout).toHaveProperty('lg.0.i', 'layout1');
+      expect(layout).toHaveProperty('lg.1.i', 'layout2');
     });
     it('should memoize', () => {
       testMemoization(getPageLayoutWithCollapsed, state, { pageId: 'myPage' });

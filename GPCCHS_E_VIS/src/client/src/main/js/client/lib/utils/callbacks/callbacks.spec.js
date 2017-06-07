@@ -1,4 +1,3 @@
-const { should } = require('../../common/test');
 const callbacks = require('./');
 
 describe('utils/callbacks', () => {

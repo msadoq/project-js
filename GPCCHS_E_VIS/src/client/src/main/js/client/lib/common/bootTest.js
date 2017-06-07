@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { difference, intersection } from 'lodash/fp';
 import path from 'path';
 
 /*
@@ -30,14 +31,27 @@ _.set(
 );
 
 // jest expect.extend utils
+const stringify = val => JSON.stringify(val, null, 2);
+
 const toBe = (predicat, getAssertionString = _.identity) => (received, argument) => {
   const pass = predicat(received, argument);
-  const assertionString = getAssertionString(JSON.stringify(argument));
+  const assertionString = getAssertionString(stringify(argument));
   return {
-    message: () => `expected ${JSON.stringify(received)}${pass ? ' not ' : ' '}to be ${assertionString}`,
+    message: () => `expected ${stringify(received)}${pass ? ' not ' : ' '}to be ${assertionString}`,
     pass,
   };
 };
+
+function toHaveKeys(val, argument = []) {
+  const keys = Object.keys(val);
+  const diffKeys = (this.isNot ? intersection : difference)(argument, keys);
+  const pass = this.isNot ? !!diffKeys.length : !diffKeys.length;
+  const assertedKeys = JSON.stringify(diffKeys);
+  return {
+    message: () => `expected ${stringify(val)} to have${pass ? ' not ' : ' '}${assertedKeys} keys`,
+    pass,
+  };
+}
 
 // jest extended assertions
 const extendedAssertions = {
@@ -45,6 +59,7 @@ const extendedAssertions = {
   toBeObject: toBe(x => typeof x === 'object', () => 'an object'),
   toBeString: toBe(x => typeof x === 'string', () => 'a string'),
   toBeOneOf: toBe((val, arg = []) => arg.includes(val), arg => `one of ${arg}`),
+  toHaveKeys,
 };
 
 const aliases = {

@@ -24,10 +24,9 @@ describe('controllers/client/onFmdGetData', () => {
     onFmdGetData(testHandler, myQueryIdProto, mySuccessProto, myFileInfoProto, myCollectionProto);
     // check data
     const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
+    expect(message).be.an('array').toHaveLength(2);
+    expect(message[0]).toBe(myQueryId);
+    expect(typeof message[1]).toBe('object')
       .that.have.properties({
         type: myFileInfo.type,
         oId: myFileInfo.serializedOid,
@@ -56,10 +55,9 @@ describe('controllers/client/onFmdGetData', () => {
     );
     // check data
     const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
+    expect(message).be.an('array').toHaveLength(2);
+    expect(message[0]).toBe(myQueryId);
+    expect(typeof message[1]).toBe('object')
       .that.have.properties({
         type: myFileInfo.type,
         oId: myFileInfo.serializedOid,
@@ -88,10 +86,9 @@ describe('controllers/client/onFmdGetData', () => {
     );
     // check data
     const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
+    expect(message).be.an('array').toHaveLength(2);
+    expect(message[0]).toBe(myQueryId);
+    expect(typeof message[1]).toBe('object')
       .that.have.properties({
         type: myFileInfo.type,
         oId: myFileInfo.serializedOid,
@@ -120,10 +117,9 @@ describe('controllers/client/onFmdGetData', () => {
     );
     // check data
     const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
+    expect(message).be.an('array').toHaveLength(2);
+    expect(message[0]).toBe(myQueryId);
+    expect(typeof message[1]).toBe('object')
       .that.have.properties({
         type: myFileInfo.type,
         oId: myFileInfo.serializedOid,
@@ -140,10 +136,9 @@ describe('controllers/client/onFmdGetData', () => {
     onFmdGetData(testHandler, myQueryIdProto, myErrorProto, myReasonProto);
     // check data
     const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
+    expect(message).be.an('array').toHaveLength(2);
+    expect(message[0]).toBe(myQueryId);
+    expect(typeof message[1]).toBe('object')
       .that.have.properties({
         err: myReason,
       });

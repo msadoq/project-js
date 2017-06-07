@@ -37,8 +37,8 @@ describe('rtdManager/reportings', () => {
       callback(null, 'StubTriggers');
     });
     connect({ socket, mockRedis }, (err, catalogApi) => {
-      should.not.exist(err);
-      should.exist(catalogApi);
+      expect(err).toBeFalsy();
+      expect(catalogApi).toBeDefined();
       rtd = catalogApi;
       loadReportings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
@@ -48,8 +48,8 @@ describe('rtdManager/reportings', () => {
   });
   beforeEach((done) => {
     rtd.getCatalogByName('Reporting', SDB_NAMESPACE, 'TEST_ITEM1', sessionId, domainId, (getErr, item) => {
-      should.not.exist(getErr);
-      should.exist(item);
+      expect(getErr).toBeFalsy();
+      expect(item).toBeDefined();
       reporting = item;
       rtdStub = sinon.stub(rtd, 'getCatalogByName').callsFake((catalog, namespace, name, session, domain, callback) => {
         callback(null, 'StubMonitoring');
@@ -64,48 +64,48 @@ describe('rtdManager/reportings', () => {
   });
   it('getShortDescription', (done) => {
     getShortDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      desc.should.be.a('string');
+      expect(typeof desc).toBe('string');
       done();
     });
   });
   it('getLongDescription', (done) => {
     getLongDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      desc.should.be.a('string');
+      expect(typeof desc).toBe('string');
       done();
     });
   });
   it('getAliases', (done) => {
     getAliases({ rtd, sessionId, domainId }, reporting, (err, aliases) => {
-      aliases.should.be.an('array');
-      aliases[0].should.be.an('object');
-      aliases[0].should.have.a.property('Alias');
-      aliases[0].should.have.a.property('ContextDomain');
+      expect(typeof aliases).toBe('array');
+      expect(typeof aliases[0]).toBe('object');
+      expect(aliases[0]).toHaveProperty('Alias');
+      expect(aliases[0]).toHaveProperty('ContextDomain');
       done();
     });
   });
   it('getMonitoringLaws', (done) => {
     getMonitoringLaws({ rtd, sessionId, domainId }, reporting, (err, laws) => {
       const keys = Object.keys(laws);
-      keys.should.have.lengthOf(1);
-      keys[0].should.be.oneOf(['OnGround', 'OnBoard']);
-      laws[keys[0]].should.be.an('array').that.has.lengthOf(2);
-      laws[keys[0]][0].should.have.a.properties({ Triggers: 'StubTriggers' });
+      expect(keys).toHaveLength(1);
+      expect(keys[0]).be.oneOf(['OnGround', 'OnBoard']);
+      expect(laws[keys[0]]).be.an('array').toHaveLength(2);
+      expect(laws[keys[0]][0]).have.a.properties({ Triggers: 'StubTriggers' });
       done();
     });
   });
   it('getSignificativityConditions', (done) => {
     getSignificativityConditions({ rtd, sessionId, domainId }, reporting, (err, conds) => {
-      conds.should.be.an('array');
-      conds[0].should.be.an('object');
-      conds[0].should.have.a.property('DomainApplicability');
+      expect(typeof conds).toBe('array');
+      expect(typeof conds[0]).toBe('object');
+      expect(conds[0]).toHaveProperty('DomainApplicability');
       done();
     });
   });
   it('getCalibrationFunctions', (done) => {
     getCalibrationFunctions({ rtd, sessionId, domainId }, reporting, (err, funcs) => {
-      funcs.should.be.an('object');
-      funcs.should.have.a.property('DefaultInterpretationFunction').that.is.an('object');
-      funcs.should.have.a.property('ConditionalInterpretationFunctions').that.is.an('array');
+      expect(typeof funcs).toBe('object');
+      expect(typeof funcs).toBe('object');
+      expect(typeof funcs).toBe('array');
       done();
     });
   });
@@ -123,13 +123,13 @@ describe('rtdManager/reportings', () => {
   });*/
   it('getComputedParameterFormula', (done) => {
     getComputedParameterFormula({ rtd, sessionId, domainId }, reporting, (err, formula) => {
-      formula.should.be.a('string');
+      expect(typeof formula).toBe('string');
       done();
     });
   });
   it('getComputedParameterTriggers', (done) => {
     getComputedParameterTriggers({ rtd, sessionId, domainId }, reporting, (err, triggers) => {
-      triggers.should.be.an('array');
+      expect(typeof triggers).toBe('array');
       done();
     });
   });

@@ -42,42 +42,42 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
   };
   describe('getAxes', () => {
     it('returns undefined when page is unknown', () => {
-      should.not.exist(getAxes(state, { viewId: 'unknownView' }));
+      expect(getAxes(state, { viewId: 'unknownView' })).toBeFalsy();
     });
     it('returns view axes', () => {
-      getAxes(state, { viewId: 'v1' }).should.be.true;
+      expect(getAxes(state, { viewId: 'v1' })).toBe(true);
     });
   });
   describe('getShowYAxes', () => {
     it('returns undefined when page is unknown', () => {
-      should.not.exist(getShowYAxes(state, { viewId: 'unknownView' }));
+      expect(getShowYAxes(state, { viewId: 'unknownView' })).toBeFalsy();
     });
     it('returns view axes', () => {
-      getShowYAxes(state, { viewId: 'v1' }).should.be.true;
+      expect(getShowYAxes(state, { viewId: 'v1' })).toBe(true);
     });
   });
   describe('getGrids', () => {
     it('returns undefined when page is unknown', () => {
-      should.not.exist(getGrids(state, { viewId: 'unknownView' }));
+      expect(getGrids(state, { viewId: 'unknownView' })).toBeFalsy();
     });
     it('returns view axes', () => {
-      getGrids(state, { viewId: 'v1' }).should.be.true;
+      expect(getGrids(state, { viewId: 'v1' })).toBe(true);
     });
   });
   describe('getMarkers', () => {
     it('returns undefined when page is unknown', () => {
-      should.not.exist(getMarkers(state, { viewId: 'unknownView' }));
+      expect(getMarkers(state, { viewId: 'unknownView' })).toBeFalsy();
     });
     it('returns view axes', () => {
-      getMarkers(state, { viewId: 'v1' }).should.be.true;
+      expect(getMarkers(state, { viewId: 'v1' })).toBe(true);
     });
   });
   describe('getViewEntryPoints', () => {
     it('returns view entry points', () => {
-      getEntryPoints(state, { viewId: 'v1' }).should.be.eql([1, 2, 3]);
+      expect(getEntryPoints(state, { viewId: 'v1' })).toEqual([1, 2, 3]);
     });
     it('returns empty array when view is unknown', () => {
-      getEntryPoints(state, { viewId: 'unknownView' }).should.be.eql([]);
+      expect(getEntryPoints(state, { viewId: 'unknownView' })).toEqual([]);
     });
   });
 });

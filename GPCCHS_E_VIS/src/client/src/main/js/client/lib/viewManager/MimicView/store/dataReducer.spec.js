@@ -25,7 +25,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
       },
     });
     const action = { type: types.DATA_REMOVE_ALL_VIEWDATA };
-    mimicViewData(state, action).should.eql({});
+    expect(mimicViewData(state, action)).toEqual({});
   });
   it('HSC_CLOSE_WORKSPACE', () => {
     const state = freezeMe({
@@ -34,58 +34,57 @@ describe('viewManager/TextView/store/dataReducer', () => {
         values: { myEntryPoint: 150 },
       },
     });
-    mimicViewData(state, { type: types.HSC_CLOSE_WORKSPACE }).should.eql({});
+    expect(mimicViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
   it('WS_VIEW_RELOAD', () => {
     const action = { type: types.WS_VIEW_RELOAD,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    mimicViewData(freezeMe({}), action).should.eql({});
+    expect(mimicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
-    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
+    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   it('WS_VIEW_OPEN', () => {
     const action = { type: types.WS_VIEW_OPEN,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    mimicViewData(freezeMe({}), action).should.eql({});
+    expect(mimicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
-    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
+    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   it('WS_VIEW_ADD_BLANK', () => {
     const action = { type: types.WS_VIEW_ADD_BLANK,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    mimicViewData(freezeMe({}), action).should.eql({});
+    expect(mimicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
-    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
+    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   it('WS_PAGE_OPEN', () => {
     const action = { type: types.WS_PAGE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'MimicView', uuid: 'myMimic' }] } };
-    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
+    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   it('WS_WORKSPACE_OPEN', () => {
     const action = { type: types.WS_WORKSPACE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'MimicView', uuid: 'myMimic' }] } };
-    mimicViewData(freezeMe({}), action).should.eql({ myMimic: { index: {}, values: {} } });
+    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   it('WS_VIEW_CLOSE', () => {
     const action = { type: types.WS_VIEW_CLOSE, payload: { viewId: 'myPlot' } };
-    mimicViewData(freezeMe({}), action).should.eql({});
+    expect(mimicViewData(freezeMe({}), action)).toEqual({});
     const frozen = freezeMe({ myMimic: { index: {}, values: {} } });
-    mimicViewData(freezeMe(frozen), action).should.equal(frozen);
+    expect(mimicViewData(freezeMe(frozen), action)).toBe(frozen);
     action.payload.viewId = 'myMimic';
-    mimicViewData(frozen, action).should.eql({});
+    expect(mimicViewData(frozen, action)).toEqual({});
   });
   it('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myMimic'] } };
-    mimicViewData(freezeMe({ myMimic: {}, myOtherMimic: {} }), action)
-    .should.eql({ myOtherMimic: {} });
+    expect(mimicViewData(freezeMe({ myMimic: {}, myOtherMimic: {} }), action)).toEqual({ myOtherMimic: {} });
   });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myText' } };
     const frozen = freezeMe({ myText: { index: {}, values: {} } });
-    mimicViewData(freezeMe(frozen), action).should.equal(frozen);
+    expect(mimicViewData(freezeMe(frozen), action)).toBe(frozen);
   });
   describe('DATA_UPDATE_VIEWDATA', () => {
     let newViewMap;
@@ -192,7 +191,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           newExpectedIntervals,
           dataToInject,
         } };
-      mimicViewData(freezeMe({ text: { index: {}, values: {} } }), action).should.eql({
+      expect(mimicViewData(freezeMe({ text: { index: {}, values: {} } }), action)).toEqual({
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
@@ -216,7 +215,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           newExpectedIntervals,
           dataToInject,
         } };
-      mimicViewData(state, action).should.eql({
+      expect(mimicViewData(state, action)).toEqual({
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {

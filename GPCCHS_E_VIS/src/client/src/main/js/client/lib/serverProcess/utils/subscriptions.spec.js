@@ -41,15 +41,15 @@ describe('utils/subscriptions', () => {
       dataStub.getAddActionProtobuf(),
     ];
 
-    should.exist(registeredCallbacks.get(subId));
-    should.exist(registeredCallbacks.get(subId2));
+    expect(registeredCallbacks.get(subId)).toBeDefined();
+    expect(registeredCallbacks.get(subId2)).toBeDefined();
 
-    message.should.be.an('object')
+    expect(typeof message).toBe('object')
       .that.has.properties({
         subId,
         args,
       });
-    message2.should.be.an('object')
+    expect(typeof message2).toBe('object')
       .that.has.properties({
         subId: subId2,
         args: args2,
@@ -78,12 +78,12 @@ describe('utils/subscriptions', () => {
       dataStub.getDeleteActionProtobuf(),
     ];
 
-    message.should.be.an('object')
+    expect(typeof message).toBe('object')
       .that.has.properties({
         subId,
         args,
       });
-    message2.should.be.an('object')
+    expect(typeof message2).toBe('object')
       .that.has.properties({
         subId: subId2,
         args: args2,
@@ -114,9 +114,8 @@ describe('utils/subscriptions', () => {
       dataStub.getDeleteActionProtobuf(),
     ];
 
-    messages.should.be.an('array')
-      .that.has.lengthOf(2);
-    messages[0].should.deep.equal(args);
-    messages[1].should.deep.equal(args2);
+    expect(messages).be.an('array').toHaveLength(2);
+    expect(messages[0]).toEqual(args);
+    expect(messages[1]).toEqual(args2);
   });
 });

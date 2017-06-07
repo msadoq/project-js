@@ -7,7 +7,7 @@ require('../common/test');
 describe('mainProcess/play', () => {
   describe('nextCurrent', () => {
     it('computes next current timestamp', () => {
-      nextCurrent(0, 10, 10).should.be.eql(100);
+      expect(nextCurrent(0, 10, 10)).toEqual(100);
     });
   });
   describe('computeCursors', () => {
@@ -36,10 +36,10 @@ describe('mainProcess/play', () => {
       const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
-      res.visuWindow.should.have.property('lower', vw.lower);
-      res.visuWindow.should.have.property('upper', vw.upper);
-      res.slideWindow.should.have.property('lower', (vw.lower + newCurrent) / 2);
-      res.slideWindow.should.have.property('upper', (vw.current + vw.upper + offset) / 2);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower);
+      expect(res.visuWindow).toHaveProperty('upper', vw.upper);
+      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + newCurrent) / 2);
+      expect(res.slideWindow).toHaveProperty('upper', (vw.current + vw.upper + offset) / 2);
     });
 
     it('(Normal mode) -     should move 377ms and move slideWindow', () => {
@@ -48,10 +48,10 @@ describe('mainProcess/play', () => {
       const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
-      res.visuWindow.should.have.property('lower', vw.lower + offset);
-      res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', (vw.lower + offset + newCurrent) / 2);
-      res.slideWindow.should.have.property('upper', (newCurrent + vw.upper + offset) / 2);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower + offset);
+      expect(res.visuWindow).toHaveProperty('upper', newCurrent);
+      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + offset + newCurrent) / 2);
+      expect(res.slideWindow).toHaveProperty('upper', (newCurrent + vw.upper + offset) / 2);
     });
 
     it('(Normal mode) -     should move 106,100,000ms and move slideWindow', () => {
@@ -60,10 +60,10 @@ describe('mainProcess/play', () => {
       const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
-      res.visuWindow.should.have.property('lower', vw.lower + offset);
-      res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', (vw.lower + offset + newCurrent) / 2);
-      res.slideWindow.should.have.property('upper', (newCurrent + vw.upper + offset) / 2);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower + offset);
+      expect(res.visuWindow).toHaveProperty('upper', newCurrent);
+      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + offset + newCurrent) / 2);
+      expect(res.slideWindow).toHaveProperty('upper', (newCurrent + vw.upper + offset) / 2);
     });
 
     it('(Extensible mode) - should move 377ms and then 380ms', () => {
@@ -73,10 +73,10 @@ describe('mainProcess/play', () => {
       let res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Extensible', currentUpperMargin);
 
-      res.visuWindow.should.have.property('lower', vw.lower);
-      res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', (vw.lower + newCurrent) / 2);
-      res.slideWindow.should.have.property('upper', sw.upper);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower);
+      expect(res.visuWindow).toHaveProperty('upper', newCurrent);
+      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + newCurrent) / 2);
+      expect(res.slideWindow).toHaveProperty('upper', sw.upper);
 
       newCurrent += secondOffset;
       res = computeCursors(
@@ -89,10 +89,10 @@ describe('mainProcess/play', () => {
         currentUpperMargin
       );
 
-      res.visuWindow.should.have.property('lower', vw.lower + secondOffset);
-      res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', (vw.lower + secondOffset + newCurrent) / 2);
-      res.slideWindow.should.have.property('upper', newCurrent);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower + secondOffset);
+      expect(res.visuWindow).toHaveProperty('upper', newCurrent);
+      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + secondOffset + newCurrent) / 2);
+      expect(res.slideWindow).toHaveProperty('upper', newCurrent);
     });
     it('(Fixed mode) -      should move 377ms and then 380ms', () => {
       const offset = 377;
@@ -105,10 +105,10 @@ describe('mainProcess/play', () => {
       let res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Fixed', currentUpperMargin);
 
-      res.visuWindow.should.have.property('lower', vw.lower);
-      res.visuWindow.should.have.property('upper', vw.upper);
-      res.slideWindow.should.have.property('lower', sw.lower);
-      res.slideWindow.should.have.property('upper', sw.upper);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower);
+      expect(res.visuWindow).toHaveProperty('upper', vw.upper);
+      expect(res.slideWindow).toHaveProperty('lower', sw.lower);
+      expect(res.slideWindow).toHaveProperty('upper', sw.upper);
 
       newCurrent += secondOffset;
       res = computeCursors(
@@ -121,10 +121,10 @@ describe('mainProcess/play', () => {
         currentUpperMargin
       );
 
-      res.visuWindow.should.have.property('lower', vw.lower + ((offset + secondOffset) - 500));
-      res.visuWindow.should.have.property('upper', vw.upper + ((offset + secondOffset) - 500));
-      res.slideWindow.should.have.property('lower', sw.lower + ((offset + secondOffset) - 500));
-      res.slideWindow.should.have.property('upper', sw.upper + ((offset + secondOffset) - 500));
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower + ((offset + secondOffset) - 500));
+      expect(res.visuWindow).toHaveProperty('upper', vw.upper + ((offset + secondOffset) - 500));
+      expect(res.slideWindow).toHaveProperty('lower', sw.lower + ((offset + secondOffset) - 500));
+      expect(res.slideWindow).toHaveProperty('upper', sw.upper + ((offset + secondOffset) - 500));
     });
     it('(Fixed mode) - should only move visuWindow', () => {
       const offset = 377;
@@ -136,7 +136,7 @@ describe('mainProcess/play', () => {
       const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Fixed', currentUpperMargin);
 
-      res.should.be.eql({
+      expect(res).toEqual({
         visuWindow: {
           current: 1420106500377,
           lower: 1420106400000,
@@ -155,7 +155,7 @@ describe('mainProcess/play', () => {
       const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'UnknownMode', currentUpperMargin);
 
-      res.should.be.eql({
+      expect(res).toEqual({
         visuWindow: {
           current: 1420106500377,
           lower: 1420106400000,

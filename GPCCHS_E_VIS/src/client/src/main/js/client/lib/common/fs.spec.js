@@ -53,20 +53,20 @@ describe('common/fs', () => {
   });
 
   it('resolve', () => {
-    fs.resolve('/foo/bar', '/baz/file.json').should.equal('/foo/bar/baz/file.json');
-    fs.resolve('/foo/bar', 'file.json').should.equal('/foo/bar/file.json');
+    expect(fs.resolve('/foo/bar', '/baz/file.json')).toBe('/foo/bar/baz/file.json');
+    expect(fs.resolve('/foo/bar', 'file.json')).toBe('/foo/bar/file.json');
   });
 
   describe('isExists', () => {
     it('file exists', (done) => {
       fs.isExists(file, (exists) => {
-        exists.should.equal(true);
+        expect(exists).toBe(true);
         done();
       });
     });
     it('file not exists', (done) => {
       fs.isExists(notExists, (exists) => {
-        exists.should.equal(false);
+        expect(exists).toBe(false);
         done();
       });
     });
@@ -75,13 +75,13 @@ describe('common/fs', () => {
   describe('isReadable', () => {
     it('readable', (done) => {
       fs.isReadable(file, (readable) => {
-        readable.should.equal(true);
+        expect(readable).toBe(true);
         done();
       });
     });
     it('not readable', (done) => {
       fs.isReadable(unreadable, (readable) => {
-        readable.should.equal(false);
+        expect(readable).toBe(false);
         done();
       });
     });
@@ -90,15 +90,15 @@ describe('common/fs', () => {
   describe('read', () => {
     it('works', (done) => {
       fs.read(file, (err, content) => {
-        should.not.exist(err);
-        content.should.equal('my content');
+        expect(err).toBeFalsy();
+        expect(content).toBe('my content');
         done();
       });
     });
     it('error', (done) => {
       fs.read(unreadable, (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
+        expect(err).toBeInstanceOf(Error);
+        expect(content).toBeFalsy();
         done();
       });
     });
@@ -107,15 +107,15 @@ describe('common/fs', () => {
   describe('parse', () => {
     it('valid', (done) => {
       fs.parse('{"foo":"bar"}', (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
+        expect(err).toBeFalsy();
+        expect(content).toEqual({ foo: 'bar' });
         done();
       });
     });
     it('invalid', (done) => {
       fs.parse('"{"foo":"bar""', (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
+        expect(err).toBeInstanceOf(Error);
+        expect(content).toBeFalsy();
         done();
       });
     });
@@ -124,17 +124,17 @@ describe('common/fs', () => {
   describe('createFolder', () => {
     it('folder already exists', (done) => {
       fs.createFolder('/', (err, res) => {
-        should.not.exist(err);
-        res.should.be.true;
+        expect(err).toBeFalsy();
+        expect(res).toBe(true);
         done();
       });
     });
     it('folder does not exists', (done) => {
       const path = join(tmpFolder, 'a/b/c/d');
       return fs.createFolder(path, (err, res) => {
-        res.should.be.true;
+        expect(res).toBe(true);
         fs.isExists(path, (exist) => {
-          exist.should.be.true;
+          expect(exist).toBe(true);
           done();
         });
       });
@@ -142,10 +142,10 @@ describe('common/fs', () => {
     it('fails when cannot mkdirp', (done) => {
       const path = join(unavailableFolder, 'a/b/c/d');
       return fs.createFolder(path, (err, res) => {
-        err.should.be.an('error');
-        should.not.exist(res);
+        expect(err).toBeInstanceOf(Error);
+        expect(res).toBeFalsy();
         fs.isExists(path, (exist) => {
-          exist.should.be.false;
+          expect(exist).toBe(false);
           done();
         });
       });

@@ -83,7 +83,7 @@ describe('store:actions:views', () => {
     describe('updatePath', () => {
       it('should dispatch', () => {
         actions.updatePath('textview', '/folder1/newPath')(dispatch, getState);
-        dispatch.should.have.been.calledOnce;
+        expect(dispatch).have.been.calledOnce;
         dispatch.getCall(0).calledWith({
           type: types.WS_VIEW_UPDATEPATH,
           payload: { viewId: 'textview', newPath: '/folder1/newPath' },
@@ -91,7 +91,7 @@ describe('store:actions:views', () => {
       });
       it('should dispatch when newPath is falsy', () => {
         actions.updatePath('textview', '')(dispatch, getState);
-        dispatch.should.have.been.calledOnce;
+        expect(dispatch).have.been.calledOnce;
         dispatch.getCall(0).calledWith({
           type: types.WS_VIEW_UPDATEPATH,
           payload: { viewId: 'textview', newPath: '' },
@@ -99,18 +99,18 @@ describe('store:actions:views', () => {
       });
       it('should not dispatch when view is unknow', () => {
         actions.updatePath('unknow_view', '/folder1/newPath')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        expect(dispatch).have.not.been.calledOnce;
       });
       it('should not dispatch when newPath and oldPath are the same', () => {
         actions.updatePath('textview', '/../folder1/oldPath')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        expect(dispatch).have.not.been.calledOnce;
       });
     });
 
     describe('updateAbsolutePath', () => {
       it('should dispatch', () => {
         actions.updateAbsolutePath('textview', '/folder1/newPath')(dispatch, getState);
-        dispatch.should.have.been.calledOnce;
+        expect(dispatch).have.been.calledOnce;
         dispatch.getCall(0).calledWith({
           type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
           payload: { viewId: 'textview', newPath: '/folder1/newPath' },
@@ -118,7 +118,7 @@ describe('store:actions:views', () => {
       });
       it('should not dispatch when newPath is falsy', () => {
         actions.updateAbsolutePath('textview', '')(dispatch, getState);
-        dispatch.should.have.been.calledOnce;
+        expect(dispatch).have.been.calledOnce;
         dispatch.getCall(0).calledWith({
           type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
           payload: { viewId: 'textview', newPath: '' },
@@ -126,11 +126,11 @@ describe('store:actions:views', () => {
       });
       it('should not dispatch when view is unknow', () => {
         actions.updateAbsolutePath('unknow_view', '/folder1/newPath')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        expect(dispatch).have.not.been.calledOnce;
       });
       it('should not dispatch when newPath and oldPath are the same', () => {
         actions.updateAbsolutePath('textview', '/../folder1/oldPath')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        expect(dispatch).have.not.been.calledOnce;
       });
     });
   });
@@ -138,11 +138,11 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with empty entryPoint', () => {
       actions.addEntryPoint('textview', emptyEntryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
-      dispatch.getCall(0).args[0].should.have.properties({
+      expect(isV4(dispatch.getCall(0).args[0].payload.entryPoint.id)).toBe(true);
+      expect(dispatch.getCall(0).args[0]).have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
@@ -155,11 +155,11 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with entryPoint', () => {
       actions.addEntryPoint('textview', entryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
-      dispatch.getCall(0).args[0].should.have.properties({
+      expect(isV4(dispatch.getCall(0).args[0].payload.entryPoint.id)).toBe(true);
+      expect(dispatch.getCall(0).args[0]).have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
@@ -173,11 +173,11 @@ describe('store:actions:views', () => {
     it('should works with a PlotView, with empty entryPoint', () => {
       actions.addEntryPoint('plotview', emptyEntryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
-      dispatch.getCall(0).args[0].should.have.properties({
+      expect(isV4(dispatch.getCall(0).args[0].payload.entryPoint.id)).toBe(true);
+      expect(dispatch.getCall(0).args[0]).have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
@@ -191,11 +191,11 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with entryPoint', () => {
       actions.addEntryPoint('plotview', entryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      isV4(dispatch.getCall(0).args[0].payload.entryPoint.id).should.be.true;
-      dispatch.getCall(0).args[0].should.have.properties({
+      expect(isV4(dispatch.getCall(0).args[0].payload.entryPoint.id)).toBe(true);
+      expect(dispatch.getCall(0).args[0]).have.properties({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
@@ -210,8 +210,8 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with empty entryPoint', () => {
       actions.dropEntryPoint('textview', emptyEntryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      expect(dispatch).have.been.callCount(2);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
 
       // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
       // dispatch.getCall(1).args[0].should.be.an('object');
@@ -227,8 +227,8 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with entryPoint', () => {
       actions.dropEntryPoint('textview', entryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      expect(dispatch).have.been.callCount(2);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
 
       // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
       // dispatch.getCall(1).args[0].should.be.an('object');
@@ -244,8 +244,8 @@ describe('store:actions:views', () => {
     it('should works with a PlotView, with empty entryPoint', () => {
       actions.dropEntryPoint('plotview', emptyEntryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      expect(dispatch).have.been.callCount(2);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
 
       // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
       // dispatch.getCall(1).args[0].should.be.an('object');
@@ -261,8 +261,8 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with entryPoint', () => {
       actions.dropEntryPoint('plotview', entryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      expect(dispatch).have.been.callCount(2);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
 
       // TODO: dispatched action on drag should be listened by pages/page/panels reducer and
       // dispatch.getCall(1).args[0].should.be.an('object');

@@ -26,7 +26,7 @@ const testHandler = (...args) => {
 const e2eUrl = () => `${process.env.E2E_URL}:${process.env.SERVER_PORT}?identity=main`;
 
 module.exports = {
-  should: chai.should(),
+  should: expect(chai)(),
   database,
   testHandler,
   getTestHandlerArgs: () => testHandlerArgs,

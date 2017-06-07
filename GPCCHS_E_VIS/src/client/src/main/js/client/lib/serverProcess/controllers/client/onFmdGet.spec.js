@@ -24,14 +24,13 @@ describe('controllers/client/onFmdGet', () => {
     // launch test
     onFmdGet(zmqEmulator, myQueryId, { oid: myGetDocumentAction.serializedOid });
     // check data
-    calls.should.be.an('array')
-      .that.has.lengthOf(3);
-    calls[0].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_FMD_GET_QUERY);
-    calls[1].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
-    calls[2].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.FMDGet', calls[2]).should.have.properties({
+    expect(calls).be.an('array').toHaveLength(3);
+    expect(calls[0].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_FMD_GET_QUERY);
+    expect(calls[1].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.String', calls[1]).string).toBe(myQueryId);
+    expect(calls[2].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.FMDGet', calls[2])).have.properties({
       serializedOid: myGetDocumentAction.serializedOid,
     });
   });

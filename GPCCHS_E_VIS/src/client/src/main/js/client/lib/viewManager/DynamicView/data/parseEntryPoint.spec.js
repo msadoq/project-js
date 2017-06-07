@@ -41,15 +41,20 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
     const ep = parseEntryPoint(domains, sessions, timelines,
       { name: 'ATT_BC_STR1VOLTAGE', connectedData: { formula: '' } },
       'Session 1', 'TB1', 'TextView');
-    ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } });
+    expect(ep).toEqual(
+      { ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } }
+    );
   });
   it('no timebarUuid', () => {
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'PlotView');
-    ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } });
+    expect(ep).toEqual(
+      { ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } }
+    );
   });
   it('DecommutedPacket valid', () => {
-    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView')
-    .should.eql({
+    expect(
+      parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView')
+    ).toEqual({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
         dataId: {
@@ -72,9 +77,10 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
   it('wildcard => view data', () => {
     entryPoint.connectedData.domain = '*';
     entryPoint.connectedData.timeline = '*';
-    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
-      'cnes.isis', undefined, undefined, 'session2')
-    .should.eql({
+    expect(
+      parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
+        'cnes.isis', undefined, undefined, 'session2')
+    ).toEqual({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
         dataId: {
@@ -97,9 +103,10 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
   it('wildcard => page data', () => {
     entryPoint.connectedData.domain = '*';
     entryPoint.connectedData.timeline = '*';
-    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
-      undefined, 'cnes.isis', undefined, undefined, 'session2')
-    .should.eql({
+    expect(
+      parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
+        undefined, 'cnes.isis', undefined, undefined, 'session2')
+    ).toEqual({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
         dataId: {
@@ -122,9 +129,10 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
   it('wildcard => workspace data', () => {
     entryPoint.connectedData.domain = '*';
     entryPoint.connectedData.timeline = '*';
-    parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
-      undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
-    .should.eql({
+    expect(
+      parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
+        undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
+    ).toEqual({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
         dataId: {

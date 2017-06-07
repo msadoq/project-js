@@ -23,31 +23,31 @@ describe('store:actions:health', () => {
   describe('updateHealth', () => {
     it('does nothing when no status has changed', () => {
       actions.updateHealth(state.health)(dispatch, getState);
-      dispatch.should.not.be.called;
+      expect(dispatch).not.be.called;
     });
 
     it('does update all status', (done) => {
       const status = { dcStatus: true, hssStatus: true, lastPubSubTimestamp: 42 };
       actions.updateHealth(status, 10)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(3);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(typeof dispatch.getCall(1).args[0]).toBe('object');
+      expect(typeof dispatch.getCall(2).args[0]).toBe('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSS_UPDATE_DC_STATUS,
         payload: {
           status: true,
         },
       });
-      dispatch.getCall(1).should.have.been.calledWith({
+      expect(dispatch.getCall(1)).have.been.calledWith({
         type: types.HSS_UPDATE_HEALTH_STATUS,
         payload: {
           status: true,
         },
       });
-      dispatch.getCall(2).should.have.been.calledWith({
+      expect(dispatch.getCall(2)).have.been.calledWith({
         type: types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP,
         payload: {
           timestamp: 42,
@@ -60,9 +60,9 @@ describe('store:actions:health', () => {
       const status = { dcStatus: true, hssStatus: false, lastPubSubTimestamp: 0 };
       actions.updateHealth(status, 10)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSS_UPDATE_DC_STATUS,
         payload: {
           status: true,
@@ -75,10 +75,10 @@ describe('store:actions:health', () => {
       const status = { dcStatus: false, hssStatus: true, lastPubSubTimestamp: 0 };
       actions.updateHealth(status, 10)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSS_UPDATE_HEALTH_STATUS,
         payload: {
           status: true,
@@ -92,10 +92,10 @@ describe('store:actions:health', () => {
       actions.updateHealth(status, 10)(dispatch, getState);
       actions.updateHealth(status, 10)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP,
         payload: {
           timestamp: 42,

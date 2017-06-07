@@ -10,15 +10,15 @@ describe('models/dataQueue', () => {
   describe('add/get', () => {
     it('should ignore empty', () => {
       add('myRemoteId', undefined, undefined);
-      get().should.eql({});
+      expect(get()).toEqual({});
     });
     it('should add to queue', () => {
       add('myRemoteId', 'myKey', 'value');
-      get().should.eql({
+      expect(get()).toEqual({
         myRemoteId: { myKey: 'value' },
       });
       add('myRemoteId', 'myOtherKey', 'other');
-      get().should.eql({
+      expect(get()).toEqual({
         myRemoteId: {
           myKey: 'value',
           myOtherKey: 'other',
@@ -28,7 +28,7 @@ describe('models/dataQueue', () => {
     it('should respect other remoteId', () => {
       add('myExistingRemoteId', 'myKey', 'value');
       add('myRemoteId', 'myOtherKey', 'other');
-      get().should.eql({
+      expect(get()).toEqual({
         myExistingRemoteId: { myKey: 'value' },
         myRemoteId: { myOtherKey: 'other' },
       });
@@ -37,13 +37,13 @@ describe('models/dataQueue', () => {
   describe('reset', () => {
     it('should return current queue and reset it', () => {
       add('myRemoteId', 'myKey', 'value');
-      get().should.eql({
+      expect(get()).toEqual({
         myRemoteId: { myKey: 'value' },
       });
-      reset().should.eql({
+      expect(reset()).toEqual({
         myRemoteId: { myKey: 'value' },
       });
-      get().should.eql({});
+      expect(get()).toEqual({});
     });
   });
 });

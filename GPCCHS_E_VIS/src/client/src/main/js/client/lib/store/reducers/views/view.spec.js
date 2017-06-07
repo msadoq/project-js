@@ -19,11 +19,11 @@ describe('store:reducer:views', () => {
     };
     it('set isModified to true', () => {
       const s = reducer(state, actions.setModified('myView', true));
-      s.myView.isModified.should.equal(true);
+      expect(s.myView.isModified).toBe(true);
     });
     it('does nothing when view is unknown', () => {
       const s = reducer(state, actions.setModified('unknownView', true));
-      s.myView.isModified.should.equal(false);
+      expect(s.myView.isModified).toBe(false);
     });
   });
   describe('update', () => {
@@ -47,9 +47,9 @@ describe('store:reducer:views', () => {
           newPath: '/data/newPath',
         },
       });
-      s.view1.path.should.equal('/data/newPath');
-      s.view1.isModified.should.equal(true);
-      s.view1.configuration.title.should.equal('my plot');
+      expect(s.view1.path).toBe('/data/newPath');
+      expect(s.view1.isModified).toBe(true);
+      expect(s.view1.configuration.title).toBe('my plot');
     });
     it('absolute Path', () => {
       const s = reducer(state, {
@@ -59,9 +59,9 @@ describe('store:reducer:views', () => {
           newPath: '/data/newPath',
         },
       });
-      s.view1.absolutePath.should.equal('/data/newPath');
-      s.view1.isModified.should.equal(true);
-      s.view1.configuration.title.should.equal('my plot');
+      expect(s.view1.absolutePath).toBe('/data/newPath');
+      expect(s.view1.isModified).toBe(true);
+      expect(s.view1.configuration.title).toBe('my plot');
     });
     it('set oId', () => {
       const s = reducer(state, {
@@ -71,8 +71,8 @@ describe('store:reducer:views', () => {
           oid: 'yolo',
         },
       });
-      s.should.not.be.eql(state);
-      s.view1.oId.should.be.eql('yolo');
+      expect(s).not.toEqual(state);
+      expect(s.view1.oId).toEqual('yolo');
     });
   });
 
@@ -129,8 +129,8 @@ describe('store:reducer:views', () => {
     it('Link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.updateLink('plot1', 1, link));
-      state.plot1.links[1].should.deep.equal(link);
-      state.plot1.isModified.should.be.true;
+      expect(state.plot1.links[1]).toEqual(link);
+      expect(state.plot1.isModified).toBe(true);
     });
     it('ShowLinks', () => {
       const state = reducer(stateViews, actions.updateShowLinks('plot1', true));
@@ -139,54 +139,52 @@ describe('store:reducer:views', () => {
     it('Procedure', () => {
       const proc = { p: '3' };
       const state = reducer(stateViews, actions.updateProcedure('plot1', 0, proc));
-      state.plot1.procedures[0].should.deep.equal(proc);
-      state.plot1.isModified.should.be.true;
+      expect(state.plot1.procedures[0]).toEqual(proc);
+      expect(state.plot1.isModified).toBe(true);
     });
     it('defaultRatio', () => {
       const newRatio = { length: 60, width: 50 };
       const state = reducer(stateViews, actions.updateRatio('plot1', newRatio));
-      state.plot1.defaultRatio.should.deep.equal(newRatio);
-      state.plot1.isModified.should.be.true;
+      expect(state.plot1.defaultRatio).toEqual(newRatio);
+      expect(state.plot1.isModified).toBe(true);
     });
     it('title', () => {
       const state = reducer(stateViews, actions.updateTitle('plot1', 'new Title'));
-      state.plot1.title.should.deep.equal('new Title');
-      state.plot1.isModified.should.be.true;
+      expect(state.plot1.title).toEqual('new Title');
+      expect(state.plot1.isModified).toBe(true);
     });
     it('title style', () => {
       const style = { bold: true };
       const state = reducer(stateViews, actions.updateTitleStyle('plot1', style));
-      state.plot1.titleStyle.should.deep.equal(style);
-      state.plot1.isModified.should.be.true;
+      expect(state.plot1.titleStyle).toEqual(style);
+      expect(state.plot1.isModified).toBe(true);
     });
     it('bg color', () => {
       const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
-      state.plot1.backgroundColor.should.deep.equal('#FFFFAA');
-      state.plot1.isModified.should.be.true;
+      expect(state.plot1.backgroundColor).toEqual('#FFFFAA');
+      expect(state.plot1.isModified).toBe(true);
     });
   });
   describe('Add element in array', () => {
     it('link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.addLink('plot1', link));
-      state.plot1.links.should.deep.equal(
-        [{ l: '1' }, { l: '2' }, { l: '3' }]);
+      expect(state.plot1.links).toEqual([{ l: '1' }, { l: '2' }, { l: '3' }]);
     });
     it('procedure', () => {
       const proc = { p: '3' };
       const state = reducer(stateViews, actions.addProcedure('plot1', proc));
-      state.plot1.procedures.should.deep.equal(
-        [{ p: '1' }, { p: '2' }, { p: '3' }]);
+      expect(state.plot1.procedures).toEqual([{ p: '1' }, { p: '2' }, { p: '3' }]);
     });
   });
   describe('Remove element in array', () => {
     it('link', () => {
       const state = reducer(stateViews, actions.removeLink('plot1', 1));
-      state.plot1.links.should.deep.equal([{ l: '1' }]);
+      expect(state.plot1.links).toEqual([{ l: '1' }]);
     });
     it('procedure', () => {
       const state = reducer(stateViews, actions.removeProcedure('plot1', 0));
-      state.plot1.procedures.should.deep.equal([{ p: '2' }]);
+      expect(state.plot1.procedures).toEqual([{ p: '2' }]);
     });
   });
   it('reload view', () => {
@@ -199,22 +197,20 @@ describe('store:reducer:views', () => {
     const action = { type: types.WS_VIEW_RELOAD, payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);
 
-    state.plot1.should.deep.equal(_.set('isModified', false, myView));
+    expect(state.plot1).toEqual(_.set('isModified', false, myView));
   });
   it('close_workspace', () => {
     const newState = reducer({ myView: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
-    newState.should.be.an('object').that.is.empty;
+    expect(typeof newState).toHaveLength(0);
   });
   it('should update sessionName', () => {
     const newState = reducer({ v1: {} }, actions.updateSessionName('v1', 'mySession'));
-    newState.v1.should.eql({ sessionName: 'mySession', isModified: true });
-    reducer(newState, actions.updateSessionName('v1', null))
-      .should.eql({ v1: { isModified: true } });
+    expect(newState.v1).toEqual({ sessionName: 'mySession', isModified: true });
+    expect(reducer(newState, actions.updateSessionName('v1', null))).toEqual({ v1: { isModified: true } });
   });
   it('should update domainName', () => {
     const newState = reducer({ v1: {} }, actions.updateDomainName('v1', 'myDomain'));
-    newState.v1.should.eql({ domainName: 'myDomain', isModified: true });
-    reducer(newState, actions.updateDomainName('v1', null))
-      .should.eql({ v1: { isModified: true } });
+    expect(newState.v1).toEqual({ domainName: 'myDomain', isModified: true });
+    expect(reducer(newState, actions.updateDomainName('v1', null))).toEqual({ v1: { isModified: true } });
   });
 });

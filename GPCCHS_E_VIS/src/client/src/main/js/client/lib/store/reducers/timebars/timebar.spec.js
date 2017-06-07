@@ -30,9 +30,9 @@ describe('store:timebars:reducer', () => {
     };
     it('id', () => {
       const newState = reducer(tbState, actions.updateId('tb1', 'newId'));
-      newState.should.have.property('tb1');
-      newState.tb1.should.have.property('id');
-      newState.tb1.id.should.equal('newId');
+      expect(newState).toHaveProperty('tb1');
+      expect(newState.tb1).toHaveProperty('id');
+      expect(newState.tb1.id).toBe('newId');
     });
     it('slideWindow', () => {
       const action = {
@@ -45,11 +45,11 @@ describe('store:timebars:reducer', () => {
       const newState = reducer(tbState, action);
 
       // visuWindow
-      newState.tb1.visuWindow.should.be.eql(tbState.tb1.visuWindow);
+      expect(newState.tb1.visuWindow).toEqual(tbState.tb1.visuWindow);
 
       // slideWindow
-      newState.tb1.slideWindow.lower.should.be.eql(250);
-      newState.tb1.slideWindow.upper.should.be.eql(42);
+      expect(newState.tb1.slideWindow.lower).toEqual(250);
+      expect(newState.tb1.slideWindow.upper).toEqual(42);
     });
     it('visuWindow', () => {
       const action = {
@@ -63,12 +63,12 @@ describe('store:timebars:reducer', () => {
 
 
       // visuWindow
-      newState.tb1.visuWindow.lower.should.be.eql(1);
-      newState.tb1.visuWindow.upper.should.be.eql(2);
-      newState.tb1.visuWindow.current.should.be.eql(3);
+      expect(newState.tb1.visuWindow.lower).toEqual(1);
+      expect(newState.tb1.visuWindow.upper).toEqual(2);
+      expect(newState.tb1.visuWindow.current).toEqual(3);
 
       // slideWindow
-      newState.tb1.slideWindow.should.be.eql(tbState.tb1.slideWindow);
+      expect(newState.tb1.slideWindow).toEqual(tbState.tb1.slideWindow);
     });
     it('empty visuWindow/slideWindow', () => {
       const action = {
@@ -79,7 +79,7 @@ describe('store:timebars:reducer', () => {
           timebarUuid: 'tb1',
         },
       };
-      reducer(tbState, action).should.deep.eql(tbState);
+      expect(reducer(tbState, action)).toEqual(tbState);
     });
     it('should be immutable with same data', () => {
       const action = {
@@ -90,7 +90,7 @@ describe('store:timebars:reducer', () => {
         },
       };
       const newState = reducer(tbState, action);
-      reducer(newState, action).should.equal(newState);
+      expect(reducer(newState, action)).toBe(newState);
     });
     it('speed', () => {
       const action = {
@@ -101,33 +101,33 @@ describe('store:timebars:reducer', () => {
         },
       };
       const newState = reducer(tbState, action);
-      newState.tb1.speed.should.be.eql(20);
+      expect(newState.tb1.speed).toEqual(20);
     });
     it('defaultWidth', () => {
       const newState = reducer(tbState, actions.updateDefaultWidth('tb1', 10005));
-      newState.should.have.property('tb1');
-      newState.tb1.should.have.property('visuWindow');
-      newState.tb1.visuWindow.should.have.property('defaultWidth');
-      newState.tb1.visuWindow.defaultWidth.should.equal(10005);
+      expect(newState).toHaveProperty('tb1');
+      expect(newState.tb1).toHaveProperty('visuWindow');
+      expect(newState.tb1.visuWindow).toHaveProperty('defaultWidth');
+      expect(newState.tb1.visuWindow.defaultWidth).toBe(10005);
     });
     it('masterId', () => {
       const newState = reducer(tbState, actions.updateMasterId('tb1', 'myTlId'));
-      newState.should.have.property('tb1');
-      newState.tb1.should.have.property('masterId');
-      newState.tb1.masterId.should.equal('myTlId');
+      expect(newState).toHaveProperty('tb1');
+      expect(newState.tb1).toHaveProperty('masterId');
+      expect(newState.tb1.masterId).toBe('myTlId');
     });
     it('realTime', () => {
       const newState = reducer(tbState, actions.setRealTime('tb1', true));
-      newState.should.have.property('tb1');
-      newState.tb1.should.have.property('realTime');
-      newState.tb1.realTime.should.equal(true);
+      expect(newState).toHaveProperty('tb1');
+      expect(newState.tb1).toHaveProperty('realTime');
+      expect(newState.tb1.realTime).toBe(true);
     });
     it('updates rulerStart and rulerResolution', () => {
       const removeRulerProperties = __.update('tb1', __.omit(['rulerStart', 'rulerResolution']));
       const newState = reducer(tbState, actions.updateViewport('tb1', 42, 42));
-      newState.tb1.rulerStart.should.be.eql(42);
-      newState.tb1.rulerResolution.should.be.eql(42);
-      removeRulerProperties(tbState).should.be.eql(removeRulerProperties(newState));
+      expect(newState.tb1.rulerStart).toEqual(42);
+      expect(newState.tb1.rulerResolution).toEqual(42);
+      expect(removeRulerProperties(tbState)).toEqual(removeRulerProperties(newState));
     });
   });
   describe('switch modes', () => {
@@ -149,7 +149,7 @@ describe('store:timebars:reducer', () => {
         payload: { timebarUuid: 'tb1', mode: 'yolo' },
       };
       const newState = reducer(state, action);
-      newState.tb1.mode.should.be.eql('yolo');
+      expect(newState.tb1.mode).toEqual('yolo');
     });
   });
 });

@@ -1,7 +1,7 @@
 import { connect } from 'rtd/catalogs';
 import { Monitoring as loadMonitorings } from 'rtd/stubs/loaders';
 import { Monitoring as generateMonitoring } from 'rtd/stubs/generators';
-import { should } from '../../common/test';
+import '../../common/test';
 import { getTriggers } from './';
 import { SDB_NAMESPACE } from '../constants';
 
@@ -29,8 +29,8 @@ let rtd;
 describe('rtdManager/monitorings', () => {
   beforeAll((done) => {
     connect({ socket, mockRedis }, (err, api) => {
-      should.not.exist(err);
-      should.exist(api);
+      expect(err).toBeFalsy();
+      expect(api).toBeDefined();
       rtd = api;
       loadMonitorings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
@@ -38,12 +38,12 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnBoard Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_DELTA', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onBoard',
           CheckType: 'deltaCheck',
         });
-        triggers.should.have.a.property('LowLimit');
-        triggers.should.have.a.property('HighLimit');
+        expect(triggers).toHaveProperty('LowLimit');
+        expect(triggers).toHaveProperty('HighLimit');
         done();
       });
     });
@@ -51,12 +51,12 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnBoard Limit', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_LIMIT', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onBoard',
           CheckType: 'limitCheck',
         });
-        triggers.should.have.a.property('LowLimit');
-        triggers.should.have.a.property('HighLimit');
+        expect(triggers).toHaveProperty('LowLimit');
+        expect(triggers).toHaveProperty('HighLimit');
         done();
       });
     });
@@ -64,13 +64,13 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnBoard Expected Value', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_EXPECTED', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onBoard',
           CheckType: 'expectedValueCheck',
         });
-        triggers.should.have.a.property('ExpectedValue');
-        triggers.should.have.a.property('Event');
-        triggers.should.have.a.property('Mask');
+        expect(triggers).toHaveProperty('ExpectedValue');
+        expect(triggers).toHaveProperty('Event');
+        expect(triggers).toHaveProperty('Mask');
         done();
       });
     });
@@ -78,12 +78,12 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Limit', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_LIMIT', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onGround',
           CheckType: 'LimitCheck',
         });
-        triggers.should.have.a.property('LowerLimits').that.is.an('array');
-        triggers.should.have.a.property('UpperLimits').that.is.an('array');
+        expect(typeof triggers).toBe('array');
+        expect(typeof triggers).toBe('array');
         done();
       });
     });
@@ -91,12 +91,12 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Maximum Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_MAX_DELTA', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onGround',
           CheckType: 'MaximumDeltaCheck',
         });
-        triggers.should.have.a.property('AlarmLevel').that.is.a('string');
-        triggers.should.have.a.property('Threshold').that.is.an('string');
+        expect(typeof triggers).toBe('string');
+        expect(typeof triggers).toBe('string');
         done();
       });
     });
@@ -104,12 +104,12 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Minimum Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_MIN_DELTA', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onGround',
           CheckType: 'MinimumDeltaCheck',
         });
-        triggers.should.have.a.property('AlarmLevel').that.is.a('string');
-        triggers.should.have.a.property('Threshold').that.is.an('string');
+        expect(typeof triggers).toBe('string');
+        expect(typeof triggers).toBe('string');
         done();
       });
     });
@@ -117,12 +117,12 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers OnGround Expected Value', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_EXPECTED', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'onGround',
           CheckType: 'ExpectedValueCheck',
         });
-        triggers.should.have.a.property('AlarmLevel').that.is.a('string');
-        triggers.should.have.a.property('ReferenceValues').that.is.an('array');
+        expect(typeof triggers).toBe('string');
+        expect(typeof triggers).toBe('array');
         done();
       });
     });
@@ -130,11 +130,11 @@ describe('rtdManager/monitorings', () => {
   it('getTriggers Functional', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'FUNCTIONAL', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
-        triggers.should.be.an('object').that.have.properties({
+        expect(typeof triggers).toBe('object').that.have.properties({
           MonitoringType: 'functional',
         });
-        triggers.should.have.a.property('Event').that.is.an('object');
-        triggers.should.have.a.property('Checks').that.is.an('array');
+        expect(typeof triggers).toBe('object');
+        expect(typeof triggers).toBe('array');
         done();
       });
     });

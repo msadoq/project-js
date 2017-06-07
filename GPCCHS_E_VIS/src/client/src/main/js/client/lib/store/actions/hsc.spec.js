@@ -59,24 +59,24 @@ describe('store:actions:hsc', () => {
   describe('smartPlay', () => {
     it('warns a message because of application is oveloaded', () => {
       actions.smartPlay('myTimebarUuid')(dispatch, getStateCritical);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
     });
     it('warns a message because of code editor is opened', () => {
       actions.smartPlay('myTimebarUuid')(dispatch, getStateWithCodeEditor);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.a('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
     });
     it('warns a message because of editor is opened on page', () => {
       actions.smartPlay('myTimebarUuid')(dispatch, getStateWithEditorOpen);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.a('function');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
     });
     it('plays', () => {
       actions.smartPlay('myTimebarUuid')(dispatch, getState);
-      dispatch.should.have.been.calledOnce;
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.calledOnce;
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSC_PLAY,
         payload: {
           timebarUuid: 'myTimebarUuid',

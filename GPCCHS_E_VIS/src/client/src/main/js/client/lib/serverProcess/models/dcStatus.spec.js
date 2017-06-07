@@ -6,16 +6,16 @@ describe('models/dcStatus', () => {
     dcStatus.reset();
   });
   it('get', () => {
-    should.not.exist(dcStatus.get());
+    expect(dcStatus.get()).toBeFalsy();
   });
   it('set', () => {
     const status = { dcQueriesDelay: 10 };
     dcStatus.set(status);
-    dcStatus.get().should.equal(status);
+    expect(dcStatus.get()).toBe(status);
   });
   it('reset', () => {
     dcStatus.set({ dcQueriesDelay: 10 });
     dcStatus.reset();
-    should.not.exist(dcStatus.get());
+    expect(dcStatus.get()).toBeFalsy();
   });
 });

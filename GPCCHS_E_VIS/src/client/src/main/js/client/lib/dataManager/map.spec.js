@@ -1,4 +1,5 @@
 import u from 'updeep';
+import '../common/test';
 import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
@@ -420,24 +421,24 @@ describe('data:map', () => {
   };
   it('should compute dataMap', () => {
     const r = map(state);
-    r.perRemoteId.should.eql(dataMap);
-    r.perView.should.eql(viewMap);
-    r.expectedIntervals.should.eql(intervalMap);
+    expect(r.perRemoteId).toEqual(dataMap);
+    expect(r.perView).toEqual(viewMap);
+    expect(r.expectedIntervals).toEqual(intervalMap);
   });
   it('memoization map', () => {
     map.resetRecomputations();
     getPerRemoteIdMap.resetRecomputations();
     getPerViewMap.resetRecomputations();
-    map.recomputations().should.eql(0);
+    expect(map.recomputations()).toEqual(0);
     map(state);
-    map.recomputations().should.eql(1);
+    expect(map.recomputations()).toEqual(1);
     map(state);
-    map.recomputations().should.eql(1);
+    expect(map.recomputations()).toEqual(1);
     const newState = u({ timebars: { tb1: { visuWindow: { lower: 1420106790838 } } } }, state);
     map(newState);
     // Only intervals have to be recomputed
-    map.recomputations().should.eql(2);
-    getPerRemoteIdMap.recomputations().should.eql(1);
-    getPerViewMap.recomputations().should.eql(1);
+    expect(map.recomputations()).toEqual(2);
+    expect(getPerRemoteIdMap.recomputations()).toEqual(1);
+    expect(getPerViewMap.recomputations()).toEqual(1);
   });
 });

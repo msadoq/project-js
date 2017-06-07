@@ -15,18 +15,20 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 43 } }, filter).should.equal(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 43 } }, filter)).toBe(false);
       filter[0].operand = 'myString';
-      applyFilters({ dataValue: { type: 'string', value: 'myString' } }, filter)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'string', value: 'myOtherString' } }, filter)
-        .should.equal(false);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'myString' } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'string', value: 'myOtherString' } }, filter)
+      ).toBe(false);
       filter[0].operand = 'ok';
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'nok' } }, filter)
-        .should.equal(false);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
+      ).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'nok' } }, filter)
+      ).toBe(false);
     });
     it('!=', () => {
       const filter = [
@@ -36,18 +38,20 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 43 } }, filter).should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 43 } }, filter)).toBe(true);
       filter[0].operand = 'myString';
-      applyFilters({ dataValue: { type: 'string', value: 'myString' } }, filter)
-        .should.equal(false);
-      applyFilters({ dataValue: { type: 'string', value: 'myOtherString' } }, filter)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'myString' } }, filter)).toBe(false);
+      expect(
+        applyFilters({ dataValue: { type: 'string', value: 'myOtherString' } }, filter)
+      ).toBe(true);
       filter[0].operand = 'nok';
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'nok' } }, filter)
-        .should.equal(false);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
+      ).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'nok' } }, filter)
+      ).toBe(false);
     });
     it('<', () => {
       const filter = [
@@ -57,13 +61,14 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'string', value: '50' } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'boolean', value: true } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'string', value: '50' } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'boolean', value: true } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
+      ).toBe(true);
     });
     it('>', () => {
       const filter = [
@@ -73,13 +78,14 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'string', value: '50' } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'boolean', value: true } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: '50' } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'boolean', value: true } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
+      ).toBe(true);
     });
     it('<=', () => {
       const filter = [
@@ -89,13 +95,14 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'string', value: '50' } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'boolean', value: true } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'string', value: '50' } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'boolean', value: true } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
+      ).toBe(true);
     });
     it('>=', () => {
       const filter = [
@@ -105,13 +112,14 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'string', value: '50' } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'boolean', value: true } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 42 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: '50' } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'boolean', value: true } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
+      ).toBe(true);
     });
     it('contains', () => {
       const filter = [
@@ -121,14 +129,14 @@ describe('utils/filters', () => {
           operand: 'foo',
         },
       ];
-      applyFilters({ dataValue: { type: 'string', value: 'foo' } }, filter)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'string', value: 'bar foo bar' } }, filter)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'string', value: 'bar' } }, filter)
-        .should.equal(false);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'foo' } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'string', value: 'bar foo bar' } }, filter)
+      ).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'bar' } }, filter)).toBe(false);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
+      ).toBe(true);
       const regex = [
         {
           field: 'dataValue',
@@ -136,10 +144,10 @@ describe('utils/filters', () => {
           operand: '/^FO*/i',
         },
       ];
-      applyFilters({ dataValue: { type: 'string', value: 'foo bar' } }, regex)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'foo bar' } }, regex)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
+      ).toBe(true);
     });
     it('icontains', () => {
       const filter = [
@@ -149,14 +157,14 @@ describe('utils/filters', () => {
           operand: 'foo',
         },
       ];
-      applyFilters({ dataValue: { type: 'string', value: 'foo' } }, filter)
-        .should.equal(false);
-      applyFilters({ dataValue: { type: 'string', value: 'bar foo bar' } }, filter)
-        .should.equal(false);
-      applyFilters({ dataValue: { type: 'string', value: 'bar' } }, filter)
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
-        .should.equal(true);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'foo' } }, filter)).toBe(false);
+      expect(
+        applyFilters({ dataValue: { type: 'string', value: 'bar foo bar' } }, filter)
+      ).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'bar' } }, filter)).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
+      ).toBe(true);
       const regex = [
         {
           field: 'dataValue',
@@ -164,10 +172,10 @@ describe('utils/filters', () => {
           operand: '/^FO*/i',
         },
       ];
-      applyFilters({ dataValue: { type: 'string', value: 'foo bar' } }, regex)
-        .should.equal(false);
-      applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
-        .should.equal(false);
+      expect(applyFilters({ dataValue: { type: 'string', value: 'foo bar' } }, regex)).toBe(false);
+      expect(
+        applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
+      ).toBe(false);
     });
     it('multi', () => {
       const filter = [
@@ -182,11 +190,11 @@ describe('utils/filters', () => {
           operand: '49',
         },
       ];
-      applyFilters({ dataValue: { type: 'integer', value: 30 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter).should.equal(false);
-      applyFilters({ dataValue: { type: 'integer', value: 41 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 49 } }, filter).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter).should.equal(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 30 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 40 } }, filter)).toBe(false);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 41 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 49 } }, filter)).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter)).toBe(false);
     });
     it('invalid data', () => {
       const filter = [
@@ -196,8 +204,8 @@ describe('utils/filters', () => {
           operand: '42',
         },
       ];
-      applyFilters({ otherField: { type: 'integer', value: '42' } }, filter).should.equal(true);
-      applyFilters({ otherField: { type: 'integer', value: '43' } }, filter).should.equal(true);
+      expect(applyFilters({ otherField: { type: 'integer', value: '42' } }, filter)).toBe(true);
+      expect(applyFilters({ otherField: { type: 'integer', value: '43' } }, filter)).toBe(true);
     });
     it('invalid filter', () => {
       const filter = {
@@ -205,56 +213,58 @@ describe('utils/filters', () => {
         operator: '=',
         operand: '42',
       };
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['field'])])
-        .should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } },
-        [_assign({}, filter, { field: '' })]).should.equal(true);
-      applyFilters({ dataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['operator'])])
-        .should.equal(true);
+      expect(
+        applyFilters({ dataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['field'])])
+      ).toBe(true);
+      expect(applyFilters({ dataValue: { type: 'integer', value: 50 } },
+        [_assign({}, filter, { field: '' })])).toBe(true);
+      expect(
+        applyFilters({ dataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['operator'])])
+      ).toBe(true);
     });
     it('Long value', () => {
       const data = { longValue: { type: 'long', symbol: '18446744073709551600' } };
       const filter = { field: 'longValue', operator: '=', operand: '18446744073709551600' };
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operator = '<';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
       filter.operator = '<=';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operator = '>';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
       filter.operator = '>=';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       data.longValue.symbol = '18446744073709551510';
       filter.operator = '=';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
       filter.operator = '<';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operand = '18446744073709551505';
       filter.operator = '>';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
     });
     it('double value', () => {
       const data = { longValue: { type: 'double', symbol: '184467440737095500.1600' } };
       const filter = { field: 'longValue', operator: '=', operand: '184467440737095500.1600' };
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operator = '<';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
       filter.operator = '<=';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operator = '>';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
       filter.operator = '>=';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       data.longValue.symbol = '184467440737095500.1510';
       filter.operator = '=';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
       filter.operator = '<';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operand = '184467440737095500.1505';
       filter.operator = '>';
-      applyFilters(data, [filter]).should.equal(true);
+      expect(applyFilters(data, [filter])).toBe(true);
       filter.operator = '<';
-      applyFilters(data, [filter]).should.equal(false);
+      expect(applyFilters(data, [filter])).toBe(false);
     });
   });
 });

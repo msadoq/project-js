@@ -24,14 +24,13 @@ describe('controllers/client/onFmdCreate', () => {
     // launch test
     onFmdCreate(zmqEmulator, myQueryId, myCreateDocumentAction);
     // check data
-    calls.should.be.an('array')
-      .that.has.lengthOf(3);
-    calls[0].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY);
-    calls[1].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
-    calls[2].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.FMDCreateDocument', calls[2]).should.have.properties({
+    expect(calls).be.an('array').toHaveLength(3);
+    expect(calls[0].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY);
+    expect(calls[1].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.String', calls[1]).string).toBe(myQueryId);
+    expect(calls[2].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.FMDCreateDocument', calls[2])).have.properties({
       name: myCreateDocumentAction.name,
       path: myCreateDocumentAction.path,
       mimeType: myCreateDocumentAction.mimeType,

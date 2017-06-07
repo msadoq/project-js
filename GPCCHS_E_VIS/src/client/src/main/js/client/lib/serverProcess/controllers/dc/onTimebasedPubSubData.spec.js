@@ -61,9 +61,9 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
-    getQueue().should.have.properties({});
-    should.not.exist(getLastPubSubTimestamp());
+    expect(getAllTimebasedDataModelRemoteIds()).toHaveLength(0);
+    expect(getQueue()).have.properties({});
+    expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
   it('no query for this dataId', () => {
@@ -78,9 +78,9 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
-    getQueue().should.have.properties({});
-    should.not.exist(getLastPubSubTimestamp());
+    expect(getAllTimebasedDataModelRemoteIds()).toHaveLength(0);
+    expect(getQueue()).have.properties({});
+    expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
   it('one in interval', () => {
@@ -97,20 +97,20 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    should.not.exist(getTimebasedDataModel(remoteId2));
+    expect(getTimebasedDataModel(remoteId2)).toBeFalsy();
     const timebasedDataModel = getTimebasedDataModel(remoteId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(1);
+    expect(timebasedDataModel).toBeDefined();
+    expect(timebasedDataModel.count()).toBe(1);
     const tbd = timebasedDataModel.find();
-    tbd[0].should.have.properties({
+    expect(tbd[0]).have.properties({
       timestamp: t1,
       payload: deprotoRp,
     });
-    getQueue().should.have.properties({
+    expect(getQueue()).have.properties({
       [remoteId]: {
         [t1]: deprotoRp,
       },
     });
-    getLastPubSubTimestamp().should.equal(t2);
+    expect(getLastPubSubTimestamp()).toBe(t2);
   });
 });

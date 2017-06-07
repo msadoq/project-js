@@ -4,23 +4,22 @@ const formula = require('./formula');
 
 describe('viewManager/commonData/formula', () => {
   it('empty or invalid type', () => {
-    should.not.exist(formula());
-    should.not.exist(formula(null));
-    should.not.exist(formula(10));
+    expect(formula()).toBeFalsy();
+    expect(formula(null)).toBeFalsy();
+    expect(formula(10)).toBeFalsy();
   });
   it('invalid format', () => {
-    should.not.exist(formula('.Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>'));
-    should.not.exist(formula('.ATT_BC_STR1VOLTAGE<ReportingParameter>'));
-    should.not.exist(formula('Reporting.<ReportingParameter>'));
-    should.not.exist(formula('Reporting<ReportingParameter>'));
-    should.not.exist(formula('Reporting.ATT_BC_STR1VOLTAGE<>'));
-    should.not.exist(formula('Reporting.ATT_BC_STR1VOLTAGE'));
-    should.not.exist(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>x'));
-    should.not.exist(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.'));
+    expect(formula('.Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>')).toBeFalsy();
+    expect(formula('.ATT_BC_STR1VOLTAGE<ReportingParameter>')).toBeFalsy();
+    expect(formula('Reporting.<ReportingParameter>')).toBeFalsy();
+    expect(formula('Reporting<ReportingParameter>')).toBeFalsy();
+    expect(formula('Reporting.ATT_BC_STR1VOLTAGE<>')).toBeFalsy();
+    expect(formula('Reporting.ATT_BC_STR1VOLTAGE')).toBeFalsy();
+    expect(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>x')).toBeFalsy();
+    expect(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.')).toBeFalsy();
   });
   it('works without field', () => {
-    formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>')
-      .should.be.an('object')
+    expect(typeof formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>')).toBe('object')
       .with.properties({
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
         catalog: 'Reporting',
@@ -30,8 +29,9 @@ describe('viewManager/commonData/formula', () => {
       });
   });
   it('works with field', () => {
-    formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue')
-      .should.be.an('object')
+    expect(
+      typeof formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue')
+    ).toBe('object')
       .with.properties({
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
         catalog: 'Reporting',

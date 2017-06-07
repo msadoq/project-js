@@ -43,9 +43,9 @@ describe('store:actions:windows', () => {
   describe('focusPage', () => {
     it('set focus', () => {
       actions.focusPage('myWindowId', 'p1')(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_WINDOW_PAGE_FOCUS,
         payload: {
           windowId: 'myWindowId',
@@ -55,15 +55,15 @@ describe('store:actions:windows', () => {
     });
     it('set pause then set focus', () => {
       actions.focusPage('myWindowId', 'p2')(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(2);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(typeof dispatch.getCall(1).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSC_PAUSE,
         payload: { },
       });
 
-      dispatch.getCall(1).should.have.been.calledWith({
+      expect(dispatch.getCall(1)).have.been.calledWith({
         type: types.WS_WINDOW_PAGE_FOCUS,
         payload: {
           windowId: 'myWindowId',
@@ -75,10 +75,10 @@ describe('store:actions:windows', () => {
   describe('closeWindow', () => {
     it('dispatches an action with all documents ids which should be close', () => {
       actions.closeWindow('w2')(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_WINDOW_CLOSE,
         payload: {
           windowId: 'w2',

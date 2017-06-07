@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import rimraf from 'rimraf';
 
-import { should, expect, getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/test';
 
 import fs from '../common/fs';
 import { savePage, savePageAs } from './savePage';
@@ -79,18 +79,18 @@ describe('mainProcess/documents/savePage', () => {
   ));
   it('save ok', (done) => {
     savePage(freezeMe(state), 'page1', (err) => {
-      should.not.exist(err);
+      expect(err).toBeFalsy();
       fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        exist.should.be.true;
+        expect(exist).toBe(true);
         done();
       });
     });
   });
   it('saveAs ok', (done) => {
     savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
-      should.not.exist(err);
+      expect(err).toBeFalsy();
       fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        exist.should.be.true;
+        expect(exist).toBe(true);
         done();
       });
     });
@@ -99,9 +99,9 @@ describe('mainProcess/documents/savePage', () => {
   it('save should fail when page is invalid', (done) => {
     state.pages.page1.title = undefined;
     savePage(freezeMe(state), 'page1', (err) => {
-      expect(err).to.be.an('error');
+      expect(err).toBeInstanceOf(Error);
       fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        exist.should.be.false;
+        expect(exist).toBe(false);
         done();
       });
     });
@@ -109,9 +109,9 @@ describe('mainProcess/documents/savePage', () => {
   it('saveAs should fail when page is invalid', (done) => {
     state.pages.page1.title = undefined;
     savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
-      expect(err).to.be.an('error');
+      expect(err).toBeInstanceOf(Error);
       fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        exist.should.be.false;
+        expect(exist).toBe(false);
         done();
       });
     });

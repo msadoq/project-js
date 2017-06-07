@@ -29,7 +29,7 @@ describe('windowProcess:Page:ContentSelector', () => {
   });
   describe('getPageLayoutWithCollapsed', () => {
     it('returns page layout with collapsed geometries', () => {
-      getPageLayoutWithCollapsed(state, { pageId: 'myPage' }).should.have.properties({
+      expect(getPageLayoutWithCollapsed(state, { pageId: 'myPage' })).have.properties({
         lg: [{ i: 'layout1' }, { i: 'layout2' }],
       });
     });
@@ -40,7 +40,7 @@ describe('windowProcess:Page:ContentSelector', () => {
 
   describe('getTimebarUuid', () => {
     it('returns focused page timebarUuid', () => {
-      getTimebarUuid(state, { windowId: 'myWindow' }).should.be.eql('tbuuid');
+      expect(getTimebarUuid(state, { windowId: 'myWindow' })).toEqual('tbuuid');
     });
     it('should memoize', () => {
       testMemoization(getTimebarUuid, state, { windowId: 'myWindow' });
@@ -49,10 +49,10 @@ describe('windowProcess:Page:ContentSelector', () => {
 
   describe('getMaximizedViewdUuid', () => {
     it('should returns null when no maximised views', () => {
-      should.not.exist(getMaximizedViewdUuid(state, { windowId: 'myWindow' }));
+      expect(getMaximizedViewdUuid(state, { windowId: 'myWindow' })).toBeFalsy();
     });
     it('should returns maximised view uuid', () => {
-      getMaximizedViewdUuid(state, { windowId: 'w2' }).should.be.eql('geometry1');
+      expect(getMaximizedViewdUuid(state, { windowId: 'w2' })).toEqual('geometry1');
     });
     it('should memoize', () => {
       testMemoization(getMaximizedViewdUuid, state, { windowId: 'w2' });

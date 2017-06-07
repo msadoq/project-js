@@ -30,18 +30,18 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
   };
   describe('getPageTimelines', () => {
     it('returns page timelines', () => {
-      getPageTimelines(state, { pageId: 'p1' }).should.be.eql([2, 1]);
+      expect(getPageTimelines(state, { pageId: 'p1' })).toEqual([2, 1]);
     });
     it('returns nothing when pageId is unknown', () => {
-      getPageTimelines(state, { pageId: 'unknownPageId' }).should.be.eql([]);
+      expect(getPageTimelines(state, { pageId: 'unknownPageId' })).toEqual([]);
     });
   });
   describe('getFocusedPageTimelines', () => {
     it('returns focused page timelines', () => {
-      getFocusedPageTimelines(state, { windowId: 'w1' }).should.be.eql([2, 1]);
+      expect(getFocusedPageTimelines(state, { windowId: 'w1' })).toEqual([2, 1]);
     });
     it('returns nothing when windowId is unknown', () => {
-      getFocusedPageTimelines(state, { windowId: 'unknownWindowId' }).should.be.eql([]);
+      expect(getFocusedPageTimelines(state, { windowId: 'unknownWindowId' })).toEqual([]);
     });
   });
 });

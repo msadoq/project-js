@@ -1,4 +1,4 @@
-import { should, sinon } from '../common/test';
+import { sinon } from '../common/test';
 import { simpleReadView } from './readView';
 import * as io from './io';
 
@@ -22,8 +22,8 @@ describe('documentManager:readView', () => {
   it('creates a simple view using readed document', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
-      should.not.exist(err);
-      content.should.be.eql({
+      expect(err).toBeFalsy();
+      expect(content).toEqual({
         value: {
           uuid: 'fake-uuid',
           path: '/a/path',
@@ -44,16 +44,16 @@ describe('documentManager:readView', () => {
   it('gives an error when view type is not supported', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'FakeView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
-      should.not.exist(err);
-      content.error.should.be.an('error');
+      expect(err).toBeFalsy();
+      expect(typeof content.error).toBe('error');
       done();
     });
   });
   it('gives an error when readDocument failed', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ withError: true }, (err, content) => {
-      should.not.exist(err);
-      content.error.should.be.an('error');
+      expect(err).toBeFalsy();
+      expect(typeof content.error).toBe('error');
       done();
     });
   });

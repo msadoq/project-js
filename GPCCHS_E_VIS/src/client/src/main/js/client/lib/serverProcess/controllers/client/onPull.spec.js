@@ -23,9 +23,9 @@ describe('controllers/client/onPull', () => {
     onPull(testHandler, myQueryId, { queries });
     // check data
     const wsArgs = getTestHandlerArgs();
-    wsArgs.should.have.lengthOf(2);
-    wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.eql({ data: {} });
+    expect(wsArgs).toHaveLength(2);
+    expect(wsArgs[0]).toBe(myQueryId);
+    expect(wsArgs[1]).toEqual({ data: {} });
   });
   it('should return data already in queue', () => {
     const myRemoteId = 'myRemoteId';
@@ -37,16 +37,16 @@ describe('controllers/client/onPull', () => {
     onPull(testHandler, myQueryId, { queries });
     // check data
     const wsArgs = getTestHandlerArgs();
-    wsArgs.should.have.lengthOf(2);
-    wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.eql({
+    expect(wsArgs).toHaveLength(2);
+    expect(wsArgs[0]).toBe(myQueryId);
+    expect(wsArgs[1]).toEqual({
       data: {
         [myRemoteId]: {
           [timestamp]: myValue,
         },
       },
     });
-    getDataQueue().should.eql({});
+    expect(getDataQueue()).toEqual({});
   });
   it('should return requested data', () => {
     const myRemoteId = 'myRemoteId';
@@ -76,9 +76,9 @@ describe('controllers/client/onPull', () => {
     onPull(testHandler, myQueryId, { queries });
     // check data
     const wsArgs = getTestHandlerArgs();
-    wsArgs.should.have.lengthOf(2);
-    wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.eql({
+    expect(wsArgs).toHaveLength(2);
+    expect(wsArgs[0]).toBe(myQueryId);
+    expect(wsArgs[1]).toEqual({
       data: {
         [myRemoteId]: {
           [payloads[0].timestamp]: payloads[0].payload,
@@ -87,6 +87,6 @@ describe('controllers/client/onPull', () => {
         },
       },
     });
-    getDataQueue().should.eql({});
+    expect(getDataQueue()).toEqual({});
   });
 });

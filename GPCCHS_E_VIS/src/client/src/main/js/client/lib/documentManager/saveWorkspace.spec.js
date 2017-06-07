@@ -3,7 +3,7 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { sinon, expect, getTmpPath, freezeMe } from '../common/test';
+import { sinon, getTmpPath, freezeMe } from '../common/test';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
 import * as fmdApi from '../common/fmd';
@@ -122,9 +122,9 @@ describe('documentManager/saveWorkspace', () => {
   it('save ok', (done) => {
     const path = join(state.hsc.folder, state.hsc.file);
     saveWorkspace(freezeMe(state), (err) => {
-      expect(err).to.not.be.an('error');
+      expect(typeof err).not.toBe('error');
       fs.isExists(path, (exist) => {
-        exist.should.be.true;
+        expect(exist).toBe(true);
         done();
       });
     });
@@ -132,9 +132,9 @@ describe('documentManager/saveWorkspace', () => {
   it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
     saveWorkspaceAs(freezeMe(state), path, (err) => {
-      expect(err).to.not.be.an('error');
+      expect(typeof err).not.toBe('error');
       fs.isExists(path, (exist) => {
-        exist.should.be.true;
+        expect(exist).toBe(true);
         done();
       });
     });
@@ -143,9 +143,9 @@ describe('documentManager/saveWorkspace', () => {
     state.timebars.abcd.mode = null;
     const path = join(state.hsc.folder, state.hsc.file);
     saveWorkspace(freezeMe(state), (err) => {
-      expect(err).to.be.an('error');
+      expect(err).toBeInstanceOf(Error);
       fs.isExists(path, (exist) => {
-        exist.should.be.false;
+        expect(exist).toBe(false);
         done();
       });
     });
@@ -154,9 +154,9 @@ describe('documentManager/saveWorkspace', () => {
     state.timebars.abcd.mode = null;
     const path = join(folder, 'workspace.json');
     saveWorkspaceAs(freezeMe(state), path, (err) => {
-      expect(err).to.be.an('error');
+      expect(err).toBeInstanceOf(Error);
       fs.isExists(path, (exist) => {
-        exist.should.be.false;
+        expect(exist).toBe(false);
         done();
       });
     });
@@ -167,7 +167,7 @@ describe('documentManager/saveWorkspace', () => {
       readJson(path, (err, content) => {
         // console.warn(err);
         // console.warn('CONTENT : ', content);
-        content.should.be.eql({
+        expect(content).toEqual({
           type: 'WorkSpace',
           windows: [
             {

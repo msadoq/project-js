@@ -14,13 +14,13 @@ describe('store:actions:masterSession', () => {
   describe('updateMasterSessionIfNeeded', () => {
     it('does nothing with unknown session id', () => {
       actions.updateMasterSessionIfNeeded(UNKNOWN_SESSION_ID)(dispatch);
-      dispatch.should.not.have.been.called;
+      expect(dispatch).not.have.been.called;
     });
     it('updates master session', () => {
       actions.updateMasterSessionIfNeeded('masterSessionOid')(dispatch);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.HSS_UPDATE_MASTER_SESSION,
         payload: {
           masterSessionOid: 'masterSessionOid',

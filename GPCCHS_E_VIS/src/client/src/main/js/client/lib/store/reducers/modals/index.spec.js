@@ -7,24 +7,25 @@ const reducer = freezeArgs(modalsReducer);
 
 describe('store:modals:reducer', () => {
   it('initial state', () => {
-    reducer(undefined, {}).should.eql({});
+    expect(reducer(undefined, {})).toEqual({});
   });
 
   describe('opens modal', () => {
     it('should open', () => {
-      reducer(undefined, actions.open('myId', { type: 'openTimeline', timebarUuid: 'aaa-bbb' }))
-        .should.eql({ myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true } });
+      expect(
+        reducer(undefined, actions.open('myId', { type: 'openTimeline', timebarUuid: 'aaa-bbb' }))
+      ).toEqual({ myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true } });
     });
   });
 
   describe('closes modal', () => {
     it('should close', () => {
-      reducer(
+      expect(reducer(
         {
           myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true },
         },
         actions.close('myId')
-      ).should.eql({ myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: false } });
+      )).toEqual({ myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: false } });
     });
   });
 });

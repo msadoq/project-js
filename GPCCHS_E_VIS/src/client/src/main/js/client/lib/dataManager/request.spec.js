@@ -89,7 +89,7 @@ newMap.expectedIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['ext
 describe('data:request', () => {
   it('missingRemoteIds from empty dataMap', () => {
     const queries = missingRemoteIds(dataMap, { perRemoteId: {}, expectedIntervals: {} });
-    queries.should.eql({
+    expect(queries).toEqual({
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {
           catalog: 'TelemetryPacket',
@@ -116,7 +116,7 @@ describe('data:request', () => {
   });
   it('missingRemoteIds from dataMap', () => {
     const queries = missingRemoteIds(newMap, dataMap);
-    queries.should.eql({
+    expect(queries).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         dataId: {
           catalog: 'Reporting',
@@ -132,7 +132,7 @@ describe('data:request', () => {
   });
   it('forecast', () => {
     const queries = missingRemoteIds(newMap, dataMap, forecastIntervals);
-    queries.should.eql({
+    expect(queries).toEqual({
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {
           catalog: 'TelemetryPacket',

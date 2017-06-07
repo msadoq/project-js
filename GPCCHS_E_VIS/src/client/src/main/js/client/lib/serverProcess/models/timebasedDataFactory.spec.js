@@ -25,10 +25,10 @@ describe('models/timebasedDataFactory', () => {
       const timestamp = Date.now();
       it('one', () => {
         const record = model.addRecord(timestamp, payload);
-        record.should.be.an('object').with.property('$loki');
+        expect(record).be.an('object').toHaveProperty('$loki');
         const records = model.find();
-        records.should.be.an('array').that.has.lengthOf(1);
-        records[0].should.be.an('object').with.properties({
+        expect(records).be.an('array').toHaveLength(1);
+        expect(typeof records[0]).toBe('object').with.properties({
           timestamp,
           payload,
         });
@@ -38,10 +38,10 @@ describe('models/timebasedDataFactory', () => {
 
         const timestamp2 = timestamp + 1;
         model.addRecord(timestamp2, payload);
-        model.count().should.equal(2);
+        expect(model.count()).toBe(2);
         const records = model.find();
-        records[0].timestamp.should.equal(timestamp);
-        records[1].timestamp.should.equal(timestamp2);
+        expect(records[0].timestamp).toBe(timestamp);
+        expect(records[1].timestamp).toBe(timestamp2);
       });
     });
 
@@ -59,12 +59,12 @@ describe('models/timebasedDataFactory', () => {
       it('multi', () => {
         model.addRecords(payloads);
         const records = model.find();
-        records.should.be.an('array').that.has.lengthOf(2);
-        records[0].should.be.an('object').with.properties({
+        expect(records).be.an('array').toHaveLength(2);
+        expect(typeof records[0]).toBe('object').with.properties({
           timestamp: now,
           payload,
         });
-        records[1].should.be.an('object').with.properties({
+        expect(typeof records[1]).toBe('object').with.properties({
           timestamp: now + 1,
           payload,
         });
@@ -74,7 +74,7 @@ describe('models/timebasedDataFactory', () => {
     describe('findByInterval', () => {
       it('empty', () => {
         const records = model.findByInterval(Date.now(), Date.now());
-        records.should.be.an('array').that.has.lengthOf(0);
+        expect(records).be.an('array').toHaveLength(0);
       });
 
       describe('filter on interval', () => {
@@ -86,36 +86,27 @@ describe('models/timebasedDataFactory', () => {
         });
 
         it('lasts', () => {
-          model.findByInterval(now - 5000, now + 20000)
-            .should.be.an('array').that.has.lengthOf(2);
+          expect(model.findByInterval(now - 5000, now + 20000)).be.an('array').toHaveLength(2);
         });
         it('firsts', () => {
-          model.findByInterval(now - 20000, now + 5000)
-            .should.be.an('array').that.has.lengthOf(2);
+          expect(model.findByInterval(now - 20000, now + 5000)).be.an('array').toHaveLength(2);
         });
         it('middle', () => {
-          model.findByInterval(now - 5000, now + 5000)
-            .should.be.an('array').that.has.lengthOf(1);
+          expect(model.findByInterval(now - 5000, now + 5000)).be.an('array').toHaveLength(1);
         });
         it('no interval', () => {
-          model.findByInterval()
-            .should.be.an('array').that.has.lengthOf(3);
+          expect(model.findByInterval()).be.an('array').toHaveLength(3);
         });
         it('only lower', () => {
-          model.findByInterval(now + 5000)
-            .should.be.an('array').that.has.lengthOf(1);
+          expect(model.findByInterval(now + 5000)).be.an('array').toHaveLength(1);
         });
         it('only upper', () => {
-          model.findByInterval(null, now - 5000)
-            .should.be.an('array').that.has.lengthOf(1);
+          expect(model.findByInterval(null, now - 5000)).be.an('array').toHaveLength(1);
         });
         it('nothing', () => {
-          model.findByInterval(now - 20000, now - 15000)
-            .should.be.an('array').that.has.lengthOf(0);
-          model.findByInterval(now + 15000, now + 20000)
-            .should.be.an('array').that.has.lengthOf(0);
-          model.findByInterval(now - 4000, now - 2000)
-            .should.be.an('array').that.has.lengthOf(0);
+          expect(model.findByInterval(now - 20000, now - 15000)).be.an('array').toHaveLength(0);
+          expect(model.findByInterval(now + 15000, now + 20000)).be.an('array').toHaveLength(0);
+          expect(model.findByInterval(now - 4000, now - 2000)).be.an('array').toHaveLength(0);
         });
       });
     });
@@ -124,11 +115,11 @@ describe('models/timebasedDataFactory', () => {
     it('existing', () => {
       const myTbdModel = getOrCreateTimebasedDataModel('myRemoteId');
       const tbdModel = getTimebasedDataModel('myRemoteId');
-      Object.keys(myTbdModel).should.have.properties(Object.keys(tbdModel));
+      expect(Object.keys(myTbdModel)).have.properties(Object.keys(tbdModel));
     });
     it('not existing', () => {
       const tbdModel = getTimebasedDataModel('myRemoteId');
-      should.not.exist(tbdModel);
+      expect(tbdModel).toBeFalsy();
     });
   });
   describe('removeTimebasedDataModel', () => {
@@ -136,10 +127,10 @@ describe('models/timebasedDataFactory', () => {
       getOrCreateTimebasedDataModel('myRemoteId');
       removeTimebasedDataModel('myRemoteId');
       const tbdModel = getTimebasedDataModel('myRemoteId');
-      should.not.exist(tbdModel);
+      expect(tbdModel).toBeFalsy();
     });
     it('no model', () => {
-      should.not.throw(() => removeTimebasedDataModel('myRemoteId'));
+      expect(() => removeTimebasedDataModel('myRemoteId')).not.throw;
     });
   });
   describe('getAllTimebasedDataModelRemoteIds', () => {
@@ -149,8 +140,8 @@ describe('models/timebasedDataFactory', () => {
       getOrCreateTimebasedDataModel('myThirdRemoteId');
       removeTimebasedDataModel('myOtherRemoteId');
       const remoteIds = getAllTimebasedDataModelRemoteIds();
-      remoteIds.should.have.lengthOf(2);
-      remoteIds.should.have.properties(['myRemoteId', 'myThirdRemoteId']);
+      expect(remoteIds).toHaveLength(2);
+      expect(remoteIds).have.properties(['myRemoteId', 'myThirdRemoteId']);
     });
   });
 });

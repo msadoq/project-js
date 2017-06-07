@@ -5,7 +5,7 @@ import { getCount, getLastValue } from './dataSelectors';
 describe('viewManager/PlotView/store/dataSelector', () => {
   describe('getCount', () => {
     it('counts data: empty state', () => {
-      getCount({ PlotViewData: {} }).should.be.eql({ all: 0 });
+      expect(getCount({ PlotViewData: {} })).toEqual({ all: 0 });
     });
     it('counts data', () => {
       const state = {
@@ -19,7 +19,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           v5: {},
         },
       };
-      getCount(state).should.be.eql({
+      expect(getCount(state)).toEqual({
         v1: 1,
         v2: 3,
         v3: 0,
@@ -31,7 +31,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
   });
   describe('getLastValue', () => {
     it('should support empty state', () => {
-      should.not.exist(getLastValue({ PlotViewData: {} }, { epName: 'ep1', viewId: 'v1' }));
+      expect(getLastValue({ PlotViewData: {} }, { epName: 'ep1', viewId: 'v1' })).toBeFalsy();
     });
     it('should support empty props', () => {
       const state = {
@@ -42,8 +42,8 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           },
         },
       };
-      should.not.exist(getLastValue(state, { epName: 'ep1' }));
-      should.not.exist(getLastValue(state, { viewId: 'v1' }));
+      expect(getLastValue(state, { epName: 'ep1' })).toBeFalsy();
+      expect(getLastValue(state, { viewId: 'v1' })).toBeFalsy();
     });
     it('get last value (symbol)', () => {
       const state = {
@@ -54,7 +54,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           },
         },
       };
-      getLastValue(state, { epName: 'ep1', viewId: 'v1' }).should.be.eql({
+      expect(getLastValue(state, { epName: 'ep1', viewId: 'v1' })).toEqual({
         timestamp: moment(123).utc().toISOString(),
         value: '2',
       });
@@ -68,7 +68,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           },
         },
       };
-      getLastValue(state, { epName: 'ep1', viewId: 'v1' }).should.be.eql({
+      expect(getLastValue(state, { epName: 'ep1', viewId: 'v1' })).toEqual({
         timestamp: moment(123).utc().toISOString(),
         value: 2,
       });

@@ -3,7 +3,7 @@ import { getCount } from './dataSelector';
 describe('viewManager/MimicView/store/dataSelector', () => {
   describe('getCount', () => {
     it('counts data: empty state', () => {
-      getCount({ MimicViewData: {} }).should.be.eql({ all: 0 });
+      expect(getCount({ MimicViewData: {} })).toEqual({ all: 0 });
     });
     it('counts data', () => {
       const state = {
@@ -15,7 +15,7 @@ describe('viewManager/MimicView/store/dataSelector', () => {
           v5: {},
         },
       };
-      getCount(state).should.be.eql({
+      expect(getCount(state)).toEqual({
         v1: 1,
         v2: 3,
         v3: 0,

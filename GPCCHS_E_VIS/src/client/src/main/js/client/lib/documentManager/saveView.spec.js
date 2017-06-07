@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import rimraf from 'rimraf';
 
-import { should, expect, getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/test';
 
 import fs from '../common/fs';
 import * as saveViewApi from './saveView';
@@ -131,9 +131,9 @@ describe('documentManager/saveViews', () => {
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.plot1);
       saveViewAs(view, view.absolutePath, (err) => {
-        should.not.exist(err);
+        expect(err).toBeFalsy();
         fs.isExists(view.absolutePath, (exist) => {
-          exist.should.be.true;
+          expect(exist).toBe(true);
           done();
         });
       });
@@ -142,9 +142,9 @@ describe('documentManager/saveViews', () => {
       state.views.plot1.configuration.title = undefined;
       const view = freezeMe(state.views.plot1);
       saveViewAs(view, view.absolutePath, (err) => {
-        expect(err).to.be.an('error');
+        expect(err).toBeInstanceOf(Error);
         fs.isExists(view.absolutePath, (exist) => {
-          exist.should.be.false;
+          expect(exist).toBe(false);
           done();
         });
       });
@@ -154,9 +154,9 @@ describe('documentManager/saveViews', () => {
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.text1);
       saveViewAs(view, view.absolutePath, (err) => {
-        should.not.exist(err);
+        expect(err).toBeFalsy();
         fs.isExists(view.absolutePath, (exist) => {
-          exist.should.be.true;
+          expect(exist).toBe(true);
           done();
         });
       });
@@ -165,9 +165,9 @@ describe('documentManager/saveViews', () => {
       state.views.text1.configuration.content = undefined;
       const view = freezeMe(state.views.text1);
       saveViewAs(view, view.absolutePath, (err) => {
-        expect(err).to.be.an('error');
+        expect(err).toBeInstanceOf(Error);
         fs.isExists(view.absolutePath, (exist) => {
-          exist.should.be.false;
+          expect(exist).toBe(false);
           done();
         });
       });
@@ -177,9 +177,9 @@ describe('documentManager/saveViews', () => {
     it('saveAs ok', (done) => {
       const view = freezeMe(state.views.dynamic1);
       saveViewAs(view, view.absolutePath, (err) => {
-        should.not.exist(err);
+        expect(err).toBeFalsy();
         fs.isExists(view.absolutePath, (exist) => {
-          exist.should.be.true;
+          expect(exist).toBe(true);
           done();
         });
       });
@@ -188,9 +188,9 @@ describe('documentManager/saveViews', () => {
       state.views.dynamic1.configuration.entryPoints = ['invalid entrypoints'];
       const view = freezeMe(state.views.dynamic1);
       saveViewAs(view, view.absolutePath, (err) => {
-        expect(err).to.be.an('error');
+        expect(err).toBeInstanceOf(Error);
         fs.isExists(view.absolutePath, (exist) => {
-          exist.should.be.false;
+          expect(exist).toBe(false);
           done();
         });
       });

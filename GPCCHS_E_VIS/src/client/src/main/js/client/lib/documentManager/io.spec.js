@@ -6,7 +6,7 @@ import { compose, prop, split } from 'lodash/fp';
 
 import mimeTypes from 'common/constants/mimeTypes';
 
-import { sinon, should, expect, getTmpPath } from '../common/test';
+import { sinon, getTmpPath } from '../common/test';
 import * as fmdApi from '../common/fmd';
 import { readDocument, writeDocument } from './io';
 
@@ -51,77 +51,77 @@ describe('documentManager/io', () => {
   });
   describe('readDocument', () => {
     it('exists', () => {
-      readDocument.should.be.a('function');
+      expect(typeof readDocument).toBe('function');
     });
 
     describe('inside fmd folder', () => {
       it('works with oid', (done) => {
         readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          properties.should.be.eql(42);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toEqual(42);
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknow oid', (done) => {
         readDocument({ oId: 'unknownOid' }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
         readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          should.not.exist(properties);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toBeFalsy();
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknown absolute path', (done) => {
         const absolutePath = join(folder, 'unknown.json');
         readDocument({ absolutePath }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
       it('works with relative path', (done) => {
         const path = 'views/text1.json';
         readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          should.not.exist(properties);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toBeFalsy();
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknown relative path', (done) => {
         const path = 'views/unknown.json';
         readDocument({ pageFolder: folder, path }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
       it('works with relative fmd path', (done) => {
         const path = '/views/text1.json';
         readDocument({ path }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          should.not.exist(properties);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toBeFalsy();
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknown relative fmd path', (done) => {
         const path = '/views/unknown.json';
         readDocument({ path }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
@@ -137,54 +137,54 @@ describe('documentManager/io', () => {
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
         readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          should.not.exist(properties);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toBeFalsy();
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknown absolute path', (done) => {
         const absolutePath = join(folder, 'unknown.json');
         readDocument({ absolutePath }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
       it('works with relative path', (done) => {
         const path = 'views/text1.json';
         readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          should.not.exist(properties);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toBeFalsy();
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknown relative path', (done) => {
         const path = 'views/unknown.json';
         readDocument({ pageFolder: folder, path }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
       it('works with relative fmd path', (done) => {
         const path = '/../fixtures/views/text1.json';
         readDocument({ path }, (err, data, properties, resolvedPath) => {
-          expect(err).to.not.be.an('error');
-          data.should.be.an('object');
-          should.not.exist(properties);
-          resolvedPath.should.be.a('string');
-          fileExist(resolvedPath).should.be.true;
+          expect(typeof err).not.toBe('error');
+          expect(typeof data).toBe('object');
+          expect(properties).toBeFalsy();
+          expect(typeof resolvedPath).toBe('string');
+          expect(fileExist(resolvedPath)).toBe(true);
           done();
         });
       });
       it('fails with unknown relative fmd path', (done) => {
         const path = '/../lib/documentManager/fixtures/views/unknown.json';
         readDocument({ path }, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           done();
         });
       });
@@ -198,7 +198,7 @@ describe('documentManager/io', () => {
     afterEach(done => rimraf(getTmpPath(), done));
 
     it('exists', () => {
-      writeDocument.should.be.a('function');
+      expect(typeof writeDocument).toBe('function');
     });
 
     describe('inside fmd folder', () => {
@@ -214,25 +214,25 @@ describe('documentManager/io', () => {
       it('works with an absolute path', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err) => {
-          expect(err).to.not.be.an('error');
-          expect(readJsonFileSync(path)).to.be.eql(objectToSave);
+          expect(typeof err).not.toBe('error');
+          expect(readJsonFileSync(path)).toEqual(objectToSave);
           done();
         });
       });
       it('should give an oid', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err, oid) => {
-          expect(err).to.not.be.an('error');
-          expect(oid).to.be.eql('oid:/document.json');
+          expect(typeof err).not.toBe('error');
+          expect(oid).toEqual('oid:/document.json');
           done();
         });
       });
       it('fails with a relative path', (done) => {
         const path = './document.json';
         writeDocument(path, objectToSave, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           access(path, (accessErr) => {
-            expect(accessErr).to.be.an('error');
+            expect(typeof accessErr).toBe('object');
             done();
           });
         });
@@ -245,25 +245,25 @@ describe('documentManager/io', () => {
       it('works with an absolute path', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err) => {
-          expect(err).to.not.be.an('error');
-          expect(readJsonFileSync(path)).to.be.eql(objectToSave);
+          expect(typeof err).not.toBe('error');
+          expect(readJsonFileSync(path)).toEqual(objectToSave);
           done();
         });
       });
       it('should give an oid', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err, oid) => {
-          expect(err).to.not.be.an('error');
-          expect(oid).to.be.an('undefined');
+          expect(typeof err).not.toBe('error');
+          expect(oid).toBeUndefined();
           done();
         });
       });
       it('fails with a relative path', (done) => {
         const path = './document.json';
         writeDocument(path, objectToSave, (err) => {
-          expect(err).to.be.an('error');
+          expect(err).toBeInstanceOf(Error);
           access(path, (accessErr) => {
-            expect(accessErr).to.be.an('error');
+            expect(typeof accessErr).toBe('object');
             done();
           });
         });

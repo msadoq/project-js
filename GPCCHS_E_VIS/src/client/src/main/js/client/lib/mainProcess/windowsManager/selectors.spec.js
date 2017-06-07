@@ -9,10 +9,10 @@ describe('windowsManager:selectors', () => {
       views: { v1: { title: 'VIEW', configuration: true } },
     });
     it('should returns editor window title', () => {
-      getEditorWindowTitle(state, { viewId: 'v1' }).should.be.eql('EDITOR_TITLE - VIEW');
+      expect(getEditorWindowTitle(state, { viewId: 'v1' })).toEqual('EDITOR_TITLE - VIEW');
     });
     it('should returns empty title on unknown view', () => {
-      getEditorWindowTitle(state, { viewId: 'unknown_view' }).should.be.eql('');
+      expect(getEditorWindowTitle(state, { viewId: 'unknown_view' })).toEqual('');
     });
   });
   describe('getWindowsTitle', () => {
@@ -26,13 +26,13 @@ describe('windowsManager:selectors', () => {
       },
     };
     it('returns windows titles with star', () => {
-      getWindowsTitle(state).should.eql({
+      expect(getWindowsTitle(state)).toEqual({
         w1: 'First window * - VIMA',
         w2: 'Second window * - VIMA',
       });
     });
     it('returns windows titles without star', () => {
-      getWindowsTitle(_.set('hsc.isModified', false, state)).should.eql({
+      expect(getWindowsTitle(_.set('hsc.isModified', false, state))).toEqual({
         w1: 'First window - VIMA',
         w2: 'Second window - VIMA',
       });
@@ -41,7 +41,7 @@ describe('windowsManager:selectors', () => {
       testMemoization(getWindowsTitle, state);
     });
     it('should support empty windows list', () => {
-      getWindowsTitle({ windows: {} }).should.eql({});
+      expect(getWindowsTitle({ windows: {} })).toEqual({});
     });
   });
 });

@@ -29,10 +29,10 @@ describe('store:actions:editor', () => {
 
   it('DONT dispatch pause action', () => {
     actions.openHtmlEditor('test')(dispatch, getState1);
-    dispatch.should.have.been.callCount(1);
+    expect(dispatch).have.been.callCount(1);
   });
   it('dispatch pause action', () => {
     actions.openHtmlEditor('test')(dispatch, getState2);
-    dispatch.should.have.been.callCount(2);
+    expect(dispatch).have.been.callCount(2);
   });
 });

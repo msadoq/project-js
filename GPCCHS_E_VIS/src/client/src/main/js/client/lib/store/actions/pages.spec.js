@@ -24,9 +24,9 @@ describe('store:actions:pages', () => {
   describe('addBlankPage', () => {
     it('dispatches WS_PAGE_ADD_BLANK with given windowId and newPageId', () => {
       actions.addBlankPage('myWindow1', 'myPage1')(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_PAGE_ADD_BLANK,
         payload: {
           windowId: 'myWindow1',
@@ -36,9 +36,9 @@ describe('store:actions:pages', () => {
     });
     it('dispatches WS_PAGE_ADD_BLANK without windowId', () => {
       actions.addBlankPage(undefined, 'myPage1')(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_PAGE_ADD_BLANK,
         payload: {
           windowId: 'w1',
@@ -48,9 +48,9 @@ describe('store:actions:pages', () => {
     });
     it('dispatched WS_PAGE_ADD_BLANK without newPageId', () => {
       actions.addBlankPage('myWindow1', undefined)(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_PAGE_ADD_BLANK,
         payload: {
           windowId: 'myWindow1',
@@ -60,13 +60,13 @@ describe('store:actions:pages', () => {
           },
         },
       });
-      isV4(dispatch.getCall(0).args[0].payload.page.uuid).should.be.true;
+      expect(isV4(dispatch.getCall(0).args[0].payload.page.uuid)).toBe(true);
     });
     it('dispatched WS_PAGE_ADD_BLANK without windowId and newPageId', () => {
       actions.addBlankPage(undefined, undefined)(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_PAGE_ADD_BLANK,
         payload: {
           windowId: 'w1',
@@ -76,16 +76,16 @@ describe('store:actions:pages', () => {
           },
         },
       });
-      isV4(dispatch.getCall(0).args[0].payload.page.uuid).should.be.true;
+      expect(isV4(dispatch.getCall(0).args[0].payload.page.uuid)).toBe(true);
     });
   });
 
   describe('moveViewToPage', () => {
     it('dispatches a WS_VIEW_MOVE_TO_PAGE', () => {
       actions.moveViewToPage('w1', 'fromPage', 'toPage', 'myViewId')(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(1);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('object');
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_VIEW_MOVE_TO_PAGE,
         payload: {
           fromPageId: 'fromPage',
@@ -96,10 +96,10 @@ describe('store:actions:pages', () => {
     });
     it('dispatches addBlankPage and WS_VIEW_MOVE_TO_PAGE', () => {
       actions.moveViewToPage('w1', 'fromPage', '', 'myViewId')(dispatch, getState);
-      dispatch.should.have.been.callCount(2);
-      dispatch.getCall(0).args[0].should.be.a('function');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(1).should.have.been.calledWith({
+      expect(dispatch).have.been.callCount(2);
+      expect(typeof dispatch.getCall(0).args[0]).toBe('function');
+      expect(typeof dispatch.getCall(1).args[0]).toBe('object');
+      expect(dispatch.getCall(1)).have.been.calledWith({
         type: types.WS_VIEW_MOVE_TO_PAGE,
         payload: {
           fromPageId: 'fromPage',

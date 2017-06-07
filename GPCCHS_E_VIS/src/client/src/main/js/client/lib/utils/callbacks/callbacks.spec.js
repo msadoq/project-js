@@ -5,42 +5,42 @@ describe('utils/callbacks', () => {
   beforeEach(() => callbacks.clear());
   it('get/set', () => {
     callbacks.set('myId', () => true);
-    callbacks.get('myId')().should.equal(true);
+    expect(callbacks.get('myId')()).toBe(true);
   });
   it('remove', () => {
     const myFunc = () => true;
     callbacks.set('myId', myFunc);
     const myFuncBackup = callbacks.get('myId');
     callbacks.remove('myId');
-    should.not.exist(callbacks.get('myId'));
-    myFuncBackup().should.equal(true);
+    expect(callbacks.get('myId')).toBeFalsy();
+    expect(myFuncBackup()).toBe(true);
   });
   it('set required parameters', () => {
-    (() => callbacks.set()).should.throw(Error);
-    (() => callbacks.set(true)).should.throw(Error);
-    (() => callbacks.set('myId', true)).should.throw(Error);
+    expect(() => callbacks.set()).toThrowError(Error);
+    expect(() => callbacks.set(true)).toThrowError(Error);
+    expect(() => callbacks.set('myId', true)).toThrowError(Error);
   });
   it('get unknown', () => {
-    should.not.exist(callbacks.get('myId'));
+    expect(callbacks.get('myId')).toBeFalsy();
   });
   it('getAll', () => {
     callbacks.set('f1', () => 1);
     callbacks.set('f2', () => 2);
     const cbs = callbacks.getAll();
-    cbs.f1().should.equal(1);
-    cbs.f2().should.equal(2);
+    expect(cbs.f1()).toBe(1);
+    expect(cbs.f2()).toBe(2);
   });
   it('pop', () => {
     callbacks.set('myId', () => true);
     callbacks.set('myOtherId', () => true);
-    callbacks.pop('myId')().should.equal(true);
-    callbacks.getAll().should.be.an('object');
-    callbacks.getAll().should.has.not.property('myId');
-    callbacks.getAll().should.has.property('myOtherId');
+    expect(callbacks.pop('myId')()).toBe(true);
+    expect(typeof callbacks.getAll()).toBe('object');
+    expect(callbacks.getAll()).not.toHaveProperty('myId');
+    expect(callbacks.getAll()).toHaveProperty('myOtherId');
   });
   it('clear', () => {
     callbacks.set('myId', () => true);
     callbacks.clear();
-    callbacks.getAll().should.eql({});
+    expect(callbacks.getAll()).toEqual({});
   });
 });

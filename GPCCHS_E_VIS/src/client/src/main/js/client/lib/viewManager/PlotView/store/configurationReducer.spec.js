@@ -31,52 +31,49 @@ describe('store:reducer:PlotViewConfiguration', () => {
   describe('showYAxes', () => {
     it('updates', () => {
       const state = reducer(stateConf, actions.updateShowYAxes('plot1', 'right'));
-      state.showYAxes.should.eql('right');
+      expect(state.showYAxes).toEqual('right');
     });
   });
   describe('legend', () => {
     it('update', () => {
       const state = reducer(stateConf, actions.updateLegend('plot1', 'new Legend'));
-      state.legend.should.deep.equal('new Legend');
+      expect(state.legend).toEqual('new Legend');
     });
   });
   describe('Grid', () => {
     it('adds', () => {
       const grid = { grid: '3' };
       const state = reducer(stateConf, actions.addGrid('plot1', grid));
-      state.grids.should.deep.equal(
-        [{ grid: '1' }, { grid: '2' }, { grid: '3' }]
-      );
+      expect(state.grids).toEqual([{ grid: '1' }, { grid: '2' }, { grid: '3' }]);
     });
     it('add when empty', () => {
       const state = reducer({}, actions.addGrid('plot1', { grid: '3' }));
-      state.grids.should.be.eql([{ grid: '3' }]);
+      expect(state.grids).toEqual([{ grid: '3' }]);
     });
     it('updates', () => {
       const grid = { grid: '3' };
       const state = reducer(stateConf, actions.updateGrid('plot1', 0, grid));
-      state.grids[0].should.deep.equal(grid);
+      expect(state.grids[0]).toEqual(grid);
     });
     it('removes', () => {
       const state = reducer(stateConf, actions.removeGrid('plot1', 1));
-      state.grids.should.deep.equal([{ grid: '1' }]);
+      expect(state.grids).toEqual([{ grid: '1' }]);
     });
   });
   describe('markers', () => {
     it('adds', () => {
       const marker = { m: '3' };
       const state = reducer(stateConf, actions.addMarker('plot1', marker));
-      state.markers.should.deep.equal(
-        [{ m: '1' }, { m: '2' }, { m: '3' }]);
+      expect(state.markers).toEqual([{ m: '1' }, { m: '2' }, { m: '3' }]);
     });
     it('updates', () => {
       const marker = { m: '3' };
       const state = reducer(stateConf, actions.updateMarker('plot1', 0, marker));
-      state.markers[0].should.deep.equal(marker);
+      expect(state.markers[0]).toEqual(marker);
     });
     it('removes', () => {
       const state = reducer(stateConf, actions.removeMarker('plot1', 1));
-      state.markers.should.deep.equal([{ m: '1' }]);
+      expect(state.markers).toEqual([{ m: '1' }]);
     });
   });
   describe('entryPoints', () => {
@@ -89,7 +86,7 @@ describe('store:reducer:PlotViewConfiguration', () => {
         },
       };
       const state = reducer(stateConf, action);
-      state.entryPoints[2].should.have.properties({
+      expect(state.entryPoints[2]).have.properties({
         name: 'ep2',
         connectedData: { timeline: 't2', domain: 'd2', unit: 'w' },
       });
@@ -97,7 +94,7 @@ describe('store:reducer:PlotViewConfiguration', () => {
     it('removes should refresh only axes', () => {
       // remove an entrypoint is in commonConfigurationReducer
       const state = reducer(stateConf, actions.removeEntryPoint('plot1', 0));
-      state.axes.should.deep.equal({
+      expect(state.axes).toEqual({
         axis2: { label: '2', unit: 'w', id: 'axis2' },
         axis3: { label: '3', unit: 'p', id: 'axis3' },
       });
@@ -108,22 +105,21 @@ describe('store:reducer:PlotViewConfiguration', () => {
       const axis = { label: 'axis4', unit: 's' };
       const state = reducer(stateConf, actions.addAxis('plot1', axis));
       const keys = Object.keys(state.axes);
-      keys.should.have.length(4);
-      state.axes[keys[0]].should.deep.equal({ label: 'Time', unit: 's', id: 'time' });
-      state.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', id: 'axis2' });
-      state.axes[keys[2]].should.deep.equal({ label: '3', unit: 'p', id: 'axis3' });
-      state.axes[keys[3]].should.deep.equal({ label: 'axis4', unit: 's', id: keys[3] });
+      expect(keys).toHaveLength(4);
+      expect(state.axes[keys[0]]).toEqual({ label: 'Time', unit: 's', id: 'time' });
+      expect(state.axes[keys[1]]).toEqual({ label: '2', unit: 'w', id: 'axis2' });
+      expect(state.axes[keys[2]]).toEqual({ label: '3', unit: 'p', id: 'axis3' });
+      expect(state.axes[keys[3]]).toEqual({ label: 'axis4', unit: 's', id: keys[3] });
     });
     it('update axis', () => {
       const axis = { label: '3', unit: 'z' };
       const state = reducer(stateConf, actions.updateAxis('plot1', 'axis1', axis));
-      state.axes.axis1.should.deep.equal(Object.assign({}, axis, { id: 'axis1' }));
+      expect(state.axes.axis1).toEqual(Object.assign({}, axis, { id: 'axis1' }));
     });
     it('remove axis', () => {
       const state = reducer(stateConf, actions.removeAxis('plot1', 'axis2'));
-      state.axes.should.deep.equal(
-        { time: { label: 'Time', unit: 's', id: 'time' },
-          axis3: { label: '3', unit: 'p', id: 'axis3' } });
+      expect(state.axes).toEqual({ time: { label: 'Time', unit: 's', id: 'time' },
+        axis3: { label: '3', unit: 'p', id: 'axis3' } });
     });
   });
 });

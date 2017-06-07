@@ -6,16 +6,16 @@ const reducer = freezeArgs(domainsReducer);
 
 describe('store:domains:reducer', () => {
   it('initial state', () => {
-    reducer(undefined, {}).should.eql([]);
+    expect(reducer(undefined, {})).toEqual([]);
   });
   it('unknown action', () => {
-    reducer([{
+    expect(reducer([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
       domainId: 27,
       parentDomainId: 98,
-    }], {}).should.eql([{
+    }], {})).toEqual([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
@@ -24,13 +24,13 @@ describe('store:domains:reducer', () => {
     }]);
   });
   it('set state', () => {
-    reducer(undefined, actions.updateDomains([{
+    expect(reducer(undefined, actions.updateDomains([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
       domainId: 27,
       parentDomainId: 98,
-    }])).should.eql([{
+    }]))).toEqual([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
@@ -49,7 +49,7 @@ describe('store:domains:selectors', () => {
           myOtherId: { domainId: 2 },
         },
       };
-      getDomains(state).should.equal(state.domains);
+      expect(getDomains(state)).toBe(state.domains);
     });
   });
 });

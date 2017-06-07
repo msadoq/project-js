@@ -229,7 +229,9 @@ describe('store:views:selectors', () => {
   };
 
   it('getViewEntryPoint', () => {
-    getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' }).should.eql({
+    expect(
+      getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' })
+    ).toEqual({
       id: 'id1',
       dataId: {
         catalog: 'Reporting',
@@ -269,10 +271,10 @@ describe('store:views:selectors', () => {
       },
     };
     it('returns an empty array', () => {
-      getWindowAllViewsIds(emptyState, { windowId: 'w1' }).should.be.eql([]);
+      expect(getWindowAllViewsIds(emptyState, { windowId: 'w1' })).toEqual([]);
     });
     it('returns all views ids', () => {
-      getWindowAllViewsIds(state, { windowId: 'w2' }).should.be.eql([4, 5, 6, 7, 8, 9]);
+      expect(getWindowAllViewsIds(state, { windowId: 'w2' })).toEqual([4, 5, 6, 7, 8, 9]);
     });
   });
 });

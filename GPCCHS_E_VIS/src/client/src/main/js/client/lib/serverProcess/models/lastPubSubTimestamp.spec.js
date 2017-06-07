@@ -6,20 +6,18 @@ describe('models/lastPubSubTimestamp', () => {
     reset();
   });
   it('get', () => {
-    should.not.exist(get());
+    expect(get()).toBeFalsy();
   });
   it('set', () => {
     const t = 42;
     set(t);
-    get()
-      .should.equal(t);
+    expect(get()).toBe(t);
   });
   it('reset', () => {
-    should.not.exist(reset());
+    expect(reset()).toBeFalsy();
     const t = 42;
     set(t);
-    reset()
-      .should.equal(t);
-    should.not.exist(get());
+    expect(reset()).toBe(t);
+    expect(get()).toBeFalsy();
   });
 });

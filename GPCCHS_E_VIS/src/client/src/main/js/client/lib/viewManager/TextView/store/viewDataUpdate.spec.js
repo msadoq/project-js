@@ -4,12 +4,13 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
   describe('Update', () => {
     it('should ignore payloads', () => {
       const frozen = Object.freeze({ index: {}, values: {} });
-      viewDataUpdate(frozen, {}).should.eql(frozen);
+      expect(viewDataUpdate(frozen, {})).toEqual(frozen);
     });
     it('should add', () => {
       const frozen = Object.freeze({ index: {}, values: {} });
-      viewDataUpdate(frozen, { index: { myEntryPoint: 15 }, values: { myEntryPoint: 300 } })
-      .should.eql({
+      expect(
+        viewDataUpdate(frozen, { index: { myEntryPoint: 15 }, values: { myEntryPoint: 300 } })
+      ).toEqual({
         index: { myEntryPoint: 15 },
         values: { myEntryPoint: 300 },
       });
@@ -19,8 +20,9 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         index: { myEntryPoint: '10' },
         values: { myEntryPoint: 150 },
       });
-      viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
-      .should.eql({
+      expect(
+        viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
+      ).toEqual({
         index: { myEntryPoint: 20 },
         values: { myEntryPoint: 300 },
       });
@@ -30,8 +32,9 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         index: { myEntryPoint: 10, myOther: 20 },
         values: { myEntryPoint: 150, myOther: 200 },
       });
-      viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
-      .should.eql({
+      expect(
+        viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
+      ).toEqual({
         index: { myEntryPoint: 20, myOther: 20 },
         values: { myEntryPoint: 300, myOther: 200 },
       });
@@ -134,46 +137,46 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
     it('state undefined', () => {
       const data =
         selectDataPerView(viewDataMap.text1, expectedIntervals, payload, { index: {}, values: {} });
-      data.index.ep4.should.eql(20);
-      data.index.ep7.should.eql(13);
-      data.values.ep4.value.should.eql(203);
-      data.values.ep7.value.should.eql('val3');
+      expect(data.index.ep4).toEqual(20);
+      expect(data.index.ep7).toEqual(13);
+      expect(data.values.ep4.value).toEqual(203);
+      expect(data.values.ep7.value).toEqual('val3');
     });
     it('state with value > current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
       const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
-      data.index.ep4.should.eql(20);
-      data.index.ep7.should.eql(13);
-      data.values.ep4.value.should.eql(203);
-      data.values.ep7.value.should.eql('val3');
+      expect(data.index.ep4).toEqual(20);
+      expect(data.index.ep7).toEqual(13);
+      expect(data.values.ep4.value).toEqual(203);
+      expect(data.values.ep7.value).toEqual('val3');
     });
     it('state with value < current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
       const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
-      data.index.ep4.should.eql(20);
-      data.index.ep7.should.eql(13);
-      data.values.ep4.value.should.eql(203);
-      data.values.ep7.value.should.eql('val3');
+      expect(data.index.ep4).toEqual(20);
+      expect(data.index.ep7).toEqual(13);
+      expect(data.values.ep4.value).toEqual(203);
+      expect(data.values.ep7.value).toEqual('val3');
     });
     it('state with value = current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;
       const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
-      data.index.ep4.should.eql(20);
-      data.index.ep7.should.eql(13);
-      data.values.ep4.value.should.eql(203);
-      data.values.ep7.value.should.eql('val3');
+      expect(data.index.ep4).toEqual(20);
+      expect(data.index.ep7).toEqual(13);
+      expect(data.values.ep4.value).toEqual(203);
+      expect(data.values.ep7.value).toEqual('val3');
     });
     it('DataMap with invalid entry point field', () => {
       const oldState = { index: { ep4: 18 }, values: { ep4: { value: 201, color: '#0000FF' } } };
       const data = selectDataPerView(viewDataMap.text2, expectedIntervals, payload, oldState);
-      data.index.should.eql({ ep4: 20 });
-      data.values.should.eql({ ep4: { value: 203, color: '#0000FF' } });
+      expect(data.index).toEqual({ ep4: 20 });
+      expect(data.values).toEqual({ ep4: { value: 203, color: '#0000FF' } });
     });
   });
 });

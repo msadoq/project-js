@@ -8,16 +8,17 @@ const reducer = freezeArgs(timelinesReducer);
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:timelines:reducer', () => {
   it('initial state', () => {
-    reducer(undefined, {}).should.be.an('object').that.is.empty;
+    expect(typeof reducer(undefined, {})).toHaveLength(0);
   });
   it('unknown action', () => {
-    reducer({ myTimelineUuid: { id: 'myTimelineId' } }, { payload: { timelineId: 'myTimelineId' } })
-      .should.eql({ myTimelineUuid: { id: 'myTimelineId' } });
+    expect(
+      reducer({ myTimelineUuid: { id: 'myTimelineId' } }, { payload: { timelineId: 'myTimelineId' } })
+    ).toEqual({ myTimelineUuid: { id: 'myTimelineId' } });
   });
   describe('HSC workspace', () => {
     it('close', () => {
       const newState = reducer({ myTimelineUuid: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
-      newState.should.be.an('object').that.is.empty;
+      expect(typeof newState).toHaveLength(0);
     });
   });
 });
@@ -30,11 +31,11 @@ describe('store:timelines:selectors', () => {
         myTimelineId: { id: 'Id' },
       },
     });
-    getTimeline(getState(), { timelineUuid: 'myTimelineId' }).should.have.property('id', 'Id');
-    should.not.exist(getTimeline(getState(), { timelineUuid: 'unknownId' }));
+    expect(getTimeline(getState(), { timelineUuid: 'myTimelineId' })).toHaveProperty('id', 'Id');
+    expect(getTimeline(getState(), { timelineUuid: 'unknownId' })).toBeFalsy();
   });
   it('getTimelines', () => {
     const { getState } = getStore({ timelines: true });
-    getTimelines(getState()).should.be.true;
+    expect(getTimelines(getState())).toBe(true);
   });
 });

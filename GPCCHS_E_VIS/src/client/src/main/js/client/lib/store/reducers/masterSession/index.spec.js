@@ -7,17 +7,15 @@ const reducer = freezeArgs(masterSessionReducer);
 describe('store:masterSession:reducer', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
-    r.should.eql({});
+    expect(r).toEqual({});
   });
   it('should ignore unknown action', () => {
     const state = { sessionId: 10 };
-    reducer(state, {}).should.equal(state);
+    expect(reducer(state, {})).toBe(state);
   });
   it('should update masterSessionId', () => {
-    reducer(undefined, actions.updateMasterSession(100))
-      .should.eql({ sessionId: 100 });
-    reducer(100, actions.updateMasterSession(200))
-      .should.eql({ sessionId: 200 });
+    expect(reducer(undefined, actions.updateMasterSession(100))).toEqual({ sessionId: 100 });
+    expect(reducer(100, actions.updateMasterSession(200))).toEqual({ sessionId: 200 });
   });
 });
 
@@ -25,10 +23,10 @@ describe('store:masterSession:reducer', () => {
 describe('store:masterSession:selectors', () => {
   describe('getMasterSessionId', () => {
     it('should support empty state without error', () => {
-      should.not.exist(getMasterSessionId({}));
+      expect(getMasterSessionId({})).toBeFalsy();
     });
     it('should returns master sessionId', () => {
-      getMasterSessionId({ masterSession: { sessionId: 10 } }).should.equal(10);
+      expect(getMasterSessionId({ masterSession: { sessionId: 10 } })).toBe(10);
     });
   });
 });

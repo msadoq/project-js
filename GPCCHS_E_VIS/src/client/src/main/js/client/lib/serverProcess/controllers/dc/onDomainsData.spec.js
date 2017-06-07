@@ -19,9 +19,9 @@ describe('controllers/utils/onDomainsData', () => {
     onDomainsData(testHandler, myQueryIdProto, myDomainsProto);
     // check data
     const wsArgs = getTestHandlerArgs();
-    wsArgs.should.have.lengthOf(2);
-    wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.be.an('object').that.has.properties({
+    expect(wsArgs).toHaveLength(2);
+    expect(wsArgs[0]).toBe(myQueryId);
+    expect(typeof wsArgs[1]).toBe('object').that.has.properties({
       domains: myDomains.domains,
     });
   });

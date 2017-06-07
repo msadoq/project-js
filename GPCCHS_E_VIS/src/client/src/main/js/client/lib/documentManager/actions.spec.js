@@ -16,12 +16,12 @@ describe('documentManager:actions', () => {
     it('dispatches a message in case of error', () => {
       const dispatch = getDispatch();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        viewInfo.should.be.eql('viewInfo');
+        expect(viewInfo).toEqual('viewInfo');
         cb(null, { error: 'Error' });
       });
       actions.openView('viewInfo')(dispatch);
-      dispatch.should.have.been.calledOnce;
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.calledOnce;
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_MESSAGE_ADD,
         payload: {
           containerId: 'global',
@@ -33,12 +33,12 @@ describe('documentManager:actions', () => {
     it('dispatches a WS_VIEW_OPEN when view is loaded', () => {
       const dispatch = getDispatch();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        viewInfo.should.be.eql('viewInfo');
+        expect(viewInfo).toEqual('viewInfo');
         cb(null, { value: { title: 'my view' } });
       });
       actions.openView('viewInfo', 'myPageId')(dispatch);
-      dispatch.should.have.been.calledOnce;
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.calledOnce;
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_VIEW_OPEN,
         payload: {
           pageId: 'myPageId',
@@ -51,12 +51,12 @@ describe('documentManager:actions', () => {
     it('dispatches a global error message in case of error', () => {
       const dispatch = getDispatch();
       stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
-        pageInfo.should.be.eql('page_info');
+        expect(pageInfo).toEqual('page_info');
         cb(null, { views: [{ error: 'Error view' }], pages: [{ error: 'Error page' }] });
       });
       actions.openPage('page_info')(dispatch);
-      dispatch.should.have.been.calledOnce;
-      dispatch.getCall(0).should.have.been.calledWith({
+      expect(dispatch).have.been.calledOnce;
+      expect(dispatch.getCall(0)).have.been.calledWith({
         type: types.WS_MESSAGE_ADD,
         payload: {
           containerId: 'global',

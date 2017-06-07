@@ -2,14 +2,11 @@ import { v4 } from 'uuid';
 import { tmpdir } from 'os';
 import _ from 'lodash';
 import path from 'path';
-import chai from 'chai';
-import sinonChai from 'sinon-chai';
-import properties from 'chai-properties';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
-import Long  from 'long';
+import Long from 'long';
 import reducer from '../store/reducers/index';
 
 global.testConfig = {
@@ -33,9 +30,6 @@ _.set(
   'parameters.get',
   p => _.get(global.testConfig, p)
 );
-
-chai.use(properties);
-chai.use(sinonChai);
 
 function getStore(initialState) {
   return createStore(
@@ -75,14 +69,14 @@ const testMemoization = (selector, state, ownProps) => {
   const newState = _.cloneDeep(state);
   const newOwnProps = _.cloneDeep(ownProps);
   selector.resetRecomputations();
-  selector.recomputations().should.equal(0);
+  expect(selector.recomputations()).toBe(0);
 
   const r1 = selector(newState, newOwnProps);
-  selector.recomputations().should.equal(1);
+  expect(selector.recomputations()).toBe(1);
 
   const r2 = selector(newState, newOwnProps);
-  selector.recomputations().should.equal(1);
-  r1.should.equal(r2);
+  expect(selector.recomputations()).toBe(1);
+  expect(r1).toBe(r2);
 };
 
 const testPayloads = [];
@@ -93,8 +87,6 @@ const testHandler = (...args) => {
 };
 
 module.exports = {
-  should: chai.should(),
-  expect: chai.expect,
   sinon,
   getStore,
   createGetState,

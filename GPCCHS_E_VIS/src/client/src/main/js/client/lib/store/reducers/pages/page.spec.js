@@ -13,21 +13,20 @@ describe('store:page:reducer', () => {
         { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
         actions.updateLayout('myPageId', [{ i: '2', x: 1, y: 2 }])
       );
-      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', x: 1, y: 2, collapsed: true }]);
-      state.myPageId.isModified.should.be.true;
+      expect(state.myPageId.layout).toEqual([{ i: '1' }, { i: '2', x: 1, y: 2, collapsed: true }]);
+      expect(state.myPageId.isModified).toBe(true);
     });
     it('does not update dimensions when collapsed', () => {
       const state = reducer(
         { myPageId: { layout: [{ i: '1' }, { i: '2', collapsed: true }], title: 'aa' } },
         actions.updateLayout('myPageId', [{ i: '2', h: 1, w: 2 }])
       );
-      state.myPageId.layout.should.eql([{ i: '1' }, { i: '2', collapsed: true }]);
+      expect(state.myPageId.layout).toEqual([{ i: '1' }, { i: '2', collapsed: true }]);
     });
   });
   describe('updateAbsolutePath', () => {
     it('empty state', () => {
-      reducer({}, actions.updateAbsolutePath('myPage', 'myPath'))
-      .should.be.an('object').that.is.empty;
+      expect(typeof reducer({}, actions.updateAbsolutePath('myPage', 'myPath'))).toHaveLength(0);
     });
     it('invalid page id', () => {
       const state = { page1: {} };
@@ -38,7 +37,7 @@ describe('store:page:reducer', () => {
           newPath: 'myPath',
         },
       });
-      newState.should.eql(state);
+      expect(newState).toEqual(state);
     });
     it('valid page id', () => {
       const state = { page1: { absolutePath: 'path1' } };
@@ -49,7 +48,7 @@ describe('store:page:reducer', () => {
           newPath: 'newPath',
         },
       });
-      newState.should.eql({ page1: { absolutePath: 'newPath', isModified: true } });
+      expect(newState).toEqual({ page1: { absolutePath: 'newPath', isModified: true } });
     });
     it('update absolutePath for new page', () => {
       const state = { page1: { pageId: 'page1' } };
@@ -60,7 +59,7 @@ describe('store:page:reducer', () => {
           newPath: 'newPath',
         },
       });
-      newState.should.eql({ page1: { pageId: 'page1', absolutePath: 'newPath', isModified: true } });
+      expect(newState).toEqual({ page1: { pageId: 'page1', absolutePath: 'newPath', isModified: true } });
     });
   });
   describe('updatePath', () => {
@@ -72,7 +71,7 @@ describe('store:page:reducer', () => {
           newPath: 'myPath',
         },
       });
-      newState.should.be.an('object').that.is.empty;
+      expect(typeof newState).toHaveLength(0);
     });
     it('valid page id', () => {
       const state = { page1: { path: 'path1' } };
@@ -83,7 +82,7 @@ describe('store:page:reducer', () => {
           newPath: 'newPath',
         },
       });
-      newState.should.eql({ page1: { path: 'newPath', isModified: true } });
+      expect(newState).toEqual({ page1: { path: 'newPath', isModified: true } });
     });
   });
   describe('set page oid', () => {
@@ -95,7 +94,7 @@ describe('store:page:reducer', () => {
           oid: '1234',
         },
       });
-      newState.should.be.an('object').that.is.empty;
+      expect(typeof newState).toHaveLength(0);
     });
     it('sets oid', () => {
       const state = { page1: { } };
@@ -106,28 +105,31 @@ describe('store:page:reducer', () => {
           oid: '1234',
         },
       });
-      newState.should.eql({ page1: { oId: '1234', isModified: true } });
+      expect(newState).toEqual({ page1: { oId: '1234', isModified: true } });
     });
   });
   describe('setModified', () => {
     it('no change', () => {
-      reducer({ myPage: { isModified: false } }, actions.setModified('myPage', false))
-      .should.eql({ myPage: { isModified: false } });
-      reducer({ myPage: { isModified: true } }, actions.setModified('myPage', true))
-      .should.eql({ myPage: { isModified: true } });
+      expect(
+        reducer({ myPage: { isModified: false } }, actions.setModified('myPage', false))
+      ).toEqual({ myPage: { isModified: false } });
+      expect(
+        reducer({ myPage: { isModified: true } }, actions.setModified('myPage', true))
+      ).toEqual({ myPage: { isModified: true } });
     });
     it('false -> true', () => {
-      reducer({ myPage: { isModified: false } }, actions.setModified('myPage', true))
-      .should.eql({ myPage: { isModified: true } });
+      expect(
+        reducer({ myPage: { isModified: false } }, actions.setModified('myPage', true))
+      ).toEqual({ myPage: { isModified: true } });
     });
     it('true -> false', () => {
-      reducer({ myPage: { isModified: true } }, actions.setModified('myPage', false))
-      .should.eql({ myPage: { isModified: false } });
+      expect(
+        reducer({ myPage: { isModified: true } }, actions.setModified('myPage', false))
+      ).toEqual({ myPage: { isModified: false } });
     });
     it('invalid view id', () => {
       const state = { myPage: { isModified: true } };
-      reducer(state, actions.setModified('noPage', false))
-      .should.eql(state);
+      expect(reducer(state, actions.setModified('noPage', false))).toEqual(state);
     });
   });
   describe('mount and unmount timebar', () => {
@@ -135,13 +137,13 @@ describe('store:page:reducer', () => {
       const state = { myPage: { timebarUuid: 'tb1' } };
       const action = { type: types.WS_PAGE_TIMEBAR_MOUNT, payload: { pageId: 'myPage', timebarUuid: 'newTb1' } };
       const nextState = reducer(state, action);
-      nextState.myPage.timebarUuid.should.be.eql('newTb1');
+      expect(nextState.myPage.timebarUuid).toEqual('newTb1');
     });
     it('tb1 -> null', () => {
       const state = { myPage: { timebarUuid: 'tb1' } };
       const action = { type: types.WS_PAGE_TIMEBAR_UNMOUNT, payload: { pageId: 'myPage' } };
       const nextState = reducer(state, action);
-      should.not.exist(nextState.myPage.timebarUuid);
+      expect(nextState.myPage.timebarUuid).toBeFalsy();
     });
   });
   describe('updateTItle', () => {
@@ -149,7 +151,7 @@ describe('store:page:reducer', () => {
       const state = { myPage: { title: 'tb 1' } };
       const action = { type: types.WS_PAGE_UPDATE_TITLE, payload: { pageId: 'myPage', title: 'tb 2' } };
       const nextState = reducer(state, action);
-      nextState.myPage.should.eql({ title: 'tb 2', isModified: true });
+      expect(nextState.myPage).toEqual({ title: 'tb 2', isModified: true });
     });
   });
 });

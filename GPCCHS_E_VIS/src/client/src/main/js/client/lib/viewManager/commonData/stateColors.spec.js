@@ -8,8 +8,7 @@ describe('data/common/stateColors', () => {
     const payload = {};
     const stateColors = [];
 
-    getStateColorObj(payload, stateColors, 'severe')
-      .should.eql({ color: get('STATE_COLORS').severe });
+    expect(getStateColorObj(payload, stateColors, 'severe')).toEqual({ color: get('STATE_COLORS').severe });
   });
   it('apply custom state color', () => {
     const payload = {
@@ -32,7 +31,7 @@ describe('data/common/stateColors', () => {
       },
     ];
 
-    getStateColorObj(payload, stateColors).should.eql({ color: '#0000FF' });
+    expect(getStateColorObj(payload, stateColors)).toEqual({ color: '#0000FF' });
   });
   it('apply custom state color, but nothing', () => {
     const payload = {
@@ -55,12 +54,12 @@ describe('data/common/stateColors', () => {
       },
     ];
 
-    should.not.exist(getStateColorObj(payload, stateColors));
+    expect(getStateColorObj(payload, stateColors)).toBeFalsy();
   });
   it('nothing to apply', () => {
     const payload = {};
     const stateColors = [];
 
-    should.not.exist(getStateColorObj(payload, stateColors));
+    expect(getStateColorObj(payload, stateColors)).toBeFalsy();
   });
 });

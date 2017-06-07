@@ -14,15 +14,15 @@ const reducer = freezeArgs(timebarsReducer);
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:timebars:reducer', () => {
   it('initial state', () => {
-    reducer(undefined, {}).should.be.an('object').that.is.empty;
+    expect(typeof reducer(undefined, {})).toHaveLength(0);
   });
   it('unknown action', () => {
-    reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })
-      .should.eql({ tb1: { id: 'tb1' } });
+    expect(reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })).toEqual({ tb1: { id: 'tb1' } });
   });
   it('pause disable realTime', () => {
-    reducer({ tb1: { realTime: true }, tb2: { realTime: false } }, { type: types.HSC_PAUSE })
-      .should.eql({ tb1: { realTime: false }, tb2: { realTime: false } });
+    expect(
+      reducer({ tb1: { realTime: true }, tb2: { realTime: false } }, { type: types.HSC_PAUSE })
+    ).toEqual({ tb1: { realTime: false }, tb2: { realTime: false } });
   });
   describe('HSC workspace', () => {
     const state = {
@@ -39,7 +39,7 @@ describe('store:timebars:reducer', () => {
     };
     it('close', () => {
       const newState = reducer(state, { type: types.HSC_CLOSE_WORKSPACE });
-      newState.should.be.an('object').that.is.empty;
+      expect(typeof newState).toHaveLength(0);
     });
   });
 });
@@ -52,8 +52,8 @@ describe('store:timebars:selectors', () => {
         myTimebarId: { id: 'Id' },
       },
     });
-    getTimebar(getState(), { timebarUuid: 'myTimebarId' }).should.have.property('id', 'Id');
-    should.not.exist(getTimebar(getState(), { timebarUuid: 'unknownId' }));
+    expect(getTimebar(getState(), { timebarUuid: 'myTimebarId' })).toHaveProperty('id', 'Id');
+    expect(getTimebar(getState(), { timebarUuid: 'unknownId' })).toBeFalsy();
   });
   it('getTimebarId', () => {
     const { getState } = getStore({
@@ -61,8 +61,8 @@ describe('store:timebars:selectors', () => {
         myTimebarId: { id: 'Id' },
       },
     });
-    getTimebarId(getState(), { timebarUuid: 'myTimebarId' }).should.be.eql('Id');
-    should.not.exist(getTimebarId(getState(), { timebarUuid: 'unknownId' }));
+    expect(getTimebarId(getState(), { timebarUuid: 'myTimebarId' })).toEqual('Id');
+    expect(getTimebarId(getState(), { timebarUuid: 'unknownId' })).toBeFalsy();
   });
   it('getTimebars', () => {
     const state = {
@@ -71,14 +71,14 @@ describe('store:timebars:selectors', () => {
       },
     };
     const { getState } = getStore(state);
-    getTimebars(getState()).should.be.eql(state.timebars);
+    expect(getTimebars(getState())).toEqual(state.timebars);
   });
   it('getFirstTimebarId', () => {
     const state = {
       timebars: { aaa: {} },
     };
     const { getState } = getStore(state);
-    getFirstTimebarId(getState()).should.be.eql('aaa');
+    expect(getFirstTimebarId(getState())).toEqual('aaa');
   });
   it('getTimebarMasterId', () => {
     const state = {
@@ -89,6 +89,6 @@ describe('store:timebars:selectors', () => {
         },
       },
     };
-    getTimebarMasterId(state, { timebarUuid: 'tb1' }).should.be.eql('master id');
+    expect(getTimebarMasterId(state, { timebarUuid: 'tb1' })).toEqual('master id');
   });
 });

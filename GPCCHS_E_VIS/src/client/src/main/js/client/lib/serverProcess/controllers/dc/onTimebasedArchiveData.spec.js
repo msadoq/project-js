@@ -56,7 +56,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     );
     // check data
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
+    expect(typeof cd).toBe('object')
       .that.have.properties({
         flatDataId,
         intervals: {
@@ -67,8 +67,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         lastQueries: {},
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.not.exist(timebasedDataModel);
-    getQueue().should.deep.equal({});
+    expect(timebasedDataModel).toBeFalsy();
+    expect(getQueue()).toEqual({});
   });
   it('works when range query', () => {
     // init test
@@ -87,9 +87,9 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.exist(getRegisteredQuery(queryId));
+    expect(getRegisteredQuery(queryId)).toBeDefined();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
+    expect(typeof cd).toBe('object')
       .that.have.properties({
         flatDataId,
         intervals: {
@@ -100,10 +100,10 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         lastQueries: {},
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(2);
+    expect(timebasedDataModel).toBeDefined();
+    expect(timebasedDataModel.count()).toBe(2);
     const timebasedData = timebasedDataModel.find();
-    timebasedData.should.have.properties([
+    expect(timebasedData).have.properties([
       {
         timestamp: t1,
         payload: deprotoRp,
@@ -112,7 +112,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    getQueue().should.have.properties({
+    expect(getQueue()).have.properties({
       [flatDataId]: {
         [t1]: deprotoRp,
         [t2]: deprotoRp,
@@ -137,9 +137,9 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.not.exist(getRegisteredQuery(queryId));
+    expect(getRegisteredQuery(queryId)).toBeFalsy();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
+    expect(typeof cd).toBe('object')
       .that.have.properties({
         flatDataId,
         intervals: {
@@ -150,10 +150,10 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         lastQueries: {},
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(2);
+    expect(timebasedDataModel).toBeDefined();
+    expect(timebasedDataModel.count()).toBe(2);
     const timebasedData = timebasedDataModel.find();
-    timebasedData.should.have.properties([
+    expect(timebasedData).have.properties([
       {
         timestamp: t1,
         payload: deprotoRp,
@@ -162,7 +162,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    getQueue().should.have.properties({
+    expect(getQueue()).have.properties({
       [flatDataId]: {
         [t1]: deprotoRp,
         [t2]: deprotoRp,
@@ -184,9 +184,9 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.not.exist(getRegisteredQuery(queryId));
+    expect(getRegisteredQuery(queryId)).toBeFalsy();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
+    expect(typeof cd).toBe('object')
       .that.have.properties({
         flatDataId,
         intervals: {
@@ -197,8 +197,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         lastQueries: { },
       });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.not.exist(timebasedDataModel);
-    getQueue().should.have.properties({
+    expect(timebasedDataModel).toBeFalsy();
+    expect(getQueue()).have.properties({
       [flatDataId]: {
         [t1]: deprotoRp,
       },

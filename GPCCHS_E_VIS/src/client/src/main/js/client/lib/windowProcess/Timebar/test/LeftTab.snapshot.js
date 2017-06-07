@@ -28,7 +28,7 @@ const propsStub = {
   verticalScroll: 0,
 };
 
-test('Lefttab renders correctly', () => {
+it('Lefttab renders correctly', () => {
   const tree = renderer.create(
     <LeftTab
       {...propsStub}

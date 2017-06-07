@@ -91,7 +91,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     let dataToInject;
     let oldExpectedIntervals;
     let newExpectedIntervals;
-    before('', () => {
+    beforeAll(() => {
       oldViewMap = {
         text: {
           type: 'TextView',

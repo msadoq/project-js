@@ -30,7 +30,7 @@ const propsStub = {
   widthPx: 900,
 };
 
-test('Timebar renders correctly', () => {
+it('Timebar renders correctly', () => {
   const tree = renderer.create(
     <Timebar {...propsStub} />
   ).toJSON();

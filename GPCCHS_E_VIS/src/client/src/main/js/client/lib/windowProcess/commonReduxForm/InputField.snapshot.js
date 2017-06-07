@@ -14,7 +14,7 @@ const propsStub = {
   type: 'testType',
 };
 
-test('Navigation renders correctly', () => {
+it('Navigation renders correctly', () => {
   const tree = renderer.create(
     <InputField
       {...propsStub}

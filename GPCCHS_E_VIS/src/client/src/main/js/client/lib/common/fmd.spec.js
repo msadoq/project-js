@@ -22,13 +22,13 @@ const mockedRequestFmdGet = (oId, cb) => cb({
 
 describe('common/fmd', () => {
   let stubs = [];
-  before(() => {
+  beforeAll(() => {
     stubs = [
       sinon.stub(ipcApi.server, 'requestFmdCreate').callsFake(mockedRequestFmdCreate),
       sinon.stub(ipcApi.server, 'requestFmdGet').callsFake(mockedRequestFmdGet),
     ];
   });
-  after(() => {
+  afterAll(() => {
     stubs.forEach(stub => stub.restore());
   });
   describe('getRootDir', () => {

@@ -20,7 +20,7 @@ const propsStub = {
   messages: [],
 };
 
-test('Controls renders correctly', () => {
+it('Controls renders correctly', () => {
   const tree = renderer.create(
     <ControlsLeft {...propsStub} />
   ).toJSON();

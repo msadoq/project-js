@@ -41,11 +41,11 @@ describe('documentManager/io', () => {
   const folder = fmdApi.getRootDir();
   let stubCreateDocument;
   let stubResolveDocument;
-  before(() => {
+  beforeAll(() => {
     stubCreateDocument = sinon.stub(fmdApi, 'createDocument').callsFake(mockedCreateDocument);
     stubResolveDocument = sinon.stub(fmdApi, 'resolveDocument').callsFake(mockedResolveDocument);
   });
-  after(() => {
+  afterAll(() => {
     stubCreateDocument.restore();
     stubResolveDocument.restore();
   });
@@ -128,10 +128,10 @@ describe('documentManager/io', () => {
     });
 
     describe('outside fmd folder', () => {
-      before(() => {
+      beforeAll(() => {
         process.env.ISIS_DOCUMENTS_ROOT = resolve(__dirname, '../../data');
       });
-      after(() => {
+      afterAll(() => {
         process.env.ISIS_DOCUMENTS_ROOT = folder;
       });
       it('works with absolute path', (done) => {
@@ -202,10 +202,10 @@ describe('documentManager/io', () => {
     });
 
     describe('inside fmd folder', () => {
-      before(() => {
+      beforeAll(() => {
         process.env.ISIS_DOCUMENTS_ROOT = getTmpPath();
       });
-      after(() => {
+      afterAll(() => {
         process.env.ISIS_DOCUMENTS_ROOT = folder;
       });
 

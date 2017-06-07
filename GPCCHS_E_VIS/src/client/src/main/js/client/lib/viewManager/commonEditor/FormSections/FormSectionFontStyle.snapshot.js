@@ -5,7 +5,7 @@ import { combineReducers, createStore } from 'redux';
 import renderer from 'react-test-renderer';
 import FormSectionLineStyle from './FormSectionLineStyle';
 
-test('Navigation renders correctly', () => {
+it('Navigation renders correctly', () => {
   const store = createStore(
     combineReducers({ form }),
     { form: {} }

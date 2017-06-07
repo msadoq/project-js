@@ -10,7 +10,7 @@ const propsStub = {
   color: '#F0F0F0',
 };
 
-test('Navigation renders correctly', () => {
+it('Navigation renders correctly', () => {
   const tree = renderer.create(
     <ColorPickerField
       input={propsStub.input}

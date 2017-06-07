@@ -25,7 +25,7 @@ const propsStub = {
   },
 };
 
-test('AddTimeline (redux-form) renders correctly', () => {
+it('AddTimeline (redux-form) renders correctly', () => {
   const tree = renderer.create(
     <Provider store={store}>
       <AddTimeline {...propsStub} />

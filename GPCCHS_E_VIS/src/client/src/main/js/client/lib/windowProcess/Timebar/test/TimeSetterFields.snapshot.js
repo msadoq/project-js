@@ -13,7 +13,7 @@ const propsStub = {
   undisplayed: false,
 };
 
-test('TimesetterFields renders correctly', () => {
+it('TimesetterFields renders correctly', () => {
   const tree = renderer.create(
     <TimeSetterFields
       {...propsStub}

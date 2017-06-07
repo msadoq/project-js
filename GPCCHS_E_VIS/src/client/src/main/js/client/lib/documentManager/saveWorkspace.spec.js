@@ -29,10 +29,10 @@ const readJson = (path, cb) => {
 
 describe('documentManager/saveWorkspace', () => {
   let stub;
-  before(() => {
+  beforeAll(() => {
     stub = sinon.stub(fmdApi, 'createDocument').callsFake(mockedCreateDocument);
   });
-  after(() => {
+  afterAll(() => {
     stub.restore();
   });
   let state;

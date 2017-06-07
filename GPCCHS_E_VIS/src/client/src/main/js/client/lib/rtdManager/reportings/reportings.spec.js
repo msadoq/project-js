@@ -32,7 +32,7 @@ let monitoringStub;
 let rtdStub;
 
 describe('rtdManager/reportings', () => {
-  before((done) => {
+  beforeAll((done) => {
     monitoringStub = sinon.stub(monitorings, 'getTriggers').callsFake((opts, monitoring, callback) => {
       callback(null, 'StubTriggers');
     });
@@ -43,7 +43,7 @@ describe('rtdManager/reportings', () => {
       loadReportings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
   });
-  after(() => {
+  afterAll(() => {
     monitoringStub.restore();
   });
   beforeEach((done) => {

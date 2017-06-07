@@ -27,7 +27,7 @@ let rtd;
 // TODO tests to complete
 
 describe('rtdManager/monitorings', () => {
-  before((done) => {
+  beforeAll((done) => {
     connect({ socket, mockRedis }, (err, api) => {
       should.not.exist(err);
       should.exist(api);

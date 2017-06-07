@@ -15,7 +15,7 @@ const propsStub = {
   },
 };
 
-test('FiltersFields renders correctly', () => {
+it('FiltersFields renders correctly', () => {
   const tree = renderer.create(
     <FiltersFields
       fields={propsStub.fields}

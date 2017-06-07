@@ -19,7 +19,7 @@ describe('common/fs', () => {
   const unreadable = fs.resolve(tmpFolder, '/unreadable.txt');
   const notExists = fs.resolve(tmpFolder, '/not-exists.txt');
   const unavailableFolder = fs.resolve(tmpFolder, '/unavailableFolder');
-  before(() => {
+  beforeAll(() => {
     try {
       accessSync(tmpFolder, constants.F_OK);
     } catch (e) {
@@ -48,7 +48,7 @@ describe('common/fs', () => {
       chmodSync(unavailableFolder, 0);
     }
   });
-  after((done) => {
+  afterAll((done) => {
     rimraf(tmpFolder, done);
   });
 

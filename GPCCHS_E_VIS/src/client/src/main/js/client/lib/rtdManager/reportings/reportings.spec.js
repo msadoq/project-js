@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { connect } from 'rtd/catalogs';
 import { Reporting as loadReportings } from 'rtd/stubs/loaders';
 import { Reporting as generateReporting } from 'rtd/stubs/generators';
-import { should } from '../../common/test';
+import '../../common/test';
 import {
   getShortDescription,
   getLongDescription,
@@ -76,8 +76,8 @@ describe('rtdManager/reportings', () => {
   });
   it('getAliases', (done) => {
     getAliases({ rtd, sessionId, domainId }, reporting, (err, aliases) => {
-      expect(typeof aliases).toBe('array');
-      expect(typeof aliases[0]).toBe('object');
+      expect(aliases).toBeAnArray();
+      expect(aliases[0]).toBeAnObject();
       expect(aliases[0]).toHaveProperty('Alias');
       expect(aliases[0]).toHaveProperty('ContextDomain');
       done();
@@ -87,25 +87,26 @@ describe('rtdManager/reportings', () => {
     getMonitoringLaws({ rtd, sessionId, domainId }, reporting, (err, laws) => {
       const keys = Object.keys(laws);
       expect(keys).toHaveLength(1);
-      expect(keys[0]).be.oneOf(['OnGround', 'OnBoard']);
-      expect(laws[keys[0]]).be.an('array').toHaveLength(2);
-      expect(laws[keys[0]][0]).have.a.properties({ Triggers: 'StubTriggers' });
+      expect(keys[0]).toBeOneOf(['OnGround', 'OnBoard']);
+      expect(laws[keys[0]]).toBeAnArray();
+      expect(laws[keys[0]]).toHaveLength(2);
+      expect(laws[keys[0]][0]).toHaveProperty('Triggers', 'StubTriggers');
       done();
     });
   });
   it('getSignificativityConditions', (done) => {
     getSignificativityConditions({ rtd, sessionId, domainId }, reporting, (err, conds) => {
-      expect(typeof conds).toBe('array');
-      expect(typeof conds[0]).toBe('object');
+      expect(conds).toBeAnArray();
+      expect(conds[0]).toBeAnObject();
       expect(conds[0]).toHaveProperty('DomainApplicability');
       done();
     });
   });
   it('getCalibrationFunctions', (done) => {
     getCalibrationFunctions({ rtd, sessionId, domainId }, reporting, (err, funcs) => {
-      expect(typeof funcs).toBe('object');
-      expect(typeof funcs).toBe('object');
-      expect(typeof funcs).toBe('array');
+      expect(funcs).toHaveProperty('DefaultInterpretationFunction');
+      expect(funcs).toHaveProperty('ConditionalInterpretationFunctions');
+      expect(funcs.ConditionalInterpretationFunctions).toBeAnArray();
       done();
     });
   });
@@ -123,13 +124,13 @@ describe('rtdManager/reportings', () => {
   });*/
   it('getComputedParameterFormula', (done) => {
     getComputedParameterFormula({ rtd, sessionId, domainId }, reporting, (err, formula) => {
-      expect(typeof formula).toBe('string');
+      expect(formula).toBeAString();
       done();
     });
   });
   it('getComputedParameterTriggers', (done) => {
     getComputedParameterTriggers({ rtd, sessionId, domainId }, reporting, (err, triggers) => {
-      expect(typeof triggers).toBe('array');
+      expect(triggers).toBeAnArray();
       done();
     });
   });

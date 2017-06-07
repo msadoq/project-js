@@ -14,7 +14,7 @@ describe('rtdManager/prepareDataToTree', () => {
       Link: 'bar@bar@bar',
     };
 
-    expect(prepareDataToTree(data, { rootName: 'root' })).have.properties({
+    expect(prepareDataToTree(data, { rootName: 'root' })).toEqual(expect.objectContaining({
       path: [],
       name: 'root',
       type: 'object',
@@ -91,6 +91,6 @@ describe('rtdManager/prepareDataToTree', () => {
           value: 'bar@bar@bar',
         },
       ],
-    });
+    }));
   });
 });

@@ -24,6 +24,7 @@ global.testConfig = {
     nonsignificant: 'lightgrey',
     obsolete: 'tan',
   },
+  DEFAULT_FIELD: {},
 };
 
 _.set(

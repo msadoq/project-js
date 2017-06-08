@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import _ from 'lodash/fp';
-import { sinon, isV4 } from '../common/test';
+import { sinon } from '../common/test';
 import { simpleReadPage, readPageAndViews } from './readPage';
 import * as io from './io';
 
@@ -71,7 +71,7 @@ describe('documentManager:readPage', () => {
       simpleReadPage({ viewsInfo: [view, view] }, (err, content) => {
         expect(content.value.views).toHaveLength(2);
         content.value.views.forEach((v) => {
-          expect(isV4(v.uuid)).toBe(true);
+          expect(v.uuid).toBeAnUuid();
         });
       });
       done();
@@ -118,7 +118,7 @@ describe('documentManager:readPage', () => {
 
         expect(content.views).toHaveLength(2);
         content.views.forEach((v) => {
-          expect(isV4(v.value.uuid)).toBe(true);
+          expect(v.value.uuid).toBeAnUuid();
         });
         const viewsWithoutUuid = _.map(_.unset('value.uuid'), content.views);
         viewsWithoutUuid.forEach((v) => {

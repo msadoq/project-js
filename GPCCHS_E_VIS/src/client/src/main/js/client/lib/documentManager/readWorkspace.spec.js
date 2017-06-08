@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import workspaceFixture from './fixtures/small.workspace.json';
-import { sinon, isV4 } from '../common/test';
+import { sinon } from '../common/test';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import * as io from './io';
 import * as readPageApi from './readPage';
@@ -41,7 +41,7 @@ describe('documentManager:readWorkspace', () => {
         expect(win.pages).toEqual([]);
         expect(win.title).toEqual('Development workspace');
         expect(win.geometry).toEqual({ x: 114, y: 71, w: 1310, h: 800, kind: 'Absolute' });
-        expect(isV4(win.uuid)).toBe(true);
+        expect(win.uuid).toBeAnUuid();
 
         const tb = workspace.timebars[0];
         expect(tb.id).toEqual('TB1');
@@ -50,15 +50,15 @@ describe('documentManager:readWorkspace', () => {
         expect(tb.masterId).toEqual('Session 1');
         expect(tb.mode).toEqual('Normal');
         expect(tb.timelines).toHaveLength(1);
-        expect(isV4(tb.timelines[0])).toBe(true);
-        expect(isV4(tb.uuid)).toBe(true);
+        expect(tb.timelines[0]).toBeAnUuid();
+        expect(tb.uuid).toBeAnUuid();
 
         const tl = workspace.timelines[0];
         expect(tl.id).toEqual('Session 1');
         expect(tl.offset).toEqual(0);
         expect(tl.kind).toEqual('Session');
         expect(tl.sessionName).toEqual('Master');
-        expect(isV4(tl.uuid)).toBe(true);
+        expect(tl.uuid).toBeAnUuid();
 
         stubReadPagesAndViews.restore();
         done();

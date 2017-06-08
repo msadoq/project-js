@@ -54,8 +54,6 @@ function toHaveKeys(val, argument = []) {
   };
 }
 
-// id.length === v4().length, // TODO: replace by a jest 'toBeV4' assertion
-
 const v4Length = v4().length;
 
 // jest extended assertions

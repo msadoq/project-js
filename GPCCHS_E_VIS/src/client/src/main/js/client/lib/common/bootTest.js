@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { difference, intersection } from 'lodash/fp';
+import { v4 } from 'uuid';
 import path from 'path';
 
 /*
@@ -53,12 +54,17 @@ function toHaveKeys(val, argument = []) {
   };
 }
 
+// id.length === v4().length, // TODO: replace by a jest 'toBeV4' assertion
+
+const v4Length = v4().length;
+
 // jest extended assertions
 const extendedAssertions = {
   toBeArray: toBe(Array.isArray, () => 'an array'),
   toBeObject: toBe(x => typeof x === 'object', () => 'an object'),
   toBeString: toBe(x => typeof x === 'string', () => 'a string'),
   toBeOneOf: toBe((val, arg = []) => arg.includes(val), arg => `one of ${arg}`),
+  toBeV4: toBe(x => typeof x === 'string' && x.length === v4Length, () => 'a V4 uuid'),
   toHaveKeys,
 };
 
@@ -66,6 +72,7 @@ const aliases = {
   toBeAnArray: extendedAssertions.toBeArray,
   toBeAnObject: extendedAssertions.toBeObject,
   toBeAString: extendedAssertions.toBeString,
+  toBeAnUuid: extendedAssertions.toBeV4,
 };
 
 expect.extend({

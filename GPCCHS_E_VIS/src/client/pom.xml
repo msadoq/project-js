@@ -5,12 +5,12 @@
   <groupId>fr.cnes.lpisis.gpcc.js</groupId>
   <artifactId>gpcchs_e_vis_client</artifactId>
   <packaging>isis-js-bundle</packaging>
-  <version>1.1.1-R8S1-SNAPSHOT</version>
+  <version>1.1.2-R8S2-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs_e_vis-parent</artifactId>
-    <version>1.1.1-R8S1-SNAPSHOT</version>
+    <version>1.1.2-R8S2-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <properties>

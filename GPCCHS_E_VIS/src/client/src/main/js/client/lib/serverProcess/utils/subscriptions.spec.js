@@ -1,4 +1,3 @@
-const { should } = require('../../common/test');
 const {
   createAddSubscriptionMessage,
   createDeleteSubscriptionMessage,
@@ -40,20 +39,18 @@ describe('utils/subscriptions', () => {
       dataStub.getDataIdProtobuf(myDataId2),
       dataStub.getAddActionProtobuf(),
     ];
+    expect(message).toBeAnObject();
+    expect(message2).toBeAnObject();
 
-    expect(registeredCallbacks.get(subId)).toBeDefined();
-    expect(registeredCallbacks.get(subId2)).toBeDefined();
+    expect(message).toMatchObject({
+      subId,
+      args,
+    });
 
-    expect(typeof message).toBe('object')
-      .that.has.properties({
-        subId,
-        args,
-      });
-    expect(typeof message2).toBe('object')
-      .that.has.properties({
-        subId: subId2,
-        args: args2,
-      });
+    expect(message2).toMatchObject({
+      subId: subId2,
+      args: args2,
+    });
   });
   it('createDeleteSubscriptionMessage', () => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
@@ -77,17 +74,18 @@ describe('utils/subscriptions', () => {
       dataStub.getDataIdProtobuf(myDataId2),
       dataStub.getDeleteActionProtobuf(),
     ];
+    expect(message).toBeAnObject();
+    expect(message2).toBeAnObject();
 
-    expect(typeof message).toBe('object')
-      .that.has.properties({
-        subId,
-        args,
-      });
-    expect(typeof message2).toBe('object')
-      .that.has.properties({
-        subId: subId2,
-        args: args2,
-      });
+    expect(message).toMatchObject({
+      subId,
+      args,
+    });
+
+    expect(message2).toMatchObject({
+      subId: subId2,
+      args: args2,
+    });
   });
   it('unsubscribeAll', () => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
@@ -114,7 +112,7 @@ describe('utils/subscriptions', () => {
       dataStub.getDeleteActionProtobuf(),
     ];
 
-    expect(messages).be.an('array').toHaveLength(2);
+    expect(messages).toHaveLength(2);
     expect(messages[0]).toEqual(args);
     expect(messages[1]).toEqual(args2);
   });

@@ -20,10 +20,9 @@ describe('controllers/client/onFmdCreateData', () => {
     onFmdCreateData(testHandler, myQueryIdProto, mySuccessProto, myFileInfoProto);
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties(myFileInfo);
+    expect(message[1]).toMatchObject(myFileInfo);
   });
   it('error', () => {
     const myQueryId = 'myQueryId';
@@ -35,11 +34,10 @@ describe('controllers/client/onFmdCreateData', () => {
     onFmdCreateData(testHandler, myQueryIdProto, myErrorProto, myReasonProto);
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        err: myReason,
-      });
+    expect(message[1]).toMatchObject({
+      err: myReason,
+    });
   });
 });

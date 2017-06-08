@@ -19,9 +19,8 @@ describe('controllers/utils/onSessionData', () => {
     const wsArgs = getTestHandlerArgs();
     expect(wsArgs).toHaveLength(2);
     expect(wsArgs[0]).toBe(myQueryId);
-    expect(typeof wsArgs[1]).toBe('object')
-      .that.have.properties({
-        sessions: mySessions.sessions,
-      });
+    expect(wsArgs[1]).toMatchObject({
+      sessions: mySessions.sessions,
+    });
   });
 });

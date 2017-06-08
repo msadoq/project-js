@@ -1,4 +1,3 @@
-const { should } = require('../utils/test');
 const { reset, get, set } = require('./lastPubSubTimestamp');
 
 describe('models/lastPubSubTimestamp', () => {

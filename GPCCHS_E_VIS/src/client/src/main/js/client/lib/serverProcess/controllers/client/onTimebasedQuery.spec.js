@@ -5,7 +5,6 @@ const _concat = require('lodash/concat');
 const globalConstants = require('common/constants');
 const dataStub = require('common/protobuf/stubs');
 
-const { should } = require('../../utils/test');
 const { get: getQueue } = require('../../models/dataQueue');
 const {
   cleanup: cleanRegisteredQueries,
@@ -120,7 +119,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check connectedDataModel
       expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      expect(connectedData[0]).have.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         intervals: {
           all: [intervalRange],
@@ -150,15 +149,15 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check zmq messages
       const queryIdProto = dataStub.getStringProtobuf(queryId);
       expect(calls.length).toBe(5);
-      expect(calls[0]).have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      expect(calls[1]).have.properties(queryIdProto);
-      expect(calls[2]).have.properties(dataIdProto);
-      expect(calls[3]).have.properties(intervalRangeProto);
-      expect(calls[4]).have.properties(queryArgumentsProto);
+      expect(calls[0]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[1]).toMatchObject(queryIdProto);
+      expect(calls[2]).toMatchObject(dataIdProto);
+      expect(calls[3]).toMatchObject(intervalRangeProto);
+      expect(calls[4]).toMatchObject(queryArgumentsProto);
       // check connectedDataModel
       expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      expect(connectedData[0]).have.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         dataId,
         intervals: {
@@ -183,17 +182,17 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check zmq messages
       const queryIdProto = dataStub.getStringProtobuf(queryId);
       expect(calls.length).toBe(5);
-      expect(calls[0]).have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      expect(calls[1]).have.properties(queryIdProto);
-      expect(calls[2]).have.properties(dataIdProto);
-      expect(calls[3]).have.properties(intervalLastProto);
-      expect(calls[4]).have.properties(lastQueryArgumentsProto);
+      expect(calls[0]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[1]).toMatchObject(queryIdProto);
+      expect(calls[2]).toMatchObject(dataIdProto);
+      expect(calls[3]).toMatchObject(intervalLastProto);
+      expect(calls[4]).toMatchObject(lastQueryArgumentsProto);
       // check ws messages
-      // getQueue().should.have.properties({});
+      // getQueue().should.toMatchObject({});
       // check connectedDataModel
       expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      expect(connectedData[0]).have.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         dataId,
         intervals: {
@@ -223,26 +222,26 @@ describe('controllers/client/onTimebasedQuery', () => {
       const queryIdProto1 = dataStub.getStringProtobuf(queryId1);
       const subIdProto0 = dataStub.getStringProtobuf(subId0);
       expect(calls.length).toBe(14);
-      expect(calls[0]).have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-      expect(calls[1]).have.properties(subIdProto0);
-      expect(calls[2]).have.properties(dataIdProto);
-      expect(calls[3]).have.properties(dataStub.getAddActionProtobuf());
-      expect(calls[4]).have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      expect(calls[5]).have.properties(queryIdProto0);
-      expect(calls[6]).have.properties(dataIdProto);
-      expect(calls[7]).have.properties(intervalLastProto);
-      expect(calls[8]).have.properties(lastQueryArgumentsProto);
-      expect(calls[9]).have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      expect(calls[10]).have.properties(queryIdProto1);
-      expect(calls[11]).have.properties(dataIdProto);
-      expect(calls[12]).have.properties(intervalRangeProto);
-      expect(calls[13]).have.properties(queryArgumentsProto);
+      expect(calls[0]).toMatchObject(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+      expect(calls[1]).toMatchObject(subIdProto0);
+      expect(calls[2]).toMatchObject(dataIdProto);
+      expect(calls[3]).toMatchObject(dataStub.getAddActionProtobuf());
+      expect(calls[4]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[5]).toMatchObject(queryIdProto0);
+      expect(calls[6]).toMatchObject(dataIdProto);
+      expect(calls[7]).toMatchObject(intervalLastProto);
+      expect(calls[8]).toMatchObject(lastQueryArgumentsProto);
+      expect(calls[9]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[10]).toMatchObject(queryIdProto1);
+      expect(calls[11]).toMatchObject(dataIdProto);
+      expect(calls[12]).toMatchObject(intervalRangeProto);
+      expect(calls[13]).toMatchObject(queryArgumentsProto);
       // check ws messages
-      // getQueue().should.have.properties({});
+      // getQueue().should.toMatchObject({});
       // check connectedDataModel
       expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      expect(connectedData[0]).have.all.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         intervals: {
           all: [intervalRange],

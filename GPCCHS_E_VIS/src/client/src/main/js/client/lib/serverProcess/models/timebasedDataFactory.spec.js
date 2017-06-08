@@ -1,4 +1,3 @@
-const { should } = require('../utils/test');
 const {
   clearFactory,
   getOrCreateTimebasedDataModel,
@@ -25,10 +24,10 @@ describe('models/timebasedDataFactory', () => {
       const timestamp = Date.now();
       it('one', () => {
         const record = model.addRecord(timestamp, payload);
-        expect(record).be.an('object').toHaveProperty('$loki');
+        expect(record).toHaveProperty('$loki');
         const records = model.find();
-        expect(records).be.an('array').toHaveLength(1);
-        expect(typeof records[0]).toBe('object').with.properties({
+        expect(records).toHaveLength(1);
+        expect(records[0]).toMatchObject({
           timestamp,
           payload,
         });
@@ -59,12 +58,12 @@ describe('models/timebasedDataFactory', () => {
       it('multi', () => {
         model.addRecords(payloads);
         const records = model.find();
-        expect(records).be.an('array').toHaveLength(2);
-        expect(typeof records[0]).toBe('object').with.properties({
+        expect(records).toHaveLength(2);
+        expect(records[0]).toMatchObject({
           timestamp: now,
           payload,
         });
-        expect(typeof records[1]).toBe('object').with.properties({
+        expect(records[1]).toMatchObject({
           timestamp: now + 1,
           payload,
         });
@@ -74,7 +73,7 @@ describe('models/timebasedDataFactory', () => {
     describe('findByInterval', () => {
       it('empty', () => {
         const records = model.findByInterval(Date.now(), Date.now());
-        expect(records).be.an('array').toHaveLength(0);
+        expect(records).toHaveLength(0);
       });
 
       describe('filter on interval', () => {
@@ -86,27 +85,27 @@ describe('models/timebasedDataFactory', () => {
         });
 
         it('lasts', () => {
-          expect(model.findByInterval(now - 5000, now + 20000)).be.an('array').toHaveLength(2);
+          expect(model.findByInterval(now - 5000, now + 20000)).toHaveLength(2);
         });
         it('firsts', () => {
-          expect(model.findByInterval(now - 20000, now + 5000)).be.an('array').toHaveLength(2);
+          expect(model.findByInterval(now - 20000, now + 5000)).toHaveLength(2);
         });
         it('middle', () => {
-          expect(model.findByInterval(now - 5000, now + 5000)).be.an('array').toHaveLength(1);
+          expect(model.findByInterval(now - 5000, now + 5000)).toHaveLength(1);
         });
         it('no interval', () => {
-          expect(model.findByInterval()).be.an('array').toHaveLength(3);
+          expect(model.findByInterval()).toHaveLength(3);
         });
         it('only lower', () => {
-          expect(model.findByInterval(now + 5000)).be.an('array').toHaveLength(1);
+          expect(model.findByInterval(now + 5000)).toHaveLength(1);
         });
         it('only upper', () => {
-          expect(model.findByInterval(null, now - 5000)).be.an('array').toHaveLength(1);
+          expect(model.findByInterval(null, now - 5000)).toHaveLength(1);
         });
         it('nothing', () => {
-          expect(model.findByInterval(now - 20000, now - 15000)).be.an('array').toHaveLength(0);
-          expect(model.findByInterval(now + 15000, now + 20000)).be.an('array').toHaveLength(0);
-          expect(model.findByInterval(now - 4000, now - 2000)).be.an('array').toHaveLength(0);
+          expect(model.findByInterval(now - 20000, now - 15000)).toHaveLength(0);
+          expect(model.findByInterval(now + 15000, now + 20000)).toHaveLength(0);
+          expect(model.findByInterval(now - 4000, now - 2000)).toHaveLength(0);
         });
       });
     });
@@ -115,7 +114,7 @@ describe('models/timebasedDataFactory', () => {
     it('existing', () => {
       const myTbdModel = getOrCreateTimebasedDataModel('myRemoteId');
       const tbdModel = getTimebasedDataModel('myRemoteId');
-      expect(Object.keys(myTbdModel)).have.properties(Object.keys(tbdModel));
+      expect(myTbdModel).toMatchObject(tbdModel);
     });
     it('not existing', () => {
       const tbdModel = getTimebasedDataModel('myRemoteId');
@@ -130,7 +129,7 @@ describe('models/timebasedDataFactory', () => {
       expect(tbdModel).toBeFalsy();
     });
     it('no model', () => {
-      expect(() => removeTimebasedDataModel('myRemoteId')).not.throw;
+      expect(() => removeTimebasedDataModel('myRemoteId')).not.toThrow();
     });
   });
   describe('getAllTimebasedDataModelRemoteIds', () => {
@@ -141,7 +140,7 @@ describe('models/timebasedDataFactory', () => {
       removeTimebasedDataModel('myOtherRemoteId');
       const remoteIds = getAllTimebasedDataModelRemoteIds();
       expect(remoteIds).toHaveLength(2);
-      expect(remoteIds).have.properties(['myRemoteId', 'myThirdRemoteId']);
+      expect(remoteIds).toEqual(expect.arrayContaining(['myRemoteId', 'myThirdRemoteId']));
     });
   });
 });

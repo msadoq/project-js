@@ -3,9 +3,6 @@ const { decode } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const dataStub = require('common/protobuf/stubs');
 
-require('../../utils/test');
-
-
 const onFmdGet = require('./onFmdGet');
 
 
@@ -24,13 +21,13 @@ describe('controllers/client/onFmdGet', () => {
     // launch test
     onFmdGet(zmqEmulator, myQueryId, { oid: myGetDocumentAction.serializedOid });
     // check data
-    expect(calls).be.an('array').toHaveLength(3);
+    expect(calls).toHaveLength(3);
     expect(calls[0].constructor).toBe(Buffer);
     expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_FMD_GET_QUERY);
     expect(calls[1].constructor).toBe(Buffer);
     expect(decode('dc.dataControllerUtils.String', calls[1]).string).toBe(myQueryId);
     expect(calls[2].constructor).toBe(Buffer);
-    expect(decode('dc.dataControllerUtils.FMDGet', calls[2])).have.properties({
+    expect(decode('dc.dataControllerUtils.FMDGet', calls[2])).toMatchObject({
       serializedOid: myGetDocumentAction.serializedOid,
     });
   });

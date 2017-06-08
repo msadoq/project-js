@@ -1,24 +1,23 @@
-// const onDcStatus = require('./onDcStatus');
-// const dataStub = require('common/protobuf/stubs');
-// const globalConstants = require('common/constants');
-// const { get: getDcStatus, reset: resetDcStatus } = require('../../models/dcStatus');
-//
-// describe('controllers/utils/onDcStatus', () => {
-  // beforeEach(() => {
-  //   resetDcStatus();
-  // });
-  // it('healthy', () => {
-  //   const healthy = dataStub.getHealthyDcStatusProtobuf();
-  //
-  //   onDcStatus(healthy);
-  //
-  //   getDcStatus().should.equal(globalConstants.HEALTH_STATUS_HEALTHY);
-  // });
-  // it('congestion', () => {
-  //   const congestion = dataStub.getCongestionDcStatusProtobuf();
-  //
-  //   onDcStatus(congestion);
-  //
-  //   getDcStatus().should.equal(globalConstants.HEALTH_STATUS_CRITICAL);
-  // });
-// });
+const onDcStatus = require('./onDcStatus');
+const dataStub = require('common/protobuf/stubs');
+const globalConstants = require('common/constants');
+const { get: getDcStatus, reset: resetDcStatus } = require('../../models/dcStatus');
+
+describe('controllers/utils/onDcStatus', () => {
+  beforeEach(() => {
+    resetDcStatus();
+  });
+  it.skip('healthy', () => {
+    const healthy = dataStub.getHealthyDcStatusProtobuf();
+
+    onDcStatus(healthy);
+    expect(getDcStatus()).toEqual(globalConstants.HEALTH_STATUS_HEALTHY);
+  });
+  it('congestion', () => {
+    const congestion = dataStub.getCongestionDcStatusProtobuf();
+
+    onDcStatus(congestion);
+
+    expect(getDcStatus()).toEqual(globalConstants.HEALTH_STATUS_CRITICAL);
+  });
+});

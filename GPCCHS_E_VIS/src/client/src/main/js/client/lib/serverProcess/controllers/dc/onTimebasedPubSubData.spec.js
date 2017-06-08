@@ -1,5 +1,3 @@
-const { should } = require('../../utils/test');
-
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const {
   clearFactory,
@@ -62,7 +60,7 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
     );
     // check data
     expect(getAllTimebasedDataModelRemoteIds()).toHaveLength(0);
-    expect(getQueue()).have.properties({});
+    expect(getQueue()).toBeAnObject();
     expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
@@ -79,7 +77,7 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
     );
     // check data
     expect(getAllTimebasedDataModelRemoteIds()).toHaveLength(0);
-    expect(getQueue()).have.properties({});
+    expect(getQueue()).toBeAnObject();
     expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
@@ -102,11 +100,11 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
     expect(timebasedDataModel).toBeDefined();
     expect(timebasedDataModel.count()).toBe(1);
     const tbd = timebasedDataModel.find();
-    expect(tbd[0]).have.properties({
+    expect(tbd[0]).toMatchObject({
       timestamp: t1,
       payload: deprotoRp,
     });
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [remoteId]: {
         [t1]: deprotoRp,
       },

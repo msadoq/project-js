@@ -3,7 +3,6 @@ const dataStub = require('common/protobuf/stubs');
 const { decode } = require('common/protobuf');
 
 const registeredCallbacks = require('../../../utils/callbacks');
-const { should } = require('../../utils/test');
 const {
   addRecord: registerQuery,
   getAll: getRegisteredQueries,
@@ -108,7 +107,7 @@ describe('controllers/client/onCacheCleanup', () => {
     // check connectedData model
     const connectedData = connectedDataModel.find();
     expect(connectedData).toHaveLength(2);
-    expect(connectedData[0]).have.properties(
+    expect(connectedData[0]).toMatchObject(
       {
         flatDataId: remoteId1,
         dataId: dataId1,
@@ -118,7 +117,7 @@ describe('controllers/client/onCacheCleanup', () => {
           requested: { [queryId12]: interval12 },
         },
       });
-    expect(connectedData[1]).have.properties(
+    expect(connectedData[1]).toMatchObject(
       {
         flatDataId: remoteId2,
         dataId: dataId2,
@@ -134,7 +133,7 @@ describe('controllers/client/onCacheCleanup', () => {
     // check registered queries
     const queries = getRegisteredQueries();
     expect(queries).toHaveLength(3);
-    expect(queries).have.properties([
+    expect(queries).toMatchObject([
       { queryId: queryId12, flatDataId: remoteId1 },
       { queryId: queryId21, flatDataId: remoteId2 },
       { queryId: queryId22, flatDataId: remoteId2 },
@@ -144,11 +143,11 @@ describe('controllers/client/onCacheCleanup', () => {
     const tbdModel2 = getTimebasedDataModel(remoteId2);
     expect(tbdModel1.count()).toBe(2);
     expect(tbdModel2.count()).toBe(4);
-    expect(tbdModel1.find()).have.properties([
+    expect(tbdModel1.find()).toMatchObject([
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    expect(tbdModel2.find()).have.properties([
+    expect(tbdModel2.find()).toMatchObject([
       { timestamp: ts1, payload: rp },
       { timestamp: ts2, payload: rp },
       { timestamp: ts3, payload: rp },
@@ -187,7 +186,7 @@ describe('controllers/client/onCacheCleanup', () => {
     // check connectedData model
     const connectedData = connectedDataModel.find();
     expect(connectedData).toHaveLength(2);
-    expect(connectedData).have.properties([
+    expect(connectedData).toMatchObject([
       {
         flatDataId: remoteId1,
         dataId: dataId1,
@@ -209,7 +208,7 @@ describe('controllers/client/onCacheCleanup', () => {
     // check registered queries
     const queries = getRegisteredQueries();
     expect(queries).toHaveLength(3);
-    expect(queries).have.properties([
+    expect(queries).toMatchObject([
       { queryId: queryId12, flatDataId: remoteId1 },
       { queryId: queryId21, flatDataId: remoteId2 },
       { queryId: queryId22, flatDataId: remoteId2 },
@@ -219,11 +218,11 @@ describe('controllers/client/onCacheCleanup', () => {
     const tbdModel2 = getTimebasedDataModel(remoteId2);
     expect(tbdModel1.count()).toBe(2);
     expect(tbdModel2.count()).toBe(4);
-    expect(tbdModel1.find()).have.properties([
+    expect(tbdModel1.find()).toMatchObject([
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    expect(tbdModel2.find()).have.properties([
+    expect(tbdModel2.find()).toMatchObject([
       { timestamp: ts1, payload: rp },
       { timestamp: ts2, payload: rp },
       { timestamp: ts3, payload: rp },
@@ -246,7 +245,7 @@ describe('controllers/client/onCacheCleanup', () => {
     // check connectedData model
     const connectedData = connectedDataModel.find();
     expect(connectedData).toHaveLength(1);
-    expect(connectedData).have.properties([
+    expect(connectedData).toMatchObject([
       {
         flatDataId: remoteId1,
         dataId: dataId1,
@@ -260,21 +259,21 @@ describe('controllers/client/onCacheCleanup', () => {
     // check registered queries
     const queries = getRegisteredQueries();
     expect(queries).toHaveLength(1);
-    expect(queries).have.properties([{ queryId: queryId12, flatDataId: remoteId1 }]);
+    expect(queries).toMatchObject([{ queryId: queryId12, flatDataId: remoteId1 }]);
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId1);
     expect(getTimebasedDataModel(remoteId2)).toBeFalsy();
     expect(tbdModel1.count()).toBe(2);
-    expect(tbdModel1.find()).have.properties([
+    expect(tbdModel1.find()).toMatchObject([
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
     // check zmq message
     expect(calls).toHaveLength(4);
-    expect(calls[0]).have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+    expect(calls[0]).toMatchObject(dataStub.getTimebasedSubscriptionHeaderProtobuf());
     const subId = decode('dc.dataControllerUtils.String', calls[1]).string;
-    expect(calls[2]).have.properties(dataStub.getDataIdProtobuf(dataId2));
-    expect(calls[3]).have.properties(dataStub.getDeleteActionProtobuf());
+    expect(calls[2]).toMatchObject(dataStub.getDataIdProtobuf(dataId2));
+    expect(calls[3]).toMatchObject(dataStub.getDeleteActionProtobuf());
     // check registered callbacks
     const ids = Object.keys(registeredCallbacks.getAll());
     expect(ids).toHaveLength(1);

@@ -2,9 +2,6 @@ const _concat = require('lodash/concat');
 const { decode } = require('common/protobuf');
 const globalConstants = require('common/constants');
 
-require('../../utils/test');
-
-
 const onGetMasterSession = require('./onGetMasterSession');
 
 
@@ -22,7 +19,7 @@ describe('controllers/client/onGetMasterSession', () => {
     // launch test
     onGetMasterSession(zmqEmulator, myQueryId);
     // check data
-    expect(calls).be.an('array').toHaveLength(2);
+    expect(calls).toHaveLength(2);
     expect(calls[0].constructor).toBe(Buffer);
     expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_SESSION_MASTER_QUERY);
     expect(calls[1].constructor).toBe(Buffer);

@@ -21,7 +21,7 @@ describe('controllers/utils/onDomainsData', () => {
     const wsArgs = getTestHandlerArgs();
     expect(wsArgs).toHaveLength(2);
     expect(wsArgs[0]).toBe(myQueryId);
-    expect(typeof wsArgs[1]).toBe('object').that.has.properties({
+    expect(wsArgs[1]).toMatchObject({
       domains: myDomains.domains,
     });
   });

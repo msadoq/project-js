@@ -1,4 +1,3 @@
-const { should } = require('../../utils/test');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
 const {
   cleanup: cleanRegisteredQueries,
@@ -56,16 +55,15 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     );
     // check data
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    expect(typeof cd).toBe('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [],
-          requested: { [queryId]: interval },
-        },
-        lastQueries: {},
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [interval],
+        received: [],
+        requested: { [queryId]: interval },
+      },
+      lastQueries: {},
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     expect(timebasedDataModel).toBeFalsy();
     expect(getQueue()).toEqual({});
@@ -89,21 +87,20 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     // check data
     expect(getRegisteredQuery(queryId)).toBeDefined();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    expect(typeof cd).toBe('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [],
-          requested: { [queryId]: interval },
-        },
-        lastQueries: {},
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [interval],
+        received: [],
+        requested: { [queryId]: interval },
+      },
+      lastQueries: {},
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     expect(timebasedDataModel).toBeDefined();
     expect(timebasedDataModel.count()).toBe(2);
     const timebasedData = timebasedDataModel.find();
-    expect(timebasedData).have.properties([
+    expect(timebasedData).toMatchObject([
       {
         timestamp: t1,
         payload: deprotoRp,
@@ -112,7 +109,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [t1]: deprotoRp,
         [t2]: deprotoRp,
@@ -139,21 +136,20 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     // check data
     expect(getRegisteredQuery(queryId)).toBeFalsy();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    expect(typeof cd).toBe('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [interval],
-          requested: {},
-        },
-        lastQueries: {},
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [interval],
+        received: [interval],
+        requested: {},
+      },
+      lastQueries: {},
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     expect(timebasedDataModel).toBeDefined();
     expect(timebasedDataModel.count()).toBe(2);
     const timebasedData = timebasedDataModel.find();
-    expect(timebasedData).have.properties([
+    expect(timebasedData).toMatchObject([
       {
         timestamp: t1,
         payload: deprotoRp,
@@ -162,7 +158,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [t1]: deprotoRp,
         [t2]: deprotoRp,
@@ -186,19 +182,18 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     // check data
     expect(getRegisteredQuery(queryId)).toBeFalsy();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    expect(typeof cd).toBe('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [],
-          received: [],
-          requested: {},
-        },
-        lastQueries: { },
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [],
+        received: [],
+        requested: {},
+      },
+      lastQueries: { },
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
     expect(timebasedDataModel).toBeFalsy();
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [t1]: deprotoRp,
       },

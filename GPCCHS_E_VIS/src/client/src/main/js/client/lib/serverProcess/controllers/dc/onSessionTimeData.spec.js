@@ -19,11 +19,10 @@ describe('controllers/client/onSessionTimeData', () => {
     onSessionTimeData(testHandler, myQueryIdProto, myTimestampProto);
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        timestamp: myTimestamp,
-      });
+    expect(message[1]).toMatchObject({
+      timestamp: myTimestamp,
+    });
   });
 });

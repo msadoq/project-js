@@ -23,7 +23,7 @@ describe('controllers/client/onHealth', () => {
     const wsArgs = getTestHandlerArgs();
     expect(wsArgs).toHaveLength(2);
     expect(wsArgs[0]).toBe(myQueryId);
-    expect(typeof wsArgs[1]).toBe('object').that.have.properties({
+    expect(wsArgs[1]).toMatchObject({
       dcStatus: undefined,
       hssStatus: undefined,
       lastPubSubTimestamp: undefined,
@@ -38,11 +38,11 @@ describe('controllers/client/onHealth', () => {
     const wsArgs = getTestHandlerArgs();
     expect(wsArgs).toHaveLength(2);
     expect(wsArgs[0]).toBe(myQueryId);
-    expect(typeof wsArgs[1]).toBe('object').that.have.properties({
+    expect(wsArgs[1]).toMatchObject({
       dcStatus: globalConstants.HEALTH_STATUS_CRITICAL,
       lastPubSubTimestamp: 42,
     });
-    expect(wsArgs[1].hssStatus).be.oneOf([
+    expect(wsArgs[1].hssStatus).toBeOneOf([
       globalConstants.HEALTH_STATUS_HEALTHY,
       globalConstants.HEALTH_STATUS_WARNING,
       globalConstants.HEALTH_STATUS_CRITICAL,

@@ -1,4 +1,3 @@
-const { should } = require('../utils/test');
 const registeredQueries = require('./registeredQueries');
 
 describe('models/registeredQueries', () => {
@@ -37,10 +36,10 @@ describe('models/registeredQueries', () => {
     registeredQueries.addRecord('id1', 'remoteId1');
     registeredQueries.addRecord('id2', 'remoteId2');
     const ids = registeredQueries.getAll();
-    expect(ids).have.properties([
-      { queryId: 'id1', flatDataId: 'remoteId1' },
-      { queryId: 'id2', flatDataId: 'remoteId2' },
-    ]);
+    expect(ids).toEqual(expect.arrayContaining([
+      expect.objectContaining({ queryId: 'id1', flatDataId: 'remoteId1' }),
+      expect.objectContaining({ queryId: 'id2', flatDataId: 'remoteId2' }),
+    ]));
   });
   it('cleanup', () => {
     registeredQueries.addRecord('myId', 'myRemoteId');

@@ -24,14 +24,13 @@ describe('controllers/client/onFmdGetData', () => {
     onFmdGetData(testHandler, myQueryIdProto, mySuccessProto, myFileInfoProto, myCollectionProto);
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        type: myFileInfo.type,
-        oId: myFileInfo.serializedOid,
-        detail: myCollectionDeProto,
-      });
+    expect(message[1]).toMatchObject({
+      type: myFileInfo.type,
+      oId: myFileInfo.serializedOid,
+      detail: myCollectionDeProto,
+    });
   });
   it('collection document', () => {
     const myQueryId = 'myQueryId';
@@ -55,14 +54,13 @@ describe('controllers/client/onFmdGetData', () => {
     );
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        type: myFileInfo.type,
-        oId: myFileInfo.serializedOid,
-        detail: myCollectionDocumentDeProto,
-      });
+    expect(message[1]).toMatchObject({
+      type: myFileInfo.type,
+      oId: myFileInfo.serializedOid,
+      detail: myCollectionDocumentDeProto,
+    });
   });
   it('document', () => {
     const myQueryId = 'myQueryId';
@@ -86,14 +84,13 @@ describe('controllers/client/onFmdGetData', () => {
     );
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        type: myFileInfo.type,
-        oId: myFileInfo.serializedOid,
-        detail: myDocumentDeProto,
-      });
+    expect(message[1]).toMatchObject({
+      type: myFileInfo.type,
+      oId: myFileInfo.serializedOid,
+      detail: myDocumentDeProto,
+    });
   });
   it('folder', () => {
     const myQueryId = 'myQueryId';
@@ -117,14 +114,13 @@ describe('controllers/client/onFmdGetData', () => {
     );
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        type: myFileInfo.type,
-        oId: myFileInfo.serializedOid,
-        detail: myFolderDeProto,
-      });
+    expect(message[1]).toMatchObject({
+      type: myFileInfo.type,
+      oId: myFileInfo.serializedOid,
+      detail: myFolderDeProto,
+    });
   });
   it('error', () => {
     const myQueryId = 'myQueryId';
@@ -136,11 +132,10 @@ describe('controllers/client/onFmdGetData', () => {
     onFmdGetData(testHandler, myQueryIdProto, myErrorProto, myReasonProto);
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        err: myReason,
-      });
+    expect(message[1]).toMatchObject({
+      err: myReason,
+    });
   });
 });

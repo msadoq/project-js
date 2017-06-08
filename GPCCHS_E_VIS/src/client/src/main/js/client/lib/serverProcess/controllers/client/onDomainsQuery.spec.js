@@ -3,8 +3,6 @@ const { decode } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const registeredCallbacks = require('../../../utils/callbacks');
 
-require('../../utils/test');
-
 const onDomainsQuery = require('./onDomainsQuery');
 
 
@@ -23,7 +21,7 @@ describe('controllers/client/onDomainsQuery', () => {
     // launch test
     onDomainsQuery(zmqEmulator, myQueryId);
     // check data
-    expect(calls).be.an('array').toHaveLength(2);
+    expect(calls).toHaveLength(2);
     expect(calls[0].constructor).toBe(Buffer);
     expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_DOMAIN_QUERY);
     expect(calls[1].constructor).toBe(Buffer);

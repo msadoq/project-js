@@ -1,5 +1,3 @@
-require('../utils/test');
-
 const { add, get, reset } = require('./dataQueue');
 
 describe('models/dataQueue', () => {

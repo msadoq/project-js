@@ -4,9 +4,6 @@ const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
 const registeredCallbacks = require('../../../utils/callbacks');
 
-require('../../utils/test');
-
-
 const onSessionsQuery = require('./onSessionsQuery');
 
 
@@ -25,7 +22,7 @@ describe('controllers/client/onSessionQuery', () => {
     // launch test
     onSessionsQuery(zmqEmulator, myQueryId);
     // check data
-    expect(calls).be.an('array').toHaveLength(2);
+    expect(calls).toHaveLength(2);
     expect(calls[0].constructor).toBe(Buffer);
     expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_SESSION_QUERY);
     expect(calls[1].constructor).toBe(Buffer);

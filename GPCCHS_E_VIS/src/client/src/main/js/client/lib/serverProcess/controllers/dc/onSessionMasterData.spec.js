@@ -20,11 +20,10 @@ describe('controllers/client/onSessionMasterData', () => {
     onSessionMasterData(testHandler, myQueryIdProto, myUintegerProto);
     // check data
     const message = getTestHandlerArgs();
-    expect(message).be.an('array').toHaveLength(2);
+    expect(message).toHaveLength(2);
     expect(message[0]).toBe(myQueryId);
-    expect(typeof message[1]).toBe('object')
-      .that.have.properties({
-        masterSessionId: myUinteger,
-      });
+    expect(message[1]).toMatchObject({
+      masterSessionId: myUinteger,
+    });
   });
 });

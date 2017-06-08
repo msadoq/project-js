@@ -61,19 +61,19 @@ describe('controllers/client/onDataPull', () => {
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: noQuery });
     // check ws messages
-    expect(getQueue()).have.properties({});
+    expect(getQueue()).toBeAnObject();
   });
   it('invalid interval', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: noIntervalQuery });
-    expect(getQueue()).have.properties({});
+    expect(getQueue()).toBeAnObject();
   });
   it('query last', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: queryLast });
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [payloads[1].timestamp]: payloads[1].payload,
       },
@@ -83,7 +83,7 @@ describe('controllers/client/onDataPull', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: queryRange });
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [payloads[0].timestamp]: payloads[0].payload,
         [payloads[1].timestamp]: payloads[1].payload,
@@ -94,7 +94,7 @@ describe('controllers/client/onDataPull', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: query });
-    expect(getQueue()).have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [payloads[0].timestamp]: payloads[0].payload,
         [payloads[1].timestamp]: payloads[1].payload,

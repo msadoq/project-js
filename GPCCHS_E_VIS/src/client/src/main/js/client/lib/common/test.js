@@ -5,9 +5,11 @@ import path from 'path';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
 import deepFreeze from 'deep-freeze';
-import Long from 'long';
 import reducer from '../store/reducers/index';
+
+const mockStore = configureMockStore([thunk]);
 
 function getStore(initialState) {
   return createStore(
@@ -17,30 +19,11 @@ function getStore(initialState) {
   );
 }
 
-const createGetState = ([...states]) => {
-  const getState = sinon.stub();
-  const frozenStates = states.map(freezeMe);
-  const lastState = frozenStates[frozenStates.length - 1];
-  getState.returns(lastState);
-  frozenStates.forEach((state, i) => {
-    getState.onCall(i).returns(state);
-  });
-  return getState;
-};
-
 const freezeMe = o => o && deepFreeze(o);
 
 const freezeArgs = f => (...args) => {
   const frozenArgs = args.map(arg => freezeMe(arg));
   return f(...frozenArgs);
-};
-
-const makeGetDispatch = () => {
-  let dispatch;
-  beforeEach(() => {
-    dispatch = sinon.spy();
-  });
-  return () => dispatch;
 };
 
 const testMemoization = (selector, state, ownProps) => {
@@ -49,12 +32,12 @@ const testMemoization = (selector, state, ownProps) => {
   selector.resetRecomputations();
   expect(selector.recomputations()).toBe(0);
 
-  const r1 = selector(newState, newOwnProps);
+  const result1 = selector(newState, newOwnProps);
   expect(selector.recomputations()).toBe(1);
 
-  const r2 = selector(newState, newOwnProps);
+  const result2 = selector(newState, newOwnProps);
   expect(selector.recomputations()).toBe(1);
-  expect(r1).toBe(r2);
+  expect(result1).toEqual(result2);
 };
 
 const testPayloads = [];
@@ -65,16 +48,13 @@ const testHandler = (...args) => {
 };
 
 module.exports = {
-  sinon,
-  getStore,
-  createGetState,
-  freezeMe,
-  freezeArgs,
-  makeGetDispatch, // redux-thunk testing
+  sinon, // TODO: USELESS: prefer directly import sinon
+  getStore, // TODO: use mockStore instead
+  mockStore, // thunk testing
+  freezeMe, // reducers testing
+  freezeArgs, // reducers testing
   testMemoization, // reselect testing
-  isV4: (id = '') => id.length === v4().length,
-  getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
-  testHandler,
-  testPayloads,
-  Long,
+  isV4: (id = '') => id.length === v4().length, // TODO: replace by a jest 'toBeV4' assertion
+  getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
+  testHandler, // used by serverProcess controllers tests
 };

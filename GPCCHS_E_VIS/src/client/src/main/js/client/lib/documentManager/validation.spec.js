@@ -26,8 +26,8 @@ describe('documents/validation', () => {
     expect(typeof validate).toBe('function');
   });
   it('accepts 2 or 3 params', () => {
-    expect(typeof validate('page')).toBe('error');
-    expect(typeof validate('page', page, pageSchema, 'foo')).toBe('error');
+    expect(validate('page')).toBeInstanceOf(Error);
+    expect(validate('page', page, pageSchema, 'foo')).toBeInstanceOf(Error);
   });
   it('pre-existing schema', () => {
     expect(validate('page', page)).toBeFalsy();
@@ -36,9 +36,9 @@ describe('documents/validation', () => {
     expect(validate('simplePage', page, schema)).toBeFalsy();
   });
   it('errors', () => {
-    expect(typeof validate('unknown', page)).toBe('error');
-    expect(typeof validate('unknown', pageInvalid)).toBe('error');
-    expect(typeof validate('page', pageInvalid)).toBe('error');
-    expect(typeof validate('page', {})).toBe('error');
+    expect(validate('unknown', page)).toBeInstanceOf(Error);
+    expect(validate('unknown', pageInvalid)).toBeInstanceOf(Error);
+    expect(validate('page', pageInvalid)).toBeInstanceOf(Error);
+    expect(validate('page', {})).toBeInstanceOf(Error);
   });
 });

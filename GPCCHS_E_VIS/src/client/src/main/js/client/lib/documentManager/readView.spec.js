@@ -45,7 +45,7 @@ describe('documentManager:readView', () => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'FakeView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
       expect(err).toBeFalsy();
-      expect(typeof content.error).toBe('error');
+      expect(content.error).toBeInstanceOf(Error);
       done();
     });
   });
@@ -53,7 +53,7 @@ describe('documentManager:readView', () => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ withError: true }, (err, content) => {
       expect(err).toBeFalsy();
-      expect(typeof content.error).toBe('error');
+      expect(content.error).toBeInstanceOf(Error);
       done();
     });
   });

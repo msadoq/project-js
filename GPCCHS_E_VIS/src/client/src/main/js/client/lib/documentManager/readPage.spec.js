@@ -80,7 +80,7 @@ describe('documentManager:readPage', () => {
       stub = stubReadDocument();
       simpleReadPage({ viewsInfo: [], withError: true }, (err, content) => {
         expect(err).toBeFalsy();
-        expect(typeof content.error).toBe('error');
+        expect(content.error).toBeInstanceOf(Error);
         done();
       });
     });
@@ -146,7 +146,7 @@ describe('documentManager:readPage', () => {
       stub = stubReadDocument();
       readPageAndViews({ withError: true }, (err, content) => {
         expect(err).toBeFalsy();
-        expect(typeof content.pages[0].error).toBe('error');
+        expect(content.pages[0].error).toBeInstanceOf(Error);
         done();
       });
     });
@@ -158,9 +158,9 @@ describe('documentManager:readPage', () => {
 
         expect(content.views).toHaveLength(4);
         expect(content.views[0].error).toBeFalsy();
-        expect(typeof content.views[1].error).toBe('error');
+        expect(content.views[1].error).toBeInstanceOf(Error);
         expect(content.views[2].error).toBeFalsy();
-        expect(typeof content.views[3].error).toBe('error');
+        expect(content.views[3].error).toBeInstanceOf(Error);
         done();
       });
     });

@@ -173,13 +173,25 @@ describe('store:actions:pages', () => {
   });
   describe('focusPage', () => {
     it('focusPage when page exists', () => {
-      // actions.focusPage('page1')(dispatch, getState);
-      // dispatch.should.have.been.callCount(1);
-      // dispatch.getCall(0).args[0].should.be.a('function');
+      store.dispatch(actions.openEditor('p2', 'p3'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_PAGE_PANELS_MINIMIZE_EDITOR',
+          payload: { pageId: 'p2', isMinimized: false },
+        },
+        {
+          type: 'WS_PAGE_PANELS_RESIZE_EDITOR',
+          payload: { pageId: 'p2', size: 350 },
+        },
+        {
+          type: 'WS_PAGE_PANELS_LOAD_IN_EDITOR',
+          payload: { pageId: 'p2', viewId: 'p3' },
+        },
+      ]);
     });
     it('focusPage with unknown page', () => {
-      // actions.focusPage('unknownpage')(dispatch, getState);
-      // dispatch.should.have.been.callCount(0);
+      store.dispatch(actions.focusPage('unknownPage'));
+      expect(store.getActions()).toEqual([]);
     });
   });
 });

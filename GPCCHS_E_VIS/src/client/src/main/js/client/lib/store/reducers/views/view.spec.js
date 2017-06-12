@@ -132,7 +132,7 @@ describe('store:reducer:views', () => {
     });
     it('ShowLinks', () => {
       const state = reducer(stateViews, actions.updateShowLinks('plot1', true));
-      state.plot1.showLinks.should.deep.equal(true);
+      expect(state.plot1.showLinks).toBe(true);
     });
     it('Procedure', () => {
       const proc = { p: '3' };

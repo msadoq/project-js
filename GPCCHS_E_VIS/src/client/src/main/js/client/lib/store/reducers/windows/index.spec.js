@@ -156,13 +156,13 @@ describe('store:windows:selectors', () => {
     expect(getDisplayHelp({}, {})).toBeFalsy();
   });
   it('getWindowIdByPageId', () => {
-    // const state = {
-    //   windows: {
-    //     w1: { pages: ['page1', 'page2', 'page3'] },
-    //     w2: { pages: ['page10', 'page20', 'page30'] },
-    //   },
-    // };
-    // getWindowIdByPageId(state, { pageId: 'page2' }).should.eql('w1');
-    // should.not.exist(getWindowIdByPageId(state, { pageId: 'page200' }));
+    const state = {
+      windows: {
+        w1: { pages: ['page1', 'page2', 'page3'] },
+        w2: { pages: ['page10', 'page20', 'page30'] },
+      },
+    };
+    expect(getWindowIdByPageId(state, { pageId: 'page2' })).toEqual('w1');
+    expect(getWindowIdByPageId(state, { pageId: 'page200' })).toBeUndefined();
   });
 });

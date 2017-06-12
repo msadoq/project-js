@@ -123,7 +123,7 @@ describe('store:views:selectors', () => {
         myViewId: { showLinks: true },
       },
     };
-    areLinksShown(state, { viewId: 'myViewId' }).should.eql(true);
+    expect(areLinksShown(state, { viewId: 'myViewId' })).toBe(true);
   });
   describe('getDomainName', () => {
     it('should return domainName', () => {

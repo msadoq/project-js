@@ -3,9 +3,7 @@ import { mockStore, freezeMe } from '../../common/test';
 
 describe('store:actions:views', () => {
   const state = freezeMe({
-    domains: [
-      { name: 'fr.cnes.isis' },
-    ],
+    domains: [{ name: 'fr.cnes.isis' }],
     windows: {
       w1: {
         pages: ['pageWithLayout', 'emptyPage'],
@@ -411,13 +409,17 @@ describe('store:actions:views', () => {
   });
   describe('focusView', () => {
     it('focusView when view exists', () => {
-      // actions.focusView('textview')(dispatch, getState);
-      // dispatch.should.have.been.callCount(1);
-      // dispatch.getCall(0).args[0].should.be.a('function');
+      store.dispatch(actions.focusView('textview'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_WINDOW_PAGE_FOCUS',
+          payload: { windowId: 'w1', pageId: 'pageWithLayout' },
+        },
+      ]);
     });
     it('focusView with unknown view', () => {
-      // actions.focusView('unknownview')(dispatch, getState);
-      // dispatch.should.have.been.callCount(0);
+      store.dispatch(actions.focusView('unknownView'));
+      expect(store.getActions()).toEqual([]);
     });
   });
 });

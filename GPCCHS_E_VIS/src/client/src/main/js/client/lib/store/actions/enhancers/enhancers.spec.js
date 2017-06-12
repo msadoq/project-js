@@ -1,7 +1,7 @@
 import __ from 'lodash/fp';
 import addUuidsToEntryPoints from './addUuidsToEntryPoints';
 import ifPathChanged from './ifPathChanged';
-import { should, freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 
 const createDummyAction = freezeArgs((payload = {}) => ({
   type: 'DUMMY_ACTION',
@@ -45,7 +45,7 @@ describe('store:actions:enhancers', () => {
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
       expect(result).toBeDefined();
-      expect(result).have.properties({
+      expect(result).toMatchObject({
         type: 'DUMMY_ACTION',
         payload: { viewId: 'v1', newPath: null },
       });

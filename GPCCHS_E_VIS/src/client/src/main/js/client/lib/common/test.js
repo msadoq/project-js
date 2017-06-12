@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { tmpdir } from 'os';
 import _ from 'lodash';
 import path from 'path';
@@ -40,13 +39,6 @@ const testMemoization = (selector, state, ownProps) => {
   expect(result1).toEqual(result2);
 };
 
-const testPayloads = [];
-const testHandler = (...args) => {
-  _.each(args, (arg) => {
-    testPayloads.push(arg);
-  });
-};
-
 module.exports = {
   sinon, // TODO: USELESS: prefer directly import sinon
   getStore, // TODO: use mockStore instead
@@ -54,7 +46,5 @@ module.exports = {
   freezeMe, // reducers testing
   freezeArgs, // reducers testing
   testMemoization, // reselect testing
-  isV4: (id = '') => id.length === v4().length, // TODO: replace by a jest 'toBeV4' assertion
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
-  testHandler, // used by serverProcess controllers tests
 };

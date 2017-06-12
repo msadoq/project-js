@@ -22,6 +22,7 @@ global.testConfig = {
   ISIS_DOCUMENTS_ROOT: path.resolve(__dirname, '../documentManager/fixtures'),
   WILDCARD_CHARACTER: '*',
   VISUWINDOW_MAX_LENGTH: 42,
+  VISUWINDOW_CURRENT_UPPER_MIN_MARGIN: 0.1,
   STATE_COLORS: {
     alarm: 'orangered',
     critical: 'red',
@@ -73,6 +74,7 @@ const extendedAssertions = {
   toBeString: toBe(x => typeof x === 'string', () => 'a string'),
   toBeOneOf: toBe((val, arg = []) => arg.includes(val), arg => `one of ${arg}`),
   toBeV4: toBe(x => typeof x === 'string' && x.length === v4Length, () => 'a V4 uuid'),
+  toBeHexadecimal: toBe(x => (/^#(?:[0-9a-fA-F]{3}){1,2}$/).test(x), () => 'a hexadecimal value'),
   toHaveKeys,
 };
 
@@ -81,6 +83,7 @@ const aliases = {
   toBeAnObject: extendedAssertions.toBeObject,
   toBeAString: extendedAssertions.toBeString,
   toBeAnUuid: extendedAssertions.toBeV4,
+  toBeAnHexadecimalValue: extendedAssertions.toBeHexadecimal,
 };
 
 expect.extend({

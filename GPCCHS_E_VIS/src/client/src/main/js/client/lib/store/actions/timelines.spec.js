@@ -1,78 +1,92 @@
-/* eslint-disable no-unused-expressions */
-import sinon from 'sinon';
-import * as types from '../types';
 import * as actions from './timelines';
-import {} from '../../common/test';
+import { mockStore } from '../../common/test';
 
 describe('store:actions:timelines', () => {
-  let dispatch;
+  const store = mockStore();
 
-  beforeEach(() => {
-    dispatch = sinon.spy();
+  afterEach(() => {
+    store.clearActions();
+  });
+
+  describe('createNewTimeline', () => {
+    it('creates a new timeline', () => {
+      store.dispatch(actions.createNewTimeline('timebarUuid', { sessionName: 'Master' }));
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_TIMELINE_CREATE_NEW',
+          payload: {
+            timebarUuid: 'timebarUuid',
+            timeline: {
+              sessionName: 'Master',
+            },
+          },
+        },
+      ]);
+      const firstAction = store.getActions()[0];
+      expect(firstAction.payload.timeline.uuid).toBeAnUuid();
+    });
+  });
+
+  it('creates a new timeline with random uuid', () => {
+    store.dispatch(actions.createNewTimeline('timebarUuid', { sessionName: 'Master' }));
+    const timelineUuid = store.getActions()[0].payload.timeline.uuid;
+    expect(timelineUuid).toBeAnUuid();
+  });
+
+  it('creates a new timeline with given uuid', () => {
+    const givenUuid = 'myUUID';
+    store.dispatch(actions.createNewTimeline('timebarUuid', { sessionName: 'Master', uuid: givenUuid }));
+    const timelineUuid = store.getActions()[0].payload.timeline.uuid;
+    expect(timelineUuid).toBe(givenUuid);
   });
 
   describe('update', () => {
     it('does nothing with empty configuration', () => {
-      actions.update('myTimelineUuid', { sessionId: 'not a number' })(dispatch);
-      expect(dispatch).not.been.called;
+      store.dispatch(actions.update('myTimelineUuid', undefined));
+      expect(store.getActions()).toEqual([]);
     });
     it('updates sessionName', () => {
-      actions.update('myTimelineUuid', { sessionName: 'session1' })(dispatch);
-      expect(dispatch).have.been.callCount(1);
-      expect(dispatch.getCall(0)).have.been.calledWith({
-        type: types.WS_TIMELINE_UPDATE_SESSIONNAME,
-        payload: {
-          timelineUuid: 'myTimelineUuid',
-          sessionName: 'session1',
-        },
-      });
+      store.dispatch(actions.update('myTimelineUuid', { sessionName: 'session1' }));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMELINE_UPDATE_SESSIONNAME',
+          payload: { timelineUuid: 'myTimelineUuid', sessionName: 'session1' } },
+      ]);
     });
     it('updates offset', () => {
-      actions.update('myTimelineUuid', { offset: true })(dispatch);
-      expect(dispatch).have.been.callCount(1);
-      expect(dispatch.getCall(0)).have.been.calledWith({
-        type: types.WS_TIMELINE_UPDATE_OFFSET,
-        payload: {
-          timelineUuid: 'myTimelineUuid',
-          offset: true,
+      store.dispatch(actions.update('myTimelineUuid', { offset: true }));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMELINE_UPDATE_OFFSET',
+          payload: { timelineUuid: 'myTimelineUuid', offset: true },
         },
-      });
+      ]);
     });
     it('updates id', () => {
-      actions.update('myTimelineUuid', { id: true })(dispatch);
-      expect(dispatch).have.been.callCount(1);
-      expect(dispatch.getCall(0)).have.been.calledWith({
-        type: types.WS_TIMELINE_UPDATE_ID,
-        payload: {
-          timelineUuid: 'myTimelineUuid',
-          id: true,
+      store.dispatch(actions.update('myTimelineUuid', { id: true }));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMELINE_UPDATE_ID',
+          payload: { timelineUuid: 'myTimelineUuid', id: true },
         },
-      });
+      ]);
     });
     it('updates sessionName, offset and id', () => {
-      actions.update('myTimelineUuid', { sessionName: 'session1', offset: true, id: true })(dispatch);
-      expect(dispatch).have.been.callCount(3);
-      expect(dispatch.getCall(0)).have.been.calledWith({
-        type: types.WS_TIMELINE_UPDATE_SESSIONNAME,
-        payload: {
-          timelineUuid: 'myTimelineUuid',
-          sessionName: 'session1',
+      store.dispatch(actions.update('myTimelineUuid', { sessionName: 'session1', offset: true, id: true }));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMELINE_UPDATE_SESSIONNAME',
+          payload: { timelineUuid: 'myTimelineUuid', sessionName: 'session1' },
         },
-      });
-      expect(dispatch.getCall(1)).have.been.calledWith({
-        type: types.WS_TIMELINE_UPDATE_OFFSET,
-        payload: {
-          timelineUuid: 'myTimelineUuid',
-          offset: true,
+        {
+          type: 'WS_TIMELINE_UPDATE_OFFSET',
+          payload: { timelineUuid: 'myTimelineUuid', offset: true },
         },
-      });
-      expect(dispatch.getCall(2)).have.been.calledWith({
-        type: types.WS_TIMELINE_UPDATE_ID,
-        payload: {
-          timelineUuid: 'myTimelineUuid',
-          id: true,
+        {
+          type: 'WS_TIMELINE_UPDATE_ID',
+          payload: { timelineUuid: 'myTimelineUuid', id: true },
         },
-      });
+      ]);
     });
   });
 });

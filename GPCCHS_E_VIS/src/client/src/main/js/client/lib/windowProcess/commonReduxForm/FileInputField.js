@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Alert, FormGroup, Col } from 'react-bootstrap';
+import { v4 } from 'uuid';
 
 export default class FileInputField extends React.Component {
   static propTypes = {
@@ -40,8 +41,8 @@ export default class FileInputField extends React.Component {
       this.props.changePath(event.target.files[0].path);
     }
   }
-  onClick = () => {
-    document.getElementById('my_file').click();
+  onClick = (key) => {
+    document.getElementById('my_file'.concat(key)).click();
   }
 
 
@@ -56,6 +57,8 @@ export default class FileInputField extends React.Component {
       },
     } = this.props;
 
+    const key = v4();
+
     return (
       <div
         className={classnames({
@@ -63,29 +66,30 @@ export default class FileInputField extends React.Component {
           'has-warning': touched && warning,
           'has-success': touched && !(error || warning),
         })}
+        key={'div'.concat(key)}
       >
-        <FormGroup >
-          <Col sm={10}>
+        <FormGroup key={'formGroup'.concat(key)}>
+          <Col sm={10} key={'col1'.concat(key)}>
             <input
               {...input}
-              id="pathField"
+              id={'pathField'.concat(key)}
               placeholder={placeholder}
               type="text"
               className="form-control input-sm"
               onChange={e => this.onInputChange(e)}
             />
           </Col>
-          <Col sm={2}>
+          <Col sm={2} key={'col2'.concat(key)}>
             <input
               type="button"
-              id="get_file"
+              id={'get_file'.concat(key)}
               style={{ borderRadius: '5px', padding: '6px' }}
-              onClick={this.onClick}
+              onClick={() => this.onClick(key)}
               value="..."
             />
             <input
               type="file"
-              id="my_file"
+              id={'my_file'.concat(key)}
               style={{ display: 'none' }}
               onChange={this.onChoiceChange}
             />

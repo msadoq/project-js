@@ -68,7 +68,7 @@ describe('state colors conditions', () => {
   it('CONTAINS', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'contains',
+      operator: 'CONTAINS',
       operand: 'abc',
     };
 
@@ -78,7 +78,7 @@ describe('state colors conditions', () => {
   it('!CONTAINS', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'icontains',
+      operator: 'ICONTAINS',
       operand: 'abc',
     };
 

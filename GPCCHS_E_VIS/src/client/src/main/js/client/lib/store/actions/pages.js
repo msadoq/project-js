@@ -7,6 +7,8 @@ import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
 import { getPanels, getPages } from '../reducers/pages';
+import { getWindowIdByPageId } from '../reducers/windows';
+import { focusPage as focusPageInWindow } from '../actions/windows';
 
 /**
  * Simple actions
@@ -98,5 +100,16 @@ export function openEditor(pageId, viewId) { // TODO boxmodel test
     }
 
     dispatch(loadInEditor(pId, viewId));
+  };
+}
+
+export function focusPage(pageId) {
+  return (dispatch, getState) => {
+    // get window containing the pageId
+    const winId = getWindowIdByPageId(getState(), { pageId });
+    if (!winId) {
+      return;
+    }
+    dispatch(focusPageInWindow(winId, pageId));
   };
 }

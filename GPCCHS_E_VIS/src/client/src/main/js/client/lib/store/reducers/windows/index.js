@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import u from 'updeep';
+import _find from 'lodash/find';
+import _findKey from 'lodash/findKey';
 
 import window from './window';
 import * as types from '../../types';
@@ -91,3 +93,9 @@ export const getWindowFocusedPageId = createSelector(
 export function getDisplayHelp(state, { windowId }) {
   return _.get(['windows', windowId, 'displayHelp'], state);
 }
+
+export const getWindowIdByPageId = createSelector(
+  getWindows,
+  (state, { pageId }) => pageId,
+  (wins, pageId) => _findKey(wins, win => _find(win.pages, page => page === pageId))
+);

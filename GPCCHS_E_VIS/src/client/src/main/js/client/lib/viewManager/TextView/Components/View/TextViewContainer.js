@@ -8,6 +8,7 @@ import {
   addEntryPoint,
   updateContent,
   removeLink,
+  updateShowLinks,
 } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
@@ -15,7 +16,8 @@ import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
 import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getData } from '../../store/dataReducer';
 import { getViewContent } from '../../store/configurationSelectors';
-import { getLinks } from '../../../../store/reducers/views';
+import { getLinks, areLinksShown } from '../../../../store/reducers/views';
+import { getPageIdByViewId } from '../../../../store/reducers/pages';
 
 const mapStateToProps = createStructuredSelector({
   content: getViewContent,
@@ -25,12 +27,15 @@ const mapStateToProps = createStructuredSelector({
   isInspectorOpened: isAnyInspectorOpened,
   inspectorEpId: getInspectorEpId,
   links: getLinks,
+  pageId: getPageIdByViewId,
+  showLinks: areLinksShown,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
   removeLink: key => removeLink(viewId, key),
+  updateShowLinks: flag => updateShowLinks(viewId, flag),
 }, dispatch);
 
 const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);

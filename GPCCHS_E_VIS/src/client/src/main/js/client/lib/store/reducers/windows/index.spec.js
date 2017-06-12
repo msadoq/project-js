@@ -9,8 +9,7 @@ import windowsReducer, {
   getWindowFocusedPageId,
   getDisplayHelp,
   getWindowTitle,
-  getWindowDomainName,
-  getWindowSessionName,
+  getWindowIdByPageId,
 } from '../windows';
 import * as types from '../../types';
 
@@ -159,5 +158,15 @@ describe('store:windows:selectors', () => {
     };
     getDisplayHelp(state, { windowId: 'w1' }).should.be.true;
     should.not.exist(getDisplayHelp({}, {}));
+  });
+  it('getWindowIdByPageId', () => {
+    const state = {
+      windows: {
+        w1: { pages: ['page1', 'page2', 'page3'] },
+        w2: { pages: ['page10', 'page20', 'page30'] },
+      },
+    };
+    getWindowIdByPageId(state, { pageId: 'page2' }).should.eql('w1');
+    should.not.exist(getWindowIdByPageId(state, { pageId: 'page200' }));
   });
 });

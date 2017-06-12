@@ -19,6 +19,10 @@ import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
+import { addBlankPage } from '../store/actions/pages';
+import { getFocusedWindowId } from '../store/reducers/hsc';
+import { getWindowFocusedPageId } from '../store/reducers/windows';
+
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -69,6 +73,41 @@ export const openPage = pageInfo => (dispatch, getState) => {
     const errors = _.compact([err, ...keepErrors(views), ...keepErrors(pages)]);
     if (!_.isEmpty(errors)) {
       dispatch(addGlobalError(errors));
+    }
+    if (documents.pages[0].error) {
+      return;
+    }
+    const page = documents.pages[0].value;
+    const firstTimebarId = getFirstTimebarId(getState());
+    dispatch({
+      type: types.WS_PAGE_OPEN,
+      payload: {
+        windowId: page.windowId,
+        views: keepValues(views),
+        page: _.set('timebarUuid', firstTimebarId, page),
+      },
+    });
+
+    const path = page.absolutePath || page.path || page.oId;
+    server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
+  });
+};
+// -------------------------------------------------------------------------- //
+// --- open a page or a view------------------------------------------------- //
+export const openPageOrView = docInfo => (dispatch, getState) => {
+  readPageAndViews(docInfo, (err, documents) => {
+    const keepErrors = _.pipe(_.filter(_.has('error')), _.map('error'));
+    const keepValues = _.pipe(_.filter(_.has('value')), _.map('value'));
+    const { views, pages } = documents;
+
+    const errors = _.compact([err, ...keepErrors(views), ...keepErrors(pages)]);
+    if (!_.isEmpty(errors)) {
+      // Add a blank page
+      dispatch(addBlankPage());
+      // try to open a view
+      const windowId = getFocusedWindowId(getState());
+      dispatch(openView(docInfo, getWindowFocusedPageId(getState(), { windowId })));
+      return;
     }
     if (documents.pages[0].error) {
       return;

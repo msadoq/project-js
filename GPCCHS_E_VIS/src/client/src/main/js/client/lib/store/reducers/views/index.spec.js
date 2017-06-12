@@ -11,6 +11,7 @@ import viewsReducer, {
   getViewTitleStyle,
   getViewDomainName,
   getViewSessionName,
+  areLinksShown,
 } from '.';
 import { freezeArgs, getStore, should } from '../../../common/test';
 
@@ -117,6 +118,14 @@ describe('store:views:selectors', () => {
       },
     };
     getViewTitleStyle(state, { viewId: 'myViewId' }).should.be.eql('TITLE_STYLE');
+  });
+  it('areLinksShown', () => {
+    const state = {
+      views: {
+        myViewId: { showLinks: true },
+      },
+    };
+    areLinksShown(state, { viewId: 'myViewId' }).should.eql(true);
   });
   describe('getDomainName', () => {
     it('should return domainName', () => {

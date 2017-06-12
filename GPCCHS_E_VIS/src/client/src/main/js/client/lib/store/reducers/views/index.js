@@ -55,6 +55,11 @@ export const getLinks = createSelector(
   _.get('links')
 );
 
+export const areLinksShown = createSelector(
+  getView,
+  _.get('showLinks')
+);
+
 export const getProcedures = createSelector(
   getView,
   _.get('procedures')

@@ -88,6 +88,7 @@ describe('store:reducer:views', () => {
       title: 'Plotview 4 parameters',
       titleStyle: { bold: false },
       backgroundColor: '#FFFFFF',
+      showLinks: false,
       configuration: {
         type: 'PlotView',
         entryPoints: [{
@@ -130,6 +131,10 @@ describe('store:reducer:views', () => {
       const state = reducer(stateViews, actions.updateLink('plot1', 1, link));
       state.plot1.links[1].should.deep.equal(link);
       state.plot1.isModified.should.be.true;
+    });
+    it('ShowLinks', () => {
+      const state = reducer(stateViews, actions.updateShowLinks('plot1', true));
+      state.plot1.showLinks.should.deep.equal(true);
     });
     it('Procedure', () => {
       const proc = { p: '3' };
@@ -189,6 +194,7 @@ describe('store:reducer:views', () => {
       isModified: true,
       title: 'myView',
       type: 'PlotView',
+      showLinks: false,
     };
     const action = { type: types.WS_VIEW_RELOAD, payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);

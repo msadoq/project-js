@@ -15,6 +15,9 @@ describe('store:actions:pages', () => {
         focusWindow: 'w1',
       },
       timebars: { tb1: {} },
+      windows: {
+        w1: { pages: ['page1'] },
+      },
     });
   });
 
@@ -104,6 +107,17 @@ describe('store:actions:pages', () => {
           viewId: 'myViewId',
         },
       });
+    });
+  });
+  describe('focusPage', () => {
+    it('focusPage when page exists', () => {
+      actions.focusPage('page1')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+    it('focusPage with unknown page', () => {
+      actions.focusPage('unknownpage')(dispatch, getState);
+      dispatch.should.have.been.callCount(0);
     });
   });
 });

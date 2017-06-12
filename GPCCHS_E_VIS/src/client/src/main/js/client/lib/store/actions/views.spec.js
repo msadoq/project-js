@@ -9,6 +9,11 @@ describe('store:actions:views', () => {
     domains: [
       { name: 'fr.cnes.isis' },
     ],
+    windows: {
+      w1: {
+        pages: ['pageWithLayout', 'emptyPage'],
+      },
+    },
     views: {
       textview: {
         uuid: 'textview',
@@ -16,12 +21,10 @@ describe('store:actions:views', () => {
         configuration: { collapsed: false },
         path: '/folder1/oldPath',
         absolutePath: '/folder1/oldPath',
-        pages: ['pageWithLayout'],
       },
       plotview: {
         uuid: 'plotview',
         type: 'PlotView',
-        pages: ['emptyPage'],
       },
     },
     pages: {
@@ -271,6 +274,17 @@ describe('store:actions:views', () => {
       //     viewId: 'plotview',
       //   },
       // });
+    });
+  });
+  describe('focusView', () => {
+    it('focusView when view exists', () => {
+      actions.focusView('textview')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+    it('focusView with unknown view', () => {
+      actions.focusView('unknownview')(dispatch, getState);
+      dispatch.should.have.been.callCount(0);
     });
   });
 });

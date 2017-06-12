@@ -8,8 +8,9 @@ import { getViewContent } from '../../store/configurationSelectors';
 import MimicView from './MimicView';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
-import { getLinks } from '../../../../store/reducers/views';
-import { removeLink } from '../../../../store/actions/views';
+import { getLinks, areLinksShown } from '../../../../store/reducers/views';
+import { removeLink, updateShowLinks } from '../../../../store/actions/views';
+import { getPageIdByViewId } from '../../../../store/reducers/pages';
 
 const mapStateToProps = createStructuredSelector({
   content: getViewContent,
@@ -17,10 +18,13 @@ const mapStateToProps = createStructuredSelector({
   entryPoints: getViewEntryPoints,
   data: getData,
   links: getLinks,
+  pageId: getPageIdByViewId,
+  showLinks: areLinksShown,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   removeLink,
+  updateShowLinks,
 }, dispatch);
 
 const MimicViewContainer = connect(mapStateToProps, mapDispatchToProps)(MimicView);

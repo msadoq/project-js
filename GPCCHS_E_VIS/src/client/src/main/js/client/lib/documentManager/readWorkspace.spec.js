@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-expressions */
+import sinon from 'sinon';
 import workspaceFixture from './fixtures/small.workspace.json';
-import { sinon } from '../common/test';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import * as io from './io';
 import * as readPageApi from './readPage';

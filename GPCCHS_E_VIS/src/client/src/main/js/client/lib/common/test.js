@@ -1,7 +1,6 @@
 import { tmpdir } from 'os';
 import _ from 'lodash';
 import path from 'path';
-import sinon from 'sinon';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import deepFreeze from 'deep-freeze';
@@ -30,7 +29,6 @@ const testMemoization = (selector, state, ownProps) => {
 };
 
 module.exports = {
-  sinon, // TODO: USELESS: prefer directly import sinon
   mockStore, // thunk testing
   freezeMe, // reducers testing
   freezeArgs, // reducers testing

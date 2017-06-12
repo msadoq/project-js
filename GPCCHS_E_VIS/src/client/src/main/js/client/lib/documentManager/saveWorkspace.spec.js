@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-expressions */
+import sinon from 'sinon';
 import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { sinon, getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/test';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
 import * as fmdApi from '../common/fmd';

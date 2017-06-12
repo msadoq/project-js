@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-expressions */
+import sinon from 'sinon';
 import { get } from 'common/parameters';
 import globalConstants from 'common/constants';
 import * as fmdApi from './fmd';
 import ipcApi from '../mainProcess/ipc';
-import { sinon } from './test';
 
 const mockedRequestFmdCreate = (folder, fileName, mimeType, cb) => cb({
   err: fileName === 'filename:error' ? new Error() : null,

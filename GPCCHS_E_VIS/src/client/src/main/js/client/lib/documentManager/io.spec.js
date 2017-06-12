@@ -1,12 +1,12 @@
-/* eslint-disable no-unused-expressions */
 import fs, { access, accessSync, mkdir, readFileSync } from 'fs';
 import rimraf from 'rimraf';
 import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
+import sinon from 'sinon';
 
 import mimeTypes from 'common/constants/mimeTypes';
 
-import { sinon, getTmpPath } from '../common/test';
+import { getTmpPath } from '../common/test';
 import * as fmdApi from '../common/fmd';
 import { readDocument, writeDocument } from './io';
 

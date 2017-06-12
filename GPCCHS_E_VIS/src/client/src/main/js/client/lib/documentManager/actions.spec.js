@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-expressions */
+import sinon from 'sinon';
 import * as types from '../store/types';
-import { sinon, mockStore } from '../common/test';
+import { mockStore } from '../common/test';
 import readView from './readView';
 import * as readPageApi from './readPage';
 import { add as addMessage } from '../store/actions/messages';

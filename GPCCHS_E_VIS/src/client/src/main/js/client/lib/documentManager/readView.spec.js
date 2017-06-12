@@ -1,4 +1,4 @@
-import { sinon } from '../common/test';
+import sinon from 'sinon';
 import { simpleReadView } from './readView';
 import * as io from './io';
 

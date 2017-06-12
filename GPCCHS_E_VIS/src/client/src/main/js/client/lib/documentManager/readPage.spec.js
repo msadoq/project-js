@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-expressions */
+import sinon from 'sinon';
 import _ from 'lodash/fp';
-import { sinon } from '../common/test';
 import { simpleReadPage, readPageAndViews } from './readPage';
 import * as io from './io';
 

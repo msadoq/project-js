@@ -1,5 +1,4 @@
-/* eslint no-unused-expressions: 0 */
-import { freezeArgs, should } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/hsc';
 import { HSC_PAUSE } from '../../types';
 
@@ -69,7 +68,7 @@ describe('store:hsc:reducer', () => {
     expect(reducer(undefined, actions.updateCacheInvalidation(10))).toHaveProperty('lastCacheInvalidation', 10);
   });
   it('should save current focused window', () => {
-    expect(reducer(undefined, actions.focusWindow('some window id'))).have.properties({
+    expect(reducer(undefined, actions.focusWindow('some window id'))).toMatchObject({
       focusWindow: 'some window id',
     });
   });
@@ -88,7 +87,9 @@ describe('store:hsc:reducer', () => {
     });
   });
   it('should update forecast', () => {
-    expect(reducer({ }, actions.updateForecast(20, 30))).toEqual({ forecast: { lower: 20, upper: 30 } });
+    expect(
+      reducer({ }, actions.updateForecast(20, 30))
+    ).toEqual({ forecast: { lower: 20, upper: 30 } });
     expect(
       reducer({ forecast: { lower: 20, upper: 30 } }, actions.updateForecast(25, 35))
     ).toEqual({ forecast: { lower: 25, upper: 35 } });

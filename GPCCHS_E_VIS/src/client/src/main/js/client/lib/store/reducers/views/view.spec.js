@@ -1,7 +1,5 @@
-/* eslint no-unused-expressions: "off" */
 import _ from 'lodash/fp';
 import * as actions from '../../actions/views';
-import * as types from '../../types';
 import viewsReducer from '../views';
 import { freezeArgs } from '../../../common/test';
 
@@ -41,7 +39,7 @@ describe('store:reducer:views', () => {
     };
     it('Path', () => {
       const s = reducer(state, {
-        type: types.WS_VIEW_UPDATEPATH,
+        type: 'WS_VIEW_UPDATEPATH',
         payload: {
           viewId: 'view1',
           newPath: '/data/newPath',
@@ -53,7 +51,7 @@ describe('store:reducer:views', () => {
     });
     it('absolute Path', () => {
       const s = reducer(state, {
-        type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
+        type: 'WS_VIEW_UPDATE_ABSOLUTEPATH',
         payload: {
           viewId: 'view1',
           newPath: '/data/newPath',
@@ -65,7 +63,7 @@ describe('store:reducer:views', () => {
     });
     it('set oId', () => {
       const s = reducer(state, {
-        type: types.WS_VIEW_SET_OID,
+        type: 'WS_VIEW_SET_OID',
         payload: {
           viewId: 'view1',
           oid: 'yolo',
@@ -194,14 +192,14 @@ describe('store:reducer:views', () => {
       type: 'PlotView',
       showLinks: false,
     };
-    const action = { type: types.WS_VIEW_RELOAD, payload: { viewId: 'plot1', view: myView } };
+    const action = { type: 'WS_VIEW_RELOAD', payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);
 
     expect(state.plot1).toEqual(_.set('isModified', false, myView));
   });
   it('close_workspace', () => {
-    const newState = reducer({ myView: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
-    expect(typeof newState).toHaveLength(0);
+    const newState = reducer({ myView: { id: 'Id' } }, { type: 'HSC_CLOSE_WORKSPACE' });
+    expect(newState).toEqual({});
   });
   it('should update sessionName', () => {
     const newState = reducer({ v1: {} }, actions.updateSessionName('v1', 'mySession'));

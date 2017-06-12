@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { should, freezeArgs, getStore } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/test';
 import * as types from '../../types';
 import timebarsReducer, {
   getTimebar,
@@ -14,7 +14,7 @@ const reducer = freezeArgs(timebarsReducer);
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:timebars:reducer', () => {
   it('initial state', () => {
-    expect(typeof reducer(undefined, {})).toHaveLength(0);
+    expect(reducer(undefined, {})).toEqual({});
   });
   it('unknown action', () => {
     expect(reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })).toEqual({ tb1: { id: 'tb1' } });
@@ -39,7 +39,7 @@ describe('store:timebars:reducer', () => {
     };
     it('close', () => {
       const newState = reducer(state, { type: types.HSC_CLOSE_WORKSPACE });
-      expect(typeof newState).toHaveLength(0);
+      expect(newState).toEqual({});
     });
   });
 });
@@ -47,48 +47,46 @@ describe('store:timebars:reducer', () => {
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:timebars:selectors', () => {
   it('getTimebar', () => {
-    const { getState } = getStore({
+    const state = freezeMe({
       timebars: {
         myTimebarId: { id: 'Id' },
       },
     });
-    expect(getTimebar(getState(), { timebarUuid: 'myTimebarId' })).toHaveProperty('id', 'Id');
-    expect(getTimebar(getState(), { timebarUuid: 'unknownId' })).toBeFalsy();
+    expect(getTimebar(state, { timebarUuid: 'myTimebarId' })).toHaveProperty('id', 'Id');
+    expect(getTimebar(state, { timebarUuid: 'unknownId' })).toBeFalsy();
   });
   it('getTimebarId', () => {
-    const { getState } = getStore({
+    const state = freezeMe({
       timebars: {
         myTimebarId: { id: 'Id' },
       },
     });
-    expect(getTimebarId(getState(), { timebarUuid: 'myTimebarId' })).toEqual('Id');
-    expect(getTimebarId(getState(), { timebarUuid: 'unknownId' })).toBeFalsy();
+    expect(getTimebarId(state, { timebarUuid: 'myTimebarId' })).toEqual('Id');
+    expect(getTimebarId(state, { timebarUuid: 'unknownId' })).toBeFalsy();
   });
   it('getTimebars', () => {
-    const state = {
+    const state = freezeMe({
       timebars: {
         myTimebarId: { id: 'Id' },
       },
-    };
-    const { getState } = getStore(state);
-    expect(getTimebars(getState())).toEqual(state.timebars);
+    });
+    expect(getTimebars(state)).toEqual(state.timebars);
   });
   it('getFirstTimebarId', () => {
-    const state = {
+    const state = freezeMe({
       timebars: { aaa: {} },
-    };
-    const { getState } = getStore(state);
-    expect(getFirstTimebarId(getState())).toEqual('aaa');
+    });
+    expect(getFirstTimebarId(state)).toEqual('aaa');
   });
   it('getTimebarMasterId', () => {
-    const state = {
+    const state = freezeMe({
       timebars: {
         tb1: {
           masterId: 'master id',
           foo: 'bar',
         },
       },
-    };
+    });
     expect(getTimebarMasterId(state, { timebarUuid: 'tb1' })).toEqual('master id');
   });
 });

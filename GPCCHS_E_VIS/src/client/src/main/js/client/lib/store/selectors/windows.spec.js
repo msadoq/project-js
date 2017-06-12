@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { getStore, testMemoization } from '../../common/test';
+import { freezeMe, testMemoization } from '../../common/test';
 
 import {
   getFocusedWindow,
@@ -78,7 +78,7 @@ describe('store:window:selectors', () => {
     });
   });
   describe('getWindowsVisibleViews', () => {
-    const { getState } = getStore({
+    const state = freezeMe({
       windows: {
         myWindowId: { title: 'Title', focusedPage: 10, isLoaded: true },
         myOtherWindow: { title: 'Title', focusedPage: 20, isLoaded: true },
@@ -98,14 +98,14 @@ describe('store:window:selectors', () => {
       },
     });
     it('should returns focused views', () => {
-      expect(getWindowsVisibleViews(getState())).toEqual([
+      expect(getWindowsVisibleViews(state)).toEqual([
         { timebarUuid: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
         { timebarUuid: 1000, viewData: { title: 'Title 200' }, viewId: 200 },
         { timebarUuid: 2000, viewData: { title: 'Title 500' }, viewId: 500 },
       ]);
     });
     it('should memoize', () => {
-      testMemoization(getWindowsVisibleViews, getState());
+      testMemoization(getWindowsVisibleViews, state);
     });
     it('should support empty views list', () => {
       expect(getWindowsVisibleViews({

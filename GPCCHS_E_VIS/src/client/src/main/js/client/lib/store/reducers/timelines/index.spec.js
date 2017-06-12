@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs, should, getStore } from '../../../common/test';
+import { freezeMe, freezeArgs } from '../../../common/test';
 import timelinesReducer, { getTimeline, getTimelines } from '.';
 import * as types from '../../types';
 
@@ -7,18 +7,18 @@ const reducer = freezeArgs(timelinesReducer);
 
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:timelines:reducer', () => {
-  it('initial state', () => {
-    expect(typeof reducer(undefined, {})).toHaveLength(0);
+  it('set initial state to an empty object', () => {
+    expect(reducer(undefined, {})).toEqual({});
   });
-  it('unknown action', () => {
+  it('doest nothing with unknown action', () => {
     expect(
       reducer({ myTimelineUuid: { id: 'myTimelineId' } }, { payload: { timelineId: 'myTimelineId' } })
     ).toEqual({ myTimelineUuid: { id: 'myTimelineId' } });
   });
   describe('HSC workspace', () => {
-    it('close', () => {
+    it('erase timelines when close workspace', () => {
       const newState = reducer({ myTimelineUuid: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
-      expect(typeof newState).toHaveLength(0);
+      expect(newState).toEqual({});
     });
   });
 });
@@ -26,16 +26,15 @@ describe('store:timelines:reducer', () => {
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:timelines:selectors', () => {
   it('getTimeline', () => {
-    const { getState } = getStore({
+    const state = freezeMe({
       timelines: {
         myTimelineId: { id: 'Id' },
       },
     });
-    expect(getTimeline(getState(), { timelineUuid: 'myTimelineId' })).toHaveProperty('id', 'Id');
-    expect(getTimeline(getState(), { timelineUuid: 'unknownId' })).toBeFalsy();
+    expect(getTimeline(state, { timelineUuid: 'myTimelineId' })).toHaveProperty('id', 'Id');
+    expect(getTimeline(state, { timelineUuid: 'unknownId' })).toBeFalsy();
   });
   it('getTimelines', () => {
-    const { getState } = getStore({ timelines: true });
-    expect(getTimelines(getState())).toBe(true);
+    expect(getTimelines({ timelines: true })).toBe(true);
   });
 });

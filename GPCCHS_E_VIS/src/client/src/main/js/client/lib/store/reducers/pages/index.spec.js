@@ -1,5 +1,4 @@
-/* eslint no-unused-expressions: 0 */
-import { freezeArgs, should } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as types from '../../types';
 import * as actions from '../../actions/pages';
 import pagesReducer, {
@@ -22,7 +21,7 @@ const reducer = freezeArgs(pagesReducer);
 
 describe('store:pages:reducer', () => {
   it('initial state', () => {
-    expect(typeof reducer(undefined, {})).toHaveLength(0);
+    expect(reducer(undefined, {})).toEqual({});
   });
   it('unknown action', () => {
     const state = { myPageId: { title: 'Title' } };
@@ -35,8 +34,8 @@ describe('store:pages:reducer', () => {
   describe('HSC workspace', () => {
     it('close', () => {
       expect(
-        typeof reducer({ myPage: { timebarHeight: 5 } }, { type: types.HSC_CLOSE_WORKSPACE })
-      ).toHaveLength(0);
+        reducer({ myPage: { timebarHeight: 5 } }, { type: types.HSC_CLOSE_WORKSPACE })
+      ).toEqual({});
     });
   });
   describe('Update view path', () => {
@@ -127,7 +126,7 @@ describe('store:page:selectors', () => {
           },
         },
       };
-      expect(typeof getPageLayout(state, { pageId: 'myPageId' })).toBe('array');
+      expect(getPageLayout(state, { pageId: 'myPageId' })).toBeAnArray();
     });
   });
   describe('getEditor', () => {

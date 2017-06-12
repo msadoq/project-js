@@ -13,14 +13,14 @@ import viewsReducer, {
   getViewSessionName,
   areLinksShown,
 } from '.';
-import { freezeArgs, getStore, should } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/test';
 
 const reducer = freezeArgs(viewsReducer);
 
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:views:reducer', () => {
   it('initial state', () => {
-    expect(typeof reducer(undefined, {})).toHaveLength(0);
+    expect(reducer(undefined, {})).toEqual({});
   });
   it('unknown action', () => {
     expect(reducer({ myViewId: { title: 'Title' } }, {})).toEqual({ myViewId: { title: 'Title' } });
@@ -36,36 +36,35 @@ describe('store:views:reducer', () => {
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:views:selectors', () => {
   it('getView', () => {
-    const { getState } = getStore({
+    const state = freezeMe({
       views: {
         myViewId: { title: 'Title 1' },
       },
     });
-    expect(getView(getState(), { viewId: 'myViewId' })).toHaveProperty('title', 'Title 1');
-    expect(getView(getState(), { viewId: 'unknownId' })).toBeFalsy();
+    expect(getView(state, { viewId: 'myViewId' })).toHaveProperty('title', 'Title 1');
+    expect(getView(state, { viewId: 'unknownId' })).toBeFalsy();
   });
   it('getViews', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         myId: { title: 'Title' },
         myOtherId: { title: 'Title other' },
       },
-    };
-    const { getState } = getStore(state);
-    expect(getViews(getState())).toBe(state.views);
+    });
+    expect(getViews(state)).toBe(state.views);
   });
   it('getModifiedViewsIds', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         view1: { isModified: true },
         view2: { isModified: false },
         view3: { isModified: true },
       },
-    };
+    });
     expect(getModifiedViewsIds(state)).toEqual(['view1', 'view3']);
   });
   it('getViewConfiguration', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         myViewId: {
           configuration: {
@@ -73,49 +72,49 @@ describe('store:views:selectors', () => {
           },
         },
       },
-    };
+    });
     expect(getViewConfiguration(state, { viewId: 'myViewId' })).toEqual({
       title: 'Title 1',
     });
   });
   it('getViewAbsolutePath', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         myViewId: {
           absolutePath: true,
         },
       },
-    };
+    });
     expect(getViewAbsolutePath(state, { viewId: 'myViewId' })).toBe(true);
   });
   it('getViewType', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         myViewId: {
           type: 'PlotView',
         },
       },
-    };
+    });
     expect(getViewType(state, { viewId: 'myViewId' })).toEqual('PlotView');
   });
   it('getViewTitle', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         myViewId: {
           title: 'TITLE',
         },
       },
-    };
+    });
     expect(getViewTitle(state, { viewId: 'myViewId' })).toEqual('TITLE');
   });
   it('getViewTitleStyle', () => {
-    const state = {
+    const state = freezeMe({
       views: {
         myViewId: {
           titleStyle: 'TITLE_STYLE',
         },
       },
-    };
+    });
     expect(getViewTitleStyle(state, { viewId: 'myViewId' })).toEqual('TITLE_STYLE');
   });
   it('areLinksShown', () => {
@@ -128,20 +127,22 @@ describe('store:views:selectors', () => {
   });
   describe('getDomainName', () => {
     it('should return domainName', () => {
-      const state = { views: { v1: { domainName: 'myDomain' } } };
+      const state = freezeMe({ views: { v1: { domainName: 'myDomain' } } });
       expect(getViewDomainName(state, { viewId: 'v1' })).toEqual('myDomain');
     });
     it('should support empty state', () => {
-      expect(getViewDomainName({ views: { v1: {} } }, { viewId: 'v1' })).toBeFalsy();
+      const state = freezeMe({ views: { v1: {} } });
+      expect(getViewDomainName(state, { viewId: 'v1' })).toBeFalsy();
     });
   });
   describe('getSessionName', () => {
     it('should return sessionName', () => {
-      const state = { views: { v1: { sessionName: 'mySession' } } };
+      const state = freezeMe({ views: { v1: { sessionName: 'mySession' } } });
       expect(getViewSessionName(state, { viewId: 'v1' })).toEqual('mySession');
     });
     it('should support empty state', () => {
-      expect(getViewSessionName({ views: { v1: {} } }, { viewId: 'v1' })).toBeFalsy();
+      const state = freezeMe({ views: { v1: {} } });
+      expect(getViewSessionName(state, { viewId: 'v1' })).toBeFalsy();
     });
   });
 });

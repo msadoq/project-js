@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs, getStore } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import timebarTimelinesReducer, { getTimebarTimelines } from '.';
 import * as types from '../../types';
 
@@ -67,21 +67,21 @@ describe('store:timebarTimelines:reducer', () => {
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:timebarTimelines:selectors', () => {
   it('getTimebarTimelines: existing id', () => {
-    const { getState } = getStore({
+    const state = {
       timebarTimelines: {
         myTimebarId: ['tl1', 'tl2'],
         myOtherId: ['tl3'],
       },
-    });
-    expect(getTimebarTimelines(getState(), { timebarUuid: 'myTimebarId' })).toEqual(['tl1', 'tl2']);
+    };
+    expect(getTimebarTimelines(state, { timebarUuid: 'myTimebarId' })).toEqual(['tl1', 'tl2']);
   });
   it('getTimebarTimelines: unknown id', () => {
-    const { getState } = getStore({
+    const state = {
       timebarTimelines: {
         myTimebarId: ['tl1', 'tl2'],
         myOtherId: ['tl3'],
       },
-    });
-    expect(getTimebarTimelines(getState(), { timebarUuid: 'unknownId' })).toEqual([]);
+    };
+    expect(getTimebarTimelines(state, { timebarUuid: 'unknownId' })).toEqual([]);
   });
 });

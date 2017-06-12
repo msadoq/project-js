@@ -1,5 +1,4 @@
-/* eslint no-unused-expressions: 0 */
-import { freezeArgs, should } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/pages';
 import pagesReducer from '../pages';
 import * as types from '../../types';
@@ -26,7 +25,7 @@ describe('store:page:reducer', () => {
   });
   describe('updateAbsolutePath', () => {
     it('empty state', () => {
-      expect(typeof reducer({}, actions.updateAbsolutePath('myPage', 'myPath'))).toHaveLength(0);
+      expect(reducer({}, actions.updateAbsolutePath('myPage', 'myPath'))).toEqual({});
     });
     it('invalid page id', () => {
       const state = { page1: {} };
@@ -71,7 +70,7 @@ describe('store:page:reducer', () => {
           newPath: 'myPath',
         },
       });
-      expect(typeof newState).toHaveLength(0);
+      expect(newState).toEqual({});
     });
     it('valid page id', () => {
       const state = { page1: { path: 'path1' } };
@@ -94,7 +93,7 @@ describe('store:page:reducer', () => {
           oid: '1234',
         },
       });
-      expect(typeof newState).toHaveLength(0);
+      expect(newState).toEqual({});
     });
     it('sets oid', () => {
       const state = { page1: { } };

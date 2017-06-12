@@ -2,21 +2,11 @@ import { tmpdir } from 'os';
 import _ from 'lodash';
 import path from 'path';
 import sinon from 'sinon';
-import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import deepFreeze from 'deep-freeze';
-import reducer from '../store/reducers/index';
 
 const mockStore = configureMockStore([thunk]);
-
-function getStore(initialState) {
-  return createStore(
-    reducer,
-    initialState,
-    applyMiddleware(thunk)
-  );
-}
 
 const freezeMe = o => o && deepFreeze(o);
 
@@ -41,7 +31,6 @@ const testMemoization = (selector, state, ownProps) => {
 
 module.exports = {
   sinon, // TODO: USELESS: prefer directly import sinon
-  getStore, // TODO: use mockStore instead
   mockStore, // thunk testing
   freezeMe, // reducers testing
   freezeArgs, // reducers testing

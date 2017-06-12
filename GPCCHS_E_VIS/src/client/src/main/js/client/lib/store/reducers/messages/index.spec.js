@@ -1,5 +1,4 @@
-/* eslint no-unused-expressions: 0 */
-import { freezeArgs, getStore } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/messages';
 import messagesReducer, { getGlobalMessages, getMessages } from '.';
 
@@ -30,12 +29,12 @@ describe('store:message:reducer', () => {
         myOtherId: [{ type: 'info', message: 'other message' }],
       });
       expect(reducer(newState, actions.add('myOtherId', 'success', 'another message'))).toEqual({
-          myId: [{ type: 'danger', message: 'my message' }],
-          myOtherId: [
-            { type: 'info', message: 'other message' },
-            { type: 'success', message: 'another message' },
-          ],
-        });
+        myId: [{ type: 'danger', message: 'my message' }],
+        myOtherId: [
+          { type: 'info', message: 'other message' },
+          { type: 'success', message: 'another message' },
+        ],
+      });
     });
   });
   describe('remove', () => {
@@ -84,14 +83,12 @@ describe('store:messages:selectors', () => {
   };
   describe('getGlobalMessages', () => {
     it('should returns global messages', () => {
-      const { getState } = getStore(state);
-      expect(getGlobalMessages(getState())).toBe(state.messages.global);
+      expect(getGlobalMessages(state)).toBe(state.messages.global);
     });
   });
   describe('getMessages', () => {
     it('should returns corresponding messages', () => {
-      const { getState } = getStore(state);
-      expect(getMessages(getState(), { containerId: 'myOtherId' })).toBe(state.messages.myOtherId);
+      expect(getMessages(state, { containerId: 'myOtherId' })).toBe(state.messages.myOtherId);
     });
   });
 });

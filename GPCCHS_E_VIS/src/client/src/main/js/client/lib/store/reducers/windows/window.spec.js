@@ -1,4 +1,3 @@
-/* eslint no-unused-expressions: 0 */
 import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/windows';
 import windowsReducer from '.././windows';
@@ -22,8 +21,13 @@ describe('store:windows:reducer:window', () => {
         { myWindowId: { geometry: { x: 100, y: 100, w: 100, h: 100 } } },
         actions.updateGeometry('myWindowId', 120)
       );
-      expect(state.myWindowId).toHaveProperty('geometry').with.properties({
-        x: 120, y: 100, w: 100, h: 100,
+      expect(state.myWindowId).toEqual({
+        geometry: {
+          x: 120,
+          y: 100,
+          w: 100,
+          h: 100,
+        },
       });
     });
     it('update all', () => {
@@ -31,8 +35,8 @@ describe('store:windows:reducer:window', () => {
         { myWindowId: { geometry: { x: 100, y: 100, w: 100, h: 100 } } },
         actions.updateGeometry('myWindowId', 120, 130, 140, 150)
       );
-      expect(state.myWindowId).toHaveProperty('geometry').with.properties({
-        x: 120, y: 130, w: 140, h: 150,
+      expect(state.myWindowId).toEqual({
+        geometry: { x: 120, y: 130, w: 140, h: 150 },
       });
     });
     it('update nothing', () => {
@@ -40,8 +44,8 @@ describe('store:windows:reducer:window', () => {
         { myWindowId: { geometry: { x: 120, y: 130, w: 140, h: 150 } } },
         actions.updateGeometry('myWindowId')
       );
-      expect(state.myWindowId).toHaveProperty('geometry').with.properties({
-        x: 120, y: 130, w: 140, h: 150,
+      expect(state.myWindowId).toEqual({
+        geometry: { x: 120, y: 130, w: 140, h: 150 },
       });
     });
   });

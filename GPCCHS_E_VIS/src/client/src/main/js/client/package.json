@@ -34,7 +34,7 @@
     "sh": "npm run start-hot",
     "start": "./scripts/start.sh",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage && npm run open:test-coverage",
     "open:test:coverage": "firefox coverage/test/lcov-report/index.html",

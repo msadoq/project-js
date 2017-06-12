@@ -8,6 +8,7 @@
   	"babel-plugin-add-module-exports"
   ],
   "env": {
+    "test": {},
     "production": {
       "presets": [
         "react-optimize"

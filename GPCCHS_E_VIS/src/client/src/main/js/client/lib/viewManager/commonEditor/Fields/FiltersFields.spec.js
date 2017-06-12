@@ -15,11 +15,13 @@ const propsStub = {
   },
 };
 
-it('FiltersFields renders correctly', () => {
-  const tree = renderer.create(
-    <FiltersFields
-      fields={propsStub.fields}
-    />
-  ).toJSON();
-  expect(tree).toMatchSnapshot();
+describe('component:FiltersFields', () => {
+  it('FiltersFields renders correctly', () => {
+    const tree = renderer.create(
+      <FiltersFields
+        fields={propsStub.fields}
+      />
+    ).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });

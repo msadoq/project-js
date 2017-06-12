@@ -1,45 +1,54 @@
-exports[`test FiltersFields renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component:FiltersFields FiltersFields renders correctly 1`] = `
 <div
-  className="filterFields">
+  className="filterFields"
+>
   <table
     className="table table-striped table-condensed"
     style={
       Object {
         "fontSize": "12px",
       }
-    }>
+    }
+  >
     <thead>
       <tr>
         <th
-          colSpan={1}>
+          colSpan={1}
+        >
           Filters
         </th>
         <th
-          colSpan={2}>
+          colSpan={2}
+        >
           Actions
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="">
+        className=""
+      >
         <td
           className="col-xs-10"
           style={
             Object {
               "verticalAlign": "middle",
             }
-          }>
+          }
+        >
           convertedValue
            
           <b>
-            <=
+            &lt;=
              
           </b>
           0
         </td>
         <td
-          className="col-xs-1">
+          className="col-xs-1"
+        >
           <span
             className="glyphicon glyphicon-trash"
             onClick={[Function]}
@@ -48,10 +57,12 @@ exports[`test FiltersFields renders correctly 1`] = `
                 "cursor": "pointer",
               }
             }
-            title="remove filter" />
+            title="remove filter"
+          />
         </td>
         <td
-          className="col-xs-1">
+          className="col-xs-1"
+        >
           <span
             className="glyphicon glyphicon-pencil"
             onClick={[Function]}
@@ -61,94 +72,118 @@ exports[`test FiltersFields renders correctly 1`] = `
                 "cursor": "pointer",
               }
             }
-            title="edit filter" />
+            title="edit filter"
+          />
         </td>
       </tr>
     </tbody>
   </table>
   <div
-    className="form-group">
+    className="form-group"
+  >
     <label
       className="col-xs-4 control-label"
-      htmlFor="formHorizontalName">
+      htmlFor="formHorizontalName"
+    >
       field
     </label>
     <div
-      className="col-xs-8">
+      className="col-xs-8"
+    >
       <input
         className="form-control"
-        onChange={[Function]} />
+        onChange={[Function]}
+      />
     </div>
   </div>
   <div
-    className="form-group">
+    className="form-group"
+  >
     <label
       className="col-xs-4 control-label"
-      htmlFor="formHorizontalName">
+      htmlFor="formHorizontalName"
+    >
       operator
     </label>
     <div
-      className="col-xs-8">
+      className="col-xs-8"
+    >
       <select
-        className="form-control">
+        className="form-control"
+      >
         <option
-          value="=">
+          value="="
+        >
           =
         </option>
         <option
-          value="!=">
+          value="!="
+        >
           !=
         </option>
         <option
-          value="<">
-          <
+          value="<"
+        >
+          &lt;
         </option>
         <option
-          value="<=">
-          <=
+          value="<="
+        >
+          &lt;=
         </option>
         <option
-          value=">">
-          >
+          value=">"
+        >
+          &gt;
         </option>
         <option
-          value=">=">
-          >=
+          value=">="
+        >
+          &gt;=
         </option>
         <option
-          value="contains">
-          contains
+          value="CONTAINS"
+        >
+          CONTAINS
         </option>
         <option
-          value="icontains">
-          icontains
+          value="ICONTAINS"
+        >
+          ICONTAINS
         </option>
       </select>
     </div>
   </div>
   <div
-    className="form-group">
+    className="form-group"
+  >
     <label
       className="col-xs-4 control-label"
-      htmlFor="formHorizontalName">
+      htmlFor="formHorizontalName"
+    >
       operand
     </label>
     <div
-      className="col-xs-8">
+      className="col-xs-8"
+    >
       <input
         className="form-control"
-        onChange={[Function]} />
+        onChange={[Function]}
+      />
     </div>
   </div>
   <div
-    className="form-group">
+    className="form-group"
+  >
     <label
       className="col-xs-4 control-label"
-      htmlFor="formHorizontalName">
+      htmlFor="formHorizontalName"
+    >
       
     </label>
     <div
-      className="col-xs-8">
+      className="col-xs-8"
+    >
       <input
         className="btn btn-success"
         disabled={true}
@@ -159,7 +194,8 @@ exports[`test FiltersFields renders correctly 1`] = `
           }
         }
         type="submit"
-        value="Add filter" />
+        value="Add filter"
+      />
     </div>
   </div>
 </div>

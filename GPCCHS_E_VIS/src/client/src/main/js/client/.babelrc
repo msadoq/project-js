@@ -5,8 +5,7 @@
     "react"
   ],
   "plugins": [
-  	"babel-plugin-add-module-exports",
-	"babel-plugin-lodash"
+  	"babel-plugin-add-module-exports"
   ],
   "env": {
     "test": {},
@@ -15,13 +14,16 @@
         "react-optimize"
       ],
       "plugins": [
-		"transform-class-properties"
+		"babel-plugin-lodash"
       ]
     },
     "development": {
       "presets": [
         "react-hmre"
-      ]
+      ],
+	  "plugins": [
+		"babel-plugin-lodash"
+	  ]
     }
   }
 }

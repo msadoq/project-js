@@ -1,4 +1,4 @@
-const callbacks = require('./');
+import callbacks from './';
 
 describe('utils/callbacks', () => {
   beforeEach(() => callbacks.clear());

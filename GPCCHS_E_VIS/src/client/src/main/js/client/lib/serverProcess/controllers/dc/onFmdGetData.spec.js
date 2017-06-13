@@ -1,5 +1,5 @@
 const dataStub = require('common/protobuf/stubs');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 

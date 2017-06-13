@@ -1,9 +1,8 @@
-const _isString = require('lodash/isString');
-const _isEmpty = require('lodash/isEmpty');
-const _has = require('lodash/has');
-const _isFunction = require('lodash/isFunction');
-
-const getLogger = require('common/log');
+import _isString from 'lodash/isString';
+import _isEmpty from 'lodash/isEmpty';
+import _has from 'lodash/has';
+import _isFunction from 'lodash/isFunction';
+import getLogger from 'common/log';
 
 const logger = getLogger('common:registeredCallbacks');
 

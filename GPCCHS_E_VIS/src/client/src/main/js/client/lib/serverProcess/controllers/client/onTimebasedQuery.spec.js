@@ -2,7 +2,7 @@ const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');
 const _concat = require('lodash/concat');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 const dataStub = require('common/protobuf/stubs');
 
 const { get: getQueue } = require('../../models/dataQueue');

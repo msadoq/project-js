@@ -1,7 +1,7 @@
 const _isBuffer = require('lodash/isBuffer');
 const _isEqual = require('lodash/isEqual');
 const logger = require('common/log')('controllers:onResponse');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 const { encode, decode } = require('common/protobuf');
 const { pop } = require('../../../utils/callbacks');
 

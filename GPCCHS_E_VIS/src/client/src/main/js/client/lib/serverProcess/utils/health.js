@@ -1,4 +1,4 @@
-const globalConstants = require('common/constants');
+const globalConstants = require('../../constants');
 
 let iterationNb = 0;
 let iterationTime = 0;

@@ -1,7 +1,6 @@
-const getLogger = require('common/log');
-const { IPC_RPC_RESPONSE } = require('common/constants');
-
-const { pop } = require('../callbacks');
+import getLogger from 'common/log';
+import { IPC_RPC_RESPONSE } from '../../constants';
+import { pop } from '../callbacks';
 
 const logger = getLogger('ipc:reply');
 

@@ -1,6 +1,6 @@
 const _concat = require('lodash/concat');
 const { decode } = require('common/protobuf');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 
 const onGetMasterSession = require('./onGetMasterSession');
 

@@ -1,5 +1,5 @@
 const { resetQueryId, createQueryMessage } = require('./queries');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../constants');
 const dataStub = require('common/protobuf/stubs');
 
 const {

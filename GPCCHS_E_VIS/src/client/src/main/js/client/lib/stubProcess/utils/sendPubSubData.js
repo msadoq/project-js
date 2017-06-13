@@ -1,6 +1,6 @@
 const _each = require('lodash/each');
 const _random = require('lodash/random');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../constants');
 const stubData = require('common/protobuf/stubs');
 const getPayload = require('./getPayload');
 

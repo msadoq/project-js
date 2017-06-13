@@ -1,6 +1,6 @@
 const onDcStatus = require('./onDcStatus');
 const dataStub = require('common/protobuf/stubs');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 const { get: getDcStatus, reset: resetDcStatus } = require('../../models/dcStatus');
 
 describe('controllers/utils/onDcStatus', () => {

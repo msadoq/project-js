@@ -4,7 +4,7 @@ const _omit = require('lodash/omit');
 const path = require('path');
 const logger = require('common/log/index')('stubs:utils');
 const zmq = require('common/zmq');
-const globalConstants = require('common/constants');
+const globalConstants = require('../constants');
 const protobuf = require('common/protobuf');
 
 const registerDc = require('common/protobuf/adapters/dc');

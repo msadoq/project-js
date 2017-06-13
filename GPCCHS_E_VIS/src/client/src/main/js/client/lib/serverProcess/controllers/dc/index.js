@@ -1,5 +1,5 @@
 const logger = require('common/log')('controllers/utils');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 const { decode } = require('common/protobuf');
 
 const reply = require('../../../utils/ipc/reply');

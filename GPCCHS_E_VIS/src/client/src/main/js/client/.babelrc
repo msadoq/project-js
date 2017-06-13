@@ -5,7 +5,8 @@
     "react"
   ],
   "plugins": [
-  	"babel-plugin-add-module-exports"
+  	"babel-plugin-add-module-exports",
+	"babel-plugin-lodash"
   ],
   "env": {
     "test": {},
@@ -14,8 +15,7 @@
         "react-optimize"
       ],
       "plugins": [
-        "babel-plugin-lodash",
-    		"transform-class-properties"
+		"transform-class-properties"
       ]
     },
     "development": {

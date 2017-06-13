@@ -1,5 +1,5 @@
 const zmq = require('common/zmq');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 
 const handle = require('../../../utils/ipc/handle');
 const reply = require('../../../utils/ipc/reply');

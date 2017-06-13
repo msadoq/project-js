@@ -1,14 +1,19 @@
-exports[`test FormSectionLineStyle renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation renders correctly 1`] = `
 <div
-  className="root btn-group">
+  className="root btn-group"
+>
   <button
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
-      width="90%">
+      width="90%"
+    >
       <g>
         <title>
           background
@@ -19,7 +24,8 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           id="canvas_background"
           width="70"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -27,14 +33,16 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
       <g>
@@ -51,7 +59,8 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           x1="5"
           x2="55"
           y1="7"
-          y2="7" />
+          y2="7"
+        />
       </g>
     </svg>
   </button>
@@ -59,10 +68,12 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
-      width="90%">
+      width="90%"
+    >
       <g>
         <title>
           background
@@ -73,7 +84,8 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           id="canvas_background"
           width="70"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -81,14 +93,16 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
       <g>
@@ -105,7 +119,8 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           x1="5"
           x2="55"
           y1="7"
-          y2="7" />
+          y2="7"
+        />
       </g>
     </svg>
   </button>
@@ -113,10 +128,12 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
-      width="90%">
+      width="90%"
+    >
       <g>
         <title>
           background
@@ -127,7 +144,8 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           id="canvas_background"
           width="70"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -135,14 +153,16 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
       <g>
@@ -160,7 +180,8 @@ exports[`test FormSectionLineStyle renders correctly 1`] = `
           x1="5"
           x2="55"
           y1="7"
-          y2="7" />
+          y2="7"
+        />
       </g>
     </svg>
   </button>

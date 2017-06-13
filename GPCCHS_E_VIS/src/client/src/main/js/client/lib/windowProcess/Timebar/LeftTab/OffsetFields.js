@@ -64,6 +64,7 @@ export default class OffsetFields extends PureComponent {
   }
 
   render() {
+    console.warn(this.props.input);
     return (
       <div>
         {

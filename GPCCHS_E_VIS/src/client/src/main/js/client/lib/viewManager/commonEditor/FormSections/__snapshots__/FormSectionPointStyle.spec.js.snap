@@ -1,15 +1,20 @@
-exports[`test Navigation renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation renders correctly 1`] = `
 <div
-  className="root btn-group">
+  className="root btn-group"
+>
   <button
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
       width="12"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g>
         <title>
           background
@@ -20,7 +25,8 @@ exports[`test Navigation renders correctly 1`] = `
           id="canvas_background"
           width="12"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -28,14 +34,16 @@ exports[`test Navigation renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
     </svg>
@@ -44,11 +52,13 @@ exports[`test Navigation renders correctly 1`] = `
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
       width="12 "
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g>
         <title>
           background
@@ -59,7 +69,8 @@ exports[`test Navigation renders correctly 1`] = `
           id="canvas_background"
           width="12"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -67,14 +78,16 @@ exports[`test Navigation renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
       <g>
@@ -88,7 +101,8 @@ exports[`test Navigation renders correctly 1`] = `
           id="svg_5"
           stroke="#000"
           strokeOpacity="null"
-          strokeWidth="1" />
+          strokeWidth="1"
+        />
       </g>
     </svg>
   </button>
@@ -96,11 +110,13 @@ exports[`test Navigation renders correctly 1`] = `
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
       width="12"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g>
         <title>
           background
@@ -111,7 +127,8 @@ exports[`test Navigation renders correctly 1`] = `
           id="canvas_background"
           width="12"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -119,14 +136,16 @@ exports[`test Navigation renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
       <g>
@@ -141,7 +160,8 @@ exports[`test Navigation renders correctly 1`] = `
           strokeWidth="1"
           width="8"
           x="2"
-          y="3" />
+          y="3"
+        />
       </g>
     </svg>
   </button>
@@ -149,11 +169,13 @@ exports[`test Navigation renders correctly 1`] = `
     className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
       width="12"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g>
         <title>
           background
@@ -164,7 +186,8 @@ exports[`test Navigation renders correctly 1`] = `
           id="canvas_background"
           width="12"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -172,14 +195,16 @@ exports[`test Navigation renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
       <g>
@@ -196,7 +221,8 @@ exports[`test Navigation renders correctly 1`] = `
           ry="4"
           stroke="#000"
           strokeOpacity="null"
-          strokeWidth="1" />
+          strokeWidth="1"
+        />
       </g>
     </svg>
   </button>

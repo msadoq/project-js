@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { Glyphicon, Button, Col, Row } from 'react-bootstrap';
 import classnames from 'classnames';
 import _find from 'lodash/find';
-import globalConstants from 'common/constants';
+import globalConstants from '../../constants';
 import styles from './Links.css';
 import { main } from '../ipc';
 import { resolveFmdPath, resolveOid } from '../../common/pathResolver';

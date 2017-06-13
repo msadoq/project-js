@@ -11,11 +11,7 @@ import {
 import Perf from 'react-dom/lib/ReactPerf';
 import { get } from 'common/parameters';
 import getLogger from 'common/log';
-import {
-  HEALTH_STATUS_HEALTHY,
-  HEALTH_STATUS_WARNING,
-  HEALTH_STATUS_CRITICAL,
-} from 'common/constants';
+import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL } from '../../../constants';
 import styles from './Performance.css';
 import * as constants from '../../../viewManager/constants';
 

@@ -4,7 +4,7 @@ import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
 import sinon from 'sinon';
 
-import { MIME_TYPES } from 'common/constants';
+import { MIME_TYPES } from '../constants';
 
 import { getTmpPath } from '../common/test';
 import * as fmdApi from '../common/fmd';

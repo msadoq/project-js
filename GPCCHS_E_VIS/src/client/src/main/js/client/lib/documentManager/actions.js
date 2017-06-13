@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { dirname, basename } from 'path';
 
-import { LOG_DOCUMENT_OPEN } from 'common/constants';
+import { LOG_DOCUMENT_OPEN } from '../constants';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 

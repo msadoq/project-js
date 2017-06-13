@@ -3,7 +3,7 @@ import fs from 'fs';
 import { relative, join, basename, dirname } from 'path';
 
 import parameters from 'common/parameters';
-import globalConstants, { MIME_TYPES } from 'common/constants';
+import globalConstants, { MIME_TYPES } from '../constants';
 
 import ipcApi from '../mainProcess/ipc';
 

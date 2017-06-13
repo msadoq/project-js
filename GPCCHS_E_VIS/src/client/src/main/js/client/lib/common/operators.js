@@ -1,4 +1,4 @@
-import globalConstants from 'common/constants';
+import globalConstants from '../constants';
 
 export const operators = {
   '=': globalConstants.FILTERTYPE_EQ,

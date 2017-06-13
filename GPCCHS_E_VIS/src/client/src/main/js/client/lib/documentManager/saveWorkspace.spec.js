@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import rimraf from 'rimraf';
 import { join } from 'path';
 
-import { MIME_TYPES } from 'common/constants';
+import { MIME_TYPES } from '../constants';
 import { getTmpPath, freezeMe } from '../common/test';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';

@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { join, dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from 'common/constants';
+import { LOG_DOCUMENT_SAVE } from '../constants';
 
 import { getWindows } from '../store/reducers/windows';
 import { getPage } from '../store/reducers/pages';

@@ -1,4 +1,4 @@
-import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from 'common/constants';
+import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from '../constants';
 import displayQueries from './displayQueries';
 
 describe('dataManager/displayQueries', () => {

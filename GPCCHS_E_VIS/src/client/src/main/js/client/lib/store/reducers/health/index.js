@@ -1,9 +1,5 @@
 import _ from 'lodash/fp';
-import {
-  HEALTH_STATUS_HEALTHY,
-  HEALTH_STATUS_CRITICAL,
-  HEALTH_STATUS_WARNING,
-} from 'common/constants';
+import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_CRITICAL, HEALTH_STATUS_WARNING } from '../../../constants';
 import { createSelector } from 'reselect';
 import _some from 'lodash/some';
 import _get from 'lodash/get';

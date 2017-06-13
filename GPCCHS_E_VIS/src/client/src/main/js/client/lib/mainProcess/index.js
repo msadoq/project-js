@@ -1,13 +1,7 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import path from 'path';
-import {
-  CHILD_PROCESS_SERVER,
-  CHILD_PROCESS_DC,
-  LOG_APPLICATION_START,
-  LOG_APPLICATION_STOP,
-  LOG_APPLICATION_ERROR,
-} from 'common/constants';
+import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC, LOG_APPLICATION_START, LOG_APPLICATION_STOP, LOG_APPLICATION_ERROR } from '../constants';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { connect as createRtd } from 'rtd/catalogs';

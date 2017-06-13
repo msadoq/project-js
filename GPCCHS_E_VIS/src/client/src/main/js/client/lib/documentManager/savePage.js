@@ -1,8 +1,6 @@
 import _ from 'lodash/fp';
 import { dirname } from 'path';
-import {
-  LOG_DOCUMENT_SAVE,
-} from 'common/constants';
+import { LOG_DOCUMENT_SAVE } from '../constants';
 
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';

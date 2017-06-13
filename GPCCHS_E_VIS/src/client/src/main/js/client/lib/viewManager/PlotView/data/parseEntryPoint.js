@@ -1,5 +1,5 @@
 import _isEqual from 'lodash/isEqual';
-import globalConstants from 'common/constants';
+import globalConstants from '../../../constants';
 import getLogger from 'common/log';
 import remoteIdGenerator from 'common/utils/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';

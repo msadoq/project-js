@@ -1,8 +1,6 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-import {
-  LOG_DOCUMENT_OPEN,
-} from 'common/constants';
+import { LOG_DOCUMENT_OPEN } from '../../constants';
 
 import { server } from '../ipc';
 import { openView } from '../../documentManager';

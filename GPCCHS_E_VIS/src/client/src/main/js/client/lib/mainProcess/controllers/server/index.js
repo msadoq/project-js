@@ -1,4 +1,4 @@
-import globalConstants from 'common/constants';
+import globalConstants from '../../../constants';
 import handle from '../../../utils/ipc/handle';
 
 import onError from './onError';

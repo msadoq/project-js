@@ -1,4 +1,4 @@
-import { UNKNOWN_SESSION_ID } from 'common/constants';
+import { UNKNOWN_SESSION_ID } from '../../constants';
 import * as actions from './masterSession';
 import { mockStore } from '../../common/test';
 

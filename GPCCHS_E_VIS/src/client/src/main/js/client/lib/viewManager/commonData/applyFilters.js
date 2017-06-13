@@ -2,7 +2,7 @@ import _isEmpty from 'lodash/isEmpty';
 import Long from 'long';
 import Decimal from 'decimal.js';
 import getLogger from 'common/log';
-import globalConstants from 'common/constants';
+import globalConstants from '../../constants';
 import { operators } from '../../common/operators';
 
 

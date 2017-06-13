@@ -3,7 +3,7 @@ import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import globalConstants from 'common/constants';
+import globalConstants from '../../constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
 import { getViewComponent } from '../../viewManager/components';

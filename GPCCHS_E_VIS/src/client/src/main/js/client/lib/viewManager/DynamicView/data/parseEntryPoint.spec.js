@@ -1,4 +1,4 @@
-import globalConstants from 'common/constants';
+import globalConstants from '../../../constants';
 import parseEntryPoint from './parseEntryPoint';
 
 describe('viewManager/DynamicView/data/parseEntryPoint', () => {

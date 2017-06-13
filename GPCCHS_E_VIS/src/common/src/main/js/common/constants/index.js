@@ -142,4 +142,15 @@ module.exports = {
   NODE_TYPE_KEY: 'key',
   NODE_TYPE_LINK: 'link',
   NODE_TYPE_RESOLVED_LINK: 'resolvedLink',
+  // MIME
+  MIME_TYPES: {
+    WorkSpace: 'WorkspaceDoc',
+    Page: 'PageDoc',
+    TextView: 'TextViewDoc',
+    PlotView: 'PlotViewDoc',
+    DynamicView: 'DynamicViewDoc',
+    MimicView: 'MimicViewDoc',
+    PacketView: 'PacketViewDoc',
+    HistoryView: 'HistoryViewDoc',
+  },
 };

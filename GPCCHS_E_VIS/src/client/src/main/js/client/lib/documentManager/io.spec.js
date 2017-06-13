@@ -4,14 +4,14 @@ import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
 import sinon from 'sinon';
 
-import mimeTypes from 'common/constants/mimeTypes';
+import { MIME_TYPES } from 'common/constants';
 
 import { getTmpPath } from '../common/test';
 import * as fmdApi from '../common/fmd';
 import { readDocument, writeDocument } from './io';
 
 const mockedCreateDocument = (path, documentType, cb) => {
-  const mimeType = mimeTypes[documentType];
+  const mimeType = MIME_TYPES[documentType];
   if (!mimeType) {
     return cb(new Error(`Unknown documentType : ${documentType}`));
   }

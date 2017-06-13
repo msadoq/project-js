@@ -2,9 +2,8 @@ import startsWith from 'lodash/fp/startsWith';
 import fs from 'fs';
 import { relative, join, basename, dirname } from 'path';
 
-import mimeTypes from 'common/constants/mimeTypes';
 import parameters from 'common/parameters';
-import globalConstants from 'common/constants';
+import globalConstants, { MIME_TYPES } from 'common/constants';
 
 import ipcApi from '../mainProcess/ipc';
 
@@ -33,7 +32,7 @@ export const resolveDocument = (oId, callback) => {
 };
 
 export const createDocument = (path, documentType, callback) => {
-  const mimeType = mimeTypes[documentType];
+  const mimeType = MIME_TYPES[documentType];
   if (!mimeType) {
     return callback(new Error(`Unknown documentType : ${documentType}`));
   }

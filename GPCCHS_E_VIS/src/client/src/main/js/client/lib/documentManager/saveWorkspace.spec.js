@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import rimraf from 'rimraf';
 import { join } from 'path';
 
-import mimeTypes from 'common/constants/mimeTypes';
+import { MIME_TYPES } from 'common/constants';
 import { getTmpPath, freezeMe } from '../common/test';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
@@ -10,7 +10,7 @@ import * as fmdApi from '../common/fmd';
 import fs from '../common/fs';
 
 const mockedCreateDocument = (path, documentType, cb) => {
-  const mimeType = mimeTypes[documentType];
+  const mimeType = MIME_TYPES[documentType];
   if (!mimeType) {
     return cb(`Unknown documentType : ${documentType}`);
   }

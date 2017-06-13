@@ -10,23 +10,23 @@ const store = createStore(
 );
 
 const propsStub = {
-  form: 'test-addTrack',
+  form: 'test-addTimeline',
   handleSubmit: () => null,
   sessions: [],
   timelines: [],
   store,
   initialValues: {
-    id: '',
+    id: 'timeline01',
     color: '#11aa11',
     kind: 'session',
     sessionId: '10',
     master: false,
-    offset: 15000000,
+    offset: 0,
   },
 };
 
-describe('AddTimeline component', () => {
-  it.skip('AddTimeline (redux-form) renders correctly', () => {
+describe.only('AddTimeline component', () => {
+  it('AddTimeline (redux-form) renders correctly', () => {
     const tree = renderer.create(
       <Provider store={store}>
         <AddTimeline {...propsStub} />

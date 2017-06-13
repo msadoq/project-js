@@ -1,6 +1,9 @@
-exports[`test Navigation renders correctly 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation renders correctly 1`] = `
 <div
-  className="root">
+  className="root"
+>
   <button
     className="btn btn-xs btn-default"
     disabled={false}
@@ -10,11 +13,13 @@ exports[`test Navigation renders correctly 1`] = `
         "backgroundColor": "#FFF",
       }
     }
-    type="button">
+    type="button"
+  >
     <svg
       height="12"
       width="12"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g>
         <title>
           background
@@ -25,7 +30,8 @@ exports[`test Navigation renders correctly 1`] = `
           id="canvas_background"
           width="12"
           x="-1"
-          y="-1" />
+          y="-1"
+        />
         <g
           display="none"
           height="100%"
@@ -33,14 +39,16 @@ exports[`test Navigation renders correctly 1`] = `
           overflow="visible"
           width="100%"
           x="0"
-          y="0">
+          y="0"
+        >
           <rect
             fill="url(#gridpattern)"
             height="100%"
             strokeWidth="0"
             width="100%"
             x="0"
-            y="0" />
+            y="0"
+          />
         </g>
       </g>
     </svg>

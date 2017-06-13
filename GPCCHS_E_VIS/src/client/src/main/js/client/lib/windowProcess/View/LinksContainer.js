@@ -6,6 +6,7 @@ import { getViews } from '../../store/reducers/views';
 import { focusPage } from '../../store/actions/pages';
 import { focusView } from '../../store/actions/views';
 import { getWindowIdByPageId } from '../../store/reducers/windows';
+import { add as addMessage } from '../../store/actions/messages';
 
 const mapStateToProps = (state, { pageId }) => ({
   pages: getPages(state),
@@ -16,7 +17,7 @@ const mapStateToProps = (state, { pageId }) => ({
 const mapDispatchToProps = {
   focusPage,
   focusView,
-
+  addMessage,
 };
 
 const LinksContainer = connect(mapStateToProps, mapDispatchToProps)(Links);

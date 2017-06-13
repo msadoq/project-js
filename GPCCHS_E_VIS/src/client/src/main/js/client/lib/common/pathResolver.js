@@ -5,7 +5,7 @@ import startsWith from 'lodash/fp/startsWith';
 import * as fmd from './fmd';
 import { isExists } from './fs';
 
-const resolveFmdPath = (path, cb) => {
+export const resolveFmdPath = (path, cb) => {
   if (!_.startsWith('/', path)) {
     return cb(new Error(`Invalid FMD path ${path}`), {});
   }
@@ -18,7 +18,7 @@ const resolveFmdPath = (path, cb) => {
   });
 };
 
-const resolveOid = (oId, cb) => (
+export const resolveOid = (oId, cb) => (
   fmd.resolveDocument(oId, (resErr, resolvedPath, properties) => {
     if (resErr) {
       return cb(resErr, {});

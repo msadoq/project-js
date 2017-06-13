@@ -1,3 +1,4 @@
+const { getRemoteId } = require('../../../common/test');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
 const {
   cleanup: cleanRegisteredQueries,
@@ -28,7 +29,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   const queryIdProto = dataStub.getStringProtobuf(queryId);
   const dataId = dataStub.getDataId();
   const dataIdProto = dataStub.getDataIdProtobuf(dataId);
-  const flatDataId = dataStub.getRemoteId(dataId);
+  const flatDataId = getRemoteId(dataId);
   const rp = dataStub.getReportingParameter();
   const protoRp = dataStub.getReportingParameterProtobuf(rp);
   const deprotoRp = dataStub.getReportingParameterDeProtobuf(protoRp);

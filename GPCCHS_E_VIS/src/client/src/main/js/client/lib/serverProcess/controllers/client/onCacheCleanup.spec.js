@@ -2,6 +2,7 @@ const _concat = require('lodash/concat');
 const dataStub = require('common/protobuf/stubs');
 const { decode } = require('common/protobuf');
 
+const { getRemoteId } = require('../../../common/test');
 const registeredCallbacks = require('../../../utils/callbacks');
 const {
   addRecord: registerQuery,
@@ -34,8 +35,8 @@ describe('controllers/client/onCacheCleanup', () => {
   // Declaring test data
   const dataId1 = dataStub.getDataId({ parameterName: 'data1' });
   const dataId2 = dataStub.getDataId({ parameterName: 'data2' });
-  const remoteId1 = dataStub.getRemoteId(Object.assign({}, dataId1));
-  const remoteId2 = dataStub.getRemoteId(Object.assign({}, dataId2));
+  const remoteId1 = getRemoteId(Object.assign({}, dataId1));
+  const remoteId2 = getRemoteId(Object.assign({}, dataId2));
   const queryId11 = 'queryId11';
   const interval11 = [0, 4];
   const queryId12 = 'queryId12';

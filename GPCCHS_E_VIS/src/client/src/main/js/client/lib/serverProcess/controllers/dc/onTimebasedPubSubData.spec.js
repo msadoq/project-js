@@ -1,3 +1,4 @@
+const { getRemoteId } = require('../../../common/test');
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const {
   clearFactory,
@@ -44,8 +45,8 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
   const protoRp2 = dataStub.getReportingParameterProtobuf(rp2);
   const deprotoRp = dataStub.getReportingParameterDeProtobuf(protoRp);
 
-  const remoteId = dataStub.getRemoteId(Object.assign({}, dataId));
-  const remoteId2 = dataStub.getRemoteId(Object.assign({}, dataId, { domainId: 201 }));
+  const remoteId = getRemoteId(Object.assign({}, dataId));
+  const remoteId2 = getRemoteId(Object.assign({}, dataId, { domainId: 201 }));
 
   it('no dataId in subscriptions', () => {
     // init test

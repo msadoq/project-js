@@ -66,7 +66,7 @@ export function onStart() {
       logger.info('starting data simulator process...');
       fork(
         CHILD_PROCESS_DC,
-        `${parameters.get('path')}/lib/stubProcess/index.js`,
+        `${parameters.get('path')}/lib/stubProcess/dc.js`,
         {
           execPath: parameters.get('NODE_PATH'),
           env: parameters.getAll(),

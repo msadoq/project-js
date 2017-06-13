@@ -3,10 +3,9 @@ const parseArgs = require('minimist');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
-const { should } = require('common/utils/test');
 const zmq = require('common/zmq/index');
 const { getType, encode, decode } = require('common/protobuf/index');
-const constants = require('common/constants/index');
+const constants = require('../constants');
 
 const sessionIdTest = 1;
 const domainIdTest = 4;

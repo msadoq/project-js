@@ -2,7 +2,7 @@ import __ from 'lodash/fp';
 
 import globalConstants from '../../../constants';
 import getLogger from 'common/log';
-import remoteIdGenerator from 'common/utils/flattenDataId';
+const flattenDataId = require('../../../common/flattenDataId');
 import parseConnectedData from '../../commonData/parseConnectedData';
 
 const logger = getLogger('data:MimicView:parseEntryPoint');
@@ -40,7 +40,7 @@ function parseEntryPoint(
   }
   const { dataId, field, offset, filters } = cd;
   // compute remoteId
-  const remoteId = remoteIdGenerator(dataId);
+  const remoteId = flattenDataId(dataId);
 
   const ep = {
     [name]: {

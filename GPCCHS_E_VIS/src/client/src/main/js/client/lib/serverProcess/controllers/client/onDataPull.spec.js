@@ -2,6 +2,7 @@ const onDataPull = require('./onDataPull');
 const dataStub = require('common/protobuf/stubs');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
+const { getRemoteId } = require('../../../common/test');
 
 describe('controllers/client/onDataPull', () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe('controllers/client/onDataPull', () => {
   const t1 = 3;
   const t2 = 5;
   const dataId = dataStub.getDataId();
-  const flatDataId = dataStub.getRemoteId(dataId);
+  const flatDataId = getRemoteId(dataId);
   const intervalRange = [1, 5];
   const intervalLast = [1, 10];
 

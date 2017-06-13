@@ -2,9 +2,9 @@ const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');
 const _concat = require('lodash/concat');
-const globalConstants = require('../../../constants');
 const dataStub = require('common/protobuf/stubs');
-
+const globalConstants = require('../../../constants');
+const { getRemoteId } = require('../../../common/test');
 const { get: getQueue } = require('../../models/dataQueue');
 const {
   cleanup: cleanRegisteredQueries,
@@ -12,7 +12,6 @@ const {
 } = require('../../models/registeredQueries');
 const registeredCallbacks = require('../../../utils/callbacks');
 const connectedDataModel = require('../../models/connectedData');
-
 
 const onTimebasedQuery = require('./onTimebasedQuery');
 
@@ -44,7 +43,7 @@ describe('controllers/client/onTimebasedQuery', () => {
 
   const dataId = dataStub.getDataId();
   const dataIdProto = dataStub.getDataIdProtobuf(dataId);
-  const flatDataId = dataStub.getRemoteId(dataId);
+  const flatDataId = getRemoteId(dataId);
   const intervalRange = [1, 5];
   const intervalLast = [1, 10];
   const intervalRangeProto = dataStub.getTimeIntervalProtobuf({

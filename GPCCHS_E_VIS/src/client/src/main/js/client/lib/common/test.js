@@ -3,7 +3,9 @@ import _ from 'lodash';
 import path from 'path';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { getDataId } from 'common/protobuf/stubs';
 import deepFreeze from 'deep-freeze';
+import flattenDataId from './flattenDataId';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -28,10 +30,13 @@ const testMemoization = (selector, state, ownProps) => {
   expect(result1).toEqual(result2);
 };
 
+const getRemoteId = override => flattenDataId(getDataId(override));
+
 module.exports = {
   mockStore, // thunk testing
   freezeMe, // reducers testing
   freezeArgs, // reducers testing
   testMemoization, // reselect testing
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
+  getRemoteId,
 };

@@ -1,14 +1,13 @@
 const { decode, getType } = require('common/protobuf');
 const executionMonitor = require('common/log/execution');
-const flattenDataId = require('common/utils/flattenDataId');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const { writeFile } = require('fs');
 const { join } = require('path');
-
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const loggerData = require('common/log')('controllers:incomingData');
 const { get } = require('common/parameters');
+const flattenDataId = require('../../../common/flattenDataId');
 const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');

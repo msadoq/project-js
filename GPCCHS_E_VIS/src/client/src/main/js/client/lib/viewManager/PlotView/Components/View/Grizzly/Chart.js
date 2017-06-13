@@ -52,6 +52,7 @@ export default class Chart extends React.Component {
         autoTick: PropTypes.bool,
         tickStep: PropTypes.number,
         showGrid: PropTypes.bool,
+        showPointLabels: PropTypes.bool,
         gridStyle: PropTypes.string,
         gridSize: PropTypes.number,
         unit: PropTypes.string,
@@ -357,6 +358,13 @@ export default class Chart extends React.Component {
     _set(this.labelsPosition, [yAxisId, lineId], yPosition);
   }
 
+  updatePointLabelsPosition = (yAxisId, points) => {
+    if (!this.pointLabels) {
+      this.pointLabels = {};
+    }
+    _set(this.pointLabels, yAxisId, points);
+  }
+
   yAxisWidth = 90;
   xAxisHeight = 40;
 
@@ -632,7 +640,9 @@ export default class Chart extends React.Component {
               data={yAxis.data}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
+              updatePointLabelsPosition={this.updatePointLabelsPosition}
               perfOutput={perfOutput}
+              showPointLabels={yAxis.showPointLabels}
             />
           )
         }
@@ -653,6 +663,7 @@ export default class Chart extends React.Component {
               gridStyle={yAxis.gridStyle}
               axisLabel={yAxis.axisLabel}
               gridSize={yAxis.gridSize}
+              showPointLabels={yAxis.showPointLabels}
               yAxisWidth={this.yAxisWidth}
               chartWidth={this.chartWidth}
               allowYPan={allowYPan}
@@ -666,6 +677,7 @@ export default class Chart extends React.Component {
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
+              pointLabels={_get(this.pointLabels, yAxis.id, {})}
             />
           )
         }
@@ -702,7 +714,9 @@ export default class Chart extends React.Component {
               width={this.chartWidth}
               xAxisAt={xAxisAt}
               yAxesAt={yAxesAt}
+              yAxes={this.yAxes}
               xExtents={calculatedXExtents}
+              pointLabels={this.pointLabels || {}}
             />
         }
         <Zones

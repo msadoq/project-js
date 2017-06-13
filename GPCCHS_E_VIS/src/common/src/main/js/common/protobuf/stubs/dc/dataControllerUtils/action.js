@@ -1,11 +1,13 @@
 const protobuf = require('../../../index');
-const globalConstants = require('../../../../constants/index');
+
+const SUBSCRIPTIONACTION_ADD = 0;
+const SUBSCRIPTIONACTION_DELETE = 1;
 
 const getAddAction = () => ({
-  action: globalConstants.SUBSCRIPTIONACTION_ADD,
+  action: SUBSCRIPTIONACTION_ADD,
 });
 const getDeleteAction = () => ({
-  action: globalConstants.SUBSCRIPTIONACTION_DELETE,
+  action: SUBSCRIPTIONACTION_DELETE,
 });
 
 const getAddActionProtobuf = () => protobuf.encode(

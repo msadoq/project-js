@@ -1,23 +1,28 @@
 const protobuf = require('../../../index');
-const globalConstants = require('../../../../constants/index');
+
+const DC_EMPTY_QUEUE = 0;
+const DC_QUEUE_MAX_SIZE = 1000;
+const TBD_HEALTHY = 0;
+const TBD_UNRESPONSIVE = 1;
+const TBD_DEAD = 2;
 
 const getHealthyDcStatus = () => ({
-  dcQueriesDelay: globalConstants.DC_EMPTY_QUEUE,
-  tbdStatus: globalConstants.TBD_HEALTHY,
+  dcQueriesDelay: DC_EMPTY_QUEUE,
+  tbdStatus: TBD_HEALTHY,
   avrgTimeMsQuery: 50,
   avrgTimeMsGetLast: 50,
 });
 
 const getCongestionDcStatus = () => ({
-  dcQueriesDelay: globalConstants.DC_QUEUE_MAX_SIZE,
-  tbdStatus: globalConstants.TBD_UNRESPONSIVE,
+  dcQueriesDelay: DC_QUEUE_MAX_SIZE,
+  tbdStatus: TBD_UNRESPONSIVE,
   avrgTimeMsQuery: 4500,
   avrgTimeMsGetLast: 5000,
 });
 
 const getDeadTbdStatus = () => ({
-  dcQueriesDelay: globalConstants.DC_QUEUE_MAX_SIZE,
-  tbdStatus: globalConstants.TBD_DEAD,
+  dcQueriesDelay: DC_QUEUE_MAX_SIZE,
+  tbdStatus: TBD_DEAD,
   avrgTimeMsQuery: 4500,
   avrgTimeMsGetLast: 5000,
 });

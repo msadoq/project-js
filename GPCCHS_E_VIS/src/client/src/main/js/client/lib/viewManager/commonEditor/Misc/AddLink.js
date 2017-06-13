@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
+// import { v4 } from 'uuid';
 import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from '../../../windowProcess/commonReduxForm/InputField';
@@ -22,6 +23,7 @@ class AddLink extends Component {
     reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
+    myFormKey: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -39,10 +41,11 @@ class AddLink extends Component {
       submitting,
       valid,
       reset,
+      myFormKey,
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form horizontal onSubmit={handleSubmit} key={myFormKey}>
         <HorizontalFormGroup label="Label">
           <Field
             name="name"
@@ -58,6 +61,7 @@ class AddLink extends Component {
             changePath={this.changePath}
             component={FileInputField}
             onHandleSubmit={handleSubmit}
+            myFormKey={myFormKey}
           />
         </HorizontalFormGroup>
 

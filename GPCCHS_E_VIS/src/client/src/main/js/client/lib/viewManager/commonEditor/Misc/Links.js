@@ -82,6 +82,7 @@ export default class Links extends React.Component {
             {Array.isArray(panels) && panels.includes('link'.concat(`_${key}`)) &&
               <AddLink
                 key={'link'.concat(`_${key}`)}
+                myFormKey={'link'.concat(`_${key}`)}
                 onSubmit={this.handleSubmitFactory(key)}
                 form={`edit-link-${key}-${viewId}`}
                 initialValues={value}

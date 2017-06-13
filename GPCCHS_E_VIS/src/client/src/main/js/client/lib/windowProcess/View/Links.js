@@ -55,11 +55,11 @@ export default class Links extends PureComponent {
 
   render() {
     const { links, show, removeLink } = this.props;
-    let label = 'No link';
-    if (links.length) {
-      label = (show ? 'Hide links' : 'Show links');
+    if (!links.length) {
+      return <div />;
     }
 
+    const label = (show ? 'Hide links' : 'Show links');
     return (
       <div>
         <div className={styles.links}>

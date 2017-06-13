@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
-import globalConstants from '../constants';
 import getLogger from 'common/log';
+import globalConstants from '../constants';
 import { set as setCallback } from '../utils/callbacks';
 import { get as getChildProcess } from './childProcess';
 

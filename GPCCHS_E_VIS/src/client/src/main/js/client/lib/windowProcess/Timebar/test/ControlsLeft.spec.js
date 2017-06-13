@@ -11,6 +11,7 @@ const propsStub = {
   restoreWidth: () => null,
   goNow: () => null,
   jump: () => null,
+  openModal: () => null,
   isPlaying: true,
   currentSessionExists: false,
   masterSessionId: 0,

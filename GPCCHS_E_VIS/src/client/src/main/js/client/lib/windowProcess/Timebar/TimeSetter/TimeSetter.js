@@ -206,7 +206,7 @@ export default class TimeSetter extends PureComponent {
           <div className={styles.fieldsContainer}>
             {
               /* flatpickr fails on jest test */
-              process.env.NODE_ENV !== 'snapshot' &&
+              process.env.NODE_ENV !== 'test' &&
               <Flatpickr
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES Flatpickr"
                 options={{

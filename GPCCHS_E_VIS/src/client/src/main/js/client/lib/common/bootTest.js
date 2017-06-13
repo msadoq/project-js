@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import _ from 'lodash';
 import { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';

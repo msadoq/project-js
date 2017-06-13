@@ -26,6 +26,7 @@ const propsStub = {
   pageId: 'rezter-456789',
   masterId: TimebarFixture.masterId,
   verticalScroll: 0,
+  openModal: () => {},
 };
 
 it('Lefttab renders correctly', () => {

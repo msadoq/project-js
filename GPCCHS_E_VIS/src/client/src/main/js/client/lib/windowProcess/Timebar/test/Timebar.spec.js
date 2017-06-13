@@ -14,6 +14,7 @@ const propsStub = {
   play: () => null,
   jump: () => null,
   setRealTime: () => null,
+  openModal: () => null,
   isPlaying: true,
   visuWindow: TimebarFixture.visuWindow,
   slideWindow: TimebarFixture.slideWindow,

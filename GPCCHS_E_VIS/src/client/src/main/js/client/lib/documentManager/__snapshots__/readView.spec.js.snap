@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentManager:readView creates a simple view using readed document 1`] = `
+Object {
+  "value": Object {
+    "absolutePath": "/a/fake/absolute/path",
+    "configuration": Object {
+      "content": "",
+      "entryPoints": Array [],
+    },
+    "defaultRatio": Object {
+      "length": 5,
+      "width": 5,
+    },
+    "isModified": false,
+    "links": Array [],
+    "oId": "an oid",
+    "path": "/a/path",
+    "title": "New Text View",
+    "type": "TextView",
+    "uuid": "fake-uuid",
+  },
+}
+`;
+
+exports[`documentManager:readView creates a simple view with random uuid 1`] = `
+Object {
+  "value": Object {
+    "absolutePath": "/a/fake/absolute/path",
+    "configuration": Object {
+      "content": "",
+      "entryPoints": Array [],
+    },
+    "defaultRatio": Object {
+      "length": 5,
+      "width": 5,
+    },
+    "isModified": false,
+    "links": Array [],
+    "oId": "an oid",
+    "path": "/a/path",
+    "title": "New Text View",
+    "type": "TextView",
+  },
+}
+`;

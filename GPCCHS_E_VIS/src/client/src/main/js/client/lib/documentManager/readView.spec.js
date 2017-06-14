@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import sinon from 'sinon';
 import { simpleReadView } from './readView';
 import * as io from './io';
@@ -23,24 +24,29 @@ describe('documentManager:readView', () => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
       expect(err).toBeFalsy();
-      expect(content).toEqual({
-        value: {
-          uuid: 'fake-uuid',
-          path: '/a/path',
-          oId: 'an oid',
-          type: 'TextView',
-          defaultRatio: { length: 5, width: 5 },
-          links: [],
-          title: 'New Text View',
-          configuration: { content: '', entryPoints: [] },
-          isModified: false,
-          absolutePath: '/a/fake/absolute/path',
-        },
-      });
+      expect(content).toMatchSnapshot();
       done();
     });
   });
 
+  test('creates a simple view with random uuid', (done) => {
+    stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
+    simpleReadView({ path: '/a/path', oId: 'an oid' }, (err, content) => {
+      expect(err).toBeFalsy();
+      const contentWithoutUuid = _.unset('value.uuid', content);
+      expect(contentWithoutUuid).toMatchSnapshot();
+      expect(content.value.uuid).toBeAnUuid();
+      done();
+    });
+  });
+
+  test('gives an error when validation fails', (done) => {
+    stub = stubReadDocument({}, 'TextView');
+    simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (unused, { error }) => {
+      expect(error).toBeInstanceOf(Error);
+      done();
+    });
+  });
   test('gives an error when view type is not supported', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'FakeView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {

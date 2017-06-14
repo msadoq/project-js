@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+import _ from 'lodash/fp';
 import rimraf from 'rimraf';
 
 import { getTmpPath, freezeMe } from '../common/test';
@@ -77,41 +77,75 @@ describe('mainProcess/documents/savePage', () => {
   afterEach(done => (
     rimraf(getTmpPath(), done)
   ));
-  test('save ok', (done) => {
-    savePage(freezeMe(state), 'page1', (err) => {
-      expect(err).toBeFalsy();
-      fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        expect(exist).toBe(true);
+
+  describe('savePage', () => {
+    test('saves page', (done) => {
+      savePage(freezeMe(state), 'page1', (err) => {
+        expect(err).toBeFalsy();
+        fs.isExists(state.pages.page1.absolutePath, (exist) => {
+          expect(exist).toBe(true);
+          done();
+        });
+      });
+    });
+
+    test('fails when page is undefined', (done) => {
+      savePage(freezeMe({ pages: {} }), 'page1', (err) => {
+        expect(err).toBeAnError();
         done();
       });
     });
-  });
-  test('saveAs ok', (done) => {
-    savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
-      expect(err).toBeFalsy();
-      fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        expect(exist).toBe(true);
+    test('fails when page does not have absolutePath', (done) => {
+      const modifiedState = _.unset('pages.page1.absolutePath', state);
+      savePage(freezeMe(modifiedState), 'page1', (err) => {
+        expect(err).toBeAnError();
         done();
       });
     });
   });
 
-  test('save should fail when page is invalid', (done) => {
-    state.pages.page1.title = undefined;
-    savePage(freezeMe(state), 'page1', (err) => {
-      expect(err).toBeInstanceOf(Error);
-      fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        expect(exist).toBe(false);
+  describe('savePageAs', () => {
+    test('saves page', (done) => {
+      savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
+        expect(err).toBeFalsy();
+        fs.isExists(state.pages.page1.absolutePath, (exist) => {
+          expect(exist).toBe(true);
+          done();
+        });
+      });
+    });
+
+    test('fails when page is invalid', (done) => {
+      const modifiedState = _.unset('pages.page1.title', state);
+      savePageAs(freezeMe(modifiedState), 'page1', modifiedState.pages.page1.absolutePath, (err) => {
+        expect(err).toBeAnError();
+        fs.isExists(modifiedState.pages.page1.absolutePath, (exist) => {
+          expect(exist).toBe(false);
+          done();
+        });
+      });
+    });
+
+    test('fails when page is undefined', (done) => {
+      savePageAs(freezeMe(state), 'unknownPage', state.pages.page1.absolutePath, (err) => {
+        expect(err).toBeInstanceOf(Error);
+        fs.isExists(state.pages.page1.absolutePath, (exist) => {
+          expect(exist).toBe(false);
+          done();
+        });
+      });
+    });
+
+    test('gives an error when createFolder fails', (done) => {
+      savePageAs(freezeMe(state), 'page1', '/fakeFolder/document.json', (err) => {
+        expect(err).toBeAnError();
         done();
       });
     });
-  });
-  test('saveAs should fail when page is invalid', (done) => {
-    state.pages.page1.title = undefined;
-    savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
-      expect(err).toBeInstanceOf(Error);
-      fs.isExists(state.pages.page1.absolutePath, (exist) => {
-        expect(exist).toBe(false);
+
+    test('gives an error when writeDocument fails', (done) => {
+      savePageAs(freezeMe(state), 'page1', './fakeFolder/document.json', (err) => {
+        expect(err).toBeAnError();
         done();
       });
     });

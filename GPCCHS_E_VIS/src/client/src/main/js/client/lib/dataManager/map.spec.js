@@ -1,5 +1,4 @@
 import u from 'updeep';
-import '../common/test';
 import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });

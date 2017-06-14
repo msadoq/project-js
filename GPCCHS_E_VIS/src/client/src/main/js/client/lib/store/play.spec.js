@@ -2,8 +2,6 @@
 
 import { computeCursors, nextCurrent } from './play';
 
-require('../common/test');
-
 describe('mainProcess/play', () => {
   describe('nextCurrent', () => {
     it('computes next current timestamp', () => {

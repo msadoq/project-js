@@ -1,4 +1,3 @@
-require('../../common/test');
 const notIncluded = require('./notIncluded');
 
 describe('intervals/notIncluded', () => {

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-import {} from '../../common/test';
 import { getPageTimelines, getFocusedPageTimelines } from './timelines';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {

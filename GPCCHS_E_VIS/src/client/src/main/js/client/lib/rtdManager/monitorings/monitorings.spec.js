@@ -1,7 +1,6 @@
 import { connect } from 'rtd/catalogs';
 import { Monitoring as loadMonitorings } from 'rtd/stubs/loaders';
 import { Monitoring as generateMonitoring } from 'rtd/stubs/generators';
-import '../../common/test';
 import { getTriggers } from './';
 import { SDB_NAMESPACE } from '../constants';
 

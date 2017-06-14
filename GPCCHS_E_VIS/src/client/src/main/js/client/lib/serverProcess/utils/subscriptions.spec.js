@@ -6,14 +6,12 @@ const {
 } = require('./subscriptions');
 const connectedDataModel = require('../models/connectedData');
 const dataStub = require('common/protobuf/stubs');
-const registeredCallbacks = require('../../utils/callbacks');
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('./test');
+const registeredCallbacks = require('../../common/callbacks');
 
 describe('utils/subscriptions', () => {
   beforeEach(() => {
     connectedDataModel.cleanup();
     resetSubId();
-    resetTestHandlerArgs();
     registeredCallbacks.clear();
   });
 
@@ -87,33 +85,31 @@ describe('utils/subscriptions', () => {
       args: args2,
     });
   });
-  it('unsubscribeAll', () => {
+  it('should unsubscribeAll method', (done) => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
     const myDataId2 = dataStub.getDataId({ parameterName: 'myParam2' });
     connectedDataModel.addRecord(myDataId);
     connectedDataModel.addRecord(myDataId2);
 
-    unsubscribeAll(testHandler);
-    const messages = getTestHandlerArgs();
+    const calls = [];
+    const check = arg => calls.push(arg);
 
-    const subId = 'sub1';
-    const subId2 = 'sub2';
-
-    const args = [
+    unsubscribeAll(check);
+    const args1 = [
       dataStub.getTimebasedSubscriptionHeaderProtobuf(),
-      dataStub.getStringProtobuf(subId),
+      dataStub.getStringProtobuf('sub1'),
       dataStub.getDataIdProtobuf(myDataId),
       dataStub.getDeleteActionProtobuf(),
     ];
     const args2 = [
       dataStub.getTimebasedSubscriptionHeaderProtobuf(),
-      dataStub.getStringProtobuf(subId2),
+      dataStub.getStringProtobuf('sub2'),
       dataStub.getDataIdProtobuf(myDataId2),
       dataStub.getDeleteActionProtobuf(),
     ];
 
-    expect(messages).toHaveLength(2);
-    expect(messages[0]).toEqual(args);
-    expect(messages[1]).toEqual(args2);
+    expect(calls[0]).toMatchObject(args1);
+    expect(calls[1]).toMatchObject(args2);
+    done();
   });
 });

@@ -1,4 +1,3 @@
-require('../../common/test');
 const includesTimestamp = require('./includesTimestamp');
 
 describe('intervals/includesTimestamp', () => {

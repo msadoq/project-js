@@ -1,4 +1,3 @@
-import {} from '../../common/test';
 import { getTimebarTimelinesSelector } from './timebars';
 
 describe('store:timebars:selectors', () => {

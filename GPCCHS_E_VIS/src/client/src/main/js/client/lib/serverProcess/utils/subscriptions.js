@@ -3,7 +3,7 @@ const { encode } = require('common/protobuf');
 const globalConstants = require('../../constants');
 const flattenDataId = require('../../common/flattenDataId');
 
-const registeredCallbacks = require('../../utils/callbacks');
+const registeredCallbacks = require('../../common/callbacks');
 const connectedDataModel = require('../models/connectedData');
 const { main } = require('../ipc');
 

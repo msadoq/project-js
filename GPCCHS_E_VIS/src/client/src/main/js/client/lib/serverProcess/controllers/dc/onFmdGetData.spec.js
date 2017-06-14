@@ -1,17 +1,9 @@
 const dataStub = require('common/protobuf/stubs');
 const globalConstants = require('../../../constants');
-
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-
-
 const onFmdGetData = require('./onFmdGetData');
 
-
 describe('controllers/client/onFmdGetData', () => {
-  beforeEach(() => {
-    resetTestHandlerArgs();
-  });
-  it('collection', () => {
+  it('should supports collection request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -20,19 +12,22 @@ describe('controllers/client/onFmdGetData', () => {
     const myCollection = dataStub.getCollection();
     const myCollectionProto = dataStub.getCollectionProtobuf(myCollection);
     const myCollectionDeProto = dataStub.getCollectionDeProtobuf(myCollectionProto);
-    // launch test
-    onFmdGetData(testHandler, myQueryIdProto, mySuccessProto, myFileInfoProto, myCollectionProto);
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject({
-      type: myFileInfo.type,
-      oId: myFileInfo.serializedOid,
-      detail: myCollectionDeProto,
-    });
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          type: myFileInfo.type,
+          oId: myFileInfo.serializedOid,
+          detail: myCollectionDeProto,
+        },
+      ]);
+      done();
+    };
+
+    onFmdGetData(check, myQueryIdProto, mySuccessProto, myFileInfoProto, myCollectionProto);
   });
-  it('collection document', () => {
+  it('should supports collection document request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -44,25 +39,28 @@ describe('controllers/client/onFmdGetData', () => {
     const myCollectionDocumentProto = dataStub.getCollectionDocumentProtobuf(myCollectionDocument);
     const myCollectionDocumentDeProto =
       dataStub.getCollectionDocumentDeProtobuf(myCollectionDocumentProto);
-    // launch test
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          type: myFileInfo.type,
+          oId: myFileInfo.serializedOid,
+          detail: myCollectionDocumentDeProto,
+        },
+      ]);
+      done();
+    };
+
     onFmdGetData(
-      testHandler,
+      check,
       myQueryIdProto,
       mySuccessProto,
       myFileInfoProto,
       myCollectionDocumentProto
     );
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject({
-      type: myFileInfo.type,
-      oId: myFileInfo.serializedOid,
-      detail: myCollectionDocumentDeProto,
-    });
   });
-  it('document', () => {
+  it('should supports document request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -74,25 +72,28 @@ describe('controllers/client/onFmdGetData', () => {
     const myDocumentProto = dataStub.getDocumentProtobuf(myDocument);
     const myDocumentDeProto =
       dataStub.getDocumentDeProtobuf(myDocumentProto);
-    // launch test
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          type: myFileInfo.type,
+          oId: myFileInfo.serializedOid,
+          detail: myDocumentDeProto,
+        },
+      ]);
+      done();
+    };
+
     onFmdGetData(
-      testHandler,
+      check,
       myQueryIdProto,
       mySuccessProto,
       myFileInfoProto,
       myDocumentProto
     );
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject({
-      type: myFileInfo.type,
-      oId: myFileInfo.serializedOid,
-      detail: myDocumentDeProto,
-    });
   });
-  it('folder', () => {
+  it('should supports folder request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -104,38 +105,42 @@ describe('controllers/client/onFmdGetData', () => {
     const myFolderProto = dataStub.getFolderProtobuf(myFolder);
     const myFolderDeProto =
       dataStub.getFolderDeProtobuf(myFolderProto);
-    // launch test
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          type: myFileInfo.type,
+          oId: myFileInfo.serializedOid,
+          detail: myFolderDeProto,
+        },
+      ]);
+      done();
+    };
+
     onFmdGetData(
-      testHandler,
+      check,
       myQueryIdProto,
       mySuccessProto,
       myFileInfoProto,
       myFolderProto
     );
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject({
-      type: myFileInfo.type,
-      oId: myFileInfo.serializedOid,
-      detail: myFolderDeProto,
-    });
   });
-  it('error', () => {
+  it('should returns error if request failed', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myErrorProto = dataStub.getErrorStatusProtobuf();
     const myReason = 'myReason';
     const myReasonProto = dataStub.getStringProtobuf(myReason);
-    // launch test
-    onFmdGetData(testHandler, myQueryIdProto, myErrorProto, myReasonProto);
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject({
-      err: myReason,
-    });
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        { err: myReason },
+      ]);
+      done();
+    };
+
+    onFmdGetData(check, myQueryIdProto, myErrorProto, myReasonProto);
   });
 });

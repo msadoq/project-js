@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep';
-import '../common/test';
 import perRemoteIdMap, { addEpInRemoteIdMap } from './perRemoteIdData';
 
 describe('dataManager/perRemoteIdData', () => {

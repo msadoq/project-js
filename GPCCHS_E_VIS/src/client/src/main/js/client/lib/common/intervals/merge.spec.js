@@ -1,4 +1,3 @@
-require('../../common/test');
 const merge = require('./merge');
 
 describe('intervals/merge', () => {

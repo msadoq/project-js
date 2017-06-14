@@ -1,8 +1,8 @@
 const zmq = require('common/zmq');
 const globalConstants = require('../../../constants');
 
-const handle = require('../../../utils/ipc/handle');
-const reply = require('../../../utils/ipc/reply');
+const handle = require('../../../common/ipc/handle');
+const reply = require('../../../common/ipc/reply');
 
 const onDomainsQuery = require('./onDomainsQuery');
 const onPull = require('./onPull');

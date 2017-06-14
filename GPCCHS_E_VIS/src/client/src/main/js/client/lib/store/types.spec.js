@@ -1,5 +1,4 @@
 import __ from 'lodash/fp';
-import {} from '../common/test';
 import * as types from './types';
 
 describe('store:types', () => {

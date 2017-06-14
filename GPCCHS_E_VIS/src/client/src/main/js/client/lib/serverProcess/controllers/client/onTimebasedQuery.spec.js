@@ -10,7 +10,7 @@ const {
   cleanup: cleanRegisteredQueries,
   getAll: getAllRegisteredQueries,
 } = require('../../models/registeredQueries');
-const registeredCallbacks = require('../../../utils/callbacks');
+const registeredCallbacks = require('../../../common/callbacks');
 const connectedDataModel = require('../../models/connectedData');
 
 const onTimebasedQuery = require('./onTimebasedQuery');

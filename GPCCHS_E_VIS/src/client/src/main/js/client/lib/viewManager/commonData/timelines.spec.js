@@ -1,5 +1,3 @@
-/* eslint no-unused-expressions: 0 */
-import '../../common/test';
 import filter from './timelines';
 
 describe('viewManager/commonData/timelines', () => {

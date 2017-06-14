@@ -32,8 +32,13 @@ const testMemoization = (selector, state, ownProps) => {
 
 const getRemoteId = override => flattenDataId(getDataId(override));
 
+const mockIpcReply = () => {
+  //
+};
+
 module.exports = {
   mockStore, // thunk testing
+  mockIpcReply, // IPC controller testing
   freezeMe, // reducers testing
   freezeArgs, // reducers testing
   testMemoization, // reselect testing

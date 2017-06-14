@@ -1,5 +1,5 @@
 import globalConstants from '../../../constants';
-import handle from '../../../utils/ipc/handle';
+import handle from '../../../common/ipc/handle';
 
 import onError from './onError';
 

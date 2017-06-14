@@ -1,4 +1,3 @@
-import {} from '../../common/test';
 import {
   getPageViews,
   isAnyEditorOpened,

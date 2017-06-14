@@ -1,6 +1,6 @@
 import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/windows';
-import windowsReducer from '.././windows';
+import windowsReducer from './index';
 import * as types from '../../types';
 
 const reducer = freezeArgs(windowsReducer);

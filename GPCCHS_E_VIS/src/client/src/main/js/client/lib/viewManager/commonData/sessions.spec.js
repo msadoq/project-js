@@ -1,4 +1,3 @@
-import '../../common/test';
 import filter, { reset } from './sessions';
 
 describe('viewManager:commonData:sessions', () => {

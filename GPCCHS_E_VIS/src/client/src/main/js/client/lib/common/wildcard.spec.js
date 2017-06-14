@@ -1,4 +1,3 @@
-import './test';
 import { detect, generate } from './wildcard';
 
 describe('connectedData/wildcard', () => {

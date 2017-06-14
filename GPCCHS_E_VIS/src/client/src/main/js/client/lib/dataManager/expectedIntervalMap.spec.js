@@ -1,7 +1,5 @@
 import u from 'updeep';
-import '../common/test';
 import expectedIntervalSelector, { intervalPerRemoteId, expectedIntervalMap } from './expectedIntervalMap';
-
 
 describe('dataManager/expectedIntervalMap', () => {
   let state;

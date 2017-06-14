@@ -1,7 +1,7 @@
 const { encode } = require('common/protobuf');
 const globalConstants = require('../../constants');
 
-const registeredCallbacks = require('../../utils/callbacks');
+const registeredCallbacks = require('../../common/callbacks');
 const { addRecord: registerQuery } = require('../models/registeredQueries');
 const { main } = require('../ipc');
 

@@ -1,4 +1,3 @@
-import {} from '../../../common/test';
 import reducer, { getIsCodeEditorOpened } from '.';
 import * as actions from '../../actions/editor';
 import * as types from '../../types';

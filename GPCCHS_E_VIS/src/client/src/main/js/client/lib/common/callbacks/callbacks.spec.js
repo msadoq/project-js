@@ -1,6 +1,6 @@
 import callbacks from './';
 
-describe('utils/callbacks', () => {
+describe('common/callbacks', () => {
   beforeEach(() => callbacks.clear());
   it('get/set', () => {
     callbacks.set('myId', () => true);

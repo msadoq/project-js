@@ -1,8 +1,6 @@
 import _omit from 'lodash/omit';
 import _assign from 'lodash/assign';
 
-import '../../common/test';
-
 import { applyFilters } from './applyFilters';
 
 describe('utils/filters', () => {

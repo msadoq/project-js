@@ -2,7 +2,6 @@ import sinon from 'sinon';
 import { connect } from 'rtd/catalogs';
 import { Reporting as loadReportings } from 'rtd/stubs/loaders';
 import { Reporting as generateReporting } from 'rtd/stubs/generators';
-import '../../common/test';
 import {
   getShortDescription,
   getLongDescription,

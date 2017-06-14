@@ -1,43 +1,39 @@
 const dataStub = require('common/protobuf/stubs');
-
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-
-
 const onFmdCreateData = require('./onFmdCreateData');
 
-
 describe('controllers/client/onFmdCreateData', () => {
-  beforeEach(() => {
-    resetTestHandlerArgs();
-  });
-  it('success', () => {
+  it('should returns file info if success', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
     const myFileInfo = dataStub.getFMDFileInfo();
     const myFileInfoProto = dataStub.getFMDFileInfoProtobuf(myFileInfo);
-    // launch test
-    onFmdCreateData(testHandler, myQueryIdProto, mySuccessProto, myFileInfoProto);
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject(myFileInfo);
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        myFileInfo,
+      ]);
+      done();
+    };
+    onFmdCreateData(check, myQueryIdProto, mySuccessProto, myFileInfoProto);
   });
-  it('error', () => {
+  it('should returns an error if fail', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myErrorProto = dataStub.getErrorStatusProtobuf();
     const myReason = 'myReason';
     const myReasonProto = dataStub.getStringProtobuf(myReason);
-    // launch test
-    onFmdCreateData(testHandler, myQueryIdProto, myErrorProto, myReasonProto);
-    // check data
-    const message = getTestHandlerArgs();
-    expect(message).toHaveLength(2);
-    expect(message[0]).toBe(myQueryId);
-    expect(message[1]).toMatchObject({
-      err: myReason,
-    });
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          err: myReason,
+        },
+      ]);
+      done();
+    };
+    onFmdCreateData(check, myQueryIdProto, myErrorProto, myReasonProto);
   });
 });

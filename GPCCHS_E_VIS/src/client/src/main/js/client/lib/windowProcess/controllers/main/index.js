@@ -1,4 +1,4 @@
-import handle from '../../../utils/ipc/handle';
+import handle from '../../../common/ipc/handle';
 
 const controller = {};
 

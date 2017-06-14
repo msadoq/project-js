@@ -6,12 +6,11 @@ const dataStub = require('common/protobuf/stubs');
 const {
   clear: cleanRegisteredCallbacks,
   get: getRegisteredCallback,
-} = require('../../utils/callbacks');
+} = require('../../common/callbacks');
 const {
   getByQueryId: getRegisteredQuery,
   cleanup: cleanRegisteredQueries,
  } = require('../models/registeredQueries');
-const { resetTestHandlerArgs } = require('./test');
 
 const testExecutionHandler = {
   start: () => {},
@@ -21,7 +20,6 @@ const testExecutionHandler = {
 describe('utils/subscriptions', () => {
   beforeEach(() => {
     resetQueryId();
-    resetTestHandlerArgs();
     cleanRegisteredCallbacks();
     cleanRegisteredQueries();
   });

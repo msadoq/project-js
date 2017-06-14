@@ -12,7 +12,7 @@ import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
 } from '../constants';
-import { clear } from '../utils/callbacks';
+import { clear } from '../common/callbacks';
 import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';

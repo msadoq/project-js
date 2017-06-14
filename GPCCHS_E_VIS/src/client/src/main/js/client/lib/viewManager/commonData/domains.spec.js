@@ -1,4 +1,3 @@
-import '../../common/test';
 import filter, { reset } from './domains';
 
 describe('viewManager:commonData:domains', () => {

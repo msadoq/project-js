@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/timelines';
-import timelinesReducer from '.././timelines';
+import timelinesReducer from './index';
 
 const reducer = freezeArgs(timelinesReducer);
 

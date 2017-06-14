@@ -3,7 +3,7 @@ const dataStub = require('common/protobuf/stubs');
 const { decode } = require('common/protobuf');
 
 const { getRemoteId } = require('../../../common/test');
-const registeredCallbacks = require('../../../utils/callbacks');
+const registeredCallbacks = require('../../../common/callbacks');
 const {
   addRecord: registerQuery,
   getAll: getRegisteredQueries,

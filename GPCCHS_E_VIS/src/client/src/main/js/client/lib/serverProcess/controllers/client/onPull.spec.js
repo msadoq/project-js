@@ -1,9 +1,4 @@
 const {
-  testHandler,
-  getTestHandlerArgs,
-  resetTestHandlerArgs,
-} = require('../../utils/test');
-const {
   add: addToDataQueue,
   reset: resetDataQueue,
   get: getDataQueue,
@@ -15,40 +10,45 @@ const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFac
 describe('controllers/client/onPull', () => {
   beforeEach(() => {
     resetDataQueue();
-    resetTestHandlerArgs();
   });
-  it('should support empty', () => {
+  it('should support empty', (done) => {
     const queries = { };
     const myQueryId = 'myQueryId';
-    onPull(testHandler, myQueryId, { queries });
-    // check data
-    const wsArgs = getTestHandlerArgs();
-    expect(wsArgs).toHaveLength(2);
-    expect(wsArgs[0]).toBe(myQueryId);
-    expect(wsArgs[1]).toEqual({ data: {} });
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        { data: {} },
+      ]);
+      done();
+    };
+    onPull(check, myQueryId, { queries });
   });
-  it('should return data already in queue', () => {
+  it('should return data already in queue', (done) => {
     const myRemoteId = 'myRemoteId';
     const myQueryId = 'myQueryId';
     const myValue = 'myValue';
     const timestamp = 5;
     const queries = { };
-    addToDataQueue(myRemoteId, timestamp, myValue);
-    onPull(testHandler, myQueryId, { queries });
-    // check data
-    const wsArgs = getTestHandlerArgs();
-    expect(wsArgs).toHaveLength(2);
-    expect(wsArgs[0]).toBe(myQueryId);
-    expect(wsArgs[1]).toEqual({
-      data: {
-        [myRemoteId]: {
-          [timestamp]: myValue,
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          data: {
+            [myRemoteId]: {
+              [timestamp]: myValue,
+            },
+          },
         },
-      },
-    });
-    expect(getDataQueue()).toEqual({});
+      ]);
+      expect(getDataQueue()).toEqual({});
+      done();
+    };
+
+    addToDataQueue(myRemoteId, timestamp, myValue);
+    onPull(check, myQueryId, { queries });
   });
-  it('should return requested data', () => {
+  it('should return requested data', (done) => {
     const myRemoteId = 'myRemoteId';
     const myQueryId = 'myQueryId';
     const rp = dataStub.getReportingParameter();
@@ -73,20 +73,23 @@ describe('controllers/client/onPull', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(myRemoteId);
     timebasedDataModel.addRecords(payloads);
 
-    onPull(testHandler, myQueryId, { queries });
-    // check data
-    const wsArgs = getTestHandlerArgs();
-    expect(wsArgs).toHaveLength(2);
-    expect(wsArgs[0]).toBe(myQueryId);
-    expect(wsArgs[1]).toEqual({
-      data: {
-        [myRemoteId]: {
-          [payloads[0].timestamp]: payloads[0].payload,
-          [payloads[1].timestamp]: payloads[1].payload,
-          [payloads[2].timestamp]: payloads[2].payload,
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          data: {
+            [myRemoteId]: {
+              [payloads[0].timestamp]: payloads[0].payload,
+              [payloads[1].timestamp]: payloads[1].payload,
+              [payloads[2].timestamp]: payloads[2].payload,
+            },
+          },
         },
-      },
-    });
-    expect(getDataQueue()).toEqual({});
+      ]);
+      expect(getDataQueue()).toEqual({});
+      done();
+    };
+
+    onPull(check, myQueryId, { queries });
   });
 });

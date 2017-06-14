@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-import '../common/test';
 import validate from './validation';
 import schema from './schemas/page.schema.json';
 

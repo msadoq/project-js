@@ -1,4 +1,3 @@
-import '../common/test';
 import makeGetPerViewData from './perViewData';
 
 describe('dataManager/perViewData', () => {

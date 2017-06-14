@@ -1,4 +1,3 @@
-import '../common/test';
 import prepareDataToTree from './prepareDataToTree';
 
 describe('rtdManager/prepareDataToTree', () => {

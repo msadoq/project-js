@@ -18,7 +18,7 @@ const propsStub = {
   },
 };
 
-it('StateColorsFields renders correctly', () => {
+test('StateColorsFields renders correctly', () => {
   const tree = renderer.create(
     <StateColorsFields
       fields={propsStub.fields}

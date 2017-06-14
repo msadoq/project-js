@@ -306,7 +306,7 @@ describe('dataManager/expectedIntervalMap', () => {
     },
   };
 
-  it('One remoteIdData ok', () => {
+  test('One remoteIdData ok', () => {
     expect(intervalPerRemoteId(state.timebars, epValidData)).toEqual({
       'groundDate/extractedValue.tb1:0/0': {
         expectedInterval: [1420106790818, 1420107056239],
@@ -316,7 +316,7 @@ describe('dataManager/expectedIntervalMap', () => {
       },
     });
   });
-  it('invalid timebarUuid', () => {
+  test('invalid timebarUuid', () => {
     epValidData.localIds['onBoardDate/rawValue.tb1:10/10'].timebarUuid = 'invalid';
     expect(intervalPerRemoteId(state.timebars, epValidData)).toEqual({
       'groundDate/extractedValue.tb1:0/0': {
@@ -327,10 +327,10 @@ describe('dataManager/expectedIntervalMap', () => {
       },
     });
   });
-  it('perRemoteIdMap empty', () => {
+  test('perRemoteIdMap empty', () => {
     expect(expectedIntervalMap(state.timebars, {})).toEqual({});
   });
-  it('perRemoteIdMap valid', () => {
+  test('perRemoteIdMap valid', () => {
     expect(expectedIntervalMap(state.timebars, perRemoteIdMap)).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': {
@@ -347,7 +347,7 @@ describe('dataManager/expectedIntervalMap', () => {
       },
     });
   });
-  it('memoization', () => {
+  test('memoization', () => {
     expectedIntervalSelector.resetRecomputations();
     expectedIntervalSelector(state, { perRemoteIdMap });
     expect(expectedIntervalSelector.recomputations()).toEqual(1);

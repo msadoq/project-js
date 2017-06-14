@@ -5,7 +5,7 @@ import {
 } from './pages';
 
 describe('store:page:selectors', () => {
-  it('getPageViews', () => {
+  test('getPageViews', () => {
     const state = {
       pages: {
         myPageId: {
@@ -22,7 +22,7 @@ describe('store:page:selectors', () => {
       { viewId: 'view1' },
     ]);
   });
-  it('notice if any view is opened', () => {
+  test('notice if any view is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -41,7 +41,7 @@ describe('store:page:selectors', () => {
     };
     expect(isAnyEditorOpened(state)).toEqual(true);
   });
-  it('notice if any view is opened', () => {
+  test('notice if any view is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -54,7 +54,7 @@ describe('store:page:selectors', () => {
     };
     expect(isAnyEditorOpened(state)).toEqual(false);
   });
-  it('notice if any inspector is opened', () => {
+  test('notice if any inspector is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -67,7 +67,7 @@ describe('store:page:selectors', () => {
     };
     expect(isAnyInspectorOpened(state)).toEqual(true);
   });
-  it('notice if no inspector is opened', () => {
+  test('notice if no inspector is opened', () => {
     const state = {
       pages: {
         page1: {

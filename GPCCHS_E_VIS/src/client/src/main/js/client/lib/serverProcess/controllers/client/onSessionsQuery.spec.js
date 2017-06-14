@@ -17,7 +17,7 @@ describe('controllers/client/onSessionQuery', () => {
     calls.length = 0;
     registeredCallbacks.clear();
   });
-  it('with queryId', () => {
+  test('with queryId', () => {
     const myQueryId = 'totolasticot';
     // launch test
     onSessionsQuery(zmqEmulator, myQueryId);

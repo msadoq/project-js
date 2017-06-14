@@ -14,7 +14,7 @@ describe('controllers/client/onGetSessionTime', () => {
   beforeEach(() => {
     calls.length = 0;
   });
-  it('works', () => {
+  test('works', () => {
     const myQueryId = 'myQueryId';
     const mySessionGetTime = dataStub.getSessionGetTime();
     // launch test

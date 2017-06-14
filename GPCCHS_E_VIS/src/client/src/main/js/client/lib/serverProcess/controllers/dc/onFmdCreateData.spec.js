@@ -2,7 +2,7 @@ const dataStub = require('common/protobuf/stubs');
 const onFmdCreateData = require('./onFmdCreateData');
 
 describe('controllers/client/onFmdCreateData', () => {
-  it('should returns file info if success', (done) => {
+  test('should returns file info if success', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -18,7 +18,7 @@ describe('controllers/client/onFmdCreateData', () => {
     };
     onFmdCreateData(check, myQueryIdProto, mySuccessProto, myFileInfoProto);
   });
-  it('should returns an error if fail', (done) => {
+  test('should returns an error if fail', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myErrorProto = dataStub.getErrorStatusProtobuf();

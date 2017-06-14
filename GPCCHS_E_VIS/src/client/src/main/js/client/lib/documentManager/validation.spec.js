@@ -20,20 +20,20 @@ const pageSchema = {
 };
 
 describe('documents/validation', () => {
-  it('is function', () => {
+  test('is function', () => {
     expect(typeof validate).toBe('function');
   });
-  it('accepts 2 or 3 params', () => {
+  test('accepts 2 or 3 params', () => {
     expect(validate('page')).toBeInstanceOf(Error);
     expect(validate('page', page, pageSchema, 'foo')).toBeInstanceOf(Error);
   });
-  it('pre-existing schema', () => {
+  test('pre-existing schema', () => {
     expect(validate('page', page)).toBeFalsy();
   });
-  it('runtime imported schema', () => {
+  test('runtime imported schema', () => {
     expect(validate('simplePage', page, schema)).toBeFalsy();
   });
-  it('errors', () => {
+  test('errors', () => {
     expect(validate('unknown', page)).toBeInstanceOf(Error);
     expect(validate('unknown', pageInvalid)).toBeInstanceOf(Error);
     expect(validate('page', pageInvalid)).toBeInstanceOf(Error);

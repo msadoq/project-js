@@ -37,7 +37,7 @@ describe('documentManager:readPage', () => {
     }
   });
   describe('simpleReadPage', () => {
-    it('creates a simple page using readed document', (done) => {
+    test('creates a simple page using readed document', (done) => {
       stub = stubReadDocument();
       simpleReadPage({ viewsInfo: [], uuid: 'fake-uuid' }, (err, content) => {
         expect(err).toBeFalsy();
@@ -55,7 +55,7 @@ describe('documentManager:readPage', () => {
         done();
       });
     });
-    it('generates uuid in each readed views', (done) => {
+    test('generates uuid in each readed views', (done) => {
       const view = {
         path: '/fake/path',
         geometry: {
@@ -75,7 +75,7 @@ describe('documentManager:readPage', () => {
       });
       done();
     });
-    it('gives an error when readDocument failed', (done) => {
+    test('gives an error when readDocument failed', (done) => {
       stub = stubReadDocument();
       simpleReadPage({ viewsInfo: [], withError: true }, (err, content) => {
         expect(err).toBeFalsy();
@@ -100,7 +100,7 @@ describe('documentManager:readPage', () => {
       ...view,
       withError: true,
     };
-    it('creates a page with readed documents (page and views)', (done) => {
+    test('creates a page with readed documents (page and views)', (done) => {
       stub = stubReadDocument();
       readPageAndViews({ uuid: 'fake-uuid', viewsInfo: [view, view] }, (err, content) => {
         expect(err).toBeFalsy();
@@ -141,7 +141,7 @@ describe('documentManager:readPage', () => {
       });
     });
 
-    it('gives an error when readDocument failed on a page', (done) => {
+    test('gives an error when readDocument failed on a page', (done) => {
       stub = stubReadDocument();
       readPageAndViews({ withError: true }, (err, content) => {
         expect(err).toBeFalsy();
@@ -149,7 +149,7 @@ describe('documentManager:readPage', () => {
         done();
       });
     });
-    it('gives all errors when readDocument failed on several views', (done) => {
+    test('gives all errors when readDocument failed on several views', (done) => {
       stub = stubReadDocument();
       readPageAndViews({ uuid: 'fake-uuid', viewsInfo: [view, errorView, view, errorView] }, (err, content) => {
         expect(content.pages).toHaveLength(1);

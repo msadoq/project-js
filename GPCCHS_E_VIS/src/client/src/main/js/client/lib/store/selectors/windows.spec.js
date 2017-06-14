@@ -11,7 +11,7 @@ import {
 describe('store:window:selectors', () => {
   const emptyState = {};
   describe('getFocusedWindow', () => {
-    it('should return focused window', () => {
+    test('should return focused window', () => {
       const state = {
         hsc: {
           focusWindow: 'window1',
@@ -23,7 +23,7 @@ describe('store:window:selectors', () => {
       };
       expect(getFocusedWindow(state)).toEqual({ title: 'foo' });
     });
-    it('should return undefined with no focusWindow', () => {
+    test('should return undefined with no focusWindow', () => {
       const state = {
         windows: {
           window1: { title: 'foo' },
@@ -32,12 +32,12 @@ describe('store:window:selectors', () => {
       };
       expect(getFocusedWindow(state)).toBeUndefined();
     });
-    it('should return undefined with empty state', () => {
+    test('should return undefined with empty state', () => {
       expect(getFocusedWindow(emptyState)).toBeUndefined();
     });
   });
 
-  it('getWindowPages', () => {
+  test('getWindowPages', () => {
     const state = {
       windows: {
         myWindowId: {
@@ -60,7 +60,7 @@ describe('store:window:selectors', () => {
     expect(getWindowPages(state, { windowId: 'unknownWindow' })).toEqual([]);
   });
 
-  it('getWindowFocusedPageSelector', () => {
+  test('getWindowFocusedPageSelector', () => {
     const state = {
       windows: {
         window1: {
@@ -97,17 +97,17 @@ describe('store:window:selectors', () => {
         600: { title: 'Title 600' },
       },
     });
-    it('should returns focused views', () => {
+    test('should returns focused views', () => {
       expect(getWindowsVisibleViews(state)).toEqual([
         { timebarUuid: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
         { timebarUuid: 1000, viewData: { title: 'Title 200' }, viewId: 200 },
         { timebarUuid: 2000, viewData: { title: 'Title 500' }, viewId: 500 },
       ]);
     });
-    it('should memoize', () => {
+    test('should memoize', () => {
       testMemoization(getWindowsVisibleViews, state);
     });
-    it('should support empty views list', () => {
+    test('should support empty views list', () => {
       expect(getWindowsVisibleViews({
         windows: {
           myWindowId: { title: 'Title', focusedPage: 10 },

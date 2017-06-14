@@ -1,7 +1,7 @@
 import { getTimebarTimelinesSelector } from './timebars';
 
 describe('store:timebars:selectors', () => {
-  it('getTimebarTimelinesSelector', () => {
+  test('getTimebarTimelinesSelector', () => {
     const state = {
       timebarTimelines: {
         tb1: ['tl2', 'masterTimeline'],

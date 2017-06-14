@@ -13,7 +13,7 @@ describe('controllers/utils/onDcStatus', () => {
     onDcStatus(healthy);
     expect(getDcStatus()).toEqual(globalConstants.HEALTH_STATUS_HEALTHY);
   });
-  it('congestion', () => {
+  test('congestion', () => {
     const congestion = dataStub.getCongestionDcStatusProtobuf();
 
     onDcStatus(congestion);

@@ -33,7 +33,7 @@ describe('store:actions:pages', () => {
   });
 
   describe('addBlankPage', () => {
-    it('dispatches WS_PAGE_ADD_BLANK with given windowId and newPageId', () => {
+    test('dispatches WS_PAGE_ADD_BLANK with given windowId and newPageId', () => {
       store.dispatch(actions.addBlankPage('myWindow1', 'myPage1'));
       expect(store.getActions()).toEqual([
         {
@@ -45,7 +45,7 @@ describe('store:actions:pages', () => {
         },
       ]);
     });
-    it('dispatches WS_PAGE_ADD_BLANK without windowId', () => {
+    test('dispatches WS_PAGE_ADD_BLANK without windowId', () => {
       store.dispatch(actions.addBlankPage(undefined, 'myPage1'));
       expect(store.getActions()).toEqual([
         {
@@ -57,7 +57,7 @@ describe('store:actions:pages', () => {
         },
       ]);
     });
-    it('dispatched WS_PAGE_ADD_BLANK without newPageId', () => {
+    test('dispatched WS_PAGE_ADD_BLANK without newPageId', () => {
       store.dispatch(actions.addBlankPage('myWindow1', undefined));
       expect(store.getActions()).toMatchObject([
         {
@@ -72,7 +72,7 @@ describe('store:actions:pages', () => {
       ]);
       expect(store.getActions()[0].payload.page.uuid).toBeAnUuid();
     });
-    it('dispatched WS_PAGE_ADD_BLANK without windowId and newPageId', () => {
+    test('dispatched WS_PAGE_ADD_BLANK without windowId and newPageId', () => {
       store.dispatch(actions.addBlankPage(undefined, undefined));
       expect(store.getActions()).toMatchObject([
         {
@@ -89,7 +89,7 @@ describe('store:actions:pages', () => {
   });
 
   describe('moveViewToPage', () => {
-    it('dispatches a WS_VIEW_MOVE_TO_PAGE', () => {
+    test('dispatches a WS_VIEW_MOVE_TO_PAGE', () => {
       store.dispatch(actions.moveViewToPage('w1', 'fromPage', 'toPage', 'myViewId'));
       expect(store.getActions()).toEqual([
         {
@@ -102,7 +102,7 @@ describe('store:actions:pages', () => {
         },
       ]);
     });
-    it('dispatches addBlankPage and WS_VIEW_MOVE_TO_PAGE', () => {
+    test('dispatches addBlankPage and WS_VIEW_MOVE_TO_PAGE', () => {
       store.dispatch(actions.moveViewToPage('w1', 'fromPage', '', 'myViewId'));
       expect(store.getActions()).toMatchObject([
         {
@@ -128,7 +128,7 @@ describe('store:actions:pages', () => {
   });
 
   describe('closePage', () => {
-    it('dispatches a WS_CLOSE_PAGE action', () => {
+    test('dispatches a WS_CLOSE_PAGE action', () => {
       store.dispatch(actions.closePage('w1', 'p1'));
       expect(store.getActions()).toEqual([
         {
@@ -140,7 +140,7 @@ describe('store:actions:pages', () => {
   });
 
   describe('openEditor', () => {
-    it('opens editor', () => {
+    test('opens editor', () => {
       store.dispatch(actions.openEditor('p1', 'v1'));
       expect(store.getActions()).toEqual([
         {
@@ -153,7 +153,7 @@ describe('store:actions:pages', () => {
         },
       ]);
     });
-    it('resizes editor to 350px if editorWidth is lower than 0', () => {
+    test('resizes editor to 350px if editorWidth is lower than 0', () => {
       store.dispatch(actions.openEditor('p2', 'v3'));
       expect(store.getActions()).toEqual([
         {
@@ -172,7 +172,7 @@ describe('store:actions:pages', () => {
     });
   });
   describe('focusPage', () => {
-    it('focusPage when page exists', () => {
+    test('focusPage when page exists', () => {
       store.dispatch(actions.openEditor('p2', 'p3'));
       expect(store.getActions()).toEqual([
         {
@@ -189,7 +189,7 @@ describe('store:actions:pages', () => {
         },
       ]);
     });
-    it('focusPage with unknown page', () => {
+    test('focusPage with unknown page', () => {
       store.dispatch(actions.focusPage('unknownPage'));
       expect(store.getActions()).toEqual([]);
     });

@@ -83,7 +83,7 @@ describe('controllers/client/onCacheCleanup', () => {
     timebasedDataModel21.addRecords(tbds);
   });
 
-  it('not all intervals expired', () => {
+  test('not all intervals expired', () => {
     // init test
     const dataMap = {
       perRemoteId: {
@@ -160,7 +160,7 @@ describe('controllers/client/onCacheCleanup', () => {
     expect(Object.keys(registeredCallbacks.getAll())).toHaveLength(0);
   });
 
-  it('all intervals expired', () => {
+  test('all intervals expired', () => {
     // init test
     const dataMap = {
       perRemoteId: {
@@ -235,7 +235,7 @@ describe('controllers/client/onCacheCleanup', () => {
     expect(Object.keys(registeredCallbacks.getAll())).toHaveLength(0);
   });
 
-  it('subscription no longer needed', () => {
+  test('subscription no longer needed', () => {
     // init test
     const dataMap = {
       perRemoteId: { [remoteId1]: { localIds: { localId: { } } } },

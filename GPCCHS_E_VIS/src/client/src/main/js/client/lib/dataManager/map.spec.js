@@ -418,13 +418,13 @@ describe('data:map', () => {
       },
     },
   };
-  it('should compute dataMap', () => {
+  test('should compute dataMap', () => {
     const r = map(state);
     expect(r.perRemoteId).toEqual(dataMap);
     expect(r.perView).toEqual(viewMap);
     expect(r.expectedIntervals).toEqual(intervalMap);
   });
-  it('memoization map', () => {
+  test('memoization map', () => {
     map.resetRecomputations();
     getPerRemoteIdMap.resetRecomputations();
     getPerViewMap.resetRecomputations();

@@ -48,18 +48,18 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
       { domainId: 'invalid', name: undefined },
     ];
   });
-  it('no connectedData', () => {
+  test('no connectedData', () => {
     entryPoint.connectedData.fieldX = '';
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'TextView');
     expect(ep).toEqual({ ATT_BC_STR1VOLTAGE: { error: 'No field X' } });
   });
-  it('no timebarUuid', () => {
+  test('no timebarUuid', () => {
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'TextView');
     expect(ep).toEqual(
       { ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } }
     );
   });
-  it('valid', () => {
+  test('valid', () => {
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView')
     ).toEqual({
@@ -95,7 +95,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
       },
     });
   });
-  it('wildcard => view data', () => {
+  test('wildcard => view data', () => {
     entryPoint.connectedData.timeline = '*';
     entryPoint.connectedData.domain = '*';
     expect(
@@ -134,7 +134,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
       },
     });
   });
-  it('wildcard => page data', () => {
+  test('wildcard => page data', () => {
     entryPoint.connectedData.timeline = '*';
     entryPoint.connectedData.domain = '*';
     expect(
@@ -173,7 +173,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
       },
     });
   });
-  it('wildcard => workspace data', () => {
+  test('wildcard => workspace data', () => {
     entryPoint.connectedData.timeline = '*';
     entryPoint.connectedData.domain = '*';
     expect(

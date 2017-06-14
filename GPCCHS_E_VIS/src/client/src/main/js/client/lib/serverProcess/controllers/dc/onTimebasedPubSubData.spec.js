@@ -48,7 +48,7 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
   const remoteId = getRemoteId(Object.assign({}, dataId));
   const remoteId2 = getRemoteId(Object.assign({}, dataId, { domainId: 201 }));
 
-  it('no dataId in subscriptions', () => {
+  test('no dataId in subscriptions', () => {
     // init test
     // launch test
     onTimebasedPubSubData(
@@ -65,7 +65,7 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
     expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
-  it('no query for this dataId', () => {
+  test('no query for this dataId', () => {
     // init test
     // launch test
     onTimebasedPubSubData(
@@ -82,7 +82,7 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
     expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
-  it('one in interval', () => {
+  test('one in interval', () => {
     // init test
     connectedDataModel.addRecord(dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, halfInterval);

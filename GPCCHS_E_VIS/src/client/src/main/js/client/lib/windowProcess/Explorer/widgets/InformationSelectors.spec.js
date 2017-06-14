@@ -11,10 +11,10 @@ describe('windowProcess:Explorer:InformationSelectors', () => {
     ],
   });
   describe('getMasterSession', () => {
-    it('return expected session', () => {
+    test('return expected session', () => {
       expect(getMasterSession(state)).toBe(state.sessions[1]);
     });
-    it('should returns undefined if no masterSessionId', () => {
+    test('should returns undefined if no masterSessionId', () => {
       expect(getMasterSession(freezeMe({
         masterSession: {},
         sessions: [
@@ -23,7 +23,7 @@ describe('windowProcess:Explorer:InformationSelectors', () => {
         ],
       }))).toBeFalsy();
     });
-    it('should returns undefined if no corresponding session', () => {
+    test('should returns undefined if no corresponding session', () => {
       expect(getMasterSession(freezeMe({
         masterSession: { sessionId: 10 },
         sessions: [
@@ -31,7 +31,7 @@ describe('windowProcess:Explorer:InformationSelectors', () => {
         ],
       }))).toBeFalsy();
     });
-    it('should memoize', () => {
+    test('should memoize', () => {
       testMemoization(getMasterSession, state);
     });
   });

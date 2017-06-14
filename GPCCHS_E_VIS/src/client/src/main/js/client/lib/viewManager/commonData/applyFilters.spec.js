@@ -5,7 +5,7 @@ import { applyFilters } from './applyFilters';
 
 describe('utils/filters', () => {
   describe('applyFilters', () => {
-    it('=', () => {
+    test('=', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -28,7 +28,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'nok' } }, filter)
       ).toBe(false);
     });
-    it('!=', () => {
+    test('!=', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -51,7 +51,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'nok' } }, filter)
       ).toBe(false);
     });
-    it('<', () => {
+    test('<', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -68,7 +68,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
       ).toBe(true);
     });
-    it('>', () => {
+    test('>', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -85,7 +85,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
       ).toBe(true);
     });
-    it('<=', () => {
+    test('<=', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -102,7 +102,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
       ).toBe(true);
     });
-    it('>=', () => {
+    test('>=', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -119,7 +119,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'ok' } }, filter)
       ).toBe(true);
     });
-    it('contains', () => {
+    test('contains', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -147,7 +147,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
       ).toBe(true);
     });
-    it('icontains', () => {
+    test('icontains', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -175,7 +175,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'enum', value: 1, symbol: 'foo bar' } }, regex)
       ).toBe(false);
     });
-    it('multi', () => {
+    test('multi', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -194,7 +194,7 @@ describe('utils/filters', () => {
       expect(applyFilters({ dataValue: { type: 'integer', value: 49 } }, filter)).toBe(true);
       expect(applyFilters({ dataValue: { type: 'integer', value: 50 } }, filter)).toBe(false);
     });
-    it('invalid data', () => {
+    test('invalid data', () => {
       const filter = [
         {
           field: 'dataValue',
@@ -205,7 +205,7 @@ describe('utils/filters', () => {
       expect(applyFilters({ otherField: { type: 'integer', value: '42' } }, filter)).toBe(true);
       expect(applyFilters({ otherField: { type: 'integer', value: '43' } }, filter)).toBe(true);
     });
-    it('invalid filter', () => {
+    test('invalid filter', () => {
       const filter = {
         field: 'dataValue',
         operator: '=',
@@ -220,7 +220,7 @@ describe('utils/filters', () => {
         applyFilters({ dataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['operator'])])
       ).toBe(true);
     });
-    it('Long value', () => {
+    test('Long value', () => {
       const data = { longValue: { type: 'long', symbol: '18446744073709551600' } };
       const filter = { field: 'longValue', operator: '=', operand: '18446744073709551600' };
       expect(applyFilters(data, [filter])).toBe(true);
@@ -241,7 +241,7 @@ describe('utils/filters', () => {
       filter.operator = '>';
       expect(applyFilters(data, [filter])).toBe(true);
     });
-    it('double value', () => {
+    test('double value', () => {
       const data = { longValue: { type: 'double', symbol: '184467440737095500.1600' } };
       const filter = { field: 'longValue', operator: '=', operand: '184467440737095500.1600' };
       expect(applyFilters(data, [filter])).toBe(true);

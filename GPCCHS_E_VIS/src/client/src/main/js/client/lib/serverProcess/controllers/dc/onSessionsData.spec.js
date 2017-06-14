@@ -2,7 +2,7 @@ const onSessionsData = require('./onSessionsData');
 const dataStub = require('common/protobuf/stubs');
 
 describe('controllers/utils/onSessionData', () => {
-  it('should returns sessions data', (done) => {
+  test('should returns sessions data', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySessions = dataStub.getSessions();

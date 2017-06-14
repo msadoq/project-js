@@ -24,7 +24,7 @@ describe('utils/subscriptions', () => {
     cleanRegisteredQueries();
   });
 
-  it('createQueryMessage range', () => {
+  test('createQueryMessage range', () => {
     const myDataId = dataStub.getDataId();
     const myDataIdProto = dataStub.getDataIdProtobuf(myDataId);
     const myRemoteId = getRemoteId(myDataId);
@@ -50,7 +50,7 @@ describe('utils/subscriptions', () => {
     expect(getRegisteredCallback(query1)).toBeDefined();
     expect(getRegisteredQuery(query1)).toEqual(myRemoteId);
   });
-  it('createQueryMessage last', () => {
+  test('createQueryMessage last', () => {
     const myDataId = dataStub.getDataId();
     const myDataIdProto = dataStub.getDataIdProtobuf(myDataId);
     const myRemoteId = getRemoteId(myDataId);

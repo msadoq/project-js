@@ -3,7 +3,7 @@ const globalConstants = require('../../../constants');
 const onFmdGetData = require('./onFmdGetData');
 
 describe('controllers/client/onFmdGetData', () => {
-  it('should supports collection request', (done) => {
+  test('should supports collection request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -27,7 +27,7 @@ describe('controllers/client/onFmdGetData', () => {
 
     onFmdGetData(check, myQueryIdProto, mySuccessProto, myFileInfoProto, myCollectionProto);
   });
-  it('should supports collection document request', (done) => {
+  test('should supports collection document request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -60,7 +60,7 @@ describe('controllers/client/onFmdGetData', () => {
       myCollectionDocumentProto
     );
   });
-  it('should supports document request', (done) => {
+  test('should supports document request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -93,7 +93,7 @@ describe('controllers/client/onFmdGetData', () => {
       myDocumentProto
     );
   });
-  it('should supports folder request', (done) => {
+  test('should supports folder request', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
@@ -126,7 +126,7 @@ describe('controllers/client/onFmdGetData', () => {
       myFolderProto
     );
   });
-  it('should returns error if request failed', (done) => {
+  test('should returns error if request failed', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myErrorProto = dataStub.getErrorStatusProtobuf();

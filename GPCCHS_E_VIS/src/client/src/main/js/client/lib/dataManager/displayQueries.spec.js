@@ -82,10 +82,10 @@ describe('dataManager/displayQueries', () => {
   const dataMap = { injectionRemoteId: remoteIdMap, injectionIntervals: intervalMap };
   const newDataMap = { perRemoteId: remoteIdMap, expectedIntervals: newIntervalMap };
 
-  it('empty new dataMap', () => {
+  test('empty new dataMap', () => {
     expect(displayQueries(dataMap, { perRemoteId: {}, expectedIntervals: {} }, false)).toEqual({});
   });
-  it('empty old dataMap', () => {
+  test('empty old dataMap', () => {
     expect(
       displayQueries({ injectionRemoteId: {}, injectionIntervals: {} }, newDataMap, false)
     ).toEqual({
@@ -95,7 +95,7 @@ describe('dataManager/displayQueries', () => {
       },
     });
   });
-  it('play mode', () => {
+  test('play mode', () => {
     expect(displayQueries(dataMap, newDataMap, true)).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         [DATASTRUCTURETYPE_LAST]: [[1420106843902, 1420106844902]],
@@ -107,7 +107,7 @@ describe('dataManager/displayQueries', () => {
       },
     });
   });
-  it('pause mode', () => {
+  test('pause mode', () => {
     expect(displayQueries(dataMap, newDataMap, false)).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         [DATASTRUCTURETYPE_LAST]: [],

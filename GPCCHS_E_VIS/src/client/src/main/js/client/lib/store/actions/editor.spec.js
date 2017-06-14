@@ -19,14 +19,14 @@ describe('store:actions:editor', () => {
     },
   };
 
-  it('dispatch a "WS_WINDOW_OPEN_HTML_EDITOR" action (without pause)', () => {
+  test('dispatch a "WS_WINDOW_OPEN_HTML_EDITOR" action (without pause)', () => {
     const store = mockStore(state1);
     store.dispatch(actions.openHtmlEditor('test'));
     expect(store.getActions()).toMatchObject([
       { type: 'WS_WINDOW_OPEN_HTML_EDITOR', payload: { viewId: 'test' } },
     ]);
   });
-  it('dispatch a "WS_WINDOW_OPEN_HTML_EDITOR" action (with pause)', () => {
+  test('dispatch a "WS_WINDOW_OPEN_HTML_EDITOR" action (with pause)', () => {
     const store = mockStore(state2);
     store.dispatch(actions.openHtmlEditor('test'));
     expect(store.getActions()).toMatchObject([

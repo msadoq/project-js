@@ -27,18 +27,18 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
     },
   };
   describe('getPageTimelines', () => {
-    it('returns page timelines', () => {
+    test('returns page timelines', () => {
       expect(getPageTimelines(state, { pageId: 'p1' })).toEqual([2, 1]);
     });
-    it('returns nothing when pageId is unknown', () => {
+    test('returns nothing when pageId is unknown', () => {
       expect(getPageTimelines(state, { pageId: 'unknownPageId' })).toEqual([]);
     });
   });
   describe('getFocusedPageTimelines', () => {
-    it('returns focused page timelines', () => {
+    test('returns focused page timelines', () => {
       expect(getFocusedPageTimelines(state, { windowId: 'w1' })).toEqual([2, 1]);
     });
-    it('returns nothing when windowId is unknown', () => {
+    test('returns nothing when windowId is unknown', () => {
       expect(getFocusedPageTimelines(state, { windowId: 'unknownWindowId' })).toEqual([]);
     });
   });

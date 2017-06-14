@@ -15,7 +15,7 @@ describe('controllers/client/onFmdCreate', () => {
   beforeEach(() => {
     calls.length = 0;
   });
-  it('works', () => {
+  test('works', () => {
     const myQueryId = 'myQueryId';
     const myCreateDocumentAction = dataStub.getFMDCreateDocument();
     // launch test

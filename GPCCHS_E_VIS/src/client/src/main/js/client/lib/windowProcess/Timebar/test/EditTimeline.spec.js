@@ -30,7 +30,7 @@ const propsStub = {
 };
 
 describe('EditTimeline component', () => {
-  it('EditTimeline (redux-form) renders correctly', () => {
+  test('EditTimeline (redux-form) renders correctly', () => {
     const tree = renderer.create(
       <Provider store={store}>
         <EditTimeline {...propsStub} />

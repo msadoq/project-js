@@ -119,7 +119,7 @@ describe('documentManager/saveWorkspace', () => {
   afterEach((done) => {
     rimraf(getTmpPath(), done);
   });
-  it('save ok', (done) => {
+  test('save ok', (done) => {
     const path = join(state.hsc.folder, state.hsc.file);
     saveWorkspace(freezeMe(state), (err) => {
       expect(typeof err).not.toBe('error');
@@ -129,7 +129,7 @@ describe('documentManager/saveWorkspace', () => {
       });
     });
   });
-  it('saveAs ok', (done) => {
+  test('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
     saveWorkspaceAs(freezeMe(state), path, (err) => {
       expect(typeof err).not.toBe('error');
@@ -139,7 +139,7 @@ describe('documentManager/saveWorkspace', () => {
       });
     });
   });
-  it('save fail', (done) => {
+  test('save fail', (done) => {
     state.timebars.abcd.mode = null;
     const path = join(state.hsc.folder, state.hsc.file);
     saveWorkspace(freezeMe(state), (err) => {
@@ -150,7 +150,7 @@ describe('documentManager/saveWorkspace', () => {
       });
     });
   });
-  it('saveAs fail', (done) => {
+  test('saveAs fail', (done) => {
     state.timebars.abcd.mode = null;
     const path = join(folder, 'workspace.json');
     saveWorkspaceAs(freezeMe(state), path, (err) => {
@@ -161,7 +161,7 @@ describe('documentManager/saveWorkspace', () => {
       });
     });
   });
-  it('save correct content', (done) => {
+  test('save correct content', (done) => {
     const path = join(state.hsc.folder, state.hsc.file);
     saveWorkspace(freezeMe(state), () => {
       readJson(path, (err, content) => {

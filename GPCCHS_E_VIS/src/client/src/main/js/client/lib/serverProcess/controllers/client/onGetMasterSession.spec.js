@@ -14,7 +14,7 @@ describe('controllers/client/onGetMasterSession', () => {
   beforeEach(() => {
     calls.length = 0;
   });
-  it('works', () => {
+  test('works', () => {
     const myQueryId = 'myQueryId';
     // launch test
     onGetMasterSession(zmqEmulator, myQueryId);

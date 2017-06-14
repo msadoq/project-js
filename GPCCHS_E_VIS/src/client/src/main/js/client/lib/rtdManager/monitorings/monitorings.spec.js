@@ -34,7 +34,7 @@ describe('rtdManager/monitorings', () => {
       loadMonitorings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
   });
-  it('getTriggers OnBoard Delta', (done) => {
+  test('getTriggers OnBoard Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_DELTA', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -49,7 +49,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers OnBoard Limit', (done) => {
+  test('getTriggers OnBoard Limit', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_LIMIT', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -64,7 +64,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers OnBoard Expected Value', (done) => {
+  test('getTriggers OnBoard Expected Value', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONBOARD_EXPECTED', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -80,7 +80,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers OnGround Limit', (done) => {
+  test('getTriggers OnGround Limit', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_LIMIT', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -95,7 +95,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers OnGround Maximum Delta', (done) => {
+  test('getTriggers OnGround Maximum Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_MAX_DELTA', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -110,7 +110,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers OnGround Minimum Delta', (done) => {
+  test('getTriggers OnGround Minimum Delta', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_MIN_DELTA', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -125,7 +125,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers OnGround Expected Value', (done) => {
+  test('getTriggers OnGround Expected Value', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'ONGROUND_EXPECTED', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {
@@ -142,7 +142,7 @@ describe('rtdManager/monitorings', () => {
       });
     });
   });
-  it('getTriggers Functional', (done) => {
+  test('getTriggers Functional', (done) => {
     rtd.getCatalogByName('Monitoring', SDB_NAMESPACE, 'FUNCTIONAL', sessionId, domainId, (getErr, item) => {
       getTriggers({ rtd, sessionId, domainId }, item, (err, triggers) => {
         try {

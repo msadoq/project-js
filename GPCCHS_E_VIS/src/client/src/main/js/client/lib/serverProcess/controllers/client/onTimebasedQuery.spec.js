@@ -83,7 +83,7 @@ describe('controllers/client/onTimebasedQuery', () => {
     },
   };
 
-  it('should not crash when receiving an invalid payload', () => {
+  test('should not crash when receiving an invalid payload', () => {
     onTimebasedQuery(zmqEmulator, {});
     expect(_isEmpty(getAllRegisteredQueries())).toBe(true);
     expect(_isEmpty(registeredCallbacks.getAll())).toBe(true);
@@ -102,7 +102,7 @@ describe('controllers/client/onTimebasedQuery', () => {
   });
 
   describe('query', () => {
-    it('range interval not missing', () => {
+    test('range interval not missing', () => {
       // init test
       connectedDataModel.addRecord(dataId);
       connectedDataModel.addRequestedInterval(flatDataId, 'queryId', intervalRange);
@@ -129,7 +129,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       });
     });
 
-    it('range interval missing', () => {
+    test('range interval missing', () => {
       // init test
       const otherQueryId = 'otherId';
       const otherInterval = [5, 42];
@@ -167,7 +167,7 @@ describe('controllers/client/onTimebasedQuery', () => {
         lastQueries: {},
       });
     });
-    it('getLast', () => {
+    test('getLast', () => {
       // init test
       connectedDataModel.addRecord(dataId);
       // launch test
@@ -202,7 +202,7 @@ describe('controllers/client/onTimebasedQuery', () => {
         lastQueries: { [queryId]: intervalLast },
       });
     });
-    it('dataId not in subscriptions (last + range)', () => {
+    test('dataId not in subscriptions (last + range)', () => {
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: query });
       // check registeredQueries

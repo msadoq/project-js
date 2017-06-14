@@ -29,7 +29,7 @@ const propsStub = {
   openModal: () => {},
 };
 
-it('Lefttab renders correctly', () => {
+test('Lefttab renders correctly', () => {
   const tree = renderer.create(
     <LeftTab
       {...propsStub}

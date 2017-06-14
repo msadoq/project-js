@@ -1,7 +1,7 @@
 import prepareDataToTree from './prepareDataToTree';
 
 describe('rtdManager/prepareDataToTree', () => {
-  it('works', () => {
+  test('works', () => {
     const data = {
       str: 'str1',
       obj: {

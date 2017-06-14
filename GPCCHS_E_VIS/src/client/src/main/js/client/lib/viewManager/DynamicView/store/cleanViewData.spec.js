@@ -82,13 +82,13 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
       },
     };
   });
-  it('no update', () => {
+  test('no update', () => {
     const frozen = freezeMe(viewDataState.dynamic);
     expect(
       cleanCurrentViewData(frozen, viewMap.dynamic, viewMap.dynamic, oldIntervals, oldIntervals)
     ).toBe(frozen);
   });
-  it('interval update dynamic: keep', () => {
+  test('interval update dynamic: keep', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
     newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
@@ -98,7 +98,7 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
       cleanCurrentViewData(frozen, viewMap.dynamic, newMap.dynamic, oldIntervals, newIntervals)
     ).toBe(frozen);
   });
-  it('interval update dynamic: remove', () => {
+  test('interval update dynamic: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
     newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval

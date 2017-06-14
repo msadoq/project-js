@@ -16,7 +16,7 @@ describe('controllers/client/onDomainsQuery', () => {
     calls.length = 0;
     registeredCallbacks.clear();
   });
-  it('with queryId', () => {
+  test('with queryId', () => {
     const myQueryId = 'totolasticot';
     // launch test
     onDomainsQuery(zmqEmulator, myQueryId);

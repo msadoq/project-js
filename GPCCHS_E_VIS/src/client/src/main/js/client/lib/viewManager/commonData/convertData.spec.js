@@ -1,7 +1,7 @@
 import { isLongValue, convertLongData, updateObjectValues } from './convertData';
 
 describe('viewManager/commonData/convertData', () => {
-  it('isLongValue: yes', () => {
+  test('isLongValue: yes', () => {
     const data = { type: 'long' };
     expect(isLongValue(data)).toEqual(true);
     data.type = 'ulong';
@@ -11,7 +11,7 @@ describe('viewManager/commonData/convertData', () => {
     data.type = 'fineTime';
     expect(isLongValue(data)).toEqual(true);
   });
-  it('isLongValue: no', () => {
+  test('isLongValue: no', () => {
     const data = { type: 'bool' };
     expect(isLongValue(data)).toEqual(false);
     data.type = 'string';
@@ -20,29 +20,29 @@ describe('viewManager/commonData/convertData', () => {
     expect(isLongValue(data)).toEqual(false);
   });
   describe('convertLongData', () => {
-    it('long', () => {
+    test('long', () => {
       const data = { type: 'long', symbol: '1485648450000' };
       expect(convertLongData(data)).toEqual(1485648450000);
     });
-    it('long', () => {
+    test('long', () => {
       const data = { type: 'ulong', symbol: '1485648450000' };
       expect(convertLongData(data)).toEqual(1485648450000);
     });
-    it('time', () => {
+    test('time', () => {
       const data = { type: 'time', value: 1485648450000 };
       expect(convertLongData(data)).toEqual('2017-01-29T00:07:30.000Z');
     });
-    it('fineTime', () => {
+    test('fineTime', () => {
       const data = { type: 'fineTime', value: 1485648450000 };
       expect(convertLongData(data)).toEqual('2017-01-29T00:07:30.000Z');
     });
-    it('other', () => {
+    test('other', () => {
       const data = { type: 'other', value: 123456 };
       expect(convertLongData(data)).toEqual(123456);
     });
   });
   describe('updateObjectValues', () => {
-    it('simple data', () => {
+    test('simple data', () => {
       let data = { type: 'string', value: 'myString' };
       expect(updateObjectValues(data)).toEqual(data);
       data = { type: 'long', symbol: '1485648450000' };
@@ -51,20 +51,20 @@ describe('viewManager/commonData/convertData', () => {
         value: 1485648450000,
         symbol: '1485648450000' });
     });
-    it('object data', () => {
+    test('object data', () => {
       const data = { myString: { type: 'string', value: 'myStr' },
         myTime: { type: 'long', symbol: '1485648450000' } };
       expect(updateObjectValues(data)).toEqual({ myString: { type: 'string', value: 'myStr' },
         myTime: { type: 'long', value: 1485648450000, symbol: '1485648450000' } });
     });
-    it('array data', () => {
+    test('array data', () => {
       const data = { myArray: [{ myString: { type: 'string', value: 'myStr' },
         myTime: { type: 'long', symbol: '1485648450000' } }] };
       expect(updateObjectValues(data)).toEqual({ myArray: [
         { myString: { type: 'string', value: 'myStr' },
           myTime: { type: 'long', value: 1485648450000, symbol: '1485648450000' } }] });
     });
-    it('complex object', () => {
+    test('complex object', () => {
       const data = { pus003DiagPacket: [{
         pus003Packet: {
           sid: { type: 'uinteger', value: 100 },

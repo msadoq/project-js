@@ -68,7 +68,7 @@ describe('store:actions:timebars', () => {
   });
 
   describe('updateCursors', () => {
-    it('updates cursors (Extensible)', () => {
+    test('updates cursors (Extensible)', () => {
       store.dispatch(actions.updateCursors('tb1', {}, {}));
       expect(store.getActions()).toEqual([
         {
@@ -81,7 +81,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates cursors (Fixed)', () => {
+    test('updates cursors (Fixed)', () => {
       const visuWindow = { lower: 1, upper: 400, current: 250 };
       const slideWindow = { lower: 100, upper: 200 };
       store.dispatch(actions.updateCursors('tb2', visuWindow, slideWindow));
@@ -96,7 +96,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('reset messages and updates cursors', () => {
+    test('reset messages and updates cursors', () => {
       store.dispatch(actions.updateCursors('tb3', {}, {}));
       expect(store.getActions()).toEqual([
         {
@@ -115,7 +115,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('dispatches a pause + 2 errors messages', () => {
+    test('dispatches a pause + 2 errors messages', () => {
       const visuWindow = { lower: 200, upper: 1, current: 100 };
       const slideWindow = { lower: 100, upper: 200 };
       store.dispatch(actions.updateCursors('tb2', visuWindow, slideWindow));
@@ -142,17 +142,17 @@ describe('store:actions:timebars', () => {
   });
 
   describe('handlePlay', () => {
-    it('doest nothing without playingTimebarUuid', () => {
+    test('doest nothing without playingTimebarUuid', () => {
       const emptyStore = mockStore();
       emptyStore.dispatch(actions.handlePlay(0, 0));
       expect(emptyStore.getActions()).toHaveLength(0);
     });
-    it('doest nothing without playingTimebar', () => {
+    test('doest nothing without playingTimebar', () => {
       const storeWithoutTimebars = mockStore({ timebars: [], hsc: { playingTimebarId: 1234 } });
       storeWithoutTimebars.dispatch(actions.handlePlay(0, 0));
       expect(storeWithoutTimebars.getActions()).toHaveLength(0);
     });
-    it('updates cursors', () => {
+    test('updates cursors', () => {
       store.dispatch(actions.handlePlay(0, 0));
       expect(store.getActions()).toEqual([
         {
@@ -167,14 +167,14 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('updateSpeed', () => {
-    it('disables real time then update speed', () => {
+    test('disables real time then update speed', () => {
       store.dispatch(actions.updateSpeed('tb1', 42));
       expect(store.getActions()).toEqual([
         { type: 'WS_TIMEBAR_SET_REALTIME', payload: { timebarUuid: 'tb1', flag: false } },
         { type: 'WS_TIMEBAR_SPEED_UPDATE', payload: { timebarUuid: 'tb1', speed: 42 } },
       ]);
     });
-    it('updates speed', () => {
+    test('updates speed', () => {
       store.dispatch(actions.updateSpeed('tb2', 42));
       expect(store.getActions()).toEqual([
         { type: 'WS_TIMEBAR_SPEED_UPDATE', payload: { timebarUuid: 'tb2', speed: 42 } },
@@ -182,7 +182,7 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('restoreWidth', () => {
-    it('disables real time then restore width', () => {
+    test('disables real time then restore width', () => {
       store.dispatch(actions.restoreWidth('tb1'));
       expect(store.getActions()).toEqual([
         {
@@ -199,7 +199,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('dispatches a WS_MESSAGE_RESET and restores width', () => {
+    test('dispatches a WS_MESSAGE_RESET and restores width', () => {
       store.dispatch(actions.restoreWidth('tb3'));
       expect(store.getActions()).toEqual([
         { type: 'WS_MESSAGE_RESET', payload: { containerId: 'timeSetter-tb3' } },
@@ -215,7 +215,7 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('jump', () => {
-    it('disables real time then jump', () => {
+    test('disables real time then jump', () => {
       store.dispatch(actions.jump('tb1', 42));
       expect(store.getActions()).toEqual([
         {
@@ -232,7 +232,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('dispatches a WS_MESSAGE_RESET and jumps', () => {
+    test('dispatches a WS_MESSAGE_RESET and jumps', () => {
       store.dispatch(actions.jump('tb3', 42));
       expect(store.getActions()).toEqual([
         { type: 'WS_MESSAGE_RESET', payload: { containerId: 'timeSetter-tb3' } },
@@ -248,7 +248,7 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('goNow', () => {
-    it('disables real time and pause then go now', () => {
+    test('disables real time and pause then go now', () => {
       store.dispatch(actions.goNow('tb1', 42));
       expect(store.getActions()).toEqual([
         {
@@ -275,7 +275,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('pauses and add an error message', () => {
+    test('pauses and add an error message', () => {
       store.dispatch(actions.goNow('tb3', 42));
       expect(store.getActions()).toEqual([
         {
@@ -303,13 +303,13 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('switchToNormalMode', () => {
-    it('updates to normal mode', () => {
+    test('updates to normal mode', () => {
       store.dispatch(actions.switchToNormalMode('tb3'));
       expect(store.getActions()).toEqual([
         { type: 'WS_TIMEBAR_MODE_UPDATE', payload: { timebarUuid: 'tb3', mode: 'Normal' } },
       ]);
     });
-    it('updates mode to normal and update cursors', () => {
+    test('updates mode to normal and update cursors', () => {
       store.dispatch(actions.switchToNormalMode('tb4'));
       expect(store.getActions()).toEqual([
         {
@@ -328,7 +328,7 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('switchToRealtimeMode', () => {
-    it('sets real time mode and update cursors + smartPlay', () => {
+    test('sets real time mode and update cursors + smartPlay', () => {
       store.dispatch(actions.switchToRealtimeMode('tb3', 1));
       expect(store.getActions()).toEqual([
         {
@@ -367,7 +367,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('sets real time mode, reset speed to 1 and update cursors + smartPlay', () => {
+    test('sets real time mode, reset speed to 1 and update cursors + smartPlay', () => {
       store.dispatch(actions.switchToRealtimeMode('tb2', 1));
       expect(store.getActions()).toEqual([
         {
@@ -407,7 +407,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('sets real time mode, reset mode to Normal and update cursors + smartPlay', () => {
+    test('sets real time mode, reset mode to Normal and update cursors + smartPlay', () => {
       store.dispatch(actions.switchToRealtimeMode('tb1', 1));
       expect(store.getActions()).toEqual([
         {
@@ -447,7 +447,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('sets real time mode, reset speed to 1, reset mode to Normal and update cursors + smartPlay', () => {
+    test('sets real time mode, reset speed to 1, reset mode to Normal and update cursors + smartPlay', () => {
       store.dispatch(actions.switchToRealtimeMode('tb4', 1));
       expect(store.getActions()).toEqual([
         {
@@ -496,7 +496,7 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('switchToExtensibleMode', () => {
-    it('updates mode to Extensible', () => {
+    test('updates mode to Extensible', () => {
       store.dispatch(actions.switchToExtensibleMode('tb4'));
       expect(store.getActions()).toEqual([
         {
@@ -508,7 +508,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates mode and disable real time', () => {
+    test('updates mode and disable real time', () => {
       store.dispatch(actions.switchToExtensibleMode('tb6'));
       expect(store.getActions()).toEqual([
         {
@@ -527,7 +527,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates mode and update cursors', () => {
+    test('updates mode and update cursors', () => {
       store.dispatch(actions.switchToExtensibleMode('tb5'));
       expect(store.getActions()).toEqual([
         {
@@ -550,7 +550,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates mode, disable real time and update cursors', () => {
+    test('updates mode, disable real time and update cursors', () => {
       store.dispatch(actions.switchToExtensibleMode('tb1'));
       expect(store.getActions()).toEqual([
         {
@@ -582,7 +582,7 @@ describe('store:actions:timebars', () => {
     });
   });
   describe('switchToFixedMode', () => {
-    it('updates mode', () => {
+    test('updates mode', () => {
       store.dispatch(actions.switchToFixedMode('tb3'));
       expect(store.getActions()).toEqual([
         {
@@ -594,7 +594,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates mode and update cursors', () => {
+    test('updates mode and update cursors', () => {
       store.dispatch(actions.switchToFixedMode('tb4'));
       expect(store.getActions()).toEqual([
         {
@@ -617,7 +617,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates mode and disable real time', () => {
+    test('updates mode and disable real time', () => {
       store.dispatch(actions.switchToFixedMode('tb1'));
       expect(store.getActions()).toEqual([
         {
@@ -636,7 +636,7 @@ describe('store:actions:timebars', () => {
         },
       ]);
     });
-    it('updates mode, disable real time and update cursors', () => {
+    test('updates mode, disable real time and update cursors', () => {
       store.dispatch(actions.switchToFixedMode('tb6'));
       expect(store.getActions()).toEqual([
         {

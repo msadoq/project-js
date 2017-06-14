@@ -3,7 +3,7 @@ const dataStub = require('common/protobuf/stubs');
 const registeredCallbacks = require('../../../common/callbacks');
 
 describe('controllers/utils/onDomainsData', () => {
-  it('should returns domains data', (done) => {
+  test('should returns domains data', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myDomains = dataStub.getDomains();

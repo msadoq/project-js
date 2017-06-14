@@ -5,10 +5,10 @@ import domainsReducer, { getDomains } from '.';
 const reducer = freezeArgs(domainsReducer);
 
 describe('store:domains:reducer', () => {
-  it('initial state', () => {
+  test('initial state', () => {
     expect(reducer(undefined, {})).toEqual([]);
   });
-  it('unknown action', () => {
+  test('unknown action', () => {
     expect(reducer([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
@@ -23,7 +23,7 @@ describe('store:domains:reducer', () => {
       parentDomainId: 98,
     }]);
   });
-  it('set state', () => {
+  test('set state', () => {
     expect(reducer(undefined, actions.updateDomains([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
@@ -42,7 +42,7 @@ describe('store:domains:reducer', () => {
 
 describe('store:domains:selectors', () => {
   describe('getDomains', () => {
-    it('should return the whole list', () => {
+    test('should return the whole list', () => {
       const state = {
         domains: {
           myDomainId: { domainId: 1 },

@@ -7,15 +7,15 @@ const reducer = freezeArgs(timebarTimelinesReducer);
 
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:timebarTimelines:reducer', () => {
-  it('does nothing with unknown action', () => {
+  test('does nothing with unknown action', () => {
     const state = reducer(undefined, { type: 'DUMMY_ACTION' });
     expect(state).toEqual({});
   });
-  it('cleans timebarTimelines when close workspace', () => {
+  test('cleans timebarTimelines when close workspace', () => {
     const state = reducer({ a: [1, 2, 3] }, { type: types.HSC_CLOSE_WORKSPACE });
     expect(state).toEqual({});
   });
-  it('add timebar and timelines ids when load a workspace', () => {
+  test('add timebar and timelines ids when load a workspace', () => {
     const action = {
       type: types.WS_WORKSPACE_OPEN,
       payload: {
@@ -38,7 +38,7 @@ describe('store:timebarTimelines:reducer', () => {
       tb2: [1, 2, 3],
     });
   });
-  it('creates new timebar', () => {
+  test('creates new timebar', () => {
     const action = {
       type: types.WS_TIMEBAR_CREATE_NEW,
       payload: { timebarUuid: 'tb1' },
@@ -46,7 +46,7 @@ describe('store:timebarTimelines:reducer', () => {
     const state = reducer({ a: [1, 2, 3] }, action);
     expect(state).toEqual({ a: [1, 2, 3], tb1: [] });
   });
-  it('creates new timeline', () => {
+  test('creates new timeline', () => {
     const action = {
       type: types.WS_TIMELINE_CREATE_NEW,
       payload: { timebarUuid: 'tb1', timeline: { uuid: 'tl2' } },
@@ -54,7 +54,7 @@ describe('store:timebarTimelines:reducer', () => {
     const state = reducer({ tb1: ['tl1'] }, action);
     expect(state).toEqual({ tb1: ['tl1', 'tl2'] });
   });
-  it('removes timeline', () => {
+  test('removes timeline', () => {
     const action = {
       type: types.WS_TIMELINE_REMOVE,
       payload: { timelineUuid: 'tl1', timebarUuid: 'tb1' },
@@ -66,7 +66,7 @@ describe('store:timebarTimelines:reducer', () => {
 
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:timebarTimelines:selectors', () => {
-  it('getTimebarTimelines: existing id', () => {
+  test('getTimebarTimelines: existing id', () => {
     const state = {
       timebarTimelines: {
         myTimebarId: ['tl1', 'tl2'],
@@ -75,7 +75,7 @@ describe('store:timebarTimelines:selectors', () => {
     };
     expect(getTimebarTimelines(state, { timebarUuid: 'myTimebarId' })).toEqual(['tl1', 'tl2']);
   });
-  it('getTimebarTimelines: unknown id', () => {
+  test('getTimebarTimelines: unknown id', () => {
     const state = {
       timebarTimelines: {
         myTimebarId: ['tl1', 'tl2'],

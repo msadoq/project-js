@@ -57,7 +57,7 @@ describe('documentManager/saveViews', () => {
   });
 
   describe('saveViewAs', () => {
-    it('saves the view', (done) => {
+    test('saves the view', (done) => {
       const view = freezeMe(state.views.dynamic1);
       saveViewAs(view, view.absolutePath, (err) => {
         expect(err).toBeFalsy();
@@ -68,7 +68,7 @@ describe('documentManager/saveViews', () => {
         });
       });
     });
-    it('fails because invalid view', (done) => {
+    test('fails because invalid view', (done) => {
       const invalidView = _.set('configuration.entryPoints', ['invalid entrypoint'], state.views.dynamic1);
       const view = freezeMe(invalidView);
       saveViewAs(view, view.absolutePath, (err) => {
@@ -79,26 +79,26 @@ describe('documentManager/saveViews', () => {
         });
       });
     });
-    it('fails because no view', (done) => {
+    test('fails because no view', (done) => {
       saveViewAs(undefined, undefined, (err) => {
         expect(err).toBeInstanceOf(Error);
         done();
       });
     });
-    it('fails because no view', (done) => {
+    test('fails because no view', (done) => {
       saveViewAs(state.views.dynamic1, '/unknownPath/view.json', (err) => {
         expect(err).toBeInstanceOf(Error);
         expect(err.message).toMatch(/Unable to create folder/);
         done();
       });
     });
-    it('fails because view type is invalid', (done) => {
+    test('fails because view type is invalid', (done) => {
       saveViewAs(state.views.unknownViewType, state.views.unknownViewType.absolutePath, (err) => {
         expect(err).toBeInstanceOf(Error);
         done();
       });
     });
-    it('fails because given path is not absolute', (done) => {
+    test('fails because given path is not absolute', (done) => {
       saveViewAs(state.views.dynamic1, 'invalid relative path', (err) => {
         expect(err).toBeInstanceOf(Error);
         done();

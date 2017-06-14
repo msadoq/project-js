@@ -2,17 +2,17 @@
 import simpleActionCreator from './simpleActionCreator';
 
 describe('store:simpleActionCreator', () => {
-  it('invalid type', () => {
+  test('invalid type', () => {
     expect(() => simpleActionCreator()).toThrowError();
   });
-  it('no parameter', () => {
+  test('no parameter', () => {
     const actionCreator = simpleActionCreator('myActionType');
     expect(actionCreator()).toEqual({
       type: 'myActionType',
       payload: {},
     });
   });
-  it('a parameter', () => {
+  test('a parameter', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam');
     expect(actionCreator('param1', 'param2')).toEqual({
       type: 'myActionType',
@@ -21,7 +21,7 @@ describe('store:simpleActionCreator', () => {
       },
     });
   });
-  it('few parameters', () => {
+  test('few parameters', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam', 'myOther');
     expect(actionCreator('param1', 'param2')).toEqual({
       type: 'myActionType',
@@ -31,7 +31,7 @@ describe('store:simpleActionCreator', () => {
       },
     });
   });
-  it('take functions', () => {
+  test('take functions', () => {
     const actionCreator = simpleActionCreator(
       'myActionType',
       param => ({ myParam: `concatened ${param}` }),
@@ -45,7 +45,7 @@ describe('store:simpleActionCreator', () => {
       },
     });
   });
-  it('only expected parameters', () => {
+  test('only expected parameters', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam');
     expect(actionCreator('param1', 'param2', () => {})).toEqual({
       type: 'myActionType',

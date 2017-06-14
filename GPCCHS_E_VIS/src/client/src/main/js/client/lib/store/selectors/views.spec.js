@@ -226,7 +226,7 @@ describe('store:views:selectors', () => {
     },
   };
 
-  it('getViewEntryPoint', () => {
+  test('getViewEntryPoint', () => {
     expect(
       getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' })
     ).toEqual({
@@ -268,10 +268,10 @@ describe('store:views:selectors', () => {
         unknownPage: { views: [42] },
       },
     };
-    it('returns an empty array', () => {
+    test('returns an empty array', () => {
       expect(getWindowAllViewsIds(emptyState, { windowId: 'w1' })).toEqual([]);
     });
-    it('returns all views ids', () => {
+    test('returns all views ids', () => {
       expect(getWindowAllViewsIds(state, { windowId: 'w2' })).toEqual([4, 5, 6, 7, 8, 9]);
     });
   });

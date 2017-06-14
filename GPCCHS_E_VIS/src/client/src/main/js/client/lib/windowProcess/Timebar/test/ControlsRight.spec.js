@@ -17,7 +17,7 @@ const propsStub = {
   timebarUuid: TimebarFixture.timebarUuid,
 };
 
-it('Controls renders correctly', () => {
+test('Controls renders correctly', () => {
   const tree = renderer.create(
     <ControlsRight {...propsStub} />
   ).toJSON();

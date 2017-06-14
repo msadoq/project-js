@@ -3,10 +3,10 @@ import { getCount, getLastValue } from './dataSelectors';
 
 describe('viewManager/TextView/store/dataSelector', () => {
   describe('getCount', () => {
-    it('counts data: empty state', () => {
+    test('counts data: empty state', () => {
       expect(getCount({ TextViewData: {} })).toEqual({ all: 0 });
     });
-    it('counts data', () => {
+    test('counts data', () => {
       const state = {
         TextViewData: {
           v1: { index: { ep1: 10 } },
@@ -27,10 +27,10 @@ describe('viewManager/TextView/store/dataSelector', () => {
     });
   });
   describe('getLastValue', () => {
-    it('should support empty state', () => {
+    test('should support empty state', () => {
       expect(getLastValue({ TextViewData: {} }, { epName: 'ep1', viewId: 'v1' })).toBeFalsy();
     });
-    it('should support empty props', () => {
+    test('should support empty props', () => {
       const state = {
         TextViewData: {
           v1: {
@@ -42,7 +42,7 @@ describe('viewManager/TextView/store/dataSelector', () => {
       expect(getLastValue(state, { epName: 'ep1' })).toBeFalsy();
       expect(getLastValue(state, { viewId: 'v1' })).toBeFalsy();
     });
-    it('get last value', () => {
+    test('get last value', () => {
       const state = {
         TextViewData: {
           v1: {

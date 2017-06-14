@@ -194,7 +194,7 @@ describe('dataManager/perViewData', () => {
     },
   };
 // ****************************************************
-  it('text view', () => {
+  test('text view', () => {
     const map = makeGetPerViewData()(state, { viewId: 't1', timebarUuid: 'tb1', pageId: 'page1' });
     expect(map).toEqual({
       type: 'TextView',
@@ -265,7 +265,7 @@ describe('dataManager/perViewData', () => {
       },
     });
   });
-  it('plot view', () => {
+  test('plot view', () => {
     const map = makeGetPerViewData()(state, { viewId: 'p1', timebarUuid: 'tb1' });
     expect(map).toEqual({
       type: 'PlotView',
@@ -302,7 +302,7 @@ describe('dataManager/perViewData', () => {
       },
     });
   });
-  it('dynamic view', () => {
+  test('dynamic view', () => {
     const map = makeGetPerViewData()(state, { viewId: 'd1', timebarUuid: 'tb1' });
     expect(map).toEqual({
       type: 'DynamicView',
@@ -327,7 +327,7 @@ describe('dataManager/perViewData', () => {
       },
     });
   });
-  it('memoization', () => {
+  test('memoization', () => {
     const map = makeGetPerViewData();
     map(state, { viewId: 't1', timebarUuid: 'tb1' });
     expect(map.recomputations()).toEqual(1);

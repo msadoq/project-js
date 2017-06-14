@@ -37,7 +37,7 @@ describe('store:actions:windows', () => {
   });
 
   describe('focusPage', () => {
-    it('set focus', () => {
+    test('set focus', () => {
       store.dispatch(actions.focusPage('myWindowId', 'p1'));
       expect(store.getActions()).toEqual([
         {
@@ -46,7 +46,7 @@ describe('store:actions:windows', () => {
         },
       ]);
     });
-    it('set pause then set focus', () => {
+    test('set pause then set focus', () => {
       store.dispatch(actions.focusPage('myWindowId', 'p2'));
       expect(store.getActions()).toEqual([
         { type: 'HSC_PAUSE', payload: {} },
@@ -58,7 +58,7 @@ describe('store:actions:windows', () => {
     });
   });
   describe('closeWindow', () => {
-    it('dispatches an action with all documents ids which should be close', () => {
+    test('dispatches an action with all documents ids which should be close', () => {
       store.dispatch(actions.closeWindow('w2'));
       expect(store.getActions()).toEqual([
         {

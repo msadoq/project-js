@@ -13,7 +13,7 @@ describe('documentManager:actions', () => {
     stub.restore();
   });
   describe('openView', () => {
-    it('dispatches a message in case of error', () => {
+    test('dispatches a message in case of error', () => {
       const store = mockStore();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         expect(viewInfo).toEqual('viewInfo');
@@ -22,7 +22,7 @@ describe('documentManager:actions', () => {
       store.dispatch(actions.openView('viewInfo'));
       expect(store.getActions()).toEqual([addMessage('global', 'danger', 'Error')]);
     });
-    it('dispatches a WS_VIEW_OPEN when view is loaded', () => {
+    test('dispatches a WS_VIEW_OPEN when view is loaded', () => {
       const store = mockStore();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         expect(viewInfo).toEqual('viewInfo');
@@ -39,7 +39,7 @@ describe('documentManager:actions', () => {
     });
   });
   describe('openPage', () => {
-    it('dispatches a global error message in case of error', () => {
+    test('dispatches a global error message in case of error', () => {
       const store = mockStore();
       stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
         expect(pageInfo).toEqual('page_info');

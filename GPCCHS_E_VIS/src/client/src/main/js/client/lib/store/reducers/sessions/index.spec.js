@@ -13,25 +13,25 @@ describe('store:sessions:reducer', () => {
     delta: 0,
   }];
   const action = actions.updateSessions(state);
-  it('initial state', () => {
+  test('initial state', () => {
     expect(reducer(undefined, {})).toEqual([]);
   });
-  it('unknown action', () => {
+  test('unknown action', () => {
     expect(reducer(state, {})).toEqual(action.payload.sessions);
   });
-  it('set state', () => {
+  test('set state', () => {
     expect(reducer(undefined, action)).toEqual(action.payload.sessions);
   });
 });
 
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:sessions:selectors', () => {
-  it('getSessions', () => {
+  test('getSessions', () => {
     expect(getSessions({
       sessions: [{ name: 'Master' }],
     })).toEqual([{ name: 'Master' }]);
   });
-  it('getSession', () => {
+  test('getSession', () => {
     expect(getSession({ sessions: [{ name: 'Master' }, { name: 'session1' }] },
     { sessionName: 'Master' })).toEqual({ name: 'Master' });
   });

@@ -50,11 +50,11 @@ describe('documentManager/io', () => {
     stubResolveDocument.restore();
   });
   describe('readDocument', () => {
-    it('exists', () => {
+    test('exists', () => {
       expect(readDocument).toBeAFunction();
     });
 
-    it('fails when cannot parse json', (done) => {
+    test('fails when cannot parse json', (done) => {
       global.testConfig.ISIS_DOCUMENTS_ROOT = resolve(__dirname);
       readDocument({ pageFolder: __dirname, path: './index.js' }, (err) => {
         expect(err).toBeInstanceOf(Error);
@@ -65,7 +65,7 @@ describe('documentManager/io', () => {
     });
 
     describe('inside fmd folder', () => {
-      it('works with oid', (done) => {
+      test('works with oid', (done) => {
         readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
           expect(data).toBeAnObject();
@@ -75,13 +75,13 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknow oid', (done) => {
+      test('fails with unknow oid', (done) => {
         readDocument({ oId: 'unknownOid' }, (err) => {
           expect(err).toBeInstanceOf(Error);
           done();
         });
       });
-      it('works with absolute path', (done) => {
+      test('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
         readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -92,14 +92,14 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknown absolute path', (done) => {
+      test('fails with unknown absolute path', (done) => {
         const absolutePath = join(folder, 'unknown.json');
         readDocument({ absolutePath }, (err) => {
           expect(err).toBeInstanceOf(Error);
           done();
         });
       });
-      it('works with relative path', (done) => {
+      test('works with relative path', (done) => {
         const path = 'views/text1.json';
         readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -110,14 +110,14 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknown relative path', (done) => {
+      test('fails with unknown relative path', (done) => {
         const path = 'views/unknown.json';
         readDocument({ pageFolder: folder, path }, (err) => {
           expect(err).toBeInstanceOf(Error);
           done();
         });
       });
-      it('works with relative fmd path', (done) => {
+      test('works with relative fmd path', (done) => {
         const path = '/views/text1.json';
         readDocument({ path }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -128,7 +128,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknown relative fmd path', (done) => {
+      test('fails with unknown relative fmd path', (done) => {
         const path = '/views/unknown.json';
         readDocument({ path }, (err) => {
           expect(err).toBeInstanceOf(Error);
@@ -144,7 +144,7 @@ describe('documentManager/io', () => {
       afterAll(() => {
         global.testConfig.ISIS_DOCUMENTS_ROOT = folder;
       });
-      it('works with absolute path', (done) => {
+      test('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
         readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -155,14 +155,14 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknown absolute path', (done) => {
+      test('fails with unknown absolute path', (done) => {
         const absolutePath = join(folder, 'unknown.json');
         readDocument({ absolutePath }, (err) => {
           expect(err).toBeInstanceOf(Error);
           done();
         });
       });
-      it('works with relative path', (done) => {
+      test('works with relative path', (done) => {
         const path = 'views/text1.json';
         readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -173,14 +173,14 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknown relative path', (done) => {
+      test('fails with unknown relative path', (done) => {
         const path = 'views/unknown.json';
         readDocument({ pageFolder: folder, path }, (err) => {
           expect(err).toBeInstanceOf(Error);
           done();
         });
       });
-      it('works with relative fmd path', (done) => {
+      test('works with relative fmd path', (done) => {
         const path = '../fixtures/views/text1.json';
         readDocument({ path, pageFolder: folder }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -191,7 +191,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with unknown relative fmd path', (done) => {
+      test('fails with unknown relative fmd path', (done) => {
         const path = '/../lib/documentManager/fixtures/views/unknown.json';
         readDocument({ path }, (err) => {
           expect(err).toBeInstanceOf(Error);
@@ -208,11 +208,11 @@ describe('documentManager/io', () => {
     beforeEach(done => mkdir(getTmpPath(), done));
     afterEach(done => rimraf(getTmpPath(), done));
 
-    it('exists', () => {
+    test('exists', () => {
       expect(writeDocument).toBeAFunction();
     });
 
-    it('fails when writeFile give an error', (done) => {
+    test('fails when writeFile give an error', (done) => {
       global.testConfig.ISIS_DOCUMENTS_ROOT = '/';
       const path = join(fmdApi.getRootDir(), 'document.json');
       writeDocument(path, objectToSave, (err) => {
@@ -223,7 +223,7 @@ describe('documentManager/io', () => {
       });
     });
 
-    it('fails when createDocument give an error', (done) => {
+    test('fails when createDocument give an error', (done) => {
       const path = join(fmdApi.getRootDir(), 'document.json');
       writeDocument(path, failingObjectToSave, (err) => {
         expect(err).toBeInstanceOf(Error);
@@ -241,7 +241,7 @@ describe('documentManager/io', () => {
       });
 
       const getPath = () => join(fmdApi.getRootDir(), 'document.json');
-      it('works with an absolute path', (done) => {
+      test('works with an absolute path', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -249,7 +249,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('should give an oid', (done) => {
+      test('should give an oid', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err, oid) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -257,7 +257,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with a relative path', (done) => {
+      test('fails with a relative path', (done) => {
         const path = './document.json';
         writeDocument(path, objectToSave, (err) => {
           expect(err).toBeInstanceOf(Error);
@@ -272,7 +272,7 @@ describe('documentManager/io', () => {
     describe('outside fmd folder', () => {
       const getPath = () => join(getTmpPath(), 'document.json');
 
-      it('works with an absolute path', (done) => {
+      test('works with an absolute path', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -280,7 +280,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('should give an oid', (done) => {
+      test('should give an oid', (done) => {
         const path = getPath();
         writeDocument(path, objectToSave, (err, oid) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -288,7 +288,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      it('fails with a relative path', (done) => {
+      test('fails with a relative path', (done) => {
         const path = './document.json';
         writeDocument(path, objectToSave, (err) => {
           expect(err).toBeInstanceOf(Error);

@@ -9,7 +9,7 @@ describe('store:actions:messages', () => {
   });
 
   describe('add', () => {
-    it('adds message', () => {
+    test('adds message', () => {
       const action = actions.add('global', 'success', 'hello world');
       expect(action).toMatchObject({
         type: 'WS_MESSAGE_ADD',
@@ -20,7 +20,7 @@ describe('store:actions:messages', () => {
         },
       });
     });
-    it('adds error message', () => {
+    test('adds error message', () => {
       const action = actions.add('global', 'danger', new Error('error message'));
       expect(action).toMatchObject({
         type: 'WS_MESSAGE_ADD',
@@ -40,7 +40,7 @@ describe('store:actions:messages', () => {
       store.clearActions();
     });
 
-    it('adds message id doest not exists', () => {
+    test('adds message id doest not exists', () => {
       store.dispatch(actions.addOnce('global', 'info', 'yolo'));
       expect(store.getActions()).toHaveLength(0);
 
@@ -56,7 +56,7 @@ describe('store:actions:messages', () => {
         },
       ]);
     });
-    it('does not add duplicate message', () => {
+    test('does not add duplicate message', () => {
       store.dispatch(actions.addOnce('global', 'info', 'yolo'));
       expect(store.getActions()).toHaveLength(0);
     });

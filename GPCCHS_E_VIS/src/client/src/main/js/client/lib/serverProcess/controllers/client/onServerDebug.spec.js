@@ -3,7 +3,7 @@ const getModelsState = require('../../utils/getModelsState');
 const onServerDebug = require('./onServerDebug');
 
 describe('controllers/client/onServerDebug', () => {
-  it('works', (done) => {
+  test('works', (done) => {
     const myQueryId = 'myQueryId';
     const check = (...args) => {
       expect(args).toMatchObject([

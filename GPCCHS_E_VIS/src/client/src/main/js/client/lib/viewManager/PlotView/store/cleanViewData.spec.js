@@ -84,13 +84,13 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
   });
 
   describe('cleanCurrentViewData', () => {
-    it('no update', () => {
+    test('no update', () => {
       const frozen = freezeMe(viewDataState.plot);
       expect(
         cleanCurrentViewData(frozen, viewMap.plot, viewMap.plot, oldIntervals, oldIntervals)
       ).toBe(frozen);
     });
-    it('interval update Dynamic: keep', () => {
+    test('interval update Dynamic: keep', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
       newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
@@ -100,7 +100,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         newIntervals);
       expect(newState).toBe(frozen);
     });
-    it('interval update Plot: keep all', () => {
+    test('interval update Plot: keep all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
       newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
@@ -110,7 +110,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         cleanCurrentViewData(frozen, viewMap.plot, newMap.plot, oldIntervals, newIntervals)
       ).toBe(frozen);
     });
-    it('interval update Plot: keep some', () => {
+    test('interval update Plot: keep some', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
       newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
@@ -127,7 +127,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       expect(newState.minTime).toEqual({ STAT_SU_PID: 16 });
       expect(newState.maxTime).toEqual({ STAT_SU_PID: 16 });
     });
-    it('interval update Plot: remove all', () => {
+    test('interval update Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
       newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
@@ -142,7 +142,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { },
       });
     });
-    it('Ep renaming', () => {
+    test('Ep renaming', () => {
       const newPlot = { entryPoints: {
         STAT_SU_PID10: {
           id: 'id60',
@@ -197,7 +197,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     });
   });
   describe('updateEpLabel', () => {
-    it('values ok', () => {
+    test('values ok', () => {
       expect(updateEpLabel(freezeMe(viewDataState.plot), 'STAT_SU_PID', 'STAT_SU_PID1')).toEqual({
         indexes: { STAT_SU_PID1: [10, 11, 12, 13, 14, 15, 16] },
         lines: {
@@ -216,17 +216,17 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { STAT_SU_PID1: 16 },
       });
     });
-    it('unknown value', () => {
+    test('unknown value', () => {
       const frozen = freezeMe(viewDataState.plot);
       expect(updateEpLabel(frozen, 'STAT_SU_PID2', 'STAT_SU_PID1')).toBe(frozen);
     });
   });
   describe('scanForMinAndMax', () => {
-    it('nothing to change', () => {
+    test('nothing to change', () => {
       const frozen = freezeMe(viewDataState.plot);
       expect(scanForMinAndMax(frozen)).toBe(frozen);
     });
-    it('min to update', () => {
+    test('min to update', () => {
       viewDataState.plot.minTime.STAT_SU_PID = 100;
       expect(scanForMinAndMax(freezeMe(viewDataState.plot))).toEqual({
         indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
@@ -246,7 +246,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { STAT_SU_PID: 16 },
       });
     });
-    it('max to update', () => {
+    test('max to update', () => {
       viewDataState.plot.maxTime.STAT_SU_PID = 1;
       expect(scanForMinAndMax(freezeMe(viewDataState.plot))).toEqual({
         indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
@@ -268,13 +268,13 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     });
   });
   describe('removeViewDataByEp', () => {
-    it('should support empty state', () => {
+    test('should support empty state', () => {
       const frozen = freezeMe({});
       expect(removeViewDataByEp(frozen, 10, 20)).toBe(frozen);
       const otherFrozen = freezeMe({ indexes: {} });
       expect(removeViewDataByEp(otherFrozen, 10, 20)).toBe(otherFrozen);
     });
-    it('should support nothing to keep', () => {
+    test('should support nothing to keep', () => {
       expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', -3, -1)).toEqual({ indexes: {},
         lines: {},
         min: {},
@@ -297,7 +297,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: {},
       });
     });
-    it('should support partial keeping', () => {
+    test('should support partial keeping', () => {
       expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 10, 12)).toEqual({
         indexes: { STAT_SU_PID: [10, 11, 12] },
         lines: {
@@ -321,7 +321,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 15, 25)
       .indexes.STAT_SU_PID).toEqual([15, 16]);
     });
-    it('should support keep everything', () => {
+    test('should support keep everything', () => {
       expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 10, 16)
       .indexes.STAT_SU_PID).toEqual([10, 11, 12, 13, 14, 15, 16]);
     });

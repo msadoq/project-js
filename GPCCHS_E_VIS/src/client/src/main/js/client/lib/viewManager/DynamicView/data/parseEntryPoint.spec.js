@@ -37,7 +37,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
       { domainId: 'invalid', name: undefined },
     ];
   });
-  it('no connectedData', () => {
+  test('no connectedData', () => {
     const ep = parseEntryPoint(domains, sessions, timelines,
       { name: 'ATT_BC_STR1VOLTAGE', connectedData: { formula: '' } },
       'Session 1', 'TB1', 'TextView');
@@ -45,13 +45,13 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
       { ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } }
     );
   });
-  it('no timebarUuid', () => {
+  test('no timebarUuid', () => {
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'PlotView');
     expect(ep).toEqual(
       { ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } }
     );
   });
-  it('DecommutedPacket valid', () => {
+  test('DecommutedPacket valid', () => {
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView')
     ).toEqual({
@@ -74,7 +74,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
       },
     });
   });
-  it('wildcard => view data', () => {
+  test('wildcard => view data', () => {
     entryPoint.connectedData.domain = '*';
     entryPoint.connectedData.timeline = '*';
     expect(
@@ -100,7 +100,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
       },
     });
   });
-  it('wildcard => page data', () => {
+  test('wildcard => page data', () => {
     entryPoint.connectedData.domain = '*';
     entryPoint.connectedData.timeline = '*';
     expect(
@@ -126,7 +126,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
       },
     });
   });
-  it('wildcard => workspace data', () => {
+  test('wildcard => workspace data', () => {
     entryPoint.connectedData.domain = '*';
     entryPoint.connectedData.timeline = '*';
     expect(

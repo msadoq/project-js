@@ -2,7 +2,7 @@ const dataStub = require('common/protobuf/stubs');
 const onSessionTimeData = require('./onSessionTimeData');
 
 describe('controllers/client/onSessionTimeData', () => {
-  it('should returns session time', (done) => {
+  test('should returns session time', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myTimestamp = 42;

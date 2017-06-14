@@ -51,19 +51,19 @@ describe('common/fs', () => {
     rimraf(tmpFolder, done);
   });
 
-  it('resolve', () => {
+  test('resolve', () => {
     expect(fs.resolve('/foo/bar', '/baz/file.json')).toBe('/foo/bar/baz/file.json');
     expect(fs.resolve('/foo/bar', 'file.json')).toBe('/foo/bar/file.json');
   });
 
   describe('isExists', () => {
-    it('file exists', (done) => {
+    test('file exists', (done) => {
       fs.isExists(file, (exists) => {
         expect(exists).toBe(true);
         done();
       });
     });
-    it('file not exists', (done) => {
+    test('file not exists', (done) => {
       fs.isExists(notExists, (exists) => {
         expect(exists).toBe(false);
         done();
@@ -72,13 +72,13 @@ describe('common/fs', () => {
   });
 
   describe('isReadable', () => {
-    it('readable', (done) => {
+    test('readable', (done) => {
       fs.isReadable(file, (readable) => {
         expect(readable).toBe(true);
         done();
       });
     });
-    it('not readable', (done) => {
+    test('not readable', (done) => {
       fs.isReadable(unreadable, (readable) => {
         expect(readable).toBe(false);
         done();
@@ -87,14 +87,14 @@ describe('common/fs', () => {
   });
 
   describe('read', () => {
-    it('works', (done) => {
+    test('works', (done) => {
       fs.read(file, (err, content) => {
         expect(err).toBeFalsy();
         expect(content).toBe('my content');
         done();
       });
     });
-    it('error', (done) => {
+    test('error', (done) => {
       fs.read(unreadable, (err, content) => {
         expect(err).toBeInstanceOf(Error);
         expect(content).toBeFalsy();
@@ -104,14 +104,14 @@ describe('common/fs', () => {
   });
 
   describe('parse', () => {
-    it('valid', (done) => {
+    test('valid', (done) => {
       fs.parse('{"foo":"bar"}', (err, content) => {
         expect(err).toBeFalsy();
         expect(content).toEqual({ foo: 'bar' });
         done();
       });
     });
-    it('invalid', (done) => {
+    test('invalid', (done) => {
       fs.parse('"{"foo":"bar""', (err, content) => {
         expect(err).toBeInstanceOf(Error);
         expect(content).toBeFalsy();
@@ -121,14 +121,14 @@ describe('common/fs', () => {
   });
 
   describe('createFolder', () => {
-    it('folder already exists', (done) => {
+    test('folder already exists', (done) => {
       fs.createFolder('/', (err, res) => {
         expect(err).toBeFalsy();
         expect(res).toBe(true);
         done();
       });
     });
-    it('folder does not exists', (done) => {
+    test('folder does not exists', (done) => {
       const path = join(tmpFolder, 'a/b/c/d');
       return fs.createFolder(path, (err, res) => {
         expect(res).toBe(true);
@@ -138,7 +138,7 @@ describe('common/fs', () => {
         });
       });
     });
-    it('fails when cannot mkdirp', (done) => {
+    test('fails when cannot mkdirp', (done) => {
       const path = join(unavailableFolder, 'a/b/c/d');
       return fs.createFolder(path, (err, res) => {
         expect(err).toBeInstanceOf(Error);

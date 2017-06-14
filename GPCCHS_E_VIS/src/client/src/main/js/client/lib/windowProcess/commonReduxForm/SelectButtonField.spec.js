@@ -15,7 +15,7 @@ const propsStub = {
   type: 'testType',
 };
 
-it('Navigation renders correctly', () => {
+test('Navigation renders correctly', () => {
   const tree = renderer.create(
     <SelectButtonField
       {...propsStub}

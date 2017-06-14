@@ -61,19 +61,19 @@ describe('rtdManager/reportings', () => {
       rtdStub.restore();
     }
   });
-  it('getShortDescription', (done) => {
+  test('getShortDescription', (done) => {
     getShortDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
       expect(typeof desc).toBe('string');
       done();
     });
   });
-  it('getLongDescription', (done) => {
+  test('getLongDescription', (done) => {
     getLongDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
       expect(typeof desc).toBe('string');
       done();
     });
   });
-  it('getAliases', (done) => {
+  test('getAliases', (done) => {
     getAliases({ rtd, sessionId, domainId }, reporting, (err, aliases) => {
       expect(aliases).toBeAnArray();
       expect(aliases[0]).toBeAnObject();
@@ -82,7 +82,7 @@ describe('rtdManager/reportings', () => {
       done();
     });
   });
-  it('getMonitoringLaws', (done) => {
+  test('getMonitoringLaws', (done) => {
     getMonitoringLaws({ rtd, sessionId, domainId }, reporting, (err, laws) => {
       const keys = Object.keys(laws);
       expect(keys).toHaveLength(1);
@@ -93,7 +93,7 @@ describe('rtdManager/reportings', () => {
       done();
     });
   });
-  it('getSignificativityConditions', (done) => {
+  test('getSignificativityConditions', (done) => {
     getSignificativityConditions({ rtd, sessionId, domainId }, reporting, (err, conds) => {
       expect(conds).toBeAnArray();
       expect(conds[0]).toBeAnObject();
@@ -101,7 +101,7 @@ describe('rtdManager/reportings', () => {
       done();
     });
   });
-  it('getCalibrationFunctions', (done) => {
+  test('getCalibrationFunctions', (done) => {
     getCalibrationFunctions({ rtd, sessionId, domainId }, reporting, (err, funcs) => {
       expect(funcs).toHaveProperty('DefaultInterpretationFunction');
       expect(funcs).toHaveProperty('ConditionalInterpretationFunctions');
@@ -121,13 +121,13 @@ describe('rtdManager/reportings', () => {
       done();
     });
   });*/
-  it('getComputedParameterFormula', (done) => {
+  test('getComputedParameterFormula', (done) => {
     getComputedParameterFormula({ rtd, sessionId, domainId }, reporting, (err, formula) => {
       expect(formula).toBeAString();
       done();
     });
   });
-  it('getComputedParameterTriggers', (done) => {
+  test('getComputedParameterTriggers', (done) => {
     getComputedParameterTriggers({ rtd, sessionId, domainId }, reporting, (err, triggers) => {
       expect(triggers).toBeAnArray();
       done();

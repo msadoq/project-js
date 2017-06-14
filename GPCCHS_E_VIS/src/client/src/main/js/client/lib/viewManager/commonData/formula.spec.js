@@ -1,12 +1,12 @@
 const formula = require('./formula');
 
 describe('viewManager/commonData/formula', () => {
-  it('empty or invalid type', () => {
+  test('empty or invalid type', () => {
     expect(formula()).toBeFalsy();
     expect(formula(null)).toBeFalsy();
     expect(formula(10)).toBeFalsy();
   });
-  it('invalid format', () => {
+  test('invalid format', () => {
     expect(formula('.Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>')).toBeFalsy();
     expect(formula('.ATT_BC_STR1VOLTAGE<ReportingParameter>')).toBeFalsy();
     expect(formula('Reporting.<ReportingParameter>')).toBeFalsy();
@@ -16,7 +16,7 @@ describe('viewManager/commonData/formula', () => {
     expect(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>x')).toBeFalsy();
     expect(formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.')).toBeFalsy();
   });
-  it('works without field', () => {
+  test('works without field', () => {
     const parsedFormula = formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>');
     expect(parsedFormula).toBeAnObject();
     expect(parsedFormula).toHaveProperty('formula', 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>');
@@ -25,7 +25,7 @@ describe('viewManager/commonData/formula', () => {
     expect(parsedFormula).toHaveProperty('comObject', 'ReportingParameter');
     expect(parsedFormula).toHaveProperty('field', undefined);
   });
-  it('works with field', () => {
+  test('works with field', () => {
     const parsedFormula = formula('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue');
     expect(parsedFormula).toBeAnObject();
     expect(parsedFormula).toHaveProperty('formula', 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue');

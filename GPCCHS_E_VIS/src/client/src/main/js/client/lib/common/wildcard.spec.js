@@ -2,13 +2,13 @@ import { detect, generate } from './wildcard';
 
 describe('connectedData/wildcard', () => {
   describe('detect', () => {
-    it('no wildcard', () => {
+    test('no wildcard', () => {
       expect(detect('')).toBe(false);
       expect(detect(undefined)).toBe(false);
       expect(detect('foo')).toBe(false);
       expect(detect('foo.bar')).toBe(false);
     });
-    it('wildcard', () => {
+    test('wildcard', () => {
       expect(detect('*')).toBe(true);
       expect(detect('?')).toBe(true);
       expect(detect('foo?')).toBe(true);
@@ -17,13 +17,13 @@ describe('connectedData/wildcard', () => {
     });
   });
   describe('generate', () => {
-    it('returns regexp', () => {
+    test('returns regexp', () => {
       expect(generate('*')).toBeInstanceOf(RegExp);
       expect(generate('foo')).toBeInstanceOf(RegExp);
       expect(generate()).toBeInstanceOf(RegExp);
       expect(generate('')).toBeInstanceOf(RegExp);
     });
-    it('works', () => {
+    test('works', () => {
       expect(generate('fo?').test('foo')).toBe(true);
       expect(generate('fo?o').test('fooo')).toBe(true);
       expect(generate('fo*').test('foooo')).toBe(true);

@@ -8,7 +8,7 @@ const propsStub = {
   pristine: true,
 };
 
-it('Navigation renders correctly', () => {
+test('Navigation renders correctly', () => {
   const tree = renderer.create(
     <ClearSubmitButtons {...propsStub} />
   ).toJSON();

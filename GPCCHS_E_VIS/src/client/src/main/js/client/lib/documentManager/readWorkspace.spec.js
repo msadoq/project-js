@@ -22,7 +22,7 @@ describe('documentManager:readWorkspace', () => {
   });
 
   describe('readWorkspacePagesAndViews', () => {
-    it('prepare a complete readed workspace', (done) => {
+    test('prepare a complete readed workspace', (done) => {
       const stubReadPagesAndViews = createStubReadPagesAndViews();
       stubReadDocument = createStubReadDocument();
       readWorkspacePagesAndViews({}, (err, workspace) => {
@@ -63,7 +63,7 @@ describe('documentManager:readWorkspace', () => {
         done();
       });
     });
-    it('gives an error when readDocument failed', (done) => {
+    test('gives an error when readDocument failed', (done) => {
       stubReadDocument = createStubReadDocument();
       readWorkspacePagesAndViews({ withError: true }, (err, workspace) => {
         expect(workspace).toBeFalsy();

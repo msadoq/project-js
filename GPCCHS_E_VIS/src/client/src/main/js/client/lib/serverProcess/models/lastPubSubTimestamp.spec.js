@@ -4,15 +4,15 @@ describe('models/lastPubSubTimestamp', () => {
   beforeEach(() => {
     reset();
   });
-  it('get', () => {
+  test('get', () => {
     expect(get()).toBeFalsy();
   });
-  it('set', () => {
+  test('set', () => {
     const t = 42;
     set(t);
     expect(get()).toBe(t);
   });
-  it('reset', () => {
+  test('reset', () => {
     expect(reset()).toBeFalsy();
     const t = 42;
     set(t);

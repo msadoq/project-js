@@ -15,7 +15,7 @@ describe('utils/subscriptions', () => {
     registeredCallbacks.clear();
   });
 
-  it('createAddSubscriptionMessage', () => {
+  test('createAddSubscriptionMessage', () => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
     const myDataId2 = dataStub.getDataId({ parameterName: 'myParam2' });
 
@@ -50,7 +50,7 @@ describe('utils/subscriptions', () => {
       args: args2,
     });
   });
-  it('createDeleteSubscriptionMessage', () => {
+  test('createDeleteSubscriptionMessage', () => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
     const myDataId2 = dataStub.getDataId({ parameterName: 'myParam2' });
 
@@ -85,7 +85,7 @@ describe('utils/subscriptions', () => {
       args: args2,
     });
   });
-  it('should unsubscribeAll method', (done) => {
+  test('should unsubscribeAll method', (done) => {
     const myDataId = dataStub.getDataId({ parameterName: 'myParam' });
     const myDataId2 = dataStub.getDataId({ parameterName: 'myParam2' });
     connectedDataModel.addRecord(myDataId);

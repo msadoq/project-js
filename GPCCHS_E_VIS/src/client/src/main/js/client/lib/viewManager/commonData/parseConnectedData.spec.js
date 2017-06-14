@@ -32,35 +32,35 @@ describe('viewManager/commonData/parseConnectedData', () => {
       { domainId: 'invalid', name: undefined },
     ];
   });
-  it('no domains', () => {
+  test('no domains', () => {
     expect(
       parseConnectedData([], sessions, timelines, connectedData, 'Session master')
     ).toEqual({ error: 'invalid entry point, no domain available' });
   });
-  it('multiple domains', () => {
+  test('multiple domains', () => {
     connectedData.domain = 'cnes*';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     ).toEqual({ error: 'invalid entry point, no domain matches' });
   });
-  it('no session defined', () => {
+  test('no session defined', () => {
     connectedData.timeline = 'tl10';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     ).toEqual({ error: 'invalid entry point, no timeline matches' });
   });
-  it('no session', () => {
+  test('no session', () => {
     expect(
       parseConnectedData(domains, [], timelines, connectedData, 'Session master')
     ).toEqual({ error: 'invalid entry point, no session available' });
   });
-  it('multiple session', () => {
+  test('multiple session', () => {
     connectedData.timeline = 'tl*';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
     ).toEqual({ error: 'invalid entry point, no timeline matches' });
   });
-  it('invalid formula', () => {
+  test('invalid formula', () => {
     connectedData.formula = 'formula';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
@@ -68,7 +68,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
       { error: `unable to parse this connectedData formula ${connectedData.formula}` }
     );
   });
-  it('valid', () => {
+  test('valid', () => {
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master');
     expect(res).toEqual({
       dataId: {
@@ -85,7 +85,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
       offset: 0,
     });
   });
-  it('decommuted param => no field', () => {
+  test('decommuted param => no field', () => {
     connectedData.formula = 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master');
     expect(res).toEqual({
@@ -103,7 +103,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
       field: undefined,
     });
   });
-  it('wildcard => view Data', () => {
+  test('wildcard => view Data', () => {
     connectedData.domain = '*';
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
@@ -123,7 +123,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
       offset: 0,
     });
   });
-  it('wildcard => page Data', () => {
+  test('wildcard => page Data', () => {
     connectedData.domain = '*';
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
@@ -143,7 +143,7 @@ describe('viewManager/commonData/parseConnectedData', () => {
       offset: 0,
     });
   });
-  it('wildcard => workspace Data', () => {
+  test('wildcard => workspace Data', () => {
     connectedData.domain = '*';
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',

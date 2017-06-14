@@ -13,11 +13,11 @@ describe('store:page:selectors', () => {
         view3: { uuid: 'view3', isModified: true },
       },
     };
-    it('returns modified views ids', () => {
+    test('returns modified views ids', () => {
       expect(getPageModifiedViewsIds(state, { pageId: 'myPageId1' })).toEqual(['view1', 'view3']);
       expect(getPageModifiedViewsIds(state, { pageId: 'otherPageId' })).toEqual([]);
     });
-    it('should memoize', () => {
+    test('should memoize', () => {
       testMemoization(getPageModifiedViewsIds, state, { pageId: 'myPageId1' });
     });
   });

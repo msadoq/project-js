@@ -77,7 +77,7 @@ describe('mainProcess/documents/savePage', () => {
   afterEach(done => (
     rimraf(getTmpPath(), done)
   ));
-  it('save ok', (done) => {
+  test('save ok', (done) => {
     savePage(freezeMe(state), 'page1', (err) => {
       expect(err).toBeFalsy();
       fs.isExists(state.pages.page1.absolutePath, (exist) => {
@@ -86,7 +86,7 @@ describe('mainProcess/documents/savePage', () => {
       });
     });
   });
-  it('saveAs ok', (done) => {
+  test('saveAs ok', (done) => {
     savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
       expect(err).toBeFalsy();
       fs.isExists(state.pages.page1.absolutePath, (exist) => {
@@ -96,7 +96,7 @@ describe('mainProcess/documents/savePage', () => {
     });
   });
 
-  it('save should fail when page is invalid', (done) => {
+  test('save should fail when page is invalid', (done) => {
     state.pages.page1.title = undefined;
     savePage(freezeMe(state), 'page1', (err) => {
       expect(err).toBeInstanceOf(Error);
@@ -106,7 +106,7 @@ describe('mainProcess/documents/savePage', () => {
       });
     });
   });
-  it('saveAs should fail when page is invalid', (done) => {
+  test('saveAs should fail when page is invalid', (done) => {
     state.pages.page1.title = undefined;
     savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
       expect(err).toBeInstanceOf(Error);

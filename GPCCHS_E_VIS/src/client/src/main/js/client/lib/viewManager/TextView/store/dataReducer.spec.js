@@ -17,7 +17,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
     payload.rId2[j] = payload.rId1[j];
   }
 
-  it('DATA_REMOVE_ALL_VIEWDATA', () => {
+  test('DATA_REMOVE_ALL_VIEWDATA', () => {
     const state = freezeMe({
       myViewId: {
         index: { myEntryPoint: 10 },
@@ -27,7 +27,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
     const action = { type: types.DATA_REMOVE_ALL_VIEWDATA };
     expect(textViewData(state, action)).toEqual({});
   });
-  it('HSC_CLOSE_WORKSPACE', () => {
+  test('HSC_CLOSE_WORKSPACE', () => {
     const state = freezeMe({
       myViewId: {
         index: { myEntryPoint: 10 },
@@ -36,40 +36,40 @@ describe('viewManager/TextView/store/dataReducer', () => {
     });
     expect(textViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
-  it('WS_VIEW_RELOAD', () => {
+  test('WS_VIEW_RELOAD', () => {
     const action = { type: types.WS_VIEW_RELOAD,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     expect(textViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'TextView', uuid: 'myText' };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  it('WS_VIEW_OPEN', () => {
+  test('WS_VIEW_OPEN', () => {
     const action = { type: types.WS_VIEW_OPEN,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     expect(textViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'TextView', uuid: 'myText' };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  it('WS_VIEW_ADD_BLANK', () => {
+  test('WS_VIEW_ADD_BLANK', () => {
     const action = { type: types.WS_VIEW_ADD_BLANK,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     expect(textViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'TextView', uuid: 'myText' };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  it('WS_PAGE_OPEN', () => {
+  test('WS_PAGE_OPEN', () => {
     const action = { type: types.WS_PAGE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  it('WS_WORKSPACE_OPEN', () => {
+  test('WS_WORKSPACE_OPEN', () => {
     const action = { type: types.WS_WORKSPACE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  it('WS_VIEW_CLOSE', () => {
+  test('WS_VIEW_CLOSE', () => {
     const action = { type: types.WS_VIEW_CLOSE, payload: { viewId: 'myPlot' } };
     expect(textViewData(freezeMe({}), action)).toEqual({});
     const frozen = freezeMe({ myText: { index: {}, values: {} } });
@@ -77,12 +77,12 @@ describe('viewManager/TextView/store/dataReducer', () => {
     action.payload.viewId = 'myText';
     expect(textViewData(frozen, action)).toEqual({});
   });
-  it('WS_PAGE_CLOSE', () => {
+  test('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myText'] } };
     expect(textViewData(freezeMe({ myText: {}, myOtherText: {} }), action))
       .toEqual({ myOtherText: {} });
   });
-  it('Unknown action', () => {
+  test('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myText' } };
     const frozen = freezeMe({ myText: { index: {}, values: {} } });
     expect(textViewData(freezeMe(frozen), action)).toBe(frozen);
@@ -183,7 +183,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
         }
       }
     });
-    it('valid viewData with empty state', () => {
+    test('valid viewData with empty state', () => {
       const action = { type: types.DATA_UPDATE_VIEWDATA,
         payload: {
           oldViewMap,
@@ -201,7 +201,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
         },
       });
     });
-    it('valid viewData with state', () => {
+    test('valid viewData with state', () => {
       const state = freezeMe({ text: {
         index: { ep1: 9, ep4: 9 },
         values: {

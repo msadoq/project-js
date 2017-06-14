@@ -74,7 +74,7 @@ describe('store:actions:views', () => {
 
   describe('update path', () => {
     describe('updatePath', () => {
-      it('should dispatch', () => {
+      test('should dispatch', () => {
         store.dispatch(actions.updatePath('textview', '/folder1/newPath'));
         expect(store.getActions()).toEqual([
           {
@@ -83,7 +83,7 @@ describe('store:actions:views', () => {
           },
         ]);
       });
-      it('should dispatch when newPath is falsy', () => {
+      test('should dispatch when newPath is falsy', () => {
         store.dispatch(actions.updatePath('textview', ''));
         expect(store.getActions()).toEqual([
           {
@@ -92,18 +92,18 @@ describe('store:actions:views', () => {
           },
         ]);
       });
-      it('should not dispatch when view is unknow', () => {
+      test('should not dispatch when view is unknow', () => {
         store.dispatch(actions.updatePath('unknown_view', '/folder1/newPath'));
         expect(store.getActions()).toEqual([]);
       });
-      it('should not dispatch when newPath and oldPath are the same', () => {
+      test('should not dispatch when newPath and oldPath are the same', () => {
         store.dispatch(actions.updatePath('textview', '/../folder1/oldPath'));
         expect(store.getActions()).toEqual([]);
       });
     });
 
     describe('updateAbsolutePath', () => {
-      it('should dispatch', () => {
+      test('should dispatch', () => {
         store.dispatch(actions.updateAbsolutePath('textview', 'folder1/newPath'));
         expect(store.getActions()).toEqual([
           {
@@ -112,7 +112,7 @@ describe('store:actions:views', () => {
           },
         ]);
       });
-      it('should not dispatch when newPath is falsy', () => {
+      test('should not dispatch when newPath is falsy', () => {
         store.dispatch(actions.updateAbsolutePath('textview', ''));
         expect(store.getActions()).toEqual([
           {
@@ -121,18 +121,18 @@ describe('store:actions:views', () => {
           },
         ]);
       });
-      it('should not dispatch when view is unknow', () => {
+      test('should not dispatch when view is unknow', () => {
         store.dispatch(actions.updateAbsolutePath('unknown_view', 'folder1/newPath'));
         expect(store.getActions()).toEqual([]);
       });
-      it('should not dispatch when newPath and oldPath are the same', () => {
+      test('should not dispatch when newPath and oldPath are the same', () => {
         store.dispatch(actions.updateAbsolutePath('textview', '/../folder1/oldPath'));
         expect(store.getActions()).toEqual([]);
       });
     });
   });
   describe('addEntryPoint', () => {
-    it('should works with a TexView, with empty entryPoint', () => {
+    test('should works with a TexView, with empty entryPoint', () => {
       store.dispatch(actions.addEntryPoint('textview', emptyEntryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -156,7 +156,7 @@ describe('store:actions:views', () => {
       ]);
       expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    it('should works with a TexView, with entryPoint', () => {
+    test('should works with a TexView, with entryPoint', () => {
       store.dispatch(actions.addEntryPoint('textview', entryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -180,7 +180,7 @@ describe('store:actions:views', () => {
       ]);
       expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    it('should works with a PlotView, with empty entryPoint', () => {
+    test('should works with a PlotView, with empty entryPoint', () => {
       store.dispatch(actions.addEntryPoint('plotview', emptyEntryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -212,7 +212,7 @@ describe('store:actions:views', () => {
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    it('should works with a TexView, with entryPoint', () => {
+    test('should works with a TexView, with entryPoint', () => {
       store.dispatch(actions.addEntryPoint('plotview', entryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -246,7 +246,7 @@ describe('store:actions:views', () => {
     });
   });
   describe('dropEntryPoint', () => {
-    it('should works with a TexView, with empty entryPoint', () => {
+    test('should works with a TexView, with empty entryPoint', () => {
       store.dispatch(actions.dropEntryPoint('textview', emptyEntryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -282,7 +282,7 @@ describe('store:actions:views', () => {
       ]);
       expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    it('should works with a TexView, with entryPoint', () => {
+    test('should works with a TexView, with entryPoint', () => {
       store.dispatch(actions.dropEntryPoint('textview', entryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -318,7 +318,7 @@ describe('store:actions:views', () => {
       ]);
       expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    it('should works with a PlotView, with empty entryPoint', () => {
+    test('should works with a PlotView, with empty entryPoint', () => {
       store.dispatch(actions.dropEntryPoint('plotview', emptyEntryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -362,7 +362,7 @@ describe('store:actions:views', () => {
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    it('should works with a TexView, with entryPoint', () => {
+    test('should works with a TexView, with entryPoint', () => {
       store.dispatch(actions.dropEntryPoint('plotview', entryPoint));
       expect(store.getActions()).toMatchObject([
         {
@@ -408,7 +408,7 @@ describe('store:actions:views', () => {
     });
   });
   describe('focusView', () => {
-    it('focusView when view exists', () => {
+    test('focusView when view exists', () => {
       store.dispatch(actions.focusView('textview'));
       expect(store.getActions()).toEqual([
         {
@@ -417,7 +417,7 @@ describe('store:actions:views', () => {
         },
       ]);
     });
-    it('focusView with unknown view', () => {
+    test('focusView with unknown view', () => {
       store.dispatch(actions.focusView('unknownView'));
       expect(store.getActions()).toEqual([]);
     });

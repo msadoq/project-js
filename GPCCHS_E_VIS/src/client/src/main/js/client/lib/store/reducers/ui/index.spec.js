@@ -6,7 +6,7 @@ const reducer = freezeArgs(uiReducer);
 
 describe('store:ui:reducer', () => {
   describe('update tab', () => {
-    it('should update tab', () => {
+    test('should update tab', () => {
       expect(reducer(undefined, actions.updateViewTab('myId', 1))).toEqual({
         editor: {
           myId: {
@@ -18,7 +18,7 @@ describe('store:ui:reducer', () => {
   });
 
   describe('update panels', () => {
-    it('should update panels', () => {
+    test('should update panels', () => {
       expect(
         reducer(undefined, actions.updateViewPanels('myId', 'panels', ['panelOne', 'panelTwo']))
       ).toEqual({
@@ -32,7 +32,7 @@ describe('store:ui:reducer', () => {
   });
 
   describe('update subpanels', () => {
-    it('should update subpanels', () => {
+    test('should update subpanels', () => {
       expect(
         reducer(undefined, actions.updateViewSubPanels('myId', 'panels', 'panelOne', ['subpanelOne', 'subpanelTwo']))
       ).toEqual({

@@ -1,7 +1,7 @@
 import { compile } from './operators';
 
 describe('state colors conditions', () => {
-  it('equals', () => {
+  test('equals', () => {
     const condition = {
       field: 'convertedValue',
       operator: '=',
@@ -11,7 +11,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)(1)).toBe(true);
     expect(compile(condition)(0.5)).toBe(false);
   });
-  it('notEquals', () => {
+  test('notEquals', () => {
     const condition = {
       field: 'convertedValue',
       operator: '!=',
@@ -21,7 +21,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)(1)).toBe(false);
     expect(compile(condition)(0.5)).toBe(true);
   });
-  it('inf', () => {
+  test('inf', () => {
     const condition = {
       field: 'convertedValue',
       operator: '<',
@@ -32,7 +32,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)(1)).toBe(false);
     expect(compile(condition)(0.5)).toBe(true);
   });
-  it('infOrEq', () => {
+  test('infOrEq', () => {
     const condition = {
       field: 'convertedValue',
       operator: '<=',
@@ -43,7 +43,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)(1)).toBe(true);
     expect(compile(condition)(0.5)).toBe(true);
   });
-  it('sup', () => {
+  test('sup', () => {
     const condition = {
       field: 'convertedValue',
       operator: '>',
@@ -54,7 +54,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)(1)).toBe(false);
     expect(compile(condition)(0.5)).toBe(false);
   });
-  it('supOrEq', () => {
+  test('supOrEq', () => {
     const condition = {
       field: 'convertedValue',
       operator: '>=',
@@ -65,7 +65,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)(1)).toBe(true);
     expect(compile(condition)(0.5)).toBe(false);
   });
-  it('CONTAINS', () => {
+  test('CONTAINS', () => {
     const condition = {
       field: 'convertedValue',
       operator: 'CONTAINS',
@@ -75,7 +75,7 @@ describe('state colors conditions', () => {
     expect(compile(condition)('abcdefg')).toBe(true);
     expect(compile(condition)('abdfg')).toBe(false);
   });
-  it('!CONTAINS', () => {
+  test('!CONTAINS', () => {
     const condition = {
       field: 'convertedValue',
       operator: 'ICONTAINS',

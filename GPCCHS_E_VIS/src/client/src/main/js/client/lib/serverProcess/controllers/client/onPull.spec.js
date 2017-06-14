@@ -11,7 +11,7 @@ describe('controllers/client/onPull', () => {
   beforeEach(() => {
     resetDataQueue();
   });
-  it('should support empty', (done) => {
+  test('should support empty', (done) => {
     const queries = { };
     const myQueryId = 'myQueryId';
     const check = (...args) => {
@@ -23,7 +23,7 @@ describe('controllers/client/onPull', () => {
     };
     onPull(check, myQueryId, { queries });
   });
-  it('should return data already in queue', (done) => {
+  test('should return data already in queue', (done) => {
     const myRemoteId = 'myRemoteId';
     const myQueryId = 'myQueryId';
     const myValue = 'myValue';
@@ -48,7 +48,7 @@ describe('controllers/client/onPull', () => {
     addToDataQueue(myRemoteId, timestamp, myValue);
     onPull(check, myQueryId, { queries });
   });
-  it('should return requested data', (done) => {
+  test('should return requested data', (done) => {
     const myRemoteId = 'myRemoteId';
     const myQueryId = 'myQueryId';
     const rp = dataStub.getReportingParameter();

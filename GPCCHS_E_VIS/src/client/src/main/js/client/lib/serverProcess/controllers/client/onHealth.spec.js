@@ -10,7 +10,7 @@ describe('controllers/client/onHealth', () => {
   beforeEach(() => {
     resetLastPubSub();
   });
-  it('should support empty state', (done) => {
+  test('should support empty state', (done) => {
     const myQueryId = 'myQueryId';
     const check = (...args) => {
       expect(args).toMatchObject([
@@ -25,7 +25,7 @@ describe('controllers/client/onHealth', () => {
     };
     onHealth(check, myQueryId);
   });
-  it('should return status', (done) => {
+  test('should return status', (done) => {
     setDcStatus(globalConstants.HEALTH_STATUS_CRITICAL);
     setLastPubSub(42);
     const myQueryId = 'myQueryId';

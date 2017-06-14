@@ -20,7 +20,7 @@ const propsStub = {
   cursor: 'lower',
 };
 
-it('Timesetter renders correctly', () => {
+test('Timesetter renders correctly', () => {
   const tree = renderer.create(
     <TimeSetter
       {...propsStub}

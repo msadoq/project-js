@@ -21,7 +21,7 @@ const propsStub = {
   messages: [],
 };
 
-it('Controls renders correctly', () => {
+test('Controls renders correctly', () => {
   const tree = renderer.create(
     <ControlsLeft {...propsStub} />
   ).toJSON();

@@ -64,7 +64,7 @@ describe('store:actions:hsc', () => {
     const ifIsPlay = _.propEq('type', 'HSC_PLAY');
     const store = mockStore(state);
     store.dispatch(actions.startInPlayMode());
-    it('sets real time to true on each timebars', () => {
+    test('sets real time to true on each timebars', () => {
       const rejectPlayActions = _.reject(ifIsPlay);
       expect(rejectPlayActions(store.getActions())).toEqual([
         {
@@ -77,7 +77,7 @@ describe('store:actions:hsc', () => {
         },
       ]);
     });
-    it('plays', () => {
+    test('plays', () => {
       const keepPlayActions = _.filter(ifIsPlay);
       expect(keepPlayActions(store.getActions())).toEqual([
         { type: 'HSC_PLAY', payload: { timebarUuid: 'tb1' } },
@@ -86,7 +86,7 @@ describe('store:actions:hsc', () => {
   });
 
   describe('smartPlay', () => {
-    it('warns a message because of application is oveloaded', () => {
+    test('warns a message because of application is oveloaded', () => {
       const store = mockStore(stateCriticalWindows);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
       expect(store.getActions()).toEqual([
@@ -100,7 +100,7 @@ describe('store:actions:hsc', () => {
         },
       ]);
     });
-    it('warns a message because of code editor is opened', () => {
+    test('warns a message because of code editor is opened', () => {
       const store = mockStore(stateWithCodeEditor);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
       expect(store.getActions()).toEqual([
@@ -114,7 +114,7 @@ describe('store:actions:hsc', () => {
         },
       ]);
     });
-    it('warns a message because of editor is opened on page', () => {
+    test('warns a message because of editor is opened on page', () => {
       const store = mockStore(stateWithEditorOpen);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
       expect(store.getActions()).toEqual([
@@ -127,7 +127,7 @@ describe('store:actions:hsc', () => {
         },
       ]);
     });
-    it('plays', () => {
+    test('plays', () => {
       const store = mockStore(state);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
       expect(store.getActions()).toEqual([

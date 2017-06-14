@@ -9,7 +9,7 @@ describe('store:actions:timelines', () => {
   });
 
   describe('createNewTimeline', () => {
-    it('creates a new timeline', () => {
+    test('creates a new timeline', () => {
       store.dispatch(actions.createNewTimeline('timebarUuid', { sessionName: 'Master' }));
       expect(store.getActions()).toMatchObject([
         {
@@ -27,13 +27,13 @@ describe('store:actions:timelines', () => {
     });
   });
 
-  it('creates a new timeline with random uuid', () => {
+  test('creates a new timeline with random uuid', () => {
     store.dispatch(actions.createNewTimeline('timebarUuid', { sessionName: 'Master' }));
     const timelineUuid = store.getActions()[0].payload.timeline.uuid;
     expect(timelineUuid).toBeAnUuid();
   });
 
-  it('creates a new timeline with given uuid', () => {
+  test('creates a new timeline with given uuid', () => {
     const givenUuid = 'myUUID';
     store.dispatch(actions.createNewTimeline('timebarUuid', { sessionName: 'Master', uuid: givenUuid }));
     const timelineUuid = store.getActions()[0].payload.timeline.uuid;
@@ -41,11 +41,11 @@ describe('store:actions:timelines', () => {
   });
 
   describe('update', () => {
-    it('does nothing with empty configuration', () => {
+    test('does nothing with empty configuration', () => {
       store.dispatch(actions.update('myTimelineUuid', undefined));
       expect(store.getActions()).toEqual([]);
     });
-    it('updates sessionName', () => {
+    test('updates sessionName', () => {
       store.dispatch(actions.update('myTimelineUuid', { sessionName: 'session1' }));
       expect(store.getActions()).toEqual([
         {
@@ -53,7 +53,7 @@ describe('store:actions:timelines', () => {
           payload: { timelineUuid: 'myTimelineUuid', sessionName: 'session1' } },
       ]);
     });
-    it('updates offset', () => {
+    test('updates offset', () => {
       store.dispatch(actions.update('myTimelineUuid', { offset: true }));
       expect(store.getActions()).toEqual([
         {
@@ -62,7 +62,7 @@ describe('store:actions:timelines', () => {
         },
       ]);
     });
-    it('updates id', () => {
+    test('updates id', () => {
       store.dispatch(actions.update('myTimelineUuid', { id: true }));
       expect(store.getActions()).toEqual([
         {
@@ -71,7 +71,7 @@ describe('store:actions:timelines', () => {
         },
       ]);
     });
-    it('updates sessionName, offset and id', () => {
+    test('updates sessionName, offset and id', () => {
       store.dispatch(actions.update('myTimelineUuid', { sessionName: 'session1', offset: true, id: true }));
       expect(store.getActions()).toEqual([
         {

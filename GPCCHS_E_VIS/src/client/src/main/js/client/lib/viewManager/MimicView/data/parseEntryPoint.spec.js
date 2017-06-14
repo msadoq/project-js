@@ -37,7 +37,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
       { domainId: 'invalid', name: undefined },
     ];
   });
-  it('no connectedData', () => {
+  test('no connectedData', () => {
     const ep = parseEntryPoint(domains, sessions, timelines,
       { name: 'ATT_BC_STR1VOLTAGE', connectedData: { formula: '' } },
       'Session 1', 'TB1', 'MimicView');
@@ -45,13 +45,13 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
       { ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } }
     );
   });
-  it('no timebarUuid', () => {
+  test('no timebarUuid', () => {
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'PlotView');
     expect(ep).toEqual(
       { ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } }
     );
   });
-  it('valid', () => {
+  test('valid', () => {
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'MimicView')
     ).toEqual({

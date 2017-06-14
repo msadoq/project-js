@@ -6,11 +6,11 @@ describe('models/dataQueue', () => {
   });
 
   describe('add/get', () => {
-    it('should ignore empty', () => {
+    test('should ignore empty', () => {
       add('myRemoteId', undefined, undefined);
       expect(get()).toEqual({});
     });
-    it('should add to queue', () => {
+    test('should add to queue', () => {
       add('myRemoteId', 'myKey', 'value');
       expect(get()).toEqual({
         myRemoteId: { myKey: 'value' },
@@ -23,7 +23,7 @@ describe('models/dataQueue', () => {
         },
       });
     });
-    it('should respect other remoteId', () => {
+    test('should respect other remoteId', () => {
       add('myExistingRemoteId', 'myKey', 'value');
       add('myRemoteId', 'myOtherKey', 'other');
       expect(get()).toEqual({
@@ -33,7 +33,7 @@ describe('models/dataQueue', () => {
     });
   });
   describe('reset', () => {
-    it('should return current queue and reset it', () => {
+    test('should return current queue and reset it', () => {
       add('myRemoteId', 'myKey', 'value');
       expect(get()).toEqual({
         myRemoteId: { myKey: 'value' },

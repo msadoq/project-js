@@ -57,20 +57,20 @@ describe('controllers/client/onDataPull', () => {
     },
   };
 
-  it('invalid query', () => {
+  test('invalid query', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: noQuery });
     // check ws messages
     expect(getQueue()).toBeAnObject();
   });
-  it('invalid interval', () => {
+  test('invalid interval', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: noIntervalQuery });
     expect(getQueue()).toBeAnObject();
   });
-  it('query last', () => {
+  test('query last', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: queryLast });
@@ -80,7 +80,7 @@ describe('controllers/client/onDataPull', () => {
       },
     });
   });
-  it('query range', () => {
+  test('query range', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: queryRange });
@@ -91,7 +91,7 @@ describe('controllers/client/onDataPull', () => {
       },
     });
   });
-  it('query range and last', () => {
+  test('query range and last', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: query });

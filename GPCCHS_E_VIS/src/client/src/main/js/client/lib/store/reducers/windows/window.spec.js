@@ -7,7 +7,7 @@ const reducer = freezeArgs(windowsReducer);
 
 describe('store:windows:reducer:window', () => {
   describe('update title', () => {
-    it('updates title', () => {
+    test('updates title', () => {
       const state = reducer(
         { myWindowId: { title: 'window 1' } },
         actions.updateTitle('myWindowId', 'window 2')
@@ -16,7 +16,7 @@ describe('store:windows:reducer:window', () => {
     });
   });
   describe('update geometry', () => {
-    it('update only one', () => {
+    test('update only one', () => {
       const state = reducer(
         { myWindowId: { geometry: { x: 100, y: 100, w: 100, h: 100 } } },
         actions.updateGeometry('myWindowId', 120)
@@ -30,7 +30,7 @@ describe('store:windows:reducer:window', () => {
         },
       });
     });
-    it('update all', () => {
+    test('update all', () => {
       const state = reducer(
         { myWindowId: { geometry: { x: 100, y: 100, w: 100, h: 100 } } },
         actions.updateGeometry('myWindowId', 120, 130, 140, 150)
@@ -39,7 +39,7 @@ describe('store:windows:reducer:window', () => {
         geometry: { x: 120, y: 130, w: 140, h: 150 },
       });
     });
-    it('update nothing', () => {
+    test('update nothing', () => {
       const state = reducer(
         { myWindowId: { geometry: { x: 120, y: 130, w: 140, h: 150 } } },
         actions.updateGeometry('myWindowId')
@@ -50,7 +50,7 @@ describe('store:windows:reducer:window', () => {
     });
   });
   describe('focus page', () => {
-    it('should focus page corresponding to arg', () => {
+    test('should focus page corresponding to arg', () => {
       const state = { myWindowId: { focusedPage: null } };
       const action = {
         type: types.WS_WINDOW_PAGE_FOCUS,
@@ -64,21 +64,21 @@ describe('store:windows:reducer:window', () => {
     });
   });
   describe('reorder pages', () => {
-    it('reorder', () => {
+    test('reorder', () => {
       const state = reducer(
         { myWindowId: { pages: ['1', '2', '3'] } },
         actions.reorderPages('myWindowId', ['2', '3', '1'])
       );
       expect(state.myWindowId.pages).toEqual(['2', '3', '1']);
     });
-    it('doesn\'t remove key', () => {
+    test('doesn\'t remove key', () => {
       const state = reducer(
         { myWindowId: { pages: ['1', '2', '3'] } },
         actions.reorderPages('myWindowId', ['2', '3'])
       );
       expect(state.myWindowId.pages).toEqual(['2', '3', '1']);
     });
-    it('doesn\'t add key', () => {
+    test('doesn\'t add key', () => {
       const state = reducer(
         { myWindowId: { pages: ['1', '2'] } },
         actions.reorderPages('myWindowId', ['2', '3', '1'])
@@ -87,14 +87,14 @@ describe('store:windows:reducer:window', () => {
     });
   });
   describe('minimize/restore window', () => {
-    it('should minimize window', () => {
+    test('should minimize window', () => {
       const state = {
         myWindowId: { minimized: false },
       };
       const action = actions.minimize('myWindowId');
       expect(reducer(state, action).myWindowId.minimized).toBe(true);
     });
-    it('should restore window', () => {
+    test('should restore window', () => {
       const state = {
         myWindowId: { minimized: true },
       };
@@ -103,12 +103,12 @@ describe('store:windows:reducer:window', () => {
     });
   });
   describe('setIsLoaded', () => {
-    it('should set is loaded', () => {
+    test('should set is loaded', () => {
       expect(reducer({ myWindowId: { title: 'Title', isLoaded: false } },
         actions.setIsLoaded('myWindowId'))).toEqual({ myWindowId: { title: 'Title', isLoaded: true } });
     });
   });
-  it('displayHelp', () => {
+  test('displayHelp', () => {
     const state = { myId: { title: 'Title', displayHelp: false } };
     const nextState = reducer(state, actions.displayHelp('myId', true));
     expect(nextState.myId.displayHelp).toBe(true);

@@ -20,26 +20,26 @@ import pagesReducer, {
 const reducer = freezeArgs(pagesReducer);
 
 describe('store:pages:reducer', () => {
-  it('initial state', () => {
+  test('initial state', () => {
     expect(reducer(undefined, {})).toEqual({});
   });
-  it('unknown action', () => {
+  test('unknown action', () => {
     const state = { myPageId: { title: 'Title' } };
     expect(reducer(state, {})).toEqual(state);
   });
-  it('unknown action with pageId', () => {
+  test('unknown action with pageId', () => {
     const state = { myPageId: { title: 'Title' } };
     expect(reducer(state, { payload: { pageId: 'myPageId' } })).toEqual(state);
   });
   describe('HSC workspace', () => {
-    it('close', () => {
+    test('close', () => {
       expect(
         reducer({ myPage: { timebarHeight: 5 } }, { type: types.HSC_CLOSE_WORKSPACE })
       ).toEqual({});
     });
   });
   describe('Update view path', () => {
-    it('set modified page', () => {
+    test('set modified page', () => {
       const state = {
         page1: { views: ['view1', 'view2'] },
         page2: { views: ['view3', 'view4'] },
@@ -48,7 +48,7 @@ describe('store:pages:reducer', () => {
       expect(newState.page2).toHaveProperty('isModified');
       expect(newState.page1).not.toHaveProperty('isModified');
     });
-    it('does not set modified page', () => {
+    test('does not set modified page', () => {
       const state = {
         page1: { views: ['view1', 'view2'] },
         page2: { views: ['view3', 'view4'] },
@@ -58,7 +58,7 @@ describe('store:pages:reducer', () => {
       expect(newState.page1).not.toHaveProperty('isModified');
     });
   });
-  it('remove pages when close window', () => {
+  test('remove pages when close window', () => {
     const state = {
       p1: {},
       p2: {},
@@ -67,12 +67,12 @@ describe('store:pages:reducer', () => {
     const newState = reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { pages: ['p1', 'p2'] } });
     expect(newState).toEqual({ p3: {} });
   });
-  it('should update sessionName', () => {
+  test('should update sessionName', () => {
     const newState = reducer({ p1: {} }, actions.updateSessionName('p1', 'mySession'));
     expect(newState.p1).toEqual({ sessionName: 'mySession', isModified: true });
     expect(reducer(newState, actions.updateSessionName('p1', null))).toEqual({ p1: { isModified: true } });
   });
-  it('should update domainName', () => {
+  test('should update domainName', () => {
     const newState = reducer({ p1: {} }, actions.updateDomainName('p1', 'myDomain'));
     expect(newState.p1).toEqual({ domainName: 'myDomain', isModified: true });
     expect(reducer(newState, actions.updateDomainName('p1', null))).toEqual({ p1: { isModified: true } });
@@ -83,7 +83,7 @@ describe('store:pages:reducer', () => {
 
 describe('store:page:selectors', () => {
   describe('getPage', () => {
-    it('should returns page', () => {
+    test('should returns page', () => {
       const state = {
         pages: {
           myPageId: { title: 'Title 1' },
@@ -94,7 +94,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPages', () => {
-    it('should returns pages', () => {
+    test('should returns pages', () => {
       const state = {
         pages: {
           myId: { title: 'Title' },
@@ -106,7 +106,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPanels', () => {
-    it('should returns panels', () => {
+    test('should returns panels', () => {
       const state = {
         pages: {
           myId: { title: 'Title', panels: { editorWidth: 0 } },
@@ -118,7 +118,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPageLayout', () => {
-    it('should returns current page layout', () => {
+    test('should returns current page layout', () => {
       const state = {
         pages: {
           myPageId: {
@@ -130,7 +130,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getEditor', () => {
-    it('should returns current page layout', () => {
+    test('should returns current page layout', () => {
       const state = {
         pages: {
           myPageId: {
@@ -142,7 +142,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPageAbsolutePath', () => {
-    it('should returns current page absolutePath', () => {
+    test('should returns current page absolutePath', () => {
       const state = {
         pages: {
           myPageId: {
@@ -154,7 +154,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPageIsModified', () => {
-    it('should returns current page isModified', () => {
+    test('should returns current page isModified', () => {
       const state = {
         pages: {
           myPageId: {
@@ -166,7 +166,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getModifiedPagesIds', () => {
-    it('should returns all modified pages ids', () => {
+    test('should returns all modified pages ids', () => {
       const state = {
         pages: {
           myPageId1: { uuid: 'myPageId1', isModified: true },
@@ -182,7 +182,7 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPageIdByViewId', () => {
-    it('should returns pageId', () => {
+    test('should returns pageId', () => {
       const state = {
         pages: {
           myId: { uuid: 'myId', title: 'Title', views: ['view1', 'view2'] },
@@ -194,20 +194,20 @@ describe('store:page:selectors', () => {
     });
   });
   describe('getPageDomainName', () => {
-    it('should return domainName', () => {
+    test('should return domainName', () => {
       const state = { pages: { p1: { domainName: 'myDomain' } } };
       expect(getPageDomainName(state, { pageId: 'p1' })).toEqual('myDomain');
     });
-    it('should support empty state', () => {
+    test('should support empty state', () => {
       expect(getPageDomainName({ pages: { p1: {} } }, { pageId: 'p1' })).toBeFalsy();
     });
   });
   describe('getSessionName', () => {
-    it('should return sessionName', () => {
+    test('should return sessionName', () => {
       const state = { pages: { p1: { sessionName: 'mySession' } } };
       expect(getPageSessionName(state, { pageId: 'p1' })).toEqual('mySession');
     });
-    it('should support empty state', () => {
+    test('should support empty state', () => {
       expect(getPageSessionName({ pages: { p1: {} } }, { pageId: 'p1' })).toBeFalsy();
     });
   });

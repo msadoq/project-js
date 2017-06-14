@@ -39,7 +39,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   const timestamp2 = dataStub.getTimestampProtobuf({ ms: t2 });
   const interval = [-15, 15];
 
-  it('unknown queryId', () => {
+  test('unknown queryId', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
     connectedDataModel.addRecord(dataId);
@@ -69,7 +69,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     expect(timebasedDataModel).toBeFalsy();
     expect(getQueue()).toEqual({});
   });
-  it('works when range query', () => {
+  test('works when range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
     connectedDataModel.addRecord(dataId);
@@ -118,7 +118,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     });
   });
 
-  it('last chunk with range query', () => {
+  test('last chunk with range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     connectedDataModel.addRecord(dataId);
@@ -166,7 +166,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       },
     });
   });
-  it('last chunk with last query', () => {
+  test('last chunk with last query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     connectedDataModel.addRecord(dataId);
@@ -200,7 +200,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       },
     });
   });
-  it('big load', () => {
+  test('big load', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     const queryIds = ['queryId1', 'queryId2', 'queryId3', 'queryId4', 'queryId5', 'queryId6'];

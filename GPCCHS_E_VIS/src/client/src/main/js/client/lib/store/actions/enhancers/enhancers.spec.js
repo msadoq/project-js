@@ -11,18 +11,18 @@ const createDummyAction = freezeArgs((payload = {}) => ({
 
 describe('store:actions:enhancers', () => {
   describe('addUuidsToEntryPoints', () => {
-    it('should does nothing', () => {
+    test('should does nothing', () => {
       const action = createDummyAction();
       const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       expect(enhancedAction).toEqual(action);
     });
-    it('should generate uuid in entryPoint', () => {
+    test('should generate uuid in entryPoint', () => {
       const action = createDummyAction({ configuration: { entryPoint: {} } });
       const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       expect(typeof enhancedAction.payload.configuration.entryPoint.id).toBe('string');
       expect(enhancedAction).not.toEqual(action);
     });
-    it('should generate uuid in entryPoint', () => {
+    test('should generate uuid in entryPoint', () => {
       const action = createDummyAction({ configuration: { entryPoints: [{}, {}, {}] } });
       const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       enhancedAction.payload.configuration.entryPoints.forEach((ep) => {
@@ -40,7 +40,7 @@ describe('store:actions:enhancers', () => {
         },
       },
     });
-    it('dispatches with null newPath', () => {
+    test('dispatches with null newPath', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: null });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
@@ -50,19 +50,19 @@ describe('store:actions:enhancers', () => {
         payload: { viewId: 'v1', newPath: null },
       });
     });
-    it('does nothing if unknown view', () => {
+    test('does nothing if unknown view', () => {
       const action = createDummyAction({ viewId: 'unknown' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
       expect(result).toBeFalsy();
     });
-    it('does nothing if resolved path are not different', () => {
+    test('does nothing if resolved path are not different', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: '/..' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
       expect(result).toBeFalsy();
     });
-    it('dispatches action if resolved path are different', () => {
+    test('dispatches action if resolved path are different', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: '.' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);

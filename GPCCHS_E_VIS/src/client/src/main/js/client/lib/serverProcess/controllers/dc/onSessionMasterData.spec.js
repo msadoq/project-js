@@ -3,7 +3,7 @@ const protobuf = require('common/protobuf');
 const onSessionMasterData = require('./onSessionMasterData');
 
 describe('controllers/client/onSessionMasterData', () => {
-  it('should returns master session data', (done) => {
+  test('should returns master session data', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myUinteger = 42;

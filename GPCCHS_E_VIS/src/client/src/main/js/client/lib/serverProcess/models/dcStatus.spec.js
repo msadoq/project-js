@@ -4,15 +4,15 @@ describe('models/dcStatus', () => {
   beforeEach(() => {
     dcStatus.reset();
   });
-  it('get', () => {
+  test('get', () => {
     expect(dcStatus.get()).toBeFalsy();
   });
-  it('set', () => {
+  test('set', () => {
     const status = { dcQueriesDelay: 10 };
     dcStatus.set(status);
     expect(dcStatus.get()).toBe(status);
   });
-  it('reset', () => {
+  test('reset', () => {
     dcStatus.set({ dcQueriesDelay: 10 });
     dcStatus.reset();
     expect(dcStatus.get()).toBeFalsy();

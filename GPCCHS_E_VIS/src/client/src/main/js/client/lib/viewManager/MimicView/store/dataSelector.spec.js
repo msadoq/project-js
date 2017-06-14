@@ -2,10 +2,10 @@ import { getCount } from './dataSelector';
 
 describe('viewManager/MimicView/store/dataSelector', () => {
   describe('getCount', () => {
-    it('counts data: empty state', () => {
+    test('counts data: empty state', () => {
       expect(getCount({ MimicViewData: {} })).toEqual({ all: 0 });
     });
-    it('counts data', () => {
+    test('counts data', () => {
       const state = {
         MimicViewData: {
           v1: { index: { ep1: 10 } },

@@ -20,12 +20,12 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
     maxTime: { ep1: 3, ep2: 0 },
   };
   describe('viewRangeAdd', () => {
-    it('should ignore empty payloads call', () => {
+    test('should ignore empty payloads call', () => {
       const previousState = freezeMe(state);
       const newState = viewRangeAdd(previousState, {});
       expect(newState).toBe(previousState);
     });
-    it('should support empty state', () => {
+    test('should support empty state', () => {
       expect(viewRangeAdd(freezeMe({}), { ep1: {
         10: { x: 1, value: 0.1 },
         11: { x: 2, value: 0.1 } },
@@ -47,7 +47,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       });
     });
     describe('should add points', () => {
-      it('one point in middle', () => {
+      test('one point in middle', () => {
         const frozen = freezeMe({
           indexes: { ep1: [1, 4] },
           lines: {
@@ -80,7 +80,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 4 },
         });
       });
-      it('points everywhere', () => {
+      test('points everywhere', () => {
         const frozen = freezeMe({
           indexes: { ep1: [1, 4, 8, 10], ep2: [2] },
           lines: {
@@ -135,7 +135,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       });
     });
     describe('getExtremValue isMin', () => {
-      it('isMin and new values are inferior', () => {
+      test('isMin and new values are inferior', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -167,7 +167,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 4, ep2: 1 },
         });
       });
-      it('!isMin and new values are superior', () => {
+      test('!isMin and new values are superior', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -199,7 +199,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 5, ep2: 1 },
         });
       });
-      it('no min in state', () => {
+      test('no min in state', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -231,7 +231,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 4, ep2: 1 },
         });
       });
-      it('no max in state', () => {
+      test('no max in state', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -400,7 +400,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       },
     };
     describe('selectDataPerView', () => {
-      it('empty state', () => {
+      test('empty state', () => {
         const bag = selectDataPerView(viewDataMap.plot1, intervals, payload);
         expect(bag).toHaveKeys(['ep1', 'min', 'max', 'minTime', 'maxTime']);
 
@@ -408,29 +408,29 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         expect(bag2).toHaveKeys(['ep2', 'ep3', 'min', 'max', 'minTime', 'maxTime']);
         expect(bag2.ep2).toHaveKeys(['14', '15', '16', '17', '18']);
       });
-      it('viewMap undefined', () => {
+      test('viewMap undefined', () => {
         const newState = selectDataPerView(viewDataMap.plot4, intervals, payload);
         expect(Object.keys(newState).length).toEqual(0);
       });
-      it('no payload', () => {
+      test('no payload', () => {
         const newState = selectDataPerView(viewDataMap.plot1, intervals, {});
         expect(Object.keys(newState).length).toEqual(0);
       });
     });
     describe('selectEpData', () => {
-      it('undefined state', () => {
+      test('undefined state', () => {
         const newState = selectEpData(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
           'ep1', undefined, intervals);
         expect(newState.ep1['10']).toEqual({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
         expect(newState.ep1['15']).toEqual({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
       });
-      it('empty state', () => {
+      test('empty state', () => {
         const newState = selectEpData(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
           'ep1', {}, intervals);
         expect(newState.ep1['10']).toEqual({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
         expect(newState.ep1['15']).toEqual({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
       });
-      it('state not empty', () => {
+      test('state not empty', () => {
         const oldState = { ep10: {
           10: { x: 11.5, col1: 101 },
           12.5: { x: 12.5, value: 102 },
@@ -453,7 +453,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         expect(newState.minTime).toEqual({ ep10: 10, ep1: 10 });
         expect(newState.maxTime).toEqual({ ep10: 12.5, ep1: 15 });
       });
-      it('no change', () => {
+      test('no change', () => {
         const oldState = { ep1: { 10: { x: 1001.5, col1: 101 },
           11: { x: 1002.5, value: 102 } },
           min: { ep1: 101 },

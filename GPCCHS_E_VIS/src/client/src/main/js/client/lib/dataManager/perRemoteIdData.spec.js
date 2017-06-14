@@ -65,7 +65,7 @@ describe('dataManager/perRemoteIdData', () => {
     remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
     type: 'TextView',
   };
-  it('addEpInRemoteIdMap: map empty, ep valid for plot', () => {
+  test('addEpInRemoteIdMap: map empty, ep valid for plot', () => {
     expect(addEpInRemoteIdMap({}, epValid, 'plot1')).toEqual({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
@@ -82,7 +82,7 @@ describe('dataManager/perRemoteIdData', () => {
       },
     });
   });
-  it('addEpInRemoteIdMap: map empty, ep valid for text', () => {
+  test('addEpInRemoteIdMap: map empty, ep valid for text', () => {
     expect(addEpInRemoteIdMap({}, epTextValid, 'text1')).toEqual({
       [epTextValid.remoteId]: {
         dataId: epTextValid.dataId,
@@ -99,10 +99,10 @@ describe('dataManager/perRemoteIdData', () => {
     });
   });
 
-  it('addEpInRemoteIdMap: map empty, ep with error', () => {
+  test('addEpInRemoteIdMap: map empty, ep with error', () => {
     expect(addEpInRemoteIdMap({}, epError, 'plot1')).toEqual({});
   });
-  it('addEpInRemoteIdMap: map not empty, other ep valid', () => {
+  test('addEpInRemoteIdMap: map not empty, other ep valid', () => {
     const map = addEpInRemoteIdMap({}, epValid, 'plot1');
     expect(addEpInRemoteIdMap(map, epValid2, 'plot2')).toEqual({
       [epValid.remoteId]: {
@@ -133,7 +133,7 @@ describe('dataManager/perRemoteIdData', () => {
       },
     });
   });
-  it('addEpInRemoteIdMap: map not empty, other ep with error', () => {
+  test('addEpInRemoteIdMap: map not empty, other ep with error', () => {
     const map = addEpInRemoteIdMap({}, epValid, 'plot1');
     expect(addEpInRemoteIdMap(map, epError, 'plot1')).toEqual({
       [epValid.remoteId]: {
@@ -151,7 +151,7 @@ describe('dataManager/perRemoteIdData', () => {
       },
     });
   });
-  it('addEpInRemoteIdMap: map empty, DecommutedPacket ep ', () => {
+  test('addEpInRemoteIdMap: map empty, DecommutedPacket ep ', () => {
     expect(addEpInRemoteIdMap({}, epDecommuted, 'dynamic1')).toEqual({
       [epDecommuted.remoteId]: {
         dataId: epDecommuted.dataId,
@@ -166,7 +166,7 @@ describe('dataManager/perRemoteIdData', () => {
       },
     });
   });
-  it('addEpInRemoteIdMap: map not empty, ep with same remoteId', () => {
+  test('addEpInRemoteIdMap: map not empty, ep with same remoteId', () => {
     const map = addEpInRemoteIdMap({}, epValid2, 'plot1');
     expect(addEpInRemoteIdMap(map, epValid3, 'plot2')).toEqual({
       [epValid2.remoteId]: {
@@ -191,7 +191,7 @@ describe('dataManager/perRemoteIdData', () => {
       },
     });
   });
-  it('perRemoteIdMap', () => {
+  test('perRemoteIdMap', () => {
     const perViewMap = {
       text: {
         type: 'TextView',

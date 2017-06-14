@@ -19,7 +19,7 @@ describe('documentManager:readView', () => {
     stub.restore();
   });
 
-  it('creates a simple view using readed document', (done) => {
+  test('creates a simple view using readed document', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
       expect(err).toBeFalsy();
@@ -41,7 +41,7 @@ describe('documentManager:readView', () => {
     });
   });
 
-  it('gives an error when view type is not supported', (done) => {
+  test('gives an error when view type is not supported', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'FakeView');
     simpleReadView({ uuid: 'fake-uuid', path: '/a/path', oId: 'an oid' }, (err, content) => {
       expect(err).toBeFalsy();
@@ -49,7 +49,7 @@ describe('documentManager:readView', () => {
       done();
     });
   });
-  it('gives an error when readDocument failed', (done) => {
+  test('gives an error when readDocument failed', (done) => {
     stub = stubReadDocument({ entryPoints: [], content: '' }, 'TextView');
     simpleReadView({ withError: true }, (err, content) => {
       expect(err).toBeFalsy();

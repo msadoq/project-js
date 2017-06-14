@@ -6,12 +6,12 @@ import modalsReducer from '.';
 const reducer = freezeArgs(modalsReducer);
 
 describe('store:modals:reducer', () => {
-  it('initial state', () => {
+  test('initial state', () => {
     expect(reducer(undefined, {})).toEqual({});
   });
 
   describe('opens modal', () => {
-    it('should open', () => {
+    test('should open', () => {
       expect(
         reducer(undefined, actions.open('myId', { type: 'openTimeline', timebarUuid: 'aaa-bbb' }))
       ).toEqual({ myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true } });
@@ -19,7 +19,7 @@ describe('store:modals:reducer', () => {
   });
 
   describe('closes modal', () => {
-    it('should close', () => {
+    test('should close', () => {
       expect(reducer(
         {
           myId: { type: 'openTimeline', timebarUuid: 'aaa-bbb', opened: true },

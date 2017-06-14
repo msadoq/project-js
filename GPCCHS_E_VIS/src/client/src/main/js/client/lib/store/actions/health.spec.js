@@ -17,12 +17,12 @@ describe('store:actions:health', () => {
   });
 
   describe('updateHealth', () => {
-    it('does nothing when no status has changed', () => {
+    test('does nothing when no status has changed', () => {
       store.dispatch(actions.updateHealth(store.getState().health));
       expect(store.getActions).toHaveLength(0);
     });
 
-    it('does update all status', () => {
+    test('does update all status', () => {
       const status = { dcStatus: true, hssStatus: true, lastPubSubTimestamp: 42 };
       store.dispatch(actions.updateHealth(status, 0));
       expect(store.getActions()).toEqual([
@@ -32,7 +32,7 @@ describe('store:actions:health', () => {
       ]);
     });
 
-    it('does update dc status', () => {
+    test('does update dc status', () => {
       const status = { dcStatus: true, hssStatus: false, lastPubSubTimestamp: 0 };
       store.dispatch(actions.updateHealth(status, 0));
       expect(store.getActions()).toEqual([
@@ -40,7 +40,7 @@ describe('store:actions:health', () => {
       ]);
     });
 
-    it('does update hss status', () => {
+    test('does update hss status', () => {
       const status = { dcStatus: false, hssStatus: true, lastPubSubTimestamp: 0 };
       store.dispatch(actions.updateHealth(status, 0));
 
@@ -54,7 +54,7 @@ describe('store:actions:health', () => {
       ]);
     });
 
-    it('does update lastPubSubTimestamp status', () => {
+    test('does update lastPubSubTimestamp status', () => {
       const status = { dcStatus: false, hssStatus: false, lastPubSubTimestamp: 42 };
       store.dispatch(actions.updateHealth(status, 0));
       expect(store.getActions()).toEqual([
@@ -62,7 +62,7 @@ describe('store:actions:health', () => {
       ]);
     });
 
-    it('throttles updateLastPubSubTimestamp', (done) => {
+    test('throttles updateLastPubSubTimestamp', (done) => {
       const status = { dcStatus: false, hssStatus: false, lastPubSubTimestamp: 42 };
       store.dispatch(actions.updateHealth(status, 5));
       store.dispatch(actions.updateHealth(status, 5));

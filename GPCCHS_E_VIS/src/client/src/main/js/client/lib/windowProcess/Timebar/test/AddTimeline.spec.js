@@ -26,7 +26,7 @@ const propsStub = {
 };
 
 describe.only('AddTimeline component', () => {
-  it('AddTimeline (redux-form) renders correctly', () => {
+  test('AddTimeline (redux-form) renders correctly', () => {
     const tree = renderer.create(
       <Provider store={store}>
         <AddTimeline {...propsStub} />

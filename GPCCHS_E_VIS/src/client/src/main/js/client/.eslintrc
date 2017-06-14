@@ -14,7 +14,6 @@
     "expect": true,
     "jest": true,
     "describe": true,
-    "it": true,
     "beforeAll": true,
     "afterAll": true,
     "beforeEach": true,

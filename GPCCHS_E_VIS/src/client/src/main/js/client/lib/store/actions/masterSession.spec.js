@@ -4,12 +4,12 @@ import { mockStore } from '../../common/test';
 
 describe('store:actions:masterSession', () => {
   describe('updateMasterSessionIfNeeded', () => {
-    it('does nothing with unknown session id', () => {
+    test('does nothing with unknown session id', () => {
       const store = mockStore();
       store.dispatch(actions.updateMasterSessionIfNeeded(UNKNOWN_SESSION_ID));
       expect(store.getActions()).toEqual([]);
     });
-    it('updates master session', () => {
+    test('updates master session', () => {
       const store = mockStore();
       store.dispatch(actions.updateMasterSessionIfNeeded('masterSessionOid'));
       expect(store.getActions()).toEqual([

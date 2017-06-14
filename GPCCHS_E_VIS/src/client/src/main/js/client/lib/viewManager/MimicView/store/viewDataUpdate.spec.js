@@ -2,11 +2,11 @@ import { viewDataUpdate, selectDataPerView } from './viewDataUpdate';
 
 describe('viewManager/TextView/store/viewDataUpdate', () => {
   describe('Update', () => {
-    it('should ignore payloads', () => {
+    test('should ignore payloads', () => {
       const frozen = Object.freeze({ index: {}, values: {} });
       expect(viewDataUpdate(frozen, {})).toEqual(frozen);
     });
-    it('should add', () => {
+    test('should add', () => {
       const frozen = Object.freeze({ index: {}, values: {} });
       expect(
         viewDataUpdate(frozen, { index: { myEntryPoint: 15 }, values: { myEntryPoint: 300 } })
@@ -15,7 +15,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         values: { myEntryPoint: 300 },
       });
     });
-    it('should update', () => {
+    test('should update', () => {
       const state = Object.freeze({
         index: { myEntryPoint: '10' },
         values: { myEntryPoint: 150 },
@@ -27,7 +27,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         values: { myEntryPoint: 300 },
       });
     });
-    it('should preserve other values', () => {
+    test('should preserve other values', () => {
       const state = Object.freeze({
         index: { myEntryPoint: 10, myOther: 20 },
         values: { myEntryPoint: 150, myOther: 200 },
@@ -124,7 +124,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         localEp6: { expectedInterval: [12, 20] },
       },
     };
-    it('state undefined', () => {
+    test('state undefined', () => {
       const data =
         selectDataPerView(viewDataMap.text1, expectedIntervals, payload, { index: {}, values: {} });
       expect(data.index.ep4).toEqual(20);
@@ -132,7 +132,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       expect(data.values.ep4.value).toEqual(203);
       expect(data.values.ep7.value).toEqual('val3');
     });
-    it('state with value > current', () => {
+    test('state with value > current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
@@ -142,7 +142,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       expect(data.values.ep4.value).toEqual(203);
       expect(data.values.ep7.value).toEqual('val3');
     });
-    it('state with value < current', () => {
+    test('state with value < current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
@@ -152,7 +152,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       expect(data.values.ep4.value).toEqual(203);
       expect(data.values.ep7.value).toEqual('val3');
     });
-    it('state with value = current', () => {
+    test('state with value = current', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;

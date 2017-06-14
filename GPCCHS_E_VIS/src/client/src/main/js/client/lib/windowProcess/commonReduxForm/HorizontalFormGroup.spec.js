@@ -6,7 +6,7 @@ const propsStub = {
   children: 1,
 };
 
-it('Navigation renders correctly', () => {
+test('Navigation renders correctly', () => {
   const tree = renderer.create(
     <HorizontalFormGroup
       {...propsStub}

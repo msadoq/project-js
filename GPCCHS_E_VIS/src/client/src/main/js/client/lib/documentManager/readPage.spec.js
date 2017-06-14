@@ -83,7 +83,7 @@ describe('documentManager:readPage', () => {
         done();
       });
     });
-    it('gives an error when validation failed', (done) => {
+    test('gives an error when validation failed', (done) => {
       stub = stubReadDocument();
       simpleReadPage({ type: 'Unknown type' }, (unused, { error }) => {
         expect(error).toBeInstanceOf(Error);

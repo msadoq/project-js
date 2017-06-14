@@ -1,4 +1,4 @@
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import reply from '../../../utils/ipc/reply';
 import { server } from '../../ipc';
 

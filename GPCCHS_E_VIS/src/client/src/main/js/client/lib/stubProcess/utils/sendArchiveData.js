@@ -1,6 +1,6 @@
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const logger = require('common/log')('stubs:utils');
+const logger = require('../../common/logManager')('stubs:utils');
 const globalConstants = require('../../constants');
 const stubData = require('common/protobuf/stubs');
 

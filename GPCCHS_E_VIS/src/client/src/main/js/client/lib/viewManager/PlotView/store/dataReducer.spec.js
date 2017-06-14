@@ -71,7 +71,8 @@ describe('viewManager/PlotView/store/dataReducer', () => {
   });
   it('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myText'] } };
-    expect(plotViewData(freezeMe({ myPlot: {}, myOtherPlot: {} }), action)).toEqual({ myOtherPlot: {} });
+    expect(plotViewData(freezeMe({ myPlot: {}, myOtherPlot: {} }), action))
+      .toEqual({ myOtherPlot: {} });
   });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myPlot' } };

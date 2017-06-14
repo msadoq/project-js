@@ -1,4 +1,4 @@
-import { freezeArgs, should } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/masterSession';
 import masterSessionReducer, { getMasterSessionId } from '.';
 

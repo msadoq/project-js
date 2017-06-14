@@ -204,12 +204,11 @@ export default class MimicView extends Component {
         processNode: processNodeDefinitions.processDefaultNode,
       },
     ];
-    const comp = htmlToReactParser.parseWithInstructions(
+    return htmlToReactParser.parseWithInstructions(
       this.props.content,
       isValidNode,
       processingInstructions
     );
-    return comp;
   }
 
   updateSvgsValues = (data) => {

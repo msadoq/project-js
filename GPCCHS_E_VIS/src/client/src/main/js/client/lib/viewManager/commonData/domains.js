@@ -5,7 +5,7 @@ import _isNull from 'lodash/isNumber';
 import _isUndefined from 'lodash/isUndefined';
 import _filter from 'lodash/filter';
 import _map from 'lodash/map';
-import { get } from 'common/parameters';
+import { get } from '../../common/configurationManager';
 
 let memoizedDomains;
 let memoizedSearchs = {};

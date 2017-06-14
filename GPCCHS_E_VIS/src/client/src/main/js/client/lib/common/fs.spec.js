@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import { join } from 'path';
 import rimraf from 'rimraf';
 import {
@@ -9,7 +8,7 @@ import {
   chmodSync,
 } from 'fs';
 
-import { should, getTmpPath } from '../common/test';
+import { getTmpPath } from '../common/test';
 import fs from './fs';
 
 describe('common/fs', () => {

@@ -2,8 +2,8 @@ const { tmpdir } = require('os');
 const { join } = require('path');
 const fs = require('fs');
 const _isEmpty = require('lodash/isEmpty');
-const { get } = require('common/parameters');
-const getLogger = require('common/log');
+const { get } = require('../../common/configurationManager');
+const getLogger = require('../../common/logManager');
 
 const logger = getLogger('controllers:onTimebasedArchiveData');
 let dumpFolder;

@@ -79,7 +79,10 @@ describe('viewManager/TextView/store/dataReducer', () => {
   });
   it('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myMimic'] } };
-    expect(mimicViewData(freezeMe({ myMimic: {}, myOtherMimic: {} }), action)).toEqual({ myOtherMimic: {} });
+    expect(
+      mimicViewData(freezeMe({ myMimic: {}, myOtherMimic: {} }), action))
+        .toEqual({ myOtherMimic: {} }
+    );
   });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myText' } };

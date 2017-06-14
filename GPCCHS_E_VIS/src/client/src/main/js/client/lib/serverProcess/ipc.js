@@ -1,5 +1,5 @@
 const { v4 } = require('uuid');
-const logger = require('common/log')('main:ipc');
+const logger = require('../common/logManager')('main:ipc');
 const globalConstants = require('../constants');
 const { set: setCallback } = require('../utils/callbacks');
 

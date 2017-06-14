@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-import { should } from '../../../common/test';
 import {
   getAxes,
   getShowYAxes,

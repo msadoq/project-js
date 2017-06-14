@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { get } from 'common/parameters';
 import _debounce from 'lodash/debounce';
 import _throttle from 'lodash/throttle';
 import classnames from 'classnames';
 import React, { PureComponent, PropTypes } from 'react';
+import { get } from '../../../common/configurationManager';
 
 import styles from './Timebar.css';
 import Scale from './Scale';

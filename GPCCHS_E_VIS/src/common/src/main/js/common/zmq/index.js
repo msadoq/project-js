@@ -1,9 +1,19 @@
 const _each = require('lodash/each');
+const _noop = require('lodash/noop');
 const _isFunction = require('lodash/isFunction');
+const _has = require('lodash/has');
+const _get = require('lodash/get');
+const _omit = require('lodash/omit');
 const async = require('async');
 const zmq = require('zmq');
 
-const logger = require('../log')('common:zmq');
+const defaultLogger = {
+  silly: _noop,
+  debug: _noop,
+  info: _noop,
+};
+
+let logger = defaultLogger;
 
 const lifeCycleEvents = [
   'connect',
@@ -49,7 +59,12 @@ const bind = (socket, url, callback, handler) => socket.bind(
 );
 
 function open(configuration, callback) {
-  async.each(Object.keys(configuration), (key, cb) => {
+  if (_has(configuration, ['options', 'logger'])) {
+    logger = _get(configuration, ['options', 'logger']);
+  }
+
+  const connections = Object.keys(_omit(configuration, ['options']));
+  async.each(connections, (key, cb) => {
     const item = configuration[key];
     if (typeof sockets[key] !== 'undefined') {
       return cb(new Error(`A ZeroMQ socket is already opened with this key: ${key}`));
@@ -167,6 +182,7 @@ function closeSockets() {
   _each(sockets, item => item.close());
   sockets = {};
   logger.info('all sockets closed');
+  logger = defaultLogger;
 }
 
 module.exports = {

@@ -1,4 +1,4 @@
-const logger = require('common/log')('models:timebasedData');
+const logger = require('../../common/logManager')('models:timebasedData');
 const globalConstants = require('../../constants');
 
 const _each = require('lodash/each');

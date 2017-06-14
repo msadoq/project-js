@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { get } from 'common/parameters';
+import { get } from '../../common/configurationManager';
 
 export default function (entryPoint) {
   return _.merge(getNewDynamicEntryPoint(), entryPoint);

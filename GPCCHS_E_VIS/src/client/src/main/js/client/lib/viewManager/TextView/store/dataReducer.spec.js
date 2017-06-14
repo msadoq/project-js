@@ -79,7 +79,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
   });
   it('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myText'] } };
-    expect(textViewData(freezeMe({ myText: {}, myOtherText: {} }), action)).toEqual({ myOtherText: {} });
+    expect(textViewData(freezeMe({ myText: {}, myOtherText: {} }), action))
+      .toEqual({ myOtherText: {} });
   });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myText' } };

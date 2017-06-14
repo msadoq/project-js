@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import { get } from 'common/parameters';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import postCssImport from 'postcss-smart-import';
@@ -8,6 +7,7 @@ import postCssProperties from 'postcss-custom-properties';
 import postCssNesting from 'postcss-nested';
 import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
+import { get } from '../lib/common/configurationManager';
 
 import baseConfig from './config.base';
 

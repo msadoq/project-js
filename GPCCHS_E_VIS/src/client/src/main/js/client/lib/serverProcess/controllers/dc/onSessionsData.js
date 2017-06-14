@@ -1,4 +1,4 @@
-const logger = require('common/log')('controllers:onSessionData');
+const logger = require('../../../common/logManager')('controllers:onSessionData');
 const { decode } = require('common/protobuf');
 
 /**

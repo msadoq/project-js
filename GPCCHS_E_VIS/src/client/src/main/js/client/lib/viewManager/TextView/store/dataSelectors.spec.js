@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { should } from '../../../common/test';
 import { getCount, getLastValue } from './dataSelectors';
 
 describe('viewManager/TextView/store/dataSelector', () => {

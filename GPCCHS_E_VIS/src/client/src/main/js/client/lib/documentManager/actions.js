@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import { dirname, basename } from 'path';
 
 import { LOG_DOCUMENT_OPEN } from '../constants';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
+import getLogger from '../common/logManager';
+import parameters from '../common/configurationManager';
 
 import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
 
@@ -22,7 +22,6 @@ import { getSession } from '../store/reducers/sessions';
 import { addBlankPage } from '../store/actions/pages';
 import { getFocusedWindowId } from '../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../store/reducers/windows';
-
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 

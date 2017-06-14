@@ -171,7 +171,8 @@
     "webpack-dev-middleware": "~1.10.1",
     "webpack-hot-middleware": "~2.18.0",
     "webpack-merge": "~1.1.2",
-    "why-did-you-update": "~0.0.8"
+    "why-did-you-update": "~0.0.8",
+    "winston": "^2.3.1"
   },
   "peerDependencies": {
     "rtd": "../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd",

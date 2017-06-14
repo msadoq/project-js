@@ -1,4 +1,4 @@
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 import { IPC_RPC_RESPONSE } from '../../constants';
 import { pop } from '../callbacks';
 

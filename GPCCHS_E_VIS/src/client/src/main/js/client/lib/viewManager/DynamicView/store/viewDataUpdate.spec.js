@@ -8,11 +8,13 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
     });
     it('should add', () => {
       const frozen = Object.freeze({});
-      expect(viewDataUpdate(frozen, { index: 15, value: { va1: 300, val2: 400 } })).toEqual({ index: 15, value: { va1: 300, val2: 400 } });
+      expect(viewDataUpdate(frozen, { index: 15, value: { va1: 300, val2: 400 } }))
+        .toEqual({ index: 15, value: { va1: 300, val2: 400 } });
     });
     it('should update', () => {
       const state = Object.freeze({ index: '15', value: { va1: 300, val2: 400 } });
-      expect(viewDataUpdate(state, { index: 20, value: { va1: 500, val2: 600 } })).toEqual({ index: 20, value: { va1: 500, val2: 600 } });
+      expect(viewDataUpdate(state, { index: 20, value: { va1: 500, val2: 600 } }))
+        .toEqual({ index: 20, value: { va1: 500, val2: 600 } });
     });
   });
   describe('selectDataPerView', () => {

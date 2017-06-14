@@ -1,6 +1,6 @@
 import _each from 'lodash/each';
-import { get } from 'common/parameters';
-import getLogger from 'common/log';
+import { get } from '../common/configurationManager';
+import getLogger from '../common/logManager';
 
 const logger = getLogger('main:debug');
 

@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe, should } from '../../../common/test';
+import { freezeMe } from '../../../common/test';
 import { updateAxis, addAxis, removeAxis, getYAxis } from './axes';
 
 describe('store:views:axes', () => {

@@ -1,7 +1,7 @@
 import { LINK as RTD_LINK } from 'rtd/constants';
-import getLogger from 'common/log';
-import { NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
 import { parse as parseLink } from 'rtd/catalogs/utils/links';
+import getLogger from '../../../common/logManager';
+import { NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
 import { getStore } from '../../../store/createStore';
 import { getRtd } from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';

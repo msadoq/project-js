@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
-import { get } from 'common/parameters';
+import { get } from '../../common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
 

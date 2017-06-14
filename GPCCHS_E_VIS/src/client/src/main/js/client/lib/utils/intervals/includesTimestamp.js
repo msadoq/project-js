@@ -17,10 +17,7 @@ module.exports = (intervals, timestamp) => {
     return false;
   }
   if (_isArray(intervals[0])) {
-    return _some(intervals, (interval) => {
-      const isIn = includesTimestamp(interval, timestamp);
-      return includesTimestamp(interval, timestamp);
-    });
+    return _some(intervals, interval => includesTimestamp(interval, timestamp));
   }
   return includesTimestamp(intervals, timestamp);
 };

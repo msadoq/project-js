@@ -2,7 +2,7 @@ import _isString from 'lodash/isString';
 import _isEmpty from 'lodash/isEmpty';
 import _has from 'lodash/has';
 import _isFunction from 'lodash/isFunction';
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 
 const logger = getLogger('common:registeredCallbacks');
 

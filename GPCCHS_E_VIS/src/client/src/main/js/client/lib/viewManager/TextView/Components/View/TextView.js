@@ -7,9 +7,9 @@ import {
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
-import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
-import { get } from 'common/parameters';
+import getLogger from '../../../../common/logManager';
+import { get } from '../../../../common/configurationManager';
 import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';

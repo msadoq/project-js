@@ -9,12 +9,15 @@ import { scaleLinear } from 'd3-scale';
 import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
+
 import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
+
+const defaultPointLabels = {};
 
 export default class Chart extends React.Component {
 
@@ -246,7 +249,7 @@ export default class Chart extends React.Component {
       yPans,
     } = this.state;
 
-    const sortedAndValidAxes = yAxes
+    return yAxes
       .map((axis) => {
         const zoomLevel = _get(yZoomLevels, axis.id, 1);
         const pan = _get(yPans, axis.id, 0);
@@ -299,7 +302,6 @@ export default class Chart extends React.Component {
       })
       .filter(axis => axis.showAxis && axis.lines.length > 0)
       .sort((a, b) => b.rank - a.rank);
-    return sortedAndValidAxes;
   }
 
   getLabelPosition = (yAxisId, lineId) =>
@@ -716,7 +718,7 @@ export default class Chart extends React.Component {
               yAxesAt={yAxesAt}
               yAxes={this.yAxes}
               xExtents={calculatedXExtents}
-              pointLabels={this.pointLabels || {}}
+              pointLabels={this.pointLabels || defaultPointLabels}
             />
         }
         <Zones

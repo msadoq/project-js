@@ -3,9 +3,9 @@ const _round = require('lodash/round');
 const _reduce = require('lodash/reduce');
 const _noop = require('lodash/noop');
 
-const { get } = require('../parameters');
+const { get } = require('../configurationManager');
 
-const getLogger = require('./');
+const getLogger = require('./index');
 
 function start(executionMap, key) {
   if (!executionMap[key]) {

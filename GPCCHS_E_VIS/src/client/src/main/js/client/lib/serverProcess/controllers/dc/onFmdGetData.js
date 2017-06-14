@@ -1,4 +1,4 @@
-const logger = require('common/log')('controllers:onFmdGetData');
+const logger = require('../../../common/logManager')('controllers:onFmdGetData');
 const globalConstants = require('../../../constants');
 const { decode } = require('common/protobuf');
 

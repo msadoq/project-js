@@ -3,7 +3,7 @@ import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
-import getLogger from 'common/log';
+import getLogger from '../common/logManager';
 import globalConstants from '../constants';
 import { addInterval, retrieveNeededIntervals } from '../viewManager/commonData/intervalManagement';
 import { getStructureType } from '../viewManager';

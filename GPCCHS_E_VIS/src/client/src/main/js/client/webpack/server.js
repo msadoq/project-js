@@ -3,8 +3,8 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import { get } from 'common/parameters';
 import DashboardPlugin from 'webpack-dashboard/plugin';
+import { get } from '../lib/common/configurationManager';
 import config from './config.renderer.development';
 
 const app = express();

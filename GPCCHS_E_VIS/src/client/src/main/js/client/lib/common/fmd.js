@@ -2,7 +2,7 @@ import startsWith from 'lodash/fp/startsWith';
 import fs from 'fs';
 import { relative, join, basename, dirname } from 'path';
 
-import parameters from 'common/parameters';
+import parameters from './configurationManager';
 import globalConstants, { MIME_TYPES } from '../constants';
 
 import ipcApi from '../mainProcess/ipc';

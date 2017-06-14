@@ -15,7 +15,7 @@ const {
   parseConfig,
   getTimer,
 } = require('./util');
-const { get } = require('../parameters');
+const { get } = require('../configurationManager');
 
 winston.cli();
 

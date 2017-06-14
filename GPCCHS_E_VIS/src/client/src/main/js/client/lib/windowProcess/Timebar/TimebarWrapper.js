@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 import styles from './TimebarWrapper.css';
 import LeftTabContainer from './LeftTab/LeftTabContainer';
 import RightTabContainer from './RightTabContainer';

@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 import globalConstants from '../../constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';

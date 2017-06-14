@@ -1,4 +1,4 @@
-import { freezeMe, testMemoization, should } from '../../../common/test';
+import { freezeMe, testMemoization } from '../../../common/test';
 
 import { getMasterSession } from './InformationSelectors';
 

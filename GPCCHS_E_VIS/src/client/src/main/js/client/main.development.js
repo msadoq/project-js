@@ -1,6 +1,6 @@
 import { app } from 'electron';
-import { init } from 'common/parameters';
 import { onStart, onStop, onWindowsClose, onError } from './lib/mainProcess';
+import { init } from './lib/common/configurationManager';
 // import { createWindow } from './lib/mainProcess/testPerf';
 
 init(__dirname, true);

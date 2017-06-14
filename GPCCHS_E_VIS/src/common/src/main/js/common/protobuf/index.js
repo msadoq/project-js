@@ -5,10 +5,6 @@ const _get = require('lodash/get');
 const types = {};
 const comObjectProtobufTypes = {};
 
-const getLogger = require('../log');
-
-const logger = getLogger('common:registerProtobuf');
-
 module.exports.register = function register(rootPath, root, namespaces) {
   if (!types[root]) {
     types[root] = {};
@@ -30,7 +26,7 @@ module.exports.register = function register(rootPath, root, namespaces) {
           lookedUpType.mapper = mapper;
           types[root][namespace][key] = lookedUpType;
         } catch (e) {
-          logger.error(`${namespace}.protobuf.${key} can't be lookedUp`);
+          throw new Error(`${namespace}.protobuf.${key} can't be lookedUp`);
         }
       }
     });

@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import { NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
 import styles from './Inspector.css';
 import Tree from './Tree';

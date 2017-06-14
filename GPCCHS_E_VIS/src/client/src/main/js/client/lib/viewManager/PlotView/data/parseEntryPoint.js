@@ -1,6 +1,6 @@
 import _isEqual from 'lodash/isEqual';
 import globalConstants from '../../../constants';
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 const flattenDataId = require('../../../common/flattenDataId');
 import parseConnectedData from '../../commonData/parseConnectedData';
 

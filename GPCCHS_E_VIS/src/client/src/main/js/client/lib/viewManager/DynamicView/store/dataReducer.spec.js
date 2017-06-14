@@ -78,7 +78,8 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
   });
   it('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myDyn', 'myText'] } };
-    expect(dynamicViewData(freezeMe({ myDyn: {}, myOtherDyn: {} }), action)).toEqual({ myOtherDyn: {} });
+    expect(dynamicViewData(freezeMe({ myDyn: {}, myOtherDyn: {} }), action))
+      .toEqual({ myOtherDyn: {} });
   });
   it('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myDyn' } };

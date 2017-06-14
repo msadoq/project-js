@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { get } from 'common/parameters';
+import { get } from './configurationManager';
 import globalConstants from '../constants';
 import * as fmdApi from './fmd';
 import ipcApi from '../mainProcess/ipc';

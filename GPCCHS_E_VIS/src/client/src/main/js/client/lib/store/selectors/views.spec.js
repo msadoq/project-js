@@ -1,5 +1,3 @@
-/* eslint no-unused-expressions: 0 */
-import { } from '../../common/test';
 import { getViewEntryPoint, getWindowAllViewsIds } from './views';
 
 describe('store:views:selectors', () => {

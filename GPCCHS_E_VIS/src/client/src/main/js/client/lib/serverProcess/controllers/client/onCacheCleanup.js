@@ -1,7 +1,7 @@
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const executionMonitor = require('common/log/execution');
-const logger = require('common/log')('controllers:onCacheCleanup');
+const executionMonitor = require('../../../common/logManager/execution');
+const logger = require('../../../common/logManager')('controllers:onCacheCleanup');
 const removeIntervals = require('../../../utils/intervals/remove');
 const { removeMultiQueryIds: removeRegisteredQuery } = require('../../models/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');

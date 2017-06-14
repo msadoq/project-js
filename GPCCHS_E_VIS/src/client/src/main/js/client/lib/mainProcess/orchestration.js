@@ -4,10 +4,19 @@ import _get from 'lodash/get';
 import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
 import { tmpdir } from 'os';
-import { get } from 'common/parameters';
-import { HSC_ORCHESTRATION_WARNING_STEP, HSC_ORCHESTRATION_CRITICAL_STEP, HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL, IPC_METHOD_CACHE_CLEANUP, HSC_CRITICAL_SWITCH_PAUSE_DELAY, HSC_PUBSUB_MONITORING_FREQUENCY } from '../constants';
-import executionMonitor from 'common/log/execution';
-import getLogger from 'common/log';
+import { get } from '../common/configurationManager';
+import {
+  HSC_ORCHESTRATION_WARNING_STEP,
+  HSC_ORCHESTRATION_CRITICAL_STEP,
+  HEALTH_STATUS_HEALTHY,
+  HEALTH_STATUS_WARNING,
+  HEALTH_STATUS_CRITICAL,
+  IPC_METHOD_CACHE_CLEANUP,
+  HSC_CRITICAL_SWITCH_PAUSE_DELAY,
+  HSC_PUBSUB_MONITORING_FREQUENCY,
+} from '../constants';
+import executionMonitor from '../common/logManager/execution';
+import getLogger from '../common/logManager';
 
 import { server } from './ipc';
 import { getStore } from '../store/createStore';

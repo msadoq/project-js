@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { existsSync, writeFileSync } = require('fs');
-const { get } = require('common/parameters');
+const { get } = require('../../common/configurationManager');
 const stubData = require('common/protobuf/stubs');
 
 module.exports = function sendFmdCreate(queryId, { name, path }, zmq) {

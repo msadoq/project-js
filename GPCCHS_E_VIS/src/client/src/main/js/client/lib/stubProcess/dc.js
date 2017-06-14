@@ -2,7 +2,7 @@ const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 
 const path = require('path');
-const logger = require('common/log/index')('stubs:utils');
+const logger = require('../common/logManager')('stubs:utils');
 const zmq = require('common/zmq');
 const globalConstants = require('../constants');
 const protobuf = require('common/protobuf');

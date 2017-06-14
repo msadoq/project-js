@@ -1,10 +1,10 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import path from 'path';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
 import { connect as createRtd } from 'rtd/catalogs';
 
+import getLogger from '../common/logManager';
+import parameters from '../common/configurationManager';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,

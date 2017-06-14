@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 import Dimensions from '../common/Dimensions';
 import HelpContent from '../Navigation/HelpContent';
 import MessagesContainer from '../Navigation/MessagesContainer';

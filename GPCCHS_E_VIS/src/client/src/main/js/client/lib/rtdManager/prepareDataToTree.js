@@ -3,9 +3,17 @@ import _map from 'lodash/map';
 import _isArray from 'lodash/isArray';
 import _isObject from 'lodash/isObject';
 import _isString from 'lodash/isString';
-import { NODE_TYPE_ARRAY as ARRAY, NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM, NODE_TYPE_OBJECT as OBJECT, NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM, NODE_TYPE_ITEM as ITEM, NODE_TYPE_KEY as KEY, NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../constants';
 import { LINK as RTD_LINK } from 'rtd/constants';
-
+import {
+  NODE_TYPE_ARRAY as ARRAY,
+  NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
+  NODE_TYPE_OBJECT as OBJECT,
+  NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM,
+  NODE_TYPE_ITEM as ITEM,
+  NODE_TYPE_KEY as KEY,
+  NODE_TYPE_LINK as LINK,
+  NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
+} from '../constants';
 
 const getType = (parentType, key, value) => {
   if (_isArray(value)) {

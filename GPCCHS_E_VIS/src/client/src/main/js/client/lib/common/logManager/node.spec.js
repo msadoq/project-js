@@ -1,4 +1,3 @@
-require('../utils/test');
 const isFunction = require('lodash/isFunction');
 const isObject = require('lodash/isObject');
 const isArray = require('lodash/isArray');
@@ -30,9 +29,9 @@ function initLogger(category, config, callbackOrObjOrArray) {
   });
 }
 
-describe('log/node', () => {
-  it('getStdOptions', () => {
-    getStdOptions({
+describe('logManager/node', () => {
+  test('getStdOptions', () => {
+    expect(getStdOptions({
       message: 'foo',
       meta: {
         time: '100',
@@ -41,18 +40,18 @@ describe('log/node', () => {
         foo: 'bar',
       },
       formatter: () => '',
-    }).should.eql({
+    })).toEqual({
       message: 'foo +100',
       meta: {
         foo: 'bar',
       },
     });
   });
-  it('log', () => {
+  test('log', () => {
     const log = {};
     const logger = initLogger('category', 'custom?time=false', log);
     logger.info('one log', { foo: 'bar' });
-    log.should.eql({
+    expect(log).toEqual({
       level: 'info',
       meta: {
         foo: 'bar',
@@ -62,11 +61,11 @@ describe('log/node', () => {
       msg: `[NONAME(${process.pid})][category] one log`,
     });
   });
-  it('filter on level', () => {
+  test('filter on level', () => {
     const log = {};
     const logger = initLogger('category', 'custom?time=false,level=debug', log);
     logger.debug('one log', { foo: 'bar' });
-    log.should.eql({
+    expect(log).toEqual({
       level: 'debug',
       meta: {
         foo: 'bar',
@@ -76,11 +75,11 @@ describe('log/node', () => {
       msg: `[NONAME(${process.pid})][category] one log`,
     });
   });
-  it('default parameters', () => {
+  test('default parameters', () => {
     const log = {};
     const logger = initLogger('category', 'custom', log);
     logger.info('one log', { foo: 'bar' });
-    log.should.have.properties({
+    expect(log).toMatchObject({
       meta: {
         foo: 'bar',
         pid: process.pid,
@@ -89,46 +88,46 @@ describe('log/node', () => {
       },
     });
   });
-  it('include parameter', () => {
+  test('include parameter', () => {
     const logs = [];
     const config = 'custom?process=false,time=false,include=^category$';
     const logger = initLogger('category', config, logs);
     const logger2 = initLogger('category2', config, logs);
     logger.info('log');
     logger2.info('log');
-    logs.should.eql([{
+    expect(logs).toEqual([{
       level: 'info',
       meta: {},
       msg: `[NONAME(${process.pid})][category] log`,
     }]);
   });
-  it('exclude parameter', () => {
+  test('exclude parameter', () => {
     const logs = [];
     const config = 'custom?process=false,time=false,exclude=^category$';
     const logger = initLogger('category', config, logs);
     const logger2 = initLogger('category2', config, logs);
     logger.info('log');
     logger2.info('log');
-    logs.should.eql([{
+    expect(logs).toEqual([{
       level: 'info',
       meta: {},
       msg: `[NONAME(${process.pid})][category2] log`,
     }]);
   });
-  it('include and exclude parameter', () => {
+  test('include and exclude parameter', () => {
     const logs = [];
     const config = 'custom?process=false,time=false,include=^category$,exclude=^category2$';
     const logger = initLogger('category', config, logs);
     const logger2 = initLogger('category2', config, logs);
     logger.info('log');
     logger2.info('log');
-    logs.should.eql([{
+    expect(logs).toEqual([{
       level: 'info',
       meta: {},
       msg: `[NONAME(${process.pid})][category] log`,
     }]);
   });
-  it('multiple transports with different levels and include parameter', () => {
+  test('multiple transports with different levels and include parameter', () => {
     const logs = [];
     const config = 'custom?process=false,time=false:custom?process=false,time=false,level=debug,include=^category$';
     const logger = initLogger('category', config, logs);
@@ -136,7 +135,7 @@ describe('log/node', () => {
     logger.debug('log 1');
     logger.info('log 2');
     logger2.debug('log 3');
-    logs.should.eql([
+    expect(logs).toEqual([
       {
         level: 'debug',
         msg: `[NONAME(${process.pid})][category] log 1`,

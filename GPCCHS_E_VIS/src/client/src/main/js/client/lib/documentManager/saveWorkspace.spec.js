@@ -1,6 +1,8 @@
+import _ from 'lodash/fp';
 import sinon from 'sinon';
 import rimraf from 'rimraf';
 import { join } from 'path';
+import { readFile } from 'fs';
 
 import { MIME_TYPES } from '../constants';
 import { getTmpPath, freezeMe } from '../common/test';
@@ -37,7 +39,7 @@ describe('documentManager/saveWorkspace', () => {
   });
   let state;
   beforeEach(() => {
-    state = {
+    state = freezeMe({
       windows: {
         win1: {
           focusedPage: 'page1',
@@ -112,113 +114,79 @@ describe('documentManager/saveWorkspace', () => {
         file: 'workspace1.json',
         folder: getTmpPath('testWk'),
       },
-    };
+    });
   });
   const folder = getTmpPath('testAs');
 
   afterEach((done) => {
     rimraf(getTmpPath(), done);
   });
-  test('save ok', (done) => {
-    const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), (err) => {
-      expect(typeof err).not.toBe('error');
-      fs.isExists(path, (exist) => {
-        expect(exist).toBe(true);
-        done();
-      });
-    });
-  });
-  test('saveAs ok', (done) => {
-    const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, (err) => {
-      expect(typeof err).not.toBe('error');
-      fs.isExists(path, (exist) => {
-        expect(exist).toBe(true);
-        done();
-      });
-    });
-  });
-  test('save fail', (done) => {
-    state.timebars.abcd.mode = null;
-    const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), (err) => {
-      expect(err).toBeInstanceOf(Error);
-      fs.isExists(path, (exist) => {
-        expect(exist).toBe(false);
-        done();
-      });
-    });
-  });
-  test('saveAs fail', (done) => {
-    state.timebars.abcd.mode = null;
-    const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(freezeMe(state), path, (err) => {
-      expect(err).toBeInstanceOf(Error);
-      fs.isExists(path, (exist) => {
-        expect(exist).toBe(false);
-        done();
-      });
-    });
-  });
-  test('save correct content', (done) => {
-    const path = join(state.hsc.folder, state.hsc.file);
-    saveWorkspace(freezeMe(state), () => {
-      readJson(path, (err, content) => {
-        // console.warn(err);
-        // console.warn('CONTENT : ', content);
-        expect(content).toEqual({
-          type: 'WorkSpace',
-          windows: [
-            {
-              type: 'documentWindow',
-              pages: [
-                {
-                  oId: 'oid:/testPlot.json',
-                  timebarId: 'tb1',
-                },
-                {
-                  path: 'testText.json',
-                  timebarId: 'tb1',
-                },
-              ],
-              title: 'window1',
-              geometry: {
-                h: 800,
-                kind: 'Absolute',
-                w: 1310,
-                x: 110,
-                y: 10,
-              },
-            },
-          ],
-          timebars: [
-            {
-              id: 'tb1',
-              rulerResolution: 11250,
-              speed: 1,
-              masterId: 'Session 1',
-              mode: 'Normal',
-              type: 'timeBarConfiguration',
-              timelines: [
-                {
-                  color: null,
-                  id: 'Session 1',
-                  kind: 'Session',
-                  offset: 0,
-                  sessionName: 'session1',
-                },
-                {
-                  color: null,
-                  id: 'Session 2',
-                  kind: 'Session',
-                  offset: 0,
-                  sessionName: 'session1',
-                },
-              ],
-            },
-          ],
+
+  describe('saveWorkspace', () => {
+    test('saves', (done) => {
+      const path = join(state.hsc.folder, state.hsc.file);
+      saveWorkspace(state, (err) => {
+        expect(err).not.toBeAnError();
+        fs.isExists(path, (exist) => {
+          expect(exist).toBe(true);
+          done();
         });
+      });
+    });
+
+    test('saves correct content', (done) => {
+      const path = join(state.hsc.folder, state.hsc.file);
+      saveWorkspace(state, () => {
+        readJson(path, (err, content) => {
+          expect(content).toMatchSnapshot();
+          done();
+        });
+      });
+    });
+
+    test('fails when validate', (done) => {
+      const modifiedState = _.unset('timebars.abcd.mode', state);
+      const path = join(modifiedState.hsc.folder, modifiedState.hsc.file);
+      saveWorkspace(modifiedState, (err) => {
+        expect(err).toBeAnError();
+        fs.isExists(path, (exist) => {
+          expect(exist).toBe(false);
+          done();
+        });
+      });
+    });
+
+    test('fails when cannot get path from workspace', (done) => {
+      saveWorkspace({ hsc: {} }, (err) => {
+        expect(err).toBeAnError();
+        done();
+      });
+    });
+  });
+
+  describe('saveWorkspaceAs', () => {
+    test('saves', (done) => {
+      const path = join(folder, 'workspace.json');
+      saveWorkspaceAs(state, path, (err) => {
+        expect(err).not.toBeAnError();
+        readFile(path, 'utf8', (errorReading, content) => {
+          expect(errorReading).not.toBeAnError();
+          expect(content).toMatchSnapshot();
+          done();
+        });
+      });
+    });
+
+    test('fails when createFolder', (done) => {
+      saveWorkspaceAs(state, '/unknown/document.json', (err) => {
+        expect(err).toBeAnError();
+        done();
+      });
+    });
+
+    test('fails when writeDocument', (done) => {
+      saveWorkspaceAs(state, '/', (err) => {
+        expect(err).toBeAnError();
         done();
       });
     });

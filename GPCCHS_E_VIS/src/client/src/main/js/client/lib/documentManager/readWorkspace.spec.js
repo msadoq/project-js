@@ -1,4 +1,5 @@
 import sinon from 'sinon';
+import _ from 'lodash/fp';
 import workspaceFixture from './fixtures/small.workspace.json';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import * as io from './io';
@@ -8,6 +9,9 @@ const createStubReadDocument = () => sinon.stub(io, 'readDocument').callsFake((w
   if (workspaceInfo.withError) {
     return cb(new Error('Fake Error'));
   }
+  if (workspaceInfo.withValidationError) {
+    return cb(null, {});
+  }
   return cb(null, workspaceFixture, null, '/a/fake/absolute/path');
 });
 
@@ -16,14 +20,18 @@ const createStubReadPagesAndViews = () => sinon.stub(readPageApi, 'readPageAndVi
 });
 
 describe('documentManager:readWorkspace', () => {
-  let stubReadDocument;
+  let stubReadDocument = { restore: _.noop };
+  let stubReadPageAndViews = { restore: _.noop };
   afterEach(() => {
+    stubReadPageAndViews.restore();
+    stubReadPageAndViews = { restore: _.noop };
     stubReadDocument.restore();
+    stubReadDocument = { restore: _.noop };
   });
 
   describe('readWorkspacePagesAndViews', () => {
     test('prepare a complete readed workspace', (done) => {
-      const stubReadPagesAndViews = createStubReadPagesAndViews();
+      stubReadPageAndViews = createStubReadPagesAndViews();
       stubReadDocument = createStubReadDocument();
       readWorkspacePagesAndViews({}, (err, workspace) => {
         expect(workspace.type).toEqual('WorkSpace');
@@ -58,10 +66,16 @@ describe('documentManager:readWorkspace', () => {
         expect(tl.kind).toEqual('Session');
         expect(tl.sessionName).toEqual('Master');
         expect(tl.uuid).toBeAnUuid();
-
-        stubReadPagesAndViews.restore();
         done();
       });
+    });
+    test('gives an error when validation failed', (done) => {
+      stubReadPageAndViews = createStubReadPagesAndViews();
+      stubReadDocument = createStubReadDocument();
+      readWorkspacePagesAndViews({ withValidationError: true }, (err) => {
+        expect(err).toBeInstanceOf(Error);
+      });
+      done();
     });
     test('gives an error when readDocument failed', (done) => {
       stubReadDocument = createStubReadDocument();

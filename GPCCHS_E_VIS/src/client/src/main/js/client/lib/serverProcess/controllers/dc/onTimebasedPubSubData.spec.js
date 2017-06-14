@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const { getRemoteId } = require('../../../common/test');
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const {

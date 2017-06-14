@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const _concat = require('lodash/concat');
 
 const globalConstants = require('../../../constants');
@@ -5,7 +9,6 @@ const { decode } = require('common/protobuf');
 const registeredCallbacks = require('../../../common/callbacks');
 
 const onSessionsQuery = require('./onSessionsQuery');
-
 
 let calls = [];
 const zmqEmulator = (payload) => {

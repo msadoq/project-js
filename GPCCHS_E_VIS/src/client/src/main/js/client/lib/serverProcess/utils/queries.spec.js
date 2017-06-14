@@ -1,4 +1,7 @@
-const { getRemoteId } = require('../../common/test');
+const { getRemoteId, registerProtobuf } = require('../../common/test');
+
+registerProtobuf();
+
 const { resetQueryId, createQueryMessage } = require('./queries');
 const globalConstants = require('../../constants');
 const dataStub = require('common/protobuf/stubs');
@@ -16,6 +19,7 @@ const testExecutionHandler = {
   start: () => {},
   stop: () => {},
 };
+
 
 describe('utils/subscriptions', () => {
   beforeEach(() => {

@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const dataStub = require('common/protobuf/stubs');
 const onSessionTimeData = require('./onSessionTimeData');
 

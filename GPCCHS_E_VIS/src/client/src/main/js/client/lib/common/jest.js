@@ -9,16 +9,6 @@ import { resolve } from 'path';
   Please see : https://facebook.github.io/jest/docs/cli.html#setuptestframeworkscriptfile-file
 */
 
-const registerDc = require('common/protobuf/adapters/dc');
-const registerLpisis = require('common/protobuf/adapters/lpisis');
-
-let registered = false;
-if (!registered) {
-  registerDc(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-  registerLpisis(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
-  registered = true;
-}
-
 global.testConfig = {
   ISIS_DOCUMENTS_ROOT: resolve(__dirname, '../documentManager/fixtures'),
   WILDCARD_CHARACTER: '*',

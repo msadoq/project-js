@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const dataStub = require('common/protobuf/stubs');
 const globalConstants = require('../../../constants');
 const onFmdGetData = require('./onFmdGetData');

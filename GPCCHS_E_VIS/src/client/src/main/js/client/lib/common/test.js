@@ -1,11 +1,19 @@
 import { tmpdir } from 'os';
 import _ from 'lodash';
-import path from 'path';
+import { resolve } from 'path';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { getDataId } from 'common/protobuf/stubs';
 import deepFreeze from 'deep-freeze';
 import flattenDataId from './flattenDataId';
+
+const registerDc = require('common/protobuf/adapters/dc');
+const registerLpisis = require('common/protobuf/adapters/lpisis');
+
+const registerProtobuf = () => {
+  registerDc(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
+  registerLpisis(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
+};
 
 const mockStore = configureMockStore([thunk]);
 
@@ -42,6 +50,7 @@ module.exports = {
   freezeMe, // reducers testing
   freezeArgs, // reducers testing
   testMemoization, // reselect testing
-  getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
+  registerProtobuf, // protobuf testing
+  getTmpPath: (...args) => resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
   getRemoteId,
 };

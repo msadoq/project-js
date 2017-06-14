@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');

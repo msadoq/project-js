@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const onDomainsData = require('./onDomainsData');
 const dataStub = require('common/protobuf/stubs');
 const registeredCallbacks = require('../../../common/callbacks');

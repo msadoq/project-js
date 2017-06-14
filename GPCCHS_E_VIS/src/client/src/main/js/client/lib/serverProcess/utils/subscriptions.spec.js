@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../common/test');
+
+registerProtobuf();
+
 const {
   createAddSubscriptionMessage,
   createDeleteSubscriptionMessage,

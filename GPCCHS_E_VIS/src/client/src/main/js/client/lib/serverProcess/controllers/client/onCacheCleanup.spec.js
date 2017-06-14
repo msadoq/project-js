@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const _concat = require('lodash/concat');
 const dataStub = require('common/protobuf/stubs');
 const { decode } = require('common/protobuf');

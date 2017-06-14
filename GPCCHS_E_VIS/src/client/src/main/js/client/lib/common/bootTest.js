@@ -73,6 +73,7 @@ const extendedAssertions = {
   toBeArray: toBe(Array.isArray, () => 'an array'),
   toBeObject: toBe(x => typeof x === 'object', () => 'an object'),
   toBeString: toBe(x => typeof x === 'string', () => 'a string'),
+  toBeFunction: toBe(x => typeof x === 'function', () => 'a function'),
   toBeOneOf: toBe((val, arg = []) => arg.includes(val), arg => `one of ${arg}`),
   toBeV4: toBe(x => typeof x === 'string' && x.length === v4Length, () => 'a V4 uuid'),
   toBeHexadecimal: toBe(x => (/^#(?:[0-9a-fA-F]{3}){1,2}$/).test(x), () => 'a hexadecimal value'),
@@ -83,6 +84,7 @@ const aliases = {
   toBeAnArray: extendedAssertions.toBeArray,
   toBeAnObject: extendedAssertions.toBeObject,
   toBeAString: extendedAssertions.toBeString,
+  toBeAFunction: extendedAssertions.toBeFunction,
   toBeAnUuid: extendedAssertions.toBeV4,
   toBeAnHexadecimalValue: extendedAssertions.toBeHexadecimal,
 };

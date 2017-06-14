@@ -40,10 +40,9 @@ export const writeDocument = (path, json, cb) => {
       }
       return fs.writeFile(path, data, (errWriting) => {
         if (errWriting) {
-          cb(errWriting);
-          return;
+          return cb(errWriting);
         }
-        cb(null, oid);
+        return cb(null, oid);
       });
     });
   }

@@ -1,8 +1,8 @@
 import 'babel-polyfill';
-import _ from 'lodash';
-import { difference, intersection } from 'lodash/fp';
+import { set } from 'lodash';
+import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
-import path from 'path';
+import { resolve } from 'path';
 
 /*
   Setting up the testing framework before each test.
@@ -14,13 +14,13 @@ const registerLpisis = require('common/protobuf/adapters/lpisis');
 
 let registered = false;
 if (!registered) {
-  registerDc(path.resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-  registerLpisis(path.resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
+  registerDc(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
+  registerLpisis(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
   registered = true;
 }
 
 global.testConfig = {
-  ISIS_DOCUMENTS_ROOT: path.resolve(__dirname, '../documentManager/fixtures'),
+  ISIS_DOCUMENTS_ROOT: resolve(__dirname, '../documentManager/fixtures'),
   WILDCARD_CHARACTER: '*',
   VISUWINDOW_MAX_LENGTH: 42,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN: 0.1,
@@ -37,13 +37,14 @@ global.testConfig = {
   DEFAULT_FIELD: {},
 };
 
-_.set(
-  global,
-  'parameters.get',
-  p => _.get(global.testConfig, p)
-);
+set(global, 'parameters.get', path => _.get(path, global.testConfig));
 
 // jest expect.extend utils
+const isNodeError = _.allPass([
+  _.has('errno'),
+  _.has('code'),
+  _.has('syscall'),
+]);
 const stringify = val => JSON.stringify(val, null, 2);
 
 const toBe = (predicat, getAssertionString = _.identity) => (received, argument) => {
@@ -77,6 +78,10 @@ const extendedAssertions = {
   toBeOneOf: toBe((val, arg = []) => arg.includes(val), arg => `one of ${arg}`),
   toBeV4: toBe(x => typeof x === 'string' && x.length === v4Length, () => 'a V4 uuid'),
   toBeHexadecimal: toBe(x => (/^#(?:[0-9a-fA-F]{3}){1,2}$/).test(x), () => 'a hexadecimal value'),
+  toBeError: toBe(x =>
+    x instanceof Error || isNodeError(x),
+    () => 'an error'
+  ),
   toHaveKeys,
 };
 
@@ -87,6 +92,7 @@ const aliases = {
   toBeAFunction: extendedAssertions.toBeFunction,
   toBeAnUuid: extendedAssertions.toBeV4,
   toBeAnHexadecimalValue: extendedAssertions.toBeHexadecimal,
+  toBeAnError: extendedAssertions.toBeError,
 };
 
 expect.extend({

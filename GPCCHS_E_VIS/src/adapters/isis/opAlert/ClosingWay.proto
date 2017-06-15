@@ -1,0 +1,7 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package opAlert.protobuf;
+
+enum ClosingWay {
+  GUI = 0;
+  messageSMS = 1;
+}

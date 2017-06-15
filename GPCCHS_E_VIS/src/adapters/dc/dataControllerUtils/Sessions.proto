@@ -1,0 +1,8 @@
+package dataControllerUtils.protobuf;
+
+import "./Session.proto";
+
+message Sessions {
+extensions 2 to 102;
+    repeated Session sessions = 1;
+}

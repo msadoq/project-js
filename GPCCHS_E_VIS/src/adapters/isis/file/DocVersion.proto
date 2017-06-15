@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+import "../ccsds_mal/NamedValue.proto";
+
+
+package file.protobuf;
+
+message DocVersion {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.STRING externalVersion = 1;
+  optional ccsds_mal.protobuf.USHORT internalVersion = 2;
+  repeated ccsds_mal.protobuf.NamedValue properties = 3;
+  optional ccsds_mal.protobuf.ATTRIBUTE content = 4;
+}

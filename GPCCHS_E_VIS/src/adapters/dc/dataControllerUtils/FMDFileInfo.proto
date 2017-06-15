@@ -1,0 +1,9 @@
+package dataControllerUtils.protobuf;
+
+import "./FMDFileType.proto";
+
+message FMDFileInfo {
+extensions 3 to 106;
+    required FMDFileType.FILE_TYPE type = 1;
+    required string serializedOid = 2;
+}

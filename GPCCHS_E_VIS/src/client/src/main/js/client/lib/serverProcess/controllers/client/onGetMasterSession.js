@@ -1,4 +1,4 @@
-const { encode } = require('common/protobuf');
+const { encode } = require('../../../utils/adapters');
 const globalConstants = require('common/constants');
 
 const protobufHeader = encode('dc.dataControllerUtils.Header', {

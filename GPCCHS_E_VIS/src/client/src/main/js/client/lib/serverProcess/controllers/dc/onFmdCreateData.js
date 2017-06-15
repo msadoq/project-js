@@ -1,6 +1,6 @@
 const logger = require('common/log')('controllers:onFmdCreateData');
 const globalConstants = require('common/constants');
-const { decode } = require('common/protobuf');
+const { decode } = require('../../../utils/adapters');
 
 /**
  * Triggered on create FMD document response

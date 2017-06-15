@@ -1,0 +1,22 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+
+import "./TCDetailType.proto";
+
+package tcHistory.protobuf;
+
+message TCDetails {
+extensions 12 to 112;
+
+  optional tcHistory.protobuf.TCDetailType tcDetailType = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 2;
+  optional ccsds_mal.protobuf.BOOLEAN valueIsRaw = 3;
+  optional ccsds_mal.protobuf.UINTEGER apId = 4;
+  optional ccsds_mal.protobuf.UINTEGER sourceId = 5;
+  optional ccsds_mal.protobuf.UINTEGER sequenceCount = 6;
+  optional ccsds_mal.protobuf.UINTEGER serviceType = 7;
+  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 8;
+  repeated ccsds_mal.protobuf.IDENTIFIER argumentIds = 9;
+  repeated tcHistory.protobuf.TCDetails argumentValues = 10;
+  optional ccsds_mal.protobuf.BLOB rawPacket = 11;
+}

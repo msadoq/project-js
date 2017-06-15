@@ -1,0 +1,25 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+import "../ccsds_mal/NamedValue.proto";
+import "./OpAlertClosingData.proto";
+import "./OpAlertConfiguration.proto";
+import "./Status.proto";
+
+package opAlert.protobuf;
+
+message OpAlert {
+extensions 13 to 113;
+
+  optional ccsds_mal.protobuf.TIME alertDate = 1;
+  optional ccsds_mal.protobuf.BLOB target = 2;
+  optional ccsds_mal.protobuf.NamedValue specificAttributes = 3;
+  optional ccsds_mal.protobuf.BOOLEAN closingNeeded = 4;
+  optional ccsds_mal.protobuf.BLOB callingUser = 5;
+  optional ccsds_mal.protobuf.TIME systemDate = 6;
+  optional ccsds_mal.protobuf.STRING mission = 7;
+  optional ccsds_mal.protobuf.ULONG satellite = 8;
+  repeated opAlert.protobuf.OpAlertConfiguration opAlertConfiguration = 9;
+  optional opAlert.protobuf.Status status = 10;
+  optional ccsds_mal.protobuf.TIME lastCallDate = 11;
+  optional opAlert.protobuf.OpAlertClosingData opAlertClosingData = 12;
+}

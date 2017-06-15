@@ -1,6 +1,6 @@
 const _concat = require('lodash/concat');
 const dataStub = require('common/protobuf/stubs');
-const { decode } = require('common/protobuf');
+const { decode } = require('../../../utils/adapters');
 
 const registeredCallbacks = require('../../../utils/callbacks');
 const { should } = require('../../utils/test');

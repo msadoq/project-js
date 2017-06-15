@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+import "./Ack.proto";
+
+
+package ackRequest.protobuf;
+
+message AckRequest {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.TIME ackRequestDate = 1;
+  optional ccsds_mal.protobuf.TIME systemDate = 2;
+  optional ackRequest.protobuf.Ack ack = 3;
+  optional ccsds_mal.protobuf.STRING comment = 4;
+}

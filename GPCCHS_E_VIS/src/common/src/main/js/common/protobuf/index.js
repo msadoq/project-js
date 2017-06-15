@@ -3,8 +3,9 @@ const _each = require('lodash/each');
 const _get = require('lodash/get');
 
 const types = {};
+const typesTest = {};
 const comObjectProtobufTypes = {};
-
+const comObjectProtobufTypesTest = {};
 const getLogger = require('../log');
 
 const logger = getLogger('common:registerProtobuf');
@@ -37,6 +38,29 @@ module.exports.register = function register(rootPath, root, namespaces) {
   });
 };
 
+module.exports.registerTest = function register(root, rootPath, namespace, proto, mapper) {
+    // append definition to builder
+  let lookedUpType;
+  const builder = ProtoBuf.loadSync(`${rootPath}/${namespace}/${proto}.proto`);
+  if (!builder) {
+    throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
+  }
+  // const resolvedNamespace = builder.resolve();
+  // console.log('resolvedNamespace : ', resolvedNamespace);
+  // for (const key in resolvedNamespace.nested[namespace].nested.protobuf.nested) { // TODO Can't be this be done in a more proper way ?
+  // typesTest[root][namespace][proto] = {};
+  // comObjectProtobufTypesTest[proto] = `${root}.${namespace}.${proto}`;
+  try {
+    lookedUpType = builder.lookup(`${namespace}.protobuf.${proto}`);
+    lookedUpType.mapper = mapper;
+    // typesTest[root][namespace][proto] = lookedUpType;
+  } catch (e) {
+    logger.error(`${namespace}.protobuf.${proto} can't be lookedUp`);
+  }
+  return lookedUpType;
+  // } 
+};
+
 const getProtobufType = (key) => {
   const type = _get(types, key);
 
@@ -46,6 +70,8 @@ const getProtobufType = (key) => {
 
   return type;
 };
+
+module.exports.getTypesTest = () => typesTest;
 
 /* module.exports.register = function register(rootPath, root, namespaces) {
   if (!types[root]) {
@@ -92,6 +118,17 @@ module.exports.encode = function encode(type, raw) {
   return p;
 };
 
+module.exports.encodeTest = function encodeTest(builder, raw) {
+  // const Builder = getProtobufType(type);
+
+  // console.log(Builder);
+  const payload = builder.mapper
+    ? builder.mapper.encode(raw)
+    : raw;
+  const p = builder.encode(payload).finish();
+  return p;
+};
+
 module.exports.decodeAdapter = function decode(type, buffer) {
   const builder = getProtobufType(type);
   const raw = builder.decode(buffer);
@@ -109,6 +146,14 @@ module.exports.decodeNoAdapter = function decode(type, buffer) {
 
 module.exports.decode = function decode(type, buffer) {
   const builder = getProtobufType(type);
+  const raw = builder.decode(buffer);
+  const r = builder.mapper
+    ? builder.mapper.decode(raw)
+    : raw;
+  return r;
+};
+
+module.exports.decodeTest = function decodeTest(builder, buffer) {
   const raw = builder.decode(buffer);
   const r = builder.mapper
     ? builder.mapper.decode(raw)

@@ -1,5 +1,5 @@
 const logger = require('common/log')('controllers:onSessionTimeData');
-const { decode } = require('common/protobuf');
+const { decode } = require('../../../utils/adapters');
 
 /**
  * Triggered on DC session time request response.

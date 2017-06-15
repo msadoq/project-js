@@ -1,5 +1,5 @@
 const logger = require('common/log')('controllers:onDomainData');
-const { decode } = require('common/protobuf');
+const { decode } = require('../../../utils/adapters');
 
 /**
  * Triggered on DC domain request response.

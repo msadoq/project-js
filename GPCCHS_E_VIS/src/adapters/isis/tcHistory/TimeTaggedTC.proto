@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+import "./PusHeader.proto";
+
+
+package tcHistory.protobuf;
+
+message TimeTaggedTC {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.TIME encodingDate = 1;
+  optional tcHistory.protobuf.PusHeader pusHeader = 2;
+  optional ccsds_mal.protobuf.BLOB rawPacket = 3;
+  optional ccsds_mal.protobuf.INTEGER tcId = 4;
+  optional ccsds_mal.protobuf.UINTEGER tcSourceId = 5;
+  optional ccsds_mal.protobuf.ULONG sequenceCount = 6;
+  repeated ccsds_mal.protobuf.STRING parameterPhysicalValue = 7;
+  optional ccsds_mal.protobuf.TIME date = 8;
+}

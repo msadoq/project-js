@@ -29,6 +29,7 @@ import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
+import adapter from '../utils/adapters';
 
 const logger = getLogger('main:index');
 
@@ -44,7 +45,8 @@ function scheduleTimeout(message) {
 
 export function onStart() {
   setMenu();
-
+  adapter.registerGlobal();
+  console.log("HERE");
   series([
     callback => splashScreen.open(callback),
     callback => enableDebug(callback),

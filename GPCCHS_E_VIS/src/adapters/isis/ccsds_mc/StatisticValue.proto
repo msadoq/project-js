@@ -1,0 +1,17 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+
+
+
+package ccsds_mc.protobuf;
+
+message StatisticValue {
+extensions 7 to 107;
+
+  optional ccsds_mal.protobuf.TIME startTime = 1;
+  optional ccsds_mal.protobuf.TIME endTime = 2;
+  optional ccsds_mal.protobuf.TIME valueTime = 3;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 4;
+  optional ccsds_mal.protobuf.UINTEGER sampleCount = 5;
+  optional ccsds_mal.protobuf.TIME timestamp = 6;
+}

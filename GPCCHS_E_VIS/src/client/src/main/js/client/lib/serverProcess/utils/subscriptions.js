@@ -1,5 +1,5 @@
 const logger = require('common/log')('utils/subscriptions');
-const { encode } = require('common/protobuf');
+const { encode } = require('../../../utils/adapters');
 const globalConstants = require('common/constants');
 const flattenDataId = require('common/utils/flattenDataId');
 

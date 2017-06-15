@@ -1,25 +1,26 @@
+import adapter from '../utils/adapters';
+
 const path = require('path');
 const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
 
-const registerDc = require('common/protobuf/adapters/dc');
-const registerLpisis = require('common/protobuf/adapters/lpisis');
-
 const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
 
-registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
-
+// registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
+// registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
+console.log("SALAMAMAMA");
+adapter.registerGlobal();
 const clientController = require('./controllers/client');
 const dcController = require('./controllers/dc');
 const { unsubscribeAll } = require('./utils/subscriptions');
 
 // const makeCreateStore =
 //  require('../../../../../client/src/main/js/client/lib/store/createStore').default;
-
+console.log("SALAMAMAMA");
 process.title = 'gpcchs_hss';
 
+console.log("Server register !!!!!!!");
 // ZeroMQ
 const zmqConfiguration = {
   dcPull: {

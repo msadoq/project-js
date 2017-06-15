@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+
+
+
+package tcHistory.protobuf;
+
+message PusHeader {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.UOCTET versionNumber = 1;
+  optional ccsds_mal.protobuf.UINTEGER sequenceCount = 2;
+  optional ccsds_mal.protobuf.UINTEGER sourceId = 3;
+  optional ccsds_mal.protobuf.UOCTET serviceType = 4;
+  optional ccsds_mal.protobuf.UOCTET serviceSubType = 5;
+  optional ccsds_mal.protobuf.UOCTET subCounter = 6;
+  optional ccsds_mal.protobuf.UOCTET destinationId = 7;
+  optional ccsds_mal.protobuf.FINETIME time = 8;
+}

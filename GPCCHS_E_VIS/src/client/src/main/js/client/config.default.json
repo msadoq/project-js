@@ -152,5 +152,15 @@
       "al.s-1",
       "parsec.s-1"
     ]
-  }
+  },
+  "MESSAGES_NAMESPACES" : [
+    {
+      "path" : "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/",
+      "ns" :"isis"
+    },
+    {
+      "path" : "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/",
+      "ns" :"dc"
+    }
+  ]
 }

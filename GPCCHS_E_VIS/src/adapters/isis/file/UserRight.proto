@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+
+
+
+package file.protobuf;
+
+message UserRight {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.BOOLEAN read = 1;
+  optional ccsds_mal.protobuf.BOOLEAN changeAccessRight = 2;
+  optional ccsds_mal.protobuf.BOOLEAN write = 3;
+  optional ccsds_mal.protobuf.BLOB user = 4;
+}

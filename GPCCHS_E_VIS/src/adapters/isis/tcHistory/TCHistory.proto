@@ -1,0 +1,21 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/types.proto";
+import "./ExpectedAck.proto";
+import "./SuccessiveAck.proto";
+import "./SendTypeEnum.proto";
+
+package tcHistory.protobuf;
+
+message TCHistory {
+extensions 10 to 110;
+
+  optional ccsds_mal.protobuf.TIME sendingDate = 1;
+  optional ccsds_mal.protobuf.BOOLEAN tcInProgress = 2;
+  optional ccsds_mal.protobuf.INTEGER tcId = 3;
+  optional ccsds_mal.protobuf.UINTEGER tcSourceId = 4;
+  optional ccsds_mal.protobuf.STRING historyName = 5;
+  optional tcHistory.protobuf.SendTypeEnum sendType = 6;
+  optional ccsds_mal.protobuf.UINTEGER tcNums = 7;
+  optional tcHistory.protobuf.ExpectedAck expectedAck = 8;
+  optional tcHistory.protobuf.SuccessiveAck successiveAck = 9;
+}

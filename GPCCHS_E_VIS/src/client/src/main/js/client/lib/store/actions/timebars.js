@@ -5,7 +5,7 @@ import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { nextCurrent, computeCursors } from '../play';
 import {
-  addOnce as addMessage,
+  add as addMessage,
   reset as resetMessages,
 } from './messages';
 import { getMessages } from '../reducers/messages';

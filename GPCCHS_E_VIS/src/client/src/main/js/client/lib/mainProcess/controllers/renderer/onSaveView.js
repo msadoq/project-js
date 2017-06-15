@@ -7,7 +7,7 @@ import {
   updateAbsolutePath,
   setViewOid,
 } from '../../../store/actions/views';
-import { addOnce as addMessage } from '../../../store/actions/messages';
+import { add as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
 import { saveViewAs } from '../../../documentManager';
 

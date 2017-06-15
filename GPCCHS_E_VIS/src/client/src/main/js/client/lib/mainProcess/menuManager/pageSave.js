@@ -5,7 +5,7 @@ import { getPageIsModified, getPage } from '../../store/reducers/pages';
 import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { getPathByFilePicker } from '../dialog';
 import { savePage } from '../../documentManager';
-import { addOnce as addMessage } from '../../store/actions/messages';
+import { add as addMessage } from '../../store/actions/messages';
 import { getPageModifiedViewsIds } from './selectors';
 import reply from '../../common/ipc/reply';
 

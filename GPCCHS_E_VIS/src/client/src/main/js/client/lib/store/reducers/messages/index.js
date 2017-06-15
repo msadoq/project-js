@@ -13,6 +13,7 @@ const messageTypes = {
 const createNewMessages = (messageType, messages) => _.map((msg = null) => ({
   message: msg,
   type: messageTypes[messageType] || 'danger',
+  removing: false,
 }), messages);
 
 export default function messagesReducer(state = {}, action) {
@@ -28,6 +29,10 @@ export default function messagesReducer(state = {}, action) {
       const newMessage = createNewMessages(action.payload.type, action.payload.messages);
       const addNewMessage = (msgList = []) => _.concat(msgList, newMessage);
       return _.update(containerId, addNewMessage, state);
+    }
+    case types.WS_MESSAGE_REMOVING: {
+      const { containerId, index } = action.payload;
+      return _.set(`[${containerId}][${index}].removing`, true, state);
     }
     case types.WS_MESSAGE_REMOVE: {
       const { containerId, index } = action.payload;

@@ -270,15 +270,20 @@ export default class TimeSetter extends PureComponent {
           <h4>Cursor timestamps</h4>
           {
             this.props.messages && this.props.messages.length ?
-              this.props.messages.map((v, i) =>
-                <Message
-                  key={v.message}
-                  type={v.type}
-                  message={v.message}
-                  containerId={`timeSetter-${this.props.timebarUuid}`}
-                  messageIndex={i}
-                  onClose={this.props.removeMessage}
-                />
+              this.props.messages.map((v, i) => {
+                const key = `${i}_${v.message}`;
+                return (
+                  <Message
+                    key={key}
+                    type={v.type}
+                    message={v.message}
+                    removing={v.removing}
+                    containerId={`timeSetter-${this.props.timebarUuid}`}
+                    messageIndex={i}
+                    onClose={this.props.removeMessage}
+                  />
+                );
+              }
               ) : null
             }
           {

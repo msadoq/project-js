@@ -1,3 +1,5 @@
-.removing{
-  filter: brightness(0.95);
+.removing {
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 400ms ease;
 }

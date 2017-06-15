@@ -61,12 +61,14 @@ export default class Messages extends PureComponent {
         if (filter !== 'all' && v.type !== filter) {
           return;
         }
+        const key = `${i}_${v.message}`;
         children.push((
           <Message
             containerId="global"
-            key={v.message}
+            key={key}
             type={v.type}
             message={v.message}
+            removing={v.removing}
             onClose={() => remove('global', i)}
           />
         ));
@@ -76,7 +78,7 @@ export default class Messages extends PureComponent {
     // TODO dbrugne : fix react warning about choice prop
     return (
       <div className={classnames('btn-group', styles.messages)}>
-        <Button onClick={this.collapse} choice="collapse" bsSize="sm">
+        <Button onClick={this.collapse} bsSize="sm">
           { this.state.collapsed ? 'show messages' : 'hide messages' }
         </Button>
         {types.map((t) => {

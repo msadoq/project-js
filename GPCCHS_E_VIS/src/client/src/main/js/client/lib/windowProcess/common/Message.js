@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import classnames from 'classnames';
 import React, { PropTypes, PureComponent } from 'react';
 import { Alert } from 'react-bootstrap';
@@ -11,10 +12,10 @@ export default class Message extends PureComponent {
     type: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     containerId: PropTypes.string.isRequired,
+    removing: PropTypes.bool,
   };
 
-  state = {
-    alertVisible: true,
+  static defaultProps = {
     removing: false,
   }
 
@@ -28,11 +29,8 @@ export default class Message extends PureComponent {
     return (
       <Alert
         bsStyle={this.props.type}
-        className={classnames(
-          this.state.removing ? 'removing' : '',
-          { [styles.removing]: this.state.removing }
-        )}
-        onDismiss={this.willClose}
+        className={classnames({ [styles.removing]: this.props.removing })}
+        onDismiss={this.props.removing ? _.noop : this.willClose}
       >
         {split('\n', this.props.message).map(x => (
           <div key={x}>{x}</div>

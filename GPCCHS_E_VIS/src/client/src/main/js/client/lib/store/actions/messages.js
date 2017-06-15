@@ -14,11 +14,15 @@ export const add = simple(
     return { messages: extractErrors(messages) };
   }
 );
-export const remove = simple(
-  types.WS_MESSAGE_REMOVE,
-  'containerId',
-  'index'
-);
+
+export const remove = (containerId, index) => (dispatch) => {
+  const payload = { containerId, index };
+  dispatch({ type: types.WS_MESSAGE_REMOVING, payload });
+  setTimeout(() => {
+    dispatch({ type: types.WS_MESSAGE_REMOVE, payload });
+  }, 400);
+};
+
 export const reset = simple(
   types.WS_MESSAGE_RESET,
   'containerId'

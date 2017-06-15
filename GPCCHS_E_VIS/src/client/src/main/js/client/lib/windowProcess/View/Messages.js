@@ -22,14 +22,19 @@ export default class Messages extends PureComponent {
 
     return (
       <div>
-        {messages && messages.map((v, i) =>
-          <Message
-            key={v.message}
-            type={v.type}
-            message={v.message}
-            onClose={() => remove(containerId, i)}
-            containerId={containerId}
-          />
+        {messages && messages.map((v, i) => {
+          const key = `${i}_${v.message}`;
+          return (
+            <Message
+              key={key}
+              type={v.type}
+              message={v.message}
+              removing={v.removing}
+              onClose={() => remove(containerId, i)}
+              containerId={containerId}
+            />
+          );
+        }
         )}
       </div>
     );

@@ -15,7 +15,7 @@ import {
 import { clear } from '../common/callbacks';
 import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
-import { fork, get, kill } from './childProcess';
+import { fork, get, kill } from '../common/processManager';
 import makeCreateStore, { getStore } from '../store/createStore';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
@@ -67,6 +67,7 @@ export function onStart() {
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/lib/stubProcess/dc.js`,
+        [],
         {
           execPath: parameters.get('NODE_PATH'),
           env: parameters.getAll(),
@@ -100,19 +101,31 @@ export function onStart() {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');
 
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/server.js`, {
-          execPath: parameters.get('NODE_PATH'),
-          env: parameters.getAll(),
-        }, callback);
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/server.js`,
+          [],
+          {
+            execPath: parameters.get('NODE_PATH'),
+            env: parameters.getAll(),
+          },
+          callback
+        );
       } else {
         splashScreen.setMessage('starting data server process... (dev)');
         logger.info('starting data server process... (dev)');
 
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/lib/serverProcess/index.js`, {
-          execPath: parameters.get('NODE_PATH'),
-          execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-          env: parameters.getAll(),
-        }, callback);
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/lib/serverProcess/index.js`,
+          [],
+          {
+            execPath: parameters.get('NODE_PATH'),
+            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+            env: parameters.getAll(),
+          },
+          callback
+        );
       }
     },
     (callback) => {

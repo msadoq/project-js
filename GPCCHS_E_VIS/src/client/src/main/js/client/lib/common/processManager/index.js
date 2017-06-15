@@ -1,10 +1,10 @@
 const { fork: forkChildProcess } = require('child_process');
-const logger = require('../common/logManager')('main:childProcess');
+const logger = require('../logManager')('main:childProcess');
 
 const processes = {};
 
-function fork(id, path, options, callback) {
-  processes[id] = forkChildProcess(path, [], options);
+function fork(id, path, args, options, callback) {
+  processes[id] = forkChildProcess(path, args || [], options);
   processes[id].on('close', (code, signal) => {
     logger.debug(`child process ${id} closed with code ${code} (${signal})`);
   });

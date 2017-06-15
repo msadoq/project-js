@@ -11,6 +11,7 @@ import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
+import { workspaceClose } from './workspaceClose';
 import { getAvailableViews } from '../../viewManager';
 
 const { Menu } = require('electron');
@@ -55,7 +56,9 @@ const workspace = {
     },
   }, {
     label: 'Quit',
-    role: 'quit',
+    click: () => {
+      workspaceClose();
+    },
   }],
 };
 
@@ -122,12 +125,12 @@ const page = {
   }, {
     label: 'Save',
     click(item, focusedWindow) {
-      pageSave({ ...focusedWindow, stopOnUnsavedView: true });
+      pageSave(focusedWindow);
     },
   }, {
     label: 'Save As...',
     click(item, focusedWindow) {
-      pageSaveAs({ ...focusedWindow, stopOnUnsavedView: true });
+      pageSaveAs(focusedWindow);
     },
   }],
 };

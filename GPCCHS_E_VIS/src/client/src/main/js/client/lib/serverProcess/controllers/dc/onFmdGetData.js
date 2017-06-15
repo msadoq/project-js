@@ -27,19 +27,19 @@ module.exports = (reply, queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
     let detail;
     switch (type) {
       case globalConstants.FMDFILETYPE_COLLECTION: {
-        detail = decode('lpisis.file.Collection', secondBuffer);
+        detail = decode('isis.file.Collection', secondBuffer);
         break;
       }
       case globalConstants.FMDFILETYPE_COLLECTION_DOCUMENT: {
-        detail = decode('lpisis.file.CollectionDocument', secondBuffer);
+        detail = decode('isis.file.CollectionDocument', secondBuffer);
         break;
       }
       case globalConstants.FMDFILETYPE_DOCUMENT: {
-        detail = decode('lpisis.file.Document', secondBuffer);
+        detail = decode('isis.file.Document', secondBuffer);
         break;
       }
       case globalConstants.FMDFILETYPE_FOLDER: {
-        detail = decode('lpisis.file.Folder', secondBuffer);
+        detail = decode('isis.file.Folder', secondBuffer);
         break;
       }
       default:

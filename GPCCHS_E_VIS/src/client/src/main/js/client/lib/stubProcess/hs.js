@@ -1,3 +1,4 @@
+const parameters = require('../common/configurationManager');
 const async = require('async');
 const parseArgs = require('minimist');
 const _each = require('lodash/each');
@@ -37,13 +38,13 @@ const createZmqConnection = (callback, pullHandler) => {
     dcPull: {
       type: 'pull',
       role: 'server',
-      url: process.env.ZMQ_GPCCDC_PULL,
+      url: parameters.get('ZMQ_GPCCDC_PULL'),
       handler: (...args) => pullHandler(callback, ...args),
     },
     dcPush: {
       type: 'push',
       role: 'client',
-      url: process.env.ZMQ_GPCCDC_PUSH,
+      url: parameters.get('ZMQ_GPCCDC_PUSH'),
     },
   }, (err) => {
     if (err) {

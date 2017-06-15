@@ -71,7 +71,7 @@ export function onStart() {
         `${parameters.get('path')}/lib/stubProcess/dc.js`,
         {
           execPath: parameters.get('NODE_PATH'),
-          env: parameters.getAll(),
+          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
         },
         callback
       );
@@ -104,7 +104,7 @@ export function onStart() {
 
         fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/server.js`, {
           execPath: parameters.get('NODE_PATH'),
-          env: parameters.getAll(),
+          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
         }, callback);
       } else {
         splashScreen.setMessage('starting data server process... (dev)');
@@ -113,7 +113,7 @@ export function onStart() {
         fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/lib/serverProcess/index.js`, {
           execPath: parameters.get('NODE_PATH'),
           execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-          env: parameters.getAll(),
+          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
         }, callback);
       }
     },

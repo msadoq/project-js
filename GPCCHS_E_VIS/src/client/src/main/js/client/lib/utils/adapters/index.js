@@ -1,6 +1,6 @@
-import parameters from 'common/parameters';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
+import parameters from '../../common/configurationManager';
 
 const protobuf = require('common/protobuf');
 
@@ -11,12 +11,14 @@ const types = {};
 
 const registerGlobal = () => {
   const MESSAGES_NAMESPACES = parameters.get('MESSAGES_NAMESPACES');
+  
   _each(MESSAGES_NAMESPACES, (msgNasmespaces) => {
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
     }
+    //console.log("MESSAGES_NAMESPACES :", msgNasmespaces);
     const adapterPath = msgNasmespaces.path + msgNasmespaces.ns;
-    console.log('AdapterPath :', adapterPath);
+    //console.log('AdapterPath :', adapterPath);
     const namespaces = require(adapterPath);  // eslint-disable-line
     const namespacesKeys = Object.keys(namespaces);
     _each(namespacesKeys, (adapters) => {
@@ -81,7 +83,6 @@ const decode = (type, buffer) => {
 };
 
 const getType = (key) => {
-  console.log("Registered types", types);
   const type = _get(types, key);
 
   if (typeof type === 'undefined') {

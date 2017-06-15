@@ -27,6 +27,10 @@ function getArgv(name) {
 
 
 function getEnv(name) {
+  // console.log("getEnv : ",process.env);
+  if (process.env.mainProcessConfig) {
+    return JSON.parse(process.env.mainProcessConfig)[name];
+  }
   return process.env[name];
 }
 
@@ -35,6 +39,7 @@ function getAllEnv() {
 }
 
 function getLocal(name) {
+  // console.log("getLocal : ",localConfig);
   if (!localConfig) {
     return undefined;
   }

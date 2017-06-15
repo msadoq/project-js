@@ -1,11 +1,12 @@
 import adapter from '../utils/adapters';
+import parameters from '../common/configurationManager';
 
 const path = require('path');
 const exit = require('exit');
 const zmq = require('common/zmq');
 const getLogger = require('../common/logManager');
 
-const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
+const rootPath = parameters.get('IS_BUNDLED') ? __dirname : path.resolve(__dirname, '../..');
 
 // registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
 // registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
@@ -26,13 +27,13 @@ const zmqConfiguration = {
   dcPull: {
     type: 'pull',
     role: 'server',
-    url: process.env.ZMQ_GPCCDC_PULL,
+    url: parameters.get('ZMQ_GPCCDC_PULL'),
     handler: dcController,
   },
   dcPush: {
     type: 'push',
     role: 'client',
-    url: process.env.ZMQ_GPCCDC_PUSH,
+    url: parameters.get('ZMQ_GPCCDC_PUSH'),
   },
   options: {
     logger: zmqLogger,

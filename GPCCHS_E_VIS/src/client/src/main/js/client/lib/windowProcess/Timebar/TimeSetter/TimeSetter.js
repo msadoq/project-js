@@ -278,9 +278,7 @@ export default class TimeSetter extends PureComponent {
                     type={v.type}
                     message={v.message}
                     removing={v.removing}
-                    containerId={`timeSetter-${this.props.timebarUuid}`}
-                    messageIndex={i}
-                    onClose={this.props.removeMessage}
+                    onClose={() => this.props.removeMessage(`timeSetter-${this.props.timebarUuid}`, v.uuid)}
                   />
                 );
               }

@@ -119,14 +119,14 @@ describe('store:actions:timebars', () => {
       const visuWindow = { lower: 200, upper: 1, current: 100 };
       const slideWindow = { lower: 100, upper: 200 };
       store.dispatch(actions.updateCursors('tb2', visuWindow, slideWindow));
-      expect(store.getActions()).toEqual([
+      expect(store.getActions()).toMatchObject([
         { type: 'HSC_PAUSE', payload: {} },
         {
           type: 'WS_MESSAGE_ADD',
           payload: {
             containerId: 'timeSetter-tb2',
             type: 'error',
-            messages: ['Lower cursor must be before current cursor'],
+            messages: [{ content: 'Lower cursor must be before current cursor' }],
           },
         },
         {
@@ -134,7 +134,7 @@ describe('store:actions:timebars', () => {
           payload: {
             containerId: 'timeSetter-tb2',
             type: 'error',
-            messages: ['Current cursor must be before upper cursor'],
+            messages: [{ content: 'Current cursor must be before upper cursor' }],
           },
         },
       ]);

@@ -1,5 +1,4 @@
 .removing {
-  transform-origin: right;
-  transform: scaleX(0);
-  transition: transform 400ms ease;
+  opacity: 0;
+  transition: opacity 3000ms ease;
 }

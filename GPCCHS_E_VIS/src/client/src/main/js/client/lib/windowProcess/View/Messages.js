@@ -30,8 +30,7 @@ export default class Messages extends PureComponent {
               type={v.type}
               message={v.message}
               removing={v.removing}
-              onClose={() => remove(containerId, i)}
-              containerId={containerId}
+              onClose={() => remove(containerId, v.uuid)}
             />
           );
         }

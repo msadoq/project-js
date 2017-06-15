@@ -16,7 +16,7 @@ describe('store:actions:messages', () => {
         payload: {
           containerId: 'global',
           type: 'success',
-          messages: ['hello world'],
+          messages: [{ content: 'hello world' }],
         },
       });
     });
@@ -27,7 +27,7 @@ describe('store:actions:messages', () => {
         payload: {
           containerId: 'global',
           type: 'danger',
-          messages: ['error message'],
+          messages: [{ content: 'error message' }],
         },
       });
     });
@@ -45,13 +45,13 @@ describe('store:actions:messages', () => {
       expect(store.getActions()).toHaveLength(0);
 
       store.dispatch(actions.addOnce('aContainerId', 'info', 'yolo'));
-      expect(store.getActions()).toEqual([
+      expect(store.getActions()).toMatchObject([
         {
           type: 'WS_MESSAGE_ADD',
           payload: {
             containerId: 'aContainerId',
             type: 'info',
-            messages: ['yolo'],
+            messages: [{ content: 'yolo' }],
           },
         },
       ]);

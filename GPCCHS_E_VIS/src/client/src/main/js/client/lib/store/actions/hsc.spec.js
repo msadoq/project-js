@@ -89,13 +89,13 @@ describe('store:actions:hsc', () => {
     test('warns a message because of application is oveloaded', () => {
       const store = mockStore(stateCriticalWindows);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
-      expect(store.getActions()).toEqual([
+      expect(store.getActions()).toMatchObject([
         {
           type: 'WS_MESSAGE_ADD',
           payload: {
             containerId: 'global',
             type: 'warning',
-            messages: ['One process of the application is oveloaded, cannot switch to play'],
+            messages: [{ content: 'One process of the application is oveloaded, cannot switch to play' }],
           },
         },
       ]);
@@ -103,13 +103,13 @@ describe('store:actions:hsc', () => {
     test('warns a message because of code editor is opened', () => {
       const store = mockStore(stateWithCodeEditor);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
-      expect(store.getActions()).toEqual([
+      expect(store.getActions()).toMatchObject([
         {
           type: 'WS_MESSAGE_ADD',
           payload: {
             containerId: 'global',
             type: 'warning',
-            messages: ['Please close editors before play timebar'],
+            messages: [{ content: 'Please close editors before play timebar' }],
           },
         },
       ]);
@@ -117,12 +117,12 @@ describe('store:actions:hsc', () => {
     test('warns a message because of editor is opened on page', () => {
       const store = mockStore(stateWithEditorOpen);
       store.dispatch(actions.smartPlay('myTimebarUuid'));
-      expect(store.getActions()).toEqual([
+      expect(store.getActions()).toMatchObject([
         { type: 'WS_MESSAGE_ADD',
           payload: {
             containerId: 'global',
             type: 'warning',
-            messages: ['Please close editors before play timebar'],
+            messages: [{ content: 'Please close editors before play timebar' }],
           },
         },
       ]);

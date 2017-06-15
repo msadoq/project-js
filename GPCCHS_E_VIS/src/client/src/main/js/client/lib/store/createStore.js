@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { electronEnhancer } from 'redux-electron-store';
+import createMessagesMiddleware from './middlewares/messages';
 import { get } from '../common/configurationManager';
 import serverEnhancer from './enhancers/server';
 import mainEnhancer from './enhancers/main';
@@ -42,7 +43,7 @@ function prepareEnhancers(type, isDebugOn) {
     : compose;
 
   return composeEnhancers(
-    applyMiddleware(thunk, reduxLogger),
+    applyMiddleware(createMessagesMiddleware(), thunk, reduxLogger),
     electronEnhancer(),
     rendererEnhancer
   );

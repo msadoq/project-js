@@ -11,7 +11,6 @@ export default class Message extends PureComponent {
     onClose: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
-    containerId: PropTypes.string.isRequired,
     removing: PropTypes.bool,
   };
 
@@ -20,10 +19,7 @@ export default class Message extends PureComponent {
   }
 
   willClose = () => {
-    this.setState({
-      removing: true,
-    });
-    this.props.onClose(this.props.containerId);
+    this.props.onClose();
   }
   render() {
     return (

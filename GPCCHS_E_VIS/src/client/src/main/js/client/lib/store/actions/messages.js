@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _find from 'lodash/find';
@@ -11,17 +12,20 @@ export const add = simple(
   (param) => {
     const messages = _.flatten([param]);
     const extractErrors = _.map(x => (x instanceof Error ? x.message : x));
-    return { messages: extractErrors(messages) };
+    const addUuids = _.map(msg => ({ content: msg, uuid: v4() }));
+    const createMessages = _.pipe(extractErrors, addUuids);
+    return { messages: createMessages(messages) };
   }
 );
 
-export const remove = (containerId, index) => (dispatch) => {
-  const payload = { containerId, index };
-  dispatch({ type: types.WS_MESSAGE_REMOVING, payload });
-  setTimeout(() => {
-    dispatch({ type: types.WS_MESSAGE_REMOVE, payload });
-  }, 400);
-};
+const createRemove = ({ withAnimation = false } = {}) => (containerId, uuid) => ({
+  type: types.WS_MESSAGE_REMOVE,
+  payload: { containerId, uuid },
+  meta: { withAnimation },
+});
+
+export const remove = createRemove();
+export const removeWithAnimation = createRemove({ withAnimation: true });
 
 export const reset = simple(
   types.WS_MESSAGE_RESET,

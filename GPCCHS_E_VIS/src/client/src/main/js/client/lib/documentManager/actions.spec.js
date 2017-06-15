@@ -3,9 +3,7 @@ import * as types from '../store/types';
 import { mockStore } from '../common/test';
 import readView from './readView';
 import * as readPageApi from './readPage';
-import { add as addMessage } from '../store/actions/messages';
 import * as actions from './actions';
-
 
 describe('documentManager:actions', () => {
   let stub;
@@ -20,7 +18,16 @@ describe('documentManager:actions', () => {
         cb(null, { error: 'Error' });
       });
       store.dispatch(actions.openView('viewInfo'));
-      expect(store.getActions()).toEqual([addMessage('global', 'danger', 'Error')]);
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'Error' }],
+          },
+        },
+      ]);
     });
     test('dispatches a WS_VIEW_OPEN when view is loaded', () => {
       const store = mockStore();
@@ -29,13 +36,15 @@ describe('documentManager:actions', () => {
         cb(null, { value: { title: 'my view' } });
       });
       store.dispatch(actions.openView('viewInfo', 'myPageId'));
-      expect(store.getActions()).toEqual([{
-        type: types.WS_VIEW_OPEN,
-        payload: {
-          pageId: 'myPageId',
-          view: { title: 'my view' },
+      expect(store.getActions()).toEqual([
+        {
+          type: types.WS_VIEW_OPEN,
+          payload: {
+            pageId: 'myPageId',
+            view: { title: 'my view' },
+          },
         },
-      }]);
+      ]);
     });
   });
   describe('openPage', () => {
@@ -46,14 +55,16 @@ describe('documentManager:actions', () => {
         cb(null, { views: [{ error: 'Error view' }], pages: [{ error: 'Error page' }] });
       });
       store.dispatch(actions.openPage('page_info'));
-      expect(store.getActions()).toEqual([{
-        type: types.WS_MESSAGE_ADD,
-        payload: {
-          containerId: 'global',
-          type: 'danger',
-          messages: ['Error view', 'Error page'],
+      expect(store.getActions()).toMatchObject([
+        {
+          type: types.WS_MESSAGE_ADD,
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'Error view' }, { content: 'Error page' }],
+          },
         },
-      }]);
+      ]);
     });
   });
 });

@@ -64,12 +64,11 @@ export default class Messages extends PureComponent {
         const key = `${i}_${v.message}`;
         children.push((
           <Message
-            containerId="global"
             key={key}
             type={v.type}
             message={v.message}
             removing={v.removing}
-            onClose={() => remove('global', i)}
+            onClose={() => remove('global', v.uuid)}
           />
         ));
       });

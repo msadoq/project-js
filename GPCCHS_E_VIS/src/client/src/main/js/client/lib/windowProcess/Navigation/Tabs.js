@@ -1,9 +1,11 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
+import _find from 'lodash/find';
 import { get } from '../../common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
+import { main } from '../ipc';
 
 const popoverDraggingStyle = { display: 'none' };
 
@@ -43,6 +45,10 @@ export default class Tabs extends PureComponent {
     focusPage: PropTypes.func.isRequired,
     closePage: PropTypes.func.isRequired,
     moveTabOrder: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    windowId: PropTypes.string.isRequired,
+    modifiedViewNb: PropTypes.number.isRequired,
   };
 
   handleSelect = (eventKey) => {
@@ -54,8 +60,42 @@ export default class Tabs extends PureComponent {
   handleClose = (e, pageId) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.closePage(pageId);
+    // Check if page is modified
+    const { openModal, closeModal, modifiedViewNb } = this.props;
+    if (modifiedViewNb) {
+      openModal({
+        type: 'unsavedViews',
+        docType: 'page',
+        onIgnore: () => {
+          closeModal();
+          this.closeThisPage(pageId);
+        },
+      });
+      return;
+    }
+    this.closeThisPage(pageId);
     e.stopPropagation();
+  }
+
+  closeThisPage = (pageId) => {
+    const { pages, closePage, openModal, windowId, closeModal } = this.props;
+    const page = _find(pages, { uuid: pageId });
+    if (page.isModified) {
+      openModal({
+        type: 'pageIsModified',
+        onClose: () => closePage(pageId),
+        onSave: () => {
+          main.savePage(windowId, false, (err) => {
+            if (!err) {
+              closePage(pageId);
+            }
+            closeModal();
+          });
+        },
+      });
+    } else {
+      closePage(pageId);
+    }
   }
 
   handleDragStart = (ev, pageId, key) => {

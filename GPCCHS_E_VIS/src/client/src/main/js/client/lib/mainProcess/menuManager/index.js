@@ -122,12 +122,12 @@ const page = {
   }, {
     label: 'Save',
     click(item, focusedWindow) {
-      pageSave(focusedWindow);
+      pageSave({ ...focusedWindow, stopOnUnsavedView: true });
     },
   }, {
     label: 'Save As...',
     click(item, focusedWindow) {
-      pageSaveAs(focusedWindow);
+      pageSaveAs({ ...focusedWindow, stopOnUnsavedView: true });
     },
   }],
 };

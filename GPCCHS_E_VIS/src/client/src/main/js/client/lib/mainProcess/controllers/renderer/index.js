@@ -5,6 +5,7 @@ import onGetSessionTime from './onGetSessionTime';
 import onReloadSessions from './onReloadSessions';
 import onReloadView from './onReloadView';
 import onSaveView from './onSaveView';
+import onSavePage from './onSavePage';
 import onCreateModel from './onCreateModel';
 import onServerDebug from './onServerDebug';
 import onOpenView from './onOpenView';
@@ -21,6 +22,7 @@ const controller = {
   [globalConstants.IPC_METHOD_RELOAD_SESSIONS]: onReloadSessions,
   [globalConstants.IPC_METHOD_RELOAD_VIEW]: onReloadView,
   [globalConstants.IPC_METHOD_SAVE_VIEW]: onSaveView,
+  [globalConstants.IPC_METHOD_SAVE_PAGE]: onSavePage,
   [globalConstants.IPC_METHOD_CREATE_MODEL]: onCreateModel,
   [globalConstants.IPC_METHOD_SERVER_DEBUG]: onServerDebug,
   [globalConstants.IPC_METHOD_OPEN_VIEW]: onOpenView,

@@ -99,13 +99,13 @@ export default class Links extends PureComponent {
         </div>
         <Row>
           {show &&
-            links.map((link, key) =>
-            (<div>
-              <Col xs={6} key={link.name.concat(key)} className={classnames(styles.link)}>
-                <Button bsStyle="link" onClick={e => this.onClick(e, key)} >{link.name}</Button>
+            links.map((link, ikey) =>
+            (<div key={'div'.concat(ikey)}>
+              <Col xs={6} key={link.name.concat(ikey)} className={classnames(styles.link)}>
+                <Button bsStyle="link" onClick={e => this.onClick(e, ikey)} >{link.name}</Button>
                 <Glyphicon
                   glyph="remove"
-                  onClick={e => removeLink(e, key)}
+                  onClick={e => removeLink(e, ikey)}
                   className={
                     classnames(
                       styles.removeButton,

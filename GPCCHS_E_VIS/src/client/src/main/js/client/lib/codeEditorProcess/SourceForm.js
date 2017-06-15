@@ -38,7 +38,6 @@ class SourceForm extends PureComponent {
       valid,
       entryPoints,
     } = this.props;
-    console.log(pristine, submitting, !valid);
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
         <div
@@ -113,7 +112,6 @@ const validate = (values = {}, props) => {
     lint(values.html, { 'spec-char-escape': false }) :
     lint(values.html);
 
-  console.log(htmlErrors);
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }

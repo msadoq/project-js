@@ -1,5 +1,5 @@
 const { encode } = require('../../../utils/adapters');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 
 const protobufHeader = encode('dc.dataControllerUtils.Header', {
   messageType: globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY,

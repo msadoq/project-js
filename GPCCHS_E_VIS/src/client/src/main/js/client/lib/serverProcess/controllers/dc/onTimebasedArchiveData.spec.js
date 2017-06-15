@@ -1,4 +1,8 @@
-const { should } = require('../../utils/test');
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
+const { getRemoteId } = require('../../../common/test');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
 const {
   cleanup: cleanRegisteredQueries,
@@ -29,7 +33,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   const queryIdProto = dataStub.getStringProtobuf(queryId);
   const dataId = dataStub.getDataId();
   const dataIdProto = dataStub.getDataIdProtobuf(dataId);
-  const flatDataId = dataStub.getRemoteId(dataId);
+  const flatDataId = getRemoteId(dataId);
   const rp = dataStub.getReportingParameter();
   const protoRp = dataStub.getReportingParameterProtobuf(rp);
   const deprotoRp = dataStub.getReportingParameterDeProtobuf(protoRp);
@@ -39,7 +43,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   const timestamp2 = dataStub.getTimestampProtobuf({ ms: t2 });
   const interval = [-15, 15];
 
-  it('unknown queryId', () => {
+  test('unknown queryId', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
     connectedDataModel.addRecord(dataId);
@@ -56,21 +60,20 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     );
     // check data
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [],
-          requested: { [queryId]: interval },
-        },
-        lastQueries: {},
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [interval],
+        received: [],
+        requested: { [queryId]: interval },
+      },
+      lastQueries: {},
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.not.exist(timebasedDataModel);
-    getQueue().should.deep.equal({});
+    expect(timebasedDataModel).toBeFalsy();
+    expect(getQueue()).toEqual({});
   });
-  it('works when range query', () => {
+  test('works when range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
     connectedDataModel.addRecord(dataId);
@@ -87,23 +90,22 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.exist(getRegisteredQuery(queryId));
+    expect(getRegisteredQuery(queryId)).toBeDefined();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [],
-          requested: { [queryId]: interval },
-        },
-        lastQueries: {},
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [interval],
+        received: [],
+        requested: { [queryId]: interval },
+      },
+      lastQueries: {},
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(2);
+    expect(timebasedDataModel).toBeDefined();
+    expect(timebasedDataModel.count()).toBe(2);
     const timebasedData = timebasedDataModel.find();
-    timebasedData.should.have.properties([
+    expect(timebasedData).toMatchObject([
       {
         timestamp: t1,
         payload: deprotoRp,
@@ -112,7 +114,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    getQueue().should.have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [t1]: deprotoRp,
         [t2]: deprotoRp,
@@ -120,7 +122,7 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     });
   });
 
-  it('last chunk with range query', () => {
+  test('last chunk with range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     connectedDataModel.addRecord(dataId);
@@ -137,23 +139,22 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.not.exist(getRegisteredQuery(queryId));
+    expect(getRegisteredQuery(queryId)).toBeFalsy();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [interval],
-          received: [interval],
-          requested: {},
-        },
-        lastQueries: {},
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [interval],
+        received: [interval],
+        requested: {},
+      },
+      lastQueries: {},
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(2);
+    expect(timebasedDataModel).toBeDefined();
+    expect(timebasedDataModel.count()).toBe(2);
     const timebasedData = timebasedDataModel.find();
-    timebasedData.should.have.properties([
+    expect(timebasedData).toMatchObject([
       {
         timestamp: t1,
         payload: deprotoRp,
@@ -162,14 +163,14 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
         payload: deprotoRp,
       },
     ]);
-    getQueue().should.have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [t1]: deprotoRp,
         [t2]: deprotoRp,
       },
     });
   });
-  it('last chunk with last query', () => {
+  test('last chunk with last query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     connectedDataModel.addRecord(dataId);
@@ -184,27 +185,26 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.not.exist(getRegisteredQuery(queryId));
+    expect(getRegisteredQuery(queryId)).toBeFalsy();
     const cd = connectedDataModel.getByFlatDataId(flatDataId);
-    cd.should.be.an('object')
-      .that.have.properties({
-        flatDataId,
-        intervals: {
-          all: [],
-          received: [],
-          requested: {},
-        },
-        lastQueries: { },
-      });
+    expect(cd).toMatchObject({
+      flatDataId,
+      intervals: {
+        all: [],
+        received: [],
+        requested: {},
+      },
+      lastQueries: { },
+    });
     const timebasedDataModel = getTimebasedDataModel(flatDataId);
-    should.not.exist(timebasedDataModel);
-    getQueue().should.have.properties({
+    expect(timebasedDataModel).toBeFalsy();
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [t1]: deprotoRp,
       },
     });
   });
-  it('big load', () => {
+  test('big load', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
     const queryIds = ['queryId1', 'queryId2', 'queryId3', 'queryId4', 'queryId5', 'queryId6'];

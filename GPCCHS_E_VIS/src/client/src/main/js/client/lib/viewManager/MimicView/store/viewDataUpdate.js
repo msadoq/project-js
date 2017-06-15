@@ -1,6 +1,6 @@
 /* eslint-disable no-continue */
 import _get from 'lodash/get';
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import { getStateColorObj } from '../../commonData/stateColors';
 import { convertData } from '../../commonData/convertData';
 

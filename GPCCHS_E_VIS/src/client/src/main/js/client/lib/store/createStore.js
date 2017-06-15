@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import { get } from 'common/parameters';
 import { electronEnhancer } from 'redux-electron-store';
+import { get } from '../common/configurationManager';
 import serverEnhancer from './enhancers/server';
 import mainEnhancer from './enhancers/main';
 import rendererEnhancer from './enhancers/renderer';

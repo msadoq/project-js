@@ -1,4 +1,4 @@
-import { freezeMe, testMemoization, should } from '../../../common/test';
+import { freezeMe, testMemoization } from '../../../common/test';
 
 import { getMasterSession } from './InformationSelectors';
 
@@ -11,27 +11,27 @@ describe('windowProcess:Explorer:InformationSelectors', () => {
     ],
   });
   describe('getMasterSession', () => {
-    it('return expected session', () => {
-      getMasterSession(state).should.equal(state.sessions[1]);
+    test('return expected session', () => {
+      expect(getMasterSession(state)).toBe(state.sessions[1]);
     });
-    it('should returns undefined if no masterSessionId', () => {
-      should.not.exist(getMasterSession(freezeMe({
+    test('should returns undefined if no masterSessionId', () => {
+      expect(getMasterSession(freezeMe({
         masterSession: {},
         sessions: [
           { id: 9 },
           { id: 10 },
         ],
-      })));
+      }))).toBeFalsy();
     });
-    it('should returns undefined if no corresponding session', () => {
-      should.not.exist(getMasterSession(freezeMe({
+    test('should returns undefined if no corresponding session', () => {
+      expect(getMasterSession(freezeMe({
         masterSession: { sessionId: 10 },
         sessions: [
           { id: 9 },
         ],
-      })));
+      }))).toBeFalsy();
     });
-    it('should memoize', () => {
+    test('should memoize', () => {
       testMemoization(getMasterSession, state);
     });
   });

@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { should, freezeArgs, getStore } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/test';
 import * as types from '../../types';
 import timebarsReducer, {
   getTimebar,
@@ -13,16 +13,16 @@ const reducer = freezeArgs(timebarsReducer);
 
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:timebars:reducer', () => {
-  it('initial state', () => {
-    reducer(undefined, {}).should.be.an('object').that.is.empty;
+  test('initial state', () => {
+    expect(reducer(undefined, {})).toEqual({});
   });
-  it('unknown action', () => {
-    reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })
-      .should.eql({ tb1: { id: 'tb1' } });
+  test('unknown action', () => {
+    expect(reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })).toEqual({ tb1: { id: 'tb1' } });
   });
-  it('pause disable realTime', () => {
-    reducer({ tb1: { realTime: true }, tb2: { realTime: false } }, { type: types.HSC_PAUSE })
-      .should.eql({ tb1: { realTime: false }, tb2: { realTime: false } });
+  test('pause disable realTime', () => {
+    expect(
+      reducer({ tb1: { realTime: true }, tb2: { realTime: false } }, { type: types.HSC_PAUSE })
+    ).toEqual({ tb1: { realTime: false }, tb2: { realTime: false } });
   });
   describe('HSC workspace', () => {
     const state = {
@@ -37,58 +37,56 @@ describe('store:timebars:reducer', () => {
         slideWindow: { lower: 250, upper: 350 },
       },
     };
-    it('close', () => {
+    test('close', () => {
       const newState = reducer(state, { type: types.HSC_CLOSE_WORKSPACE });
-      newState.should.be.an('object').that.is.empty;
+      expect(newState).toEqual({});
     });
   });
 });
 
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:timebars:selectors', () => {
-  it('getTimebar', () => {
-    const { getState } = getStore({
+  test('getTimebar', () => {
+    const state = freezeMe({
       timebars: {
         myTimebarId: { id: 'Id' },
       },
     });
-    getTimebar(getState(), { timebarUuid: 'myTimebarId' }).should.have.property('id', 'Id');
-    should.not.exist(getTimebar(getState(), { timebarUuid: 'unknownId' }));
+    expect(getTimebar(state, { timebarUuid: 'myTimebarId' })).toHaveProperty('id', 'Id');
+    expect(getTimebar(state, { timebarUuid: 'unknownId' })).toBeFalsy();
   });
-  it('getTimebarId', () => {
-    const { getState } = getStore({
+  test('getTimebarId', () => {
+    const state = freezeMe({
       timebars: {
         myTimebarId: { id: 'Id' },
       },
     });
-    getTimebarId(getState(), { timebarUuid: 'myTimebarId' }).should.be.eql('Id');
-    should.not.exist(getTimebarId(getState(), { timebarUuid: 'unknownId' }));
+    expect(getTimebarId(state, { timebarUuid: 'myTimebarId' })).toEqual('Id');
+    expect(getTimebarId(state, { timebarUuid: 'unknownId' })).toBeFalsy();
   });
-  it('getTimebars', () => {
-    const state = {
+  test('getTimebars', () => {
+    const state = freezeMe({
       timebars: {
         myTimebarId: { id: 'Id' },
       },
-    };
-    const { getState } = getStore(state);
-    getTimebars(getState()).should.be.eql(state.timebars);
+    });
+    expect(getTimebars(state)).toEqual(state.timebars);
   });
-  it('getFirstTimebarId', () => {
-    const state = {
+  test('getFirstTimebarId', () => {
+    const state = freezeMe({
       timebars: { aaa: {} },
-    };
-    const { getState } = getStore(state);
-    getFirstTimebarId(getState()).should.be.eql('aaa');
+    });
+    expect(getFirstTimebarId(state)).toEqual('aaa');
   });
-  it('getTimebarMasterId', () => {
-    const state = {
+  test('getTimebarMasterId', () => {
+    const state = freezeMe({
       timebars: {
         tb1: {
           masterId: 'master id',
           foo: 'bar',
         },
       },
-    };
-    getTimebarMasterId(state, { timebarUuid: 'tb1' }).should.be.eql('master id');
+    });
+    expect(getTimebarMasterId(state, { timebarUuid: 'tb1' })).toEqual('master id');
   });
 });

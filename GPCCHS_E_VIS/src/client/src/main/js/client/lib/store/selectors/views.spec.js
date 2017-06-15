@@ -1,5 +1,3 @@
-/* eslint no-unused-expressions: 0 */
-import { } from '../../common/test';
 import { getViewEntryPoint, getWindowAllViewsIds } from './views';
 
 describe('store:views:selectors', () => {
@@ -228,8 +226,10 @@ describe('store:views:selectors', () => {
     },
   };
 
-  it('getViewEntryPoint', () => {
-    getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' }).should.eql({
+  test('getViewEntryPoint', () => {
+    expect(
+      getViewEntryPoint(completeState, { viewId: 'text1', epName: 'STAT_SU_PID' })
+    ).toEqual({
       id: 'id1',
       dataId: {
         catalog: 'Reporting',
@@ -268,11 +268,11 @@ describe('store:views:selectors', () => {
         unknownPage: { views: [42] },
       },
     };
-    it('returns an empty array', () => {
-      getWindowAllViewsIds(emptyState, { windowId: 'w1' }).should.be.eql([]);
+    test('returns an empty array', () => {
+      expect(getWindowAllViewsIds(emptyState, { windowId: 'w1' })).toEqual([]);
     });
-    it('returns all views ids', () => {
-      getWindowAllViewsIds(state, { windowId: 'w2' }).should.be.eql([4, 5, 6, 7, 8, 9]);
+    test('returns all views ids', () => {
+      expect(getWindowAllViewsIds(state, { windowId: 'w2' })).toEqual([4, 5, 6, 7, 8, 9]);
     });
   });
 });

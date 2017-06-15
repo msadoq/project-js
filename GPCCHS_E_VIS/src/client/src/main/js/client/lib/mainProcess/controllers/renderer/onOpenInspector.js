@@ -1,4 +1,4 @@
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import { getStore } from '../../../store/createStore';
 import { getTelemetryStaticElements } from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';

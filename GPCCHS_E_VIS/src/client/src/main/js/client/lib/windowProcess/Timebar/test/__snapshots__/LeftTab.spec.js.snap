@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lefttab renders correctly 1`] = `
+<div
+  className="leftTab subdiv col-xs-3"
+>
+  <div
+    className="leftTabTopPanel"
+  >
+    <button
+      className="btn-transp btnClose btn btn-xs btn-default"
+      disabled={false}
+      onClick={[Function]}
+      title="Detach timebar"
+      type="button"
+    >
+      <span
+        className="glyphicon glyphicon-remove"
+      />
+    </button>
+    <h5
+      className="timebarName"
+    >
+      <b>
+        Timebar 01
+      </b>
+    </h5>
+    <button
+      className="btn-transp addTimelineButton btn btn-xs btn-default"
+      disabled={false}
+      onClick={[Function]}
+      title="Add timeline"
+      type="button"
+    >
+      <span
+        className="glyphicon glyphicon-plus"
+      />
+    </button>
+  </div>
+  <ul
+    className="timelineUl"
+    onScroll={[Function]}
+    onWheel={[Function]}
+  >
+    <li
+      className="timeline"
+    >
+      <span
+        className="master"
+        title="Master timeline"
+      >
+        M
+      </span>
+      <span
+        style={
+          Object {
+            "paddingLeft": "20px",
+          }
+        }
+      >
+        Session 1
+         | 
+        Master
+      </span>
+      <span
+        className="offset"
+        title="Formatted offset HH:MM:ss:SSS"
+      >
+        + 00:00:00.200
+      </span>
+      <span
+        className="square"
+        style={
+          Object {
+            "background": "#fa1289",
+            "right": "26px",
+          }
+        }
+      />
+      <button
+        className="editButton"
+        onClick={[Function]}
+        style={
+          Object {
+            "right": "0px",
+          }
+        }
+        title="Upate this track"
+      >
+        <span
+          className="glyphicon glyphicon-edit"
+        />
+      </button>
+    </li>
+    <li
+      className="timeline"
+    >
+      <span
+        style={
+          Object {
+            "paddingLeft": "0px",
+          }
+        }
+      >
+        Session 2
+         | 
+        no session
+      </span>
+      <span
+        className="offset"
+        title="Formatted offset HH:MM:ss:SSS"
+      >
+        + 00:00:01.000
+      </span>
+      <span
+        className="square"
+        style={
+          Object {
+            "background": "#31b0d5",
+            "right": "52px",
+          }
+        }
+      />
+      <button
+        className="editButton"
+        onClick={[Function]}
+        style={
+          Object {
+            "right": "26px",
+          }
+        }
+        title="Upate this track"
+      >
+        <span
+          className="glyphicon glyphicon-edit"
+        />
+      </button>
+      <button
+        className="deleteButton"
+        onClick={[Function]}
+        title="Remove this track"
+      >
+        <span
+          className="glyphicon glyphicon-trash"
+        />
+      </button>
+    </li>
+  </ul>
+</div>
+`;

@@ -1,8 +1,8 @@
 import { ipcRenderer } from 'electron';
 import { v4 } from 'uuid';
-import globalConstants from 'common/constants';
-import getLogger from 'common/log';
-import { set } from '../utils/callbacks';
+import getLogger from '../common/logManager';
+import globalConstants from '../constants';
+import { set } from '../common/callbacks';
 
 const logger = getLogger('main:ipc');
 

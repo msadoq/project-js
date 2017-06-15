@@ -2,28 +2,28 @@
 import simpleActionCreator from './simpleActionCreator';
 
 describe('store:simpleActionCreator', () => {
-  it('invalid type', () => {
-    (() => simpleActionCreator()).should.throw();
+  test('invalid type', () => {
+    expect(() => simpleActionCreator()).toThrowError();
   });
-  it('no parameter', () => {
+  test('no parameter', () => {
     const actionCreator = simpleActionCreator('myActionType');
-    actionCreator().should.eql({
+    expect(actionCreator()).toEqual({
       type: 'myActionType',
       payload: {},
     });
   });
-  it('a parameter', () => {
+  test('a parameter', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam');
-    actionCreator('param1', 'param2').should.eql({
+    expect(actionCreator('param1', 'param2')).toEqual({
       type: 'myActionType',
       payload: {
         myParam: 'param1',
       },
     });
   });
-  it('few parameters', () => {
+  test('few parameters', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam', 'myOther');
-    actionCreator('param1', 'param2').should.eql({
+    expect(actionCreator('param1', 'param2')).toEqual({
       type: 'myActionType',
       payload: {
         myParam: 'param1',
@@ -31,13 +31,13 @@ describe('store:simpleActionCreator', () => {
       },
     });
   });
-  it('take functions', () => {
+  test('take functions', () => {
     const actionCreator = simpleActionCreator(
       'myActionType',
       param => ({ myParam: `concatened ${param}` }),
       param => ({ myOther: `other concatened ${param}` })
     );
-    actionCreator('param1', 'param2').should.eql({
+    expect(actionCreator('param1', 'param2')).toEqual({
       type: 'myActionType',
       payload: {
         myParam: 'concatened param1',
@@ -45,9 +45,9 @@ describe('store:simpleActionCreator', () => {
       },
     });
   });
-  it('only expected parameters', () => {
+  test('only expected parameters', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam');
-    actionCreator('param1', 'param2', () => {}).should.eql({
+    expect(actionCreator('param1', 'param2', () => {})).toEqual({
       type: 'myActionType',
       payload: {
         myParam: 'param1',

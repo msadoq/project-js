@@ -30,7 +30,7 @@ export default class Misc extends React.Component {
     e.stopPropagation();
     const { openModal, viewId } = this.props;
     const { windowId } = this.context;
-    openModal(windowId, { type: 'addLink', viewId });
+    openModal(windowId, { type: 'addLink', viewId, myFormKey: 'addLink', id: 'addLink' });
   }
 
   render() {

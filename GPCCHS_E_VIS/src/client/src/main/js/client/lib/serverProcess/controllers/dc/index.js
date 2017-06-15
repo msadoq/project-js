@@ -1,8 +1,8 @@
-const logger = require('common/log')('controllers/utils');
-const globalConstants = require('common/constants');
 const { decode } = require('../../../utils/adapters');
+const logger = require('../../../common/logManager')('controllers/utils');
+const globalConstants = require('../../../constants');
 
-const reply = require('../../../utils/ipc/reply');
+const reply = require('../../../common/ipc/reply');
 
 const onResponse = require('./onResponse');
 const onDomainsData = require('./onDomainsData');

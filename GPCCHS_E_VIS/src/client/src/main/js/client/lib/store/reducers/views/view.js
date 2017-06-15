@@ -65,6 +65,7 @@ const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state)
 const initialState = {
   type: null,
   isModified: true,
+  showLinks: false,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -105,6 +106,8 @@ function simpleView(stateView = initialState, action) {
       return addElementIn('links', action.payload.link, stateView);
     case types.WS_VIEW_REMOVE_LINK:
       return removeElementIn('links', action.payload.index, stateView);
+    case types.WS_VIEW_UPDATE_SHOWLINK:
+      return _.set('showLinks', action.payload.showLinks, stateView);
     case types.WS_VIEW_UPDATE_PROCEDURE:
       return _.set(`procedures[${action.payload.index}]`, action.payload.procedure, stateView);
     case types.WS_VIEW_ADD_PROCEDURE:

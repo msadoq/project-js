@@ -1,11 +1,13 @@
 const protobuf = require('../../../index');
-const globalConstants = require('../../../../constants/index');
+
+const STATUS_SUCCESS = 0;
+const STATUS_ERROR = 1;
 
 const getSuccessStatus = () => ({
-  status: globalConstants.STATUS_SUCCESS,
+  status: STATUS_SUCCESS,
 });
 const getErrorStatus = () => ({
-  status: globalConstants.STATUS_ERROR,
+  status: STATUS_ERROR,
 });
 
 const getSuccessStatusProtobuf = () => protobuf.encode(

@@ -1,28 +1,26 @@
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const onDomainsData = require('./onDomainsData');
 const dataStub = require('common/protobuf/stubs');
-const registeredCallbacks = require('../../../utils/callbacks');
+const registeredCallbacks = require('../../../common/callbacks');
 
 describe('controllers/utils/onDomainsData', () => {
-  beforeEach(() => {
-    resetTestHandlerArgs();
-  });
-
-  it('works', () => {
-    // init test
+  test('should returns domains data', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myDomains = dataStub.getDomains();
     const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
     registeredCallbacks.set(myQueryId, () => {});
-    // launch test
-    onDomainsData(testHandler, myQueryIdProto, myDomainsProto);
-    // check data
-    const wsArgs = getTestHandlerArgs();
-    wsArgs.should.have.lengthOf(2);
-    wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.be.an('object').that.has.properties({
-      domains: myDomains.domains,
-    });
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        { domains: myDomains.domains },
+      ]);
+      done();
+    };
+    onDomainsData(check, myQueryIdProto, myDomainsProto);
   });
 });

@@ -1,5 +1,5 @@
-import { get } from 'common/parameters';
 import { shell } from 'electron';
+import { get } from '../../../common/configurationManager';
 
 export default function () {
   const url = get('USER_MANUAL_URL');

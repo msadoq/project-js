@@ -1,68 +1,89 @@
 const protobuf = require('../../../index');
-const globalConstants = require('../../../../constants/index');
+
+const MESSAGETYPE_DOMAIN_QUERY = 0;
+const MESSAGETYPE_TIMEBASED_QUERY = 1;
+const MESSAGETYPE_TIMEBASED_SUBSCRIPTION = 2;
+const MESSAGETYPE_RESPONSE = 3;
+const MESSAGETYPE_DOMAIN_DATA = 4;
+const MESSAGETYPE_TIMEBASED_ARCHIVE_DATA = 5;
+const MESSAGETYPE_TIMEBASED_PUBSUB_DATA = 6;
+const MESSAGETYPE_SESSION_QUERY = 7;
+const MESSAGETYPE_SESSION_DATA = 8;
+const MESSAGETYPE_SESSION_TIME_QUERY = 9;
+const MESSAGETYPE_SESSION_TIME_DATA = 10;
+const MESSAGETYPE_LOG_SEND = 12;
+const MESSAGETYPE_FMD_GET_QUERY = 13;
+const MESSAGETYPE_FMD_GET_DATA = 14;
+const MESSAGETYPE_FMD_CREATE_QUERY = 15;
+const MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY = 16;
+const MESSAGETYPE_FMD_CREATE_DATA = 17;
+const MESSAGETYPE_SESSION_MASTER_QUERY = 18;
+const MESSAGETYPE_SESSION_MASTER_DATA = 19;
+const MESSAGETYPE_DC_STATUS_QUERY = 20;
+const MESSAGETYPE_DC_STATUS_DATA = 21;
 
 const getDcStatusQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_DC_STATUS_QUERY,
+  messageType: MESSAGETYPE_DC_STATUS_QUERY,
 });
 const getDcStatusHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_DC_STATUS_DATA,
+  messageType: MESSAGETYPE_DC_STATUS_DATA,
 });
 const getDomainQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_DOMAIN_QUERY,
+  messageType: MESSAGETYPE_DOMAIN_QUERY,
 });
 const getTimebasedQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_TIMEBASED_QUERY,
+  messageType: MESSAGETYPE_TIMEBASED_QUERY,
 });
 const getTimebasedSubscriptionHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
+  messageType: MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
 });
 const getResponseHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_RESPONSE,
+  messageType: MESSAGETYPE_RESPONSE,
 });
 const getDomainDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_DOMAIN_DATA,
+  messageType: MESSAGETYPE_DOMAIN_DATA,
 });
 const getTimebasedArchiveDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
+  messageType: MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
 });
 const getTimebasedPubSubDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
+  messageType: MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
 });
 const getSessionQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_SESSION_QUERY,
+  messageType: MESSAGETYPE_SESSION_QUERY,
 });
 const getSessionDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_SESSION_DATA,
+  messageType: MESSAGETYPE_SESSION_DATA,
 });
 const getSessionTimeQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_SESSION_TIME_QUERY,
+  messageType: MESSAGETYPE_SESSION_TIME_QUERY,
 });
 const getSessionTimeDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_SESSION_TIME_DATA,
+  messageType: MESSAGETYPE_SESSION_TIME_DATA,
 });
 const getLogSendHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_LOG_SEND,
+  messageType: MESSAGETYPE_LOG_SEND,
 });
 const getFmdGetQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FMD_GET_QUERY,
+  messageType: MESSAGETYPE_FMD_GET_QUERY,
 });
 const getFmdGetDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FMD_GET_DATA,
+  messageType: MESSAGETYPE_FMD_GET_DATA,
 });
 const getFmdCreateQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FMD_CREATE_QUERY,
+  messageType: MESSAGETYPE_FMD_CREATE_QUERY,
 });
 const getFmdCreateDocumentQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY,
+  messageType: MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY,
 });
 const getFmdCreateDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FMD_CREATE_DATA,
+  messageType: MESSAGETYPE_FMD_CREATE_DATA,
 });
 const getSessionMasterQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_SESSION_MASTER_QUERY,
+  messageType: MESSAGETYPE_SESSION_MASTER_QUERY,
 });
 const getSessionMasterDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_SESSION_MASTER_DATA,
+  messageType: MESSAGETYPE_SESSION_MASTER_DATA,
 });
 
 const getDcStatusQueryHeaderProtobuf = () => protobuf.encode(

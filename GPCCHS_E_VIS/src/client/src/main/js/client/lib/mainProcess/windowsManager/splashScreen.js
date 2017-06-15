@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
+import getLogger from '../../common/logManager';
+import parameters from '../../common/configurationManager';
 import getCenteredPosition from './common/getCenteredPosition';
 import { showSplashScreen } from './windows';
 

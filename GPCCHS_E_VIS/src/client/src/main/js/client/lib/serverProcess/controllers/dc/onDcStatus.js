@@ -1,6 +1,6 @@
-const logger = require('common/log')('controllers:onDcStatus');
 const { decode } = require('../../../utils/adapters');
-const globalConstants = require('common/constants');
+const logger = require('../../../common/logManager')('controllers:onDcStatus');
+const globalConstants = require('../../../constants');
 
 const { set: setDcStatus } = require('../../models/dcStatus');
 

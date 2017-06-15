@@ -1,9 +1,10 @@
 const protobuf = require('../../../index');
-const globalConstants = require('../../../../constants/index');
 const applyOverride = require('../../applyOverride');
 
+const FMDFILETYPE_COLLECTION = 0;
+
 const getFMDFileType = override => applyOverride({
-  type: globalConstants.FMDFILETYPE_COLLECTION,
+  type: FMDFILETYPE_COLLECTION,
 }, override);
 
 const getFMDFileTypeProtobuf = override => protobuf.encode(

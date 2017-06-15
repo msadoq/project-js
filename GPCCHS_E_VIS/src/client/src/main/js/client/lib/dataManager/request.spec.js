@@ -1,5 +1,4 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import '../common/test';
 import { missingRemoteIds } from './request';
 
 
@@ -87,9 +86,9 @@ newMap.expectedIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['ext
 = [1420106800818, 1420106853902];
 
 describe('data:request', () => {
-  it('missingRemoteIds from empty dataMap', () => {
+  test('missingRemoteIds from empty dataMap', () => {
     const queries = missingRemoteIds(dataMap, { perRemoteId: {}, expectedIntervals: {} });
-    queries.should.eql({
+    expect(queries).toEqual({
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {
           catalog: 'TelemetryPacket',
@@ -114,9 +113,9 @@ describe('data:request', () => {
       },
     });
   });
-  it('missingRemoteIds from dataMap', () => {
+  test('missingRemoteIds from dataMap', () => {
     const queries = missingRemoteIds(newMap, dataMap);
-    queries.should.eql({
+    expect(queries).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         dataId: {
           catalog: 'Reporting',
@@ -130,9 +129,9 @@ describe('data:request', () => {
       },
     });
   });
-  it('forecast', () => {
+  test('forecast', () => {
     const queries = missingRemoteIds(newMap, dataMap, forecastIntervals);
-    queries.should.eql({
+    expect(queries).toEqual({
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {
           catalog: 'TelemetryPacket',

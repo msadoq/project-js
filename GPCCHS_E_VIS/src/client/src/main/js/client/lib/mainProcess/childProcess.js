@@ -1,5 +1,5 @@
 const { fork: forkChildProcess } = require('child_process');
-const logger = require('common/log')('main:childProcess');
+const logger = require('../common/logManager')('main:childProcess');
 
 const processes = {};
 

@@ -1,6 +1,6 @@
-const logger = require('common/log')('controllers:onFmdGetData');
-const globalConstants = require('common/constants');
 const { decode } = require('../../../utils/adapters');
+const logger = require('../../../common/logManager')('controllers:onFmdGetData');
+const globalConstants = require('../../../constants');
 
 /**
  * Triggered on retrieve FMD document path response

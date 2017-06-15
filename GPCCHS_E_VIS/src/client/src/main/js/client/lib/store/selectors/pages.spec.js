@@ -1,4 +1,3 @@
-import {} from '../../common/test';
 import {
   getPageViews,
   isAnyEditorOpened,
@@ -6,7 +5,7 @@ import {
 } from './pages';
 
 describe('store:page:selectors', () => {
-  it('getPageViews', () => {
+  test('getPageViews', () => {
     const state = {
       pages: {
         myPageId: {
@@ -19,11 +18,11 @@ describe('store:page:selectors', () => {
       },
     };
 
-    getPageViews(state, { pageId: 'myPageId' }).should.eql([
+    expect(getPageViews(state, { pageId: 'myPageId' })).toEqual([
       { viewId: 'view1' },
     ]);
   });
-  it('notice if any view is opened', () => {
+  test('notice if any view is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -40,9 +39,9 @@ describe('store:page:selectors', () => {
         },
       },
     };
-    isAnyEditorOpened(state).should.eql(true);
+    expect(isAnyEditorOpened(state)).toEqual(true);
   });
-  it('notice if any view is opened', () => {
+  test('notice if any view is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -53,9 +52,9 @@ describe('store:page:selectors', () => {
         },
       },
     };
-    isAnyEditorOpened(state).should.eql(false);
+    expect(isAnyEditorOpened(state)).toEqual(false);
   });
-  it('notice if any inspector is opened', () => {
+  test('notice if any inspector is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -66,9 +65,9 @@ describe('store:page:selectors', () => {
         },
       },
     };
-    isAnyInspectorOpened(state).should.eql(true);
+    expect(isAnyInspectorOpened(state)).toEqual(true);
   });
-  it('notice if no inspector is opened', () => {
+  test('notice if no inspector is opened', () => {
     const state = {
       pages: {
         page1: {
@@ -79,6 +78,6 @@ describe('store:page:selectors', () => {
         },
       },
     };
-    isAnyInspectorOpened(state).should.eql(false);
+    expect(isAnyInspectorOpened(state)).toEqual(false);
   });
 });

@@ -3,10 +3,9 @@ const parseArgs = require('minimist');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
-const { should } = require('common/utils/test');
 const zmq = require('common/zmq/index');
 const { getType, encode, decode } = require('common/protobuf/index');
-const constants = require('common/constants/index');
+const constants = require('../constants');
 
 const sessionIdTest = 1;
 const domainIdTest = 4;
@@ -72,10 +71,10 @@ const trashPullHandler = (callback) => {
 const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   logger('receiving a message from utils');
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-  header.messageType.should.equal(constants.MESSAGETYPE_DOMAIN_DATA);
+  expect(header.messageType).toBe(constants.MESSAGETYPE_DOMAIN_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
-  queryId.should.equal(myQueryId);
-  (() => decode('dc.dataControllerUtils.Domains', argsBuffers[1])).should.not.throw();
+  expect(queryId).toBe(myQueryId);
+  expect(() => decode('dc.dataControllerUtils.Domains', argsBuffers[1])).not.toThrowError();
   zmq.closeSockets();
   logger('...end test');
   callback(null);
@@ -86,10 +85,10 @@ const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
   logger('receiving a message from utils');
   logger();
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-  header.messageType.should.equal(constants.MESSAGETYPE_SESSION_DATA);
+  expect(header.messageType).toBe(constants.MESSAGETYPE_SESSION_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
-  queryId.should.equal(myQueryId);
-  (() => decode('dc.dataControllerUtils.Sessions', argsBuffers[1])).should.not.throw();
+  expect(queryId).toBe(myQueryId);
+  expect(() => decode('dc.dataControllerUtils.Sessions', argsBuffers[1])).not.toThrowError();
   zmq.closeSockets();
   logger('...end test');
   callback(null);
@@ -103,10 +102,10 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
     case steps.RESPONSE:
       {
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-        header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
+        expect(header.messageType).toBe(constants.MESSAGETYPE_RESPONSE);
         const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
-        queryId.should.equal(myQueryId);
-        decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
+        expect(queryId).toBe(myQueryId);
+        expect(decode('dc.dataControllerUtils.Status', argsBuffers[1]).status).toBe(constants.STATUS_SUCCESS);
         step = steps.ARCHIVE_DATA;
         break;
       }
@@ -115,13 +114,13 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
         logger(header);
         if (header.messageType === constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA) {
-          (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
+          expect(() => decode('dc.dataControllerUtils.String', argsBuffers[0])).not.toThrowError();
           const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
           const isLast = decode('dc.dataControllerUtils.Boolean', argsBuffers[2]).boolean;
-          (_slice(argsBuffers, 3).length % 2).should.equal(0);
+          expect(_slice(argsBuffers, 3).length % 2).toBe(0);
           _each(_chunk(_slice(argsBuffers, 3), 2), (argBuffer) => {
-            (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
-            (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
+            expect(() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).not.toThrowError();
+            expect(() => decode(getType(dataId.comObject), argBuffer[1])).not.toThrowError();
           });
           step = (isLast === true) ? steps.STOP : step;
         }
@@ -141,9 +140,9 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
 const documentCreatePullHandler = (onOidCreated = () => undefined) =>
   (callback, trash, headerBuffer, ...argsBuffers) => {
     const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-    header.messageType.should.equal(constants.MESSAGETYPE_FMD_CREATE_DATA);
+    expect(header.messageType).toBe(constants.MESSAGETYPE_FMD_CREATE_DATA);
     const [queryId, status, fmdFileInfoOrReason] = argsBuffers;
-    should.exist(decode('dc.dataControllerUtils.String', queryId));
+    expect(decode('dc.dataControllerUtils.String', queryId)).toBeDefined();
     const statusPb = decode('dc.dataControllerUtils.Status', status);
     if (statusPb.status === constants.STATUS_ERROR) {
       const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
@@ -160,9 +159,9 @@ const documentCreatePullHandler = (onOidCreated = () => undefined) =>
 const documentGetPullHandler = (waitedFilename = undefined) =>
   (callback, trash, headerBuffer, ...argsBuffers) => {
     const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-    header.messageType.should.equal(constants.MESSAGETYPE_FMD_GET_DATA);
+    expect(header.messageType).toBe(constants.MESSAGETYPE_FMD_GET_DATA);
     const [queryId, status, fmdFileInfoOrReason, documentData] = argsBuffers;
-    should.exist(decode('dc.dataControllerUtils.String', queryId));
+    expect(decode('dc.dataControllerUtils.String', queryId)).toBeDefined();
     const statusPb = decode('dc.dataControllerUtils.Status', status);
     if (statusPb.status === constants.STATUS_ERROR) {
       const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
@@ -175,7 +174,7 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
             const documentDataPb = decode('lpisis.file.Document', documentData);
             logger(documentDataPb);
             if (typeof waitedFilename !== 'undefined') {
-              documentDataPb.basename.value.should.equal(waitedFilename);
+              expect(documentDataPb.basename.value).toBe(waitedFilename);
             }
           }
           break;
@@ -189,7 +188,7 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
 const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   logger('sessionMasterDataHandler');
   logger(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
-  (() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).should.not.throw();
+  expect(() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).not.toThrowError();
   zmq.closeSockets();
 };
 
@@ -206,7 +205,7 @@ const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
           {
             const dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
             logger('switched to Healthy ');
-            dcStatus.status.should.equal(constants.HEALTH_STATUS_HEALTHY);
+            expect(dcStatus.status).toBe(constants.HEALTH_STATUS_HEALTHY);
             onCongestionReceived(false);
             congestionReceived = false;
             break;
@@ -221,7 +220,7 @@ const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
         {
           const dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
           logger('switched to congestion ');
-          dcStatus.status.should.equal(constants.HEALTH_STATUS_CRITICAL);
+          expect(dcStatus.status).toBe(constants.HEALTH_STATUS_CRITICAL);
           onCongestionReceived(true);
           congestionReceived = true;
         }
@@ -233,7 +232,7 @@ const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
 
 const sessionTimeDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   logger(decode('dc.dataControllerUtils.Timestamp', argsBuffers[1]));
-  (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[1])).should.not.throw();
+  expect(() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[1])).not.toThrowError();
   zmq.closeSockets();
 };
 
@@ -482,11 +481,11 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
   switch (step) {
     case steps.RESPONSE: {
       const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-      header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
-      should.exist(decode('dc.dataControllerUtils.String', argsBuffers[0]).string);
+      expect(header.messageType).toBe(constants.MESSAGETYPE_RESPONSE);
+      expect(decode('dc.dataControllerUtils.String', argsBuffers[0]).string).toBeDefined();
       // TODO give myQueryId as argument to the pull handler.
       // queryId.should.equal(myQueryId);
-      decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
+      expect(decode('dc.dataControllerUtils.Status', argsBuffers[1]).status).toBe(constants.STATUS_SUCCESS);
       step = steps.PUBSUB_DATA;
       break;
     }
@@ -497,22 +496,22 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
         break;
       }
       const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-      header.messageType.should.be.oneOf([
+      expect(header.messageType).be.oneOf([
         constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
         constants.MESSAGETYPE_RESPONSE,
       ]);
       if (header.messageType === constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA) {
-        (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
+        expect(() => decode('dc.dataControllerUtils.String', argsBuffers[0])).not.toThrowError();
         const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
         if (dataId.catalog) {
-          dataId.should.have.properties(myDataId);
+          expect(dataId).have.properties(myDataId);
         } else {
-          dataId.should.have.properties(myComObjectDataId);
+          expect(dataId).have.properties(myComObjectDataId);
         }
         // (_slice(argsBuffers, 2).length % 2).should.equal(0);
         _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
-          (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
-          (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
+          expect(() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).not.toThrowError();
+          expect(() => decode(getType(dataId.comObject), argBuffer[1])).not.toThrowError();
         });
         sendZmqMessage(tbStopSubMessageArgs(dataId));
       }

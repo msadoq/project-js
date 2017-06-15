@@ -1,13 +1,12 @@
 const _concat = require('lodash/concat');
 const { decode } = require('../../../utils/adapters');
-const globalConstants = require('common/constants');
 const dataStub = require('common/protobuf/stubs');
+const globalConstants = require('../../../constants');
+const { registerProtobuf } = require('../../../common/test');
 
-require('../../utils/test');
-
+registerProtobuf();
 
 const onFmdGet = require('./onFmdGet');
-
 
 let calls = [];
 const zmqEmulator = (payload) => {
@@ -18,20 +17,19 @@ describe('controllers/client/onFmdGet', () => {
   beforeEach(() => {
     calls.length = 0;
   });
-  it('works', () => {
+  test('works', () => {
     const myQueryId = 'myQueryId';
     const myGetDocumentAction = dataStub.getFMDGet();
     // launch test
     onFmdGet(zmqEmulator, myQueryId, { oid: myGetDocumentAction.serializedOid });
     // check data
-    calls.should.be.an('array')
-      .that.has.lengthOf(3);
-    calls[0].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_FMD_GET_QUERY);
-    calls[1].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
-    calls[2].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.FMDGet', calls[2]).should.have.properties({
+    expect(calls).toHaveLength(3);
+    expect(calls[0].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_FMD_GET_QUERY);
+    expect(calls[1].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.String', calls[1]).string).toBe(myQueryId);
+    expect(calls[2].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.FMDGet', calls[2])).toMatchObject({
       serializedOid: myGetDocumentAction.serializedOid,
     });
   });

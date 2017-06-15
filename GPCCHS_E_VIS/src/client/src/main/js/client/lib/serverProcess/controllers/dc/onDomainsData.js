@@ -1,5 +1,5 @@
-const logger = require('common/log')('controllers:onDomainData');
 const { decode } = require('../../../utils/adapters');
+const logger = require('../../../common/logManager')('controllers:onDomainData');
 
 /**
  * Triggered on DC domain request response.

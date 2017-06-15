@@ -10,8 +10,9 @@ import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
 import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getFormula } from './selectors';
 import { getData } from '../../store/dataReducer';
-import { getLinks } from '../../../../store/reducers/views';
-import { removeLink } from '../../../../store/actions/views';
+import { getLinks, areLinksShown } from '../../../../store/reducers/views';
+import { removeLink, updateShowLinks } from '../../../../store/actions/views';
+import { getPageIdByViewId } from '../../../../store/reducers/pages';
 
 const mapStateToProps = createStructuredSelector({
   formula: getFormula,
@@ -21,10 +22,13 @@ const mapStateToProps = createStructuredSelector({
   isInspectorOpened: isAnyInspectorOpened,
   inspectorEpId: getInspectorEpId,
   links: getLinks,
+  pageId: getPageIdByViewId,
+  showLinks: areLinksShown,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   removeLink,
+  updateShowLinks,
 }, dispatch);
 
 const DynamicViewContainer = connect(mapStateToProps, mapDispatchToProps)(DynamicView);

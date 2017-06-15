@@ -4,6 +4,7 @@ import {
   openPage,
   openWorkspace,
   openBlankWorkspace,
+  openPageOrView,
 } from './actions';
 import { saveView, saveViewAs } from './saveView';
 import { savePage } from './savePage';
@@ -21,6 +22,7 @@ export default {
   openPage,
   openWorkspace,
   openBlankWorkspace,
+  openPageOrView,
 
   // reload
   reloadView,

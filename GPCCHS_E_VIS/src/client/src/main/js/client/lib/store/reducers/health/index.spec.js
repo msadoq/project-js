@@ -1,5 +1,5 @@
-import globalConstants from 'common/constants';
-import { freezeArgs, should, getStore } from '../../../common/test';
+import globalConstants from '../../../constants';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/health';
 import * as types from '../../types';
 import healthReducer, {
@@ -16,17 +16,16 @@ import healthReducer, {
 const reducer = freezeArgs(healthReducer);
 
 describe('store:health:reducer', () => {
-  it('should returns initial state', () => {
+  test('should returns initial state', () => {
     const r = reducer(undefined, {});
-    r.should.have.a.property('dcStatus', globalConstants.HEALTH_STATUS_HEALTHY);
-    r.should.have.a.property('hssStatus', globalConstants.HEALTH_STATUS_HEALTHY);
-    r.should.have.a.property('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
-    r.should.have.a.property('windowsStatus')
-      .that.is.an('object');
-    Object.keys(r.windowsStatus).should.have.lengthOf(0);
-    r.should.have.a.property('lastPubSubTimestamp', null);
+    expect(r).toHaveProperty('dcStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    expect(r).toHaveProperty('hssStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    expect(r).toHaveProperty('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    expect(typeof r).toBe('object');
+    expect(Object.keys(r.windowsStatus)).toHaveLength(0);
+    expect(r).toHaveProperty('lastPubSubTimestamp', null);
   });
-  it('should ignore unknown action', () => {
+  test('should ignore unknown action', () => {
     const state = {
       dcStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       hssStatus: globalConstants.HEALTH_STATUS_HEALTHY,
@@ -34,40 +33,44 @@ describe('store:health:reducer', () => {
       lastPubSubTimestamp: 42,
       windowsStatus: { id42: 42 },
     };
-    reducer(state, {}).should.equal(state);
+    expect(reducer(state, {})).toBe(state);
   });
-  it('should update utils status', () => {
-    reducer(undefined, actions.updateDcStatus(globalConstants.HEALTH_STATUS_CRITICAL))
-      .should.have.a.property('dcStatus', globalConstants.HEALTH_STATUS_CRITICAL);
+  test('should update utils status', () => {
+    expect(
+      reducer(undefined, actions.updateDcStatus(globalConstants.HEALTH_STATUS_CRITICAL))
+    ).toHaveProperty('dcStatus', globalConstants.HEALTH_STATUS_CRITICAL);
   });
-  it('should update hss status', () => {
-    reducer(undefined, actions.updateHssStatus(globalConstants.HEALTH_STATUS_WARNING))
-      .should.have.a.property('hssStatus', globalConstants.HEALTH_STATUS_WARNING);
+  test('should update hss status', () => {
+    expect(
+      reducer(undefined, actions.updateHssStatus(globalConstants.HEALTH_STATUS_WARNING))
+    ).toHaveProperty('hssStatus', globalConstants.HEALTH_STATUS_WARNING);
   });
-  it('should update main status', () => {
-    reducer(undefined, actions.updateMainStatus(globalConstants.HEALTH_STATUS_HEALTHY))
-      .should.have.a.property('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+  test('should update main status', () => {
+    expect(
+      reducer(undefined, actions.updateMainStatus(globalConstants.HEALTH_STATUS_HEALTHY))
+    ).toHaveProperty('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
   });
-  it('should update last pubsub timestamp', () => {
-    reducer(undefined, actions.updateLastPubSubTimestamp(91))
-      .should.have.a.property('lastPubSubTimestamp', 91);
+  test('should update last pubsub timestamp', () => {
+    expect(reducer(undefined, actions.updateLastPubSubTimestamp(91))).toHaveProperty('lastPubSubTimestamp', 91);
   });
-  it('should update window status', () => {
+  test('should update window status', () => {
     const state = { windowsStatus: { id91: 91 } };
-    reducer(state, actions.updateWindowStatus('id42', 42))
-      .should.have.properties({
-        windowsStatus: { id91: 91, id42: 42 },
-      });
+    const nextState = reducer(state, actions.updateWindowStatus('id42', 42));
+    expect(nextState).toEqual({
+      windowsStatus: { id91: 91, id42: 42 },
+    });
   });
-  it('should clean windowsStatus', () => {
+  test('should clean windowsStatus', () => {
     const state = { windowsStatus: { a: 1, b: 2, c: 3 } };
-    reducer(state, { type: types.HSC_CLOSE_WORKSPACE }).should.be.eql({
+    expect(reducer(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({
       windowsStatus: {},
     });
   });
-  it('should remove a window from windowsStaus', () => {
+  test('should remove a window from windowsStaus', () => {
     const state = { windowsStatus: { a: 1, b: 2, c: 3 } };
-    reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { windowId: 'a' } }).should.be.eql({
+    expect(
+      reducer(state, { type: types.WS_WINDOW_CLOSE, payload: { windowId: 'a' } })
+    ).toEqual({
       windowsStatus: { b: 2, c: 3 },
     });
   });
@@ -76,75 +79,71 @@ describe('store:health:reducer', () => {
 
 describe('store:health:selectors', () => {
   describe('getHealth', () => {
-    it('should return state', () => {
-      const { getState } = getStore({ health: {} });
-      getHealth(getState()).should.equal(getState().health);
+    test('should return state', () => {
+      const state = { health: 'THE HEALTH' };
+      expect(getHealth(state)).toBe('THE HEALTH');
     });
   });
   describe('getLastPubSubTimestamp', () => {
-    it('should return status', () => {
-      const { getState } = getStore({ health: { lastPubSubTimestamp: 42 } });
-      getLastPubSubTimestamp(getState()).should.eql(42);
+    test('should return status', () => {
+      const state = { health: { lastPubSubTimestamp: 42 } };
+      expect(getLastPubSubTimestamp(state)).toEqual(42);
     });
-    it('should support empty state', () => {
-      const { getState } = getStore({ health: {} });
-      should.not.exist(getLastPubSubTimestamp(getState()));
+    test('should support empty state', () => {
+      const state = { health: {} };
+      expect(getLastPubSubTimestamp(state)).toBeFalsy();
     });
   });
   describe('getDcStatus', () => {
-    it('should return status', () => {
-      const { getState } = getStore({
-        health: {
-          dcStatus: globalConstants.HEALTH_STATUS_CRITICAL,
-        },
-      });
-      getDcStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_CRITICAL);
+    test('should return status', () => {
+      const state = {
+        health: { dcStatus: globalConstants.HEALTH_STATUS_CRITICAL },
+      };
+      expect(getDcStatus(state)).toEqual(globalConstants.HEALTH_STATUS_CRITICAL);
     });
-    it('should support empty state', () => {
-      const { getState } = getStore({ health: {} });
-      should.not.exist(getDcStatus(getState()));
+    test('should support empty state', () => {
+      const state = { health: {} };
+      expect(getDcStatus(state)).toBeFalsy();
     });
   });
   describe('getHssStatus', () => {
-    it('should return status', () => {
-      const { getState } = getStore({
-        health: {
-          hssStatus: globalConstants.HEALTH_STATUS_WARNING,
-        },
-      });
-      getHssStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_WARNING);
+    test('should return status', () => {
+      const state = {
+        health: { hssStatus: globalConstants.HEALTH_STATUS_WARNING },
+      };
+      expect(getHssStatus(state)).toEqual(globalConstants.HEALTH_STATUS_WARNING);
     });
-    it('should support empty state', () => {
-      const { getState } = getStore({ health: {} });
-      should.not.exist(getHssStatus(getState()));
+    test('should support empty state', () => {
+      const state = { health: {} };
+      expect(getHssStatus(state)).toBeFalsy();
     });
   });
   describe('getMainStatus', () => {
-    it('should return status', () => {
-      const { getState } = getStore({
+    test('should return status', () => {
+      const state = {
         health: {
           mainStatus: globalConstants.HEALTH_STATUS_WARNING,
         },
-      });
-      getMainStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_WARNING);
+      };
+      expect(getMainStatus(state)).toEqual(globalConstants.HEALTH_STATUS_WARNING);
     });
-    it('should support empty state', () => {
-      const { getState } = getStore({ health: {} });
-      should.not.exist(getHssStatus(getState()));
+    test('should support empty state', () => {
+      const state = { health: {} };
+      expect(getHssStatus(state)).toBeFalsy();
     });
   });
   describe('getWindowsStatus', () => {
-    it('should return getSlowRenderers', () => {
-      const { getState } = getStore({
+    test('should return getSlowRenderers', () => {
+      const state = {
         health: {
           windowsStatus: { id42: 42 },
         },
-      });
-      getWindowsStatus(getState()).should.eql({ id42: 42 });
+      };
+      expect(getWindowsStatus(state)).toEqual({ id42: 42 });
     });
-    it('should support empty state', () => {
-      const { getState } = getStore({ health: {} });
-      should.not.exist(getWindowsStatus(getState()));
+    test('should support empty state', () => {
+      const state = { health: {} };
+      expect(getWindowsStatus(state)).toBeFalsy();
     });
   });
   describe('getHealthMap', () => {
@@ -161,22 +160,21 @@ describe('store:health:selectors', () => {
           lastPubSubTimestamp: 1487672503931,
         },
       };
-      const { getState } = getStore(state);
-      getHealthMap(getState()).should.have.properties({
+      expect(getHealthMap(state)).toEqual({
         dc: state.health.dcStatus,
         hss: state.health.hssStatus,
         main: state.health.mainStatus,
         windows: status,
       });
     };
-    it('WARNING', () => {
+    test('WARNING', () => {
       testGetHealthMap('WARNING');
     });
-    it('CRITICAL', () => {
+    test('CRITICAL', () => {
       testGetHealthMap('CRITICAL');
     });
   });
-  it('getHealthMapForWindow', () => {
+  test('getHealthMapForWindow', () => {
     const state = {
       health: {
         hssStatus: 'HEALTHY',
@@ -189,11 +187,7 @@ describe('store:health:selectors', () => {
         lastPubSubTimestamp: 1487672503931,
       },
     };
-    const { getState } = getStore(state);
-    getHealthMapForWindow(
-      getState(),
-      { windowId: '59f33479-807b-4427-89d6-35afe5bf71af' }
-    ).should.have.properties({
+    expect(getHealthMapForWindow(state, { windowId: '59f33479-807b-4427-89d6-35afe5bf71af' })).toEqual({
       dc: state.health.dcStatus,
       hss: state.health.hssStatus,
       main: state.health.mainStatus,

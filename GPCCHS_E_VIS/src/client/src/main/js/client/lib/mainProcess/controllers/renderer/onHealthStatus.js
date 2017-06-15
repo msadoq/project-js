@@ -1,4 +1,4 @@
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import { updateWindowStatus } from '../../../store/actions/health';
 import { getStore } from '../../../store/createStore';
 

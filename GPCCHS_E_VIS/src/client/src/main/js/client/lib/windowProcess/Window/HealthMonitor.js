@@ -1,11 +1,5 @@
 import { Component, PropTypes } from 'react';
-import {
-  HSC_RENDERER_WARNING_STEP,
-  HSC_RENDERER_CRITICAL_STEP,
-  HEALTH_STATUS_HEALTHY,
-  HEALTH_STATUS_WARNING,
-  HEALTH_STATUS_CRITICAL,
-} from 'common/constants';
+import { HSC_RENDERER_WARNING_STEP, HSC_RENDERER_CRITICAL_STEP, HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL } from '../../constants';
 import { main } from '../ipc';
 
 const INTERVAL = 500;

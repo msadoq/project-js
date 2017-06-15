@@ -3,33 +3,32 @@
 .removeButton {
     padding-left: 9px;
     padding-top: 5px;
+    padding-right: 5px;
     cursor: pointer;
 }
 
 .links{
-  .plotLegendLegends{
-    max-height: 75px;
-    overflow-y: auto;
-    max-width: 700px;
-    margin: 0;
-    display: block;
-    button{
-      display: inline-block;
-      p{
-        font-size: 0.8em;
-      }
-    }
-    span{
-      display: inline-block;
-      font-size: 0.9em;
+  max-height: 75px;
+  overflow-y: auto;
+  max-width: 700px;
+  margin: 1px;
+  display: block;
+  margin-top: 2px;
+  button{
+    display: inline-block;
+    p{
+      font-size: 0.8em;
     }
   }
+  span{
+    display: inline-block;
+    font-size: 0.9em;
+  }
 }
+
 
 
 .link{
   border: 1px solid #DDD;
   border-radius: 2px;
-  margin-right: 2px;
-  margin-bottom: -2px;
 }

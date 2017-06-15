@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Alert, FormGroup, Col } from 'react-bootstrap';
+// import { v4 } from 'uuid';
+
 
 export default class FileInputField extends React.Component {
   static propTypes = {
@@ -23,6 +25,7 @@ export default class FileInputField extends React.Component {
       visited: PropTypes.bool,
       valid: PropTypes.bool,
     }).isRequired,
+    myFormKey: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -41,9 +44,8 @@ export default class FileInputField extends React.Component {
     }
   }
   onClick = () => {
-    document.getElementById('my_file').click();
+    document.getElementById('my_file'.concat(this.props.myFormKey)).click();
   }
-
 
   render() {
     const {
@@ -54,6 +56,7 @@ export default class FileInputField extends React.Component {
         error,
         warning,
       },
+      myFormKey,
     } = this.props;
 
     return (
@@ -62,30 +65,32 @@ export default class FileInputField extends React.Component {
           'has-error': touched && error,
           'has-warning': touched && warning,
           'has-success': touched && !(error || warning),
-        })}
+        }, { width: '100%' })}
+        key={'div'.concat(myFormKey)}
       >
-        <FormGroup >
-          <Col sm={10}>
+        <FormGroup key={'formGroup'.concat(myFormKey)}>
+          <Col xs={11} key={'col1'.concat(myFormKey)}>
             <input
               {...input}
-              id="pathField"
+              id={'pathField'.concat(myFormKey)}
               placeholder={placeholder}
               type="text"
-              className="form-control input-sm"
+              className="form-control input-xs"
               onChange={e => this.onInputChange(e)}
             />
           </Col>
-          <Col sm={2}>
-            <input
+          <Col xs={1} key={'col2'.concat(myFormKey)}>
+            <button
               type="button"
-              id="get_file"
+              id={'get_file'.concat(this.props.myFormKey)}
               style={{ borderRadius: '5px', padding: '6px' }}
               onClick={this.onClick}
-              value="..."
-            />
+            >
+              ...
+            </button>
             <input
               type="file"
-              id="my_file"
+              id={'my_file'.concat(myFormKey)}
               style={{ display: 'none' }}
               onChange={this.onChoiceChange}
             />

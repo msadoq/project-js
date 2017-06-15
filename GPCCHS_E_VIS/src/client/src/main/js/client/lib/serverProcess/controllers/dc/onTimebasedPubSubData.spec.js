@@ -1,5 +1,8 @@
-const { should } = require('../../utils/test');
+const { registerProtobuf } = require('../../../common/test');
 
+registerProtobuf();
+
+const { getRemoteId } = require('../../../common/test');
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const {
   clearFactory,
@@ -46,10 +49,10 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
   const protoRp2 = dataStub.getReportingParameterProtobuf(rp2);
   const deprotoRp = dataStub.getReportingParameterDeProtobuf(protoRp);
 
-  const remoteId = dataStub.getRemoteId(Object.assign({}, dataId));
-  const remoteId2 = dataStub.getRemoteId(Object.assign({}, dataId, { domainId: 201 }));
+  const remoteId = getRemoteId(Object.assign({}, dataId));
+  const remoteId2 = getRemoteId(Object.assign({}, dataId, { domainId: 201 }));
 
-  it('no dataId in subscriptions', () => {
+  test('no dataId in subscriptions', () => {
     // init test
     // launch test
     onTimebasedPubSubData(
@@ -61,12 +64,12 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
-    getQueue().should.have.properties({});
-    should.not.exist(getLastPubSubTimestamp());
+    expect(getAllTimebasedDataModelRemoteIds()).toHaveLength(0);
+    expect(getQueue()).toBeAnObject();
+    expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
-  it('no query for this dataId', () => {
+  test('no query for this dataId', () => {
     // init test
     // launch test
     onTimebasedPubSubData(
@@ -78,12 +81,12 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
-    getQueue().should.have.properties({});
-    should.not.exist(getLastPubSubTimestamp());
+    expect(getAllTimebasedDataModelRemoteIds()).toHaveLength(0);
+    expect(getQueue()).toBeAnObject();
+    expect(getLastPubSubTimestamp()).toBeFalsy();
   });
 
-  it('one in interval', () => {
+  test('one in interval', () => {
     // init test
     connectedDataModel.addRecord(dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, halfInterval);
@@ -97,20 +100,20 @@ describe('controllers/utils/onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    should.not.exist(getTimebasedDataModel(remoteId2));
+    expect(getTimebasedDataModel(remoteId2)).toBeFalsy();
     const timebasedDataModel = getTimebasedDataModel(remoteId);
-    should.exist(timebasedDataModel);
-    timebasedDataModel.count().should.equal(1);
+    expect(timebasedDataModel).toBeDefined();
+    expect(timebasedDataModel.count()).toBe(1);
     const tbd = timebasedDataModel.find();
-    tbd[0].should.have.properties({
+    expect(tbd[0]).toMatchObject({
       timestamp: t1,
       payload: deprotoRp,
     });
-    getQueue().should.have.properties({
+    expect(getQueue()).toMatchObject({
       [remoteId]: {
         [t1]: deprotoRp,
       },
     });
-    getLastPubSubTimestamp().should.equal(t2);
+    expect(getLastPubSubTimestamp()).toBe(t2);
   });
 });

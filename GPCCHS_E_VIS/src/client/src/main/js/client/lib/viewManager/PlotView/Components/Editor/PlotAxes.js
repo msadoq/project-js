@@ -40,6 +40,7 @@ export default class PlotAxes extends Component {
     entryPoints: [],
     showYAxes: 'left',
     axes: {},
+    panels: [],
   };
 
   onChange = (openPanels) => {
@@ -103,7 +104,7 @@ export default class PlotAxes extends Component {
         <Collapse
           accordion={false}
           onChange={this.onChange}
-          defaultActiveKey={Array.isArray(panels) ? panels : []}
+          defaultActiveKey={panels}
         >
           {Object.keys(axes).map((axisId) => {
             const axis = axes[axisId];

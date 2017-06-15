@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import Links from '../../../../windowProcess/View/Links';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
@@ -51,14 +51,14 @@ export default class MimicView extends Component {
       path: PropTypes.string.isRequired,
     })),
     removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
   };
   static defaultProps = {
     links: [],
-  };
-
-  state = {
     showLinks: false,
-  }
+  };
 
   componentWillMount() {
     this.svgEls = [];
@@ -68,7 +68,7 @@ export default class MimicView extends Component {
   componentDidMount() {
     // this.content = this.getContentComponent();
   }
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     if (
       nextProps.content !== this.props.content ||
@@ -78,7 +78,7 @@ export default class MimicView extends Component {
       this.content = this.getContentComponent();
       // this.updateSvgsValues(nextProps.data);
     }
-    if (nextState.showLinks !== this.state.showLinks) {
+    if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
     }
     if (!shouldRender) {
@@ -204,12 +204,11 @@ export default class MimicView extends Component {
         processNode: processNodeDefinitions.processDefaultNode,
       },
     ];
-    const comp = htmlToReactParser.parseWithInstructions(
+    return htmlToReactParser.parseWithInstructions(
       this.props.content,
       isValidNode,
       processingInstructions
     );
-    return comp;
   }
 
   updateSvgsValues = (data) => {
@@ -347,9 +346,8 @@ export default class MimicView extends Component {
 
   toggleShowLinks = (e) => {
     e.preventDefault();
-    this.setState({
-      showLinks: !this.state.showLinks,
-    });
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
   }
   removeLink = (e, index) => {
     e.preventDefault();
@@ -358,19 +356,19 @@ export default class MimicView extends Component {
   }
 
   render() {
-    const { showLinks } = this.state;
-    const { links } = this.props;
+    const { links, pageId, showLinks } = this.props;
     const style = { padding: '15px' };
 
     return (
       <div className="h100 posRelative">
         <Row className="h100 posRelative">
           <Col xs={12} style={style}>
-            <Links
+            <LinksContainer
               show={showLinks}
               toggleShowLinks={this.toggleShowLinks}
               links={links}
               removeLink={this.removeLink}
+              pageId={pageId}
             />
           </Col>
           <Col xs={12} className="h100 posRelative">

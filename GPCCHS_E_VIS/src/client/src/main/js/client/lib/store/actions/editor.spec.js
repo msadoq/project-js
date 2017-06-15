@@ -1,10 +1,7 @@
-import sinon from 'sinon';
+import { mockStore } from '../../common/test';
 import * as actions from './editor';
 
 describe('store:actions:editor', () => {
-  let getState1;
-  let getState2;
-  let dispatch;
   const state1 = {
     editor: {
       textViewId: 'test',
@@ -21,18 +18,20 @@ describe('store:actions:editor', () => {
       playingTimebarId: 'test',
     },
   };
-  beforeEach(() => {
-    dispatch = sinon.spy();
-    getState1 = () => state1;
-    getState2 = () => state2;
-  });
 
-  it('DONT dispatch pause action', () => {
-    actions.openHtmlEditor('test')(dispatch, getState1);
-    dispatch.should.have.been.callCount(1);
+  test('dispatch a "WS_WINDOW_OPEN_HTML_EDITOR" action (without pause)', () => {
+    const store = mockStore(state1);
+    store.dispatch(actions.openHtmlEditor('test'));
+    expect(store.getActions()).toMatchObject([
+      { type: 'WS_WINDOW_OPEN_HTML_EDITOR', payload: { viewId: 'test' } },
+    ]);
   });
-  it('dispatch pause action', () => {
-    actions.openHtmlEditor('test')(dispatch, getState2);
-    dispatch.should.have.been.callCount(2);
+  test('dispatch a "WS_WINDOW_OPEN_HTML_EDITOR" action (with pause)', () => {
+    const store = mockStore(state2);
+    store.dispatch(actions.openHtmlEditor('test'));
+    expect(store.getActions()).toMatchObject([
+      { type: 'WS_WINDOW_OPEN_HTML_EDITOR', payload: { viewId: 'test' } },
+      { type: 'HSC_PAUSE' },
+    ]);
   });
 });

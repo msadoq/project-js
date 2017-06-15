@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { join, dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from 'common/constants';
+import { LOG_DOCUMENT_SAVE } from '../constants';
 
 import { getWindows } from '../store/reducers/windows';
 import { getPage } from '../store/reducers/pages';
@@ -19,13 +19,11 @@ import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
-const getPageLocation = ({ oId, path, absolutePath }) => {
+const getPageLocation = ({ oId, path }) => {
   if (oId) {
     return { oId };
-  } else if (path) {
-    return { path };
   }
-  return { absolutePath };
+  return { path };
 };
 
 const prepareWindows = state => _.map(win => ({
@@ -48,7 +46,7 @@ const prepareTimebars = state => _.map(timebar => ({
   type: 'timeBarConfiguration',
   rulerResolution: timebar.rulerResolution,
   speed: timebar.speed,
-  masterId: timebar.masterId || undefined,
+  masterId: timebar.masterId,
   mode: timebar.mode,
   timelines: _.map((timelineUuid) => {
     const timeline = getTimeline(state, { timelineUuid });
@@ -95,7 +93,7 @@ const saveWorkspace = (state, callback) => {
   const file = getWorkspaceFile(state);
   const folder = getWorkspaceFolder(state);
   if (!file || !folder) {
-    return new Error('Unable to get path for saving workspace');
+    return callback(new Error('Unable to get path for saving workspace'));
   }
   const path = join(folder, file);
   return saveWorkspaceAs(state, path, callback);

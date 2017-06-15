@@ -1,4 +1,4 @@
-import { should, freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/test';
 import * as actions from '../../actions/inspector';
 import inspectorReducer, {
   getInspectorViewId,
@@ -20,79 +20,92 @@ const reducer = freezeArgs(inspectorReducer);
 /* --- Reducer -------------------------------------------------------------- */
 
 describe('store:inspector:reducer', () => {
-  it('should returns initial state', () => {
-    const r = reducer(undefined, {});
-    r.should.have.a.property('generalData')
-      .that.is.an('object')
-      .that.has.properties({
+  test('should returns initial state', () => {
+    const nextState = reducer(undefined, {});
+    expect(nextState).toEqual({
+      generalData: {
         viewId: null,
         viewType: null,
         epId: null,
         epName: null,
         dataId: null,
         field: null,
-      });
-    r.should.have.a.property('staticData')
-      .that.equals(null);
+        displayingTM: false,
+      },
+      staticData: null,
+    });
   });
-  it('should ignore unknown action', () => {
+  test('should ignore unknown action', () => {
     const state = {
       remoteId: 'remoteId',
       dataId: { parameterName: 'param' },
       displayingTM: true,
       staticData: { name: 'param' },
     };
-    reducer(state, {}).should.equal(state);
+    expect(reducer(state, {})).toBe(state);
   });
   // GENERAL
-  it('should set inspector data id', () => {
-    reducer(undefined, actions.setInspectorGeneralData('viewId', 'viewType', 'epId', 'epName', 'dataId', 'field'))
-    .should.have.a.property('generalData').that.eql({
-      viewId: 'viewId',
-      viewType: 'viewType',
-      epId: 'epId',
-      epName: 'epName',
-      dataId: 'dataId',
-      field: 'field',
-      displayingTM: false,
+  test('should set inspector data id', () => {
+    const nextState = reducer(undefined, actions.setInspectorGeneralData('viewId', 'viewType', 'epId', 'epName', 'dataId', 'field'));
+    expect(nextState).toMatchObject({
+      generalData: {
+        viewId: 'viewId',
+        viewType: 'viewType',
+        epId: 'epId',
+        epName: 'epName',
+        dataId: 'dataId',
+        field: 'field',
+        displayingTM: false,
+      },
     });
   });
-  it('should set inspector data id', () => {
-    reducer(undefined, actions.deleteInspectorGeneralData())
-    .should.have.a.property('generalData').that.eql({
-      viewId: null,
-      viewType: null,
-      epId: null,
-      epName: null,
-      dataId: null,
-      field: null,
-      displayingTM: false,
+  test('should set inspector data id', () => {
+    const nextState = reducer(undefined, actions.deleteInspectorGeneralData());
+    expect(nextState).toEqual({
+      generalData: {
+        viewId: null,
+        viewType: null,
+        epId: null,
+        epName: null,
+        dataId: null,
+        field: null,
+        displayingTM: false,
+      },
+      staticData: null,
     });
   });
-  it('should update inspector TM display status', () => {
-    reducer(undefined, actions.isInspectorDisplayingTM(true))
-    .should.have.a.property('generalData')
-    .that.is.an('object')
-    .that.has.a.property('displayingTM')
-    .that.eql(true);
+  test('should update inspector TM display status', () => {
+    const nextState = reducer(undefined, actions.isInspectorDisplayingTM(true));
+    expect(nextState).toMatchObject({
+      generalData: {
+        displayingTM: true,
+      },
+    });
   });
   // STATIC DATA
-  it('should set inspector static data', () => {
-    reducer(undefined, actions.setInspectorStaticData({ name: 'param' }))
-      .should.have.a.property('staticData').that.have.properties({ name: 'param' });
-    reducer({ staticData: { name: 'param' } }, actions.setInspectorStaticData({ type: 'link' }))
-      .should.have.a.property('staticData').that.have.properties({ type: 'link' });
+  test('should set inspector static data', () => {
+    const nextState = reducer(undefined, actions.setInspectorStaticData({ name: 'param' }));
+    expect(nextState).toMatchObject({
+      staticData: { name: 'param' },
+    });
+    const nextState2 = reducer(nextState, actions.setInspectorStaticData({ type: 'link' }));
+    expect(nextState2).toMatchObject({
+      staticData: { type: 'link' },
+    });
   });
-  it('should update inspector static data loading state', () => {
-    reducer(undefined, actions.isInspectorStaticDataLoading(true))
-    .should.have.a.property('staticData').that.have.properties({ loading: true });
-    reducer({ staticData: { name: 'param' } }, actions.isInspectorStaticDataLoading(true))
-    .should.have.a.property('staticData').that.have.properties({ name: 'param', loading: true });
+  test('should update inspector static data loading state', () => {
+    const nextState = reducer(undefined, actions.isInspectorStaticDataLoading(true));
+    expect(nextState.staticData).toEqual({ loading: true });
+    const nextState2 = reducer({ staticData: { name: 'param' } }, actions.isInspectorStaticDataLoading(true));
+    expect(nextState2.staticData).toEqual({
+      name: 'param',
+      loading: true,
+    });
   });
-  it('should toggled all inspector static data nodes', () => {
-    should.not.exist(
+  test('should toggled all inspector static data nodes', () => {
+    expect(
       reducer(undefined, actions.toggleAllInspectorStaticDataNodes(false)).staticData
-    );
+    ).toBeFalsy();
     const state = {
       staticData: {
         name: 'node1',
@@ -108,8 +121,8 @@ describe('store:inspector:reducer', () => {
         ],
       },
     };
-    reducer(state, actions.toggleAllInspectorStaticDataNodes(true))
-    .should.have.a.property('staticData').that.have.properties({
+    const nextState = reducer(state, actions.toggleAllInspectorStaticDataNodes(true));
+    expect(nextState.staticData).toEqual({
       name: 'node1',
       toggled: true,
       children: [
@@ -126,22 +139,47 @@ describe('store:inspector:reducer', () => {
     });
   });
   // STATIC DATA NODE
-  it('should update inspector static data node', () => {
-    reducer(undefined, actions.updateInspectorStaticDataNode(['children', '0'], { name: 'param' }))
-    .should.have.a.property('staticData').that.have.properties({ children: [{ name: 'param' }] });
-    reducer({ staticData: { name: 'param', children: [{ name: 'foo' }, { name: 'other' }] } },
-    actions.updateInspectorStaticDataNode(['children', '0'], { foo: 'bar' }))
-    .should.have.a.property('staticData').that.have.properties({ name: 'param', children: [{ name: 'foo', foo: 'bar' }, { name: 'other' }] });
+  test('should update inspector static data node', () => {
+    const nextState = reducer(undefined, actions.updateInspectorStaticDataNode(['children', '0'], { name: 'param' }));
+    // TODO: here there is a problem with updeep, children should be an array
+    expect(nextState.staticData).toEqual({
+      children: {
+        0: { name: 'param', loading: false },
+      },
+    });
+    const nextState2 = reducer(
+      { staticData: { name: 'param', children: [{ name: 'foo' }, { name: 'other' }] } },
+      actions.updateInspectorStaticDataNode(['children', '0'], { name: 'param' })
+    );
+    expect(nextState2.staticData).toEqual({
+      name: 'param',
+      children: [
+        { name: 'param', loading: false },
+        { name: 'other' },
+      ],
+    });
   });
-  it('should update inspector static data node loading state', () => {
-    reducer(undefined, actions.isInspectorStaticDataNodeLoading(['children', '0'], true))
-      .should.have.a.property('staticData').that.have.properties({ children: [{ loading: true }] });
+  test('should update inspector static data node loading state', () => {
+    const nextState = reducer(undefined, actions.isInspectorStaticDataNodeLoading(['children', '0'], true));
+    // TODO: here there is a problem with updeep, children should be an array
+    expect(nextState.staticData).toEqual({
+      children: {
+        0: { loading: true, toggled: true },
+      },
+    });
   });
-  it('should update inspector static data node toggle state', () => {
-    reducer(undefined, actions.isInspectorStaticDataNodeToggled([], true))
-      .should.have.a.property('staticData').that.have.properties({ toggled: true });
-    reducer(undefined, actions.isInspectorStaticDataNodeToggled(['children', '0'], true))
-      .should.have.a.property('staticData').that.have.properties({ children: [{ toggled: true }] });
+  test('should update inspector static data node toggle state', () => {
+    const nextState = reducer(undefined, actions.isInspectorStaticDataNodeToggled([], true));
+    expect(nextState.staticData).toMatchObject({ toggled: true });
+    const nextState2 = reducer(undefined, actions.isInspectorStaticDataNodeToggled(['children', '0'], true));
+    // TODO: here there is a problem with updeep, children should be an array
+    expect(nextState2.staticData).toEqual({
+      children: {
+        0: {
+          toggled: true,
+        },
+      },
+    });
   });
 });
 
@@ -150,7 +188,7 @@ describe('store:inspector:reducer', () => {
 describe('store:inspector:selectors', () => {
   // GENERAL
   describe('getInspectorDisplayingTM', () => {
-    it('should return remoteId', () => {
+    test('should return remoteId', () => {
       const state = {
         inspector: {
           generalData: {
@@ -158,11 +196,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorDisplayingTM(state).should.eql(true);
+      expect(getInspectorDisplayingTM(state)).toEqual(true);
     });
   });
   describe('getInspectorViewId', () => {
-    it('should return viewId', () => {
+    test('should return viewId', () => {
       const state = {
         inspector: {
           generalData: {
@@ -170,11 +208,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorViewId(state).should.eql('viewId');
+      expect(getInspectorViewId(state)).toEqual('viewId');
     });
   });
   describe('getInspectorViewType', () => {
-    it('should return viewType', () => {
+    test('should return viewType', () => {
       const state = {
         inspector: {
           generalData: {
@@ -182,11 +220,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorViewType(state).should.eql('TextView');
+      expect(getInspectorViewType(state)).toEqual('TextView');
     });
   });
   describe('getInspectorEpId', () => {
-    it('should return epId', () => {
+    test('should return epId', () => {
       const state = {
         inspector: {
           generalData: {
@@ -194,11 +232,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorEpId(state).should.eql('epId');
+      expect(getInspectorEpId(state)).toEqual('epId');
     });
   });
   describe('getInspectorEpName', () => {
-    it('should return epName', () => {
+    test('should return epName', () => {
       const state = {
         inspector: {
           generalData: {
@@ -206,11 +244,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorEpName(state).should.eql('EP_NAME');
+      expect(getInspectorEpName(state)).toEqual('EP_NAME');
     });
   });
   describe('getInspectorDataId', () => {
-    it('should return dataId', () => {
+    test('should return dataId', () => {
       const state = {
         inspector: {
           generalData: {
@@ -220,11 +258,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorDataId(state).should.eql({ parameterName: 'param' });
+      expect(getInspectorDataId(state)).toEqual({ parameterName: 'param' });
     });
   });
   describe('getInspectorField', () => {
-    it('should return field', () => {
+    test('should return field', () => {
       const state = {
         inspector: {
           generalData: {
@@ -232,12 +270,12 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorField(state).should.eql('field');
+      expect(getInspectorField(state)).toEqual('field');
     });
   });
   // STATIC DATA
   describe('getInspectorStaticData', () => {
-    it('should return staticData', () => {
+    test('should return staticData', () => {
       const state = {
         inspector: {
           staticData: {
@@ -245,11 +283,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorStaticData(state).should.eql({ name: 'root' });
+      expect(getInspectorStaticData(state)).toEqual({ name: 'root' });
     });
   });
   describe('getInspectorStaticDataLoading', () => {
-    it('should return staticData loading status', () => {
+    test('should return staticData loading status', () => {
       const state = {
         inspector: {
           staticData: {
@@ -257,11 +295,11 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorStaticDataLoading(state).should.eql(true);
+      expect(getInspectorStaticDataLoading(state)).toEqual(true);
     });
   });
   describe('getInspectorStaticDataChildren', () => {
-    it('should return staticData children', () => {
+    test('should return staticData children', () => {
       const state = {
         inspector: {
           staticData: {
@@ -269,12 +307,12 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorStaticDataChildren(state).should.eql([{ name: 'child1' }, { name: 'child2' }]);
+      expect(getInspectorStaticDataChildren(state)).toEqual([{ name: 'child1' }, { name: 'child2' }]);
     });
   });
   // STATIC DATA NODE
   describe('getInspectorStaticDataNode', () => {
-    it('should return staticData node', () => {
+    test('should return staticData node', () => {
       const state = {
         inspector: {
           staticData: {
@@ -289,12 +327,12 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorStaticDataNode(state, ['children', '0']).should.eql({ name: 'child1' });
-      getInspectorStaticDataNode(state, ['children', '1', 'children', '0']).should.eql({ name: 'child2' });
+      expect(getInspectorStaticDataNode(state, ['children', '0'])).toEqual({ name: 'child1' });
+      expect(getInspectorStaticDataNode(state, ['children', '1', 'children', '0'])).toEqual({ name: 'child2' });
     });
   });
   describe('getInspectorStaticDataNodeToggled', () => {
-    it('should return staticData node toggled status', () => {
+    test('should return staticData node toggled status', () => {
       const state = {
         inspector: {
           staticData: {
@@ -309,8 +347,10 @@ describe('store:inspector:selectors', () => {
           },
         },
       };
-      getInspectorStaticDataNodeToggled(state, ['children', '0']).should.eql(false);
-      getInspectorStaticDataNodeToggled(state, ['children', '1', 'children', '0']).should.eql(true);
+      expect(getInspectorStaticDataNodeToggled(state, ['children', '0'])).toEqual(false);
+      expect(
+        getInspectorStaticDataNodeToggled(state, ['children', '1', 'children', '0'])
+      ).toEqual(true);
     });
   });
 });

@@ -1,107 +1,73 @@
 /* eslint-disable no-unused-expressions */
-import sinon from 'sinon';
 import * as types from '../types';
 import * as actions from './health';
-import { freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/test';
 
 describe('store:actions:health', () => {
-  const state = freezeMe({
+  const store = mockStore(freezeMe({
     health: {
       dcStatus: false,
       hssStatus: false,
       lastPubSubTimestamp: 0,
     },
-  });
+  }));
 
-  let dispatch;
-  const getState = () => state;
-
-  beforeEach(() => {
-    dispatch = sinon.spy();
+  afterEach(() => {
+    store.clearActions();
   });
 
   describe('updateHealth', () => {
-    it('does nothing when no status has changed', () => {
-      actions.updateHealth(state.health)(dispatch, getState);
-      dispatch.should.not.be.called;
+    test('does nothing when no status has changed', () => {
+      store.dispatch(actions.updateHealth(store.getState().health));
+      expect(store.getActions).toHaveLength(0);
     });
 
-    it('does update all status', (done) => {
+    test('does update all status', () => {
       const status = { dcStatus: true, hssStatus: true, lastPubSubTimestamp: 42 };
-      actions.updateHealth(status, 10)(dispatch, getState);
-
-      dispatch.should.have.been.callCount(3);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.an('object');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSS_UPDATE_DC_STATUS,
-        payload: {
-          status: true,
-        },
-      });
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.HSS_UPDATE_HEALTH_STATUS,
-        payload: {
-          status: true,
-        },
-      });
-      dispatch.getCall(2).should.have.been.calledWith({
-        type: types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP,
-        payload: {
-          timestamp: 42,
-        },
-      });
-      setTimeout(done, 20); // waiting 10 ms throttle
+      store.dispatch(actions.updateHealth(status, 0));
+      expect(store.getActions()).toEqual([
+        { type: 'HSS_UPDATE_DC_STATUS', payload: { status: true } },
+        { type: 'HSS_UPDATE_HEALTH_STATUS', payload: { status: true } },
+        { type: 'HSS_UPDATE_LAST_PUBSUB_TIMESTAMP', payload: { timestamp: 42 } },
+      ]);
     });
 
-    it('does update utils status', (done) => {
+    test('does update dc status', () => {
       const status = { dcStatus: true, hssStatus: false, lastPubSubTimestamp: 0 };
-      actions.updateHealth(status, 10)(dispatch, getState);
-
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSS_UPDATE_DC_STATUS,
-        payload: {
-          status: true,
-        },
-      });
-      setTimeout(done, 20); // waiting 10 ms throttle
+      store.dispatch(actions.updateHealth(status, 0));
+      expect(store.getActions()).toEqual([
+        { type: 'HSS_UPDATE_DC_STATUS', payload: { status: true } },
+      ]);
     });
 
-    it('does update hss status', (done) => {
+    test('does update hss status', () => {
       const status = { dcStatus: false, hssStatus: true, lastPubSubTimestamp: 0 };
-      actions.updateHealth(status, 10)(dispatch, getState);
+      store.dispatch(actions.updateHealth(status, 0));
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSS_UPDATE_HEALTH_STATUS,
-        payload: {
-          status: true,
+      expect(store.getActions()).toEqual([
+        {
+          type: types.HSS_UPDATE_HEALTH_STATUS,
+          payload: {
+            status: true,
+          },
         },
-      });
-      setTimeout(done, 20); // waiting 10 ms throttle
+      ]);
     });
 
-    it('does update lastPubSubTimestamp status (throttled)', (done) => {
+    test('does update lastPubSubTimestamp status', () => {
       const status = { dcStatus: false, hssStatus: false, lastPubSubTimestamp: 42 };
-      actions.updateHealth(status, 10)(dispatch, getState);
-      actions.updateHealth(status, 10)(dispatch, getState);
+      store.dispatch(actions.updateHealth(status, 0));
+      expect(store.getActions()).toEqual([
+        { type: 'HSS_UPDATE_LAST_PUBSUB_TIMESTAMP', payload: { timestamp: 42 } },
+      ]);
+    });
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP,
-        payload: {
-          timestamp: 42,
-        },
-      });
-      setTimeout(done, 20); // waiting 10 ms throttle
+    test('throttles updateLastPubSubTimestamp', (done) => {
+      const status = { dcStatus: false, hssStatus: false, lastPubSubTimestamp: 42 };
+      store.dispatch(actions.updateHealth(status, 5));
+      store.dispatch(actions.updateHealth(status, 5));
+      expect(store.getActions()).toHaveLength(1);
+      setTimeout(done, 10);
     });
   });
 });

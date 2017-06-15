@@ -1,5 +1,9 @@
-const logger = require('common/log')('controllers:onSessionData');
 const { decode } = require('../../../utils/adapters');
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
+const logger = require('../../../common/logManager')('controllers:onSessionData');
 
 /**
  * Triggered on DC session request response.

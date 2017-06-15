@@ -1,18 +1,18 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import path from 'path';
+import { connect as createRtd } from 'rtd/catalogs';
+
+import getLogger from '../common/logManager';
+import parameters from '../common/configurationManager';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
   LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
-} from 'common/constants';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
-import { connect as createRtd } from 'rtd/catalogs';
-
-import { clear } from '../utils/callbacks';
+} from '../constants';
+import { clear } from '../common/callbacks';
 import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
@@ -68,7 +68,7 @@ export function onStart() {
       logger.info('starting data simulator process...');
       fork(
         CHILD_PROCESS_DC,
-        `${parameters.get('path')}/lib/stubProcess/index.js`,
+        `${parameters.get('path')}/lib/stubProcess/dc.js`,
         {
           execPath: parameters.get('NODE_PATH'),
           env: parameters.getAll(),

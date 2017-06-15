@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, MenuItem, Glyphicon } from 'react-bootstrap';
-import globalConstants from 'common/constants';
+import globalConstants from '../../constants';
 
 import styles from './Header.css';
 import Tooltip from '../common/Tooltip';

@@ -3,13 +3,12 @@ import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
 
-import { copyProp } from 'common/utils/fp';
+import { copyProp } from '../common/fp';
 
 import validation from './validation';
 
 import { readDocument } from './io';
 import { readPageAndViews } from './readPage';
-
 
 /* Prepare workspace */
 const injectUuids = _.map(_.update('uuid', v4));

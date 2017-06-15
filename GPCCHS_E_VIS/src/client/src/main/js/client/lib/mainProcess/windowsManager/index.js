@@ -1,5 +1,5 @@
 import { series } from 'async';
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 import { getStore } from '../../store/createStore';
 import { observer as windowsObserver } from './windows';
 import { observer as splashObserver } from './splashScreen';

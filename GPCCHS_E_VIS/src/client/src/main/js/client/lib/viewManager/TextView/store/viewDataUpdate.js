@@ -1,6 +1,6 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _get from 'lodash/get';
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import { getStateColorObj } from '../../commonData/stateColors';
 import { convertData } from '../../commonData/convertData';
 import { applyFilters } from '../../commonData/applyFilters';

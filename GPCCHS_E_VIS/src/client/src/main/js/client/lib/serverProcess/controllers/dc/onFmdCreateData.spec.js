@@ -1,47 +1,43 @@
+const { registerProtobuf } = require('../../../common/test');
+
+registerProtobuf();
+
 const dataStub = require('common/protobuf/stubs');
-
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-
-
 const onFmdCreateData = require('./onFmdCreateData');
 
-
 describe('controllers/client/onFmdCreateData', () => {
-  beforeEach(() => {
-    resetTestHandlerArgs();
-  });
-  it('success', () => {
+  test('should returns file info if success', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const mySuccessProto = dataStub.getSuccessStatusProtobuf();
     const myFileInfo = dataStub.getFMDFileInfo();
     const myFileInfoProto = dataStub.getFMDFileInfoProtobuf(myFileInfo);
-    // launch test
-    onFmdCreateData(testHandler, myQueryIdProto, mySuccessProto, myFileInfoProto);
-    // check data
-    const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
-      .that.have.properties(myFileInfo);
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        myFileInfo,
+      ]);
+      done();
+    };
+    onFmdCreateData(check, myQueryIdProto, mySuccessProto, myFileInfoProto);
   });
-  it('error', () => {
+  test('should returns an error if fail', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myErrorProto = dataStub.getErrorStatusProtobuf();
     const myReason = 'myReason';
     const myReasonProto = dataStub.getStringProtobuf(myReason);
-    // launch test
-    onFmdCreateData(testHandler, myQueryIdProto, myErrorProto, myReasonProto);
-    // check data
-    const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
-      .that.have.properties({
-        err: myReason,
-      });
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        {
+          err: myReason,
+        },
+      ]);
+      done();
+    };
+    onFmdCreateData(check, myQueryIdProto, myErrorProto, myReasonProto);
   });
 });

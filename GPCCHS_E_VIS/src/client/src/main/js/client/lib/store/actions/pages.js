@@ -1,12 +1,13 @@
 import _ from 'lodash/fp';
-import _map from 'lodash/map';
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getPanels, getPages } from '../reducers/pages';
+import { getPanels } from '../reducers/pages';
+import { getWindowIdByPageId } from '../reducers/windows';
+import { focusPage as focusPageInWindow } from '../actions/windows';
 
 /**
  * Simple actions
@@ -84,19 +85,23 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
 
 export function openEditor(pageId, viewId) { // TODO boxmodel test
   return (dispatch, getState) => {
-    let pId = pageId;
-    if (!pageId) {
-      const pages = _map(getPages(getState()), (v, k) => ({ ...v, id: k }));
-      const containsView = p => p.views.some(v => v === viewId);
-      const page = _.get('0', _.filter(containsView, pages));
-      pId = page.id;
-    }
-    dispatch(minimizeEditor(pId, false));
-    const { editorWidth } = getPanels(getState(), { pId });
+    dispatch(minimizeEditor(pageId, false));
+    const { editorWidth } = getPanels(getState(), { pageId });
     if (!editorWidth || editorWidth < 1) {
-      dispatch(resizeEditor(pId, 350));
+      dispatch(resizeEditor(pageId, 350));
     }
 
-    dispatch(loadInEditor(pId, viewId));
+    dispatch(loadInEditor(pageId, viewId));
+  };
+}
+
+export function focusPage(pageId) {
+  return (dispatch, getState) => {
+    // get window containing the pageId
+    const winId = getWindowIdByPageId(getState(), { pageId });
+    if (!winId) {
+      return;
+    }
+    dispatch(focusPageInWindow(winId, pageId));
   };
 }

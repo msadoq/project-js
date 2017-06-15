@@ -4,8 +4,8 @@ import _difference from 'lodash/difference';
 import _each from 'lodash/each';
 import { BrowserWindow, app } from 'electron';
 import { series, each } from 'async';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
+import getLogger from '../../common/logManager';
+import parameters from '../../common/configurationManager';
 import getHtmlPath from './getHtmlPath';
 import { getStore } from '../../store/createStore';
 import {

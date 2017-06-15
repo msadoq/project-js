@@ -1,9 +1,9 @@
-const logger = require('common/log')('utils/subscriptions');
-const { encode } = require('../../../utils/adapters');
-const globalConstants = require('common/constants');
-const flattenDataId = require('common/utils/flattenDataId');
+const { encode } = require('../../utils/adapters');
+const logger = require('../../common/logManager')('utils/subscriptions');
+const globalConstants = require('../../constants');
+const flattenDataId = require('../../common/flattenDataId');
 
-const registeredCallbacks = require('../../utils/callbacks');
+const registeredCallbacks = require('../../common/callbacks');
 const connectedDataModel = require('../models/connectedData');
 const { main } = require('../ipc');
 

@@ -1,60 +1,21 @@
-import { v4 } from 'uuid';
 import { tmpdir } from 'os';
 import _ from 'lodash';
-import path from 'path';
-import chai from 'chai';
-import sinonChai from 'sinon-chai';
-import properties from 'chai-properties';
-import sinon from 'sinon';
-import { createStore, applyMiddleware } from 'redux';
+import { resolve } from 'path';
 import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
+import { getDataId } from 'common/protobuf/stubs';
 import deepFreeze from 'deep-freeze';
-import Long  from 'long';
-import reducer from '../store/reducers/index';
+import flattenDataId from './flattenDataId';
 
-global.testConfig = {
-  ISIS_DOCUMENTS_ROOT: path.resolve(__dirname, '../documentManager/fixtures'),
-  WILDCARD_CHARACTER: '*',
-  VISUWINDOW_MAX_LENGTH: 42,
-  STATE_COLORS: {
-    alarm: 'orangered',
-    critical: 'red',
-    info: 'white',
-    outOfRange: 'grey',
-    severe: 'darkred',
-    warning: 'orange',
-    nonsignificant: 'lightgrey',
-    obsolete: 'tan',
-  },
+const registerDc = require('common/protobuf/adapters/dc');
+const registerLpisis = require('common/protobuf/adapters/lpisis');
+
+const registerProtobuf = () => {
+  registerDc(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
+  registerLpisis(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
 };
 
-_.set(
-  global,
-  'parameters.get',
-  p => _.get(global.testConfig, p)
-);
-
-chai.use(properties);
-chai.use(sinonChai);
-
-function getStore(initialState) {
-  return createStore(
-    reducer,
-    initialState,
-    applyMiddleware(thunk)
-  );
-}
-
-const createGetState = ([...states]) => {
-  const getState = sinon.stub();
-  const frozenStates = states.map(freezeMe);
-  const lastState = frozenStates[frozenStates.length - 1];
-  getState.returns(lastState);
-  frozenStates.forEach((state, i) => {
-    getState.onCall(i).returns(state);
-  });
-  return getState;
-};
+const mockStore = configureMockStore([thunk]);
 
 const freezeMe = o => o && deepFreeze(o);
 
@@ -63,48 +24,33 @@ const freezeArgs = f => (...args) => {
   return f(...frozenArgs);
 };
 
-const makeGetDispatch = () => {
-  let dispatch;
-  beforeEach(() => {
-    dispatch = sinon.spy();
-  });
-  return () => dispatch;
-};
-
 const testMemoization = (selector, state, ownProps) => {
   const newState = _.cloneDeep(state);
   const newOwnProps = _.cloneDeep(ownProps);
   selector.resetRecomputations();
-  selector.recomputations().should.equal(0);
+  expect(selector.recomputations()).toBe(0);
 
-  const r1 = selector(newState, newOwnProps);
-  selector.recomputations().should.equal(1);
+  const result1 = selector(newState, newOwnProps);
+  expect(selector.recomputations()).toBe(1);
 
-  const r2 = selector(newState, newOwnProps);
-  selector.recomputations().should.equal(1);
-  r1.should.equal(r2);
+  const result2 = selector(newState, newOwnProps);
+  expect(selector.recomputations()).toBe(1);
+  expect(result1).toEqual(result2);
 };
 
-const testPayloads = [];
-const testHandler = (...args) => {
-  _.each(args, (arg) => {
-    testPayloads.push(arg);
-  });
+const getRemoteId = override => flattenDataId(getDataId(override));
+
+const mockIpcReply = () => {
+  //
 };
 
 module.exports = {
-  should: chai.should(),
-  expect: chai.expect,
-  sinon,
-  getStore,
-  createGetState,
-  freezeMe,
-  freezeArgs,
-  makeGetDispatch, // redux-thunk testing
+  mockStore, // thunk testing
+  mockIpcReply, // IPC controller testing
+  freezeMe, // reducers testing
+  freezeArgs, // reducers testing
   testMemoization, // reselect testing
-  isV4: (id = '') => id.length === v4().length,
-  getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
-  testHandler,
-  testPayloads,
-  Long,
+  registerProtobuf, // protobuf testing
+  getTmpPath: (...args) => resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
+  getRemoteId,
 };

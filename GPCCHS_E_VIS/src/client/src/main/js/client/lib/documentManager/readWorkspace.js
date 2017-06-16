@@ -75,7 +75,7 @@ const readPagesAndViews = (pagesInfo, done) => (
   }, done)
 );
 
-const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
+export const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
   simpleReadWorkspace(workspaceInfo, (errWorkspace, workspace) => {
     if (errWorkspace) {
       return cb(errWorkspace);

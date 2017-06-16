@@ -1,6 +1,6 @@
 import _throttle from 'lodash/throttle';
 import _memoize from 'lodash/memoize';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import {
   getDcStatus,

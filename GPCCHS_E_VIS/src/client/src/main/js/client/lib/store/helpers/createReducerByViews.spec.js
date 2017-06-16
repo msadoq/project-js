@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import _ from 'lodash/fp';
-import { freezeArgs } from '../common/jest';
-import * as types from './types';
+import { freezeArgs } from '../../common/jest';
+import * as types from '../types';
 import createReducerByViews from './createReducerByViews';
 
 describe('store:createReducerByViews', () => {

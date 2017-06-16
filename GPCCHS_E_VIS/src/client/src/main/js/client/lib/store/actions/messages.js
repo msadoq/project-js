@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _find from 'lodash/find';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 export const add = simple(

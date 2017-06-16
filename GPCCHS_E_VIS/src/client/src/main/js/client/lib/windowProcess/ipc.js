@@ -27,6 +27,12 @@ const commands = {
         payload,
       });
     },
+    requestReduxCurrentState: (callback) => {
+      commands.main.rpc(globalConstants.IPC_METHOD_REDUX_CURRENT_STATE, null, callback);
+    },
+    sendReduxDispatch: (action) => {
+      commands.main.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
+    },
     reloadSessions: (callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_RELOAD_SESSIONS, null, callback);
     },

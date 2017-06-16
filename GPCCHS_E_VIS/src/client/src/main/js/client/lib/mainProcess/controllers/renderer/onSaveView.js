@@ -1,6 +1,6 @@
 import { dirname } from 'path';
 import reply from '../../../common/ipc/reply';
-import { getStore } from '../../../store/createStore';
+import { getStore } from '../../store';
 import {
   setModified,
   updatePath,

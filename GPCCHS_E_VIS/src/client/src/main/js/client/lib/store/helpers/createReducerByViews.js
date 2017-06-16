@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import * as types from './types';
+import * as types from '../types';
 
 // higher order reducer
 const createReducerByViews = (simpleReducer, viewType = 'all') => (

@@ -7,7 +7,7 @@ import { series, each } from 'async';
 import getLogger from '../../common/logManager';
 import parameters from '../../common/configurationManager';
 import getHtmlPath from './getHtmlPath';
-import { getStore } from '../../store/createStore';
+import { getStore } from '../store';
 import {
   focusWindow,
   blurWindow,
@@ -25,13 +25,6 @@ import { getWindowsTitle } from './selectors';
 const logger = getLogger('main:windowsManager:windows');
 
 let electronWindows = {};
-
-export function executeCode(code = '', windowId) {
-  const w = electronWindows[windowId];
-  if (w) {
-    w.webContents.executeJavaScript(code);
-  }
-}
 
 function isExists(windowId) {
   return electronWindows[windowId] && !electronWindows[windowId].isDestroyed();

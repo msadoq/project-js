@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
 import _get from 'lodash/get';
 import { get } from '../../common/configurationManager';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { nextCurrent, computeCursors } from '../play';
 import {

@@ -1,5 +1,5 @@
 import * as types from '../types';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import { pause } from './hsc';
 import { getPlayingTimebarId } from '../reducers/hsc';
 

@@ -1,3 +1,4 @@
+import { webContents } from 'electron';
 import { v4 } from 'uuid';
 import getLogger from '../common/logManager';
 import globalConstants from '../constants';
@@ -8,7 +9,19 @@ const logger = getLogger('main:ipc');
 
 const commands = {
   renderer: {
-    // not implemented yet
+    message: (method, payload) => {
+      webContents.getAllWebContents().forEach((webContent) => {
+        if (webContent.isLoading() || webContent.isCrashed()) {
+          return;
+        }
+
+        logger.debug(`sending message ${method} to server`);
+        webContent.send('global', { type: globalConstants.IPC_MESSAGE, method, payload });
+      });
+    },
+    sendReduxPatch: (action) => {
+      commands.renderer.message(globalConstants.IPC_METHOD_REDUX_PATCH, action);
+    },
   },
   server: {
     rpc: (method, payload, callback) => {
@@ -37,6 +50,12 @@ const commands = {
 
       logger.debug(`sending message ${method} to server`);
       proc.send({ type: globalConstants.IPC_MESSAGE, method, payload });
+    },
+    requestReduxCurrentState: (callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_REDUX_CURRENT_STATE, null, callback);
+    },
+    sendReduxDispatch: (action) => {
+      commands.server.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
     },
     requestDomains: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_DOMAINS_REQUEST, null, callback);

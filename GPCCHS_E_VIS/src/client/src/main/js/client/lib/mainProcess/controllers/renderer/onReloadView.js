@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { getStore } from '../../../store/createStore';
+import { getStore } from '../../store';
 import { getView } from '../../../store/reducers/views';
 import { reloadView } from '../../../documentManager';
 import { showWarningMessage } from '../../dialog';

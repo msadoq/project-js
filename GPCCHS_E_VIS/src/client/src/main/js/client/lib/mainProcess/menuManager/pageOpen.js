@@ -2,7 +2,7 @@
 import { LOG_DOCUMENT_OPEN } from '../../constants';
 import { server } from '../ipc';
 import { getPathByFilePicker } from '../dialog';
-import { getStore } from '../../store/createStore';
+import { getStore } from '../store';
 import { addBlankPage } from '../../store/actions/pages';
 import { getWorkspaceFolder } from '../../store/reducers/hsc';
 

@@ -10,7 +10,7 @@ import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace }
 
 import { server } from '../mainProcess/ipc';
 
-import simple from '../store/simpleActionCreator';
+import simple from '../store/helpers/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 

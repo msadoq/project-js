@@ -1,5 +1,5 @@
 import { HEALTH_STATUS_CRITICAL } from '../../constants';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { isAnyEditorOpened } from '../selectors/pages';
 import { getHealthMap } from '../reducers/health';

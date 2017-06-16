@@ -1,4 +1,4 @@
-import { getStore } from '../../../store/createStore';
+import { getStore } from '../../store';
 import { add as addMessage } from '../../../store/actions/messages';
 
 export default function onError({ err }) {

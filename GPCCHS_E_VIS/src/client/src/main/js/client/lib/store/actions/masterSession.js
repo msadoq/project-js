@@ -1,5 +1,5 @@
 import { UNKNOWN_SESSION_ID } from '../../constants';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 export const updateMasterSession = simple(types.HSS_UPDATE_MASTER_SESSION, 'masterSessionOid');

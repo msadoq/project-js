@@ -1,15 +1,10 @@
 import adapter from '../utils/adapters';
 import parameters from '../common/configurationManager';
 
-const path = require('path');
 const exit = require('exit');
 const zmq = require('common/zmq');
 const getLogger = require('../common/logManager');
 
-const rootPath = parameters.get('IS_BUNDLED') ? __dirname : path.resolve(__dirname, '../..');
-
-// registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-// registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
 adapter.registerGlobal();
 const clientController = require('./controllers/client');
 const dcController = require('./controllers/dc');

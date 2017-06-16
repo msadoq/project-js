@@ -1,6 +1,6 @@
-import _each from 'lodash/each';
-import _get from 'lodash/get';
-import parameters from '../../common/configurationManager';
+const _each = require('lodash/each');
+const _get = require('lodash/get');
+const parameters = require('../../common/configurationManager');
 
 const protobuf = require('common/protobuf');
 
@@ -11,14 +11,11 @@ const types = {};
 
 const registerGlobal = () => {
   const MESSAGES_NAMESPACES = parameters.get('MESSAGES_NAMESPACES');
-  
   _each(MESSAGES_NAMESPACES, (msgNasmespaces) => {
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
     }
-    //console.log("MESSAGES_NAMESPACES :", msgNasmespaces);
     const adapterPath = msgNasmespaces.path + msgNasmespaces.ns;
-    //console.log('AdapterPath :', adapterPath);
     const namespaces = require(adapterPath);  // eslint-disable-line
     const namespacesKeys = Object.keys(namespaces);
     _each(namespacesKeys, (adapters) => {
@@ -31,11 +28,15 @@ const registerGlobal = () => {
         comObjectTypes[adapter] = `${msgNasmespaces.ns}.${adapters}.${adapter}`;
         switch (namespaces[adapters][adapter].type) {
           case TYPE_PROTO:
-            registeredAdapter = registerProto(msgNasmespaces.ns, adapterPath, adapters, adapter, namespaces[adapters][adapter].adapter);
+            registeredAdapter = registerProto(msgNasmespaces.ns,
+                                              adapterPath,
+                                              adapters,
+                                              adapter,
+                                              namespaces[adapters][adapter].adapter);
             registeredAdapter.type = TYPE_PROTO;
             break;
           case TYPE_RAW:
-            registeredAdapter = registerRaw(adapters, adapter, namespaces[adapters][adapter].adapter);
+            registeredAdapter = registerRaw(namespaces[adapters][adapter].adapter);
             registeredAdapter.type = TYPE_RAW;
             break;
           default:
@@ -45,24 +46,17 @@ const registerGlobal = () => {
       });
     });
   });
-  console.log("RegisteredTypes : ", types);
-  console.log("ComObjectTypes : ", comObjectTypes);
 };
 
-const registerProto = (rootPath, namespace, adapter, mapper) => {
-  // registerTest()
-  return protobuf.registerTest(rootPath, namespace, adapter, mapper);
-};
+const registerProto = (path, ns, adapter, mapper) => protobuf.register(path, ns, adapter, mapper);
 
-const registerRaw = (rootPath, namespace, adapter, mapper) => {
-  console.log('registerRaw');
-};
+const registerRaw = mapper => ({ mapper });
 
 const encode = (type, raw) => {
   const builder = getType(type);
   switch (builder.type) {
     case TYPE_PROTO:
-      return protobuf.encodeTest(builder, raw);
+      return protobuf.encode(builder, raw);
     case TYPE_RAW:
       return builder.mapper.encode(raw);
     default:
@@ -74,7 +68,7 @@ const decode = (type, buffer) => {
   const builder = getType(type);
   switch (builder.type) {
     case TYPE_PROTO:
-      return protobuf.decodeTest(builder, buffer);
+      return protobuf.decode(builder, buffer);
     case TYPE_RAW:
       return builder.mapper.decode(buffer);
     default:
@@ -92,7 +86,6 @@ const getType = (key) => {
   return type;
 };
 
-// const lowerCaseFirstLetter = string => string.charAt(0).toLowerCase() + string.slice(1);
 
 module.exports = {
   registerGlobal,

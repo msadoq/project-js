@@ -1,8 +1,6 @@
 const _concat = require('lodash/concat');
 const { decode } = require('../../../utils/adapters');
 
-require('../../utils/test');
-
 const globalConstants = require('../../../constants');
 
 const onGetMasterSession = require('./onGetMasterSession');

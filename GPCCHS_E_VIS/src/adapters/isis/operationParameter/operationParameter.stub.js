@@ -2,7 +2,7 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated file" */
 const _random = require('lodash/random');
 const _now = require('lodash/now');
-const applyOverride = require('../../../protobuf/utils/applyOverride');
+const applyOverride = require('../applyOverride');
 
 
 const now = _now();

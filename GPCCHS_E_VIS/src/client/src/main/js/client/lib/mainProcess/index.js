@@ -46,7 +46,6 @@ function scheduleTimeout(message) {
 export function onStart() {
   setMenu();
   adapter.registerGlobal();
-  console.log("HERE");
   series([
     callback => splashScreen.open(callback),
     callback => enableDebug(callback),

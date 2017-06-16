@@ -2,8 +2,10 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated file" */
 /* eslint-disable global-require, "DV6 TBC_CNES generated file" */
 
-const protobuf = require('../../protobuf');
-
+//const protobuf = require('../../protobuf');
+const protobuf = {};
+protobuf.decode = (data) => data;
+protobuf.encode = (data) => data;
 module.exports = {
   getAck: require('./ackRequest/ack.stub'),
   getAckRequest: require('./ackRequest/ackRequest.stub'),

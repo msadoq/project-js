@@ -3,7 +3,6 @@ const { registerProtobuf } = require('../../../common/test');
 registerProtobuf();
 
 const _concat = require('lodash/concat');
-require('../../utils/test');
 
 const { decode } = require('../../../utils/adapters');
 const globalConstants = require('../../../constants');

@@ -19,11 +19,11 @@ import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
-const getPageLocation = ({ oId, path }) => {
+const getPageLocation = ({ oId, path, absolutePath }) => {
   if (oId) {
     return { oId };
   }
-  return { path };
+  return { path: path || absolutePath };
 };
 
 const prepareWindows = state => _.map(win => ({

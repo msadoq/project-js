@@ -3,10 +3,14 @@ import sinon from 'sinon';
 import { mockStore, freezeMe } from '../common/jest';
 import readView from './readView';
 import * as readPageApi from './readPage';
+import * as io from './io';
 import * as actions from './actions';
 
 describe('documentManager:actions', () => {
   let stub;
+  beforeEach(() => {
+    stub = { restore: _.noop };
+  });
   afterEach(() => {
     stub.restore();
   });
@@ -105,10 +109,7 @@ describe('documentManager:actions', () => {
           payload: {
             containerId: 'global',
             type: 'danger',
-            messages: [
-              { content: 'Error view' },
-              { content: 'Error page' },
-            ],
+            messages: [{ content: 'Error view' }, { content: 'Error page' }],
           },
         },
       ]);
@@ -129,7 +130,77 @@ describe('documentManager:actions', () => {
   });
 
   describe('openPageOrView', () => {
-    test('');
+    test('open a page', () => {
+      const store = mockStore();
+      stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
+        cb(null, {
+          views: [{ value: { type: 'TextView' } }],
+          pages: [{ value: { windowId: 'windowId', type: 'Page' } }],
+        });
+      });
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(null, 'Page');
+      });
+      store.dispatch(actions.openPageOrView('page_info'));
+      expect(store.getActions()).toMatchSnapshot();
+      stubReadDocumentType.restore();
+    });
+    test('open a view in a blank page', () => {
+      const store = mockStore(
+        freezeMe({
+          hsc: { focusWindow: 'w1' },
+          windows: { w1: { focusedPage: 'p1' } },
+        })
+      );
+      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
+        cb(null, { value: { title: 'my view' } });
+      });
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(null, 'TextView');
+      });
+      store.dispatch(actions.openPageOrView('view_info'));
+
+      const actionsWithoutUuids = _.unset('[0].payload.page.uuid', store.getActions());
+      expect(actionsWithoutUuids).toMatchSnapshot();
+      expect(store.getActions()[0].payload.page.uuid).toBeAnUuid();
+      stubReadDocumentType.restore();
+    });
+    test('give an error when readDocument failed', () => {
+      const store = mockStore(freezeMe({}));
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(new Error('an error'));
+      });
+      store.dispatch(actions.openPageOrView());
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'an error' }],
+          },
+        },
+      ]);
+      stubReadDocumentType.restore();
+    });
+    test('give an error when view type is unknown', () => {
+      const store = mockStore(freezeMe({}));
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(null, 'A Type');
+      });
+      store.dispatch(actions.openPageOrView());
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'Error, unknown type \'A Type\'' }],
+          },
+        },
+      ]);
+      stubReadDocumentType.restore();
+    });
   });
 
   describe('openWorkspace', () => {
@@ -141,7 +212,6 @@ describe('documentManager:actions', () => {
   describe('openBlankWorkspace', () => {
     test('close current workspace, then open a freshly new created workspace', () => {
       const store = mockStore();
-      stub = { restore: _.noop };
       store.dispatch(actions.openBlankWorkspace());
       const workspaceOpenPayload = store.getActions()[1].payload;
       const firstTimebar = workspaceOpenPayload.timebars[0];

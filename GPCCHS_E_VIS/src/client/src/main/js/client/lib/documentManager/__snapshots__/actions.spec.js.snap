@@ -20,3 +20,47 @@ Array [
   },
 ]
 `;
+
+exports[`documentManager:actions openPageOrView open a page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": undefined,
+        "type": "Page",
+        "windowId": "windowId",
+      },
+      "views": Array [
+        Object {
+          "type": "TextView",
+        },
+      ],
+      "windowId": "windowId",
+    },
+    "type": "WS_PAGE_OPEN",
+  },
+]
+`;
+
+exports[`documentManager:actions openPageOrView open a view in a blank page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": undefined,
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_PAGE_ADD_BLANK",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "view": Object {
+        "title": "my view",
+      },
+    },
+    "type": "WS_VIEW_OPEN",
+  },
+]
+`;

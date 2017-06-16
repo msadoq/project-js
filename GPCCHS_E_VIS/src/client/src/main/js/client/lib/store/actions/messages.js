@@ -27,6 +27,12 @@ const createRemove = ({ withAnimation = false } = {}) => (containerId, uuid) => 
 export const remove = createRemove();
 export const removeWithAnimation = createRemove({ withAnimation: true });
 
+export const cancelRemove = simple(
+  types.WS_MESSAGE_CANCEL_REMOVING,
+  'containerId',
+  'uuid'
+);
+
 export const reset = simple(
   types.WS_MESSAGE_RESET,
   'containerId'

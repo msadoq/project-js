@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getMessages } from '../../../store/reducers/messages';
 import { getTimebar } from '../../../store/reducers/timebars';
-import { remove } from '../../../store/actions/messages';
+import { remove, cancelRemove } from '../../../store/actions/messages';
 import {
   updateDefaultWidth,
   updateCursors,
@@ -23,6 +23,7 @@ export default connect(
   }
   ,
   {
+    cancelRemoveMessage: cancelRemove,
     removeMessage: remove,
     updateDefaultWidth,
     updateCursors,

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Message from '../common/Message';
 
 const Messages = (props) => {
-  const { containerId, messages, remove } = props;
+  const { containerId, messages, removeMessage, cancelRemoveMessage } = props;
   return (
     <div>
       {messages && messages.map((v, i) => {
@@ -13,7 +13,8 @@ const Messages = (props) => {
             type={v.type}
             message={v.message}
             removing={v.removing}
-            onClose={() => remove(containerId, v.uuid)}
+            onClose={() => removeMessage(containerId, v.uuid)}
+            onHover={() => cancelRemoveMessage(containerId, v.uuid)}
           />
         );
       }
@@ -27,7 +28,8 @@ Messages.propTypes = {
     message: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   })),
-  remove: PropTypes.func.isRequired,
+  removeMessage: PropTypes.func.isRequired,
+  cancelRemoveMessage: PropTypes.func.isRequired,
 };
 Messages.defaultProps = {
   messages: [],

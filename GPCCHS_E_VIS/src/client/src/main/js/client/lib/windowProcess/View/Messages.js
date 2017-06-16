@@ -6,7 +6,8 @@ export default class Messages extends PureComponent {
   static propTypes = {
     containerId: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(PropTypes.object),
-    remove: PropTypes.func.isRequired,
+    removeMessage: PropTypes.func.isRequired,
+    cancelRemoveMessage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -17,7 +18,8 @@ export default class Messages extends PureComponent {
     const {
       containerId,
       messages,
-      remove,
+      removeMessage,
+      cancelRemoveMessage,
     } = this.props;
 
     return (
@@ -30,7 +32,8 @@ export default class Messages extends PureComponent {
               type={v.type}
               message={v.message}
               removing={v.removing}
-              onClose={() => remove(containerId, v.uuid)}
+              onClose={() => removeMessage(containerId, v.uuid)}
+              onHover={() => cancelRemoveMessage(containerId, v.uuid)}
             />
           );
         }

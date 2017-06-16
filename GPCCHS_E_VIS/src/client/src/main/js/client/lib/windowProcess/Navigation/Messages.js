@@ -8,7 +8,8 @@ const types = ['danger', 'warning', 'info', 'success'];
 
 export default class Messages extends PureComponent {
   static propTypes = {
-    remove: PropTypes.func.isRequired,
+    cancelRemoveMessage: PropTypes.func.isRequired,
+    removeMessage: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(PropTypes.shape({
       message: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
@@ -48,7 +49,7 @@ export default class Messages extends PureComponent {
   }
 
   render() {
-    const { messages, remove } = this.props;
+    const { messages, removeMessage, cancelRemoveMessage } = this.props;
     if (!messages || !messages.length) {
       return null;
     }
@@ -68,7 +69,8 @@ export default class Messages extends PureComponent {
             type={v.type}
             message={v.message}
             removing={v.removing}
-            onClose={() => remove('global', v.uuid)}
+            onClose={() => removeMessage('global', v.uuid)}
+            onHover={() => cancelRemoveMessage('global', v.uuid)}
           />
         ));
       });

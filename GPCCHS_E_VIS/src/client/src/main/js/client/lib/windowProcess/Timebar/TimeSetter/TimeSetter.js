@@ -15,6 +15,7 @@ export default class TimeSetter extends PureComponent {
     jump: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
+    cancelRemoveMessage: PropTypes.func.isRequired,
     visuWindow: PropTypes.shape({
       lower: PropTypes.number,
       upper: PropTypes.number,
@@ -279,6 +280,7 @@ export default class TimeSetter extends PureComponent {
                     message={v.message}
                     removing={v.removing}
                     onClose={() => this.props.removeMessage(`timeSetter-${this.props.timebarUuid}`, v.uuid)}
+                    onhover={() => this.props.cancelRemoveMessage(`timeSetter-${this.props.timebarUuid}`, v.uuid)}
                   />
                 );
               }

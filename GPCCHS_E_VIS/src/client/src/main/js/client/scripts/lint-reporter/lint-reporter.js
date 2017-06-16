@@ -6,7 +6,7 @@ const { spawn } = require('child_process');
 
 const { log } = console;
 
-const CLIENT_FOLDER = resolve(__dirname, '..');
+const CLIENT_FOLDER = resolve(__dirname, '../..');
 const COMMON_FOLDER = resolve(CLIENT_FOLDER, '../../../../../common/src/main/js/common');
 
 const ESLINT = 'eslint';

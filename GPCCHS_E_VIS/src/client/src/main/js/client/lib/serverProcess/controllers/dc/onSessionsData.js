@@ -1,7 +1,3 @@
-const { registerProtobuf } = require('../../../common/test');
-
-registerProtobuf();
-
 const logger = require('../../../common/logManager')('controllers:onSessionData');
 const { decode } = require('common/protobuf');
 

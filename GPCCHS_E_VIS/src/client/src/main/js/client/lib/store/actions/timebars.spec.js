@@ -1,5 +1,5 @@
 import * as actions from './timebars';
-import { mockStore, freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:timebars', () => {
   const state = freezeMe({

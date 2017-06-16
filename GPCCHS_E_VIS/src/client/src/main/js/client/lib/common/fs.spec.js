@@ -8,7 +8,7 @@ import {
   chmodSync,
 } from 'fs';
 
-import { getTmpPath } from '../common/test';
+import { getTmpPath } from '../common/jest';
 import fs from './fs';
 
 describe('common/fs', () => {

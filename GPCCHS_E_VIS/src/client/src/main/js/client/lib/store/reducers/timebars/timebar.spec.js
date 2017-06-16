@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import __ from 'lodash/fp';
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/timebars';
 import timebarsReducer from '../timebars';
 import * as types from '../../types';

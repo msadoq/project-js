@@ -1,5 +1,5 @@
 import * as actions from './windows';
-import { mockStore, freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:windows', () => {
   const state = freezeMe({

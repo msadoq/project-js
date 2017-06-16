@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import { MIME_TYPES } from '../constants';
 
-import { getTmpPath } from '../common/test';
+import { getTmpPath } from '../common/jest';
 import * as fmdApi from '../common/fmd';
 import { readDocument, writeDocument } from './io';
 

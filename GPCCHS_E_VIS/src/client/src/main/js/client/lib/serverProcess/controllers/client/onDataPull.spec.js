@@ -2,7 +2,7 @@ const onDataPull = require('./onDataPull');
 const dataStub = require('common/protobuf/stubs');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
-const { getRemoteId } = require('../../../common/test');
+const { getRemoteId } = require('../../../common/jest');
 
 describe('controllers/client/onDataPull', () => {
   beforeEach(() => {

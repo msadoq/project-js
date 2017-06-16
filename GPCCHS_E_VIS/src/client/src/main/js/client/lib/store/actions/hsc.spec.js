@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { HEALTH_STATUS_CRITICAL } from '../../constants';
 import * as actions from './hsc';
-import { mockStore, freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:hsc', () => {
   const state = freezeMe({

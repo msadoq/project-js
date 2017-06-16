@@ -1,4 +1,4 @@
-import { freezeArgs, freezeMe } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/jest';
 import * as actions from '../../actions/windows';
 import windowsReducer, {
   getWindow,

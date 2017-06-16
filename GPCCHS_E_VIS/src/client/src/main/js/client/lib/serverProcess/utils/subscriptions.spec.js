@@ -1,4 +1,4 @@
-const { registerProtobuf } = require('../../common/test');
+const { registerProtobuf } = require('../../common/jest');
 
 registerProtobuf();
 

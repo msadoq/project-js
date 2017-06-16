@@ -1,4 +1,4 @@
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 import { viewRangeAdd, getExtremValue, selectDataPerView, selectEpData } from './viewDataUpdate';
 
 describe('viewManager/PlotView/store/viewDataUpdate', () => {

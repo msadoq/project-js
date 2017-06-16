@@ -1,4 +1,4 @@
-const { registerProtobuf } = require('../../../common/test');
+const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
 
@@ -8,7 +8,7 @@ const _pull = require('lodash/pull');
 const _concat = require('lodash/concat');
 const dataStub = require('common/protobuf/stubs');
 const globalConstants = require('../../../constants');
-const { getRemoteId } = require('../../../common/test');
+const { getRemoteId } = require('../../../common/jest');
 const { get: getQueue } = require('../../models/dataQueue');
 const {
   cleanup: cleanRegisteredQueries,

@@ -1,6 +1,6 @@
 import dynamicViewData from './dataReducer';
 import * as types from '../../../store/types';
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 
 describe('viewManager/DynamicView/store/dataReducer', () => {
   const payload = { rId1: {}, rId2: {} };

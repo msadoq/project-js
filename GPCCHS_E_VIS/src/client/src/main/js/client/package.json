@@ -16,7 +16,7 @@
       "lib/**/*.js"
     ],
     "coverageDirectory": "coverage/test",
-    "setupTestFrameworkScriptFile": "./lib/common/jest.js"
+    "setupTestFrameworkScriptFile": "./lib/common/jest/setup.js"
   },
   "scripts": {
     "build": "npm run build:main && npm run build:renderer && npm run build:server && npm run package:electron",

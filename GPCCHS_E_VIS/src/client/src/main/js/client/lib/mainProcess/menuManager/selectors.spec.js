@@ -1,4 +1,4 @@
-import { testMemoization } from '../../common/test';
+import { testMemoization } from '../../common/jest';
 import { getPageModifiedViewsIds } from './selectors';
 
 describe('store:page:selectors', () => {

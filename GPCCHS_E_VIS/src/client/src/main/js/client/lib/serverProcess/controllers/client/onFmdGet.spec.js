@@ -2,7 +2,7 @@ const _concat = require('lodash/concat');
 const { decode } = require('common/protobuf');
 const dataStub = require('common/protobuf/stubs');
 const globalConstants = require('../../../constants');
-const { registerProtobuf } = require('../../../common/test');
+const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
 

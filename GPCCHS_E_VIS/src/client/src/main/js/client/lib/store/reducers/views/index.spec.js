@@ -13,7 +13,7 @@ import viewsReducer, {
   getViewSessionName,
   areLinksShown,
 } from '.';
-import { freezeArgs, freezeMe } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/jest';
 
 const reducer = freezeArgs(viewsReducer);
 

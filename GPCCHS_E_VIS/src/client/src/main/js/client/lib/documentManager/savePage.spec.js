@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import rimraf from 'rimraf';
 
-import { getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/jest';
 
 import fs from '../common/fs';
 import { savePage, savePageAs } from './savePage';

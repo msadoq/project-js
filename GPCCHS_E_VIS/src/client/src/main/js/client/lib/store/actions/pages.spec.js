@@ -1,5 +1,5 @@
 // import sinon from 'sinon';
-import { freezeMe, mockStore } from '../../common/test';
+import { freezeMe, mockStore } from '../../common/jest';
 import * as actions from './pages';
 
 describe('store:actions:pages', () => {

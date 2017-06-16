@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import * as types from '../store/types';
-import { mockStore } from '../common/test';
+import { mockStore } from '../common/jest';
 import readView from './readView';
 import * as readPageApi from './readPage';
 import * as actions from './actions';

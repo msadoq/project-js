@@ -6,6 +6,10 @@
   "jest": {
     "verbose": true,
     "testRegex": "(spec)\\.(js|jsx)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
     },

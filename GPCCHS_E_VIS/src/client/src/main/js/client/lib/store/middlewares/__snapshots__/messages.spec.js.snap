@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:middlewares:messages add a message then cancel removing 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then cancel removing 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then cancel removing 3`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_CANCEL_REMOVING",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then cancel removing 4`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_CANCEL_REMOVING",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then cancel removing 5`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_CANCEL_REMOVING",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+  Object {
+    "meta": Object {},
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVE",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then remove it 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then remove it 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVE",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then wait for remove it 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then wait for remove it 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+]
+`;
+
+exports[`store:middlewares:messages add a message then wait for remove it 3`] = `
+Array [
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "the_message",
+          "uuid": "the_uuid",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVING",
+  },
+  Object {
+    "meta": Object {},
+    "payload": Object {
+      "containerId": "global",
+      "uuid": "the_uuid",
+    },
+    "type": "WS_MESSAGE_REMOVE",
+  },
+]
+`;

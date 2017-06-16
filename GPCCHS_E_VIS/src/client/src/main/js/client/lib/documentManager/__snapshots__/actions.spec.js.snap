@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentManager:actions openPage opens Page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": undefined,
+        "type": "Page",
+        "windowId": "windowId",
+      },
+      "views": Array [
+        Object {
+          "type": "TextView",
+        },
+      ],
+      "windowId": "windowId",
+    },
+    "type": "WS_PAGE_OPEN",
+  },
+]
+`;

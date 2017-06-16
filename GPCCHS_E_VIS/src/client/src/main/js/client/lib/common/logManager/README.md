@@ -1,4 +1,4 @@
-# How to use common/log ?
+# How to use logManager ?
 
 Each call to a logger will dispatch logs to enabled transports (console, file, ...).
 

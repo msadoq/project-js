@@ -20,10 +20,10 @@ class AddPlotAxis extends PureComponent {
     initialValues: PropTypes.shape({
       label: PropTypes.string,
       unit: PropTypes.string,
-      min: PropTypes.number,
-      max: PropTypes.number,
+      min: PropTypes.string,
+      max: PropTypes.string,
       autoLimits: PropTypes.bool,
-      tickStep: PropTypes.number,
+      tickStep: PropTypes.string,
       autoTick: PropTypes.bool,
       showTicks: PropTypes.bool,
       isLogarithmic: PropTypes.bool,
@@ -70,40 +70,7 @@ class AddPlotAxis extends PureComponent {
     entryPoints: [],
   };
 
-  componentDidMount() {
-    if (!this.props.initialValues) {
-      this.handleInitialize();
-    }
-  }
-
   memoizeStyle = _memoize((color => ({ backgroundColor: color })))
-
-  handleInitialize() {
-    const initData = {
-      label: '',
-      unit: '',
-      min: 0,
-      max: 0,
-      autoLimits: true,
-      tickStep: 1,
-      autoTick: true,
-      showTicks: true,
-      isLogarithmic: false,
-      showAxis: true,
-      style: {
-        font: 'Arial',
-        size: 12,
-        bold: false,
-        italic: false,
-        underline: false,
-        strikeOut: false,
-        align: 'left',
-        color: '#000000',
-      },
-    };
-
-    this.props.initialize(initData);
-  }
 
   render() {
     const {
@@ -185,7 +152,6 @@ class AddPlotAxis extends PureComponent {
               <Field
                 name="tickStep"
                 component={InputField}
-                normalize={value => parseFloat(value)}
                 className="form-control input-sm"
                 type="number"
                 step="any"
@@ -305,7 +271,6 @@ class AddPlotAxis extends PureComponent {
             <Field
               name="tickStep"
               component={InputField}
-              normalize={value => parseFloat(value)}
               className="form-control input-sm"
               type="number"
               step="any"

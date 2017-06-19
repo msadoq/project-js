@@ -56,10 +56,16 @@ export function onStart() {
 
       splashScreen.setMessage('starting data simulator process...');
       logger.info('starting data simulator process...');
-      fork(CHILD_PROCESS_DC, `${parameters.get('path')}/lib/stubProcess/dc.js`, {
-        execPath: parameters.get('NODE_PATH'),
-        env: parameters.getAll(),
-      }, callback);
+      fork(
+        CHILD_PROCESS_DC,
+        `${parameters.get('path')}/lib/stubProcess/dc.js`,
+        {
+          execPath: parameters.get('NODE_PATH'),
+          env: parameters.getAll(),
+        },
+        null,
+        callback
+      );
     },
     (callback) => {
       if (parameters.get('RTD_ON') === 'on') {
@@ -83,6 +89,9 @@ export function onStart() {
       }
     },
     (callback) => {
+      // ipc with server
+      const onMessage = data => serverController(get(CHILD_PROCESS_SERVER), data);
+
       if (process.env.IS_BUNDLED === 'on') {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');
@@ -94,6 +103,7 @@ export function onStart() {
             execPath: parameters.get('NODE_PATH'),
             env: parameters.getAll(),
           },
+          onMessage,
           callback
         );
       } else {
@@ -108,20 +118,10 @@ export function onStart() {
             execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
             env: parameters.getAll(),
           },
+          onMessage,
           callback
         );
       }
-    },
-    (callback) => {
-      splashScreen.setMessage('connecting to data server process...');
-      logger.info('connecting to data server process...');
-
-      // ipc with server
-      get(CHILD_PROCESS_SERVER).on(
-        'message',
-        data => serverController(get(CHILD_PROCESS_SERVER), data)
-      );
-      callback(null);
     },
     (callback) => {
       splashScreen.setMessage('loading data store...');

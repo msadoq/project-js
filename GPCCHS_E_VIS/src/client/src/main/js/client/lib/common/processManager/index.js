@@ -3,7 +3,7 @@ const logger = require('../logManager')('main:childProcess');
 
 const processes = {};
 
-function fork(id, path, options, callback) {
+function fork(id, path, options, onMessage, callback) {
   processes[id] = forkChildProcess(path, options);
   processes[id].on('close', (code, signal) => {
     logger.debug(`child process ${id} closed with code ${code} (${signal})`);
@@ -19,11 +19,14 @@ function fork(id, path, options, callback) {
   // only for ready message
   processes[id].on('message', (data) => {
     if (data !== 'ready') {
-      return undefined;
+      if (onMessage) {
+        onMessage(data);
+      }
+      return;
     }
 
     logger.debug(`child process ${id} is ready`, data);
-    return callback(null);
+    callback(null);
   });
 }
 

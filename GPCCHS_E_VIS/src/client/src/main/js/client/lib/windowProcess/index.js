@@ -32,7 +32,7 @@ if (global.parameters.get('WDYU') === 'on') {
  * Request initialState asynchronously from main process
  */
 main.requestReduxCurrentState(({ state }) => {
-  const store = makeCreateStore('renderer', global.parameters.get('DEBUG') === 'on')(state);
+  const store = makeCreateStore(global.parameters.get('DEBUG') === 'on')(state);
 
   render(
     <HealthMonitor windowId={windowId}>

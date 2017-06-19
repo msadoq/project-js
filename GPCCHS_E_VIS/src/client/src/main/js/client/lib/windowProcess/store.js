@@ -8,7 +8,7 @@ import { main } from './ipc';
 
 let store;
 
-function prepareEnhancers(type, isDebugOn) {
+function prepareEnhancers(isDebugOn) {
   const enhancer = makeRendererEnhancer(
     `renderer-${remote.getCurrentWindow().windowId}`,
     main.sendReduxDispatch
@@ -37,9 +37,9 @@ function prepareEnhancers(type, isDebugOn) {
   return composeEnhancers(applyMiddleware(thunk, reduxLogger), enhancer);
 }
 
-export default function makeCreateStore(type, isDebugOn) {
+export default function makeCreateStore(isDebugOn) {
   return (initialState) => {
-    const enhancer = prepareEnhancers(type, isDebugOn);
+    const enhancer = prepareEnhancers(isDebugOn);
     store = createStore(reducer, initialState, enhancer);
     return store;
   };

@@ -63,6 +63,9 @@ deploy_cots() {
   Log "deploy_cots" "packaging electron application" ${INFO}
   npm run package:electron -- --download.cache=${find.dependencies.dir}/.electron/
   mv ./dist/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
+
+  # Workaround for protobuf files being ignore as a rule for normal isis modules
+  find node_modules -name *.proto | sed -e "s:^:lib/js/${project.artifactId}/client/resources/app/node_modules/server/:" >> ${api.target.dir}/rpm/filelist.init
 }
 
 Log "generate" "generate all" ${INFO}

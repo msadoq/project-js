@@ -5,7 +5,9 @@ describe('makeSlaveDispatcher', () => {
   test('dispatch to original .dispatch() if "patch" action', () => {
     let originalDispatch = false;
     let sendUp = false;
-    const action = { [REDUX_SYNCHRONIZATION_PATCH_KEY]: [] };
+    const action = {
+      meta: { [REDUX_SYNCHRONIZATION_PATCH_KEY]: ['element'] },
+    };
     const out = makeSlaveDispatcher(
       a => (originalDispatch = (a === action)),
       () => (sendUp = true)

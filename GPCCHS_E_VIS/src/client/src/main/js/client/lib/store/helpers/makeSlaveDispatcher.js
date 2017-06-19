@@ -1,3 +1,4 @@
+import _getOr from 'lodash/fp/getOr';
 import _set from 'lodash/fp/set';
 import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
 
@@ -14,7 +15,8 @@ import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
  */
 export default function makeSlaveDispatcher(originalDispatch, sendUp, identity, log) {
   return function slaveDispatcher(action) {
-    if (Array.isArray(action[REDUX_SYNCHRONIZATION_PATCH_KEY])) {
+    const patch = _getOr([], ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action);
+    if (patch.length) {
       // it's a patch action from server, call patchReducer with original dispatch
       originalDispatch(action);
       if (log) {

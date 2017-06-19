@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/Timestamp.proto";
+import "./Timestamp.proto";
 
 message Session {
 extensions 6 to 105;

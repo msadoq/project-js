@@ -16,7 +16,7 @@ const rootpath = `${__dirname}`;
 // TODO add missing MAL types
 const decoders = {
   ATTRIBUTE: arg => decodeAttribute(arg).value,
-  BLOB: arg => arg.value.toBuffer(),
+  BLOB: arg => arg.value,
   BOOLEAN: arg => arg.value,
   DURATION: arg => arg.value,
   FLOAT: arg => arg.value,

@@ -1,6 +1,6 @@
 import dynamicViewData from './dataReducer';
 import * as types from '../../../store/types';
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 
 describe('viewManager/DynamicView/store/dataReducer', () => {
   const payload = { rId1: {}, rId2: {} };
@@ -16,7 +16,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     payload.rId2[j] = payload.rId1[j];
   }
 
-  it('DATA_REMOVE_ALL_VIEWDATA', () => {
+  test('DATA_REMOVE_ALL_VIEWDATA', () => {
     const state = freezeMe({
       myViewId: {
         index: 10,
@@ -24,66 +24,67 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
       },
     });
     const action = { type: types.DATA_REMOVE_ALL_VIEWDATA };
-    dynamicViewData(state, action).should.eql({});
+    expect(dynamicViewData(state, action)).toEqual({});
   });
-  it('HSC_CLOSE_WORKSPACE', () => {
+  test('HSC_CLOSE_WORKSPACE', () => {
     const state = freezeMe({
       myViewId: {
         index: 10,
         value: { myEntryPoint: 150 },
       },
     });
-    dynamicViewData(state, { type: types.HSC_CLOSE_WORKSPACE }).should.eql({});
+    expect(dynamicViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
-  it('WS_VIEW_RELOAD', () => {
+  test('WS_VIEW_RELOAD', () => {
     const action = { type: types.WS_VIEW_RELOAD,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    dynamicViewData(freezeMe({}), action).should.eql({});
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
-    dynamicViewData(freezeMe({}), action).should.eql({ myDyn: {} });
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  it('WS_VIEW_OPEN', () => {
+  test('WS_VIEW_OPEN', () => {
     const action = { type: types.WS_VIEW_OPEN,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    dynamicViewData(freezeMe({}), action).should.eql({});
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
-    dynamicViewData(freezeMe({}), action).should.eql({ myDyn: {} });
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  it('WS_VIEW_ADD_BLANK', () => {
+  test('WS_VIEW_ADD_BLANK', () => {
     const action = { type: types.WS_VIEW_ADD_BLANK,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    dynamicViewData(freezeMe({}), action).should.eql({});
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
-    dynamicViewData(freezeMe({}), action).should.eql({ myDyn: {} });
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  it('WS_PAGE_OPEN', () => {
+  test('WS_PAGE_OPEN', () => {
     const action = { type: types.WS_PAGE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
-    dynamicViewData(freezeMe({}), action).should.eql({ myDyn: {} });
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  it('WS_WORKSPACE_OPEN', () => {
+  test('WS_WORKSPACE_OPEN', () => {
     const action = { type: types.WS_WORKSPACE_OPEN,
       payload: { views:
         [{ type: 'TextView', uuid: 'myText' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
-    dynamicViewData(freezeMe({}), action).should.eql({ myDyn: {} });
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  it('WS_VIEW_CLOSE', () => {
+  test('WS_VIEW_CLOSE', () => {
     const action = { type: types.WS_VIEW_CLOSE, payload: { viewId: 'myPlot' } };
-    dynamicViewData(freezeMe({}), action).should.eql({});
+    expect(dynamicViewData(freezeMe({}), action)).toEqual({});
     const frozen = freezeMe({ myDyn: {} });
-    dynamicViewData(freezeMe(frozen), action).should.equal(frozen);
+    expect(dynamicViewData(freezeMe(frozen), action)).toBe(frozen);
     action.payload.viewId = 'myDyn';
-    dynamicViewData(frozen, action).should.eql({});
+    expect(dynamicViewData(frozen, action)).toEqual({});
   });
-  it('WS_PAGE_CLOSE', () => {
+  test('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myDyn', 'myText'] } };
-    dynamicViewData(freezeMe({ myDyn: {}, myOtherDyn: {} }), action).should.eql({ myOtherDyn: {} });
+    expect(dynamicViewData(freezeMe({ myDyn: {}, myOtherDyn: {} }), action))
+      .toEqual({ myOtherDyn: {} });
   });
-  it('Unknown action', () => {
+  test('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myDyn' } };
     const frozen = freezeMe({ myDyn: {} });
-    dynamicViewData(freezeMe(frozen), action).should.equal(frozen);
+    expect(dynamicViewData(freezeMe(frozen), action)).toBe(frozen);
   });
   describe('DATA_UPDATE_VIEWDATA', () => {
     let newViewMap;
@@ -91,7 +92,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     let dataToInject;
     let oldExpectedIntervals;
     let newExpectedIntervals;
-    before('', () => {
+    beforeAll(() => {
       oldViewMap = {
         text: {
           type: 'TextView',
@@ -164,7 +165,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
         }
       }
     });
-    it('valid viewData with empty state', () => {
+    test('valid viewData with empty state', () => {
       const action = { type: types.DATA_UPDATE_VIEWDATA,
         payload: {
           newViewMap,
@@ -172,7 +173,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           newExpectedIntervals: oldExpectedIntervals,
           dataToInject,
         } };
-      dynamicViewData(freezeMe({ dynamic: {} }), action).should.eql({
+      expect(dynamicViewData(freezeMe({ dynamic: {} }), action)).toEqual({
         dynamic: {
           index: 10,
           value: {
@@ -186,7 +187,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
         },
       });
     });
-    it('valid viewData with state: interval update', () => {
+    test('valid viewData with state: interval update', () => {
       const state = freezeMe({
         dynamic: {
           index: 8,
@@ -209,7 +210,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           dataToInject,
         } };
 
-      dynamicViewData(state, action).should.eql({
+      expect(dynamicViewData(state, action)).toEqual({
         dynamic: {
           index: 15,
           value: {
@@ -223,7 +224,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
         },
       });
     });
-    it('valid viewData with state: remoteId update', () => {
+    test('valid viewData with state: remoteId update', () => {
       const state = freezeMe({
         dynamic: {
           index: 8,
@@ -245,7 +246,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           newExpectedIntervals,
           dataToInject,
         } };
-      dynamicViewData(state, action).should.eql({
+      expect(dynamicViewData(state, action)).toEqual({
         dynamic: {
           index: 15,
           value: {

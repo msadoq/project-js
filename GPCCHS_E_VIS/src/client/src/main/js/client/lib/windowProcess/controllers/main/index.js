@@ -1,7 +1,11 @@
-import handle from 'common/ipc/handle';
-// import globalConstants from 'common/constants';
+import constants from '../../../constants';
+import handle from '../../../common/ipc/handle';
 
-const controller = {};
+const onReduxPatch = require('./onReduxPatch');
+
+const controller = {
+  [constants.IPC_METHOD_REDUX_PATCH]: onReduxPatch,
+};
 
 export default (electronEvent, data) => handle(
   controller,

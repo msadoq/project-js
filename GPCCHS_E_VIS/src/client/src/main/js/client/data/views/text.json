@@ -15,7 +15,11 @@
   "links": [
     {
       "name": "page.exe2.workspace",
-      "path": "../page.exe2.workspace.json"
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.json"
+    },
+    {
+      "name": "view.pbf.plot",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json"
     }
   ],
   "defaultRatio": {
@@ -60,5 +64,6 @@
         "timeline": "*"
       }
     }
-  ]
+  ],
+  "search": ""
 }

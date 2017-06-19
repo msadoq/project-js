@@ -1,4 +1,4 @@
-import { get } from 'common/parameters';
+import { get } from '../../common/configurationManager';
 
 const colors = [
   '#FFFFFF', '#000000', '#f44336', '#e91e63', '#9c27b0',

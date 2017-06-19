@@ -21,7 +21,7 @@ module.exports = {
       ? { type: 'string', value: data.name.value }
       : undefined,
     value: (data.value !== null && typeof data.value !== 'undefined')
-      ? { type: 'blob', value: data.value.value.toBuffer() }
+      ? { type: 'blob', value: data.value.value }
       : undefined,
     referenceTimestamp: (data.timeStamp !== null && typeof data.timeStamp !== 'undefined')
         ? { type: 'time', value: data.timeStamp.millisec.toNumber() }

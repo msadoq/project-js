@@ -1,7 +1,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "pusGroundModel/PusElement.proto";
-import "pusGroundModel/PusParameter.proto";
+import "../ccsds_mal/types.proto";
+import "./PusElement.proto";
+import "./PusParameter.proto";
 
 
 package pusGroundModel.protobuf;

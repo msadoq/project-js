@@ -24,7 +24,7 @@ module.exports = {
       ? { type: 'boolean', value: data.last_state.value }
       : undefined,
     mnemonic: (data.mnemonic !== null && typeof data.mnemonic !== 'undefined')
-      ? { type: 'blob', value: data.mnemonic.value.toBuffer() }
+      ? { type: 'blob', value: data.mnemonic.value }
       : undefined,
     nb_emitted_bytes: (data.nb_emitted_bytes !== null && typeof data.nb_emitted_bytes !== 'undefined')
       ? { type: 'integer', value: data.nb_emitted_bytes.value }

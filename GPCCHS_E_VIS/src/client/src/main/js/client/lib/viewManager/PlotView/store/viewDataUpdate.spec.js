@@ -1,4 +1,4 @@
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 import { viewRangeAdd, getExtremValue, selectDataPerView, selectEpData } from './viewDataUpdate';
 
 describe('viewManager/PlotView/store/viewDataUpdate', () => {
@@ -20,20 +20,20 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
     maxTime: { ep1: 3, ep2: 0 },
   };
   describe('viewRangeAdd', () => {
-    it('should ignore empty payloads call', () => {
+    test('should ignore empty payloads call', () => {
       const previousState = freezeMe(state);
       const newState = viewRangeAdd(previousState, {});
-      newState.should.equal(previousState);
+      expect(newState).toBe(previousState);
     });
-    it('should support empty state', () => {
-      viewRangeAdd(freezeMe({}), { ep1: {
+    test('should support empty state', () => {
+      expect(viewRangeAdd(freezeMe({}), { ep1: {
         10: { x: 1, value: 0.1 },
         11: { x: 2, value: 0.1 } },
         min: { ep1: 0.1 },
         minTime: { ep1: 10 },
         max: { ep1: 0.1 },
         maxTime: { ep1: 11 },
-      }).should.eql({
+      })).toEqual({
         indexes: { ep1: [10, 11] },
         lines: {
           ep1: [
@@ -47,7 +47,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       });
     });
     describe('should add points', () => {
-      it('one point in middle', () => {
+      test('one point in middle', () => {
         const frozen = freezeMe({
           indexes: { ep1: [1, 4] },
           lines: {
@@ -60,13 +60,13 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: { ep1: 104 },
           maxTime: { ep1: 4 },
         });
-        viewRangeAdd(frozen, {
+        expect(viewRangeAdd(frozen, {
           ep1: { 3: { x: 3, value: 103 } },
           min: { ep1: 103 },
           minTime: { ep1: 3 },
           max: { ep1: 103 },
           maxTime: { ep1: 3 },
-        }).should.eql({
+        })).toEqual({
           indexes: { ep1: [1, 3, 4] },
           lines: {
             ep1: [
@@ -80,7 +80,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 4 },
         });
       });
-      it('points everywhere', () => {
+      test('points everywhere', () => {
         const frozen = freezeMe({
           indexes: { ep1: [1, 4, 8, 10], ep2: [2] },
           lines: {
@@ -98,7 +98,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: { ep1: 100.8, ep2: 200.1 },
           maxTime: { ep1: 8, ep2: 2 },
         });
-        viewRangeAdd(frozen, { ep1: {
+        expect(viewRangeAdd(frozen, { ep1: {
           0: { x: 0, value: 104 },
           9: { x: 9, value: 108 },
           11: { x: 11, value: 111 },
@@ -110,7 +110,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           minTime: { ep1: 0, ep2: 1 },
           max: { ep1: 111, ep2: 204 },
           maxTime: { ep1: 11, ep2: 1 },
-        }).should.eql({
+        })).toEqual({
           indexes: { ep1: [0, 1, 4, 8, 9, 10, 11], ep2: [1, 2] },
           lines: {
             ep1: [
@@ -135,7 +135,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       });
     });
     describe('getExtremValue isMin', () => {
-      it('isMin and new values are inferior', () => {
+      test('isMin and new values are inferior', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -151,7 +151,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: { ep1: 104, ep2: 200.1 },
           maxTime: { ep1: 4, ep2: 1 },
         });
-        getExtremValue(thisState, 'ep1', { ep1: 90 }, { ep1: 0 }, true).should.eql({
+        expect(getExtremValue(thisState, 'ep1', { ep1: 90 }, { ep1: 0 }, true)).toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
@@ -167,7 +167,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 4, ep2: 1 },
         });
       });
-      it('!isMin and new values are superior', () => {
+      test('!isMin and new values are superior', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -183,7 +183,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: { ep1: 104, ep2: 200.1 },
           maxTime: { ep1: 4, ep2: 1 },
         });
-        getExtremValue(thisState, 'ep1', { ep1: 300 }, { ep1: 5 }, false).should.eql({
+        expect(getExtremValue(thisState, 'ep1', { ep1: 300 }, { ep1: 5 }, false)).toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
@@ -199,7 +199,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 5, ep2: 1 },
         });
       });
-      it('no min in state', () => {
+      test('no min in state', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -215,7 +215,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: { ep1: 104, ep2: 200.1 },
           maxTime: { ep1: 4, ep2: 1 },
         });
-        getExtremValue(thisState, 'ep1', { ep1: 102 }, { ep1: 0 }, true).should.eql({
+        expect(getExtremValue(thisState, 'ep1', { ep1: 102 }, { ep1: 0 }, true)).toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
@@ -231,7 +231,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           maxTime: { ep1: 4, ep2: 1 },
         });
       });
-      it('no max in state', () => {
+      test('no max in state', () => {
         const thisState = Object.freeze({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
@@ -247,7 +247,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: { ep2: 200.1 },
           maxTime: { ep2: 1 },
         });
-        getExtremValue(thisState, 'ep1', { ep1: 105 }, { ep1: 5 }, false).should.eql({
+        expect(getExtremValue(thisState, 'ep1', { ep1: 105 }, { ep1: 5 }, false)).toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
@@ -400,37 +400,37 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       },
     };
     describe('selectDataPerView', () => {
-      it('empty state', () => {
+      test('empty state', () => {
         const bag = selectDataPerView(viewDataMap.plot1, intervals, payload);
-        bag.should.have.all.keys(['ep1', 'min', 'max', 'minTime', 'maxTime']);
+        expect(bag).toHaveKeys(['ep1', 'min', 'max', 'minTime', 'maxTime']);
 
         const bag2 = selectDataPerView(viewDataMap.plot2, intervals, payload);
-        bag2.should.have.all.keys(['ep2', 'ep3', 'min', 'max', 'minTime', 'maxTime']);
-        bag2.ep2.should.have.keys('14', '15', '16', '17', '18');
+        expect(bag2).toHaveKeys(['ep2', 'ep3', 'min', 'max', 'minTime', 'maxTime']);
+        expect(bag2.ep2).toHaveKeys(['14', '15', '16', '17', '18']);
       });
-      it('viewMap undefined', () => {
+      test('viewMap undefined', () => {
         const newState = selectDataPerView(viewDataMap.plot4, intervals, payload);
-        Object.keys(newState).length.should.eql(0);
+        expect(Object.keys(newState).length).toEqual(0);
       });
-      it('no payload', () => {
+      test('no payload', () => {
         const newState = selectDataPerView(viewDataMap.plot1, intervals, {});
-        Object.keys(newState).length.should.eql(0);
+        expect(Object.keys(newState).length).toEqual(0);
       });
     });
     describe('selectEpData', () => {
-      it('undefined state', () => {
+      test('undefined state', () => {
         const newState = selectEpData(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
           'ep1', undefined, intervals);
-        newState.ep1['10'].should.eql({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
-        newState.ep1['15'].should.eql({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
+        expect(newState.ep1['10']).toEqual({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
+        expect(newState.ep1['15']).toEqual({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
       });
-      it('empty state', () => {
+      test('empty state', () => {
         const newState = selectEpData(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
           'ep1', {}, intervals);
-        newState.ep1['10'].should.eql({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
-        newState.ep1['15'].should.eql({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
+        expect(newState.ep1['10']).toEqual({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
+        expect(newState.ep1['15']).toEqual({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
       });
-      it('state not empty', () => {
+      test('state not empty', () => {
         const oldState = { ep10: {
           10: { x: 11.5, col1: 101 },
           12.5: { x: 12.5, value: 102 },
@@ -442,18 +442,18 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         };
         const newState = selectEpData(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
           'ep1', oldState, intervals);
-        newState.ep1.should.eql({ 10: { x: 10.2, value: 101, color: '#0000FF', symbol: undefined },
+        expect(newState.ep1).toEqual({ 10: { x: 10.2, value: 101, color: '#0000FF', symbol: undefined },
           11: { color: '#0000FF', symbol: undefined, value: 111, x: 11.2 },
           12: { color: '#0000FF', symbol: undefined, value: 121, x: 12.2 },
           13: { color: '#0000FF', symbol: undefined, value: 131, x: 13.2 },
           14: { color: '#0000FF', symbol: undefined, value: 141, x: 14.2 },
           15: { x: 15.2, value: 151, color: '#0000FF', symbol: undefined } });
-        newState.min.should.eql({ ep10: 101, ep1: 101 });
-        newState.max.should.eql({ ep10: 102, ep1: 151 });
-        newState.minTime.should.eql({ ep10: 10, ep1: 10 });
-        newState.maxTime.should.eql({ ep10: 12.5, ep1: 15 });
+        expect(newState.min).toEqual({ ep10: 101, ep1: 101 });
+        expect(newState.max).toEqual({ ep10: 102, ep1: 151 });
+        expect(newState.minTime).toEqual({ ep10: 10, ep1: 10 });
+        expect(newState.maxTime).toEqual({ ep10: 12.5, ep1: 15 });
       });
-      it('no change', () => {
+      test('no change', () => {
         const oldState = { ep1: { 10: { x: 1001.5, col1: 101 },
           11: { x: 1002.5, value: 102 } },
           min: { ep1: 101 },
@@ -463,7 +463,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         };
         const newState = selectEpData(payload.rId1, viewDataMap.plot3.entryPoints.ep1,
           'ep1', oldState, intervals);
-        newState.should.deep.equal({});
+        expect(newState).toEqual({});
       });
     });
   });

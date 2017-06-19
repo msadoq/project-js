@@ -68,7 +68,7 @@ module.exports = {
       ? { type: 'uinteger', value: data.commandApid.value }
       : undefined,
     commandBinaryProfile: (data.commandBinaryProfile !== null && typeof data.commandBinaryProfile !== 'undefined')
-      ? { type: 'blob', value: data.commandBinaryProfile.value.toBuffer() }
+      ? { type: 'blob', value: data.commandBinaryProfile.value }
       : undefined,
     commandGroundStatus: (data.commandGroundStatus !== null && typeof data.commandGroundStatus !== 'undefined')
       ? { type: 'uinteger', value: data.commandGroundStatus.value }

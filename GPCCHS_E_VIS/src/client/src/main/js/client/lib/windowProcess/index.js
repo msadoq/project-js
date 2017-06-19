@@ -1,11 +1,12 @@
-import React from 'react';
 import { ipcRenderer } from 'electron';
+import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import HealthMonitor from './Window/HealthMonitor';
 import WindowContainer from './Window/WindowContainer';
-import { initStore } from '../store/isomorphic';
+import makeCreateStore from './store';
 import mainController from './controllers/main';
+import { main } from './ipc';
 
 const windowId = global.windowId; // see index.html
 
@@ -27,13 +28,18 @@ if (global.parameters.get('WDYU') === 'on') {
   });
 }
 
-const store = initStore();
+/**
+ * Request initialState asynchronously from main process
+ */
+main.requestReduxCurrentState(({ state }) => {
+  const store = makeCreateStore('renderer', global.parameters.get('DEBUG') === 'on')(state);
 
-render(
-  <HealthMonitor windowId={windowId}>
-    <Provider store={store}>
-      <WindowContainer windowId={windowId} />
-    </Provider>
-  </HealthMonitor>,
-  document.getElementById('root')
-);
+  render(
+    <HealthMonitor windowId={windowId}>
+      <Provider store={store}>
+        <WindowContainer windowId={windowId} />
+      </Provider>
+    </HealthMonitor>,
+    document.getElementById('root')
+  );
+});

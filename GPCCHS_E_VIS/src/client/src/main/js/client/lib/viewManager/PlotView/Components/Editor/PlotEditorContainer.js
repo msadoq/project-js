@@ -11,7 +11,8 @@ import {
 import {
   open as openModal,
 } from '../../../../store/actions/modals';
-import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab } from '../../../../store/actions/ui';
+import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab }
+  from '../../../../store/actions/ui';
 import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui';
 import { getConfigurationByViewId } from '../../../../viewManager';
 

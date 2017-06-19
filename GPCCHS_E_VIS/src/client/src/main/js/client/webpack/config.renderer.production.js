@@ -1,7 +1,8 @@
-import { join } from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import merge from 'webpack-merge';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+
 import postCssImport from 'postcss-smart-import';
 import postCssUrl from 'postcss-url';
 import postCssProperties from 'postcss-custom-properties';
@@ -27,9 +28,11 @@ const config = merge(baseConfig, {
     ],
   },
 
+  stats: {
+    children: false,
+  },
+
   output: {
-    path: join(__dirname, '../dist'),
-    publicPath: 'dist/',
     filename: '[name].bundle.js',
     // pathinfo: true,
   },
@@ -37,6 +40,7 @@ const config = merge(baseConfig, {
   externals: [
     'commmon',
     'why-did-you-update',
+    'htmlhint',
   ],
 
   module: {
@@ -61,12 +65,14 @@ const config = merge(baseConfig, {
     new webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin('style.css'),
     new webpack.DefinePlugin({
-      'process.env': {
-        // NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
-        IS_BUNDLED: JSON.stringify('on'),
-        APP_ENV: JSON.stringify('renderer'),
-      },
+      'process.env.IS_BUNDLED': JSON.stringify('on'),
+      'process.env.APP_ENV': JSON.stringify('renderer'),
+      'process.env.NODE_ENV': JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
     }),
+    new CopyWebpackPlugin([
+      { from: 'index.html' },
+      { from: 'splash.html' },
+    ]),
   ],
 
   postcss: [

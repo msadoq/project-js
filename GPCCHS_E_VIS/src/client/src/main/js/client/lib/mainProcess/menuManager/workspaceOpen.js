@@ -10,7 +10,7 @@ import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
 import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
 import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../store';
 
 const isYes = equals(0);
 const isNo = equals(1);
@@ -20,7 +20,7 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 function workspaceOpenNew() {
   const store = getStore();
   const { dispatch } = store;
-  allDocumentsAreSaved(store, (err) => {
+  allDocumentsAreSaved(store, 'Opening new workspace', (err) => {
     if (err) {
       dispatch(addGlobalError(err));
       return;
@@ -32,7 +32,7 @@ function workspaceOpenNew() {
 function workspaceOpen() {
   const store = getStore();
   const { dispatch, getState } = store;
-  allDocumentsAreSaved(store, (err) => {
+  allDocumentsAreSaved(store, 'Opening workspace', (err) => {
     if (err) {
       return dispatch(addGlobalError(err));
     }
@@ -54,13 +54,13 @@ function workspaceOpenWithPath({ absolutePath }) {
 const isPagesSaved = state => getModifiedPagesIds(state).length === 0;
 const isViewsSaved = state => getModifiedViewsIds(state).length === 0;
 
-function allDocumentsAreSaved(store, cb) {
+function allDocumentsAreSaved(store, title, cb) {
   if (!isSaveNeeded(store.getState())) {
     return cb(null);
   }
   return showQuestionMessage(
     BrowserWindow.getFocusedWindow(),
-    'Opening new workspace',
+    title,
     'Workspace is modified. Do you want to save before closing ?',
     ['yes', 'no', 'cancel'],
     (clickedButton) => {
@@ -111,4 +111,5 @@ export default {
   workspaceOpenNew,
   workspaceOpen,
   workspaceOpenWithPath,
+  allDocumentsAreSaved,
 };

@@ -1,32 +1,39 @@
 # Git hooks
 
-## Git prepare-commit-msg hook
+## prepare-commit-msg
 
 It's may be useful to have some additional git local hooks.
 
 here is a little script to add automatically prefix in the commit message :
 
-```bash
-#!/bin/sh
+```js
+#!/usr/bin/env node
+const fs = require('fs');
 
-# keep the original commit content
-FILE_CONTENT="$(cat $1)"
+const fileName = process.argv[2];
+const [firstLine, ...content] = fs.readFileSync(fileName).toString().split('\n');
+const writeMsg = (content) => fs.writeFileSync(fileName, content.join('\n'));
 
-if [[ "$BYPASS_HOOKS" -eq "1" ]]; then
-  exit 0
-fi
+const hasBracketPrefix = () => /^\[.*\]/.test(firstLine.trim());
+const isHL = () => !!process.env['HL'];
 
-# erase commit content
-echo -n > $1
+if (process.env['BYPASS_HOOKS']) {
+  return;
+}
 
-if [[ "$HL" -eq "" ]]; then
-        echo -n "[FT:#$TICKET] " >> $1
-else
-        echo -n "[HL] " >> $1
-fi
+if (hasBracketPrefix()) {
+  return;
+}
 
-# rewrite original commit content
-echo "$FILE_CONTENT" >> $1
+if (!isHL() && !process.env['TICKET']) {
+  console.error('Unable to commit, please set the TICKET environment variable');
+  process.exit(1);
+}
+
+const prefix = process.env['HL'] ? '[HL] ' : `[FT:#${process.env['TICKET']}] `;
+
+writeMsg([prefix + firstLine, ...content])
+
 ```
 
 #### Installation
@@ -48,14 +55,14 @@ example:
 BYPASS_HOOKS=1 git commit
 ```
 
-## Git pre-commit hook
+## pre-commit
 
 ```bash
 #!/bin/sh
-HAS_DESCRIBE_ONLY=$(git grep --cached "describe\.only" -- '*.spec.js' | wc -l)
-HAS_DESCRIBE_SKIP=$(git grep --cached "describe\.skip" -- '*.spec.js' | wc -l)
-HAS_IT_ONLY=$(git grep --cached "it\.only" -- '*.spec.js' | wc -l)
-HAS_IT_SKIP=$(git grep --cached "it\.skip" -- '*.spec.js' | wc -l)
+HAS_DESCRIBE_ONLY=$(git diff --cached --name-only -S "describe.only" -- '*.spec.js' | wc -l)
+HAS_DESCRIBE_SKIP=$(git diff --cached --name-only -S "describe.skip" -- '*.spec.js' | wc -l)
+HAS_IT_ONLY=$(git diff --cached --name-only -S "it.only" -- '*.spec.js' | wc -l)
+HAS_IT_SKIP=$(git diff --cached --name-only -S "it.skip" -- '*.spec.js' | wc -l)
 
 function error() {
 	echo ====== ERROR ======
@@ -96,3 +103,51 @@ example:
 ```bash
 BYPASS_HOOKS=1 git commit
 ```
+
+## commit-msg
+
+```js
+#!/usr/bin/env node
+const fs = require('fs');
+
+const minWords = 5;
+const fileName = process.argv[2];
+const [firstLine, ...content] = fs.readFileSync(fileName).toString().split('\n');
+const writeMsg = (content) => fs.writeFileSync(fileName, content.join('\n'));
+
+const hasBracketPrefix = (str) => /^\[.*\]/.test(str.trim());
+const removeBracketPrefix = (str) => str.trim().match(/^(\[.*\])(.*)/)[2];
+const wordCount = (str) => str.trim().split(' ').filter(x => x !== '').length;
+
+if (process.env['BYPASS_HOOKS']) {
+  return;
+}
+
+const firstLineWithoutPrefix = (
+  (hasBracketPrefix(firstLine) ? removeBracketPrefix(firstLine) : firstLine)
+  .trim()
+)
+
+if (firstLineWithoutPrefix === '') {
+  console.error('Unable to commit, Plase write a valid commit message');
+  process.exit(1)
+}
+
+const nbWords = wordCount(firstLineWithoutPrefix);
+
+if (nbWords >= minWords) {
+  return;
+}
+
+const newFirstLine = firstLine + ' .'.repeat(minWords - nbWords);
+
+writeMsg([newFirstLine, ...content]);
+
+```
+
+#### Installation
+copy this script in `/data/work/gitRepositories/LPISIS/GPCCHS/.git/hooks/commit-msg`
+
+#### Usage
+Just commit normally
+you can use BYPASS_HOOKS environment variable

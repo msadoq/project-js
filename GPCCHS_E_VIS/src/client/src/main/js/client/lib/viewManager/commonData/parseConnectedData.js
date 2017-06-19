@@ -1,4 +1,4 @@
-import { get } from 'common/parameters';
+import { get } from '../../common/configurationManager';
 import formulaParser from './formula';
 import domainsFilter from './domains';
 import sessionsFilter from './sessions';

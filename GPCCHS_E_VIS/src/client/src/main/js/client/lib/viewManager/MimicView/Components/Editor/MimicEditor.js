@@ -5,14 +5,15 @@ import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
 import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
-import TextTabContainer from './TextTabContainer';
+import MimicTabContainer from './MimicTabContainer';
+import { Misc } from '../../../commonEditor/Misc';
 
 const newEntryPoint = {
   name: 'NewEntryPoint',
   connectedData: {}
 };
 
-const navBarItems = ['Entry Points', 'Text'];
+const navBarItems = ['Entry Points', 'Mimic', 'Misc'];
 
 export default class Editor extends Component {
   static propTypes = {
@@ -26,7 +27,9 @@ export default class Editor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
       content: PropTypes.string.isRequired,
-    })
+    }),
+    updateViewPanels: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
   };
 
   state = { currentDisplay: 0, search: '' };
@@ -75,7 +78,9 @@ export default class Editor extends Component {
         entryPoints,
         title,
         titleStyle
-      }
+      },
+      updateViewPanels,
+      panels,
     } = this.props;
 
     return (
@@ -101,7 +106,14 @@ export default class Editor extends Component {
               remove={this.removeEntryPoint}
             />
           </div>}
-          {currentDisplay === 1 && <TextTabContainer />}
+          {currentDisplay === 1 && <MimicTabContainer />}
+          {currentDisplay === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+              openModal={openModal}
+            />}
         </div>
       </div>
     );

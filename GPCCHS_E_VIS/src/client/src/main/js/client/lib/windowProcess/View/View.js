@@ -2,8 +2,8 @@ import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
-import getLogger from 'common/log';
-import globalConstants from 'common/constants';
+import getLogger from '../../common/logManager';
+import globalConstants from '../../constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
 import { getViewComponent } from '../../viewManager/components';
@@ -30,7 +30,7 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -38,7 +38,6 @@ export default class View extends PureComponent {
     titleStyle: {
       bgColor: '#FEFEFE',
     },
-    absolutePath: '',
     visuWindow: null,
     maximized: false,
   };
@@ -72,8 +71,10 @@ export default class View extends PureComponent {
     absolutePath,
     isModified,
   }) => {
-    const { collapseView, maximizeView, closeView, closeEditor } = this.props;
+    const { collapseView, maximizeView, closeView, closeEditor, closeModal } = this.props;
     const isPathDefined = oId || absolutePath;
+
+    const useSaveAs = (!absolutePath && !oId);
     return [
       {
         label: 'Move view to...',
@@ -115,9 +116,29 @@ export default class View extends PureComponent {
       {
         label: 'Close view',
         click: () => {
-          closeView();
-          if (isViewsEditorOpen && closeEditor) {
-            closeEditor();
+          if (isModified) {
+            openModal({
+              type: 'viewIsModified',
+              onClose: closeView,
+              onSave: () => {
+                main.saveView({ viewId, saveAs: useSaveAs }, (err) => {
+                  if (!err) {
+                    if (isViewsEditorOpen && closeEditor) {
+                      closeEditor();
+                    }
+                    closeView();
+                  }
+                  closeModal();
+                });
+              },
+              isViewsEditorOpen,
+              closeEditor,
+            });
+          } else {
+            closeView();
+            if (isViewsEditorOpen && closeEditor) {
+              closeEditor();
+            }
           }
         },
       },
@@ -141,9 +162,6 @@ export default class View extends PureComponent {
       openEditor,
       closeEditor,
       collapseView,
-      maximizeView,
-      closeView,
-      openModal,
     } = this.props;
     const ContentComponent = getViewComponent(type);
     const mainMenu = this.getMainContextMenu(this.props);
@@ -156,15 +174,10 @@ export default class View extends PureComponent {
         onContextMenu={() => this.onContextMenu(mainMenu)}
       >
         <HeaderContainer
-          pageId={pageId}
           viewId={viewId}
-          maximized={!!maximized}
-          openEditor={openEditor}
-          closeEditor={closeEditor}
+          pageId={pageId}
           collapseView={collapseView}
-          maximizeView={maximizeView}
-          closeView={closeView}
-          openModal={openModal}
+          onContextMenu={() => this.onContextMenu(mainMenu)}
         />
         <div
           className={styles.content}

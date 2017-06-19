@@ -37,15 +37,19 @@ deploy_cots() {
   NPM_OPTS2="--userconfig=${NPM_USER_CONFIG}"
   PATH=${find.dependencies.dir}/bin:$PATH
   export npm_config_nodedir=${find.dependencies.dir}
+
   npm ${NPM_OPTS1} config set cache ${find.dependencies.dir}/npm_cache
   npm ${NPM_OPTS1} config set cache-min ${NPM_CACHE_DURATION}
   # workaround for electron downloads
   HOME=${find.dependencies.dir}
 
+  export dependencies_dir=${find.dependencies.dir}
+
+  Log 'deploy_cots' "prepare package.json" ${INFO}
+  npm run prepare:maven:build
+
   Log "deploy_cots" "installing NPM dependencies in client" ${INFO}
   npm ${NPM_OPTS2} install
-  Log "deploy_cots" "installing common dependency in client" ${INFO}
-  npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common
 
   Log "deploy_cots" "building main process package" ${INFO}
   npm run build:main
@@ -53,31 +57,12 @@ deploy_cots() {
   Log "deploy_cots" "building renderer process package" ${INFO}
   npm run build:renderer
 
-  Log "deploy_cots" "copying client files" ${INFO}
-  mkdir -p ${api.work.dir}/js/client/toPackage/node_modules
-  cp -R ./node_modules/source-map-support ./toPackage/node_modules/
-  cp -R ./node_modules/source-map ./toPackage/node_modules/
-  cp -R ${api.work.dir}/js/client/dist ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/main.js ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/index.html ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/splash.html ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/main.js.map ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/package.json ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/config.default.json ${api.work.dir}/js/client/toPackage/
-  cp ${api.work.dir}/js/client/config.required.json ${api.work.dir}/js/client/toPackage/
+  Log "deploy_cots" "building server process package" ${INFO}
+  npm run build:server
 
   Log "deploy_cots" "packaging electron application" ${INFO}
-  ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${project.artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
-  mv ${api.lib.dir}/js/${project.artifactId}/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
-
-  Log "deploy_cots" "copy server files" ${INFO}
-  mkdir ${api.lib.dir}/js/${project.artifactId}/client/resources/app/node_modules/server
-  cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server ${api.lib.dir}/js/${project.artifactId}/client/resources/app/node_modules/server
-  cd ${api.lib.dir}/js/${project.artifactId}/client/resources/app/node_modules/server
-
-  Log "deploy_cots" "installing NPM dependencies in server" ${INFO}
-  npm ${NPM_OPTS2} install
-  npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common
+  npm run package:electron -- --download.cache=${find.dependencies.dir}/.electron/
+  mv ./dist/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${project.artifactId}/client
 
   # Workaround for protobuf files being ignore as a rule for normal isis modules
   find node_modules -name *.proto | sed -e "s:^:lib/js/${project.artifactId}/client/resources/app/node_modules/server/:" >> ${api.target.dir}/rpm/filelist.init

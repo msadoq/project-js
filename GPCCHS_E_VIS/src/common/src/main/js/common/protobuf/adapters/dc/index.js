@@ -1,5 +1,4 @@
 const { register } = require('../../index');
-const { join } = require('path');
 const Action = require('./dataControllerUtils/action');
 const Boolean = require('./dataControllerUtils/boolean');
 const DataId = require('./dataControllerUtils/dataId');
@@ -20,7 +19,7 @@ const String = require('./dataControllerUtils/string');
 const TimeInterval = require('./dataControllerUtils/timeInterval');
 const Timestamp = require('./dataControllerUtils/timestamp');
 
-register(join(__dirname, '../../proto/dc'), 'dc', { // TODO .proto should be collocated with adapters
+module.exports = pathName => register(pathName, 'dc', { // TODO .proto should be collocated with adapters
   dataControllerUtils: {
     Action,
     Boolean,

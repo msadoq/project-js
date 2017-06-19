@@ -1,5 +1,5 @@
-import getLogger from 'common/log';
-import { getStore } from '../../../store/isomorphic';
+import getLogger from '../../../common/logManager';
+import { getStore } from '../../store';
 import { getTelemetryStaticElements } from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';

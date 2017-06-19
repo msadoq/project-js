@@ -1,5 +1,4 @@
-/* eslint no-unused-expressions: 0 */
-import { freezeArgs, getStore, should } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/jest';
 import * as actions from '../../actions/windows';
 import windowsReducer, {
   getWindow,
@@ -9,27 +8,26 @@ import windowsReducer, {
   getWindowFocusedPageId,
   getDisplayHelp,
   getWindowTitle,
-  getWindowDomainName,
-  getWindowSessionName,
+  getWindowIdByPageId,
 } from '../windows';
-import * as types from '../../types';
 
 const reducer = freezeArgs(windowsReducer);
 
 /* --- Reducer -------------------------------------------------------------- */
 describe('store:windows:reducer', () => {
-  it('initial state', () => {
-    reducer(undefined, {}).should.be.an('object').that.is.empty;
+  test('initial state', () => {
+    expect(reducer(undefined, {})).toEqual({});
   });
-  it('unknown action', () => {
-    reducer({ myWindowId: { title: 'Title' } }, { payload: { windowId: 'myWindowId' } })
-      .should.eql({ myWindowId: { title: 'Title' } });
+  test('unknown action', () => {
+    expect(
+      reducer({ myWindowId: { title: 'Title' } }, { payload: { windowId: 'myWindowId' } })
+    ).toEqual({ myWindowId: { title: 'Title' } });
   });
   describe('add', () => {
-    it('should add in store', () => {
+    test('should add in store', () => {
       const action = actions.addWindow('myWindowId', 'Title', { x: 110 }, ['myPageId'], null, true);
       const state = reducer(undefined, action);
-      state.myWindowId.should.deep.eql({
+      expect(state.myWindowId).toEqual({
         title: 'Title',
         displayHelp: false,
         focusedPage: null,
@@ -40,124 +38,131 @@ describe('store:windows:reducer', () => {
         uuid: 'myWindowId',
       });
     });
-    it('should support empty add', () => {
+    test('should support empty add', () => {
       const state = reducer(undefined, actions.addWindow('myWindowId'));
       const win = state.myWindowId;
-      win.title.should.eql('Unknown');
-      win.minimized.should.eql(false);
-      win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
+      expect(win.title).toEqual('Unknown');
+      expect(win.minimized).toEqual(false);
+      expect(win.geometry).toEqual({ x: 10, y: 10, w: 800, h: 600 });
     });
   });
   describe('HSC workspace', () => {
-    it('close', () => {
-      const newState = reducer({ myTimelineUuid: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
-      newState.should.be.an('object').that.is.empty;
+    test('close', () => {
+      const newState = reducer({ myTimelineUuid: { id: 'Id' } }, { type: 'HSC_CLOSE_WORKSPACE' });
+      expect(newState).toEqual({});
     });
   });
   describe('should modify workspace', () => {
     const state = { window1: {}, window2: { isModified: false } };
-    it('modify if new timeline', () => {
-      const newState = reducer(state, { type: types.WS_TIMELINE_CREATE_NEW });
-      newState.window1.isModified.should.be.true;
-      newState.window2.isModified.should.be.true;
+    test('modify if new timeline', () => {
+      const newState = reducer(state, { type: 'WS_TIMELINE_CREATE_NEW' });
+      expect(newState.window1.isModified).toBe(true);
+      expect(newState.window2.isModified).toBe(true);
     });
-    it('modify if remove timeline', () => {
-      const newState = reducer(state, { type: types.WS_TIMELINE_REMOVE });
-      newState.window1.isModified.should.be.true;
-      newState.window2.isModified.should.be.true;
+    test('modify if remove timeline', () => {
+      const newState = reducer(state, { type: 'WS_TIMELINE_REMOVE' });
+      expect(newState.window1.isModified).toBe(true);
+      expect(newState.window2.isModified).toBe(true);
     });
-    it('modify if update timebarId', () => {
-      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_MOUNT });
-      newState.window1.isModified.should.be.true;
-      newState.window2.isModified.should.be.true;
+    test('modify if update timebarId', () => {
+      const newState = reducer(state, { type: 'WS_PAGE_TIMEBAR_MOUNT' });
+      expect(newState.window1.isModified).toBe(true);
+      expect(newState.window2.isModified).toBe(true);
     });
-    it('modify if update timebarId', () => {
-      const newState = reducer(state, { type: types.WS_PAGE_TIMEBAR_UNMOUNT });
-      newState.window1.isModified.should.be.true;
-      newState.window2.isModified.should.be.true;
+    test('modify if update timebarId', () => {
+      const newState = reducer(state, { type: 'WS_PAGE_TIMEBAR_UNMOUNT' });
+      expect(newState.window1.isModified).toBe(true);
+      expect(newState.window2.isModified).toBe(true);
     });
   });
 });
 
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:windows:selectors', () => {
-  it('getWindowsArray', () => {
-    const state = {
+  test('getWindowsArray', () => {
+    const state = freezeMe({
       windows: {
         window1: { title: 'foo' },
         window2: { title: 'bar' },
       },
-    };
-    getWindowsArray(state).should.eql([
+    });
+    expect(getWindowsArray(state)).toEqual([
       { title: 'foo' },
       { title: 'bar' },
     ]);
   });
-  it('getWindows', () => {
-    const state = {
+  test('getWindows', () => {
+    const state = freezeMe({
       windows: {
         myWindowId: { title: 'Title' },
         myOtherId: { title: 'Title other' },
       },
-    };
-    const { getState } = getStore(state);
-    getWindows(getState()).should.equal(state.windows);
+    });
+    expect(getWindows(state)).toBe(state.windows);
   });
   describe('getWindow', () => {
-    const state = {
+    const state = freezeMe({
       windows: {
         myWindowId: { title: 'Title 1' },
       },
-    };
-    const { getState } = getStore(state);
-    it('should returns window', () => {
-      getWindow(getState(), { windowId: 'myWindowId' }).should.equal(state.windows.myWindowId);
     });
-    it('should support not existing window', () => {
-      should.not.exist(getWindow(getState(), { windowId: 'unknownId' }));
+    test('should returns window', () => {
+      expect(getWindow(state, { windowId: 'myWindowId' })).toBe(state.windows.myWindowId);
+    });
+    test('should support not existing window', () => {
+      expect(getWindow(state, { windowId: 'unknownId' })).toBeFalsy();
     });
   });
   describe('getWindowTitle', () => {
-    const state = {
+    const state = freezeMe({
       windows: {
         myWindowId: { title: 'Title 1' },
       },
-    };
-    const { getState } = getStore(state);
-    it('should returns window', () => {
-      getWindowTitle(getState(), { windowId: 'myWindowId' }).should.equal(state.windows.myWindowId.title);
     });
-    it('should support not existing window', () => {
-      should.not.exist(getWindowTitle(getState(), { windowId: 'unknownId' }));
+    test('should returns window', () => {
+      expect(getWindowTitle(state, { windowId: 'myWindowId' })).toBe(state.windows.myWindowId.title);
+    });
+    test('should support not existing window', () => {
+      expect(getWindowTitle(state, { windowId: 'unknownId' })).toBeFalsy();
     });
   });
-  it('getWindowPageIds', () => {
-    const state = {
+  test('getWindowPageIds', () => {
+    const state = freezeMe({
       windows: {
         window1: {
           pages: ['page1', 'page2'],
         },
       },
-    };
-    getWindowPageIds(state, { windowId: 'window1' }).should.eql(['page1', 'page2']);
+    });
+    expect(getWindowPageIds(state, { windowId: 'window1' })).toEqual(['page1', 'page2']);
   });
-  it('getWindowFocusedPageId', () => {
-    const state = {
+  test('getWindowFocusedPageId', () => {
+    const state = freezeMe({
       windows: {
         window1: {
           focusedPage: 'page1',
         },
       },
-    };
-    getWindowFocusedPageId(state, { windowId: 'window1' }).should.eql('page1');
+    });
+    expect(getWindowFocusedPageId(state, { windowId: 'window1' })).toEqual('page1');
   });
-  it('getDisplayHelp', () => {
-    const state = {
+  test('getDisplayHelp', () => {
+    const state = freezeMe({
       windows: {
         w1: { displayHelp: true },
       },
+    });
+    expect(getDisplayHelp(state, { windowId: 'w1' })).toBe(true);
+    expect(getDisplayHelp({}, {})).toBeFalsy();
+  });
+  test('getWindowIdByPageId', () => {
+    const state = {
+      windows: {
+        w1: { pages: ['page1', 'page2', 'page3'] },
+        w2: { pages: ['page10', 'page20', 'page30'] },
+      },
     };
-    getDisplayHelp(state, { windowId: 'w1' }).should.be.true;
-    should.not.exist(getDisplayHelp({}, {}));
+    expect(getWindowIdByPageId(state, { pageId: 'page2' })).toEqual('w1');
+    expect(getWindowIdByPageId(state, { pageId: 'page200' })).toBeUndefined();
   });
 });

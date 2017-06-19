@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import openWikiHelper from '../controllers/renderer/onOpenWikiHelper';
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../store';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
@@ -11,6 +11,7 @@ import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
+import { workspaceClose } from './workspaceClose';
 import { getAvailableViews } from '../../viewManager';
 
 const { Menu } = require('electron');
@@ -55,7 +56,9 @@ const workspace = {
     },
   }, {
     label: 'Quit',
-    role: 'quit',
+    click: () => {
+      workspaceClose();
+    },
   }],
 };
 

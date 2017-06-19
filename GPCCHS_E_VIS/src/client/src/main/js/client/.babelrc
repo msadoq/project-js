@@ -5,22 +5,25 @@
     "react"
   ],
   "plugins": [
-    "babel-plugin-lodash",
-	"babel-plugin-add-module-exports"
+  	"babel-plugin-add-module-exports"
   ],
   "env": {
+    "test": {},
     "production": {
       "presets": [
         "react-optimize"
       ],
       "plugins": [
-		"transform-class-properties"
+		 "babel-plugin-lodash"
       ]
     },
     "development": {
       "presets": [
         "react-hmre"
-      ]
+      ],
+  	  "plugins": [
+  		  "babel-plugin-lodash"
+  	  ]
     }
   }
 }

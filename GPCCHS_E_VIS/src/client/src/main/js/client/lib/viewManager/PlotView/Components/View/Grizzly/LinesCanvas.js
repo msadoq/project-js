@@ -6,6 +6,7 @@ export default class LinesCanvas extends Component {
 
   static propTypes = {
     updateLabelPosition: PropTypes.func.isRequired,
+    updatePointLabelsPosition: PropTypes.func.isRequired,
     axisId: PropTypes.string.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     top: PropTypes.number.isRequired,
@@ -16,6 +17,7 @@ export default class LinesCanvas extends Component {
     yScale: PropTypes.func.isRequired,
     data: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
+    showPointLabels: PropTypes.bool,
     // perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
@@ -35,6 +37,7 @@ export default class LinesCanvas extends Component {
 
   static defaultProps = {
     showLabels: false,
+    showPointLabels: false,
     data: null,
   }
 
@@ -46,7 +49,7 @@ export default class LinesCanvas extends Component {
     let shouldRender = false;
 
     const attrs = ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
-      'xScale', 'showLabels', 'data', 'yScale'];
+      'xScale', 'showLabels', 'data', 'yScale', 'showPointLabels'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
@@ -85,9 +88,11 @@ export default class LinesCanvas extends Component {
       data,
       xScale,
       updateLabelPosition,
+      updatePointLabelsPosition,
       axisId,
       showLabels,
       yScale,
+      showPointLabels,
     } = this.props;
 
     const ctx = this.el.getContext('2d');
@@ -98,7 +103,9 @@ export default class LinesCanvas extends Component {
     // if (perfOutput) console.time();
 
     // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
+    const points = {};
     lines.forEach((line) => {
+      points[line.id] = [];
       const dataLine = line.dataAccessor && data
         ? line.dataAccessor(data)
         : line.data;
@@ -159,8 +166,18 @@ export default class LinesCanvas extends Component {
           }
         }
 
-        lastY = yScale(line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].y);
-        lastX = xScale(line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x);
+        const x = line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x;
+        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].y;
+        lastY = yScale(y);
+        lastX = xScale(x);
+
+        points[line.id].push({
+          x,
+          xPos: lastX,
+          y,
+          yPos: lastY,
+          color: lastColor || fill,
+        });
 
         // Draw line
         if (lineSize > 0) {
@@ -203,8 +220,29 @@ export default class LinesCanvas extends Component {
         line.id,
         (lastYPosition < 0 || lastYPosition > height) ? null : lastYPosition
       );
+
       ctx.stroke();
     });
+
+    if (showPointLabels) {
+      updatePointLabelsPosition(axisId, points);
+      lines.forEach((line) => {
+        ctx.strokeStyle = '#444';
+        ctx.fillStyle = '#444';
+        ctx.lineWidth = 0.25;
+        ctx.setLineDash([6, 2]);
+        ctx.beginPath();
+        for (let i = 0; i < points[line.id].length; i += 1) {
+          ctx.moveTo(points[line.id][i].xPos, points[line.id][i].yPos);
+          ctx.lineTo(0, points[line.id][i].yPos);
+          ctx.moveTo(points[line.id][i].xPos, points[line.id][i].yPos);
+          ctx.lineTo(points[line.id][i].xPos, height);
+        }
+
+        ctx.stroke();
+      });
+    }
+
 
     // if (perfOutput) {
     //   console.log(

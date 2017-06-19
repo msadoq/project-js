@@ -4,8 +4,9 @@ import Navbar from '../../../commonEditor/Navbar/Navbar';
 import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import TextTabContainer from './TextTabContainer';
+import { Misc } from '../../../commonEditor/Misc';
 
-const navBarItems = ['Entry Points', 'Text'];
+const navBarItems = ['Entry Points', 'Text', 'Misc'];
 
 export default class Editor extends Component {
   static propTypes = {
@@ -103,6 +104,13 @@ export default class Editor extends Component {
               panels={panels}
             />
           }
+          {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+              openModal={openModal}
+            />}
         </div>
       </div>
     );

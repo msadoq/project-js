@@ -1,4 +1,4 @@
-import globalConstants from 'common/constants';
+import globalConstants from '../../../constants';
 import parseEntryPoint from './parseEntryPoint';
 
 describe('viewManager/MimicView/data/parseEntryPoint', () => {
@@ -37,19 +37,24 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
       { domainId: 'invalid', name: undefined },
     ];
   });
-  it('no connectedData', () => {
+  test('no connectedData', () => {
     const ep = parseEntryPoint(domains, sessions, timelines,
       { name: 'ATT_BC_STR1VOLTAGE', connectedData: { formula: '' } },
       'Session 1', 'TB1', 'MimicView');
-    ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } });
+    expect(ep).toEqual(
+      { ATT_BC_STR1VOLTAGE: { error: 'unable to parse this connectedData formula ' } }
+    );
   });
-  it('no timebarUuid', () => {
+  test('no timebarUuid', () => {
     const ep = parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', '', 'PlotView');
-    ep.should.eql({ ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } });
+    expect(ep).toEqual(
+      { ATT_BC_STR1VOLTAGE: { error: 'No timebar associated with this entry point' } }
+    );
   });
-  it('valid', () => {
-    parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'MimicView')
-    .should.eql({
+  test('valid', () => {
+    expect(
+      parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'MimicView')
+    ).toEqual({
       ATT_BC_STR1VOLTAGE: {
         id: 'ep1',
         dataId: {

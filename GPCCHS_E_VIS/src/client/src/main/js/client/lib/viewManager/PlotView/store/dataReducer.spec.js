@@ -1,9 +1,9 @@
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 import plotViewData from './dataReducer';
 import * as types from '../../../store/types';
 
 describe('viewManager/PlotView/store/dataReducer', () => {
-  it('DATA_REMOVE_ALL_VIEWDATA', () => {
+  test('DATA_REMOVE_ALL_VIEWDATA', () => {
     const state = freezeMe({
       myViewId: {
         index: { myEntryPoint: 10 },
@@ -11,73 +11,74 @@ describe('viewManager/PlotView/store/dataReducer', () => {
       },
     });
     const action = { type: types.DATA_REMOVE_ALL_VIEWDATA };
-    plotViewData(state, action).should.eql({});
+    expect(plotViewData(state, action)).toEqual({});
   });
-  it('HSC_CLOSE_WORKSPACE', () => {
+  test('HSC_CLOSE_WORKSPACE', () => {
     const state = freezeMe({
       myViewId: {
         index: { myEntryPoint: 10 },
         values: { myEntryPoint: 150 },
       },
     });
-    plotViewData(state, { type: types.HSC_CLOSE_WORKSPACE }).should.eql({});
+    expect(plotViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
-  it('WS_VIEW_RELOAD', () => {
+  test('WS_VIEW_RELOAD', () => {
     const action = { type: types.WS_VIEW_RELOAD,
       payload: { view: { type: 'TextView', uuid: 'myText' } } };
-    plotViewData(freezeMe({}), action).should.eql({});
+    expect(plotViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'PlotView', uuid: 'myPlot' };
-    plotViewData(freezeMe({}), action).should.eql({ myPlot: {
+    expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  it('WS_VIEW_OPEN', () => {
+  test('WS_VIEW_OPEN', () => {
     const action = { type: types.WS_VIEW_OPEN,
       payload: { view: { type: 'TextView', uuid: 'myText' } } };
-    plotViewData(freezeMe({}), action).should.eql({});
+    expect(plotViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'PlotView', uuid: 'myPlot' };
-    plotViewData(freezeMe({}), action).should.eql({ myPlot: {
+    expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  it('WS_VIEW_ADD_BLANK', () => {
+  test('WS_VIEW_ADD_BLANK', () => {
     const action = { type: types.WS_VIEW_ADD_BLANK,
       payload: { view: { type: 'TextView', uuid: 'myText' } } };
-    plotViewData(freezeMe({}), action).should.eql({});
+    expect(plotViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'PlotView', uuid: 'myPlot' };
-    plotViewData(freezeMe({}), action).should.eql({ myPlot: {
+    expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  it('WS_PAGE_OPEN', () => {
+  test('WS_PAGE_OPEN', () => {
     const action = { type: types.WS_PAGE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
-    plotViewData(freezeMe({}), action).should.eql({ myPlot: {
+    expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  it('WS_WORKSPACE_OPEN', () => {
+  test('WS_WORKSPACE_OPEN', () => {
     const action = { type: types.WS_WORKSPACE_OPEN,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
-    plotViewData(freezeMe({}), action).should.eql({ myPlot: {
+    expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  it('WS_VIEW_CLOSE', () => {
+  test('WS_VIEW_CLOSE', () => {
     const action = { type: types.WS_VIEW_CLOSE, payload: { viewId: 'myText' } };
-    plotViewData(freezeMe({}), action).should.eql({});
+    expect(plotViewData(freezeMe({}), action)).toEqual({});
     const frozen = freezeMe({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
-    plotViewData(freezeMe(frozen), action).should.equal(frozen);
+    expect(plotViewData(freezeMe(frozen), action)).toBe(frozen);
     action.payload.viewId = 'myPlot';
-    plotViewData(frozen, action).should.eql({});
+    expect(plotViewData(frozen, action)).toEqual({});
   });
-  it('WS_PAGE_CLOSE', () => {
+  test('WS_PAGE_CLOSE', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myText'] } };
-    plotViewData(freezeMe({ myPlot: {}, myOtherPlot: {} }), action).should.eql({ myOtherPlot: {} });
+    expect(plotViewData(freezeMe({ myPlot: {}, myOtherPlot: {} }), action))
+      .toEqual({ myOtherPlot: {} });
   });
-  it('Unknown action', () => {
+  test('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myPlot' } };
     const frozen = freezeMe({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
-    plotViewData(freezeMe(frozen), action).should.equal(frozen);
+    expect(plotViewData(freezeMe(frozen), action)).toBe(frozen);
   });
   describe('DATA_UPDATE_VIEWDATA', () => {
     const payload = { rId1: {}, rId2: {}, rId3: {} };
@@ -233,7 +234,7 @@ describe('viewManager/PlotView/store/dataReducer', () => {
       },
     };
 
-    it('ok', () => {
+    test('ok', () => {
       const frozen = freezeMe(state);
       const action = { type: 'DATA_UPDATE_VIEWDATA',
         payload: {
@@ -245,7 +246,7 @@ describe('viewManager/PlotView/store/dataReducer', () => {
         },
       };
       const newState = plotViewData(frozen, action);
-      newState.should.eql({
+      expect(newState).toEqual({
         plot1: {
           indexes: { ep1: [10, 11, 12, 13, 14, 15] },
           lines: { ep1: [
@@ -295,7 +296,7 @@ describe('viewManager/PlotView/store/dataReducer', () => {
         },
       });
     });
-    it('nothing to add', () => {
+    test('nothing to add', () => {
       const frozen = freezeMe(state);
       // const newState = injectData(frozen, viewDataMap, intervals, {});
       const action = { type: types.DATA_UPDATE_VIEWDATA,
@@ -308,7 +309,7 @@ describe('viewManager/PlotView/store/dataReducer', () => {
         },
       };
       const newState = plotViewData(frozen, action);
-      newState.should.equal(frozen);
+      expect(newState).toBe(frozen);
     });
   });
 });

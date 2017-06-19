@@ -2,9 +2,9 @@ import path from 'path';
 import { getModifiedPagesIds } from '../../store/reducers/pages';
 import { getModifiedViewsIds } from '../../store/reducers/views';
 import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../store';
 import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
-import { addOnce as addMessage } from '../../store/actions/messages';
+import { add as addMessage } from '../../store/actions/messages';
 import { getPathByFilePicker } from '../dialog';
 import { saveWorkspace } from '../../documentManager';
 

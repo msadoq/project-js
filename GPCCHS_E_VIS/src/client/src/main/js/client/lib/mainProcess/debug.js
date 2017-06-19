@@ -1,12 +1,12 @@
 import _each from 'lodash/each';
-import { get } from 'common/parameters';
-import getLogger from 'common/log';
+import { get } from '../common/configurationManager';
+import getLogger from '../common/logManager';
 
 const logger = getLogger('main:debug');
 
 export default (callback) => {
   // not installable when bundled and doesn't needed when DEBUG is off
-  if (get('IS_BUNDLED') === 'on' || get('DEBUG') !== 'on') {
+  if (process.env.IS_BUNDLED === 'on' || get('DEBUG') !== 'on') {
     return callback(null);
   }
 

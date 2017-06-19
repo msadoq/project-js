@@ -1,6 +1,7 @@
-import { join } from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+
 import baseConfig from './config.base';
 
 export default merge(baseConfig, {
@@ -9,14 +10,13 @@ export default merge(baseConfig, {
   entry: ['babel-polyfill', './main.development'],
 
   output: {
-    path: join(__dirname, '..'),
     filename: './main.js',
   },
   externals: [
     'source-map-support',
-    'package.json',
     'electron-debug',
     'hiredis',
+    // 'fakeredis',
   ],
 
   plugins: [
@@ -26,12 +26,21 @@ export default merge(baseConfig, {
       { raw: true, entryOnly: false }
     ),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
-        IS_BUNDLED: JSON.stringify('on'),
-      },
+      'process.env.IS_BUNDLED': JSON.stringify('on'),
+      'process.env.APP_ENV': JSON.stringify('main'),
     }),
+    new CopyWebpackPlugin([
+      { from: 'package.json' },
+      { from: 'config.default.json' },
+      { from: 'config.required.json' },
+      { from: 'node_modules/source-map/**/*' },
+      { from: 'node_modules/source-map-support/**/*' },
+    ]),
   ],
+
+  resolve: {
+    packageMains: ['webpack', 'main'],
+  },
 
   target: 'electron-main',
 

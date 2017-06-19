@@ -38,7 +38,7 @@ module.exports = {
       ? { type: 'time', value: data.date.value.toNumber() }
       : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { type: 'blob', value: data.rawPacket.value.toBuffer() }
+      ? { type: 'blob', value: data.rawPacket.value }
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? { type: 'integer', value: data.tcId.value }

@@ -76,7 +76,7 @@ module.exports = {
       ? { type: 'boolean', value: data.isNominal.value }
       : undefined,
     rawData: (data.rawData !== null && typeof data.rawData !== 'undefined')
-      ? { type: 'blob', value: data.rawData.value.toBuffer() }
+      ? { type: 'blob', value: data.rawData.value }
       : undefined,
     referenceTimestamp: (data.onboardDate !== null && typeof data.onboardDate !== 'undefined')
         ? { type: 'time', value: data.onboardDate.value.toNumber() }

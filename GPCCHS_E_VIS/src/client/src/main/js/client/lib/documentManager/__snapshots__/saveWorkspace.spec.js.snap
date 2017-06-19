@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentManager/saveWorkspace saveWorkspace saves correct content 1`] = `
+Object {
+  "timebars": Array [
+    Object {
+      "id": "tb1",
+      "masterId": "Session 1",
+      "mode": "Normal",
+      "rulerResolution": 11250,
+      "speed": 1,
+      "timelines": Array [
+        Object {
+          "color": null,
+          "id": "Session 1",
+          "kind": "Session",
+          "offset": 0,
+          "sessionName": "session1",
+        },
+        Object {
+          "color": null,
+          "id": "Session 2",
+          "kind": "Session",
+          "offset": 0,
+          "sessionName": "session1",
+        },
+      ],
+      "type": "timeBarConfiguration",
+    },
+  ],
+  "type": "WorkSpace",
+  "windows": Array [
+    Object {
+      "geometry": Object {
+        "h": 800,
+        "kind": "Absolute",
+        "w": 1310,
+        "x": 110,
+        "y": 10,
+      },
+      "pages": Array [
+        Object {
+          "oId": "oid:/testPlot.json",
+          "timebarId": "tb1",
+        },
+        Object {
+          "path": "testText.json",
+          "timebarId": "tb1",
+        },
+      ],
+      "title": "window1",
+      "type": "documentWindow",
+    },
+  ],
+}
+`;
+
+exports[`documentManager/saveWorkspace saveWorkspaceAs saves 1`] = `
+"{
+  \\"type\\": \\"WorkSpace\\",
+  \\"windows\\": [
+    {
+      \\"type\\": \\"documentWindow\\",
+      \\"title\\": \\"window1\\",
+      \\"geometry\\": {
+        \\"h\\": 800,
+        \\"kind\\": \\"Absolute\\",
+        \\"w\\": 1310,
+        \\"x\\": 110,
+        \\"y\\": 10
+      },
+      \\"pages\\": [
+        {
+          \\"oId\\": \\"oid:/testPlot.json\\",
+          \\"timebarId\\": \\"tb1\\"
+        },
+        {
+          \\"path\\": \\"testText.json\\",
+          \\"timebarId\\": \\"tb1\\"
+        }
+      ]
+    }
+  ],
+  \\"timebars\\": [
+    {
+      \\"id\\": \\"tb1\\",
+      \\"type\\": \\"timeBarConfiguration\\",
+      \\"rulerResolution\\": 11250,
+      \\"speed\\": 1,
+      \\"masterId\\": \\"Session 1\\",
+      \\"mode\\": \\"Normal\\",
+      \\"timelines\\": [
+        {
+          \\"color\\": null,
+          \\"id\\": \\"Session 1\\",
+          \\"kind\\": \\"Session\\",
+          \\"offset\\": 0,
+          \\"sessionName\\": \\"session1\\"
+        },
+        {
+          \\"color\\": null,
+          \\"id\\": \\"Session 2\\",
+          \\"kind\\": \\"Session\\",
+          \\"offset\\": 0,
+          \\"sessionName\\": \\"session1\\"
+        }
+      ]
+    }
+  ]
+}"
+`;

@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
+
 
 const htmlToReactParser = new HtmlToReactParser();
 /*
@@ -37,12 +40,24 @@ const isValidNode = () => true;
 
 export default class MimicView extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    entryPoints: PropTypes.objectOf(PropTypes.object),
+    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
-    }),
+    }).isRequired,
+    viewId: PropTypes.string.isRequired,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    links: [],
+    showLinks: false,
   };
 
   componentWillMount() {
@@ -62,6 +77,9 @@ export default class MimicView extends Component {
       shouldRender = true;
       this.content = this.getContentComponent();
       // this.updateSvgsValues(nextProps.data);
+    }
+    if (nextProps.showLinks !== this.props.showLinks) {
+      shouldRender = true;
     }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
@@ -132,21 +150,31 @@ export default class MimicView extends Component {
         shouldProcessNode: (node => node.attribs && node.attribs.animation === 'textBox'),
         processNode: (node, children) => {
           const epName = node.attribs.ep;
-          const textColorLevels = node.attribs.textcolor.split(';');
-          const bgColorLevels = node.attribs.bgcolor.split(';');
+          const font = node.attribs.font ? node.attribs.font : 'arial';
+          const textColorLevels = node.attribs.textcolor ? node.attribs.textcolor.split(';') : [];
+          const bgColorLevels = node.attribs.bgcolor ? node.attribs.bgcolor.split(';') : [];
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const size = node.attribs.size ? node.attribs.size : '12px';
           this.svgEls.push({
             id,
             type: node.attribs.animation,
             epName,
             textColorLevels,
             bgColorLevels,
+            font,
           });
           return (
             <g key={id}>
               <rect id={`${id}-bg`} x={node.attribs.x} y={node.attribs.y} width={0} height={0} />
-              <text id={id} x={node.attribs.x} y={node.attribs.y}>{children}</text>
+              <text
+                id={id}
+                x={node.attribs.x}
+                y={node.attribs.y}
+                style={{ fontSize: size, fontFamily: font }}
+              >
+                {children}
+              </text>
             </g>
           );
         },
@@ -176,12 +204,11 @@ export default class MimicView extends Component {
         processNode: processNodeDefinitions.processDefaultNode,
       },
     ];
-    const comp = htmlToReactParser.parseWithInstructions(
+    return htmlToReactParser.parseWithInstructions(
       this.props.content,
       isValidNode,
       processingInstructions
     );
-    return comp;
   }
 
   updateSvgsValues = (data) => {
@@ -201,7 +228,9 @@ export default class MimicView extends Component {
         let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
         ratio = ratio < 0 ? 0 : ratio;
         const el = g.el;
-        if (!el) { return; }
+        if (!el) {
+          return;
+        }
         if (g.type === 'scaleY') {
           el.style.transform = `scaleY(${ratio})`;
         } else {
@@ -217,7 +246,9 @@ export default class MimicView extends Component {
         distance = distance < 0 ? 0 : distance;
         distance = distance > g.width ? g.width : distance;
         const el = g.el;
-        if (!el) { return; }
+        if (!el) {
+          return;
+        }
         if (g.type === 'translateY') {
           if (g.direction === 'top') {
             distance *= -1;
@@ -238,7 +269,9 @@ export default class MimicView extends Component {
         angle = angle < 0 ? 0 : angle;
         angle = angle > g.angle ? g.angle : angle;
         const el = g.el;
-        if (!el) { return; }
+        if (!el) {
+          return;
+        }
         el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
         el.style.transform = `rotate(${angle}deg)`;
       } else if (g.type === 'textBox') {
@@ -253,7 +286,7 @@ export default class MimicView extends Component {
           elBg.setAttribute('width', SVGRect.width);
           elBg.setAttribute('height', SVGRect.height);
           elBg.setAttribute('y', SVGRect.y);
-          el.innerHTML = Math.round(epLastVal * 100) / 100;
+          el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
           let fillText = '#000';
           let fillBg = '#FFF';
           for (let i = 0; i < g.textColorLevels.length; i += 1) {
@@ -277,7 +310,9 @@ export default class MimicView extends Component {
         }
         const epLastVal = data.values[g.epName].value;
         const el = g.el;
-        if ( !el ) { return; }
+        if (!el) {
+          return;
+        }
         let color;
         for (let i = 0; i < g.operators.length; i += 1) {
           const stateColor = g.operators[i].split('$');
@@ -309,9 +344,38 @@ export default class MimicView extends Component {
 
   svgEls = [];
 
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
+  }
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink, viewId } = this.props;
+    removeLink(viewId, index);
+  }
+
   render() {
+    const { links, pageId, showLinks } = this.props;
+    const style = { padding: '15px' };
+
     return (
-      <svg width="100%" height="100%">{this.content}</svg>
+      <div className="h100 posRelative">
+        <Row className="h100 posRelative">
+          <Col xs={12} style={style}>
+            <LinksContainer
+              show={showLinks}
+              toggleShowLinks={this.toggleShowLinks}
+              links={links}
+              removeLink={this.removeLink}
+              pageId={pageId}
+            />
+          </Col>
+          <Col xs={12} className="h100 posRelative">
+            <svg width="100%" height="100%" >{this.content}</svg>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

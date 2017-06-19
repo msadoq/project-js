@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation renders correctly 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="col-xs-4 control-label"
+    htmlFor="formHorizontalName"
+  >
+    
+  </label>
+  <div
+    className="col-xs-8"
+  >
+    1
+  </div>
+</div>
+`;

@@ -2,7 +2,7 @@ import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
-import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from 'common/constants';
+import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from '../constants';
 import { getStructureType } from '../viewManager';
 import { addInterval, retrieveNeededIntervals } from '../viewManager/commonData/intervalManagement';
 

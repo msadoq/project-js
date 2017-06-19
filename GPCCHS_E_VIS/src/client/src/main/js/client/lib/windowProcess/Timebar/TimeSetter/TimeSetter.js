@@ -15,6 +15,7 @@ export default class TimeSetter extends PureComponent {
     jump: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
+    cancelRemoveMessage: PropTypes.func.isRequired,
     visuWindow: PropTypes.shape({
       lower: PropTypes.number,
       upper: PropTypes.number,
@@ -206,7 +207,7 @@ export default class TimeSetter extends PureComponent {
           <div className={styles.fieldsContainer}>
             {
               /* flatpickr fails on jest test */
-              process.env.NODE_ENV !== 'snapshot' &&
+              process.env.NODE_ENV !== 'test' &&
               <Flatpickr
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES Flatpickr"
                 options={{
@@ -270,15 +271,19 @@ export default class TimeSetter extends PureComponent {
           <h4>Cursor timestamps</h4>
           {
             this.props.messages && this.props.messages.length ?
-              this.props.messages.map((v, i) =>
-                <Message
-                  key={v.message}
-                  type={v.type}
-                  message={v.message}
-                  containerId={`timeSetter-${this.props.timebarUuid}`}
-                  messageIndex={i}
-                  onClose={this.props.removeMessage}
-                />
+              this.props.messages.map((v, i) => {
+                const key = `${i}_${v.message}`;
+                return (
+                  <Message
+                    key={key}
+                    type={v.type}
+                    message={v.message}
+                    removing={v.removing}
+                    onClose={() => this.props.removeMessage(`timeSetter-${this.props.timebarUuid}`, v.uuid)}
+                    onhover={() => this.props.cancelRemoveMessage(`timeSetter-${this.props.timebarUuid}`, v.uuid)}
+                  />
+                );
+              }
               ) : null
             }
           {

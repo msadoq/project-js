@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { copyProp } from 'common/utils/fp';
+import { copyProp } from '../../../common/fp';
 import * as types from '../../types';
 import panels from './panels';
 

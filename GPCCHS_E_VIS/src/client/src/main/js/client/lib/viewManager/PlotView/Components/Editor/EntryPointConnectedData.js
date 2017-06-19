@@ -188,9 +188,9 @@ EntryPointConnectedData.defaultProps = {
 };
 
 const requiredFields = [
-  'fieldX',
-  'formula',
-  'timeline',
+  // 'fieldX',
+  // 'formula',
+  // 'timeline',
 ];
 
 const validate = (values = {}) => {

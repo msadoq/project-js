@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { get } from 'common/parameters';
+import { get } from '../../common/configurationManager';
 import { getRandomColor } from '../../windowProcess/common/colors';
 
 export default function (entryPoint) {

@@ -1,13 +1,12 @@
 import moment from 'moment';
-import { should } from '../../../common/test';
 import { getCount, getLastValue } from './dataSelectors';
 
 describe('viewManager/PlotView/store/dataSelector', () => {
   describe('getCount', () => {
-    it('counts data: empty state', () => {
-      getCount({ PlotViewData: {} }).should.be.eql({ all: 0 });
+    test('counts data: empty state', () => {
+      expect(getCount({ PlotViewData: {} })).toEqual({ all: 0 });
     });
-    it('counts data', () => {
+    test('counts data', () => {
       const state = {
         PlotViewData: {
           v1: { lines: { ep1: [{ a: true, b: true }] } },
@@ -19,7 +18,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           v5: {},
         },
       };
-      getCount(state).should.be.eql({
+      expect(getCount(state)).toEqual({
         v1: 1,
         v2: 3,
         v3: 0,
@@ -30,10 +29,10 @@ describe('viewManager/PlotView/store/dataSelector', () => {
     });
   });
   describe('getLastValue', () => {
-    it('should support empty state', () => {
-      should.not.exist(getLastValue({ PlotViewData: {} }, { epName: 'ep1', viewId: 'v1' }));
+    test('should support empty state', () => {
+      expect(getLastValue({ PlotViewData: {} }, { epName: 'ep1', viewId: 'v1' })).toBeFalsy();
     });
-    it('should support empty props', () => {
+    test('should support empty props', () => {
       const state = {
         PlotViewData: {
           v1: {
@@ -42,10 +41,10 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           },
         },
       };
-      should.not.exist(getLastValue(state, { epName: 'ep1' }));
-      should.not.exist(getLastValue(state, { viewId: 'v1' }));
+      expect(getLastValue(state, { epName: 'ep1' })).toBeFalsy();
+      expect(getLastValue(state, { viewId: 'v1' })).toBeFalsy();
     });
-    it('get last value (symbol)', () => {
+    test('get last value (symbol)', () => {
       const state = {
         PlotViewData: {
           v1: {
@@ -54,12 +53,12 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           },
         },
       };
-      getLastValue(state, { epName: 'ep1', viewId: 'v1' }).should.be.eql({
+      expect(getLastValue(state, { epName: 'ep1', viewId: 'v1' })).toEqual({
         timestamp: moment(123).utc().toISOString(),
         value: '2',
       });
     });
-    it('get last value (value)', () => {
+    test('get last value (value)', () => {
       const state = {
         PlotViewData: {
           v1: {
@@ -68,7 +67,7 @@ describe('viewManager/PlotView/store/dataSelector', () => {
           },
         },
       };
-      getLastValue(state, { epName: 'ep1', viewId: 'v1' }).should.be.eql({
+      expect(getLastValue(state, { epName: 'ep1', viewId: 'v1' })).toEqual({
         timestamp: moment(123).utc().toISOString(),
         value: 2,
       });

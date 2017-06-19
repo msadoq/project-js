@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
 import { getPlayingTimebarId } from '../reducers/hsc';

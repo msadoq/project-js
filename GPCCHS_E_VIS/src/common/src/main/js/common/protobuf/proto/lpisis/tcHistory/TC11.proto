@@ -1,7 +1,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "tcHistory/PusHeader.proto";
-import "tcHistory/TimeTaggedTC.proto";
+import "../ccsds_mal/types.proto";
+import "./PusHeader.proto";
+import "./TimeTaggedTC.proto";
 
 
 package tcHistory.protobuf;

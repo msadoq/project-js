@@ -1,5 +1,5 @@
 package dataControllerUtils.protobuf;
-
+syntax = "proto3";
 message Domain {
 extensions 6 to 106;
     required string itemNamespace = 1;

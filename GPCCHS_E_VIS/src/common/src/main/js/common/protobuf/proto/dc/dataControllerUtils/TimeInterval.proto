@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/Timestamp.proto";
+import "./Timestamp.proto";
 
 message TimeInterval {
 extensions 3 to 103;

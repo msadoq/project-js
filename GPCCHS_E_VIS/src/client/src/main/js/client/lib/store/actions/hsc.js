@@ -1,10 +1,10 @@
-import { HEALTH_STATUS_CRITICAL } from 'common/constants';
-import simple from '../simpleActionCreator';
+import { HEALTH_STATUS_CRITICAL } from '../../constants';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { isAnyEditorOpened } from '../selectors/pages';
 import { getHealthMap } from '../reducers/health';
 import { getIsCodeEditorOpened } from '../reducers/editor';
-import { addOnce } from './messages';
+import { add as addMessage } from './messages';
 import { setRealTime } from '../actions/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
 import { getWindowFocusedPageId } from '../reducers/windows';
@@ -35,7 +35,7 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
       getIsCodeEditorOpened(getState())
       || isAnyEditorOpened(getState())
     ) {
-      dispatch(addOnce(
+      dispatch(addMessage(
         'global',
         'warning',
         'Please close editors before play timebar'
@@ -49,7 +49,7 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
     ) {
       dispatch(play(timebarUuid));
     } else {
-      dispatch(addOnce(
+      dispatch(addMessage(
         'global',
         'warning',
         'One process of the application is oveloaded, cannot switch to play'

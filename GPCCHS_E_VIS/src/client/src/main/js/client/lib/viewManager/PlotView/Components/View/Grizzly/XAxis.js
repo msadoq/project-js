@@ -13,11 +13,15 @@ export default class XAxis extends Component {
   static propTypes = {
     yAxesAt: PropTypes.string,
     xAxisAt: PropTypes.string,
+    pointLabels: PropTypes.objectOf(PropTypes.shape()).isRequired,
     xAxisHeight: PropTypes.number.isRequired,
     showGrid: PropTypes.bool,
     showTicks: PropTypes.bool,
     autoTick: PropTypes.bool,
     tickStep: PropTypes.number,
+    yAxes: PropTypes.arrayOf(
+      PropTypes.shape()
+    ).isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
@@ -37,6 +41,7 @@ export default class XAxis extends Component {
     showTicks: true,
     autoTick: true,
     tickStep: 2000,
+    showPointLabels: false,
   }
 
   componentDidMount() {
@@ -46,7 +51,8 @@ export default class XAxis extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     const attrs = ['yAxesAt', 'xAxisAt', 'height', 'width', 'margin',
-      'gridStyle', 'gridSize', 'showTicks', 'autoTick', 'tickStep'];
+      'gridStyle', 'gridSize', 'showTicks', 'autoTick', 'tickStep',
+      'pointLabels'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
@@ -103,17 +109,14 @@ export default class XAxis extends Component {
       xAxisFunction = axisBottom(xScale);
     }
 
-    const zoomLevel = getZoomLevel(xExtents[1] - xExtents[0]);
-    const levelRule = levelsRules[zoomLevel];
-
     xAxisFunction = xAxisFunction
       .ticks(autoTick ? 8 : Math.round((xExtents[1] - xExtents[0]) / tickStep))
-      .tickFormat(timeFormat(levelRule.formatD3))
+      .tickFormat(this.tickFormat)
       .tickSize(showGrid ? axisHeight : this.ticksYOffset);
 
     let gStyle = '';
     if (xAxisAt === 'top') {
-      gStyle += `transform: translate(0px, ${(height + xAxisHeight)}px)`;
+      gStyle += `transform: translate(0px, ${xAxisHeight - 8}px)`;
     } else {
       gStyle += `transform: translate(0px, ${0}px)`;
     }
@@ -138,15 +141,30 @@ export default class XAxis extends Component {
 
   assignEl = (el) => { this.el = el; }
 
-  memoizeStyle = _memoize((hash, width, height, top, right, left) =>
+  memoizeStyle = _memoize((hash, width, height, top, xAxisAt) =>
     ({
       width,
       height,
-      top,
+      top: xAxisAt === 'bottom' ? top : 0,
+    })
+  );
+  memoizeDivStyle = _memoize((hash, width, height, top, right, left, xAxisAt) =>
+    ({
+      width,
+      height,
+      top: xAxisAt === 'bottom' ? top : 0,
       right,
       left,
     })
   );
+
+  memoizeTickFormat= _memoize(
+    (ms) => {
+      const zoomLevel = getZoomLevel(ms);
+      const levelRule = levelsRules[zoomLevel];
+      return timeFormat(levelRule.formatD3);
+    }
+  )
 
   render() {
     const {
@@ -156,7 +174,13 @@ export default class XAxis extends Component {
       yAxesAt,
       showGrid,
       xAxisHeight,
+      pointLabels,
+      yAxes,
+      xExtents,
+      xAxisAt,
     } = this.props;
+
+    this.tickFormat = this.memoizeTickFormat(xExtents[1] - xExtents[0]);
 
     const s = {};
     if (showGrid) {
@@ -175,18 +199,56 @@ export default class XAxis extends Component {
     }
 
     return (
-      <svg
-        style={this.memoizeStyle(
-          `${s.width}-${s.height}-${s.top}-${s.right}-${s.left}`,
+      <div
+        className={styles.xAxis}
+        style={this.memoizeDivStyle(
+          `${s.width}-${s.height}-${s.top}-${s.right}-${s.left}-${xAxisAt}`,
           s.width,
           s.height,
           s.top,
           s.right,
-          s.left
+          s.left,
+          xAxisAt
         )}
-        ref={this.assignEl}
-        className={styles.xAxis}
-      />
+      >
+        {
+          yAxes.map(yAxis =>
+            yAxis.showPointLabels &&
+            pointLabels[yAxis.id] &&
+            yAxis.lines.map(line =>
+              pointLabels[yAxis.id][line.id] &&
+              pointLabels[yAxis.id][line.id].map(point =>
+                <span
+                  key={`${line.id}-${point.x}-${point.y}`}
+                  style={{
+                    display: point.xPos < 0 || point.xPos > width ? 'none' : 'block',
+                    background: point.color,
+                    color: '#FFF',
+                    left: `${point.xPos}px`,
+                    transform: xAxisAt === 'bottom' ? 'translate(-50%, 18%)' : 'translate(102%, -50%)',
+                  }}
+                  className={classnames(
+                    'label',
+                    styles.xAxisPointLabel
+                  )}
+                >
+                  {this.tickFormat(point.x)}
+                </span>
+              )
+            )
+          )
+        }
+        <svg
+          style={this.memoizeStyle(
+            `${s.width}-${s.height}-${s.top}-${xAxisAt}`,
+            s.width,
+            s.height,
+            s.top,
+            xAxisAt
+          )}
+          ref={this.assignEl}
+        />
+      </div>
     );
   }
 }

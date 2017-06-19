@@ -1,7 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _omit from 'lodash/omit';
 import noop from 'lodash/noop';
-import getLogger from 'common/log';
+import getLogger from '../../common/logManager';
 
 const logger = getLogger('drag and drop');
 

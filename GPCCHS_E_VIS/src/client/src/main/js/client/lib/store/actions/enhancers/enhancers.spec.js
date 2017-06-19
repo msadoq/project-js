@@ -1,7 +1,7 @@
 import __ from 'lodash/fp';
 import addUuidsToEntryPoints from './addUuidsToEntryPoints';
 import ifPathChanged from './ifPathChanged';
-import { should, freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 
 const createDummyAction = freezeArgs((payload = {}) => ({
   type: 'DUMMY_ACTION',
@@ -11,24 +11,24 @@ const createDummyAction = freezeArgs((payload = {}) => ({
 
 describe('store:actions:enhancers', () => {
   describe('addUuidsToEntryPoints', () => {
-    it('should does nothing', () => {
+    test('should does nothing', () => {
       const action = createDummyAction();
       const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
-      enhancedAction.should.be.eql(action);
+      expect(enhancedAction).toEqual(action);
     });
-    it('should generate uuid in entryPoint', () => {
+    test('should generate uuid in entryPoint', () => {
       const action = createDummyAction({ configuration: { entryPoint: {} } });
       const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
-      enhancedAction.payload.configuration.entryPoint.id.should.be.a('string');
-      enhancedAction.should.not.be.eql(action);
+      expect(typeof enhancedAction.payload.configuration.entryPoint.id).toBe('string');
+      expect(enhancedAction).not.toEqual(action);
     });
-    it('should generate uuid in entryPoint', () => {
+    test('should generate uuid in entryPoint', () => {
       const action = createDummyAction({ configuration: { entryPoints: [{}, {}, {}] } });
       const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       enhancedAction.payload.configuration.entryPoints.forEach((ep) => {
-        ep.id.should.be.a('string');
+        expect(typeof ep.id).toBe('string');
       });
-      enhancedAction.should.not.be.eql(action);
+      expect(enhancedAction).not.toEqual(action);
     });
   });
   describe('ifPathChanged', () => {
@@ -40,34 +40,34 @@ describe('store:actions:enhancers', () => {
         },
       },
     });
-    it('dispatches with null newPath', () => {
+    test('dispatches with null newPath', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: null });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
-      should.exist(result);
-      result.should.have.properties({
+      expect(result).toBeDefined();
+      expect(result).toMatchObject({
         type: 'DUMMY_ACTION',
         payload: { viewId: 'v1', newPath: null },
       });
     });
-    it('does nothing if unknown view', () => {
+    test('does nothing if unknown view', () => {
       const action = createDummyAction({ viewId: 'unknown' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
-      should.not.exist(result);
+      expect(result).toBeFalsy();
     });
-    it('does nothing if resolved path are not different', () => {
+    test('does nothing if resolved path are not different', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: '/..' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
-      should.not.exist(result);
+      expect(result).toBeFalsy();
     });
-    it('dispatches action if resolved path are different', () => {
+    test('dispatches action if resolved path are different', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: '.' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
-      result.payload.newPath.should.be.eql('.');
-      should.exist(result);
+      expect(result.payload.newPath).toEqual('.');
+      expect(result).toBeDefined();
     });
   });
 });

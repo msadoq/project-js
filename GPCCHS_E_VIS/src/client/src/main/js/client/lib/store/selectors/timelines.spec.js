@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-import {} from '../../common/test';
 import { getPageTimelines, getFocusedPageTimelines } from './timelines';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {
@@ -29,19 +27,19 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
     },
   };
   describe('getPageTimelines', () => {
-    it('returns page timelines', () => {
-      getPageTimelines(state, { pageId: 'p1' }).should.be.eql([2, 1]);
+    test('returns page timelines', () => {
+      expect(getPageTimelines(state, { pageId: 'p1' })).toEqual([2, 1]);
     });
-    it('returns nothing when pageId is unknown', () => {
-      getPageTimelines(state, { pageId: 'unknownPageId' }).should.be.eql([]);
+    test('returns nothing when pageId is unknown', () => {
+      expect(getPageTimelines(state, { pageId: 'unknownPageId' })).toEqual([]);
     });
   });
   describe('getFocusedPageTimelines', () => {
-    it('returns focused page timelines', () => {
-      getFocusedPageTimelines(state, { windowId: 'w1' }).should.be.eql([2, 1]);
+    test('returns focused page timelines', () => {
+      expect(getFocusedPageTimelines(state, { windowId: 'w1' })).toEqual([2, 1]);
     });
-    it('returns nothing when windowId is unknown', () => {
-      getFocusedPageTimelines(state, { windowId: 'unknownWindowId' }).should.be.eql([]);
+    test('returns nothing when windowId is unknown', () => {
+      expect(getFocusedPageTimelines(state, { windowId: 'unknownWindowId' })).toEqual([]);
     });
   });
 });

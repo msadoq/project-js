@@ -1,14 +1,16 @@
-import { getStore } from '../../store/isomorphic';
+import { getStore } from '../store';
 import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getPageIsModified, getPage } from '../../store/reducers/pages';
 import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { getPathByFilePicker } from '../dialog';
 import { savePage } from '../../documentManager';
-import { addOnce as addMessage } from '../../store/actions/messages';
+import { add as addMessage } from '../../store/actions/messages';
 import { getPageModifiedViewsIds } from './selectors';
+import reply from '../../common/ipc/reply';
 
-module.exports = { pageSave, pageSaveAs };
+
+module.exports = { pageSave, pageSaveAs, hasUnsavedViews };
 
 const hasUnsavedViews = (focusedWindow) => {
   const { getState, dispatch } = getStore();
@@ -35,7 +37,7 @@ const pageAlreadySaved = (focusedWindow) => {
   return false;
 };
 
-const savePageByFilePicker = (pageId) => {
+const savePageByFilePicker = (pageId, queryId) => {
   const store = getStore();
   const { dispatch, getState } = store;
   const state = getState();
@@ -48,15 +50,23 @@ const savePageByFilePicker = (pageId) => {
       if (errSaving) {
         dispatch(updateAbsolutePath(pageId, page.absolutePath));
         dispatch(setModified(pageId, page.isModified));
-        return dispatch(addMessage(pageId, 'danger', errSaving));
+        dispatch(addMessage(pageId, 'danger', errSaving));
+        reply(queryId, errSaving);
+        return;
       }
-      return dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+      dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+      reply(queryId, null);
     });
   });
 };
 
-function pageSave(focusedWindow) {
-  if (pageAlreadySaved(focusedWindow) || hasUnsavedViews(focusedWindow)) {
+function pageSave(focusedWindow, queryId) {
+  if (pageAlreadySaved(focusedWindow)) {
+    reply(queryId);
+    return;
+  }
+  if (hasUnsavedViews(focusedWindow) && focusedWindow.stopOnUnsavedView) {
+    reply(queryId, { err: 'Unsaved views' });
     return;
   }
   const store = getStore();
@@ -67,26 +77,29 @@ function pageSave(focusedWindow) {
   const pageId = getWindowFocusedPageId(state, { windowId });
   const page = getPage(state, { pageId });
   if (!page.oId && !page.absolutePath) {
-    savePageByFilePicker(pageId);
+    savePageByFilePicker(pageId, queryId);
   } else {
     saveFile(pageId, getStore(), (errSaving) => {
       if (errSaving) {
         store.dispatch(addMessage(pageId, 'danger', errSaving));
+        reply(queryId, { err: 'Saving error' });
         return;
       }
       dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+      reply(queryId, null);
     });
   }
 }
 
-function pageSaveAs(focusedWindow) {
-  if (hasUnsavedViews(focusedWindow)) {
+function pageSaveAs(focusedWindow, queryId) {
+  if (hasUnsavedViews(focusedWindow) && focusedWindow.stopOnUnsavedView) {
+    reply(queryId, { err: 'Unsaved views' });
     return;
   }
   const state = getStore().getState();
   const { windowId } = focusedWindow;
   const pageId = getWindowFocusedPageId(state, { windowId });
-  savePageByFilePicker(pageId);
+  savePageByFilePicker(pageId, queryId);
 }
 
 function saveFile(pageId, store, callback) {

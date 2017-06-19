@@ -1,36 +1,35 @@
-import './test';
 import { detect, generate } from './wildcard';
 
 describe('connectedData/wildcard', () => {
   describe('detect', () => {
-    it('no wildcard', () => {
-      detect('').should.equal(false);
-      detect(undefined).should.equal(false);
-      detect('foo').should.equal(false);
-      detect('foo.bar').should.equal(false);
+    test('no wildcard', () => {
+      expect(detect('')).toBe(false);
+      expect(detect(undefined)).toBe(false);
+      expect(detect('foo')).toBe(false);
+      expect(detect('foo.bar')).toBe(false);
     });
-    it('wildcard', () => {
-      detect('*').should.equal(true);
-      detect('?').should.equal(true);
-      detect('foo?').should.equal(true);
-      detect('foo*').should.equal(true);
-      detect('foo*bar?').should.equal(true);
+    test('wildcard', () => {
+      expect(detect('*')).toBe(true);
+      expect(detect('?')).toBe(true);
+      expect(detect('foo?')).toBe(true);
+      expect(detect('foo*')).toBe(true);
+      expect(detect('foo*bar?')).toBe(true);
     });
   });
   describe('generate', () => {
-    it('returns regexp', () => {
-      generate('*').should.be.an('regexp');
-      generate('foo').should.be.an('regexp');
-      generate().should.be.an('regexp');
-      generate('').should.be.an('regexp');
+    test('returns regexp', () => {
+      expect(generate('*')).toBeInstanceOf(RegExp);
+      expect(generate('foo')).toBeInstanceOf(RegExp);
+      expect(generate()).toBeInstanceOf(RegExp);
+      expect(generate('')).toBeInstanceOf(RegExp);
     });
-    it('works', () => {
-      generate('fo?').test('foo').should.equal(true);
-      generate('fo?o').test('fooo').should.equal(true);
-      generate('fo*').test('foooo').should.equal(true);
-      generate('fo*baz').test('foobarbaz').should.equal(true);
-      generate('fo?').test('fooo').should.equal(false);
-      generate('foo*').test('barfoo').should.equal(false);
+    test('works', () => {
+      expect(generate('fo?').test('foo')).toBe(true);
+      expect(generate('fo?o').test('fooo')).toBe(true);
+      expect(generate('fo*').test('foooo')).toBe(true);
+      expect(generate('fo*baz').test('foobarbaz')).toBe(true);
+      expect(generate('fo?').test('fooo')).toBe(false);
+      expect(generate('foo*').test('barfoo')).toBe(false);
     });
   });
 });

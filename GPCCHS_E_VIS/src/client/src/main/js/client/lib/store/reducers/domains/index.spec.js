@@ -1,21 +1,21 @@
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/domains';
 import domainsReducer, { getDomains } from '.';
 
 const reducer = freezeArgs(domainsReducer);
 
 describe('store:domains:reducer', () => {
-  it('initial state', () => {
-    reducer(undefined, {}).should.eql([]);
+  test('initial state', () => {
+    expect(reducer(undefined, {})).toEqual([]);
   });
-  it('unknown action', () => {
-    reducer([{
+  test('unknown action', () => {
+    expect(reducer([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
       domainId: 27,
       parentDomainId: 98,
-    }], {}).should.eql([{
+    }], {})).toEqual([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
@@ -23,14 +23,14 @@ describe('store:domains:reducer', () => {
       parentDomainId: 98,
     }]);
   });
-  it('set state', () => {
-    reducer(undefined, actions.updateDomains([{
+  test('set state', () => {
+    expect(reducer(undefined, actions.updateDomains([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
       domainId: 27,
       parentDomainId: 98,
-    }])).should.eql([{
+    }]))).toEqual([{
       itemNamespace: 'Domains',
       name: 'fr.cnes.sat1',
       oid: '0051525005151000565215465660515',
@@ -42,14 +42,14 @@ describe('store:domains:reducer', () => {
 
 describe('store:domains:selectors', () => {
   describe('getDomains', () => {
-    it('should return the whole list', () => {
+    test('should return the whole list', () => {
       const state = {
         domains: {
           myDomainId: { domainId: 1 },
           myOtherId: { domainId: 2 },
         },
       };
-      getDomains(state).should.equal(state.domains);
+      expect(getDomains(state)).toBe(state.domains);
     });
   });
 });

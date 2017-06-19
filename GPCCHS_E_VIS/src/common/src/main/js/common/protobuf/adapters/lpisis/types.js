@@ -15,18 +15,17 @@ const ushortToBytes = (number) => {
   if (!_isNumber(number)) {
     throw new Error(`Unable to convert '${number}' to short buffer`);
   }
-
-  return new ByteBuffer(null, true).writeUint16(number).flip();
+  return new ByteBuffer(null, true).writeUint16(number).flip().buffer;
 };
 const bytesToUshort = (buffer) => {
   if (!buffer || !buffer.buffer) {
     return undefined;
   }
   // Buffer is associated with key buffer
-  if (!_isBuffer(buffer.buffer)) {
+  if (!_isBuffer(buffer)) {
     return undefined;
   }
-  return buffer.buffer.readUInt16LE(buffer.offset);
+  return buffer.readUInt16LE();
 };
 const shortToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
@@ -37,17 +36,17 @@ const shortToBytes = (number) => {
     throw new Error(`Unable to convert '${number}' to short buffer`);
   }
 
-  return new ByteBuffer(null, true).writeInt16(number).flip();
+  return new ByteBuffer(null, true).writeInt16(number).flip().buffer;
 };
 const bytesToShort = (buffer) => {
   if (!buffer || !buffer.buffer) {
     return undefined;
   }
   // Buffer is associated with key buffer
-  if (!_isBuffer(buffer.buffer)) {
+  if (!_isBuffer(buffer)) {
     return undefined;
   }
-  return buffer.buffer.readInt16LE(buffer.offset);
+  return buffer.readInt16LE();
 };
 const uoctetToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
@@ -57,18 +56,17 @@ const uoctetToBytes = (number) => {
   if (!_isNumber(number)) {
     throw new Error(`Unable to convert '${number}' to int buffer`);
   }
-
-  return new ByteBuffer(null, true).writeUint8(number).flip();
+  return new ByteBuffer(null, true).writeUint8(number).flip().buffer;
 };
 const bytesToUoctet = (buffer) => {
   if (!buffer || !buffer.buffer) {
     return undefined;
   }
   // Buffer is associated with key buffer
-  if (!_isBuffer(buffer.buffer)) {
-    return buffer.buffer;
+  if (!_isBuffer(buffer)) {
+    return buffer;
   }
-  return buffer.buffer.readUInt8(buffer.offset);
+  return buffer.readUInt8();
 };
 const octetToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
@@ -79,17 +77,17 @@ const octetToBytes = (number) => {
     throw new Error(`Unable to convert '${number}' to int buffer`);
   }
 
-  return new ByteBuffer(null, true).writeInt8(number).flip();
+  return new ByteBuffer(null, true).writeInt8(number).flip().buffer;
 };
 const bytesToOctet = (buffer) => {
   if (!buffer || !buffer.buffer) {
     return undefined;
   }
   // Buffer is associated with key buffer
-  if (!_isBuffer(buffer.buffer)) {
-    return buffer.buffer;
+  if (!_isBuffer(buffer)) {
+    return buffer;
   }
-  return buffer.buffer.readInt8(buffer.offset);
+  return buffer.readInt8();
   // return buffer.buffer.toString('ascii');
 };
 const stringToBytes = (string) => {
@@ -100,17 +98,17 @@ const stringToBytes = (string) => {
   if (!_isString(string)) {
     throw new Error(`unable to convert '${string}' to byte buffer`);
   }
-
-  return new ByteBuffer(null, true).writeString(string).flip();
+  // return new ProtoBuf.BufferWriter().string(string).finish();
+  return new ByteBuffer(null, true).writeString(string).flip().buffer;
 };
 const bytesToString = (buffer) => {
   if (!buffer || !buffer.buffer) {
     return undefined;
   }
-  if (!_isBuffer(buffer.buffer)) {
+  if (!_isBuffer(buffer)) {
     return undefined;
   }
-  return buffer.readString(buffer.limit - buffer.offset, ByteBuffer.METRICS_BYTES);
+  return buffer.toString();
 };
 
 module.exports = {
@@ -157,7 +155,6 @@ module.exports = {
       default:
         throw new Error(`Unknown data type ${mixedType}`);
     }
-
     return { [type]: { value } };
   },
   // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity due to MAL sub-type"

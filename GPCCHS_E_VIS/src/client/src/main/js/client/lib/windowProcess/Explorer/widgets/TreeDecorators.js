@@ -1,14 +1,5 @@
 import React, { PropTypes } from 'react';
-import {
-  NODE_TYPE_ARRAY as ARRAY,
-  NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
-  NODE_TYPE_OBJECT as OBJECT,
-  NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM,
-  NODE_TYPE_ITEM as ITEM,
-  NODE_TYPE_KEY as KEY,
-  NODE_TYPE_LINK as LINK,
-  NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
-} from 'common/constants';
+import { NODE_TYPE_ARRAY as ARRAY, NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM, NODE_TYPE_OBJECT as OBJECT, NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM, NODE_TYPE_ITEM as ITEM, NODE_TYPE_KEY as KEY, NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
 
 const Loading = props => (
   <div style={props.style}>

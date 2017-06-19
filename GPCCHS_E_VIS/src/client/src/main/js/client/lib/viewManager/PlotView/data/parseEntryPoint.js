@@ -1,7 +1,7 @@
 import _isEqual from 'lodash/isEqual';
-import globalConstants from 'common/constants';
-import getLogger from 'common/log';
-import remoteIdGenerator from 'common/utils/flattenDataId';
+import globalConstants from '../../../constants';
+import getLogger from '../../../common/logManager';
+const flattenDataId = require('../../../common/flattenDataId');
 import parseConnectedData from '../../commonData/parseConnectedData';
 
 const logger = getLogger('data:PLotView:parseEntryPoint');
@@ -55,7 +55,7 @@ export default function parseEntryPoint(
     return { [name]: { error: 'parametric entryPoint detected for this view' } };
   }
 
-  const remoteId = remoteIdGenerator(cd.dataId);
+  const remoteId = flattenDataId(cd.dataId);
 
   const ep = {
     [name]: {

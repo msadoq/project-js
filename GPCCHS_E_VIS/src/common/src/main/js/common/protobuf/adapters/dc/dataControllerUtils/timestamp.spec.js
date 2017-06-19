@@ -1,8 +1,8 @@
 require('../../../../utils/test');
 const protobuf = require('../../../index');
-const stubData = require('../../../../stubs/data');
+const stubData = require('../../../stubs/index');
 
-describe('protobuf/dc/dataControllerUtils/timestamp', () => {
+describe('protobuf/utils/dataControllerUtils/timestamp', () => {
   const fixture = stubData.getTimestamp();
   let buffer;
   it('encode', () => {

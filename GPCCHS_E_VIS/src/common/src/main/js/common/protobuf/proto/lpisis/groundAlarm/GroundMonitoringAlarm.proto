@@ -1,6 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "groundAlarm/Transition.proto";
+import "../ccsds_mal/types.proto";
+import "./Transition.proto";
 
 
 package groundAlarm.protobuf;

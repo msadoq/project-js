@@ -7,8 +7,8 @@ import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
-import getLogger from 'common/log';
-import { get } from 'common/parameters';
+import getLogger from '../../../../common/logManager';
+import { get } from '../../../../common/configurationManager';
 import Dimensions from '../../../../windowProcess/common/Dimensions';
 import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
@@ -19,6 +19,7 @@ import handleContextMenu from '../../../../windowProcess/common/handleContextMen
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const logger = getLogger('view:plot');
 
@@ -122,6 +123,14 @@ export class GrizzlyPlotView extends PureComponent {
     isViewsEditorOpen: PropTypes.bool.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     defaultTimelineId: PropTypes.string.isRequired,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -131,6 +140,8 @@ export class GrizzlyPlotView extends PureComponent {
     },
     visuWindow: null,
     inspectorEpId: null,
+    links: [],
+    showLinks: false,
   };
 
   state = {
@@ -155,6 +166,9 @@ export class GrizzlyPlotView extends PureComponent {
       }
     }
     if (nextState.showLegend !== this.state.showLegend) {
+      shouldRender = true;
+    }
+    if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
     }
     if (nextState.showEpNames !== this.state.showEpNames) {
@@ -344,7 +358,11 @@ export class GrizzlyPlotView extends PureComponent {
       showLegend: !this.state.showLegend,
     });
   }
-
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
+  }
   showEp = (e, lineId) => {
     e.preventDefault();
     const {
@@ -396,13 +414,14 @@ export class GrizzlyPlotView extends PureComponent {
   }
 
   memoizeXAxisProps = _memoize(
-    (xExtents, tickStep, autoTick, showTicks) => ({
+    (xExtents, tickStep, autoTick, showTicks, format) => ({
       xExtents,
       tickStep,
       autoTick,
       showTicks,
+      format,
     }),
-    (a, b, c, d) => `${a[0]}-${a[1]}-${b}-${c}-${d}`
+    (a, b, c, d, e) => `${a[0]}-${a[1]}-${b}-${c}-${d}-${e}`
   )
 
   removeEntryPoint = (e, id) => {
@@ -414,6 +433,12 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     const index = entryPoints.findIndex(a => a.id === id);
     removeEntryPoint(viewId, index);
+  }
+
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink, viewId } = this.props;
+    removeLink(viewId, index);
   }
 
   render() {
@@ -450,6 +475,9 @@ export class GrizzlyPlotView extends PureComponent {
         grids,
       },
       visuWindow,
+      links,
+      pageId,
+      showLinks,
     } = this.props;
     let {
       configuration: { entryPoints },
@@ -473,9 +501,11 @@ export class GrizzlyPlotView extends PureComponent {
       ).length;
       return eps > 0 ? 23 + (Math.ceil(eps / 3) * 29) : 0;
     });
+    const linksHeight = links.length ? 23 + (links.length * 29) : 0;
     const xExtents = [visuWindow.lower, visuWindow.upper];
     const plotHeight = containerHeight - securityTopPadding -
-      (plotPadding * 2) - (showLegend ? _sum(yAxesLegendHeight) : 0);
+      (plotPadding * 4) - (showLegend ? _sum(yAxesLegendHeight) : 0)
+      - (showLinks ? linksHeight : 0);
 
     return (
       <DroppableContainer
@@ -502,7 +532,8 @@ export class GrizzlyPlotView extends PureComponent {
             xExtents,
             _get(axes, ['time', 'tickStep']),
             _get(axes, ['time', 'autoTick']),
-            _get(axes, ['time', 'showTicks'])
+            _get(axes, ['time', 'showTicks']),
+            '.2f'
           )}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
@@ -529,6 +560,7 @@ export class GrizzlyPlotView extends PureComponent {
               autoLimits: false,
               autoTick: axis.autoTick === true,
               tickStep: axis.tickStep,
+              showPointLabels: false,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),
@@ -569,6 +601,14 @@ export class GrizzlyPlotView extends PureComponent {
           onContextMenu={this.onContextMenu}
           removeEntryPoint={this.removeEntryPoint}
         />
+        <LinksContainer
+          show={showLinks}
+          toggleShowLinks={this.toggleShowLinks}
+          links={links}
+          removeLink={this.removeLink}
+          pageId={pageId}
+        />
+
       </DroppableContainer>
     );
   }

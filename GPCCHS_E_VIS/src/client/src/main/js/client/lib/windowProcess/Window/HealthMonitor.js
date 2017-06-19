@@ -5,7 +5,7 @@ import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_WARNING,
   HEALTH_STATUS_CRITICAL,
-} from 'common/constants';
+} from '../../constants';
 import { main } from '../ipc';
 
 const INTERVAL = 500;

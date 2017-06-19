@@ -41,6 +41,9 @@ export default class EntryPointDetails extends React.Component {
     updateViewSubPanels: PropTypes.func.isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
+  static defaultProps = {
+    panels: [],
+  };
 
   onChange = (openPanels) => {
     const {
@@ -49,7 +52,7 @@ export default class EntryPointDetails extends React.Component {
       entryPoint,
     } = this.props;
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
-  }
+  };
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -57,7 +60,7 @@ export default class EntryPointDetails extends React.Component {
       ...entryPoint,
       ...values,
     });
-  }
+  };
 
   render() {
     const {
@@ -73,7 +76,7 @@ export default class EntryPointDetails extends React.Component {
       <Collapse
         accordion={false}
         onChange={this.onChange}
-        defaultActiveKey={Array.isArray(panels) ? panels : []}
+        defaultActiveKey={panels}
       >
         <Panel
           key="name"
@@ -82,7 +85,7 @@ export default class EntryPointDetails extends React.Component {
           {Array.isArray(panels) && panels.includes('name') && <AddEntryPoint
             onSubmit={this.handleSubmit}
             form={`entrypoint-title-form-${idPoint}-${viewId}`}
-          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
+            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
             initialValues={{
               name: entryPoint.name,
             }}

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { getAll } from 'common/parameters';
+import { getAll } from '../../../common/configurationManager';
 import { getMasterSession } from './InformationSelectors';
 import Information from './Information';
 

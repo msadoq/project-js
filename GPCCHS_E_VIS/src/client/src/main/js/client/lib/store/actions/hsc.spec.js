@@ -1,15 +1,29 @@
-/* eslint-disable no-unused-expressions */
-import { HEALTH_STATUS_CRITICAL } from 'common/constants';
-import sinon from 'sinon';
-import * as types from '../types';
+import _ from 'lodash/fp';
+import { HEALTH_STATUS_CRITICAL } from '../../constants';
 import * as actions from './hsc';
-import { freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:hsc', () => {
   const state = freezeMe({
+    hsc: {
+      focusWindow: 'w1',
+    },
+    windows: {
+      w1: {
+        focusedPage: 'p1',
+      },
+    },
+    pages: {
+      p1: {
+        timebarUuid: 'tb1',
+        panels: {
+          editorIsMinimized: true,
+        },
+      },
+    },
     timebars: {
-      a: {},
-      b: {},
+      tb1: {},
+      tb2: {},
     },
     health: {
       mainStatus: false,
@@ -30,7 +44,7 @@ describe('store:actions:hsc', () => {
 
   const stateWithCodeEditor = freezeMe({
     editor: {
-      textViewId: null,
+      textViewId: 'viewId',
     },
     health: {},
   });
@@ -46,42 +60,79 @@ describe('store:actions:hsc', () => {
     health: {},
   });
 
-  let dispatch;
-  const getState = () => state;
-  const getStateCritical = () => stateCriticalWindows;
-  const getStateWithCodeEditor = () => stateWithCodeEditor;
-  const getStateWithEditorOpen = () => stateWithEditorOpen;
-
-  beforeEach(() => {
-    dispatch = sinon.spy();
+  describe('startInPlayMode', () => {
+    const ifIsPlay = _.propEq('type', 'HSC_PLAY');
+    const store = mockStore(state);
+    store.dispatch(actions.startInPlayMode());
+    test('sets real time to true on each timebars', () => {
+      const rejectPlayActions = _.reject(ifIsPlay);
+      expect(rejectPlayActions(store.getActions())).toEqual([
+        {
+          type: 'WS_TIMEBAR_SET_REALTIME',
+          payload: { timebarUuid: 'tb1', flag: true },
+        },
+        {
+          type: 'WS_TIMEBAR_SET_REALTIME',
+          payload: { timebarUuid: 'tb2', flag: true },
+        },
+      ]);
+    });
+    test('plays', () => {
+      const keepPlayActions = _.filter(ifIsPlay);
+      expect(keepPlayActions(store.getActions())).toEqual([
+        { type: 'HSC_PLAY', payload: { timebarUuid: 'tb1' } },
+      ]);
+    });
   });
 
   describe('smartPlay', () => {
-    it('warns a message because of application is oveloaded', () => {
-      actions.smartPlay('myTimebarUuid')(dispatch, getStateCritical);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.a('function');
-    });
-    it('warns a message because of code editor is opened', () => {
-      actions.smartPlay('myTimebarUuid')(dispatch, getStateWithCodeEditor);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.a('object');
-    });
-    it('warns a message because of editor is opened on page', () => {
-      actions.smartPlay('myTimebarUuid')(dispatch, getStateWithEditorOpen);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.a('function');
-    });
-    it('plays', () => {
-      actions.smartPlay('myTimebarUuid')(dispatch, getState);
-      dispatch.should.have.been.calledOnce;
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.HSC_PLAY,
-        payload: {
-          timebarUuid: 'myTimebarUuid',
+    test('warns a message because of application is oveloaded', () => {
+      const store = mockStore(stateCriticalWindows);
+      store.dispatch(actions.smartPlay('myTimebarUuid'));
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'warning',
+            messages: [{ content: 'One process of the application is oveloaded, cannot switch to play' }],
+          },
         },
-      });
+      ]);
+    });
+    test('warns a message because of code editor is opened', () => {
+      const store = mockStore(stateWithCodeEditor);
+      store.dispatch(actions.smartPlay('myTimebarUuid'));
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'warning',
+            messages: [{ content: 'Please close editors before play timebar' }],
+          },
+        },
+      ]);
+    });
+    test('warns a message because of editor is opened on page', () => {
+      const store = mockStore(stateWithEditorOpen);
+      store.dispatch(actions.smartPlay('myTimebarUuid'));
+      expect(store.getActions()).toMatchObject([
+        { type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'warning',
+            messages: [{ content: 'Please close editors before play timebar' }],
+          },
+        },
+      ]);
+    });
+    test('plays', () => {
+      const store = mockStore(state);
+      store.dispatch(actions.smartPlay('myTimebarUuid'));
+      expect(store.getActions()).toEqual([
+        { type: 'HSC_PLAY', payload: { timebarUuid: 'myTimebarUuid' } },
+      ]);
     });
   });
 });

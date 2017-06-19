@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-06/schema#",
     "definitions": {
         "geometry": {
             "type": "object",
@@ -23,49 +23,70 @@
                     "type": "number"
                 }
             },
-            "required": ["x", "y", "w", "h"]
+            "required": [
+                "x",
+                "y",
+                "w",
+                "h"
+            ]
         },
         "docLocation": {
-            "oneOf": [{
-                "properties": {
-                    "oId": {
-                        "type": "string"
-                    }
+            "oneOf": [
+                {
+                    "properties": {
+                        "oId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "oId"
+                    ]
                 },
-                "required": ["oId"]
-            }, {
-                "properties": {
-                    "path": {
-                        "type": "string"
-                    }
-                },
-                "required": ["path"]
-            }]
+                {
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "path"
+                    ]
+                }
+            ]
         },
         "view": {
-            "allOf": [{
-                "$ref": "#/definitions/docLocation"
-            }, {
-                "properties": {
-                    "geometry": {
-                        "$ref": "#/definitions/geometry"
-                    },
-                    "windowState": {
-                        "type": "string",
-                        "default": "Normalized",
-                        "enum": ["Minimized", "Normalized", "Maximized"]
-                    }
+            "allOf": [
+                {
+                    "$ref": "#/definitions/docLocation"
                 },
-                "required": ["geometry", "windowState"]
-            }]
+                {
+                    "properties": {
+                        "geometry": {
+                            "$ref": "#/definitions/geometry"
+                        },
+                        "windowState": {
+                            "type": "string",
+                            "default": "Normalized",
+                            "enum": [
+                                "Minimized",
+                                "Normalized",
+                                "Maximized"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "geometry",
+                        "windowState"
+                    ]
+                }
+            ]
         }
     },
-
     "type": "object",
     "properties": {
         "type": {
             "type": "string",
-            "enum": ["Page"]
+            "const": "Page"
         },
         "hideBorders": {
             "type": "boolean",
@@ -81,5 +102,9 @@
             "type": "string"
         }
     },
-    "required": ["type", "views", "title"]
+    "required": [
+        "type",
+        "views",
+        "title"
+    ]
 }

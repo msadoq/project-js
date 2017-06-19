@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/FMDDocumentProperty.proto";
+import "./FMDDocumentProperty.proto";
 
 message FMDCreateDocument {
 extensions 6 to 106;

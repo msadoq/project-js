@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import { join } from 'path';
 import rimraf from 'rimraf';
 import {
@@ -9,7 +8,7 @@ import {
   chmodSync,
 } from 'fs';
 
-import { should, getTmpPath } from '../common/test';
+import { getTmpPath } from '../common/jest';
 import fs from './fs';
 
 describe('common/fs', () => {
@@ -19,7 +18,7 @@ describe('common/fs', () => {
   const unreadable = fs.resolve(tmpFolder, '/unreadable.txt');
   const notExists = fs.resolve(tmpFolder, '/not-exists.txt');
   const unavailableFolder = fs.resolve(tmpFolder, '/unavailableFolder');
-  before(() => {
+  beforeAll(() => {
     try {
       accessSync(tmpFolder, constants.F_OK);
     } catch (e) {
@@ -48,104 +47,104 @@ describe('common/fs', () => {
       chmodSync(unavailableFolder, 0);
     }
   });
-  after((done) => {
+  afterAll((done) => {
     rimraf(tmpFolder, done);
   });
 
-  it('resolve', () => {
-    fs.resolve('/foo/bar', '/baz/file.json').should.equal('/foo/bar/baz/file.json');
-    fs.resolve('/foo/bar', 'file.json').should.equal('/foo/bar/file.json');
+  test('resolve', () => {
+    expect(fs.resolve('/foo/bar', '/baz/file.json')).toBe('/foo/bar/baz/file.json');
+    expect(fs.resolve('/foo/bar', 'file.json')).toBe('/foo/bar/file.json');
   });
 
   describe('isExists', () => {
-    it('file exists', (done) => {
+    test('file exists', (done) => {
       fs.isExists(file, (exists) => {
-        exists.should.equal(true);
+        expect(exists).toBe(true);
         done();
       });
     });
-    it('file not exists', (done) => {
+    test('file not exists', (done) => {
       fs.isExists(notExists, (exists) => {
-        exists.should.equal(false);
+        expect(exists).toBe(false);
         done();
       });
     });
   });
 
   describe('isReadable', () => {
-    it('readable', (done) => {
+    test('readable', (done) => {
       fs.isReadable(file, (readable) => {
-        readable.should.equal(true);
+        expect(readable).toBe(true);
         done();
       });
     });
-    it('not readable', (done) => {
+    test('not readable', (done) => {
       fs.isReadable(unreadable, (readable) => {
-        readable.should.equal(false);
+        expect(readable).toBe(false);
         done();
       });
     });
   });
 
   describe('read', () => {
-    it('works', (done) => {
+    test('works', (done) => {
       fs.read(file, (err, content) => {
-        should.not.exist(err);
-        content.should.equal('my content');
+        expect(err).toBeFalsy();
+        expect(content).toBe('my content');
         done();
       });
     });
-    it('error', (done) => {
+    test('error', (done) => {
       fs.read(unreadable, (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
+        expect(err).toBeInstanceOf(Error);
+        expect(content).toBeFalsy();
         done();
       });
     });
   });
 
   describe('parse', () => {
-    it('valid', (done) => {
+    test('valid', (done) => {
       fs.parse('{"foo":"bar"}', (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
+        expect(err).toBeFalsy();
+        expect(content).toEqual({ foo: 'bar' });
         done();
       });
     });
-    it('invalid', (done) => {
+    test('invalid', (done) => {
       fs.parse('"{"foo":"bar""', (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
+        expect(err).toBeInstanceOf(Error);
+        expect(content).toBeFalsy();
         done();
       });
     });
   });
 
   describe('createFolder', () => {
-    it('folder already exists', (done) => {
+    test('folder already exists', (done) => {
       fs.createFolder('/', (err, res) => {
-        should.not.exist(err);
-        res.should.be.true;
+        expect(err).toBeFalsy();
+        expect(res).toBe(true);
         done();
       });
     });
-    it('folder does not exists', (done) => {
+    test('folder does not exists', (done) => {
       const path = join(tmpFolder, 'a/b/c/d');
       return fs.createFolder(path, (err, res) => {
-        res.should.be.true;
+        expect(res).toBe(true);
         fs.isExists(path, (exist) => {
-          exist.should.be.true;
+          expect(exist).toBe(true);
           done();
         });
       });
     });
-    it('fails when cannot mkdirp', (done) => {
+    test('fails when cannot mkdirp', (done) => {
       const path = join(unavailableFolder, 'a/b/c/d');
       return fs.createFolder(path, (err, res) => {
-        err.should.be.an('error');
-        should.not.exist(res);
+        expect(err).toBeInstanceOf(Error);
+        expect(res).toBeFalsy();
         fs.isExists(path, (exist) => {
-          exist.should.be.false;
+          expect(exist).toBe(false);
           done();
         });
       });

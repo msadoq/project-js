@@ -1,9 +1,9 @@
 // Produced by Acceleo JavaScript Generator 1.1.0
-import "ccsds_mal/types.proto";
-import "pusGroundModel/Pus014EventReportPacket.proto";
-import "pusGroundModel/Pus014HkOrDiagPacket.proto";
-import "pusGroundModel/Pus014TmPacket.proto";
-import "pusGroundModel/PusElement.proto";
+import "../ccsds_mal/types.proto";
+import "./Pus014EventReportPacket.proto";
+import "./Pus014HkOrDiagPacket.proto";
+import "./Pus014TmPacket.proto";
+import "./PusElement.proto";
 
 
 package pusGroundModel.protobuf;

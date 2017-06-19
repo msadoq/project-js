@@ -3,6 +3,7 @@ import webpack from 'webpack';
 
 export default {
   module: {
+    exprContextCritical: false,
     loaders: [
       {
         test: /\.jsx?$/,
@@ -24,13 +25,12 @@ export default {
     ],
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js',
     libraryTarget: 'commonjs2',
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),

@@ -22,9 +22,7 @@
     "critical": "red",
     "outOfRange": "grey",
     "severe": "darkred",
-    "warning": "orange",
-    "nonsignificant": "lightgrey",
-    "obsolete": "tan"
+    "warning": "orange"
   },
   "FORECAST": 30000,
   "STRING_PLOT_VALUE": 1,

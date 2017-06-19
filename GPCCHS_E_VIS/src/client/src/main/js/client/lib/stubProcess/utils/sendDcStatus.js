@@ -1,4 +1,4 @@
-const logger = require('common/log')('stubs:utils');
+const logger = require('../../common/logManager')('stubs:utils');
 const stubData = require('common/protobuf/stubs');
 
 const header = stubData.getDcStatusHeaderProtobuf();

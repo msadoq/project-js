@@ -1,5 +1,5 @@
-import { get } from 'common/parameters';
 import asyncParallel from 'async/parallel';
+import { get } from '../common/configurationManager';
 import { SDB_NAMESPACE } from './constants';
 import {
   getShortDescription,

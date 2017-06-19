@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 /**
@@ -12,7 +12,7 @@ export const createNewTimeline = (timebarUuid, timeline) => {
     type: types.WS_TIMELINE_CREATE_NEW,
     payload: {
       timebarUuid,
-      timeline: { ...timeline, uuid: timelineUuid },
+      timeline: { uuid: timelineUuid, ...timeline },
     },
   };
 };
@@ -30,7 +30,7 @@ export const updateSessionName = simple(
 /**
  * Compound actions
  */
-export function update(timelineUuid, configuration) {
+export function update(timelineUuid, configuration = {}) {
   return (dispatch) => {
     if (configuration.sessionName) {
       dispatch(updateSessionName(timelineUuid, configuration.sessionName));

@@ -1,31 +1,26 @@
+const { registerProtobuf } = require('../../../common/jest');
+
+registerProtobuf();
+
 const dataStub = require('common/protobuf/stubs');
 const protobuf = require('common/protobuf');
-
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-
-
 const onSessionMasterData = require('./onSessionMasterData');
 
-
 describe('controllers/client/onSessionMasterData', () => {
-  beforeEach(() => {
-    resetTestHandlerArgs();
-  });
-  it('works', () => {
+  test('should returns master session data', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myUinteger = 42;
     const myUintegerProto = protobuf.encode(protobuf.getType('UINTEGER'), { value: myUinteger });
-    // launch test
-    onSessionMasterData(testHandler, myQueryIdProto, myUintegerProto);
-    // check data
-    const message = getTestHandlerArgs();
-    message.should.be.an('array')
-      .that.has.lengthOf(2);
-    message[0].should.equal(myQueryId);
-    message[1].should.be.an('object')
-      .that.have.properties({
-        masterSessionId: myUinteger,
-      });
+
+    const check = (...args) => {
+      expect(args).toMatchObject([
+        myQueryId,
+        { masterSessionId: myUinteger },
+      ]);
+      done();
+    };
+
+    onSessionMasterData(check, myQueryIdProto, myUintegerProto);
   });
 });

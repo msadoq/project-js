@@ -1,5 +1,3 @@
-/* eslint no-unused-expressions: 0 */
-import '../../common/test';
 import filter from './timelines';
 
 describe('viewManager/commonData/timelines', () => {
@@ -9,22 +7,21 @@ describe('viewManager/commonData/timelines', () => {
     { id: 'other', sessionName: 'sessionOther', offset: -10 },
     { id: undefined, sessionName: 'invalid', offset: 0 },
   ];
-  it('exact', () => {
-    filter(list, 'tl1').should.eql({ sessionName: 'session1', offset: 0 });
+  test('exact', () => {
+    expect(filter(list, 'tl1')).toEqual({ sessionName: 'session1', offset: 0 });
   });
-  it('wildcard', () => {
-    filter(list, '*').should.eql({ sessionName: '*', offset: 0 });
-    filter(list, 'tl*').should.eql({ error: 'invalid entry point, no timeline matches' });
+  test('wildcard', () => {
+    expect(filter(list, '*')).toEqual({ sessionName: '*', offset: 0 });
+    expect(filter(list, 'tl*')).toEqual({ error: 'invalid entry point, no timeline matches' });
   });
-  it('no timeline', () => {
-    filter(undefined, 'tl1').should.eql({ error: 'invalid entry point, no timeline available' });
-    filter([], 'tl1').should.eql({ error: 'invalid entry point, no timeline available' });
+  test('no timeline', () => {
+    expect(filter(undefined, 'tl1')).toEqual({ error: 'invalid entry point, no timeline available' });
+    expect(filter([], 'tl1')).toEqual({ error: 'invalid entry point, no timeline available' });
   });
-  it('no search', () => {
-    filter(list, '').should.eql(
-      { error: 'invalid entry point, no timeline set' });
+  test('no search', () => {
+    expect(filter(list, '')).toEqual({ error: 'invalid entry point, no timeline set' });
   });
-  it('no match', () => {
-    filter(list, 'unknown').should.eql({ error: 'invalid entry point, no timeline matches' });
+  test('no match', () => {
+    expect(filter(list, 'unknown')).toEqual({ error: 'invalid entry point, no timeline matches' });
   });
 });

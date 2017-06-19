@@ -2,6 +2,7 @@ const onDataPull = require('./onDataPull');
 const dataStub = require('common/protobuf/stubs');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
+const { getRemoteId } = require('../../../common/jest');
 
 describe('controllers/client/onDataPull', () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe('controllers/client/onDataPull', () => {
   const t1 = 3;
   const t2 = 5;
   const dataId = dataStub.getDataId();
-  const flatDataId = dataStub.getRemoteId(dataId);
+  const flatDataId = getRemoteId(dataId);
   const intervalRange = [1, 5];
   const intervalLast = [1, 10];
 
@@ -56,45 +57,45 @@ describe('controllers/client/onDataPull', () => {
     },
   };
 
-  it('invalid query', () => {
+  test('invalid query', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: noQuery });
     // check ws messages
-    getQueue().should.have.properties({});
+    expect(getQueue()).toBeAnObject();
   });
-  it('invalid interval', () => {
+  test('invalid interval', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: noIntervalQuery });
-    getQueue().should.have.properties({});
+    expect(getQueue()).toBeAnObject();
   });
-  it('query last', () => {
+  test('query last', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: queryLast });
-    getQueue().should.have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [payloads[1].timestamp]: payloads[1].payload,
       },
     });
   });
-  it('query range', () => {
+  test('query range', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: queryRange });
-    getQueue().should.have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [payloads[0].timestamp]: payloads[0].payload,
         [payloads[1].timestamp]: payloads[1].payload,
       },
     });
   });
-  it('query range and last', () => {
+  test('query range and last', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
     timebasedDataModel.addRecords(payloads);
     onDataPull({ queries: query });
-    getQueue().should.have.properties({
+    expect(getQueue()).toMatchObject({
       [flatDataId]: {
         [payloads[0].timestamp]: payloads[0].payload,
         [payloads[1].timestamp]: payloads[1].payload,

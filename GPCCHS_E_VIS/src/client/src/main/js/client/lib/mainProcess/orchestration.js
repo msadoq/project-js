@@ -4,7 +4,7 @@ import _get from 'lodash/get';
 import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
 import { tmpdir } from 'os';
-import { get } from 'common/parameters';
+import { get } from '../common/configurationManager';
 import {
   HSC_ORCHESTRATION_WARNING_STEP,
   HSC_ORCHESTRATION_CRITICAL_STEP,
@@ -14,12 +14,12 @@ import {
   IPC_METHOD_CACHE_CLEANUP,
   HSC_CRITICAL_SWITCH_PAUSE_DELAY,
   HSC_PUBSUB_MONITORING_FREQUENCY,
-} from 'common/constants';
-import executionMonitor from 'common/log/execution';
-import getLogger from 'common/log';
+} from '../constants';
+import executionMonitor from '../common/logManager/execution';
+import getLogger from '../common/logManager';
 
 import { server } from './ipc';
-import { getStore } from '../store/createStore';
+import { getStore } from './store';
 import {
   getWindowsOpened,
   getLastCacheInvalidation,
@@ -255,7 +255,7 @@ export function tick() {
       if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
         execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(now)); // schedule next run
-        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap);
+        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap); // TODO dbrugne diagnose if this is not the origin of the weird dataMap mutation
         execution.stop('cache invalidation');
 
         logger.debug('cache invalidation requested, skipping current tick');
@@ -269,7 +269,6 @@ export function tick() {
         callback(null);
         return;
       }
-
       execution.start('data requests');
       const timebarUuid = getPlayingTimebarId(getState());
       // Add forecast in play mode

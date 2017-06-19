@@ -41,7 +41,10 @@ export default class EntryPointDetails extends PureComponent {
     ]).isRequired,
     updateViewSubPanels: PropTypes.func.isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  }
+  };
+  static defaultProps = {
+    panels: [],
+  };
 
   onChange = (openPanels) => {
     const {
@@ -106,7 +109,7 @@ export default class EntryPointDetails extends PureComponent {
       <Collapse
         accordion={false}
         onChange={this.onChange}
-        defaultActiveKey={Array.isArray(panels) ? panels : []}
+        defaultActiveKey={panels}
       >
         <Panel
           key="parameters"

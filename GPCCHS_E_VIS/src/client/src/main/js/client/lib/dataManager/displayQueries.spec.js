@@ -1,4 +1,4 @@
-import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from 'common/constants';
+import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from '../constants';
 import displayQueries from './displayQueries';
 
 describe('dataManager/displayQueries', () => {
@@ -82,20 +82,21 @@ describe('dataManager/displayQueries', () => {
   const dataMap = { injectionRemoteId: remoteIdMap, injectionIntervals: intervalMap };
   const newDataMap = { perRemoteId: remoteIdMap, expectedIntervals: newIntervalMap };
 
-  it('empty new dataMap', () => {
-    displayQueries(dataMap, { perRemoteId: {}, expectedIntervals: {} }, false).should.eql({});
+  test('empty new dataMap', () => {
+    expect(displayQueries(dataMap, { perRemoteId: {}, expectedIntervals: {} }, false)).toEqual({});
   });
-  it('empty old dataMap', () => {
-    displayQueries({ injectionRemoteId: {}, injectionIntervals: {} }, newDataMap, false)
-    .should.eql({
+  test('empty old dataMap', () => {
+    expect(
+      displayQueries({ injectionRemoteId: {}, injectionIntervals: {} }, newDataMap, false)
+    ).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         [DATASTRUCTURETYPE_LAST]: [],
         [DATASTRUCTURETYPE_RANGE]: [[1420106791818, 1420107057239]],
       },
     });
   });
-  it('play mode', () => {
-    displayQueries(dataMap, newDataMap, true).should.eql({
+  test('play mode', () => {
+    expect(displayQueries(dataMap, newDataMap, true)).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         [DATASTRUCTURETYPE_LAST]: [[1420106843902, 1420106844902]],
         [DATASTRUCTURETYPE_RANGE]: [[1420107056239, 1420107057239]],
@@ -106,8 +107,8 @@ describe('dataManager/displayQueries', () => {
       },
     });
   });
-  it('pause mode', () => {
-    displayQueries(dataMap, newDataMap, false).should.eql({
+  test('pause mode', () => {
+    expect(displayQueries(dataMap, newDataMap, false)).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         [DATASTRUCTURETYPE_LAST]: [],
         [DATASTRUCTURETYPE_RANGE]: [[1420107056239, 1420107057239]],

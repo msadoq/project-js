@@ -1,8 +1,7 @@
-import '../common/test';
 import prepareDataToTree from './prepareDataToTree';
 
 describe('rtdManager/prepareDataToTree', () => {
-  it('works', () => {
+  test('works', () => {
     const data = {
       str: 'str1',
       obj: {
@@ -14,7 +13,7 @@ describe('rtdManager/prepareDataToTree', () => {
       Link: 'bar@bar@bar',
     };
 
-    prepareDataToTree(data, { rootName: 'root' }).should.have.properties({
+    expect(prepareDataToTree(data, { rootName: 'root' })).toEqual(expect.objectContaining({
       path: [],
       name: 'root',
       type: 'object',
@@ -91,6 +90,6 @@ describe('rtdManager/prepareDataToTree', () => {
           value: 'bar@bar@bar',
         },
       ],
-    });
+    }));
   });
 });

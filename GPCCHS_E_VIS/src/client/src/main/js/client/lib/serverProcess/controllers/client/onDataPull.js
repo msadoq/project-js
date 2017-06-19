@@ -1,6 +1,6 @@
 const _each = require('lodash/each');
-const logger = require('common/log')('controllers:client:onDataPull');
-const executionMonitor = require('common/log/execution');
+const logger = require('../../../common/logManager')('controllers:client:onDataPull');
+const executionMonitor = require('../../../common/logManager/execution');
 const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const { add: addToQueue } = require('../../models/dataQueue');
 

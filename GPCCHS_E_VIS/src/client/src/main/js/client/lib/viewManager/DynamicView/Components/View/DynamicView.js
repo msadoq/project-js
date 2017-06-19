@@ -7,7 +7,7 @@ import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
 import styles from './DynamicView.css';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
-import Links from '../../../../windowProcess/View/Links';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 function dataToShow(data) {
   if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
@@ -114,6 +114,10 @@ export default class DynamicView extends PureComponent {
       path: PropTypes.string.isRequired,
     })),
     removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    viewId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -121,11 +125,8 @@ export default class DynamicView extends PureComponent {
     entryPoints: {},
     inspectorEpId: null,
     links: [],
-  };
-
-  state = {
     showLinks: false,
-  }
+  };
 
   onContextMenu = (event) => {
     event.stopPropagation();
@@ -164,19 +165,17 @@ export default class DynamicView extends PureComponent {
 
   toggleShowLinks = (e) => {
     e.preventDefault();
-    this.setState({
-      showLinks: !this.state.showLinks,
-    });
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
   }
   removeLink = (e, index) => {
     e.preventDefault();
-    const { removeLink } = this.props;
-    removeLink(index);
+    const { removeLink, viewId } = this.props;
+    removeLink(viewId, index);
   }
 
   render() {
-    const { data, entryPoints, links } = this.props;
-    const { showLinks } = this.state;
+    const { data, entryPoints, links, pageId, showLinks } = this.props;
     const ep = data.value;
     const error = _get(entryPoints, 'dynamicEP.error');
     if (!ep || error) {
@@ -215,11 +214,12 @@ export default class DynamicView extends PureComponent {
             </Row>))}
         </Grid>
         <div style={{ padding: '10px' }}>
-          <Links
+          <LinksContainer
             show={showLinks}
             toggleShowLinks={this.toggleShowLinks}
             links={links}
             removeLink={this.removeLink}
+            pageId={pageId}
           />
         </div>
       </div>

@@ -1,8 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
-import getLogger from 'common/log';
-import { get } from 'common/parameters';
 import __ from 'lodash/fp';
 import path from 'path';
+import getLogger from '../../common/logManager';
+import { get } from '../../common/configurationManager';
 
 import ContentContainer from './ContentContainer';
 import styles from './Page.css';

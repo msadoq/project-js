@@ -59,10 +59,10 @@ BYPASS_HOOKS=1 git commit
 
 ```bash
 #!/bin/sh
-HAS_DESCRIBE_ONLY=$(git grep --cached "describe\.only" -- '*.spec.js' | wc -l)
-HAS_DESCRIBE_SKIP=$(git grep --cached "describe\.skip" -- '*.spec.js' | wc -l)
-HAS_IT_ONLY=$(git grep --cached "it\.only" -- '*.spec.js' | wc -l)
-HAS_IT_SKIP=$(git grep --cached "it\.skip" -- '*.spec.js' | wc -l)
+HAS_DESCRIBE_ONLY=$(git diff --cached --name-only -S "describe.only" -- '*.spec.js' | wc -l)
+HAS_DESCRIBE_SKIP=$(git diff --cached --name-only -S "describe.skip" -- '*.spec.js' | wc -l)
+HAS_IT_ONLY=$(git diff --cached --name-only -S "it.only" -- '*.spec.js' | wc -l)
+HAS_IT_SKIP=$(git diff --cached --name-only -S "it.skip" -- '*.spec.js' | wc -l)
 
 function error() {
 	echo ====== ERROR ======

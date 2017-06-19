@@ -1,9 +1,13 @@
+const { registerProtobuf } = require('../../../common/jest');
+
+registerProtobuf();
+
 const _concat = require('lodash/concat');
 const dataStub = require('common/protobuf/stubs');
 const { decode } = require('common/protobuf');
 
-const registeredCallbacks = require('../../../utils/callbacks');
-const { should } = require('../../utils/test');
+const { getRemoteId } = require('../../../common/jest');
+const registeredCallbacks = require('../../../common/callbacks');
 const {
   addRecord: registerQuery,
   getAll: getRegisteredQueries,
@@ -35,8 +39,8 @@ describe('controllers/client/onCacheCleanup', () => {
   // Declaring test data
   const dataId1 = dataStub.getDataId({ parameterName: 'data1' });
   const dataId2 = dataStub.getDataId({ parameterName: 'data2' });
-  const remoteId1 = dataStub.getRemoteId(Object.assign({}, dataId1));
-  const remoteId2 = dataStub.getRemoteId(Object.assign({}, dataId2));
+  const remoteId1 = getRemoteId(Object.assign({}, dataId1));
+  const remoteId2 = getRemoteId(Object.assign({}, dataId2));
   const queryId11 = 'queryId11';
   const interval11 = [0, 4];
   const queryId12 = 'queryId12';
@@ -83,7 +87,7 @@ describe('controllers/client/onCacheCleanup', () => {
     timebasedDataModel21.addRecords(tbds);
   });
 
-  it('not all intervals expired', () => {
+  test('not all intervals expired', () => {
     // init test
     const dataMap = {
       perRemoteId: {
@@ -107,8 +111,8 @@ describe('controllers/client/onCacheCleanup', () => {
     onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
-    connectedData.should.have.lengthOf(2);
-    connectedData[0].should.have.properties(
+    expect(connectedData).toHaveLength(2);
+    expect(connectedData[0]).toMatchObject(
       {
         flatDataId: remoteId1,
         dataId: dataId1,
@@ -118,7 +122,7 @@ describe('controllers/client/onCacheCleanup', () => {
           requested: { [queryId12]: interval12 },
         },
       });
-    connectedData[1].should.have.properties(
+    expect(connectedData[1]).toMatchObject(
       {
         flatDataId: remoteId2,
         dataId: dataId2,
@@ -133,8 +137,8 @@ describe('controllers/client/onCacheCleanup', () => {
       });
     // check registered queries
     const queries = getRegisteredQueries();
-    queries.should.have.lengthOf(3);
-    queries.should.have.properties([
+    expect(queries).toHaveLength(3);
+    expect(queries).toMatchObject([
       { queryId: queryId12, flatDataId: remoteId1 },
       { queryId: queryId21, flatDataId: remoteId2 },
       { queryId: queryId22, flatDataId: remoteId2 },
@@ -142,25 +146,25 @@ describe('controllers/client/onCacheCleanup', () => {
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId1);
     const tbdModel2 = getTimebasedDataModel(remoteId2);
-    tbdModel1.count().should.equal(2);
-    tbdModel2.count().should.equal(4);
-    tbdModel1.find().should.have.properties([
+    expect(tbdModel1.count()).toBe(2);
+    expect(tbdModel2.count()).toBe(4);
+    expect(tbdModel1.find()).toMatchObject([
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    tbdModel2.find().should.have.properties([
+    expect(tbdModel2.find()).toMatchObject([
       { timestamp: ts1, payload: rp },
       { timestamp: ts2, payload: rp },
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
     // check zmq message
-    calls.should.have.lengthOf(0);
+    expect(calls).toHaveLength(0);
     // check registered callbacks
-    Object.keys(registeredCallbacks.getAll()).should.have.lengthOf(0);
+    expect(Object.keys(registeredCallbacks.getAll())).toHaveLength(0);
   });
 
-  it('all intervals expired', () => {
+  test('all intervals expired', () => {
     // init test
     const dataMap = {
       perRemoteId: {
@@ -186,8 +190,8 @@ describe('controllers/client/onCacheCleanup', () => {
     onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
-    connectedData.should.have.lengthOf(2);
-    connectedData.should.have.properties([
+    expect(connectedData).toHaveLength(2);
+    expect(connectedData).toMatchObject([
       {
         flatDataId: remoteId1,
         dataId: dataId1,
@@ -208,8 +212,8 @@ describe('controllers/client/onCacheCleanup', () => {
     ]);
     // check registered queries
     const queries = getRegisteredQueries();
-    queries.should.have.lengthOf(3);
-    queries.should.have.properties([
+    expect(queries).toHaveLength(3);
+    expect(queries).toMatchObject([
       { queryId: queryId12, flatDataId: remoteId1 },
       { queryId: queryId21, flatDataId: remoteId2 },
       { queryId: queryId22, flatDataId: remoteId2 },
@@ -217,25 +221,25 @@ describe('controllers/client/onCacheCleanup', () => {
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId1);
     const tbdModel2 = getTimebasedDataModel(remoteId2);
-    tbdModel1.count().should.equal(2);
-    tbdModel2.count().should.equal(4);
-    tbdModel1.find().should.have.properties([
+    expect(tbdModel1.count()).toBe(2);
+    expect(tbdModel2.count()).toBe(4);
+    expect(tbdModel1.find()).toMatchObject([
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
-    tbdModel2.find().should.have.properties([
+    expect(tbdModel2.find()).toMatchObject([
       { timestamp: ts1, payload: rp },
       { timestamp: ts2, payload: rp },
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
     // check zmq message
-    calls.should.have.lengthOf(0);
+    expect(calls).toHaveLength(0);
     // check registered callbacks
-    Object.keys(registeredCallbacks.getAll()).should.have.lengthOf(0);
+    expect(Object.keys(registeredCallbacks.getAll())).toHaveLength(0);
   });
 
-  it('subscription no longer needed', () => {
+  test('subscription no longer needed', () => {
     // init test
     const dataMap = {
       perRemoteId: { [remoteId1]: { localIds: { localId: { } } } },
@@ -245,8 +249,8 @@ describe('controllers/client/onCacheCleanup', () => {
     onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
-    connectedData.should.have.lengthOf(1);
-    connectedData.should.have.properties([
+    expect(connectedData).toHaveLength(1);
+    expect(connectedData).toMatchObject([
       {
         flatDataId: remoteId1,
         dataId: dataId1,
@@ -259,25 +263,25 @@ describe('controllers/client/onCacheCleanup', () => {
     ]);
     // check registered queries
     const queries = getRegisteredQueries();
-    queries.should.have.lengthOf(1);
-    queries.should.have.properties([{ queryId: queryId12, flatDataId: remoteId1 }]);
+    expect(queries).toHaveLength(1);
+    expect(queries).toMatchObject([{ queryId: queryId12, flatDataId: remoteId1 }]);
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId1);
-    should.not.exist(getTimebasedDataModel(remoteId2));
-    tbdModel1.count().should.equal(2);
-    tbdModel1.find().should.have.properties([
+    expect(getTimebasedDataModel(remoteId2)).toBeFalsy();
+    expect(tbdModel1.count()).toBe(2);
+    expect(tbdModel1.find()).toMatchObject([
       { timestamp: ts3, payload: rp },
       { timestamp: ts4, payload: rp },
     ]);
     // check zmq message
-    calls.should.have.lengthOf(4);
-    calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+    expect(calls).toHaveLength(4);
+    expect(calls[0]).toMatchObject(dataStub.getTimebasedSubscriptionHeaderProtobuf());
     const subId = decode('dc.dataControllerUtils.String', calls[1]).string;
-    calls[2].should.have.properties(dataStub.getDataIdProtobuf(dataId2));
-    calls[3].should.have.properties(dataStub.getDeleteActionProtobuf());
+    expect(calls[2]).toMatchObject(dataStub.getDataIdProtobuf(dataId2));
+    expect(calls[3]).toMatchObject(dataStub.getDeleteActionProtobuf());
     // check registered callbacks
     const ids = Object.keys(registeredCallbacks.getAll());
-    ids.should.have.lengthOf(1);
-    ids[0].should.equal(subId);
+    expect(ids).toHaveLength(1);
+    expect(ids[0]).toBe(subId);
   });
 });

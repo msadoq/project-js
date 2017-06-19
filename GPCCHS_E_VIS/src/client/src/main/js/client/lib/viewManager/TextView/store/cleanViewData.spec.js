@@ -1,6 +1,6 @@
 import _cloneDeep from 'lodash/cloneDeep';
 import cleanCurrentViewData from './cleanViewData';
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 
 describe('viewManager/TextView/store/cleanViewData', () => {
   let viewDataState;
@@ -148,28 +148,31 @@ describe('viewManager/TextView/store/cleanViewData', () => {
       },
     };
   });
-  it('no update', () => {
+  test('no update', () => {
     const frozen = freezeMe(viewDataState.text);
-    cleanCurrentViewData(frozen, viewMap.text, viewMap.text, oldIntervals, oldIntervals)
-    .should.equal(frozen);
+    expect(
+      cleanCurrentViewData(frozen, viewMap.text, viewMap.text, oldIntervals, oldIntervals)
+    ).toBe(frozen);
   });
-  it('interval update text: keep', () => {
+  test('interval update text: keep', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
     newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [12, 17];
     const frozen = freezeMe(viewDataState.text);
-    cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
-    .should.equal(frozen);
+    expect(
+      cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
+    ).toBe(frozen);
   });
-  it('interval update text: remove', () => {
+  test('interval update text: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
     newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [3, 8];
     const frozen = freezeMe(viewDataState.text);
-    cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
-    .should.eql({
+    expect(
+      cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
+    ).toEqual({
       index: {
         STAT_WILDCARD_TIMELINE: 13,
       },

@@ -2,7 +2,6 @@ import sinon from 'sinon';
 import { connect } from 'rtd/catalogs';
 import { Reporting as loadReportings } from 'rtd/stubs/loaders';
 import { Reporting as generateReporting } from 'rtd/stubs/generators';
-import { should } from '../../common/test';
 import {
   getShortDescription,
   getLongDescription,
@@ -32,24 +31,24 @@ let monitoringStub;
 let rtdStub;
 
 describe('rtdManager/reportings', () => {
-  before((done) => {
+  beforeAll((done) => {
     monitoringStub = sinon.stub(monitorings, 'getTriggers').callsFake((opts, monitoring, callback) => {
       callback(null, 'StubTriggers');
     });
     connect({ socket, mockRedis }, (err, catalogApi) => {
-      should.not.exist(err);
-      should.exist(catalogApi);
+      expect(err).toBeFalsy();
+      expect(catalogApi).toBeDefined();
       rtd = catalogApi;
       loadReportings(rtd.getDatabase().getClient(), { sessionId, domainId, items }, done);
     });
   });
-  after(() => {
+  afterAll(() => {
     monitoringStub.restore();
   });
   beforeEach((done) => {
     rtd.getCatalogByName('Reporting', SDB_NAMESPACE, 'TEST_ITEM1', sessionId, domainId, (getErr, item) => {
-      should.not.exist(getErr);
-      should.exist(item);
+      expect(getErr).toBeFalsy();
+      expect(item).toBeDefined();
       reporting = item;
       rtdStub = sinon.stub(rtd, 'getCatalogByName').callsFake((catalog, namespace, name, session, domain, callback) => {
         callback(null, 'StubMonitoring');
@@ -62,74 +61,63 @@ describe('rtdManager/reportings', () => {
       rtdStub.restore();
     }
   });
-  it('getShortDescription', (done) => {
+  test('getShortDescription', (done) => {
     getShortDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      desc.should.be.a('string');
+      expect(typeof desc).toBe('string');
       done();
     });
   });
-  it('getLongDescription', (done) => {
+  test('getLongDescription', (done) => {
     getLongDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      desc.should.be.a('string');
+      expect(typeof desc).toBe('string');
       done();
     });
   });
-  it('getAliases', (done) => {
+  test('getAliases', (done) => {
     getAliases({ rtd, sessionId, domainId }, reporting, (err, aliases) => {
-      aliases.should.be.an('array');
-      aliases[0].should.be.an('object');
-      aliases[0].should.have.a.property('Alias');
-      aliases[0].should.have.a.property('ContextDomain');
+      expect(aliases).toBeAnArray();
+      expect(aliases[0]).toBeAnObject();
+      expect(aliases[0]).toHaveProperty('Alias');
+      expect(aliases[0]).toHaveProperty('ContextDomain');
       done();
     });
   });
-  it('getMonitoringLaws', (done) => {
+  test('getMonitoringLaws', (done) => {
     getMonitoringLaws({ rtd, sessionId, domainId }, reporting, (err, laws) => {
       const keys = Object.keys(laws);
-      keys.should.have.lengthOf(1);
-      keys[0].should.be.oneOf(['OnGround', 'OnBoard']);
-      laws[keys[0]].should.be.an('array').that.has.lengthOf(2);
-      laws[keys[0]][0].should.have.a.properties({ Triggers: 'StubTriggers' });
+      expect(keys).toHaveLength(1);
+      expect(keys[0]).toBeOneOf(['OnGround', 'OnBoard']);
+      expect(laws[keys[0]]).toBeAnArray();
+      expect(laws[keys[0]]).toHaveLength(2);
+      expect(laws[keys[0]][0]).toHaveProperty('Triggers', 'StubTriggers');
       done();
     });
   });
-  it('getSignificativityConditions', (done) => {
+  test('getSignificativityConditions', (done) => {
     getSignificativityConditions({ rtd, sessionId, domainId }, reporting, (err, conds) => {
-      conds.should.be.an('array');
-      conds[0].should.be.an('object');
-      conds[0].should.have.a.property('DomainApplicability');
+      expect(conds).toBeAnArray();
+      expect(conds[0]).toBeAnObject();
+      expect(conds[0]).toHaveProperty('DomainApplicability');
       done();
     });
   });
-  it('getCalibrationFunctions', (done) => {
+  test('getCalibrationFunctions', (done) => {
     getCalibrationFunctions({ rtd, sessionId, domainId }, reporting, (err, funcs) => {
-      funcs.should.be.an('object');
-      funcs.should.have.a.property('DefaultInterpretationFunction').that.is.an('object');
-      funcs.should.have.a.property('ConditionalInterpretationFunctions').that.is.an('array');
+      expect(funcs).toHaveProperty('DefaultInterpretationFunction');
+      expect(funcs).toHaveProperty('ConditionalInterpretationFunctions');
+      expect(funcs.ConditionalInterpretationFunctions).toBeAnArray();
       done();
     });
   });
-  /* it('getTMPackets', (done) => {
-    getTMPackets({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      console.log(desc);
-      done();
-    });
-  });*/
-  /* it('getComputingDefinitions', (done) => {
-    getComputingDefinitions({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      console.log(desc);
-      done();
-    });
-  });*/
-  it('getComputedParameterFormula', (done) => {
+  test('getComputedParameterFormula', (done) => {
     getComputedParameterFormula({ rtd, sessionId, domainId }, reporting, (err, formula) => {
-      formula.should.be.a('string');
+      expect(formula).toBeAString();
       done();
     });
   });
-  it('getComputedParameterTriggers', (done) => {
+  test('getComputedParameterTriggers', (done) => {
     getComputedParameterTriggers({ rtd, sessionId, domainId }, reporting, (err, triggers) => {
-      triggers.should.be.an('array');
+      expect(triggers).toBeAnArray();
       done();
     });
   });

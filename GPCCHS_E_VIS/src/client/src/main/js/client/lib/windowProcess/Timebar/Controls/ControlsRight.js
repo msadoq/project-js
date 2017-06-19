@@ -60,7 +60,6 @@ export default class ControlsRight extends PureComponent {
           // TODO Show message
           return;
         }
-        console.log('here');
         switchToRealtimeMode(timebarUuid, timestamp);
       });
     }

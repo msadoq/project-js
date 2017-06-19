@@ -1,8 +1,5 @@
 /* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
-import {
-  DATASTRUCTURETYPE_LAST,
-  DATASTRUCTURETYPE_RANGE,
-} from 'common/constants';
+import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from '../constants';
 
 import plotViewData from './PlotView/data';
 import textViewData from './TextView/data';

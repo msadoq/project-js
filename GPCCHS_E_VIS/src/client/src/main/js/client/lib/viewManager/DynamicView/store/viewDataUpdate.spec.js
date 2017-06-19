@@ -2,19 +2,19 @@ import { viewDataUpdate, selectDataPerView } from './viewDataUpdate';
 
 describe('viewManager/DynamicView/store/viewDataUpdate', () => {
   describe('Update', () => {
-    it('should ignore payloads', () => {
+    test('should ignore payloads', () => {
       const frozen = Object.freeze({});
-      viewDataUpdate(frozen, {}).should.equal(frozen);
+      expect(viewDataUpdate(frozen, {})).toBe(frozen);
     });
-    it('should add', () => {
+    test('should add', () => {
       const frozen = Object.freeze({});
-      viewDataUpdate(frozen, { index: 15, value: { va1: 300, val2: 400 } })
-      .should.eql({ index: 15, value: { va1: 300, val2: 400 } });
+      expect(viewDataUpdate(frozen, { index: 15, value: { va1: 300, val2: 400 } }))
+        .toEqual({ index: 15, value: { va1: 300, val2: 400 } });
     });
-    it('should update', () => {
+    test('should update', () => {
       const state = Object.freeze({ index: '15', value: { va1: 300, val2: 400 } });
-      viewDataUpdate(state, { index: 20, value: { va1: 500, val2: 600 } })
-      .should.eql({ index: 20, value: { va1: 500, val2: 600 } });
+      expect(viewDataUpdate(state, { index: 20, value: { va1: 500, val2: 600 } }))
+        .toEqual({ index: 20, value: { va1: 500, val2: 600 } });
     });
   });
   describe('selectDataPerView', () => {
@@ -71,11 +71,11 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         localEp6: { expectedInterval: [12, 20] },
       },
     };
-    it('state undefined', () => {
+    test('state undefined', () => {
       const data =
         selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, {});
-      data.index.should.eql(20);
-      data.value.should.eql({
+      expect(data.index).toEqual(20);
+      expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
         referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
@@ -83,7 +83,7 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
-    it('state with value > current', () => {
+    test('state with value > current', () => {
       const oldState = {
         index: 22,
         value: {
@@ -94,8 +94,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
       const data = selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, oldState);
-      data.index.should.eql(20);
-      data.value.should.eql({
+      expect(data.index).toEqual(20);
+      expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
         referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
@@ -103,7 +103,7 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
-    it('state with value < current', () => {
+    test('state with value < current', () => {
       const oldState = { index: 19,
         value: {
           val1: { type: 'uinteger', value: 221 },
@@ -113,8 +113,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
       const data = selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, oldState);
-      data.index.should.eql(20);
-      data.value.should.eql({
+      expect(data.index).toEqual(20);
+      expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
         referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
@@ -122,7 +122,7 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
-    it('state with value = current', () => {
+    test('state with value = current', () => {
       const oldState = { index: 20,
         value: {
           val1: { type: 'uinteger', value: 221 },
@@ -132,8 +132,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
       const data = selectDataPerView(viewDataMap.dynamic, expectedIntervals, payload, oldState);
-      data.index.should.eql(20);
-      data.value.should.eql({
+      expect(data.index).toEqual(20);
+      expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
         referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },

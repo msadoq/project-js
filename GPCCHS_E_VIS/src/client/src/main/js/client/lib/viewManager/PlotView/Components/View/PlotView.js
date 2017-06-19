@@ -7,8 +7,8 @@ import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
-import getLogger from 'common/log';
-import { get } from 'common/parameters';
+import getLogger from '../../../../common/logManager';
+import { get } from '../../../../common/configurationManager';
 import Dimensions from '../../../../windowProcess/common/Dimensions';
 import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
@@ -19,7 +19,7 @@ import handleContextMenu from '../../../../windowProcess/common/handleContextMen
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import Links from '../../../../windowProcess/View/Links';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const logger = getLogger('view:plot');
 
@@ -128,6 +128,9 @@ export class GrizzlyPlotView extends PureComponent {
       path: PropTypes.string.isRequired,
     })),
     removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -138,11 +141,11 @@ export class GrizzlyPlotView extends PureComponent {
     visuWindow: null,
     inspectorEpId: null,
     links: [],
+    showLinks: false,
   };
 
   state = {
     showLegend: false,
-    showLinks: false,
     showEpNames: [],
     hideEpNames: [],
   }
@@ -165,7 +168,7 @@ export class GrizzlyPlotView extends PureComponent {
     if (nextState.showLegend !== this.state.showLegend) {
       shouldRender = true;
     }
-    if (nextState.showLinks !== this.state.showLinks) {
+    if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
     }
     if (nextState.showEpNames !== this.state.showEpNames) {
@@ -357,9 +360,8 @@ export class GrizzlyPlotView extends PureComponent {
   }
   toggleShowLinks = (e) => {
     e.preventDefault();
-    this.setState({
-      showLinks: !this.state.showLinks,
-    });
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
   }
   showEp = (e, lineId) => {
     e.preventDefault();
@@ -474,13 +476,14 @@ export class GrizzlyPlotView extends PureComponent {
       },
       visuWindow,
       links,
+      pageId,
+      showLinks,
     } = this.props;
     let {
       configuration: { entryPoints },
     } = this.props;
     const {
       showLegend,
-      showLinks,
       showEpNames,
       hideEpNames,
     } = this.state;
@@ -557,6 +560,7 @@ export class GrizzlyPlotView extends PureComponent {
               autoLimits: false,
               autoTick: axis.autoTick === true,
               tickStep: axis.tickStep,
+              showPointLabels: false,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),
@@ -585,12 +589,6 @@ export class GrizzlyPlotView extends PureComponent {
             )
           }
         />
-        <Links
-          show={showLinks}
-          toggleShowLinks={this.toggleShowLinks}
-          links={links}
-          removeLink={this.removeLink}
-        />
         <Legend
           yAxes={yAxes}
           lines={this.props.configuration.entryPoints}
@@ -602,6 +600,13 @@ export class GrizzlyPlotView extends PureComponent {
           hideEpNames={hideEpNames}
           onContextMenu={this.onContextMenu}
           removeEntryPoint={this.removeEntryPoint}
+        />
+        <LinksContainer
+          show={showLinks}
+          toggleShowLinks={this.toggleShowLinks}
+          links={links}
+          removeLink={this.removeLink}
+          pageId={pageId}
         />
 
       </DroppableContainer>

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-import { should } from '../common/test';
 import validate from './validation';
 import schema from './schemas/page.schema.json';
 
@@ -22,23 +20,23 @@ const pageSchema = {
 };
 
 describe('documents/validation', () => {
-  it('is function', () => {
-    validate.should.be.a('function');
+  test('is function', () => {
+    expect(typeof validate).toBe('function');
   });
-  it('accepts 2 or 3 params', () => {
-    validate('page').should.be.an('error');
-    validate('page', page, pageSchema, 'foo').should.be.an('error');
+  test('accepts 2 or 3 params', () => {
+    expect(validate('page')).toBeInstanceOf(Error);
+    expect(validate('page', page, pageSchema, 'foo')).toBeInstanceOf(Error);
   });
-  it('pre-existing schema', () => {
-    should.not.exist(validate('page', page));
+  test('pre-existing schema', () => {
+    expect(validate('page', page)).toBeFalsy();
   });
-  it('runtime imported schema', () => {
-    should.not.exist(validate('simplePage', page, schema));
+  test('runtime imported schema', () => {
+    expect(validate('simplePage', page, schema)).toBeFalsy();
   });
-  it('errors', () => {
-    validate('unknown', page).should.be.an('error');
-    validate('unknown', pageInvalid).should.be.an('error');
-    validate('page', pageInvalid).should.be.an('error');
-    validate('page', {}).should.be.an('error');
+  test('errors', () => {
+    expect(validate('unknown', page)).toBeInstanceOf(Error);
+    expect(validate('unknown', pageInvalid)).toBeInstanceOf(Error);
+    expect(validate('page', pageInvalid)).toBeInstanceOf(Error);
+    expect(validate('page', {})).toBeInstanceOf(Error);
   });
 });

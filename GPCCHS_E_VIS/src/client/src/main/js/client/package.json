@@ -5,12 +5,22 @@
   "main": "main.js",
   "jest": {
     "verbose": true,
-    "testRegex": "(snapshot)\\.(js|jsx)$",
+    "testRegex": "(spec)\\.(js|jsx)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
     },
-    "collectCoverageFrom": "lib/windowProcess/**/*.js",
-    "coverageDirectory": "coverage/snapshot"
+    "transformIgnorePatterns": [
+      "node_modules/(?!common)|(node_modules/common/node_modules)"
+    ],
+    "collectCoverageFrom": [
+      "lib/**/*.js"
+    ],
+    "coverageDirectory": "coverage/test",
+    "setupTestFrameworkScriptFile": "./lib/common/jest/setup.js"
   },
   "scripts": {
     "build": "npm run build:main && npm run build:renderer && npm run build:server && npm run package:electron",
@@ -18,25 +28,20 @@
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "build:server": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.server.js --progress --profile --colors",
     "package:electron": "cd dist && electron-packager . --no-prune --overwrite",
-    "clean": "rimraf ./dist stats.json",
+    "clean": "rimraf ./dist stats.json scripts/lint-reporter/*.csv",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link:common": "npm link ../../../../../common/src/main/js/common && (cd ../../../../../common/src/main/js/common && npm install)",
     "link:rtd": "npm link ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && (cd ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && npm install)",
     "link": "npm run link:common && npm run link:rtd",
     "lint": "eslint .",
-    "lint:report": "node -r babel-register lint-reporter/lint-reporter.js",
+    "lint:report": "node -r babel-register scripts/lint-reporter/lint-reporter.js",
     "sh": "npm run start-hot",
     "start": "./scripts/start.sh",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
-    "test": "NODE_ENV=test mocha --compilers js:babel-register \"lib/**/*.spec.js\"",
+    "test": "NODE_ENV=test jest",
     "test:watch": "npm test -- --watch",
-    "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:test-coverage",
-    "open:test-coverage": "firefox coverage/test/lcov-report/index.html",
-    "snapshot": "NODE_ENV=snapshot BABEL_DISABLE_CACHE=1 jest",
-    "snapshot:coverage": "(npm run snapshot -- --coverage || true) && npm run open:snapshot-coverage",
-    "open:snapshot-coverage": "firefox coverage/snapshot/lcov-report/index.html",
-    "snapshot:watch": "npm run snapshot -- --watch",
-    "snapshot:clean": "jest -u",
+    "test:coverage": "npm test -- --coverage && npm run open:test:coverage",
+    "open:test:coverage": "firefox coverage/test/lcov-report/index.html",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
     "update-rtd": "./manageRTD.sh --update",
@@ -62,7 +67,7 @@
     "async": "~2.4.0",
     "babel-core": "~6.24.0",
     "babel-eslint": "~7.2.1",
-    "babel-jest": "~19.0.0",
+    "babel-jest": "~20.0.3",
     "babel-loader": "~6.4.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-lodash": "^3.2.11",
@@ -75,8 +80,6 @@
     "babel-preset-stage-0": "~6.22.0",
     "babel-register": "~6.24.0",
     "bootstrap": "~3.3.7",
-    "chai": "~3.5.0",
-    "chai-properties": "~1.2.1",
     "classnames": "~2.2.5",
     "codemirror": "~5.25.0",
     "copy-webpack-plugin": "^4.0.1",
@@ -110,15 +113,17 @@
     "express": "~4.15.2",
     "extract-text-webpack-plugin": "~1.0.1",
     "fakeredis": "^1.0.3",
+    "fast-json-patch": "^1.2.2",
     "fbjs-scripts": "~0.7.1",
     "file-loader": "~0.11.1",
     "html-to-react": "~1.2.4",
     "htmlhint": "~0.9.13",
     "identity-obj-proxy": "~3.0.0",
-    "jest": "~19.0.2",
+    "jest": "~20.0.4",
     "js-beautify": "~1.6.12",
     "jsdom": "~9.12.0",
     "json-loader": "~0.5.4",
+    "json-touch-patch": "^0.11.1",
     "less": "~2.7.2",
     "less-loader": "~3.0.0",
     "lockfile": "~1.0.3",
@@ -129,7 +134,6 @@
     "mkdirp": "~0.5.1",
     "mocha": "~3.2.0",
     "moment": "~2.18.1",
-    "nyc": "~10.2.0",
     "postcss": "~5.2.16",
     "postcss-browser-reporter": "~0.5.0",
     "postcss-custom-properties": "~5.0.2",
@@ -155,14 +159,13 @@
     "react-test-renderer": "~15.4.2",
     "react-treebeard": "^1.1.4",
     "redux": "~3.6.0",
-    "redux-electron-store": "~0.4.1",
     "redux-form": "~6.6.1",
     "redux-logger": "~3.0.1",
+    "redux-mock-store": "^1.2.3",
     "redux-thunk": "~2.2.0",
     "reselect": "~3.0.0",
     "rimraf": "~2.6.1",
     "sinon": "~2.1.0",
-    "sinon-chai": "^2.9.0",
     "source-map-support": "~0.4.14",
     "spectron": "~3.6.1",
     "style-loader": "~0.16.1",
@@ -173,7 +176,8 @@
     "webpack-dev-middleware": "~1.10.1",
     "webpack-hot-middleware": "~2.18.0",
     "webpack-merge": "~1.1.2",
-    "why-did-you-update": "~0.0.8"
+    "why-did-you-update": "~0.0.8",
+    "winston": "^2.3.1"
   },
   "peerDependencies": {
     "rtd": "../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd",
@@ -186,23 +190,6 @@
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"
-  },
-  "nyc": {
-    "all": true,
-    "cache": true,
-    "exclude": [
-      "**/*.spec.js",
-      "lib/windowProcess/**",
-      "dist/**"
-    ],
-    "include": [
-      "lib/**/*.js"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ],
-    "report-dir": "./coverage/test"
   },
   "style": "./lib/app.global.css"
 }

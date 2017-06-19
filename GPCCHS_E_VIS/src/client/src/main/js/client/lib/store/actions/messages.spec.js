@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-expressions */
-import sinon from 'sinon';
-import * as types from '../types';
 import * as actions from './messages';
-import { freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:messages', () => {
   const state = freezeMe({
@@ -11,56 +8,57 @@ describe('store:actions:messages', () => {
     },
   });
 
-  let dispatch;
-  const getState = () => state;
-
-  beforeEach(() => {
-    dispatch = sinon.spy();
-  });
-
   describe('add', () => {
-    it('adds message', () => {
+    test('adds message', () => {
       const action = actions.add('global', 'success', 'hello world');
-      action.should.have.properties({
-        type: types.WS_MESSAGE_ADD,
+      expect(action).toMatchObject({
+        type: 'WS_MESSAGE_ADD',
         payload: {
           containerId: 'global',
           type: 'success',
-          messages: ['hello world'],
+          messages: [{ content: 'hello world' }],
         },
       });
     });
-    it('adds error message', () => {
+    test('adds error message', () => {
       const action = actions.add('global', 'danger', new Error('error message'));
-      action.should.have.properties({
-        type: types.WS_MESSAGE_ADD,
+      expect(action).toMatchObject({
+        type: 'WS_MESSAGE_ADD',
         payload: {
           containerId: 'global',
           type: 'danger',
-          messages: ['error message'],
+          messages: [{ content: 'error message' }],
         },
       });
     });
   });
 
   describe('addOnce', () => {
-    it('adds message', () => {
-      actions.addOnce('unknownContainerId', 'info', 'yolo')(dispatch, getState);
+    const store = mockStore(state);
 
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_MESSAGE_ADD,
-        payload: {
-          containerId: 'unknownContainerId',
-          type: 'info',
-          messages: ['yolo'],
-        },
-      });
+    afterEach(() => {
+      store.clearActions();
     });
-    it('does not add duplicate message', () => {
-      actions.addOnce('global', 'info', 'yolo')(dispatch, getState);
-      dispatch.should.not.have.been.called;
+
+    test('adds message id doest not exists', () => {
+      store.dispatch(actions.addOnce('global', 'info', 'yolo'));
+      expect(store.getActions()).toHaveLength(0);
+
+      store.dispatch(actions.addOnce('aContainerId', 'info', 'yolo'));
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'aContainerId',
+            type: 'info',
+            messages: [{ content: 'yolo' }],
+          },
+        },
+      ]);
+    });
+    test('does not add duplicate message', () => {
+      store.dispatch(actions.addOnce('global', 'info', 'yolo'));
+      expect(store.getActions()).toHaveLength(0);
     });
   });
 });

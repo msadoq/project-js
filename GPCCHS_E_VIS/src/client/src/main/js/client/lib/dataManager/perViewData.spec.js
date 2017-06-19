@@ -1,4 +1,3 @@
-import '../common/test';
 import makeGetPerViewData from './perViewData';
 
 describe('dataManager/perViewData', () => {
@@ -195,9 +194,9 @@ describe('dataManager/perViewData', () => {
     },
   };
 // ****************************************************
-  it('text view', () => {
+  test('text view', () => {
     const map = makeGetPerViewData()(state, { viewId: 't1', timebarUuid: 'tb1', pageId: 'page1' });
-    map.should.eql({
+    expect(map).toEqual({
       type: 'TextView',
       entryPoints: {
         STAT_SU_PID: {
@@ -266,9 +265,9 @@ describe('dataManager/perViewData', () => {
       },
     });
   });
-  it('plot view', () => {
+  test('plot view', () => {
     const map = makeGetPerViewData()(state, { viewId: 'p1', timebarUuid: 'tb1' });
-    map.should.eql({
+    expect(map).toEqual({
       type: 'PlotView',
       entryPoints: {
         STAT_SU_PID: {
@@ -303,9 +302,9 @@ describe('dataManager/perViewData', () => {
       },
     });
   });
-  it('dynamic view', () => {
+  test('dynamic view', () => {
     const map = makeGetPerViewData()(state, { viewId: 'd1', timebarUuid: 'tb1' });
-    map.should.eql({
+    expect(map).toEqual({
       type: 'DynamicView',
       entryPoints: {
         dynamicEP: {
@@ -328,13 +327,13 @@ describe('dataManager/perViewData', () => {
       },
     });
   });
-  it('memoization', () => {
+  test('memoization', () => {
     const map = makeGetPerViewData();
     map(state, { viewId: 't1', timebarUuid: 'tb1' });
-    map.recomputations().should.eql(1);
+    expect(map.recomputations()).toEqual(1);
     map(state, { viewId: 't1', timebarUuid: 'tb1' });
-    map.recomputations().should.eql(1);
+    expect(map.recomputations()).toEqual(1);
     map(state, { viewId: 'p1', timebarUuid: 'tb1' });
-    map.recomputations().should.eql(2);
+    expect(map.recomputations()).toEqual(2);
   });
 });

@@ -1,4 +1,4 @@
-const logger = require('common/log')('utils:registeredQueries');
+const logger = require('../../common/logManager')('utils:registeredQueries');
 const _isString = require('lodash/isString');
 const _isEmpty = require('lodash/isEmpty');
 const _remove = require('lodash/remove');

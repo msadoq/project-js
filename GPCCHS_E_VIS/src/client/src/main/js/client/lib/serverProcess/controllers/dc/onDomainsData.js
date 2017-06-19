@@ -1,4 +1,4 @@
-const logger = require('common/log')('controllers:onDomainData');
+const logger = require('../../../common/logManager')('controllers:onDomainData');
 const { decode } = require('common/protobuf');
 
 /**

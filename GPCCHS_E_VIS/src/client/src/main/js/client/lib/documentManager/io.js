@@ -1,5 +1,5 @@
+import _ from 'lodash/fp';
 import fs from 'fs';
-import startsWith from 'lodash/fp/startsWith';
 
 import * as fmd from '../common/fmd';
 
@@ -27,10 +27,22 @@ export const readDocument = ({ pageFolder, workspaceFolder, path, oId, absoluteP
   });
 };
 
+export const readDocumentType = (docInfo, cb) => {
+  readDocument(docInfo, (err, doc) => {
+    if (err) {
+      return cb(err);
+    }
+    if (!_.has('type', doc)) {
+      return cb(new Error('The given document has no type'));
+    }
+    return cb(null, doc.type);
+  });
+};
+
 export const writeDocument = (path, json, cb) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
-  if (!startsWith('/', path)) {
+  if (!_.startsWith('/', path)) {
     return cb(new Error('path should be absolute'));
   }
   if (fmd.isInFmd(path)) {
@@ -40,10 +52,9 @@ export const writeDocument = (path, json, cb) => {
       }
       return fs.writeFile(path, data, (errWriting) => {
         if (errWriting) {
-          cb(errWriting);
-          return;
+          return cb(errWriting);
         }
-        cb(null, oid);
+        return cb(null, oid);
       });
     });
   }

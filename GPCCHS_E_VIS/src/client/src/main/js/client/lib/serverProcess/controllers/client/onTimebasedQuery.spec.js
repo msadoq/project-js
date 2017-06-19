@@ -1,19 +1,21 @@
+const { registerProtobuf } = require('../../../common/jest');
+
+registerProtobuf();
+
 const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');
 const _concat = require('lodash/concat');
-const globalConstants = require('common/constants');
 const dataStub = require('common/protobuf/stubs');
-
-const { should } = require('../../utils/test');
+const globalConstants = require('../../../constants');
+const { getRemoteId } = require('../../../common/jest');
 const { get: getQueue } = require('../../models/dataQueue');
 const {
   cleanup: cleanRegisteredQueries,
   getAll: getAllRegisteredQueries,
 } = require('../../models/registeredQueries');
-const registeredCallbacks = require('../../../utils/callbacks');
+const registeredCallbacks = require('../../../common/callbacks');
 const connectedDataModel = require('../../models/connectedData');
-
 
 const onTimebasedQuery = require('./onTimebasedQuery');
 
@@ -45,7 +47,7 @@ describe('controllers/client/onTimebasedQuery', () => {
 
   const dataId = dataStub.getDataId();
   const dataIdProto = dataStub.getDataIdProtobuf(dataId);
-  const flatDataId = dataStub.getRemoteId(dataId);
+  const flatDataId = getRemoteId(dataId);
   const intervalRange = [1, 5];
   const intervalLast = [1, 10];
   const intervalRangeProto = dataStub.getTimeIntervalProtobuf({
@@ -85,26 +87,26 @@ describe('controllers/client/onTimebasedQuery', () => {
     },
   };
 
-  it('should not crash when receiving an invalid payload', () => {
+  test('should not crash when receiving an invalid payload', () => {
     onTimebasedQuery(zmqEmulator, {});
-    _isEmpty(getAllRegisteredQueries()).should.equal(true);
-    _isEmpty(registeredCallbacks.getAll()).should.equal(true);
-    calls.length.should.equal(0);
-    getQueue().should.eql({});
+    expect(_isEmpty(getAllRegisteredQueries())).toBe(true);
+    expect(_isEmpty(registeredCallbacks.getAll())).toBe(true);
+    expect(calls.length).toBe(0);
+    expect(getQueue()).toEqual({});
     onTimebasedQuery(zmqEmulator, { queries: {} });
-    _isEmpty(getAllRegisteredQueries()).should.equal(true);
-    _isEmpty(registeredCallbacks.getAll()).should.equal(true);
-    calls.length.should.equal(0);
-    getQueue().should.eql({});
+    expect(_isEmpty(getAllRegisteredQueries())).toBe(true);
+    expect(_isEmpty(registeredCallbacks.getAll())).toBe(true);
+    expect(calls.length).toBe(0);
+    expect(getQueue()).toEqual({});
     onTimebasedQuery(zmqEmulator, { queries: { string: 'text' } });
-    _isEmpty(getAllRegisteredQueries()).should.equal(true);
-    _isEmpty(registeredCallbacks.getAll()).should.equal(true);
-    calls.length.should.equal(0);
-    getQueue().should.eql({});
+    expect(_isEmpty(getAllRegisteredQueries())).toBe(true);
+    expect(_isEmpty(registeredCallbacks.getAll())).toBe(true);
+    expect(calls.length).toBe(0);
+    expect(getQueue()).toEqual({});
   });
 
   describe('query', () => {
-    it('range interval not missing', () => {
+    test('range interval not missing', () => {
       // init test
       connectedDataModel.addRecord(dataId);
       connectedDataModel.addRequestedInterval(flatDataId, 'queryId', intervalRange);
@@ -112,15 +114,15 @@ describe('controllers/client/onTimebasedQuery', () => {
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: queryRange });
       // check registeredQueries
-      _isEmpty(getAllRegisteredQueries()).should.equal(true);
+      expect(_isEmpty(getAllRegisteredQueries())).toBe(true);
       // check registeredCallbacks
-      _isEmpty(registeredCallbacks.getAll()).should.equal(true);
+      expect(_isEmpty(registeredCallbacks.getAll())).toBe(true);
       // check zmq messages
-      calls.length.should.equal(0);
+      expect(calls.length).toBe(0);
       // check connectedDataModel
-      connectedDataModel.count().should.equal(1);
+      expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      connectedData[0].should.have.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         intervals: {
           all: [intervalRange],
@@ -131,7 +133,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       });
     });
 
-    it('range interval missing', () => {
+    test('range interval missing', () => {
       // init test
       const otherQueryId = 'otherId';
       const otherInterval = [5, 42];
@@ -143,22 +145,22 @@ describe('controllers/client/onTimebasedQuery', () => {
       onTimebasedQuery(zmqEmulator, { queries: queryRange });
       // check registeredQueries
       const queryIds = getAllRegisteredQueries();
-      queryIds.length.should.equal(1);
+      expect(queryIds.length).toBe(1);
       const queryId = queryIds[0].queryId;
       // check registeredCallbacks
-      should.exist(registeredCallbacks.get(queryId));
+      expect(registeredCallbacks.get(queryId)).toBeDefined();
       // check zmq messages
       const queryIdProto = dataStub.getStringProtobuf(queryId);
-      calls.length.should.equal(5);
-      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      calls[1].should.have.properties(queryIdProto);
-      calls[2].should.have.properties(dataIdProto);
-      calls[3].should.have.properties(intervalRangeProto);
-      calls[4].should.have.properties(queryArgumentsProto);
+      expect(calls.length).toBe(5);
+      expect(calls[0]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[1]).toMatchObject(queryIdProto);
+      expect(calls[2]).toMatchObject(dataIdProto);
+      expect(calls[3]).toMatchObject(intervalRangeProto);
+      expect(calls[4]).toMatchObject(queryArgumentsProto);
       // check connectedDataModel
-      connectedDataModel.count().should.equal(1);
+      expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      connectedData[0].should.have.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         dataId,
         intervals: {
@@ -169,31 +171,31 @@ describe('controllers/client/onTimebasedQuery', () => {
         lastQueries: {},
       });
     });
-    it('getLast', () => {
+    test('getLast', () => {
       // init test
       connectedDataModel.addRecord(dataId);
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: queryLast });
       // check registeredQueries
       const queryIds = getAllRegisteredQueries();
-      queryIds.length.should.equal(1);
+      expect(queryIds.length).toBe(1);
       const queryId = queryIds[0].queryId;
       // check registeredCallbacks
-      should.exist(registeredCallbacks.get(queryId));
+      expect(registeredCallbacks.get(queryId)).toBeDefined();
       // check zmq messages
       const queryIdProto = dataStub.getStringProtobuf(queryId);
-      calls.length.should.equal(5);
-      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      calls[1].should.have.properties(queryIdProto);
-      calls[2].should.have.properties(dataIdProto);
-      calls[3].should.have.properties(intervalLastProto);
-      calls[4].should.have.properties(lastQueryArgumentsProto);
+      expect(calls.length).toBe(5);
+      expect(calls[0]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[1]).toMatchObject(queryIdProto);
+      expect(calls[2]).toMatchObject(dataIdProto);
+      expect(calls[3]).toMatchObject(intervalLastProto);
+      expect(calls[4]).toMatchObject(lastQueryArgumentsProto);
       // check ws messages
-      // getQueue().should.have.properties({});
+      // getQueue().should.toMatchObject({});
       // check connectedDataModel
-      connectedDataModel.count().should.equal(1);
+      expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      connectedData[0].should.have.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         dataId,
         intervals: {
@@ -204,45 +206,45 @@ describe('controllers/client/onTimebasedQuery', () => {
         lastQueries: { [queryId]: intervalLast },
       });
     });
-    it('dataId not in subscriptions (last + range)', () => {
+    test('dataId not in subscriptions (last + range)', () => {
       // launch test
       onTimebasedQuery(zmqEmulator, { queries: query });
       // check registeredQueries
       const queryIds = getAllRegisteredQueries();
-      queryIds.length.should.equal(2);
+      expect(queryIds.length).toBe(2);
       const queryId0 = queryIds[0].queryId;
       const queryId1 = queryIds[1].queryId;
       // check registeredCallbacks
-      should.exist(registeredCallbacks.get(queryId0));
-      should.exist(registeredCallbacks.get(queryId1));
+      expect(registeredCallbacks.get(queryId0)).toBeDefined();
+      expect(registeredCallbacks.get(queryId1)).toBeDefined();
       const callbackIds = _keys(registeredCallbacks.getAll());
-      callbackIds.length.should.equal(3);
+      expect(callbackIds.length).toBe(3);
       const subId0 = _pull(callbackIds, queryId0)[0];
       // check zmq messages
       const queryIdProto0 = dataStub.getStringProtobuf(queryId0);
       const queryIdProto1 = dataStub.getStringProtobuf(queryId1);
       const subIdProto0 = dataStub.getStringProtobuf(subId0);
-      calls.length.should.equal(14);
-      calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-      calls[1].should.have.properties(subIdProto0);
-      calls[2].should.have.properties(dataIdProto);
-      calls[3].should.have.properties(dataStub.getAddActionProtobuf());
-      calls[4].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      calls[5].should.have.properties(queryIdProto0);
-      calls[6].should.have.properties(dataIdProto);
-      calls[7].should.have.properties(intervalLastProto);
-      calls[8].should.have.properties(lastQueryArgumentsProto);
-      calls[9].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-      calls[10].should.have.properties(queryIdProto1);
-      calls[11].should.have.properties(dataIdProto);
-      calls[12].should.have.properties(intervalRangeProto);
-      calls[13].should.have.properties(queryArgumentsProto);
+      expect(calls.length).toBe(14);
+      expect(calls[0]).toMatchObject(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+      expect(calls[1]).toMatchObject(subIdProto0);
+      expect(calls[2]).toMatchObject(dataIdProto);
+      expect(calls[3]).toMatchObject(dataStub.getAddActionProtobuf());
+      expect(calls[4]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[5]).toMatchObject(queryIdProto0);
+      expect(calls[6]).toMatchObject(dataIdProto);
+      expect(calls[7]).toMatchObject(intervalLastProto);
+      expect(calls[8]).toMatchObject(lastQueryArgumentsProto);
+      expect(calls[9]).toMatchObject(dataStub.getTimebasedQueryHeaderProtobuf());
+      expect(calls[10]).toMatchObject(queryIdProto1);
+      expect(calls[11]).toMatchObject(dataIdProto);
+      expect(calls[12]).toMatchObject(intervalRangeProto);
+      expect(calls[13]).toMatchObject(queryArgumentsProto);
       // check ws messages
-      // getQueue().should.have.properties({});
+      // getQueue().should.toMatchObject({});
       // check connectedDataModel
-      connectedDataModel.count().should.equal(1);
+      expect(connectedDataModel.count()).toBe(1);
       const connectedData = connectedDataModel.find();
-      connectedData[0].should.have.all.properties({
+      expect(connectedData[0]).toMatchObject({
         flatDataId,
         intervals: {
           all: [intervalRange],

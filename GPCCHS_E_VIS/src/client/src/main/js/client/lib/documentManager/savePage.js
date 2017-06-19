@@ -1,8 +1,6 @@
 import _ from 'lodash/fp';
 import { dirname } from 'path';
-import {
-  LOG_DOCUMENT_SAVE,
-} from 'common/constants';
+import { LOG_DOCUMENT_SAVE } from '../constants';
 
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
@@ -42,7 +40,7 @@ const preparePage = (state, page) => ({
 const savePageAs = (state, pageId, path, callback) => {
   const page = getPage(state, { pageId });
   if (!page) {
-    callback('unknown page');
+    callback(new Error('unknown page'));
     return;
   }
   createFolder(dirname(path), (err) => {
@@ -76,11 +74,11 @@ const savePageAs = (state, pageId, path, callback) => {
 const savePage = (state, pageId, callback) => {
   const page = getPage(state, { pageId });
   if (!page) {
-    callback('unknown page');
+    callback(new Error('unknown page'));
   }
   const absolutePath = getPageAbsolutePath(state, { pageId });
   if (!absolutePath) {
-    return callback('Unknown path for saving the page');
+    return callback(new Error('Unknown path for saving the page'));
   }
   return savePageAs(state, pageId, absolutePath, callback);
 };

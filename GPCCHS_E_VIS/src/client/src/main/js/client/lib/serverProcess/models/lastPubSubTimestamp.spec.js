@@ -1,25 +1,22 @@
-const { should } = require('../utils/test');
 const { reset, get, set } = require('./lastPubSubTimestamp');
 
 describe('models/lastPubSubTimestamp', () => {
   beforeEach(() => {
     reset();
   });
-  it('get', () => {
-    should.not.exist(get());
+  test('get', () => {
+    expect(get()).toBeFalsy();
   });
-  it('set', () => {
+  test('set', () => {
     const t = 42;
     set(t);
-    get()
-      .should.equal(t);
+    expect(get()).toBe(t);
   });
-  it('reset', () => {
-    should.not.exist(reset());
+  test('reset', () => {
+    expect(reset()).toBeFalsy();
     const t = 42;
     set(t);
-    reset()
-      .should.equal(t);
-    should.not.exist(get());
+    expect(reset()).toBe(t);
+    expect(get()).toBeFalsy();
   });
 });

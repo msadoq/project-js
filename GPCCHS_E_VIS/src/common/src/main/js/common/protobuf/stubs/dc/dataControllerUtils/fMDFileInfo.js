@@ -1,9 +1,10 @@
 const protobuf = require('../../../index');
 const applyOverride = require('../../applyOverride');
-const globalConstants = require('../../../../constants/index');
+
+const FMDFILETYPE_DOCUMENT = 2;
 
 const getFMDFileInfo = override => applyOverride({
-  type: globalConstants.FMDFILETYPE_DOCUMENT,
+  type: FMDFILETYPE_DOCUMENT,
   serializedOid: '0001000101000100010000000000000001',
 }, override);
 

@@ -7,8 +7,8 @@ import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _head from 'lodash/head';
 import _isEmpty from 'lodash/isEmpty';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
+import getLogger from '../../../common/logManager';
+import parameters from '../../../common/configurationManager';
 import { getStateColorObj } from '../../commonData/stateColors';
 import { applyFilters } from '../../commonData/applyFilters';
 

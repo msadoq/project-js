@@ -7,10 +7,10 @@ import {
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
-import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
-import { get } from 'common/parameters';
-import Links from '../../../../windowProcess/View/Links';
+import getLogger from '../../../../common/logManager';
+import { get } from '../../../../common/configurationManager';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
@@ -91,6 +91,9 @@ export default class TextView extends PureComponent {
       path: PropTypes.string.isRequired,
     })),
     removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: {
@@ -99,10 +102,8 @@ export default class TextView extends PureComponent {
     entryPoints: {},
     inspectorEpId: null,
     links: [],
-  };
-  state = {
     showLinks: false,
-  }
+  };
 
   componentWillMount() {
     this.template = { html: beautifyHtml(this.props.content, { indent_size: 2 }) };
@@ -113,7 +114,7 @@ export default class TextView extends PureComponent {
     this.updateSpanValues(this.props.data);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     if (
       nextProps.content !== this.props.content ||
@@ -123,7 +124,7 @@ export default class TextView extends PureComponent {
       this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
       this.content = this.getContentComponent();
     }
-    if (nextState.showLinks !== this.state.showLinks) {
+    if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
     }
     if (!shouldRender) {
@@ -320,9 +321,8 @@ export default class TextView extends PureComponent {
 
   toggleShowLinks = (e) => {
     e.preventDefault();
-    this.setState({
-      showLinks: !this.state.showLinks,
-    });
+    const { showLinks, updateShowLinks } = this.props;
+    updateShowLinks(!showLinks);
   }
   removeLink = (e, index) => {
     e.preventDefault();
@@ -334,9 +334,7 @@ export default class TextView extends PureComponent {
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
-    const { viewId, links } = this.props;
-    const { showLinks } = this.state;
-
+    const { viewId, links, pageId, showLinks } = this.props;
     logger.debug(`render ${viewId}`);
     const style = { padding: '15px' };
 
@@ -351,11 +349,12 @@ export default class TextView extends PureComponent {
             <this.content />
           </Col>
           <Col xs={12} style={style}>
-            <Links
+            <LinksContainer
               show={showLinks}
               toggleShowLinks={this.toggleShowLinks}
               links={links}
               removeLink={this.removeLink}
+              pageId={pageId}
             />
           </Col>
         </Row>

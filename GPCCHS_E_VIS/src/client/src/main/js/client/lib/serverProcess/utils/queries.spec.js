@@ -1,35 +1,37 @@
-const { should } = require('./test');
+const { getRemoteId, registerProtobuf } = require('../../common/jest');
+
+registerProtobuf();
+
 const { resetQueryId, createQueryMessage } = require('./queries');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../constants');
 const dataStub = require('common/protobuf/stubs');
 
 const {
   clear: cleanRegisteredCallbacks,
   get: getRegisteredCallback,
-} = require('../../utils/callbacks');
+} = require('../../common/callbacks');
 const {
   getByQueryId: getRegisteredQuery,
   cleanup: cleanRegisteredQueries,
  } = require('../models/registeredQueries');
-const { resetTestHandlerArgs } = require('./test');
 
 const testExecutionHandler = {
   start: () => {},
   stop: () => {},
 };
 
+
 describe('utils/subscriptions', () => {
   beforeEach(() => {
     resetQueryId();
-    resetTestHandlerArgs();
     cleanRegisteredCallbacks();
     cleanRegisteredQueries();
   });
 
-  it('createQueryMessage range', () => {
+  test('createQueryMessage range', () => {
     const myDataId = dataStub.getDataId();
     const myDataIdProto = dataStub.getDataIdProtobuf(myDataId);
-    const myRemoteId = dataStub.getRemoteId(myDataId);
+    const myRemoteId = getRemoteId(myDataId);
     const myInterval = [0, 10];
     const queryArgumentsProto = dataStub.getQueryArgumentsProtobuf(dataStub.getQueryArguments());
     const query1 = 'query1';
@@ -37,25 +39,25 @@ describe('utils/subscriptions', () => {
     const { args, queryId } =
       createQueryMessage(myRemoteId, myDataId, myInterval, {}, testExecutionHandler);
 
-    queryId.should.equal(query1);
+    expect(queryId).toBe(query1);
 
-    args.should.have.lengthOf(5);
-    args[0].should.eql(dataStub.getTimebasedQueryHeaderProtobuf());
-    args[1].should.eql(dataStub.getStringProtobuf(query1));
-    args[2].should.eql(myDataIdProto);
-    args[3].should.eql(dataStub.getTimeIntervalProtobuf({
+    expect(args).toHaveLength(5);
+    expect(args[0]).toEqual(dataStub.getTimebasedQueryHeaderProtobuf());
+    expect(args[1]).toEqual(dataStub.getStringProtobuf(query1));
+    expect(args[2]).toEqual(myDataIdProto);
+    expect(args[3]).toEqual(dataStub.getTimeIntervalProtobuf({
       startTime: { ms: myInterval[0] },
       endTime: { ms: myInterval[1] },
     }));
-    args[4].should.eql(queryArgumentsProto);
+    expect(args[4]).toEqual(queryArgumentsProto);
 
-    should.exist(getRegisteredCallback(query1));
-    getRegisteredQuery(query1).should.eql(myRemoteId);
+    expect(getRegisteredCallback(query1)).toBeDefined();
+    expect(getRegisteredQuery(query1)).toEqual(myRemoteId);
   });
-  it('createQueryMessage last', () => {
+  test('createQueryMessage last', () => {
     const myDataId = dataStub.getDataId();
     const myDataIdProto = dataStub.getDataIdProtobuf(myDataId);
-    const myRemoteId = dataStub.getRemoteId(myDataId);
+    const myRemoteId = getRemoteId(myDataId);
     const myInterval = [0, 10];
     const query = 'query1';
     const lastQueryArguments = Object.assign(
@@ -68,19 +70,19 @@ describe('utils/subscriptions', () => {
     const { args, queryId } =
     createQueryMessage(myRemoteId, myDataId, myInterval, lastQueryArguments, testExecutionHandler);
 
-    queryId.should.equal(query);
+    expect(queryId).toBe(query);
 
-    args.should.have.lengthOf(5);
-    args[0].should.eql(dataStub.getTimebasedQueryHeaderProtobuf());
-    args[1].should.eql(dataStub.getStringProtobuf(query));
-    args[2].should.eql(myDataIdProto);
-    args[3].should.eql(dataStub.getTimeIntervalProtobuf({
+    expect(args).toHaveLength(5);
+    expect(args[0]).toEqual(dataStub.getTimebasedQueryHeaderProtobuf());
+    expect(args[1]).toEqual(dataStub.getStringProtobuf(query));
+    expect(args[2]).toEqual(myDataIdProto);
+    expect(args[3]).toEqual(dataStub.getTimeIntervalProtobuf({
       startTime: { ms: myInterval[0] },
       endTime: { ms: myInterval[1] },
     }));
-    args[4].should.eql(lastQueryArgumentsProto);
+    expect(args[4]).toEqual(lastQueryArgumentsProto);
 
-    should.exist(getRegisteredCallback(query));
-    getRegisteredQuery(query).should.eql(myRemoteId);
+    expect(getRegisteredCallback(query)).toBeDefined();
+    expect(getRegisteredQuery(query)).toEqual(myRemoteId);
   });
 });

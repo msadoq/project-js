@@ -1,17 +1,15 @@
-import { get } from 'common/parameters';
-
-import { should } from '../../common/test';
+import { get } from '../../common/configurationManager';
 import { getStateColorObj } from './stateColors';
 
 describe('data/common/stateColors', () => {
-  it('monitoring color', () => {
+  test('monitoring color', () => {
     const payload = {};
     const stateColors = [];
 
-    getStateColorObj(payload, stateColors, 'severe')
-      .should.eql({ color: get('STATE_COLORS').severe });
+    expect(getStateColorObj(payload, stateColors, 'severe'))
+      .toEqual({ color: get('STATE_COLORS').severe });
   });
-  it('apply custom state color', () => {
+  test('apply custom state color', () => {
     const payload = {
       val1: { type: 'uinteger', value: (10) + 1 },
       val2: { type: 'uinteger', value: (10) + 2 },
@@ -32,9 +30,9 @@ describe('data/common/stateColors', () => {
       },
     ];
 
-    getStateColorObj(payload, stateColors).should.eql({ color: '#0000FF' });
+    expect(getStateColorObj(payload, stateColors)).toEqual({ color: '#0000FF' });
   });
-  it('apply custom state color, but nothing', () => {
+  test('apply custom state color, but nothing', () => {
     const payload = {
       val1: { type: 'uinteger', value: (10) + 1 },
       val2: { type: 'uinteger', value: (10) + 2 },
@@ -55,12 +53,12 @@ describe('data/common/stateColors', () => {
       },
     ];
 
-    should.not.exist(getStateColorObj(payload, stateColors));
+    expect(getStateColorObj(payload, stateColors)).toBeFalsy();
   });
-  it('nothing to apply', () => {
+  test('nothing to apply', () => {
     const payload = {};
     const stateColors = [];
 
-    should.not.exist(getStateColorObj(payload, stateColors));
+    expect(getStateColorObj(payload, stateColors)).toBeFalsy();
   });
 });

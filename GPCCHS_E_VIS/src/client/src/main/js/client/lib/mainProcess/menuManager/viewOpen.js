@@ -1,8 +1,6 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-import {
-  LOG_DOCUMENT_OPEN,
-} from 'common/constants';
+import { LOG_DOCUMENT_OPEN } from '../../constants';
 
 import { server } from '../ipc';
 import { openView } from '../../documentManager';
@@ -11,7 +9,7 @@ import { addBlankView } from '../../store/actions/views';
 import { addBlankPage } from '../../store/actions/pages';
 import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
-import { getStore } from '../../store/createStore';
+import { getStore } from '../store';
 import { getViewModule } from '../../viewManager';
 
 function viewOpen(focusedWindow) {

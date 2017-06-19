@@ -8,7 +8,8 @@ const types = ['danger', 'warning', 'info', 'success'];
 
 export default class Messages extends PureComponent {
   static propTypes = {
-    remove: PropTypes.func.isRequired,
+    cancelRemoveMessage: PropTypes.func.isRequired,
+    removeMessage: PropTypes.func.isRequired,
     messages: PropTypes.arrayOf(PropTypes.shape({
       message: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
@@ -48,7 +49,7 @@ export default class Messages extends PureComponent {
   }
 
   render() {
-    const { messages, remove } = this.props;
+    const { messages, removeMessage, cancelRemoveMessage } = this.props;
     if (!messages || !messages.length) {
       return null;
     }
@@ -61,13 +62,15 @@ export default class Messages extends PureComponent {
         if (filter !== 'all' && v.type !== filter) {
           return;
         }
+        const key = `${i}_${v.message}`;
         children.push((
           <Message
-            containerId="global"
-            key={v.message}
+            key={key}
             type={v.type}
             message={v.message}
-            onClose={() => remove('global', i)}
+            removing={v.removing}
+            onClose={() => removeMessage('global', v.uuid)}
+            onHover={() => cancelRemoveMessage('global', v.uuid)}
           />
         ));
       });
@@ -76,7 +79,7 @@ export default class Messages extends PureComponent {
     // TODO dbrugne : fix react warning about choice prop
     return (
       <div className={classnames('btn-group', styles.messages)}>
-        <Button onClick={this.collapse} choice="collapse" bsSize="sm">
+        <Button onClick={this.collapse} bsSize="sm">
           { this.state.collapsed ? 'show messages' : 'hide messages' }
         </Button>
         {types.map((t) => {

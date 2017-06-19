@@ -1,12 +1,13 @@
+const { registerProtobuf } = require('../../../common/jest');
+
+registerProtobuf();
+
 const _concat = require('lodash/concat');
 const { decode } = require('common/protobuf');
-const globalConstants = require('common/constants');
+const globalConstants = require('../../../constants');
 const dataStub = require('common/protobuf/stubs');
-require('../../utils/test');
-
 
 const onGetSessionTime = require('./onGetSessionTime');
-
 
 let calls = [];
 const zmqEmulator = (payload) => {
@@ -17,19 +18,18 @@ describe('controllers/client/onGetSessionTime', () => {
   beforeEach(() => {
     calls.length = 0;
   });
-  it('works', () => {
+  test('works', () => {
     const myQueryId = 'myQueryId';
     const mySessionGetTime = dataStub.getSessionGetTime();
     // launch test
     onGetSessionTime(zmqEmulator, myQueryId, { sessionId: mySessionGetTime.id });
     // check data
-    calls.should.be.an('array')
-      .that.has.lengthOf(3);
-    calls[0].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_SESSION_TIME_QUERY);
-    calls[1].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
-    calls[2].constructor.should.equal(Buffer);
-    decode('dc.dataControllerUtils.SessionGetTime', calls[2]).should.have.properties(mySessionGetTime);
+    expect(calls).toHaveLength(3);
+    expect(calls[0].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.Header', calls[0]).messageType).toBe(globalConstants.MESSAGETYPE_SESSION_TIME_QUERY);
+    expect(calls[1].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.String', calls[1]).string).toBe(myQueryId);
+    expect(calls[2].constructor).toBe(Buffer);
+    expect(decode('dc.dataControllerUtils.SessionGetTime', calls[2])).toMatchObject(mySessionGetTime);
   });
 });

@@ -1,8 +1,7 @@
-import {} from '../../common/test';
 import { getTimebarTimelinesSelector } from './timebars';
 
 describe('store:timebars:selectors', () => {
-  it('getTimebarTimelinesSelector', () => {
+  test('getTimebarTimelinesSelector', () => {
     const state = {
       timebarTimelines: {
         tb1: ['tl2', 'masterTimeline'],
@@ -17,10 +16,10 @@ describe('store:timebars:selectors', () => {
         masterTimeline: { id: 'masterTimeline' },
       },
     };
-    getTimebarTimelinesSelector(state, { timebarUuid: 'tb1' }).should.be.eql([
+    expect(getTimebarTimelinesSelector(state, { timebarUuid: 'tb1' })).toEqual([
       { id: 'masterTimeline' },
       { id: 'tl2' },
     ]);
-    getTimebarTimelinesSelector(state, { timebarUuid: 'unknown' }).should.be.eql([]);
+    expect(getTimebarTimelinesSelector(state, { timebarUuid: 'unknown' })).toEqual([]);
   });
 });

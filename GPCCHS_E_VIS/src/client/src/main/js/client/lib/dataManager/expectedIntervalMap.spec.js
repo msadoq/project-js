@@ -1,7 +1,5 @@
 import u from 'updeep';
-import '../common/test';
 import expectedIntervalSelector, { intervalPerRemoteId, expectedIntervalMap } from './expectedIntervalMap';
-
 
 describe('dataManager/expectedIntervalMap', () => {
   let state;
@@ -308,8 +306,8 @@ describe('dataManager/expectedIntervalMap', () => {
     },
   };
 
-  it('One remoteIdData ok', () => {
-    intervalPerRemoteId(state.timebars, epValidData).should.eql({
+  test('One remoteIdData ok', () => {
+    expect(intervalPerRemoteId(state.timebars, epValidData)).toEqual({
       'groundDate/extractedValue.tb1:0/0': {
         expectedInterval: [1420106790818, 1420107056239],
       },
@@ -318,9 +316,9 @@ describe('dataManager/expectedIntervalMap', () => {
       },
     });
   });
-  it('invalid timebarUuid', () => {
+  test('invalid timebarUuid', () => {
     epValidData.localIds['onBoardDate/rawValue.tb1:10/10'].timebarUuid = 'invalid';
-    intervalPerRemoteId(state.timebars, epValidData).should.eql({
+    expect(intervalPerRemoteId(state.timebars, epValidData)).toEqual({
       'groundDate/extractedValue.tb1:0/0': {
         expectedInterval: [1420106790818, 1420107056239],
       },
@@ -329,11 +327,11 @@ describe('dataManager/expectedIntervalMap', () => {
       },
     });
   });
-  it('perRemoteIdMap empty', () => {
-    expectedIntervalMap(state.timebars, {}).should.eql({});
+  test('perRemoteIdMap empty', () => {
+    expect(expectedIntervalMap(state.timebars, {})).toEqual({});
   });
-  it('perRemoteIdMap valid', () => {
-    expectedIntervalMap(state.timebars, perRemoteIdMap).should.eql({
+  test('perRemoteIdMap valid', () => {
+    expect(expectedIntervalMap(state.timebars, perRemoteIdMap)).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': {
           expectedInterval: [1420106790818, 1420106843902],
@@ -349,14 +347,14 @@ describe('dataManager/expectedIntervalMap', () => {
       },
     });
   });
-  it('memoization', () => {
+  test('memoization', () => {
     expectedIntervalSelector.resetRecomputations();
     expectedIntervalSelector(state, { perRemoteIdMap });
-    expectedIntervalSelector.recomputations().should.eql(1);
+    expect(expectedIntervalSelector.recomputations()).toEqual(1);
     expectedIntervalSelector(state, { perRemoteIdMap });
-    expectedIntervalSelector.recomputations().should.eql(1);
+    expect(expectedIntervalSelector.recomputations()).toEqual(1);
     const newState = u({ timebars: { tb1: { visuWindow: { lower: 1420106790828 } } } }, state);
-    expectedIntervalSelector(newState, { perRemoteIdMap }).should.eql({
+    expect(expectedIntervalSelector(newState, { perRemoteIdMap })).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': {
           expectedInterval: [1420106790828, 1420106843902],
@@ -371,6 +369,6 @@ describe('dataManager/expectedIntervalMap', () => {
         },
       },
     });
-    expectedIntervalSelector.recomputations().should.eql(2);
+    expect(expectedIntervalSelector.recomputations()).toEqual(2);
   });
 });

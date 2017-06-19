@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StateColorsFields renders correctly 1`] = `
+<div>
+  <table
+    className="table table-striped table-condensed"
+    style={
+      Object {
+        "fontSize": "12px",
+      }
+    }
+  >
+    <thead>
+      <tr>
+        <th
+          colSpan={1}
+        >
+          Color
+        </th>
+        <th
+          colSpan={1}
+        >
+          Expression
+        </th>
+        <th
+          colSpan={2}
+        >
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className=""
+      >
+        <td
+          className="col-xs-1"
+        >
+          <span
+            className="colorSquare"
+            style={
+              Object {
+                "backgroundColor": "#FFAAFF",
+              }
+            }
+          />
+        </td>
+        <td
+          className="col-xs-9"
+          style={
+            Object {
+              "verticalAlign": "middle",
+            }
+          }
+        >
+          field
+           
+          <b>
+            &lt;=
+             
+          </b>
+          operand
+        </td>
+        <td
+          className="col-xs-1"
+        >
+          <span
+            className="glyphicon glyphicon-trash"
+            onClick={[Function]}
+            style={
+              Object {
+                "cursor": "pointer",
+              }
+            }
+            title="remove state color"
+          />
+        </td>
+        <td
+          className="col-xs-1"
+        >
+          <span
+            className="glyphicon glyphicon-pencil"
+            onClick={[Function]}
+            style={
+              Object {
+                "color": "inherit",
+                "cursor": "pointer",
+              }
+            }
+            title="edit state color"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
+      color
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <div
+        className="root"
+      >
+        <button
+          className="btn btn-xs btn-default"
+          disabled={false}
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#ffffff",
+            }
+          }
+          type="button"
+        >
+          <svg
+            height="12"
+            width="12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <title>
+                background
+              </title>
+              <rect
+                fill="none"
+                height="12"
+                id="canvas_background"
+                width="12"
+                x="-1"
+                y="-1"
+              />
+              <g
+                display="none"
+                height="100%"
+                id="canvasGrid"
+                overflow="visible"
+                width="100%"
+                x="0"
+                y="0"
+              >
+                <rect
+                  fill="url(#gridpattern)"
+                  height="100%"
+                  strokeWidth="0"
+                  width="100%"
+                  x="0"
+                  y="0"
+                />
+              </g>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
+      field
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <input
+        className="form-control"
+        onChange={[Function]}
+      />
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
+      operator
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <select
+        className="form-control"
+      >
+        <option
+          value="="
+        >
+          =
+        </option>
+        <option
+          value="!="
+        >
+          !=
+        </option>
+        <option
+          value="<"
+        >
+          &lt;
+        </option>
+        <option
+          value="<="
+        >
+          &lt;=
+        </option>
+        <option
+          value=">"
+        >
+          &gt;
+        </option>
+        <option
+          value=">="
+        >
+          &gt;=
+        </option>
+        <option
+          value="CONTAINS"
+        >
+          CONTAINS
+        </option>
+        <option
+          value="ICONTAINS"
+        >
+          ICONTAINS
+        </option>
+      </select>
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
+      operand
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <input
+        className="form-control"
+        onChange={[Function]}
+      />
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
+      
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <input
+        className="btn btn-success"
+        disabled={true}
+        onClick={[Function]}
+        style={
+          Object {
+            "width": "110px",
+          }
+        }
+        type="submit"
+        value="Add state color"
+      />
+    </div>
+  </div>
+</div>
+`;

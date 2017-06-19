@@ -12,10 +12,10 @@
   },
   "globals": {
     "expect": true,
+    "jest": true,
     "describe": true,
-    "it": true,
-    "before": true,
-    "after": true,
+    "beforeAll": true,
+    "afterAll": true,
     "beforeEach": true,
     "afterEach": true
   },

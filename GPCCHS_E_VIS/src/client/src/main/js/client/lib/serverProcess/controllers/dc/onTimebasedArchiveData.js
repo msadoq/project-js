@@ -4,10 +4,10 @@ const _isBuffer = require('lodash/isBuffer');
 const { writeFile } = require('fs');
 const { join } = require('path');
 const { decode, encode, getType } = require('common/protobuf');
-const executionMonitor = require('common/log/execution');
-const logger = require('common/log')('controllers:onTimebasedArchiveData');
-const loggerData = require('common/log')('controllers:incomingData');
-const { get } = require('common/parameters');
+const executionMonitor = require('../../../common/logManager/execution');
+const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
+const loggerData = require('../../../common/logManager')('controllers:incomingData');
+const { get } = require('../../../common/configurationManager');
 const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
 const {
   removeByQueryId: removeRegisteredQuery,

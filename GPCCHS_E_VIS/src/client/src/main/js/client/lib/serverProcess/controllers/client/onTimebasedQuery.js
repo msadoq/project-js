@@ -1,8 +1,8 @@
-const logger = require('common/log')('controllers:client:onTimebasedQuery');
+const logger = require('../../../common/logManager')('controllers:client:onTimebasedQuery');
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
-const executionMonitor = require('common/log/execution');
-const { GETLASTTYPE_GET_LAST } = require('common/constants');
+const executionMonitor = require('../../../common/logManager/execution');
+const { GETLASTTYPE_GET_LAST } = require('../../../constants');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const connectedDataModel = require('../../models/connectedData');

@@ -16,7 +16,7 @@ const { Panel } = Collapse;
 */
 export default class PlotTab extends Component {
   static propTypes = {
-    viewId: PropTypes.string,
+    viewId: PropTypes.string.isRequired,
     openModal: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,

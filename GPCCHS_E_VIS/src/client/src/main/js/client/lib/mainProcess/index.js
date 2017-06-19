@@ -1,22 +1,22 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import path from 'path';
+import { connect as createRtd } from 'rtd/catalogs';
+
+import getLogger from '../common/logManager';
+import parameters from '../common/configurationManager';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
   LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
-} from 'common/constants';
-import getLogger from 'common/log';
-import parameters from 'common/parameters';
-import { connect as createRtd } from 'rtd/catalogs';
-
-import { clear } from '../utils/callbacks';
+} from '../constants';
+import { clear } from '../common/callbacks';
 import { setRtd } from '../rtdManager';
 import enableDebug from './debug';
-import { fork, get, kill } from './childProcess';
-import makeCreateStore, { getStore } from '../store/createStore';
+import { fork, get, kill } from '../common/processManager';
+import makeCreateStore, { getStore } from './store';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
@@ -49,14 +49,6 @@ export function onStart() {
     callback => splashScreen.open(callback),
     callback => enableDebug(callback),
     (callback) => {
-      splashScreen.setMessage('loading data store...');
-      logger.info('loading data store...');
-
-      makeCreateStore('main', get('DEBUG') === 'on')();
-
-      callback(null);
-    },
-    (callback) => {
       if (parameters.get('STUB_DC_ON') !== 'on') {
         callback(null);
         return;
@@ -64,15 +56,10 @@ export function onStart() {
 
       splashScreen.setMessage('starting data simulator process...');
       logger.info('starting data simulator process...');
-      fork(
-        CHILD_PROCESS_DC,
-        `${parameters.get('path')}/lib/stubProcess/index.js`,
-        {
-          execPath: parameters.get('NODE_PATH'),
-          env: parameters.getAll(),
-        },
-        callback
-      );
+      fork(CHILD_PROCESS_DC, `${parameters.get('path')}/lib/stubProcess/dc.js`, {
+        execPath: parameters.get('NODE_PATH'),
+        env: parameters.getAll(),
+      }, callback);
     },
     (callback) => {
       if (parameters.get('RTD_ON') === 'on') {
@@ -100,20 +87,50 @@ export function onStart() {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');
 
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/server.js`, {
-          execPath: parameters.get('NODE_PATH'),
-          env: parameters.getAll(),
-        }, callback);
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/server.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            env: parameters.getAll(),
+          },
+          callback
+        );
       } else {
         splashScreen.setMessage('starting data server process... (dev)');
         logger.info('starting data server process... (dev)');
 
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/lib/serverProcess/index.js`, {
-          execPath: parameters.get('NODE_PATH'),
-          execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-          env: parameters.getAll(),
-        }, callback);
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/lib/serverProcess/index.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+            env: parameters.getAll(),
+          },
+          callback
+        );
       }
+    },
+    (callback) => {
+      splashScreen.setMessage('connecting to data server process...');
+      logger.info('connecting to data server process...');
+
+      // ipc with server
+      get(CHILD_PROCESS_SERVER).on(
+        'message',
+        data => serverController(get(CHILD_PROCESS_SERVER), data)
+      );
+      callback(null);
+    },
+    (callback) => {
+      splashScreen.setMessage('loading data store...');
+      logger.info('loading data store...');
+
+      server.requestReduxCurrentState(({ state }) => {
+        makeCreateStore('main', get('DEBUG') === 'on')(state);
+        callback(null);
+      });
     },
     (callback) => {
       splashScreen.setMessage('synchronizing processes...');
@@ -122,12 +139,6 @@ export function onStart() {
 
       // ipc with renderer
       ipcMain.on('windowRequest', rendererController);
-
-      // ipc with server
-      get(CHILD_PROCESS_SERVER).on(
-        'message',
-        data => serverController(get(CHILD_PROCESS_SERVER), data)
-      );
 
       callback(null);
     },

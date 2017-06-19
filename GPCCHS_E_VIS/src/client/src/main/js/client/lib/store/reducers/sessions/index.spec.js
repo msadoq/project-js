@@ -1,4 +1,4 @@
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/sessions';
 import sessionsReducer, { getSession, getSessions } from '.';
 
@@ -13,26 +13,26 @@ describe('store:sessions:reducer', () => {
     delta: 0,
   }];
   const action = actions.updateSessions(state);
-  it('initial state', () => {
-    reducer(undefined, {}).should.eql([]);
+  test('initial state', () => {
+    expect(reducer(undefined, {})).toEqual([]);
   });
-  it('unknown action', () => {
-    reducer(state, {}).should.eql(action.payload.sessions);
+  test('unknown action', () => {
+    expect(reducer(state, {})).toEqual(action.payload.sessions);
   });
-  it('set state', () => {
-    reducer(undefined, action).should.eql(action.payload.sessions);
+  test('set state', () => {
+    expect(reducer(undefined, action)).toEqual(action.payload.sessions);
   });
 });
 
 /* --- Selectors ------------------------------------------------------------ */
 describe('store:sessions:selectors', () => {
-  it('getSessions', () => {
-    getSessions({
+  test('getSessions', () => {
+    expect(getSessions({
       sessions: [{ name: 'Master' }],
-    }).should.eql([{ name: 'Master' }]);
+    })).toEqual([{ name: 'Master' }]);
   });
-  it('getSession', () => {
-    getSession({ sessions: [{ name: 'Master' }, { name: 'session1' }] },
-    { sessionName: 'Master' }).should.eql({ name: 'Master' });
+  test('getSession', () => {
+    expect(getSession({ sessions: [{ name: 'Master' }, { name: 'session1' }] },
+    { sessionName: 'Master' })).toEqual({ name: 'Master' });
   });
 });

@@ -1,13 +1,15 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { openEditor } from './pages';
 import { getView } from '../reducers/views';
 import { getPageIdByViewId } from '../reducers/pages';
+import { getWindowIdByPageId } from '../reducers/windows';
 import { getViewModule } from '../../viewManager';
+import { focusPage } from '../actions/windows';
 
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'view', 'pageId');
 export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
@@ -56,6 +58,7 @@ export const updateGrid = simple(types.WS_VIEW_UPDATE_GRID, 'viewId', 'index', '
 
 export const addLink = simple(types.WS_VIEW_ADD_LINK, 'viewId', 'link');
 export const removeLink = simple(types.WS_VIEW_REMOVE_LINK, 'viewId', 'index');
+export const updateShowLinks = simple(types.WS_VIEW_UPDATE_SHOWLINK, 'viewId', 'showLinks');
 
 export const addMarker = simple(types.WS_VIEW_ADD_MARKER, 'viewId', 'marker');
 export const removeMarker = simple(types.WS_VIEW_REMOVE_MARKER, 'viewId', 'index');
@@ -85,5 +88,17 @@ export function dropEntryPoint(viewId, entryPoint) {
     const currentPageId = getPageIdByViewId(state, { viewId });
     dispatch(addEntryPoint(viewId, entryPoint));
     dispatch(openEditor(currentPageId, viewId));
+  };
+}
+
+// focus a page containing a viewId
+export function focusView(viewId) {
+  return (dispatch, getState) => {
+    const pageId = getPageIdByViewId(getState(), { viewId });
+    const winId = getWindowIdByPageId(getState(), { pageId });
+    if (!winId || !pageId) {
+      return;
+    }
+    dispatch(focusPage(winId, pageId));
   };
 }

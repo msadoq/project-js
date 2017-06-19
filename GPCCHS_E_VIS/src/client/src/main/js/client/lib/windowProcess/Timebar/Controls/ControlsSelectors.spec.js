@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-import { should } from '../../../common/test';
 import {
   getMasterTimelineById,
   getTimeSetterMessages,
@@ -10,8 +8,8 @@ import {
 
 describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
   describe('getMasterTimelineById', () => {
-    it('should return master timeline', () => {
-      getMasterTimelineById(
+    test('should return master timeline', () => {
+      expect(getMasterTimelineById(
         {
           timebars: {
             myId: {
@@ -28,14 +26,12 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
           },
         },
         { timebarUuid: 'myId' }
-      ).should.eql(
-        {
-          id: 'timeline01',
-        }
-      );
+      )).toEqual({
+        id: 'timeline01',
+      });
     });
-    it('should not find master timeline', () => {
-      should.not.exist(getMasterTimelineById(
+    test('should not find master timeline', () => {
+      expect(getMasterTimelineById(
         {
           timebars: {
             myId: {
@@ -52,10 +48,10 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
           },
         },
         { timebarUuid: 'myId' }
-      ));
+      )).toBeFalsy();
     });
-    it('no master timeline', () => {
-      should.not.exist(getMasterTimelineById(
+    test('no master timeline', () => {
+      expect(getMasterTimelineById(
         {
           timebars: {
             myId: { },
@@ -70,11 +66,11 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
           },
         },
         { timebarUuid: 'myId' }
-      ));
+      )).toBeFalsy();
     });
   });
   describe('getMasterTimelineExists', () => {
-    it('returns true', () => {
+    test('returns true', () => {
       const state = {
         timebars: {
           myId: {
@@ -90,17 +86,17 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
           myId: ['timeline_01', 'timeline_02'],
         },
       };
-      getMasterTimelineExists(state, { timebarUuid: 'myId' }).should.be.true;
+      expect(getMasterTimelineExists(state, { timebarUuid: 'myId' })).toBe(true);
     });
-    it('returns false', () => {
-      getMasterTimelineExists({}, {}).should.be.false;
+    test('returns false', () => {
+      expect(getMasterTimelineExists({}, {})).toBe(false);
     });
   });
   describe('getCurrentSessionExists', () => {
-    it('returns false', () => {
-      getCurrentSessionExists({}, {}).should.be.false;
+    test('returns false', () => {
+      expect(getCurrentSessionExists({}, {})).toBe(false);
     });
-    it('returns true', () => {
+    test('returns true', () => {
       const state = {
         timebars: {
           myId: {
@@ -117,7 +113,7 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
           { id: 1, name: 'mySession' },
         ],
       };
-      getCurrentSessionExists(state, { timebarUuid: 'myId' }).should.be.true;
+      expect(getCurrentSessionExists(state, { timebarUuid: 'myId' })).toBe(true);
     });
   });
   describe('getCurrentSessionId', () => {
@@ -137,11 +133,11 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
         { id: 1, name: 'mySession' },
       ],
     };
-    it('returns 1', () => {
-      getCurrentSessionId(state, { timebarUuid: 'myId' }).should.be.eql(1);
+    test('returns 1', () => {
+      expect(getCurrentSessionId(state, { timebarUuid: 'myId' })).toEqual(1);
     });
-    it('returns null', () => {
-      should.not.exist(getCurrentSessionId(state, { timebarUuid: 'toto' }));
+    test('returns null', () => {
+      expect(getCurrentSessionId(state, { timebarUuid: 'toto' })).toBeFalsy();
     });
   });
   describe('getTimeSetterMessages', () => {
@@ -150,11 +146,11 @@ describe('windowProcess:Timebar:Controls:ControlsSelector', () => {
         'timeSetter-tbuuid': true,
       },
     };
-    it('should returns timeSetter messages', () => {
-      getTimeSetterMessages(state, { timebarUuid: 'tbuuid' }).should.be.true;
+    test('should returns timeSetter messages', () => {
+      expect(getTimeSetterMessages(state, { timebarUuid: 'tbuuid' })).toBe(true);
     });
-    it('should returns null', () => {
-      should.not.exist(getTimeSetterMessages(state, { timebarUuid: 'unknown' }));
+    test('should returns null', () => {
+      expect(getTimeSetterMessages(state, { timebarUuid: 'unknown' })).toBeFalsy();
     });
   });
 });

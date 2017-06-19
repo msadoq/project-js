@@ -1,12 +1,12 @@
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
+import _some from 'lodash/some';
+import _get from 'lodash/get';
 import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_CRITICAL,
   HEALTH_STATUS_WARNING,
-} from 'common/constants';
-import { createSelector } from 'reselect';
-import _some from 'lodash/some';
-import _get from 'lodash/get';
+} from '../../../constants';
 
 import * as types from '../../types';
 

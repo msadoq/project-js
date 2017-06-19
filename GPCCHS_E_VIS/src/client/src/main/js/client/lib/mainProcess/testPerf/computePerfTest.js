@@ -1,5 +1,6 @@
 const { testProtobuf } = require('common/protobuf/adapters/perfsTests/index');
-const { getReportingParameterProtobuf,
+const {
+  getReportingParameterProtobuf,
   getIsisAggregationProtobuf,
   getComputedEventProtobuf,
   getCollectionProtobuf,
@@ -8,7 +9,7 @@ const { getReportingParameterProtobuf,
   getFolderProtobuf,
   getGroundMonitoringAlarmProtobuf,
   getGroupDefinitionProtobuf,
- } = require('common/stubs/data/lpisis');
+} = require('common/stubs/data/lpisis');
 
 const arraySize = 1000;
 const numberIterationDecode = 15;

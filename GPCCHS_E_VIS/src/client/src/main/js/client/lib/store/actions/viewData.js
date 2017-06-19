@@ -1,4 +1,4 @@
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 export const importPayload = simple(types.DATA_IMPORT_VIEWDATA, 'viewData');

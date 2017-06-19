@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import view from './view';
-import createReducerByViews from '../../createReducerByViews';
+import createReducerByViews from '../../helpers/createReducerByViews';
 
 /* --- Reducer -------------------------------------------------------------- */
 export default createReducerByViews(view);
@@ -53,6 +53,11 @@ export const getViewSessionName = createSelector(
 export const getLinks = createSelector(
   getView,
   _.get('links')
+);
+
+export const areLinksShown = createSelector(
+  getView,
+  _.get('showLinks')
 );
 
 export const getProcedures = createSelector(

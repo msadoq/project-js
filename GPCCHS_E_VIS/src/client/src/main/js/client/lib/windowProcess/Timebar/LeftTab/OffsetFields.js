@@ -8,7 +8,10 @@ export default class OffsetFields extends PureComponent {
   static propTypes = {
     disableSubmit: PropTypes.func.isRequired,
     input: PropTypes.shape({
-      value: PropTypes.number.isRequired,
+      value: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.string.isRequired,
+      ]).isRequired,
       name: PropTypes.string.isRequired,
       onBlur: PropTypes.func.isRequired,
       onChange: PropTypes.func.isRequired,
@@ -53,7 +56,7 @@ export default class OffsetFields extends PureComponent {
 
   fillFields = () => {
     // Refs not handled in jest tests
-    if (process.env.NODE_ENV === 'snapshot') {
+    if (process.env.NODE_ENV === 'test') {
       return;
     }
     const { input } = this.props;

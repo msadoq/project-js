@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getPage, getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
 import { closeView, updateEditorSearch } from '../../store/actions/views';
-import { open as openModal } from '../../store/actions/modals';
+import { open as openModal, close as closeModal } from '../../store/actions/modals';
 import { setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
 import View from './View';
 
@@ -44,6 +44,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   closeEditor: () => minimizeEditor(pageId, true),
   closeView: () => closeView(pageId, viewId),
   openModal: args => openModal(windowId, { windowId, pageId, viewId, ...args }),
+  closeModal: () => closeModal(windowId),
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

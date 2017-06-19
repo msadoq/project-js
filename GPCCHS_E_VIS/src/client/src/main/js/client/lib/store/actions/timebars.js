@@ -1,11 +1,11 @@
 import { v4 } from 'uuid';
 import _get from 'lodash/get';
-import { get } from 'common/parameters';
-import simple from '../simpleActionCreator';
+import { get } from '../../common/configurationManager';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { nextCurrent, computeCursors } from '../play';
 import {
-  addOnce as addMessage,
+  add as addMessage,
   reset as resetMessages,
 } from './messages';
 import { getMessages } from '../reducers/messages';

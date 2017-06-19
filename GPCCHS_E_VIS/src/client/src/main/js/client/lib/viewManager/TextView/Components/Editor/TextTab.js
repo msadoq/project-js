@@ -7,16 +7,16 @@ import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
 
 export default class TextTab extends React.Component {
   static propTypes = {
-    openHtmlEditor: PropTypes.func.isRequired,
+    openCodeEditor: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
-    closeHtmlEditor: PropTypes.func.isRequired,
-    htmlEditorViewId: PropTypes.string,
+    closeCodeEditor: PropTypes.func.isRequired,
+    codeEditorViewId: PropTypes.string,
     updateViewPanels: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
   }
 
   static defaultProps = {
-    htmlEditorViewId: null,
+    codeEditorViewId: null,
   }
 
   onChange = (openPanels) => {
@@ -26,9 +26,9 @@ export default class TextTab extends React.Component {
 
   render() {
     const {
-      closeHtmlEditor,
-      htmlEditorViewId,
-      openHtmlEditor,
+      closeCodeEditor,
+      codeEditorViewId,
+      openCodeEditor,
       panels,
       viewId,
     } = this.props;
@@ -48,9 +48,9 @@ export default class TextTab extends React.Component {
           </Panel>
         </Collapse>
         {
-          htmlEditorViewId === viewId ?
-            <Button onClick={() => closeHtmlEditor()} className="center-block mt20">Close HTML Editor</Button> :
-            <Button onClick={() => openHtmlEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
+          codeEditorViewId === viewId ?
+            <Button onClick={() => closeCodeEditor()} className="center-block mt20">Close HTML Editor</Button> :
+            <Button onClick={() => openCodeEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
         }
       </div>
     );

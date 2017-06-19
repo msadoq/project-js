@@ -44,7 +44,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "invalid domain",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -60,5 +60,6 @@
         "timeline": "*"
       }
     }
-  ]
+  ],
+  "search": ""
 }

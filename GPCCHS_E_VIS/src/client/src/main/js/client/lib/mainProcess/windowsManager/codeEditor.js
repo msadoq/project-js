@@ -2,8 +2,8 @@ import { BrowserWindow } from 'electron';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { getStore } from '../../store/createStore';
-import { closeHtmlEditor } from '../../store/actions/editor';
-import { getEditorTextViewId } from '../../store/reducers/editor';
+import { closeCodeEditor } from '../../store/actions/editor';
+import { getViewId as getCodeEditorViewId } from '../../store/reducers/codeEditor';
 import { getEditorWindowTitle } from './selectors';
 import getCenteredPosition from './common/getCenteredPosition';
 import getHtmlPath from './getHtmlPath';
@@ -46,7 +46,7 @@ export function open(callback) {
     return callback(null);
   });
   win.on('close', () =>
-    getStore().dispatch(closeHtmlEditor())
+    getStore().dispatch(closeCodeEditor())
   );
 }
 
@@ -60,7 +60,7 @@ export function close() {
 
 export function observer(callback) {
   const state = getStore().getState();
-  const editedViewId = getEditorTextViewId(state);
+  const editedViewId = getCodeEditorViewId(state);
   const title = getEditorWindowTitle(state, { viewId: editedViewId });
 
   if (isExists() && title !== win.getTitle()) {

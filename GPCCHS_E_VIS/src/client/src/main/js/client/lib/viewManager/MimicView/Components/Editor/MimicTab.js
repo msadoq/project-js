@@ -6,14 +6,14 @@ import {
 } from 'react-bootstrap';
 import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
 
-export default class TextTab extends React.Component {
+export default class MimicTab extends React.Component {
   static propTypes = {
-    openHtmlEditor: PropTypes.func.isRequired,
-    closeHtmlEditor: PropTypes.func.isRequired,
-    htmlEditorViewId: PropTypes.string,
+    openCodeEditor: PropTypes.func.isRequired,
+    closeCodeEditor: PropTypes.func.isRequired,
+    codeEditorViewId: PropTypes.string,
   }
   static defaultProps = {
-    htmlEditorViewId: null,
+    codeEditorViewId: null,
   }
   static contextTypes = {
     viewId: React.PropTypes.string,
@@ -42,9 +42,9 @@ export default class TextTab extends React.Component {
           </Panel>
         </Accordion>
         {
-          this.props.htmlEditorViewId === viewId ?
-            <Button onClick={() => this.props.closeHtmlEditor()} className="center-block mt20">Close HTML Editor</Button> :
-            <Button onClick={() => this.props.openHtmlEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
+          this.props.codeEditorViewId === viewId ?
+            <Button onClick={() => this.props.closeCodeEditor()} className="center-block mt20">Close HTML Editor</Button> :
+            <Button onClick={() => this.props.openCodeEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
         }
       </div>
     );

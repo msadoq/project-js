@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { html as beautifyHtml } from 'js-beautify';
-import SourceForm from './SourceForm';
+import HtmlSourceForm from './HtmlSourceForm';
+import SvgSourceForm from './SvgSourceForm';
 
 export default class Source extends PureComponent {
   static propTypes = {
@@ -28,17 +29,30 @@ export default class Source extends PureComponent {
       type,
     } = this.props;
     const initialValues = { html: beautifyHtml(content, { indent_size: 2 }) };
-
-    return (
-      <SourceForm
-        key={viewId}
-        entryPoints={entryPoints}
-        closeHtmlEditor={closeHtmlEditor}
-        onSubmit={this.updateContent}
-        form={`textView-form-${viewId}`}
-        initialValues={initialValues}
-        viewType={type}
-      />
-    );
+    if (type === 'TextView') {
+      return (
+        <HtmlSourceForm
+          key={viewId}
+          entryPoints={entryPoints}
+          closeHtmlEditor={closeHtmlEditor}
+          onSubmit={this.updateContent}
+          form={`textView-form-${viewId}`}
+          initialValues={initialValues}
+          viewType={type}
+        />
+      );
+    } else if (type === 'MimicView') {
+      return (
+        <SvgSourceForm
+          key={viewId}
+          entryPoints={entryPoints}
+          closeHtmlEditor={closeHtmlEditor}
+          onSubmit={this.updateContent}
+          form={`mimicView-form-${viewId}`}
+          initialValues={initialValues}
+          viewType={type}
+        />
+      );
+    }
   }
 }

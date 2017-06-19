@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { getEditorTextViewId } from '../store/reducers/editor';
+import { getViewId } from '../store/reducers/codeEditor';
 import CodeEditor from './CodeEditor';
 
 const mapStateToProps = (state) => {
-  const viewId = getEditorTextViewId(state);
+  const viewId = getViewId(state);
   return {
     viewId,
   };

@@ -4,24 +4,23 @@ import * as types from '../../types';
 /* --- Reducer -------------------------------------------------------------- */
 
 const initialState = {
-  textViewId: null,
-  title: 'TextView HTML editor',
+  viewId: null,
 };
 
 export default function editor(state = initialState, action) {
   switch (action.type) {
-    case types.WS_WINDOW_OPEN_HTML_EDITOR:
+    case types.WS_WINDOW_OPEN_CODE_EDITOR:
       return Object.assign({}, state, {
-        textViewId: action.payload.viewId,
+        viewId: action.payload.viewId,
       });
-    case types.WS_WINDOW_CLOSE_HTML_EDITOR:
+    case types.WS_WINDOW_CLOSE_CODE_EDITOR:
       return Object.assign({}, state, {
-        textViewId: null,
+        viewId: null,
       });
     case types.WS_VIEW_CLOSE:
-      if (action.payload.viewId === state.textViewId) {
+      if (action.payload.viewId === state.viewId) {
         return Object.assign({}, state, {
-          textViewId: null,
+          viewId: null,
         });
       }
       return state;
@@ -32,6 +31,5 @@ export default function editor(state = initialState, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 
-export const getEditorTextViewId = state => _.get('editor.textViewId', state);
-export const getEditorTitle = state => _.get('editor.title', state);
-export const getIsCodeEditorOpened = state => !!_.get('editor.textViewId', state);
+export const getViewId = state => _.get('codeEditor.viewId', state);
+export const getIsCodeEditorOpened = state => !!_.get('codeEditor.viewId', state);

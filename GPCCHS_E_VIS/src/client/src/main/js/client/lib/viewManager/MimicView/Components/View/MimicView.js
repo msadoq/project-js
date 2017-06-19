@@ -64,6 +64,8 @@ export default class MimicView extends Component {
     this.svgEls = [];
     this.content = this.getContentComponent();
     this.updateSvgsValues(this.props.data);
+
+    console.log('will mount');
   }
   componentDidMount() {
     // this.content = this.getContentComponent();
@@ -75,7 +77,8 @@ export default class MimicView extends Component {
       nextProps.entryPoints !== this.props.entryPoints
     ) {
       shouldRender = true;
-      this.content = this.getContentComponent();
+      this.content = this.getContentComponent(nextProps);
+      console.log('here');
       // this.updateSvgsValues(nextProps.data);
     }
     if (nextState.showLinks !== this.state.showLinks) {
@@ -84,21 +87,22 @@ export default class MimicView extends Component {
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
     }
+
     return shouldRender;
   }
-  getContentComponent() {
+  getContentComponent(props = this.props) {
     const processingInstructions = [
       {
-        shouldProcessNode: (node => node.attribs && (node.attribs.animation === 'scaleY' || node.attribs.animation === 'scaleX')),
+        shouldProcessNode: (node => node.attribs && (node.attribs.isis_animation === 'scaleY' || node.attribs.isis_animation === 'scaleX')),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const domain = node.attribs.domain.split(',');
-          const fixed = node.attribs.fixed;
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain.split(',');
+          const fixed = node.attribs.isis_fixed;
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             domain,
             fixed,
@@ -107,17 +111,17 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && (node.attribs.animation === 'translateX' || node.attribs.animation === 'translateY')),
+        shouldProcessNode: (node => node.attribs && (node.attribs.isis_animation === 'translateX' || node.attribs.isis_animation === 'translateY')),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const domain = node.attribs.domain.split(',');
-          const width = node.attribs.width;
-          const direction = node.attribs.direction;
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain.split(',');
+          const width = node.attribs.isis_width;
+          const direction = node.attribs.isis_direction;
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             domain,
             width,
@@ -127,17 +131,17 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'rotate'),
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'rotate'),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const domain = node.attribs.domain.split(',');
-          const angle = node.attribs.angle;
-          const center = node.attribs.center.split(',');
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain.split(',');
+          const angle = node.attribs.isis_angle;
+          const center = node.attribs.isis_center.split(',');
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             domain,
             angle,
@@ -147,18 +151,18 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'textBox'),
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'textBox'),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const font = node.attribs.font ? node.attribs.font : 'arial';
-          const textColorLevels = node.attribs.textcolor ? node.attribs.textcolor.split(';') : [];
-          const bgColorLevels = node.attribs.bgcolor ? node.attribs.bgcolor.split(';') : [];
+          const epName = node.attribs.isis_ep;
+          const font = node.attribs.isis_font ? node.attribs.isis_font : 'arial';
+          const textColorLevels = node.attribs.isis_textcolor ? node.attribs.isis_textcolor.split(';') : [];
+          const bgColorLevels = node.attribs.isis_bgcolor ? node.attribs.isis_bgcolor.split(';') : [];
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
-          const size = node.attribs.size ? node.attribs.size : '12px';
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
+          const size = node.attribs.isis_size ? node.attribs.isis_size : '12px';
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             textColorLevels,
             bgColorLevels,
@@ -166,11 +170,11 @@ export default class MimicView extends Component {
           });
           return (
             <g key={id}>
-              <rect id={`${id}-bg`} x={node.attribs.x} y={node.attribs.y} width={0} height={0} />
+              <rect id={`${id}-bg`} x={node.attribs.isis_x} y={node.attribs.isis_y} width={0} height={0} />
               <text
                 id={id}
-                x={node.attribs.x}
-                y={node.attribs.y}
+                x={node.attribs.isis_x}
+                y={node.attribs.isis_y}
                 style={{ fontSize: size, fontFamily: font }}
               >
                 {children}
@@ -180,15 +184,15 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'colour'),
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'colour'),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const operators = node.attribs.operators.split('*');
+          const epName = node.attribs.isis_ep;
+          const operators = node.attribs.isis_operators.split('*');
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             operators,
           });
@@ -205,7 +209,7 @@ export default class MimicView extends Component {
       },
     ];
     const comp = htmlToReactParser.parseWithInstructions(
-      this.props.content,
+      props.content,
       isValidNode,
       processingInstructions
     );
@@ -289,7 +293,7 @@ export default class MimicView extends Component {
           elBg.setAttribute('y', SVGRect.y);
           el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
           let fillText = '#000';
-          let fillBg = '#FFF';
+          let fillBg = '';
           for (let i = 0; i < g.textColorLevels.length; i += 1) {
             const stateColor = g.textColorLevels[i].split('$');
             if (epLastVal > stateColor[0]) {
@@ -304,6 +308,7 @@ export default class MimicView extends Component {
             }
           }
           elBg.style.fill = fillBg;
+          elBg.style.fillOpacity = fillBg === '' ? 0 : 1;
         }
       } else if (g.type === 'colour') {
         if (!data.values[g.epName]) {
@@ -361,6 +366,7 @@ export default class MimicView extends Component {
     const { showLinks } = this.state;
     const { links } = this.props;
     const style = { padding: '15px' };
+    console.log('MIMIC RENDER');
 
     return (
       <div className="h100 posRelative">

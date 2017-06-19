@@ -3,7 +3,7 @@ import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { isAnyEditorOpened } from '../selectors/pages';
 import { getHealthMap } from '../reducers/health';
-import { getIsCodeEditorOpened } from '../reducers/editor';
+import { getIsCodeEditorOpened } from '../reducers/codeEditor';
 import { addOnce } from './messages';
 import { setRealTime } from '../actions/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';

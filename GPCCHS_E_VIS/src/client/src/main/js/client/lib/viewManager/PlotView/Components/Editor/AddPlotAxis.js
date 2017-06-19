@@ -153,6 +153,7 @@ class AddPlotAxis extends PureComponent {
                 name="tickStep"
                 component={InputField}
                 className="form-control input-sm"
+                normalize={val => parseInt(val, 10).toString()}
                 type="number"
                 step="any"
               />
@@ -272,6 +273,7 @@ class AddPlotAxis extends PureComponent {
               name="tickStep"
               component={InputField}
               className="form-control input-sm"
+              normalize={val => parseInt(val, 10).toString()}
               type="number"
               step="any"
             />

@@ -43,11 +43,23 @@ function scheduleTimeout(message) {
 }
 
 export function onStart() {
+  // log application launching in LPISIS logbooks
+  server.sendProductLog(LOG_APPLICATION_START);
+
+  // electron topbar menu initialization
   setMenu();
+
+  // enable electron debug and DevTools
+  // (not installable when bundled and doesn't needed when DEBUG is off)
+  if (process.env.IS_BUNDLED !== 'on' && parameters.get('DEBUG') === 'on') {
+    enableDebug();
+  }
+
+  // mount IPC controller with renderer processes
+  ipcMain.on('windowRequest', rendererController);
 
   series([
     callback => splashScreen.open(callback),
-    callback => enableDebug(callback),
     (callback) => {
       if (parameters.get('STUB_DC_ON') !== 'on') {
         callback(null);
@@ -131,16 +143,6 @@ export function onStart() {
         makeCreateStore('main', get('DEBUG') === 'on')(state);
         callback(null);
       });
-    },
-    (callback) => {
-      splashScreen.setMessage('synchronizing processes...');
-      logger.info('synchronizing processes...');
-      server.sendProductLog(LOG_APPLICATION_START); // log on LPISIS only when server is up
-
-      // ipc with renderer
-      ipcMain.on('windowRequest', rendererController);
-
-      callback(null);
     },
     // should have master sessionId in store at start
     (callback) => {

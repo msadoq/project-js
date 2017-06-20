@@ -139,7 +139,13 @@ export function start() {
 export function stop() {
   clear();
   clearCritical();
-  getStore().dispatch(pause());
+  try { // TODO dbrugne remove try/catch once lifecycle is stable
+    getStore().dispatch(pause());
+  } catch (e) {
+    if (logger) {
+      logger.error(e);
+    }
+  }
   lastTick = null;
 }
 

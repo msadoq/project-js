@@ -235,7 +235,7 @@ class AddPlotAxis extends PureComponent {
               name="min"
               component={InputField}
               className="form-control input-sm"
-              type="number"
+              type="text"
             />
           </HorizontalFormGroup>
         }
@@ -245,7 +245,7 @@ class AddPlotAxis extends PureComponent {
               name="max"
               component={InputField}
               className="form-control input-sm"
-              type="number"
+              type="text"
             />
           </HorizontalFormGroup>
         }
@@ -308,6 +308,12 @@ const validate = (values = {}, props) => {
       !props.axisId // form used for creation and not edition
   ) {
     errors.label = 'Label already taken';
+  }
+  if (parseFloat(values.max).toString().length !== values.max.length) {
+    errors.max = 'Invalid value';
+  }
+  if (parseFloat(values.min).toString().length !== values.min.length) {
+    errors.min = 'Invalid value';
   }
 
   requiredFields.forEach((field) => {

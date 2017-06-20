@@ -52,8 +52,10 @@ export function onStart() {
   ipcMain.on('windowRequest', rendererController);
 
   series([
-    callback => splashScreen.open(callback),
-    (callback) => {
+    function openSplashScreen(callback) {
+      splashScreen.open(callback);
+    },
+    function launchDcStub(callback) {
       if (parameters.get('STUB_DC_ON') !== 'on') {
         callback(null);
         return;
@@ -72,7 +74,57 @@ export function onStart() {
         callback
       );
     },
-    (callback) => {
+    function launchServer(callback) {
+      // ipc with server
+      const onMessage = data => serverController(get(CHILD_PROCESS_SERVER), data);
+
+      // on server is ready callback
+      const onServerReady = (err, { initialState }) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        splashScreen.setMessage('loading application state...');
+        logger.info('loading application state...');
+
+        // init Redux store in main process
+        makeCreateStore('main', get('DEBUG') === 'on')(initialState);
+        callback(null);
+      };
+
+      if (process.env.IS_BUNDLED === 'on') {
+        splashScreen.setMessage('starting data server process...');
+        logger.info('starting data server process...');
+
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/server.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            env: parameters.getAll(),
+          },
+          onMessage,
+          onServerReady
+        );
+      } else {
+        splashScreen.setMessage('starting data server process... (dev)');
+        logger.info('starting data server process... (dev)');
+
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/lib/serverProcess/index.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+            env: parameters.getAll(),
+          },
+          onMessage,
+          onServerReady
+        );
+      }
+    },
+    function initRtdClient(callback) {
       if (parameters.get('RTD_ON') === 'on') {
         const socket = parameters.get('RTD_UNIX_SOCKET');
         let stub = false;
@@ -93,51 +145,7 @@ export function onStart() {
         callback(null);
       }
     },
-    (callback) => {
-      // ipc with server
-      const onMessage = data => serverController(get(CHILD_PROCESS_SERVER), data);
-
-      if (process.env.IS_BUNDLED === 'on') {
-        splashScreen.setMessage('starting data server process...');
-        logger.info('starting data server process...');
-
-        fork(
-          CHILD_PROCESS_SERVER,
-          `${parameters.get('path')}/server.js`,
-          {
-            execPath: parameters.get('NODE_PATH'),
-            env: parameters.getAll(),
-          },
-          onMessage,
-          callback
-        );
-      } else {
-        splashScreen.setMessage('starting data server process... (dev)');
-        logger.info('starting data server process... (dev)');
-
-        fork(
-          CHILD_PROCESS_SERVER,
-          `${parameters.get('path')}/lib/serverProcess/index.js`,
-          {
-            execPath: parameters.get('NODE_PATH'),
-            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-            env: parameters.getAll(),
-          },
-          onMessage,
-          callback
-        );
-      }
-    },
-    (callback) => {
-      splashScreen.setMessage('loading data store...');
-      logger.info('loading data store...');
-
-      server.requestReduxCurrentState(({ state }) => {
-        makeCreateStore('main', get('DEBUG') === 'on')(state);
-        callback(null);
-      });
-    },
-    (callback) => {
+    function openInitialWorkspace(callback) {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
 

@@ -11,7 +11,7 @@ import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
-import { LOG_APPLICATION_START } from '../constants';
+import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import { dc } from './ipc';
 
 // Temporary fix for packaging ////////////////////////////////////////////////////////////////////
@@ -51,8 +51,13 @@ series({
 
   // TODO init configuration and inject in store
 
-  // inform main that everything is ready
-  process.send('ready'); // TODO : send with initialState
+  // inform main that everything is ready and pass initialState
+  process.send({
+    [CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true,
+    payload: {
+      initialState: store.getState(),
+    },
+  });
 });
 
 // handle graceful shutdown

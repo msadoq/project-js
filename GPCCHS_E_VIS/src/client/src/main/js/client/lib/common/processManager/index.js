@@ -1,5 +1,8 @@
 const { fork: forkChildProcess } = require('child_process');
 const logger = require('../logManager')('main:childProcess');
+const {
+  CHILD_PROCESS_READY_MESSAGE_TYPE_KEY,
+} = require('../../constants');
 
 const processes = {};
 
@@ -18,15 +21,19 @@ function fork(id, path, options, onMessage, callback) {
 
   // only for ready message
   processes[id].on('message', (data) => {
-    if (data !== 'ready') {
-      if (onMessage) {
-        onMessage(data);
-      }
+    if (!data) {
+      logger.warn('empty IPC message received');
+      return;
+    }
+    if (data[CHILD_PROCESS_READY_MESSAGE_TYPE_KEY] === true) {
+      logger.debug(`child process ${id} is ready`);
+      callback(null, data.payload);
       return;
     }
 
-    logger.debug(`child process ${id} is ready`, data);
-    callback(null);
+    if (onMessage) {
+      onMessage(data);
+    }
   });
 }
 

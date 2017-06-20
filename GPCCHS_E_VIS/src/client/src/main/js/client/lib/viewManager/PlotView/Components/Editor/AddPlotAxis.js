@@ -315,6 +315,9 @@ const validate = (values = {}, props) => {
   if (parseFloat(values.min).toString().length !== values.min.length) {
     errors.min = 'Invalid value';
   }
+  if (!errors.max && parseFloat(values.max) <= parseFloat(values.min)) {
+    errors.max = 'Max cannot be inferior to min';
+  }
 
   requiredFields.forEach((field) => {
     if (!values[field]) {

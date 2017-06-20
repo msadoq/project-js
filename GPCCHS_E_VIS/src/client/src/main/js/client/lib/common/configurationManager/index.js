@@ -25,7 +25,6 @@ function getArgv(name) {
   return getAllArgv[name];
 }
 
-
 function getEnv(name) {
   return process.env[name];
 }

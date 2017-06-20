@@ -208,7 +208,7 @@ export default class MimicView extends Component {
         processNode: processNodeDefinitions.processDefaultNode,
       },
     ];
-    const comp = htmlToReactParser.parseWithInstructions(
+    return htmlToReactParser.parseWithInstructions(
       props.content,
       isValidNode,
       processingInstructions
@@ -363,7 +363,7 @@ export default class MimicView extends Component {
   render() {
     const { links, pageId, showLinks } = this.props;
     const style = { padding: '15px' };
-    console.log('MIMIC RENDER');
+    console.log('MIMIC RENDER', this.content);
 
     return (
       <div className="h100 posRelative">

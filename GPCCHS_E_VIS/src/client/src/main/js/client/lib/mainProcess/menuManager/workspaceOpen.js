@@ -83,7 +83,7 @@ function allDocumentsAreSaved(store, title, cb) {
             return;
           }
           store.dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
-          saveWorkspace(store.getState(), (err) => {
+          saveWorkspace(store.getState(), pathWk, (err) => {
             if (err) {
               cb(err);
               return;
@@ -93,7 +93,18 @@ function allDocumentsAreSaved(store, title, cb) {
           });
         });
         return;
+      } else if (isYes(clickedButton)) {
+        saveWorkspace(store.getState(), null, (err) => {
+          if (err) {
+            cb(err);
+            return;
+          }
+          store.dispatch(setWorkspaceModified(false));
+          cb(null);
+        });
+        return;
       }
+
       cb(null);
     });
 }

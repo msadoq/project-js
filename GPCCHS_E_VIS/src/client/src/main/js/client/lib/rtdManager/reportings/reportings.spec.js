@@ -109,18 +109,6 @@ describe('rtdManager/reportings', () => {
       done();
     });
   });
-  /* it('getTMPackets', (done) => {
-    getTMPackets({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      console.log(desc);
-      done();
-    });
-  });*/
-  /* it('getComputingDefinitions', (done) => {
-    getComputingDefinitions({ rtd, sessionId, domainId }, reporting, (err, desc) => {
-      console.log(desc);
-      done();
-    });
-  });*/
   test('getComputedParameterFormula', (done) => {
     getComputedParameterFormula({ rtd, sessionId, domainId }, reporting, (err, formula) => {
       expect(formula).toBeAString();

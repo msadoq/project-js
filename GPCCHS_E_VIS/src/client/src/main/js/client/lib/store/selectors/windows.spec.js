@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe, testMemoization } from '../../common/test';
+import { freezeMe, testMemoization } from '../../common/jest';
 
 import {
   getFocusedWindow,

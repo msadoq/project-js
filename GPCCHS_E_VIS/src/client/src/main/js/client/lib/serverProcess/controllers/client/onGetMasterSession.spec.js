@@ -1,3 +1,7 @@
+const { registerProtobuf } = require('../../../common/jest');
+
+registerProtobuf();
+
 const _concat = require('lodash/concat');
 const { decode } = require('../../../utils/adapters');
 

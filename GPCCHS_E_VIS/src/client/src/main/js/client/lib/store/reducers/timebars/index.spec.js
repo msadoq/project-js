@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs, freezeMe } from '../../../common/test';
+import { freezeArgs, freezeMe } from '../../../common/jest';
 import * as types from '../../types';
 import timebarsReducer, {
   getTimebar,

@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import composeReducers from '../../composeReducers';
+import composeReducers from '../../helpers/composeReducers';
 import * as types from '../../types';
 
 // import createConfiguration from './configuration';

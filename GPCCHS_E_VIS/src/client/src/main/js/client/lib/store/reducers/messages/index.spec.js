@@ -1,4 +1,4 @@
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/messages';
 import messagesReducer, { getGlobalMessages, getMessages } from '.';
 
@@ -14,25 +14,29 @@ describe('store:message:reducer', () => {
   });
   describe('add', () => {
     test('should add message', () => {
-      expect(reducer(undefined, actions.add('myId', 'danger', 'my message'))).toEqual({ myId: [{ type: 'danger', message: 'my message' }] });
+      expect(reducer(undefined, actions.add('myId', 'danger', 'my message'))).toMatchObject(
+        { myId: [{ type: 'danger', message: 'my message', removing: false }] }
+      );
     });
     test('should support empty args', () => {
-      expect(reducer(undefined, actions.add('myId'))).toEqual({ myId: [{ type: 'danger', message: null }] });
+      expect(reducer(undefined, actions.add('myId'))).toMatchObject(
+        { myId: [{ type: 'danger', message: undefined, removing: false }] }
+      );
     });
     test('should preserve existing message', () => {
       const state = {
-        myId: [{ type: 'danger', message: 'my message' }],
+        myId: [{ type: 'danger', message: 'my message', removing: false }],
       };
       const newState = reducer(state, actions.add('myOtherId', 'info', 'other message'));
-      expect(newState).toEqual({
-        myId: [{ type: 'danger', message: 'my message' }],
-        myOtherId: [{ type: 'info', message: 'other message' }],
+      expect(newState).toMatchObject({
+        myId: [{ type: 'danger', message: 'my message', removing: false }],
+        myOtherId: [{ type: 'info', message: 'other message', removing: false }],
       });
-      expect(reducer(newState, actions.add('myOtherId', 'success', 'another message'))).toEqual({
-        myId: [{ type: 'danger', message: 'my message' }],
+      expect(reducer(newState, actions.add('myOtherId', 'success', 'another message'))).toMatchObject({
+        myId: [{ type: 'danger', message: 'my message', removing: false }],
         myOtherId: [
-          { type: 'info', message: 'other message' },
-          { type: 'success', message: 'another message' },
+          { type: 'info', message: 'other message', removing: false },
+          { type: 'success', message: 'another message', removing: false },
         ],
       });
     });
@@ -41,20 +45,24 @@ describe('store:message:reducer', () => {
     const state = {
       myId: [
         { type: 'danger', message: 'my message' },
-        { type: 'danger', message: 'my other message' },
+        { uuid: 'uuid1', type: 'danger', message: 'my other message' },
         { type: 'danger', message: 'another message' },
       ],
-      myOtherId: [{ type: 'danger', message: 'my message' }],
+      myOtherId: [{ uuid: 'uuid2', type: 'danger', message: 'my message' }],
     };
     test('should remove key and preserve others', () => {
-      expect(reducer(state, actions.remove('myId', 1))).toEqual({
+      const remove = (containerId, uuid) => ({
+        type: 'WS_MESSAGE_REMOVE',
+        payload: { containerId, uuid },
+      });
+      expect(reducer(state, remove('myId', 'uuid1'))).toEqual({
         myId: [
           { type: 'danger', message: 'my message' },
           { type: 'danger', message: 'another message' },
         ],
-        myOtherId: [{ type: 'danger', message: 'my message' }],
+        myOtherId: [{ uuid: 'uuid2', type: 'danger', message: 'my message' }],
       });
-      expect(reducer(state, actions.remove('myOtherId', 0)).myOtherId).toEqual([]);
+      expect(reducer(state, remove('myOtherId', 'uuid2')).myOtherId).toEqual([]);
     });
   });
   describe('reset', () => {

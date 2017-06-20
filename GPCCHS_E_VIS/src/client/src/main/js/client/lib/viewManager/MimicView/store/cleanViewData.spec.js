@@ -1,6 +1,6 @@
 import _cloneDeep from 'lodash/cloneDeep';
 import cleanCurrentViewData from './cleanViewData';
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 
 describe('viewManager/TextView/store/cleanViewData', () => {
   let viewDataState;

@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../reducers/timebars';

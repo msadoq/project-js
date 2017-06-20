@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 /**

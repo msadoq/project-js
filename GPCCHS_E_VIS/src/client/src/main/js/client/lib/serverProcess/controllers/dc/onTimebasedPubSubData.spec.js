@@ -1,8 +1,8 @@
-const { registerProtobuf } = require('../../../common/test');
+const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
 
-const { getRemoteId } = require('../../../common/test');
+const { getRemoteId } = require('../../../common/jest');
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const {
   clearFactory,

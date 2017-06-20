@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SizablePlotView from './PlotView';
-import { addEntryPoint, removeEntryPoint, removeLink, updateShowLinks }
+import { addEntryPoint, removeEntryPoint, removeLink, updateShowLinks, toggleLegend }
   from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
@@ -40,6 +40,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   removeEntryPoint,
   removeLink,
   updateShowLinks,
+  toggleLegend,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

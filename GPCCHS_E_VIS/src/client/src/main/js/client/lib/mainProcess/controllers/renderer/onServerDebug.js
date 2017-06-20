@@ -7,9 +7,11 @@ const logger = getLogger('main:controllers:renderer:onServerDebug');
 export default function (queryId) {
   server.requestServerDebug(({ err, debug }) => {
     if (err) {
-      return logger.error(err);
+      logger.error(err);
+      reply(queryId);
+      return;
     }
 
-    return reply(queryId, debug);
+    reply(queryId, debug);
   });
 }

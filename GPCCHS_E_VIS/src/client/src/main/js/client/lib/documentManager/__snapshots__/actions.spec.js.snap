@@ -1,0 +1,648 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentManager:actions openPage opens Page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": undefined,
+        "type": "Page",
+        "windowId": "windowId",
+      },
+      "views": Array [
+        Object {
+          "type": "TextView",
+        },
+      ],
+      "windowId": "windowId",
+    },
+    "type": "WS_PAGE_OPEN",
+  },
+]
+`;
+
+exports[`documentManager:actions openPageOrView open a page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": undefined,
+        "type": "Page",
+        "windowId": "windowId",
+      },
+      "views": Array [
+        Object {
+          "type": "TextView",
+        },
+      ],
+      "windowId": "windowId",
+    },
+    "type": "WS_PAGE_OPEN",
+  },
+]
+`;
+
+exports[`documentManager:actions openPageOrView open a view in a blank page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": undefined,
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_PAGE_ADD_BLANK",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "view": Object {
+        "title": "my view",
+      },
+    },
+    "type": "WS_VIEW_OPEN",
+  },
+]
+`;
+
+exports[`documentManager:actions openWorkspace do not open workspace because error 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "flag": true,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "flag": false,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "an error",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`documentManager:actions openWorkspace open workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "flag": true,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": undefined,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/ws.json",
+      "pages": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "isModified": false,
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "timebarId": "TB1",
+          "title": "Unknown",
+          "type": "Page",
+          "views": Array [],
+          "workspaceFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
+        },
+      ],
+      "timebars": Array [
+        Object {
+          "id": "TB1",
+          "masterId": "tl1",
+          "mode": "Normal",
+          "pages": Array [],
+          "rulerResolution": 11250,
+          "rulerStart": NaN,
+          "slideWindow": Object {
+            "lower": NaN,
+            "upper": NaN,
+          },
+          "speed": 1,
+          "timelines": Array [
+            "df63e8e7-cb0e-4af5-a271-3b1783617d94",
+          ],
+          "visuWindow": Object {
+            "current": 1497626439672,
+            "defaultWidth": undefined,
+            "lower": NaN,
+            "upper": NaN,
+          },
+        },
+      ],
+      "timelines": Array [
+        Object {
+          "color": "#393b79",
+          "id": "tl1",
+          "kind": "session",
+          "offset": 0,
+          "sessionName": "Master",
+        },
+      ],
+      "type": "WorkSpace",
+      "views": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "configuration": Object {
+            "content": "STAT_SU_EXIT_CODE: {{STAT_SU_EXIT_CODE}}",
+            "entryPoints": Array [
+              Object {
+                "connectedData": Object {
+                  "digits": 5,
+                  "domain": "fr.cnes.isis",
+                  "filter": Array [],
+                  "format": "decimal",
+                  "formula": "Reporting.STAT_SU_EXIT_CODE<ReportingParameter>",
+                  "timeline": "*",
+                  "unit": "s",
+                },
+                "id": "2e378f9a-93c4-4bbb-b457-1ee656c15a23",
+                "name": "STAT_SU_EXIT_CODE",
+              },
+            ],
+          },
+          "defaultRatio": Object {
+            "length": 5,
+            "width": 5,
+          },
+          "geometry": Object {
+            "h": 5,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          "hideBorders": false,
+          "isModified": false,
+          "links": Array [],
+          "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "title": "Collapsed view",
+          "titleStyle": Object {
+            "align": "left",
+            "bgColor": "#f44336",
+            "bold": false,
+            "color": "#ffffff",
+            "font": "Arial",
+            "italic": false,
+            "size": 12,
+            "strikeOut": false,
+            "underline": false,
+          },
+          "type": "TextView",
+          "windowState": "Normalized",
+        },
+      ],
+      "windows": Array [
+        Object {
+          "geometry": Object {
+            "h": 900,
+            "w": 1200,
+            "x": 12,
+            "y": 484,
+          },
+          "pages": Array [],
+          "title": "Unknown",
+          "type": "documentWindow",
+        },
+      ],
+    },
+    "type": "WS_WORKSPACE_OPEN",
+  },
+  Object {
+    "payload": Object {
+      "flag": false,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "file": "path",
+      "folder": "/fake/absolute",
+    },
+    "type": "HSC_UPDATE_PATH",
+  },
+]
+`;
+
+exports[`documentManager:actions openWorkspace open workspace without session in store 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "flag": true,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": undefined,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/ws.json",
+      "pages": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "isModified": false,
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "timebarId": "TB1",
+          "title": "Unknown",
+          "type": "Page",
+          "views": Array [],
+          "workspaceFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
+        },
+      ],
+      "timebars": Array [
+        Object {
+          "id": "TB1",
+          "masterId": "tl1",
+          "mode": "Normal",
+          "pages": Array [],
+          "rulerResolution": 11250,
+          "speed": 1,
+          "timelines": Array [
+            "df63e8e7-cb0e-4af5-a271-3b1783617d94",
+          ],
+        },
+      ],
+      "timelines": Array [
+        Object {
+          "color": "#393b79",
+          "id": "tl1",
+          "kind": "session",
+          "offset": 0,
+          "sessionName": "Master",
+        },
+      ],
+      "type": "WorkSpace",
+      "views": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "configuration": Object {
+            "content": "STAT_SU_EXIT_CODE: {{STAT_SU_EXIT_CODE}}",
+            "entryPoints": Array [
+              Object {
+                "connectedData": Object {
+                  "digits": 5,
+                  "domain": "fr.cnes.isis",
+                  "filter": Array [],
+                  "format": "decimal",
+                  "formula": "Reporting.STAT_SU_EXIT_CODE<ReportingParameter>",
+                  "timeline": "*",
+                  "unit": "s",
+                },
+                "id": "2e378f9a-93c4-4bbb-b457-1ee656c15a23",
+                "name": "STAT_SU_EXIT_CODE",
+              },
+            ],
+          },
+          "defaultRatio": Object {
+            "length": 5,
+            "width": 5,
+          },
+          "geometry": Object {
+            "h": 5,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          "hideBorders": false,
+          "isModified": false,
+          "links": Array [],
+          "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "title": "Collapsed view",
+          "titleStyle": Object {
+            "align": "left",
+            "bgColor": "#f44336",
+            "bold": false,
+            "color": "#ffffff",
+            "font": "Arial",
+            "italic": false,
+            "size": 12,
+            "strikeOut": false,
+            "underline": false,
+          },
+          "type": "TextView",
+          "windowState": "Normalized",
+        },
+      ],
+      "windows": Array [
+        Object {
+          "geometry": Object {
+            "h": 900,
+            "w": 1200,
+            "x": 12,
+            "y": 484,
+          },
+          "pages": Array [],
+          "title": "Unknown",
+          "type": "documentWindow",
+        },
+      ],
+    },
+    "type": "WS_WORKSPACE_OPEN",
+  },
+  Object {
+    "payload": Object {
+      "flag": false,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "file": "path",
+      "folder": "/fake/absolute",
+    },
+    "type": "HSC_UPDATE_PATH",
+  },
+]
+`;
+
+exports[`documentManager:actions openWorkspace open workspace without timebar masterId 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "flag": true,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": undefined,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/ws.json",
+      "pages": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "isModified": false,
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "timebarId": "TB1",
+          "title": "Unknown",
+          "type": "Page",
+          "views": Array [],
+          "workspaceFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
+        },
+      ],
+      "timebars": Array [
+        Object {
+          "id": "TB1",
+          "mode": "Normal",
+          "pages": Array [],
+          "rulerResolution": 11250,
+          "speed": 1,
+          "timelines": Array [
+            "df63e8e7-cb0e-4af5-a271-3b1783617d94",
+          ],
+        },
+      ],
+      "timelines": Array [
+        Object {
+          "color": "#393b79",
+          "id": "tl1",
+          "kind": "session",
+          "offset": 0,
+          "sessionName": "Master",
+        },
+      ],
+      "type": "WorkSpace",
+      "views": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "configuration": Object {
+            "content": "STAT_SU_EXIT_CODE: {{STAT_SU_EXIT_CODE}}",
+            "entryPoints": Array [
+              Object {
+                "connectedData": Object {
+                  "digits": 5,
+                  "domain": "fr.cnes.isis",
+                  "filter": Array [],
+                  "format": "decimal",
+                  "formula": "Reporting.STAT_SU_EXIT_CODE<ReportingParameter>",
+                  "timeline": "*",
+                  "unit": "s",
+                },
+                "id": "2e378f9a-93c4-4bbb-b457-1ee656c15a23",
+                "name": "STAT_SU_EXIT_CODE",
+              },
+            ],
+          },
+          "defaultRatio": Object {
+            "length": 5,
+            "width": 5,
+          },
+          "geometry": Object {
+            "h": 5,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          "hideBorders": false,
+          "isModified": false,
+          "links": Array [],
+          "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "title": "Collapsed view",
+          "titleStyle": Object {
+            "align": "left",
+            "bgColor": "#f44336",
+            "bold": false,
+            "color": "#ffffff",
+            "font": "Arial",
+            "italic": false,
+            "size": 12,
+            "strikeOut": false,
+            "underline": false,
+          },
+          "type": "TextView",
+          "windowState": "Normalized",
+        },
+      ],
+      "windows": Array [
+        Object {
+          "geometry": Object {
+            "h": 900,
+            "w": 1200,
+            "x": 12,
+            "y": 484,
+          },
+          "pages": Array [],
+          "title": "Unknown",
+          "type": "documentWindow",
+        },
+      ],
+    },
+    "type": "WS_WORKSPACE_OPEN",
+  },
+  Object {
+    "payload": Object {
+      "flag": false,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "file": "path",
+      "folder": "/fake/absolute",
+    },
+    "type": "HSC_UPDATE_PATH",
+  },
+]
+`;
+
+exports[`documentManager:actions openWorkspace open workspace without timeline id 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "flag": true,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": undefined,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/ws.json",
+      "pages": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "isModified": false,
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "timebarId": "TB1",
+          "title": "Unknown",
+          "type": "Page",
+          "views": Array [],
+          "workspaceFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
+        },
+      ],
+      "timebars": Array [
+        Object {
+          "id": "TB1",
+          "masterId": "tl1",
+          "mode": "Normal",
+          "pages": Array [],
+          "rulerResolution": 11250,
+          "speed": 1,
+          "timelines": Array [
+            "df63e8e7-cb0e-4af5-a271-3b1783617d94",
+          ],
+        },
+      ],
+      "timelines": Array [
+        Object {
+          "color": "#393b79",
+          "kind": "session",
+          "offset": 0,
+          "sessionName": "Master",
+        },
+      ],
+      "type": "WorkSpace",
+      "views": Array [
+        Object {
+          "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "configuration": Object {
+            "content": "STAT_SU_EXIT_CODE: {{STAT_SU_EXIT_CODE}}",
+            "entryPoints": Array [
+              Object {
+                "connectedData": Object {
+                  "digits": 5,
+                  "domain": "fr.cnes.isis",
+                  "filter": Array [],
+                  "format": "decimal",
+                  "formula": "Reporting.STAT_SU_EXIT_CODE<ReportingParameter>",
+                  "timeline": "*",
+                  "unit": "s",
+                },
+                "id": "2e378f9a-93c4-4bbb-b457-1ee656c15a23",
+                "name": "STAT_SU_EXIT_CODE",
+              },
+            ],
+          },
+          "defaultRatio": Object {
+            "length": 5,
+            "width": 5,
+          },
+          "geometry": Object {
+            "h": 5,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          "hideBorders": false,
+          "isModified": false,
+          "links": Array [],
+          "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "title": "Collapsed view",
+          "titleStyle": Object {
+            "align": "left",
+            "bgColor": "#f44336",
+            "bold": false,
+            "color": "#ffffff",
+            "font": "Arial",
+            "italic": false,
+            "size": 12,
+            "strikeOut": false,
+            "underline": false,
+          },
+          "type": "TextView",
+          "windowState": "Normalized",
+        },
+      ],
+      "windows": Array [
+        Object {
+          "geometry": Object {
+            "h": 900,
+            "w": 1200,
+            "x": 12,
+            "y": 484,
+          },
+          "pages": Array [],
+          "title": "Unknown",
+          "type": "documentWindow",
+        },
+      ],
+    },
+    "type": "WS_WORKSPACE_OPEN",
+  },
+  Object {
+    "payload": Object {
+      "flag": false,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "file": "path",
+      "folder": "/fake/absolute",
+    },
+    "type": "HSC_UPDATE_PATH",
+  },
+]
+`;

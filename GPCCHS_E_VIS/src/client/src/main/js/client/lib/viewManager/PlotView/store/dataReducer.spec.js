@@ -1,4 +1,4 @@
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 import plotViewData from './dataReducer';
 import * as types from '../../../store/types';
 

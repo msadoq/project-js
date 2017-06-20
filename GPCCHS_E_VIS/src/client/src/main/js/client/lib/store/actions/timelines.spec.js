@@ -1,5 +1,5 @@
 import * as actions from './timelines';
-import { mockStore } from '../../common/test';
+import { mockStore } from '../../common/jest';
 
 describe('store:actions:timelines', () => {
   const store = mockStore();

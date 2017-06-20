@@ -4,10 +4,10 @@ import AddPlotAxis from './AddPlotAxis';
 const initialValues = {
   label: '',
   unit: '',
-  min: 0,
-  max: 0,
+  min: '0',
+  max: '0',
   autoLimits: true,
-  tickStep: 1,
+  tickStep: '1',
   autoTick: true,
   showTicks: true,
   isLogarithmic: false,
@@ -39,7 +39,15 @@ export default class AddEntryPointWrapper extends Component {
       closeModal,
       viewId,
     } = this.props;
-    addAxis(viewId, values);
+    addAxis(
+      viewId,
+      {
+        ...values,
+        min: parseFloat(values.min),
+        max: parseFloat(values.max),
+        tickStep: parseInt(values.tickStep, 10),
+      }
+    );
     closeModal();
   }
 

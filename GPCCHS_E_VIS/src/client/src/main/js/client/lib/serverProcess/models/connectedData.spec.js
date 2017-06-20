@@ -1,4 +1,4 @@
-const { getRemoteId } = require('../../common/test');
+const { getRemoteId } = require('../../common/jest');
 const model = require('./connectedData');
 const { getDataId } = require('common/protobuf/stubs');
 

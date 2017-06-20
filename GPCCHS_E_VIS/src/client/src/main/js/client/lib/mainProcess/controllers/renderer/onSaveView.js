@@ -1,7 +1,13 @@
 import { dirname } from 'path';
-import { getStore } from '../../../store/createStore';
-import { setModified, updatePath, updateAbsolutePath, setViewOid } from '../../../store/actions/views';
-import { addOnce as addMessage } from '../../../store/actions/messages';
+import reply from '../../../common/ipc/reply';
+import { getStore } from '../../store';
+import {
+  setModified,
+  updatePath,
+  updateAbsolutePath,
+  setViewOid,
+} from '../../../store/actions/views';
+import { add as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
 import { saveViewAs } from '../../../documentManager';
 
@@ -13,18 +19,22 @@ const getPath = path => (isInFmd(path) ? getRelativeFmdPath(path) : path);
 const root = getRootDir();
 const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);
 
-export default function ({ viewId, saveAs }) {
+export default function (queryId, { viewId, saveAs }) {
   const { getState, dispatch } = getStore();
   const view = getViewWithConfiguration(getState(), { viewId });
   const { absolutePath, isModified } = view;
 
   function oncePath(savingAbsolutePath) {
     if (!isModified && absolutePath === savingAbsolutePath) {
-      return dispatch(addMessage(viewId, 'info', 'View already saved'));
+      dispatch(addMessage(viewId, 'info', 'View already saved'));
     }
-    return saveViewAs(view, savingAbsolutePath, (err, oid) => {
+    saveViewAs(view, savingAbsolutePath, (err, oid) => {
       if (err) {
-        return dispatch(addViewError(viewId, err));
+        dispatch(addViewError(viewId, err));
+        if (queryId) {
+          reply(queryId, err);
+        }
+        return;
       }
       if (absolutePath !== savingAbsolutePath) {
         // only for 'Save as...' action
@@ -36,14 +46,20 @@ export default function ({ viewId, saveAs }) {
       }
 
       dispatch(setModified(viewId, false));
-      return dispatch(addMessage(viewId, 'success', 'View saved'));
+      dispatch(addMessage(viewId, 'success', 'View saved'));
+      if (queryId) {
+        reply(queryId, null);
+      }
     });
   }
 
   if (!saveAs) {
-    return oncePath(absolutePath);
+    oncePath(absolutePath);
+    return;
   }
 
   const folder = absolutePath ? dirname(absolutePath) : root;
-  return getPathByFilePicker(folder, 'view', 'save', (err, path) => oncePath(path));
+  getPathByFilePicker(folder, 'view', 'save', (err, path) => {
+    oncePath(path);
+  });
 }

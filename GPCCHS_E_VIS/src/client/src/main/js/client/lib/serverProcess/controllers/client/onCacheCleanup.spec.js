@@ -1,4 +1,4 @@
-const { registerProtobuf } = require('../../../common/test');
+const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
 
@@ -6,7 +6,7 @@ const _concat = require('lodash/concat');
 const dataStub = require('common/protobuf/stubs');
 const { decode } = require('../../../utils/adapters');
 
-const { getRemoteId } = require('../../../common/test');
+const { getRemoteId } = require('../../../common/jest');
 const registeredCallbacks = require('../../../common/callbacks');
 const {
   addRecord: registerQuery,

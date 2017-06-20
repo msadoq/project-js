@@ -10,8 +10,7 @@ const clientController = require('./controllers/client');
 const dcController = require('./controllers/dc');
 const { unsubscribeAll } = require('./utils/subscriptions');
 
-// const makeCreateStore =
-//  require('../../../../../client/src/main/js/client/lib/store/createStore').default;
+const makeCreateStore = require('./store').default;
 
 const logger = getLogger('main');
 const zmqLogger = getLogger('zmq');
@@ -43,9 +42,10 @@ zmq.open(zmqConfiguration, (err) => {
   // ipc with main
   process.on('message', clientController);
 
-  // const store = makeCreateStore('server', process.env.DEBUG === 'on')();
-  // store.subscribe(() => console.log('SERVER STORE SUBSCRIPTION'));
+  // store
+  makeCreateStore('server', process.env.DEBUG === 'on')();
 
+  // inform main that everything is ready
   process.send('ready');
 });
 

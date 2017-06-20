@@ -1,8 +1,7 @@
 const { decode } = require('../../../utils/adapters');
-const { registerProtobuf } = require('../../../common/test');
+const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
-
 const logger = require('../../../common/logManager')('controllers:onSessionData');
 
 /**

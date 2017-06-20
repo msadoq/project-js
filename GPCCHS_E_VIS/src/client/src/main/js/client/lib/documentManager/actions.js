@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { dirname, basename } from 'path';
 
+import { readDocumentType } from './io';
 import { LOG_DOCUMENT_OPEN } from '../constants';
 import getLogger from '../common/logManager';
 import parameters from '../common/configurationManager';
@@ -9,7 +10,7 @@ import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace }
 
 import { server } from '../mainProcess/ipc';
 
-import simple from '../store/simpleActionCreator';
+import simple from '../store/helpers/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
@@ -92,38 +93,27 @@ export const openPage = pageInfo => (dispatch, getState) => {
   });
 };
 // -------------------------------------------------------------------------- //
+
+
 // --- open a page or a view------------------------------------------------- //
 export const openPageOrView = docInfo => (dispatch, getState) => {
-  readPageAndViews(docInfo, (err, documents) => {
-    const keepErrors = _.pipe(_.filter(_.has('error')), _.map('error'));
-    const keepValues = _.pipe(_.filter(_.has('value')), _.map('value'));
-    const { views, pages } = documents;
-
-    const errors = _.compact([err, ...keepErrors(views), ...keepErrors(pages)]);
-    if (!_.isEmpty(errors)) {
-      // Add a blank page
+  const isView = type => /^.*View$/.test(type);
+  const isPage = _.equals('Page');
+  readDocumentType(docInfo, (err, type) => {
+    if (err) {
+      dispatch(addGlobalError(err));
+      return;
+    }
+    if (isView(type)) {
       dispatch(addBlankPage());
-      // try to open a view
-      const windowId = getFocusedWindowId(getState());
-      dispatch(openView(docInfo, getWindowFocusedPageId(getState(), { windowId })));
-      return;
+      const state = getState();
+      const pageId = getWindowFocusedPageId(state, { windowId: getFocusedWindowId(state) });
+      dispatch(openView(docInfo, pageId));
+    } else if (isPage(type)) {
+      dispatch(openPage(docInfo));
+    } else {
+      dispatch(addGlobalError(`Error, unknown type '${type}'`));
     }
-    if (documents.pages[0].error) {
-      return;
-    }
-    const page = documents.pages[0].value;
-    const firstTimebarId = getFirstTimebarId(getState());
-    dispatch({
-      type: types.WS_PAGE_OPEN,
-      payload: {
-        windowId: page.windowId,
-        views: keepValues(views),
-        page: _.set('timebarUuid', firstTimebarId, page),
-      },
-    });
-
-    const path = page.absolutePath || page.path || page.oId;
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };
 // -------------------------------------------------------------------------- //

@@ -1,8 +1,5 @@
 const { encode } = require('../../../utils/adapters');
 const globalConstants = require('../../../constants');
-const { registerProtobuf } = require('../../../common/test');
-
-registerProtobuf();
 
 const protobufHeader = encode('dc.dataControllerUtils.Header', {
   messageType: globalConstants.MESSAGETYPE_SESSION_MASTER_QUERY,

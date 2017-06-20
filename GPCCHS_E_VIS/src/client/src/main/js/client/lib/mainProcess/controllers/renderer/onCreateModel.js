@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import { getStore } from '../../../store/createStore';
+import { getStore } from '../../store';
 import { add } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
 import { saveViewAs } from '../../../documentManager';

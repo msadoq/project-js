@@ -110,10 +110,12 @@ export class GrizzlyPlotView extends PureComponent {
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
       showYAxes: PropTypes.string,
+      showLegend: PropTypes.bool.isRequired,
       grids: PropTypes.array,
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
+    toggleLegend: PropTypes.func.isRequired,
     openInspector: PropTypes.func.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
@@ -145,7 +147,6 @@ export class GrizzlyPlotView extends PureComponent {
   };
 
   state = {
-    showLegend: false,
     showEpNames: [],
     hideEpNames: [],
   }
@@ -164,9 +165,6 @@ export class GrizzlyPlotView extends PureComponent {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
       }
-    }
-    if (nextState.showLegend !== this.state.showLegend) {
-      shouldRender = true;
     }
     if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
@@ -354,15 +352,20 @@ export class GrizzlyPlotView extends PureComponent {
 
   toggleShowLegend = (e) => {
     e.preventDefault();
-    this.setState({
-      showLegend: !this.state.showLegend,
-    });
+    const {
+      toggleLegend,
+      configuration,
+      viewId,
+    } = this.props;
+    toggleLegend(viewId, !configuration.showLegend);
   }
+
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
   }
+
   showEp = (e, lineId) => {
     e.preventDefault();
     const {
@@ -473,6 +476,7 @@ export class GrizzlyPlotView extends PureComponent {
         showYAxes,
         axes,
         grids,
+        showLegend,
       },
       visuWindow,
       links,
@@ -483,7 +487,6 @@ export class GrizzlyPlotView extends PureComponent {
       configuration: { entryPoints },
     } = this.props;
     const {
-      showLegend,
       showEpNames,
       hideEpNames,
     } = this.state;

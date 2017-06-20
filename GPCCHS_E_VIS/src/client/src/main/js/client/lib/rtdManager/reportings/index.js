@@ -70,7 +70,6 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
       }, sCb);
     }, (err) => {
       if (err) {
-        // console.log('err2')
         callback(err);
         return;
       }

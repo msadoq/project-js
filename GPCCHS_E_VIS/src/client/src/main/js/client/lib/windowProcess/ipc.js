@@ -27,6 +27,12 @@ const commands = {
         payload,
       });
     },
+    requestReduxCurrentState: (callback) => {
+      commands.main.rpc(globalConstants.IPC_METHOD_REDUX_CURRENT_STATE, null, callback);
+    },
+    sendReduxDispatch: (action) => {
+      commands.main.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
+    },
     reloadSessions: (callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_RELOAD_SESSIONS, null, callback);
     },
@@ -75,6 +81,13 @@ const commands = {
       }, callback),
     openDocuWikiHelper: () =>
       commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
+    saveView: ({ viewId, saveAs }, callback) =>
+      commands.main.rpc(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs }, callback),
+    savePage: (windowId, stopOnUnsavedView, callback) =>
+      commands.main.rpc(
+        globalConstants.IPC_METHOD_SAVE_PAGE,
+        { windowId, stopOnUnsavedView },
+        callback),
   },
 };
 

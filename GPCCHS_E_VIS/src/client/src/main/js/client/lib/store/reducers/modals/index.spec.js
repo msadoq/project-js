@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/modals';
 import modalsReducer from '.';
 

@@ -5,7 +5,7 @@ import { join } from 'path';
 import { readFile } from 'fs';
 
 import { MIME_TYPES } from '../constants';
-import { getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/jest';
 
 import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
 import * as fmdApi from '../common/fmd';

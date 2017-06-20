@@ -3,7 +3,7 @@ import cleanCurrentViewData,
   { updateEpLabel,
     scanForMinAndMax,
     removeViewDataByEp } from './cleanViewData';
-import { freezeMe } from '../../../common/test';
+import { freezeMe } from '../../../common/jest';
 
 
 describe('viewManager/PlotView/store/cleanViewData', () => {

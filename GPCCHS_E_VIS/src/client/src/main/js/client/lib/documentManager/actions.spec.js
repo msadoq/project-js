@@ -1,59 +1,478 @@
+import _ from 'lodash/fp';
 import sinon from 'sinon';
-import * as types from '../store/types';
-import { mockStore } from '../common/test';
+import { mockStore, freezeMe } from '../common/jest';
 import readView from './readView';
 import * as readPageApi from './readPage';
-import { add as addMessage } from '../store/actions/messages';
+import * as readWorkspaceApi from './readWorkspace';
+import * as io from './io';
 import * as actions from './actions';
-
 
 describe('documentManager:actions', () => {
   let stub;
+  beforeEach(() => {
+    stub = { restore: _.noop };
+  });
   afterEach(() => {
     stub.restore();
   });
+
+  describe('reloadView', () => {
+    test('reload view', () => {
+      const store = mockStore();
+      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
+        cb(null, { some: 'properties' });
+      });
+      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_VIEW_RELOAD',
+          payload: { viewId: 'myViewId', view: { some: 'properties', uuid: 'myViewId' } },
+        },
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'myViewId',
+            type: 'success',
+            messages: [{ content: 'View reloaded' }],
+          },
+        },
+      ]);
+    });
+    test('invalid view file', () => {
+      const store = mockStore();
+      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
+        cb(new Error());
+      });
+      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'myViewId',
+            type: 'danger',
+            messages: [
+              {
+                content: 'Invalid View file selected',
+              },
+            ],
+          },
+        },
+      ]);
+    });
+  });
+
   describe('openView', () => {
     test('dispatches a message in case of error', () => {
       const store = mockStore();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        expect(viewInfo).toEqual('viewInfo');
         cb(null, { error: 'Error' });
       });
       store.dispatch(actions.openView('viewInfo'));
-      expect(store.getActions()).toEqual([addMessage('global', 'danger', 'Error')]);
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'Error' }],
+          },
+        },
+      ]);
     });
     test('dispatches a WS_VIEW_OPEN when view is loaded', () => {
       const store = mockStore();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        expect(viewInfo).toEqual('viewInfo');
         cb(null, { value: { title: 'my view' } });
       });
       store.dispatch(actions.openView('viewInfo', 'myPageId'));
-      expect(store.getActions()).toEqual([{
-        type: types.WS_VIEW_OPEN,
-        payload: {
-          pageId: 'myPageId',
-          view: { title: 'my view' },
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_VIEW_OPEN',
+          payload: {
+            pageId: 'myPageId',
+            view: { title: 'my view' },
+          },
         },
-      }]);
+      ]);
     });
   });
+
   describe('openPage', () => {
     test('dispatches a global error message in case of error', () => {
       const store = mockStore();
       stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
-        expect(pageInfo).toEqual('page_info');
         cb(null, { views: [{ error: 'Error view' }], pages: [{ error: 'Error page' }] });
       });
       store.dispatch(actions.openPage('page_info'));
-      expect(store.getActions()).toEqual([{
-        type: types.WS_MESSAGE_ADD,
-        payload: {
-          containerId: 'global',
-          type: 'danger',
-          messages: ['Error view', 'Error page'],
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'Error view' }, { content: 'Error page' }],
+          },
         },
-      }]);
+      ]);
+    });
+
+    test('opens Page', (done) => {
+      const store = mockStore(freezeMe({}));
+      stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
+        cb(null, {
+          views: [{ value: { type: 'TextView' } }],
+          pages: [{ value: { windowId: 'windowId', type: 'Page' } }],
+        });
+      });
+      store.dispatch(actions.openPage('page_info'));
+      expect(store.getActions()).toMatchSnapshot();
+      done();
+    });
+  });
+
+  describe('openPageOrView', () => {
+    test('open a page', () => {
+      const store = mockStore();
+      stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
+        cb(null, {
+          views: [{ value: { type: 'TextView' } }],
+          pages: [{ value: { windowId: 'windowId', type: 'Page' } }],
+        });
+      });
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(null, 'Page');
+      });
+      store.dispatch(actions.openPageOrView('page_info'));
+      expect(store.getActions()).toMatchSnapshot();
+      stubReadDocumentType.restore();
+    });
+    test('open a view in a blank page', () => {
+      const store = mockStore(
+        freezeMe({
+          hsc: { focusWindow: 'w1' },
+          windows: { w1: { focusedPage: 'p1' } },
+        })
+      );
+      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
+        cb(null, { value: { title: 'my view' } });
+      });
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(null, 'TextView');
+      });
+      store.dispatch(actions.openPageOrView('view_info'));
+
+      const actionsWithoutUuids = _.unset('[0].payload.page.uuid', store.getActions());
+      expect(actionsWithoutUuids).toMatchSnapshot();
+      expect(store.getActions()[0].payload.page.uuid).toBeAnUuid();
+      stubReadDocumentType.restore();
+    });
+    test('give an error when readDocument failed', () => {
+      const store = mockStore(freezeMe({}));
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(new Error('an error'));
+      });
+      store.dispatch(actions.openPageOrView());
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: 'an error' }],
+          },
+        },
+      ]);
+      stubReadDocumentType.restore();
+    });
+    test('give an error when view type is unknown', () => {
+      const store = mockStore(freezeMe({}));
+      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
+        cb(null, 'A Type');
+      });
+      store.dispatch(actions.openPageOrView());
+      expect(store.getActions()).toMatchObject([
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'global',
+            type: 'danger',
+            messages: [{ content: "Error, unknown type 'A Type'" }],
+          },
+        },
+      ]);
+      stubReadDocumentType.restore();
+    });
+  });
+
+  describe('openWorkspace', () => {
+    const readedWorkspaceFixture = {
+      type: 'WorkSpace',
+      windows: [
+        {
+          type: 'documentWindow',
+          title: 'Unknown',
+          geometry: {
+            w: 1200,
+            h: 900,
+            x: 12,
+            y: 484,
+          },
+          pages: [],
+          uuid: 'a527fdd3-a228-4773-b1e9-a09e62e2bbf2',
+        },
+      ],
+      timebars: [
+        {
+          id: 'TB1',
+          rulerResolution: 11250,
+          speed: 1,
+          masterId: 'tl1',
+          mode: 'Normal',
+          timelines: ['df63e8e7-cb0e-4af5-a271-3b1783617d94'],
+          uuid: 'e9ab5b2f-e813-41bd-ae8a-b3121ebddb77',
+        },
+      ],
+      absolutePath:
+        '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/ws.json',
+      timelines: [
+        {
+          id: 'tl1',
+          offset: 0,
+          kind: 'session',
+          sessionName: 'Master',
+          color: '#393b79',
+          uuid: 'df63e8e7-cb0e-4af5-a271-3b1783617d94',
+        },
+      ],
+      pages: [
+        {
+          value: {
+            type: 'Page',
+            title: 'Unknown',
+            views: [],
+            path:
+              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json',
+            timebarId: 'TB1',
+            uuid: 'add811db-9c39-447a-b826-d26e55c6cc93',
+            timebarUuid: 'e9ab5b2f-e813-41bd-ae8a-b3121ebddb77',
+            windowId: 'a527fdd3-a228-4773-b1e9-a09e62e2bbf2',
+            workspaceFolder:
+              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data',
+            isModified: false,
+            absolutePath:
+              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json',
+          },
+        },
+      ],
+      views: [
+        {
+          value: {
+            path:
+              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json',
+            geometry: {
+              x: 0,
+              y: 0,
+              w: 5,
+              h: 5,
+            },
+            hideBorders: false,
+            windowState: 'Normalized',
+            uuid: 'a4b02e15-6d11-42f3-8e6c-bc3ad04d3d92',
+            pageUuid: 'add811db-9c39-447a-b826-d26e55c6cc93',
+            pageFolder:
+              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages',
+            type: 'TextView',
+            defaultRatio: {
+              length: 5,
+              width: 5,
+            },
+            links: [],
+            title: 'Collapsed view',
+            configuration: {
+              content: 'STAT_SU_EXIT_CODE: {{STAT_SU_EXIT_CODE}}',
+              entryPoints: [
+                {
+                  name: 'STAT_SU_EXIT_CODE',
+                  connectedData: {
+                    formula: 'Reporting.STAT_SU_EXIT_CODE<ReportingParameter>',
+                    unit: 's',
+                    digits: 5,
+                    format: 'decimal',
+                    filter: [],
+                    domain: 'fr.cnes.isis',
+                    timeline: '*',
+                  },
+                  id: '2e378f9a-93c4-4bbb-b457-1ee656c15a23',
+                },
+              ],
+            },
+            titleStyle: {
+              font: 'Arial',
+              size: 12,
+              bold: false,
+              italic: false,
+              underline: false,
+              strikeOut: false,
+              align: 'left',
+              color: '#ffffff',
+              bgColor: '#f44336',
+            },
+            isModified: false,
+            absolutePath:
+              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json',
+          },
+        },
+      ],
+    };
+    const initialState = {
+      sessions: [{
+        delta: 0,
+        id: 0,
+        missionEpoch: 110,
+        name: 'Master',
+        timestamp: {
+          ms: 1497626439672,
+          ps: 0,
+        },
+      }],
+    };
+    const removeUuids = _.pipe(
+      _.update('windows', _.map(_.unset('uuid'))),
+      _.update('timebars', _.map(_.pipe(
+        _.unset('uuid'),
+        _.set('pages', [])
+      ))),
+      _.update('timelines', _.map(_.unset('uuid'))),
+      _.update('pages', _.map(_.pipe(
+        _.unset('uuid'),
+        _.unset('timebarUuid'),
+        _.unset('windowId')
+      ))),
+      _.update('views', _.map(_.pipe(
+        _.unset('uuid'),
+        _.unset('pageUuid')
+      )))
+    );
+    test('open workspace', (done) => {
+      const store = mockStore(initialState);
+      const stubReadWorkspace = sinon.stub(readWorkspaceApi, 'readWorkspacePagesAndViews').callsFake((info, cb) => {
+        cb(null, readedWorkspaceFixture);
+      });
+      store.dispatch(actions.openWorkspace({ absolutePath: '/fake/absolute/path' }, (err) => {
+        const actionsWithoutUuids = _.update('[2].payload', removeUuids, store.getActions());
+        expect(err).not.toBeAnError();
+        expect(actionsWithoutUuids).toMatchSnapshot();
+        stubReadWorkspace.restore();
+        done();
+      }));
+    });
+    test('open workspace without session in store', (done) => {
+      const store = mockStore(freezeMe({}));
+      const stubReadWorkspace = sinon.stub(readWorkspaceApi, 'readWorkspacePagesAndViews').callsFake((info, cb) => {
+        cb(null, readedWorkspaceFixture);
+      });
+      store.dispatch(actions.openWorkspace({ absolutePath: '/fake/absolute/path' }, (err) => {
+        const actionsWithoutUuids = _.update('[2].payload', removeUuids, store.getActions());
+        expect(err).not.toBeAnError();
+        expect(actionsWithoutUuids).toMatchSnapshot();
+        stubReadWorkspace.restore();
+        done();
+      }));
+    });
+    test('open workspace without timebar masterId', (done) => {
+      const store = mockStore(freezeMe({}));
+      const stubReadWorkspace = sinon.stub(readWorkspaceApi, 'readWorkspacePagesAndViews').callsFake((info, cb) => {
+        const fixture = _.unset('timebars[0].masterId', readedWorkspaceFixture);
+        cb(null, fixture);
+      });
+      store.dispatch(actions.openWorkspace({ absolutePath: '/fake/absolute/path' }, (err) => {
+        const actionsWithoutUuids = _.update('[2].payload', removeUuids, store.getActions());
+        expect(err).not.toBeAnError();
+        expect(actionsWithoutUuids).toMatchSnapshot();
+        stubReadWorkspace.restore();
+        done();
+      }));
+    });
+    test('open workspace without timeline id', (done) => {
+      const store = mockStore(freezeMe({}));
+      const stubReadWorkspace = sinon.stub(readWorkspaceApi, 'readWorkspacePagesAndViews').callsFake((info, cb) => {
+        const fixture = _.unset('timelines[0].id', readedWorkspaceFixture);
+        cb(null, fixture);
+      });
+      store.dispatch(actions.openWorkspace({ absolutePath: '/fake/absolute/path' }, (err) => {
+        const actionsWithoutUuids = _.update('[2].payload', removeUuids, store.getActions());
+        expect(err).not.toBeAnError();
+        expect(actionsWithoutUuids).toMatchSnapshot();
+        stubReadWorkspace.restore();
+        done();
+      }));
+    });
+    test('do not open workspace because error', (done) => {
+      const store = mockStore(freezeMe({}));
+      const stubReadWorkspace = sinon.stub(readWorkspaceApi, 'readWorkspacePagesAndViews').callsFake((info, cb) => {
+        cb(new Error('an error'));
+      });
+      store.dispatch(actions.openWorkspace({ absolutePath: '/fake/absolute/path' }, (errors) => {
+        setImmediate(() => {
+          const actionsWithoutUuids = _.unset('[2].payload.messages[0].uuid', store.getActions());
+          expect(errors).toHaveLength(1);
+          expect(errors[0]).toBeAnError();
+          expect(actionsWithoutUuids).toMatchSnapshot();
+          stubReadWorkspace.restore();
+          done();
+        });
+      }));
+    });
+  });
+
+  describe('openBlankWorkspace', () => {
+    test('close current workspace, then open a freshly new created workspace', () => {
+      const store = mockStore();
+      store.dispatch(actions.openBlankWorkspace());
+      const workspaceOpenPayload = store.getActions()[1].payload;
+      const firstTimebar = workspaceOpenPayload.timebars[0];
+      expect(firstTimebar.visuWindow).toHaveKeys(['lower', 'upper', 'current']);
+      expect(firstTimebar.slideWindow).toHaveKeys(['lower', 'upper']);
+      expect(firstTimebar).toHaveKeys(['rulerStart']);
+      expect(workspaceOpenPayload.windows[0].pages[0]).toBeAnUuid();
+      expect(workspaceOpenPayload.windows[0].uuid).toBeAnUuid();
+      expect(workspaceOpenPayload.timebars[0].uuid).toBeAnUuid();
+      expect(workspaceOpenPayload.pages[0].uuid).toBeAnUuid();
+      expect(workspaceOpenPayload.pages[0].timebarUuid).toBeAnUuid();
+      expect(store.getActions()).toMatchObject([
+        { type: 'HSC_CLOSE_WORKSPACE', payload: {} },
+        {
+          type: 'WS_WORKSPACE_OPEN',
+          payload: {
+            windows: [
+              {
+                title: 'Unknown',
+                type: 'documentWindow',
+                geometry: { w: 1200, h: 900, x: 10, y: 10 },
+              },
+            ],
+            timebars: [
+              {
+                type: 'timeBarConfiguration',
+                id: 'TB1',
+                mode: 'Normal',
+                rulerResolution: 11250,
+                speed: 1,
+                offsetFromUTC: 0,
+                timelines: [],
+              },
+            ],
+            pages: [
+              {
+                type: 'Page',
+                title: 'Unknown',
+                hideBorders: false,
+                timebarId: 'TB1',
+              },
+            ],
+          },
+        },
+      ]);
     });
   });
 });

@@ -1,10 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { Button, MenuItem, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 import globalConstants from '../../constants';
 
 import styles from './Header.css';
-import Tooltip from '../common/Tooltip';
 import { main } from '../ipc';
 
 export default class Header extends PureComponent {
@@ -23,112 +22,14 @@ export default class Header extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     collapsed: PropTypes.bool.isRequired,
-    maximized: PropTypes.bool.isRequired,
-    oId: PropTypes.string.isRequired,
-    absolutePath: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    closeView: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
-    maximizeView: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
+    onContextMenu: PropTypes.func.isRequired,
   };
   static defaultProps = {
     title: 'Untitled',
     titleStyle: {},
   };
-
-  onDropDownClick = (key) => {
-    const {
-      viewId,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
-      closeView,
-      collapseView,
-      collapsed,
-      maximizeView,
-      maximized,
-      openModal,
-    } = this.props;
-    switch (key) {
-      case 'editor': {
-        if (isViewsEditorOpen) {
-          closeEditor();
-        } else if (!isViewsEditorOpen) {
-          openEditor();
-        }
-        break;
-      }
-      case 'move': {
-        openModal({ type: 'moveViewToPage' });
-        break;
-      }
-      case 'close': {
-        closeView();
-        if (isViewsEditorOpen && closeEditor) {
-          closeEditor();
-        }
-        break;
-      }
-      case 'collapse': {
-        collapseView(!collapsed);
-        break;
-      }
-      case 'maximize': {
-        maximizeView(!maximized);
-        break;
-      }
-      case 'save':
-        this.save();
-        break;
-      case 'saveAs':
-        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs: true });
-        break;
-      case 'reload':
-        main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId });
-        break;
-      case 'createModel':
-        main.message(globalConstants.IPC_METHOD_CREATE_MODEL, { viewId });
-        break;
-      default:
-    }
-  };
-
-  getTooltipContent = () => {
-    const {
-      isViewsEditorOpen,
-      oId,
-      absolutePath,
-      isModified,
-      maximized,
-    } = this.props;
-    const isPathDefined = oId || absolutePath;
-    const ulStyle = { display: 'block', top: '0', left: '0' };
-    return (
-      <ul className="dropdown-menu open" style={ulStyle} id={`menu${this.props.viewId}`}>
-        <MenuItem onSelect={this.onDropDownClick} eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
-        <MenuItem divider />
-        <MenuItem onSelect={this.onDropDownClick} eventKey="move">Move view to...</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick} eventKey="collapse">Collapse view</MenuItem>
-        {
-          maximized ? <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Minimize view</MenuItem> :
-          <MenuItem onSelect={this.onDropDownClick} eventKey="maximize">Maximize view</MenuItem>
-        }
-        {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="reload">Reload view</MenuItem>
-                       : <MenuItem onSelect={this.onDropDownClick} eventKey="reload" disabled>Reload view</MenuItem>}
-        <MenuItem divider />
-        {isPathDefined && isModified ? <MenuItem onSelect={this.onDropDownClick} eventKey="save">Save view</MenuItem>
-                       : <MenuItem onSelect={this.onDropDownClick} eventKey="save" disabled>Save view</MenuItem>}
-        <MenuItem onSelect={this.onDropDownClick} eventKey="saveAs">Save view as...</MenuItem>
-        <MenuItem onSelect={this.onDropDownClick}eventKey="createModel">Save view as a model...</MenuItem>
-        <MenuItem divider />
-        <MenuItem onSelect={this.onDropDownClick} eventKey="close">Close view</MenuItem>
-      </ul>
-    );
-  }
-
 
   getTitleStyle() {
     const { titleStyle, isViewsEditorOpen } = this.props;
@@ -172,6 +73,7 @@ export default class Header extends PureComponent {
       isViewsEditorOpen,
       collapsed,
       isModified,
+      onContextMenu,
     } = this.props;
 
     const title = `${this.props.title} ${isModified ? ' *' : ''}`;
@@ -193,24 +95,9 @@ export default class Header extends PureComponent {
         </div>
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&
-            [
-              <button key={1} className={styles.expandButton} onClick={this.expand}>
-                <Glyphicon glyph="minus" />
-              </button>,
-              <Button
-                key="menu_button"
-                className={styles.dropDownButton}
-                bsStyle="link"
-                bsSize="xsmall"
-                ref={(c) => { this.menuButton = c; }}
-              > MENU
-            </Button>,
-              <Tooltip
-                key="Tooltip"
-                getTarget={() => this.menuButton}
-                getContent={() => this.getTooltipContent()}
-              />,
-            ]
+            <button key={1} className={styles.expandButton} onClick={this.expand}>
+              <Glyphicon glyph="minus" />
+            </button>
           }
           {
             collapsed &&
@@ -222,6 +109,13 @@ export default class Header extends PureComponent {
               &#9633;
             </button>
           }
+          <Button
+            className={styles.expandButton}
+            onClick={onContextMenu}
+            title="Display Menu"
+          >
+            <Glyphicon glyph="align-justify" />
+          </Button>
           {
             (collapsed && isModified) &&
             <button

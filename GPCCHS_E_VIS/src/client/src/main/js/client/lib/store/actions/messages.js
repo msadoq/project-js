@@ -1,7 +1,8 @@
+import { v4 } from 'uuid';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _find from 'lodash/find';
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 export const add = simple(
@@ -11,14 +12,27 @@ export const add = simple(
   (param) => {
     const messages = _.flatten([param]);
     const extractErrors = _.map(x => (x instanceof Error ? x.message : x));
-    return { messages: extractErrors(messages) };
+    const addUuids = _.map(msg => ({ content: msg, uuid: v4() }));
+    const createMessages = _.pipe(extractErrors, addUuids);
+    return { messages: createMessages(messages) };
   }
 );
-export const remove = simple(
-  types.WS_MESSAGE_REMOVE,
+
+const createRemove = ({ withAnimation = false } = {}) => (containerId, uuid) => ({
+  type: types.WS_MESSAGE_REMOVE,
+  payload: { containerId, uuid },
+  meta: { withAnimation },
+});
+
+export const remove = createRemove();
+export const removeWithAnimation = createRemove({ withAnimation: true });
+
+export const cancelRemove = simple(
+  types.WS_MESSAGE_CANCEL_REMOVING,
   'containerId',
-  'index'
+  'uuid'
 );
+
 export const reset = simple(
   types.WS_MESSAGE_RESET,
   'containerId'

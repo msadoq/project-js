@@ -19,7 +19,7 @@ import executionMonitor from '../common/logManager/execution';
 import getLogger from '../common/logManager';
 
 import { server } from './ipc';
-import { getStore } from '../store/createStore';
+import { getStore } from './store';
 import {
   getWindowsOpened,
   getLastCacheInvalidation,
@@ -255,7 +255,7 @@ export function tick() {
       if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
         execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(now)); // schedule next run
-        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap);
+        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap); // TODO dbrugne diagnose if this is not the origin of the weird dataMap mutation
         execution.stop('cache invalidation');
 
         logger.debug('cache invalidation requested, skipping current tick');
@@ -269,7 +269,6 @@ export function tick() {
         callback(null);
         return;
       }
-
       execution.start('data requests');
       const timebarUuid = getPlayingTimebarId(getState());
       // Add forecast in play mode

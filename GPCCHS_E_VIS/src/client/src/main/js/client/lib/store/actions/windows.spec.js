@@ -1,5 +1,5 @@
 import * as actions from './windows';
-import { mockStore, freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:windows', () => {
   const state = freezeMe({
@@ -55,6 +55,10 @@ describe('store:actions:windows', () => {
           payload: { windowId: 'myWindowId', pageId: 'p2' },
         },
       ]);
+    });
+    test('do nothing when page is unknown', () => {
+      store.dispatch(actions.focusPage('unknownWindow', 'unknownPage'));
+      expect(store.getActions()).toEqual([]);
     });
   });
   describe('closeWindow', () => {

@@ -2,7 +2,7 @@ import rimraf from 'rimraf';
 import _ from 'lodash/fp';
 import fs from 'fs';
 
-import { getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/jest';
 
 import * as documentManagerApi from '.';
 

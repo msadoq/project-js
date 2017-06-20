@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import rimraf from 'rimraf';
 
-import { getTmpPath, freezeMe } from '../common/test';
+import { getTmpPath, freezeMe } from '../common/jest';
 
 import fs from '../common/fs';
 import { savePage, savePageAs } from './savePage';
@@ -74,9 +74,7 @@ describe('mainProcess/documents/savePage', () => {
     };
   });
 
-  afterEach(done => (
-    rimraf(getTmpPath(), done)
-  ));
+  afterEach(done => rimraf(getTmpPath(), () => rimraf('./fakeFolder', done)));
 
   describe('savePage', () => {
     test('saves page', (done) => {

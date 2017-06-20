@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
-import composeReducers from '../store/composeReducers';
-import createReducerByViews from '../store/createReducerByViews';
+import composeReducers from '../store/helpers/composeReducers';
+import createReducerByViews from '../store/helpers/createReducerByViews';
 import commonConfigurationReducer from './commonConfiguration/reducer';
 
 import textViewConfigurationReducer from './TextView/store/configurationReducer';

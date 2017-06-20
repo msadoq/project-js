@@ -1,5 +1,5 @@
 import * as actions from './views';
-import { mockStore, freezeMe } from '../../common/test';
+import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:views', () => {
   const state = freezeMe({

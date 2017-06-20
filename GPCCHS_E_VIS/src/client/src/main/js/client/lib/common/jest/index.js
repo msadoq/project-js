@@ -5,14 +5,14 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { getDataId } from 'common/protobuf/stubs';
 import deepFreeze from 'deep-freeze';
-import flattenDataId from './flattenDataId';
+import flattenDataId from '../flattenDataId';
 
 const registerDc = require('common/protobuf/adapters/dc');
 const registerLpisis = require('common/protobuf/adapters/lpisis');
 
 const registerProtobuf = () => {
-  registerDc(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-  registerLpisis(resolve(__dirname, '../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
+  registerDc(resolve(__dirname, '../../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
+  registerLpisis(resolve(__dirname, '../../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
 };
 
 const mockStore = configureMockStore([thunk]);

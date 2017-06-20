@@ -1,5 +1,5 @@
 import globalConstants from '../../../constants';
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/health';
 import * as types from '../../types';
 import healthReducer, {

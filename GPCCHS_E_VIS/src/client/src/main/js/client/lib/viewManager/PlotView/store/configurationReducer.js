@@ -7,7 +7,7 @@ const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), st
 
 const addElementIn = (key, val, state) => _.update(key, x => _.compact(_.concat(x, val)), state);
 
-export default (stateConf = { search: '' }, action) => {
+export default (stateConf = { search: '', showLegend: true }, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_LEGEND:
       return _.set('legend', action.payload.legend, stateConf);
@@ -15,6 +15,8 @@ export default (stateConf = { search: '' }, action) => {
       return _.set('showYAxes', action.payload.showYAxes, stateConf);
     case types.WS_VIEW_UPDATE_GRID:
       return _.set(`grids[${action.payload.index}]`, action.payload.grid, stateConf);
+    case types.WS_VIEW_TOGGLE_LEGEND:
+      return _.set('showLegend', action.payload.flag, stateConf);
     case types.WS_VIEW_ADD_GRID:
       return addElementIn('grids', action.payload.grid, stateConf);
     case types.WS_VIEW_REMOVE_GRID:

@@ -1,5 +1,6 @@
-const { registerProtobuf } = require('../../../common/test');
+
 const { decode } = require('../../../utils/adapters');
+const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
 

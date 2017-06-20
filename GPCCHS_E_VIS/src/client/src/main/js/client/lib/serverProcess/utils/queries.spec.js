@@ -1,4 +1,4 @@
-const { getRemoteId, registerProtobuf } = require('../../common/test');
+const { getRemoteId, registerProtobuf } = require('../../common/jest');
 
 registerProtobuf();
 

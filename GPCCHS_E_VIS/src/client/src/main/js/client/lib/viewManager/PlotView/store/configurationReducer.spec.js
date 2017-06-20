@@ -2,7 +2,7 @@
 import * as actions from '../../../store/actions/views';
 import * as types from '../../../store/types';
 import configurationReducer from './configurationReducer';
-import { freezeArgs } from '../../../common/test';
+import { freezeArgs } from '../../../common/jest';
 
 const reducer = freezeArgs(configurationReducer);
 
@@ -25,6 +25,7 @@ const stateConf = {
   legend: 'old Legend',
   markers: [{ m: '1' }, { m: '2' }],
   showYAxes: 'left',
+  showLegend: false,
 };
 
 describe('store:reducer:PlotViewConfiguration', () => {
@@ -32,6 +33,12 @@ describe('store:reducer:PlotViewConfiguration', () => {
     test('updates', () => {
       const state = reducer(stateConf, actions.updateShowYAxes('plot1', 'right'));
       expect(state.showYAxes).toEqual('right');
+    });
+  });
+  describe('showLegend', () => {
+    test('updates', () => {
+      const state = reducer(stateConf, actions.toggleLegend('plot1', true));
+      expect(state.showLegend).toEqual(true);
     });
   });
   describe('legend', () => {

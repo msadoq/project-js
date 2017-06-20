@@ -1,52 +1,41 @@
-const path = require('path');
-const exit = require('exit');
-const { series } = require('async');
-const zmq = require('common/zmq');
-const registerDc = require('common/protobuf/adapters/dc');
-const registerLpisis = require('common/protobuf/adapters/lpisis');
-const getLogger = require('../common/logManager');
+import path from 'path';
+import exit from 'exit';
+import { series } from 'async';
 
-const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
+import registerDc from 'common/protobuf/adapters/dc';
+import registerLpisis from 'common/protobuf/adapters/lpisis';
+import getLogger from '../common/logManager';
+import makeCreateStore from './store';
+import { updateDomains } from '../store/actions/domains';
+import { updateSessions } from '../store/actions/sessions';
+import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
+import connectToZmq from './lifecycle/zmq';
+import fetchInitialData from './lifecycle/data';
+import { LOG_APPLICATION_START } from '../constants';
+import { dc } from './ipc';
 
 // Temporary fix for packaging ////////////////////////////////////////////////////////////////////
+const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
 registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc'));
 registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis'));
 // Temporary fix for packaging ////////////////////////////////////////////////////////////////////
-
 const clientController = require('./controllers/client');
-const dcController = require('./controllers/dc');
-const { unsubscribeAll } = require('./utils/subscriptions');
-
-const makeCreateStore = require('./store').default;
 
 const logger = getLogger('main');
-const zmqLogger = getLogger('zmq');
 
 process.title = 'gpcchs_hss';
 
-series([
+series({
   // ZeroMQ sockets
-  function connectToDc(callback) {
-    const zmqConfiguration = {
-      dcPull: {
-        type: 'pull',
-        role: 'server',
-        url: process.env.ZMQ_GPCCDC_PULL,
-        handler: dcController,
-      },
-      dcPush: {
-        type: 'push',
-        role: 'client',
-        url: process.env.ZMQ_GPCCDC_PUSH,
-      },
-      options: {
-        logger: zmqLogger,
-      },
-    };
-
-    zmq.open(zmqConfiguration, callback);
+  zmq: callback => connectToZmq(process.env.ZMQ_GPCCDC_PULL, process.env.ZMQ_GPCCDC_PUSH, callback),
+  // Send logBook to LPISIS
+  logBook: (callback) => {
+    dc.sendProductLog(LOG_APPLICATION_START);
+    callback(null);
   },
-], (err) => {
+  // Initial data for store (domains, sessions, master session ID)
+  initialData: callback => fetchInitialData(callback),
+}, (err, { initialData }) => {
   if (err) {
     throw err;
   }
@@ -55,10 +44,15 @@ series([
   process.on('message', clientController);
 
   // store
-  makeCreateStore('server', process.env.DEBUG === 'on')();
+  const store = makeCreateStore('server', process.env.DEBUG === 'on')();
+  store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
+  store.dispatch(updateSessions(initialData.sessions));
+  store.dispatch(updateDomains(initialData.domains));
+
+  // TODO init configuration and inject in store
 
   // inform main that everything is ready
-  process.send('ready');
+  process.send('ready'); // TODO : send with initialState
 });
 
 // handle graceful shutdown
@@ -68,9 +62,5 @@ process.once('SIGINT', () => {
 });
 process.once('SIGTERM', () => {
   logger.info('gracefully close server (SIGTERM)');
-
-  unsubscribeAll(args => zmq.push('dcPush', args));
-
-  logger.info('good bye!');
   exit(0);
 });

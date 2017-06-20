@@ -8,7 +8,6 @@ import parameters from '../common/configurationManager';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
-  LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
 } from '../constants';
@@ -21,9 +20,6 @@ import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
-import { updateDomains } from '../store/actions/domains';
-import { updateSessions } from '../store/actions/sessions';
-import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening, startInPlayMode } from '../store/actions/hsc';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
@@ -32,20 +28,17 @@ import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 
-function scheduleTimeout(message) {
-  let timeout = setTimeout(() => {
-    logger.error(`Timeout while retrieving launching data: ${message}`);
-    timeout = null;
-    app.quit();
-  }, 2500);
-
-  return () => timeout !== null && clearTimeout(timeout);
-}
+// function scheduleTimeout(message) { // TODO implement a timeout for 'ready' message from server
+//   let timeout = setTimeout(() => {
+//     logger.error(`Timeout while retrieving launching data: ${message}`);
+//     timeout = null;
+//     app.quit();
+//   }, 2500);
+//
+//   return () => timeout !== null && clearTimeout(timeout);
+// }
 
 export function onStart() {
-  // log application launching in LPISIS logbooks
-  server.sendProductLog(LOG_APPLICATION_START);
-
   // electron topbar menu initialization
   setMenu();
 
@@ -144,66 +137,6 @@ export function onStart() {
         callback(null);
       });
     },
-    // should have master sessionId in store at start
-    (callback) => {
-      splashScreen.setMessage('requesting master session...');
-      logger.info('requesting master session...');
-      const cancelTimeout = scheduleTimeout('master session');
-      server.requestMasterSession(({ err, masterSessionId }) => {
-        cancelTimeout();
-
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        splashScreen.setMessage('injecting master session...');
-        logger.info('injecting master session...');
-
-        getStore().dispatch(updateMasterSessionIfNeeded(masterSessionId));
-        callback(null);
-      });
-    },
-    // should have sessions in store at start
-    (callback) => {
-      splashScreen.setMessage('requesting sessions...');
-      logger.info('requesting sessions...');
-      const cancelTimeout = scheduleTimeout('session');
-      server.requestSessions(({ err, sessions }) => {
-        cancelTimeout();
-
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        splashScreen.setMessage('injecting sessions...');
-        logger.info('injecting sessions...');
-
-        getStore().dispatch(updateSessions(sessions));
-        callback(null);
-      });
-    },
-    // should have domains in store at start
-    (callback) => {
-      splashScreen.setMessage('requesting domains...');
-      logger.info('requesting domains...');
-      const cancelTimeout = scheduleTimeout('domains');
-      server.requestDomains(({ err, domains }) => {
-        cancelTimeout();
-
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        splashScreen.setMessage('injecting domains...');
-        logger.info('injecting domains...');
-
-        getStore().dispatch(updateDomains(domains));
-        callback(null);
-      });
-    },
     (callback) => {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
@@ -251,7 +184,6 @@ export function onStart() {
 
     splashScreen.setMessage('ready!');
     logger.info('ready!');
-    server.sendProductLog(LOG_APPLICATION_START);
     startOrchestration();
     // start on play
     if (parameters.get('REALTIME') === 'on') {

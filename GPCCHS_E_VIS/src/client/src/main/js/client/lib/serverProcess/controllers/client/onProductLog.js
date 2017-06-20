@@ -1,6 +1,4 @@
-const { encode } = require('common/protobuf');
-const globalConstants = require('../../../constants');
-const _ = require('lodash/fp');
+const { dc } = require('../../ipc');
 
 /**
  * Send product log to DC
@@ -9,12 +7,5 @@ const _ = require('lodash/fp');
  * @param payload
  */
 module.exports = (pushToDc, { uid, args }) => {
-  pushToDc([
-    encode('dc.dataControllerUtils.Header', { messageType: globalConstants.MESSAGETYPE_LOG_SEND }),
-    encode('dc.dataControllerUtils.String', { string: _.uniqueId('log_') }),
-    encode('dc.dataControllerUtils.SendLog', {
-      uid,
-      arguments: args,
-    }),
-  ]);
+  dc.sendProductLog(uid, args);
 };

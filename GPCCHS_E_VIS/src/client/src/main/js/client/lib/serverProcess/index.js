@@ -49,7 +49,7 @@ series({
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));
 
-  // TODO init configuration and inject in store
+  // TODO dbrugne init configuration and inject in store
 
   // inform main that everything is ready and pass initialState
   process.send({

@@ -28,15 +28,17 @@ import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 
-// function scheduleTimeout(message) { // TODO implement a timeout for 'ready' message from server
-//   let timeout = setTimeout(() => {
-//     logger.error(`Timeout while retrieving launching data: ${message}`);
-//     timeout = null;
-//     app.quit();
-//   }, 2500);
-//
-//   return () => timeout !== null && clearTimeout(timeout);
-// }
+const SERVER_PROCESS_LAUNCHING_TIMEOUT = 5000;
+
+function scheduleTimeout(delay, message) {
+  let timeout = setTimeout(() => {
+    logger.error(`Timeout during application launching (task: ${message})`);
+    timeout = null;
+    app.quit();
+  }, delay);
+
+  return () => timeout !== null && clearTimeout(timeout);
+}
 
 export function onStart() {
   // electron topbar menu initialization
@@ -79,7 +81,10 @@ export function onStart() {
       const onMessage = data => serverController(get(CHILD_PROCESS_SERVER), data);
 
       // on server is ready callback
+      const cancelTimeout = scheduleTimeout(SERVER_PROCESS_LAUNCHING_TIMEOUT, 'server');
       const onServerReady = (err, { initialState }) => {
+        cancelTimeout();
+
         if (err) {
           callback(err);
           return;
@@ -192,6 +197,7 @@ export function onStart() {
 
     splashScreen.setMessage('ready!');
     logger.info('ready!');
+    // TODO dbrugne move in server lifecycle ========================================
     startOrchestration();
     // start on play
     if (parameters.get('REALTIME') === 'on') {
@@ -200,6 +206,7 @@ export function onStart() {
         getStore().dispatch(startInPlayMode());
       }, 2000);
     }
+    // TODO dbrugne move in server lifecycle ========================================
   });
 }
 
@@ -207,8 +214,10 @@ export function onStop() {
   server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('stopping application');
 
+  // TODO dbrugne move in server lifecycle ========================================
   // stop orchestration
   stopOrchestration();
+  // TODO dbrugne move in server lifecycle ========================================
 
   // stop child processes
   kill(CHILD_PROCESS_SERVER);

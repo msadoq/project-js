@@ -13,7 +13,7 @@ import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 import SaveBeforeClosingContainer from './SaveBeforeClosingContainer';
-import UnsavedDocWarning from './UnsavedDocWarning';
+import UnsavedViewWarningContainer from './UnsavedViewWarningContainer';
 
 
 const ModalGeneric = (props) => {
@@ -142,32 +142,11 @@ const ModalGeneric = (props) => {
         />
       );
       break;
-    case 'workspaceIsModified':
-      title = 'Workspace is modified';
-      child = (
-        <SaveBeforeClosingContainer
-          {...props.props}
-          docType="workspace"
-          closeModal={props.onClose}
-        />
-      );
-      break;
     case 'unsavedViews':
       title = 'Unsaved Views';
       child = (
-        <UnsavedDocWarning
+        <UnsavedViewWarningContainer
           {...props.props}
-          subDocType="views"
-          closeModal={props.onClose}
-        />
-      );
-      break;
-    case 'unsavedPages':
-      title = 'Unsaved Pages';
-      child = (
-        <UnsavedDocWarning
-          {...props.props}
-          subDocType="pages"
           closeModal={props.onClose}
         />
       );

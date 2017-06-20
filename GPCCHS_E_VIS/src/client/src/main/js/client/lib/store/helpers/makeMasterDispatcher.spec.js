@@ -1,7 +1,6 @@
 import { compare } from 'fast-json-patch';
 import {
 REDUX_SYNCHRONIZATION_PATCH_KEY,
-REDUX_SYNCHRONIZATION_PATCH_META,
 } from '../../constants';
 import makeMasterDispatcher from './makeMasterDispatcher';
 
@@ -44,9 +43,8 @@ describe('makeMasterDispatcher', () => {
       },
       meta: {
         origin: 'string',
-        [REDUX_SYNCHRONIZATION_PATCH_META]: true,
+        [REDUX_SYNCHRONIZATION_PATCH_KEY]: patch,
       },
-      [REDUX_SYNCHRONIZATION_PATCH_KEY]: patch,
     });
   });
 });

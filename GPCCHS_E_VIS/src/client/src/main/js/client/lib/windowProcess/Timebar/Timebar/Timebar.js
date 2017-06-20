@@ -105,6 +105,35 @@ export default class Timebar extends PureComponent {
     document.addEventListener('keydown', this.onShortcut);
   }
 
+  componentWillReceiveProps(nextProps) {
+    let newState = {};
+    if (nextProps.visuWindow !== this.props.visuWindow) {
+      newState = {
+        ...newState,
+        lower: null,
+        upper: null,
+        current: null,
+      };
+    }
+    if (nextProps.slideWindow !== this.props.slideWindow) {
+      newState = {
+        ...newState,
+        slideLower: null,
+        slideUpper: null,
+      };
+    }
+    if (nextProps.viewport !== this.props.viewport) {
+      newState = {
+        ...newState,
+        viewportlower: null,
+        viewportUpper: null,
+      };
+    }
+    if (Object.keys(newState).length) {
+      this.setState(newState);
+    }
+  }
+
   componentDidUpdate() {
     this.timelinesEl.scrollTop = this.props.verticalScroll;
   }
@@ -317,13 +346,6 @@ export default class Timebar extends PureComponent {
       resizing: false,
       navigating: false,
       dragNavigating: false,
-      lower: null,
-      upper: null,
-      current: null,
-      viewportLower: null,
-      viewportUpper: null,
-      slideLower: null,
-      slideUpper: null,
     });
   }
 
@@ -729,10 +751,6 @@ export default class Timebar extends PureComponent {
     */
     if (save) {
       const { timebarUuid, updateViewport, widthPx } = this.props;
-      this.setState({
-        viewportLower: null,
-        viewportUpper: null,
-      });
       updateViewport(
         timebarUuid,
         viewportLower,
@@ -756,10 +774,6 @@ export default class Timebar extends PureComponent {
       viewportLower,
       (viewportUpper - viewportLower) / widthPx
     );
-    this.setState({
-      viewportLower: null,
-      viewportUpper: null,
-    });
   }
 
   autoUpdateCursors = () => {
@@ -779,13 +793,6 @@ export default class Timebar extends PureComponent {
         upper: slideUpper,
       }
     );
-    this.setState({
-      lower: null,
-      upper: null,
-      current: null,
-      slideLower: null,
-      slideUpper: null,
-    });
   }
 
   hideCursorTime = () => {
@@ -903,10 +910,6 @@ export default class Timebar extends PureComponent {
       newViewportLower,
       (newViewportUpper - newViewportLower) / widthPx
     );
-    this.setState({
-      slideLower: null,
-      slideUpper: null,
-    });
   }
 
   bringCursors = (e) => {

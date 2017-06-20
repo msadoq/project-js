@@ -74,9 +74,7 @@ describe('mainProcess/documents/savePage', () => {
     };
   });
 
-  afterEach(done => (
-    rimraf(getTmpPath(), done)
-  ));
+  afterEach(done => rimraf(getTmpPath(), () => rimraf('./fakeFolder', done)));
 
   describe('savePage', () => {
     test('saves page', (done) => {

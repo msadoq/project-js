@@ -56,6 +56,10 @@ describe('store:actions:windows', () => {
         },
       ]);
     });
+    test('do nothing when page is unknown', () => {
+      store.dispatch(actions.focusPage('unknownWindow', 'unknownPage'));
+      expect(store.getActions()).toEqual([]);
+    });
   });
   describe('closeWindow', () => {
     test('dispatches an action with all documents ids which should be close', () => {

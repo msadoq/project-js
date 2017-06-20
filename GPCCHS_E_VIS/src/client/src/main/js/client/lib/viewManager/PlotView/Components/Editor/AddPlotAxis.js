@@ -20,10 +20,10 @@ class AddPlotAxis extends PureComponent {
     initialValues: PropTypes.shape({
       label: PropTypes.string,
       unit: PropTypes.string,
-      min: PropTypes.number,
-      max: PropTypes.number,
+      min: PropTypes.string,
+      max: PropTypes.string,
       autoLimits: PropTypes.bool,
-      tickStep: PropTypes.number,
+      tickStep: PropTypes.string,
       autoTick: PropTypes.bool,
       showTicks: PropTypes.bool,
       isLogarithmic: PropTypes.bool,
@@ -70,40 +70,7 @@ class AddPlotAxis extends PureComponent {
     entryPoints: [],
   };
 
-  componentDidMount() {
-    if (!this.props.initialValues) {
-      this.handleInitialize();
-    }
-  }
-
   memoizeStyle = _memoize((color => ({ backgroundColor: color })))
-
-  handleInitialize() {
-    const initData = {
-      label: '',
-      unit: '',
-      min: 0,
-      max: 0,
-      autoLimits: true,
-      tickStep: 1,
-      autoTick: true,
-      showTicks: true,
-      isLogarithmic: false,
-      showAxis: true,
-      style: {
-        font: 'Arial',
-        size: 12,
-        bold: false,
-        italic: false,
-        underline: false,
-        strikeOut: false,
-        align: 'left',
-        color: '#000000',
-      },
-    };
-
-    this.props.initialize(initData);
-  }
 
   render() {
     const {
@@ -185,8 +152,8 @@ class AddPlotAxis extends PureComponent {
               <Field
                 name="tickStep"
                 component={InputField}
-                normalize={value => parseFloat(value)}
                 className="form-control input-sm"
+                normalize={val => parseInt(val, 10).toString()}
                 type="number"
                 step="any"
               />
@@ -268,7 +235,7 @@ class AddPlotAxis extends PureComponent {
               name="min"
               component={InputField}
               className="form-control input-sm"
-              type="number"
+              type="text"
             />
           </HorizontalFormGroup>
         }
@@ -278,7 +245,7 @@ class AddPlotAxis extends PureComponent {
               name="max"
               component={InputField}
               className="form-control input-sm"
-              type="number"
+              type="text"
             />
           </HorizontalFormGroup>
         }
@@ -305,8 +272,8 @@ class AddPlotAxis extends PureComponent {
             <Field
               name="tickStep"
               component={InputField}
-              normalize={value => parseFloat(value)}
               className="form-control input-sm"
+              normalize={val => parseInt(val, 10).toString()}
               type="number"
               step="any"
             />
@@ -341,6 +308,15 @@ const validate = (values = {}, props) => {
       !props.axisId // form used for creation and not edition
   ) {
     errors.label = 'Label already taken';
+  }
+  if (parseFloat(values.max).toString().length !== values.max.length) {
+    errors.max = 'Invalid value';
+  }
+  if (parseFloat(values.min).toString().length !== values.min.length) {
+    errors.min = 'Invalid value';
+  }
+  if (!errors.max && parseFloat(values.max) <= parseFloat(values.min)) {
+    errors.max = 'Max cannot be inferior to min';
   }
 
   requiredFields.forEach((field) => {

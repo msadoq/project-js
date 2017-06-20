@@ -1,34 +1,66 @@
 import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
+import { main } from '../ipc';
 
 export default class SaveBeforeClosing extends PureComponent {
   static propTypes = {
     docType: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
     closeEditor: PropTypes.func,
     isViewsEditorOpen: PropTypes.bool,
     closeModal: PropTypes.func.isRequired,
+    viewId: PropTypes.string,
+    windowId: PropTypes.string.isRequired,
+    saveAs: PropTypes.bool,
+    closeView: PropTypes.func.isRequired,
+    closePage: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isViewsEditorOpen: false,
+    saveAs: true,
+    closeEditor: null,
+    viewId: null,
   }
 
   close = () => {
-    const { onClose, isViewsEditorOpen, closeEditor, closeModal } = this.props;
-    onClose();
-    if (isViewsEditorOpen && closeEditor) {
-      closeEditor();
+    const { isViewsEditorOpen, docType, closeModal, closeEditor, closeView, closePage }
+      = this.props;
+    if (docType === 'view') {
+      closeView();
+      if (isViewsEditorOpen && closeEditor) {
+        closeEditor();
+      }
+      closeModal();
+    } else if (docType === 'page') {
+      closePage();
+      closeModal();
     }
-    closeModal();
   }
 
   save = () => {
-    const { onSave } = this.props;
-    onSave();
+    const { docType, viewId, windowId, saveAs, isViewsEditorOpen, closeEditor, closeView,
+      closeModal, closePage } = this.props;
+    if (docType === 'view') {
+      main.saveView({ viewId, saveAs }, (err) => {
+        if (!err) {
+          if (isViewsEditorOpen && closeEditor) {
+            closeEditor();
+          }
+          closeView();
+        }
+        closeModal();
+      });
+    } else if (docType === 'page') {
+      main.savePage(windowId, false, (err) => {
+        if (!err) {
+          closePage();
+        }
+        closeModal();
+      });
+    }
   }
+
 
   render() {
     const { docType, title } = this.props;

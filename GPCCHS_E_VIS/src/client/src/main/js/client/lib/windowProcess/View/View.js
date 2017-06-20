@@ -16,6 +16,7 @@ const logger = getLogger('View');
 
 export default class View extends PureComponent {
   static propTypes = {
+    windowId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -30,7 +31,6 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -71,7 +71,7 @@ export default class View extends PureComponent {
     absolutePath,
     isModified,
   }) => {
-    const { collapseView, maximizeView, closeView, closeEditor, closeModal } = this.props;
+    const { collapseView, maximizeView, closeView, closeEditor, pageId, windowId } = this.props;
     const isPathDefined = oId || absolutePath;
 
     const useSaveAs = (!absolutePath && !oId);
@@ -119,20 +119,11 @@ export default class View extends PureComponent {
           if (isModified) {
             openModal({
               type: 'viewIsModified',
-              onClose: closeView,
-              onSave: () => {
-                main.saveView({ viewId, saveAs: useSaveAs }, (err) => {
-                  if (!err) {
-                    if (isViewsEditorOpen && closeEditor) {
-                      closeEditor();
-                    }
-                    closeView();
-                  }
-                  closeModal();
-                });
-              },
               isViewsEditorOpen,
-              closeEditor,
+              viewId,
+              pageId,
+              windowId,
+              saveAs: useSaveAs,
             });
           } else {
             closeView();

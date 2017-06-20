@@ -70,6 +70,7 @@ export default class PlotAxes extends Component {
         ...values,
         min: parseFloat(values.min),
         max: parseFloat(values.max),
+        tickStep: parseInt(values.tickStep, 10),
       }
     );
   }
@@ -136,7 +137,12 @@ export default class PlotAxes extends Component {
                   <AddPlotAxis
                     key={axisId}
                     axisId={axisId}
-                    initialValues={axis}
+                    initialValues={{
+                      ...axis,
+                      max: axis.max.toString(),
+                      min: axis.min.toString(),
+                      tickStep: axis.tickStep.toString(),
+                    }}
                     axes={axes}
                     entryPoints={entryPoints}
                     onSubmit={this.handleSubmitFactory(axisId)}

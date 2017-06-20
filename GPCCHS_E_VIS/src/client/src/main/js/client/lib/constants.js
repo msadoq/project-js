@@ -158,6 +158,5 @@ module.exports = {
     HistoryView: 'HistoryViewDoc',
   },
   // REDUX SYNCHRONIZATION
-  REDUX_SYNCHRONIZATION_PATCH_META: 'patched',
   REDUX_SYNCHRONIZATION_PATCH_KEY: 'patch',
 };

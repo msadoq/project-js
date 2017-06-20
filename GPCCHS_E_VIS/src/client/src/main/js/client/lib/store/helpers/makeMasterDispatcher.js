@@ -2,7 +2,6 @@ import _set from 'lodash/fp/set';
 import { compare } from 'fast-json-patch';
 import {
   REDUX_SYNCHRONIZATION_PATCH_KEY,
-  REDUX_SYNCHRONIZATION_PATCH_META,
 } from '../../constants';
 
 /**
@@ -31,8 +30,7 @@ export default function makeMasterDispatcher(originalDispatch, getState, sendDow
       // patched action is the original action decorated with an additional key containing patch
       let patchAction = action;
       patchAction = _set(['meta', 'origin'], identity, patchAction);
-      patchAction = _set(['meta', REDUX_SYNCHRONIZATION_PATCH_META], true, patchAction);
-      patchAction = _set([REDUX_SYNCHRONIZATION_PATCH_KEY], patch, patchAction);
+      patchAction = _set(['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], patch, patchAction);
       sendDown(patchAction);
       if (log) {
         log.silly('patch forwarded to main process', action.type);

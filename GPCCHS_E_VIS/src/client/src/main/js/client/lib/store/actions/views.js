@@ -29,7 +29,7 @@ export const updateSessionName = simple(types.WS_VIEW_UPDATE_SESSIONNAME, 'viewI
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
-
+export const toggleLegend = simple(types.WS_VIEW_TOGGLE_LEGEND, 'viewId', 'flag');
 export const updateLink = simple(types.WS_VIEW_UPDATE_LINK, 'viewId', 'index', 'link');
 export const updateMarker = simple(types.WS_VIEW_UPDATE_MARKER, 'viewId', 'index', 'marker');
 export const updateProcedure = simple(types.WS_VIEW_UPDATE_PROCEDURE, 'viewId', 'index',

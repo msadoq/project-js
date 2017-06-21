@@ -72,10 +72,10 @@ export function open(windowId, data, callback) {
     const pageIds = getWindowPageIds(state, { windowId });
     let page = false;
     let view = false;
-    pageIds.forEach((pageId) => {
+    (pageIds || []).forEach((pageId) => {
       const p = getPage(state, { pageId });
       page = page || p.isModified;
-      p.views.forEach((viewId) => {
+      (p.views || []).forEach((viewId) => {
         view = view || getView(state, { viewId }).isModified;
       });
     });
@@ -101,9 +101,7 @@ export function open(windowId, data, callback) {
 
     // last window before closing the app
     const inStore = Object.keys(getWindows(state));
-    if (inStore.length === 1
-      // && getIsWorkspaceOpening(state) !== true
-      && getWorkspaceIsModified(state)) {
+    if (inStore.length === 1 && getWorkspaceIsModified(state)) {
       const choice = dialog.showMessageBox(window,
         {
           type: 'question',
@@ -113,7 +111,7 @@ export function open(windowId, data, callback) {
         });
       if (choice === 0) { // save
         workspaceSave(window.windowId);
-      } else if (choice === 2) {
+      } else if (choice === 2) { // cancel
         e.preventDefault();
       }
     }

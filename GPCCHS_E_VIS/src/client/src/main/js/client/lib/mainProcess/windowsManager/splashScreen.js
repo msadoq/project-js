@@ -47,7 +47,7 @@ export function open(callback) {
 export function close() {
   if (isExists()) {
     logger.debug('closing');
-    win.destroy();
+    win.close();
   }
   win = null; // trigger garbage collection
 }

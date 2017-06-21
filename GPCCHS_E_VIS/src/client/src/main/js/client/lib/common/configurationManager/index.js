@@ -22,7 +22,7 @@ function getAllArgv() {
 }
 
 function getArgv(name) {
-  return getAllArgv[name];
+  return getAllArgv()[name];
 }
 
 // TODO : remove this workaround in configurationManager refactoring

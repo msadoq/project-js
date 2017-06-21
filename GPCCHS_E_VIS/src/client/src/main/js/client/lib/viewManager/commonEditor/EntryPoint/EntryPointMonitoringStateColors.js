@@ -3,6 +3,7 @@ import {
   Table,
   Glyphicon,
 } from 'react-bootstrap';
+import _lowerCase from 'lodash/lowerCase';
 
 import { getStateColors } from '../../../windowProcess/common/colors';
 
@@ -48,7 +49,7 @@ export default class MonitoringStateColors extends PureComponent {
       <div className="mt10">
         <h4 className="mb10" style={s.title}>
           <button className="btn-a w100" onClick={this.onClick}>
-            <span className="col-xs-11 pl0">Default colors</span>
+            <span className="col-xs-11 pl0">State colors</span>
             <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
           </button>
         </h4>
@@ -71,7 +72,7 @@ export default class MonitoringStateColors extends PureComponent {
                   />
                 </td>
                 <td className="col-xs-10" style={s.condition}>
-                  state equals {c}
+                  {_lowerCase(c)}
                 </td>
               </tr>
             ))}

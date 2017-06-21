@@ -22,9 +22,8 @@ function getAllArgv() {
 }
 
 function getArgv(name) {
-  return getAllArgv[name];
+  return getAllArgv()[name];
 }
-
 
 function getEnv(name) {
   if (process.env.mainProcessConfig) {

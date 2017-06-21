@@ -45,7 +45,6 @@ export default function hsc(state = initialState, action) {
         });
       }
       return state;
-    case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_TIMELINE_REMOVE:
     case types.WS_PAGE_TIMEBAR_MOUNT:

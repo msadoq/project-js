@@ -21,7 +21,6 @@ import getLogger from '../common/logManager';
 import { server } from './ipc';
 import { getStore } from './store';
 import {
-  getWindowsOpened,
   getLastCacheInvalidation,
   getPlayingTimebarId,
   getForecast,
@@ -37,14 +36,12 @@ import request from '../dataManager/request';
 import displayQueries from '../dataManager/displayQueries';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
-import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
 import { getTimebar } from '../store/reducers/timebars';
 
 let logger;
 
 let nextTick = null;
-let lastTick = null;
 let tickStart = null;
 let criticalTimeout = null;
 const previous = {
@@ -143,7 +140,6 @@ export function stop() {
       logger.error(e);
     }
   }
-  lastTick = null;
 }
 
 export function tick() {
@@ -158,18 +154,6 @@ export function tick() {
 
   // store
   const { getState, dispatch } = getStore();
-
-  const isWindowsOpened = getWindowsOpened(getState());
-
-  // play management (before dataMap generation, allow tick to work on a up to date state)
-  if (isWindowsOpened) {
-    execution.start('play handling');
-    const lastTickTime = lastTick;
-    lastTick = Date.now();
-    const delta = lastTick - lastTickTime;
-    dispatch(handlePlay(delta, get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
-    execution.stop('play handling');
-  }
 
   // data map
   execution.start('dataMap generation');

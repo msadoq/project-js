@@ -5,6 +5,7 @@ import { series } from 'async';
 import registerDc from 'common/protobuf/adapters/dc';
 import registerLpisis from 'common/protobuf/adapters/lpisis';
 import getLogger from '../common/logManager';
+import { get } from '../common/configurationManager';
 import makeCreateStore from './store';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
@@ -27,7 +28,7 @@ process.title = 'gpcchs_hss';
 
 series({
   // ZeroMQ sockets
-  zmq: callback => connectToZmq(process.env.ZMQ_GPCCDC_PULL, process.env.ZMQ_GPCCDC_PUSH, callback),
+  zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
   // Send logBook to LPISIS
   logBook: (callback) => {
     dc.sendProductLog(LOG_APPLICATION_START);

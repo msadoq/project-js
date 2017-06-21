@@ -125,7 +125,7 @@ describe('documentManager/saveWorkspace', () => {
   describe('saveWorkspace', () => {
     test('saves', (done) => {
       const path = join(state.hsc.folder, state.hsc.file);
-      saveWorkspace(state, (err) => {
+      saveWorkspace(state, path, (err) => {
         expect(err).not.toBeAnError();
         fs.isExists(path, (exist) => {
           expect(exist).toBe(true);
@@ -136,7 +136,7 @@ describe('documentManager/saveWorkspace', () => {
 
     test('saves correct content', (done) => {
       const path = join(state.hsc.folder, state.hsc.file);
-      saveWorkspace(state, () => {
+      saveWorkspace(state, path, () => {
         readJson(path, (err, content) => {
           expect(content).toMatchSnapshot();
           done();
@@ -147,7 +147,7 @@ describe('documentManager/saveWorkspace', () => {
     test('fails when validate', (done) => {
       const modifiedState = _.unset('timebars.abcd.mode', state);
       const path = join(modifiedState.hsc.folder, modifiedState.hsc.file);
-      saveWorkspace(modifiedState, (err) => {
+      saveWorkspace(modifiedState, path, (err) => {
         expect(err).toBeAnError();
         fs.isExists(path, (exist) => {
           expect(exist).toBe(false);
@@ -157,7 +157,7 @@ describe('documentManager/saveWorkspace', () => {
     });
 
     test('fails when cannot get path from workspace', (done) => {
-      saveWorkspace({ hsc: {} }, (err) => {
+      saveWorkspace({ hsc: {} }, '', (err) => {
         expect(err).toBeAnError();
         done();
       });

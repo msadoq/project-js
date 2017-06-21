@@ -7,6 +7,8 @@ import { getConfigurationByViewId } from '../../../../viewManager';
 import { getViewContent } from '../../store/configurationSelectors';
 import MimicView from './MimicView';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
+import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
+import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getData } from '../../store/dataReducer';
 import { getLinks, areLinksShown } from '../../../../store/reducers/views';
 import { removeLink, updateShowLinks } from '../../../../store/actions/views';
@@ -20,6 +22,8 @@ const mapStateToProps = createStructuredSelector({
   links: getLinks,
   pageId: getPageIdByViewId,
   showLinks: areLinksShown,
+  isInspectorOpened: isAnyInspectorOpened,
+  inspectorEpId: getInspectorEpId,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

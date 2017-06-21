@@ -8,7 +8,7 @@ describe('store:actions:pages', () => {
       focusWindow: 'w1',
     },
     windows: {
-      w1: { pages: ['page1'] },
+      w1: { pages: ['p1'] },
     },
     pages: {
       p1: {
@@ -173,20 +173,9 @@ describe('store:actions:pages', () => {
   });
   describe('focusPage', () => {
     test('focusPage when page exists', () => {
-      store.dispatch(actions.openEditor('p2', 'p3'));
+      store.dispatch(actions.focusPage('p1'));
       expect(store.getActions()).toEqual([
-        {
-          type: 'WS_PAGE_PANELS_MINIMIZE_EDITOR',
-          payload: { pageId: 'p2', isMinimized: false },
-        },
-        {
-          type: 'WS_PAGE_PANELS_RESIZE_EDITOR',
-          payload: { pageId: 'p2', size: 350 },
-        },
-        {
-          type: 'WS_PAGE_PANELS_LOAD_IN_EDITOR',
-          payload: { pageId: 'p2', viewId: 'p3' },
-        },
+        { type: 'WS_WINDOW_PAGE_FOCUS', payload: { windowId: 'w1', pageId: 'p1' } },
       ]);
     });
     test('focusPage with unknown page', () => {

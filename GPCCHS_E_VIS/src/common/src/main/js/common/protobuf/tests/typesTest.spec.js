@@ -1,61 +1,61 @@
+/* eslint-disable import/no-dynamic-require, "DV6 TBC_CNES specific tests need dynamic require" */
+const ProtoBuf = require('protobufjs');
+const MALAdapters = require('./ccsds_mal');
 const _each = require('lodash/each');
-const { Long } = require('../../utils/test');
 const fs = require('fs');
-const protobuf = require('../');
-const {
-  bytesToOctet,
-  bytesToUoctet,
-  bytesToShort,
-  bytesToUshort,
-  bytesToString,
-  decodeAttribute,
-} = require('../adapters/lpisis/types');
 
 const rootpath = `${__dirname}`;
 
-// TODO add missing MAL types
-const decoders = {
-  ATTRIBUTE: arg => decodeAttribute(arg).value,
-  BLOB: arg => arg.value,
-  BOOLEAN: arg => arg.value,
-  DURATION: arg => arg.value,
-  FLOAT: arg => arg.value,
-  DOUBLE: arg => arg.value,
-  FINETIME: arg => ({
-    millisec: new Long(arg.millisec.low, arg.millisec.high, arg.unsigned).toNumber(),
-    pico: arg.pico,
-  }),
-  IDENTIFIER: arg => bytesToString(arg.value),
-  INTEGER: arg => arg.value,
-  LONG: arg => new Long(arg.value.low, arg.value.high, arg.unsigned).toNumber(),
-  OCTET: arg => bytesToOctet(arg.value),
-  UOCTET: arg => bytesToUoctet(arg.value),
-  SHORT: arg => bytesToShort(arg.value),
-  USHORT: arg => bytesToUshort(arg.value),
-  STRING: arg => arg.value,
-  TIME: arg => arg.value.toNumber(),
-  UINTEGER: arg => arg.value,
-  ULONG: arg => arg.value.toNumber(),
-  URI: arg => bytesToString(arg.value),
+const results = {
+  ATTRIBUTE: arg => ({ type: arg.type, value: arg.value }),
+  BLOB: arg => ({ type: 'blob', value: arg }),
+  BOOLEAN: arg => ({ type: 'boolean', value: arg }),
+  DURATION: arg => ({ type: 'duration', value: arg }),
+  DOUBLE: arg => ({ type: 'double', symbol: `${arg}` }),
+  FINETIME: arg => ({ type: 'finetime', value: arg.millisec, pico: arg.pico }),
+  FLOAT: arg => ({ type: 'float', value: arg }),
+  IDENTIFIER: arg => ({ type: 'identifier', value: arg }),
+  INTEGER: arg => ({ type: 'integer', value: arg }),
+  LONG: arg => ({ type: 'long', symbol: arg }),
+  OCTET: arg => ({ type: 'octet', value: arg }),
+  UOCTET: arg => ({ type: 'uoctet', value: arg }),
+  SHORT: arg => ({ type: 'short', value: arg }),
+  USHORT: arg => ({ type: 'ushort', value: arg }),
+  STRING: arg => ({ type: 'string', value: arg }),
+  TIME: arg => ({ type: 'time', value: arg }),
+  UINTEGER: arg => ({ type: 'uinteger', value: arg }),
+  ULONG: arg => ({ type: 'ulong', symbol: arg }),
+  URI: arg => ({ type: 'uri', value: arg }),
 };
 
-const checkBuffer = (type, file, value, decoder) => {
+const checkBuffer = (type, file, value, result) => {
   const data = fs.readFileSync(file);
-  // console.log(type, value, 'BUF', data);
-  const buf = protobuf.decode(protobuf.getType(type), data);
-  // console.log(type, value, 'BUF', buf);
-  const json = decoder(buf);
-  // console.log(type, value, 'JSON', json);
-  json.should.deep.equal(value);
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/ccsds_mal/${type}.proto`, { keepCase: true })
+    .lookup(`ccsds_mal.protobuf.${type}`);
+  const adapter = MALAdapters[type];
+  const json = adapter.decode(builder.decode(data));
+  json.should.deep.equal(result(value));
+};
+
+const checkRawBuffer = (type, file, value, result) => {
+  const data = fs.readFileSync(file);
+  const adapter = MALAdapters[type];
+  adapter.decodeRaw(data, null, 0, 10).should.deep.equal(result(value));
 };
 
 describe('protobuf/lpisis/CCSDS_MAL_TYPES', () => {
-  _each(decoders, (decoder, type) => {
+  _each(results, (result, type) => {
     describe(`${type}`, () => {
-      // eslint-disable-next-line import/no-dynamic-require
       const index = require(`./${type}`); // eslint-disable-line global-require
       _each(index, (value, fileName) => {
-        it(`${value}`, () => checkBuffer(type, `${rootpath}/${type}/${fileName}`, value, decoder));
+        if (value.type === 'raw') {
+          it(`${value.type} ${JSON.stringify(value.value)}`, () => checkRawBuffer(type, `${rootpath}/${type}/${fileName}`, value.value, result));
+          return;
+        }
+        if (value.type === 'proto') {
+          it(`${value.type} ${JSON.stringify(value.value)}`, () => checkBuffer(type, `${rootpath}/${type}/${fileName}`, value.value, result));
+        }
       });
     });
   });

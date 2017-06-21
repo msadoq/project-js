@@ -71,7 +71,7 @@ export function onStart() {
         `${parameters.get('path')}/lib/stubProcess/dc.js`,
         {
           execPath: parameters.get('NODE_PATH'),
-          env: parameters.getAll(),
+          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
         },
         null,
         callback
@@ -110,7 +110,7 @@ export function onStart() {
           `${parameters.get('path')}/server.js`,
           {
             execPath: parameters.get('NODE_PATH'),
-            env: parameters.getAll(),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
           },
           onMessage,
           onServerReady
@@ -125,7 +125,7 @@ export function onStart() {
           {
             execPath: parameters.get('NODE_PATH'),
             execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-            env: parameters.getAll(),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
           },
           onMessage,
           onServerReady

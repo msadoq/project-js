@@ -26,6 +26,9 @@ function getArgv(name) {
 }
 
 function getEnv(name) {
+  if (process.env.mainProcessConfig) {
+    return JSON.parse(process.env.mainProcessConfig)[name];
+  }
   return process.env[name];
 }
 

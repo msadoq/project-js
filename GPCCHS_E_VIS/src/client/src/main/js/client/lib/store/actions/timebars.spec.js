@@ -667,4 +667,14 @@ describe('store:actions:timebars', () => {
       ]);
     });
   });
+  describe('createNewTimebar', () => {
+    test('dispatch a WS_TIMEBAR_CREATE_NEW action', () => {
+      store.dispatch(actions.createNewTimebar('newtb1'));
+      expect(store.getActions()).toHaveLength(1);
+      const action = store.getActions()[0];
+      expect(action.type).toBe('WS_TIMEBAR_CREATE_NEW');
+      expect(action.payload.timebarId).toBe('newtb1');
+      expect(action.payload.timebarUuid).toBeAnUuid();
+    });
+  });
 });

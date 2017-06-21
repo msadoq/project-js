@@ -5,7 +5,6 @@ import _find from 'lodash/find';
 import { get } from '../../common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
-import { main } from '../ipc';
 
 const popoverDraggingStyle = { display: 'none' };
 
@@ -46,8 +45,6 @@ export default class Tabs extends PureComponent {
     closePage: PropTypes.func.isRequired,
     moveTabOrder: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    windowId: PropTypes.string.isRequired,
     modifiedViewNb: PropTypes.number.isRequired,
   };
 
@@ -61,45 +58,29 @@ export default class Tabs extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
     // Check if page is modified
-    const { openModal, closeModal, modifiedViewNb } = this.props;
+    const { openModal, modifiedViewNb, pages, closePage } = this.props;
+    const page = _find(pages, { uuid: pageId });
     if (modifiedViewNb) {
       openModal({
         type: 'unsavedViews',
-        docType: 'page',
-        onIgnore: () => {
-          closeModal();
-          this.closeThisPage(pageId);
-        },
+        isModified: page.isModified,
+        pageId,
       });
       return;
     }
-    this.closeThisPage(pageId);
-    e.stopPropagation();
-  }
 
-  closeThisPage = (pageId) => {
-    const { pages, closePage, openModal, windowId, closeModal } = this.props;
-    const page = _find(pages, { uuid: pageId });
     if (page.isModified) {
       openModal({
         type: 'pageIsModified',
-        onClose: () => closePage(pageId),
-        onSave: () => {
-          main.savePage(windowId, false, (err) => {
-            if (!err) {
-              closePage(pageId);
-            }
-            closeModal();
-          });
-        },
+        pageId,
       });
     } else {
       closePage(pageId);
     }
+    e.stopPropagation();
   }
 
   handleDragStart = (ev, pageId, key) => {
-    // console.log('start');
     this.setState({ dragging: pageId });
     ev.dataTransfer.setData('pageId', pageId);
     ev.dataTransfer.setData('position', key);
@@ -107,7 +88,6 @@ export default class Tabs extends PureComponent {
 
   handleDragStop = () => {
     this.setState({ dragging: null });
-  //  console.log(e.clientX);
   }
 
   handleDragOver = (e) => {

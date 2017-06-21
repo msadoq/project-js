@@ -6,11 +6,12 @@ const logger = require('../common/logManager')('stubs:utils');
 const zmq = require('common/zmq');
 const constants = require('../constants');
 const protobuf = require('common/protobuf');
+const parameters = require('../common/configurationManager');
 
 const registerDc = require('common/protobuf/adapters/dc');
 const registerLpisis = require('common/protobuf/adapters/lpisis');
 
-const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
+const rootPath = parameters.get('IS_BUNDLED') ? __dirname : path.resolve(__dirname, '../..');
 
 registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
 registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
@@ -191,13 +192,13 @@ zmq.open(
     stubdcrep: {
       type: 'pull',
       role: 'server',
-      url: process.env.ZMQ_GPCCDC_PUSH,
+      url: parameters.get('ZMQ_GPCCDC_PUSH'),
       handler: onHssMessage,
     },
     stubData: {
       type: 'push',
       role: 'client',
-      url: process.env.ZMQ_GPCCDC_PULL,
+      url: parameters.get('ZMQ_GPCCDC_PULL'),
     },
   },
   (err) => {

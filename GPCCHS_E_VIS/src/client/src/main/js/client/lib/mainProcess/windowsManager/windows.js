@@ -12,6 +12,11 @@ import {
   minimize,
   restore,
 } from '../../store/actions/windows';
+import { getWindows, getWindowPageIds } from '../../store/reducers/windows';
+import { getWorkspaceIsModified } from '../../store/reducers/hsc';
+import { getPage } from '../../store/reducers/pages';
+import { getView } from '../../store/reducers/views';
+import { workspaceSave } from '../menuManager/workspaceSave';
 
 const logger = getLogger('main:windowsManager:windows');
 
@@ -58,6 +63,60 @@ export function open(windowId, data, callback) {
     window.show();
     window.focus();
     return callback(null);
+  });
+
+  // Returns if at least one file is modified
+  function isSaveNeeded(state) {
+    // const win = getWindow(state, { windowId }).isModified;
+    // check if pages in the windows are modified
+    const pageIds = getWindowPageIds(state, { windowId });
+    let page = false;
+    let view = false;
+    pageIds.forEach((pageId) => {
+      const p = getPage(state, { pageId });
+      page = page || p.isModified;
+      p.views.forEach((viewId) => {
+        view = view || getView(state, { viewId }).isModified;
+      });
+    });
+    return page || view;
+  }
+
+  window.on('close', (e) => {
+    const state = getStore().getState();
+    // unsaved view or page in window to close
+    if (isSaveNeeded(state)) {
+      const choice = dialog.showMessageBox(window,
+        {
+          type: 'question',
+          buttons: ['Yes', 'No'],
+          title: 'Confirm',
+          message: 'There are unsaved views and/or pages. \nAre you sure you want to quit?',
+        });
+      if (choice === 1) {
+        e.preventDefault();
+        return;
+      }
+    }
+
+    // last window before closing the app
+    const inStore = Object.keys(getWindows(state));
+    if (inStore.length === 1
+      // && getIsWorkspaceOpening(state) !== true
+      && getWorkspaceIsModified(state)) {
+      const choice = dialog.showMessageBox(window,
+        {
+          type: 'question',
+          buttons: ['Yes', 'No', 'Cancel'],
+          title: 'Confirm',
+          message: 'Workspace is modified. Do you want to save before closing?',
+        });
+      if (choice === 0) { // save
+        workspaceSave(window.windowId);
+      } else if (choice === 2) {
+        e.preventDefault();
+      }
+    }
   });
 
   window.on('closed', () => {

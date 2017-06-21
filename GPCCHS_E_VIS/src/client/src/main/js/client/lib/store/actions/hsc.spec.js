@@ -85,7 +85,7 @@ describe('store:actions:hsc', () => {
     });
   });
 
-  describe('smartPlay', () => {
+  describe.skip('smartPlay', () => {
     test('warns a message because of application is oveloaded', () => {
       const store = mockStore(stateCriticalWindows);
       store.dispatch(actions.smartPlay('myTimebarUuid'));

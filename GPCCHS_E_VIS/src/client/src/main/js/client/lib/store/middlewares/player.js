@@ -4,6 +4,7 @@ import { updateCursors } from '../actions/timebars';
 import { getTimebar } from '../reducers/timebars';
 import { getPlayingTimebarId } from '../reducers/hsc';
 import { nextCurrent, computeCursors } from '../play';
+import * as types from '../types';
 
 import { pause } from '../actions/hsc';
 import { add as addMessage } from '../actions/messages';
@@ -51,7 +52,7 @@ const createPlayerMiddleware = (
   interval.pause();
 
   return ({ dispatch, getState }) => next => (action) => {
-    if (action.type === 'HSC_PLAY') {
+    if (action.type === types.HSC_PLAY) {
       const play = () => interval.resume(delta => (
         playingTick(delta, VISUWINDOW_CURRENT_UPPER_MIN_MARGIN, dispatch, getState)
       ));
@@ -84,10 +85,10 @@ const createPlayerMiddleware = (
       }
       return action;
     }
-    if (action.type === 'HSC_PAUSE') {
+    if (action.type === types.HSC_PAUSE) {
       interval.pause();
     }
-    if (action.type === 'WS_PAGE_PANELS_LOAD_IN_EDITOR') {
+    if (action.type === types.WS_PAGE_PANELS_LOAD_IN_EDITOR) {
       dispatch(pause());
     }
     return next(action);

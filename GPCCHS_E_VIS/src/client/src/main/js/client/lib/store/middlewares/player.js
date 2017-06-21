@@ -5,6 +5,7 @@ import { getTimebar } from '../reducers/timebars';
 import { getPlayingTimebarId } from '../reducers/hsc';
 import { nextCurrent, computeCursors } from '../play';
 
+import { pause } from '../actions/hsc';
 import { add as addMessage } from '../actions/messages';
 import { isAnyEditorOpened } from '../selectors/pages';
 import { HEALTH_STATUS_CRITICAL } from '../../constants';
@@ -85,6 +86,9 @@ const createPlayerMiddleware = (
     }
     if (action.type === 'HSC_PAUSE') {
       interval.pause();
+    }
+    if (action.type === 'WS_PAGE_PANELS_LOAD_IN_EDITOR') {
+      dispatch(pause());
     }
     return next(action);
   };

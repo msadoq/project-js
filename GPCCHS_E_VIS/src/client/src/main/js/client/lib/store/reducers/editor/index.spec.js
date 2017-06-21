@@ -13,7 +13,7 @@ describe('store:editor:reducer', () => {
     expect(newState).toHaveProperty('textViewId', null);
   });
   test('should update viewId', () => {
-    expect(reducer(undefined, actions._openHtmlEditor('test'))
+    expect(reducer(undefined, actions.openHtmlEditor('test'))
     .textViewId).toBe('test');
   });
   test('should reset viewId when close editor', () => {

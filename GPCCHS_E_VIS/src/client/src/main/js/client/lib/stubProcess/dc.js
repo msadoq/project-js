@@ -11,7 +11,7 @@ const parameters = require('../common/configurationManager');
 const registerDc = require('common/protobuf/adapters/dc');
 const registerLpisis = require('common/protobuf/adapters/lpisis');
 
-const rootPath = parameters.get('IS_BUNDLED') ? __dirname : path.resolve(__dirname, '../..');
+const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
 
 registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
 registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging

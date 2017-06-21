@@ -166,7 +166,7 @@ export default class StateColorsFields extends React.Component {
           </thead>
           <tbody>
             {
-              stateColors.length ? stateColors.map(
+              (stateColors && stateColors.length) ? stateColors.map(
                 (stateColor, index) => (
                   <tr
                     key={`${stateColor.condition.field}${stateColor.condition.operator}${stateColor.condition.operand}`}

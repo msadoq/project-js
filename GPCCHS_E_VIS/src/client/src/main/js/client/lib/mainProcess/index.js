@@ -58,7 +58,7 @@ export function onStart() {
       logger.info('starting data simulator process...');
       fork(CHILD_PROCESS_DC, `${parameters.get('path')}/lib/stubProcess/dc.js`, {
         execPath: parameters.get('NODE_PATH'),
-        env: parameters.getAll(),
+        env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
       }, callback);
     },
     (callback) => {
@@ -92,7 +92,7 @@ export function onStart() {
           `${parameters.get('path')}/server.js`,
           {
             execPath: parameters.get('NODE_PATH'),
-            env: parameters.getAll(),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
           },
           callback
         );
@@ -106,7 +106,7 @@ export function onStart() {
           {
             execPath: parameters.get('NODE_PATH'),
             execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-            env: parameters.getAll(),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
           },
           callback
         );

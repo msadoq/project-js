@@ -25,11 +25,11 @@ function getArgv(name) {
   return getAllArgv()[name];
 }
 
+const env = process.env.mainProcessConfig
+  ? JSON.parse(process.env.mainProcessConfig)
+  : process.env;
 function getEnv(name) {
-  if (process.env.mainProcessConfig) {
-    return JSON.parse(process.env.mainProcessConfig)[name];
-  }
-  return process.env[name];
+  return env[name];
 }
 
 function getAllEnv() {

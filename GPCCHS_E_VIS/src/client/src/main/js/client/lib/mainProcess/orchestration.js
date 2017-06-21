@@ -76,7 +76,6 @@ export function addForecast(expectedIntervals, forecast) {
   {});
 }
 
-
 export function schedule() {
   clear(); // avoid concurrency
   // schedule next tick

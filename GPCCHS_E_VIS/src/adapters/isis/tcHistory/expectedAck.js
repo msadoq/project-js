@@ -1,28 +1,29 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 
 module.exports = {
   encode: data => ({
     acceptance: (data.acceptance !== null && typeof data.acceptance !== 'undefined')
-      ? { value: data.acceptance }
+      ? bOOLEAN.encode(data.acceptance)
       : null,
     executionComplete: (data.executionComplete !== null && typeof data.executionComplete !== 'undefined')
-      ? { value: data.executionComplete }
+      ? bOOLEAN.encode(data.executionComplete)
       : null,
     executionStart: (data.executionStart !== null && typeof data.executionStart !== 'undefined')
-      ? { value: data.executionStart }
+      ? bOOLEAN.encode(data.executionStart)
       : null,
   }),
   decode: data => ({
     acceptance: (data.acceptance !== null && typeof data.acceptance !== 'undefined')
-      ? { type: 'boolean', value: data.acceptance.value }
+      ? bOOLEAN.decode(data.acceptance)
       : undefined,
     executionComplete: (data.executionComplete !== null && typeof data.executionComplete !== 'undefined')
-      ? { type: 'boolean', value: data.executionComplete.value }
+      ? bOOLEAN.decode(data.executionComplete)
       : undefined,
     executionStart: (data.executionStart !== null && typeof data.executionStart !== 'undefined')
-      ? { type: 'boolean', value: data.executionStart.value }
+      ? bOOLEAN.decode(data.executionStart)
       : undefined,
   }),
 };

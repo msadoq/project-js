@@ -1,23 +1,25 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
-const { decodeRaw } = require('../types');
+const adapter = require('./folder');
+const { getFolder } = require('../stubs');
 
 
 
 describe('protobuf/isis/file/Folder', () => {
-  const fixture = stubData.getFolder();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/Folder.proto`, { keepCase: true })
+    .lookup('file.protobuf.Folder');
+  const fixture = getFolder();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.file.Folder', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.file.Folder', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       path: { type: 'uri', value: fixture.path },
     });
@@ -28,6 +30,12 @@ describe('protobuf/isis/file/Folder', () => {
         read: { type: 'boolean', value: fixture.profilesAccess[i].read },
         changeAccessRight: { type: 'boolean', value: fixture.profilesAccess[i].changeAccessRight },
         write: { type: 'boolean', value: fixture.profilesAccess[i].write },
+        profile: {
+          login: { type: 'string', value: fixture.profilesAccess[i].profile.login },
+          password: { type: 'string', value: fixture.profilesAccess[i].profile.password },
+          profile: { type: 'string', value: fixture.profilesAccess[i].profile.profile },
+          userTime: { type: 'time', value: fixture.profilesAccess[i].profile.userTime },
+        },
       });
       
     }
@@ -37,6 +45,12 @@ describe('protobuf/isis/file/Folder', () => {
         read: { type: 'boolean', value: fixture.usersAccess[i].read },
         changeAccessRight: { type: 'boolean', value: fixture.usersAccess[i].changeAccessRight },
         write: { type: 'boolean', value: fixture.usersAccess[i].write },
+        user: {
+          login: { type: 'string', value: fixture.usersAccess[i].user.login },
+          password: { type: 'string', value: fixture.usersAccess[i].user.password },
+          profile: { type: 'string', value: fixture.usersAccess[i].user.profile },
+          userTime: { type: 'time', value: fixture.usersAccess[i].user.userTime },
+        },
       });
       
     }
@@ -50,4 +64,3 @@ describe('protobuf/isis/file/Folder', () => {
     }
   });
 });
-

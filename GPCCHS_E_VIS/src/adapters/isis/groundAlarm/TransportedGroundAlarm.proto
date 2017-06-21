@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/LONG.proto";
+import "./Transition.proto";
+
+
+package groundAlarm.protobuf;
+
+message TransportedGroundAlarm {
+extensions 4 to 104;
+
+  repeated groundAlarm.protobuf.Transition transitions = 1;
+  optional ccsds_mal.protobuf.BOOLEAN hasAckRequest = 2;
+  optional ccsds_mal.protobuf.LONG paramUid = 3;
+}

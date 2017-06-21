@@ -1,17 +1,18 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getParameter = require('./parameter.stub');
 
 const now = _now();
 
-module.exports = override => applyOverride({
+const isisAggregation = {
   generationMode: 1,
   filtered: true,
-  deltaTime: 4242,
-  intervalTime: 4242,
-  setIntervalTime: 4242,
+  deltaTime: 42.5,
+  intervalTime: 42.5,
+  setIntervalTime: 42.5,
   onboardDate: now,
   groundDate: now,
   packetType: 1,
@@ -20,4 +21,6 @@ module.exports = override => applyOverride({
   subService: 1,
   destinationId: 1,
   values: [getParameter(), getParameter()],
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, isisAggregation) : isisAggregation);

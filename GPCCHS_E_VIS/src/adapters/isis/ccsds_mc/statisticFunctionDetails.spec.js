@@ -1,22 +1,25 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
+const adapter = require('./statisticFunctionDetails');
+const { getStatisticFunctionDetails } = require('../stubs');
 
 
 
 describe('protobuf/isis/ccsds_mc/StatisticFunctionDetails', () => {
-  const fixture = stubData.getStatisticFunctionDetails();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/StatisticFunctionDetails.proto`, { keepCase: true })
+    .lookup('ccsds_mc.protobuf.StatisticFunctionDetails');
+  const fixture = getStatisticFunctionDetails();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.ccsds_mc.StatisticFunctionDetails', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.ccsds_mc.StatisticFunctionDetails', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       name: { type: 'identifier', value: fixture.name },
       description: { type: 'string', value: fixture.description },
@@ -26,4 +29,3 @@ describe('protobuf/isis/ccsds_mc/StatisticFunctionDetails', () => {
     
   });
 });
-

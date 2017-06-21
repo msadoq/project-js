@@ -1,12 +1,15 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-const applyOverride = require('../applyOverride');
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getObjectType = require('../ccsds_com/objectType.stub');
 
-module.exports = override => applyOverride({
+const groupDefinition = {
   name: 'myIDENTIFIER',
   description: 'mySTRING',
   objectType: getObjectType(),
   domain: 10,
   instanceIds: [-1000, -1000],
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, groupDefinition) : groupDefinition);

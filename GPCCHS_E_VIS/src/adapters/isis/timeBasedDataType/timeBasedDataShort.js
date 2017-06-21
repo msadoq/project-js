@@ -1,53 +1,34 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ByteBuffer = require('bytebuffer');
+const fINETIME = require('../ccsds_mal/fINETIME');
+const sHORT = require('../ccsds_mal/sHORT');
+const sTRING = require('../ccsds_mal/sTRING');
 
-const MILLISEC_SIZE = 8;
-const PICOSEC_SIZE = 4;
-const TIMESTAMP_SIZE = MILLISEC_SIZE + PICOSEC_SIZE;
+const _MILLISEC_SIZE = 8;
+const _PICOSEC_SIZE = 4;
+const TIMESTAMP_SIZE = _MILLISEC_SIZE + _PICOSEC_SIZE;
 const TIMESTAMP_OFFSET = 0;
 const NAME_SIZE = 30;
-const NAME_OFFSET = TIMESTAMP_OFFSET + TIMESTAMP_SIZE; 
+const NAME_OFFSET = TIMESTAMP_OFFSET + TIMESTAMP_SIZE;
 const VALUE_SIZE = 2;
 const VALUE_OFFSET = NAME_OFFSET + NAME_SIZE;
 
 module.exports = {
-  encode: (data) => {
-    const timeBasedDataShort = new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
-    timeBasedDataShort.writeInt64(data.timeStamp, TIMESTAMP_OFFSET);
-    timeBasedDataShort.writeInt32(data.timeStamp, TIMESTAMP_OFFSET + MILLISEC_SIZE);
-    timeBasedDataShort.writeString(data.name + '\0'.repeat(NAME_SIZE - data.name.length), NAME_OFFSET);
-    timeBasedDataShort.writeInt16(data.value, VALUE_OFFSET);
-    return { value: timeBasedDataShort.buffer };
+  encodeRaw: (data, buffer, offset = 0) => {
+    const timeBasedDataShort = buffer || new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
+    fINETIME.encodeRaw(data.timeStamp, timeBasedDataShort, TIMESTAMP_OFFSET + offset, TIMESTAMP_SIZE);
+    sTRING.encodeRaw(data.name, timeBasedDataShort, NAME_OFFSET + offset, NAME_SIZE);
+    sHORT.encodeRaw(data.value, timeBasedDataShort, VALUE_OFFSET + offset, VALUE_SIZE);
+    return timeBasedDataShort.buffer;
   },
-  decode: data => ({
-    type: 'raw',
-    value: data.value,
-    fields: [
-      {
-        type: 'finetime',
-        name: 'timeStamp',
-        size: {
-          millisec: MILLISEC_SIZE,
-          picosec: PICOSEC_SIZE,
-        },
-        offset: {
-          millisec: TIMESTAMP_OFFSET,
-          picosec: TIMESTAMP_OFFSET + MILLISEC_SIZE,
-        },
-      },
-      {
-        type: 'string',
-        name: 'name',
-        size: NAME_SIZE,
-        offset: NAME_OFFSET,
-      },
-      {
-        type: 'short',
-        name: 'value',
-        size: VALUE_SIZE,
-        offset: VALUE_OFFSET,
-      },
-    ],
-  }),
+  decodeRaw: (data, buffer, offset = 0) => {
+    const timeBasedDataShort = {};
+    const bufferedData = buffer || ByteBuffer.wrap(data, ByteBuffer.LITTLE_ENDIAN);
+    timeBasedDataShort.timeStamp = fINETIME.decodeRaw(null, bufferedData, TIMESTAMP_OFFSET + offset, TIMESTAMP_SIZE);
+    timeBasedDataShort.name = sTRING.decodeRaw(null, bufferedData, NAME_OFFSET + offset, NAME_SIZE);
+    timeBasedDataShort.value = sHORT.decodeRaw(null, bufferedData, VALUE_OFFSET + offset, VALUE_SIZE);
+    return timeBasedDataShort;
+  },
 };

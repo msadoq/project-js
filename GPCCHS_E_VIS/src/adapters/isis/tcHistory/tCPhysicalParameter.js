@@ -1,27 +1,25 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
+const bLOB = require('../ccsds_mal/bLOB');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
+const iDENTIFIER = require('../ccsds_mal/iDENTIFIER');
 const pusHeader = require('./pusHeader');
 const tCDetailType = require('./tCDetailType');
 const tCPhysicalParameter = require('./tCPhysicalParameter');
-const {
-  encodeAttribute,
-  decodeAttribute,
-  stringToBytes,
-  bytesToString,
-
-} = require('../types');
 
 module.exports = {
   encode: data => ({
     argumentIdentifier: (data.argumentIdentifier !== null && typeof data.argumentIdentifier !== 'undefined')
-      ? { value: stringToBytes(data.argumentIdentifier) }
+      ? iDENTIFIER.encode(data.argumentIdentifier)
       : null,
     value: (data.value !== null && typeof data.value !== 'undefined')
-      ? encodeAttribute(data.value)
+      ? aTTRIBUTE.encode(data.value)
       : null,
     valueIsRaw: (data.valueIsRaw !== null && typeof data.valueIsRaw !== 'undefined')
-      ? { value: data.valueIsRaw }
+      ? bOOLEAN.encode(data.valueIsRaw)
       : null,
     tcDetailsType: (data.tcDetailsType !== null && typeof data.tcDetailsType !== 'undefined')
       ? data.tcDetailsType
@@ -30,19 +28,19 @@ module.exports = {
       ? pusHeader.encode(data.pusHeader)
       : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { value: data.rawPacket }
+      ? bLOB.encode(data.rawPacket)
       : null,
     tcPhysicalParameter: _map(data.tcPhysicalParameter, d => (tCPhysicalParameter.encode(d))),
   }),
   decode: data => ({
     argumentIdentifier: (data.argumentIdentifier !== null && typeof data.argumentIdentifier !== 'undefined')
-      ? { type: 'identifier', value: bytesToString(data.argumentIdentifier.value) }
+      ? iDENTIFIER.decode(data.argumentIdentifier)
       : undefined,
     value: (data.value !== null && typeof data.value !== 'undefined')
-      ? decodeAttribute(data.value)
+      ? aTTRIBUTE.decode(data.value)
       : undefined,
     valueIsRaw: (data.valueIsRaw !== null && typeof data.valueIsRaw !== 'undefined')
-      ? { type: 'boolean', value: data.valueIsRaw.value }
+      ? bOOLEAN.decode(data.valueIsRaw)
       : undefined,
     tcDetailsType: (data.tcDetailsType !== null && typeof data.tcDetailsType !== 'undefined')
       ? { type: 'enum', value: data.tcDetailsType, symbol: tCDetailType[data.tcDetailsType] }
@@ -51,7 +49,7 @@ module.exports = {
       ? pusHeader.decode(data.pusHeader)
       : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { type: 'blob', value: data.rawPacket.value }
+      ? bLOB.decode(data.rawPacket)
       : undefined,
     tcPhysicalParameter: _map(data.tcPhysicalParameter, d => (tCPhysicalParameter.decode(d))),
   }),

@@ -1,80 +1,48 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ByteBuffer = require('bytebuffer');
+const sTRING = require('../ccsds_mal/sTRING');
+const uINTEGER = require('../ccsds_mal/uINTEGER');
+const uRI = require('../ccsds_mal/uRI');
 
 const SUPPORTEDCAPABILITIES_SIZE = 4;
 const SUPPORTEDCAPABILITIES_OFFSET = 0;
 const SUPPORTEDLEVELS_SIZE = 4;
-const SUPPORTEDLEVELS_OFFSET = SUPPORTEDCAPABILITIES_OFFSET + SUPPORTEDCAPABILITIES_SIZE; 
+const SUPPORTEDLEVELS_OFFSET = SUPPORTEDCAPABILITIES_OFFSET + SUPPORTEDCAPABILITIES_SIZE;
 const QOSPROPERTIES_SIZE = 4;
-const QOSPROPERTIES_OFFSET = SUPPORTEDLEVELS_OFFSET + SUPPORTEDLEVELS_SIZE; 
+const QOSPROPERTIES_OFFSET = SUPPORTEDLEVELS_OFFSET + SUPPORTEDLEVELS_SIZE;
 const PRIORITYLEVELS_SIZE = 4;
-const PRIORITYLEVELS_OFFSET = QOSPROPERTIES_OFFSET + QOSPROPERTIES_SIZE; 
+const PRIORITYLEVELS_OFFSET = QOSPROPERTIES_OFFSET + QOSPROPERTIES_SIZE;
 const SERVICEURI_SIZE = 64;
-const SERVICEURI_OFFSET = PRIORITYLEVELS_OFFSET + PRIORITYLEVELS_SIZE; 
+const SERVICEURI_OFFSET = PRIORITYLEVELS_OFFSET + PRIORITYLEVELS_SIZE;
 const DATAURI_SIZE = 64;
-const DATAURI_OFFSET = SERVICEURI_OFFSET + SERVICEURI_SIZE; 
+const DATAURI_OFFSET = SERVICEURI_OFFSET + SERVICEURI_SIZE;
 const DATANAME_SIZE = 32;
 const DATANAME_OFFSET = DATAURI_OFFSET + DATAURI_SIZE;
 
 module.exports = {
-  encode: (data) => {
-    const serviceAddress = new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
-    serviceAddress.writeUint32(data.supportedCapabilities, SUPPORTEDCAPABILITIES_OFFSET);
-    serviceAddress.writeUint32(data.supportedLevels, SUPPORTEDLEVELS_OFFSET);
-    serviceAddress.writeUint32(data.qoSproperties, QOSPROPERTIES_OFFSET);
-    serviceAddress.writeUint32(data.priorityLevels, PRIORITYLEVELS_OFFSET);
-    serviceAddress.writeString(data.serviceURI + '\0'.repeat(SERVICEURI_SIZE - data.serviceURI.length), SERVICEURI_OFFSET);
-    serviceAddress.writeString(data.dataURI + '\0'.repeat(DATAURI_SIZE - data.dataURI.length), DATAURI_OFFSET);
-    serviceAddress.writeString(data.dataName + '\0'.repeat(DATANAME_SIZE - data.dataName.length), DATANAME_OFFSET);
-    return { value: serviceAddress.buffer };
+  encodeRaw: (data, buffer, offset = 0) => {
+    const serviceAddress = buffer || new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
+    uINTEGER.encodeRaw(data.supportedCapabilities, serviceAddress, SUPPORTEDCAPABILITIES_OFFSET + offset, SUPPORTEDCAPABILITIES_SIZE);
+    uINTEGER.encodeRaw(data.supportedLevels, serviceAddress, SUPPORTEDLEVELS_OFFSET + offset, SUPPORTEDLEVELS_SIZE);
+    uINTEGER.encodeRaw(data.qoSproperties, serviceAddress, QOSPROPERTIES_OFFSET + offset, QOSPROPERTIES_SIZE);
+    uINTEGER.encodeRaw(data.priorityLevels, serviceAddress, PRIORITYLEVELS_OFFSET + offset, PRIORITYLEVELS_SIZE);
+    uRI.encodeRaw(data.serviceURI, serviceAddress, SERVICEURI_OFFSET + offset, SERVICEURI_SIZE);
+    uRI.encodeRaw(data.dataURI, serviceAddress, DATAURI_OFFSET + offset, DATAURI_SIZE);
+    sTRING.encodeRaw(data.dataName, serviceAddress, DATANAME_OFFSET + offset, DATANAME_SIZE);
+    return serviceAddress.buffer;
   },
-  decode: data => ({
-    type: 'raw',
-    value: data.value,
-    fields: [
-      {
-        type: 'uinteger',
-        name: 'supportedCapabilities',
-        size: SUPPORTEDCAPABILITIES_SIZE,
-        offset: SUPPORTEDCAPABILITIES_OFFSET,
-      },
-      {
-        type: 'uinteger',
-        name: 'supportedLevels',
-        size: SUPPORTEDLEVELS_SIZE,
-        offset: SUPPORTEDLEVELS_OFFSET,
-      },
-      {
-        type: 'uinteger',
-        name: 'qoSproperties',
-        size: QOSPROPERTIES_SIZE,
-        offset: QOSPROPERTIES_OFFSET,
-      },
-      {
-        type: 'uinteger',
-        name: 'priorityLevels',
-        size: PRIORITYLEVELS_SIZE,
-        offset: PRIORITYLEVELS_OFFSET,
-      },
-      {
-        type: 'uri',
-        name: 'serviceURI',
-        size: SERVICEURI_SIZE,
-        offset: SERVICEURI_OFFSET,
-      },
-      {
-        type: 'uri',
-        name: 'dataURI',
-        size: DATAURI_SIZE,
-        offset: DATAURI_OFFSET,
-      },
-      {
-        type: 'string',
-        name: 'dataName',
-        size: DATANAME_SIZE,
-        offset: DATANAME_OFFSET,
-      },
-    ],
-  }),
+  decodeRaw: (data, buffer, offset = 0) => {
+    const serviceAddress = {};
+    const bufferedData = buffer || ByteBuffer.wrap(data, ByteBuffer.LITTLE_ENDIAN);
+    serviceAddress.supportedCapabilities = uINTEGER.decodeRaw(null, bufferedData, SUPPORTEDCAPABILITIES_OFFSET + offset, SUPPORTEDCAPABILITIES_SIZE);
+    serviceAddress.supportedLevels = uINTEGER.decodeRaw(null, bufferedData, SUPPORTEDLEVELS_OFFSET + offset, SUPPORTEDLEVELS_SIZE);
+    serviceAddress.qoSproperties = uINTEGER.decodeRaw(null, bufferedData, QOSPROPERTIES_OFFSET + offset, QOSPROPERTIES_SIZE);
+    serviceAddress.priorityLevels = uINTEGER.decodeRaw(null, bufferedData, PRIORITYLEVELS_OFFSET + offset, PRIORITYLEVELS_SIZE);
+    serviceAddress.serviceURI = uRI.decodeRaw(null, bufferedData, SERVICEURI_OFFSET + offset, SERVICEURI_SIZE);
+    serviceAddress.dataURI = uRI.decodeRaw(null, bufferedData, DATAURI_OFFSET + offset, DATAURI_SIZE);
+    serviceAddress.dataName = sTRING.decodeRaw(null, bufferedData, DATANAME_OFFSET + offset, DATANAME_SIZE);
+    return serviceAddress;
+  },
 };

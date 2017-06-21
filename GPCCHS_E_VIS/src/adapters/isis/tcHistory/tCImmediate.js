@@ -1,50 +1,57 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const bLOB = require('../ccsds_mal/bLOB');
+const iNTEGER = require('../ccsds_mal/iNTEGER');
 const pusHeader = require('./pusHeader');
+const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
+const uINTEGER = require('../ccsds_mal/uINTEGER');
+const uLONG = require('../ccsds_mal/uLONG');
 
 module.exports = {
   encode: data => ({
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
-      ? { value: data.encodingDate }
+      ? tIME.encode(data.encodingDate)
       : null,
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.encode(data.pusHeader)
       : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { value: data.rawPacket }
+      ? bLOB.encode(data.rawPacket)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
-      ? { value: data.tcId }
+      ? iNTEGER.encode(data.tcId)
       : null,
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
-      ? { value: data.tcSourceId }
+      ? uINTEGER.encode(data.tcSourceId)
       : null,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? { value: data.sequenceCount }
+      ? uLONG.encode(data.sequenceCount)
       : null,
-    parameterPhysicalValue: _map(data.parameterPhysicalValue, d => ({ value: d })),
+    parameterPhysicalValue: _map(data.parameterPhysicalValue, d => (sTRING.encode(d))),
   }),
   decode: data => ({
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
-      ? { type: 'time', value: data.encodingDate.value.toNumber() }
+      ? tIME.decode(data.encodingDate)
       : undefined,
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.decode(data.pusHeader)
       : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { type: 'blob', value: data.rawPacket.value }
+      ? bLOB.decode(data.rawPacket)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
-      ? { type: 'integer', value: data.tcId.value }
+      ? iNTEGER.decode(data.tcId)
       : undefined,
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
-      ? { type: 'uinteger', value: data.tcSourceId.value }
+      ? uINTEGER.decode(data.tcSourceId)
       : undefined,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? { type: 'ulong', symbol: data.sequenceCount.value.toString() }
+      ? uLONG.decode(data.sequenceCount)
       : undefined,
-    parameterPhysicalValue: _map(data.parameterPhysicalValue, d => ({ type: 'string', value: d.value })),
+    parameterPhysicalValue: _map(data.parameterPhysicalValue, d => (sTRING.decode(d))),
     referenceTimestamp: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
         ? { type: 'time', value: data.encodingDate.value.toNumber() }
         : undefined,

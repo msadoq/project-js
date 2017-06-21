@@ -1,12 +1,13 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getServiceAddress = require('./serviceAddress.stub');
 
 const now = _now();
 
-module.exports = override => applyOverride({
+const provider = {
   slotID: 10,
   factoryID: 10,
   providerName: 'mySTRING',
@@ -16,4 +17,6 @@ module.exports = override => applyOverride({
   serviceAddress: getServiceAddress(),
   providerProperties: 'mySTRING',
   providerTime: now,
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, provider) : provider);

@@ -1,27 +1,30 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
+const adapter = require('./docVersion');
+const { getDocVersion } = require('../stubs');
 
 
 
 describe('protobuf/isis/file/DocVersion', () => {
-  const fixture = stubData.getDocVersion();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/DocVersion.proto`, { keepCase: true })
+    .lookup('file.protobuf.DocVersion');
+  const fixture = getDocVersion();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.file.DocVersion', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.file.DocVersion', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       externalVersion: { type: 'string', value: fixture.externalVersion },
       internalVersion: { type: 'ushort', value: fixture.internalVersion },
-      content: (typeof fixture.content === 'undefined') 
-        ? null 
+      content: (typeof fixture.content === 'undefined')
+        ? null
         : { type: 'double', symbol: fixture.content.toString() },
     });
     
@@ -35,4 +38,3 @@ describe('protobuf/isis/file/DocVersion', () => {
     }
   });
 });
-

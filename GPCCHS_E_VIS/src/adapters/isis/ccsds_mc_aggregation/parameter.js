@@ -1,34 +1,32 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
+const bLOB = require('../ccsds_mal/bLOB');
 const objectId = require('../ccsds_com/objectId');
+const sTRING = require('../ccsds_mal/sTRING');
+const uSHORT = require('../ccsds_mal/uSHORT');
 const validityState = require('../ccsds_mc/validityState');
-const {
-  encodeAttribute,
-  decodeAttribute,
-  ushortToBytes,
-  bytesToUshort,
-
-} = require('../types');
 
 module.exports = {
   encode: data => ({
     definition: (data.definition !== null && typeof data.definition !== 'undefined')
-      ? objectId.encode(data.definition)
+      ? bLOB.encode(objectId.encodeRaw(data.definition))
       : null,
     extractedValue: (data.extractedValue !== null && typeof data.extractedValue !== 'undefined')
-      ? encodeAttribute(data.extractedValue)
+      ? aTTRIBUTE.encode(data.extractedValue)
       : null,
     rawValue: (data.rawValue !== null && typeof data.rawValue !== 'undefined')
-      ? encodeAttribute(data.rawValue)
+      ? aTTRIBUTE.encode(data.rawValue)
       : null,
     convertedValue: (data.convertedValue !== null && typeof data.convertedValue !== 'undefined')
-      ? encodeAttribute(data.convertedValue)
+      ? aTTRIBUTE.encode(data.convertedValue)
       : null,
     triggerCounter: (data.triggerCounter !== null && typeof data.triggerCounter !== 'undefined')
-      ? { value: ushortToBytes(data.triggerCounter) }
+      ? uSHORT.encode(data.triggerCounter)
       : null,
     monitoringState: (data.monitoringState !== null && typeof data.monitoringState !== 'undefined')
-      ? { value: data.monitoringState }
+      ? sTRING.encode(data.monitoringState)
       : null,
     validityState: (data.validityState !== null && typeof data.validityState !== 'undefined')
       ? data.validityState
@@ -36,22 +34,22 @@ module.exports = {
   }),
   decode: data => ({
     definition: (data.definition !== null && typeof data.definition !== 'undefined')
-      ? objectId.decode(data.definition)
+      ? objectId.decodeRaw(bLOB.decode(data.definition).value)
       : undefined,
     extractedValue: (data.extractedValue !== null && typeof data.extractedValue !== 'undefined')
-      ? decodeAttribute(data.extractedValue)
+      ? aTTRIBUTE.decode(data.extractedValue)
       : undefined,
     rawValue: (data.rawValue !== null && typeof data.rawValue !== 'undefined')
-      ? decodeAttribute(data.rawValue)
+      ? aTTRIBUTE.decode(data.rawValue)
       : undefined,
     convertedValue: (data.convertedValue !== null && typeof data.convertedValue !== 'undefined')
-      ? decodeAttribute(data.convertedValue)
+      ? aTTRIBUTE.decode(data.convertedValue)
       : undefined,
     triggerCounter: (data.triggerCounter !== null && typeof data.triggerCounter !== 'undefined')
-      ? { type: 'ushort', value: bytesToUshort(data.triggerCounter.value) }
+      ? uSHORT.decode(data.triggerCounter)
       : undefined,
     monitoringState: (data.monitoringState !== null && typeof data.monitoringState !== 'undefined')
-      ? { type: 'string', value: data.monitoringState.value }
+      ? sTRING.decode(data.monitoringState)
       : undefined,
     validityState: (data.validityState !== null && typeof data.validityState !== 'undefined')
       ? { type: 'enum', value: data.validityState, symbol: validityState[data.validityState] }

@@ -1,0 +1,22 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus015Packet.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus015PacketStore {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.STRING name = 1;
+  optional ccsds_mal.protobuf.UINTEGER id = 2;
+  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.UINTEGER storageType = 4;
+  optional ccsds_mal.protobuf.BOOLEAN dumpEnabled = 5;
+  repeated pusGroundModel.protobuf.Pus015Packet pus015Packet = 6;
+  optional pusGroundModel.protobuf.PusElement pusElement = 7;
+  optional ccsds_mal.protobuf.STRING hkStatusParameterName = 8;
+}

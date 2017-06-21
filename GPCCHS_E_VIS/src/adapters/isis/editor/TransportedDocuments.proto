@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./DocumentValue.proto";
+
+
+package editor.protobuf;
+
+message TransportedDocuments {
+extensions 2 to 102;
+
+  repeated editor.protobuf.DocumentValue documents = 1;
+}

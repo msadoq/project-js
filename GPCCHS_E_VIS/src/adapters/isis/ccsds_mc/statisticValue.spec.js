@@ -1,34 +1,37 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
+const adapter = require('./statisticValue');
+const { getStatisticValue } = require('../stubs');
 
 
 
 describe('protobuf/isis/ccsds_mc/StatisticValue', () => {
-  const fixture = stubData.getStatisticValue();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/StatisticValue.proto`, { keepCase: true })
+    .lookup('ccsds_mc.protobuf.StatisticValue');
+  const fixture = getStatisticValue();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.ccsds_mc.StatisticValue', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.ccsds_mc.StatisticValue', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
-      startTime: (typeof fixture.startTime === 'undefined') 
-        ? null 
+      startTime: (typeof fixture.startTime === 'undefined')
+        ? null
         : { type: 'time', value: fixture.startTime },
-      endTime: (typeof fixture.endTime === 'undefined') 
-        ? null 
+      endTime: (typeof fixture.endTime === 'undefined')
+        ? null
         : { type: 'time', value: fixture.endTime },
-      valueTime: (typeof fixture.valueTime === 'undefined') 
-        ? null 
+      valueTime: (typeof fixture.valueTime === 'undefined')
+        ? null
         : { type: 'time', value: fixture.valueTime },
-      value: (typeof fixture.value === 'undefined') 
-        ? null 
+      value: (typeof fixture.value === 'undefined')
+        ? null
         : { type: 'double', symbol: fixture.value.toString() },
       sampleCount: { type: 'uinteger', value: fixture.sampleCount },
       timestamp: { type: 'time', value: fixture.timestamp },
@@ -37,4 +40,3 @@ describe('protobuf/isis/ccsds_mc/StatisticValue', () => {
     
   });
 });
-

@@ -1,0 +1,17 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+
+
+package connection.protobuf;
+
+message CUInfo {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.BOOLEAN isSLE = 1;
+  optional ccsds_mal.protobuf.INTEGER reconnectionNumber = 2;
+  optional ccsds_mal.protobuf.INTEGER reconnectionDelay = 3;
+  optional ccsds_mal.protobuf.STRING name = 4;
+  optional ccsds_mal.protobuf.STRING sicFile = 5;
+}

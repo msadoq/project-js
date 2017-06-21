@@ -1,6 +1,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-import "../ccsds_mal/types.proto";
-
+import "../ccsds_mal/IDENTIFIER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
 
 
 package ccsds_mc.protobuf;

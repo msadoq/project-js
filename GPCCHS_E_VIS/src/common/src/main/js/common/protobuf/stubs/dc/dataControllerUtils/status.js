@@ -1,4 +1,8 @@
-const protobuf = require('../../../index');
+const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+const Adapter = require('./status');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Status.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Status');
 
 const STATUS_SUCCESS = 0;
 const STATUS_ERROR = 1;
@@ -10,14 +14,8 @@ const getErrorStatus = () => ({
   status: STATUS_ERROR,
 });
 
-const getSuccessStatusProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Status',
-  getSuccessStatus()
-);
-const getErrorStatusProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Status',
-  getErrorStatus()
-);
+const getSuccessStatusProtobuf = () => Builder.encode(Adapter.encode(getSuccessStatus()));
+const getErrorStatusProtobuf = () => Builder.encode(Adapter.encode(getErrorStatus()));
 
 module.exports = {
   getSuccessStatus,

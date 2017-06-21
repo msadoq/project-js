@@ -1,4 +1,8 @@
-const applyOverride = require('../../applyOverride');
+// const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+// const Adapter = require('./domain');
+
+// const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Domain.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Domain');
 
 const getDomain = override => applyOverride({
   itemNamespace: 'Domains',

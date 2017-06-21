@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus014ForwardedPacket.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus014EventReportPacket {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.UINTEGER rid = 1;
+  optional pusGroundModel.protobuf.Pus014ForwardedPacket pus014ForwardedPacket = 2;
+  optional ccsds_mal.protobuf.STRING ridLabel = 3;
+}

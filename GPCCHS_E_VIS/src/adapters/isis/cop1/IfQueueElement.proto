@@ -1,0 +1,21 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/FLOAT.proto";
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "./IfQueueUnit.proto";
+
+
+package cop1.protobuf;
+
+message IfQueueElement {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.INTEGER number = 1;
+  optional ccsds_mal.protobuf.FLOAT reemission_delay = 2;
+  optional ccsds_mal.protobuf.STRING date = 3;
+  optional ccsds_mal.protobuf.BLOB segment_data = 4;
+  optional ccsds_mal.protobuf.INTEGER index = 5;
+  optional ccsds_mal.protobuf.INTEGER priority = 6;
+  repeated cop1.protobuf.IfQueueUnit units = 7;
+}

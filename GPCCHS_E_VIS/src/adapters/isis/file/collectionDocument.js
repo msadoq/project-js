@@ -1,39 +1,37 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-
-const {
-  stringToBytes,
-  bytesToString,
-
-} = require('../types');
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
+const sTRING = require('../ccsds_mal/sTRING');
+const uRI = require('../ccsds_mal/uRI');
 
 module.exports = {
   encode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { value: data.name }
+      ? sTRING.encode(data.name)
       : null,
     version: (data.version !== null && typeof data.version !== 'undefined')
-      ? { value: data.version }
+      ? sTRING.encode(data.version)
       : null,
     uri: (data.uri !== null && typeof data.uri !== 'undefined')
-      ? { value: stringToBytes(data.uri) }
+      ? uRI.encode(data.uri)
       : null,
     brokenLink: (data.brokenLink !== null && typeof data.brokenLink !== 'undefined')
-      ? { value: data.brokenLink }
+      ? bOOLEAN.encode(data.brokenLink)
       : null,
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { type: 'string', value: data.name.value }
+      ? sTRING.decode(data.name)
       : undefined,
     version: (data.version !== null && typeof data.version !== 'undefined')
-      ? { type: 'string', value: data.version.value }
+      ? sTRING.decode(data.version)
       : undefined,
     uri: (data.uri !== null && typeof data.uri !== 'undefined')
-      ? { type: 'uri', value: bytesToString(data.uri.value) }
+      ? uRI.decode(data.uri)
       : undefined,
     brokenLink: (data.brokenLink !== null && typeof data.brokenLink !== 'undefined')
-      ? { type: 'boolean', value: data.brokenLink.value }
+      ? bOOLEAN.decode(data.brokenLink)
       : undefined,
   }),
 };

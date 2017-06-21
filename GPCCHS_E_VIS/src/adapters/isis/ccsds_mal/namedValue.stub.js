@@ -1,10 +1,13 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _random = require('lodash/random');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 
 
-module.exports = override => applyOverride({
+const namedValue = {
   name: 'myIDENTIFIER',
   value: _random(1, 100, true),
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, namedValue) : namedValue);

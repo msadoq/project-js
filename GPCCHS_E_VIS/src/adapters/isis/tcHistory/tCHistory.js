@@ -1,31 +1,37 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const expectedAck = require('./expectedAck');
+const iNTEGER = require('../ccsds_mal/iNTEGER');
+const sTRING = require('../ccsds_mal/sTRING');
 const sendTypeEnum = require('./sendTypeEnum');
 const successiveAck = require('./successiveAck');
+const tIME = require('../ccsds_mal/tIME');
+const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
   encode: data => ({
     sendingDate: (data.sendingDate !== null && typeof data.sendingDate !== 'undefined')
-      ? { value: data.sendingDate }
+      ? tIME.encode(data.sendingDate)
       : null,
     tcInProgress: (data.tcInProgress !== null && typeof data.tcInProgress !== 'undefined')
-      ? { value: data.tcInProgress }
+      ? bOOLEAN.encode(data.tcInProgress)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
-      ? { value: data.tcId }
+      ? iNTEGER.encode(data.tcId)
       : null,
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
-      ? { value: data.tcSourceId }
+      ? uINTEGER.encode(data.tcSourceId)
       : null,
     historyName: (data.historyName !== null && typeof data.historyName !== 'undefined')
-      ? { value: data.historyName }
+      ? sTRING.encode(data.historyName)
       : null,
     sendType: (data.sendType !== null && typeof data.sendType !== 'undefined')
       ? data.sendType
       : null,
     tcNums: (data.tcNums !== null && typeof data.tcNums !== 'undefined')
-      ? { value: data.tcNums }
+      ? uINTEGER.encode(data.tcNums)
       : null,
     expectedAck: (data.expectedAck !== null && typeof data.expectedAck !== 'undefined')
       ? expectedAck.encode(data.expectedAck)
@@ -36,25 +42,25 @@ module.exports = {
   }),
   decode: data => ({
     sendingDate: (data.sendingDate !== null && typeof data.sendingDate !== 'undefined')
-      ? { type: 'time', value: data.sendingDate.value.toNumber() }
+      ? tIME.decode(data.sendingDate)
       : undefined,
     tcInProgress: (data.tcInProgress !== null && typeof data.tcInProgress !== 'undefined')
-      ? { type: 'boolean', value: data.tcInProgress.value }
+      ? bOOLEAN.decode(data.tcInProgress)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
-      ? { type: 'integer', value: data.tcId.value }
+      ? iNTEGER.decode(data.tcId)
       : undefined,
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
-      ? { type: 'uinteger', value: data.tcSourceId.value }
+      ? uINTEGER.decode(data.tcSourceId)
       : undefined,
     historyName: (data.historyName !== null && typeof data.historyName !== 'undefined')
-      ? { type: 'string', value: data.historyName.value }
+      ? sTRING.decode(data.historyName)
       : undefined,
     sendType: (data.sendType !== null && typeof data.sendType !== 'undefined')
       ? { type: 'enum', value: data.sendType, symbol: sendTypeEnum[data.sendType] }
       : undefined,
     tcNums: (data.tcNums !== null && typeof data.tcNums !== 'undefined')
-      ? { type: 'uinteger', value: data.tcNums.value }
+      ? uINTEGER.decode(data.tcNums)
       : undefined,
     expectedAck: (data.expectedAck !== null && typeof data.expectedAck !== 'undefined')
       ? expectedAck.decode(data.expectedAck)

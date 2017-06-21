@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./ATTRIBUTE.proto";
+import "./USHORT.proto";
+
+
+package ccsds_mal.protobuf;
+
+message IndexedValue {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.USHORT _index = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE _value = 2;
+}

@@ -1,5 +1,9 @@
-const protobuf = require('../../../index');
-const applyOverride = require('../../applyOverride');
+const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+const Adapter = require('./queryArguments');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/QueryArguments.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.QueryArguments');
+
 
 const getQueryArguments = override => applyOverride({
   /* sortFieldName: 'groundDate',
@@ -19,15 +23,9 @@ const getQueryArguments = override => applyOverride({
   // ],
 }, override);
 
-const getQueryArgumentsProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.QueryArguments',
-  getQueryArguments(override)
-);
+const getQueryArgumentsProtobuf = override => Builder.encode(Adapter.encode(getQueryArguments(override)));
 
-const getQueryArgumentsDeProtobuf = proto => protobuf.decode(
-  'dc.dataControllerUtils.QueryArguments',
-  proto
-);
+const getQueryArgumentsDeProtobuf = proto => Builder.encode(Adapter.encode(proto));
 
 module.exports = {
   getQueryArguments,

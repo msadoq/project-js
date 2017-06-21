@@ -1,4 +1,8 @@
-const protobuf = require('../../../index');
+const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+const Adapter = require('./header');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Header.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Header');
 
 const MESSAGETYPE_DOMAIN_QUERY = 0;
 const MESSAGETYPE_TIMEBASED_QUERY = 1;
@@ -86,91 +90,27 @@ const getSessionMasterDataHeader = () => ({
   messageType: MESSAGETYPE_SESSION_MASTER_DATA,
 });
 
-const getDcStatusQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getDcStatusQueryHeader()
-);
-
-const getDcStatusHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getDcStatusHeader()
-);
-const getDomainQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getDomainQueryHeader()
-);
-const getTimebasedQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getTimebasedQueryHeader()
-);
-const getTimebasedSubscriptionHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getTimebasedSubscriptionHeader()
-);
-const getResponseHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getResponseHeader()
-);
-const getDomainDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getDomainDataHeader()
-);
-const getTimebasedArchiveDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getTimebasedArchiveDataHeader()
-);
-const getTimebasedPubSubDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getTimebasedPubSubDataHeader()
-);
-const getSessionQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getSessionQueryHeader()
-);
-const getSessionDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getSessionDataHeader()
-);
-const getSessionTimeQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getSessionTimeQueryHeader()
-);
-const getSessionTimeDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getSessionTimeDataHeader()
-);
-const getLogSendHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getLogSendHeader()
-);
-const getFmdGetQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getFmdGetQueryHeader()
-);
-const getFmdGetDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getFmdGetDataHeader()
-);
-const getFmdCreateQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getFmdCreateQueryHeader()
-);
-const getFmdCreateDocumentQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getFmdCreateDocumentQueryHeader()
-);
-const getFmdCreateDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getFmdCreateDataHeader()
-);
-const getSessionMasterQueryHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getSessionMasterQueryHeader()
-);
-const getSessionMasterDataHeaderProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.Header',
-  getSessionMasterDataHeader()
-);
+const getDcStatusQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusQueryHeader()));
+const getDcStatusHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusHeader()));
+const getDomainQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDomainQueryHeader()));
+const getTimebasedQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getTimebasedQueryHeader()));
+const getTimebasedSubscriptionHeaderProtobuf = () => Builder.encode(Adapter.encode(getTimebasedSubscriptionHeader()));
+const getResponseHeaderProtobuf = () => Builder.encode(Adapter.encode(getResponseHeader()));
+const getDomainDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getDomainDataHeader()));
+const getTimebasedArchiveDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getTimebasedArchiveDataHeader()));
+const getTimebasedPubSubDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getTimebasedPubSubDataHeader()));
+const getSessionQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionQueryHeader()));
+const getSessionDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionDataHeader()));
+const getSessionTimeQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionTimeQueryHeader()));
+const getSessionTimeDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionTimeDataHeader()));
+const getLogSendHeaderProtobuf = () => Builder.encode(Adapter.encode(getLogSendHeader()));
+const getFmdGetQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getFmdGetQueryHeader()));
+const getFmdGetDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getFmdGetDataHeader()));
+const getFmdCreateQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getFmdCreateQueryHeader()));
+const getFmdCreateDocumentQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getFmdCreateDocumentQueryHeader()));
+const getFmdCreateDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getFmdCreateDataHeader()));
+const getSessionMasterQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionMasterQueryHeader()));
+const getSessionMasterDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionMasterDataHeader()));
 
 module.exports = {
   getDcStatusQueryHeader,

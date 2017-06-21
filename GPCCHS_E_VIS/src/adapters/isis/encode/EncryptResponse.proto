@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+
+
+package encode.protobuf;
+
+message EncryptResponse {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.BLOB rawData = 1;
+  optional ccsds_mal.protobuf.BOOLEAN status = 2;
+}

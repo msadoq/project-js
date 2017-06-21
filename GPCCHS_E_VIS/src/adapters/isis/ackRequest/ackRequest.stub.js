@@ -1,15 +1,17 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getAck = require('./ack.stub');
-const applyOverride = require('../applyOverride');
 
 const now = _now();
 
-module.exports = override => applyOverride({
+const ackRequest = {
   ackRequestDate: now,
   systemDate: now,
-  ack: getAck,
+  ack: getAck(),
   comment: 'mySTRING',
-},override );
+};
 
+module.exports = override => (override ? _defaultsDeep({}, override, ackRequest) : ackRequest);

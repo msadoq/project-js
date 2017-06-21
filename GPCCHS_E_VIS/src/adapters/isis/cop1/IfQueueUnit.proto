@@ -1,0 +1,16 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/INTEGER.proto";
+
+
+package cop1.protobuf;
+
+message IfQueueUnit {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.INTEGER nb_remaining_bytes = 1;
+  optional ccsds_mal.protobuf.BOOLEAN last_state = 2;
+  optional ccsds_mal.protobuf.BLOB mnemonic = 3;
+  optional ccsds_mal.protobuf.INTEGER nb_emitted_bytes = 4;
+}

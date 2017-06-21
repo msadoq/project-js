@@ -1,33 +1,35 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
-const { decodeRaw } = require('../types');
+const adapter = require('./groupDefinition');
+const { getGroupDefinition } = require('../stubs');
 
 
 
 describe('protobuf/isis/ccsds_mc/GroupDefinition', () => {
-  const fixture = stubData.getGroupDefinition();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/GroupDefinition.proto`, { keepCase: true })
+    .lookup('ccsds_mc.protobuf.GroupDefinition');
+  const fixture = getGroupDefinition();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.ccsds_mc.GroupDefinition', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.ccsds_mc.GroupDefinition', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       name: { type: 'identifier', value: fixture.name },
       description: { type: 'string', value: fixture.description },
+      objectType: {
+        area: { type: 'ushort', value: fixture.objectType.area },
+        service: { type: 'ushort', value: fixture.objectType.service },
+        version: { type: 'uoctet', value: fixture.objectType.version },
+        number: { type: 'ushort', value: fixture.objectType.number },
+      },
       domain: { type: 'ushort', value: fixture.domain },
-    });
-    decodeRaw(json.objectType).should.be.an('object').that.have.properties({
-      area: { type: 'ushort', value: fixture.objectType.area },
-      service: { type: 'ushort', value: fixture.objectType.service },
-      version: { type: 'uoctet', value: fixture.objectType.version },
-      number: { type: 'ushort', value: fixture.objectType.number },
     });
     
     json.instanceIds.should.be.an('array').that.have.lengthOf(fixture.instanceIds.length);
@@ -39,4 +41,3 @@ describe('protobuf/isis/ccsds_mc/GroupDefinition', () => {
     }
   });
 });
-

@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/UINTEGER.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus011Apid {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.UINTEGER status = 1;
+  optional pusGroundModel.protobuf.PusElement pusElement = 2;
+  optional ccsds_mal.protobuf.UINTEGER apid = 3;
+}

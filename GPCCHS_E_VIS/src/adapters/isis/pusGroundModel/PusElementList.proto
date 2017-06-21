@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./PusValue.proto";
+
+
+package pusGroundModel.protobuf;
+
+message PusElementList {
+extensions 2 to 102;
+
+  repeated pusGroundModel.protobuf.PusValue pusValue = 1;
+}

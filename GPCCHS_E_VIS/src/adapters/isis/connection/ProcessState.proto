@@ -1,0 +1,8 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package connection.protobuf;
+
+enum ProcessState {
+  ProcessState_Stopped = 0;
+  ProcessState_Running = 2;
+  ProcessState_Error = 4;
+}

@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./CUIdentifier.proto";
+import "./FlowIdentifier.proto";
+import "./ProcessIdentifier.proto";
+
+
+package connection.protobuf;
+
+message FlowElmt {
+extensions 4 to 104;
+
+  optional connection.protobuf.FlowIdentifier flowIdentifier = 1;
+  repeated connection.protobuf.CUIdentifier cUIdentifiers = 2;
+  repeated connection.protobuf.ProcessIdentifier processIdentifiers = 3;
+}

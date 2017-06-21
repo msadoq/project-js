@@ -1,13 +1,14 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getExpectedAck = require('./expectedAck.stub');
 const getSuccessiveAck = require('./successiveAck.stub');
 
 const now = _now();
 
-module.exports = override => applyOverride({
+const tCHistory = {
   sendingDate: now,
   tcInProgress: true,
   tcId: -100,
@@ -17,4 +18,6 @@ module.exports = override => applyOverride({
   tcNums: 100,
   expectedAck: getExpectedAck(),
   successiveAck: getSuccessiveAck(),
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, tCHistory) : tCHistory);

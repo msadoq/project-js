@@ -1,5 +1,8 @@
-const protobuf = require('../../../index');
-const applyOverride = require('../../applyOverride');
+const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+const Adapter = require('./dataId');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/DataId.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.DataId');
 
 const getDataId = override => applyOverride({
   parameterName: 'ATT_BC_STR1STRRFQ1',
@@ -9,10 +12,7 @@ const getDataId = override => applyOverride({
   domainId: 200,
 }, override);
 
-const getDataIdProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataId',
-  getDataId(override)
-);
+const getDataIdProtobuf = override => Builder.encode(Adapter.encode(getDataId(override)));
 
 module.exports = {
   getDataId,

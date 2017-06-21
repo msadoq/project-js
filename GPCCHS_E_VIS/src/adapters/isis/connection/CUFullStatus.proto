@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./CUIdentifier.proto";
+import "./CUStatus.proto";
+
+
+package connection.protobuf;
+
+message CUFullStatus {
+extensions 3 to 103;
+
+  optional connection.protobuf.CUIdentifier identifier = 1;
+  optional connection.protobuf.CUStatus status = 2;
+}

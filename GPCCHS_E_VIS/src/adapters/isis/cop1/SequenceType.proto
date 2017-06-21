@@ -1,0 +1,9 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package cop1.protobuf;
+
+enum SequenceType {
+  Intermediary = 0;
+  First = 1;
+  Last = 2;
+  Independant = 3;
+}

@@ -1,53 +1,34 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ByteBuffer = require('bytebuffer');
+const dURATION = require('../ccsds_mal/dURATION');
+const fINETIME = require('../ccsds_mal/fINETIME');
+const sTRING = require('../ccsds_mal/sTRING');
 
-const MILLISEC_SIZE = 8;
-const PICOSEC_SIZE = 4;
-const TIMESTAMP_SIZE = MILLISEC_SIZE + PICOSEC_SIZE;
+const _MILLISEC_SIZE = 8;
+const _PICOSEC_SIZE = 4;
+const TIMESTAMP_SIZE = _MILLISEC_SIZE + _PICOSEC_SIZE;
 const TIMESTAMP_OFFSET = 0;
 const NAME_SIZE = 30;
-const NAME_OFFSET = TIMESTAMP_OFFSET + TIMESTAMP_SIZE; 
+const NAME_OFFSET = TIMESTAMP_OFFSET + TIMESTAMP_SIZE;
 const VALUE_SIZE = 4;
 const VALUE_OFFSET = NAME_OFFSET + NAME_SIZE;
 
 module.exports = {
-  encode: (data) => {
-    const timeBasedDataDuration = new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
-    timeBasedDataDuration.writeInt64(data.timeStamp, TIMESTAMP_OFFSET);
-    timeBasedDataDuration.writeInt32(data.timeStamp, TIMESTAMP_OFFSET + MILLISEC_SIZE);
-    timeBasedDataDuration.writeString(data.name + '\0'.repeat(NAME_SIZE - data.name.length), NAME_OFFSET);
-    timeBasedDataDuration.writeInt32(data.value, VALUE_OFFSET);
-    return { value: timeBasedDataDuration.buffer };
+  encodeRaw: (data, buffer, offset = 0) => {
+    const timeBasedDataDuration = buffer || new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
+    fINETIME.encodeRaw(data.timeStamp, timeBasedDataDuration, TIMESTAMP_OFFSET + offset, TIMESTAMP_SIZE);
+    sTRING.encodeRaw(data.name, timeBasedDataDuration, NAME_OFFSET + offset, NAME_SIZE);
+    dURATION.encodeRaw(data.value, timeBasedDataDuration, VALUE_OFFSET + offset, VALUE_SIZE);
+    return timeBasedDataDuration.buffer;
   },
-  decode: data => ({
-    type: 'raw',
-    value: data.value,
-    fields: [
-      {
-        type: 'finetime',
-        name: 'timeStamp',
-        size: {
-          millisec: MILLISEC_SIZE,
-          picosec: PICOSEC_SIZE,
-        },
-        offset: {
-          millisec: TIMESTAMP_OFFSET,
-          picosec: TIMESTAMP_OFFSET + MILLISEC_SIZE,
-        },
-      },
-      {
-        type: 'string',
-        name: 'name',
-        size: NAME_SIZE,
-        offset: NAME_OFFSET,
-      },
-      {
-        type: 'duration',
-        name: 'value',
-        size: VALUE_SIZE,
-        offset: VALUE_OFFSET,
-      },
-    ],
-  }),
+  decodeRaw: (data, buffer, offset = 0) => {
+    const timeBasedDataDuration = {};
+    const bufferedData = buffer || ByteBuffer.wrap(data, ByteBuffer.LITTLE_ENDIAN);
+    timeBasedDataDuration.timeStamp = fINETIME.decodeRaw(null, bufferedData, TIMESTAMP_OFFSET + offset, TIMESTAMP_SIZE);
+    timeBasedDataDuration.name = sTRING.decodeRaw(null, bufferedData, NAME_OFFSET + offset, NAME_SIZE);
+    timeBasedDataDuration.value = dURATION.decodeRaw(null, bufferedData, VALUE_OFFSET + offset, VALUE_SIZE);
+    return timeBasedDataDuration;
+  },
 };

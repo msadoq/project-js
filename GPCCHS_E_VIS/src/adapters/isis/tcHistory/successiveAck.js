@@ -1,6 +1,8 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ackEnum = require('./ackEnum');
+const tIME = require('../ccsds_mal/tIME');
 
 module.exports = {
   encode: data => ({
@@ -23,25 +25,25 @@ module.exports = {
       ? data.acceptance
       : null,
     scdCop1AckRcvDate: (data.scdCop1AckRcvDate !== null && typeof data.scdCop1AckRcvDate !== 'undefined')
-      ? { value: data.scdCop1AckRcvDate }
+      ? tIME.encode(data.scdCop1AckRcvDate)
       : null,
-    Cop1AckRcvDate: (data.Cop1AckRcvDate !== null && typeof data.Cop1AckRcvDate !== 'undefined')
-      ? { value: data.Cop1AckRcvDate }
+    cop1AckRcvDate: (data.cop1AckRcvDate !== null && typeof data.cop1AckRcvDate !== 'undefined')
+      ? tIME.encode(data.cop1AckRcvDate)
       : null,
     stationAckRcvDate: (data.stationAckRcvDate !== null && typeof data.stationAckRcvDate !== 'undefined')
-      ? { value: data.stationAckRcvDate }
+      ? tIME.encode(data.stationAckRcvDate)
       : null,
     missionFailureRcvDate: (data.missionFailureRcvDate !== null && typeof data.missionFailureRcvDate !== 'undefined')
-      ? { value: data.missionFailureRcvDate }
+      ? tIME.encode(data.missionFailureRcvDate)
       : null,
     executionCompleteRcvDate: (data.executionCompleteRcvDate !== null && typeof data.executionCompleteRcvDate !== 'undefined')
-      ? { value: data.executionCompleteRcvDate }
+      ? tIME.encode(data.executionCompleteRcvDate)
       : null,
     acceptanceRcvDate: (data.acceptanceRcvDate !== null && typeof data.acceptanceRcvDate !== 'undefined')
-      ? { value: data.acceptanceRcvDate }
+      ? tIME.encode(data.acceptanceRcvDate)
       : null,
     executionStartRcvDate: (data.executionStartRcvDate !== null && typeof data.executionStartRcvDate !== 'undefined')
-      ? { value: data.executionStartRcvDate }
+      ? tIME.encode(data.executionStartRcvDate)
       : null,
     executionStart: (data.executionStart !== null && typeof data.executionStart !== 'undefined')
       ? data.executionStart
@@ -67,25 +69,25 @@ module.exports = {
       ? { type: 'enum', value: data.acceptance, symbol: ackEnum[data.acceptance] }
       : undefined,
     scdCop1AckRcvDate: (data.scdCop1AckRcvDate !== null && typeof data.scdCop1AckRcvDate !== 'undefined')
-      ? { type: 'time', value: data.scdCop1AckRcvDate.value.toNumber() }
+      ? tIME.decode(data.scdCop1AckRcvDate)
       : undefined,
-    Cop1AckRcvDate: (data.Cop1AckRcvDate !== null && typeof data.Cop1AckRcvDate !== 'undefined')
-      ? { type: 'time', value: data.Cop1AckRcvDate.value.toNumber() }
+    cop1AckRcvDate: (data.cop1AckRcvDate !== null && typeof data.cop1AckRcvDate !== 'undefined')
+      ? tIME.decode(data.cop1AckRcvDate)
       : undefined,
     stationAckRcvDate: (data.stationAckRcvDate !== null && typeof data.stationAckRcvDate !== 'undefined')
-      ? { type: 'time', value: data.stationAckRcvDate.value.toNumber() }
+      ? tIME.decode(data.stationAckRcvDate)
       : undefined,
     missionFailureRcvDate: (data.missionFailureRcvDate !== null && typeof data.missionFailureRcvDate !== 'undefined')
-      ? { type: 'time', value: data.missionFailureRcvDate.value.toNumber() }
+      ? tIME.decode(data.missionFailureRcvDate)
       : undefined,
     executionCompleteRcvDate: (data.executionCompleteRcvDate !== null && typeof data.executionCompleteRcvDate !== 'undefined')
-      ? { type: 'time', value: data.executionCompleteRcvDate.value.toNumber() }
+      ? tIME.decode(data.executionCompleteRcvDate)
       : undefined,
     acceptanceRcvDate: (data.acceptanceRcvDate !== null && typeof data.acceptanceRcvDate !== 'undefined')
-      ? { type: 'time', value: data.acceptanceRcvDate.value.toNumber() }
+      ? tIME.decode(data.acceptanceRcvDate)
       : undefined,
     executionStartRcvDate: (data.executionStartRcvDate !== null && typeof data.executionStartRcvDate !== 'undefined')
-      ? { type: 'time', value: data.executionStartRcvDate.value.toNumber() }
+      ? tIME.decode(data.executionStartRcvDate)
       : undefined,
     executionStart: (data.executionStart !== null && typeof data.executionStart !== 'undefined')
       ? { type: 'enum', value: data.executionStart, symbol: ackEnum[data.executionStart] }

@@ -1,9 +1,10 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-const applyOverride = require('../applyOverride');
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const _defaultsDeep = require('lodash/defaultsDeep');
 
 
-module.exports = override => applyOverride({
+const serviceFilter = {
   area: 10,
   service: 10,
   version: 1,
@@ -13,4 +14,6 @@ module.exports = override => applyOverride({
   slotOid: 10,
   domainID: 10,
   providerName: 'mySTRING',
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, serviceFilter) : serviceFilter);

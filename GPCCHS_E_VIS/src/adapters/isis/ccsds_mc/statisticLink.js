@@ -1,62 +1,40 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ByteBuffer = require('bytebuffer');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
+const dURATION = require('../ccsds_mal/dURATION');
+const tIME = require('../ccsds_mal/tIME');
 
 const COLLECTIONINTERVAL_SIZE = 4;
 const COLLECTIONINTERVAL_OFFSET = 0;
 const REPORTINGINTERVAL_SIZE = 4;
-const REPORTINGINTERVAL_OFFSET = COLLECTIONINTERVAL_OFFSET + COLLECTIONINTERVAL_SIZE; 
+const REPORTINGINTERVAL_OFFSET = COLLECTIONINTERVAL_OFFSET + COLLECTIONINTERVAL_SIZE;
 const SAMPLINGINTERVAL_SIZE = 4;
-const SAMPLINGINTERVAL_OFFSET = REPORTINGINTERVAL_OFFSET + REPORTINGINTERVAL_SIZE; 
+const SAMPLINGINTERVAL_OFFSET = REPORTINGINTERVAL_OFFSET + REPORTINGINTERVAL_SIZE;
 const REPORTINGENABLED_SIZE = 1;
-const REPORTINGENABLED_OFFSET = SAMPLINGINTERVAL_OFFSET + SAMPLINGINTERVAL_SIZE; 
+const REPORTINGENABLED_OFFSET = SAMPLINGINTERVAL_OFFSET + SAMPLINGINTERVAL_SIZE;
 const STARTTIME_SIZE = 8;
 const STARTTIME_OFFSET = REPORTINGENABLED_OFFSET + REPORTINGENABLED_SIZE;
 
 module.exports = {
-  encode: (data) => {
-    const statisticLink = new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
-    statisticLink.writeInt32(data.collectionInterval, COLLECTIONINTERVAL_OFFSET);
-    statisticLink.writeInt32(data.reportingInterval, REPORTINGINTERVAL_OFFSET);
-    statisticLink.writeInt32(data.samplingInterval, SAMPLINGINTERVAL_OFFSET);
-    statisticLink.writeByte(data.reportingEnabled, REPORTINGENABLED_OFFSET);
-    statisticLink.writeUint64(data.startTime, STARTTIME_OFFSET);
-    return { value: statisticLink.buffer };
+  encodeRaw: (data, buffer, offset = 0) => {
+    const statisticLink = buffer || new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
+    dURATION.encodeRaw(data.collectionInterval, statisticLink, COLLECTIONINTERVAL_OFFSET + offset, COLLECTIONINTERVAL_SIZE);
+    dURATION.encodeRaw(data.reportingInterval, statisticLink, REPORTINGINTERVAL_OFFSET + offset, REPORTINGINTERVAL_SIZE);
+    dURATION.encodeRaw(data.samplingInterval, statisticLink, SAMPLINGINTERVAL_OFFSET + offset, SAMPLINGINTERVAL_SIZE);
+    bOOLEAN.encodeRaw(data.reportingEnabled, statisticLink, REPORTINGENABLED_OFFSET + offset, REPORTINGENABLED_SIZE);
+    tIME.encodeRaw(data.startTime, statisticLink, STARTTIME_OFFSET + offset, STARTTIME_SIZE);
+    return statisticLink.buffer;
   },
-  decode: data => ({
-    type: 'raw',
-    value: data.value,
-    fields: [
-      {
-        type: 'duration',
-        name: 'collectionInterval',
-        size: COLLECTIONINTERVAL_SIZE,
-        offset: COLLECTIONINTERVAL_OFFSET,
-      },
-      {
-        type: 'duration',
-        name: 'reportingInterval',
-        size: REPORTINGINTERVAL_SIZE,
-        offset: REPORTINGINTERVAL_OFFSET,
-      },
-      {
-        type: 'duration',
-        name: 'samplingInterval',
-        size: SAMPLINGINTERVAL_SIZE,
-        offset: SAMPLINGINTERVAL_OFFSET,
-      },
-      {
-        type: 'boolean',
-        name: 'reportingEnabled',
-        size: REPORTINGENABLED_SIZE,
-        offset: REPORTINGENABLED_OFFSET,
-      },
-      {
-        type: 'time',
-        name: 'startTime',
-        size: STARTTIME_SIZE,
-        offset: STARTTIME_OFFSET,
-      },
-    ],
-  }),
+  decodeRaw: (data, buffer, offset = 0) => {
+    const statisticLink = {};
+    const bufferedData = buffer || ByteBuffer.wrap(data, ByteBuffer.LITTLE_ENDIAN);
+    statisticLink.collectionInterval = dURATION.decodeRaw(null, bufferedData, COLLECTIONINTERVAL_OFFSET + offset, COLLECTIONINTERVAL_SIZE);
+    statisticLink.reportingInterval = dURATION.decodeRaw(null, bufferedData, REPORTINGINTERVAL_OFFSET + offset, REPORTINGINTERVAL_SIZE);
+    statisticLink.samplingInterval = dURATION.decodeRaw(null, bufferedData, SAMPLINGINTERVAL_OFFSET + offset, SAMPLINGINTERVAL_SIZE);
+    statisticLink.reportingEnabled = bOOLEAN.decodeRaw(null, bufferedData, REPORTINGENABLED_OFFSET + offset, REPORTINGENABLED_SIZE);
+    statisticLink.startTime = tIME.decodeRaw(null, bufferedData, STARTTIME_OFFSET + offset, STARTTIME_SIZE);
+    return statisticLink;
+  },
 };

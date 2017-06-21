@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_com/CompositeFilter.proto";
+import "../ccsds_mal/NamedValue.proto";
+import "../ccsds_mal/STRING.proto";
+
+
+package queries.protobuf;
+
+message IsisFilterSet {
+extensions 4 to 104;
+
+  repeated ccsds_com.protobuf.CompositeFilter compositeFilter = 1;
+  optional ccsds_mal.protobuf.STRING mapFunction = 2;
+  repeated ccsds_mal.protobuf.NamedValue functionAttributes = 3;
+}

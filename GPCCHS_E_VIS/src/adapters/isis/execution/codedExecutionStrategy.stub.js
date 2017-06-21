@@ -1,8 +1,11 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-const applyOverride = require('../applyOverride');
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const _defaultsDeep = require('lodash/defaultsDeep');
 
 
-module.exports = override => applyOverride({
+const codedExecutionStrategy = {
   code: 1,
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, codedExecutionStrategy) : codedExecutionStrategy);

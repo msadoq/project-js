@@ -1,15 +1,14 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
+const bLOB = require('../ccsds_mal/bLOB');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
+const iDENTIFIER = require('../ccsds_mal/iDENTIFIER');
 const tCDetailType = require('./tCDetailType');
 const tCDetails = require('./tCDetails');
-const {
-  encodeAttribute,
-  decodeAttribute,
-  stringToBytes,
-  bytesToString,
-
-} = require('../types');
+const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
   encode: data => ({
@@ -17,30 +16,30 @@ module.exports = {
       ? data.tcDetailType
       : null,
     value: (data.value !== null && typeof data.value !== 'undefined')
-      ? encodeAttribute(data.value)
+      ? aTTRIBUTE.encode(data.value)
       : null,
     valueIsRaw: (data.valueIsRaw !== null && typeof data.valueIsRaw !== 'undefined')
-      ? { value: data.valueIsRaw }
+      ? bOOLEAN.encode(data.valueIsRaw)
       : null,
     apId: (data.apId !== null && typeof data.apId !== 'undefined')
-      ? { value: data.apId }
+      ? uINTEGER.encode(data.apId)
       : null,
     sourceId: (data.sourceId !== null && typeof data.sourceId !== 'undefined')
-      ? { value: data.sourceId }
+      ? uINTEGER.encode(data.sourceId)
       : null,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? { value: data.sequenceCount }
+      ? uINTEGER.encode(data.sequenceCount)
       : null,
     serviceType: (data.serviceType !== null && typeof data.serviceType !== 'undefined')
-      ? { value: data.serviceType }
+      ? uINTEGER.encode(data.serviceType)
       : null,
     serviceSubType: (data.serviceSubType !== null && typeof data.serviceSubType !== 'undefined')
-      ? { value: data.serviceSubType }
+      ? uINTEGER.encode(data.serviceSubType)
       : null,
-    argumentIds: _map(data.argumentIds, d => ({ value: stringToBytes(d) })),
+    argumentIds: _map(data.argumentIds, d => (iDENTIFIER.encode(d))),
     argumentValues: _map(data.argumentValues, d => (tCDetails.encode(d))),
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { value: data.rawPacket }
+      ? bLOB.encode(data.rawPacket)
       : null,
   }),
   decode: data => ({
@@ -48,30 +47,30 @@ module.exports = {
       ? { type: 'enum', value: data.tcDetailType, symbol: tCDetailType[data.tcDetailType] }
       : undefined,
     value: (data.value !== null && typeof data.value !== 'undefined')
-      ? decodeAttribute(data.value)
+      ? aTTRIBUTE.decode(data.value)
       : undefined,
     valueIsRaw: (data.valueIsRaw !== null && typeof data.valueIsRaw !== 'undefined')
-      ? { type: 'boolean', value: data.valueIsRaw.value }
+      ? bOOLEAN.decode(data.valueIsRaw)
       : undefined,
     apId: (data.apId !== null && typeof data.apId !== 'undefined')
-      ? { type: 'uinteger', value: data.apId.value }
+      ? uINTEGER.decode(data.apId)
       : undefined,
     sourceId: (data.sourceId !== null && typeof data.sourceId !== 'undefined')
-      ? { type: 'uinteger', value: data.sourceId.value }
+      ? uINTEGER.decode(data.sourceId)
       : undefined,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? { type: 'uinteger', value: data.sequenceCount.value }
+      ? uINTEGER.decode(data.sequenceCount)
       : undefined,
     serviceType: (data.serviceType !== null && typeof data.serviceType !== 'undefined')
-      ? { type: 'uinteger', value: data.serviceType.value }
+      ? uINTEGER.decode(data.serviceType)
       : undefined,
     serviceSubType: (data.serviceSubType !== null && typeof data.serviceSubType !== 'undefined')
-      ? { type: 'uinteger', value: data.serviceSubType.value }
+      ? uINTEGER.decode(data.serviceSubType)
       : undefined,
-    argumentIds: _map(data.argumentIds, d => ({ type: 'identifier', value: bytesToString(d.value) })),
+    argumentIds: _map(data.argumentIds, d => (iDENTIFIER.decode(d))),
     argumentValues: _map(data.argumentValues, d => (tCDetails.decode(d))),
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? { type: 'blob', value: data.rawPacket.value }
+      ? bLOB.decode(data.rawPacket)
       : undefined,
   }),
 };

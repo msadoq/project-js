@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/LONG.proto";
+import "./Pus013Ldt.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus013UplinkLdt {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.BOOLEAN ackTimerArmed = 1;
+  optional ccsds_mal.protobuf.LONG ackTimerDeadline = 2;
+  optional pusGroundModel.protobuf.Pus013Ldt pus013Ldt = 3;
+}

@@ -1,5 +1,8 @@
-const protobuf = require('../../../index');
-const applyOverride = require('../../applyOverride');
+const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+const Adapter = require('./sessions');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Sessions.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Sessions');
 
 const { getSession } = require('./session');
 
@@ -20,10 +23,7 @@ const getSessions = (override) => {
   }, override);
 };
 
-const getSessionsProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.Sessions',
-  getSession(override)
-);
+const getSessionsProtobuf = override => Builder.encode(Adapter.encode(getSession(override)));
 
 module.exports = {
   getSessions,

@@ -1,16 +1,15 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
+const dURATION = require('../ccsds_mal/dURATION');
 const generationMode = require('./generationMode');
 const packetType = require('./packetType');
 const parameter = require('./parameter');
-const {
-  ushortToBytes,
-  bytesToUshort,
-  uoctetToBytes,
-  bytesToUoctet,
-
-} = require('../types');
+const tIME = require('../ccsds_mal/tIME');
+const uOCTET = require('../ccsds_mal/uOCTET');
+const uSHORT = require('../ccsds_mal/uSHORT');
 
 module.exports = {
   encode: data => ({
@@ -18,37 +17,37 @@ module.exports = {
       ? data.generationMode
       : null,
     filtered: (data.filtered !== null && typeof data.filtered !== 'undefined')
-      ? { value: data.filtered }
+      ? bOOLEAN.encode(data.filtered)
       : null,
     deltaTime: (data.deltaTime !== null && typeof data.deltaTime !== 'undefined')
-      ? { value: data.deltaTime }
+      ? dURATION.encode(data.deltaTime)
       : null,
     intervalTime: (data.intervalTime !== null && typeof data.intervalTime !== 'undefined')
-      ? { value: data.intervalTime }
+      ? dURATION.encode(data.intervalTime)
       : null,
     setIntervalTime: (data.setIntervalTime !== null && typeof data.setIntervalTime !== 'undefined')
-      ? { value: data.setIntervalTime }
+      ? dURATION.encode(data.setIntervalTime)
       : null,
     onboardDate: (data.onboardDate !== null && typeof data.onboardDate !== 'undefined')
-      ? { value: data.onboardDate }
+      ? tIME.encode(data.onboardDate)
       : null,
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? { value: data.groundDate }
+      ? tIME.encode(data.groundDate)
       : null,
     packetType: (data.packetType !== null && typeof data.packetType !== 'undefined')
       ? data.packetType
       : null,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
-      ? { value: ushortToBytes(data.apid) }
+      ? uSHORT.encode(data.apid)
       : null,
     service: (data.service !== null && typeof data.service !== 'undefined')
-      ? { value: uoctetToBytes(data.service) }
+      ? uOCTET.encode(data.service)
       : null,
     subService: (data.subService !== null && typeof data.subService !== 'undefined')
-      ? { value: uoctetToBytes(data.subService) }
+      ? uOCTET.encode(data.subService)
       : null,
     destinationId: (data.destinationId !== null && typeof data.destinationId !== 'undefined')
-      ? { value: uoctetToBytes(data.destinationId) }
+      ? uOCTET.encode(data.destinationId)
       : null,
     values: _map(data.values, d => (parameter.encode(d))),
   }),
@@ -57,37 +56,37 @@ module.exports = {
       ? { type: 'enum', value: data.generationMode, symbol: generationMode[data.generationMode] }
       : undefined,
     filtered: (data.filtered !== null && typeof data.filtered !== 'undefined')
-      ? { type: 'boolean', value: data.filtered.value }
+      ? bOOLEAN.decode(data.filtered)
       : undefined,
     deltaTime: (data.deltaTime !== null && typeof data.deltaTime !== 'undefined')
-      ? { type: 'duration', value: data.deltaTime.value }
+      ? dURATION.decode(data.deltaTime)
       : undefined,
     intervalTime: (data.intervalTime !== null && typeof data.intervalTime !== 'undefined')
-      ? { type: 'duration', value: data.intervalTime.value }
+      ? dURATION.decode(data.intervalTime)
       : undefined,
     setIntervalTime: (data.setIntervalTime !== null && typeof data.setIntervalTime !== 'undefined')
-      ? { type: 'duration', value: data.setIntervalTime.value }
+      ? dURATION.decode(data.setIntervalTime)
       : undefined,
     onboardDate: (data.onboardDate !== null && typeof data.onboardDate !== 'undefined')
-      ? { type: 'time', value: data.onboardDate.value.toNumber() }
+      ? tIME.decode(data.onboardDate)
       : undefined,
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? { type: 'time', value: data.groundDate.value.toNumber() }
+      ? tIME.decode(data.groundDate)
       : undefined,
     packetType: (data.packetType !== null && typeof data.packetType !== 'undefined')
       ? { type: 'enum', value: data.packetType, symbol: packetType[data.packetType] }
       : undefined,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
-      ? { type: 'ushort', value: bytesToUshort(data.apid.value) }
+      ? uSHORT.decode(data.apid)
       : undefined,
     service: (data.service !== null && typeof data.service !== 'undefined')
-      ? { type: 'uoctet', value: bytesToUoctet(data.service.value) }
+      ? uOCTET.decode(data.service)
       : undefined,
     subService: (data.subService !== null && typeof data.subService !== 'undefined')
-      ? { type: 'uoctet', value: bytesToUoctet(data.subService.value) }
+      ? uOCTET.decode(data.subService)
       : undefined,
     destinationId: (data.destinationId !== null && typeof data.destinationId !== 'undefined')
-      ? { type: 'uoctet', value: bytesToUoctet(data.destinationId.value) }
+      ? uOCTET.decode(data.destinationId)
       : undefined,
     values: _map(data.values, d => (parameter.decode(d))),
     referenceTimestamp: (data.onboardDate !== null && typeof data.onboardDate !== 'undefined')

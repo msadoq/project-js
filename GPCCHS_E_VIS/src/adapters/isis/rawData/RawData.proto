@@ -1,0 +1,12 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "./SecurityStatus.proto";
+
+package rawData.protobuf;
+
+message RawData {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.BLOB rawData = 1;
+  optional rawData.protobuf.SecurityStatus securityStatus = 2;
+}

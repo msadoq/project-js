@@ -1,7 +1,8 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getNamedValue = require('../ccsds_mal/namedValue.stub');
 const getOpAlertClosingData = require('./opAlertClosingData.stub');
 const getOpAlertConfiguration = require('./opAlertConfiguration.stub');
@@ -9,7 +10,7 @@ const getUser = require('../ccsds_cs/user.stub');
 
 const now = _now();
 
-module.exports = override => applyOverride({
+const opAlert = {
   alertDate: now,
   target: getUser(),
   specificAttributes: getNamedValue(),
@@ -22,4 +23,6 @@ module.exports = override => applyOverride({
   status: 0,
   lastCallDate: now,
   opAlertClosingData: getOpAlertClosingData(),
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, opAlert) : opAlert);

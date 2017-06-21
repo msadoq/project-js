@@ -1,52 +1,55 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
+const dURATION = require('../ccsds_mal/dURATION');
+const iNTEGER = require('../ccsds_mal/iNTEGER');
 
 module.exports = {
   encode: data => ({
     numberCalls: (data.numberCalls !== null && typeof data.numberCalls !== 'undefined')
-      ? { value: data.numberCalls }
+      ? iNTEGER.encode(data.numberCalls)
       : null,
     alertByPHONE: (data.alertByPHONE !== null && typeof data.alertByPHONE !== 'undefined')
-      ? { value: data.alertByPHONE }
+      ? bOOLEAN.encode(data.alertByPHONE)
       : null,
     alertByAUDIO: (data.alertByAUDIO !== null && typeof data.alertByAUDIO !== 'undefined')
-      ? { value: data.alertByAUDIO }
+      ? bOOLEAN.encode(data.alertByAUDIO)
       : null,
     alertByEMAIL: (data.alertByEMAIL !== null && typeof data.alertByEMAIL !== 'undefined')
-      ? { value: data.alertByEMAIL }
+      ? bOOLEAN.encode(data.alertByEMAIL)
       : null,
     alertBySMS: (data.alertBySMS !== null && typeof data.alertBySMS !== 'undefined')
-      ? { value: data.alertBySMS }
+      ? bOOLEAN.encode(data.alertBySMS)
       : null,
     maxNumberRetries: (data.maxNumberRetries !== null && typeof data.maxNumberRetries !== 'undefined')
-      ? { value: data.maxNumberRetries }
+      ? iNTEGER.encode(data.maxNumberRetries)
       : null,
     delayRetries: (data.delayRetries !== null && typeof data.delayRetries !== 'undefined')
-      ? { value: data.delayRetries }
+      ? dURATION.encode(data.delayRetries)
       : null,
   }),
   decode: data => ({
     numberCalls: (data.numberCalls !== null && typeof data.numberCalls !== 'undefined')
-      ? { type: 'integer', value: data.numberCalls.value }
+      ? iNTEGER.decode(data.numberCalls)
       : undefined,
     alertByPHONE: (data.alertByPHONE !== null && typeof data.alertByPHONE !== 'undefined')
-      ? { type: 'boolean', value: data.alertByPHONE.value }
+      ? bOOLEAN.decode(data.alertByPHONE)
       : undefined,
     alertByAUDIO: (data.alertByAUDIO !== null && typeof data.alertByAUDIO !== 'undefined')
-      ? { type: 'boolean', value: data.alertByAUDIO.value }
+      ? bOOLEAN.decode(data.alertByAUDIO)
       : undefined,
     alertByEMAIL: (data.alertByEMAIL !== null && typeof data.alertByEMAIL !== 'undefined')
-      ? { type: 'boolean', value: data.alertByEMAIL.value }
+      ? bOOLEAN.decode(data.alertByEMAIL)
       : undefined,
     alertBySMS: (data.alertBySMS !== null && typeof data.alertBySMS !== 'undefined')
-      ? { type: 'boolean', value: data.alertBySMS.value }
+      ? bOOLEAN.decode(data.alertBySMS)
       : undefined,
     maxNumberRetries: (data.maxNumberRetries !== null && typeof data.maxNumberRetries !== 'undefined')
-      ? { type: 'integer', value: data.maxNumberRetries.value }
+      ? iNTEGER.decode(data.maxNumberRetries)
       : undefined,
     delayRetries: (data.delayRetries !== null && typeof data.delayRetries !== 'undefined')
-      ? { type: 'duration', value: data.delayRetries.value }
+      ? dURATION.decode(data.delayRetries)
       : undefined,
   }),
 };

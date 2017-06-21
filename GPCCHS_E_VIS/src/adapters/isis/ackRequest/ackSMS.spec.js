@@ -1,46 +1,25 @@
-const adapter = require('./ackSMS.js');
-const stubData = require('./ackSMS.stub.js');
-
-describe('standalone/proto', () => {
-  let buffer;
-  
-  test('encode', () => {
-    buffer = adapter.encode(stubData);
-    expect(buffer.value.constructor).toBe(Buffer);
-  });
-  test('decode', () => {
-    const decoded = adapter.decode(buffer);
-    console.log(decoded);
-    expect(decoded).toHaveProperty(SystemCreationDate.type,'time');
-    expect(decoded).toHaveProperty(SystemCreationDate.value,stubData.SystemCreationDate);
-    expect(decoded).toHaveProperty(ApplicationCreationDate.type,'time');
-    expect(decoded).toHaveProperty(ApplicationCreationDate.value,stubData.ApplicationCreationDate);
-  });
-});
+// Produced by Acceleo JavaScript Generator 1.1.2
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+require('../../../utils/test');
+const { encodeRaw, decodeRaw } = require('./ackSMS');
+const { getAckSMS } = require('../stubs');
 
 
 
-
-/*
-require('../../../../utils/test');
-const stubData = require('../../../stubs/index');
-
-const protobuf = require('../../../index');
-
-
-describe('protobuf/lpisis/ackRequest/AckSMS', () => {
-  const fixture = stubData.getAckSMS();
+describe('protobuf/isis/ackRequest/AckSMS', () => {
+  const fixture = getAckSMS();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('lpisis.ackRequest.AckSMS', fixture);
+    buffer = encodeRaw(fixture);
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('lpisis.ackRequest.AckSMS', buffer);
+    const json = decodeRaw(buffer);
     json.should.be.an('object').that.have.properties({
-      SystemCreationDate: { type: 'time', value: fixture.SystemCreationDate },
-      ApplicationCreationDate: { type: 'time', value: fixture.ApplicationCreationDate },
+      systemCreationDate: { type: 'time', value: fixture.systemCreationDate },
+      applicationCreationDate: { type: 'time', value: fixture.applicationCreationDate },
     });
+    
   });
 });
-*/

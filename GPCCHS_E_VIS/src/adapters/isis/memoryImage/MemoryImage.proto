@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./BinaryData.proto";
+import "./MAP.proto";
+
+
+package memoryImage.protobuf;
+
+message MemoryImage {
+extensions 3 to 103;
+
+  optional memoryImage.protobuf.MAP map = 1;
+  repeated memoryImage.protobuf.BinaryData binaryData = 2;
+}

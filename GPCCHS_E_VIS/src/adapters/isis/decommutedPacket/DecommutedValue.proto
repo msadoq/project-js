@@ -1,0 +1,16 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/IDENTIFIER.proto";
+import "../ccsds_mc/ValidityState.proto";
+
+package decommutedPacket.protobuf;
+
+message DecommutedValue {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.IDENTIFIER name = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE extractedValue = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE rawValue = 3;
+  optional ccsds_mal.protobuf.ATTRIBUTE convertedValue = 4;
+  optional ccsds_mc.protobuf.ValidityState validityState = 5;
+}

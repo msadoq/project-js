@@ -1,6 +1,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-import "../ccsds_mal/types.proto";
-
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/FINETIME.proto";
+import "../ccsds_mal/STRING.proto";
 
 
 package operationParameter.protobuf;

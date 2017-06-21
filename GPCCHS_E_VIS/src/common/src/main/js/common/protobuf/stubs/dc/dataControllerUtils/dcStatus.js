@@ -1,4 +1,7 @@
-const protobuf = require('../../../index');
+const ProtoBuf = require('protobufjs');
+const Adapter = require('./dcStatus');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/DcStatus.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.DcStatus');
 
 const DC_EMPTY_QUEUE = 0;
 const DC_QUEUE_MAX_SIZE = 1000;
@@ -27,20 +30,9 @@ const getDeadTbdStatus = () => ({
   avrgTimeMsGetLast: 5000,
 });
 
-const getHealthyDcStatusProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.DcStatus',
-  getHealthyDcStatus()
-);
-
-const getCongestionDcStatusProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.DcStatus',
-  getCongestionDcStatus()
-);
-
-const getDeadTbdStatusProtobuf = () => protobuf.encode(
-  'dc.dataControllerUtils.DcStatus',
-  getDeadTbdStatus()
-);
+const getHealthyDcStatusProtobuf = () => Builder.encode(Adapter.encode(getHealthyDcStatus()));
+const getCongestionDcStatusProtobuf = () => Builder.encode(Adapter.encode(getCongestionDcStatus()));
+const getDeadTbdStatusProtobuf = () => Builder.encode(Adapter.encode(getDeadTbdStatus()));
 module.exports = {
   getHealthyDcStatus,
   getHealthyDcStatusProtobuf,

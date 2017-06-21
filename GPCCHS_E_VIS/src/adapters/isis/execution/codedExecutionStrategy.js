@@ -1,26 +1,22 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ByteBuffer = require('bytebuffer');
+const uOCTET = require('../ccsds_mal/uOCTET');
 
 const CODE_SIZE = 1;
 const CODE_OFFSET = 0;
 
 module.exports = {
-  encode: (data) => {
-    const codedExecutionStrategy = new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
-    codedExecutionStrategy.writeUint8(data.code, CODE_OFFSET);
-    return { value: codedExecutionStrategy.buffer };
+  encodeRaw: (data, buffer, offset = 0) => {
+    const codedExecutionStrategy = buffer || new ByteBuffer(null, ByteBuffer.LITTLE_ENDIAN);
+    uOCTET.encodeRaw(data.code, codedExecutionStrategy, CODE_OFFSET + offset, CODE_SIZE);
+    return codedExecutionStrategy.buffer;
   },
-  decode: data => ({
-    type: 'raw',
-    value: data.value,
-    fields: [
-      {
-        type: 'uoctet',
-        name: 'code',
-        size: CODE_SIZE,
-        offset: CODE_OFFSET,
-      },
-    ],
-  }),
+  decodeRaw: (data, buffer, offset = 0) => {
+    const codedExecutionStrategy = {};
+    const bufferedData = buffer || ByteBuffer.wrap(data, ByteBuffer.LITTLE_ENDIAN);
+    codedExecutionStrategy.code = uOCTET.decodeRaw(null, bufferedData, CODE_OFFSET + offset, CODE_SIZE);
+    return codedExecutionStrategy;
+  },
 };

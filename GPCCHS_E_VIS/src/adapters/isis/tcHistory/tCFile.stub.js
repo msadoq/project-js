@@ -1,25 +1,27 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 const getPusHeader = require('./pusHeader.stub');
-const getTC13 = require('./tC13.stub');
 
 const now = _now();
 
-module.exports = override => applyOverride({
+const tCFile = {
   encodingDate: now,
-  fileReference: 'mySTRING',
   pusHeader: getPusHeader(),
-  rawPacket: Buffer.alloc(10, 1),
+  fileReference: 'mySTRING',
   partition: 'mySTRING',
-  tc13: [getTC13(), getTC13()],
+  rawPacket: Buffer.alloc(4, 1),
   tcId: -100,
+  tc13: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
   generatedProcedure: 'mySTRING',
   tcSourceId: 100,
-  fileUri: 'mySTRING',
   sequenceCount: 1000,
-  parameterPhysicalValue: ['mySTRING', 'mySTRING'],
+  fileUri: 'mySTRING',
   fileType: 'mySTRING',
+  parameterPhysicalValue: ['mySTRING', 'mySTRING'],
   fileChecksum: 1000,
-}, override);
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, tCFile) : tCFile);

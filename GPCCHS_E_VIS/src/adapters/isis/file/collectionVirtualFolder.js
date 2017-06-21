@@ -1,22 +1,24 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const lONG = require('../ccsds_mal/lONG');
+const sTRING = require('../ccsds_mal/sTRING');
 
 module.exports = {
   encode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { value: data.name }
+      ? sTRING.encode(data.name)
       : null,
     uid: (data.uid !== null && typeof data.uid !== 'undefined')
-      ? { value: data.uid }
+      ? lONG.encode(data.uid)
       : null,
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { type: 'string', value: data.name.value }
+      ? sTRING.decode(data.name)
       : undefined,
     uid: (data.uid !== null && typeof data.uid !== 'undefined')
-      ? { type: 'long', symbol: data.uid.value.toString() }
+      ? lONG.decode(data.uid)
       : undefined,
   }),
 };

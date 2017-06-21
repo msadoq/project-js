@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "../../isis/ccsds_mal/types.proto";
+import "../ccsds_mal/ATTRIBUTE.proto";
 
 message Filter {
 extensions 4 to 104;

@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus144OnboardFiles.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus144Model {
+extensions 7 to 107;
+
+  repeated pusGroundModel.protobuf.Pus144OnboardFiles pus144OnboardFiles = 1;
+  optional ccsds_mal.protobuf.TIME groundDate = 2;
+  optional ccsds_mal.protobuf.UINTEGER apid = 3;
+  optional ccsds_mal.protobuf.UINTEGER noOfOnBoardFiles = 4;
+  optional pusGroundModel.protobuf.PusElement pusElement = 5;
+  optional ccsds_mal.protobuf.UINTEGER status = 6;
+}

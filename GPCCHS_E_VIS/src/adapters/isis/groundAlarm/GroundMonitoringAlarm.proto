@@ -1,0 +1,21 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/LONG.proto";
+import "../ccsds_mal/TIME.proto";
+import "./Transition.proto";
+
+
+package groundAlarm.protobuf;
+
+message GroundMonitoringAlarm {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.TIME creationDate = 1;
+  optional ccsds_mal.protobuf.LONG paramUid = 2;
+  optional ccsds_mal.protobuf.TIME updateDate = 3;
+  optional ccsds_mal.protobuf.TIME closingDate = 4;
+  optional ccsds_mal.protobuf.BOOLEAN hasAckRequest = 5;
+  optional ccsds_mal.protobuf.LONG alarmId = 6;
+  repeated groundAlarm.protobuf.Transition transitions = 7;
+  optional ccsds_mal.protobuf.BOOLEAN isNominal = 8;
+}

@@ -1,38 +1,35 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
 const namedValue = require('../ccsds_mal/namedValue');
-const {
-  encodeAttribute,
-  decodeAttribute,
-  ushortToBytes,
-  bytesToUshort,
-
-} = require('../types');
+const sTRING = require('../ccsds_mal/sTRING');
+const uSHORT = require('../ccsds_mal/uSHORT');
 
 module.exports = {
   encode: data => ({
     externalVersion: (data.externalVersion !== null && typeof data.externalVersion !== 'undefined')
-      ? { value: data.externalVersion }
+      ? sTRING.encode(data.externalVersion)
       : null,
     internalVersion: (data.internalVersion !== null && typeof data.internalVersion !== 'undefined')
-      ? { value: ushortToBytes(data.internalVersion) }
+      ? uSHORT.encode(data.internalVersion)
       : null,
     properties: _map(data.properties, d => (namedValue.encode(d))),
     content: (data.content !== null && typeof data.content !== 'undefined')
-      ? encodeAttribute(data.content)
+      ? aTTRIBUTE.encode(data.content)
       : null,
   }),
   decode: data => ({
     externalVersion: (data.externalVersion !== null && typeof data.externalVersion !== 'undefined')
-      ? { type: 'string', value: data.externalVersion.value }
+      ? sTRING.decode(data.externalVersion)
       : undefined,
     internalVersion: (data.internalVersion !== null && typeof data.internalVersion !== 'undefined')
-      ? { type: 'ushort', value: bytesToUshort(data.internalVersion.value) }
+      ? uSHORT.decode(data.internalVersion)
       : undefined,
     properties: _map(data.properties, d => (namedValue.decode(d))),
     content: (data.content !== null && typeof data.content !== 'undefined')
-      ? decodeAttribute(data.content)
+      ? aTTRIBUTE.decode(data.content)
       : undefined,
   }),
 };

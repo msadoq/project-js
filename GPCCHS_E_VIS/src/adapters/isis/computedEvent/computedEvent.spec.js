@@ -1,40 +1,51 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
-const { decodeRaw } = require('../types');
+const adapter = require('./computedEvent');
+const { getComputedEvent } = require('../stubs');
 
 const eventClass = require('./eventClass');
 
 describe('protobuf/isis/computedEvent/ComputedEvent', () => {
-  const fixture = stubData.getComputedEvent();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/ComputedEvent.proto`, { keepCase: true })
+    .lookup('computedEvent.protobuf.ComputedEvent');
+  const fixture = getComputedEvent();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.computedEvent.ComputedEvent', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.computedEvent.ComputedEvent', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       eventDate: { type: 'time', value: fixture.eventDate },
-      eventClass: { type: 'enum', value: fixture.eventClass, symbol: eventClass[fixture.eventClass] },
       systemDate: { type: 'time', value: fixture.systemDate },
-      mission: { type: 'string', value: fixture.mission },
+      eventClass: { type: 'enum', value: fixture.eventClass, symbol: eventClass[fixture.eventClass] },
       origin: { type: 'string', value: fixture.origin },
+      mission: { type: 'string', value: fixture.mission },
       satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
-    });
-    decodeRaw(json.producer).should.be.an('object').that.have.properties({
-      slotID: { type: 'ushort', value: fixture.producer.slotID },
-      factoryID: { type: 'ushort', value: fixture.producer.factoryID },
-      providerName: { type: 'string', value: fixture.producer.providerName },
-      network: { type: 'uoctet', value: fixture.producer.network },
-      session: { type: 'ulong', symbol: `${fixture.producer.session}` },
-      serviceProperties: { type: 'uinteger', value: fixture.producer.serviceProperties },
-      providerProperties: { type: 'string', value: fixture.producer.providerProperties },
-      providerTime: { type: 'time', value: fixture.producer.providerTime },
+      producer: {
+        slotID: { type: 'ushort', value: fixture.producer.slotID },
+        factoryID: { type: 'ushort', value: fixture.producer.factoryID },
+        providerName: { type: 'string', value: fixture.producer.providerName },
+        network: { type: 'uoctet', value: fixture.producer.network },
+        session: { type: 'ulong', symbol: `${fixture.producer.session}` },
+        serviceProperties: { type: 'uinteger', value: fixture.producer.serviceProperties },
+        serviceAddress: {
+          supportedCapabilities: { type: 'uinteger', value: fixture.producer.serviceAddress.supportedCapabilities },
+          supportedLevels: { type: 'uinteger', value: fixture.producer.serviceAddress.supportedLevels },
+          qoSproperties: { type: 'uinteger', value: fixture.producer.serviceAddress.qoSproperties },
+          priorityLevels: { type: 'uinteger', value: fixture.producer.serviceAddress.priorityLevels },
+          serviceURI: { type: 'uri', value: fixture.producer.serviceAddress.serviceURI },
+          dataURI: { type: 'uri', value: fixture.producer.serviceAddress.dataURI },
+          dataName: { type: 'string', value: fixture.producer.serviceAddress.dataName },
+        },
+        providerProperties: { type: 'string', value: fixture.producer.providerProperties },
+        providerTime: { type: 'time', value: fixture.producer.providerTime },
+      },
     });
     
     json.specificAttributes.should.be.an('array').that.have.lengthOf(fixture.specificAttributes.length);
@@ -47,4 +58,3 @@ describe('protobuf/isis/computedEvent/ComputedEvent', () => {
     }
   });
 });
-

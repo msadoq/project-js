@@ -1,0 +1,42 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package ccsds_mal.protobuf;
+
+import "./BLOB.proto";
+import "./BOOLEAN.proto";
+import "./DURATION.proto";
+import "./FLOAT.proto";
+import "./DOUBLE.proto";
+import "./IDENTIFIER.proto";
+import "./OCTET.proto";
+import "./UOCTET.proto";
+import "./SHORT.proto";
+import "./USHORT.proto";
+import "./INTEGER.proto";
+import "./UINTEGER.proto";
+import "./LONG.proto";
+import "./ULONG.proto";
+import "./STRING.proto";
+import "./TIME.proto";
+import "./FINETIME.proto";
+import "./URI.proto";
+
+message ATTRIBUTE {
+    optional BLOB _blob             = 1;
+    optional BOOLEAN _boolean       = 2;
+    optional DURATION _duration     = 3;
+    optional FLOAT _float           = 4;
+    optional DOUBLE _double         = 5;
+    optional IDENTIFIER _identifier = 6;
+    optional OCTET _octet           = 7;
+    optional UOCTET _uoctet         = 8;
+    optional SHORT _short           = 9;
+    optional USHORT _ushort         = 10;
+    optional INTEGER _integer       = 11;
+    optional UINTEGER _uinteger     = 12;
+    optional LONG _long             = 13;
+    optional ULONG _ulong           = 14;
+    optional STRING _string         = 15;
+    optional TIME _time             = 16;
+    optional FINETIME _finetime     = 17;
+    optional URI _uri               = 18;
+}

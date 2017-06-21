@@ -1,43 +1,49 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
-const { decodeRaw } = require('../types');
+const adapter = require('./collection');
+const { getCollection } = require('../stubs');
 
 
 
 describe('protobuf/isis/file/Collection', () => {
-  const fixture = stubData.getCollection();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/Collection.proto`, { keepCase: true })
+    .lookup('file.protobuf.Collection');
+  const fixture = getCollection();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.file.Collection', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.file.Collection', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       collectionName: { type: 'string', value: fixture.collectionName },
       collectionDirname: { type: 'uri', value: fixture.collectionDirname },
       virtualName: { type: 'string', value: fixture.virtualName },
       isVirtualFolder: { type: 'boolean', value: fixture.isVirtualFolder },
-      collectionRefForVf: (typeof fixture.collectionRefForVf === 'undefined') 
-        ? null 
+      collectionRefForVf: (typeof fixture.collectionRefForVf === 'undefined')
+        ? null
         : { type: 'long', symbol: `${fixture.collectionRefForVf}` },
-    });
-    decodeRaw(json.user).should.be.an('object').that.have.properties({
-      login: { type: 'string', value: fixture.user.login },
-      password: { type: 'string', value: fixture.user.password },
-      profile: { type: 'string', value: fixture.user.profile },
-      userTime: { type: 'time', value: fixture.user.userTime },
-    });
-    decodeRaw(json.lockedBy).should.be.an('object').that.have.properties({
-      login: { type: 'string', value: fixture.lockedBy.login },
-      password: { type: 'string', value: fixture.lockedBy.password },
-      profile: { type: 'string', value: fixture.lockedBy.profile },
-      userTime: { type: 'time', value: fixture.lockedBy.userTime },
+      user: (typeof fixture.user === 'undefined')
+        ? null
+        : {
+          login: { type: 'string', value: fixture.user.login },
+          password: { type: 'string', value: fixture.user.password },
+          profile: { type: 'string', value: fixture.user.profile },
+          userTime: { type: 'time', value: fixture.user.userTime },
+        },
+      lockedBy: (typeof fixture.lockedBy === 'undefined')
+        ? null
+        : {
+          login: { type: 'string', value: fixture.lockedBy.login },
+          password: { type: 'string', value: fixture.lockedBy.password },
+          profile: { type: 'string', value: fixture.lockedBy.profile },
+          userTime: { type: 'time', value: fixture.lockedBy.userTime },
+        },
     });
     
     json.documents.should.be.an('array').that.have.lengthOf(fixture.documents.length);
@@ -64,6 +70,12 @@ describe('protobuf/isis/file/Collection', () => {
         read: { type: 'boolean', value: fixture.profilesAccess[i].read },
         changeAccessRight: { type: 'boolean', value: fixture.profilesAccess[i].changeAccessRight },
         write: { type: 'boolean', value: fixture.profilesAccess[i].write },
+        profile: {
+          login: { type: 'string', value: fixture.profilesAccess[i].profile.login },
+          password: { type: 'string', value: fixture.profilesAccess[i].profile.password },
+          profile: { type: 'string', value: fixture.profilesAccess[i].profile.profile },
+          userTime: { type: 'time', value: fixture.profilesAccess[i].profile.userTime },
+        },
       });
       
     }
@@ -73,9 +85,14 @@ describe('protobuf/isis/file/Collection', () => {
         read: { type: 'boolean', value: fixture.usersAccess[i].read },
         changeAccessRight: { type: 'boolean', value: fixture.usersAccess[i].changeAccessRight },
         write: { type: 'boolean', value: fixture.usersAccess[i].write },
+        user: {
+          login: { type: 'string', value: fixture.usersAccess[i].user.login },
+          password: { type: 'string', value: fixture.usersAccess[i].user.password },
+          profile: { type: 'string', value: fixture.usersAccess[i].user.profile },
+          userTime: { type: 'time', value: fixture.usersAccess[i].user.userTime },
+        },
       });
       
     }
   });
 });
-

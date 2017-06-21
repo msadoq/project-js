@@ -1,10 +1,11 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _random = require('lodash/random');
-const applyOverride = require('../applyOverride');
+const _defaultsDeep = require('lodash/defaultsDeep');
 
 
-module.exports = override => applyOverride({
+const tCDetails = {
   tcDetailType: 0,
   value: _random(1, 100, true),
   valueIsRaw: true,
@@ -15,5 +16,7 @@ module.exports = override => applyOverride({
   serviceSubType: 100,
   argumentIds: ['myIDENTIFIER', 'myIDENTIFIER'],
   argumentValues: [],
-  rawPacket: Buffer.alloc(10, 1),
-}, override);
+  rawPacket: Buffer.alloc(4, 1),
+};
+
+module.exports = override => (override ? _defaultsDeep({}, override, tCDetails) : tCDetails);

@@ -1,25 +1,27 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
-const { decodeRaw } = require('../types');
+const adapter = require('./isisAggregation');
+const { getIsisAggregation } = require('../stubs');
 
 const generationMode = require('./generationMode');
 const packetType = require('./packetType');
 const validityState = require('../ccsds_mc/validityState');
 
 describe('protobuf/isis/ccsds_mc_aggregation/IsisAggregation', () => {
-  const fixture = stubData.getIsisAggregation();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/IsisAggregation.proto`, { keepCase: true })
+    .lookup('ccsds_mc_aggregation.protobuf.IsisAggregation');
+  const fixture = getIsisAggregation();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.ccsds_mc_aggregation.IsisAggregation', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.ccsds_mc_aggregation.IsisAggregation', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       generationMode: { type: 'enum', value: fixture.generationMode, symbol: generationMode[fixture.generationMode] },
       filtered: { type: 'boolean', value: fixture.filtered },
@@ -38,6 +40,18 @@ describe('protobuf/isis/ccsds_mc_aggregation/IsisAggregation', () => {
     json.values.should.be.an('array').that.have.lengthOf(fixture.values.length);
     for (let i = 0; i < fixture.values.length; i += 1) {
       json.values[i].should.be.an('object').that.have.properties({
+        definition: {
+          objectType: {
+            area: { type: 'ushort', value: fixture.values[i].definition.objectType.area },
+            service: { type: 'ushort', value: fixture.values[i].definition.objectType.service },
+            version: { type: 'uoctet', value: fixture.values[i].definition.objectType.version },
+            number: { type: 'ushort', value: fixture.values[i].definition.objectType.number },
+          },
+          objectKey: {
+            domaineId: { type: 'ushort', value: fixture.values[i].definition.objectKey.domaineId },
+            uid: { type: 'long', symbol: `${fixture.values[i].definition.objectKey.uid}` },
+          },
+        },
         extractedValue: { type: 'double', symbol: fixture.values[i].extractedValue.toString() },
         rawValue: { type: 'double', symbol: fixture.values[i].rawValue.toString() },
         convertedValue: { type: 'double', symbol: fixture.values[i].convertedValue.toString() },
@@ -49,4 +63,3 @@ describe('protobuf/isis/ccsds_mc_aggregation/IsisAggregation', () => {
     }
   });
 });
-

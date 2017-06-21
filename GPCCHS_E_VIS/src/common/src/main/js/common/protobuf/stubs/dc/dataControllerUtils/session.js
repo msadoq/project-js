@@ -1,4 +1,4 @@
-const applyOverride = require('../../applyOverride');
+const applyOverride = require('../applyOverride');
 
 const { getTimestamp } = require('./timestamp');
 

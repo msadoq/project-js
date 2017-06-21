@@ -1,22 +1,25 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const ProtoBuf = require('protobufjs');
 require('../../../utils/test');
-const stubData = require('../stubs');
-
-const protobuf = require('../../../protobuf');
-
+const adapter = require('./execution');
+const { getExecution } = require('../stubs');
 
 
 
 describe('protobuf/isis/execution/Execution', () => {
-  const fixture = stubData.getExecution();
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/Execution.proto`, { keepCase: true })
+    .lookup('execution.protobuf.Execution');
+  const fixture = getExecution();
   let buffer;
   it('encode', () => {
-    buffer = protobuf.encode('isis.execution.Execution', fixture);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     buffer.constructor.should.equal(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('isis.execution.Execution', buffer);
+    const json = adapter.decode(builder.decode(buffer));
     json.should.be.an('object').that.have.properties({
       launchingTime: { type: 'time', value: fixture.launchingTime },
     });
@@ -31,4 +34,3 @@ describe('protobuf/isis/execution/Execution', () => {
     }
   });
 });
-

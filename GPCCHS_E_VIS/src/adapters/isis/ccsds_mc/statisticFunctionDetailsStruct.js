@@ -1,33 +1,31 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-/* eslint-disable max-len, "DV6 TBC_CNES generated file" */
-
-const {
-  stringToBytes,
-  bytesToString,
-
-} = require('../types');
+/* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const iDENTIFIER = require('../ccsds_mal/iDENTIFIER');
+const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 
 module.exports = {
   encode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { value: stringToBytes(data.name) }
+      ? iDENTIFIER.encode(data.name)
       : null,
     description: (data.description !== null && typeof data.description !== 'undefined')
-      ? { value: data.description }
+      ? sTRING.encode(data.description)
       : null,
     timestamp: (data.timestamp !== null && typeof data.timestamp !== 'undefined')
-      ? { value: data.timestamp }
+      ? tIME.encode(data.timestamp)
       : null,
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { type: 'identifier', value: bytesToString(data.name.value) }
+      ? iDENTIFIER.decode(data.name)
       : undefined,
     description: (data.description !== null && typeof data.description !== 'undefined')
-      ? { type: 'string', value: data.description.value }
+      ? sTRING.decode(data.description)
       : undefined,
     timestamp: (data.timestamp !== null && typeof data.timestamp !== 'undefined')
-      ? { type: 'time', value: data.timestamp.value.toNumber() }
+      ? tIME.decode(data.timestamp)
       : undefined,
   }),
 };

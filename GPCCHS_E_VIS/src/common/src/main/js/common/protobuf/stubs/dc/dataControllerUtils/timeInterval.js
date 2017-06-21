@@ -1,7 +1,11 @@
 const _now = require('lodash/now');
 
-const protobuf = require('../../../index');
-const applyOverride = require('../../applyOverride');
+const ProtoBuf = require('protobufjs');
+const applyOverride = require('../applyOverride');
+const Adapter = require('./timeInterval');
+
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/TimeInterval.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.TimeInterval');
+
 
 const { getTimestamp } = require('./timestamp');
 
@@ -12,10 +16,7 @@ const getTimeInterval = override => applyOverride({
   endTime: getTimestamp(),
 }, override);
 
-const getTimeIntervalProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.TimeInterval',
-  getTimeInterval(override)
-);
+const getTimeIntervalProtobuf = override => Builder.encode(Adapter.encode(getTimeInterval(override)));
 
 module.exports = {
   getTimeInterval,

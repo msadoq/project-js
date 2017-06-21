@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package connection.protobuf;
+
+enum SynthesisState {
+  SynthesisState_Closed = 0;
+  SynthesisState_ReadyToConnect = 2;
+  SynthesisState_InProgress = 1;
+  SynthesisState_Connected = 8;
+  SynthesisState_ExchangingData = 12;
+  SynthesisState_Error = 16;
+}

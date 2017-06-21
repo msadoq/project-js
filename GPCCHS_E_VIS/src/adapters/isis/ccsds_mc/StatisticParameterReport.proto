@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "./StatisticFunctionValue.proto";
+
+
+package ccsds_mc.protobuf;
+
+message StatisticParameterReport {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.BLOB parameterId = 1;
+  repeated ccsds_mc.protobuf.StatisticFunctionValue values = 2;
+  optional ccsds_mal.protobuf.BLOB parameterType = 3;
+}

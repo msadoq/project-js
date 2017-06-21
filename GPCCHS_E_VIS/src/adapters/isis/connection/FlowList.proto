@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./FlowElmt.proto";
+
+
+package connection.protobuf;
+
+message FlowList {
+extensions 2 to 102;
+
+  repeated connection.protobuf.FlowElmt flowElmts = 1;
+}

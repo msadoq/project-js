@@ -3,8 +3,6 @@ import getLogger from '../../common/logManager';
 import parameters from '../../common/configurationManager';
 import { getStore } from '../store';
 import { closeHtmlEditor } from '../../store/actions/editor';
-import { getEditorTextViewId } from '../../store/reducers/editor';
-import { getEditorWindowTitle } from './selectors';
 import getCenteredPosition from './common/getCenteredPosition';
 import getHtmlPath from './getHtmlPath';
 
@@ -15,7 +13,7 @@ const DEFAULT_HEIGHT = 768;
 
 let win;
 
-function isExists() {
+export function isExists() {
   return win && !win.isDestroyed();
 }
 
@@ -58,21 +56,8 @@ export function close() {
   win = null; // trigger garbage collection
 }
 
-export function observer(callback) {
-  const state = getStore().getState();
-  const editedViewId = getEditorTextViewId(state);
-  const title = getEditorWindowTitle(state, { viewId: editedViewId });
-
+export function setTitle(title) {
   if (isExists() && title !== win.getTitle()) {
     win.setTitle(title);
-  }
-
-  if (editedViewId !== null && !isExists()) {
-    open(callback);
-  } else if (editedViewId === null && isExists()) {
-    close();
-    callback(null);
-  } else {
-    callback(null);
   }
 }

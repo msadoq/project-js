@@ -25,6 +25,7 @@ export default function hsc(state = initialState, action) {
     case types.HSC_PAUSE:
       return Object.assign({}, state, { playingTimebarId: null });
     case types.HSC_SET_WINDOWS_AS_OPENED:
+    case types.WS_WINDOW_SET_IS_LOADED:
       return Object.assign({}, state, { windowsOpened: true });
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:
       return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });

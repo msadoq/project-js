@@ -28,7 +28,6 @@ import {
 } from '../store/reducers/hsc';
 import { getHealthMap, getMainStatus } from '../store/reducers/health';
 import {
-  setWindowsAsOpened,
   updateCacheInvalidation,
   pause,
   updateForecast,
@@ -36,7 +35,6 @@ import {
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import displayQueries from '../dataManager/displayQueries';
-import windowsObserver from './windowsManager';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
@@ -336,26 +334,6 @@ export function tick() {
         previous.injectionIntervals = dataMap.expectedIntervals;
         previous.injectionRemoteIdMap = dataMap.perRemoteId;
         previous.injectionViewMap = dataMap.perView;
-        callback(null);
-      });
-    },
-    // sync windows
-    (callback) => {
-      execution.start('windows handling');
-      windowsObserver((err) => {
-        if (err) {
-          execution.stop('windows handling');
-          callback(err);
-          return;
-        }
-
-        // only one time to avoid recursion
-        if (isWindowsOpened === false) {
-          dispatch(setWindowsAsOpened());
-        }
-
-        logger.debug('windows synchronized');
-        execution.stop('windows handling');
         callback(null);
       });
     },

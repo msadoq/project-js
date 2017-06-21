@@ -2,7 +2,6 @@ import { BrowserWindow } from 'electron';
 import getLogger from '../../common/logManager';
 import parameters from '../../common/configurationManager';
 import getCenteredPosition from './common/getCenteredPosition';
-import { showSplashScreen } from './windows';
 
 const logger = getLogger('main:windowsManager:splashScreen');
 
@@ -71,14 +70,4 @@ export function setMessage(message = '') {
   if (isExists()) {
     win.webContents.send('splash', message);
   }
-}
-
-export function observer(callback) {
-  if (showSplashScreen()) {
-    show();
-  } else {
-    hide();
-  }
-
-  callback(null);
 }

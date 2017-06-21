@@ -25,6 +25,7 @@ import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
+import makeWindowsObserver from './windowsManager/observer';
 
 const logger = getLogger('main:index');
 
@@ -94,7 +95,9 @@ export function onStart() {
         logger.info('loading application state...');
 
         // init Redux store in main process
-        makeCreateStore('main', get('DEBUG') === 'on')(initialState);
+        const store = makeCreateStore('main', get('DEBUG') === 'on')(initialState);
+        store.subscribe(makeWindowsObserver(store));
+
         callback(null);
       };
 

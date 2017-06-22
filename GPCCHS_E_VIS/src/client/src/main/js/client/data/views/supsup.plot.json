@@ -207,6 +207,7 @@
     },
     "location": "top"
   },
+  "showLegend": false,
   "markers": [
     {
       "kind": "Text",

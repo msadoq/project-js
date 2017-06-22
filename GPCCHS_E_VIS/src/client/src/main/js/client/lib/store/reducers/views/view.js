@@ -50,6 +50,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_ADD_ENTRYPOINT,
     types.WS_VIEW_UPDATE_DOMAINNAME,
     types.WS_VIEW_UPDATE_SESSIONNAME,
+    types.WS_VIEW_TOGGLE_LEGEND,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     return setIsModified(true, stateView);

@@ -1,10 +1,13 @@
-const { getRemoteId, registerProtobuf } = require('../../common/jest');
+const { getRemoteId, mockRegister, mockLoadStubs } = require('../../common/jest');
 
-registerProtobuf();
+mockLoadStubs();
+mockRegister();
 
 const { resetQueryId, createQueryMessage } = require('./queries');
 const globalConstants = require('../../constants');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../utils/stubs');
+
+const dataStub = getStubData();
 
 const {
   clear: cleanRegisteredCallbacks,

@@ -1,6 +1,7 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const { getRemoteId } = require('../../../common/jest');
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
@@ -10,12 +11,15 @@ const {
   getAllTimebasedDataModelRemoteIds,
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData, loadStubs } = require('../../../utils/stubs');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
 const {
   get: getLastPubSubTimestamp,
   reset: resetLastPubSubTimestamp,
 } = require('../../models/lastPubSubTimestamp');
+
+loadStubs();
+const dataStub = getStubData();
 
 /* onTimebasedPubSubData Test
  *

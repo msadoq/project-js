@@ -1,8 +1,9 @@
 
 const { decode } = require('../../../utils/adapters');
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const _concat = require('lodash/concat');
 

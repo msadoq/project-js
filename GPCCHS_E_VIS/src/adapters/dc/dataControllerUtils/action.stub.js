@@ -1,7 +1,7 @@
 const ProtoBuf = require('protobufjs');
 const Adapter = require('./action');
 const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/Action.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Action');
-console.log(Builder);
+
 const SUBSCRIPTIONACTION_ADD = 0;
 const SUBSCRIPTIONACTION_DELETE = 1;
 

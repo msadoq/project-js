@@ -1,10 +1,12 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const onSessionsData = require('./onSessionsData');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../../utils/stubs');
 
+const dataStub = getStubData();
 describe('controllers/utils/onSessionData', () => {
   test('should returns sessions data', (done) => {
     const myQueryId = 'myQueryId';

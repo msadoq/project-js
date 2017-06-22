@@ -2,19 +2,28 @@ import { tmpdir } from 'os';
 import _ from 'lodash';
 import { resolve } from 'path';
 import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
-import { getDataId } from 'common/protobuf/stubs';
 import deepFreeze from 'deep-freeze';
+import configureMockStore from 'redux-mock-store';
+import { loadStubs, getStubData } from '../../utils/stubs';
 import flattenDataId from '../flattenDataId';
+import { registerGlobal } from '../../utils/adapters';
 
-const registerDc = require('common/protobuf/adapters/dc');
-const registerLpisis = require('common/protobuf/adapters/lpisis');
+const mockedAdaptersPath = [
+  {
+    path: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/',
+    ns: 'isis',
+  },
+  {
+    path: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/',
+    ns: 'dc',
+  },
+];
 
-const registerProtobuf = () => {
-  registerDc(resolve(__dirname, '../../..', 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-  registerLpisis(resolve(__dirname, '../../..', 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
-};
+const mockLoadStubs = () => loadStubs(mockedAdaptersPath);
+const mockRegister = () => registerGlobal(mockedAdaptersPath);
 
+
+const dataStub = getStubData();
 const mockStore = configureMockStore([thunk]);
 
 const freezeMe = o => o && deepFreeze(o);
@@ -38,7 +47,7 @@ const testMemoization = (selector, state, ownProps) => {
   expect(result1).toEqual(result2);
 };
 
-const getRemoteId = override => flattenDataId(getDataId(override));
+const getRemoteId = override => flattenDataId(dataStub.getDataId(override));
 
 const mockIpcReply = () => {
   //
@@ -50,7 +59,8 @@ module.exports = {
   freezeMe, // reducers testing
   freezeArgs, // reducers testing
   testMemoization, // reselect testing
-  registerProtobuf, // protobuf testing
+  mockRegister, // protobuf testing
+  mockLoadStubs,
   getTmpPath: (...args) => resolve(tmpdir(), 'vima-tests', ...args), // documentManager testing
   getRemoteId,
 };

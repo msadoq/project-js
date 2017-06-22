@@ -7,7 +7,7 @@ const Adapter = require('./timeInterval');
 const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/TimeInterval.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.TimeInterval');
 
 
-const { getTimestamp } = require('./timestamp');
+const { getTimestamp } = require('./timestamp.stub');
 
 const now = _now();
 

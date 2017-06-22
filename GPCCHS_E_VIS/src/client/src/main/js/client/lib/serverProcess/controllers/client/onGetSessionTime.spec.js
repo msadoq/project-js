@@ -1,11 +1,12 @@
-const { registerProtobuf } = require('../../../common/jest');
-
-registerProtobuf();
-
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 const _concat = require('lodash/concat');
 const { decode } = require('../../../utils/adapters');
 const globalConstants = require('../../../constants');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../../utils/stubs');
+
+mockRegister();
+mockLoadStubs();
+const dataStub = getStubData();
 
 const onGetSessionTime = require('./onGetSessionTime');
 

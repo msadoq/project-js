@@ -1,10 +1,13 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../../utils/stubs');
 const protobuf = require('../../../utils/adapters');
 const onSessionMasterData = require('./onSessionMasterData');
+
+const dataStub = getStubData();
 
 describe('controllers/client/onSessionMasterData', () => {
   test('should returns master session data', (done) => {

@@ -5,8 +5,13 @@ const {
   removeTimebasedDataModel,
   getAllTimebasedDataModelRemoteIds,
 } = require('./timebasedDataFactory');
-const { getReportingParameter } = require('common/protobuf/stubs');
 
+
+const { getStubData } = require('../../utils/stubs');
+const { mockLoadStubs } = require('../../common/jest');
+
+mockLoadStubs();
+const dataStub = getStubData();
 describe('models/timebasedDataFactory', () => {
   beforeEach(() => {
     clearFactory();
@@ -18,7 +23,7 @@ describe('models/timebasedDataFactory', () => {
       model = getOrCreateTimebasedDataModel('myRemoteId');
     });
 
-    const payload = getReportingParameter();
+    const payload = dataStub.getReportingParameter();
 
     describe('addRecord', () => {
       const timestamp = Date.now();

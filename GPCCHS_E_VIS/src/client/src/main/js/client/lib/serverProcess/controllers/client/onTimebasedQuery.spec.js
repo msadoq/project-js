@@ -1,12 +1,13 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');
 const _concat = require('lodash/concat');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../../utils/stubs');
 const globalConstants = require('../../../constants');
 const { getRemoteId } = require('../../../common/jest');
 const { get: getQueue } = require('../../models/dataQueue');
@@ -23,6 +24,8 @@ let calls = [];
 const zmqEmulator = (payload) => {
   calls = _concat(calls, payload);
 };
+
+const dataStub = getStubData();
 
 /**
  * onTimebasedPubSubData test

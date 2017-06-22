@@ -1,11 +1,15 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const onDcStatus = require('./onDcStatus');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData, loadStubs } = require('../../../utils/stubs');
 const globalConstants = require('../../../constants');
 const { get: getDcStatus, reset: resetDcStatus } = require('../../models/dcStatus');
+
+loadStubs();
+const dataStub = getStubData();
 
 describe('controllers/utils/onDcStatus', () => {
   beforeEach(() => {

@@ -4,7 +4,7 @@ const Adapter = require('./fMDCreateDocument');
 
 const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/FMDCreateDocument.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.FMDCreateDocument');
 
-const { getFMDDocumentProperty } = require('./fMDDocumentProperty');
+const { getFMDDocumentProperty } = require('./fMDDocumentProperty.stub');
 
 const getFMDCreateDocument = override => applyOverride({
   name: 'myDocument',

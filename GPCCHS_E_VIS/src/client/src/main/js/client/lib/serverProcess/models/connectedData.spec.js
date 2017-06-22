@@ -1,14 +1,17 @@
 const { getRemoteId } = require('../../common/jest');
 const model = require('./connectedData');
-const { getDataId } = require('common/protobuf/stubs');
+const { getStubData } = require('../../utils/stubs');
+const { mockLoadStubs } = require('../../common/jest');
 
+mockLoadStubs();
+const dataStub = getStubData();
 describe('models/connectedData', () => {
   beforeEach(() => {
     model.cleanup();
   });
 
   describe('addRecord', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId(myDataId);
     test('all types', () => {
       const connectedDatum = model.addRecord(myDataId);
@@ -36,8 +39,8 @@ describe('models/connectedData', () => {
   });
 
   describe('addRequestedInterval', () => {
-    const myDataId = getDataId({ parameterName: 'dataId' });
-    const myDataId2 = getDataId({ parameterName: 'dataId2' });
+    const myDataId = dataStub.getDataId({ parameterName: 'dataId' });
+    const myDataId2 = dataStub.getDataId({ parameterName: 'dataId2' });
     const myRemoteId = getRemoteId({ parameterName: 'dataId' });
     const myRemoteId2 = getRemoteId({ parameterName: 'dataId2' });
     const myQueryId = 'queryId';
@@ -113,7 +116,7 @@ describe('models/connectedData', () => {
     });
   });
   describe('lastQueries', () => {
-    const myDataId = getDataId({ parameterName: 'dataId' });
+    const myDataId = dataStub.getDataId({ parameterName: 'dataId' });
     const myRemoteId = getRemoteId({ parameterName: 'dataId' });
     const myQueryId = 'queryId';
     const myQueryId2 = 'queryId2';
@@ -170,7 +173,7 @@ describe('models/connectedData', () => {
     });
   });
   describe('setIntervalAsReceived', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const myQueryId = 'queryId';
     const myInterval = [0, 4];
@@ -238,7 +241,7 @@ describe('models/connectedData', () => {
   });
 
   describe('isRequested', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const myRemoteId2 = getRemoteId();
     const myQueryId = 'queryId';
@@ -273,7 +276,7 @@ describe('models/connectedData', () => {
     });
   });
   describe('isLastQuery', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const myQueryId = 'queryId';
     const myQueryId2 = 'queryId2';
@@ -298,7 +301,7 @@ describe('models/connectedData', () => {
   });
   describe('isTimestampInKnownIntervals', () => {
     const timestamp = Date.now();
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const myQueryId = 'queryId';
     const myInterval = [timestamp - 1, timestamp + 1];
@@ -335,7 +338,7 @@ describe('models/connectedData', () => {
   describe('areTimestampsInKnownIntervals', () => {
     const now = Date.now();
     const timestamps = [now - 2, now];
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const myQueryId = 'queryId';
     const myInterval = [now - 1, now + 1];
@@ -371,7 +374,7 @@ describe('models/connectedData', () => {
   });
 
   describe('retrieveMissingIntervals', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     test('no connected data', () => {
       const myInterval = [0, 10];
@@ -667,7 +670,7 @@ describe('models/connectedData', () => {
 
   describe('exists', () => {
     test('yes', () => {
-      const myDataId = getDataId();
+      const myDataId = dataStub.getDataId();
       const myRemoteId = getRemoteId();
       model.addRecord(myDataId);
       expect(model.exists(myRemoteId)).toBe(true);
@@ -686,7 +689,7 @@ describe('models/connectedData', () => {
       expect(connectedData).toHaveLength(0);
     });
     test('one', () => {
-      const myDataId = getDataId();
+      const myDataId = dataStub.getDataId();
       const myRemoteId = getRemoteId();
       model.addRecord(myDataId);
       let connectedData = model.find();
@@ -696,7 +699,7 @@ describe('models/connectedData', () => {
       expect(connectedData).toHaveLength(0);
     });
     test('one by reference', () => {
-      const myDataId = getDataId();
+      const myDataId = dataStub.getDataId();
       const myRemoteId = getRemoteId();
       const cd = model.addRecord(myDataId);
       let connectedData = model.find();
@@ -708,7 +711,7 @@ describe('models/connectedData', () => {
   });
 
   describe('removeIntervals', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const queryId = 'toto';
     const queryId2 = 'toto2';
@@ -767,7 +770,7 @@ describe('models/connectedData', () => {
     });
   });
   describe('getIntervals', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     const myQueryId = 'toto';
     const interval = [0, 10];
@@ -782,7 +785,7 @@ describe('models/connectedData', () => {
   });
 
   describe('getDataId', () => {
-    const myDataId = getDataId();
+    const myDataId = dataStub.getDataId();
     const myRemoteId = getRemoteId();
     test('existing', () => {
       model.addRecord(myDataId);
@@ -799,7 +802,7 @@ describe('models/connectedData', () => {
       expect(connectedData).toHaveLength(0);
     });
     test('one', () => {
-      const myDataId = getDataId();
+      const myDataId = dataStub.getDataId();
       // const myRemoteId = getRemoteId({ parameterName: 'dataId' });
       const myRemoteId = getRemoteId(myDataId);
       model.addRecord(myDataId);
@@ -816,9 +819,9 @@ describe('models/connectedData', () => {
       });
     });
     test('multi', () => {
-      const myDataId = getDataId({ parameterName: 'dataId' });
-      const myDataId2 = getDataId({ parameterName: 'dataId2' });
-      const myDataId3 = getDataId({ parameterName: 'dataId3' });
+      const myDataId = dataStub.getDataId({ parameterName: 'dataId' });
+      const myDataId2 = dataStub.getDataId({ parameterName: 'dataId2' });
+      const myDataId3 = dataStub.getDataId({ parameterName: 'dataId3' });
       const myRemoteId = getRemoteId(myDataId);
       const myRemoteId2 = getRemoteId(myDataId2);
       const myRemoteId3 = getRemoteId(myDataId3);

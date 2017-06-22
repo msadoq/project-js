@@ -9,8 +9,8 @@ const TYPE_RAW = 'raw';
 const comObjectTypes = {};
 const types = {};
 
-const registerGlobal = () => {
-  const MESSAGES_NAMESPACES = parameters.get('MESSAGES_NAMESPACES');
+const registerGlobal = (override) => {
+  const MESSAGES_NAMESPACES = override || parameters.get('MESSAGES_NAMESPACES');
   _each(MESSAGES_NAMESPACES, (msgNasmespaces) => {
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
@@ -26,11 +26,9 @@ const registerGlobal = () => {
       _each(adaptersKeys, (adapter) => {
         let registeredAdapter;
         comObjectTypes[adapter] = `${msgNasmespaces.ns}.${adapters}.${adapter}`;
-        //console.log(namespaces[adapters][adapter]);
         switch (namespaces[adapters][adapter].type) {
           case TYPE_PROTO:
-            registeredAdapter = registerProto(msgNasmespaces.ns,
-                                              adapterPath,
+            registeredAdapter = registerProto(adapterPath,
                                               adapters,
                                               adapter,
                                               namespaces[adapters][adapter].adapter);
@@ -40,11 +38,10 @@ const registerGlobal = () => {
             registeredAdapter = registerRaw(namespaces[adapters][adapter].adapter);
             registeredAdapter.type = TYPE_RAW;
             break;
-          default:
-            console.log(`Unknown type '${adapter}' for registration`);
+          default :
+            throw new Error(`Unknown type '${adapter}' for registration`);
         }
         types[msgNasmespaces.ns][adapters][adapter] = registeredAdapter;
-        console.log(adapter);
       });
     });
   });
@@ -55,40 +52,40 @@ const registerProto = (path, ns, adapter, mapper) => protobuf.register(path, ns,
 const registerRaw = mapper => ({ mapper });
 
 const encode = (type, raw) => {
-  const builder = getType(type);
+  const builder = getMapper(type);
   switch (builder.type) {
     case TYPE_PROTO:
       return protobuf.encode(builder, raw);
     case TYPE_RAW:
       return builder.mapper.encode(raw);
     default:
-      console.log('Unknown type for registration');
+      throw new Error(`Unknown type ${builder.type} to encode`);
   }
 };
 
 const decode = (type, buffer) => {
-  const builder = getType(type);
+  const builder = getMapper(type);
   switch (builder.type) {
     case TYPE_PROTO:
       return protobuf.decode(builder, buffer);
     case TYPE_RAW:
       return builder.mapper.decode(buffer);
     default:
-      console.log('Unknown type for registration');
+      throw new Error(`Unknown type ${builder.type} to decode`);
   }
 };
 
-const getType = (key) => {
-  console.log(key);
+const getMapper = (key) => {
   const type = _get(types, key);
 
-  /* if (typeof type === 'undefined') {
+  if (typeof type === 'undefined') {
     throw new Error(`protobuf type no registered ${key}`);
-  } */
+  }
 
   return type;
 };
 
+const getType = key => comObjectTypes[key];
 
 module.exports = {
   registerGlobal,

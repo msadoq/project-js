@@ -1,9 +1,13 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
-const dataStub = require('common/protobuf/stubs');
+const { getStubData, loadStubs } = require('../../../utils/stubs');
 const onFmdCreateData = require('./onFmdCreateData');
+
+loadStubs();
+const dataStub = getStubData();
 
 describe('controllers/client/onFmdCreateData', () => {
   test('should returns file info if success', (done) => {

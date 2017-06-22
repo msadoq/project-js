@@ -234,7 +234,7 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
     const value = remoteIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
-      logger.warn('get a payload without .referenceTimestamp key');
+      logger.warn('get a payload without .referenceTimestamp key ggg', remoteIdPayload);
       continue;
     }
     // check value is in interval

@@ -1,10 +1,14 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const onDomainsData = require('./onDomainsData');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData, loadStubs } = require('../../../utils/stubs');
 const registeredCallbacks = require('../../../common/callbacks');
+
+loadStubs();
+const dataStub = getStubData();
 
 describe('controllers/utils/onDomainsData', () => {
   test('should returns domains data', (done) => {

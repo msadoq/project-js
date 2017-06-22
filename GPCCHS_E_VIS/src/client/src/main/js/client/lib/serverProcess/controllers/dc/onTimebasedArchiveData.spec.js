@@ -1,6 +1,7 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const { getRemoteId } = require('../../../common/jest');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
@@ -11,8 +12,11 @@ const {
 } = require('../../models/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData, loadStubs } = require('../../../utils/stubs');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
+
+loadStubs();
+const dataStub = getStubData();
 
 /*
  * onTimebasedArchiveData test:

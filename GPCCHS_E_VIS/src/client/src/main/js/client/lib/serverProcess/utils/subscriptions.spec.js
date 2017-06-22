@@ -1,6 +1,7 @@
-const { registerProtobuf } = require('../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const {
   createAddSubscriptionMessage,
@@ -9,8 +10,10 @@ const {
   resetSubId,
 } = require('./subscriptions');
 const connectedDataModel = require('../models/connectedData');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../utils/stubs');
 const registeredCallbacks = require('../../common/callbacks');
+
+const dataStub = getStubData();
 
 describe('utils/subscriptions', () => {
   beforeEach(() => {

@@ -6,9 +6,6 @@ const stubData = stubs.getStubData();
 const header = stubData.getDcStatusHeaderProtobuf();
 const healthy = stubData.getHealthyDcStatusProtobuf();
 const congestion = stubData.getCongestionDcStatusProtobuf();
-console.log(header);
-console.log(healthy);
-console.log(congestion);
 const current = {
   isCongestionned: false,
   from: Date.now(),

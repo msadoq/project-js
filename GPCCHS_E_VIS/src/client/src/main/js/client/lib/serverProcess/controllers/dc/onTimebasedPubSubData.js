@@ -48,10 +48,9 @@ module.exports = (
   execution.stop('decode dataId');
 
   // get payload type
-  const payloadProtobufType = getType(dataId.comObject); //TODO Error in GetType ( xxx.xxx.comObject VS comObject )
+  const payloadProtobufType = getType(dataId.comObject);
   if (typeof payloadProtobufType === 'undefined') {
     logger.error('unsupported comObject', dataId.comObject); // TODO send error to client
-    return 0;
   }
 
   execution.start('retrieve subscription');
@@ -99,10 +98,10 @@ module.exports = (
     execution.stop('control interval');
 
     // decode Payload only once by payloadBuffer loop to avoid resource-consuming
-    if (!decodedPayload && typeof payloadProtobufType !== 'undefined') {
+    if (!decodedPayload) {
       execution.start('decode payload');
       // deprotobufferize payload
-      decodedPayload = decode(dataId.comObject, payloadBuffer[1]);
+      decodedPayload = decode(getType(dataId.comObject), payloadBuffer[1]);
       execution.stop('decode payload');
     }
 

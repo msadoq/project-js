@@ -17,6 +17,7 @@ import { getWorkspaceIsModified } from '../../store/reducers/hsc';
 import { getPage } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
 import { workspaceSave } from '../menuManager/workspaceSave';
+import dialog from '../dialog';
 
 const logger = getLogger('main:windowsManager:windows');
 

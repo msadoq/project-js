@@ -193,6 +193,8 @@ class GPCCHS(object):
         self._hsc_args = unknown_args
         self._debug = options.debug
         self._hscLogOutput = None
+        # Set necessary environment variables
+        os.environ["RTD_UNIX_SOCKET"]='0'
         # End of user code
 
     def __del__(self):

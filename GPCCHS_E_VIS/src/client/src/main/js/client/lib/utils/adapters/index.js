@@ -26,6 +26,7 @@ const registerGlobal = () => {
       _each(adaptersKeys, (adapter) => {
         let registeredAdapter;
         comObjectTypes[adapter] = `${msgNasmespaces.ns}.${adapters}.${adapter}`;
+        //console.log(namespaces[adapters][adapter]);
         switch (namespaces[adapters][adapter].type) {
           case TYPE_PROTO:
             registeredAdapter = registerProto(msgNasmespaces.ns,
@@ -40,9 +41,10 @@ const registerGlobal = () => {
             registeredAdapter.type = TYPE_RAW;
             break;
           default:
-            console.log('Unknown type for registration');
+            console.log(`Unknown type '${adapter}' for registration`);
         }
         types[msgNasmespaces.ns][adapters][adapter] = registeredAdapter;
+        console.log(adapter);
       });
     });
   });
@@ -77,11 +79,12 @@ const decode = (type, buffer) => {
 };
 
 const getType = (key) => {
+  console.log(key);
   const type = _get(types, key);
 
-  if (typeof type === 'undefined') {
+  /* if (typeof type === 'undefined') {
     throw new Error(`protobuf type no registered ${key}`);
-  }
+  } */
 
   return type;
 };
@@ -91,4 +94,5 @@ module.exports = {
   registerGlobal,
   encode,
   decode,
+  getType,
 };

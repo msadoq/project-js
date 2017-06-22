@@ -1,5 +1,5 @@
 const Action = require('./action');
-const Boolean = require('./boolean');
+const Bool = require('./boolean');
 const DataId = require('./dataId');
 const DcStatus = require('./dcStatus');
 const Domains = require('./domains');
@@ -14,13 +14,13 @@ const SendLog = require('./sendLog');
 const SessionGetTime = require('./sessionGetTime');
 const Sessions = require('./sessions');
 const Status = require('./status');
-const String = require('./string');
+const Str = require('./string');
 const TimeInterval = require('./timeInterval');
 const Timestamp = require('./timestamp');
 
 module.exports = { // TODO .proto should be collocated with adapters
     Action : {type:"protobuf", adapter: Action},
-    Boolean : {type:"protobuf", adapter: Boolean},
+    Boolean : {type:"protobuf", adapter: Bool},
     DataId  : {type:"protobuf", adapter: DataId},
     DcStatus : {type:"protobuf", adapter: DcStatus},
     Domains : {type:"protobuf", adapter: Domains},
@@ -35,7 +35,7 @@ module.exports = { // TODO .proto should be collocated with adapters
     SessionGetTime : {type:"protobuf", adapter: SessionGetTime},
     Sessions : {type:"protobuf", adapter: Sessions},
     Status : {type:"protobuf", adapter: Status},
-    String : {type:"protobuf", adapter: String},
+    String : {type:"protobuf", adapter: Str},
     TimeInterval : {type:"protobuf", adapter: TimeInterval},
     Timestamp : {type:"protobuf", adapter: Timestamp},
   };

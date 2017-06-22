@@ -1,5 +1,5 @@
 const logger = require('../../../common/logManager')('controllers:onSessionMasterData');
-const { decode, getType } = require('common/protobuf');
+const { decode } = require('../../../utils/adapters');
 
 /**
  * Triggered on DC master session request response.
@@ -16,6 +16,6 @@ module.exports = (reply, queryIdBuffer, buffer) => {
   logger.silly('decoded queryId', queryId);
 
   reply(queryId, {
-    masterSessionId: decode(getType('UINTEGER'), buffer).value,
+    masterSessionId: decode('isis.ccsds_mal.UINTEGER', buffer).value,
   });
 };

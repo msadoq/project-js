@@ -5,7 +5,7 @@ const { registerProtobuf } = require('../../../common/jest');
 
 registerProtobuf();
 
-const dataStub = require('common/protobuf/stubs');
+const dataStub = require('../../../utils/stubs');
 
 const onFmdCreate = require('./onFmdCreate');
 

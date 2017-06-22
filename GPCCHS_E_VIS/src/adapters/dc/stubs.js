@@ -1,65 +1,47 @@
-const ProtoBuf = require('protobufjs');
-
 const actionStub = require('./dataControllerUtils/action.stub');
-const actionAdapter = require('./dataControllerUtils/action');
-const actionBuilder =  new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Action.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Action');
 const booleanStub = require('./dataControllerUtils/boolean.stub');
-const booleanAdapter = require('./dataControllerUtils/boolean');
-const booleanBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Boolean.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Boolean');
 const dataIdStub = require('./dataControllerUtils/dataId.stub');
-const dataIdAdapter = require('./dataControllerUtils/dataId');
-const dataIdBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/DataId.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.DataId');
 const domainStub = require('./dataControllerUtils/domain.stub');
-const domainAdapter = require('./dataControllerUtils/domain');
-const domainBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Domain.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Domain');
 const domainsStub = require('./dataControllerUtils/domains.stub');
-const domainsAdapter = require('./dataControllerUtils/domains');
-const domainsBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/Domains.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Domains');
 const fMDCreateDocumentStub = require('./dataControllerUtils/fMDCreateDocument.stub');
-const fMDCreateDocumentAdapter= require('./dataControllerUtils/fMDCreateDocument');
-const fMDCreateDocumentBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/FMDCreateDocument.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.FMDCreateDocument');
 const fMDDocumentPropertyStub = require('./dataControllerUtils/fMDDocumentProperty.stub');
-const fMDDocumentPropertyAdapter = require('./dataControllerUtils/fMDDocumentProperty');
-const fMDDocumentPropertyBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/FMDDocumentProperty.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.FMDDocumentProperty');
 const fMDFileInfoStub = require('./dataControllerUtils/fMDFileInfo.stub');
-const fMDFileInfoAdapter = require('./dataControllerUtils/fMDFileInfo');
-const fMDFileInfoBuilder= new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/FMDFileInfo.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.FMDFileInfo');
 const fMDFileTypeStub = require('./dataControllerUtils/fMDFileType.stub');
-const fMDFileTypeAdapter = require('./dataControllerUtils/fMDFileType');
-const fMDFileTypeBuilder= new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/FMDFileType.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.FMDFileType');
 const fMDGetStub = require('./dataControllerUtils/fMDGet.stub');
-const fMDGetAdapter = require('./dataControllerUtils/fMDGet');
-const fMDGetBuilder= new ProtoBuf.Root().loadSync(`${__dirname}/dataControllerUtils/FMDGet.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.FMDGet');
 const headerStub = require('./dataControllerUtils/header.stub');
-const headerAdapter = require('./dataControllerUtils/header');
-const headerBuilder = require('./dataControllerUtils/header');
 const queryArgumentsStub = require('./dataControllerUtils/queryArguments.stub');
-const queryArgumentsAdapter= require('./dataControllerUtils/queryArguments');
-const queryArgumentsBuilder = require('./dataControllerUtils/queryArguments');
 const sendLogStub = require('./dataControllerUtils/sendLog.stub');
-const sendLogAdapter = require('./dataControllerUtils/sendLog');
-const sendLogBuilder = require('./dataControllerUtils/sendLog');
 const sessionStub = require('./dataControllerUtils/session.stub');
-const sessionAdapter = require('./dataControllerUtils/session');
-const sessionBuilder = require('./dataControllerUtils/session');
 const sessionGetTimeStub = require('./dataControllerUtils/sessionGetTime.stub');
-const sessionGetTimeAdapter = require('./dataControllerUtils/sessionGetTime');
-const sessionGetTimeBuilder = require('./dataControllerUtils/sessionGetTime');
 const sessionsStub = require('./dataControllerUtils/sessions.stub');
-const sessionsAdapter = require('./dataControllerUtils/sessions');
-const sessionsBuilder = require('./dataControllerUtils/sessions');
 const statusStub = require('./dataControllerUtils/status.stub');
-const statusAdapter = require('./dataControllerUtils/status');
-const statusBuilder = require('./dataControllerUtils/status');
 const dcStatusStub = require('./dataControllerUtils/dcStatus.stub');
-const dcStatusAdapter = require('./dataControllerUtils/dcStatus');
-const dcStatusBuilder = require('./dataControllerUtils/dcStatus');
 const stringStub = require('./dataControllerUtils/string.stub');
-const stringAdapter = require('./dataControllerUtils/string');
-const stringBuilder = require('./dataControllerUtils/string');
 const timeIntervalStub = require('./dataControllerUtils/timeInterval.stub');
-const timeIntervalAdapter = require('./dataControllerUtils/timeInterval');
-const timeIntervalBuilder = require('./dataControllerUtils/timeInterval');
 const timestampStub = require('./dataControllerUtils/timestamp.stub');
-const timestampAdapter = require('./dataControllerUtils/timestamp');
-const timestampBuilder = require('./dataControllerUtils/timestamp');
+
+
+module.exports = Object.assign(
+  {},
+  actionStub,
+  booleanStub,
+  dataIdStub,
+  domainStub,
+  domainsStub,
+  fMDCreateDocumentStub,
+  fMDDocumentPropertyStub,
+  fMDFileInfoStub,
+  fMDFileTypeStub,
+  fMDGetStub,
+  headerStub,
+  queryArgumentsStub,
+  sendLogStub,
+  sessionStub,
+  sessionGetTimeStub,
+  sessionsStub,
+  statusStub,
+  dcStatusStub,
+  stringStub,
+  timeIntervalStub,
+  timestampStub
+);

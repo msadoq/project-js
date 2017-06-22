@@ -1,7 +1,0 @@
-package dataControllerUtils.protobuf;
-
-
-message SessionGetTime {
-extensions 2 to 105;
-    required uint32 id = 1;
-}

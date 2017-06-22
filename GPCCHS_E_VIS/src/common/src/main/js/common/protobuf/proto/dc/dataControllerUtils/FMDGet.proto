@@ -1,6 +1,0 @@
-package dataControllerUtils.protobuf;
-
-message FMDGet {
-extensions 4 to 106;
-    required string serializedOid = 3; ///< serializeOID contains the type of the file and the domainId
-}

@@ -1,8 +1,0 @@
-package dataControllerUtils.protobuf;
-import "../../lpisis/ccsds_mal/types.proto";
-
-message SendLog {
-extensions 9 to 109;
-    required int64 uid = 1;
-    repeated ccsds_mal.protobuf.ATTRIBUTE arguments = 2;
-}

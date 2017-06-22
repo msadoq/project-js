@@ -5,34 +5,6 @@ const types = {};
 const typesTest = {};
 const comObjectProtobufTypes = {};
 
-/*module.exports.registerOld = function register(rootPath, root, namespaces) {
-  if (!types[root]) {
-    types[root] = {};
-  }
-  _each(namespaces, (protos, namespace) => {
-    types[root][namespace] = {};
-    _each(protos, (mapper, proto) => {
-      // append definition to builder
-      const builder = ProtoBuf.loadSync(`${rootPath}/${namespace}/${proto}.proto`);
-      if (!builder) {
-        throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
-      }
-      const resolvedNamespace = builder.resolve();
-      for (const key in resolvedNamespace.nested[namespace].nested.protobuf.nested) { // TODO Can't be this be done in a more proper way ?
-        types[root][namespace][key] = {};
-        comObjectProtobufTypes[key] = `${root}.${namespace}.${key}`;
-        try {
-          const lookedUpType = builder.lookup(`${namespace}.protobuf.${key}`);
-          lookedUpType.mapper = mapper;
-          types[root][namespace][key] = lookedUpType;
-        } catch (e) {
-          throw new Error(`${namespace}.protobuf.${key} can't be lookedUp`);
-        }
-      }
-    });
-  });
-};*/
-
 module.exports.register = function register(root, rootPath, namespace, proto, mapper) {
   let lookedUpType;
   const builder = ProtoBuf.loadSync(`${rootPath}/${namespace}/${proto}.proto`);
@@ -56,6 +28,9 @@ module.exports.decode = function decodeTest(builder, buffer) {
   return r;
 };
 module.exports.encode = function encodeTest(builder, raw) {
+  // console.log("****************************************************");
+  // console.log(builder);
+  // console.log("---------------------------------------------------");
   const payload = builder.mapper
     ? builder.mapper.encode(raw)
     : raw;

@@ -5,7 +5,7 @@ const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
 const zmq = require('common/zmq/index');
-const { getType, encode, decode } = require('common/protobuf/index');
+const { encode, decode } = require('../utils/adapters');
 const constants = require('../constants');
 
 const sessionIdTest = 1;
@@ -121,7 +121,7 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
           expect(_slice(argsBuffers, 3).length % 2).toBe(0);
           _each(_chunk(_slice(argsBuffers, 3), 2), (argBuffer) => {
             expect(() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).not.toThrowError();
-            expect(() => decode(getType(dataId.comObject), argBuffer[1])).not.toThrowError();
+            expect(() => decode(dataId.comObject, argBuffer[1])).not.toThrowError();
           });
           step = (isLast === true) ? steps.STOP : step;
         }
@@ -512,7 +512,7 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
         // (_slice(argsBuffers, 2).length % 2).should.equal(0);
         _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
           expect(() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).not.toThrowError();
-          expect(() => decode(getType(dataId.comObject), argBuffer[1])).not.toThrowError();
+          expect(() => decode(dataId.comObject, argBuffer[1])).not.toThrowError();
         });
         sendZmqMessage(tbStopSubMessageArgs(dataId));
       }

@@ -1,7 +1,0 @@
-// Produced by Acceleo JavaScript Generator 1.1.0
-package cop1.protobuf;
-
-enum ModeType {
-  AD = 1;
-  BD = 2;
-}

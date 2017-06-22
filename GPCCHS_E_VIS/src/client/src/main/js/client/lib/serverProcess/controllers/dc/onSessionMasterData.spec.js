@@ -3,7 +3,7 @@ const { registerProtobuf } = require('../../../common/jest');
 registerProtobuf();
 
 const dataStub = require('common/protobuf/stubs');
-const protobuf = require('common/protobuf');
+const protobuf = require('../../../utils/adapters');
 const onSessionMasterData = require('./onSessionMasterData');
 
 describe('controllers/client/onSessionMasterData', () => {

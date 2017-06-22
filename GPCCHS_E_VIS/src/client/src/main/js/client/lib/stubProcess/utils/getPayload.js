@@ -5,7 +5,9 @@ const _compose = require('lodash/fp/compose');
 const _constant = require('lodash/fp/constant');
 const _head = require('lodash/fp/head');
 
-const stubData = require('common/protobuf/stubs');
+const stubs = require('../../utils/stubs');
+
+const stubData = stubs.getStubData();
 
 function getValue(timestamp) {
   return (1 + Math.sin(timestamp / 6000));

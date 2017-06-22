@@ -1,4 +1,4 @@
-const { decode, getType } = require('common/protobuf');
+const { decode, getType } = require('../../../utils/adapters');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const { writeFile } = require('fs');
@@ -48,9 +48,10 @@ module.exports = (
   execution.stop('decode dataId');
 
   // get payload type
-  const payloadProtobufType = getType(dataId.comObject);
+  const payloadProtobufType = getType(dataId.comObject); //TODO Error in GetType ( xxx.xxx.comObject VS comObject )
   if (typeof payloadProtobufType === 'undefined') {
     logger.error('unsupported comObject', dataId.comObject); // TODO send error to client
+    return 0;
   }
 
   execution.start('retrieve subscription');
@@ -98,10 +99,10 @@ module.exports = (
     execution.stop('control interval');
 
     // decode Payload only once by payloadBuffer loop to avoid resource-consuming
-    if (!decodedPayload) {
+    if (!decodedPayload && typeof payloadProtobufType !== 'undefined') {
       execution.start('decode payload');
       // deprotobufferize payload
-      decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
+      decodedPayload = decode(dataId.comObject, payloadBuffer[1]);
       execution.stop('decode payload');
     }
 

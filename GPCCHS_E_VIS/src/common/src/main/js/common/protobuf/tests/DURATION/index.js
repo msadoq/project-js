@@ -1,5 +1,0 @@
-module.exports = {
-  DURATION_1: -2147483648,
-  DURATION_2: 22,
-  DURATION_3: 2147483647,
-};

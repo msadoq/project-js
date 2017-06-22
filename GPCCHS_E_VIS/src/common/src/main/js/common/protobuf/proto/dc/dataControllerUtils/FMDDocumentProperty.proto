@@ -1,7 +1,0 @@
-package dataControllerUtils.protobuf;
-
-message FMDDocumentProperty {
-extensions 3 to 106;
-        required string key = 1;
-        required string value = 2;
-}

@@ -1,5 +1,5 @@
 const adapter = require('../utils/adapters');
-const stubs = require('./stubs');
+const stubs = require('../utils/stubs');
 
 adapter.registerGlobal();
 stubs.loadStubs();

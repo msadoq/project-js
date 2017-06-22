@@ -106,6 +106,5 @@ export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
-export const getForecast = inHsc('forecast');
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');

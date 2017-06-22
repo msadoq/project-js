@@ -91,14 +91,6 @@ describe('store:hsc:reducer', () => {
       focusWindow: 'some window id',
     });
   });
-  test('should update forecast', () => {
-    expect(
-      reducer({ }, actions.updateForecast(20, 30))
-    ).toEqual({ forecast: { lower: 20, upper: 30 } });
-    expect(
-      reducer({ forecast: { lower: 20, upper: 30 } }, actions.updateForecast(25, 35))
-    ).toEqual({ forecast: { lower: 25, upper: 35 } });
-  });
   test('should update sessionName', () => {
     expect(reducer({}, actions.updateSessionName('mySession'))).toEqual({ sessionName: 'mySession', isModified: true });
     expect(reducer({ sessionName: 'mySession' }, actions.updateSessionName(null))).toEqual({ isModified: true });

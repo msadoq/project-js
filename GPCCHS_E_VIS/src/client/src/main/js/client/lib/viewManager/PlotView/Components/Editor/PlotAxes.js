@@ -71,6 +71,11 @@ export default class PlotAxes extends Component {
         min: parseFloat(values.min),
         max: parseFloat(values.max),
         tickStep: parseInt(values.tickStep, 10),
+        logSettings: {
+          min: parseFloat(values.logSettings.min),
+          max: parseFloat(values.logSettings.max),
+          base: parseInt(values.logSettings.base, 10),
+        },
       }
     );
   }
@@ -142,6 +147,11 @@ export default class PlotAxes extends Component {
                       max: axis.max.toString(),
                       min: axis.min.toString(),
                       tickStep: axis.tickStep.toString(),
+                      logSettings: {
+                        min: axis.logSettings.min.toString(),
+                        max: axis.logSettings.max.toString(),
+                        base: axis.logSettings.base.toString(),
+                      },
                     }}
                     axes={axes}
                     entryPoints={entryPoints}

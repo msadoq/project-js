@@ -10,7 +10,12 @@ const initialValues = {
   tickStep: '1',
   autoTick: true,
   showTicks: true,
-  isLogarithmic: false,
+  logarithmic: false,
+  logSettings: {
+    min: '0.1',
+    max: '1000000000',
+    base: '10',
+  },
   showAxis: true,
   style: {
     font: 'Arial',
@@ -46,6 +51,11 @@ export default class AddEntryPointWrapper extends Component {
         min: parseFloat(values.min),
         max: parseFloat(values.max),
         tickStep: parseInt(values.tickStep, 10),
+        logSettings: {
+          min: parseFloat(values.logSettings.min),
+          max: parseFloat(values.logSettings.max),
+          base: parseInt(values.logSettings.base, 10),
+        },
       }
     );
     closeModal();

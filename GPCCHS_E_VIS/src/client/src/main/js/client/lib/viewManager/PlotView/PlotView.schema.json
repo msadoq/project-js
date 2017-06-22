@@ -252,8 +252,16 @@
                 "showTicks": {
                     "type": "boolean"
                 },
-                "isLogarithmic": {
-                    "type": "boolean"
+                "logarithmic": {
+                    "min": {
+                        "type": "number"
+                    },
+                    "max": {
+                        "type": "number"
+                    },
+                    "base": {
+                        "type": "number"
+                    }
                 },
                 "showAxis": {
                     "type": "boolean"

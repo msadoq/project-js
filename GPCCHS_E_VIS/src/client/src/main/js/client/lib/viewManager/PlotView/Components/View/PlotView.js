@@ -570,6 +570,7 @@ export class GrizzlyPlotView extends PureComponent {
               unit: axis.unit,
               label: axis.label,
               labelStyle: axis.style,
+              logarithmic: false,
             };
           })}
           lines={

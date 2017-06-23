@@ -5,7 +5,7 @@ const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
 const zmq = require('common/zmq/index');
-const { encode, decode } = require('../utils/adapters');
+const { encode, decode, getType } = require('../utils/adapters');
 const constants = require('../constants');
 
 const sessionIdTest = 1;
@@ -188,8 +188,8 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
 
 const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   logger('sessionMasterDataHandler');
-  logger(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
-  expect(() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).not.toThrowError();
+  logger(decode(getType('UINTEGER'), argsBuffers[1]));
+  expect(() => decode(getType('UINTEGER'), argsBuffers[1])).not.toThrowError();
   zmq.closeSockets();
 };
 

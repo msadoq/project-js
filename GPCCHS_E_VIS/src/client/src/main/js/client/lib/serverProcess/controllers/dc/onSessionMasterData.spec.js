@@ -14,7 +14,7 @@ describe('controllers/client/onSessionMasterData', () => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myUinteger = 42;
-    const myUintegerProto = protobuf.encode(protobuf.getType('UINTEGER'), { value: myUinteger });
+    const myUintegerProto = protobuf.encode(protobuf.getType('UINTEGER'), myUinteger);
 
     const check = (...args) => {
       expect(args).toMatchObject([

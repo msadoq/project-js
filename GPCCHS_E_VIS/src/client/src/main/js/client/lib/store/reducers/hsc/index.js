@@ -100,7 +100,7 @@ const inHsc = key => _.path(['hsc', key]);
 // simples
 export const getWorkspaceFile = inHsc('file');
 export const getWorkspaceFolder = inHsc('folder');
-export const getWindowsOpened = inHsc('windowsOpened');
+export const getWindowsOpened = inHsc('windowsOpened'); // TODO rename getIsWindowsOpened
 export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');

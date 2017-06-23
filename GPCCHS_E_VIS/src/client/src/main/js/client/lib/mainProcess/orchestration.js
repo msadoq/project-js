@@ -1,6 +1,4 @@
 import _round from 'lodash/round';
-import _reduce from 'lodash/reduce';
-import _get from 'lodash/get';
 import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
 import { tmpdir } from 'os';
@@ -23,21 +21,17 @@ import { getStore } from './store';
 import {
   getLastCacheInvalidation,
   getPlayingTimebarId,
-  getForecast,
 } from '../store/reducers/hsc';
 import { getHealthMap, getMainStatus } from '../store/reducers/health';
 import {
   updateCacheInvalidation,
   pause,
-  updateForecast,
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
-import request from '../dataManager/request';
 import displayQueries from '../dataManager/displayQueries';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
-import { getTimebar } from '../store/reducers/timebars';
 
 let logger;
 
@@ -56,22 +50,6 @@ const previous = {
     windows: HEALTH_STATUS_HEALTHY,
   },
 };
-
-export function addForecast(expectedIntervals, forecast) {
-  // Loop on remoteId/localId and create a new interval
-  return _reduce(expectedIntervals, (acc, value, remoteId) =>
-    ({ ...acc,
-      [remoteId]:
-      _reduce(value, (accInt, intervals, localId) =>
-        ({ ...accInt,
-          [localId]: {
-            expectedInterval: [
-              intervals.expectedInterval[1],
-              intervals.expectedInterval[1] + forecast],
-          } })
-      , {}) }),
-  {});
-}
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -248,44 +226,6 @@ export function tick() {
         logger.debug('cache invalidation requested, skipping current tick');
         skipThisTick = true;
       }
-      callback(null);
-    },
-    // request data
-    (callback) => {
-      if (skipThisTick || dataMap.expectedIntervals === previous.expectedIntervals) {
-        callback(null);
-        return;
-      }
-      execution.start('data requests');
-      const timebarUuid = getPlayingTimebarId(getState());
-      // Add forecast in play mode
-      let forecastIntervals;
-      // Check validity of previous datamap to avoid empty data when launching in realtime mode
-      if (timebarUuid && Object.keys(_get(previous, 'requestedDataMap', {})).length) {
-        // Get playing mode
-        const { visuWindow } = getTimebar(getState(), { timebarUuid });
-        const { upper } = visuWindow;
-        // Check old forecast
-        const lastForecast = getForecast(getState());
-        // Add forecast if neede
-        if (!lastForecast.upper ||            // 1rst forecast
-          lastForecast.upper - upper < 100 || // forecast is too thin
-          upper < lastForecast.lower          // visu has moved backwards
-        ) {
-          const forecastTime = get('FORECAST');
-          forecastIntervals = addForecast(dataMap.expectedIntervals, forecastTime);
-          dispatch(updateForecast(upper, upper + forecastTime));
-          request(dataMap, previous, forecastIntervals, server.message);
-        }
-      } else {
-        request(dataMap, previous, forecastIntervals, server.message);
-      }
-
-      // request module should receive only the last 'analysed' map
-      previous.perRemoteId = dataMap.perRemoteId;
-      previous.expectedIntervals = dataMap.expectedIntervals;
-
-      execution.stop('data requests');
       callback(null);
     },
     // pull data

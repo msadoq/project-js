@@ -7,10 +7,15 @@ import constants from '../constants';
 import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
 
-const logger = getLogger('main:ipc');
+const logger = getLogger('server:ipc');
 
 const getDcHeader = _memoize(
   type => encode('dc.dataControllerUtils.Header', { messageType: type })
+);
+
+const getDcDataId = _memoize(
+  (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
+  flatDataId => flatDataId // memoize key
 );
 
 const commands = {
@@ -27,7 +32,6 @@ const commands = {
       });
     },
     message: (method, payload) => {
-      logger.debug(`sending message ${method} to main`);
       process.send({ type: constants.IPC_MESSAGE, method, payload });
     },
     sendReduxPatch: (action) => {
@@ -43,6 +47,8 @@ const commands = {
         getDcHeader(method),
         encode('dc.dataControllerUtils.String', { string: queryId }),
       ].concat(trames));
+
+      return queryId;
     },
     message: (method, trames) => {
       logger.debug(`sending message ${method} to dc`);
@@ -78,6 +84,16 @@ const commands = {
     requestFmdCreate: (name, path, mimeType, callback) => {
       commands.dc.rpc(constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY, [
         encode('dc.dataControllerUtils.FMDCreateDocument', { name, path, mimeType }),
+      ], callback);
+    },
+    requestTimebasedQuery: (flatDataId, dataId, interval, args, callback) => {
+      return commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_QUERY, [
+        getDcDataId(flatDataId, dataId),
+        encode('dc.dataControllerUtils.TimeInterval', {
+          startTime: { ms: interval[0] },
+          endTime: { ms: interval[1] },
+        }),
+        encode('dc.dataControllerUtils.QueryArguments', args),
       ], callback);
     },
   },

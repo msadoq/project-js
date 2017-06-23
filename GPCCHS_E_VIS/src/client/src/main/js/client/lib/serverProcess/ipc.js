@@ -18,6 +18,28 @@ const getDcDataId = _memoize(
   flatDataId => flatDataId // memoize key
 );
 
+let staticDcProtobufs;
+function getStaticProtobuf(type) {
+  if (!staticDcProtobufs) {
+    staticDcProtobufs = {
+      add: encode('dc.dataControllerUtils.Action', {
+        action: constants.SUBSCRIPTIONACTION_ADD,
+      }),
+      delete: encode('dc.dataControllerUtils.Action', {
+        action: constants.SUBSCRIPTIONACTION_DELETE,
+      }),
+    };
+  }
+
+  return staticDcProtobufs[type];
+}
+
+function onDcResponseCallback(err) {
+  if (err) {
+    // TODO dispatch error message in store
+  }
+}
+
 const commands = {
   main: {
     rpc: (method, payload, callback) => {
@@ -86,7 +108,7 @@ const commands = {
         encode('dc.dataControllerUtils.FMDCreateDocument', { name, path, mimeType }),
       ], callback);
     },
-    requestTimebasedQuery: (flatDataId, dataId, interval, args, callback) => {
+    requestTimebasedQuery: (flatDataId, dataId, interval, args) => {
       return commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_QUERY, [
         getDcDataId(flatDataId, dataId),
         encode('dc.dataControllerUtils.TimeInterval', {
@@ -94,7 +116,19 @@ const commands = {
           endTime: { ms: interval[1] },
         }),
         encode('dc.dataControllerUtils.QueryArguments', args),
-      ], callback);
+      ], onDcResponseCallback);
+    },
+    requestSubscriptionAdd: (flatDataId, dataId) => {
+      commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
+        getDcDataId(flatDataId, dataId),
+        getStaticProtobuf('add'),
+      ], onDcResponseCallback);
+    },
+    requestSubscriptionDelete: (flatDataId, dataId) => {
+      commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
+        getDcDataId(flatDataId, dataId),
+        getStaticProtobuf('delete'),
+      ], onDcResponseCallback);
     },
   },
 };

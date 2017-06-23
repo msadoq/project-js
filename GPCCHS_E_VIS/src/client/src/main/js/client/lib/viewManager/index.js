@@ -11,6 +11,7 @@ import packetViewData from './PacketView/data';
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
 import textViewDataSelectors from './TextView/store/dataSelectors';
 import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
+import mimicViewDataSelectors from './MimicView/store/dataSelector';
 // import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 // import packetViewDataSelectors from './PacketView/store/dataSelectors';
 
@@ -71,6 +72,7 @@ const list = {
     viewModule: mimicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: mimicViewData,
+    dataSelectors: mimicViewDataSelectors,
   },
 };
 

@@ -29,7 +29,7 @@ import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
-import adapter from '../utils/adapters';
+import { registerGlobal } from '../utils/adapters';
 
 const logger = getLogger('main:index');
 
@@ -45,7 +45,7 @@ function scheduleTimeout(message) {
 
 export function onStart() {
   setMenu();
-  adapter.registerGlobal();
+  registerGlobal();
   series([
     callback => splashScreen.open(callback),
     callback => enableDebug(callback),
@@ -88,18 +88,29 @@ export function onStart() {
       if (process.env.IS_BUNDLED === 'on') {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/server.js`, {
-          execPath: parameters.get('NODE_PATH'),
-          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
-        }, callback);
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/server.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+          },
+          callback
+        );
       } else {
         splashScreen.setMessage('starting data server process... (dev)');
         logger.info('starting data server process... (dev)');
-        fork(CHILD_PROCESS_SERVER, `${parameters.get('path')}/lib/serverProcess/index.js`, {
-          execPath: parameters.get('NODE_PATH'),
-          execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
-        }, callback);
+
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/lib/serverProcess/index.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+          },
+          callback
+        );
       }
     },
     (callback) => {

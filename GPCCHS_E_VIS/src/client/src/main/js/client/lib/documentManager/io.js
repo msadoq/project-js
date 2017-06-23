@@ -58,5 +58,10 @@ export const writeDocument = (path, json, cb) => {
       });
     });
   }
-  return fs.writeFile(path, data, cb);
+  return fs.writeFile(path, data, (errWriting) => {
+    if (errWriting) {
+      return cb(errWriting);
+    }
+    return cb(null);
+  });
 };

@@ -7,6 +7,7 @@ const _slice = require('lodash/slice');
 const zmq = require('common/zmq/index');
 const { encode, decode } = require('../utils/adapters');
 const constants = require('../constants');
+const parameters = require('../common/configurationManager');
 
 const sessionIdTest = 1;
 const domainIdTest = 4;

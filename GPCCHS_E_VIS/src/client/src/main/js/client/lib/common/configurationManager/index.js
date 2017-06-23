@@ -22,16 +22,14 @@ function getAllArgv() {
 }
 
 function getArgv(name) {
-  return getAllArgv[name];
+  return getAllArgv()[name];
 }
 
-
+const env = process.env.mainProcessConfig
+  ? JSON.parse(process.env.mainProcessConfig)
+  : process.env;
 function getEnv(name) {
-  // console.log("getEnv : ",process.env);
-  if (process.env.mainProcessConfig) {
-    return JSON.parse(process.env.mainProcessConfig)[name];
-  }
-  return process.env[name];
+  return env[name];
 }
 
 function getAllEnv() {

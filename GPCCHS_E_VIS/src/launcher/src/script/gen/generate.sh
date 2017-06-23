@@ -66,7 +66,7 @@ deploy_cots() {
 
   # Workaround for protobuf files being ignore as a rule for normal isis modules
   cd ${api.lib.dir}/js/${project.artifactId}
-  find client -name *.proto | sed -e "s:^:lib/js/${project.artifactId}/:" >> ${api.target.dir}/rpm/filelist.init
+  find client -name *.proto | sed -e "s:^:lib/js/${project.artifactId}/:" | LANG=C sort >> ${api.target.dir}/rpm/filelist.init
 }
 
 Log "generate" "generate all" ${INFO}

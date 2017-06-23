@@ -65,37 +65,38 @@ const prepareWorkspace = state => ({
 const saveWorkspaceAs = (state, path, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
-      callback(errFolderCreation);
-      return;
+      return callback(errFolderCreation);
     }
 
     const workspace = prepareWorkspace(state, path);
-
     // validation
     const validationError = validation('workspace', workspace);
     if (validationError) {
-      callback(validationError);
-      return;
+      return callback(validationError);
     }
     // save file
-    writeDocument(path, workspace, (err) => {
+    return writeDocument(path, workspace, (err) => {
       if (err) {
-        callback(err);
-        return;
+        return callback(err);
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
-      callback(null);
+      return callback(null);
     });
   });
 };
 
-const saveWorkspace = (state, callback) => {
-  const file = getWorkspaceFile(state);
-  const folder = getWorkspaceFolder(state);
-  if (!file || !folder) {
-    return callback(new Error('Unable to get path for saving workspace'));
+const saveWorkspace = (state, filePath, callback) => {
+  let path;
+  if (!filePath || filePath === '') {
+    const file = getWorkspaceFile(state);
+    const folder = getWorkspaceFolder(state);
+    if (!file || !folder) {
+      return callback(new Error('Unable to get path for saving workspace'));
+    }
+    path = join(folder, file);
+  } else {
+    path = filePath;
   }
-  const path = join(folder, file);
   return saveWorkspaceAs(state, path, callback);
 };
 

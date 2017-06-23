@@ -47,7 +47,7 @@ const saveWorkspaceByFilePicker = () => {
   const file = getWorkspaceFile(state);
   getPathByFilePicker(oldFolder, 'Workspace', 'save', (err, newWsPath) => {
     dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
-    saveFile((errSaving) => {
+    saveFile(newWsPath, (errSaving) => {
       if (errSaving) {
         dispatch(updatePath(oldFolder, file));
         return dispatch(addGlobalError(errSaving));
@@ -66,7 +66,7 @@ function workspaceSave(focusedWindow) {
   if (!file) {
     saveWorkspaceByFilePicker();
   } else {
-    saveFile((errSaving) => {
+    saveFile(path.join(getState().hsc.folder, file), (errSaving) => {
       if (errSaving) {
         return dispatch(addGlobalError(errSaving));
       }
@@ -82,8 +82,8 @@ function workspaceSaveAs(focusedWindow) {
   saveWorkspaceByFilePicker();
 }
 
-function saveFile(callback) {
-  saveWorkspace(getStore().getState(), (errWin) => {
+function saveFile(filePath, callback) {
+  saveWorkspace(getStore().getState(), filePath, (errWin) => {
     if (errWin) {
       callback(errWin);
       return;

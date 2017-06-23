@@ -2,25 +2,36 @@ import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 
 
-export default class UnsavedDocWarning extends PureComponent {
+export default class UnsavedViewWarning extends PureComponent {
   static propTypes = {
-    subDocType: PropTypes.string.isRequired,
-    docType: PropTypes.string.isRequired,
-    onIgnore: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
+    isModified: PropTypes.bool.isRequired,
+    openModal: PropTypes.func.isRequired,
+    closePage: PropTypes.func.isRequired,
+  }
+
+  onIgnore = () => {
+    const { closeModal } = this.props;
+    closeModal();
+    const { isModified, closePage, openModal } = this.props;
+    if (isModified) {
+      openModal({ type: 'pageIsModified' });
+    } else {
+      closePage();
+    }
   }
 
   render() {
-    const { subDocType, docType, onIgnore, closeModal } = this.props;
+    const { closeModal } = this.props;
     return (
       <div>
-        <h4>There are unsaved {subDocType} in the {docType} you want to close.</h4>
+        <h4>There are unsaved views in the page you want to close.</h4>
         <h4>Do you want to continue?</h4>
         <p />
         <div className="text-center">
           <button
             className={classnames('btn', 'btn-primary')}
-            onClick={onIgnore}
+            onClick={this.onIgnore}
           >
             Yes
           </button>

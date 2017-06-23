@@ -1,6 +1,5 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import { missingRemoteIds } from './request';
-
+import { computeMissingIntervals } from './computeMissingIntervals';
 
 const remoteIdMap = {
   'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
@@ -64,6 +63,7 @@ const intervalMap = {
     },
   },
 };
+
 const forecastIntervals = {
   'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
     'extractedValue.tb1:0': {
@@ -86,8 +86,8 @@ newMap.expectedIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['ext
 = [1420106800818, 1420106853902];
 
 describe('data:request', () => {
-  test('missingRemoteIds from empty dataMap', () => {
-    const queries = missingRemoteIds(dataMap, { perRemoteId: {}, expectedIntervals: {} });
+  test('computeMissingIntervals from empty dataMap', () => {
+    const queries = computeMissingIntervals(dataMap, { perRemoteId: {}, expectedIntervals: {} });
     expect(queries).toEqual({
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {
@@ -113,8 +113,8 @@ describe('data:request', () => {
       },
     });
   });
-  test('missingRemoteIds from dataMap', () => {
-    const queries = missingRemoteIds(newMap, dataMap);
+  test('computeMissingIntervals from dataMap', () => {
+    const queries = computeMissingIntervals(newMap, dataMap);
     expect(queries).toEqual({
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         dataId: {
@@ -130,7 +130,7 @@ describe('data:request', () => {
     });
   });
   test('forecast', () => {
-    const queries = missingRemoteIds(newMap, dataMap, forecastIntervals);
+    const queries = computeMissingIntervals(newMap, dataMap, forecastIntervals);
     expect(queries).toEqual({
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {

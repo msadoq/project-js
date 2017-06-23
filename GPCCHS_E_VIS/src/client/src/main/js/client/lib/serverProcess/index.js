@@ -1,9 +1,9 @@
 import path from 'path';
 import exit from 'exit';
 import { series } from 'async';
-
 import registerDc from 'common/protobuf/adapters/dc';
 import registerLpisis from 'common/protobuf/adapters/lpisis';
+import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
 import { get } from '../common/configurationManager';
 import makeCreateStore from './store';
@@ -12,7 +12,7 @@ import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
-import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
+import makeDataRequestsObserver from './dataRequests/observer';
 import { dc } from './ipc';
 
 // Temporary fix for packaging ////////////////////////////////////////////////////////////////////
@@ -46,6 +46,7 @@ series({
 
   // store
   const store = makeCreateStore('server', process.env.DEBUG === 'on')();
+  store.subscribe(makeDataRequestsObserver(store));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));

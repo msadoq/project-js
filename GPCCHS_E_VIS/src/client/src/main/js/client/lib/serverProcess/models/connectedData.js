@@ -111,7 +111,7 @@ collection.addRecord = (dataId) => { // TODO => rename addRecordIfNotExists
 
 collection.addRequestedInterval = (model, queryId, interval) => {
   _set(model, ['intervals', 'requested', queryId], interval);
-  _set(model, ['intervals', 'all', queryId], intervalManager.merge(model.intervals.all, interval));
+  _set(model, ['intervals', 'all'], intervalManager.merge(model.intervals.all, interval));
 };
 
 collection.addLastQuery = (model, queryId, interval) => {

@@ -148,23 +148,23 @@ function _getLogger(category, config = getDefaultConfig(), allTransports = avail
         const meta = args[2] || {};
 
         if (params.time) {
-          meta.time = meta.time || `${getTime()}ms`;
+          meta.time = meta.time || `${getTime()}ms`; // TODO fix : the module mutate arguments (e.g. dataMap)!!
         } else {
-          delete meta.time;
+          delete meta.time; // TODO fix : the module mutate arguments (e.g. dataMap)!!
         }
 
         if (params.process) {
-          meta.pname = getProcessName(meta);
-          meta.pid = getProcessId(meta);
+          meta.pname = getProcessName(meta); // TODO fix : the module mutate arguments (e.g. dataMap)!!
+          meta.pid = getProcessId(meta); // TODO fix : the module mutate arguments (e.g. dataMap)!!
         } else {
-          delete meta.pname;
-          delete meta.pid;
+          delete meta.pname; // TODO fix : the module mutate arguments (e.g. dataMap)!!
+          delete meta.pid; // TODO fix : the module mutate arguments (e.g. dataMap)!!
         }
 
         if (params.category) {
-          meta.category = category;
+          meta.category = category; // TODO fix : the module mutate arguments (e.g. dataMap)!!
         } else {
-          delete meta.category;
+          delete meta.category; // TODO fix : the module mutate arguments (e.g. dataMap)!!
         }
 
         log.apply(this, args);

@@ -1,6 +1,7 @@
 import createInterval from '../../../common/utils/interval';
 
 import { updateCursors } from '../../actions/timebars';
+import { getPage } from '../../reducers/pages';
 import { getTimebar } from '../../reducers/timebars';
 import { getPlayingTimebarId } from '../../reducers/hsc';
 import { nextCurrent, computeCursors } from './cursors';
@@ -89,6 +90,12 @@ const openEditorHandler = ({ dispatch }, next, action) => {
 };
 
 const focusPageHandler = ({ dispatch, getState }, next, action) => {
+  const state = getState();
+  const page = getPage(state, { pageId: action.payload.pageId });
+  const playingTimebarId = getPlayingTimebarId(state);
+  if (playingTimebarId && playingTimebarId !== page.timebarUuid) {
+    dispatch(pause());
+  }
   return next(action);
 };
 

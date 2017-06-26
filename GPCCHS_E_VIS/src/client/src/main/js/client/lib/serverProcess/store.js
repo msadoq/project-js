@@ -10,9 +10,9 @@ import { main } from './ipc';
 let store;
 
 const middlewares = [
+  thunk,
   createMessagesMiddleware(),
   createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
-  thunk,
 ];
 
 export default function makeCreateStore() {

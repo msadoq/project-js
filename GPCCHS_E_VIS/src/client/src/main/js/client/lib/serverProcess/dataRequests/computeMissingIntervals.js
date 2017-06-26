@@ -96,6 +96,6 @@ export default function computeMissingIntervals(dataMap, lastMap, forecastInterv
       });
     });
   });
-  console.warn('QUERIES', Object.keys(queries));
+
   return queries;
 }

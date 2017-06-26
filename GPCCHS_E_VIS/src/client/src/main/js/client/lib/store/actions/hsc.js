@@ -1,10 +1,5 @@
-import { HEALTH_STATUS_CRITICAL } from '../../constants';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
-import { isAnyEditorOpened } from '../selectors/pages';
-import { getHealthMap } from '../reducers/health';
-import { getIsCodeEditorOpened } from '../reducers/editor';
-import { add as addMessage } from './messages';
 import { setRealTime } from '../actions/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
 import { getWindowFocusedPageId } from '../reducers/windows';
@@ -27,35 +22,6 @@ export const updateSessionName = simple(types.WS_WORKSPACE_UPDATE_SESSIONNAME, '
  * Play mode
  */
 export const play = simple(types.HSC_PLAY, 'timebarUuid');
-export const smartPlay = timebarUuid => // TODO dbrugne test
-  (dispatch, getState) => {
-    const health = getHealthMap(getState());
-    if (
-      getIsCodeEditorOpened(getState())
-      || isAnyEditorOpened(getState())
-    ) {
-      dispatch(addMessage(
-        'global',
-        'warning',
-        'Please close editors before play timebar'
-        )
-      );
-    } else if (
-      health.dc !== HEALTH_STATUS_CRITICAL
-      && health.hss !== HEALTH_STATUS_CRITICAL
-      && health.main !== HEALTH_STATUS_CRITICAL
-      && health.windows !== HEALTH_STATUS_CRITICAL
-    ) {
-      dispatch(play(timebarUuid));
-    } else {
-      dispatch(addMessage(
-        'global',
-        'warning',
-        'One process of the application is oveloaded, cannot switch to play'
-        )
-      );
-    }
-  };
 
 export const startInPlayMode = () =>
   (dispatch, getState) => {
@@ -68,7 +34,7 @@ export const startInPlayMode = () =>
       dispatch(setRealTime(timebarUuid, true));
     });
     const { timebarUuid } = page;
-    dispatch(smartPlay(timebarUuid));
+    dispatch(play(timebarUuid));
   };
   /*
 export const pause = () =>

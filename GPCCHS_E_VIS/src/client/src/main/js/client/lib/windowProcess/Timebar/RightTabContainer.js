@@ -5,7 +5,7 @@ import {
   updateCursors,
   jump,
 } from '../../store/actions/timebars';
-import { smartPlay, pause } from '../../store/actions/hsc';
+import { play, pause } from '../../store/actions/hsc';
 import {
   open as openModal,
 } from '../../store/actions/modals';
@@ -16,7 +16,7 @@ export default connect(
   {
     setRealTime,
     updateViewport,
-    play: smartPlay,
+    play,
     pause,
     updateCursors,
     jump,

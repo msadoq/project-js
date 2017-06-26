@@ -31,7 +31,6 @@ describe('store:actions:editor', () => {
     store.dispatch(actions.openHtmlEditor('test'));
     expect(store.getActions()).toMatchObject([
       { type: 'WS_WINDOW_OPEN_HTML_EDITOR', payload: { viewId: 'test' } },
-      { type: 'HSC_PAUSE' },
     ]);
   });
 });

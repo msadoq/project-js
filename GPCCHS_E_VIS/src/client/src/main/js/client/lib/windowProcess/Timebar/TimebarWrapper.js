@@ -43,8 +43,6 @@ export default class TimebarWrapper extends PureComponent {
         sessionName: PropTypes.string.isRequired,
       })
     ).isRequired,
-    pause: PropTypes.func.isRequired,
-    play: PropTypes.func.isRequired,
   }
 
   state = {
@@ -56,16 +54,6 @@ export default class TimebarWrapper extends PureComponent {
     this.setState({
       timelinesVerticalScroll: e.target.scrollTop,
     });
-  }
-
-  willPause = (e) => {
-    e.preventDefault();
-    this.props.pause();
-  }
-
-  willPlay = (e) => {
-    e.preventDefault();
-    this.props.play(this.props.timebar.uuid);
   }
 
   render() {

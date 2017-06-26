@@ -19,7 +19,6 @@ import getLogger from '../common/logManager';
 import { server } from './ipc';
 import { getStore } from './store';
 import {
-  getWindowsOpened,
   getLastCacheInvalidation,
   getPlayingTimebarId,
 } from '../store/reducers/hsc';
@@ -32,13 +31,11 @@ import dataMapGenerator from '../dataManager/map';
 import displayQueries from '../dataManager/displayQueries';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
-import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
 
 let logger;
 
 let nextTick = null;
-let lastTick = null;
 let tickStart = null;
 let criticalTimeout = null;
 const previous = {
@@ -121,7 +118,6 @@ export function stop() {
       logger.error(e);
     }
   }
-  lastTick = null;
 }
 
 export function tick() {
@@ -136,18 +132,6 @@ export function tick() {
 
   // store
   const { getState, dispatch } = getStore();
-
-  const isWindowsOpened = getWindowsOpened(getState());
-
-  // play management (before dataMap generation, allow tick to work on a up to date state)
-  if (isWindowsOpened) {
-    execution.start('play handling');
-    const lastTickTime = lastTick;
-    lastTick = Date.now();
-    const delta = lastTick - lastTickTime;
-    dispatch(handlePlay(delta, get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
-    execution.stop('play handling');
-  }
 
   // data map
   execution.start('dataMap generation');
@@ -257,22 +241,36 @@ export function tick() {
       const queries = displayQueries(previous, dataMap, isPlayingMode);
       server.requestData(queries, (dataToInject) => {
         execution.stop('data retrieving');
-        // viewData
-        execution.start('data injection');
-        dispatch(updateViewData(
-          previous.injectionViewMap,
-          dataMap.perView,
-          previous.injectionIntervals,
-          dataMap.expectedIntervals,
-          dataToInject.data));
-        const message = Object.keys(dataToInject.data).length
-          ? `${Object.keys(dataToInject.data).length} remoteId`
-          : undefined;
-        execution.stop('data injection', message);
 
-        previous.injectionIntervals = dataMap.expectedIntervals;
-        previous.injectionRemoteIdMap = dataMap.perRemoteId;
-        previous.injectionViewMap = dataMap.perView;
+        // viewData
+        // Note: test added by dbrugne to avoid Redux action logger flood
+        if (
+          previous.injectionIntervals !== dataMap.expectedIntervals
+          || previous.injectionViewMap !== dataMap.perView
+          || Object.keys(dataToInject.data).length
+        ) {
+          execution.start('data injection');
+
+          dispatch(
+            updateViewData(
+              previous.injectionViewMap,
+              dataMap.perView,
+              previous.injectionIntervals,
+              dataMap.expectedIntervals,
+              dataToInject.data
+            )
+          );
+
+          const message = Object.keys(dataToInject.data).length
+            ? `${Object.keys(dataToInject.data).length} remoteId`
+            : undefined;
+          execution.stop('data injection', message);
+
+          previous.injectionIntervals = dataMap.expectedIntervals;
+          previous.injectionRemoteIdMap = dataMap.perRemoteId;
+          previous.injectionViewMap = dataMap.perView;
+        }
+
         callback(null);
       });
     },

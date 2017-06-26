@@ -27,18 +27,14 @@ function prepareEnhancers(isDebugOn) {
   if (!isDebugOn) {
     return compose(applyMiddleware(thunk), enhancer);
   }
-
   // renderer (with debug)
   const reduxLogger = createLogger({
     level: 'info',
     collapsed: true,
     predicate: (state, action) => (
-      _getOr(false, ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action) !== false
+      !_getOr(false, ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action)
     ),
-    actionTransformer: (action) => {
-      const actionWithTiming = decorateActionWithTiming(action);
-      return actionWithTiming;
-    },
+    actionTransformer: isDebugOn ? decorateActionWithTiming : action => action,
   });
 
   const isThereDevTools = typeof window !== 'undefined'

@@ -20,7 +20,7 @@ import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
-import { getIsWorkspaceOpening, startInPlayMode } from '../store/actions/hsc';
+import { getIsWorkspaceOpening } from '../store/actions/hsc';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
@@ -202,13 +202,6 @@ export function onStart() {
     logger.info('ready!');
     // TODO dbrugne move in server lifecycle ========================================
     startOrchestration();
-    // start on play
-    if (parameters.get('REALTIME') === 'on') {
-      logger.info('Start in playing mode');
-      setTimeout(() => {
-        getStore().dispatch(startInPlayMode());
-      }, 2000);
-    }
     // TODO dbrugne move in server lifecycle ========================================
   });
 }

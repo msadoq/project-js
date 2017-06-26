@@ -1,10 +1,5 @@
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
-import { setRealTime } from '../actions/timebars';
-import { getFocusedWindowId } from '../reducers/hsc';
-import { getWindowFocusedPageId } from '../reducers/windows';
-import { getPage } from '../reducers/pages';
-import { getTimebars } from '../reducers/timebars';
 
 /**
  * App lifecycle
@@ -23,28 +18,6 @@ export const updateSessionName = simple(types.WS_WORKSPACE_UPDATE_SESSIONNAME, '
  */
 export const play = simple(types.HSC_PLAY, 'timebarUuid');
 
-export const startInPlayMode = () =>
-  (dispatch, getState) => {
-    const state = getState();
-    const windowId = getFocusedWindowId(state);
-    const pageId = getWindowFocusedPageId(state, { windowId });
-    const page = getPage(state, { pageId });
-    // All timebar switch to real time
-    Object.keys(getTimebars(state)).forEach((timebarUuid) => {
-      dispatch(setRealTime(timebarUuid, true));
-    });
-    const { timebarUuid } = page;
-    dispatch(play(timebarUuid));
-  };
-  /*
-export const pause = () =>
-  (dispatch, getState) => {
-    dispatch({ type: types.HSC_PAUSE });
-    _keys(getTimebars(getState())).forEach((timebarId) => {
-      dispatch(setRealTime(timebarId, false));
-    });
-  };
-*/
 /**
  * Cache invalidation
  */

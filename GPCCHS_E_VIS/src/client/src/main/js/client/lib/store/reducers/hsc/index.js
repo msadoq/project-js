@@ -25,6 +25,7 @@ export default function hsc(state = initialState, action) {
     case types.HSC_PAUSE:
       return Object.assign({}, state, { playingTimebarId: null });
     case types.HSC_SET_WINDOWS_AS_OPENED:
+    case types.WS_WINDOW_SET_IS_LOADED:
       return Object.assign({}, state, { windowsOpened: true });
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:
       return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });
@@ -99,12 +100,11 @@ const inHsc = key => _.path(['hsc', key]);
 // simples
 export const getWorkspaceFile = inHsc('file');
 export const getWorkspaceFolder = inHsc('folder');
-export const getWindowsOpened = inHsc('windowsOpened');
+export const getWindowsOpened = inHsc('windowsOpened'); // TODO rename getIsWindowsOpened
 export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
-export const getForecast = inHsc('forecast');
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');

@@ -1,14 +1,10 @@
-import _isObject from 'lodash/isObject';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
-import getLogger from '../common/logManager';
-import globalConstants from '../constants';
-import { addInterval, retrieveNeededIntervals } from '../viewManager/commonData/intervalManagement';
-import { getStructureType } from '../viewManager';
-
-const logger = getLogger('data:requests');
+import globalConstants from '../../constants';
+import { addInterval, retrieveNeededIntervals } from '../../viewManager/commonData/intervalManagement';
+import { getStructureType } from '../../viewManager';
 
 /**
  * Return the current missing intervals requests list
@@ -48,14 +44,14 @@ const logger = getLogger('data:requests');
  * @param forecastIntervals: undefined or with same keys as expectedIntervals
  * @return object
  */
-export function missingRemoteIds(dataMap, lastMap, forecastIntervals) {
+export default function computeMissingIntervals(dataMap, lastMap, forecastIntervals) {
   const queries = {};
   _each(dataMap.perRemoteId, ({ dataId, localIds, views }, remoteId) => {
     _each(localIds, ({ viewType }, localId) => {
       // If forecast, use this intervalMap
       let needed = [];
       if (forecastIntervals) {
-        needed.push(forecastIntervals[remoteId][localId].expectedInterval);
+        needed.push(forecastIntervals[remoteId][localId].expectedInterval); // TODO should be done outside this function
       } else {
         const knownInterval =
           _get(lastMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
@@ -100,17 +96,6 @@ export function missingRemoteIds(dataMap, lastMap, forecastIntervals) {
       });
     });
   });
+
   return queries;
-}
-
-// entire dataMap to get perRemoteId and expectedIntervals
-export default function request(dataMap, lastMap, forecastIntervals, send) {
-  // compute missing data
-  const dataQueries = missingRemoteIds(dataMap, lastMap, forecastIntervals);
-
-  const n = Object.keys(dataQueries).length;
-  logger.debug(`dataQueries was generated for ${n}`, dataQueries);
-  if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
-    send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, { queries: dataQueries });
-  }
 }

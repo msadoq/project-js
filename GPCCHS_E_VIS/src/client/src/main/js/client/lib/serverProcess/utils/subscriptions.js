@@ -14,15 +14,27 @@ function errorCallback(err) {
   }
 }
 
-const protobufSubscriptionHeader = encode('dc.dataControllerUtils.Header', {
-  messageType: globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
-});
-const protobufSubscriptionAddAction = encode('dc.dataControllerUtils.Action', {
-  action: globalConstants.SUBSCRIPTIONACTION_ADD,
-});
-const protobufSubscriptionDeleteAction = encode('dc.dataControllerUtils.Action', {
-  action: globalConstants.SUBSCRIPTIONACTION_DELETE,
-});
+/**
+ * Protobuf optimization
+ */
+let staticProtobufs;
+function getStaticProtobuf(type) {
+  if (!staticProtobufs) {
+    staticProtobufs = {
+      header: encode('dc.dataControllerUtils.Header', {
+        messageType: globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
+      }),
+      add: encode('dc.dataControllerUtils.Action', {
+        action: globalConstants.SUBSCRIPTIONACTION_ADD,
+      }),
+      delete: encode('dc.dataControllerUtils.Action', {
+        action: globalConstants.SUBSCRIPTIONACTION_DELETE,
+      }),
+    };
+  }
+
+  return staticProtobufs[type];
+}
 
 let subIdIndex = 0;
 function generateSubId() {
@@ -50,10 +62,10 @@ const createAddSubscriptionMessage = (dataId) => {
   registeredCallbacks.set(subId, errorCallback);
 
   const args = [
-    protobufSubscriptionHeader,
+    getStaticProtobuf('header'),
     encode('dc.dataControllerUtils.String', { string: subId }),
     getDataIdProtobuf(dataId),
-    protobufSubscriptionAddAction,
+    getStaticProtobuf('add'),
   ];
 
   return { args, subId };
@@ -65,10 +77,10 @@ const createDeleteSubscriptionMessage = (dataId) => {
   registeredCallbacks.set(subId, errorCallback);
 
   const args = [
-    protobufSubscriptionHeader,
+    getStaticProtobuf('header'),
     encode('dc.dataControllerUtils.String', { string: subId }),
     getDataIdProtobuf(dataId),
-    protobufSubscriptionDeleteAction,
+    getStaticProtobuf('delete'),
   ];
 
   return { args, subId };

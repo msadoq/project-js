@@ -1,4 +1,5 @@
 const logger = require('../../../common/logManager')('controllers:onDomainData');
+const { pop } = require('../../../common/callbacks');
 const { decode } = require('common/protobuf');
 
 /**
@@ -9,12 +10,13 @@ const { decode } = require('common/protobuf');
  * @param queryIdBuffer
  * @param buffer
  */
-module.exports = (reply, queryIdBuffer, buffer) => {
+module.exports = (queryIdBuffer, buffer) => {
   logger.silly('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
+  const callback = pop(queryId);
 
   const { domains } = decode('dc.dataControllerUtils.Domains', buffer);
-  reply(queryId, { domains });
+  callback(domains);
 };

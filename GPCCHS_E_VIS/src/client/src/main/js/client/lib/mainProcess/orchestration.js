@@ -1,6 +1,4 @@
 import _round from 'lodash/round';
-import _reduce from 'lodash/reduce';
-import _get from 'lodash/get';
 import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
 import { tmpdir } from 'os';
@@ -21,32 +19,23 @@ import getLogger from '../common/logManager';
 import { server } from './ipc';
 import { getStore } from './store';
 import {
-  getWindowsOpened,
   getLastCacheInvalidation,
   getPlayingTimebarId,
-  getForecast,
 } from '../store/reducers/hsc';
 import { getHealthMap, getMainStatus } from '../store/reducers/health';
 import {
-  setWindowsAsOpened,
   updateCacheInvalidation,
   pause,
-  updateForecast,
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
-import request from '../dataManager/request';
 import displayQueries from '../dataManager/displayQueries';
-import windowsObserver from './windowsManager';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
-import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
-import { getTimebar } from '../store/reducers/timebars';
 
 let logger;
 
 let nextTick = null;
-let lastTick = null;
 let tickStart = null;
 let criticalTimeout = null;
 const previous = {
@@ -61,23 +50,6 @@ const previous = {
     windows: HEALTH_STATUS_HEALTHY,
   },
 };
-
-export function addForecast(expectedIntervals, forecast) {
-  // Loop on remoteId/localId and create a new interval
-  return _reduce(expectedIntervals, (acc, value, remoteId) =>
-    ({ ...acc,
-      [remoteId]:
-      _reduce(value, (accInt, intervals, localId) =>
-        ({ ...accInt,
-          [localId]: {
-            expectedInterval: [
-              intervals.expectedInterval[1],
-              intervals.expectedInterval[1] + forecast],
-          } })
-      , {}) }),
-  {});
-}
-
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -139,8 +111,13 @@ export function start() {
 export function stop() {
   clear();
   clearCritical();
-  getStore().dispatch(pause());
-  lastTick = null;
+  try { // TODO dbrugne remove try/catch once lifecycle is stable
+    getStore().dispatch(pause());
+  } catch (e) {
+    if (logger) {
+      logger.error(e);
+    }
+  }
 }
 
 export function tick() {
@@ -155,18 +132,6 @@ export function tick() {
 
   // store
   const { getState, dispatch } = getStore();
-
-  const isWindowsOpened = getWindowsOpened(getState());
-
-  // play management (before dataMap generation, allow tick to work on a up to date state)
-  if (isWindowsOpened) {
-    execution.start('play handling');
-    const lastTickTime = lastTick;
-    lastTick = Date.now();
-    const delta = lastTick - lastTickTime;
-    dispatch(handlePlay(delta, get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
-    execution.stop('play handling');
-  }
 
   // data map
   execution.start('dataMap generation');
@@ -263,44 +228,6 @@ export function tick() {
       }
       callback(null);
     },
-    // request data
-    (callback) => {
-      if (skipThisTick || dataMap.expectedIntervals === previous.expectedIntervals) {
-        callback(null);
-        return;
-      }
-      execution.start('data requests');
-      const timebarUuid = getPlayingTimebarId(getState());
-      // Add forecast in play mode
-      let forecastIntervals;
-      // Check validity of previous datamap to avoid empty data when launching in realtime mode
-      if (timebarUuid && Object.keys(_get(previous, 'requestedDataMap', {})).length) {
-        // Get playing mode
-        const { visuWindow } = getTimebar(getState(), { timebarUuid });
-        const { upper } = visuWindow;
-        // Check old forecast
-        const lastForecast = getForecast(getState());
-        // Add forecast if neede
-        if (!lastForecast.upper ||            // 1rst forecast
-          lastForecast.upper - upper < 100 || // forecast is too thin
-          upper < lastForecast.lower          // visu has moved backwards
-        ) {
-          const forecastTime = get('FORECAST');
-          forecastIntervals = addForecast(dataMap.expectedIntervals, forecastTime);
-          dispatch(updateForecast(upper, upper + forecastTime));
-          request(dataMap, previous, forecastIntervals, server.message);
-        }
-      } else {
-        request(dataMap, previous, forecastIntervals, server.message);
-      }
-
-      // request module should receive only the last 'analysed' map
-      previous.perRemoteId = dataMap.perRemoteId;
-      previous.expectedIntervals = dataMap.expectedIntervals;
-
-      execution.stop('data requests');
-      callback(null);
-    },
     // pull data
     (callback) => {
       if (skipThisTick) {
@@ -314,42 +241,36 @@ export function tick() {
       const queries = displayQueries(previous, dataMap, isPlayingMode);
       server.requestData(queries, (dataToInject) => {
         execution.stop('data retrieving');
+
         // viewData
-        execution.start('data injection');
-        dispatch(updateViewData(
-          previous.injectionViewMap,
-          dataMap.perView,
-          previous.injectionIntervals,
-          dataMap.expectedIntervals,
-          dataToInject.data));
-        const message = Object.keys(dataToInject.data).length
-          ? `${Object.keys(dataToInject.data).length} remoteId`
-          : undefined;
-        execution.stop('data injection', message);
+        // Note: test added by dbrugne to avoid Redux action logger flood
+        if (
+          previous.injectionIntervals !== dataMap.expectedIntervals
+          || previous.injectionViewMap !== dataMap.perView
+          || Object.keys(dataToInject.data).length
+        ) {
+          execution.start('data injection');
 
-        previous.injectionIntervals = dataMap.expectedIntervals;
-        previous.injectionRemoteIdMap = dataMap.perRemoteId;
-        previous.injectionViewMap = dataMap.perView;
-        callback(null);
-      });
-    },
-    // sync windows
-    (callback) => {
-      execution.start('windows handling');
-      windowsObserver((err) => {
-        if (err) {
-          execution.stop('windows handling');
-          callback(err);
-          return;
+          dispatch(
+            updateViewData(
+              previous.injectionViewMap,
+              dataMap.perView,
+              previous.injectionIntervals,
+              dataMap.expectedIntervals,
+              dataToInject.data
+            )
+          );
+
+          const message = Object.keys(dataToInject.data).length
+            ? `${Object.keys(dataToInject.data).length} remoteId`
+            : undefined;
+          execution.stop('data injection', message);
+
+          previous.injectionIntervals = dataMap.expectedIntervals;
+          previous.injectionRemoteIdMap = dataMap.perRemoteId;
+          previous.injectionViewMap = dataMap.perView;
         }
 
-        // only one time to avoid recursion
-        if (isWindowsOpened === false) {
-          dispatch(setWindowsAsOpened());
-        }
-
-        logger.debug('windows synchronized');
-        execution.stop('windows handling');
         callback(null);
       });
     },

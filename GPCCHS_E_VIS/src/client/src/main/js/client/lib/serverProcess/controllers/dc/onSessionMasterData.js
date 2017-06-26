@@ -1,4 +1,5 @@
 const logger = require('../../../common/logManager')('controllers:onSessionMasterData');
+const { pop } = require('../../../common/callbacks');
 const { decode, getType } = require('common/protobuf');
 
 /**
@@ -9,13 +10,13 @@ const { decode, getType } = require('common/protobuf');
  * @param queryIdBuffer
  * @param buffer
  */
-module.exports = (reply, queryIdBuffer, buffer) => {
+module.exports = (queryIdBuffer, buffer) => {
   logger.silly('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
+  const callback = pop(queryId);
 
-  reply(queryId, {
-    masterSessionId: decode(getType('UINTEGER'), buffer).value,
-  });
+  const masterSessionId = decode(getType('UINTEGER'), buffer).value;
+  callback(masterSessionId);
 };

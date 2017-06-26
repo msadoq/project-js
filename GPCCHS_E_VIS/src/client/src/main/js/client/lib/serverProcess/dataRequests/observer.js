@@ -1,0 +1,53 @@
+import execution from '../../common/logManager/execution';
+import dataMapGenerator from '../../dataManager/map';
+import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
+import makeDataSubscriptions from './dataSubscriptions';
+import makeDataQueries from './dataQueries';
+
+/**
+ * Note, dataMap keys:
+ * - perView
+ * - perRemoteId
+ * - expectedIntervals
+ */
+
+export default function makeDataRequestsObserver(store) {
+  const dataSubscriptions = makeDataSubscriptions();
+  const dataQueries = makeDataQueries();
+  let previous; // previous dataMap
+  return function dataRequestsObserver() {
+    const state = store.getState();
+
+    // skip is workspace is loading or no windows was already loaded
+    if (getIsWorkspaceOpening(state) === true && getWindowsOpened(state) === false) {
+      return;
+    }
+
+    const profile = execution('dataMap:store:observer');
+
+    // data map
+    profile.start('dataMap generation');
+    const dataMap = dataMapGenerator(state); // TODO : major issue dataMap is a new one even if we just resize a view
+    profile.stop('dataMap generation');
+
+    // skip if the dataMap is the same as previous run
+    if (dataMap === previous) {
+      profile.print();
+      return;
+    }
+
+    profile.start('run');
+
+    // run dataSubscriptions observer (create and remove pub/sub subscriptions)
+    dataSubscriptions(dataMap, previous);
+
+    // run dataQueries observer (produce dataRequest for DC)
+    dataQueries(dataMap, previous, state);
+
+    // store dataMap for next observer execution
+    previous = dataMap;
+
+    profile.stop('run');
+    profile.print();
+  };
+}

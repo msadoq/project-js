@@ -241,22 +241,36 @@ export function tick() {
       const queries = displayQueries(previous, dataMap, isPlayingMode);
       server.requestData(queries, (dataToInject) => {
         execution.stop('data retrieving');
-        // viewData
-        execution.start('data injection');
-        dispatch(updateViewData(
-          previous.injectionViewMap,
-          dataMap.perView,
-          previous.injectionIntervals,
-          dataMap.expectedIntervals,
-          dataToInject.data));
-        const message = Object.keys(dataToInject.data).length
-          ? `${Object.keys(dataToInject.data).length} remoteId`
-          : undefined;
-        execution.stop('data injection', message);
 
-        previous.injectionIntervals = dataMap.expectedIntervals;
-        previous.injectionRemoteIdMap = dataMap.perRemoteId;
-        previous.injectionViewMap = dataMap.perView;
+        // viewData
+        // Note: test added by dbrugne to avoid Redux action logger flood
+        if (
+          previous.injectionIntervals !== dataMap.expectedIntervals
+          || previous.injectionViewMap !== dataMap.perView
+          || Object.keys(dataToInject.data).length
+        ) {
+          execution.start('data injection');
+
+          dispatch(
+            updateViewData(
+              previous.injectionViewMap,
+              dataMap.perView,
+              previous.injectionIntervals,
+              dataMap.expectedIntervals,
+              dataToInject.data
+            )
+          );
+
+          const message = Object.keys(dataToInject.data).length
+            ? `${Object.keys(dataToInject.data).length} remoteId`
+            : undefined;
+          execution.stop('data injection', message);
+
+          previous.injectionIntervals = dataMap.expectedIntervals;
+          previous.injectionRemoteIdMap = dataMap.perRemoteId;
+          previous.injectionViewMap = dataMap.perView;
+        }
+
         callback(null);
       });
     },

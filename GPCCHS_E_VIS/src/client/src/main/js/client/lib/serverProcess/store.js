@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { get } from '../common/configurationManager';
 import createMessagesMiddleware from '../store/middlewares/messages';
 import createPlayerMiddleware from '../store/middlewares/player';
 import makeServerEnhancer from './storeEnhancer';
@@ -10,7 +11,7 @@ let store;
 
 const middlewares = [
   createMessagesMiddleware(),
-  createPlayerMiddleware(),
+  createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   thunk,
 ];
 

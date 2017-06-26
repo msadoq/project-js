@@ -166,4 +166,16 @@ module.exports = {
   },
   // REDUX SYNCHRONIZATION
   REDUX_SYNCHRONIZATION_PATCH_KEY: 'patch',
+  TIMING_DATA: 'timing',
+  TIMING_MILESTONES: {
+    RENDERER_UP: 'rendererUp',
+    MAIN_UP: 'mainUp',
+    BEFORE_SERVER_STORE_UPDATE: 'beforeServerStateUpdate',
+    AFTER_SERVER_STORE_UPDATE: 'afterServerStateUpdate',
+    BEFORE_MAIN_STORE_UPDATE: 'beforeMainStoreUpdate',
+    AFTER_MAIN_STORE_UPDATE: 'afterMainStoreUpdate',
+    BEFORE_RENDERER_UPDATE: 'beforeRendererUpdate',
+    AFTER_RENDERER_STORE_UPDATE: 'afterRendererUpdate',
+  },
+  COMPUTED_TIMING_DATA: 'computedTiming',
 };

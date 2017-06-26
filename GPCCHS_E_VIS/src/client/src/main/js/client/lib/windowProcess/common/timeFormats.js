@@ -35,6 +35,29 @@ export function getZoomLevel(msWidth) {
   return zoomLevel;
 }
 
+/**
+ * Compute difference of hrtime
+ * @param {hrtime} a
+ * @param {hrtime} b
+ */
+export const computeDiffHrtime = (a, b) => {
+  if (!a || !b) {
+    return 'Error in timing calculation';
+  }
+  const as = a[0];
+  const ans = a[1];
+  const bs = b[0];
+  const bns = b[1];
+  let ns = ans - bns; // nanosecs delta, can overflow (will be negative)
+  let s = as - bs; // secs delta
+  if (ns < 0) { // has overflowed
+    s -= 1; // cut a second
+    ns += 1e9; // add a billion nanosec (to neg number)
+  }
+  const timing = `${(s * 1000) + (ns / 1000000)} ms`;
+  return timing;
+};
+
 const day = 1000 * 60 * 60 * 24;
 const hour = 1000 * 60 * 60;
 const min = 1000 * 60;

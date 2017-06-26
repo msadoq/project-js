@@ -20,13 +20,15 @@ export default function makeSlaveDispatcher(originalDispatch, sendUp, identity, 
       // it's a patch action from server, call patchReducer with original dispatch
       originalDispatch(action);
       if (log) {
-        log.silly('patch action dispatched', action.type);
+        log.silly('Slave patch action dispatched', action.type);
       }
     } else {
       // it's a regular action dispatched in this process, forward to server process
+      let patchAction = action;
+      patchAction = _set(['meta', 'origin'], identity, action);
       sendUp(
         // decorate action with process identity
-        _set(['meta', 'origin'], identity, action)
+        patchAction
       );
       if (log) {
         log.silly('action forwarded', action.type);

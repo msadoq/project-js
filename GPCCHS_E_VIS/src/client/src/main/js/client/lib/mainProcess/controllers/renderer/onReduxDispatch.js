@@ -1,3 +1,6 @@
+import _set from 'lodash/fp/set';
+import { TIMING_DATA, TIMING_MILESTONES } from '../../../constants';
+
 const { server } = require('../../ipc');
 
 /**
@@ -7,4 +10,7 @@ const { server } = require('../../ipc');
  *
  * @param action
  */
-module.exports = action => server.sendReduxDispatch(action);
+module.exports = (action) => {
+  const actionWithTiming = _set(['meta', TIMING_DATA, TIMING_MILESTONES.RENDERER_UP], process.hrtime(), action);
+  server.sendReduxDispatch(actionWithTiming);
+};

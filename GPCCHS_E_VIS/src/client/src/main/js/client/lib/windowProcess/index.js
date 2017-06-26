@@ -35,11 +35,11 @@ main.requestReduxCurrentState(({ state }) => {
   const store = makeCreateStore(global.parameters.get('DEBUG') === 'on')(state);
 
   render(
-    <HealthMonitor windowId={windowId}>
-      <Provider store={store}>
+    <Provider store={store}>
+      <HealthMonitor windowId={windowId}>
         <WindowContainer windowId={windowId} />
-      </Provider>
-    </HealthMonitor>,
+      </HealthMonitor>
+    </Provider>,
     document.getElementById('root')
   );
 });

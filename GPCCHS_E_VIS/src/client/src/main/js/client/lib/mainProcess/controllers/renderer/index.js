@@ -16,7 +16,6 @@ import onOpenView from './onOpenView';
 import onOpenPage from './onOpenPage';
 import onOpenPageOrView from './onOpenPageOrView';
 import onOpenWorkspace from './onOpenWorkspace';
-import onHealthStatus from './onHealthStatus';
 import onOpenInspector from './onOpenInspector';
 import onResolveLink from './onResolveLink';
 import onOpenWikiHelper from './onOpenWikiHelper';
@@ -35,7 +34,6 @@ const controller = {
   [constants.IPC_METHOD_OPEN_PAGE]: onOpenPage,
   [constants.IPC_METHOD_OPEN_PAGE_OR_VIEW]: onOpenPageOrView,
   [constants.IPC_METHOD_OPEN_WORKSPACE]: onOpenWorkspace,
-  [constants.IPC_METHOD_HEALTH_STATUS]: onHealthStatus,
   [constants.IPC_METHOD_OPEN_INSPECTOR]: onOpenInspector,
   [constants.IPC_METHOD_RESOLVE_LINK]: onResolveLink,
   [constants.IPC_METHOD_WIKI_HELPER]: onOpenWikiHelper,

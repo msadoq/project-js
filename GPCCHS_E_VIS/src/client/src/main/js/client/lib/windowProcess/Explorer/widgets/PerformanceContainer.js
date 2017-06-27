@@ -1,5 +1,8 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import _has from 'lodash/fp/has';
+import _get from 'lodash/fp/get';
+import _set from 'lodash/fp/set';
 import { getHealthMapForWindow } from '../../../store/reducers/health';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
 import { getWindowFocusedPageId } from '../../../store/reducers/windows';
@@ -24,10 +27,10 @@ const mapStateToProps = (state, { windowId }) => {
 
   views.forEach((v) => {
     let nbPt = 1;
-    if (viewCount[v.viewData.type] && viewCount[v.viewData.type][v.viewId]) {
-      nbPt = viewCount[v.viewData.type][v.viewId];
+    if (_has([v.viewData.type, v.viewId], viewCount)) {
+      nbPt = _get([v.viewData.type, v.viewId], viewCount);
     }
-    viewInfo[v.viewData.type][v.viewId] = { title: v.viewData.title, nbPt };
+    _set([v.viewData.type, v.viewId], { title: v.viewData.title, nbPt }, viewInfo);
   });
   viewInfo[constants.VM_VIEW_PLOT].all = viewCount[constants.VM_VIEW_PLOT].all;
   viewInfo[constants.VM_VIEW_TEXT].all = viewCount[constants.VM_VIEW_TEXT].all;

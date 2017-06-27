@@ -1,6 +1,6 @@
 import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/messages';
-import messagesReducer, { getGlobalMessages, getMessages } from '.';
+import messagesReducer, { getGlobalMessages, getMessages, getTimeSetterMessages } from '.';
 
 const reducer = freezeArgs(messagesReducer);
 
@@ -97,6 +97,19 @@ describe('store:messages:selectors', () => {
   describe('getMessages', () => {
     test('should returns corresponding messages', () => {
       expect(getMessages(state, { containerId: 'myOtherId' })).toBe(state.messages.myOtherId);
+    });
+  });
+  describe('getTimeSetterMessages', () => {
+    const state = {
+      messages: {
+        'timeSetter-tbuuid': true,
+      },
+    };
+    test('should returns timeSetter messages', () => {
+      expect(getTimeSetterMessages(state, { timebarUuid: 'tbuuid' })).toBe(true);
+    });
+    test('should returns null', () => {
+      expect(getTimeSetterMessages(state, { timebarUuid: 'unknown' })).toBeFalsy();
     });
   });
 });

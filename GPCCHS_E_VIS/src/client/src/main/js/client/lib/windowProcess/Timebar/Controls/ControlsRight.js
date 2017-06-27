@@ -2,7 +2,6 @@ import React, { PureComponent, PropTypes } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import { main } from '../../ipc';
 
 const OverlayTriggerTrigger = ['hover', 'focus'];
 
@@ -15,7 +14,7 @@ const inlineStyles = {
 export default class ControlsRight extends PureComponent {
 
   static propTypes = {
-    sessionId: PropTypes.number,
+    enableRealTime: PropTypes.bool.isRequired,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
@@ -27,7 +26,6 @@ export default class ControlsRight extends PureComponent {
 
   static defaultProps = {
     masterTimeline: null,
-    sessionId: null,
   }
 
   switchMode = (e) => {
@@ -39,7 +37,6 @@ export default class ControlsRight extends PureComponent {
       switchToRealtimeMode,
       switchToExtensibleMode,
       switchToFixedMode,
-      sessionId,
     } = this.props;
 
     const mode = e.currentTarget.getAttribute('mode');
@@ -54,14 +51,7 @@ export default class ControlsRight extends PureComponent {
     } else if (mode === 'Fixed') {
       switchToFixedMode(timebarUuid);
     } else if (mode === 'Realtime') {
-      // IPC request to get master session current time
-      main.getSessionTime(sessionId, ({ err, timestamp }) => {
-        if (err) {
-          // TODO Show message
-          return;
-        }
-        switchToRealtimeMode(timebarUuid, timestamp);
-      });
+      switchToRealtimeMode(timebarUuid);
     }
   }
 
@@ -69,12 +59,12 @@ export default class ControlsRight extends PureComponent {
     const {
       timebarMode,
       timebarRealTime,
-      sessionId,
+      enableRealTime,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
-    const realTimeDisabled = sessionId === null;
+    const realTimeDisabled = !enableRealTime;
     let disabledTooltip;
     if (realTimeDisabled) {
       disabledTooltip = (

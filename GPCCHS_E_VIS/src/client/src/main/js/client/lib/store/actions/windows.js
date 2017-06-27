@@ -1,8 +1,6 @@
 import _ from 'lodash/fp';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
-import { pause } from './hsc';
-import { getPlayingTimebarId } from '../reducers/hsc';
 import { getPage } from '../reducers/pages';
 import { getWindowPages } from '../selectors/windows';
 import { getWindowAllViewsIds } from '../selectors/views';
@@ -56,12 +54,6 @@ export function focusPage(windowId, pageId) {
     const focusedPage = getPage(state, { pageId }) || getFirstPage(state, { windowId });
     if (!focusedPage) {
       return;
-    }
-
-    const playingTimebarId = getPlayingTimebarId(state);
-    if (playingTimebarId && playingTimebarId !== focusedPage.timebarUuid) {
-      // switch to pause when changing for another timebar
-      dispatch(pause());
     }
 
     dispatch({

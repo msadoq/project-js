@@ -10,7 +10,9 @@ import hscReducer, {
   getIsWorkspaceOpening,
   getDomainName,
   getSessionName,
-} from '.';
+} from './index';
+
+import { setIsLoaded } from '../../actions/windows';
 
 const reducer = freezeArgs(hscReducer);
 
@@ -35,6 +37,7 @@ describe('store:hsc:reducer', () => {
   });
   test('should update windows state', () => {
     expect(reducer(undefined, actions.setWindowsAsOpened())).toHaveProperty('windowsOpened', true);
+    expect(reducer(undefined, setIsLoaded('myId'))).toHaveProperty('windowsOpened', true);
   });
   test('should update filepath', () => {
     const state = reducer(undefined, actions.updatePath('myFolder', 'myFile'));
@@ -42,8 +45,10 @@ describe('store:hsc:reducer', () => {
     expect(state).toHaveProperty('file', 'myFile');
   });
   test('should update isWorkspaceOpening', () => {
-    expect(reducer({ isWorkspaceOpening: false }, actions.isWorkspaceOpening(true))).toHaveProperty('isWorkspaceOpening', true);
-    expect(reducer({ isWorkspaceOpening: true }, actions.isWorkspaceOpening(false))).toHaveProperty('isWorkspaceOpening', false);
+    expect(reducer({ isWorkspaceOpening: false }, actions.isWorkspaceOpening(true)))
+      .toHaveProperty('isWorkspaceOpening', true);
+    expect(reducer({ isWorkspaceOpening: true }, actions.isWorkspaceOpening(false)))
+      .toHaveProperty('isWorkspaceOpening', false);
   });
   test('should closeWorkspace', () => {
     expect(reducer({ isWorkspaceOpening: false, folder: 'myFolder', file: 'myFile' },
@@ -85,14 +90,6 @@ describe('store:hsc:reducer', () => {
     }, actions.blurWindow('some window id 2'))).toEqual({
       focusWindow: 'some window id',
     });
-  });
-  test('should update forecast', () => {
-    expect(
-      reducer({ }, actions.updateForecast(20, 30))
-    ).toEqual({ forecast: { lower: 20, upper: 30 } });
-    expect(
-      reducer({ forecast: { lower: 20, upper: 30 } }, actions.updateForecast(25, 35))
-    ).toEqual({ forecast: { lower: 25, upper: 35 } });
   });
   test('should update sessionName', () => {
     expect(reducer({}, actions.updateSessionName('mySession'))).toEqual({ sessionName: 'mySession', isModified: true });

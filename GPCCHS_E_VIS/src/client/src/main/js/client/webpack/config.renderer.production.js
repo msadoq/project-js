@@ -38,7 +38,6 @@ const config = merge(baseConfig, {
   },
 
   externals: [
-    'commmon',
     'why-did-you-update',
     'htmlhint',
   ],
@@ -70,6 +69,7 @@ const config = merge(baseConfig, {
       'process.env.NODE_ENV': JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
     }),
     new CopyWebpackPlugin([
+      { from: 'node_modules/htmlhint/**/*' },
       { from: 'index.html' },
       { from: 'splash.html' },
     ]),

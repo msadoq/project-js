@@ -17,7 +17,7 @@ const DEFAULT_HEIGHT = 768;
 
 let win;
 
-function isExists() {
+export function isExists() {
   return win && !win.isDestroyed();
 }
 
@@ -55,26 +55,13 @@ export function open(callback) {
 export function close() {
   logger.debug('closing');
   if (isExists()) {
-    win.destroy();
+    win.close();
   }
   win = null; // trigger garbage collection
 }
 
-export function observer(callback) {
-  const state = getStore().getState();
-  const editedViewId = getCodeEditorViewId(state);
-  const title = getEditorWindowTitle(state, { viewId: editedViewId });
-
+export function setTitle(title) {
   if (isExists() && title !== win.getTitle()) {
     win.setTitle(title);
-  }
-
-  if (editedViewId !== null && !isExists()) {
-    open(callback);
-  } else if (editedViewId === null && isExists()) {
-    close();
-    callback(null);
-  } else {
-    callback(null);
   }
 }

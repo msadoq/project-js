@@ -8,9 +8,9 @@ import parameters from '../common/configurationManager';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
-  LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
+  SERVER_PROCESS_LAUNCHING_TIMEOUT,
 } from '../constants';
 import { clear } from '../common/callbacks';
 import { setRtd } from '../rtdManager';
@@ -21,34 +21,43 @@ import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
-import { updateDomains } from '../store/actions/domains';
-import { updateSessions } from '../store/actions/sessions';
-import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
-import { getIsWorkspaceOpening, startInPlayMode } from '../store/actions/hsc';
+import { getIsWorkspaceOpening } from '../store/actions/hsc';
 import setMenu from './menuManager';
 import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
+import makeWindowsObserver from './windowsManager/observer';
 
 const logger = getLogger('main:index');
 
-function scheduleTimeout(message) {
+function scheduleTimeout(delay, message) {
   let timeout = setTimeout(() => {
-    logger.error(`Timeout while retrieving launching data: ${message}`);
+    logger.error(`Timeout during application launching (task: ${message})`);
     timeout = null;
     app.quit();
-  }, 2500);
+  }, delay);
 
   return () => timeout !== null && clearTimeout(timeout);
 }
 
 export function onStart() {
+  // electron topbar menu initialization
   setMenu();
 
+  // enable electron debug and DevTools
+  // (not installable when bundled and doesn't needed when DEBUG is off)
+  if (process.env.IS_BUNDLED !== 'on' && parameters.get('DEBUG') === 'on') {
+    enableDebug();
+  }
+
+  // mount IPC controller with renderer processes
+  ipcMain.on('windowRequest', rendererController);
+
   series([
-    callback => splashScreen.open(callback),
-    callback => enableDebug(callback),
-    (callback) => {
+    function openSplashScreen(callback) {
+      splashScreen.open(callback);
+    },
+    function launchDcStub(callback) {
       if (parameters.get('STUB_DC_ON') !== 'on') {
         callback(null);
         return;
@@ -56,12 +65,73 @@ export function onStart() {
 
       splashScreen.setMessage('starting data simulator process...');
       logger.info('starting data simulator process...');
-      fork(CHILD_PROCESS_DC, `${parameters.get('path')}/lib/stubProcess/dc.js`, {
-        execPath: parameters.get('NODE_PATH'),
-        env: parameters.getAll(),
-      }, callback);
+      fork(
+        CHILD_PROCESS_DC,
+        `${parameters.get('path')}/lib/stubProcess/dc.js`,
+        {
+          execPath: parameters.get('NODE_PATH'),
+          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+        },
+        null,
+        callback
+      );
     },
-    (callback) => {
+    function launchServer(callback) {
+      // ipc with server
+      const onMessage = data => serverController(get(CHILD_PROCESS_SERVER), data);
+
+      // on server is ready callback
+      const cancelTimeout = scheduleTimeout(SERVER_PROCESS_LAUNCHING_TIMEOUT, 'server');
+      const onServerReady = (err, { initialState }) => {
+        cancelTimeout();
+
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        splashScreen.setMessage('loading application state...');
+        logger.info('loading application state...');
+
+        // init Redux store in main process
+        const store = makeCreateStore('main', get('DEBUG') === 'on')(initialState);
+        store.subscribe(makeWindowsObserver(store));
+
+        callback(null);
+      };
+
+      if (process.env.IS_BUNDLED === 'on') {
+        splashScreen.setMessage('starting data server process...');
+        logger.info('starting data server process...');
+
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/server.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+          },
+          onMessage,
+          onServerReady
+        );
+      } else {
+        splashScreen.setMessage('starting data server process... (dev)');
+        logger.info('starting data server process... (dev)');
+
+        fork(
+          CHILD_PROCESS_SERVER,
+          `${parameters.get('path')}/lib/serverProcess/index.js`,
+          {
+            execPath: parameters.get('NODE_PATH'),
+            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+          },
+          onMessage,
+          onServerReady
+        );
+      }
+    },
+    function initRtdClient(callback) {
       if (parameters.get('RTD_ON') === 'on') {
         const socket = parameters.get('RTD_UNIX_SOCKET');
         let stub = false;
@@ -82,127 +152,7 @@ export function onStart() {
         callback(null);
       }
     },
-    (callback) => {
-      if (process.env.IS_BUNDLED === 'on') {
-        splashScreen.setMessage('starting data server process...');
-        logger.info('starting data server process...');
-
-        fork(
-          CHILD_PROCESS_SERVER,
-          `${parameters.get('path')}/server.js`,
-          {
-            execPath: parameters.get('NODE_PATH'),
-            env: parameters.getAll(),
-          },
-          callback
-        );
-      } else {
-        splashScreen.setMessage('starting data server process... (dev)');
-        logger.info('starting data server process... (dev)');
-
-        fork(
-          CHILD_PROCESS_SERVER,
-          `${parameters.get('path')}/lib/serverProcess/index.js`,
-          {
-            execPath: parameters.get('NODE_PATH'),
-            execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-            env: parameters.getAll(),
-          },
-          callback
-        );
-      }
-    },
-    (callback) => {
-      splashScreen.setMessage('connecting to data server process...');
-      logger.info('connecting to data server process...');
-
-      // ipc with server
-      get(CHILD_PROCESS_SERVER).on(
-        'message',
-        data => serverController(get(CHILD_PROCESS_SERVER), data)
-      );
-      callback(null);
-    },
-    (callback) => {
-      splashScreen.setMessage('loading data store...');
-      logger.info('loading data store...');
-
-      server.requestReduxCurrentState(({ state }) => {
-        makeCreateStore('main', get('DEBUG') === 'on')(state);
-        callback(null);
-      });
-    },
-    (callback) => {
-      splashScreen.setMessage('synchronizing processes...');
-      logger.info('synchronizing processes...');
-      server.sendProductLog(LOG_APPLICATION_START); // log on LPISIS only when server is up
-
-      // ipc with renderer
-      ipcMain.on('windowRequest', rendererController);
-
-      callback(null);
-    },
-    // should have master sessionId in store at start
-    (callback) => {
-      splashScreen.setMessage('requesting master session...');
-      logger.info('requesting master session...');
-      const cancelTimeout = scheduleTimeout('master session');
-      server.requestMasterSession(({ err, masterSessionId }) => {
-        cancelTimeout();
-
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        splashScreen.setMessage('injecting master session...');
-        logger.info('injecting master session...');
-
-        getStore().dispatch(updateMasterSessionIfNeeded(masterSessionId));
-        callback(null);
-      });
-    },
-    // should have sessions in store at start
-    (callback) => {
-      splashScreen.setMessage('requesting sessions...');
-      logger.info('requesting sessions...');
-      const cancelTimeout = scheduleTimeout('session');
-      server.requestSessions(({ err, sessions }) => {
-        cancelTimeout();
-
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        splashScreen.setMessage('injecting sessions...');
-        logger.info('injecting sessions...');
-
-        getStore().dispatch(updateSessions(sessions));
-        callback(null);
-      });
-    },
-    // should have domains in store at start
-    (callback) => {
-      splashScreen.setMessage('requesting domains...');
-      logger.info('requesting domains...');
-      const cancelTimeout = scheduleTimeout('domains');
-      server.requestDomains(({ err, domains }) => {
-        cancelTimeout();
-
-        if (err) {
-          callback(err);
-          return;
-        }
-
-        splashScreen.setMessage('injecting domains...');
-        logger.info('injecting domains...');
-
-        getStore().dispatch(updateDomains(domains));
-        callback(null);
-      });
-    },
-    (callback) => {
+    function openInitialWorkspace(callback) {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
 
@@ -249,15 +199,9 @@ export function onStart() {
 
     splashScreen.setMessage('ready!');
     logger.info('ready!');
-    server.sendProductLog(LOG_APPLICATION_START);
+    // TODO dbrugne move in server lifecycle ========================================
     startOrchestration();
-    // start on play
-    if (parameters.get('REALTIME') === 'on') {
-      logger.info('Start in playing mode');
-      setTimeout(() => {
-        getStore().dispatch(startInPlayMode());
-      }, 2000);
-    }
+    // TODO dbrugne move in server lifecycle ========================================
   });
 }
 
@@ -265,8 +209,10 @@ export function onStop() {
   server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('stopping application');
 
+  // TODO dbrugne move in server lifecycle ========================================
   // stop orchestration
   stopOrchestration();
+  // TODO dbrugne move in server lifecycle ========================================
 
   // stop child processes
   kill(CHILD_PROCESS_SERVER);

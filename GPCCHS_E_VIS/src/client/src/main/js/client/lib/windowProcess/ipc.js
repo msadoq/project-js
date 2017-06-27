@@ -57,11 +57,6 @@ const commands = {
       commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
         absolutePath,
       }),
-    sendHealthStatus: (windowId, status) =>
-      commands.main.message(globalConstants.IPC_METHOD_HEALTH_STATUS, {
-        windowId,
-        status,
-      }),
     openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
         pageId,

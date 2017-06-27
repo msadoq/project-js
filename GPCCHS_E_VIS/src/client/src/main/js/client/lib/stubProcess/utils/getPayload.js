@@ -1,9 +1,9 @@
-const _concat = require('lodash/fp/concat');
-const _times = require('lodash/fp/times');
-const _prop = require('lodash/fp/prop');
-const _compose = require('lodash/fp/compose');
-const _constant = require('lodash/fp/constant');
-const _head = require('lodash/fp/head');
+// const _concat = require('lodash/fp/concat');
+// const _times = require('lodash/fp/times');
+// const _prop = require('lodash/fp/prop');
+// const _compose = require('lodash/fp/compose');
+// const _constant = require('lodash/fp/constant');
+// const _head = require('lodash/fp/head');
 
 const stubData = require('common/protobuf/stubs');
 
@@ -11,15 +11,20 @@ function getValue(timestamp) {
   return (1 + Math.sin(timestamp / 6000));
 }
 
-function getMonitoringState(timestamp) {
-  const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete'];
-  const states = _compose(
-    _concat(arr),
-    _compose(_times, _constant, _head)(arr),
-    l => l * 4,
-    _prop('length')
-  )(arr);
-  return states[timestamp % states.length];
+// function getMonitoringState(timestamp) {
+//   const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete'];
+//   const states = _compose(
+//     _concat(arr),
+//     _compose(_times, _constant, _head)(arr),
+//     l => l * 4,
+//     _prop('length')
+//   )(arr);
+//   return states[timestamp % states.length];
+// }
+function getMonitoringState() {
+  const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger'];
+  const n = Math.round(Math.random() * 7);
+  return arr[n];
 }
 
 const getComObject = (comObject, timestamp, value) => {

@@ -6,6 +6,7 @@ const _slice = require('lodash/slice');
 const zmq = require('common/zmq/index');
 const { getType, encode, decode } = require('common/protobuf/index');
 const constants = require('../constants');
+const parameters = require('../common/configurationManager');
 
 const sessionIdTest = 1;
 const domainIdTest = 4;
@@ -37,13 +38,13 @@ const createZmqConnection = (callback, pullHandler) => {
     dcPull: {
       type: 'pull',
       role: 'server',
-      url: process.env.ZMQ_GPCCDC_PULL,
+      url: parameters.get('ZMQ_GPCCDC_PULL'),
       handler: (...args) => pullHandler(callback, ...args),
     },
     dcPush: {
       type: 'push',
       role: 'client',
-      url: process.env.ZMQ_GPCCDC_PUSH,
+      url: parameters.get('ZMQ_GPCCDC_PUSH'),
     },
   }, (err) => {
     if (err) {

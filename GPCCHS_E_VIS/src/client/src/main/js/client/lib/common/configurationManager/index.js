@@ -22,12 +22,15 @@ function getAllArgv() {
 }
 
 function getArgv(name) {
-  return getAllArgv[name];
+  return getAllArgv()[name];
 }
 
-
+// TODO : remove this workaround in configurationManager refactoring
+const env = process.env.mainProcessConfig
+  ? JSON.parse(process.env.mainProcessConfig)
+  : process.env;
 function getEnv(name) {
-  return process.env[name];
+  return env[name];
 }
 
 function getAllEnv() {

@@ -3,6 +3,7 @@
   "DEBUG": "off",
   "WDYU": "off",
   "ORCHESTRATION_FREQUENCY": 500,
+  "PLAYER_FREQUENCY": 500,
   "CACHE_INVALIDATION_FREQUENCY": 300000,
   "WILDCARD_CHARACTER": "*",
   "DEFAULT_FIELD": {
@@ -18,11 +19,12 @@
   "VISU_WINDOW_UP_MS": 30000,
   "VISU_WINDOW_DEFAULT_WIDTH": 900000,
   "STATE_COLORS": {
-    "alarm": "orangered",
-    "critical": "red",
-    "outOfRange": "grey",
-    "severe": "darkred",
-    "warning": "orange"
+    "alarm": "darkorange",
+    "critical": "darkred",
+    "outOfRange": "darkred",
+    "severe": "#FF0000",
+    "danger": "#FF0000",
+    "warning": "#FFFF00"
   },
   "FORECAST": 30000,
   "STRING_PLOT_VALUE": 1,

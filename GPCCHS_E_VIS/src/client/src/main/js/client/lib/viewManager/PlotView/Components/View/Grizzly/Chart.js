@@ -5,7 +5,7 @@ import _min from 'lodash/min';
 import _set from 'lodash/set';
 import _get from 'lodash/get';
 import _throttle from 'lodash/throttle';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
@@ -148,11 +148,14 @@ export default class Chart extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { allowZoom, allowYZoom } = this.props;
+    const { allowZoom, allowYZoom, yAxes } = this.props;
     const { zoomLevel, yZoomLevels, ctrlPressed } = this.state;
 
     if (ctrlPressed) {
       const hoveredAxisId = this.wichAxisIsHovered(e);
+      if (hoveredAxisId && _get(yAxes.find(a => a.id === hoveredAxisId), 'logarithmic')) {
+        return;
+      }
       if (allowYZoom && hoveredAxisId) {
         const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
         const newYZoomLevels = {
@@ -172,7 +175,7 @@ export default class Chart extends React.Component {
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowPan, allowYPan } = this.props;
+    const { allowPan, allowYPan, yAxes } = this.props;
     const { pan, yPans, ctrlPressed } = this.state;
     if (!ctrlPressed) {
       return;
@@ -181,6 +184,9 @@ export default class Chart extends React.Component {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
     const hoveredAxisId = this.wichAxisIsHovered(e);
+    if (hoveredAxisId && _get(yAxes.find(a => a.id === hoveredAxisId), 'logarithmic')) {
+      return;
+    }
     if (allowYPan && hoveredAxisId) {
       const yPan = _get(yPans, hoveredAxisId, 0);
       this.setState({
@@ -283,11 +289,13 @@ export default class Chart extends React.Component {
         }
 
         const yScale = this.memoizeYScale(
-          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}`,
+          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}-${axis.logarithmic}`,
           yExtents[0],
           yExtents[1],
-          this.chartHeight
+          this.chartHeight,
+          axis.logarithmic
         );
+
         // rank axes to sort them and define the master / grid showing one
         let rank = 0;
         if (axis.showGrid) rank += 2;
@@ -388,11 +396,17 @@ export default class Chart extends React.Component {
     }
   )
 
-  memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height) =>
-    scaleLinear()
+  memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height, logarithmic) => {
+    if (logarithmic) {
+      return scaleLog()
+        .domain([0.1, 1000000000])
+        .range([height, 0])
+        .nice();
+    }
+    return scaleLinear()
       .domain([yExtentsUpper, yExtentsLower])
-      .range([0, height])
-  );
+      .range([0, height]);
+  });
 
   memoizeYExtents = _memoize((hash, orient, lower, upper) =>
     (orient === 'top' ? [lower, upper] : [upper, lower])
@@ -666,6 +680,7 @@ export default class Chart extends React.Component {
               axisLabel={yAxis.axisLabel}
               gridSize={yAxis.gridSize}
               showPointLabels={yAxis.showPointLabels}
+              logarithmic={yAxis.logarithmic}
               yAxisWidth={this.yAxisWidth}
               chartWidth={this.chartWidth}
               allowYPan={allowYPan}

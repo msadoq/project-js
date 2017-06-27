@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 import * as types from '../../types';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -66,3 +67,9 @@ export default function messagesReducer(state = {}, action) {
 export const getAllMessages = state => state.messages;
 export const getGlobalMessages = state => state.messages.global;
 export const getMessages = (state, { containerId }) => state.messages[containerId];
+
+export const getTimeSetterMessages = createSelector(
+  getAllMessages,
+  (state, { timebarUuid }) => timebarUuid,
+  (messages, timebarUuid) => _.getOr(null, `timeSetter-${timebarUuid}`, messages)
+);

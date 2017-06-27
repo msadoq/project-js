@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import _each from 'lodash/each';
 import LinksContainer from '../../../../windowProcess/View/LinksContainer';
+import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
@@ -54,10 +56,18 @@ export default class MimicView extends Component {
     pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorEpId: PropTypes.string,
+    openInspector: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
   };
   static defaultProps = {
     links: [],
     showLinks: false,
+    inspectorEpId: null,
   };
 
   componentWillMount() {
@@ -87,6 +97,57 @@ export default class MimicView extends Component {
 
     return shouldRender;
   }
+
+  onContextMenu = (event) => {
+    event.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      isViewsEditorOpen,
+      openEditor,
+      closeEditor,
+      mainMenu,
+      isInspectorOpened,
+      inspectorEpId,
+    } = this.props;
+    const separator = { type: 'separator' };
+    const editorMenu = (isViewsEditorOpen) ?
+    {
+      label: 'Close Editor',
+      click: () => closeEditor(),
+    } : {
+      label: 'Open Editor',
+      click: () => {
+        openEditor();
+      },
+    };
+    const inspectorMenu = {
+      label: 'Open in Inspector',
+      submenu: [],
+    };
+    _each(entryPoints, (ep, epName) => {
+      const label = `${epName}`;
+      if (ep.error) {
+        inspectorMenu.submenu.push({ label, enabled: false });
+        return;
+      }
+      const { id, dataId, field } = ep;
+      const opened = isInspectorOpened && (inspectorEpId === id);
+      inspectorMenu.submenu.push({
+        label,
+        type: 'checkbox',
+        click: () => openInspector({
+          epId: id,
+          dataId,
+          epName,
+          field,
+        }),
+        checked: opened,
+      });
+    });
+    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+  };
+
   getContentComponent(props = this.props) {
     const processingInstructions = [
       {
@@ -428,7 +489,7 @@ export default class MimicView extends Component {
     console.log('MIMIC RENDER', this.content);
 
     return (
-      <div className="h100 posRelative">
+      <div className="h100 posRelative" onContextMenu={this.onContextMenu}>
         <Row className="h100 posRelative">
           <Col xs={12} style={style}>
             <LinksContainer
@@ -440,7 +501,7 @@ export default class MimicView extends Component {
             />
           </Col>
           <Col xs={12} className="h100 posRelative">
-            <svg width="100%" height="100%" >{this.content}</svg>
+            <svg width="100%" height="100%">{this.content}</svg>
           </Col>
         </Row>
       </div>

@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./stationStatus');
-const { getStationStatus } = require('../stubs');
+const stub = require('./stationStatus.stub')();
 
 const cUState = require('./cUState');
 const processState = require('./processState');
@@ -14,35 +13,33 @@ describe('protobuf/isis/connection/StationStatus', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/StationStatus.proto`, { keepCase: true })
     .lookup('connection.protobuf.StationStatus');
-  const fixture = getStationStatus();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      state: { type: 'enum', value: fixture.state, symbol: synthesisState[fixture.state] },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      state: { type: 'enum', value: stub.state, symbol: synthesisState[stub.state] },
     });
-    
-    json.flowStates.should.be.an('array').that.have.lengthOf(fixture.flowStates.length);
-    for (let i = 0; i < fixture.flowStates.length; i += 1) {
-      json.flowStates[i].should.be.an('object').that.have.properties({
+    expect(decoded.flowStates).toHaveLength(stub.flowStates.length);
+    for (let i = 0; i < stub.flowStates.length; i += 1) {
+      expect(decoded.flowStates[i]).toMatchObject({
         status: {
           status: {
-            state: { type: 'enum', value: fixture.flowStates[i].status.status.state, symbol: synthesisState[fixture.flowStates[i].status.status.state] },
+            state: { type: 'enum', value: stub.flowStates[i].status.status.state, symbol: synthesisState[stub.flowStates[i].status.status.state] },
           },
         },
         identifier: {
-          flowID: { type: 'long', symbol: `${fixture.flowStates[i].identifier.flowID}` },
-          spacecraftID: { type: 'string', value: fixture.flowStates[i].identifier.spacecraftID },
-          stationID: { type: 'string', value: fixture.flowStates[i].identifier.stationID },
-          flowInfo: (typeof fixture.flowStates[i].identifier.flowInfo === 'undefined')
+          flowID: { type: 'long', symbol: `${stub.flowStates[i].identifier.flowID}` },
+          spacecraftID: { type: 'string', value: stub.flowStates[i].identifier.spacecraftID },
+          stationID: { type: 'string', value: stub.flowStates[i].identifier.stationID },
+          flowInfo: (typeof stub.flowStates[i].identifier.flowInfo === 'undefined')
             ? null
             : {
-              name: { type: 'string', value: fixture.flowStates[i].identifier.flowInfo.name },
-              isDefault: { type: 'boolean', value: fixture.flowStates[i].identifier.flowInfo.isDefault },
+              name: { type: 'string', value: stub.flowStates[i].identifier.flowInfo.name },
+              isDefault: { type: 'boolean', value: stub.flowStates[i].identifier.flowInfo.isDefault },
             },
         },
       });

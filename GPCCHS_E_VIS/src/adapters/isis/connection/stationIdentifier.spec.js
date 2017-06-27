@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./stationIdentifier');
-const { getStationIdentifier } = require('../stubs');
+const stub = require('./stationIdentifier.stub')();
 
 
 
@@ -12,19 +11,17 @@ describe('protobuf/isis/connection/StationIdentifier', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/StationIdentifier.proto`, { keepCase: true })
     .lookup('connection.protobuf.StationIdentifier');
-  const fixture = getStationIdentifier();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      spacecraftID: { type: 'string', value: fixture.spacecraftID },
-      stationID: { type: 'string', value: fixture.stationID },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      spacecraftID: { type: 'string', value: stub.spacecraftID },
+      stationID: { type: 'string', value: stub.stationID },
     });
-    
     
   });
 });

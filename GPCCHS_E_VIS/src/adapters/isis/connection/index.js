@@ -3,58 +3,58 @@
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const UCPReport = require('./uCPReport');
 const UCPParameter = require('./uCPParameter');
+const FlowElmt = require('./flowElmt');
+const CUOperationDefinition = require('./cUOperationDefinition');
+const ProcessFullState = require('./processFullState');
+const FlowList = require('./flowList');
+const CUIdentifier = require('./cUIdentifier');
+const ProcessInfo = require('./processInfo');
+const NominalStation = require('./nominalStation');
+const StationList = require('./stationList');
+const CUInfo = require('./cUInfo');
+const StationIdentifier = require('./stationIdentifier');
+const FlowStatus = require('./flowStatus');
+const StationFullStatus = require('./stationFullStatus');
+const InitStationConfiguration = require('./initStationConfiguration');
+const InitFlowConfiguration = require('./initFlowConfiguration');
+const CUStatus = require('./cUStatus');
+const FlowFullStatus = require('./flowFullStatus');
+const StationStatus = require('./stationStatus');
 const OperationDefinition = require('./operationDefinition');
 const CUFullStatus = require('./cUFullStatus');
-const FlowConfiguration = require('./flowConfiguration');
-const InitStationConfiguration = require('./initStationConfiguration');
-const FlowStatus = require('./flowStatus');
-const CUStatus = require('./cUStatus');
 const FlowInfo = require('./flowInfo');
-const CUOperationDefinition = require('./cUOperationDefinition');
-const StationList = require('./stationList');
-const InitFlowConfiguration = require('./initFlowConfiguration');
-const ProcessFullState = require('./processFullState');
-const NominalStation = require('./nominalStation');
-const StationElmt = require('./stationElmt');
-const StationFullStatus = require('./stationFullStatus');
-const CUIdentifier = require('./cUIdentifier');
-const FlowFullStatus = require('./flowFullStatus');
 const FlowIdentifier = require('./flowIdentifier');
-const ProcessIdentifier = require('./processIdentifier');
-const StationIdentifier = require('./stationIdentifier');
-const StationStatus = require('./stationStatus');
-const CUInfo = require('./cUInfo');
 const FlowSmallStatus = require('./flowSmallStatus');
-const FlowList = require('./flowList');
-const ProcessInfo = require('./processInfo');
-const FlowElmt = require('./flowElmt');
+const ProcessIdentifier = require('./processIdentifier');
+const FlowConfiguration = require('./flowConfiguration');
+const StationElmt = require('./stationElmt');
 
 module.exports = {
   UCPReport: { type: 'protobuf', adapter: UCPReport },
   UCPParameter: { type: 'protobuf', adapter: UCPParameter },
+  FlowElmt: { type: 'protobuf', adapter: FlowElmt },
+  CUOperationDefinition: { type: 'protobuf', adapter: CUOperationDefinition },
+  ProcessFullState: { type: 'protobuf', adapter: ProcessFullState },
+  FlowList: { type: 'protobuf', adapter: FlowList },
+  CUIdentifier: { type: 'protobuf', adapter: CUIdentifier },
+  ProcessInfo: { type: 'protobuf', adapter: ProcessInfo },
+  NominalStation: { type: 'protobuf', adapter: NominalStation },
+  StationList: { type: 'protobuf', adapter: StationList },
+  CUInfo: { type: 'protobuf', adapter: CUInfo },
+  StationIdentifier: { type: 'protobuf', adapter: StationIdentifier },
+  FlowStatus: { type: 'protobuf', adapter: FlowStatus },
+  StationFullStatus: { type: 'protobuf', adapter: StationFullStatus },
+  InitStationConfiguration: { type: 'protobuf', adapter: InitStationConfiguration },
+  InitFlowConfiguration: { type: 'protobuf', adapter: InitFlowConfiguration },
+  CUStatus: { type: 'protobuf', adapter: CUStatus },
+  FlowFullStatus: { type: 'protobuf', adapter: FlowFullStatus },
+  StationStatus: { type: 'protobuf', adapter: StationStatus },
   OperationDefinition: { type: 'protobuf', adapter: OperationDefinition },
   CUFullStatus: { type: 'protobuf', adapter: CUFullStatus },
-  FlowConfiguration: { type: 'protobuf', adapter: FlowConfiguration },
-  InitStationConfiguration: { type: 'protobuf', adapter: InitStationConfiguration },
-  FlowStatus: { type: 'protobuf', adapter: FlowStatus },
-  CUStatus: { type: 'protobuf', adapter: CUStatus },
   FlowInfo: { type: 'protobuf', adapter: FlowInfo },
-  CUOperationDefinition: { type: 'protobuf', adapter: CUOperationDefinition },
-  StationList: { type: 'protobuf', adapter: StationList },
-  InitFlowConfiguration: { type: 'protobuf', adapter: InitFlowConfiguration },
-  ProcessFullState: { type: 'protobuf', adapter: ProcessFullState },
-  NominalStation: { type: 'protobuf', adapter: NominalStation },
-  StationElmt: { type: 'protobuf', adapter: StationElmt },
-  StationFullStatus: { type: 'protobuf', adapter: StationFullStatus },
-  CUIdentifier: { type: 'protobuf', adapter: CUIdentifier },
-  FlowFullStatus: { type: 'protobuf', adapter: FlowFullStatus },
   FlowIdentifier: { type: 'protobuf', adapter: FlowIdentifier },
-  ProcessIdentifier: { type: 'protobuf', adapter: ProcessIdentifier },
-  StationIdentifier: { type: 'protobuf', adapter: StationIdentifier },
-  StationStatus: { type: 'protobuf', adapter: StationStatus },
-  CUInfo: { type: 'protobuf', adapter: CUInfo },
   FlowSmallStatus: { type: 'protobuf', adapter: FlowSmallStatus },
-  FlowList: { type: 'protobuf', adapter: FlowList },
-  ProcessInfo: { type: 'protobuf', adapter: ProcessInfo },
-  FlowElmt: { type: 'protobuf', adapter: FlowElmt },
+  ProcessIdentifier: { type: 'protobuf', adapter: ProcessIdentifier },
+  FlowConfiguration: { type: 'protobuf', adapter: FlowConfiguration },
+  StationElmt: { type: 'protobuf', adapter: StationElmt },
 };

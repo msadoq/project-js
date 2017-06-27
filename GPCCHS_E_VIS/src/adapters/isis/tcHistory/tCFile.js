@@ -21,21 +21,21 @@ module.exports = {
     fileReference: (data.fileReference !== null && typeof data.fileReference !== 'undefined')
       ? sTRING.encode(data.fileReference)
       : null,
-    partition: (data.partition !== null && typeof data.partition !== 'undefined')
-      ? sTRING.encode(data.partition)
-      : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.encode(data.rawPacket)
+      : null,
+    partition: (data.partition !== null && typeof data.partition !== 'undefined')
+      ? sTRING.encode(data.partition)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.encode(data.tcId)
       : null,
     tc13: _map(data.tc13, d => (bLOB.encode(d))),
-    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
-      ? sTRING.encode(data.generatedProcedure)
-      : null,
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
       ? uINTEGER.encode(data.tcSourceId)
+      : null,
+    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
+      ? sTRING.encode(data.generatedProcedure)
       : null,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
       ? uLONG.encode(data.sequenceCount)
@@ -61,21 +61,21 @@ module.exports = {
     fileReference: (data.fileReference !== null && typeof data.fileReference !== 'undefined')
       ? sTRING.decode(data.fileReference)
       : undefined,
-    partition: (data.partition !== null && typeof data.partition !== 'undefined')
-      ? sTRING.decode(data.partition)
-      : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.decode(data.rawPacket)
+      : undefined,
+    partition: (data.partition !== null && typeof data.partition !== 'undefined')
+      ? sTRING.decode(data.partition)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.decode(data.tcId)
       : undefined,
     tc13: _map(data.tc13, d => (bLOB.decode(d))),
-    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
-      ? sTRING.decode(data.generatedProcedure)
-      : undefined,
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
       ? uINTEGER.decode(data.tcSourceId)
+      : undefined,
+    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
+      ? sTRING.decode(data.generatedProcedure)
       : undefined,
     sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
       ? uLONG.decode(data.sequenceCount)

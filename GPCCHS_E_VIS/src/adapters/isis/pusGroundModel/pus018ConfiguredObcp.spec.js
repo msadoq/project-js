@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus018ConfiguredObcp');
-const { getPus018ConfiguredObcp } = require('../stubs');
+const stub = require('./pus018ConfiguredObcp.stub')();
 
 
 
@@ -12,30 +11,28 @@ describe('protobuf/isis/pusGroundModel/Pus018ConfiguredObcp', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus018ConfiguredObcp.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus018ConfiguredObcp');
-  const fixture = getPus018ConfiguredObcp();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      id: { type: 'uinteger', value: fixture.id },
-      hkParamNameForName: { type: 'string', value: fixture.hkParamNameForName },
-      hkParamNameForId: { type: 'string', value: fixture.hkParamNameForId },
-      hkParamNameForStatus: { type: 'string', value: fixture.hkParamNameForStatus },
-      hkParamNameForPriority: { type: 'string', value: fixture.hkParamNameForPriority },
-      hkParamNameForStepId: { type: 'string', value: fixture.hkParamNameForStepId },
-      status: { type: 'uinteger', value: fixture.status },
-      stepId: { type: 'uinteger', value: fixture.stepId },
-      priority: { type: 'uinteger', value: fixture.priority },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      id: { type: 'uinteger', value: stub.id },
+      hkParamNameForName: { type: 'string', value: stub.hkParamNameForName },
+      hkParamNameForId: { type: 'string', value: stub.hkParamNameForId },
+      hkParamNameForStatus: { type: 'string', value: stub.hkParamNameForStatus },
+      hkParamNameForPriority: { type: 'string', value: stub.hkParamNameForPriority },
+      hkParamNameForStepId: { type: 'string', value: stub.hkParamNameForStepId },
+      status: { type: 'uinteger', value: stub.status },
+      stepId: { type: 'uinteger', value: stub.stepId },
+      priority: { type: 'uinteger', value: stub.priority },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
     });
-    
     
   });
 });

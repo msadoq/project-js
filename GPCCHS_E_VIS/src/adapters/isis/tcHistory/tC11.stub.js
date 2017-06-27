@@ -9,8 +9,8 @@ const now = _now();
 
 const tC11 = {
   encodingDate: now,
-  pusHeader: getPusHeader(),
   timeTaggedTC: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
+  pusHeader: getPusHeader(),
   rawPacket: Buffer.alloc(4, 1),
   subscheduleId: 100,
   tcId: -100,

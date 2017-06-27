@@ -15,10 +15,10 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.encode(data.encodingDate)
       : null,
+    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.encode(d))),
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.encode(data.pusHeader)
       : null,
-    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.encode(d))),
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.encode(data.rawPacket)
       : null,
@@ -40,10 +40,10 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.decode(data.encodingDate)
       : undefined,
+    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.decode(d))),
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.decode(data.pusHeader)
       : undefined,
-    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.decode(d))),
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.decode(data.rawPacket)
       : undefined,

@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./tCImmediate');
-const { getTCImmediate } = require('../stubs');
+const stub = require('./tCImmediate.stub')();
 
 
 
@@ -12,53 +11,51 @@ describe('protobuf/isis/tcHistory/TCImmediate', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/TCImmediate.proto`, { keepCase: true })
     .lookup('tcHistory.protobuf.TCImmediate');
-  const fixture = getTCImmediate();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      encodingDate: (typeof fixture.encodingDate === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      encodingDate: (typeof stub.encodingDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.encodingDate },
-      pusHeader: (typeof fixture.pusHeader === 'undefined')
+        : { type: 'time', value: stub.encodingDate },
+      pusHeader: (typeof stub.pusHeader === 'undefined')
         ? null
         : {
-          versionNumber: { type: 'uoctet', value: fixture.pusHeader.versionNumber },
-          sequenceCount: (typeof fixture.pusHeader.sequenceCount === 'undefined')
+          versionNumber: { type: 'uoctet', value: stub.pusHeader.versionNumber },
+          sequenceCount: (typeof stub.pusHeader.sequenceCount === 'undefined')
             ? null
-            : { type: 'uinteger', value: fixture.pusHeader.sequenceCount },
-          sourceId: (typeof fixture.pusHeader.sourceId === 'undefined')
+            : { type: 'uinteger', value: stub.pusHeader.sequenceCount },
+          sourceId: (typeof stub.pusHeader.sourceId === 'undefined')
             ? null
-            : { type: 'uinteger', value: fixture.pusHeader.sourceId },
-          serviceType: { type: 'uoctet', value: fixture.pusHeader.serviceType },
-          serviceSubType: { type: 'uoctet', value: fixture.pusHeader.serviceSubType },
-          subCounter: { type: 'uoctet', value: fixture.pusHeader.subCounter },
-          destinationId: { type: 'uoctet', value: fixture.pusHeader.destinationId },
-          time: { type: 'finetime', value: fixture.pusHeader.time },
+            : { type: 'uinteger', value: stub.pusHeader.sourceId },
+          serviceType: { type: 'uoctet', value: stub.pusHeader.serviceType },
+          serviceSubType: { type: 'uoctet', value: stub.pusHeader.serviceSubType },
+          subCounter: { type: 'uoctet', value: stub.pusHeader.subCounter },
+          destinationId: { type: 'uoctet', value: stub.pusHeader.destinationId },
+          time: { type: 'finetime', value: stub.pusHeader.time },
         },
-      rawPacket: (typeof fixture.rawPacket === 'undefined')
+      rawPacket: (typeof stub.rawPacket === 'undefined')
         ? null
-        : { type: 'blob', value: fixture.rawPacket },
-      tcId: (typeof fixture.tcId === 'undefined')
+        : { type: 'blob', value: stub.rawPacket },
+      tcId: (typeof stub.tcId === 'undefined')
         ? null
-        : { type: 'integer', value: fixture.tcId },
-      tcSourceId: (typeof fixture.tcSourceId === 'undefined')
+        : { type: 'integer', value: stub.tcId },
+      tcSourceId: (typeof stub.tcSourceId === 'undefined')
         ? null
-        : { type: 'uinteger', value: fixture.tcSourceId },
-      sequenceCount: (typeof fixture.sequenceCount === 'undefined')
+        : { type: 'uinteger', value: stub.tcSourceId },
+      sequenceCount: (typeof stub.sequenceCount === 'undefined')
         ? null
-        : { type: 'ulong', symbol: `${fixture.sequenceCount}` },
+        : { type: 'ulong', symbol: `${stub.sequenceCount}` },
     });
-    
-    json.parameterPhysicalValue.should.be.an('array').that.have.lengthOf(fixture.parameterPhysicalValue.length);
-    for (let i = 0; i < fixture.parameterPhysicalValue.length; i += 1) {
-      json.parameterPhysicalValue[i].should.have.properties({
+    expect(decoded.parameterPhysicalValue).toHaveLength(stub.parameterPhysicalValue.length);
+    for (let i = 0; i < stub.parameterPhysicalValue.length; i += 1) {
+      expect(decoded.parameterPhysicalValue[i]).toMatchObject({
         type: 'string',
-        value: fixture.parameterPhysicalValue[i],
+        value: stub.parameterPhysicalValue[i],
       });
     }
   });

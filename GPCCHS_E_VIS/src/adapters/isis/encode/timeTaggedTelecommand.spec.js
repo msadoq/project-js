@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./timeTaggedTelecommand');
-const { getTimeTaggedTelecommand } = require('../stubs');
+const stub = require('./timeTaggedTelecommand.stub')();
 
 
 
@@ -12,39 +11,37 @@ describe('protobuf/isis/encode/TimeTaggedTelecommand', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/TimeTaggedTelecommand.proto`, { keepCase: true })
     .lookup('encode.protobuf.TimeTaggedTelecommand');
-  const fixture = getTimeTaggedTelecommand();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      ackField: { type: 'uinteger', value: fixture.ackField },
-      sourceId: { type: 'uinteger', value: fixture.sourceId },
-      subScheduledId: { type: 'uinteger', value: fixture.subScheduledId },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      ackField: { type: 'uinteger', value: stub.ackField },
+      sourceId: { type: 'uinteger', value: stub.sourceId },
+      subScheduledId: { type: 'uinteger', value: stub.subScheduledId },
     });
-    
-    json.definitionIds.should.be.an('array').that.have.lengthOf(fixture.definitionIds.length);
-    for (let i = 0; i < fixture.definitionIds.length; i += 1) {
-      json.definitionIds[i].should.have.properties({
+    expect(decoded.definitionIds).toHaveLength(stub.definitionIds.length);
+    for (let i = 0; i < stub.definitionIds.length; i += 1) {
+      expect(decoded.definitionIds[i]).toMatchObject({
         type: 'identifier',
-        value: fixture.definitionIds[i],
+        value: stub.definitionIds[i],
       });
     }
-    json.dates.should.be.an('array').that.have.lengthOf(fixture.dates.length);
-    for (let i = 0; i < fixture.dates.length; i += 1) {
-      json.dates[i].should.have.properties({
+    expect(decoded.dates).toHaveLength(stub.dates.length);
+    for (let i = 0; i < stub.dates.length; i += 1) {
+      expect(decoded.dates[i]).toMatchObject({
         type: 'time',
-        value: fixture.dates[i],
+        value: stub.dates[i],
       });
     }
-    json.rawValues.should.be.an('array').that.have.lengthOf(fixture.rawValues.length);
-    for (let i = 0; i < fixture.rawValues.length; i += 1) {
-      json.rawValues[i].should.have.properties({
+    expect(decoded.rawValues).toHaveLength(stub.rawValues.length);
+    for (let i = 0; i < stub.rawValues.length; i += 1) {
+      expect(decoded.rawValues[i]).toMatchObject({
         type: 'blob',
-        value: fixture.rawValues[i],
+        value: stub.rawValues[i],
       });
     }
   });

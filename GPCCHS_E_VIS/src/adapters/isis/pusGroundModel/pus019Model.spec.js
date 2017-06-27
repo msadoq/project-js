@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus019Model');
-const { getPus019Model } = require('../stubs');
+const stub = require('./pus019Model.stub')();
 
 
 
@@ -12,38 +11,36 @@ describe('protobuf/isis/pusGroundModel/Pus019Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus019Model.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus019Model');
-  const fixture = getPus019Model();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      serviceStatus: { type: 'uinteger', value: fixture.serviceStatus },
-      noOfEventActions: { type: 'uinteger', value: fixture.noOfEventActions },
-      groundDate: { type: 'time', value: fixture.groundDate },
-      apid: { type: 'uinteger', value: fixture.apid },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
+      noOfEventActions: { type: 'uinteger', value: stub.noOfEventActions },
+      groundDate: { type: 'time', value: stub.groundDate },
+      apid: { type: 'uinteger', value: stub.apid },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uinteger', value: fixture.status },
+      status: { type: 'uinteger', value: stub.status },
     });
-    
-    json.pus19EventAction.should.be.an('array').that.have.lengthOf(fixture.pus19EventAction.length);
-    for (let i = 0; i < fixture.pus19EventAction.length; i += 1) {
-      json.pus19EventAction[i].should.be.an('object').that.have.properties({
-        apid: { type: 'uinteger', value: fixture.pus19EventAction[i].apid },
-        rid: { type: 'uinteger', value: fixture.pus19EventAction[i].rid },
-        actionStatus: { type: 'uinteger', value: fixture.pus19EventAction[i].actionStatus },
-        actionTcPacketHeader: { type: 'blob', value: fixture.pus19EventAction[i].actionTcPacketHeader },
+    expect(decoded.pus19EventAction).toHaveLength(stub.pus19EventAction.length);
+    for (let i = 0; i < stub.pus19EventAction.length; i += 1) {
+      expect(decoded.pus19EventAction[i]).toMatchObject({
+        apid: { type: 'uinteger', value: stub.pus19EventAction[i].apid },
+        rid: { type: 'uinteger', value: stub.pus19EventAction[i].rid },
+        actionStatus: { type: 'uinteger', value: stub.pus19EventAction[i].actionStatus },
+        actionTcPacketHeader: { type: 'blob', value: stub.pus19EventAction[i].actionTcPacketHeader },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: fixture.pus19EventAction[i].pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: fixture.pus19EventAction[i].pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus19EventAction[i].pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: stub.pus19EventAction[i].pusElement.lastUpdateTime },
         },
-        ridLabel: { type: 'string', value: fixture.pus19EventAction[i].ridLabel },
+        ridLabel: { type: 'string', value: stub.pus19EventAction[i].ridLabel },
       });
       
     }

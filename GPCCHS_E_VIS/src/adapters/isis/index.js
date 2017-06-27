@@ -2,9 +2,22 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 /* eslint-disable camelcase, "DV6 TBC_CNES generated code" */
+const accessControlModel = require('./accessControlModel');
+const sessionModel = require('./sessionModel');
 const briefcase = require('./briefcase');
 const memoryImage = require('./memoryImage');
 const opAlert = require('./opAlert');
+const pusGroundModel = require('./pusGroundModel');
+const connection = require('./connection');
+const cop1 = require('./cop1');
+const decommutedPacket = require('./decommutedPacket');
+const decommutedParameter = require('./decommutedParameter');
+const encode = require('./encode');
+const groundAlarm = require('./groundAlarm');
+const packet = require('./packet');
+const rawData = require('./rawData');
+const queries = require('./queries');
+const timeBasedDataType = require('./timeBasedDataType');
 const ackRequest = require('./ackRequest');
 const ccsds_com = require('./ccsds_com');
 const ccsds_cs = require('./ccsds_cs');
@@ -23,26 +36,39 @@ const operationParameter = require('./operationParameter');
 const tcHistory = require('./tcHistory');
 const userEvent = require('./userEvent');
 const logModel = require('./logModel');
-const accessControlModel = require('./accessControlModel');
-const sessionModel = require('./sessionModel');
-const queries = require('./queries');
-const timeBasedDataType = require('./timeBasedDataType');
-const pusGroundModel = require('./pusGroundModel');
-const connection = require('./connection');
-const cop1 = require('./cop1');
-const decommutedPacket = require('./decommutedPacket');
-const decommutedParameter = require('./decommutedParameter');
-const encode = require('./encode');
-const groundAlarm = require('./groundAlarm');
-const packet = require('./packet');
-const rawData = require('./rawData');
 
 module.exports = {
+  accessControlModel,
+  
+  sessionModel,
+  
   briefcase,
   
   memoryImage,
   
   opAlert,
+  
+  pusGroundModel,
+  
+  connection,
+  
+  cop1,
+  
+  decommutedPacket,
+  
+  decommutedParameter,
+  
+  encode,
+  
+  groundAlarm,
+  
+  packet,
+  
+  rawData,
+  
+  queries,
+  
+  timeBasedDataType,
   
   ackRequest,
   
@@ -79,31 +105,5 @@ module.exports = {
   userEvent,
   
   logModel,
-  
-  accessControlModel,
-  
-  sessionModel,
-  
-  queries,
-  
-  timeBasedDataType,
-  
-  pusGroundModel,
-  
-  connection,
-  
-  cop1,
-  
-  decommutedPacket,
-  
-  decommutedParameter,
-  
-  encode,
-  
-  groundAlarm,
-  
-  packet,
-  
-  rawData,
   
 };

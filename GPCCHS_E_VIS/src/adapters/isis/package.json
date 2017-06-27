@@ -1,6 +1,5 @@
 {
-  "name": "isis-adapter",
-  "version": "0.0.1",
+  "name": "isis-adapters",
   "jest": {
     "verbose": true,
     "testRegex": "(spec)\\.(js|jsx)$",
@@ -9,11 +8,7 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!common)|(node_modules/common/node_modules)"
-    ],
-    "collectCoverageFrom": [
-      "lib/**/*.js"
-    ],
-    "coverageDirectory": "coverage/test"
+    ]
   },
   "dependencies": {
     "bytebuffer": "~5.0.1",

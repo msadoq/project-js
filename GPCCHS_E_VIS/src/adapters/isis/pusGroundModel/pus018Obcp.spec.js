@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus018Obcp');
-const { getPus018Obcp } = require('../stubs');
+const stub = require('./pus018Obcp.stub')();
 
 
 
@@ -12,33 +11,31 @@ describe('protobuf/isis/pusGroundModel/Pus018Obcp', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus018Obcp.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus018Obcp');
-  const fixture = getPus018Obcp();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      id: { type: 'uinteger', value: fixture.id },
-      status: { type: 'uinteger', value: fixture.status },
-      stepId: { type: 'uinteger', value: fixture.stepId },
-      partitionId: { type: 'uinteger', value: fixture.partitionId },
-      observabilityLevel: { type: 'uinteger', value: fixture.observabilityLevel },
-      priority: { type: 'uinteger', value: fixture.priority },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      id: { type: 'uinteger', value: stub.id },
+      status: { type: 'uinteger', value: stub.status },
+      stepId: { type: 'uinteger', value: stub.stepId },
+      partitionId: { type: 'uinteger', value: stub.partitionId },
+      observabilityLevel: { type: 'uinteger', value: stub.observabilityLevel },
+      priority: { type: 'uinteger', value: stub.priority },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
     });
-    
-    json.pus18Parameter.should.be.an('array').that.have.lengthOf(fixture.pus18Parameter.length);
-    for (let i = 0; i < fixture.pus18Parameter.length; i += 1) {
-      json.pus18Parameter[i].should.be.an('object').that.have.properties({
-        parameterId: { type: 'uinteger', value: fixture.pus18Parameter[i].parameterId },
-        parameterName: { type: 'string', value: fixture.pus18Parameter[i].parameterName },
-        value: { type: 'double', symbol: fixture.pus18Parameter[i].value.toString() },
+    expect(decoded.pus18Parameter).toHaveLength(stub.pus18Parameter.length);
+    for (let i = 0; i < stub.pus18Parameter.length; i += 1) {
+      expect(decoded.pus18Parameter[i]).toMatchObject({
+        parameterId: { type: 'uinteger', value: stub.pus18Parameter[i].parameterId },
+        parameterName: { type: 'string', value: stub.pus18Parameter[i].parameterName },
+        value: { type: 'double', symbol: stub.pus18Parameter[i].value.toString() },
       });
       
     }

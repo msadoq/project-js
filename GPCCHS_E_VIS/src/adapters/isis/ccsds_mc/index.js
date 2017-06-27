@@ -2,29 +2,29 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const StatisticValueStruct = require('./statisticValueStruct');
-const GroupDefinition = require('./groupDefinition');
 const StatisticValue = require('./statisticValue');
-const StatisticLinkStruct = require('./statisticLinkStruct');
-const StatisticLink = require('./statisticLink');
+const GroupDefinition = require('./groupDefinition');
 const StatisticFunctionDetailsStruct = require('./statisticFunctionDetailsStruct');
+const StatisticLink = require('./statisticLink');
 const StatisticFunctionDetails = require('./statisticFunctionDetails');
-const StatisticFunctionValue = require('./statisticFunctionValue');
-const AttributeValue = require('./attributeValue');
-const Action = require('./action');
+const StatisticLinkStruct = require('./statisticLinkStruct');
 const StatisticParameterReport = require('./statisticParameterReport');
+const AttributeValue = require('./attributeValue');
+const StatisticFunctionValue = require('./statisticFunctionValue');
 const ParameterValue = require('./parameterValue');
+const Action = require('./action');
 
 module.exports = {
   StatisticValueStruct: { type: 'protobuf', adapter: StatisticValueStruct },
-  GroupDefinition: { type: 'protobuf', adapter: GroupDefinition },
   StatisticValue: { type: 'protobuf', adapter: StatisticValue },
-  StatisticLinkStruct: { type: 'raw', adapter: StatisticLinkStruct },
-  StatisticLink: { type: 'raw', adapter: StatisticLink },
+  GroupDefinition: { type: 'protobuf', adapter: GroupDefinition },
   StatisticFunctionDetailsStruct: { type: 'protobuf', adapter: StatisticFunctionDetailsStruct },
+  StatisticLink: { type: 'raw', adapter: StatisticLink },
   StatisticFunctionDetails: { type: 'protobuf', adapter: StatisticFunctionDetails },
-  StatisticFunctionValue: { type: 'protobuf', adapter: StatisticFunctionValue },
-  AttributeValue: { type: 'protobuf', adapter: AttributeValue },
-  Action: { type: 'protobuf', adapter: Action },
+  StatisticLinkStruct: { type: 'raw', adapter: StatisticLinkStruct },
   StatisticParameterReport: { type: 'protobuf', adapter: StatisticParameterReport },
+  AttributeValue: { type: 'protobuf', adapter: AttributeValue },
+  StatisticFunctionValue: { type: 'protobuf', adapter: StatisticFunctionValue },
   ParameterValue: { type: 'protobuf', adapter: ParameterValue },
+  Action: { type: 'protobuf', adapter: Action },
 };

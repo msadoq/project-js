@@ -10,8 +10,8 @@ const now = _now();
 
 const externalEvent = {
   eventDate: now,
-  systemDate: now,
   specificAttributes: [getNamedValue(), getNamedValue()],
+  systemDate: now,
   mission: 'mySTRING',
   satellite: 1000,
   producer: getProvider(),

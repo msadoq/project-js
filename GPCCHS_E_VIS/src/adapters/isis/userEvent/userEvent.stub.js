@@ -11,10 +11,10 @@ const now = _now();
 
 const userEvent = {
   eventDate: now,
-  specificAttributes: [getNamedValue(), getNamedValue()],
   systemDate: now,
-  userProfile: getUser(),
+  specificAttributes: [getNamedValue(), getNamedValue()],
   mission: 'mySTRING',
+  userProfile: getUser(),
   satellite: 1000,
   producer: getProvider(),
 };

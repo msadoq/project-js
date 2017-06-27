@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./encodingAction');
-const { getEncodingAction } = require('../stubs');
+const stub = require('./encodingAction.stub')();
 
 
 
@@ -12,51 +11,49 @@ describe('protobuf/isis/encode/EncodingAction', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/EncodingAction.proto`, { keepCase: true })
     .lookup('encode.protobuf.EncodingAction');
-  const fixture = getEncodingAction();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      sourceId: (typeof fixture.sourceId === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      sourceId: (typeof stub.sourceId === 'undefined')
         ? null
-        : { type: 'uinteger', value: fixture.sourceId },
-      isForSending: (typeof fixture.isForSending === 'undefined')
+        : { type: 'uinteger', value: stub.sourceId },
+      isForSending: (typeof stub.isForSending === 'undefined')
         ? null
-        : { type: 'boolean', value: fixture.isForSending },
-      countOverwriteFlag: (typeof fixture.countOverwriteFlag === 'undefined')
+        : { type: 'boolean', value: stub.isForSending },
+      countOverwriteFlag: (typeof stub.countOverwriteFlag === 'undefined')
         ? null
-        : { type: 'boolean', value: fixture.countOverwriteFlag },
-      preencryptedFlag: (typeof fixture.preencryptedFlag === 'undefined')
+        : { type: 'boolean', value: stub.countOverwriteFlag },
+      preencryptedFlag: (typeof stub.preencryptedFlag === 'undefined')
         ? null
-        : { type: 'boolean', value: fixture.preencryptedFlag },
-      ackField: (typeof fixture.ackField === 'undefined')
+        : { type: 'boolean', value: stub.preencryptedFlag },
+      ackField: (typeof stub.ackField === 'undefined')
         ? null
-        : { type: 'uinteger', value: fixture.ackField },
+        : { type: 'uinteger', value: stub.ackField },
     });
-    
-    json.argumentValues.should.be.an('array').that.have.lengthOf(fixture.argumentValues.length);
-    for (let i = 0; i < fixture.argumentValues.length; i += 1) {
-      json.argumentValues[i].should.be.an('object').that.have.properties({
-        value: { type: 'double', symbol: fixture.argumentValues[i].value.toString() },
+    expect(decoded.argumentValues).toHaveLength(stub.argumentValues.length);
+    for (let i = 0; i < stub.argumentValues.length; i += 1) {
+      expect(decoded.argumentValues[i]).toMatchObject({
+        value: { type: 'double', symbol: stub.argumentValues[i].value.toString() },
       });
       
     }
-    json.argumentDefinitions.should.be.an('array').that.have.lengthOf(fixture.argumentDefinitions.length);
-    for (let i = 0; i < fixture.argumentDefinitions.length; i += 1) {
-      json.argumentDefinitions[i].should.have.properties({
+    expect(decoded.argumentDefinitions).toHaveLength(stub.argumentDefinitions.length);
+    for (let i = 0; i < stub.argumentDefinitions.length; i += 1) {
+      expect(decoded.argumentDefinitions[i]).toMatchObject({
         type: 'identifier',
-        value: fixture.argumentDefinitions[i],
+        value: stub.argumentDefinitions[i],
       });
     }
-    json.isConvertedValues.should.be.an('array').that.have.lengthOf(fixture.isConvertedValues.length);
-    for (let i = 0; i < fixture.isConvertedValues.length; i += 1) {
-      json.isConvertedValues[i].should.have.properties({
+    expect(decoded.isConvertedValues).toHaveLength(stub.isConvertedValues.length);
+    for (let i = 0; i < stub.isConvertedValues.length; i += 1) {
+      expect(decoded.isConvertedValues[i]).toMatchObject({
         type: 'boolean',
-        value: fixture.isConvertedValues[i],
+        value: stub.isConvertedValues[i],
       });
     }
   });

@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./successiveAck');
-const { getSuccessiveAck } = require('../stubs');
+const stub = require('./successiveAck.stub')();
 
 const ackEnum = require('./ackEnum');
 
@@ -12,47 +11,45 @@ describe('protobuf/isis/tcHistory/SuccessiveAck', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/SuccessiveAck.proto`, { keepCase: true })
     .lookup('tcHistory.protobuf.SuccessiveAck');
-  const fixture = getSuccessiveAck();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      scdCop1Ack: { type: 'enum', value: fixture.scdCop1Ack, symbol: ackEnum[fixture.scdCop1Ack] },
-      cop1Ack: { type: 'enum', value: fixture.cop1Ack, symbol: ackEnum[fixture.cop1Ack] },
-      stationAck: { type: 'enum', value: fixture.stationAck, symbol: ackEnum[fixture.stationAck] },
-      missionFailure: { type: 'enum', value: fixture.missionFailure, symbol: ackEnum[fixture.missionFailure] },
-      executionComplete: { type: 'enum', value: fixture.executionComplete, symbol: ackEnum[fixture.executionComplete] },
-      acceptance: { type: 'enum', value: fixture.acceptance, symbol: ackEnum[fixture.acceptance] },
-      scdCop1AckRcvDate: (typeof fixture.scdCop1AckRcvDate === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      scdCop1Ack: { type: 'enum', value: stub.scdCop1Ack, symbol: ackEnum[stub.scdCop1Ack] },
+      cop1Ack: { type: 'enum', value: stub.cop1Ack, symbol: ackEnum[stub.cop1Ack] },
+      stationAck: { type: 'enum', value: stub.stationAck, symbol: ackEnum[stub.stationAck] },
+      missionFailure: { type: 'enum', value: stub.missionFailure, symbol: ackEnum[stub.missionFailure] },
+      executionComplete: { type: 'enum', value: stub.executionComplete, symbol: ackEnum[stub.executionComplete] },
+      acceptance: { type: 'enum', value: stub.acceptance, symbol: ackEnum[stub.acceptance] },
+      scdCop1AckRcvDate: (typeof stub.scdCop1AckRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.scdCop1AckRcvDate },
-      cop1AckRcvDate: (typeof fixture.cop1AckRcvDate === 'undefined')
+        : { type: 'time', value: stub.scdCop1AckRcvDate },
+      cop1AckRcvDate: (typeof stub.cop1AckRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.cop1AckRcvDate },
-      stationAckRcvDate: (typeof fixture.stationAckRcvDate === 'undefined')
+        : { type: 'time', value: stub.cop1AckRcvDate },
+      stationAckRcvDate: (typeof stub.stationAckRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.stationAckRcvDate },
-      missionFailureRcvDate: (typeof fixture.missionFailureRcvDate === 'undefined')
+        : { type: 'time', value: stub.stationAckRcvDate },
+      missionFailureRcvDate: (typeof stub.missionFailureRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.missionFailureRcvDate },
-      executionCompleteRcvDate: (typeof fixture.executionCompleteRcvDate === 'undefined')
+        : { type: 'time', value: stub.missionFailureRcvDate },
+      executionCompleteRcvDate: (typeof stub.executionCompleteRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.executionCompleteRcvDate },
-      acceptanceRcvDate: (typeof fixture.acceptanceRcvDate === 'undefined')
+        : { type: 'time', value: stub.executionCompleteRcvDate },
+      acceptanceRcvDate: (typeof stub.acceptanceRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.acceptanceRcvDate },
-      executionStartRcvDate: (typeof fixture.executionStartRcvDate === 'undefined')
+        : { type: 'time', value: stub.acceptanceRcvDate },
+      executionStartRcvDate: (typeof stub.executionStartRcvDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.executionStartRcvDate },
-      executionStart: (typeof fixture.executionStart === 'undefined')
+        : { type: 'time', value: stub.executionStartRcvDate },
+      executionStart: (typeof stub.executionStart === 'undefined')
         ? null
-        : { type: 'enum', value: fixture.executionStart, symbol: ackEnum[fixture.executionStart] },
+        : { type: 'enum', value: stub.executionStart, symbol: ackEnum[stub.executionStart] },
     });
-    
     
   });
 });

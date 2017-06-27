@@ -1,7 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./objectId');
 const { getObjectId } = require('../stubs');
 
@@ -10,13 +9,13 @@ const { getObjectId } = require('../stubs');
 describe('protobuf/isis/ccsds_com/ObjectId', () => {
   const fixture = getObjectId();
   let buffer;
-  it('encode', () => {
+  test('encode', () => {
     buffer = encodeRaw(fixture);
-    buffer.constructor.should.equal(Buffer);
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
+  test('decode', () => {
     const json = decodeRaw(buffer);
-    json.should.be.an('object').that.have.properties({
+    expect(json).toMatchObject({
       objectType: {
         area: { type: 'ushort', value: fixture.objectType.area },
         service: { type: 'ushort', value: fixture.objectType.service },
@@ -28,6 +27,5 @@ describe('protobuf/isis/ccsds_com/ObjectId', () => {
         uid: { type: 'long', symbol: `${fixture.objectKey.uid}` },
       },
     });
-    
   });
 });

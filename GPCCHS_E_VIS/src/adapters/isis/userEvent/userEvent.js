@@ -15,15 +15,15 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? tIME.encode(data.eventDate)
       : null,
-    specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
     systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
       ? tIME.encode(data.systemDate)
       : null,
-    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
-      ? bLOB.encode(user.encodeRaw(data.userProfile))
-      : null,
+    specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? sTRING.encode(data.mission)
+      : null,
+    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
+      ? bLOB.encode(user.encodeRaw(data.userProfile))
       : null,
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
       ? uLONG.encode(data.satellite)
@@ -36,15 +36,15 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? tIME.decode(data.eventDate)
       : undefined,
-    specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
     systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
       ? tIME.decode(data.systemDate)
       : undefined,
-    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
-      ? user.decodeRaw(bLOB.decode(data.userProfile).value)
-      : undefined,
+    specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? sTRING.decode(data.mission)
+      : undefined,
+    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
+      ? user.decodeRaw(bLOB.decode(data.userProfile).value)
       : undefined,
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
       ? uLONG.decode(data.satellite)

@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./opAlertConfiguration');
-const { getOpAlertConfiguration } = require('../stubs');
+const stub = require('./opAlertConfiguration.stub')();
 
 
 
@@ -12,24 +11,22 @@ describe('protobuf/isis/opAlert/OpAlertConfiguration', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/OpAlertConfiguration.proto`, { keepCase: true })
     .lookup('opAlert.protobuf.OpAlertConfiguration');
-  const fixture = getOpAlertConfiguration();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      numberCalls: { type: 'integer', value: fixture.numberCalls },
-      alertByPHONE: { type: 'boolean', value: fixture.alertByPHONE },
-      alertByAUDIO: { type: 'boolean', value: fixture.alertByAUDIO },
-      alertByEMAIL: { type: 'boolean', value: fixture.alertByEMAIL },
-      alertBySMS: { type: 'boolean', value: fixture.alertBySMS },
-      maxNumberRetries: { type: 'integer', value: fixture.maxNumberRetries },
-      delayRetries: { type: 'duration', value: fixture.delayRetries },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      numberCalls: { type: 'integer', value: stub.numberCalls },
+      alertByPHONE: { type: 'boolean', value: stub.alertByPHONE },
+      alertByAUDIO: { type: 'boolean', value: stub.alertByAUDIO },
+      alertByEMAIL: { type: 'boolean', value: stub.alertByEMAIL },
+      alertBySMS: { type: 'boolean', value: stub.alertBySMS },
+      maxNumberRetries: { type: 'integer', value: stub.maxNumberRetries },
+      delayRetries: { type: 'duration', value: stub.delayRetries },
     });
-    
     
   });
 });

@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./cUIdentifier');
-const { getCUIdentifier } = require('../stubs');
+const stub = require('./cUIdentifier.stub')();
 
 
 
@@ -12,37 +11,35 @@ describe('protobuf/isis/connection/CUIdentifier', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/CUIdentifier.proto`, { keepCase: true })
     .lookup('connection.protobuf.CUIdentifier');
-  const fixture = getCUIdentifier();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      cUID: { type: 'long', symbol: `${fixture.cUID}` },
-      channelName: { type: 'string', value: fixture.channelName },
-      spacecraftID: { type: 'string', value: fixture.spacecraftID },
-      stationID: { type: 'string', value: fixture.stationID },
-      flowID: { type: 'long', symbol: `${fixture.flowID}` },
-      cUInfo: (typeof fixture.cUInfo === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      cUID: { type: 'long', symbol: `${stub.cUID}` },
+      channelName: { type: 'string', value: stub.channelName },
+      spacecraftID: { type: 'string', value: stub.spacecraftID },
+      stationID: { type: 'string', value: stub.stationID },
+      flowID: { type: 'long', symbol: `${stub.flowID}` },
+      cUInfo: (typeof stub.cUInfo === 'undefined')
         ? null
         : {
-          isSLE: { type: 'boolean', value: fixture.cUInfo.isSLE },
-          reconnectionNumber: (typeof fixture.cUInfo.reconnectionNumber === 'undefined')
+          isSLE: { type: 'boolean', value: stub.cUInfo.isSLE },
+          reconnectionNumber: (typeof stub.cUInfo.reconnectionNumber === 'undefined')
             ? null
-            : { type: 'integer', value: fixture.cUInfo.reconnectionNumber },
-          reconnectionDelay: (typeof fixture.cUInfo.reconnectionDelay === 'undefined')
+            : { type: 'integer', value: stub.cUInfo.reconnectionNumber },
+          reconnectionDelay: (typeof stub.cUInfo.reconnectionDelay === 'undefined')
             ? null
-            : { type: 'integer', value: fixture.cUInfo.reconnectionDelay },
-          name: { type: 'string', value: fixture.cUInfo.name },
-          sicFile: (typeof fixture.cUInfo.sicFile === 'undefined')
+            : { type: 'integer', value: stub.cUInfo.reconnectionDelay },
+          name: { type: 'string', value: stub.cUInfo.name },
+          sicFile: (typeof stub.cUInfo.sicFile === 'undefined')
             ? null
-            : { type: 'string', value: fixture.cUInfo.sicFile },
+            : { type: 'string', value: stub.cUInfo.sicFile },
         },
     });
-    
     
   });
 });

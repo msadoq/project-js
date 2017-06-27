@@ -1,40 +1,40 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const TimeBasedDataIdentifier = require('./timeBasedDataIdentifier');
-const TimeBasedDataULong = require('./timeBasedDataULong');
-const TimeBasedDataTime = require('./timeBasedDataTime');
-const TimeBasedDataUShort = require('./timeBasedDataUShort');
-const TimeBasedDataString = require('./timeBasedDataString');
-const TimeBasedDataFinetime = require('./timeBasedDataFinetime');
-const TimeBasedDataURI = require('./timeBasedDataURI');
+const TimeBasedDataBoolean = require('./timeBasedDataBoolean');
+const TimeBasedDataUByte = require('./timeBasedDataUByte');
 const TimeBasedDataUInteger = require('./timeBasedDataUInteger');
 const TimeBasedDataDouble = require('./timeBasedDataDouble');
-const TimeBasedDataInteger = require('./timeBasedDataInteger');
+const TimeBasedDataULong = require('./timeBasedDataULong');
+const TimeBasedDataURI = require('./timeBasedDataURI');
+const TimeBasedDataUShort = require('./timeBasedDataUShort');
+const TimeBasedDataString = require('./timeBasedDataString');
+const TimeBasedDataTime = require('./timeBasedDataTime');
 const TimeBasedDataDuration = require('./timeBasedDataDuration');
-const TimeBasedDataFloat = require('./timeBasedDataFloat');
-const TimeBasedDataUByte = require('./timeBasedDataUByte');
+const TimeBasedDataInteger = require('./timeBasedDataInteger');
 const TimeBasedDataLong = require('./timeBasedDataLong');
-const TimeBasedDataShort = require('./timeBasedDataShort');
 const TimeBasedDataByte = require('./timeBasedDataByte');
-const TimeBasedDataBoolean = require('./timeBasedDataBoolean');
+const TimeBasedDataFloat = require('./timeBasedDataFloat');
+const TimeBasedDataIdentifier = require('./timeBasedDataIdentifier');
+const TimeBasedDataFinetime = require('./timeBasedDataFinetime');
+const TimeBasedDataShort = require('./timeBasedDataShort');
 
 module.exports = {
-  TimeBasedDataIdentifier: { type: 'raw', adapter: TimeBasedDataIdentifier },
-  TimeBasedDataULong: { type: 'raw', adapter: TimeBasedDataULong },
-  TimeBasedDataTime: { type: 'raw', adapter: TimeBasedDataTime },
-  TimeBasedDataUShort: { type: 'raw', adapter: TimeBasedDataUShort },
-  TimeBasedDataString: { type: 'raw', adapter: TimeBasedDataString },
-  TimeBasedDataFinetime: { type: 'raw', adapter: TimeBasedDataFinetime },
-  TimeBasedDataURI: { type: 'raw', adapter: TimeBasedDataURI },
+  TimeBasedDataBoolean: { type: 'raw', adapter: TimeBasedDataBoolean },
+  TimeBasedDataUByte: { type: 'raw', adapter: TimeBasedDataUByte },
   TimeBasedDataUInteger: { type: 'raw', adapter: TimeBasedDataUInteger },
   TimeBasedDataDouble: { type: 'raw', adapter: TimeBasedDataDouble },
-  TimeBasedDataInteger: { type: 'raw', adapter: TimeBasedDataInteger },
+  TimeBasedDataULong: { type: 'raw', adapter: TimeBasedDataULong },
+  TimeBasedDataURI: { type: 'raw', adapter: TimeBasedDataURI },
+  TimeBasedDataUShort: { type: 'raw', adapter: TimeBasedDataUShort },
+  TimeBasedDataString: { type: 'raw', adapter: TimeBasedDataString },
+  TimeBasedDataTime: { type: 'raw', adapter: TimeBasedDataTime },
   TimeBasedDataDuration: { type: 'raw', adapter: TimeBasedDataDuration },
-  TimeBasedDataFloat: { type: 'raw', adapter: TimeBasedDataFloat },
-  TimeBasedDataUByte: { type: 'raw', adapter: TimeBasedDataUByte },
+  TimeBasedDataInteger: { type: 'raw', adapter: TimeBasedDataInteger },
   TimeBasedDataLong: { type: 'raw', adapter: TimeBasedDataLong },
-  TimeBasedDataShort: { type: 'raw', adapter: TimeBasedDataShort },
   TimeBasedDataByte: { type: 'raw', adapter: TimeBasedDataByte },
-  TimeBasedDataBoolean: { type: 'raw', adapter: TimeBasedDataBoolean },
+  TimeBasedDataFloat: { type: 'raw', adapter: TimeBasedDataFloat },
+  TimeBasedDataIdentifier: { type: 'raw', adapter: TimeBasedDataIdentifier },
+  TimeBasedDataFinetime: { type: 'raw', adapter: TimeBasedDataFinetime },
+  TimeBasedDataShort: { type: 'raw', adapter: TimeBasedDataShort },
 };

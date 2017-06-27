@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./flowElmt');
-const { getFlowElmt } = require('../stubs');
+const stub = require('./flowElmt.stub')();
 
 
 
@@ -12,63 +11,61 @@ describe('protobuf/isis/connection/FlowElmt', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/FlowElmt.proto`, { keepCase: true })
     .lookup('connection.protobuf.FlowElmt');
-  const fixture = getFlowElmt();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
       flowIdentifier: {
-        flowID: { type: 'long', symbol: `${fixture.flowIdentifier.flowID}` },
-        spacecraftID: { type: 'string', value: fixture.flowIdentifier.spacecraftID },
-        stationID: { type: 'string', value: fixture.flowIdentifier.stationID },
-        flowInfo: (typeof fixture.flowIdentifier.flowInfo === 'undefined')
+        flowID: { type: 'long', symbol: `${stub.flowIdentifier.flowID}` },
+        spacecraftID: { type: 'string', value: stub.flowIdentifier.spacecraftID },
+        stationID: { type: 'string', value: stub.flowIdentifier.stationID },
+        flowInfo: (typeof stub.flowIdentifier.flowInfo === 'undefined')
           ? null
           : {
-            name: { type: 'string', value: fixture.flowIdentifier.flowInfo.name },
-            isDefault: { type: 'boolean', value: fixture.flowIdentifier.flowInfo.isDefault },
+            name: { type: 'string', value: stub.flowIdentifier.flowInfo.name },
+            isDefault: { type: 'boolean', value: stub.flowIdentifier.flowInfo.isDefault },
           },
       },
     });
-    
-    json.cUIdentifiers.should.be.an('array').that.have.lengthOf(fixture.cUIdentifiers.length);
-    for (let i = 0; i < fixture.cUIdentifiers.length; i += 1) {
-      json.cUIdentifiers[i].should.be.an('object').that.have.properties({
-        cUID: { type: 'long', symbol: `${fixture.cUIdentifiers[i].cUID}` },
-        channelName: { type: 'string', value: fixture.cUIdentifiers[i].channelName },
-        spacecraftID: { type: 'string', value: fixture.cUIdentifiers[i].spacecraftID },
-        stationID: { type: 'string', value: fixture.cUIdentifiers[i].stationID },
-        flowID: { type: 'long', symbol: `${fixture.cUIdentifiers[i].flowID}` },
-        cUInfo: (typeof fixture.cUIdentifiers[i].cUInfo === 'undefined')
+    expect(decoded.cUIdentifiers).toHaveLength(stub.cUIdentifiers.length);
+    for (let i = 0; i < stub.cUIdentifiers.length; i += 1) {
+      expect(decoded.cUIdentifiers[i]).toMatchObject({
+        cUID: { type: 'long', symbol: `${stub.cUIdentifiers[i].cUID}` },
+        channelName: { type: 'string', value: stub.cUIdentifiers[i].channelName },
+        spacecraftID: { type: 'string', value: stub.cUIdentifiers[i].spacecraftID },
+        stationID: { type: 'string', value: stub.cUIdentifiers[i].stationID },
+        flowID: { type: 'long', symbol: `${stub.cUIdentifiers[i].flowID}` },
+        cUInfo: (typeof stub.cUIdentifiers[i].cUInfo === 'undefined')
           ? null
           : {
-            isSLE: { type: 'boolean', value: fixture.cUIdentifiers[i].cUInfo.isSLE },
-            reconnectionNumber: (typeof fixture.cUIdentifiers[i].cUInfo.reconnectionNumber === 'undefined')
+            isSLE: { type: 'boolean', value: stub.cUIdentifiers[i].cUInfo.isSLE },
+            reconnectionNumber: (typeof stub.cUIdentifiers[i].cUInfo.reconnectionNumber === 'undefined')
               ? null
-              : { type: 'integer', value: fixture.cUIdentifiers[i].cUInfo.reconnectionNumber },
-            reconnectionDelay: (typeof fixture.cUIdentifiers[i].cUInfo.reconnectionDelay === 'undefined')
+              : { type: 'integer', value: stub.cUIdentifiers[i].cUInfo.reconnectionNumber },
+            reconnectionDelay: (typeof stub.cUIdentifiers[i].cUInfo.reconnectionDelay === 'undefined')
               ? null
-              : { type: 'integer', value: fixture.cUIdentifiers[i].cUInfo.reconnectionDelay },
-            name: { type: 'string', value: fixture.cUIdentifiers[i].cUInfo.name },
-            sicFile: (typeof fixture.cUIdentifiers[i].cUInfo.sicFile === 'undefined')
+              : { type: 'integer', value: stub.cUIdentifiers[i].cUInfo.reconnectionDelay },
+            name: { type: 'string', value: stub.cUIdentifiers[i].cUInfo.name },
+            sicFile: (typeof stub.cUIdentifiers[i].cUInfo.sicFile === 'undefined')
               ? null
-              : { type: 'string', value: fixture.cUIdentifiers[i].cUInfo.sicFile },
+              : { type: 'string', value: stub.cUIdentifiers[i].cUInfo.sicFile },
           },
       });
       
     }
-    json.processIdentifiers.should.be.an('array').that.have.lengthOf(fixture.processIdentifiers.length);
-    for (let i = 0; i < fixture.processIdentifiers.length; i += 1) {
-      json.processIdentifiers[i].should.be.an('object').that.have.properties({
-        processId: { type: 'long', symbol: `${fixture.processIdentifiers[i].processId}` },
-        functionOId: { type: 'string', value: fixture.processIdentifiers[i].functionOId },
-        processInfo: (typeof fixture.processIdentifiers[i].processInfo === 'undefined')
+    expect(decoded.processIdentifiers).toHaveLength(stub.processIdentifiers.length);
+    for (let i = 0; i < stub.processIdentifiers.length; i += 1) {
+      expect(decoded.processIdentifiers[i]).toMatchObject({
+        processId: { type: 'long', symbol: `${stub.processIdentifiers[i].processId}` },
+        functionOId: { type: 'string', value: stub.processIdentifiers[i].functionOId },
+        processInfo: (typeof stub.processIdentifiers[i].processInfo === 'undefined')
           ? null
           : {
-            name: { type: 'string', value: fixture.processIdentifiers[i].processInfo.name },
+            name: { type: 'string', value: stub.processIdentifiers[i].processInfo.name },
           },
       });
       

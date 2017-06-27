@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./decommutedValue');
-const { getDecommutedValue } = require('../stubs');
+const stub = require('./decommutedValue.stub')();
 
 const validityState = require('../ccsds_mc/validityState');
 
@@ -12,22 +11,20 @@ describe('protobuf/isis/decommutedPacket/DecommutedValue', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/DecommutedValue.proto`, { keepCase: true })
     .lookup('decommutedPacket.protobuf.DecommutedValue');
-  const fixture = getDecommutedValue();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      name: { type: 'identifier', value: fixture.name },
-      extractedValue: { type: 'double', symbol: fixture.extractedValue.toString() },
-      rawValue: { type: 'double', symbol: fixture.rawValue.toString() },
-      convertedValue: { type: 'double', symbol: fixture.convertedValue.toString() },
-      validityState: { type: 'enum', value: fixture.validityState, symbol: validityState[fixture.validityState] },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      name: { type: 'identifier', value: stub.name },
+      extractedValue: { type: 'double', symbol: stub.extractedValue.toString() },
+      rawValue: { type: 'double', symbol: stub.rawValue.toString() },
+      convertedValue: { type: 'double', symbol: stub.convertedValue.toString() },
+      validityState: { type: 'enum', value: stub.validityState, symbol: validityState[stub.validityState] },
     });
-    
     
   });
 });

@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./clcwSegmentMask');
-const { getClcwSegmentMask } = require('../stubs');
+const stub = require('./clcwSegmentMask.stub')();
 
 const sequenceType = require('./sequenceType');
 
@@ -12,71 +11,69 @@ describe('protobuf/isis/cop1/ClcwSegmentMask', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/ClcwSegmentMask.proto`, { keepCase: true })
     .lookup('cop1.protobuf.ClcwSegmentMask');
-  const fixture = getClcwSegmentMask();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      sequence_flag: { type: 'boolean', value: fixture.sequence_flag },
-      sequence_type: { type: 'enum', value: fixture.sequence_type, symbol: sequenceType[fixture.sequence_type] },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      sequence_flag: { type: 'boolean', value: stub.sequence_flag },
+      sequence_type: { type: 'enum', value: stub.sequence_type, symbol: sequenceType[stub.sequence_type] },
       map: {
-        val: { type: 'integer', value: fixture.map.val },
-        flag: { type: 'boolean', value: fixture.map.flag },
+        val: { type: 'integer', value: stub.map.val },
+        flag: { type: 'boolean', value: stub.map.flag },
       },
       word_type: {
-        val: { type: 'integer', value: fixture.word_type.val },
-        flag: { type: 'boolean', value: fixture.word_type.flag },
+        val: { type: 'integer', value: stub.word_type.val },
+        flag: { type: 'boolean', value: stub.word_type.flag },
       },
       vc_id: {
-        val: { type: 'integer', value: fixture.vc_id.val },
-        flag: { type: 'boolean', value: fixture.vc_id.flag },
+        val: { type: 'integer', value: stub.vc_id.val },
+        flag: { type: 'boolean', value: stub.vc_id.flag },
       },
       farm_B_counter: {
-        val: { type: 'integer', value: fixture.farm_B_counter.val },
-        flag: { type: 'boolean', value: fixture.farm_B_counter.flag },
+        val: { type: 'integer', value: stub.farm_B_counter.val },
+        flag: { type: 'boolean', value: stub.farm_B_counter.flag },
       },
       rF_flag: {
-        val: { type: 'integer', value: fixture.rF_flag.val },
-        flag: { type: 'boolean', value: fixture.rF_flag.flag },
+        val: { type: 'integer', value: stub.rF_flag.val },
+        flag: { type: 'boolean', value: stub.rF_flag.flag },
       },
       synchro_flag: {
-        val: { type: 'integer', value: fixture.synchro_flag.val },
-        flag: { type: 'boolean', value: fixture.synchro_flag.flag },
+        val: { type: 'integer', value: stub.synchro_flag.val },
+        flag: { type: 'boolean', value: stub.synchro_flag.flag },
       },
       close_flag: {
-        val: { type: 'integer', value: fixture.close_flag.val },
-        flag: { type: 'boolean', value: fixture.close_flag.flag },
+        val: { type: 'integer', value: stub.close_flag.val },
+        flag: { type: 'boolean', value: stub.close_flag.flag },
       },
       wait_flag: {
-        val: { type: 'integer', value: fixture.wait_flag.val },
-        flag: { type: 'boolean', value: fixture.wait_flag.flag },
+        val: { type: 'integer', value: stub.wait_flag.val },
+        flag: { type: 'boolean', value: stub.wait_flag.flag },
       },
       retransmit_flag: {
-        val: { type: 'integer', value: fixture.retransmit_flag.val },
-        flag: { type: 'boolean', value: fixture.retransmit_flag.flag },
+        val: { type: 'integer', value: stub.retransmit_flag.val },
+        flag: { type: 'boolean', value: stub.retransmit_flag.flag },
       },
       report: {
-        val: { type: 'integer', value: fixture.report.val },
-        flag: { type: 'boolean', value: fixture.report.flag },
+        val: { type: 'integer', value: stub.report.val },
+        flag: { type: 'boolean', value: stub.report.flag },
       },
       version_name: {
-        val: { type: 'integer', value: fixture.version_name.val },
-        flag: { type: 'boolean', value: fixture.version_name.flag },
+        val: { type: 'integer', value: stub.version_name.val },
+        flag: { type: 'boolean', value: stub.version_name.flag },
       },
       state: {
-        val: { type: 'integer', value: fixture.state.val },
-        flag: { type: 'boolean', value: fixture.state.flag },
+        val: { type: 'integer', value: stub.state.val },
+        flag: { type: 'boolean', value: stub.state.flag },
       },
       cop: {
-        val: { type: 'integer', value: fixture.cop.val },
-        flag: { type: 'boolean', value: fixture.cop.flag },
+        val: { type: 'integer', value: stub.cop.val },
+        flag: { type: 'boolean', value: stub.cop.flag },
       },
     });
-    
     
   });
 });

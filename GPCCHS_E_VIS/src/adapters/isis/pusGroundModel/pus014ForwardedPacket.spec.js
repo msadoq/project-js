@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus014ForwardedPacket');
-const { getPus014ForwardedPacket } = require('../stubs');
+const stub = require('./pus014ForwardedPacket.stub')();
 
 
 
@@ -12,23 +11,21 @@ describe('protobuf/isis/pusGroundModel/Pus014ForwardedPacket', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus014ForwardedPacket.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus014ForwardedPacket');
-  const fixture = getPus014ForwardedPacket();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      apid: { type: 'uinteger', value: fixture.apid },
-      forwardingStatus: { type: 'boolean', value: fixture.forwardingStatus },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      apid: { type: 'uinteger', value: stub.apid },
+      forwardingStatus: { type: 'boolean', value: stub.forwardingStatus },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
     });
-    
     
   });
 });

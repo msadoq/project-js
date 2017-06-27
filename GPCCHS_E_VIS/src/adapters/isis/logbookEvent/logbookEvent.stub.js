@@ -11,10 +11,10 @@ const now = _now();
 
 const logbookEvent = {
   eventDate: now,
-  user: getUser(),
   systemDate: now,
-  specificAttributes: [getNamedValue(), getNamedValue()],
+  user: getUser(),
   mission: 'mySTRING',
+  specificAttributes: [getNamedValue(), getNamedValue()],
   satellite: 1000,
   producer: getProvider(),
 };

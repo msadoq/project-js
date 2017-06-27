@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./tmPacket');
-const { getTmPacket } = require('../stubs');
+const stub = require('./tmPacket.stub')();
 
 
 
@@ -12,30 +11,28 @@ describe('protobuf/isis/packet/TmPacket', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/TmPacket.proto`, { keepCase: true })
     .lookup('packet.protobuf.TmPacket');
-  const fixture = getTmPacket();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      groundDate: { type: 'time', value: fixture.groundDate },
-      onboardDate: { type: 'time', value: fixture.onboardDate },
-      apid: { type: 'ushort', value: fixture.apid },
-      service: { type: 'uoctet', value: fixture.service },
-      subService: { type: 'uoctet', value: fixture.subService },
-      destinationId: (typeof fixture.destinationId === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      groundDate: { type: 'time', value: stub.groundDate },
+      onboardDate: { type: 'time', value: stub.onboardDate },
+      apid: { type: 'ushort', value: stub.apid },
+      service: { type: 'uoctet', value: stub.service },
+      subService: { type: 'uoctet', value: stub.subService },
+      destinationId: (typeof stub.destinationId === 'undefined')
         ? null
-        : { type: 'uoctet', value: fixture.destinationId },
-      isDecommuted: { type: 'boolean', value: fixture.isDecommuted },
-      primaryHeaderSize: { type: 'uoctet', value: fixture.primaryHeaderSize },
-      secondaryHeaderSize: { type: 'uoctet', value: fixture.secondaryHeaderSize },
-      isNominal: { type: 'boolean', value: fixture.isNominal },
-      rawData: { type: 'blob', value: fixture.rawData },
+        : { type: 'uoctet', value: stub.destinationId },
+      isDecommuted: { type: 'boolean', value: stub.isDecommuted },
+      primaryHeaderSize: { type: 'uoctet', value: stub.primaryHeaderSize },
+      secondaryHeaderSize: { type: 'uoctet', value: stub.secondaryHeaderSize },
+      isNominal: { type: 'boolean', value: stub.isNominal },
+      rawData: { type: 'blob', value: stub.rawData },
     });
-    
     
   });
 });

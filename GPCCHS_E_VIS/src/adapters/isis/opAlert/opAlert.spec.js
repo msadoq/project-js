@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./opAlert');
-const { getOpAlert } = require('../stubs');
+const stub = require('./opAlert.stub')();
 
 const closingWay = require('./closingWay');
 const status = require('./status');
@@ -13,62 +12,60 @@ describe('protobuf/isis/opAlert/OpAlert', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/OpAlert.proto`, { keepCase: true })
     .lookup('opAlert.protobuf.OpAlert');
-  const fixture = getOpAlert();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      alertDate: { type: 'time', value: fixture.alertDate },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      alertDate: { type: 'time', value: stub.alertDate },
       target: {
-        login: { type: 'string', value: fixture.target.login },
-        password: { type: 'string', value: fixture.target.password },
-        profile: { type: 'string', value: fixture.target.profile },
-        userTime: { type: 'time', value: fixture.target.userTime },
+        login: { type: 'string', value: stub.target.login },
+        password: { type: 'string', value: stub.target.password },
+        profile: { type: 'string', value: stub.target.profile },
+        userTime: { type: 'time', value: stub.target.userTime },
       },
       specificAttributes: {
-        name: { type: 'identifier', value: fixture.specificAttributes.name },
-        value: { type: 'double', symbol: fixture.specificAttributes.value.toString() },
+        name: { type: 'identifier', value: stub.specificAttributes.name },
+        value: { type: 'double', symbol: stub.specificAttributes.value.toString() },
       },
-      closingNeeded: { type: 'boolean', value: fixture.closingNeeded },
+      closingNeeded: { type: 'boolean', value: stub.closingNeeded },
       callingUser: {
-        login: { type: 'string', value: fixture.callingUser.login },
-        password: { type: 'string', value: fixture.callingUser.password },
-        profile: { type: 'string', value: fixture.callingUser.profile },
-        userTime: { type: 'time', value: fixture.callingUser.userTime },
+        login: { type: 'string', value: stub.callingUser.login },
+        password: { type: 'string', value: stub.callingUser.password },
+        profile: { type: 'string', value: stub.callingUser.profile },
+        userTime: { type: 'time', value: stub.callingUser.userTime },
       },
-      systemDate: { type: 'time', value: fixture.systemDate },
-      mission: { type: 'string', value: fixture.mission },
-      satellite: { type: 'ulong', symbol: `${fixture.satellite}` },
-      status: { type: 'enum', value: fixture.status, symbol: status[fixture.status] },
-      lastCallDate: { type: 'time', value: fixture.lastCallDate },
-      opAlertClosingData: (typeof fixture.opAlertClosingData === 'undefined')
+      systemDate: { type: 'time', value: stub.systemDate },
+      mission: { type: 'string', value: stub.mission },
+      satellite: { type: 'ulong', symbol: `${stub.satellite}` },
+      status: { type: 'enum', value: stub.status, symbol: status[stub.status] },
+      lastCallDate: { type: 'time', value: stub.lastCallDate },
+      opAlertClosingData: (typeof stub.opAlertClosingData === 'undefined')
         ? null
         : {
           closingUser: {
-            login: { type: 'string', value: fixture.opAlertClosingData.closingUser.login },
-            password: { type: 'string', value: fixture.opAlertClosingData.closingUser.password },
-            profile: { type: 'string', value: fixture.opAlertClosingData.closingUser.profile },
-            userTime: { type: 'time', value: fixture.opAlertClosingData.closingUser.userTime },
+            login: { type: 'string', value: stub.opAlertClosingData.closingUser.login },
+            password: { type: 'string', value: stub.opAlertClosingData.closingUser.password },
+            profile: { type: 'string', value: stub.opAlertClosingData.closingUser.profile },
+            userTime: { type: 'time', value: stub.opAlertClosingData.closingUser.userTime },
           },
-          closingDate: { type: 'time', value: fixture.opAlertClosingData.closingDate },
-          closingWay: { type: 'enum', value: fixture.opAlertClosingData.closingWay, symbol: closingWay[fixture.opAlertClosingData.closingWay] },
+          closingDate: { type: 'time', value: stub.opAlertClosingData.closingDate },
+          closingWay: { type: 'enum', value: stub.opAlertClosingData.closingWay, symbol: closingWay[stub.opAlertClosingData.closingWay] },
         },
     });
-    
-    json.opAlertConfiguration.should.be.an('array').that.have.lengthOf(fixture.opAlertConfiguration.length);
-    for (let i = 0; i < fixture.opAlertConfiguration.length; i += 1) {
-      json.opAlertConfiguration[i].should.be.an('object').that.have.properties({
-        numberCalls: { type: 'integer', value: fixture.opAlertConfiguration[i].numberCalls },
-        alertByPHONE: { type: 'boolean', value: fixture.opAlertConfiguration[i].alertByPHONE },
-        alertByAUDIO: { type: 'boolean', value: fixture.opAlertConfiguration[i].alertByAUDIO },
-        alertByEMAIL: { type: 'boolean', value: fixture.opAlertConfiguration[i].alertByEMAIL },
-        alertBySMS: { type: 'boolean', value: fixture.opAlertConfiguration[i].alertBySMS },
-        maxNumberRetries: { type: 'integer', value: fixture.opAlertConfiguration[i].maxNumberRetries },
-        delayRetries: { type: 'duration', value: fixture.opAlertConfiguration[i].delayRetries },
+    expect(decoded.opAlertConfiguration).toHaveLength(stub.opAlertConfiguration.length);
+    for (let i = 0; i < stub.opAlertConfiguration.length; i += 1) {
+      expect(decoded.opAlertConfiguration[i]).toMatchObject({
+        numberCalls: { type: 'integer', value: stub.opAlertConfiguration[i].numberCalls },
+        alertByPHONE: { type: 'boolean', value: stub.opAlertConfiguration[i].alertByPHONE },
+        alertByAUDIO: { type: 'boolean', value: stub.opAlertConfiguration[i].alertByAUDIO },
+        alertByEMAIL: { type: 'boolean', value: stub.opAlertConfiguration[i].alertByEMAIL },
+        alertBySMS: { type: 'boolean', value: stub.opAlertConfiguration[i].alertBySMS },
+        maxNumberRetries: { type: 'integer', value: stub.opAlertConfiguration[i].maxNumberRetries },
+        delayRetries: { type: 'duration', value: stub.opAlertConfiguration[i].delayRetries },
       });
       
     }

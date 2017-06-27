@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./statisticValue');
-const { getStatisticValue } = require('../stubs');
+const stub = require('./statisticValue.stub')();
 
 
 
@@ -12,31 +11,29 @@ describe('protobuf/isis/ccsds_mc/StatisticValue', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/StatisticValue.proto`, { keepCase: true })
     .lookup('ccsds_mc.protobuf.StatisticValue');
-  const fixture = getStatisticValue();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      startTime: (typeof fixture.startTime === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      startTime: (typeof stub.startTime === 'undefined')
         ? null
-        : { type: 'time', value: fixture.startTime },
-      endTime: (typeof fixture.endTime === 'undefined')
+        : { type: 'time', value: stub.startTime },
+      endTime: (typeof stub.endTime === 'undefined')
         ? null
-        : { type: 'time', value: fixture.endTime },
-      valueTime: (typeof fixture.valueTime === 'undefined')
+        : { type: 'time', value: stub.endTime },
+      valueTime: (typeof stub.valueTime === 'undefined')
         ? null
-        : { type: 'time', value: fixture.valueTime },
-      value: (typeof fixture.value === 'undefined')
+        : { type: 'time', value: stub.valueTime },
+      value: (typeof stub.value === 'undefined')
         ? null
-        : { type: 'double', symbol: fixture.value.toString() },
-      sampleCount: { type: 'uinteger', value: fixture.sampleCount },
-      timestamp: { type: 'time', value: fixture.timestamp },
+        : { type: 'double', symbol: stub.value.toString() },
+      sampleCount: { type: 'uinteger', value: stub.sampleCount },
+      timestamp: { type: 'time', value: stub.timestamp },
     });
-    
     
   });
 });

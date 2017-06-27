@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./userRight');
-const { getUserRight } = require('../stubs');
+const stub = require('./userRight.stub')();
 
 
 
@@ -12,26 +11,24 @@ describe('protobuf/isis/file/UserRight', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/UserRight.proto`, { keepCase: true })
     .lookup('file.protobuf.UserRight');
-  const fixture = getUserRight();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      read: { type: 'boolean', value: fixture.read },
-      changeAccessRight: { type: 'boolean', value: fixture.changeAccessRight },
-      write: { type: 'boolean', value: fixture.write },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      read: { type: 'boolean', value: stub.read },
+      changeAccessRight: { type: 'boolean', value: stub.changeAccessRight },
+      write: { type: 'boolean', value: stub.write },
       user: {
-        login: { type: 'string', value: fixture.user.login },
-        password: { type: 'string', value: fixture.user.password },
-        profile: { type: 'string', value: fixture.user.profile },
-        userTime: { type: 'time', value: fixture.user.userTime },
+        login: { type: 'string', value: stub.user.login },
+        password: { type: 'string', value: stub.user.password },
+        profile: { type: 'string', value: stub.user.profile },
+        userTime: { type: 'time', value: stub.user.userTime },
       },
     });
-    
     
   });
 });

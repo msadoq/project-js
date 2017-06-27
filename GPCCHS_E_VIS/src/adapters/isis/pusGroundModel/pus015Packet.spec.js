@@ -2,9 +2,8 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus015Packet');
-const { getPus015Packet } = require('../stubs');
+const stub = require('./pus015Packet.stub')();
 
 
 
@@ -12,28 +11,26 @@ describe('protobuf/isis/pusGroundModel/Pus015Packet', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus015Packet.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus015Packet');
-  const fixture = getPus015Packet();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      apid: { type: 'uinteger', value: fixture.apid },
-      serviceTpe: { type: 'uinteger', value: fixture.serviceTpe },
-      serviceSubType: { type: 'uinteger', value: fixture.serviceSubType },
-      sid: { type: 'uinteger', value: fixture.sid },
-      subsamplingRatio: { type: 'uinteger', value: fixture.subsamplingRatio },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      apid: { type: 'uinteger', value: stub.apid },
+      serviceTpe: { type: 'uinteger', value: stub.serviceTpe },
+      serviceSubType: { type: 'uinteger', value: stub.serviceSubType },
+      sid: { type: 'uinteger', value: stub.sid },
+      subsamplingRatio: { type: 'uinteger', value: stub.subsamplingRatio },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      packetType: { type: 'uinteger', value: fixture.packetType },
-      sidLabel: { type: 'string', value: fixture.sidLabel },
+      packetType: { type: 'uinteger', value: stub.packetType },
+      sidLabel: { type: 'string', value: stub.sidLabel },
     });
-    
     
   });
 });

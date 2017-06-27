@@ -18,11 +18,12 @@ const middlewares = [
   createOpenLinkMiddleware(documentManager),
 ];
 
-export default function makeCreateStore() {
+export default function makeCreateStore(identity, isDebugOn) {
   return (initialState) => {
     const enhancer = compose(applyMiddleware(...middlewares), makeServerEnhancer(
-      'server',
-      main.sendReduxPatch
+      identity,
+      main.sendReduxPatch,
+      isDebugOn
     ));
     store = createStore(reducer, initialState, enhancer);
     return store;

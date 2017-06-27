@@ -42,7 +42,7 @@ export function getZoomLevel(msWidth) {
  */
 export const computeDiffHrtime = (a, b) => {
   if (!a || !b) {
-    return 'Error in timing calculation';
+    return 'Missing data';
   }
   const as = a[0];
   const ans = a[1];

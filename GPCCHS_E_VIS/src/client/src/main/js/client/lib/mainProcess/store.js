@@ -6,11 +6,12 @@ import { server } from './ipc';
 
 let store;
 
-export default function makeCreateStore() {
+export default function makeCreateStore(identity, isDebugOn) {
   return (initialState) => {
     const enhancer = compose(applyMiddleware(thunk), makeMainEnhancer(
-      'main',
-      server.sendReduxDispatch
+      identity,
+      server.sendReduxDispatch,
+      isDebugOn
     ));
     store = createStore(reducer, initialState, enhancer);
     return store;

@@ -96,7 +96,7 @@ export function onStart() {
         logger.info('loading application state...');
 
         // init Redux store in main process
-        const store = makeCreateStore('main', get('DEBUG') === 'on')(initialState);
+        const store = makeCreateStore('main', parameters.get('DEBUG') === 'on')(initialState);
         store.subscribe(makeWindowsObserver(store));
 
         callback(null);

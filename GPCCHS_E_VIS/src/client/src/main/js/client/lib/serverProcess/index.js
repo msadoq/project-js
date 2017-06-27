@@ -38,8 +38,7 @@ series({
   process.on('message', clientController);
 
   // store
-
-  const store = makeCreateStore('server', process.env.DEBUG === 'on')();
+  const store = makeCreateStore('server', get('DEBUG') === 'on')();
   store.subscribe(makeDataRequestsObserver(store));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));

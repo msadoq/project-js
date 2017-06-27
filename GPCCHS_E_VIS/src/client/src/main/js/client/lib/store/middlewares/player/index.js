@@ -1,20 +1,20 @@
-import createInterval from '../../../common/utils/interval';
-
 import { getPage } from '../../reducers/pages';
 import { getTimebar } from '../../reducers/timebars';
 import { getPlayingTimebarId } from '../../reducers/hsc';
-import { nextCurrent, computeCursors } from './cursors';
-import * as types from '../../types';
-
-import { getCurrentSessionId } from '../../../windowProcess/Timebar/Controls/ControlsSelectors';
 import { getHealthMap } from '../../reducers/health';
 import { getIsCodeEditorOpened } from '../../reducers/editor';
 
 import { updateCursors, switchToRealtimeMode, moveTo } from '../../actions/timebars';
 import { pause } from '../../actions/hsc';
+
 import { add as addMessage } from '../../actions/messages';
 import { isAnyEditorOpened } from '../../selectors/pages';
+import { getCurrentSessionId } from '../../selectors/sessions';
+
+import createInterval from '../../../common/utils/interval';
 import { HEALTH_STATUS_CRITICAL } from '../../../constants';
+import { nextCurrent, computeCursors } from './cursors';
+import * as types from '../../types';
 
 import ipc from '../../../serverProcess/ipc';
 

@@ -15,10 +15,8 @@ import {
 
 import Controls from './Controls';
 
-import {
-  getTimeSetterMessages,
-  getCurrentSessionId,
-} from './ControlsSelectors';
+import { getTimeSetterMessages } from '../../../store/reducers/messages';
+import { getCurrentSessionId } from '../../../store/selectors/sessions';
 
 const mapStateToProps = createStructuredSelector({
   messages: getTimeSetterMessages,

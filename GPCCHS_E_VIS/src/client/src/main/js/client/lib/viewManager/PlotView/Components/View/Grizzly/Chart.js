@@ -35,6 +35,7 @@ export default class Chart extends React.Component {
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
     perfOutput: PropTypes.bool,
+    additionalStyle: PropTypes.shape({}).isRequired,
     xAxis: PropTypes.shape({
       xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
       showTicks: PropTypes.bool,
@@ -503,6 +504,7 @@ export default class Chart extends React.Component {
       allowPan,
       allowZoom,
       perfOutput,
+      additionalStyle,
     } = this.props;
 
     const {
@@ -555,6 +557,7 @@ export default class Chart extends React.Component {
         onWheel={this.onWheel}
         onMouseDown={this.onMouseDown}
         style={{
+          ...additionalStyle,
           height,
           width,
         }}

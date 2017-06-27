@@ -54,7 +54,7 @@ module.exports = (
 
   // if queryId not in registeredQueries, stop logic
   execution.start('register query');
-  const remoteId = getRegisteredQuery(queryId);
+  const remoteId = getRegisteredQuery(queryId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
   if (typeof remoteId === 'undefined') {
     return;
   }

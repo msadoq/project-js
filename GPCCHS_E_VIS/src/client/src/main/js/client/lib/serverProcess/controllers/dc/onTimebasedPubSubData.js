@@ -95,6 +95,7 @@ module.exports = (
       });
       return;
     }
+
     execution.stop('control interval');
 
     // decode Payload only once by payloadBuffer loop to avoid resource-consuming

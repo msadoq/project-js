@@ -1,7 +1,9 @@
+import _getOr from 'lodash/fp/getOr';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { remote } from 'electron';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../constants';
 import makeRendererEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
@@ -23,9 +25,9 @@ function prepareEnhancers(isDebugOn) {
   const reduxLogger = createLogger({
     level: 'info',
     collapsed: true,
-    // predicate: (state, action) => (
-    //   !(action.type === types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP)
-    // ),
+    predicate: (state, action) => (
+      _getOr(false, ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action) !== false
+    ),
   });
 
   const isThereDevTools = typeof window !== 'undefined'

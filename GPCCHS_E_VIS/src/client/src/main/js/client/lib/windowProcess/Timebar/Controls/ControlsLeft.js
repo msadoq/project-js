@@ -8,7 +8,6 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import { main } from '../../ipc';
 
 const inlineStyles = {
   width200: { width: '200px' },
@@ -19,7 +18,7 @@ const OverlayTriggerTrigger = ['hover', 'focus'];
 export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
-    sessionId: PropTypes.number,
+    enableRealTime: PropTypes.bool.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
@@ -41,7 +40,6 @@ export default class ControlsLeft extends PureComponent {
   static defaultProps = {
     masterTimeline: null,
     messages: [],
-    sessionId: null,
   };
 
   static contextTypes = {
@@ -104,16 +102,8 @@ export default class ControlsLeft extends PureComponent {
     const {
       timebarUuid,
       goNow,
-      sessionId,
     } = this.props;
-    // IPC request to get master session current time
-    main.getSessionTime(sessionId, ({ err, timestamp }) => {
-      if (err) {
-        // TODO Show message
-        return;
-      }
-      goNow(timebarUuid, timestamp);
-    });
+    goNow(timebarUuid);
   }
 
   jump = (e) => {
@@ -149,11 +139,11 @@ export default class ControlsLeft extends PureComponent {
       play,
       pause,
       messages,
-      sessionId,
+      enableRealTime,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
-    const nowDisabled = sessionId === null;
+    const nowDisabled = !enableRealTime;
     const disabledTooltip = (
       <Tooltip
         id="RTTooltip"

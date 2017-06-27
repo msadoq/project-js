@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import { HEALTH_STATUS_CRITICAL } from '../../constants';
 import * as actions from './hsc';
 import { mockStore, freezeMe } from '../../common/jest';
@@ -60,32 +59,7 @@ describe('store:actions:hsc', () => {
     health: {},
   });
 
-  describe('startInPlayMode', () => {
-    const ifIsPlay = _.propEq('type', 'HSC_PLAY');
-    const store = mockStore(state);
-    store.dispatch(actions.startInPlayMode());
-    test('sets real time to true on each timebars', () => {
-      const rejectPlayActions = _.reject(ifIsPlay);
-      expect(rejectPlayActions(store.getActions())).toEqual([
-        {
-          type: 'WS_TIMEBAR_SET_REALTIME',
-          payload: { timebarUuid: 'tb1', flag: true },
-        },
-        {
-          type: 'WS_TIMEBAR_SET_REALTIME',
-          payload: { timebarUuid: 'tb2', flag: true },
-        },
-      ]);
-    });
-    test('plays', () => {
-      const keepPlayActions = _.filter(ifIsPlay);
-      expect(keepPlayActions(store.getActions())).toEqual([
-        { type: 'HSC_PLAY', payload: { timebarUuid: 'tb1' } },
-      ]);
-    });
-  });
-
-  describe('smartPlay', () => {
+  describe.skip('smartPlay', () => {
     test('warns a message because of application is oveloaded', () => {
       const store = mockStore(stateCriticalWindows);
       store.dispatch(actions.smartPlay('myTimebarUuid'));

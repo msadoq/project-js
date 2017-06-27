@@ -25,6 +25,7 @@ function getArgv(name) {
   return getAllArgv()[name];
 }
 
+// TODO : remove this workaround in configurationManager refactoring
 const env = process.env.mainProcessConfig
   ? JSON.parse(process.env.mainProcessConfig)
   : process.env;

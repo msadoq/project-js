@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
   switchToNormalMode,
-  switchToRealtimeMode,
+  setRealTime,
   switchToExtensibleMode,
   switchToFixedMode,
   updateSpeed,
@@ -15,19 +15,17 @@ import {
 
 import Controls from './Controls';
 
-import {
-  getTimeSetterMessages,
-  getCurrentSessionId,
-} from './ControlsSelectors';
+import { getTimeSetterMessages } from '../../../store/reducers/messages';
+import { getCurrentSessionExists } from '../../../store/selectors/sessions';
 
 const mapStateToProps = createStructuredSelector({
   messages: getTimeSetterMessages,
-  sessionId: getCurrentSessionId,
+  enableRealTime: getCurrentSessionExists,
 });
 
 const mapDispatchToProps = {
   switchToNormalMode,
-  switchToRealtimeMode,
+  switchToRealtimeMode: timebarUuid => setRealTime(timebarUuid, true),
   switchToExtensibleMode,
   switchToFixedMode,
   updateSpeed,

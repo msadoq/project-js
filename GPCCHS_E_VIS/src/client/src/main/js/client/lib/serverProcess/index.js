@@ -1,40 +1,35 @@
+import exit from 'exit';
+import { series } from 'async';
 import adapter from '../utils/adapters';
-import parameters from '../common/configurationManager';
-
-const exit = require('exit');
-const zmq = require('common/zmq');
-const getLogger = require('../common/logManager');
+import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
+import getLogger from '../common/logManager';
+import { get } from '../common/configurationManager';
+import makeCreateStore from './store';
+import { updateDomains } from '../store/actions/domains';
+import { updateSessions } from '../store/actions/sessions';
+import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
+import connectToZmq from './lifecycle/zmq';
+import fetchInitialData from './lifecycle/data';
+import makeDataRequestsObserver from './dataRequests/observer';
+import { dc } from './ipc';
 
 adapter.registerGlobal();
 const clientController = require('./controllers/client');
-const dcController = require('./controllers/dc');
-const { unsubscribeAll } = require('./utils/subscriptions');
-
-const makeCreateStore = require('./store').default;
 
 const logger = getLogger('main');
-const zmqLogger = getLogger('zmq');
 process.title = 'gpcchs_hss';
 
-// ZeroMQ
-const zmqConfiguration = {
-  dcPull: {
-    type: 'pull',
-    role: 'server',
-    url: parameters.get('ZMQ_GPCCDC_PULL'),
-    handler: dcController,
+series({
+  // ZeroMQ sockets
+  zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
+  // Send logBook to LPISIS
+  logBook: (callback) => {
+    dc.sendProductLog(LOG_APPLICATION_START);
+    callback(null);
   },
-  dcPush: {
-    type: 'push',
-    role: 'client',
-    url: parameters.get('ZMQ_GPCCDC_PUSH'),
-  },
-  options: {
-    logger: zmqLogger,
-  },
-};
-
-zmq.open(zmqConfiguration, (err) => {
+  // Initial data for store (domains, sessions, master session ID)
+  initialData: callback => fetchInitialData(callback),
+}, (err, { initialData }) => {
   if (err) {
     throw err;
   }
@@ -43,10 +38,21 @@ zmq.open(zmqConfiguration, (err) => {
   process.on('message', clientController);
 
   // store
-  makeCreateStore('server', process.env.DEBUG === 'on')();
+  const store = makeCreateStore('server', process.env.DEBUG === 'on')();
+  store.subscribe(makeDataRequestsObserver(store));
+  store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
+  store.dispatch(updateSessions(initialData.sessions));
+  store.dispatch(updateDomains(initialData.domains));
 
-  // inform main that everything is ready
-  process.send('ready');
+  // TODO dbrugne init configuration and inject in store
+
+  // inform main that everything is ready and pass initialState
+  process.send({
+    [CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true,
+    payload: {
+      initialState: store.getState(),
+    },
+  });
 });
 
 // handle graceful shutdown
@@ -56,9 +62,5 @@ process.once('SIGINT', () => {
 });
 process.once('SIGTERM', () => {
   logger.info('gracefully close server (SIGTERM)');
-
-  unsubscribeAll(args => zmq.push('dcPush', args));
-
-  logger.info('good bye!');
   exit(0);
 });

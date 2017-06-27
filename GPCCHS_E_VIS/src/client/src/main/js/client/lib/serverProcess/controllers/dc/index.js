@@ -1,6 +1,6 @@
 const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');
-const globalConstants = require('../../../constants');
+const constants = require('../../../constants');
 
 const reply = require('../../../common/ipc/reply');
 
@@ -16,17 +16,16 @@ const onSessionTimeData = require('./onSessionTimeData');
 const onDcStatus = require('./onDcStatus');
 
 const controllers = {
-  [globalConstants.MESSAGETYPE_DOMAIN_DATA]: (...args) => onDomainsData(reply, ...args),
-  [globalConstants.MESSAGETYPE_RESPONSE]: onResponse,
-  [globalConstants.MESSAGETYPE_SESSION_DATA]: (...args) => onSessionsData(reply, ...args),
-  [globalConstants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: onTimebasedArchiveData,
-  [globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
-  [globalConstants.MESSAGETYPE_FMD_CREATE_DATA]: (...args) => onFmdCreateData(reply, ...args),
-  [globalConstants.MESSAGETYPE_FMD_GET_DATA]: (...args) => onFmdGetData(reply, ...args),
-  [globalConstants.MESSAGETYPE_SESSION_MASTER_DATA]: (...args) =>
-    onSessionMasterData(reply, ...args),
-  [globalConstants.MESSAGETYPE_SESSION_TIME_DATA]: (...args) => onSessionTimeData(reply, ...args),
-  [globalConstants.MESSAGETYPE_DC_STATUS]: onDcStatus,
+  [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,
+  [constants.MESSAGETYPE_RESPONSE]: onResponse,
+  [constants.MESSAGETYPE_SESSION_DATA]: onSessionsData,
+  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: onTimebasedArchiveData,
+  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
+  [constants.MESSAGETYPE_FMD_CREATE_DATA]: (...args) => onFmdCreateData(reply, ...args),
+  [constants.MESSAGETYPE_FMD_GET_DATA]: (...args) => onFmdGetData(reply, ...args),
+  [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,
+  [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeData,
+  [constants.MESSAGETYPE_DC_STATUS]: onDcStatus,
 };
 
 module.exports = (trash, headerBuffer, ...args) => {

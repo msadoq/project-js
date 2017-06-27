@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 
-import { computeCursors, nextCurrent } from './play';
+import { computeCursors, nextCurrent } from './cursors';
 
 describe('mainProcess/play', () => {
   describe('nextCurrent', () => {

@@ -1,4 +1,4 @@
-import { getPageTimelines, getFocusedPageTimelines } from './timelines';
+import { getPageTimelines, getFocusedPageTimelines, getMasterTimelineById } from './timelines';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {
   const state = {
@@ -40,6 +40,68 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
     });
     test('returns nothing when windowId is unknown', () => {
       expect(getFocusedPageTimelines(state, { windowId: 'unknownWindowId' })).toEqual([]);
+    });
+  });
+  describe('getMasterTimelineById', () => {
+    test('should return master timeline', () => {
+      expect(getMasterTimelineById(
+        {
+          timebars: {
+            myId: {
+              masterId: 'timeline01',
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
+          timebarTimelines: {
+            myId: ['timeline_01', 'timeline_02'],
+          },
+        },
+        { timebarUuid: 'myId' }
+      )).toEqual({
+        id: 'timeline01',
+      });
+    });
+    test('should not find master timeline', () => {
+      expect(getMasterTimelineById(
+        {
+          timebars: {
+            myId: {
+              masterId: 'timeline04',
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
+          timebarTimelines: {
+            myId: ['timeline_01', 'timeline_02'],
+          },
+        },
+        { timebarUuid: 'myId' }
+      )).toBeFalsy();
+    });
+    test('no master timeline', () => {
+      expect(getMasterTimelineById(
+        {
+          timebars: {
+            myId: { },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
+          timebarTimelines: {
+            myId: ['timeline_01', 'timeline_02'],
+          },
+        },
+        { timebarUuid: 'myId' }
+      )).toBeFalsy();
     });
   });
 });

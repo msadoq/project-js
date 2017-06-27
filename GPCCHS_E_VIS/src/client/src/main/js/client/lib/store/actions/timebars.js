@@ -3,7 +3,6 @@ import _get from 'lodash/get';
 import { get } from '../../common/configurationManager';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
-import { nextCurrent, computeCursors } from '../play';
 import {
   add as addMessage,
   reset as resetMessages,
@@ -12,9 +11,8 @@ import { getMessages } from '../reducers/messages';
 import {
   update as updateTL,
 } from './timelines';
-import { pause, smartPlay } from './hsc';
+import { pause, play } from './hsc';
 import { getTimebar } from '../reducers/timebars';
-import { getPlayingTimebarId } from '../reducers/hsc';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -24,6 +22,7 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
  */
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
+export const goNow = simple(types.WS_TIMEBAR_GO_NOW, 'timebarUuid');
 
 export const createNewTimebar = timebarId =>
   (dispatch) => {
@@ -87,42 +86,6 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
         },
       });
     }
-  };
-
-  /*
-    @param : delta = (dateNow - lastTickTime)
-    @param: currentUpperMargin = constante
-  */
-export const handlePlay = (delta, currentUpperMargin) =>
-  (dispatch, getState) => {
-    const state = getState();
-    const playingTimebarUuid = getPlayingTimebarId(state);
-    if (!playingTimebarUuid) {
-      return;
-    }
-    const playingTimebar = getTimebar(state, { timebarUuid: playingTimebarUuid });
-    if (!playingTimebar) {
-      return;
-    }
-    const newCurrent = nextCurrent(
-      playingTimebar.visuWindow.current,
-      playingTimebar.speed,
-      delta
-    );
-    const nextCursors = computeCursors(
-      newCurrent,
-      playingTimebar.visuWindow.lower,
-      playingTimebar.visuWindow.upper,
-      playingTimebar.slideWindow.lower,
-      playingTimebar.slideWindow.upper,
-      playingTimebar.mode,
-      currentUpperMargin
-    );
-    dispatch(updateCursors(
-      playingTimebarUuid,
-      nextCursors.visuWindow,
-      nextCursors.slideWindow
-    ));
   };
 
 export const updateViewport = simple(
@@ -199,7 +162,7 @@ export function jump(timebarUuid, offsetMs) {
   };
 }
 
-export function goNow(timebarUuid, masterSessionIdCurrentTime) {
+export function moveTo(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     const state = getState();
     const timebar = getTimebar(state, { timebarUuid });
@@ -257,7 +220,6 @@ export function switchToNormalMode(timebarUuid) {
 
 export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
-    dispatch(setRealTime(timebarUuid, true));
     const state = getState();
     const timebar = getTimebar(state, { timebarUuid });
     if (timebar.speed !== 1) {
@@ -298,7 +260,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         }
       )
     );
-    dispatch(smartPlay(timebarUuid));
+    dispatch(play(timebarUuid));
   };
 }
 

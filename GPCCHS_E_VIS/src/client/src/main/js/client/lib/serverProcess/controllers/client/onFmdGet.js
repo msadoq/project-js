@@ -14,8 +14,8 @@ const protobufHeader = encode('dc.dataControllerUtils.Header', {
  * @param queryId
  * @param oid
  */
-module.exports = (sendDcMessage, queryId, payload) => sendDcMessage([
+module.exports = (sendDcMessage, queryId, { oid }) => sendDcMessage([
   protobufHeader,
   encode('dc.dataControllerUtils.String', { string: queryId }),
-  encode('dc.dataControllerUtils.FMDGet', { serializedOid: payload.oid }),
+  encode('dc.dataControllerUtils.FMDGet', { serializedOid: oid }),
 ]);

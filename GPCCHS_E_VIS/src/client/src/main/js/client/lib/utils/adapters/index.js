@@ -1,3 +1,4 @@
+const { join } = require('path');
 const _each = require('lodash/each');
 const _get = require('lodash/get');
 const parameters = require('../../common/configurationManager');
@@ -15,7 +16,7 @@ const registerGlobal = (override) => {
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
     }
-    const adapterPath = msgNasmespaces.path + msgNasmespaces.ns;
+    const adapterPath = join(msgNasmespaces.path, msgNasmespaces.ns);
     const namespaces = require(adapterPath);  // eslint-disable-line
     const namespacesKeys = Object.keys(namespaces);
     _each(namespacesKeys, (adapters) => {

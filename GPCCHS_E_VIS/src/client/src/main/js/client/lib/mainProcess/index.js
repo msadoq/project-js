@@ -10,6 +10,7 @@ import {
   CHILD_PROCESS_DC,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
+  SERVER_PROCESS_LAUNCHING_TIMEOUT,
 } from '../constants';
 import { clear } from '../common/callbacks';
 import { setRtd } from '../rtdManager';
@@ -28,8 +29,6 @@ import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
 
 const logger = getLogger('main:index');
-
-const SERVER_PROCESS_LAUNCHING_TIMEOUT = 5000;
 
 function scheduleTimeout(delay, message) {
   let timeout = setTimeout(() => {

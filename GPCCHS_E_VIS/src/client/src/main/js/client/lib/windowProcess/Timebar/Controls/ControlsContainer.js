@@ -16,11 +16,11 @@ import {
 import Controls from './Controls';
 
 import { getTimeSetterMessages } from '../../../store/reducers/messages';
-import { getCurrentSessionId } from '../../../store/selectors/sessions';
+import { getCurrentSessionExists } from '../../../store/selectors/sessions';
 
 const mapStateToProps = createStructuredSelector({
   messages: getTimeSetterMessages,
-  sessionId: getCurrentSessionId,
+  enableRealTime: getCurrentSessionExists,
 });
 
 const mapDispatchToProps = {

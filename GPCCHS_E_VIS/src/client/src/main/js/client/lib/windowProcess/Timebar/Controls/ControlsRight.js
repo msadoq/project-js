@@ -15,7 +15,7 @@ const inlineStyles = {
 export default class ControlsRight extends PureComponent {
 
   static propTypes = {
-    sessionId: PropTypes.number,
+    enableRealTime: PropTypes.bool.isRequired,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
@@ -27,7 +27,6 @@ export default class ControlsRight extends PureComponent {
 
   static defaultProps = {
     masterTimeline: null,
-    sessionId: null,
   }
 
   switchMode = (e) => {
@@ -39,7 +38,6 @@ export default class ControlsRight extends PureComponent {
       switchToRealtimeMode,
       switchToExtensibleMode,
       switchToFixedMode,
-      // sessionId,
     } = this.props;
 
     const mode = e.currentTarget.getAttribute('mode');
@@ -62,12 +60,12 @@ export default class ControlsRight extends PureComponent {
     const {
       timebarMode,
       timebarRealTime,
-      sessionId,
+      enableRealTime,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
-    const realTimeDisabled = sessionId === null;
+    const realTimeDisabled = !enableRealTime;
     let disabledTooltip;
     if (realTimeDisabled) {
       disabledTooltip = (

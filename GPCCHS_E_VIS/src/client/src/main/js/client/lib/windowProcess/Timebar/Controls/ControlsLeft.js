@@ -18,7 +18,7 @@ const OverlayTriggerTrigger = ['hover', 'focus'];
 export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
-    sessionId: PropTypes.number,
+    enableRealTime: PropTypes.bool.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     openModal: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
@@ -40,7 +40,6 @@ export default class ControlsLeft extends PureComponent {
   static defaultProps = {
     masterTimeline: null,
     messages: [],
-    sessionId: null,
   };
 
   static contextTypes = {
@@ -140,11 +139,11 @@ export default class ControlsLeft extends PureComponent {
       play,
       pause,
       messages,
-      sessionId,
+      enableRealTime,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
-    const nowDisabled = sessionId === null;
+    const nowDisabled = !enableRealTime;
     const disabledTooltip = (
       <Tooltip
         id="RTTooltip"

@@ -265,7 +265,26 @@ export default class Chart extends React.Component {
         // let's calculate lower and upper limits of the yAxis
         let yExtents;
         if (axis.autoLimits) {
-          yExtents = this.memoizeYExtentsAutoLimits(
+          if (!this.yExtentsAutoLimits[axis.id]) {
+            this.yExtentsAutoLimits[axis.id] = _memoize(
+              (hash, yExtentsLower, yExtentsUpper, orient, liness, data) => {
+                const values = [];
+                for (let i = 0; i < liness.length; i += 1) {
+                  for (let j = 0; j < data.length; j += 1) {
+                    if (data[j].x >= yExtentsLower && data[j].x <= yExtentsUpper) {
+                      values.push(liness[i].yAccessor(data[j]));
+                    }
+                  }
+                }
+
+                const lowerR = _min(values);
+                const upperR = _max(values);
+
+                return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
+              }
+            );
+          }
+          yExtents = this.yExtentsAutoLimits[axis.id](
             `${xExtents[0]}-${xExtents[1]}-${axis.orient}`,
             xExtents[0],
             xExtents[1],
@@ -281,7 +300,14 @@ export default class Chart extends React.Component {
           const pannedCenter = center + scaledPan;
           const xExtendsLower = pannedCenter - (zoomedRange / 2);
           const xExtendsUpper = pannedCenter + (zoomedRange / 2);
-          yExtents = this.memoizeYExtents(
+          // First render, instanciate one memoize method per Y axis
+          if (!this.yExtents[axis.id]) {
+            this.yExtents[axis.id] = _memoize(
+              (hash, orient, lower, upper) =>
+                (orient === 'top' ? [lower, upper] : [upper, lower])
+            );
+          }
+          yExtents = this.yExtents[axis.id](
             `${axis.id}-${axis.orient}-${xExtendsLower}-${xExtendsUpper}`,
             axis.orient,
             xExtendsLower,
@@ -289,7 +315,23 @@ export default class Chart extends React.Component {
           );
         }
 
-        const yScale = this.memoizeYScale(
+        // First render, instanciate one memoize method per Y axis
+        if (!this.yScales[axis.id]) {
+          this.yScales[axis.id] = _memoize(
+            (hash, yExtentsLower, yExtentsUpper, height, logarithmic) => {
+              if (logarithmic) {
+                return scaleLog()
+                  .domain([0.1, 1000000000])
+                  .range([height, 0])
+                  .nice();
+              }
+              return scaleLinear()
+                .domain([yExtentsUpper, yExtentsLower])
+                .range([0, height]);
+            }
+          );
+        }
+        const yScale = this.yScales[axis.id](
           `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}-${axis.logarithmic}`,
           yExtents[0],
           yExtents[1],
@@ -315,6 +357,10 @@ export default class Chart extends React.Component {
 
   getLabelPosition = (yAxisId, lineId) =>
     _get(this.labelsPosition, [yAxisId, lineId], null);
+
+  yExtents = {};
+  yExtentsAutoLimits = {};
+  yScales = {};
 
   wichAxisIsHovered = (e) => {
     const {
@@ -378,40 +424,6 @@ export default class Chart extends React.Component {
 
   yAxisWidth = 90;
   xAxisHeight = 40;
-
-  memoizeYExtentsAutoLimits = _memoize(
-    (hash, yExtentsLower, yExtentsUpper, orient, lines, data) => {
-      const values = [];
-      for (let i = 0; i < lines.length; i += 1) {
-        for (let j = 0; j < data.length; j += 1) {
-          if (data[j].x >= yExtentsLower && data[j].x <= yExtentsUpper) {
-            values.push(lines[i].yAccessor(data[j]));
-          }
-        }
-      }
-
-      const lowerR = _min(values);
-      const upperR = _max(values);
-
-      return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
-    }
-  )
-
-  memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height, logarithmic) => {
-    if (logarithmic) {
-      return scaleLog()
-        .domain([0.1, 1000000000])
-        .range([height, 0])
-        .nice();
-    }
-    return scaleLinear()
-      .domain([yExtentsUpper, yExtentsLower])
-      .range([0, height]);
-  });
-
-  memoizeYExtents = _memoize((hash, orient, lower, upper) =>
-    (orient === 'top' ? [lower, upper] : [upper, lower])
-  );
 
   memoizeXScale = _memoize((hash, domainLower, domainUpper, rangeUpper) =>
     scaleLinear()

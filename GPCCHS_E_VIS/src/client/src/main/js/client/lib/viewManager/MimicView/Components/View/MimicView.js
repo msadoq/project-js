@@ -403,7 +403,7 @@ export default class MimicView extends Component {
             }
           }
           console.log(visibility);
-          el.style.visibility = visibility;
+          el.style.visibility = visibility === 'show' ? 'visible' : 'hidden';
         }
       }
     });

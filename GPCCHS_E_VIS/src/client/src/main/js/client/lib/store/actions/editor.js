@@ -1,5 +1,6 @@
 import * as types from '../types';
 import simple from '../helpers/simpleActionCreator';
 
-export const openHtmlEditor = simple(types.WS_WINDOW_OPEN_HTML_EDITOR, 'viewId');
-export const closeHtmlEditor = simple(types.WS_WINDOW_CLOSE_HTML_EDITOR);
+
+export const openCodeEditor = simple(types.WS_WINDOW_OPEN_CODE_EDITOR, 'viewId');
+export const closeCodeEditor = simple(types.WS_WINDOW_CLOSE_CODE_EDITOR);

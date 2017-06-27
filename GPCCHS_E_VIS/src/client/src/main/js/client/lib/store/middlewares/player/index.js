@@ -2,7 +2,7 @@ import { getPage } from '../../reducers/pages';
 import { getTimebar } from '../../reducers/timebars';
 import { getPlayingTimebarId } from '../../reducers/hsc';
 import { getHealthMap } from '../../reducers/health';
-import { getIsCodeEditorOpened } from '../../reducers/editor';
+import { getIsCodeEditorOpened } from '../../reducers/codeEditor';
 
 import { updateCursors, switchToRealtimeMode, moveTo } from '../../actions/timebars';
 import { pause } from '../../actions/hsc';

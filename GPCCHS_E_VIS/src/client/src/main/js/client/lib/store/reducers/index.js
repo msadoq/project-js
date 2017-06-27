@@ -14,7 +14,7 @@ import domains from './domains';
 import sessions from './sessions';
 import masterSession from './masterSession';
 import health from './health';
-import editor from './editor';
+import codeEditor from './codeEditor';
 import inspector from './inspector';
 import ui from './ui';
 
@@ -35,7 +35,7 @@ const rootReducer = combineReducers({
   sessions,
   masterSession,
   health,
-  editor,
+  codeEditor,
   inspector,
   ui,
   ...configurationReducers,

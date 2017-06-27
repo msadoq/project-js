@@ -64,8 +64,6 @@ export default class MimicView extends Component {
     this.svgEls = [];
     this.content = this.getContentComponent();
     this.updateSvgsValues(this.props.data);
-
-    console.log('will mount');
   }
   componentDidMount() {
     // this.content = this.getContentComponent();
@@ -78,7 +76,6 @@ export default class MimicView extends Component {
     ) {
       shouldRender = true;
       this.content = this.getContentComponent(nextProps);
-      console.log('here');
       // this.updateSvgsValues(nextProps.data);
     }
     if (nextProps.showLinks !== this.props.showLinks) {
@@ -155,7 +152,8 @@ export default class MimicView extends Component {
         processNode: (node, children) => {
           const epName = node.attribs.isis_ep;
           const font = node.attribs.isis_font ? node.attribs.isis_font : 'arial';
-          const textColorLevels = node.attribs.isis_textcolor ? node.attribs.isis_textcolor.split(';') : [];
+          const textColorThresholds = node.attribs.isis_textcolor_thresholds ? node.attribs.isis_textcolor_thresholds.split(';') : [];
+          const textColorRegex = node.attribs.isis_textcolor_regex ? node.attribs.isis_textcolor_regex.split('|') : [];
           const bgColorLevels = node.attribs.isis_bgcolor ? node.attribs.isis_bgcolor.split(';') : [];
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
@@ -164,7 +162,8 @@ export default class MimicView extends Component {
             id,
             type: node.attribs.isis_animation,
             epName,
-            textColorLevels,
+            textColorThresholds,
+            textColorRegex,
             bgColorLevels,
             font,
           });
@@ -195,6 +194,28 @@ export default class MimicView extends Component {
             type: node.attribs.isis_animation,
             epName,
             operators,
+          });
+          return (
+            <g id={id} key={id}>
+              { children }
+            </g>
+          );
+        },
+      },
+      {
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'show'),
+        processNode: (node, children) => {
+          const epName = node.attribs.isis_ep;
+          const displayThresholds = node.attribs.isis_thresholds ? node.attribs.isis_thresholds.split(';') : [];
+          const displayRegex = node.attribs.isis_regex ? node.attribs.isis_regex.split('|') : [];
+          const rand = Math.round(Math.random() * 100000);
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
+          this.svgEls.push({
+            id,
+            type: node.attribs.isis_animation,
+            epName,
+            displayThresholds,
+            displayRegex,
           });
           return (
             <g id={id} key={id}>
@@ -293,9 +314,16 @@ export default class MimicView extends Component {
           el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
           let fillText = '#000';
           let fillBg = '';
-          for (let i = 0; i < g.textColorLevels.length; i += 1) {
-            const stateColor = g.textColorLevels[i].split('$');
+          for (let i = 0; i < g.textColorThresholds.length; i += 1) {
+            const stateColor = g.textColorThresholds[i].split('|');
             if (epLastVal > stateColor[0]) {
+              fillText = stateColor[1];
+            }
+          }
+          for (let i = 0; i < g.textColorRegex.length; i += 1) {
+            const stateColor = g.textColorRegex[i].split('=');
+            const regex = RegExp(stateColor[0]);
+            if (epLastVal.match(regex)) {
               fillText = stateColor[1];
             }
           }
@@ -342,6 +370,40 @@ export default class MimicView extends Component {
               nodes[i].style.fill = color;
             }
           }
+        }
+      } else if (g.type === 'show') {
+        if (!data.values[g.epName]) {
+          return;
+        }
+        const el = g.el;
+        const epLastVal = data.values[g.epName].value;
+        if (el) {
+          let visibility = 'hidden';
+          for (let i = 0; i < g.displayThresholds.length; i += 1) {
+            const stateColor = g.displayThresholds[i].split('$');
+            if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
+              visibility = stateColor[2];
+            } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
+              visibility = stateColor[2];
+            } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
+              visibility = stateColor[2];
+            } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
+              visibility = stateColor[2];
+            } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
+              visibility = stateColor[2];
+            } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
+              visibility = stateColor[2];
+            }
+          }
+          for (let i = 0; i < g.displayRegex.length; i += 1) {
+            const stateColor = g.displayRegex[i].split('=');
+            const regex = RegExp(stateColor[0]);
+            if (epLastVal.match(regex)) {
+              visibility = stateColor[1];
+            }
+          }
+          console.log(visibility);
+          el.style.visibility = visibility;
         }
       }
     });

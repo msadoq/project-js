@@ -1,9 +1,4 @@
 const { decode } = require('../../../utils/adapters');
-const { mockRegister, mockLoadStubs } = require('../../../common/jest');
-
-mockRegister();
-mockLoadStubs();
-
 const logger = require('../../../common/logManager')('controllers:onSessionData');
 
 /**

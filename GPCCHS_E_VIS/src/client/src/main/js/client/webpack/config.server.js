@@ -22,7 +22,7 @@ export default merge(baseConfig, {
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.BannerPlugin(
-      'require("source-map-support").install();',
+      'require("source-map-support").install(); global.dynamicRequire = require;',
       { raw: true, entryOnly: false }
     ),
     new webpack.DefinePlugin({

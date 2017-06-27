@@ -5,6 +5,8 @@ const parameters = require('../../common/configurationManager');
 
 const protobuf = require('common/protobuf');
 
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
+
 const TYPE_PROTO = 'protobuf';
 const TYPE_RAW = 'raw';
 const comObjectTypes = {};
@@ -17,7 +19,7 @@ const registerGlobal = (override) => {
       types[msgNasmespaces.ns] = {};
     }
     const adapterPath = join(msgNasmespaces.path, msgNasmespaces.ns);
-    const namespaces = require(adapterPath);  // eslint-disable-line
+    const namespaces = dynamicRequire(adapterPath);
     const namespacesKeys = Object.keys(namespaces);
     _each(namespacesKeys, (adapters) => {
       if (!types[msgNasmespaces.ns][adapters]) {

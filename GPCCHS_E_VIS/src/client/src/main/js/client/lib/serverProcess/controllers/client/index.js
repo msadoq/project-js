@@ -15,7 +15,6 @@ const onServerDebug = require('./onServerDebug');
 const onFmdGet = require('./onFmdGet');
 const onFmdCreate = require('./onFmdCreate');
 const onGetMasterSession = require('./onGetMasterSession');
-const onGetSessionTime = require('./onGetSessionTime');
 const onProductLog = require('./onProductLog');
 
 const pushToDc = args => zmq.push('dcPush', args);
@@ -32,7 +31,6 @@ const controller = {
   [constants.IPC_METHOD_FMD_GET]: (...args) => onFmdGet(pushToDc, ...args),
   [constants.IPC_METHOD_FMD_CREATE]: (...args) => onFmdCreate(pushToDc, ...args),
   [constants.IPC_METHOD_MASTER_SESSION]: (...args) => onGetMasterSession(pushToDc, ...args),
-  [constants.IPC_METHOD_SESSION_TIME]: (...args) => onGetSessionTime(pushToDc, ...args),
   [constants.IPC_METHOD_PRODUCT_LOG]: (...args) => onProductLog(pushToDc, ...args),
 };
 

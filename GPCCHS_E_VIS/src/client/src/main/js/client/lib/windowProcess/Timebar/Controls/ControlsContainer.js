@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
   switchToNormalMode,
-  switchToRealtimeMode,
+  setRealTime,
   switchToExtensibleMode,
   switchToFixedMode,
   updateSpeed,
@@ -27,7 +27,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   switchToNormalMode,
-  switchToRealtimeMode,
+  switchToRealtimeMode: timebarUuid => setRealTime(timebarUuid, true),
   switchToExtensibleMode,
   switchToFixedMode,
   updateSpeed,

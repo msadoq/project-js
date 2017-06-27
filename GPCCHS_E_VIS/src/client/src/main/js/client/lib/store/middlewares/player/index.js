@@ -1,18 +1,22 @@
 import createInterval from '../../../common/utils/interval';
 
-import { updateCursors } from '../../actions/timebars';
 import { getPage } from '../../reducers/pages';
 import { getTimebar } from '../../reducers/timebars';
 import { getPlayingTimebarId } from '../../reducers/hsc';
 import { nextCurrent, computeCursors } from './cursors';
 import * as types from '../../types';
 
+import { getCurrentSessionId } from '../../../windowProcess/Timebar/Controls/ControlsSelectors';
+import { getHealthMap } from '../../reducers/health';
+import { getIsCodeEditorOpened } from '../../reducers/editor';
+
+import { updateCursors, switchToRealtimeMode, moveTo } from '../../actions/timebars';
 import { pause } from '../../actions/hsc';
 import { add as addMessage } from '../../actions/messages';
 import { isAnyEditorOpened } from '../../selectors/pages';
 import { HEALTH_STATUS_CRITICAL } from '../../../constants';
-import { getHealthMap } from '../../reducers/health';
-import { getIsCodeEditorOpened } from '../../reducers/editor';
+
+import ipc from '../../../serverProcess/ipc';
 
 const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   const state = getState();
@@ -99,6 +103,24 @@ const focusPageHandler = ({ dispatch, getState }, next, action) => {
   return next(action);
 };
 
+const realTimeHandler = ({ dispatch, getState }, next, action) => {
+  const { timebarUuid } = action.payload;
+  const sessionId = getCurrentSessionId(getState(), { timebarUuid });
+  ipc.dc.requestSessionTime(sessionId, ({ timestamp }) => {
+    dispatch(switchToRealtimeMode(timebarUuid, timestamp));
+  });
+  return next(action);
+};
+
+const goNowHandler = ({ dispatch, getState }, next, action) => {
+  const { timebarUuid } = action.payload;
+  const sessionId = getCurrentSessionId(getState(), { timebarUuid });
+  ipc.dc.requestSessionTime(sessionId, ({ timestamp }) => {
+    dispatch(moveTo(timebarUuid, timestamp));
+  });
+  return next(action);
+};
+
 const createPlayerMiddleware = (
   PLAYER_FREQUENCY = 500,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = 0.1
@@ -119,6 +141,12 @@ const createPlayerMiddleware = (
     }
     if (action.type === types.WS_WINDOW_PAGE_FOCUS) {
       return focusPageHandler({ dispatch, getState }, next, action);
+    }
+    if (action.type === types.WS_TIMEBAR_SET_REALTIME && action.payload.flag === true) {
+      return realTimeHandler({ dispatch, getState }, next, action);
+    }
+    if (action.type === types.WS_TIMEBAR_GO_NOW) {
+      return goNowHandler({ dispatch, getState }, next, action);
     }
     return next(action);
   };

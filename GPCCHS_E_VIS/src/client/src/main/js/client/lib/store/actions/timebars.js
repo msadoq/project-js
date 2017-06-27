@@ -22,6 +22,7 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
  */
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
+export const goNow = simple(types.WS_TIMEBAR_GO_NOW, 'timebarUuid');
 
 export const createNewTimebar = timebarId =>
   (dispatch) => {
@@ -161,7 +162,7 @@ export function jump(timebarUuid, offsetMs) {
   };
 }
 
-export function goNow(timebarUuid, masterSessionIdCurrentTime) {
+export function moveTo(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     const state = getState();
     const timebar = getTimebar(state, { timebarUuid });
@@ -219,7 +220,6 @@ export function switchToNormalMode(timebarUuid) {
 
 export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
-    dispatch(setRealTime(timebarUuid, true));
     const state = getState();
     const timebar = getTimebar(state, { timebarUuid });
     if (timebar.speed !== 1) {

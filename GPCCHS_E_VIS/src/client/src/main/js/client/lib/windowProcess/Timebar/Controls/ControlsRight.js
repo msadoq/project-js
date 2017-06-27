@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import { main } from '../../ipc';
+// import { main } from '../../ipc';
 
 const OverlayTriggerTrigger = ['hover', 'focus'];
 
@@ -39,7 +39,7 @@ export default class ControlsRight extends PureComponent {
       switchToRealtimeMode,
       switchToExtensibleMode,
       switchToFixedMode,
-      sessionId,
+      // sessionId,
     } = this.props;
 
     const mode = e.currentTarget.getAttribute('mode');
@@ -54,14 +54,7 @@ export default class ControlsRight extends PureComponent {
     } else if (mode === 'Fixed') {
       switchToFixedMode(timebarUuid);
     } else if (mode === 'Realtime') {
-      // IPC request to get master session current time
-      main.getSessionTime(sessionId, ({ err, timestamp }) => {
-        if (err) {
-          // TODO Show message
-          return;
-        }
-        switchToRealtimeMode(timebarUuid, timestamp);
-      });
+      switchToRealtimeMode(timebarUuid);
     }
   }
 

@@ -23,6 +23,7 @@ export const getMasterTimelineById = createSelector(
   }
 );
 
+// to reducers/messages
 export const getTimeSetterMessages = createSelector(
   getAllMessages,
   (state, { timebarUuid }) => timebarUuid,

@@ -8,7 +8,6 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import { main } from '../../ipc';
 
 const inlineStyles = {
   width200: { width: '200px' },
@@ -104,16 +103,8 @@ export default class ControlsLeft extends PureComponent {
     const {
       timebarUuid,
       goNow,
-      sessionId,
     } = this.props;
-    // IPC request to get master session current time
-    main.getSessionTime(sessionId, ({ err, timestamp }) => {
-      if (err) {
-        // TODO Show message
-        return;
-      }
-      goNow(timebarUuid, timestamp);
-    });
+    goNow(timebarUuid);
   }
 
   jump = (e) => {

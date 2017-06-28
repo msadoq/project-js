@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:middlewares:player play/pause cannot play if a code editor is opened 1`] = `
+Array [
+  Object {
+    "_type": "WS_MESSAGE_ADD",
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Please close editors before play timebar",
+        },
+      ],
+      "type": "warning",
+    },
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause cannot play if a health status is critical 1`] = `
+Array [
+  Object {
+    "_type": "WS_MESSAGE_ADD",
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "One process of the application is oveloaded, cannot switch to play",
+        },
+      ],
+      "type": "warning",
+    },
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause cannot play if an editor is opened 1`] = `
+Array [
+  Object {
+    "_type": "WS_MESSAGE_ADD",
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Please close editors before play timebar",
+        },
+      ],
+      "type": "warning",
+    },
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause does not update cursors when no playingTimebarId 1`] = `
+Array [
+  Object {
+    "type": "HSC_PLAY",
+  },
+  Object {
+    "type": "HSC_PAUSE",
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause does not update cursors when playing timebar does not exist 1`] = `
+Array [
+  Object {
+    "type": "HSC_PLAY",
+  },
+  Object {
+    "type": "HSC_PAUSE",
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause play update cursors at regular intervals until pause 1`] = `
+Array [
+  Object {
+    "type": "HSC_PLAY",
+  },
+  Object {
+    "payload": Object {
+      "slideWindow": Object {
+        "lower": 1498642826647,
+        "upper": 1498643156647,
+      },
+      "timebarUuid": "tb1",
+      "visuWindow": Object {
+        "current": NaN,
+        "lower": 1498642826647,
+        "upper": 1498643156647,
+      },
+    },
+    "type": "WS_TIMEBAR_UPDATE_CURSORS",
+  },
+  Object {
+    "payload": Object {
+      "slideWindow": Object {
+        "lower": 1498642826647,
+        "upper": 1498643156647,
+      },
+      "timebarUuid": "tb1",
+      "visuWindow": Object {
+        "current": NaN,
+        "lower": 1498642826647,
+        "upper": 1498643156647,
+      },
+    },
+    "type": "WS_TIMEBAR_UPDATE_CURSORS",
+  },
+  Object {
+    "payload": Object {
+      "slideWindow": Object {
+        "lower": 1498642826647,
+        "upper": 1498643156647,
+      },
+      "timebarUuid": "tb1",
+      "visuWindow": Object {
+        "current": NaN,
+        "lower": 1498642826647,
+        "upper": 1498643156647,
+      },
+    },
+    "type": "WS_TIMEBAR_UPDATE_CURSORS",
+  },
+  Object {
+    "type": "HSC_PAUSE",
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause simple play and pause 1`] = `
+Array [
+  Object {
+    "type": "HSC_PLAY",
+  },
+  Object {
+    "type": "HSC_PAUSE",
+  },
+]
+`;

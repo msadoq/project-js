@@ -1,25 +1,27 @@
-require('../../../../utils/test');
-const protobuf = require('../../../index');
-const stubData = require('../../../stubs/index');
+const ProtoBuf = require('protobufjs');
+const adapter = require('./sendLog');
+const stub = require('./sendLog.stub');
+
 
 describe('protobuf/utils/dataControllerUtils/sendLog', () => {
-  const fixture = stubData.getSendLog();
   let buffer;
-  it('encode', () => {
-    buffer = protobuf.encode('dc.dataControllerUtils.SendLog', fixture);
-    buffer.constructor.should.equal(Buffer);
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/SendLog.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.SendLog');
+  const fixture = stub.getSendLog();
+  
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = protobuf.decode('dc.dataControllerUtils.SendLog', buffer);
-    json.should.be.an('object').that.have.properties({
-      uid: fixture.uid,
-    });
-    json.should.have.a.property('arguments').that.is.an('array');
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toHaveProperty('uid',fixture.uid);
+
     for (let i = 0; i < fixture.arguments.length; i += 1) {
-      json.arguments[i].should.have.properties({
-        type: 'string',
-        value: fixture.arguments[i],
-      });
+      expect(decoded.arguments[i]).toHaveProperty('type','string');
+      expect(decoded.arguments[i]).toHaveProperty('value',fixture.arguments[i]);
     }
+    
   });
 });

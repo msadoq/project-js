@@ -1,32 +1,20 @@
-const protobufjs = require('protobufjs');
-const adapter = require('./action.js');
-const SUBSCRIPTIONACTION_ADD = 0;
-const SUBSCRIPTIONACTION_DELETE = 1;
+const ProtoBuf = require('protobufjs');
+const adapter = require('./action');
+const stub = require('./action.stub');
 
-const addAction = {
-  action: SUBSCRIPTIONACTION_ADD,
-};
-const deleteAction = {
-  action: SUBSCRIPTIONACTION_DELETE,
-};
 
 describe('standalone/proto', () => {
-  let protoMock = {};
   let buffer;
-  const builder = protobufjs.loadSync(__dirname+'/Action.proto');  
-  const lookedUp = builder.lookup('dataControllerUtils.protobuf.Action');
-  protoMock.encode = (raw) => {
-    return lookedUp.encode(adapter.encode(raw)).finish();
-  }
-  protoMock.decode = (buf) => {
-    return adapter.decode(lookedUp.decode(buf));
-  }
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/Action.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.Action');
+  const fixture = stub.getAddAction();
   
   test('encode', () => {
-    buffer = protoMock.encode(addAction);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
     expect(buffer.constructor).toBe(Buffer);
   });
   test('decode', () => {
-    expect(protoMock.decode(buffer)).toMatchObject(addAction);
+    expect(adapter.decode(builder.decode(buffer))).toMatchObject(fixture);
   });
 });

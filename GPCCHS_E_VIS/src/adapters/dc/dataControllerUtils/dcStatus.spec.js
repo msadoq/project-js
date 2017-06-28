@@ -1,16 +1,20 @@
-require('../../../../utils/test');
-const protobuf = require('../../../index');
-const stubData = require('../../../stubs/index');
+const ProtoBuf = require('protobufjs');
+const adapter = require('./dcStatus');
+const stub = require('./dcStatus.stub');
 
-describe('protobuf/utils/dataControllerUtils/dcStatus', () => {
-  const fixture = stubData.getHealthyDcStatus();
+
+describe('standalone/proto', () => {
   let buffer;
-  it('encode', () => {
-    buffer = protobuf.encode('dc.dataControllerUtils.DcStatus', fixture);
-    buffer.constructor.should.equal(Buffer);
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/DcStatus.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.DcStatus');
+  const fixture = stub.getHealthyDcStatus();
+  
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = protobuf.decode('dc.dataControllerUtils.DcStatus', buffer);
-    json.should.be.an('object').that.have.properties(fixture);
+  test('decode', () => {
+    expect(adapter.decode(builder.decode(buffer))).toMatchObject(fixture);
   });
 });

@@ -1,16 +1,20 @@
-require('../../../../utils/test');
-const protobuf = require('../../../index');
-const stubData = require('../../../stubs/index');
+const ProtoBuf = require('protobufjs');
+const adapter = require('./header');
+const stub = require('./header.stub');
+
 
 describe('protobuf/utils/dataControllerUtils/header', () => {
-  const fixture = stubData.getTimebasedQueryHeader();
   let buffer;
-  it('encode', () => {
-    buffer = protobuf.encode('dc.dataControllerUtils.Header', fixture);
-    buffer.constructor.should.equal(Buffer);
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/Header.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.Header');
+  const fixture = stub.getTimebasedQueryHeader();
+  
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = protobuf.decode('dc.dataControllerUtils.Header', buffer);
-    json.should.be.an('object').that.have.properties(fixture);
+  test('decode', () => {
+    expect(adapter.decode(builder.decode(buffer))).toMatchObject(fixture);
   });
 });

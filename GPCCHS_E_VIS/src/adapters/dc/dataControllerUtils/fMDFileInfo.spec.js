@@ -1,16 +1,20 @@
-require('../../../../utils/test');
-const protobuf = require('../../../index');
-const stubData = require('../../../stubs/index');
+const ProtoBuf = require('protobufjs');
+const adapter = require('./fMDFileInfo');
+const stub = require('./fMDFileInfo.stub');
+
 
 describe('protobuf/utils/dataControllerUtils/fMDFileInfo', () => {
-  const fixture = stubData.getFMDFileInfo();
   let buffer;
-  it('encode', () => {
-    buffer = protobuf.encode('dc.dataControllerUtils.FMDFileInfo', fixture);
-    buffer.constructor.should.equal(Buffer);
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/FMDFileInfo.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.FMDFileInfo');
+  const fixture = stub.getFMDFileInfo();
+  
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = protobuf.decode('dc.dataControllerUtils.FMDFileInfo', buffer);
-    json.should.be.an('object').that.have.properties(fixture);
+  test('decode', () => {
+    expect(adapter.decode(builder.decode(buffer))).toMatchObject(fixture);
   });
 });

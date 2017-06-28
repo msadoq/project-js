@@ -1,16 +1,19 @@
-require('../../../../utils/test');
-const protobuf = require('../../../index');
-const stubData = require('../../../stubs/index');
+const ProtoBuf = require('protobufjs');
+const adapter = require('./boolean');
+const stub = require('./boolean.stub');
 
 describe('protobuf/utils/dataControllerUtils/boolean', () => {
-  const fixture = stubData.getBoolean();
   let buffer;
-  it('encode', () => {
-    buffer = protobuf.encode('dc.dataControllerUtils.Boolean', fixture);
-    buffer.constructor.should.equal(Buffer);
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/Boolean.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.Boolean');
+  const fixture = stub.getBoolean();
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = protobuf.decode('dc.dataControllerUtils.Boolean', buffer);
-    json.should.be.an('object').that.have.properties(fixture);
+  test('decode', () => {
+    const decoded = stub.getBooleanDeProtobuf(buffer);
+    expect(adapter.decode(builder.decode(buffer))).toMatchObject(fixture);
   });
 });

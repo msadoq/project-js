@@ -1,16 +1,19 @@
-require('../../../../utils/test');
-const protobuf = require('../../../index');
-const stubData = require('../../../stubs/index');
+const ProtoBuf = require('protobufjs');
+const adapter = require('./dataId');
+const stub = require('./dataId.stub');
 
 describe('protobuf/utils/dataControllerUtils/dataId', () => {
-  const fixture = stubData.getDataId();
   let buffer;
+  const builder = new ProtoBuf.Root()
+    .loadSync(`${__dirname}/DataId.proto`, {keepCase: true })  
+    .lookup('dataControllerUtils.protobuf.DataId');
+  const fixture = stub.getDataId();
+
   it('encode', () => {
-    buffer = protobuf.encode('dc.dataControllerUtils.DataId', fixture);
-    buffer.constructor.should.equal(Buffer);
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
   it('decode', () => {
-    const json = protobuf.decode('dc.dataControllerUtils.DataId', buffer);
-    json.should.be.an('object').that.have.properties(fixture);
+    expect(adapter.decode(builder.decode(buffer))).toMatchObject(fixture);
   });
 });

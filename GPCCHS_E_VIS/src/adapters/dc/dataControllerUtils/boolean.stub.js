@@ -7,8 +7,10 @@ const getBoolean = (boolean = false) => ({
 });
 
 const getBooleanProtobuf = boolean => Builder.encode(Adapter.encode(getBoolean(boolean))).finish();
+const getBooleanDeProtobuf = buffer => Adapter.decode(Builder.decode(buffer));
 
 module.exports = {
   getBoolean,
   getBooleanProtobuf,
+  getBooleanDeProtobuf
 };

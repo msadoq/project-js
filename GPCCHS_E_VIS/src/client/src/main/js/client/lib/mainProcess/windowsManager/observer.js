@@ -5,7 +5,7 @@ import { app } from 'electron';
 import execution from '../../common/logManager/execution';
 import { getWindows } from '../../store/reducers/windows';
 import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
-import { getEditorTextViewId } from '../../store/reducers/editor';
+import { getViewId } from '../../store/reducers/codeEditor';
 import { getWindowsTitle, getEditorWindowTitle } from './selectors';
 import {
   getOpenedWindowsIds,
@@ -52,7 +52,7 @@ export default function makeWindowsStoreObserver(store) {
       },
       function codeEditor(callback) {
         // set title
-        const editedViewId = getEditorTextViewId(state);
+        const editedViewId = getViewId(state);
         if (editedViewId !== null && !isCodeEditorExists()) {
           openCodeEditor(callback);
           return;
@@ -87,7 +87,7 @@ export default function makeWindowsStoreObserver(store) {
         _each(titles, (title, windowId) => setTitle(windowId, title));
 
         // code editor
-        const editedViewId = getEditorTextViewId(state);
+        const editedViewId = getViewId(state);
         const codeEditorTitle = getEditorWindowTitle(state, { viewId: editedViewId });
         setCodeEditorTitle(codeEditorTitle);
 
@@ -99,4 +99,3 @@ export default function makeWindowsStoreObserver(store) {
     });
   };
 }
-

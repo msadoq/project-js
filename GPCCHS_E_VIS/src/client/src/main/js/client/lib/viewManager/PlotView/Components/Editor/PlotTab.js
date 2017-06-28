@@ -3,7 +3,7 @@ import Collapse from 'rc-collapse';
 import { Button, Glyphicon } from 'react-bootstrap';
 import PlotGridsContainer from './PlotGridsContainer';
 import PlotAxesContainer from './PlotAxesContainer';
-import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
+import ViewParamsContainer from './ViewParamsContainer';
 
 const { Panel } = Collapse;
 /*

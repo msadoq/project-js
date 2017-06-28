@@ -187,7 +187,12 @@
       "autoTick": true,
       "showTicks": true,
       "showTickLabels": true,
-      "isLogarithmic": false,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
       "showAxis": true,
       "showLabels": true
     },
@@ -212,7 +217,12 @@
       "autoTick": false,
       "showTicks": true,
       "showTickLabels": true,
-      "isLogarithmic": false,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
       "showAxis": true,
       "showLabels": true
     }
@@ -242,6 +252,7 @@
     },
     "location": "top"
   },
+  "showLegend": false,
   "markers": [
     {
       "kind": "Text",

@@ -1,8 +1,12 @@
 import { BrowserWindow } from 'electron';
+
 import getLogger from '../../common/logManager';
 import parameters from '../../common/configurationManager';
 import { getStore } from '../store';
-import { closeHtmlEditor } from '../../store/actions/editor';
+import { closeCodeEditor } from '../../store/actions/editor';
+import { getViewId as getCodeEditorViewId } from '../../store/reducers/codeEditor';
+
+import { getEditorWindowTitle } from './selectors';
 import getCenteredPosition from './common/getCenteredPosition';
 import getHtmlPath from './getHtmlPath';
 
@@ -44,7 +48,7 @@ export function open(callback) {
     return callback(null);
   });
   win.on('close', () =>
-    getStore().dispatch(closeHtmlEditor())
+    getStore().dispatch(closeCodeEditor())
   );
 }
 

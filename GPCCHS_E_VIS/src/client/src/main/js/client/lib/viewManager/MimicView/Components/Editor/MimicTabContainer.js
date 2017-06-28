@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 import MimicTab from './MimicTab';
-import { openHtmlEditor, closeHtmlEditor } from '../../../../store/actions/editor';
-import { getEditorTextViewId } from '../../../../store/reducers/editor';
+import { openCodeEditor, closeCodeEditor } from '../../../../store/actions/editor';
+import { getViewId as getCodeEditorViewId } from '../../../../store/reducers/codeEditor';
 
 
 const mapStateToProps = (state) => {
-  const viewId = getEditorTextViewId(state);
+  const viewId = getCodeEditorViewId(state);
   return {
-    htmlEditorViewId: viewId,
+    codeEditorViewId: viewId,
   };
 };
 
-const MimicTabContainer = connect(mapStateToProps, { openHtmlEditor, closeHtmlEditor })(MimicTab);
+const MimicTabContainer = connect(mapStateToProps, { openCodeEditor, closeCodeEditor })(MimicTab);
 
 export default MimicTabContainer;

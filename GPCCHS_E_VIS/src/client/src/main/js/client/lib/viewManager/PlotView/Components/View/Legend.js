@@ -8,6 +8,8 @@ export default class Legend extends PureComponent {
 
   static propTypes = {
     show: PropTypes.bool.isRequired,
+    legendLocation: PropTypes.string,
+    plotHeight: PropTypes.number.isRequired,
     toggleShowLegend: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     hideEp: PropTypes.func.isRequired,
@@ -23,6 +25,9 @@ export default class Legend extends PureComponent {
     onContextMenu: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    legendLocation: 'bottom',
+  }
   render() {
     const {
       yAxes,
@@ -32,8 +37,10 @@ export default class Legend extends PureComponent {
       showEpNames,
       hideEp,
       hideEpNames,
+      legendLocation,
       removeEntryPoint,
       onContextMenu,
+      plotHeight,
     } = this.props;
 
     const sortedAndValidAxes = yAxes
@@ -49,7 +56,13 @@ export default class Legend extends PureComponent {
 
     return (
       <div
-        className={styles.plotLegend}
+        className={
+          legendLocation === 'top' || legendLocation === 'bottom' ?
+          styles.plotLegendHorizontal : styles.plotLegendVertical
+        }
+        style={{
+          maxHeight: (legendLocation === 'right' || legendLocation === 'left') ? `${plotHeight}px` : 'auto',
+        }}
       >
         <button
           onClick={this.props.toggleShowLegend}
@@ -63,13 +76,21 @@ export default class Legend extends PureComponent {
               key={axis.id}
             >
               <h4 className={styles.plotLegendAxisName}>{axis.label}</h4>
-              <div className={styles.plotLegendLegends}>
+              <div
+                className={
+                  classnames({
+                    [styles.plotLegendLegendsHorizontal]: legendLocation === 'top' || legendLocation === 'bottom',
+                    [styles.plotLegendLegendsVertical]: legendLocation === 'right' || legendLocation === 'left',
+                  })
+                }
+              >
                 {
                   axis.lines.map(line =>
                     <div
-                      className={classnames(
-                        styles.legend
-                      )}
+                      className={styles.legend}
+                      style={{
+                        borderColor: _get(line, ['objectStyle', 'curveColor']) || '#222',
+                      }}
                       key={line.name}
                       onContextMenu={event => onContextMenu(event, line.name)}
                     >
@@ -79,11 +100,14 @@ export default class Legend extends PureComponent {
                           background: _get(line, ['objectStyle', 'curveColor']) || '#222',
                         }}
                       />
-                      <span
-                        className={styles.plotLegendName}
-                      >
-                        {` : ${line.name}`}
-                      </span>
+                      {
+                        (legendLocation === 'top' || legendLocation === 'bottom') &&
+                        <span
+                          className={styles.plotLegendName}
+                        >
+                          {line.name}
+                        </span>
+                      }
                       <Glyphicon
                         glyph="eye-open"
                         onClick={e => showEp(e, line.id)}
@@ -120,7 +144,12 @@ export default class Legend extends PureComponent {
                           )
                         }
                       />
-
+                      {
+                        (legendLocation === 'left' || legendLocation === 'right') &&
+                        <span
+                          className={styles.plotLegendName}
+                        >{line.name}</span>
+                      }
                     </div>
                   )
                 }

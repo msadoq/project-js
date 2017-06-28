@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
-import globalConstants from '../../constants';
 
 import styles from './Header.css';
 import { main } from '../ipc';
@@ -66,7 +65,7 @@ export default class Header extends PureComponent {
   save = (e) => {
     if (e) e.preventDefault();
     const { viewId } = this.props;
-    main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
+    main.saveView({ viewId, saveAs: false }, () => {});
   }
   render() {
     const {

@@ -5,7 +5,7 @@ import { lint } from '../common/htmllint';
 import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
 
-class SourceForm extends PureComponent {
+class HtmlSourceForm extends PureComponent {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -14,6 +14,7 @@ class SourceForm extends PureComponent {
     valid: PropTypes.bool.isRequired,
     closeHtmlEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.string),
+    viewType: PropTypes.string.isRequired,
   }
   static defaultProps = {
     entryPoints: [],
@@ -37,13 +38,15 @@ class SourceForm extends PureComponent {
       submitting,
       valid,
       entryPoints,
+      viewType,
     } = this.props;
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
         <div
           className={styles.hintDiv}
         >
-          <h3>TextView HTML Editor</h3>
+          { viewType === 'TextView' && <h3>TextView HTML Editor</h3> }
+          { viewType === 'MimicView' && <h3>MimicView SVG Editor</h3> }
           <p>Hint :
           template litterals to be replaced by values must be nested in
           <code>{'<span>'}</code> any side text will be removed.s
@@ -56,6 +59,16 @@ class SourceForm extends PureComponent {
           autocompleteList={entryPoints}
           type="test"
         />
+        { viewType === 'MimicView_' &&
+          <div>
+            <h4>Add predefined component</h4>
+            <Button>Gauge</Button>
+            <Button>Slider</Button>
+            <Button>Knob</Button>
+            <Button>TextBox</Button>
+            <Button>Digital display</Button>
+          </div>
+        }
         <div className={styles.footer}>
           <ButtonGroup>
             <Button
@@ -121,4 +134,4 @@ const validate = (values = {}, props) => {
 export default reduxForm({
   validate,
   enableReinitialize: false,
-})(SourceForm);
+})(HtmlSourceForm);

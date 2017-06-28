@@ -427,6 +427,12 @@ export class GrizzlyPlotView extends PureComponent {
     (a, b, c, d, e) => `${a[0]}-${a[1]}-${b}-${c}-${d}-${e}`
   )
 
+  memoizeMainStyle = _memoize(
+    legendLocation => ({
+      display: legendLocation === 'left' || legendLocation === 'right' ? 'table-cell' : 'block',
+    })
+  )
+
   removeEntryPoint = (e, id) => {
     e.preventDefault();
     const {
@@ -477,6 +483,7 @@ export class GrizzlyPlotView extends PureComponent {
         axes,
         grids,
         showLegend,
+        legend,
       },
       visuWindow,
       links,
@@ -502,13 +509,36 @@ export class GrizzlyPlotView extends PureComponent {
       const eps = this.props.configuration.entryPoints.filter(ep =>
         _get(ep, ['connectedData', 'axisId']) === a.id
       ).length;
-      return eps > 0 ? 23 + (Math.ceil(eps / 3) * 29) : 0;
+      return eps > 0 ? 84 : 0;
     });
+
     const linksHeight = links.length ? 23 + (links.length * 29) : 0;
     const xExtents = [visuWindow.lower, visuWindow.upper];
-    const plotHeight = containerHeight - securityTopPadding -
-      (plotPadding * 4) - (showLegend ? _sum(yAxesLegendHeight) : 0)
-      - (showLinks ? linksHeight : 0);
+    let plotHeight = containerHeight - securityTopPadding -
+      (plotPadding * 4) - (showLinks ? linksHeight : 0);
+    if (showLegend && (legend.location === 'top' || legend.location === 'bottom')) {
+      plotHeight -= _sum(yAxesLegendHeight);
+    }
+
+    let width = containerWidth - (plotPadding * 2);
+    if (legend.location === 'right' || legend.location === 'left') {
+      width -= 150;
+    }
+    const legendComponent =
+      (<Legend
+        plotHeight={plotHeight}
+        yAxes={yAxes}
+        legendLocation={legend.location}
+        lines={this.props.configuration.entryPoints}
+        show={showLegend}
+        toggleShowLegend={this.toggleShowLegend}
+        showEp={this.showEp}
+        showEpNames={showEpNames}
+        hideEp={this.hideEp}
+        hideEpNames={hideEpNames}
+        onContextMenu={this.onContextMenu}
+        removeEntryPoint={this.removeEntryPoint}
+      />);
 
     return (
       <DroppableContainer
@@ -518,9 +548,12 @@ export class GrizzlyPlotView extends PureComponent {
         className="h100 posRelative"
         style={mainStyle}
       >
+        { (legend.location === 'top' || legend.location === 'left') &&
+          legendComponent
+        }
         <GrizzlyChart
           height={plotHeight}
-          width={containerWidth - (plotPadding * 2)}
+          width={width}
           tooltipColor="blue"
           enableTooltip
           allowYZoom
@@ -538,6 +571,7 @@ export class GrizzlyPlotView extends PureComponent {
             _get(axes, ['time', 'showTicks']),
             '.2f'
           )}
+          additionalStyle={this.memoizeMainStyle(legend.location)}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints
@@ -570,7 +604,7 @@ export class GrizzlyPlotView extends PureComponent {
               unit: axis.unit,
               label: axis.label,
               labelStyle: axis.style,
-              logarithmic: false,
+              logarithmic: axis.logarithmic,
             };
           })}
           lines={
@@ -593,18 +627,9 @@ export class GrizzlyPlotView extends PureComponent {
             )
           }
         />
-        <Legend
-          yAxes={yAxes}
-          lines={this.props.configuration.entryPoints}
-          show={showLegend}
-          toggleShowLegend={this.toggleShowLegend}
-          showEp={this.showEp}
-          showEpNames={showEpNames}
-          hideEp={this.hideEp}
-          hideEpNames={hideEpNames}
-          onContextMenu={this.onContextMenu}
-          removeEntryPoint={this.removeEntryPoint}
-        />
+        { (legend.location === 'bottom' || legend.location === 'right') &&
+          legendComponent
+        }
         <LinksContainer
           show={showLinks}
           toggleShowLinks={this.toggleShowLinks}

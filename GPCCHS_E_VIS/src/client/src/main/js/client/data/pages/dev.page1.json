@@ -3,66 +3,62 @@
   "timebarHeight": 135,
   "timebarCollapsed": false,
   "title": "Local page",
+  "sessionName": "Master",
+  "domainName": "fr.cnes.isis.simupus",
   "views": [
     {
-      "path": "/views/text.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json",
       "geometry": {
         "x": 0,
         "y": 0,
-        "w": 5,
+        "w": 6,
         "h": 3,
         "maxH": 100,
-        "maxW": 100
+        "maxW": 100,
+        "i": "b5be12ce-1ddc-46ea-83c5-f7784bf2b468"
       },
       "hideBorders": false,
       "windowState": "Normalized"
     },
     {
-      "path": "/views/plot.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json",
       "geometry": {
-        "x": 5,
+        "x": 6,
         "y": 0,
-        "w": 7,
+        "w": 6,
         "h": 24,
         "maxH": 100,
-        "maxW": 100
+        "maxW": 100,
+        "i": "57dcc9f3-4246-494e-b7ed-efc70c1c0cc6"
       },
       "hideBorders": false,
       "windowState": "Normalized"
     },
     {
-      "path": "/views/dynamicView.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.json",
       "geometry": {
         "x": 0,
-        "y": 11,
-        "w": 5,
-        "h": 14
+        "y": 16,
+        "w": 6,
+        "h": 8,
+        "i": "88e3ad0b-0232-492f-ab23-db74cdac23ca"
       },
       "hideBorders": false,
       "windowState": "Normalized"
     },
     {
-      "path": "/views/mimic.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json",
       "geometry": {
         "x": 0,
         "y": 3,
-        "w": 5,
-        "h": 8,
+        "w": 6,
+        "h": 13,
         "collapsed": false,
-        "maximized": false
+        "maximized": false,
+        "i": "a3908946-cdc8-43eb-b4ba-1b2cfcac07ac"
       },
       "hideBorders": false,
       "windowState": "Normalized"
     }
-  ],
-  "panels": {
-    "editorWidth": 250,
-    "editorIsMinimized": true,
-    "timebarHeight": 130,
-    "timebarIsMinimized": false,
-    "explorerWidth": 250,
-    "explorerIsMinimized": true
-  },
-  "sessionName": "Master",
-  "domainName": "fr.cnes.isis.simupus"
+  ]
 }

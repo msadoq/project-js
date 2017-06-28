@@ -13,6 +13,9 @@
             "type": "string",
             "pattern": "^#[0-9a-fA-F]+$"
         },
+        "showLegend": {
+          "type": "boolean"
+        },
         "textStyle": {
             "type": "object",
             "properties": {
@@ -249,8 +252,16 @@
                 "showTicks": {
                     "type": "boolean"
                 },
-                "isLogarithmic": {
-                    "type": "boolean"
+                "logarithmic": {
+                    "min": {
+                        "type": "number"
+                    },
+                    "max": {
+                        "type": "number"
+                    },
+                    "base": {
+                        "type": "number"
+                    }
                 },
                 "showAxis": {
                     "type": "boolean"

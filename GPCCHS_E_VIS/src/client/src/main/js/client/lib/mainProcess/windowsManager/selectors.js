@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import { getWindows } from '../../store/reducers/windows';
-import { getEditorTitle } from '../../store/reducers/editor';
 import { getView } from '../../store/reducers/views';
 import { getWorkspaceIsModified } from '../../store/reducers/hsc';
 
@@ -16,7 +15,7 @@ export const getEditorWindowTitle = (state, { viewId }) => {
     return '';
   }
 
-  return `${getEditorTitle(state)} - ${view.title}`;
+  return `Code editor - ${view.title}`;
 };
 
 const formatWindowTitle = isModified => win => `${win.title}${(isModified === true) ? ' *' : ''} - VIMA`;

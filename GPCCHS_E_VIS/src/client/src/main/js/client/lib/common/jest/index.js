@@ -1,5 +1,5 @@
 import { tmpdir } from 'os';
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import { resolve } from 'path';
 import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
@@ -24,7 +24,6 @@ const mockRegister = () => registerGlobal(mockedAdaptersPath);
 
 
 const dataStub = getStubData();
-const mockStore = configureMockStore([thunk]);
 
 const freezeMe = o => o && deepFreeze(o);
 
@@ -32,6 +31,8 @@ const freezeArgs = f => (...args) => {
   const frozenArgs = args.map(arg => freezeMe(arg));
   return f(...frozenArgs);
 };
+
+const mockStore = _.compose(configureMockStore([thunk]), freezeMe);
 
 const testMemoization = (selector, state, ownProps) => {
   const newState = _.cloneDeep(state);

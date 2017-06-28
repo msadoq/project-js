@@ -141,31 +141,6 @@ describe('store:actions:timebars', () => {
     });
   });
 
-  describe.skip('handlePlay', () => {
-    test('doest nothing without playingTimebarUuid', () => {
-      const emptyStore = mockStore();
-      emptyStore.dispatch(actions.handlePlay(0, 0));
-      expect(emptyStore.getActions()).toHaveLength(0);
-    });
-    test('doest nothing without playingTimebar', () => {
-      const storeWithoutTimebars = mockStore({ timebars: [], hsc: { playingTimebarId: 1234 } });
-      storeWithoutTimebars.dispatch(actions.handlePlay(0, 0));
-      expect(storeWithoutTimebars.getActions()).toHaveLength(0);
-    });
-    test('updates cursors', () => {
-      store.dispatch(actions.handlePlay(0, 0));
-      expect(store.getActions()).toEqual([
-        {
-          type: 'WS_TIMEBAR_UPDATE_CURSORS',
-          payload: {
-            visuWindow: { current: 150, lower: 100, upper: 117200000 },
-            slideWindow: { lower: 125, upper: 117200000 },
-            timebarUuid: 'tb1',
-          },
-        },
-      ]);
-    });
-  });
   describe('updateSpeed', () => {
     test('disables real time then update speed', () => {
       store.dispatch(actions.updateSpeed('tb1', 42));

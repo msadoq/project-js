@@ -139,3 +139,107 @@ Array [
   },
 ]
 `;
+
+exports[`store:middlewares:player when click on NOW button request session time and update cursors corresponding to this time 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "slideWindow": Object {
+        "lower": -295663,
+        "upper": 34337,
+      },
+      "timebarUuid": "tb1",
+      "visuWindow": Object {
+        "current": 1337,
+        "lower": -295663,
+        "upper": 34337,
+      },
+    },
+    "type": "WS_TIMEBAR_UPDATE_CURSORS",
+  },
+  Object {
+    "payload": Object {
+      "timebarUuid": "tb1",
+    },
+    "type": "WS_TIMEBAR_GO_NOW",
+  },
+]
+`;
+
+exports[`store:middlewares:player when enable real time mode request session time and switch to real time 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "speed": 1,
+      "timebarUuid": "tb1",
+    },
+    "type": "WS_TIMEBAR_SPEED_UPDATE",
+  },
+  Object {
+    "payload": Object {
+      "slideWindow": Object {
+        "lower": -295663,
+        "upper": 34337,
+      },
+      "timebarUuid": "tb1",
+      "visuWindow": Object {
+        "current": 1337,
+        "lower": -295663,
+        "upper": 34337,
+      },
+    },
+    "type": "WS_TIMEBAR_UPDATE_CURSORS",
+  },
+  Object {
+    "payload": Object {
+      "timebarUuid": "tb1",
+    },
+    "type": "HSC_PLAY",
+  },
+  Object {
+    "payload": Object {
+      "flag": true,
+      "timebarUuid": "tb1",
+    },
+    "type": "WS_TIMEBAR_SET_REALTIME",
+  },
+]
+`;
+
+exports[`store:middlewares:player when focus a page dispatch a HSC_PAUSE action if new page has another timebar 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "HSC_PAUSE",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p2",
+    },
+    "type": "WS_WINDOW_PAGE_FOCUS",
+  },
+]
+`;
+
+exports[`store:middlewares:player when focus a page do nothing if new page has same timebar 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+    },
+    "type": "WS_WINDOW_PAGE_FOCUS",
+  },
+]
+`;
+
+exports[`store:middlewares:player when open an editor dispatch a HSC_PAUSE action when open an editor 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "HSC_PAUSE",
+  },
+  Object {
+    "type": "WS_PAGE_PANELS_LOAD_IN_EDITOR",
+  },
+]
+`;

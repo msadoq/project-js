@@ -4,6 +4,8 @@ import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
 import { resolve } from 'path';
 
+import * as types from '../../store/types';
+import { moveProp } from '../fp';
 /*
   Setting up the testing framework before each test.
   Please see : https://facebook.github.io/jest/docs/cli.html#setuptestframeworkscriptfile-file
@@ -28,6 +30,21 @@ global.testConfig = {
 };
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));
+
+// jest snapshots serializers
+const messageActionSerializer = {
+  print: (action, serialize) => {
+    const serializeAction = _.pipe(
+      _.update('payload.messages', _.map(_.unset('uuid'))),
+      moveProp('type', '_type'),
+      serialize
+    );
+    return serializeAction(action);
+  },
+  test: _.propEq('type', types.WS_MESSAGE_ADD),
+};
+
+expect.addSnapshotSerializer(messageActionSerializer);
 
 // jest expect.extend utils
 const isNodeError = _.allPass([

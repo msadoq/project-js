@@ -59,15 +59,17 @@ BYPASS_HOOKS=1 git commit
 
 ```bash
 #!/bin/sh
-HAS_DESCRIBE_ONLY=$(git diff --cached --name-only -S "describe.only" -- '*.spec.js' | wc -l)
-HAS_DESCRIBE_SKIP=$(git diff --cached --name-only -S "describe.skip" -- '*.spec.js' | wc -l)
-HAS_IT_ONLY=$(git diff --cached --name-only -S "it.only" -- '*.spec.js' | wc -l)
-HAS_IT_SKIP=$(git diff --cached --name-only -S "it.skip" -- '*.spec.js' | wc -l)
+HAS_DESCRIBE_ONLY=$(git diff --cached --unified=0 HEAD -- "*.spec.js" | grep '^\+' | grep -v '^+++' | grep 'describe\.only(' | wc -l)
+HAS_DESCRIBE_SKIP=$(git diff --cached --unified=0 HEAD -- "*.spec.js" | grep '^\+' | grep -v '^+++' | grep 'describe\.skip(' | wc -l)
+HAS_TEST_ONLY=$(git diff --cached --unified=0 HEAD -- "*.spec.js" | grep '^\+' | grep -v '^+++' | grep 'test\.only(' | wc -l)
+HAS_TEST_SKIP=$(git diff --cached --unified=0 HEAD -- "*.spec.js" | grep '^\+' | grep -v '^+++' | grep 'test\.skip(' | wc -l)
+HAS_IT_ONLY=$(git diff --cached --unified=0 HEAD -- "*.spec.js" | grep '^\+' | grep -v '^+++' | grep 'it\.only(' | wc -l)
+HAS_IT_SKIP=$(git diff --cached --unified=0 HEAD -- "*.spec.js" | grep '^\+' | grep -v '^+++' | grep 'it\.skip(' | wc -l)
 
 function error() {
-	echo ====== ERROR ======
-	echo "Do not commit '$1'"
-	exit 1
+    echo ====== ERROR ======
+    echo "Do not commit '$1'"
+    exit 1
 }
 
 if [[ "$BYPASS_HOOKS" -eq "1" ]]; then
@@ -75,19 +77,27 @@ if [[ "$BYPASS_HOOKS" -eq "1" ]]; then
 fi
 
 if [[ "$HAS_DESCRIBE_ONLY" -ne "0" ]]; then
-	error describe.only
+    error describe.only
 fi
 
 if [[ "$HAS_DESCRIBE_SKIP" -ne "0" ]]; then
-	error describe.skip
+    error describe.skip
+fi
+
+if [[ "$HAS_TEST_ONLY" -ne "0" ]]; then
+    error it.only
+fi
+
+if [[ "$HAS_TEST_SKIP" -ne "0" ]]; then
+    error it.skip
 fi
 
 if [[ "$HAS_IT_ONLY" -ne "0" ]]; then
-	error it.only
+    error it.only
 fi
 
 if [[ "$HAS_IT_SKIP" -ne "0" ]]; then
-	error it.skip
+    error it.skip
 fi
 
 ```

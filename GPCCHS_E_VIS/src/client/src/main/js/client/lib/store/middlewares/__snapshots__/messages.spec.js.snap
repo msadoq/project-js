@@ -3,17 +3,16 @@
 exports[`store:middlewares:messages add a message then cancel removing 1`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;
@@ -21,17 +20,16 @@ Array [
 exports[`store:middlewares:messages add a message then cancel removing 2`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {
@@ -46,17 +44,16 @@ Array [
 exports[`store:middlewares:messages add a message then cancel removing 3`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {
@@ -78,17 +75,16 @@ Array [
 exports[`store:middlewares:messages add a message then cancel removing 4`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {
@@ -117,17 +113,16 @@ Array [
 exports[`store:middlewares:messages add a message then cancel removing 5`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {
@@ -164,17 +159,16 @@ Array [
 exports[`store:middlewares:messages add a message then remove it 1`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;
@@ -182,17 +176,16 @@ Array [
 exports[`store:middlewares:messages add a message then remove it 2`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {
@@ -207,17 +200,16 @@ Array [
 exports[`store:middlewares:messages add a message then wait for remove it 1`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;
@@ -225,17 +217,16 @@ Array [
 exports[`store:middlewares:messages add a message then wait for remove it 2`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {
@@ -250,17 +241,16 @@ Array [
 exports[`store:middlewares:messages add a message then wait for remove it 3`] = `
 Array [
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
         Object {
           "content": "the_message",
-          "uuid": "the_uuid",
         },
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
   Object {
     "payload": Object {

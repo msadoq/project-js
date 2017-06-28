@@ -80,6 +80,7 @@ Array [
     "type": "HSC_ISWORKSPACE_OPENING",
   },
   Object {
+    "_type": "WS_MESSAGE_ADD",
     "payload": Object {
       "containerId": "global",
       "messages": Array [
@@ -89,7 +90,6 @@ Array [
       ],
       "type": "danger",
     },
-    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;

@@ -234,6 +234,12 @@ export default class TimeSetter extends PureComponent {
         </div>
         <br />
         <h4>Visu window default width</h4>
+        <span className="">&nbsp;&nbsp;&nbsp;
+          hours &nbsp; &nbsp; &nbsp;
+          minutes &nbsp; &nbsp;
+          seconds &nbsp;
+          milliseconds
+        </span>
         <div className={styles.fieldsContainer}>
           <div className={styles.inputDiv}>
             {
@@ -251,8 +257,8 @@ export default class TimeSetter extends PureComponent {
                       'form-control'
                     )}
                   />
-                  {(x === 'hours' || x === 'minutes') && <span>:</span>}
-                  {x === 'seconds' && <span>.</span>}
+                  {(x[0] === 'hours' || x[0] === 'minutes') && <span>:</span>}
+                  {x[0] === 'seconds' && <span>.</span>}
                 </div>)
               )
             }

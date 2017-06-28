@@ -463,7 +463,6 @@ export default class MimicView extends Component {
               visibility = stateColor[1];
             }
           }
-          console.log(visibility);
           el.style.visibility = visibility === 'show' ? 'visible' : 'hidden';
         }
       }
@@ -486,7 +485,6 @@ export default class MimicView extends Component {
   render() {
     const { links, pageId, showLinks } = this.props;
     const style = { padding: '15px' };
-    console.log('MIMIC RENDER', this.content);
 
     return (
       <div className="h100 posRelative" onContextMenu={this.onContextMenu}>

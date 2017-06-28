@@ -1,4 +1,6 @@
-const createInterval = (f, ms) => {
+import _ from 'lodash/fp';
+
+const createInterval = (ms, f = _.noop) => {
   let id;
   const clear = () => clearTimeout(id);
   let timer = (cb) => {

@@ -4,7 +4,7 @@ describe('utils:interval', () => {
   jest.useFakeTimers();
   test('execute function at each interval', () => {
     const spy = jest.fn();
-    const interval = createInterval(spy, 1000);
+    const interval = createInterval(1000, spy);
 
     expect(spy.mock.calls.length).toBe(0);
 
@@ -22,7 +22,7 @@ describe('utils:interval', () => {
 
   test('do not execute function when interval is paused', () => {
     const spy = jest.fn();
-    const interval = createInterval(spy, 1000);
+    const interval = createInterval(1000, spy);
 
     interval.pause();
     expect(spy.mock.calls.length).toBe(0);
@@ -33,7 +33,7 @@ describe('utils:interval', () => {
 
   test('pause, then resume', () => {
     const spy = jest.fn();
-    const interval = createInterval(spy, 1000);
+    const interval = createInterval(1000, spy);
 
     interval.pause();
     jest.runOnlyPendingTimers();
@@ -49,7 +49,7 @@ describe('utils:interval', () => {
 
   test('a destroyed timer cannot be resumed', () => {
     const spy = jest.fn();
-    const interval = createInterval(spy, 1000);
+    const interval = createInterval(1000, spy);
 
     interval.destroy();
     interval.resume();
@@ -60,14 +60,12 @@ describe('utils:interval', () => {
 
   test('use given callback when resume', () => {
     const spy = jest.fn();
-    const unusedSpy = jest.fn();
-    const interval = createInterval(unusedSpy, 1000);
+    const interval = createInterval(1000);
 
     interval.pause();
     interval.resume(spy);
 
     jest.runOnlyPendingTimers();
-    expect(unusedSpy.mock.calls.length).toBe(0);
     expect(spy.mock.calls.length).toBe(1);
     interval.destroy();
   });
@@ -75,7 +73,7 @@ describe('utils:interval', () => {
     const spy = jest.fn((x) => {
       expect(typeof x).toBe('number');
     });
-    const interval = createInterval(spy, 1000);
+    const interval = createInterval(1000, spy);
     jest.runOnlyPendingTimers();
     jest.runOnlyPendingTimers();
     jest.runOnlyPendingTimers();

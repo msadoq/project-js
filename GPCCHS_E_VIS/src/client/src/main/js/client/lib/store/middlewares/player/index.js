@@ -125,7 +125,7 @@ const createPlayerMiddleware = (
   PLAYER_FREQUENCY = 500,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = 0.1
 ) => {
-  const interval = createInterval(() => {}, PLAYER_FREQUENCY);
+  const interval = createInterval(PLAYER_FREQUENCY);
   interval.pause();
 
   return ({ dispatch, getState }) => next => (action) => {

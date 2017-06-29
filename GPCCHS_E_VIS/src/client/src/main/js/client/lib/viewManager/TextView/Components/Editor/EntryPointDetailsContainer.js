@@ -4,7 +4,7 @@ import EntryPointDetails from './EntryPointDetails';
 import { getFocusedPage } from '../../../../store/selectors/pages';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import { updateViewSubPanels } from '../../../../store/actions/ui';
-import { getViewEntryPointsSubPanels } from '../../../../store/reducers/ui';
+import { getViewEntryPointsSubPanels } from '../../../../store/reducers/ui/editor';
 import { getDomains } from '../../../../store/reducers/domains';
 import {
   updateEntryPoint,

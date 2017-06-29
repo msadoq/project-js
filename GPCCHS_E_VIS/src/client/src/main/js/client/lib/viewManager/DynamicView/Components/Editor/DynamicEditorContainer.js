@@ -11,7 +11,7 @@ import {
   updateTitleStyle,
 } from '../../../../store/actions/views';
 import { updateViewTab, updateViewPanels } from '../../../../store/actions/ui';
-import { getViewTab, getViewPanels } from '../../../../store/reducers/ui';
+import { getViewTab, getViewPanels } from '../../../../store/reducers/ui/editor';
 import { getDomains } from '../../../../store/reducers/domains';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { open as openModal } from '../../../../store/actions/modals';

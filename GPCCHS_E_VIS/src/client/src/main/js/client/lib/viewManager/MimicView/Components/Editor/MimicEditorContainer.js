@@ -13,7 +13,7 @@ import {
   open as openModal,
 } from '../../../../store/actions/modals';
 import { updateViewPanels } from '../../../../store/actions/ui';
-import { getViewPanels } from '../../../../store/reducers/ui';
+import { getViewPanels } from '../../../../store/reducers/ui/editor';
 
 
 const mapStateToProps = createStructuredSelector({

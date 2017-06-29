@@ -1,8 +1,8 @@
 import _get from 'lodash/get';
 import _ from 'lodash/fp';
 import * as types from '../../types';
-/* --- Reducer -------------------------------------------------------------- */
 
+/* --- Reducer -------------------------------------------------------------- */
 export default function editorReducer(state = {}, action) {
   switch (action.type) {
     case types.WS_EDITOR_UI_PANEL: {

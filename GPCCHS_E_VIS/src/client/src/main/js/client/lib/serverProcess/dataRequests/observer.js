@@ -26,8 +26,11 @@ export default function makeDataRequestsObserver(store) {
     const profile = execution('dataMap:store:observer');
 
     // data map
+    // Note: could change on many windows, pages or views update like layouts or panels, but since
+    //       dataMap is very fast and this update occurs only on user manual actions the additionnal
+    //       cost of this observer is far from null
     profile.start('dataMap generation');
-    const dataMap = dataMapGenerator(state); // TODO : major issue dataMap is a new one even if we just resize a view
+    const dataMap = dataMapGenerator(state);
     profile.stop('dataMap generation');
 
     // skip if the dataMap is the same as previous run
@@ -36,18 +39,19 @@ export default function makeDataRequestsObserver(store) {
       return;
     }
 
-    profile.start('run');
-
     // run dataSubscriptions observer (create and remove pub/sub subscriptions)
-    dataSubscriptions(dataMap, previous);
+    profile.start('subscriptions');
+    dataSubscriptions(dataMap, previous); // TODO dbrugne issue when remoteId is no longer in dataMap (user change page) and interval is in cache when i recevie new pub/sub values
+    profile.stop('subscriptions');
 
     // run dataQueries observer (produce dataRequest for DC)
+    profile.start('queries');
     dataQueries(dataMap, previous, state);
+    profile.stop('queries');
 
     // store dataMap for next observer execution
     previous = dataMap;
 
-    profile.stop('run');
     profile.print();
   };
 }

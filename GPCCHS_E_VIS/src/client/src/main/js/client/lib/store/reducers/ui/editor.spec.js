@@ -4,7 +4,7 @@ import editorReducer from './editor';
 
 const reducer = freezeArgs(editorReducer);
 
-describe('store:ui:reducer', () => {
+describe('store:reducers:ui:editor', () => {
   describe('update tab', () => {
     test('should update tab', () => {
       expect(reducer(undefined, actions.updateViewTab('myId', 1))).toEqual({

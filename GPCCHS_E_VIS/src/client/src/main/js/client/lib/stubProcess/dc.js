@@ -112,7 +112,7 @@ const onHssMessage = (...args) => {
       const queryArguments = adapter.decode(
         'dc.dataControllerUtils.QueryArguments', args[4]
       );
-      const queryKey = JSON.stringify(dataId, queryArguments);
+      const queryKey = JSON.stringify({ dataId, queryArguments });
       queries.push({ queryKey, queryId, dataId, interval, queryArguments });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);

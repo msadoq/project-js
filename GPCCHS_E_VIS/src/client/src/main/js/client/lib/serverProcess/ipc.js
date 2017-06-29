@@ -6,6 +6,8 @@ import { encode } from '../utils/adapters';
 import constants from '../constants';
 import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
+import { getStore } from './store';
+import { add as addMessage } from '../store/actions/messages';
 
 const logger = getLogger('server:ipc');
 
@@ -36,7 +38,8 @@ function getStaticProtobuf(type) {
 
 function onDcResponseCallback(err) {
   if (err) {
-    // TODO dispatch error message in store
+    const { dispatch } = getStore();
+    dispatch(addMessage('global', 'danger', `Error from Data Consumer: ${err}`));
   }
 }
 
@@ -108,17 +111,18 @@ const commands = {
         encode('dc.dataControllerUtils.FMDCreateDocument', { name, path, mimeType }),
       ], callback);
     },
-    requestTimebasedQuery: (flatDataId, dataId, interval, args) => {
-      const queryId = commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_QUERY, [
+    requestTimebasedQuery: (flatDataId, dataId, interval, args) => commands.dc.rpc(
+      constants.MESSAGETYPE_TIMEBASED_QUERY,
+      [
         getDcDataId(flatDataId, dataId),
         encode('dc.dataControllerUtils.TimeInterval', {
           startTime: { ms: interval[0] },
           endTime: { ms: interval[1] },
         }),
         encode('dc.dataControllerUtils.QueryArguments', args),
-      ], onDcResponseCallback);
-      return queryId;
-    },
+      ],
+      onDcResponseCallback
+    ),
     requestSubscriptionAdd: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
         getDcDataId(flatDataId, dataId),

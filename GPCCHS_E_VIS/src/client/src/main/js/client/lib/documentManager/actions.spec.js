@@ -4,7 +4,6 @@ import { mockStore, freezeMe } from '../common/jest';
 import readView from './readView';
 import * as readPageApi from './readPage';
 import * as readWorkspaceApi from './readWorkspace';
-import * as io from './io';
 import * as actions from './actions';
 
 describe('documentManager:actions', () => {
@@ -130,80 +129,6 @@ describe('documentManager:actions', () => {
     });
   });
 
-  describe('openPageOrView', () => {
-    test('open a page', () => {
-      const store = mockStore();
-      stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
-        cb(null, {
-          views: [{ value: { type: 'TextView' } }],
-          pages: [{ value: { windowId: 'windowId', type: 'Page' } }],
-        });
-      });
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(null, 'Page');
-      });
-      store.dispatch(actions.openPageOrView('page_info'));
-      expect(store.getActions()).toMatchSnapshot();
-      stubReadDocumentType.restore();
-    });
-    test('open a view in a blank page', () => {
-      const store = mockStore(
-        freezeMe({
-          hsc: { focusWindow: 'w1' },
-          windows: { w1: { focusedPage: 'p1' } },
-        })
-      );
-      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        cb(null, { value: { title: 'my view' } });
-      });
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(null, 'TextView');
-      });
-      store.dispatch(actions.openPageOrView('view_info'));
-
-      const actionsWithoutUuids = _.unset('[0].payload.page.uuid', store.getActions());
-      expect(actionsWithoutUuids).toMatchSnapshot();
-      expect(store.getActions()[0].payload.page.uuid).toBeAnUuid();
-      stubReadDocumentType.restore();
-    });
-    test('give an error when readDocument failed', () => {
-      const store = mockStore(freezeMe({}));
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(new Error('an error'));
-      });
-      store.dispatch(actions.openPageOrView());
-      expect(store.getActions()).toMatchObject([
-        {
-          type: 'WS_MESSAGE_ADD',
-          payload: {
-            containerId: 'global',
-            type: 'danger',
-            messages: [{ content: 'an error' }],
-          },
-        },
-      ]);
-      stubReadDocumentType.restore();
-    });
-    test('give an error when view type is unknown', () => {
-      const store = mockStore(freezeMe({}));
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(null, 'A Type');
-      });
-      store.dispatch(actions.openPageOrView());
-      expect(store.getActions()).toMatchObject([
-        {
-          type: 'WS_MESSAGE_ADD',
-          payload: {
-            containerId: 'global',
-            type: 'danger',
-            messages: [{ content: "Error, unknown type 'A Type'" }],
-          },
-        },
-      ]);
-      stubReadDocumentType.restore();
-    });
-  });
-
   describe('openWorkspace', () => {
     const readedWorkspaceFixture = {
       type: 'WorkSpace',
@@ -251,7 +176,7 @@ describe('documentManager:actions', () => {
             title: 'Unknown',
             views: [],
             path:
-              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json',
+              '/pages/little.json',
             timebarId: 'TB1',
             uuid: 'add811db-9c39-447a-b826-d26e55c6cc93',
             timebarUuid: 'e9ab5b2f-e813-41bd-ae8a-b3121ebddb77',
@@ -267,8 +192,7 @@ describe('documentManager:actions', () => {
       views: [
         {
           value: {
-            path:
-              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json',
+            path: '/views/empty.text.json',
             geometry: {
               x: 0,
               y: 0,

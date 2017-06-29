@@ -2,10 +2,8 @@ import React, { PropTypes, PureComponent } from 'react';
 import { Glyphicon, Button, Col, Row } from 'react-bootstrap';
 import classnames from 'classnames';
 import _find from 'lodash/find';
-import globalConstants from '../../constants';
 import styles from './Links.css';
-import { main } from '../ipc';
-import { resolveFmdPath, resolveOid } from '../../common/pathResolver';
+import { resolveFmdPath } from '../../common/pathResolver';
 
 export default class Links extends PureComponent {
   static propTypes = {
@@ -23,6 +21,7 @@ export default class Links extends PureComponent {
     focusPage: PropTypes.func.isRequired,
     focusView: PropTypes.func.isRequired,
     addMessage: PropTypes.func.isRequired,
+    openLink: PropTypes.func.isRequired,
   }
   static defaultProps = {
     links: [],
@@ -30,6 +29,7 @@ export default class Links extends PureComponent {
     views: {},
     showLinks: false,
   }
+
   onClick = (e, key) => {
     // Get link path
     const path = this.props.links[key].path;
@@ -42,18 +42,19 @@ export default class Links extends PureComponent {
           this.openFile(resolvedPath);
         }
       });
-    } else {
-      resolveOid(path, (err, resPath) => {
-        if (!err) {
-          resolvedPath.absolutePath = resPath.resolvedPath;
-          this.openFile(resolvedPath);
-        }
-      });
+    // } else {
+    //   resolveOid(path, (err, resPath) => {
+    //     if (!err) {
+    //       resolvedPath.absolutePath = resPath.resolvedPath;
+    //       this.openFile(resolvedPath);
+    //     }
+    //   });
     }
   }
 
   openFile = (resolvedPath) => {
-    const { pages, views, focusPage, focusView, pageId, windowId, addMessage } = this.props;
+    const { pages, views, focusPage, focusView, pageId, windowId, addMessage, openLink }
+      = this.props;
 
     if (!resolvedPath.absolutePath) {
       addMessage('global', 'danger', 'Unable to open link');
@@ -77,7 +78,7 @@ export default class Links extends PureComponent {
       return;
     }
     // Open the link
-    main.message(globalConstants.IPC_METHOD_OPEN_PAGE_OR_VIEW, { windowId, ...resolvedPath });
+    openLink(windowId, resolvedPath.absolutePath);
   }
 
   render() {

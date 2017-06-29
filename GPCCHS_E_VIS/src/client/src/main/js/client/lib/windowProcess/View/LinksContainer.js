@@ -5,6 +5,7 @@ import { getPages } from '../../store/reducers/pages';
 import { getViews } from '../../store/reducers/views';
 import { focusPage } from '../../store/actions/pages';
 import { focusView } from '../../store/actions/views';
+import { openLink } from '../../store/actions/links';
 import { getWindowIdByPageId } from '../../store/reducers/windows';
 import { add as addMessage } from '../../store/actions/messages';
 
@@ -18,6 +19,7 @@ const mapDispatchToProps = {
   focusPage,
   focusView,
   addMessage,
+  openLink,
 };
 
 const LinksContainer = connect(mapStateToProps, mapDispatchToProps)(Links);

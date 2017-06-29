@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Alert, FormGroup, Col } from 'react-bootstrap';
-// import { v4 } from 'uuid';
+import path from 'path';
+import { get } from '../../common/configurationManager';
 
+const fmdPath = get('ISIS_DOCUMENTS_ROOT');
 
 export default class FileInputField extends React.Component {
   static propTypes = {
@@ -40,9 +42,14 @@ export default class FileInputField extends React.Component {
   onChoiceChange = (event) => {
     event.preventDefault();
     if (event.target.files) {
-      this.props.changePath(event.target.files[0].path);
+      // Get path relative to FMD
+      let pathInFmd = path.relative(fmdPath, event.target.files[0].path);
+      // Add / at beginning to indicate the path is from FMD
+      pathInFmd = ('/').concat(pathInFmd);
+      this.props.changePath(pathInFmd);
     }
   }
+
   onClick = () => {
     document.getElementById('my_file'.concat(this.props.myFormKey)).click();
   }

@@ -1,7 +1,6 @@
 import _ from 'lodash/fp';
 import { dirname, basename } from 'path';
 
-import { readDocumentType } from './io';
 import { LOG_DOCUMENT_OPEN } from '../constants';
 import getLogger from '../common/logManager';
 import parameters from '../common/configurationManager';
@@ -20,9 +19,6 @@ import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
-import { addBlankPage } from '../store/actions/pages';
-import { getFocusedWindowId } from '../store/reducers/hsc';
-import { getWindowFocusedPageId } from '../store/reducers/windows';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -90,30 +86,6 @@ export const openPage = pageInfo => (dispatch, getState) => {
 
     const path = page.absolutePath || page.path || page.oId;
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
-  });
-};
-// -------------------------------------------------------------------------- //
-
-
-// --- open a page or a view------------------------------------------------- //
-export const openPageOrView = docInfo => (dispatch, getState) => {
-  const isView = type => /^.*View$/.test(type);
-  const isPage = _.equals('Page');
-  readDocumentType(docInfo, (err, type) => {
-    if (err) {
-      dispatch(addGlobalError(err));
-      return;
-    }
-    if (isView(type)) {
-      dispatch(addBlankPage());
-      const state = getState();
-      const pageId = getWindowFocusedPageId(state, { windowId: getFocusedWindowId(state) });
-      dispatch(openView(docInfo, pageId));
-    } else if (isPage(type)) {
-      dispatch(openPage(docInfo));
-    } else {
-      dispatch(addGlobalError(`Error, unknown type '${type}'`));
-    }
   });
 };
 // -------------------------------------------------------------------------- //

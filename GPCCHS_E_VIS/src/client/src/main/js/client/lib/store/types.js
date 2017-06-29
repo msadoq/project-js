@@ -18,6 +18,9 @@ export const HSC_PAUSE = 'HSC_PAUSE';
 export const HSC_FOCUS_WINDOW = 'HSC_FOCUS_WINDOW';
 export const HSC_BLUR_WINDOW = 'HSC_BLUR_WINDOW';
 
+export const HSC_OPEN_DIALOG = 'HSC_OPEN_DIALOG';
+export const HSC_CLOSE_DIALOG = 'HSC_CLOSE_DIALOG';
+
 export const WS_VIEW_OPENED = 'WS_VIEW_OPENED';
 export const WS_PAGE_OPENED = 'WS_PAGE_OPENED';
 export const WS_WORKSPACE_OPENED = 'WS_WORKSPACE_OPENED';

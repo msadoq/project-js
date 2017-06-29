@@ -23,7 +23,7 @@ export default function makeDataQueries() {
       if (
         !previousForecast // no existing forecast
         || (previousForecast[1] - upper) < 100 // visuWindow is near the end of the forecast interval
-        || upper < previousForecast[0] // visuWindow have moved backward
+        || upper < previousForecast[0] // visuWindow has moved backward
       ) {
         forecastIntervals = computeForecastIntervals(dataMap.expectedIntervals, forecastTime);
 

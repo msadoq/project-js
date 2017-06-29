@@ -115,3 +115,10 @@ In case of error "Error: Module version mismatch expected 50, got 48." on launch
 hsc && cd node_modules/server/node_modules/common && rm -Rf node_modules && npm i
 hsc && npm run start-hot
 ```
+
+In case of error 'ENOSPC' when run 'npm run test:watch' :
+
+```
+su root
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
+```

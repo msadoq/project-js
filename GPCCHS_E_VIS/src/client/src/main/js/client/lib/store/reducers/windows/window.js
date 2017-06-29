@@ -34,7 +34,7 @@ export default function window(stateWindow = initialState, action) {
         pages: action.payload.pages || stateWindow.pages,
         focusedPage: action.payload.focusedPage || stateWindow.focusedPage,
       });
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       const newWindow = _.merge(stateWindow, action.payload.window);
       const windowPages = _.groupBy('windowId', action.payload.pages)[newWindow.uuid];
       if (!windowPages) {
@@ -47,7 +47,7 @@ export default function window(stateWindow = initialState, action) {
         _.set('focusedPage', getFocusedPageId(windowPages))
       )(newWindow);
     }
-    case types.WS_PAGE_OPEN:
+    case types.WS_PAGE_OPENED:
     case types.WS_PAGE_ADD_BLANK: {
       const { page } = action.payload;
       return _.pipe(

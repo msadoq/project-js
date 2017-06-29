@@ -30,8 +30,8 @@ describe('viewManager/PlotView/store/dataReducer', () => {
     expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  test('WS_VIEW_OPEN', () => {
-    const action = { type: types.WS_VIEW_OPEN,
+  test('WS_VIEW_OPENED', () => {
+    const action = { type: types.WS_VIEW_OPENED,
       payload: { view: { type: 'TextView', uuid: 'myText' } } };
     expect(plotViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'PlotView', uuid: 'myPlot' };
@@ -46,15 +46,15 @@ describe('viewManager/PlotView/store/dataReducer', () => {
     expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  test('WS_PAGE_OPEN', () => {
-    const action = { type: types.WS_PAGE_OPEN,
+  test('WS_PAGE_OPENED', () => {
+    const action = { type: types.WS_PAGE_OPENED,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
     expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
   });
-  test('WS_WORKSPACE_OPEN', () => {
-    const action = { type: types.WS_WORKSPACE_OPEN,
+  test('WS_WORKSPACE_OPENED', () => {
+    const action = { type: types.WS_WORKSPACE_OPENED,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
     expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {

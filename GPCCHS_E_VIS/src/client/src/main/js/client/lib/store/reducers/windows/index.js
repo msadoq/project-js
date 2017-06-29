@@ -28,7 +28,7 @@ export default function windows(stateWindows = {}, action) {
       return _.set(action.payload.windowId, window(undefined, action), stateWindows);
     case types.WS_WINDOW_CLOSE:
       return _.omit(action.payload.windowId, stateWindows);
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       return loadWindows(stateWindows, action);
     }
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {

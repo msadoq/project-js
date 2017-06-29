@@ -78,7 +78,7 @@ describe('documentManager:actions', () => {
         },
       ]);
     });
-    test('dispatches a WS_VIEW_OPEN when view is loaded', () => {
+    test('dispatches a WS_VIEW_OPENED when view is loaded', () => {
       const store = mockStore();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         cb(null, { value: { title: 'my view' } });
@@ -86,7 +86,7 @@ describe('documentManager:actions', () => {
       store.dispatch(actions.openView('viewInfo', 'myPageId'));
       expect(store.getActions()).toEqual([
         {
-          type: 'WS_VIEW_OPEN',
+          type: 'WS_VIEW_OPENED',
           payload: {
             pageId: 'myPageId',
             view: { title: 'my view' },
@@ -366,7 +366,7 @@ describe('documentManager:actions', () => {
       expect(store.getActions()).toMatchObject([
         { type: 'HSC_CLOSE_WORKSPACE', payload: {} },
         {
-          type: 'WS_WORKSPACE_OPEN',
+          type: 'WS_WORKSPACE_OPENED',
           payload: {
             windows: [
               {

@@ -37,7 +37,7 @@ export default function timebarReducer(stateTimebar = initialState, action) {
     }
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
-    case types.WS_WORKSPACE_OPEN:
+    case types.WS_WORKSPACE_OPENED:
       return _.merge(stateTimebar, action.payload.timebar);
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
       return {

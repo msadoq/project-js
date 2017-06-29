@@ -15,7 +15,7 @@ export default function timebarsReducer(stateTimebars = {}, action) {
       return {};
     case types.WS_TIMEBAR_CREATE_NEW:
       return _.set(action.payload.timebarUuid, timebar(undefined, action), stateTimebars);
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       const setPayloadTimebar = _.set('payload.timebar');
       const singleTimebarReducer = state => (
         timebar(undefined, setPayloadTimebar(state, action))

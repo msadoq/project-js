@@ -13,7 +13,7 @@ export default function timelines(stateTimelines = {}, action) {
       return _.set(action.payload.timeline.uuid, timeline(undefined, action), stateTimelines);
     case types.WS_TIMELINE_REMOVE:
       return _.omit(action.payload.timelineUuid, stateTimelines);
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       const setPayloadTimeline = _.set('payload.timeline');
       const singleTimelineReducer = stateTl => (
         timeline(undefined, setPayloadTimeline(stateTl, action))

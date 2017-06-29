@@ -42,8 +42,8 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  test('WS_VIEW_OPEN', () => {
-    const action = { type: types.WS_VIEW_OPEN,
+  test('WS_VIEW_OPENED', () => {
+    const action = { type: types.WS_VIEW_OPENED,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
@@ -56,14 +56,14 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  test('WS_PAGE_OPEN', () => {
-    const action = { type: types.WS_PAGE_OPEN,
+  test('WS_PAGE_OPENED', () => {
+    const action = { type: types.WS_PAGE_OPENED,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
-  test('WS_WORKSPACE_OPEN', () => {
-    const action = { type: types.WS_WORKSPACE_OPEN,
+  test('WS_WORKSPACE_OPENED', () => {
+    const action = { type: types.WS_WORKSPACE_OPENED,
       payload: { views:
         [{ type: 'TextView', uuid: 'myText' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });

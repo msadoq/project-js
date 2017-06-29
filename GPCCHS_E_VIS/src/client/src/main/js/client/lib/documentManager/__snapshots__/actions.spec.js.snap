@@ -16,7 +16,7 @@ Array [
       ],
       "windowId": "windowId",
     },
-    "type": "WS_PAGE_OPEN",
+    "type": "WS_PAGE_OPENED",
   },
 ]
 `;
@@ -179,7 +179,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {
@@ -315,7 +315,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {
@@ -450,7 +450,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {
@@ -585,7 +585,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {

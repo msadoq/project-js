@@ -12,7 +12,7 @@ const initialState = {
 export default function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
     case types.WS_TIMELINE_CREATE_NEW:
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       return _.merge(stateTimeline, action.payload.timeline);
     }
     case types.WS_TIMELINE_UPDATE_ID:

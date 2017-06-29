@@ -51,7 +51,7 @@ export const openView = (viewInfo, pageId) => (dispatch) => {
       return;
     }
     dispatch({
-      type: types.WS_VIEW_OPEN,
+      type: types.WS_VIEW_OPENED,
       payload: { view: view.value, pageId },
     });
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath);
@@ -76,7 +76,7 @@ export const openPage = pageInfo => (dispatch, getState) => {
     const page = documents.pages[0].value;
     const firstTimebarId = getFirstTimebarId(getState());
     dispatch({
-      type: types.WS_PAGE_OPEN,
+      type: types.WS_PAGE_OPENED,
       payload: {
         windowId: page.windowId,
         views: keepValues(views),
@@ -155,7 +155,7 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
       pages: keepValues(documents.pages),
       timebars: documents.timebars.map(prepareTimebar(documents.timelines, getState())),
     };
-    dispatch({ type: types.WS_WORKSPACE_OPEN, payload });
+    dispatch({ type: types.WS_WORKSPACE_OPENED, payload });
     dispatch(isWorkspaceOpening(false));
 
     logLoadedDocumentsCount(documents);
@@ -172,6 +172,6 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
 export const openBlankWorkspace = ({ keepMessages } = {}) => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
   dispatch(closeWorkspace(keepMessages));
-  dispatch({ type: types.WS_WORKSPACE_OPEN, payload: createBlankWorkspace() });
+  dispatch({ type: types.WS_WORKSPACE_OPENED, payload: createBlankWorkspace() });
 };
 // -------------------------------------------------------------------------- //

@@ -43,8 +43,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
     action.payload.view = { type: 'TextView', uuid: 'myText' };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  test('WS_VIEW_OPEN', () => {
-    const action = { type: types.WS_VIEW_OPEN,
+  test('WS_VIEW_OPENED', () => {
+    const action = { type: types.WS_VIEW_OPENED,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
     expect(textViewData(freezeMe({}), action)).toEqual({});
     action.payload.view = { type: 'TextView', uuid: 'myText' };
@@ -57,14 +57,14 @@ describe('viewManager/TextView/store/dataReducer', () => {
     action.payload.view = { type: 'TextView', uuid: 'myText' };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  test('WS_PAGE_OPEN', () => {
-    const action = { type: types.WS_PAGE_OPEN,
+  test('WS_PAGE_OPENED', () => {
+    const action = { type: types.WS_PAGE_OPENED,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
   });
-  test('WS_WORKSPACE_OPEN', () => {
-    const action = { type: types.WS_WORKSPACE_OPEN,
+  test('WS_WORKSPACE_OPENED', () => {
+    const action = { type: types.WS_WORKSPACE_OPENED,
       payload: { views:
         [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'TextView', uuid: 'myText' }] } };
     expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });

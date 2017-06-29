@@ -7,6 +7,4 @@ extensions 6 to 105;
     required string name = 1;
     required uint32 id = 2;
     required Timestamp timestamp = 3;
-    required int64 delta = 4;
-    required int64 missionEpoch = 5;
 }

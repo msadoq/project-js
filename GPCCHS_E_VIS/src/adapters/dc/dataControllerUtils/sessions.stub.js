@@ -17,8 +17,8 @@ const getSessions = (override) => {
   return applyOverride({
     sessions: [
       getSession({ timestamp }),
-      getSession({ name: 'Session#42', id: 42, delta: 42, timestamp }),
-      getSession({ name: 'Session#181', id: 181, delta: 0, timestamp }),
+      getSession({ name: 'Session#42', id: 42, timestamp }),
+      getSession({ name: 'Session#181', id: 181, timestamp }),
     ],
   }, override);
 };

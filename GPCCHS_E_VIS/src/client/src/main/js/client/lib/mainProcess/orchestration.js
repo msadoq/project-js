@@ -1,17 +1,9 @@
-import _round from 'lodash/round';
 import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
 import { tmpdir } from 'os';
 import { get } from '../common/configurationManager';
 import {
-  HSC_ORCHESTRATION_WARNING_STEP,
-  HSC_ORCHESTRATION_CRITICAL_STEP,
-  HEALTH_STATUS_HEALTHY,
-  HEALTH_STATUS_WARNING,
-  HEALTH_STATUS_CRITICAL,
   IPC_METHOD_CACHE_CLEANUP,
-  HSC_CRITICAL_SWITCH_PAUSE_DELAY,
-  HSC_PUBSUB_MONITORING_FREQUENCY,
 } from '../constants';
 import executionMonitor from '../common/logManager/execution';
 import getLogger from '../common/logManager';
@@ -22,33 +14,22 @@ import {
   getLastCacheInvalidation,
   getPlayingTimebarId,
 } from '../store/reducers/hsc';
-import { getHealthMap, getMainStatus } from '../store/reducers/health';
 import {
   updateCacheInvalidation,
   pause,
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import displayQueries from '../dataManager/displayQueries';
-import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
-import { updateHealth, updateMainStatus } from '../store/actions/health';
 
 let logger;
 
 let nextTick = null;
-let tickStart = null;
-let criticalTimeout = null;
 const previous = {
   requestedDataMap: {},
   injectionViewMap: {},
   injectionRemoteIdMap: {},
   injectionIntervals: {},
-  health: {
-    dc: HEALTH_STATUS_HEALTHY,
-    hss: HEALTH_STATUS_HEALTHY,
-    main: HEALTH_STATUS_HEALTHY,
-    windows: HEALTH_STATUS_HEALTHY,
-  },
 };
 
 export function schedule() {
@@ -66,42 +47,9 @@ export function clear() {
   nextTick = null;
 }
 
-export function clearCritical() {
-  if (!criticalTimeout) {
-    return;
-  }
-
-  clearTimeout(criticalTimeout);
-  criticalTimeout = null;
-}
-
-export function scheduleCritical() {
-  // only if not already scheduled
-  if (criticalTimeout !== null) {
-    return;
-  }
-  criticalTimeout = setTimeout(onCritical, HSC_CRITICAL_SWITCH_PAUSE_DELAY);
-}
-
-export function onCritical() {
-  const { getState, dispatch } = getStore();
-  const isPlaying = !!getPlayingTimebarId(getState());
-
-  if (isPlaying) {
-    const delay = HSC_CRITICAL_SWITCH_PAUSE_DELAY / 1000;
-    logger.warn(`application performance critically low for ${delay}s, switching to pause`);
-    dispatch(addOnce(
-      'global',
-      'danger',
-      `Important slow-down detected for ${delay}s, application have switched to pause`
-    ));
-    dispatch(pause());
-  }
-}
-
 export function start() {
   logger = getLogger('main:orchestration');
-  if (get('DUMP') === 'on') {
+  if (get('DUMP') === 'on') { // TODO dbrugne factorize in dumpPayloads module
     const dumpDir = (_isEmpty(get('DUMP_DIR')) ? tmpdir() : get('DUMP_DIR'));
     logger.warn(`Received payloads are dumped in ${dumpDir}`);
   }
@@ -110,7 +58,6 @@ export function start() {
 
 export function stop() {
   clear();
-  clearCritical();
   try { // TODO dbrugne remove try/catch once lifecycle is stable
     getStore().dispatch(pause());
   } catch (e) {
@@ -126,10 +73,6 @@ export function tick() {
   execution.reset();
   execution.start('global');
 
-  // ticker
-  tickStart = process.hrtime();
-  let skipThisTick = false;
-
   // store
   const { getState, dispatch } = getStore();
 
@@ -139,82 +82,8 @@ export function tick() {
   execution.stop('dataMap generation');
 
   series([
-    // utils & server health
-    (callback) => {
-      execution.start('health retrieving');
-      server.requestHealth((data) => {
-        execution.stop('health retrieving');
-
-        // health store update
-        execution.start('health injection');
-        dispatch(updateHealth(data, HSC_PUBSUB_MONITORING_FREQUENCY));
-        execution.stop('health injection');
-
-        callback(null);
-      });
-    },
-    // health management
-    (callback) => {
-      const state = getState();
-      const health = getHealthMap(state);
-
-      // log each transition
-      Object.keys(health).forEach(
-        (k) => {
-          if (previous.health[k] !== health[k]) {
-            logger.debug(`new ${k} health status ${previous.health[k]}==>${health[k]}`);
-          }
-        }
-      );
-
-      // schedule "pause switching" if at least one service is critical
-      if (
-        health.dc === HEALTH_STATUS_CRITICAL
-        || health.hss === HEALTH_STATUS_CRITICAL
-        || health.main === HEALTH_STATUS_CRITICAL
-        || health.windows === HEALTH_STATUS_CRITICAL
-      ) {
-        if (criticalTimeout === null) {
-          // not already schedule, log it
-          logger.debug('schedule switch to pause action due to critical slow-down level');
-          scheduleCritical();
-        }
-      }
-
-      // cancel "pause switching" if now the app is healthy enough
-      if (
-        health.dc !== HEALTH_STATUS_CRITICAL
-        && health.hss !== HEALTH_STATUS_CRITICAL
-        && health.main !== HEALTH_STATUS_CRITICAL
-        && health.windows !== HEALTH_STATUS_CRITICAL
-      ) {
-        if (criticalTimeout !== null) {
-          logger.silly('cancel switch to pause action, slow-down was reduced');
-          clearCritical();
-        }
-      }
-
-      // skip the tick if main or windows are warning or critical
-      if (
-        health.main === HEALTH_STATUS_WARNING
-        || health.windows === HEALTH_STATUS_WARNING
-        || health.main === HEALTH_STATUS_CRITICAL
-        || health.windows === HEALTH_STATUS_CRITICAL
-      ) {
-        logger.debug('slow-down detected, skipping current tick');
-        skipThisTick = true;
-      }
-
-      previous.health = health;
-      callback(null);
-    },
     // cache invalidation
     (callback) => {
-      if (skipThisTick) {
-        callback(null);
-        return;
-      }
-
       const now = Date.now();
       const lastCacheInvalidation = getLastCacheInvalidation(getState());
       if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
@@ -224,17 +93,11 @@ export function tick() {
         execution.stop('cache invalidation');
 
         logger.debug('cache invalidation requested, skipping current tick');
-        skipThisTick = true;
       }
       callback(null);
     },
     // pull data
     (callback) => {
-      if (skipThisTick) {
-        callback(null);
-        return;
-      }
-
       execution.start('data retrieving');
       // Create object with data to display
       const isPlayingMode = !!getPlayingTimebarId(getState());
@@ -273,28 +136,6 @@ export function tick() {
 
         callback(null);
       });
-    },
-    // too long tick
-    (callback) => {
-      const duration = process.hrtime(tickStart);
-      const durationMs = (duration[0] * 1e3) + _round(duration[1] / 1e6, 6);
-
-      if (durationMs > HSC_ORCHESTRATION_WARNING_STEP) {
-        logger.warn(`orchestration done in ${durationMs}ms`);
-      }
-
-      // TODO factorize in thunk action creator
-      const mainStatus = getMainStatus(getState());
-      if (durationMs > HSC_ORCHESTRATION_CRITICAL_STEP && mainStatus !== HEALTH_STATUS_CRITICAL) {
-        dispatch(updateMainStatus(HEALTH_STATUS_CRITICAL));
-      } else if (durationMs > HSC_ORCHESTRATION_WARNING_STEP
-        && mainStatus !== HEALTH_STATUS_WARNING) {
-        dispatch(updateMainStatus(HEALTH_STATUS_WARNING));
-      } else if (mainStatus !== HEALTH_STATUS_HEALTHY) {
-        dispatch(updateMainStatus(HEALTH_STATUS_HEALTHY));
-      }
-
-      callback(null);
     },
   ], (err) => {
     if (err) {

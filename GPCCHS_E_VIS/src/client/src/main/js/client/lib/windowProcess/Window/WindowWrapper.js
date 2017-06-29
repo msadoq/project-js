@@ -13,6 +13,9 @@ export default class WindowWrapper extends Component {
   }
 
   componentDidMount() {
+    // hide waiting message
+    document.getElementById('waitingRenderer').style.display = 'none';
+
     document.body.addEventListener('mouseleave', this.triggerMouseUpMouseLeave);
     document.addEventListener('keydown', this.triggerMouseUpEscape);
     document.addEventListener('keydown', this.closeHelpShortCut);

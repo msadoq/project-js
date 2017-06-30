@@ -9,9 +9,10 @@ import mainController from './controllers/main';
 import { main } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateWindowStatus } from '../store/actions/health';
+import { get } from '../common/configurationManager';
 
 const windowId = global.windowId; // see index.html
-
+const HEALTH_CRITICAL_DELAY = get('RENDERER_HEALTH_CRITICAL_DELAY');
 process.title = 'gpcchs_renderer';
 
 // ipc with main
@@ -34,20 +35,23 @@ if (global.parameters.get('WDYU') === 'on') {
  * Request initialState asynchronously from main process
  */
 main.requestReduxCurrentState(({ state }) => {
-  const store = makeCreateStore(global.parameters.get('DEBUG') === 'on')(state);
+  const debugEnable = global.parameters.get('DEBUG') === 'on';
+  const store = makeCreateStore(debugEnable)(state);
 
   /* Start Health Monitoring mechanism
   On a status change, the Window Health status is updated
   */
-  const { start, stop } = eventLoopMonitoring({
-    intervalDelay: 250,
-    criticalDelay: 500,
-    onStatusChange: status => store.dispatch(updateWindowStatus(windowId, status)),
-  });
+  let monitoringProps = {};
+  if (debugEnable) {
+    monitoringProps = eventLoopMonitoring({
+      criticalDelay: HEALTH_CRITICAL_DELAY,
+      onStatusChange: status => store.dispatch(updateWindowStatus(windowId, status)),
+    });
+  }
 
   render(
     <Provider store={store}>
-      <HealthMonitor windowId={windowId} startMonitoring={start} stopMonitoring={stop}>
+      <HealthMonitor windowId={windowId} {...monitoringProps}>
         <WindowContainer windowId={windowId} />
       </HealthMonitor>
     </Provider>,

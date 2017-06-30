@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 // const globalConstants = require('../constants');
-import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_CRITICAL } from '../constants';
+import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_CRITICAL, HEALTH_INTERVAL_DELAY, DEFAULT_HEALTH_CRITICAL_DELAY } from '../constants';
 // const POLL_DELAY = 500; // 500ms
 // const RESET_POLL_DELAY = 1000 * 10; // 10s
 const NUMBER_OF_OCCURENCE = 3; // steps to increase or decrease status
@@ -16,8 +16,7 @@ function hrToMs(time) {
 }
 
 const defaultOptions = {
-  intervalDelay: 100,
-  criticalDelay: 500,
+  criticalDelay: DEFAULT_HEALTH_CRITICAL_DELAY,
   onStatusChange: _.noop,
 };
 
@@ -41,20 +40,17 @@ function resetLast(status) {
  */
 module.exports = (options) => {
   const {
-    intervalDelay,
     criticalDelay,
     onStatusChange,
   } = _.defaults(defaultOptions, options);
-
-  // let start = process.hrtime();
+  let start = process.hrtime();
   let timeout;
   const last = resetLast(HEALTH_STATUS_HEALTHY);
   function onInterval() {
-    // const elapsed = process.hrtime(start);
-    // const delay = hrToMs(elapsed) - intervalDelay;
-    const mockedDelay = Math.abs(Math.cos(hrToMs(process.hrtime())) * 1000);
+    const elapsed = process.hrtime(start);
+    const delay = hrToMs(elapsed) - HEALTH_INTERVAL_DELAY;
     let current;
-    if (mockedDelay >= criticalDelay) {
+    if (delay >= criticalDelay) {
       current = HEALTH_STATUS_CRITICAL;
     } else {
       current = HEALTH_STATUS_HEALTHY;
@@ -89,10 +85,10 @@ module.exports = (options) => {
     // }
 
     // set the current time for next poll
-    // start = process.hrtime();
+    start = process.hrtime();
 
     // schedule next poll
-    timeout = setTimeout(onInterval, intervalDelay);
+    timeout = setTimeout(onInterval, HEALTH_INTERVAL_DELAY);
   }
 
   /**
@@ -100,10 +96,10 @@ module.exports = (options) => {
    */
   return {
     startMonitoring: () => {
-      timeout = setTimeout(onInterval, intervalDelay);
+      timeout = setTimeout(onInterval, HEALTH_INTERVAL_DELAY);
     },
     stopMonitoring: () => {
-      // start = null;
+      start = null;
       if (timeout) {
         clearTimeout(timeout);
         timeout = null;

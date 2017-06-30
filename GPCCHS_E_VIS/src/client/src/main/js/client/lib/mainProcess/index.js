@@ -34,6 +34,7 @@ import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateMainStatus } from '../store/actions/health';
 
 let monitoring = {};
+const HEALTH_CRITICAL_DELAY = parameters.get('MAIN_HEALTH_CRITICAL_DELAY');
 const logger = getLogger('main:index');
 
 function scheduleTimeout(delay, message) {
@@ -97,16 +98,16 @@ export function onStart() {
 
         splashScreen.setMessage('loading application state...');
         logger.info('loading application state...');
-
+        const isDebugEnabled = parameters.get('DEBUG') === 'on';
         // init Redux store in main process
-        const store = makeCreateStore('main', parameters.get('DEBUG') === 'on')(initialState);
+        const store = makeCreateStore('main', isDebugEnabled)(initialState);
         store.subscribe(makeWindowsObserver(store));
-        monitoring = eventLoopMonitoring({
-          intervalDelay: 250,
-          criticalDelay: 500,
-          onStatusChange: status => store.dispatch(updateMainStatus(status)),
-        });
-
+        if (isDebugEnabled) {
+          monitoring = eventLoopMonitoring({
+            criticalDelay: HEALTH_CRITICAL_DELAY,
+            onStatusChange: status => store.dispatch(updateMainStatus(status)),
+          });
+        }
         callback(null);
       };
 
@@ -233,7 +234,7 @@ export function onStart() {
     logger.info('ready!');
     // TODO dbrugne move in server lifecycle ========================================
     startOrchestration();
-    monitoring.startMonitoring();
+    if (monitoring.startMonitoring) monitoring.startMonitoring();
     // TODO dbrugne move in server lifecycle ========================================
   });
 }
@@ -244,7 +245,7 @@ export function onStop() {
 
   // TODO dbrugne move in server lifecycle ========================================
   // stop orchestration
-  monitoring.stopMonitoring();
+  if (monitoring.stopMonitoring) monitoring.stopMonitoring();
   stopOrchestration();
   // TODO dbrugne move in server lifecycle ========================================
 

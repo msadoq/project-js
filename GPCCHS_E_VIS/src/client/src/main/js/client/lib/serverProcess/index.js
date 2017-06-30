@@ -15,6 +15,7 @@ import { dc } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 
+const HEALTH_CRITICAL_DELAY = get('SERVER_HEALTH_CRITICAL_DELAY');
 adapter.registerGlobal();
 const clientController = require('./controllers/client');
 
@@ -40,9 +41,9 @@ series({
 
   // ipc with main
   process.on('message', clientController);
-
+  const isDebugEnabled = get('DEBUG') === 'on';
   // store
-  const store = makeCreateStore('server', get('DEBUG') === 'on')();
+  const store = makeCreateStore('server', isDebugEnabled)();
   store.subscribe(makeDataRequestsObserver(store));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
@@ -51,12 +52,13 @@ series({
   /* Start Health Monitoring mechanism
   On a status change, the Server Health status is updated
   */
-  monitoring = eventLoopMonitoring({
-    intervalDelay: 250,
-    criticalDelay: 500,
-    onStatusChange: status => store.dispatch(updateHssStatus(status)),
-  });
-  monitoring.startMonitoring();
+  if (isDebugEnabled) {
+    monitoring = eventLoopMonitoring({
+      criticalDelay: HEALTH_CRITICAL_DELAY,
+      onStatusChange: status => store.dispatch(updateHssStatus(status)),
+    });
+    monitoring.startMonitoring();
+  }
   // TODO dbrugne init configuration and inject in store
 
   // inform main that everything is ready and pass initialState

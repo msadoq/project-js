@@ -38,7 +38,6 @@ function getAllEnv() {
 }
 
 function getLocal(name) {
-  // console.log("getLocal : ",localConfig);
   if (!localConfig) {
     return undefined;
   }

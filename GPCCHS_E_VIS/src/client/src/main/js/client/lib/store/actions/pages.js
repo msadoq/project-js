@@ -63,6 +63,8 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
   });
 };
 
+export const askPage = simple(types.WS_ASK_PAGE, 'windowId', 'options');
+
 export const closePage = (windowId, pageId) => (dispatch, getState) => {
   const viewIds = _.get(['pages', pageId, 'views'], getState());
   dispatch({

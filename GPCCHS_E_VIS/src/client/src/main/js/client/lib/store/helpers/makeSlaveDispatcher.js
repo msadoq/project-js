@@ -32,7 +32,9 @@ export default function makeSlaveDispatcher(originalDispatch, sendUp, identity, 
     } else {
       // it's a regular action dispatched in this process, forward to server process
       patchAction = _set(['meta', 'origin'], identity, action);
-      patchAction = _set(['meta', TIMING_DATA, `${TIMING_MILESTONES.SEND_UP}${identity}`], process.hrtime(), patchAction);
+      if (isDebugOn) {
+        patchAction = _set(['meta', TIMING_DATA, `${TIMING_MILESTONES.SEND_UP}${identity}`], process.hrtime(), patchAction);
+      }
       sendUp(
         // decorate action with process identity
         patchAction

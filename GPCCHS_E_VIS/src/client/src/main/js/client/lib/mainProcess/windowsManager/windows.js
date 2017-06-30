@@ -30,6 +30,10 @@ export function getOpenedWindowsIds() {
   return Object.keys(electronWindows);
 }
 
+export function getWindow(windowId) {
+  return electronWindows[windowId];
+}
+
 export function noWindowOpened() {
   return !getOpenedWindowsIds().length;
 }

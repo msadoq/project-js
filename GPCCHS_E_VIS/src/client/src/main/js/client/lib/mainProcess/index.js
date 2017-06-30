@@ -32,6 +32,7 @@ import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateMainStatus } from '../store/actions/health';
+import makeElectronObserver from './electronManager';
 
 let monitoring = {};
 const HEALTH_CRITICAL_DELAY = parameters.get('MAIN_HEALTH_CRITICAL_DELAY');
@@ -102,6 +103,7 @@ export function onStart() {
         // init Redux store in main process
         const store = makeCreateStore('main', isDebugEnabled)(initialState);
         store.subscribe(makeWindowsObserver(store));
+        store.subscribe(makeElectronObserver(store));
         if (isDebugEnabled) {
           monitoring = eventLoopMonitoring({
             criticalDelay: HEALTH_CRITICAL_DELAY,

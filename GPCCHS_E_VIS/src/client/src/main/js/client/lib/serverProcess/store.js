@@ -4,6 +4,7 @@ import { get } from '../common/configurationManager';
 import createMessagesMiddleware from '../store/middlewares/messages';
 import createPlayerMiddleware from '../store/middlewares/player';
 import createOpenLinkMiddleware from '../store/middlewares/openLink';
+import createDocumentsMiddleware from '../store/middlewares/documents';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
@@ -16,6 +17,7 @@ const middlewares = [
   createMessagesMiddleware(),
   createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   createOpenLinkMiddleware(documentManager),
+  createDocumentsMiddleware(documentManager),
 ];
 
 export default function makeCreateStore(identity, isDebugOn) {

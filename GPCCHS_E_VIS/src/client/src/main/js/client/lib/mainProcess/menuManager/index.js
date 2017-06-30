@@ -5,9 +5,9 @@ import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/win
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
-import { minimizeEditor, minimizeExplorer, minimizeTimebar } from '../../store/actions/pages';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar, askPage } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
-import { pageOpen, pageAddBlank } from './pageOpen';
+import { pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
@@ -99,9 +99,7 @@ const page = {
     },
   }, {
     label: 'Open...',
-    click(item, focusedWindow) {
-      pageOpen(focusedWindow);
-    },
+    click: (item, focusedWindow) => getStore().dispatch(askPage(focusedWindow.windowId)),
   }, {
     label: 'Edit...',
     click(item, focusedWindow) {

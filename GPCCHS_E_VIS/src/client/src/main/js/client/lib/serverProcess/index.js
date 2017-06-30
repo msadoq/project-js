@@ -12,11 +12,15 @@ import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
 import makeDataRequestsObserver from './dataRequests/observer';
 import { dc } from './ipc';
+import eventLoopMonitoring from '../common/eventLoopMonitoring';
+import { updateHssStatus } from '../store/actions/health';
 
 adapter.registerGlobal();
 const clientController = require('./controllers/client');
 
 const logger = getLogger('main');
+
+let monitoring = {};
 process.title = 'gpcchs_hss';
 
 series({
@@ -44,6 +48,15 @@ series({
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));
 
+  /* Start Health Monitoring mechanism
+  On a status change, the Server Health status is updated
+  */
+  monitoring = eventLoopMonitoring({
+    intervalDelay: 250,
+    criticalDelay: 500,
+    onStatusChange: status => store.dispatch(updateHssStatus(status)),
+  });
+  monitoring.startMonitoring();
   // TODO dbrugne init configuration and inject in store
 
   // inform main that everything is ready and pass initialState
@@ -61,6 +74,7 @@ process.once('SIGINT', () => {
   logger.info('get quit signal from cli (SIGINT)');
 });
 process.once('SIGTERM', () => {
+  if (monitoring.stopMonitoring) monitoring.stopMonitoring();
   logger.info('gracefully close server (SIGTERM)');
   exit(0);
 });

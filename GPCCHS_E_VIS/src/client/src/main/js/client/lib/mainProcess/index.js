@@ -30,7 +30,10 @@ import { openWorkspace, openBlankWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
+import eventLoopMonitoring from '../common/eventLoopMonitoring';
+import { updateMainStatus } from '../store/actions/health';
 
+let monitoring = {};
 const logger = getLogger('main:index');
 
 function scheduleTimeout(delay, message) {
@@ -98,6 +101,11 @@ export function onStart() {
         // init Redux store in main process
         const store = makeCreateStore('main', parameters.get('DEBUG') === 'on')(initialState);
         store.subscribe(makeWindowsObserver(store));
+        monitoring = eventLoopMonitoring({
+          intervalDelay: 250,
+          criticalDelay: 500,
+          onStatusChange: status => store.dispatch(updateMainStatus(status)),
+        });
 
         callback(null);
       };
@@ -225,6 +233,7 @@ export function onStart() {
     logger.info('ready!');
     // TODO dbrugne move in server lifecycle ========================================
     startOrchestration();
+    monitoring.startMonitoring();
     // TODO dbrugne move in server lifecycle ========================================
   });
 }
@@ -235,6 +244,7 @@ export function onStop() {
 
   // TODO dbrugne move in server lifecycle ========================================
   // stop orchestration
+  monitoring.stopMonitoring();
   stopOrchestration();
   // TODO dbrugne move in server lifecycle ========================================
 

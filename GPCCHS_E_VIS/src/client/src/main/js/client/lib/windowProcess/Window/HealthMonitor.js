@@ -1,5 +1,4 @@
 import { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 // import {
 //   HSC_RENDERER_WARNING_STEP,
 //   HSC_RENDERER_CRITICAL_STEP,
@@ -7,7 +6,6 @@ import { connect } from 'react-redux';
 //   HEALTH_STATUS_WARNING,
 //   HEALTH_STATUS_CRITICAL,
 // } from '../../constants';
-import { updateWindowStatus } from '../../store/actions/health';
 
 // const INTERVAL = 500;
 
@@ -15,19 +13,16 @@ class HealthMonitor extends Component {
   static propTypes = {
     // windowId: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    // updateWindowStatus: PropTypes.func.isRequired,
+    startMonitoring: PropTypes.func.isRequired,
+    stopMonitoring: PropTypes.func.isRequired,
   };
 
-  // componentDidMount() {
-  //   this.currentStatus = HEALTH_STATUS_HEALTHY;
-  //   this.lastTickTime = Date.now();
-  //
-  //   this.timeout = this.checkHighCPULoad();
-  // }
-  //
-  // componentWillUnmount() {
-  //   clearTimeout(this.timeout);
-  // }
+  componentDidMount() {
+    this.props.startMonitoring();
+  }
+  componentWillUnmount() {
+    this.props.stopMonitoring();
+  }
   //
   // checkHighCPULoad = () => {
   //   const { windowId, updateWindowStatus: update } = this.props;
@@ -55,4 +50,4 @@ class HealthMonitor extends Component {
   }
 }
 
-export default connect(null, { updateWindowStatus })(HealthMonitor);
+export default HealthMonitor;

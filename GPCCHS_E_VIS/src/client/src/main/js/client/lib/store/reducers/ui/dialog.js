@@ -37,3 +37,6 @@ export default function dialogReducer(state = {}, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 export const getAllDialogs = _.get('ui.dialog');
+export const getDialog = (state, { windowId, dialogId }) => (
+  _.get([windowId, dialogId], getAllDialogs(state))
+);

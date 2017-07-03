@@ -7,7 +7,7 @@ import createOpenLinkMiddleware from '../store/middlewares/openLink';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
-import { readDocumentType } from '../documentManager/io';
+import documentManager from '../documentManager';
 
 let store;
 
@@ -15,7 +15,7 @@ const middlewares = [
   thunk,
   createMessagesMiddleware(),
   createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
-  createOpenLinkMiddleware(readDocumentType),
+  createOpenLinkMiddleware(documentManager),
 ];
 
 export default function makeCreateStore() {

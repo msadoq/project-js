@@ -8,6 +8,7 @@ import {
 import { saveView, saveViewAs } from './saveView';
 import { savePage } from './savePage';
 import { saveWorkspace } from './saveWorkspace';
+import { readDocumentType } from './io';
 
 export default {
   // save
@@ -24,4 +25,7 @@ export default {
 
   // reload
   reloadView,
+
+  // io
+  readDocumentType
 };

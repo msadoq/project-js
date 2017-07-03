@@ -365,6 +365,8 @@ export default class Chart extends React.Component {
           isXAxis ? this.chartWidth : this.chartHeight,
           axis.logarithmic
         );
+
+        axis.rank = axis.showGrid ? 100 : axis.id.length;
       }
 
       yAxesUniq.push(line.yAxis);
@@ -381,16 +383,13 @@ export default class Chart extends React.Component {
       pairs[pairId].lines.push(line);
       pairs[pairId].data[line.id] = line.data;
     }
-    this.yAxesUniq = _uniq(yAxesUniq);
-    this.xAxesUniq = _uniq(xAxesUniq);
+    this.yAxesUniq = _uniq(yAxesUniq).sort(a => a.rank);
+    this.xAxesUniq = _uniq(xAxesUniq).sort(a => a.rank);
     this.linesUniq = _uniq(linesUniq);
     return pairs;
   }
 
   getLabelPosition = (axisId) => {
-    if (!labelsPositionConcerned) {
-      return [];
-    }
     const labelsPositionConcerned =
       Object.values(this.labelsPosition || {}).filter(lp => lp.concernedAxes.includes(axisId));
     return labelsPositionConcerned;
@@ -498,12 +497,12 @@ export default class Chart extends React.Component {
     if (!this.labelsPosition) {
       this.labelsPosition = {};
     }
-    _set(
+    this.labelsPosition = _set(
       this.labelsPosition,
       [`${xAxisId}-${yAxisId}`, 'concernedAxes'],
       [xAxisId, yAxisId]
     );
-    _set(
+    this.labelsPosition = _set(
       this.labelsPosition,
       [`${xAxisId}-${yAxisId}`, lineId],
       positions
@@ -653,7 +652,7 @@ export default class Chart extends React.Component {
           className={styles.zoomAndPanLabels}
           style={{
             left: yAxesAt === 'left' ? marginSide + 5 : 5,
-            top: xAxisAt === 'top' ? this.xAxisHeight + 5 : 5,
+            top: xAxisAt === 'top' ? (this.xAxesUniq.length * this.xAxisHeight) + 5 : 5,
           }}
         >
           {
@@ -701,7 +700,6 @@ export default class Chart extends React.Component {
                 yScale={pair.yAxis.scale}
                 showLabelsX={pair.xAxis.showLabels}
                 showLabelsY={pair.yAxis.showLabels}
-                data={pair.data}
                 lines={pair.lines}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
@@ -763,7 +761,7 @@ export default class Chart extends React.Component {
             <XAxis
               key={xAxis.id}
               index={index}
-              margin={((this.xAxesUniq.length - 1) * this.xAxisHeight) - (index * this.xAxisHeight)}
+              margin={xAxisAt === 'top' ? (this.xAxesUniq.length - index - 1) * this.xAxisHeight : index * this.xAxisHeight}
               lines={this.linesUniq.filter(l => l.xAxisId === xAxis.id)}
               top={marginTop}
               side={this.yAxesUniq.length * this.yAxisWidth}
@@ -778,7 +776,6 @@ export default class Chart extends React.Component {
               axisLabel={xAxis.axisLabel}
               gridSize={xAxis.gridSize}
               logarithmic={xAxis.logarithmic}
-              yAxisWidth={this.yAxisWidth}
               xAxisHeight={this.xAxisHeight}
               chartWidth={this.chartWidth}
               height={this.chartHeight}

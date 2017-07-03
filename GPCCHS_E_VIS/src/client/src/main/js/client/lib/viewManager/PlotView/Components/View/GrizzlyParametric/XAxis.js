@@ -22,7 +22,6 @@ export default class XAxis extends Component {
     ).isRequired,
     side: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    yAxisWidth: PropTypes.number.isRequired,
     xAxisHeight: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
     chartWidth: PropTypes.number.isRequired,
@@ -134,9 +133,11 @@ export default class XAxis extends Component {
       lines,
       axisId,
       getLabelPosition,
-      yAxisWidth,
+      // margin,
+      height,
       showLabels,
-      yAxesAt,
+      index,
+      xAxesAt,
     } = this.props;
     if (!showLabels || !lines) {
       return;
@@ -146,14 +147,14 @@ export default class XAxis extends Component {
     lines.forEach((line) => {
       const el = this[`label-${line.id}-el`];
       const linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined')[line.id];
-      if (!linePosition || (linePosition.y === null && el)) {
+      if (!linePosition || (linePosition.x === null && el)) {
         el.setAttribute('style', 'display:none;');
       } else if (el) {
-        let style = `background:${line.fill || '#222222'};top:${linePosition.y}px;`;
-        if (yAxesAt === 'left') {
-          style += `transform: translate(-102%, -50%);left: ${yAxisWidth}px;`;
+        let style = `background:${line.fill || '#222222'};left:${linePosition.x}px;`;
+        if (xAxesAt === 'top') {
+          style += `transform: translate(-50%, 0%);top: ${8}px;`;
         } else {
-          style += `transform: translate(102%, -50%);right: ${yAxisWidth}px;`;
+          style += `transform: translate(50%, 0%);top: ${index === 0 ? height : 0}px;`;
         }
         el.setAttribute('style', style);
       }
@@ -299,10 +300,9 @@ export default class XAxis extends Component {
       chartWidth,
       yAxesAt,
       xAxesAt,
+      margin,
       showLabels,
       index,
-      margin,
-      showGrid,
       label,
       unit,
       labelStyle,
@@ -310,8 +310,7 @@ export default class XAxis extends Component {
       side,
       // format,
     } = this.props;
-
-    const axisHeight = index === 0 && showGrid ? height + xAxisHeight : xAxisHeight;
+    const axisHeight = index === 0 ? height + xAxisHeight : xAxisHeight;
 
     const divStyle = {};
     divStyle.height = axisHeight;
@@ -319,7 +318,7 @@ export default class XAxis extends Component {
     if (xAxesAt === 'top') {
       divStyle.top = margin;
     } else {
-      divStyle.top = index === 0 ? 0 : height + margin + xAxisHeight;
+      divStyle.top = index === 0 ? 0 : margin;
     }
 
     if (yAxesAt === 'left') {
@@ -344,7 +343,7 @@ export default class XAxis extends Component {
           ref={this.assignLabelEl}
           className={classnames(
             'label',
-            styles.yAxisLabel,
+            styles.xAxisLabel,
             {
               [styles.labelUnderline]: labelStyle.underline,
               [styles.labelBold]: labelStyle.bold,
@@ -360,7 +359,7 @@ export default class XAxis extends Component {
               key={line.id}
               className={classnames(
                 'label',
-                styles.yAxisLineLabel,
+                styles.xAxisLineLabel,
                 { hidden: !showLabels }
               )}
               ref={this.memoizeAssignRef(line.id)}

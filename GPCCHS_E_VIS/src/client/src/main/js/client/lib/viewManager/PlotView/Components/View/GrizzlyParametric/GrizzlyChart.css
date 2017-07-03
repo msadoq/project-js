@@ -26,6 +26,31 @@
       }
     }
   }
+  .xAxisLabel{
+    border-radius: 2px;
+    padding: 2px 6px;
+    &.labelUnderline{
+      text-decoration: underline;
+    }
+    &.labelBold{
+      font-weight: bold;;
+    }
+    &.labelItalic{
+      font-style: italic;
+    }
+  }
+  .xAxisLineLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 7;
+    }
+  }
 }
 .yAxisDiv{
   position: absolute;

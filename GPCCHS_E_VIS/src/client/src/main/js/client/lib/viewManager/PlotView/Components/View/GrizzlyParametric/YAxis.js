@@ -151,9 +151,9 @@ export default class YAxis extends Component {
       } else if (el) {
         let style = `background:${line.fill || '#222222'};top:${linePosition.y}px;`;
         if (yAxesAt === 'left') {
-          style += `transform: translate(-102%, -50%);left: ${yAxisWidth}px;`;
+          style += `transform: translate(-102%, -50%);left: ${yAxisWidth - 8}px;`;
         } else {
-          style += `transform: translate(102%, -50%);right: ${yAxisWidth}px;`;
+          style += `transform: translate(102%, -50%);right: ${yAxisWidth - 8}px;`;
         }
         el.setAttribute('style', style);
       }
@@ -322,7 +322,7 @@ export default class YAxis extends Component {
       // format,
     } = this.props;
 
-    const axisWidth = index === 0 && showGrid ? chartWidth : yAxisWidth;
+    const axisWidth = index === 0 && showGrid ? chartWidth + yAxisWidth : yAxisWidth;
 
     const divStyle = {};
     divStyle.height = height;

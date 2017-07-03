@@ -36,7 +36,6 @@ export default class LinesCanvas extends Component {
   static defaultProps = {
     showLabelsX: false,
     showLabelsY: false,
-    data: null,
   }
 
   componentDidMount() {
@@ -47,7 +46,7 @@ export default class LinesCanvas extends Component {
     let shouldRender = false;
 
     const attrs = ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
-      'xScale', 'showLabelsX', 'showLabelsY', 'data', 'yScale'];
+      'xScale', 'showLabelsX', 'showLabelsY', 'yScale'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
@@ -197,9 +196,8 @@ export default class LinesCanvas extends Component {
 
       // Horizontal line
       const lastPacket = dataLine[dataLine.length - 1];
-      const lastXPosition = yScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x);
+      const lastXPosition = xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x);
       const lastYPosition = yScale(line.yAccessor ? line.yAccessor(lastPacket) : lastPacket.y);
-
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
@@ -214,8 +212,8 @@ export default class LinesCanvas extends Component {
         line.yAxisId,
         line.id,
         {
+          x: (lastXPosition < 0 || lastXPosition > width) ? null : lastXPosition,
           y: (lastYPosition < 0 || lastYPosition > height) ? null : lastYPosition,
-          x: (lastXPosition < 0 || lastYPosition > width) ? null : lastXPosition,
         }
       );
 

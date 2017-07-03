@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import { getPage } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
-import { close as closeModal } from '../../store/actions/modals';
 import { closeView } from '../../store/actions/views';
 import { minimizeEditor, closePage } from '../../store/actions/pages';
 
@@ -30,7 +29,6 @@ const mapStateToProps = (state, { docType, pageId, viewId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActionCreators({
-  closeModal: () => closeModal(windowId),
   closeView: () => closeView(pageId, viewId),
   closeEditor: () => minimizeEditor(pageId, true),
   closePage: () => closePage(windowId, pageId),

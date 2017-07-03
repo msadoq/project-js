@@ -9,5 +9,7 @@ export const open = simple(
 
 export const close = simple(
   types.WS_MODAL_CLOSE,
-  'windowId'
+  'windowId',
+  'props',
+  'choice'
 );

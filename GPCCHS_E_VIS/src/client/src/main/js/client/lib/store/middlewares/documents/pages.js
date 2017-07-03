@@ -6,7 +6,10 @@ export default function createPagesMiddleware(documentManager) {
   return ({ dispatch }) => next => (action) => {
     // ask open page
     if (action.type === types.WS_ASK_OPEN_PAGE) {
-      if (!action.payload.options) {
+      const { windowId, absolutePath } = action.payload;
+      if (absolutePath) {
+        dispatch(documentManager.openPage({ windowId, absolutePath }));
+      } else {
         dispatch(openDialog(action.payload.windowId, 'open_page', 'open'));
       }
     }

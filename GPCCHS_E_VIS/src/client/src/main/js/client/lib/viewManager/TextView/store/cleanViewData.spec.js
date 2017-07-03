@@ -6,13 +6,10 @@ describe('viewManager/TextView/store/cleanViewData', () => {
   let viewDataState;
   let viewMap;
   let oldIntervals;
-  // let newIntervals;
   beforeEach(() => {
     viewMap = {
       text: {
         type: 'TextView',
-        masterSessionId: 10,
-        structureType: 'last',
         entryPoints: {
           STAT_SU_PID: {
             id: 'id1',
@@ -28,8 +25,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           },
           STAT_WILDCARD_TIMELINE: {
             id: 'id46',
@@ -45,8 +41,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+            remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
           },
           STAT_UNKNOW_DOMAIN: {
             error: 'invalid entry point, no domain matches',
@@ -55,8 +50,6 @@ describe('viewManager/TextView/store/cleanViewData', () => {
       },
       plot: {
         type: 'PlotView',
-        masterSessionId: 10,
-        structureType: 'range',
         entryPoints: {
           STAT_SU_PID: {
             id: 'id60',
@@ -73,8 +66,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'groundDate/extractedValue.tb1:0/0',
             timebarUuid: 'tb1',
-            structureType: 'range',
-            remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
             stateColors: [{
               color: '#000000',
               condition: {
@@ -89,8 +81,6 @@ describe('viewManager/TextView/store/cleanViewData', () => {
       },
       dynamic1: {
         type: 'DynamicView',
-        masterSessionId: 10,
-        structureType: 'last',
         entryPoints: {
           dynamicEP: {
             id: 'id70',
@@ -106,8 +96,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'undefined.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+            remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
             type: 'DynamicView',
             stateColors: [{
               color: '#000000',
@@ -134,16 +123,14 @@ describe('viewManager/TextView/store/cleanViewData', () => {
       },
     };
     oldIntervals = {
-      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'groundDate/extractedValue.tb1:0/0': { expectedInterval: [10, 20] },
       },
-      'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
+      },
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         'undefined.tb1:0': { expectedInterval: [10, 15] },
       },
     };
@@ -157,7 +144,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
   test('interval update text: keep', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
+    newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [12, 17];
     const frozen = freezeMe(viewDataState.text);
     expect(
@@ -167,7 +154,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
   test('interval update text: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
+    newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [3, 8];
     const frozen = freezeMe(viewDataState.text);
     expect(
@@ -180,5 +167,12 @@ describe('viewManager/TextView/store/cleanViewData', () => {
         STAT_WILDCARD_TIMELINE: { value: 13, monit: 'info' },
       },
     });
+  });
+  test('interval error text: remove', () => {
+    const newMap = _cloneDeep(viewMap);
+    const frozen = freezeMe(viewDataState.text);
+    expect(
+      cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, undefined)
+    ).toEqual({ index: {}, values: {} });
   });
 });

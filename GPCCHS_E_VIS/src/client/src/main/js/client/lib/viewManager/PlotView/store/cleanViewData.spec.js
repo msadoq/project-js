@@ -15,8 +15,6 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     viewMap = {
       plot: {
         type: 'PlotView',
-        masterSessionId: 10,
-        structureType: 'range',
         entryPoints: {
           STAT_SU_PID: {
             id: 'id60',
@@ -33,8 +31,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
             filter: [],
             localId: 'groundDate/extractedValue.tb1:0/0',
             timebarUuid: 'tb1',
-            structureType: 'range',
-            remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
             stateColors: [{
               color: '#000000',
               condition: {
@@ -68,16 +65,14 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       },
     };
     oldIntervals = {
-      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'groundDate/extractedValue.tb1:0/0': { expectedInterval: [10, 20] },
       },
-      'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
+      },
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         'undefined.tb1:0': { expectedInterval: [10, 15] },
       },
     };
@@ -93,7 +88,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     test('interval update Dynamic: keep', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
+      newIntervals['TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
         = [12, 17];
       const frozen = freezeMe(viewDataState.plot);
       const newState = cleanCurrentViewData(frozen, viewMap.plot, newMap.plot, oldIntervals,
@@ -103,7 +98,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     test('interval update Plot: keep all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
+      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
         = [10, 25];
       const frozen = freezeMe(viewDataState.plot);
       expect(
@@ -113,7 +108,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     test('interval update Plot: keep some', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
+      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
         = [15, 25];
       const newState = cleanCurrentViewData(freezeMe(viewDataState.plot), viewMap.plot, newMap.plot,
         oldIntervals, newIntervals);
@@ -130,10 +125,22 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     test('interval update Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
+      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
         = [20, 25];
       const newState = cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,
         newMap.plot, oldIntervals, newIntervals);
+      expect(newState).toEqual({ indexes: {},
+        lines: {},
+        min: {},
+        max: {},
+        minTime: { },
+        maxTime: { },
+      });
+    });
+    test('interval error Plot: remove all', () => {
+      const newMap = _cloneDeep(viewMap);
+      const newState = cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,
+        newMap.plot, oldIntervals, undefined);
       expect(newState).toEqual({ indexes: {},
         lines: {},
         min: {},
@@ -159,8 +166,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
           filter: [],
           localId: 'groundDate/extractedValue.tb1:0/0',
           timebarUuid: 'tb1',
-          structureType: 'range',
-          remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           stateColors: [{
             color: '#000000',
             condition: {
@@ -173,7 +179,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
       } };
       const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0']
+      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0']
         .expectedInterval = [15, 25];
 
       expect(cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,

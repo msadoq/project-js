@@ -1,5 +1,5 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import { computeMissingIntervals } from './computeMissingIntervals';
+import computeMissingIntervals from './computeMissingIntervals';
 
 const remoteIdMap = {
   'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
@@ -155,5 +155,27 @@ describe('data:request', () => {
         range: [[1420106800818, 1420107066239]],
       },
     });
+  });
+  test('computeMissingIntervals with no expectedIntervals', () => {
+    const newDataMap = {
+      perRemoteId: dataMap.perRemoteId,
+      expectedInterval: {
+        'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+          'extractedValue.tb1:0': {
+            error: 'invalid visuWindow',
+          },
+          'groundDate/extractedValue.tb1:0/0': {
+            error: 'invalid visuWindow',
+          },
+        },
+        'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+          'undefined.tb1:0': {
+            error: 'invalid visuWindow',
+          },
+        },
+      },
+    };
+    const queries = computeMissingIntervals(newDataMap, dataMap);
+    expect(queries).toEqual({});
   });
 });

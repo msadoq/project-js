@@ -1,6 +1,5 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 
 import DynamicView from './DynamicView';
@@ -12,20 +11,27 @@ import { getFormula } from './selectors';
 import { getData } from '../../store/dataReducer';
 import { getLinks, areLinksShown } from '../../../../store/reducers/views';
 import { removeLink, updateShowLinks } from '../../../../store/actions/views';
-import { getPageIdByViewId } from '../../../../store/reducers/pages';
+import { getPageIdByViewId, getPage } from '../../../../store/reducers/pages';
+import { isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
 
-const mapStateToProps = createStructuredSelector({
-  formula: getFormula,
-  configuration: getConfigurationByViewId,
-  entryPoints: getViewEntryPoints,
-  data: getData,
-  isInspectorOpened: isAnyInspectorOpened,
-  inspectorEpId: getInspectorEpId,
-  links: getLinks,
-  pageId: getPageIdByViewId,
-  showLinks: areLinksShown,
-});
 
+const mapStateToProps = (state, { viewId }) => {
+  const pageId = getPageIdByViewId(state, { viewId });
+  const page = getPage(state, { pageId });
+  return {
+    formula: getFormula(state, { viewId }),
+    configuration: getConfigurationByViewId(state, { viewId }),
+    entryPoints: getViewEntryPoints(state, { viewId }),
+    data: getData(state, { viewId }),
+    isInspectorOpened: isAnyInspectorOpened(state),
+    inspectorEpId: getInspectorEpId(state),
+    links: getLinks(state, { viewId }),
+    pageId,
+    showLinks: areLinksShown(state, { viewId }),
+    isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
+      { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+  };
+};
 const mapDispatchToProps = dispatch => bindActionCreators({
   removeLink,
   updateShowLinks,

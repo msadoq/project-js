@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { getTimebars } from '../store/reducers/timebars';
 import { getStructureModule } from '../viewManager';
 import { getPlayingTimebarId } from '../store/reducers/hsc';
+import { get } from '../common/configurationManager';
 
 export function intervalPerRemoteId(timebars, remoteIdData) {
   const expectedIntervals = {};
@@ -16,6 +17,18 @@ export function intervalPerRemoteId(timebars, remoteIdData) {
       return;
     }
     const { visuWindow } = timebars[timebarUuid];
+
+    const visuWindowMaxDuration = get('VISU_WINDOW_MAX_DURATION');
+    const duration = visuWindow.upper - visuWindow.lower;
+    // Check visuWindow duration for this type of view
+    if (visuWindowMaxDuration && visuWindowMaxDuration[viewType]) {
+      const maxDuration = visuWindowMaxDuration[viewType];
+      if (duration > maxDuration) {
+        _set(expectedIntervals, [localId, 'error'],
+          'Window visualisation is too long for this type of view: max = '.concat(maxDuration));
+        return;
+      }
+    }
     // expectedInterval
     const expectedInterval = getStructureModule(viewType).getExpectedInterval(
       visuWindow.lower - offset, visuWindow.current - offset, visuWindow.upper - offset

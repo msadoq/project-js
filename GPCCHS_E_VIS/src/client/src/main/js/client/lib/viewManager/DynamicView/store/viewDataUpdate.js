@@ -31,6 +31,11 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
     return {};
   }
   const expectedInterval = _get(intervalMap, [remoteId, localId, 'expectedInterval']);
+  // case of error when visuWindow duration is too long
+  if (!expectedInterval) {
+    return {};
+  }
+
   const lower = expectedInterval[0];
   const current = expectedInterval[1];
 

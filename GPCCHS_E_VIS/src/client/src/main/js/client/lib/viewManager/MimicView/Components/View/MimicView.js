@@ -3,10 +3,11 @@ import { Row, Col } from 'react-bootstrap';
 import _each from 'lodash/each';
 import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import getLogger from '../../../../common/logManager';
+import styles from './MimicView.css';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
-
 
 const htmlToReactParser = new HtmlToReactParser();
 /*
@@ -38,7 +39,7 @@ const vGauge = '<svg id="vGauge" xmlns="http://www.w3.org/2000/svg" width="200" 
 const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const isValidNode = () => true;
 // const isValueNode = /{{\s*([^}]+)\s*}}/g;
-
+const logger = getLogger('view:mimic');
 
 export default class MimicView extends Component {
   static propTypes = {
@@ -63,6 +64,7 @@ export default class MimicView extends Component {
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
+    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     links: [],
@@ -90,6 +92,13 @@ export default class MimicView extends Component {
     }
     if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
+    }
+    if (nextProps.isMaxVisuDurationExceeded !== this.props.isMaxVisuDurationExceeded) {
+      shouldRender = true;
+      if (!nextProps.isMaxVisuDurationExceeded) {
+        this.content = this.getContentComponent(nextProps);
+        this.updateSvgsValues(nextProps.data);
+      }
     }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
@@ -483,9 +492,21 @@ export default class MimicView extends Component {
   }
 
   render() {
-    const { links, pageId, showLinks } = this.props;
+    const { links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
     const style = { padding: '15px' };
 
+    if (isMaxVisuDurationExceeded) {
+      const noRenderMsg = 'Visu Window is too long for this type of view';
+      logger.debug('no render due to', noRenderMsg);
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            {noRenderMsg}
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="h100 posRelative" onContextMenu={this.onContextMenu}>
         <Row className="h100 posRelative">

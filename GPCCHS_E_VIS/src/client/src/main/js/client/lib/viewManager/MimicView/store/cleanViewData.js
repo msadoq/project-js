@@ -87,8 +87,13 @@ export default function cleanCurrentViewData(
     // update on expected interval
     const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
-    if (!oldInterval || !newInterval ||
-      oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
+    if (!newInterval) {
+      viewData = { ...viewData,
+        index: _omit(viewData.index, epName),
+        values: _omit(viewData.values, epName),
+      };
+    } else if (oldInterval &&
+      (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
       const currentTime = viewData.index[epName];

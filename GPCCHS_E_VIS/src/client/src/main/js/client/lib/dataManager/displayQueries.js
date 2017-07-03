@@ -30,6 +30,10 @@ export default function displayQueries(lastMap, dataMap, isPlayingMode) {
         _get(lastMap, ['injectionIntervals', remoteId, localId, 'expectedInterval']);
       const expectedInterval =
         _get(dataMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
+      // case of error when visuWindow duration is too long
+      if (!expectedInterval) {
+        return;
+      }
       needed = retrieveNeededIntervals(knownInterval, expectedInterval);
 
       if (!needed.length) {

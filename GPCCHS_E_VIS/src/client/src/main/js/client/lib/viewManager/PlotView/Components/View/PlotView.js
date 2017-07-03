@@ -133,6 +133,7 @@ export class GrizzlyPlotView extends PureComponent {
     pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
+    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -333,8 +334,12 @@ export class GrizzlyPlotView extends PureComponent {
       data,
       visuWindow,
       entryPoints,
+      isMaxVisuDurationExceeded,
     } = this.props;
     let info;
+    if (isMaxVisuDurationExceeded) {
+      return 'Visu Window is too long for this type of view';
+    }
     if (containerWidth <= 0 || containerHeight <= 0) {
       info = `invisible size received ${containerWidth}x${containerHeight}`;
     }

@@ -57,6 +57,9 @@ export default function computeMissingIntervals(dataMap, lastMap, forecastInterv
           _get(lastMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
         const expectedInterval =
           _get(dataMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
+        if (!expectedInterval) {
+          return;
+        }
         needed = retrieveNeededIntervals(knownInterval, expectedInterval);
         if (!needed.length) {
           // Check if there is not a new view requesting the data

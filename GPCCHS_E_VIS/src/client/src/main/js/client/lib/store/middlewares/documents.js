@@ -17,7 +17,7 @@ const dialogInteraction = ({ dispatch, documentManager }, next, action) => {
   return next(action);
 };
 
-const askForPage = ({ dispatch }, next, action) => {
+const askOpenPage = ({ dispatch }, next, action) => {
   if (!action.payload.options) {
     dispatch(openDialog(action.payload.windowId, 'open_page', 'open'));
   }
@@ -26,8 +26,8 @@ const askForPage = ({ dispatch }, next, action) => {
 
 export default function createDocumentsMiddleware(documentManager) {
   return ({ dispatch }) => next => (action) => {
-    if (action.type === types.WS_ASK_PAGE) {
-      return askForPage({ dispatch }, next, action);
+    if (action.type === types.WS_ASK_OPEN_PAGE) {
+      return askOpenPage({ dispatch }, next, action);
     }
     if (action.type === types.HSC_DIALOG_CLOSED) {
       return dialogInteraction({ dispatch, documentManager }, next, action);

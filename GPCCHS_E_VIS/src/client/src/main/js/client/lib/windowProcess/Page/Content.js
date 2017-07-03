@@ -50,6 +50,7 @@ export default class Content extends PureComponent {
     windowId: PropTypes.string.isRequired,
     maximizedViewUuid: PropTypes.string,
     width: PropTypes.number,
+    askOpenPage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -79,13 +80,7 @@ export default class Content extends PureComponent {
           _.getOr(_.get('filepath', content), 'filePath', content)
         ),
       })],
-      [_.eq('page'), () => main.openPage({
-        windowId: this.props.windowId,
-        absolutePath: path.join(
-          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-          _.getOr(_.get('filepath', content), 'filePath', content)
-        ),
-      })],
+      [_.eq('page'), () => this.props.askOpenPage(content)],
       [_.eq('workspace'), () => main.openWorkspace({
         absolutePath: path.join(
           global.parameters.get('ISIS_DOCUMENTS_ROOT'),

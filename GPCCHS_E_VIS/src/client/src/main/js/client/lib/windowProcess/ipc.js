@@ -48,11 +48,6 @@ const commands = {
         absolutePath,
       });
     },
-    openPage: ({ windowId, absolutePath }) =>
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_PAGE, {
-        windowId,
-        absolutePath,
-      }),
     openWorkspace: ({ absolutePath }) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
         absolutePath,

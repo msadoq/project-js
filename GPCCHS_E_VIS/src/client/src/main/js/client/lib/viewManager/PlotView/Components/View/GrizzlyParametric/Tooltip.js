@@ -222,7 +222,7 @@ export default class Tooltip extends React.Component {
             }
             return (
               <span
-                key={`Y-${axis.id}-${index}`}
+                key={`Y-label-${axis.id}`}
                 className={classnames('label', styles.tooltipYLabel)}
                 style={{
                   opacity: showTooltip ? 1 : 0,
@@ -260,7 +260,7 @@ export default class Tooltip extends React.Component {
             }
             return (
               <span
-                key={`X-${axis.id}-${index}`}
+                key={`X-label-${axis.id}`}
                 className={classnames('label', styles.tooltipXLabel)}
                 style={{
                   opacity: showTooltip ? 1 : 0,

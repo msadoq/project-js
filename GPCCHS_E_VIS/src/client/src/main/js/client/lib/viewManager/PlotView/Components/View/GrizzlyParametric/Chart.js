@@ -30,11 +30,10 @@ export default class Chart extends React.Component {
     current: PropTypes.number.isRequired,
     enableTooltip: PropTypes.bool,
     tooltipColor: PropTypes.string,
-    parametric: PropTypes.bool,
-    allowZoom: PropTypes.bool,
+    allowXZoom: PropTypes.bool,
     allowYZoom: PropTypes.bool,
     allowYPan: PropTypes.bool,
-    allowPan: PropTypes.bool,
+    allowXPan: PropTypes.bool,
     perfOutput: PropTypes.bool,
     additionalStyle: PropTypes.shape({}).isRequired,
     xAxes: PropTypes.arrayOf(
@@ -102,11 +101,10 @@ export default class Chart extends React.Component {
     enableTooltip: true,
     allowYPan: true,
     allowYZoom: true,
-    allowZoom: true,
-    allowPan: true,
+    allowXZoom: true,
+    allowXPan: true,
     tooltipColor: 'white',
     perfOutput: false,
-    parametric: false,
   }
 
   state = {
@@ -159,7 +157,7 @@ export default class Chart extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { allowZoom, yAxes, xAxes } = this.props;
+    const { allowXZoom, allowYZoom, yAxes, xAxes } = this.props;
     const { zoomLevels, ctrlPressed } = this.state;
 
     if (ctrlPressed) {
@@ -170,7 +168,7 @@ export default class Chart extends React.Component {
       if (hoveredAxisId && foundAxis && foundAxis.logarithmic) {
         return;
       }
-      if (allowZoom && hoveredAxisId) {
+      if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
         const zoomLevel = _get(zoomLevels, hoveredAxisId, 1);
         const newZoomLevels = {
           ...zoomLevels,
@@ -185,7 +183,7 @@ export default class Chart extends React.Component {
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowPan, yAxes, xAxes } = this.props;
+    const { allowXZoom, allowYZoom, yAxes, xAxes } = this.props;
     const { pans, ctrlPressed } = this.state;
     if (!ctrlPressed) {
       return;
@@ -201,7 +199,7 @@ export default class Chart extends React.Component {
     if (hoveredAxisId && foundAxis && foundAxis.logarithmic) {
       return;
     }
-    if (allowPan && hoveredAxisId) {
+    if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
       const pan = _get(pans, hoveredAxisId, 0);
       this.setState({
         mouseMoveCursorOriginY: e.pageY,
@@ -598,8 +596,8 @@ export default class Chart extends React.Component {
       xAxes,
       allowYPan,
       allowYZoom,
-      allowPan,
-      allowZoom,
+      allowXPan,
+      allowXZoom,
       perfOutput,
       additionalStyle,
       enableTooltip,
@@ -794,18 +792,21 @@ export default class Chart extends React.Component {
             />
           )
         }
-        { false && <Zones
-          xAxisAt={xAxisAt}
-          xAxisHeight={this.xAxisHeight}
-          ctrlPressed={ctrlPressed}
-          yAxes={this.yAxes}
-          yAxisWidth={this.yAxisWidth}
-          yAxesAt={yAxesAt}
-          yAxesInteractive={allowYZoom || allowYPan}
-          chartInteractive={allowZoom || allowPan}
-          height={this.chartHeight}
-          width={width}
-        /> }
+        {
+          <Zones
+            ctrlPressed={ctrlPressed}
+            yAxes={this.yAxesUniq}
+            xAxes={this.xAxesUniq}
+            xAxisHeight={this.xAxisHeight}
+            yAxisWidth={this.yAxisWidth}
+            yAxesAt={yAxesAt}
+            xAxesAt={xAxisAt}
+            yAxesInteractive={allowYZoom || allowYPan}
+            xAxesInteractive={allowXZoom || allowXPan}
+            height={height}
+            width={width}
+          />
+        }
       </div>
     );
   }

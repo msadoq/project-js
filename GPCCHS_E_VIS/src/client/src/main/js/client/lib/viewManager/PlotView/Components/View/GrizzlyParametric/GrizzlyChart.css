@@ -261,11 +261,15 @@
 .Zones{
   z-index: 8;
   position: absolute;
+  & > .ZonesYAxis{
+    cursor: row-resize;
+  }
+  & > .ZonesXAxis{
+    cursor: col-resize;
+  }
   & > .ZonesAxis{
     position: absolute;
-    height: 100%;
     /*pointer-events: none;*/
-    cursor: row-resize;
     box-shadow: inset 0px 0px 1px rgba(0, 140, 220, 0.3), inset 0px 0px 2px rgba(0, 140, 220, 0.3), inset 0px 0px 3px rgba(0, 140, 220, 0.3);
     background: rgba(0, 140, 220, 0.03);
     &:hover{
@@ -275,13 +279,12 @@
   }
   & > .ZonesAxisLog{
     position: absolute;
-    height: 100%;
     /*pointer-events: none;*/
     cursor: row-resize;
   }
+
   & > .ZonesChart{
     position: absolute;
-    height: 100%;
     box-shadow: inset 0px 0px 1px rgba(0, 220, 140, 0.3), inset 0px 0px 2px rgba(0, 220, 140, 0.3), inset 0px 0px 3px rgba(0, 220, 140, 0.3);
     background: rgba(0, 220, 140, 0.03);
     cursor: col-resize;

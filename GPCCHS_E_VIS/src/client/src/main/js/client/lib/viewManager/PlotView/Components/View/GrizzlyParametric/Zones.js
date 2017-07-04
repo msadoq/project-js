@@ -8,25 +8,31 @@ export default class Zones extends Component {
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
+    xAxes: PropTypes.arrayOf(
+      PropTypes.shape
+    ).isRequired,
     yAxisWidth: PropTypes.number.isRequired,
     xAxisHeight: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
-    chartInteractive: PropTypes.bool.isRequired,
     yAxesInteractive: PropTypes.bool.isRequired,
+    xAxesInteractive: PropTypes.bool.isRequired,
     ctrlPressed: PropTypes.bool.isRequired,
     yAxesAt: PropTypes.string.isRequired,
-    xAxisAt: PropTypes.string.isRequired,
+    xAxesAt: PropTypes.string.isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'xAxisAt', 'width', 'height', 'ctrlPressed'].forEach((attr) => {
+    ['yAxesAt', 'xAxesAt', 'width', 'height', 'ctrlPressed'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }
     });
     if (nextProps.yAxes.length !== this.props.yAxes.length) {
+      shouldRender = true;
+    }
+    if (nextProps.xAxes.length !== this.props.xAxes.length) {
       shouldRender = true;
     }
     return shouldRender;
@@ -37,13 +43,14 @@ export default class Zones extends Component {
       width,
       height,
       yAxes,
+      xAxes,
       yAxesAt,
-      xAxisAt,
+      xAxesAt,
       yAxisWidth,
       xAxisHeight,
       ctrlPressed,
       yAxesInteractive,
-      chartInteractive,
+      xAxesInteractive,
     } = this.props;
 
     return (
@@ -57,7 +64,7 @@ export default class Zones extends Component {
         style={{
           width,
           height,
-          top: xAxisAt === 'top' ? xAxisHeight : 0,
+          top: xAxesAt === 'top' ? xAxisHeight : 0,
         }}
       >
         { /*
@@ -65,54 +72,64 @@ export default class Zones extends Component {
         */ }
         {yAxesInteractive && yAxesAt === 'left' && yAxes.map((axis, index) =>
           <div
-            className={classnames({
+            className={classnames(styles.ZonesYAxis, {
               [styles.ZonesAxisLog]: axis.logarithmic,
               [styles.ZonesAxis]: !axis.logarithmic,
             })}
             key={axis.id}
             style={{
               width: yAxisWidth,
+              height: height - (xAxes.length * xAxisHeight),
+              top: xAxesAt === 'top' ? (xAxes.length - 1) * xAxisHeight : 0,
               left: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
             }}
           />
         )}
         {yAxesInteractive && yAxesAt === 'right' && yAxes.map((axis, index) =>
           <div
-            className={classnames({
+            className={classnames(styles.ZonesYAxis, {
               [styles.ZonesAxisLog]: axis.logarithmic,
               [styles.ZonesAxis]: !axis.logarithmic,
             })}
             key={axis.id}
             style={{
               width: yAxisWidth,
+              height: height - (xAxes.length * xAxisHeight),
+              top: xAxesAt === 'top' ? (xAxes.length - 1) * xAxisHeight : 0,
               right: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
             }}
           />
         )}
-        { /*
-          Chart area
-        */ }
-        {chartInteractive && yAxesAt === 'left' && <div
-          className={styles.ZonesChart}
-          style={{
-            width: width - (yAxes.length * yAxisWidth),
-            right: 0,
-          }}
-        />}
-        {chartInteractive && yAxesAt === 'right' && <div
-          className={styles.ZonesChart}
-          style={{
-            width: width - (yAxes.length * yAxisWidth),
-            left: 0,
-          }}
-        />}
-        {chartInteractive && !yAxesAt && <div
-          className={styles.ZonesChart}
-          style={{
-            width,
-            left: 0,
-          }}
-        />}
+        {xAxesInteractive && xAxesAt === 'top' && xAxes.map((axis, index) =>
+          <div
+            className={classnames(styles.ZonesXAxis, {
+              [styles.ZonesAxisLog]: axis.logarithmic,
+              [styles.ZonesAxis]: !axis.logarithmic,
+            })}
+            key={axis.id}
+            style={{
+              height: xAxisHeight,
+              width: width - ((xAxes.length - 1) * yAxisWidth),
+              left: yAxesAt === 'left' ? yAxes.length * yAxisWidth : 0,
+              top: (yAxes.length - index - 1) * xAxisHeight,
+            }}
+          />
+        )}
+        {xAxesInteractive && xAxesAt === 'bottom' && xAxes.map((axis, index) =>
+          <div
+            className={classnames(styles.ZonesXAxis, {
+              [styles.ZonesAxisLog]: axis.logarithmic,
+              [styles.ZonesAxis]: !axis.logarithmic,
+            })}
+            key={axis.id}
+            style={{
+              height: xAxisHeight,
+              width: width - ((xAxes.length - 1) * yAxisWidth),
+              left: yAxesAt === 'left' ? yAxes.length * yAxisWidth : 0,
+              bottom: (yAxes.length - index - 1) * xAxisHeight,
+            }}
+          />
+        )}
       </div>
     );
   }

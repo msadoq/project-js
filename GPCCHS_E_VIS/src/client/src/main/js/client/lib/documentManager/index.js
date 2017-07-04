@@ -4,9 +4,9 @@ import {
   openPage,
   openWorkspace,
   openBlankWorkspace,
+  savePage,
 } from './actions';
 import { saveView, saveViewAs } from './saveView';
-import { savePage } from './savePage';
 import { saveWorkspace } from './saveWorkspace';
 import { readDocumentType } from './io';
 

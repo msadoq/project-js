@@ -36,5 +36,6 @@ export const dialogClosed = simple(
   types.HSC_DIALOG_CLOSED,
   'windowId',
   'dialogId',
-  'choice'
+  'choice',
+  (options = {}) => ({ options })
 );

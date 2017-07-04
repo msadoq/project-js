@@ -5,14 +5,14 @@ import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/win
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
-import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage } from '../../store/actions/pages';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageAddBlank } from './pageOpen';
-import { pageSave, pageSaveAs } from './pageSave';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
 import { workspaceClose } from './workspaceClose';
 import { getAvailableViews } from '../../viewManager';
+import { getFocusedPageId } from '../../store/selectors/pages';
 
 const { Menu } = require('electron');
 
@@ -122,13 +122,17 @@ const page = {
     },
   }, {
     label: 'Save',
-    click(item, focusedWindow) {
-      pageSave(focusedWindow);
+    click(item, { windowId }) {
+      const { getState, dispatch } = getStore();
+      const pageId = getFocusedPageId(getState(), { windowId });
+      dispatch(askSavePage(pageId));
     },
   }, {
     label: 'Save As...',
-    click(item, focusedWindow) {
-      pageSaveAs(focusedWindow);
+    click(item, { windowId }) {
+      const { getState, dispatch } = getStore();
+      const pageId = getFocusedPageId(getState(), { windowId });
+      dispatch(askSavePage(pageId, true));
     },
   }],
 };

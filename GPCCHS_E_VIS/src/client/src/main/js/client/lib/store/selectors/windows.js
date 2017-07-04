@@ -39,6 +39,15 @@ export const getWindowFocusedPageSelector = createSelector(
   _.get
 );
 
+export const getWindowByPageId = createSelector(
+  getWindows,
+  (state, { pageId }) => pageId,
+  (windows, pageId) => _.find(
+    _.compose(_.find(_.equals(pageId)), _.get('pages')),
+    windows
+  )
+);
+
 /* -------------------------------------------------------------------------- */
 const getWindowsFocusedPageIds = createSelector(
   getWindowsArray,

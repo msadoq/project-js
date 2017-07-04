@@ -20,6 +20,9 @@ import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
 
+import { writePage } from './writePage';
+import { setModified, setPageOid } from '../store/actions/pages';
+
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 const reload = simple(types.WS_VIEW_RELOAD, 'viewId', 'view');
@@ -173,5 +176,22 @@ export const openBlankWorkspace = ({ keepMessages } = {}) => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
   dispatch(closeWorkspace(keepMessages));
   dispatch({ type: types.WS_WORKSPACE_OPENED, payload: createBlankWorkspace() });
+};
+// -------------------------------------------------------------------------- //
+
+
+// --- save a page ---------------------------------------------------------- //
+export const savePage = (pageId, path) => (dispatch, getState) => {
+  writePage(getState(), pageId, path, (err, oid) => {
+    if (err) {
+      dispatch(addMessage(pageId, 'danger', err));
+      return;
+    }
+    if (oid) {
+      dispatch(setPageOid(pageId, oid));
+    }
+    dispatch(setModified(pageId, false));
+    dispatch(addMessage('global', 'success', 'Page saved'));
+  });
 };
 // -------------------------------------------------------------------------- //

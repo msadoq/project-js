@@ -4,9 +4,9 @@ import rimraf from 'rimraf';
 import { getTmpPath, freezeMe } from '../common/jest';
 
 import fs from '../common/fs';
-import { savePage, savePageAs } from './savePage';
+import { writePage, writePageAs } from './writePage';
 
-describe('mainProcess/documents/savePage', () => {
+describe('mainProcess/documents/writePage', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -76,9 +76,9 @@ describe('mainProcess/documents/savePage', () => {
 
   afterEach(done => rimraf(getTmpPath(), () => rimraf('./fakeFolder', done)));
 
-  describe('savePage', () => {
+  describe('writePage', () => {
     test('saves page', (done) => {
-      savePage(freezeMe(state), 'page1', (err) => {
+      writePage(freezeMe(state), 'page1', undefined, (err) => {
         expect(err).toBeFalsy();
         fs.isExists(state.pages.page1.absolutePath, (exist) => {
           expect(exist).toBe(true);
@@ -88,23 +88,23 @@ describe('mainProcess/documents/savePage', () => {
     });
 
     test('fails when page is undefined', (done) => {
-      savePage(freezeMe({ pages: {} }), 'page1', (err) => {
+      writePage(freezeMe({ pages: {} }), 'page1', undefined, (err) => {
         expect(err).toBeAnError();
         done();
       });
     });
     test('fails when page does not have absolutePath', (done) => {
       const modifiedState = _.unset('pages.page1.absolutePath', state);
-      savePage(freezeMe(modifiedState), 'page1', (err) => {
+      writePage(freezeMe(modifiedState), 'page1', undefined, (err) => {
         expect(err).toBeAnError();
         done();
       });
     });
   });
 
-  describe('savePageAs', () => {
+  describe('writePageAs', () => {
     test('saves page', (done) => {
-      savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
+      writePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, (err) => {
         expect(err).toBeFalsy();
         fs.isExists(state.pages.page1.absolutePath, (exist) => {
           expect(exist).toBe(true);
@@ -115,7 +115,7 @@ describe('mainProcess/documents/savePage', () => {
 
     test('fails when page is invalid', (done) => {
       const modifiedState = _.unset('pages.page1.title', state);
-      savePageAs(freezeMe(modifiedState), 'page1', modifiedState.pages.page1.absolutePath, (err) => {
+      writePageAs(freezeMe(modifiedState), 'page1', modifiedState.pages.page1.absolutePath, (err) => {
         expect(err).toBeAnError();
         fs.isExists(modifiedState.pages.page1.absolutePath, (exist) => {
           expect(exist).toBe(false);
@@ -125,7 +125,7 @@ describe('mainProcess/documents/savePage', () => {
     });
 
     test('fails when page is undefined', (done) => {
-      savePageAs(freezeMe(state), 'unknownPage', state.pages.page1.absolutePath, (err) => {
+      writePageAs(freezeMe(state), 'unknownPage', state.pages.page1.absolutePath, (err) => {
         expect(err).toBeInstanceOf(Error);
         fs.isExists(state.pages.page1.absolutePath, (exist) => {
           expect(exist).toBe(false);
@@ -135,14 +135,14 @@ describe('mainProcess/documents/savePage', () => {
     });
 
     test('gives an error when createFolder fails', (done) => {
-      savePageAs(freezeMe(state), 'page1', '/fakeFolder/document.json', (err) => {
+      writePageAs(freezeMe(state), 'page1', '/fakeFolder/document.json', (err) => {
         expect(err).toBeAnError();
         done();
       });
     });
 
     test('gives an error when writeDocument fails', (done) => {
-      savePageAs(freezeMe(state), 'page1', './fakeFolder/document.json', (err) => {
+      writePageAs(freezeMe(state), 'page1', './fakeFolder/document.json', (err) => {
         expect(err).toBeAnError();
         done();
       });

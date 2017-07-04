@@ -20,9 +20,10 @@ const preparePage = (state, page) => ({
   views: page.views.map((viewId) => {
     const { oId, absolutePath } = getView(state, { viewId });
     const viewLocation = oId ? { oId } : { path: absolutePath };
+    const geometry = _.find(_.propEq('i', viewId), page.layout);
     return {
       ...viewLocation,
-      geometry: _.find(_.propEq('i', viewId), page.layout),
+      geometry: _.unset('i', geometry),
       hideBorders: page.hideBorders ? page.hideBorders : false,
       windowState: page.windowState ? page.windowState : 'Normalized',
     };
@@ -37,7 +38,7 @@ const preparePage = (state, page) => ({
  * @param path
  * @param callback
  */
-const savePageAs = (state, pageId, path, callback) => {
+const writePageAs = (state, pageId, path, callback) => {
   const page = getPage(state, { pageId });
   if (!page) {
     callback(new Error('unknown page'));
@@ -69,22 +70,23 @@ const savePageAs = (state, pageId, path, callback) => {
  *
  * @param state
  * @param pageId
+ * @param path
  * @param callback
  */
-const savePage = (state, pageId, callback) => {
+const writePage = (state, pageId, path, callback) => {
   const page = getPage(state, { pageId });
   if (!page) {
-    callback(new Error('unknown page'));
+    callback(new Error('Unknown page'));
   }
-  const absolutePath = getPageAbsolutePath(state, { pageId });
+  const absolutePath = path || getPageAbsolutePath(state, { pageId });
   if (!absolutePath) {
     return callback(new Error('Unknown path for saving the page'));
   }
-  return savePageAs(state, pageId, absolutePath, callback);
+  return writePageAs(state, pageId, absolutePath, callback);
 };
 
 
 export default {
-  savePage,
-  savePageAs,
+  writePage,
+  writePageAs,
 };

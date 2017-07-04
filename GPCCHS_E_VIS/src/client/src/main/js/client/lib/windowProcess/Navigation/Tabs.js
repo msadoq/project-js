@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
-import _find from 'lodash/find';
 import { get } from '../../common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
@@ -42,10 +41,8 @@ export default class Tabs extends PureComponent {
     pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
     focusPage: PropTypes.func.isRequired,
-    closePage: PropTypes.func.isRequired,
+    askClosePage: PropTypes.func.isRequired,
     moveTabOrder: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
-    modifiedViewNb: PropTypes.number.isRequired,
   };
 
   handleSelect = (eventKey) => {
@@ -55,29 +52,8 @@ export default class Tabs extends PureComponent {
   }
 
   handleClose = (e, pageId) => {
-    e.preventDefault();
     e.stopPropagation();
-    // Check if page is modified
-    const { openModal, modifiedViewNb, pages, closePage } = this.props;
-    const page = _find(pages, { uuid: pageId });
-    if (modifiedViewNb) {
-      openModal({
-        type: 'unsavedViews',
-        isModified: page.isModified,
-        pageId,
-      });
-      return;
-    }
-
-    if (page.isModified) {
-      openModal({
-        type: 'pageIsModified',
-        pageId,
-      });
-    } else {
-      closePage(pageId);
-    }
-    e.stopPropagation();
+    this.props.askClosePage(pageId);
   }
 
   handleDragStart = (ev, pageId, key) => {

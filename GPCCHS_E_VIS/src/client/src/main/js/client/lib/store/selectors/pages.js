@@ -16,6 +16,19 @@ export const getFocusedPage = createSelector(
   _.get
 );
 
+export const getFocusedPageId = createSelector(
+  getFocusedPage,
+  _.get('uuid')
+);
+
+export const getPageHasUnsavedViews = createSelector(
+  getPageViews,
+  _.pipe(
+    _.find('isModified'),
+    Boolean
+  )
+);
+
 export const isAnyEditorOpened = createSelector(
   getPages,
   pages => _.reduce((checksum, page) => checksum || (!page.panels.editorIsMinimized), false, pages)

@@ -64,9 +64,13 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
 };
 
 export const askOpenPage = simple(types.WS_ASK_OPEN_PAGE, 'windowId', 'absolutePath');
+export const askSavePage = simple(types.WS_ASK_SAVE_PAGE, 'pageId', 'saveAs');
+export const askClosePage = simple(types.WS_ASK_CLOSE_PAGE, 'pageId');
 
-export const closePage = (windowId, pageId) => (dispatch, getState) => {
-  const viewIds = _.get(['pages', pageId, 'views'], getState());
+export const closePage = pageId => (dispatch, getState) => {
+  const state = getState();
+  const viewIds = _.get(['pages', pageId, 'views'], state);
+  const windowId = getWindowIdByPageId(state, { pageId });
   dispatch({
     type: types.WS_PAGE_CLOSE,
     payload: { windowId, pageId, viewIds },

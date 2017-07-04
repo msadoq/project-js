@@ -14,8 +14,7 @@
         "w": 6,
         "h": 3,
         "maxH": 100,
-        "maxW": 100,
-        "i": "b5be12ce-1ddc-46ea-83c5-f7784bf2b468"
+        "maxW": 100
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -28,8 +27,7 @@
         "w": 6,
         "h": 24,
         "maxH": 100,
-        "maxW": 100,
-        "i": "57dcc9f3-4246-494e-b7ed-efc70c1c0cc6"
+        "maxW": 100
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -40,8 +38,7 @@
         "x": 0,
         "y": 16,
         "w": 6,
-        "h": 8,
-        "i": "88e3ad0b-0232-492f-ab23-db74cdac23ca"
+        "h": 8
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -54,8 +51,7 @@
         "w": 6,
         "h": 13,
         "collapsed": false,
-        "maximized": false,
-        "i": "a3908946-cdc8-43eb-b4ba-1b2cfcac07ac"
+        "maximized": false
       },
       "hideBorders": false,
       "windowState": "Normalized"

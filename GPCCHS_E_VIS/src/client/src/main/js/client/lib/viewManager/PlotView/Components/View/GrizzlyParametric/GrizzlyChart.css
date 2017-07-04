@@ -139,7 +139,7 @@
 }
 
 .tooltipDiv{
-  position: absolute;
+  position: relative;
   z-index: 4;
   overflow: visible;
   .tooltipVerticalCursor{
@@ -148,6 +148,17 @@
     width: 1px;
     background: #111;
     transition: opacity ease-out 0.1s;
+  }
+  .tooltipLinePointDiv{
+    position: relative;
+  }
+  .tooltipLinePoint{
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 40);
+    position: absolute;
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
   }
   .tooltipHorizontalCursor{
     left: 0;

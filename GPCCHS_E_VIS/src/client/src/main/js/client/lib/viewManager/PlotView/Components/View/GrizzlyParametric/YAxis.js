@@ -43,7 +43,6 @@ export default class YAxis extends Component {
     gridStyle: PropTypes.string,
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
-    unit: PropTypes.string,
     format: PropTypes.string,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
@@ -58,7 +57,6 @@ export default class YAxis extends Component {
   }
 
   static defaultProps = {
-    unit: '',
     logarithmic: false,
     showLabels: false,
     showTicks: true,
@@ -316,7 +314,6 @@ export default class YAxis extends Component {
       top,
       showGrid,
       label,
-      unit,
       labelStyle,
       lines,
       // format,
@@ -360,7 +357,7 @@ export default class YAxis extends Component {
             }
           )}
         >
-          { label }{ unit.length ? ` (${unit})` : '' }
+          { label }
         </span>
         {
           lines.map(line =>

@@ -43,7 +43,6 @@ export default class XAxis extends Component {
     gridStyle: PropTypes.string,
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
-    unit: PropTypes.string,
     format: PropTypes.string,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
@@ -58,7 +57,6 @@ export default class XAxis extends Component {
   }
 
   static defaultProps = {
-    unit: '',
     logarithmic: false,
     showLabels: false,
     showTicks: true,
@@ -304,7 +302,6 @@ export default class XAxis extends Component {
       showLabels,
       index,
       label,
-      unit,
       labelStyle,
       lines,
       side,
@@ -318,7 +315,7 @@ export default class XAxis extends Component {
     if (xAxesAt === 'top') {
       divStyle.top = margin;
     } else {
-      divStyle.top = index === 0 ? 0 : margin;
+      divStyle.top = index === 0 ? 0 : height + margin;
     }
 
     if (yAxesAt === 'left') {
@@ -351,7 +348,7 @@ export default class XAxis extends Component {
             }
           )}
         >
-          { label }{ unit.length ? ` (${unit})` : '' }
+          { label }
         </span>
         {
           lines.map(line =>

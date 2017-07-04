@@ -12,7 +12,7 @@ import styles from './GrizzlyChart.css';
 // import CurrentCursorCanvas from './CurrentCursorCanvas';
 
 import LinesCanvas from './LinesCanvas';
-// import Tooltip from './Tooltip';
+import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 // import XAxisParametric from './XAxisParametric';
@@ -602,6 +602,8 @@ export default class Chart extends React.Component {
       allowZoom,
       perfOutput,
       additionalStyle,
+      enableTooltip,
+      tooltipColor,
     } = this.props;
 
     const {
@@ -707,20 +709,23 @@ export default class Chart extends React.Component {
             );
           })
         }
-        { /* false && enableTooltip && <Tooltip
-          tooltipColor={tooltipColor}
-          yAxes={this.yAxes}
-          width={this.chartWidth}
-          height={this.chartHeight}
-          top={marginTop}
-          current={current}
-          margin={marginSide}
-          xScale={xScale}
-          xFormat={format}
-          yAxesAt={yAxesAt}
-          xAxisAt={xAxisAt}
-          yAxisWidth={this.yAxisWidth}
-        /> */}
+        {
+          enableTooltip &&
+          <Tooltip
+            tooltipColor={tooltipColor}
+            yAxesUniq={this.yAxesUniq}
+            xAxesUniq={this.xAxesUniq}
+            pairs={this.pairs}
+            width={this.chartWidth}
+            height={this.chartHeight}
+            top={marginTop}
+            margin={marginSide}
+            yAxesAt={yAxesAt}
+            xAxesAt={xAxisAt}
+            yAxisWidth={this.yAxisWidth}
+            xAxisHeight={this.xAxisHeight}
+          />
+        }
         {
           ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
             <YAxis
@@ -750,7 +755,6 @@ export default class Chart extends React.Component {
               scale={yAxis.scale}
               extents={yAxis.extents}
               label={yAxis.label}
-              unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
             />
@@ -785,31 +789,11 @@ export default class Chart extends React.Component {
               scale={xAxis.scale}
               extents={xAxis.extents}
               label={xAxis.label}
-              unit={xAxis.unit}
               labelStyle={xAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
             />
           )
         }
-        { /*
-          <XAxisParametric
-            xScale={xScale}
-            yAxesAt={yAxesAt}
-            xAxisAt={xAxisAt}
-            xAxisHeight={this.xAxisHeight}
-            showGrid={_get(this.yAxes, '0.showGrid')}
-            showTicks={showTicks}
-            autoTick={autoTick}
-            tickStep={tickStep}
-            width={this.chartWidth}
-            height={this.chartHeight}
-            margin={marginSide}
-            gridStyle={_get(this.yAxes, '0.gridStyle')}
-            gridSize={_get(this.yAxes, '0.gridSize')}
-            format={'.2f'}
-            xExtents={calculatedXExtents}
-          />
-        */ }
         { false && <Zones
           xAxisAt={xAxisAt}
           xAxisHeight={this.xAxisHeight}

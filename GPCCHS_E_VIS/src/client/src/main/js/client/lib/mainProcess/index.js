@@ -195,22 +195,26 @@ export function onStart() {
     },
     function requestCatalogSessions(callback) {
       // should have rte sessions in store at start
-      splashScreen.setMessage('requesting catalog explorer sessions...');
-      logger.info('requesting catalog explorer sessions...');
-      const cancelTimeout = scheduleTimeout(RTE_SESSIONS_REQUEST_LAUNCHING_TIMEOUT, 'rteSession');
-      const { dispatch } = getStore();
-      const rtdApi = getRtd();
-      rtdApi.getDatabase().getSessionList((err, sessions) => {
-        cancelTimeout();
-        if (err) {
-          callback(err);
-          return;
-        }
-        splashScreen.setMessage('injecting catalog explorer sessions...');
-        logger.info('injecting catalog explorer sessions...');
-        dispatch(setRteSessions(sessions));
+      if (parameters.get('RTD_ON') === 'on') {
+        splashScreen.setMessage('requesting catalog explorer sessions...');
+        logger.info('requesting catalog explorer sessions...');
+        const cancelTimeout = scheduleTimeout(RTE_SESSIONS_REQUEST_LAUNCHING_TIMEOUT, 'rteSession');
+        const { dispatch } = getStore();
+        const rtdApi = getRtd();
+        rtdApi.getDatabase().getSessionList((err, sessions) => {
+          cancelTimeout();
+          if (err) {
+            callback(err);
+            return;
+          }
+          splashScreen.setMessage('injecting catalog explorer sessions...');
+          logger.info('injecting catalog explorer sessions...');
+          dispatch(setRteSessions(sessions));
+          callback(null);
+        });
+      } else {
         callback(null);
-      });
+      }
     },
   ], (err) => {
     if (err) {

@@ -8,6 +8,11 @@ import cst from './constants';
 import { SDB_NAMESPACE } from '../constants';
 import { getTriggers as getMonitoringDataTriggers } from '../monitorings';
 
+export function getUnit({ rtd, sessionId, domainId }, reporting, callback) {
+  const unit = _get(reporting, 'Unit');
+  callback(null, unit);
+}
+
 export function getShortDescription({ rtd, sessionId, domainId }, reporting, callback) {
   const shortDescription = _get(reporting, 'IsisCommon.NamingAndDescription.ShortDescription');
   callback(null, shortDescription);

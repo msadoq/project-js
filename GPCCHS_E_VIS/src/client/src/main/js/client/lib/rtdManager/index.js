@@ -2,6 +2,7 @@ import asyncParallel from 'async/parallel';
 import { get } from '../common/configurationManager';
 import { SDB_NAMESPACE } from './constants';
 import {
+  getUnit,
   getShortDescription,
   getLongDescription,
   getAliases,
@@ -26,6 +27,18 @@ export function setRtd(rtdApi) {
 export function getRtd() {
   return get('RTD_ON') === 'on' ? rtd : disabledRtd;
 }
+
+export function getTelemetryUnit(
+  { sessionId, domainId }, parameterName, callback) {
+  getRtd().getCatalogByName('Reporting', SDB_NAMESPACE, parameterName, sessionId, domainId, (err, reporting) => {
+    if (err || !reporting) {
+      callback(err);
+      return;
+    }
+    getUnit({ rtd, sessionId, domainId }, reporting, callback);
+  });
+}
+
 
 export function getTelemetryStaticElements(
   { sessionId, domainId }, parameterName, callback) {

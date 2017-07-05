@@ -129,7 +129,7 @@ describe('store:actions:pages', () => {
 
   describe('closePage', () => {
     test('dispatches a WS_CLOSE_PAGE action', () => {
-      store.dispatch(actions.closePage('w1', 'p1'));
+      store.dispatch(actions.closePage('p1'));
       expect(store.getActions()).toEqual([
         {
           type: 'WS_PAGE_CLOSE',

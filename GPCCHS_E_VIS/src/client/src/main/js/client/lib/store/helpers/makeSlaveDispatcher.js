@@ -1,4 +1,4 @@
-import _getOr from 'lodash/fp/getOr';
+import _get from 'lodash/fp/get';
 import _set from 'lodash/fp/set';
 import { REDUX_SYNCHRONIZATION_PATCH_KEY, TIMING_DATA, TIMING_MILESTONES } from '../../constants';
 
@@ -16,8 +16,8 @@ import { REDUX_SYNCHRONIZATION_PATCH_KEY, TIMING_DATA, TIMING_MILESTONES } from 
 export default function makeSlaveDispatcher(originalDispatch, sendUp, identity, log, isDebugOn) {
   return function slaveDispatcher(action) {
     let patchAction = action;
-    const patch = _getOr([], ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], patchAction);
-    if (patch.length) {
+    const patch = _get(['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], patchAction);
+    if (patch) {
       // it's a patch action from server, call patchReducer with original dispatch
       const timingBegin = process.hrtime();
       originalDispatch(patchAction);

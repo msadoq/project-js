@@ -11,7 +11,7 @@ const commands = {
   renderer: {
     message: (method, payload) => {
       webContents.getAllWebContents().forEach((webContent) => {
-        if (webContent.isLoading() || webContent.isCrashed()) {
+        if (webContent.isCrashed()) {
           return;
         }
 

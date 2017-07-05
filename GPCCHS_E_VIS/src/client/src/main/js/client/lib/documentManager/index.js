@@ -27,5 +27,5 @@ export default {
   reloadView,
 
   // io
-  readDocumentType
+  readDocumentType,
 };

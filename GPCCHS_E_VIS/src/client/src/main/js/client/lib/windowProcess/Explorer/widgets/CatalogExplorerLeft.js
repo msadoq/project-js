@@ -6,7 +6,8 @@ import {
   FormControl,
 } from 'react-bootstrap';
 import _map from 'lodash/map';
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
+import createItemKey from '../../../rtdManager/createItemKey';
 import Tree from './Tree';
 import { main } from '../../ipc';
 import styles from './CatalogExplorer.css';
@@ -21,9 +22,6 @@ const logger = getLogger('CatalogExplorerLeft');
 //   <h2>Namespaces / Names</h2>
 // );
 
-const createItemKey = (sessionId, domainId, catalog, namespace, name) =>
-  `${sessionId}:${domainId}:${catalog}:${namespace}:${name}`;
-
 export default class CatalogExplorerLeft extends PureComponent {
   static propTypes = {
     // DATA
@@ -31,9 +29,9 @@ export default class CatalogExplorerLeft extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.string),
     catalogs: PropTypes.arrayOf(PropTypes.object),
     itemNames: PropTypes.arrayOf(PropTypes.object),
-    focusedItem: PropTypes.shape({
-      key: PropTypes.string,
+    focusedInfo: PropTypes.shape({
       session: PropTypes.string,
+      domain: PropTypes.string,
     }),
     openedItems: PropTypes.shape({}),
     // ACTIONS
@@ -50,8 +48,10 @@ export default class CatalogExplorerLeft extends PureComponent {
     domains: [],
     catalogs: [],
     itemNames: [],
-    focusedItem: {
-      key: null,
+    focusedItem: null,
+    focusedInfo: {
+      session: '',
+      domain: '',
     },
     openedItems: {},
   };
@@ -62,15 +62,15 @@ export default class CatalogExplorerLeft extends PureComponent {
   }
 
   onDomainChange = (event) => {
-    const { focusedItem } = this.props;
-    const { session } = focusedItem;
+    const { focusedInfo } = this.props;
+    const { session } = focusedInfo;
     const domain = event.target.value;
     main.getRteCatalogs(session, domain);
   }
 
   onMouseDown = (key, event, node) => {
     if (event.buttons === 1) {
-      const { deleteItemNames, focusedItem, openedItems } = this.props;
+      const { deleteItemNames, focusedInfo, openedItems } = this.props;
       switch (key) {
         case 'catalogs':
           this.props.toggleCatalogNode(node.path, !node.toggled);
@@ -87,13 +87,11 @@ export default class CatalogExplorerLeft extends PureComponent {
           this.props.toggleItemNameNode(node.path, !node.toggled);
           this.props.activeItemNameNode(node.path, !node.active);
           if (!node.active && node.children.length === 0) {
-            const { session, domain, catalog, version } = focusedItem;
+            const { session, domain, catalog, version } = focusedInfo;
             const namespace = node.parentName;
             const name = node.value;
-            console.log(session, domain, catalog, version);
             const itemKey = createItemKey(session, domain, catalog, namespace, name);
             if (Object.keys(openedItems).includes(itemKey)) {
-              console.log('already present');
               this.props.setFocusedItem(
                 itemKey, session, domain, catalog, version, namespace, name);
             } else {
@@ -109,13 +107,12 @@ export default class CatalogExplorerLeft extends PureComponent {
 
   render() {
     logger.debug('render');
-    console.log('left render');
     const {
       sessions,
       domains,
       catalogs,
       itemNames,
-      focusedItem,
+      focusedInfo,
     } = this.props;
 
     const sessionChoices = _map(['', ...sessions], session => (
@@ -143,7 +140,7 @@ export default class CatalogExplorerLeft extends PureComponent {
             <FormControl
               componentClass="select"
               placeholder="select"
-              value={focusedItem.session}
+              value={focusedInfo.session}
               onChange={this.onSessionChange}
             >
               {sessionChoices}
@@ -154,7 +151,7 @@ export default class CatalogExplorerLeft extends PureComponent {
             <FormControl
               componentClass="select"
               placeholder="select"
-              value={focusedItem.domain}
+              value={focusedInfo.domain}
               onChange={this.onDomainChange}
             >
               {domainChoices}

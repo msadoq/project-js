@@ -7,25 +7,28 @@ import {
   getRteItemNames,
   getRteOpenedItems,
   getRteFocusedItem,
+  getRteFocusedInfo,
 } from '../../../store/reducers/rte';
 import {
   isRteCatalogNodeToggled as toggleCatalogNode,
   isRteItemNameNodeToggled as toggleItemNameNode,
   isRteCatalogNodeActive as activeCatalogNode,
   isRteItemNameNodeActive as activeItemNameNode,
+  isRteItemNodeToggled as toggleItemNode,
   deleteRteItemNames as deleteItemNames,
   closeRteItem as closeItem,
   setRteFocusedItem as setFocusedItem,
 } from '../../../store/actions/rte';
 
 const mapStateToProps = (state) => {
-  console.log('hasChanged');
   const sessions = getRteSessions(state);
   const domains = getRteDomains(state);
   const catalogs = getRteCatalogs(state);
   const itemNames = getRteItemNames(state);
   const openedItems = getRteOpenedItems(state);
   const focusedItem = getRteFocusedItem(state);
+  const focusedInfo = getRteFocusedInfo(state);
+
   return {
     sessions,
     domains,
@@ -33,12 +36,14 @@ const mapStateToProps = (state) => {
     itemNames: itemNames.children,
     openedItems,
     focusedItem,
+    focusedInfo,
   };
 };
 
 const mapDispatchToProps = {
   toggleCatalogNode,
   toggleItemNameNode,
+  toggleItemNode,
   activeCatalogNode,
   activeItemNameNode,
   deleteItemNames,

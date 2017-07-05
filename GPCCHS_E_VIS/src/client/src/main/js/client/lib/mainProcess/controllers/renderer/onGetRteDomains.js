@@ -1,12 +1,10 @@
-import getLogger from 'common/log';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../store';
 import { add } from '../../../store/actions/messages';
 import { getRtd } from '../../../rtdManager';
 import {
   setRteDomains,
 } from '../../../store/actions/rte';
 
-const logger = getLogger('main:controllers:renderer:onGetRteDomains');
 
 export default function ({ sessionId }) {
   const { dispatch } = getStore();
@@ -17,7 +15,6 @@ export default function ({ sessionId }) {
       dispatch(add('global', 'warning', err));
       return;
     }
-    console.log('setRteDomains', sessionId, domains)
     dispatch(setRteDomains(sessionId, domains));
   });
 }

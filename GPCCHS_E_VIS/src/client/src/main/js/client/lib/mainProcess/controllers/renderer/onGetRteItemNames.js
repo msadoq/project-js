@@ -1,7 +1,6 @@
 import asyncMap from 'async/map';
 import _reduce from 'lodash/reduce';
-import getLogger from 'common/log';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../store';
 import { getRtd } from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
@@ -9,7 +8,6 @@ import {
   setRteItemNames,
 } from '../../../store/actions/rte';
 
-const logger = getLogger('main:controllers:renderer:onGetRteItemNames');
 
 export default function ({ catalog, version }) {
   const { dispatch } = getStore();
@@ -30,7 +28,6 @@ export default function ({ catalog, version }) {
         done(null, { namespace, itemList });
       });
     }, (aErr, res) => {
-      console.log('ITEMS', res);
       if (aErr) {
         dispatch(add('global', 'warning', err));
         return;
@@ -44,7 +41,6 @@ export default function ({ catalog, version }) {
         });
         return item;
       }, {});
-      console.log('FORMATTED ITEMS', itemMap);
       const items = prepareDataToTree(itemMap);
       dispatch(setRteItemNames(catalog, version, items));
     });

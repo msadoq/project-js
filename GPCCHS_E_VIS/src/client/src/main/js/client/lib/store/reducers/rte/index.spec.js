@@ -1,316 +1,133 @@
-import { should, freezeArgs } from '../../../common/test';
-import * as actions from '../../actions/inspector';
-import inspectorReducer, {
-  getInspectorViewId,
-  getInspectorViewType,
-  getInspectorEpId,
-  getInspectorDataId,
-  getInspectorEpName,
-  getInspectorField,
-  getInspectorDisplayingTM,
-  getInspectorStaticData,
-  getInspectorStaticDataLoading,
-  getInspectorStaticDataChildren,
-  getInspectorStaticDataNode,
-  getInspectorStaticDataNodeToggled,
+import { freezeArgs } from '../../../common/jest';
+import * as actions from '../../actions/rte';
+
+import hscReducer, {
+  getRteSessions,
+  getRteDomains,
+  getRteCatalogs,
+  getRteItemNames,
+  getRteFocusedInfo,
 } from '.';
 
-const reducer = freezeArgs(inspectorReducer);
+const reducer = freezeArgs(hscReducer);
 
-/* --- Reducer -------------------------------------------------------------- */
-
-describe('store:inspector:reducer', () => {
-  it('should returns initial state', () => {
+describe('store:rte:reducer', () => {
+  test('should returns initial state', () => {
     const r = reducer(undefined, {});
-    r.should.have.a.property('generalData')
-      .that.is.an('object')
-      .that.has.properties({
-        viewId: null,
-        viewType: null,
-        epId: null,
-        epName: null,
-        dataId: null,
-        field: null,
-      });
-    r.should.have.a.property('staticData')
-      .that.equals(null);
+    expect(r).toHaveProperty('sessions', []);
+    expect(r).toHaveProperty('domains', []);
+    expect(r).toHaveProperty('catalogs', {});
+    expect(r).toHaveProperty('itemNames', {});
+    expect(r).toHaveProperty('openedItems', {});
+    expect(r).toHaveProperty('focusedItem', null);
+    expect(r).toHaveProperty('focusedInfo');
+    expect(r.focusedInfo).toMatchObject({
+      session: '',
+      domain: '',
+      catalog: '',
+      version: '',
+      namespace: '',
+      name: '',
+    });
   });
-  it('should ignore unknown action', () => {
+  test('should ignore unknown action', () => {
     const state = {
-      remoteId: 'remoteId',
-      dataId: { parameterName: 'param' },
-      displayingTM: true,
-      staticData: { name: 'param' },
+      sessions: [1, 2],
+      domains: [42, 43],
     };
-    reducer(state, {}).should.equal(state);
+    expect(reducer(state, {})).toBe(state);
   });
-  // GENERAL
-  it('should set inspector data id', () => {
-    reducer(undefined, actions.setInspectorGeneralData('viewId', 'viewType', 'epId', 'epName', 'dataId', 'field'))
-    .should.have.a.property('generalData').that.eql({
-      viewId: 'viewId',
-      viewType: 'viewType',
-      epId: 'epId',
-      epName: 'epName',
-      dataId: 'dataId',
-      field: 'field',
-      displayingTM: false,
+  test('should set rte sessions', () => {
+    const sessions = [0, 1];
+    expect(reducer(undefined, actions.setRteSessions(sessions))).toMatchObject({
+      sessions,
     });
   });
-  it('should set inspector data id', () => {
-    reducer(undefined, actions.deleteInspectorGeneralData())
-    .should.have.a.property('generalData').that.eql({
-      viewId: null,
-      viewType: null,
-      epId: null,
-      epName: null,
-      dataId: null,
-      field: null,
-      displayingTM: false,
-    });
-  });
-  it('should update inspector TM display status', () => {
-    reducer(undefined, actions.isInspectorDisplayingTM(true))
-    .should.have.a.property('generalData')
-    .that.is.an('object')
-    .that.has.a.property('displayingTM')
-    .that.eql(true);
-  });
-  // STATIC DATA
-  it('should set inspector static data', () => {
-    reducer(undefined, actions.setInspectorStaticData({ name: 'param' }))
-      .should.have.a.property('staticData').that.have.properties({ name: 'param' });
-    reducer({ staticData: { name: 'param' } }, actions.setInspectorStaticData({ type: 'link' }))
-      .should.have.a.property('staticData').that.have.properties({ type: 'link' });
-  });
-  it('should update inspector static data loading state', () => {
-    reducer(undefined, actions.isInspectorStaticDataLoading(true))
-    .should.have.a.property('staticData').that.have.properties({ loading: true });
-    reducer({ staticData: { name: 'param' } }, actions.isInspectorStaticDataLoading(true))
-    .should.have.a.property('staticData').that.have.properties({ name: 'param', loading: true });
-  });
-  it('should toggled all inspector static data nodes', () => {
-    should.not.exist(
-      reducer(undefined, actions.toggleAllInspectorStaticDataNodes(false)).staticData
-    );
-    const state = {
-      staticData: {
-        name: 'node1',
-        children: [
-          { name: 'node11' },
-          {
-            name: 'node12',
-            children: [
-              { name: 'node121' },
-              { name: 'node122' },
-            ],
-          },
-        ],
+  test('should set rte domains', () => {
+    const session = 1;
+    const domains = [3, 4];
+    expect(reducer(undefined, actions.setRteDomains(session, domains))).toMatchObject({
+      domains,
+      focusedInfo: {
+        session,
       },
-    };
-    reducer(state, actions.toggleAllInspectorStaticDataNodes(true))
-    .should.have.a.property('staticData').that.have.properties({
-      name: 'node1',
-      toggled: true,
-      children: [
-        { name: 'node11', toggled: true, children: [] },
-        {
-          name: 'node12',
-          toggled: true,
-          children: [
-            { name: 'node121', toggled: true, children: [] },
-            { name: 'node122', toggled: true, children: [] },
-          ],
-        },
-      ],
+      catalogs: [],
+      itemNames: [],
     });
   });
-  // STATIC DATA NODE
-  it('should update inspector static data node', () => {
-    reducer(undefined, actions.updateInspectorStaticDataNode(['children', '0'], { name: 'param' }))
-    .should.have.a.property('staticData').that.have.properties({ children: [{ name: 'param' }] });
-    reducer({ staticData: { name: 'param', children: [{ name: 'foo' }, { name: 'other' }] } },
-    actions.updateInspectorStaticDataNode(['children', '0'], { foo: 'bar' }))
-    .should.have.a.property('staticData').that.have.properties({ name: 'param', children: [{ name: 'foo', foo: 'bar' }, { name: 'other' }] });
+  test('should set rte catalogs', () => {
+    const session = 1;
+    const domain = 42;
+    const catalogs = ['catalog1', 'catalog2'];
+    expect(reducer(undefined, actions.setRteCatalogs(session, domain, catalogs))).toMatchObject({
+      catalogs,
+      focusedInfo: {
+        session,
+        domain,
+      },
+      itemNames: [],
+    });
   });
-  it('should update inspector static data node loading state', () => {
-    reducer(undefined, actions.isInspectorStaticDataNodeLoading(['children', '0'], true))
-      .should.have.a.property('staticData').that.have.properties({ children: [{ loading: true }] });
-  });
-  it('should update inspector static data node toggle state', () => {
-    reducer(undefined, actions.isInspectorStaticDataNodeToggled([], true))
-      .should.have.a.property('staticData').that.have.properties({ toggled: true });
-    reducer(undefined, actions.isInspectorStaticDataNodeToggled(['children', '0'], true))
-      .should.have.a.property('staticData').that.have.properties({ children: [{ toggled: true }] });
+  test('should update rte item names', () => {
+    const catalog = 'catalog1';
+    const version = 'v1';
+    const itemNames = ['item1', 'item2'];
+    expect(reducer(undefined, actions.setRteItemNames(catalog, version, itemNames))).toMatchObject({
+      itemNames,
+      focusedInfo: {
+        catalog,
+        version,
+      },
+    });
   });
 });
 
-/* --- Selectors -------------------------------------------------------------- */
+describe('store:rte:selectors', () => {
+  const emptyState = {};
 
-describe('store:inspector:selectors', () => {
-  // GENERAL
-  describe('getInspectorDisplayingTM', () => {
-    it('should return remoteId', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            displayingTM: true,
-          },
-        },
-      };
-      getInspectorDisplayingTM(state).should.eql(true);
+  describe('getRteSessions', () => {
+    test('should return status', () => {
+      const state = { rte: { sessions: [1, 2] } };
+      expect(getRteSessions(state)).toEqual([1, 2]);
+    });
+    test('should support empty state', () => {
+      expect(getRteSessions(emptyState)).toBeFalsy();
     });
   });
-  describe('getInspectorViewId', () => {
-    it('should return viewId', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            viewId: 'viewId',
-          },
-        },
-      };
-      getInspectorViewId(state).should.eql('viewId');
+  describe('getRteDomains', () => {
+    test('should return status', () => {
+      const state = { rte: { domains: [1, 2] } };
+      expect(getRteDomains(state)).toEqual([1, 2]);
+    });
+    test('should support empty state', () => {
+      expect(getRteDomains(emptyState)).toBeFalsy();
     });
   });
-  describe('getInspectorViewType', () => {
-    it('should return viewType', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            viewType: 'TextView',
-          },
-        },
-      };
-      getInspectorViewType(state).should.eql('TextView');
+  describe('getRteCatalogs', () => {
+    test('should return status', () => {
+      const state = { rte: { catalogs: ['catalog1', 'catalog2'] } };
+      expect(getRteCatalogs(state)).toEqual(['catalog1', 'catalog2']);
+    });
+    test('should support empty state', () => {
+      expect(getRteCatalogs(emptyState)).toBeFalsy();
     });
   });
-  describe('getInspectorEpId', () => {
-    it('should return epId', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            epId: 'epId',
-          },
-        },
-      };
-      getInspectorEpId(state).should.eql('epId');
+  describe('getRteItemNames', () => {
+    test('should return status', () => {
+      const state = { rte: { itemNames: ['item1', 'item2'] } };
+      expect(getRteItemNames(state)).toEqual(['item1', 'item2']);
+    });
+    test('should support empty state', () => {
+      expect(getRteItemNames(emptyState)).toBeFalsy();
     });
   });
-  describe('getInspectorEpName', () => {
-    it('should return epName', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            epName: 'EP_NAME',
-          },
-        },
-      };
-      getInspectorEpName(state).should.eql('EP_NAME');
+  describe('getRteFocusedInfo', () => {
+    test('should return status', () => {
+      const state = { rte: { focusedInfo: { session: 1 } } };
+      expect(getRteFocusedInfo(state)).toMatchObject({ session: 1 });
     });
-  });
-  describe('getInspectorDataId', () => {
-    it('should return dataId', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            dataId: {
-              parameterName: 'param',
-            },
-          },
-        },
-      };
-      getInspectorDataId(state).should.eql({ parameterName: 'param' });
-    });
-  });
-  describe('getInspectorField', () => {
-    it('should return field', () => {
-      const state = {
-        inspector: {
-          generalData: {
-            field: 'field',
-          },
-        },
-      };
-      getInspectorField(state).should.eql('field');
-    });
-  });
-  // STATIC DATA
-  describe('getInspectorStaticData', () => {
-    it('should return staticData', () => {
-      const state = {
-        inspector: {
-          staticData: {
-            name: 'root',
-          },
-        },
-      };
-      getInspectorStaticData(state).should.eql({ name: 'root' });
-    });
-  });
-  describe('getInspectorStaticDataLoading', () => {
-    it('should return staticData loading status', () => {
-      const state = {
-        inspector: {
-          staticData: {
-            loading: true,
-          },
-        },
-      };
-      getInspectorStaticDataLoading(state).should.eql(true);
-    });
-  });
-  describe('getInspectorStaticDataChildren', () => {
-    it('should return staticData children', () => {
-      const state = {
-        inspector: {
-          staticData: {
-            children: [{ name: 'child1' }, { name: 'child2' }],
-          },
-        },
-      };
-      getInspectorStaticDataChildren(state).should.eql([{ name: 'child1' }, { name: 'child2' }]);
-    });
-  });
-  // STATIC DATA NODE
-  describe('getInspectorStaticDataNode', () => {
-    it('should return staticData node', () => {
-      const state = {
-        inspector: {
-          staticData: {
-            children: [
-              { name: 'child1' },
-              {
-                children: [
-                  { name: 'child2' },
-                ],
-              },
-            ],
-          },
-        },
-      };
-      getInspectorStaticDataNode(state, ['children', '0']).should.eql({ name: 'child1' });
-      getInspectorStaticDataNode(state, ['children', '1', 'children', '0']).should.eql({ name: 'child2' });
-    });
-  });
-  describe('getInspectorStaticDataNodeToggled', () => {
-    it('should return staticData node toggled status', () => {
-      const state = {
-        inspector: {
-          staticData: {
-            children: [
-              { toggled: false },
-              {
-                children: [
-                  { toggled: true },
-                ],
-              },
-            ],
-          },
-        },
-      };
-      getInspectorStaticDataNodeToggled(state, ['children', '0']).should.eql(false);
-      getInspectorStaticDataNodeToggled(state, ['children', '1', 'children', '0']).should.eql(true);
+    test('should support empty state', () => {
+      expect(getRteFocusedInfo(emptyState)).toBeFalsy();
     });
   });
 });

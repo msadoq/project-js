@@ -11,6 +11,7 @@ import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
   SERVER_PROCESS_LAUNCHING_TIMEOUT,
+  RTE_SESSIONS_REQUEST_LAUNCHING_TIMEOUT,
 } from '../constants';
 import { clear } from '../common/callbacks';
 import { setRtd, getRtd } from '../rtdManager';
@@ -152,25 +153,6 @@ export function onStart() {
         callback(null);
       }
     },
-    function requestCatalogSessions(callback) {
-    // should have rte sessions in store at start
-      splashScreen.setMessage('requesting catalog explorer sessions...');
-      logger.info('requesting catalog explorer sessions...');
-      const cancelTimeout = scheduleTimeout('rteSession');
-      const rtdApi = getRtd();
-      rtdApi.getDatabase().getSessionList((err, sessions) => {
-        cancelTimeout();
-        if (err) {
-          callback(err);
-          return;
-        }
-        splashScreen.setMessage('injecting catalog explorer sessions...');
-        logger.info('injecting catalog explorer sessions...');
-
-        getStore().dispatch(setRteSessions(sessions));
-        callback(null);
-      });
-    },
     function openInitialWorkspace(callback) {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
@@ -210,6 +192,25 @@ export function onStart() {
         }
         callback(null);
       }));
+    },
+    function requestCatalogSessions(callback) {
+      // should have rte sessions in store at start
+      splashScreen.setMessage('requesting catalog explorer sessions...');
+      logger.info('requesting catalog explorer sessions...');
+      const cancelTimeout = scheduleTimeout(RTE_SESSIONS_REQUEST_LAUNCHING_TIMEOUT, 'rteSession');
+      const { dispatch } = getStore();
+      const rtdApi = getRtd();
+      rtdApi.getDatabase().getSessionList((err, sessions) => {
+        cancelTimeout();
+        if (err) {
+          callback(err);
+          return;
+        }
+        splashScreen.setMessage('injecting catalog explorer sessions...');
+        logger.info('injecting catalog explorer sessions...');
+        dispatch(setRteSessions(sessions));
+        callback(null);
+      });
     },
   ], (err) => {
     if (err) {

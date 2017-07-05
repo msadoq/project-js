@@ -8,17 +8,17 @@ import * as types from '../../types';
 const initialState = {
   sessions: [],
   domains: [],
-  catalogs: [],
-  itemNames: [],
+  catalogs: {},
+  itemNames: {},
   openedItems: {},
-  focused: {
-    key: null,
-    session: null,
-    domain: null,
-    catalog: null,
-    version: null,
-    namespace: null,
-    name: null,
+  focusedItem: null,
+  focusedInfo: {
+    session: '',
+    domain: '',
+    catalog: '',
+    version: '',
+    namespace: '',
+    name: '',
   },
 };
 
@@ -46,42 +46,44 @@ export default function rte(state = initialState, action) {
           sessions: action.payload.sessions,
         }
       );
-    case types.HSC_SET_RTE_DOMAINS:
+    case types.HSC_SET_RTE_DOMAINS: {
       return Object.assign(
         {},
         state,
         {
           domains: action.payload.domains,
-          focused: {
-            ...state.focused,
+          focusedInfo: {
             session: action.payload.session,
           },
           catalogs: [],
           itemNames: [],
         }
       );
-    case types.HSC_SET_RTE_CATALOGS:
-      return Object.assign(
+    }
+    case types.HSC_SET_RTE_CATALOGS: {
+      const ret = Object.assign(
         {},
         state,
         {
           catalogs: action.payload.catalogs,
-          focused: {
-            ...state.focused,
+          focusedInfo: {
             session: action.payload.session,
             domain: action.payload.domain,
           },
           itemNames: [],
         }
       );
+      return ret;
+    }
     case types.HSC_SET_RTE_ITEM_NAMES:
       return Object.assign(
         {},
         state,
         {
           itemNames: action.payload.itemNames,
-          focused: {
-            ...state.focused,
+          focusedInfo: {
+            session: state.focusedInfo.session,
+            domain: state.focusedInfo.domain,
             catalog: action.payload.catalog,
             version: action.payload.version,
           },
@@ -106,8 +108,8 @@ export default function rte(state = initialState, action) {
               item: action.payload.item,
             },
           },
-          focused: {
-            key: action.payload.key,
+          focusedItem: action.payload.key,
+          focusedInfo: {
             session: action.payload.session,
             domain: action.payload.domain,
             catalog: action.payload.catalog,
@@ -117,7 +119,7 @@ export default function rte(state = initialState, action) {
           },
         }
       );
-    case types.HSC_CLOSE_RTE_ITEM:
+    case types.HSC_CLOSE_RTE_ITEM: {
       return Object.assign(
         {},
         state,
@@ -125,39 +127,47 @@ export default function rte(state = initialState, action) {
           openedItems: _omit(state.openedItems, action.payload.key),
         }
       );
+    }
     case types.HSC_SET_RTE_FOCUSED_ITEM:
-      console.log(action.payload);
       return Object.assign(
         {},
         state,
         {
-          focused: action.payload,
+          focusedItem: action.payload.key,
+          focusedInfo: {
+            session: action.payload.session,
+            domain: action.payload.domain,
+            catalog: action.payload.catalog,
+            version: action.payload.version,
+            namespace: action.payload.namespace,
+            name: action.payload.name,
+          },
         }
       );
     // OPENED ITEM
-    case types.HSC_TOGGLE_ALL_INSPECTOR_STATIC_DATA_NODES:
-      /* return Object.assign(
+    /* case types.HSC_TOGGLE_ALL_INSPECTOR_STATIC_DATA_NODES:
+       return Object.assign(
         {},
         state,
         { staticData: recursiveToggleNode(state.staticData, action.payload.toggled) }
       );
-      */
-      break;
+
+      break;*/
     // OPENED ITEM NODE
-    case types.HSC_UPDATE_INSPECTOR_STATIC_DATA_NODE:
-      /* return u.updateIn(
+    /* case types.HSC_UPDATE_INSPECTOR_STATIC_DATA_NODE:
+       return u.updateIn(
         ['staticData', ...action.payload.path],
         { ...action.payload.data, loading: false },
         state
-      );*/
-      break;
-    case types.HSC_IS_INSPECTOR_STATIC_DATA_NODE_LOADING:
-      /* return u.updateIn(
+      );
+      break;*/
+    /* case types.HSC_IS_INSPECTOR_STATIC_DATA_NODE_LOADING:
+       return u.updateIn(
         ['staticData', ...action.payload.path],
         { loading: action.payload.loading, toggled: true },
         state
-      );*/
-      break;
+      );
+      break;*/
     case types.HSC_IS_RTE_CATALOG_NODE_TOGGLED:
       return u.updateIn(
         ['catalogs', ...action.payload.path],
@@ -167,6 +177,12 @@ export default function rte(state = initialState, action) {
     case types.HSC_IS_RTE_ITEM_NAME_NODE_TOGGLED:
       return u.updateIn(
         ['itemNames', ...action.payload.path],
+        { toggled: action.payload.toggled },
+        state
+      );
+    case types.HSC_IS_RTE_ITEM_NODE_TOGGLED:
+      return u.updateIn(
+        ['openedItems', action.payload.key, 'item', ...action.payload.path],
         { toggled: action.payload.toggled },
         state
       );
@@ -198,14 +214,15 @@ export default function rte(state = initialState, action) {
 /* --- Selectors -------------------------------------------------------------- */
 
 // GENERAL
-export const getRteSessions = state => state.rte.sessions;
-export const getRteDomains = state => state.rte.domains;
-export const getRteCatalogs = state => state.rte.catalogs;
-export const getRteItemNames = state => state.rte.itemNames;
+export const getRteSessions = state => _get(state, 'rte.sessions');
+export const getRteDomains = state => _get(state, 'rte.domains');
+export const getRteCatalogs = state => _get(state, 'rte.catalogs');
+export const getRteItemNames = state => _get(state, 'rte.itemNames');
 
-export const getRteOpenedItems = state => state.rte.openedItems;
+export const getRteOpenedItems = state => _get(state, 'rte.openedItems');
 export const getRteOpenedItem = (state, uuid) => _get(state, ['rte', 'openedItems', uuid]);
-export const getRteFocusedItem = state => state.rte.focused;
+export const getRteFocusedItem = state => _get(state, 'rte.focusedItem');
+export const getRteFocusedInfo = state => _get(state, 'rte.focusedInfo');
 
 
 // STATIC DATA

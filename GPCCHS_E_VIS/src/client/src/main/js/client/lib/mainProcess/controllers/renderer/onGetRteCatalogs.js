@@ -1,5 +1,4 @@
-import getLogger from 'common/log';
-import { getStore } from '../../../store/mainStore';
+import { getStore } from '../../store';
 import { getRtd } from '../../../rtdManager';
 import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
 import { add } from '../../../store/actions/messages';
@@ -7,7 +6,6 @@ import {
   setRteCatalogs,
 } from '../../../store/actions/rte';
 
-const logger = getLogger('main:controllers:renderer:onGetRteCatalogs');
 
 export default function ({ sessionId, domainId }) {
   const { dispatch } = getStore();

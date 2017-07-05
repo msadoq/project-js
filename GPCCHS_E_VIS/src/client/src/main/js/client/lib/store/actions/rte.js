@@ -1,4 +1,4 @@
-import simple from '../simpleActionCreator';
+import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
 export const setRteSessions = simple(types.HSC_SET_RTE_SESSIONS, 'sessions');
@@ -15,3 +15,4 @@ export const isRteCatalogNodeToggled = simple(types.HSC_IS_RTE_CATALOG_NODE_TOGG
 export const isRteItemNameNodeToggled = simple(types.HSC_IS_RTE_ITEM_NAME_NODE_TOGGLED, 'path', 'toggled');
 export const isRteCatalogNodeActive = simple(types.HSC_IS_RTE_CATALOG_NODE_ACTIVE, 'path', 'active');
 export const isRteItemNameNodeActive = simple(types.HSC_IS_RTE_ITEM_NAME_NODE_ACTIVE, 'path', 'active');
+export const isRteItemNodeToggled = simple(types.HSC_IS_RTE_ITEM_NODE_TOGGLED, 'key', 'path', 'toggled');

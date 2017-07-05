@@ -107,6 +107,22 @@ const commands = {
         name,
         key,
       }, callback),
+    focusRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_FOCUS_RTE_ITEM, {
+        sessionId,
+        domainId,
+        catalog,
+        version,
+        namespace,
+        name,
+        key,
+      }, callback),
+    resolveRteLink: ({ link, sessionId, domainId }, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_RESOLVE_RTE_LINK, {
+        link,
+        sessionId,
+        domainId,
+      }, callback),
   },
 };
 

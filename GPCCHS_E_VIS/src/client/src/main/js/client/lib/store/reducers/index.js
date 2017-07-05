@@ -19,7 +19,7 @@ import inspector from './inspector';
 import ui from './ui';
 import rte from './rte';
 
-import { configurationReducers, dataReducers } from '../../viewManager/';
+import { configurationReducers, dataReducers } from '../../viewManager';
 
 const rootReducer = combineReducers({
   form,

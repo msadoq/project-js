@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import getLogger from 'common/log';
+import getLogger from '../../../common/logManager';
 import CatalogExplorerRight from './CatalogExplorerRight';
 import CatalogExplorerLeft from './CatalogExplorerLeft';
 import styles from './CatalogExplorer.css';
@@ -9,28 +9,30 @@ const logger = getLogger('CatalogExplorer');
 export default class CatalogExplorer extends PureComponent {
   static propTypes = {
     // DATA
-    focusedItem: PropTypes.shape({}),
+    focusedItem: PropTypes.string,
+    focusedInfo: PropTypes.shape({}),
     openedItems: PropTypes.shape({}),
     // ACTIONS
     closeItem: PropTypes.func.isRequired,
     setFocusedItem: PropTypes.func.isRequired,
+    toggleItemNode: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    focusedItem: {
-      key: null,
-    },
+    focusedItem: '',
+    focusedInfo: {},
     openedItems: {},
   };
 
   render() {
     logger.debug('render');
-    console.log('render');
     const {
+      focusedInfo,
       focusedItem,
       openedItems,
       closeItem,
       setFocusedItem,
+      toggleItemNode,
     } = this.props;
 
     const noOpenedItems = Object.keys(openedItems).length === 0;
@@ -45,9 +47,11 @@ export default class CatalogExplorer extends PureComponent {
         { !noOpenedItems &&
           <div className={styles.catalogExplorerRight}>
             <CatalogExplorerRight
+              focusedInfo={focusedInfo}
               focusedItem={focusedItem}
               openedItems={openedItems}
               setFocusedItem={setFocusedItem}
+              toggleItemNode={toggleItemNode}
               closeItem={closeItem}
             />
           </div>

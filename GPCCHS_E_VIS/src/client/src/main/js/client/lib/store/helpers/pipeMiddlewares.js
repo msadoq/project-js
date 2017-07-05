@@ -1,5 +1,5 @@
-const simpleComposeMiddlewares = (m1, m2) => store => next => action => (
-  m2(store)(m1(store)(next))(action)
+const simpleComposeMiddlewares = (m1, m2) => store => next => (
+  m2(store)(m1(store)(next))
 );
 
 const pipeMiddlewares = (...middlewares) => {

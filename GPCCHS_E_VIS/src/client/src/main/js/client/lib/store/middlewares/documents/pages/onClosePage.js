@@ -1,5 +1,6 @@
 import * as types from '../../../types';
-import { openDialog } from '../../../actions/ui';
+// import { openDialog } from '../../../actions/ui';
+import { open as openModal } from '../../../actions/modals';
 
 import { closePage } from '../../../actions/pages';
 import { getPage } from '../../../reducers/pages';
@@ -13,21 +14,21 @@ const onClosePage = () => (
       const state = getState();
       const hasUnsavedViews = getPageHasUnsavedViews(state, { pageId });
       const windowId = getWindowIdByPageId(state, { pageId });
-      const dialogNeedSave = message => openDialog(windowId, 'page_need_save', 'message', {
-        pageId,
-        message,
-        buttons: ['Yes', 'No', 'Cancel'],
+      const dialogNeedSave = title => openModal(windowId, {
+        title,
+        type: 'dialog',
+        id: 'page_need_save',
+        buttons: [{ label: 'Yes', value: 'yes' }, { label: 'No' }, { label: 'Cancel' }],
+        message: 'Would you want to save before closing ?',
       });
       const page = getPage(state, { pageId });
       if (page.isModified && hasUnsavedViews) {
-        // here modal type dialog
-        dispatch(dialogNeedSave('Page and views are modified, would you want to save before closing ?'));
+        dispatch(dialogNeedSave('Page and views are modified'));
       } else if (page.isModified) {
-        // here modal type dialog
-        dispatch(dialogNeedSave('Page is modified, would you want to save before closing ?'));
+        const a = dialogNeedSave('Page is modified');
+        dispatch(a);
       } else if (hasUnsavedViews) {
-        // here modal type dialog
-        dispatch(dialogNeedSave('Views are modified, would you want to save before closing ?'));
+        dispatch(dialogNeedSave('Views are modified'));
       } else {
         dispatch(closePage(pageId));
       }

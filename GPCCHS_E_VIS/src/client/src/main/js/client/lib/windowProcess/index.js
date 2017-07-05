@@ -46,7 +46,8 @@ main.requestReduxCurrentState(({ state }) => {
     monitoringProps = eventLoopMonitoring({
       criticalDelay: HEALTH_CRITICAL_DELAY,
       onStatusChange: status => store.dispatch(updateWindowStatus(windowId, status)),
-    });
+      id: 'windows',
+    }, store);
   }
 
   render(

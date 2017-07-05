@@ -56,7 +56,8 @@ series({
     monitoring = eventLoopMonitoring({
       criticalDelay: HEALTH_CRITICAL_DELAY,
       onStatusChange: status => store.dispatch(updateHssStatus(status)),
-    });
+      id: 'server',
+    }, store);
     monitoring.startMonitoring();
   }
   // TODO dbrugne init configuration and inject in store

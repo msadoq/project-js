@@ -106,7 +106,8 @@ export function onStart() {
           monitoring = eventLoopMonitoring({
             criticalDelay: HEALTH_CRITICAL_DELAY,
             onStatusChange: status => store.dispatch(updateMainStatus(status)),
-          });
+            id: 'main',
+          }, store);
         }
         callback(null);
       };

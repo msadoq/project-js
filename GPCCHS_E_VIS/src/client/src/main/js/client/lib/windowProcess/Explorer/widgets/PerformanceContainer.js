@@ -8,6 +8,7 @@ import { getWindowsVisibleViews } from '../../../store/selectors/windows';
 import { getWindowFocusedPageId } from '../../../store/reducers/windows';
 import { getPage } from '../../../store/reducers/pages';
 import { play, pause } from '../../../store/actions/hsc';
+import { updateStressProcess } from '../../../store/actions/health';
 import textData from '../../../viewManager/TextView/store/dataSelectors';
 import plotData from '../../../viewManager/PlotView/store/dataSelectors';
 import * as constants from '../../../viewManager/constants';
@@ -46,13 +47,17 @@ const mapStateToProps = (state, { windowId }) => {
   return {
     ...getHealthMapForWindow(state, { windowId }),
     viewInfo,
-    play,
-    pause,
     timebarUuid,
   };
 };
 
-const PerformanceContainer = connect(mapStateToProps)(Performance);
+const mapDispatchToProps = {
+  updateStressProcess,
+  play,
+  pause,
+}
+;
+const PerformanceContainer = connect(mapStateToProps, mapDispatchToProps)(Performance);
 
 PerformanceContainer.propTypes = {
   windowId: PropTypes.string.isRequired,

@@ -32,9 +32,18 @@ export default class Performance extends Component {
   static propTypes = {
     lastPubSubTimestamp: PropTypes.number,
     dc: PropTypes.string,
-    hss: PropTypes.string,
-    main: PropTypes.string,
-    window: PropTypes.string,
+    hss: PropTypes.shape({
+      status: PropTypes.string,
+      isStressed: PropTypes.boolean,
+    }),
+    main: PropTypes.shape({
+      status: PropTypes.string,
+      isStressed: PropTypes.boolean,
+    }),
+    windows: PropTypes.shape({
+      status: PropTypes.string,
+      isStressed: PropTypes.boolean,
+    }),
     viewInfo: PropTypes.shape({
       [constants.VM_VIEW_DYNAMIC]: PropTypes.object,
       [constants.VM_VIEW_TEXT]: PropTypes.object,
@@ -43,14 +52,24 @@ export default class Performance extends Component {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     timebarUuid: PropTypes.string.isRequired,
+    updateStressProcess: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     lastPubSubTimestamp: null,
     dc: HEALTH_STATUS_HEALTHY,
-    hss: HEALTH_STATUS_HEALTHY,
-    main: HEALTH_STATUS_HEALTHY,
-    window: HEALTH_STATUS_HEALTHY,
+    hss: {
+      status: HEALTH_STATUS_HEALTHY,
+      isStressed: false,
+    },
+    main: {
+      status: HEALTH_STATUS_HEALTHY,
+      isStressed: false,
+    },
+    windows: {
+      status: HEALTH_STATUS_HEALTHY,
+      isStressed: false,
+    },
     viewInfo: {
       [constants.VM_VIEW_DYNAMIC]: {},
       [constants.VM_VIEW_TEXT]: {},
@@ -91,15 +110,15 @@ export default class Performance extends Component {
       hss,
       dc,
       main,
-      window,
+      windows,
       lastPubSubTimestamp,
       viewInfo,
     } = this.props;
 
     const dcStyle = getStyle(dc);
-    const hssStyle = getStyle(hss);
-    const mainStyle = getStyle(main);
-    const windowStyle = getStyle(window);
+    const hssStyle = getStyle(hss.status);
+    const mainStyle = getStyle(main.status);
+    const windowStyle = getStyle(windows.status);
 
     const pubSubStyle = lastPubSubTimestamp
       ? classnames(styles.bull, styles.healthy)
@@ -135,14 +154,38 @@ export default class Performance extends Component {
             <span className={dcStyle}>•</span> DC
           </div>
           <div title="Cache daemon health status">
-            <span className={hssStyle}>•</span> HSS
+            <span className={hssStyle}>•</span> HSS (mocked delay {hss.isStressed ? 'ON' : 'OFF'})
           </div>
           <div title="Main application thread health status">
-            <span className={mainStyle}>•</span> MAIN
+            <span className={mainStyle}>•</span> MAIN (mocked delay {main.isStressed ? 'ON' : 'OFF'})
           </div>
           <div title="Current window health status">
-            <span className={windowStyle}>•</span> WINDOW
+            <span className={windowStyle}>•</span> WINDOW (mocked delay {windows.isStressed ? 'ON' : 'OFF'})
           </div>
+          <Button
+            bsStyle="primary"
+            block
+            onClick={() => this.props.updateStressProcess('server', !this.props.hss.isStressed)}
+            type="button"
+          >
+          Simulate delay for Server
+          </Button>
+          <Button
+            bsStyle="primary"
+            block
+            onClick={() => this.props.updateStressProcess('main', !this.props.main.isStressed)}
+            type="button"
+          >
+          Simulate delay for Main
+          </Button>
+          <Button
+            bsStyle="primary"
+            block
+            onClick={() => this.props.updateStressProcess('windows', !this.props.windows.isStressed)}
+            type="button"
+          >
+          Simulate delay for Renderer
+          </Button>
         </Panel>
         <Panel header={<h3>Pub/sub incoming data</h3>}>
           <div title="Pub/sub receiving state">

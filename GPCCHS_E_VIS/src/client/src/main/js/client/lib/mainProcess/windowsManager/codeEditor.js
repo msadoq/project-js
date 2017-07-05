@@ -4,9 +4,6 @@ import getLogger from '../../common/logManager';
 import parameters from '../../common/configurationManager';
 import { getStore } from '../store';
 import { closeCodeEditor } from '../../store/actions/editor';
-import { getViewId as getCodeEditorViewId } from '../../store/reducers/codeEditor';
-
-import { getEditorWindowTitle } from './selectors';
 import getCenteredPosition from './common/getCenteredPosition';
 import getHtmlPath from './getHtmlPath';
 

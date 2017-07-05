@@ -100,16 +100,16 @@ describe('store:messages:selectors', () => {
     });
   });
   describe('getTimeSetterMessages', () => {
-    const state = {
+    const state2 = {
       messages: {
         'timeSetter-tbuuid': true,
       },
     };
     test('should returns timeSetter messages', () => {
-      expect(getTimeSetterMessages(state, { timebarUuid: 'tbuuid' })).toBe(true);
+      expect(getTimeSetterMessages(state2, { timebarUuid: 'tbuuid' })).toBe(true);
     });
     test('should returns null', () => {
-      expect(getTimeSetterMessages(state, { timebarUuid: 'unknown' })).toBeFalsy();
+      expect(getTimeSetterMessages(state2, { timebarUuid: 'unknown' })).toBeFalsy();
     });
   });
 });

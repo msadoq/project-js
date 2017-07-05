@@ -9,8 +9,8 @@ export default class CurrentCursorCanvas extends PureComponent {
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
-    current: PropTypes.number.isRequired,
-    xScale: PropTypes.func.isRequired,
+    // current: PropTypes.number.isRequired,
+    // xScale: PropTypes.func.isRequired,
   }
 
   componentDidMount() {

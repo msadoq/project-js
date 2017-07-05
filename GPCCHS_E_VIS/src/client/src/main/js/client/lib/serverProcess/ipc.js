@@ -109,7 +109,7 @@ const commands = {
       ], callback);
     },
     requestTimebasedQuery: (flatDataId, dataId, interval, args) => {
-      return commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_QUERY, [
+      const queryId = commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_QUERY, [
         getDcDataId(flatDataId, dataId),
         encode('dc.dataControllerUtils.TimeInterval', {
           startTime: { ms: interval[0] },
@@ -117,6 +117,7 @@ const commands = {
         }),
         encode('dc.dataControllerUtils.QueryArguments', args),
       ], onDcResponseCallback);
+      return queryId;
     },
     requestSubscriptionAdd: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [

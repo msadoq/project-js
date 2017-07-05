@@ -27,7 +27,6 @@ export default class Chart extends React.Component {
     xAxisAt: PropTypes.string,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
-    current: PropTypes.number.isRequired,
     enableTooltip: PropTypes.bool,
     tooltipColor: PropTypes.string,
     allowXZoom: PropTypes.bool,

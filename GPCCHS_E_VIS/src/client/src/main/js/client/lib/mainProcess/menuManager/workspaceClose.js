@@ -14,7 +14,7 @@ function workspaceClose() {
       app.quit();
     }
     if (typeof err === 'string') {
-      return dispatch(addMessage(
+      dispatch(addMessage(
         'global',
         'warning',
         err

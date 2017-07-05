@@ -114,6 +114,17 @@ export default class PlotAxes extends Component {
         >
           {Object.keys(axes).map((axisId) => {
             const axis = axes[axisId];
+            const addPlotAxisInitalValues = {
+              ...axis,
+              max: axis.max.toString(),
+              min: axis.min.toString(),
+              tickStep: axis.tickStep.toString(),
+              logSettings: {
+                min: axis.logSettings.min.toString(),
+                max: axis.logSettings.max.toString(),
+                base: axis.logSettings.base.toString(),
+              },
+            };
             return (
               <Panel
                 key={axisId}
@@ -142,17 +153,7 @@ export default class PlotAxes extends Component {
                   <AddPlotAxis
                     key={axisId}
                     axisId={axisId}
-                    initialValues={{
-                      ...axis,
-                      max: axis.max.toString(),
-                      min: axis.min.toString(),
-                      tickStep: axis.tickStep.toString(),
-                      logSettings: {
-                        min: axis.logSettings.min.toString(),
-                        max: axis.logSettings.max.toString(),
-                        base: axis.logSettings.base.toString(),
-                      },
-                    }}
+                    initialValues={addPlotAxisInitalValues}
                     axes={axes}
                     entryPoints={entryPoints}
                     onSubmit={this.handleSubmitFactory(axisId)}

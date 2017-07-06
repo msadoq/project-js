@@ -24,6 +24,9 @@ export const HSC_DIALOG_CLOSED = 'HSC_DIALOG_CLOSED';
 export const WS_ASK_OPEN_PAGE = 'WS_ASK_OPEN_PAGE';
 export const WS_ASK_SAVE_PAGE = 'WS_ASK_SAVE_PAGE';
 export const WS_ASK_CLOSE_PAGE = 'WS_ASK_CLOSE_PAGE';
+export const WS_ASK_OPEN_VIEW = 'WS_ASK_OPEN_VIEW';
+export const WS_ASK_SAVE_VIEW = 'WS_ASK_SAVE_VIEW';
+export const WS_ASK_CLOSE_VIEW = 'WS_ASK_CLOSE_VIEW';
 
 export const WS_VIEW_OPENED = 'WS_VIEW_OPENED';
 export const WS_PAGE_OPENED = 'WS_PAGE_OPENED';

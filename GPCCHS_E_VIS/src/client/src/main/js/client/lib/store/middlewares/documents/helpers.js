@@ -1,11 +1,12 @@
+import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 import * as types from '../../types';
 import { openDialog } from '../../actions/ui';
-import { openModal } from '../../actions/modals';
+import { open as openModal } from '../../actions/modals';
 
 const createDialogHelper = ({ dispatch }) => {
   const dialogCache = {};
-  const open = (windowId, type, onClose) => {
+  const open = (windowId, type, onClose = _.noop) => {
     const dialogId = v4();
     dialogCache[dialogId] = onClose;
     dispatch(openDialog(windowId, dialogId, type));
@@ -23,17 +24,9 @@ const createDialogHelper = ({ dispatch }) => {
   };
 };
 
-export const withOpenDialog = middleware => (storeApi) => {
-  const dialogHelper = createDialogHelper(storeApi);
-  return next => (action) => {
-    dialogHelper.interact(action);
-    return middleware({ ...storeApi, openDialog: dialogHelper.open })(next)(action);
-  };
-};
-
 const createModalHelper = ({ dispatch }) => {
   const modalCache = {};
-  const open = (windowId, props, onClose) => {
+  const open = (windowId, props, onClose = _.noop) => {
     const modalId = v4();
     modalCache[modalId] = onClose;
     dispatch(openModal(windowId, { ...props, modalId }));
@@ -56,5 +49,13 @@ export const withOpenModal = middleware => (storeApi) => {
   return next => (action) => {
     modalHelper.interact(action);
     return middleware({ ...storeApi, openModal: modalHelper.open })(next)(action);
+  };
+};
+
+export const withOpenDialog = middleware => (storeApi) => {
+  const dialogHelper = createDialogHelper(storeApi);
+  return next => (action) => {
+    dialogHelper.interact(action);
+    return middleware({ ...storeApi, openDialog: dialogHelper.open })(next)(action);
   };
 };

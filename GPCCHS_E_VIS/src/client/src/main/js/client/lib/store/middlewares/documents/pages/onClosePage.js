@@ -1,33 +1,36 @@
 import * as types from '../../../types';
-// import { openDialog } from '../../../actions/ui';
-import { open as openModal } from '../../../actions/modals';
 
-import { closePage } from '../../../actions/pages';
+import { closePage, askSavePage } from '../../../actions/pages';
 import { getPage } from '../../../reducers/pages';
 import { getPageHasUnsavedViews } from '../../../selectors/pages';
 import { getWindowIdByPageId } from '../../../reducers/windows';
 
 const onClosePage = () => (
-  ({ getState, dispatch }) => next => (action) => {
+  ({ getState, dispatch, openModal }) => next => (action) => {
     if (action.type === types.WS_ASK_CLOSE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
       const hasUnsavedViews = getPageHasUnsavedViews(state, { pageId });
       const windowId = getWindowIdByPageId(state, { pageId });
-      const dialogNeedSave = title => openModal(windowId, {
+      const pageNeedSave = title => openModal(windowId, {
         title,
         type: 'dialog',
-        id: 'page_need_save',
-        buttons: [{ label: 'Yes', value: 'yes' }, { label: 'No' }, { label: 'Cancel' }],
+        buttons: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }, { label: 'Cancel' }],
         message: 'Would you want to save before closing ?',
+      }, (closeAction) => {
+        if (closeAction.payload.choice === 'yes') {
+          dispatch(askSavePage(pageId));
+        } else if (closeAction.payload.choice === 'no') {
+          dispatch(closePage(pageId));
+        }
       });
       const page = getPage(state, { pageId });
       if (page.isModified && hasUnsavedViews) {
-        dispatch(dialogNeedSave('Page and views are modified'));
+        pageNeedSave('Page and views are modified');
       } else if (page.isModified) {
-        dispatch(dialogNeedSave('Page is modified'));
+        pageNeedSave('Page is modified');
       } else if (hasUnsavedViews) {
-        dispatch(dialogNeedSave('Views are modified'));
+        pageNeedSave('Views are modified');
       } else {
         dispatch(closePage(pageId));
       }

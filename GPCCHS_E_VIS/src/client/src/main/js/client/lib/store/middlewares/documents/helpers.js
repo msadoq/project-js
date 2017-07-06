@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import * as types from '../../types';
 import { openDialog } from '../../actions/ui';
+import { openModal } from '../../actions/modals';
 
 const createDialogHelper = ({ dispatch }) => {
   const dialogCache = {};
@@ -30,4 +31,30 @@ export const withOpenDialog = middleware => (storeApi) => {
   };
 };
 
-export const withOpenModal = x => x;
+const createModalHelper = ({ dispatch }) => {
+  const modalCache = {};
+  const open = (windowId, props, onClose) => {
+    const modalId = v4();
+    modalCache[modalId] = onClose;
+    dispatch(openModal(windowId, { ...props, modalId }));
+  };
+  const interact = (action) => {
+    if (action.type === types.WS_MODAL_CLOSE && modalCache[action.payload.props.modalId]) {
+      const onClose = modalCache[action.payload.props.modalId];
+      modalCache[action.payload.props.modalId] = undefined;
+      onClose(action);
+    }
+  };
+  return {
+    open,
+    interact,
+  };
+};
+
+export const withOpenModal = middleware => (storeApi) => {
+  const modalHelper = createModalHelper(storeApi);
+  return next => (action) => {
+    modalHelper.interact(action);
+    return middleware({ ...storeApi, openModal: modalHelper.open })(next)(action);
+  };
+};

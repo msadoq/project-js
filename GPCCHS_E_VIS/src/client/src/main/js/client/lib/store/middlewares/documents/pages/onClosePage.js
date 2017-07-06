@@ -25,8 +25,7 @@ const onClosePage = () => (
       if (page.isModified && hasUnsavedViews) {
         dispatch(dialogNeedSave('Page and views are modified'));
       } else if (page.isModified) {
-        const a = dialogNeedSave('Page is modified');
-        dispatch(a);
+        dispatch(dialogNeedSave('Page is modified'));
       } else if (hasUnsavedViews) {
         dispatch(dialogNeedSave('Views are modified'));
       } else {

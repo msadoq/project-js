@@ -86,7 +86,7 @@ export default function computeMissingIntervals(dataMap, lastMap, forecastInterv
         // In play mode all intervals with range type
         if (forecastIntervals) {
           queries[remoteId][globalConstants.DATASTRUCTURETYPE_RANGE] =
-            addInterval(queries[remoteId][globalConstants.DATASTRUCTURETYPE_RANGE], m);
+            addInterval(queries[remoteId][globalConstants.DATASTRUCTURETYPE_RANGE], m); // TODO should be done outside this function
         } else {
           // Check viewType to determine how to request
           const structureType = getStructureType(viewType);

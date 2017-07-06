@@ -33,7 +33,7 @@ function prepareEnhancers(isDebugOn) {
     level: 'info',
     collapsed: true,
     predicate: (state, action) => (
-      !_getOr(false, ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action)
+      _getOr(false, ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action)
     ),
     actionTransformer: isDebugOn ? decorateActionWithTiming : action => action,
   });

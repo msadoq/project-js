@@ -77,6 +77,8 @@ export default class Tooltip extends React.Component {
       const pair = pairs[key];
       const xInDomain = pair.xAxis.scale.invert(xInRange);
       const yInDomain = pair.yAxis.scale.invert(yInRange);
+      const xFormat = d3Format(pair.xAxis.format || '.2f');
+      const yFormat = d3Format(pair.yAxis.format || '.2f');
       linesList[key] = {};
       for (let i = 0; i < pair.lines.length; i += 1) {
         const line = pair.lines[i];
@@ -92,6 +94,8 @@ export default class Tooltip extends React.Component {
         );
         linesList[key][line.id] = {
           ...line.data[minIndex],
+          x: xFormat(line.data[minIndex].x),
+          y: yFormat(line.data[minIndex].y),
           xInRange: pair.xAxis.scale(line.data[minIndex].x),
           yInRange: pair.yAxis.scale(line.data[minIndex].y),
           foundColor: line.colorAccessor ? line.colorAccessor(line.data[minIndex]) : null,

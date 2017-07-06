@@ -9,11 +9,12 @@ const { set: setDcStatus } = require('../../models/dcStatus');
  *
  * - decode and pass to registered callback
  *
- * @param queryIdBuffer
- * @param buffer
+ * @param args array
  */
-module.exports = (buffer) => {
+module.exports = (args) => {
   logger.silly('called');
+
+  const buffer = args[0];
 
   const status = decode('dc.dataControllerUtils.DcStatus', buffer).status;
 

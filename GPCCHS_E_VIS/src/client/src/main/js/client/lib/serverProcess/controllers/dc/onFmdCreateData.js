@@ -7,12 +7,15 @@ const globalConstants = require('../../../constants');
  *
  * - decode and pass to registered callback
  *
- * @param queryIdBuffer
- * @param statusBuffer
- * @param buffer
+ * @param reply function
+ * @param args array
  */
-module.exports = (reply, queryIdBuffer, statusBuffer, buffer) => {
+module.exports = (reply, args) => {
   logger.silly('called');
+
+  const queryIdBuffer = args[0];
+  const statusBuffer = args[1];
+  const buffer = args[2];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);

@@ -20,12 +20,14 @@ const protobufSuccess = encode('dc.dataControllerUtils.Status', {
  * - deprotobufferize reason
  * - send error message to client and execute callback
  *
- * @param queryIdBuffer
- * @param statusBuffer
- * @param reasonBuffer
+ * @param args array
  */
-module.exports = (queryIdBuffer, statusBuffer, reasonBuffer) => {
+module.exports = (args) => {
   logger.silly('called');
+
+  const queryIdBuffer = args[0];
+  const statusBuffer = args[1];
+  const reasonBuffer = args[2];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   const callback = pop(queryId);

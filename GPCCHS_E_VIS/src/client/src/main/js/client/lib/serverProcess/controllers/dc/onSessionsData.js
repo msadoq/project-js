@@ -7,11 +7,13 @@ const { pop } = require('../../../common/callbacks');
  *
  * - decode and pass to registered callback
  *
- * @param queryIdBuffer
- * @param buffer
+ * @param args array
  */
-module.exports = (queryIdBuffer, buffer) => {
+module.exports = (args) => {
   logger.silly('called');
+
+  const queryIdBuffer = args[0];
+  const buffer = args[1];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);

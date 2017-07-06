@@ -1,6 +1,4 @@
 const { decode, getType } = require('../../../utils/adapters');
-const _each = require('lodash/each');
-const _chunk = require('lodash/chunk');
 const { writeFile } = require('fs');
 const { join } = require('path');
 const executionMonitor = require('../../../common/logManager/execution');
@@ -26,20 +24,27 @@ const dump = (get('DUMP') === 'on');
  *        - deprotobufferize payload
  *        - queue a ws newData message (sent periodically)
  *
- * @param queryIdBuffer (not used for now)
- * @param dataIdBuffer
- * @param payloadsBuffers
+ * @param args array
  */
-module.exports = (
-  queryIdBuffer,
-  dataIdBuffer,
-  ...payloadsBuffers
-) => {
+module.exports = (args) => {
   logger.silly('called');
   const execution = executionMonitor('pubSubData');
   execution.start('global');
 
   logger.silly('received data from pubSub');
+
+  // args[0] is queryIdBuffer
+  const dataIdBuffer = args[1];
+
+  const payloadBuffers = Array.prototype.slice.call(args, 2);
+
+  // check payloads parity
+  if (payloadBuffers.length % 2 !== 0) {
+    logger.silly('payloads should be sent by (timestamp, payloads) peers');
+    return;
+  }
+
+  const numberOfValues = payloadBuffers.length / 2;
 
   execution.start('decode dataId');
   // deprotobufferize dataId
@@ -59,10 +64,6 @@ module.exports = (
     logger.silly('no query registered for this dataId', dataId);
     return;
   }
-  if (payloadsBuffers.length % 2 !== 0) {
-    logger.silly('payloads should be sent by (timestamp, payloads) peers');
-    return;
-  }
 
   let dumpFolder;
   if (dump) {
@@ -70,7 +71,10 @@ module.exports = (
     dumpFolder = getDumpFolder(dataId);
   }
   // loop over arguments peers (timestamp, payload)
-  _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
+  while (payloadBuffers.length) {
+    // pop the first two buffers from list
+    const payloadBuffer = payloadBuffers.splice(0, 2);
+
     execution.start('decode timestamp');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
     execution.stop('decode timestamp');
@@ -143,8 +147,8 @@ module.exports = (
     // queue a ws newData message (sent periodically)
     addToQueue(flatDataId, tbd.timestamp, tbd.payload);
     execution.stop('queue payloads');
+  }
 
-    execution.stop('global');
-    execution.print();
-  });
+  execution.stop('global', `${dataId.parameterName}: ${numberOfValues} payloads`);
+  execution.print();
 };

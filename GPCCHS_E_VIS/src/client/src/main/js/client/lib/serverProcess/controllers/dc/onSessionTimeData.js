@@ -7,11 +7,13 @@ const { pop } = require('../../../common/callbacks');
  *
  * - decode and pass to registered callback
  *
- * @param queryIdBuffer
- * @param buffer
+ * @param args array
  */
-module.exports = (queryIdBuffer, buffer) => {
+module.exports = (args) => {
   logger.silly('called');
+
+  const queryIdBuffer = args[0];
+  const buffer = args[1];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
@@ -19,14 +21,3 @@ module.exports = (queryIdBuffer, buffer) => {
 
   callback({ timestamp: decode('dc.dataControllerUtils.Timestamp', buffer).ms });
 };
-
-// module.exports = (queryIdBuffer, buffer) => {
-//   logger.silly('called');
-//
-//   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-//   logger.silly('decoded queryId', queryId);
-//   const callback = pop(queryId);
-//
-//   const { sessions } = decode('dc.dataControllerUtils.Sessions', buffer);
-//   callback(sessions);
-// };

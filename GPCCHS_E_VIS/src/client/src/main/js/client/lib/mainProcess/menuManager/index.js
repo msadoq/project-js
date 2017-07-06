@@ -5,7 +5,7 @@ import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/win
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
-import { minimizeEditor, minimizeExplorer, collapseTimebar } from '../../store/actions/pages';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
 import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
@@ -193,7 +193,7 @@ const panel = {
           const { windowId } = focusedWindow;
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
-          dispatch(collapseTimebar(pageId, !panels.timebarCollapsed));
+          dispatch(minimizeTimebar(pageId, !panels.timebarIsMinimized));
         }
       },
     },

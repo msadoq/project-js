@@ -15,6 +15,8 @@ export default function makeDataQueries() {
   const forecastTime = get('FORECAST');
   let previousForecast; // previous forecast while playing
   return function dataQueries(dataMap, previous, state) {
+    // TODO 2 code path: 1-systematic-(simple diff of dataMaps) 2-conditional-(add forecast to queries)
+
     // compute forecast in play mode (if needed)
     const timebarUuid = getPlayingTimebarId(state);
     let forecastIntervals;
@@ -45,6 +47,8 @@ export default function makeDataQueries() {
 
         /**
          * Last queries
+         *
+         * Request every interval
          */
         last.forEach((interval) => {
           // emit query to DC
@@ -60,8 +64,9 @@ export default function makeDataQueries() {
 
         /**
          * Range queries
+         *
+         * Determines which interval are not already in cache and concat the intervals list
          */
-        // determines which interval are not already in cache and concat the intervals list to query
         const intervalsToRequest = range.reduce(
           (list, interval) => list.concat(connectedDataModel.retrieveMissingIntervals(
             flatDataId,

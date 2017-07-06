@@ -72,8 +72,7 @@ export default class View extends PureComponent {
     isModified,
   }) => {
     const { collapseView, maximizeView, closeView, closeEditor, pageId, windowId } = this.props;
-    const isPathDefined = oId || absolutePath;
-
+    const isPathDefined = !!absolutePath;
     const useSaveAs = (!absolutePath && !oId);
     return [
       {

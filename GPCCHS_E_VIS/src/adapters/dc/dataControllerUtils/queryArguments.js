@@ -18,10 +18,10 @@ module.exports = {
   }),
   decode: data => ({
     sortFieldName: data.sortFieldName ? data.sortFieldName : null,
-    sortOrder: data.sortOrder ? data.sortOrder : null,
+    sortOrder: data.hasOwnProperty('sortOrder') ? data.sortOrder : null,
     limitStart: data.limitStart ? data.limitStart : null,
     limitNumber: data.limitNumber ? data.limitNumber : null,
-    getLastType: data.getLastType ? data.getLastType : null,
+    getLastType: data.hasOwnProperty('getLastType') ? data.getLastType : null,
     getLastFromTime: (data.getLastFromTime !== null)
       ? timestamp.decode(data.getLastFromTime)
       : data.getLastFromTime,

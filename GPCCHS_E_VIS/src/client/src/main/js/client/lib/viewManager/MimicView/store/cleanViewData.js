@@ -1,9 +1,19 @@
 /* eslint-disable no-continue */
+/* eslint-disable complexity, "DV6 TBC_CNES clean current view data need hight complexity" */
 import _find from 'lodash/find';
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 
+/** ************************************************
+ * Clean viewData for current viewData
+ * @param currentState view data State
+ * @param oldViewFromMap current view definition
+ * @param newViewFromMap current view definition
+ * @param oldIntervals expected intervals for all entry points
+ * @param newIntervals expected intervals for all entry points
+ * @return cleaned state for current view
+/** ************************************************/
 export default function cleanCurrentViewData(
   currentViewState,
   oldViewDef,

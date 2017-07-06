@@ -15,7 +15,7 @@ import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContain
 import SaveBeforeClosingContainer from './SaveBeforeClosingContainer';
 import UnsavedViewWarningContainer from './UnsavedViewWarningContainer';
 
-
+/* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 const ModalGeneric = (props) => {
   let child;
   let title;

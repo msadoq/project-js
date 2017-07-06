@@ -144,7 +144,7 @@ export default class Tooltip extends React.Component {
   timeFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L')
 
   tooltipWidth = 350;
-
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Calculate Tooltip position need complexity"
   render() {
     if (this.pseudoState.showTooltip) {
       this.fillAndDisplayTooltip(null, false);

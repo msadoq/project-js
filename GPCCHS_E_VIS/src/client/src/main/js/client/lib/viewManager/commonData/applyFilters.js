@@ -103,6 +103,7 @@ function stringFilter(value, operator, expected) {
   }
 }
 
+/* eslint-disable complexity, "DV6 TBC_CNES Filter need check differents cases" */
 function applyFilter(data, filter) {
   if (!filter.operator
     || typeof filter.field !== 'string'

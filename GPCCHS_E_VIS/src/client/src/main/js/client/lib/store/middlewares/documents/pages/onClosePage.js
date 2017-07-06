@@ -7,6 +7,7 @@ import { getWindowIdByPageId } from '../../../reducers/windows';
 
 const onClosePage = () => (
   ({ getState, dispatch, openModal }) => next => (action) => {
+    const returnedAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
@@ -35,7 +36,7 @@ const onClosePage = () => (
         dispatch(closePage(pageId));
       }
     }
-    return next(action);
+    return returnedAction;
   }
 );
 

@@ -2,6 +2,7 @@ import * as types from '../../../types';
 
 const onOpenPage = documentManager => (
   ({ dispatch, openDialog }) => next => (action) => {
+    const returnedAction = next(action);
     if (action.type === types.WS_ASK_OPEN_PAGE) {
       const { windowId, absolutePath } = action.payload;
       if (absolutePath) {
@@ -15,7 +16,7 @@ const onOpenPage = documentManager => (
         });
       }
     }
-    return next(action);
+    return returnedAction;
   }
 );
 

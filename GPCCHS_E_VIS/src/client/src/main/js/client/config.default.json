@@ -19,7 +19,7 @@
   "VISU_WINDOW_UP_MS": 30000,
   "VISU_WINDOW_DEFAULT_WIDTH": 900000,
   "VISU_WINDOW_MAX_DURATION": {
-    "PlotView": 43200000,
+    "PlotView": 21600000,
     "HistoryView": 3600000,
     "PacketView": 3600000
   },

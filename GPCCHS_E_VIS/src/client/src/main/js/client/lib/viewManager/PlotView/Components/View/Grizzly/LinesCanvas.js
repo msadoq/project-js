@@ -18,7 +18,7 @@ export default class LinesCanvas extends Component {
     data: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
     showPointLabels: PropTypes.bool,
-    // perfOutput: PropTypes.bool.isRequired,
+    perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -81,7 +81,7 @@ export default class LinesCanvas extends Component {
 
   draw = () => {
     const {
-      // perfOutput,
+      perfOutput,
       height,
       width,
       lines,
@@ -99,8 +99,9 @@ export default class LinesCanvas extends Component {
 
     ctx.clearRect(0, 0, width, height);
 
-    // let totalPoints = 0;
-    // if (perfOutput) console.time();
+    let totalPoints = 0;
+    // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+    if (perfOutput) console.time();
 
     const points = {};
     // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
@@ -109,7 +110,7 @@ export default class LinesCanvas extends Component {
       const dataLine = line.dataAccessor && data
         ? line.dataAccessor(data)
         : line.data;
-      // if (perfOutput) totalPoints += dataLine.length;
+      if (perfOutput) totalPoints += dataLine.length;
       if (!dataLine) {
         // console.log(`No data for line ${line.id}`);
         return;
@@ -244,18 +245,20 @@ export default class LinesCanvas extends Component {
     }
 
 
-    // if (perfOutput) {
-    //   console.log(
-    //     'axis',
-    //     axisId,
-    //     'Just drawed',
-    //     lines.length,
-    //     'lines, about',
-    //     totalPoints,
-    //     'total points'
-    //   );
-    //   console.timeEnd();
-    // }
+    if (perfOutput) {
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.log(
+        'axis',
+        axisId,
+        'Just drawed',
+        lines.length,
+        'lines, about',
+        totalPoints,
+        'total points'
+      );
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.timeEnd();
+    }
   }
 
   assignEl = (el) => { this.el = el; }

@@ -73,11 +73,6 @@ const commands = {
       commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
     saveView: ({ viewId, saveAs }, callback) =>
       commands.main.rpc(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs }, callback),
-    savePage: (windowId, stopOnUnsavedView, callback) =>
-      commands.main.rpc(
-        globalConstants.IPC_METHOD_SAVE_PAGE,
-        { windowId, stopOnUnsavedView },
-        callback),
     getRteDomains: (sessionId, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
         sessionId,

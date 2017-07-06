@@ -10,32 +10,6 @@ const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
 
 const htmlToReactParser = new HtmlToReactParser();
-/*
-const svg = '<svg id ="mySvg" xmlns="http://www.w3.org/2000/svg"  width="2000" height="2000">'
-           + '<text text-anchor="middle" font-family="serif"
-           font-size="24"  y="100" x="400" id="svg_7"
-           stroke-linecap="null" stroke-linejoin="null"
-           stroke-dasharray="null" stroke-width="0" stroke="#000000"
-           fill="#000000">This value will change</text>'
-           + '<circle id="circle" cx ="400" cy="400" fill="blue"
-           r="40" stroke-width="2" stroke="#424242" />'
-           + '<line id="l1" x1="250" y1="250" transform="rotate(45)
-           translate(100 100)" x2="600" y2="600" stroke="green" stroke-width="2"/>'
-           + '<rect  x="150" y="150"  width="50" id="r1" transform="rotate(45)
-           translate(100 100)" height="50" stroke-width="5" stroke="#000000" fill="#FF0000" />'
-           + '<rect id="svg_1" height="103" width="103" y="145" x="31"
-           stroke-width="5" stroke="#000000" fill="#FF0000"/>'
-           + '<polyline id="ply1" transform=" rotate(45) translate(100 100)  "
-            points="0,40 40,40 40,80 80,80 80,120 120,120 120,160" stroke="green"
-            fill="blue" strokeWidth="5" />'
-           + '</svg>';
-
-const vGauge = '<svg id="vGauge" xmlns="http://www.w3.org/2000/svg" width="200" height="200">'
-              + ' <path d="M50,180 Q58,190 66,180 L66,20 Q58,10 50,20 z" x2="50" y2="30" style=" fill:#EEE" />'
-              + ' <path d="M50,180 Q58,190 66,180 L66,60 Q58,50 50,60 z" x2="50" y2="30" style=" fill:#A49" />'
-        //      + ' <text x="52" y="120" style="stroke:#FFF">70%</text>'
-              + '</svg>'; */
-// const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const isValidNode = () => true;
 // const isValueNode = /{{\s*([^}]+)\s*}}/g;
@@ -306,6 +280,176 @@ export default class MimicView extends Component {
     );
   }
 
+  scaleAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
+    ratio = ratio < 0 ? 0 : ratio;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    if (g.type === 'scaleY') {
+      el.style.transform = `scaleY(${ratio})`;
+    } else {
+      el.style.transform = `scaleX(${ratio})`;
+    }
+    el.style.transformOrigin = g.fixed || 'bottom';
+  }
+
+  translateAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    let distance = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
+    distance = distance < 0 ? 0 : distance;
+    distance = distance > g.width ? g.width : distance;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    if (g.type === 'translateY') {
+      if (g.direction === 'top') {
+        distance *= -1;
+      }
+      el.style.transform = `translate(0px, ${distance}px)`;
+    } else {
+      if (g.direction === 'left') {
+        distance *= -1;
+      }
+      el.style.transform = `translate(${distance}px, 0px)`;
+    }
+  }
+
+  rotateAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    let angle = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
+    angle = angle < 0 ? 0 : angle;
+    angle = angle > g.angle ? g.angle : angle;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
+    el.style.transform = `rotate(${angle}deg)`;
+  }
+
+  textBoxAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    const el = g.el;
+    const elBg = g.elBg;
+    if (el) {
+      const SVGRect = el.getBBox();
+      elBg.setAttribute('width', SVGRect.width);
+      elBg.setAttribute('height', SVGRect.height);
+      elBg.setAttribute('y', SVGRect.y);
+      el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
+      let fillText = '#000';
+      let fillBg = '';
+      for (let i = 0; i < g.textColorThresholds.length; i += 1) {
+        const stateColor = g.textColorThresholds[i].split('|');
+        if (epLastVal > stateColor[0]) {
+          fillText = stateColor[1];
+        }
+      }
+      for (let i = 0; i < g.textColorRegex.length; i += 1) {
+        const stateColor = g.textColorRegex[i].split('=');
+        const regex = RegExp(stateColor[0]);
+        if (epLastVal.match(regex)) {
+          fillText = stateColor[1];
+        }
+      }
+      el.style.fill = fillText;
+      for (let i = 0; i < g.bgColorLevels.length; i += 1) {
+        const stateColor = g.bgColorLevels[i].split('$');
+        if (epLastVal > stateColor[0]) {
+          fillBg = stateColor[1];
+        }
+      }
+      elBg.style.fill = fillBg;
+      elBg.style.fillOpacity = fillBg === '' ? 0 : 1;
+    }
+  }
+
+  colourAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    let color;
+    for (let i = 0; i < g.operators.length; i += 1) {
+      const stateColor = g.operators[i].split('$');
+      if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
+        color = stateColor[2];
+      }
+    }
+    const nodes = el.childNodes;
+    if (color) {
+      for (let i = 0; i < nodes.length; i += 1) {
+        if (nodes[i].style) {
+          nodes[i].style.fill = color;
+        }
+      }
+    }
+  }
+
+  showAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const el = g.el;
+    const epLastVal = data.values[g.epName].value;
+    if (el) {
+      let visibility = 'hidden';
+      for (let i = 0; i < g.displayThresholds.length; i += 1) {
+        const stateColor = g.displayThresholds[i].split('$');
+        if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
+          visibility = stateColor[2];
+        }
+      }
+      for (let i = 0; i < g.displayRegex.length; i += 1) {
+        const stateColor = g.displayRegex[i].split('=');
+        const regex = RegExp(stateColor[0]);
+        if (epLastVal.match(regex)) {
+          visibility = stateColor[1];
+        }
+      }
+      el.style.visibility = visibility === 'show' ? 'visible' : 'hidden';
+    }
+  }
   updateSvgsValues = (data) => {
     if (!data || !data.values) {
       return;
@@ -316,164 +460,17 @@ export default class MimicView extends Component {
         this.svgEls[key].elBg = document.getElementById(`${g.id}-bg`);
       }
       if (g.type === 'scaleY' || g.type === 'scaleX') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
-        ratio = ratio < 0 ? 0 : ratio;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        if (g.type === 'scaleY') {
-          el.style.transform = `scaleY(${ratio})`;
-        } else {
-          el.style.transform = `scaleX(${ratio})`;
-        }
-        el.style.transformOrigin = g.fixed || 'bottom';
+        this.scaleAnimation(data, g);
       } else if (g.type === 'translateX' || g.type === 'translateY') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        let distance = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
-        distance = distance < 0 ? 0 : distance;
-        distance = distance > g.width ? g.width : distance;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        if (g.type === 'translateY') {
-          if (g.direction === 'top') {
-            distance *= -1;
-          }
-          el.style.transform = `translate(0px, ${distance}px)`;
-        } else {
-          if (g.direction === 'left') {
-            distance *= -1;
-          }
-          el.style.transform = `translate(${distance}px, 0px)`;
-        }
+        this.translateAnimation(data, g);
       } else if (g.type === 'rotate') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        let angle = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
-        angle = angle < 0 ? 0 : angle;
-        angle = angle > g.angle ? g.angle : angle;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
-        el.style.transform = `rotate(${angle}deg)`;
+        this.rotateAnimation(data, g);
       } else if (g.type === 'textBox') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        const el = g.el;
-        const elBg = g.elBg;
-        if (el) {
-          const SVGRect = el.getBBox();
-          elBg.setAttribute('width', SVGRect.width);
-          elBg.setAttribute('height', SVGRect.height);
-          elBg.setAttribute('y', SVGRect.y);
-          el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
-          let fillText = '#000';
-          let fillBg = '';
-          for (let i = 0; i < g.textColorThresholds.length; i += 1) {
-            const stateColor = g.textColorThresholds[i].split('|');
-            if (epLastVal > stateColor[0]) {
-              fillText = stateColor[1];
-            }
-          }
-          for (let i = 0; i < g.textColorRegex.length; i += 1) {
-            const stateColor = g.textColorRegex[i].split('=');
-            const regex = RegExp(stateColor[0]);
-            if (epLastVal.match(regex)) {
-              fillText = stateColor[1];
-            }
-          }
-          el.style.fill = fillText;
-          for (let i = 0; i < g.bgColorLevels.length; i += 1) {
-            const stateColor = g.bgColorLevels[i].split('$');
-            if (epLastVal > stateColor[0]) {
-              fillBg = stateColor[1];
-            }
-          }
-          elBg.style.fill = fillBg;
-          elBg.style.fillOpacity = fillBg === '' ? 0 : 1;
-        }
+        this.textBoxAnimation(data, g);
       } else if (g.type === 'colour') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        let color;
-        for (let i = 0; i < g.operators.length; i += 1) {
-          const stateColor = g.operators[i].split('$');
-          if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
-            color = stateColor[2];
-          }
-        }
-        const nodes = el.childNodes;
-        if (color) {
-          for (let i = 0; i < nodes.length; i += 1) {
-            if (nodes[i].style) {
-              nodes[i].style.fill = color;
-            }
-          }
-        }
+        this.colourAnimation(data, g);
       } else if (g.type === 'show') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const el = g.el;
-        const epLastVal = data.values[g.epName].value;
-        if (el) {
-          let visibility = 'hidden';
-          for (let i = 0; i < g.displayThresholds.length; i += 1) {
-            const stateColor = g.displayThresholds[i].split('$');
-            if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
-              visibility = stateColor[2];
-            } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
-              visibility = stateColor[2];
-            } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
-              visibility = stateColor[2];
-            } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
-              visibility = stateColor[2];
-            } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
-              visibility = stateColor[2];
-            } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
-              visibility = stateColor[2];
-            }
-          }
-          for (let i = 0; i < g.displayRegex.length; i += 1) {
-            const stateColor = g.displayRegex[i].split('=');
-            const regex = RegExp(stateColor[0]);
-            if (epLastVal.match(regex)) {
-              visibility = stateColor[1];
-            }
-          }
-          el.style.visibility = visibility === 'show' ? 'visible' : 'hidden';
-        }
+        this.showAnimation(data, g);
       }
     });
   }

@@ -1,7 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 
-export default class SaveBeforeClosing extends PureComponent {
+export default class DialogModal extends PureComponent {
   static propTypes = {
     message: PropTypes.string,
     buttons: PropTypes.arrayOf(PropTypes.shape({

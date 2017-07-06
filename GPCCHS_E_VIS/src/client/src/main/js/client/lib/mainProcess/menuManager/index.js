@@ -7,7 +7,7 @@ import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
 import { viewOpen, viewAddBlank } from './viewOpen';
-import { pageAddBlank } from './pageOpen';
+import pageAddBlank from './pageAddBlank';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
 import { workspaceClose } from './workspaceClose';

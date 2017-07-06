@@ -311,14 +311,21 @@ export default class TextView extends PureComponent {
           if (v === undefined) {
             v = '';
           }
-          sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
-          if (ep.error) {
+          if (v !== sv.val) {
+            sv.val = v;
+            sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
+          }
+          if (ep.error && ep.error !== sv.title) {
+            sv.title = ep.error;
             sv.el.setAttribute('title', ep.error);
           }
 
           const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#00FF00');
-          sv.el.style.color = s.color;
-          sv.el.style.textShadow = s.textShadow;
+          if (s.color !== sv.color) {
+            sv.color = s.color;
+            sv.el.style.color = s.color;
+            sv.el.style.textShadow = s.textShadow;
+          }
         }
       }
     });

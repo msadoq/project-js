@@ -1,7 +1,7 @@
+import _always from 'lodash/fp/always';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import makeMainEnhancer from './storeEnhancer';
-import reducer from '../store/reducers';
 import { server } from './ipc';
 
 let store;
@@ -13,7 +13,7 @@ export default function makeCreateStore(identity, isDebugOn) {
       server.sendReduxDispatch,
       isDebugOn
     ));
-    store = createStore(reducer, initialState, enhancer);
+    store = createStore(_always({}), initialState, enhancer);
     return store;
   };
 }

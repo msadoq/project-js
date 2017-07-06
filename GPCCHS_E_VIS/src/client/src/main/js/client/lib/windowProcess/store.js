@@ -1,3 +1,4 @@
+import _always from 'lodash/fp/always';
 import _getOr from 'lodash/fp/getOr';
 import _set from 'lodash/fp/set';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -5,7 +6,6 @@ import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { remote } from 'electron';
 import makeRendererEnhancer from './storeEnhancer';
-import reducer from '../store/reducers';
 import { main } from './ipc';
 import { computeDiffHrtime } from './common/timeFormats';
 import {
@@ -69,7 +69,7 @@ const decorateActionWithTiming = (action) => {
 export default function makeCreateStore(isDebugOn) {
   return (initialState) => {
     const enhancer = prepareEnhancers(isDebugOn);
-    store = createStore(reducer, initialState, enhancer);
+    store = createStore(_always({}), initialState, enhancer);
     return store;
   };
 }

@@ -27,7 +27,7 @@ export default class SaveBeforeClosing extends PureComponent {
             buttons.map(({ label, value }) => (
               <button
                 key={label + value}
-                className={classnames('btn', 'btn-primary')}
+                className={classnames('btn', 'btn-primary', 'mr5')}
                 onClick={() => closeModal(value)}
               >
                 {label}

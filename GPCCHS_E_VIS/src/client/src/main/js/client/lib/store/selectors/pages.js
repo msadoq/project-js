@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getPages, getPageViewsIds } from '../reducers/pages';
+import { getPage, getPages, getPageViewsIds } from '../reducers/pages';
 import { getViews } from '../reducers/views';
 import { getWindowFocusedPageId } from '../reducers/windows';
 
@@ -38,4 +38,18 @@ export const isAnyInspectorOpened = createSelector(
   getPages,
   pages =>
     _.reduce((checksum, page) => checksum || (!page.panels.explorerIsMinimized && page.panels.explorerTab === 'inspector'), false, pages)
+);
+
+export const getPageWithViews = createSelector(
+  getPage,
+  getViews,
+  (state, { viewIds }) => viewIds,
+  (page, views, viewIds) => ({
+    ...page,
+    views: _.intersection(viewIds, page.views).map(viewId => views[viewId]),
+  })
+);
+
+export const getPagesWithViews = (state, { pageIds, viewIds }) => (
+  pageIds.map(pageId => getPageWithViews(state, { pageId, viewIds }))
 );

@@ -14,6 +14,7 @@ import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 import SaveBeforeClosingContainer from './SaveBeforeClosingContainer';
 import UnsavedViewWarningContainer from './UnsavedViewWarningContainer';
+import SaveAgentModalContainer from './SaveAgentModalContainer';
 import DialogModal from './DialogModal';
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
@@ -26,6 +27,15 @@ const ModalGeneric = (props) => {
       title = props.props.title;
       child = (
         <DialogModal
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'saveAgent':
+      title = 'Save documents';
+      child = (
+        <SaveAgentModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

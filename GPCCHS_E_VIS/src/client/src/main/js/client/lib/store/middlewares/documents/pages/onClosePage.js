@@ -4,6 +4,7 @@ import { closePage, askSavePage } from '../../../actions/pages';
 import { getPage } from '../../../reducers/pages';
 import { getPageHasUnsavedViews } from '../../../selectors/pages';
 import { getWindowIdByPageId } from '../../../reducers/windows';
+import { getPageUnsavedViewIds } from '../selectors';
 
 const onClosePage = () => (
   ({ getState, dispatch, openModal }) => next => (action) => {
@@ -15,9 +16,11 @@ const onClosePage = () => (
       const windowId = getWindowIdByPageId(state, { pageId });
       const pageNeedSave = title => openModal(windowId, {
         title,
-        type: 'dialog',
-        buttons: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }, { label: 'Cancel' }],
-        message: 'Would you want to save before closing ?',
+        type: 'saveAgent',
+        documentType: 'page',
+        mode: 'close',
+        pageIds: [pageId],
+        viewIds: getPageUnsavedViewIds(state, { pageId }),
       }, (closeAction) => {
         if (closeAction.payload.choice === 'yes') {
           dispatch(askSavePage(pageId));

@@ -10,7 +10,7 @@ const remoteIdMap = {
       domainId: 4,
       sessionId: 181,
     },
-    filter: [],
+    filters: [],
     views: ['dynamic1'],
     localIds: {
       'undefined.tb1:0': {
@@ -28,7 +28,7 @@ const remoteIdMap = {
       domainId: 4,
       sessionId: 181,
     },
-    filter: [],
+    filters: [],
     views: ['plot1', 'text1'],
     localIds: {
       'groundDate/extractedValue.tb1:0/0': {
@@ -38,6 +38,25 @@ const remoteIdMap = {
         offset: 0,
         viewType: 'PlotView',
       },
+      'extractedValue.tb1:0': {
+        field: 'extractedValue',
+        timebarUuid: 'tb1',
+        offset: 0,
+        viewType: 'TextView',
+      },
+    },
+  },
+  'Reporting.STAT_PID<ReportingParameter>:181:4:raw.=.2': {
+    dataId: {
+      catalog: 'Reporting',
+      parameterName: 'STAT_PID',
+      comObject: 'ReportingParameter',
+      domainId: 4,
+      sessionId: 181,
+    },
+    filters: [{ field: 'raw', operator: '=', operand: '2' }],
+    views: ['plot1', 'text1'],
+    localIds: {
       'extractedValue.tb1:0': {
         field: 'extractedValue',
         timebarUuid: 'tb1',
@@ -62,6 +81,11 @@ const intervalMap = {
       expectedInterval: [1420106790818, 1420106843902],
     },
   },
+  'Reporting.STAT_PID<ReportingParameter>:181:4:raw.=.2': {
+    'extractedValue.tb1:0': {
+      expectedInterval: [1420106790818, 1420106843902],
+    },
+  },
 };
 
 const forecastIntervals = {
@@ -75,6 +99,11 @@ const forecastIntervals = {
   },
   'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
     'undefined.tb1:0': {
+      expectedInterval: [1420106800818, 1420106853902],
+    },
+  },
+  'Reporting.STAT_PID<ReportingParameter>:181:4:raw.=.2': {
+    'extractedValue.tb1:0': {
       expectedInterval: [1420106800818, 1420106853902],
     },
   },
@@ -111,6 +140,18 @@ describe('data:request', () => {
         last: [[1420106790818, 1420106843902]],
         range: [[1420106790818, 1420107056239]],
       },
+      'Reporting.STAT_PID<ReportingParameter>:181:4:raw.=.2': {
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          sessionId: 181,
+        },
+        filters: [{ field: 'raw', operator: '=', operand: '2' }],
+        last: [[1420106790818, 1420106843902]],
+        range: [],
+      },
     });
   });
   test('computeMissingIntervals from dataMap', () => {
@@ -140,6 +181,7 @@ describe('data:request', () => {
           domainId: 4,
           sessionId: 181,
         },
+        filters: undefined,
         last: [],
         range: [[1420106800818, 1420106853902]],
       },
@@ -151,8 +193,21 @@ describe('data:request', () => {
           domainId: 4,
           sessionId: 181,
         },
+        filters: undefined,
         last: [],
         range: [[1420106800818, 1420107066239]],
+      },
+      'Reporting.STAT_PID<ReportingParameter>:181:4:raw.=.2': {
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          sessionId: 181,
+        },
+        filters: [{ field: 'raw', operator: '=', operand: '2' }],
+        last: [],
+        range: [[1420106800818, 1420106853902]],
       },
     });
   });
@@ -170,6 +225,11 @@ describe('data:request', () => {
         },
         'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
           'undefined.tb1:0': {
+            error: 'invalid visuWindow',
+          },
+        },
+        'Reporting.STAT_PID<ReportingParameter>:181:4:raw.=.2': {
+          'extractedValue.tb1:0': {
             error: 'invalid visuWindow',
           },
         },

@@ -64,6 +64,10 @@ module.exports = function onTimebasedArchiveData(args) {
   if (typeof remoteId === 'undefined') {
     return;
   }
+  // TODO dbrugne decomment when try catch implemented
+  // if (connectedDataModel.isLastQuery(remoteId, queryId) && payloadBuffers.length !== 2) {
+  //   throw new Error(`onTimebasedArchiveData : More than 1 payload for getLast request (${payloadBuffers.length / 2})`);
+  // }
   logger.silly('received data from query', queryId);
   execution.stop('register query');
 
@@ -117,8 +121,6 @@ module.exports = function onTimebasedArchiveData(args) {
 
   // only one loop to decode, insert in cache, and add to queue
   while (payloadBuffers.length) {
-  // eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
-
     // pop the first two buffers from list
     const payloadBuffer = payloadBuffers.splice(0, 2);
 

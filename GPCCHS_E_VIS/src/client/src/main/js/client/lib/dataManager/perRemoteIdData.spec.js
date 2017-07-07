@@ -65,10 +65,14 @@ describe('dataManager/perRemoteIdData', () => {
     remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
     type: 'TextView',
   };
+  const epTextValid2 = cloneDeep(epTextValid);
+  epTextValid2.filters.push({ field: 'raw', operator: '=', operand: '12' });
+  epTextValid2.remoteId = 'Reporting.STAT_SU_PID<ReportingParameter>:181:4:raw.=.12';
   test('addEpInRemoteIdMap: map empty, ep valid for plot', () => {
     expect(addEpInRemoteIdMap({}, epValid, 'plot1')).toEqual({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
+        filters: [],
         localIds: {
           [epValid.localId]: {
             fieldX: epValid.fieldX,
@@ -86,6 +90,7 @@ describe('dataManager/perRemoteIdData', () => {
     expect(addEpInRemoteIdMap({}, epTextValid, 'text1')).toEqual({
       [epTextValid.remoteId]: {
         dataId: epTextValid.dataId,
+        filters: [],
         localIds: {
           [epTextValid.localId]: {
             field: epTextValid.field,
@@ -98,7 +103,23 @@ describe('dataManager/perRemoteIdData', () => {
       },
     });
   });
-
+  test('addEpInRemoteIdMap: map empty, ep valid for text with filters', () => {
+    expect(addEpInRemoteIdMap({}, epTextValid2, 'text1')).toEqual({
+      [epTextValid2.remoteId]: {
+        dataId: epTextValid2.dataId,
+        filters: epTextValid2.filters,
+        localIds: {
+          [epTextValid2.localId]: {
+            field: epTextValid2.field,
+            offset: epTextValid2.offset,
+            timebarUuid: epTextValid2.timebarUuid,
+            viewType: 'TextView',
+          },
+        },
+        views: ['text1'],
+      },
+    });
+  });
   test('addEpInRemoteIdMap: map empty, ep with error', () => {
     expect(addEpInRemoteIdMap({}, epError, 'plot1')).toEqual({});
   });
@@ -107,6 +128,7 @@ describe('dataManager/perRemoteIdData', () => {
     expect(addEpInRemoteIdMap(map, epValid2, 'plot2')).toEqual({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
+        filters: [],
         localIds: {
           [epValid.localId]: {
             fieldX: epValid.fieldX,
@@ -120,6 +142,7 @@ describe('dataManager/perRemoteIdData', () => {
       },
       [epValid2.remoteId]: {
         dataId: epValid2.dataId,
+        filters: [],
         localIds: {
           [epValid2.localId]: {
             fieldX: epValid2.fieldX,
@@ -138,6 +161,7 @@ describe('dataManager/perRemoteIdData', () => {
     expect(addEpInRemoteIdMap(map, epError, 'plot1')).toEqual({
       [epValid.remoteId]: {
         dataId: epValid.dataId,
+        filters: [],
         localIds: {
           [epValid.localId]: {
             fieldX: epValid.fieldX,
@@ -171,6 +195,7 @@ describe('dataManager/perRemoteIdData', () => {
     expect(addEpInRemoteIdMap(map, epValid3, 'plot2')).toEqual({
       [epValid2.remoteId]: {
         dataId: epValid2.dataId,
+        filters: [],
         localIds: {
           [epValid2.localId]: {
             fieldX: epValid2.fieldX,
@@ -195,7 +220,6 @@ describe('dataManager/perRemoteIdData', () => {
     const perViewMap = {
       text: {
         type: 'TextView',
-        masterSessionId: 10,
         entryPoints: {
           STAT_SU_PID: {
             id: 'id1',
@@ -269,6 +293,7 @@ describe('dataManager/perRemoteIdData', () => {
           domainId: 4,
           sessionId: 181,
         },
+        filters: [],
         localIds: {
           'extractedValue.tb1:0': {
             field: 'extractedValue',
@@ -294,6 +319,7 @@ describe('dataManager/perRemoteIdData', () => {
           domainId: 4,
           sessionId: 10,
         },
+        filters: [],
         localIds: {
           'extractedValue.tb1:0': {
             field: 'extractedValue',

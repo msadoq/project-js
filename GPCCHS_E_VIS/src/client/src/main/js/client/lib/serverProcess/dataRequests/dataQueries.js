@@ -40,10 +40,10 @@ export default function makeDataQueries() {
     const n = flatDataIds.length;
     if (n) {
       flatDataIds.forEach((flatDataId) => {
-        const { dataId, last, range } = missingIntervals[flatDataId];
+        const { dataId, last, range, filters } = missingIntervals[flatDataId];
 
         // Loki connectedData model creation if not already exists
-        const connectedData = connectedDataModel.addRecord(dataId);
+        const connectedData = connectedDataModel.addRecord(dataId, filters);
 
         /**
          * Last queries
@@ -51,10 +51,11 @@ export default function makeDataQueries() {
          * Request every interval
          */
         last.forEach((interval) => {
+          // filters
+          const args = { ...getLastArguments, filters };
           // emit query to DC
           const queryId =
-            dc.requestTimebasedQuery(flatDataId, dataId, interval, getLastArguments);
-
+            dc.requestTimebasedQuery(flatDataId, dataId, interval, args);
           // register query to allow easy flatDataId retrieving on data reception
           registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
 

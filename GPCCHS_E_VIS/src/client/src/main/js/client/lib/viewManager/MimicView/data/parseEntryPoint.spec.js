@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash/cloneDeep';
 import globalConstants from '../../../constants';
 import parseEntryPoint from './parseEntryPoint';
 
@@ -14,7 +15,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
         domain: 'cnes',
         timeline: 'tl1',
-        filter: {},
+        filter: [],
       },
     };
     timelines = [
@@ -68,11 +69,39 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         },
         field: 'extractedValue',
         offset: 0,
-        filters: {},
+        filters: [],
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
         structureType: globalConstants.DATASTRUCTURETYPE_LAST,
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        type: 'MimicView',
+      },
+    });
+  });
+  test('valid with filters', () => {
+    const ep1 = cloneDeep(entryPoint);
+    ep1.connectedData.filter.push({ field: 'raw', operator: '=', operand: '2' });
+    expect(
+      parseEntryPoint(domains, sessions, timelines, ep1, 'Session 1', 'TB1', 'MimicView')
+    ).toEqual({
+      ATT_BC_STR1VOLTAGE: {
+        id: 'ep1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd1',
+          domain: 'cnes',
+          sessionId: 1,
+          sessionName: 'session1',
+        },
+        field: 'extractedValue',
+        offset: 0,
+        filters: [{ field: 'raw', operator: '=', operand: '2' }],
+        localId: 'extractedValue.TB1:0',
+        timebarUuid: 'TB1',
+        structureType: globalConstants.DATASTRUCTURETYPE_LAST,
+        remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1:raw.=.2',
         type: 'MimicView',
       },
     });

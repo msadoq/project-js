@@ -46,7 +46,7 @@ import { getStructureType } from '../../viewManager';
  */
 export default function computeMissingIntervals(dataMap, lastMap, forecastIntervals) {
   const queries = {};
-  _each(dataMap.perRemoteId, ({ dataId, localIds, views }, remoteId) => {
+  _each(dataMap.perRemoteId, ({ dataId, localIds, views, filters }, remoteId) => {
     _each(localIds, ({ viewType }, localId) => {
       // If forecast, use this intervalMap
       let needed = [];
@@ -75,8 +75,11 @@ export default function computeMissingIntervals(dataMap, lastMap, forecastInterv
       }
 
       if (!queries[remoteId]) {
+        // save filters if they are stored in remoteId
+        const elements = remoteId.split(':');
         queries[remoteId] = {
           dataId,
+          filters: elements.length === 4 ? filters : undefined,
           [globalConstants.DATASTRUCTURETYPE_LAST]: [],
           [globalConstants.DATASTRUCTURETYPE_RANGE]: [],
         };

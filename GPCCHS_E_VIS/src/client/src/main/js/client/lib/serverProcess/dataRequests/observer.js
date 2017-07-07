@@ -3,6 +3,7 @@ import dataMapGenerator from '../../dataManager/map';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
 import makeDataSubscriptions from './dataSubscriptions';
 import makeDataQueries from './dataQueries';
+import dataMapSingleton from '../models/dataMapSingleton';
 
 /**
  * Note, dataMap keys:
@@ -38,6 +39,8 @@ export default function makeDataRequestsObserver(store) {
       profile.print();
       return;
     }
+    // Update datamap singleton
+    dataMapSingleton.set(dataMap);
 
     // run dataSubscriptions observer (create and remove pub/sub subscriptions)
     profile.start('subscriptions');

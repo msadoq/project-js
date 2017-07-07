@@ -12,9 +12,10 @@ const intervalManager = require('../../common/intervals');
 
 const database = require('./loki');
 
-const createConnectedData = dataId => ({
-  flatDataId: flattenDataId(dataId),
+const createConnectedData = (dataId, filters) => ({
+  flatDataId: flattenDataId(dataId, filters),
   dataId,
+  filters,
   intervals: {
     all: [],
     received: [],
@@ -100,12 +101,12 @@ collection.setIntervalAsReceived = (flatDataId, queryUuid, connectedData) => {
   return cd;
 };
 
-collection.addRecord = (dataId) => { // TODO => rename addRecordIfNotExists
-  let connectedData = collection.by('flatDataId', flattenDataId(dataId));
+collection.addRecord = (dataId, filters) => { // TODO => rename addRecordIfNotExists
+  let connectedData = collection.by('flatDataId', flattenDataId(dataId, filters));
   if (connectedData) {
     return connectedData;
   }
-  connectedData = createConnectedData(dataId);
+  connectedData = createConnectedData(dataId, filters);
   return collection.insert(connectedData);
 };
 

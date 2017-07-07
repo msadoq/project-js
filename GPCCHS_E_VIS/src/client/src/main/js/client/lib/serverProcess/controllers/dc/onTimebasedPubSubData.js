@@ -1,6 +1,9 @@
 const { decode, getType } = require('../../../utils/adapters');
 const { writeFile } = require('fs');
 const { join } = require('path');
+const _find = require('lodash/find');
+const _get = require('lodash/get');
+const _includes = require('lodash/includes');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedPubSubData');
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
@@ -11,8 +14,51 @@ const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFac
 const connectedDataModel = require('../../models/connectedData');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+const dataMapSingleton = require('../../models/dataMapSingleton');
+const viewManager = require('../../../viewManager');
+const { DATASTRUCTURETYPE_LAST } = require('../../../constants');
+const intervalManager = require('../../../common/intervals');
 
 const dump = (get('DUMP') === 'on');
+
+/** Check if timestamp is included in at least one interval used with view of last type
+ *
+ * - loop on views
+ *    - if view of type last, loop on entryPoints
+ *      - if entryPoint has the same flatDataId, check associated intervals
+ *        - if timestamp is in interval, returns element
+ *        - otherwise returns undefined
+ * @param flatDataId : flat DataId without filter
+ * @param timestamp : timestamp to check
+ * @return entrypoint if found, otherwise undefined
+ ***********************************************************************************/
+function isInLastInterval(flatDataId, timestamp) {
+  const dataMap = dataMapSingleton.get();
+  // Get views of type last
+  return _find(dataMap.perView, (view) => {
+    if (viewManager.getStructureType(view.type) !== DATASTRUCTURETYPE_LAST) {
+      return false;
+    }
+    // Check entry point
+    const epIds = Object.keys(view.entryPoints);
+    let i = 0;
+    while (i < epIds.length) {
+      const epId = epIds[i];
+      const ep = view.entryPoints[epId];
+      i += 1;
+      // check if dataId matches
+      if (ep.dataId && flattenDataId(ep.dataId) === flatDataId) {
+        // check associated interval
+        const interval =
+          _get(dataMap.expectedIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
+        if (interval && intervalManager.includesTimestamp(interval, timestamp)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  });
+}
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -87,10 +133,17 @@ module.exports = (args) => {
     const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
       flatDataId, timestamp.ms
     );
+    // TODO dbrugne: for the moment, datamap is use to check getLast intervals to update value not already used in range intervals
+    let isLastIntervals = false;
+    if (!isKnownInterval) {
+      if (isInLastInterval(flatDataId, timestamp.ms)) {
+        isLastIntervals = true;
+      }
+    }
 
     const date = new Date(timestamp.ms);
 
-    if (!isKnownInterval) {
+    if (!isKnownInterval && !isLastIntervals) {
       loggerData.debug({
         controller: 'onTimebasedPubSubData',
         flatDataId,
@@ -133,19 +186,29 @@ module.exports = (args) => {
       timestamp: timestamp.ms,
       payload: decodedPayload,
     };
+    // If range case, stores data in cache
+    if (isKnownInterval) {
+      execution.start('retrieve timebasedData model');
+      const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
+      execution.stop('retrieve timebasedData model');
 
-    execution.start('retrieve timebasedData model');
-    const timebasedDataModel = getOrCreateTimebasedDataModel(flatDataId);
-    execution.stop('retrieve timebasedData model');
-
-    execution.start('store in timebasedData model');
-    timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
-    execution.stop('store in timebasedData model');
-
+      execution.start('store in timebasedData model');
+      timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
+      execution.stop('store in timebasedData model');
+    }
     execution.start('queue payloads');
     logger.silly('queue pubSub point to client');
     // queue a ws newData message (sent periodically)
     addToQueue(flatDataId, tbd.timestamp, tbd.payload);
+    // Case of flatDataId with filters
+    const dataMap = dataMapSingleton.get();
+    const rIds = Object.keys(dataMap.expectedIntervals);
+    rIds.forEach((id) => {
+      // add payload to queue if remoteId = flatDataId + filters
+      if (id !== flatDataId && _includes(id, flatDataId)) {
+        addToQueue(id, tbd.timestamp, tbd.payload);
+      }
+    });
     execution.stop('queue payloads');
   }
 

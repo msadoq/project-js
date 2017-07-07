@@ -289,6 +289,7 @@ describe('data:map', () => {
         sessionName: 'Session#181',
       },
       views: ['text1', 'plot1'],
+      filters: [],
       localIds: {
         'groundDate/extractedValue.tb1:0': {
           fieldX: 'groundDate',

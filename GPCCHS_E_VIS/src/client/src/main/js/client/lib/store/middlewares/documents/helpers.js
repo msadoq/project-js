@@ -44,18 +44,22 @@ const createModalHelper = ({ dispatch }) => {
   };
 };
 
-export const withOpenModal = middleware => (storeApi) => {
+export const withOpenModal = middleware => storeApi => (next) => {
   const modalHelper = createModalHelper(storeApi);
-  return next => (action) => {
+  const configuredMiddleware = middleware({ ...storeApi, openModal: modalHelper.open })(next);
+  return (action) => {
+    const returnedAction = configuredMiddleware(action);
     modalHelper.interact(action);
-    return middleware({ ...storeApi, openModal: modalHelper.open })(next)(action);
+    return returnedAction;
   };
 };
 
-export const withOpenDialog = middleware => (storeApi) => {
+export const withOpenDialog = middleware => storeApi => (next) => {
   const dialogHelper = createDialogHelper(storeApi);
-  return next => (action) => {
+  const configuredMiddleware = middleware({ ...storeApi, openDialog: dialogHelper.open })(next);
+  return (action) => {
+    const returnedAction = configuredMiddleware(action);
     dialogHelper.interact(action);
-    return middleware({ ...storeApi, openDialog: dialogHelper.open })(next)(action);
+    return returnedAction;
   };
 };

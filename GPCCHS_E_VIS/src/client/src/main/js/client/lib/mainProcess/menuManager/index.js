@@ -6,7 +6,8 @@ import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
-import { viewOpen, viewAddBlank } from './viewOpen';
+import { askOpenView } from '../../store/actions/views';
+import { viewAddBlank } from './viewOpen';
 import pageAddBlank from './pageAddBlank';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
@@ -150,9 +151,7 @@ const view = {
     {
       label: 'Open...',
       accelerator: '',
-      click(item, focusedWindow) {
-        viewOpen(focusedWindow);
-      },
+      click: () => getStore().dispatch(askOpenView()),
     },
   ],
 };

@@ -67,7 +67,7 @@ export const addProcedure = simple(types.WS_VIEW_ADD_PROCEDURE, 'viewId', 'proce
 export const removeProcedure = simple(types.WS_VIEW_REMOVE_PROCEDURE, 'viewId', 'index');
 
 export const askSaveView = simple(types.WS_ASK_SAVE_VIEW, 'viewId', 'saveAs');
-export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'pageId', 'absolutePath');
+export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'absolutePath');
 export const askCloseView = simple(types.WS_ASK_CLOSE_VIEW, 'viewId');
 
 // ************ EntryPoint

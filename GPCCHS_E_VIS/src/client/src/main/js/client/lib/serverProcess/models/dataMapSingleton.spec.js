@@ -5,7 +5,7 @@ describe('models/dataMapSingleton', () => {
     dataMapSingleton.reset();
   });
   test('get', () => {
-    expect(dataMapSingleton.get()).toBe({ perRemoteId: {}, perView: {}, expectedIntervals: {} });
+    expect(dataMapSingleton.get()).toEqual({ perRemoteId: {}, perView: {}, expectedIntervals: {} });
   });
   test('set', () => {
     const newDataMap = {
@@ -13,7 +13,7 @@ describe('models/dataMapSingleton', () => {
       perView: { v1: {}, v2: {} },
       expectedIntervals: { r1: { l1: {} }, r2: { l1: {} } } };
     dataMapSingleton.set(newDataMap);
-    expect(dataMapSingleton.get()).toBe(newDataMap);
+    expect(dataMapSingleton.get()).toEqual(newDataMap);
   });
   test('reset', () => {
     dataMapSingleton.set({
@@ -21,6 +21,6 @@ describe('models/dataMapSingleton', () => {
       perView: { v1: {}, v2: {} },
       expectedIntervals: { r1: { l1: {} }, r2: { l1: {} } } });
     dataMapSingleton.reset();
-    expect(dataMapSingleton.get()).toBe({ perRemoteId: {}, perView: {}, expectedIntervals: {} });
+    expect(dataMapSingleton.get()).toEqual({ perRemoteId: {}, perView: {}, expectedIntervals: {} });
   });
 });

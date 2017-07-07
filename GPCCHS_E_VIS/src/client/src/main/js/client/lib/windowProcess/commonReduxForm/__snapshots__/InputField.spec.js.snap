@@ -2,13 +2,14 @@
 
 exports[`Navigation renders correctly 1`] = `
 <div
-  className="has-success"
+  className=""
 >
   <input
     className=""
+    defaultValue="testval"
+    onChange={[Function]}
     placeholder=""
     type="testType"
-    value="testval"
   />
 </div>
 `;

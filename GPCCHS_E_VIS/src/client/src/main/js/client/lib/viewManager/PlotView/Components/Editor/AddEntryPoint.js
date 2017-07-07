@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import {
   Form,
 } from 'react-bootstrap';
@@ -9,82 +9,89 @@ import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearS
 import InputField from '../../../../windowProcess/commonReduxForm/InputField';
 import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
 
-const EntryPointName = (props) => {
-  const {
-    handleSubmit,
-    pristine,
-    submitting,
-    valid,
-    axes,
-    axisId,
-    unit,
-  } = props;
+class EntryPointName extends Component {
 
-  let filteredAxes;
-  if (axes && unit) {
-    filteredAxes = Object.keys(axes)
-    .map(key => ({
-      ...axes[key],
-      axisId: key,
-    })).filter(axis =>
-      axis.unit === unit || axis.id === axisId
-    );
-  } else {
-    filteredAxes = [];
+  componentDidMount() {
+    setTimeout(this.props.reset, 0);
   }
 
-  return (
-    <Form horizontal onSubmit={handleSubmit}>
-      <HorizontalFormGroup label="Label">
-        <Field
-          name="name"
-          component={InputField}
-          className="form-control input-sm"
-          type="text"
-        />
-      </HorizontalFormGroup>
+  render() {
+    const {
+      handleSubmit,
+      pristine,
+      submitting,
+      valid,
+      axes,
+      axisId,
+      unit,
+    } = this.props;
 
-      <HorizontalFormGroup label="Unit">
-        <Field
-          name="connectedData.unit"
-          component={InputField}
-          type="text"
-          className="form-control input-sm"
-        />
-        {axes &&
-          <p
-            style={{ fontSize: '0.9em', paddingTop: '2px' }}
-          >
-            { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-          </p>
-        }
-      </HorizontalFormGroup>
+    let filteredAxes;
+    if (axes && unit) {
+      filteredAxes = Object.keys(axes)
+      .map(key => ({
+        ...axes[key],
+        axisId: key,
+      })).filter(axis =>
+        axis.unit === unit || axis.id === axisId
+      );
+    } else {
+      filteredAxes = [];
+    }
 
-      <HorizontalFormGroup label="Axis">
-        <Field
-          name="connectedData.axisId"
-          clearable={false}
-          component={ReactSelectField}
-          options={
-            filteredAxes.map(axis => ({
-              label: axis.label,
-              value: axis.axisId,
-            })).concat({
-              label: '-',
-              value: '',
-            })
+    return (
+      <Form horizontal onSubmit={handleSubmit}>
+        <HorizontalFormGroup label="Label">
+          <Field
+            name="name"
+            component={InputField}
+            className="form-control input-sm"
+            type="text"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Unit">
+          <Field
+            name="connectedData.unit"
+            component={InputField}
+            type="text"
+            className="form-control input-sm"
+          />
+          {axes &&
+            <p
+              style={{ fontSize: '0.9em', paddingTop: '2px' }}
+            >
+              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+            </p>
           }
-        />
-      </HorizontalFormGroup>
+        </HorizontalFormGroup>
 
-      <ClearSubmitButtons
-        pristine={pristine}
-        submitting={submitting}
-        valid={valid}
-      />
-    </Form>
-  );
-};
+        <HorizontalFormGroup label="Axis">
+          <Field
+            name="connectedData.axisId"
+            clearable={false}
+            component={ReactSelectField}
+            options={
+              filteredAxes.map(axis => ({
+                label: axis.label,
+                value: axis.axisId,
+              })).concat({
+                label: '-',
+                value: '',
+              })
+            }
+          />
+        </HorizontalFormGroup>
+
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          valid={valid}
+        />
+      </Form>
+    );
+  }
+}
 
 const requiredFields = ['name'];
 const validate = (values = {}) => {

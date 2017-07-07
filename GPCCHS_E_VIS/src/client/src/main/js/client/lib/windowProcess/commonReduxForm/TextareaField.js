@@ -36,6 +36,24 @@ export default class InputTextareaField extends React.Component {
     rows: '3',
   }
 
+  componentDidUpdate() {
+    /*
+      on mount, component is rendered but input.value is empty, and
+      present only at the second render, we want to fill the input
+      when we receive this value (2nd render)
+    */
+    if (this.props.input.value && !this.el.value) {
+      this.el.value = this.props.input.value;
+    }
+  }
+
+  onChange = (e) => {
+    this.touched = true;
+    this.props.input.onChange(e);
+  }
+
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const {
       input,
@@ -43,7 +61,6 @@ export default class InputTextareaField extends React.Component {
       className,
       rows,
       meta: {
-        touched,
         error,
         warning,
       },
@@ -52,21 +69,23 @@ export default class InputTextareaField extends React.Component {
     return (
       <div
         className={classnames({
-          'has-error': touched && error,
-          'has-warning': touched && warning,
-          'has-success': touched && !(error || warning),
+          'has-error': this.touched && error,
+          'has-warning': this.touched && warning,
+          'has-success': this.touched && !(error || warning),
         })}
       >
         <textarea
-          {...input}
+          onChange={this.onChange}
+          defaultValue={input.value}
+          ref={this.assignEl}
           className={classnames('form-control', className)}
           placeholder={placeholder}
           rows={rows}
         />
-        {touched && error && <Alert bsStyle="danger" className="m0">
+        {this.touched && error && <Alert bsStyle="danger" className="m0">
           {error}
         </Alert>}
-        {touched && warning && <Alert bsStyle="warning" className="m0">
+        {this.touched && warning && <Alert bsStyle="warning" className="m0">
           {warning}
         </Alert>}
       </div>

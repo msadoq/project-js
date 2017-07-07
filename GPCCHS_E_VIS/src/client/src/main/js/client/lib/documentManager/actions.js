@@ -21,7 +21,7 @@ import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
 
 import { writePage } from './writePage';
-import { setModified, setPageOid } from '../store/actions/pages';
+import { setModified, setPageOid, updateAbsolutePath } from '../store/actions/pages';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -190,6 +190,7 @@ export const savePage = (pageId, path) => (dispatch, getState) => {
     if (oid) {
       dispatch(setPageOid(pageId, oid));
     }
+    dispatch(updateAbsolutePath(pageId, path));
     dispatch(setModified(pageId, false));
     dispatch(addMessage('global', 'success', 'Page saved'));
   });

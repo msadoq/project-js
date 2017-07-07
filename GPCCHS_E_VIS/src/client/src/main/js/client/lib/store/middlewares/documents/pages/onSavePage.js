@@ -27,7 +27,7 @@ const onSavePage = documentManager => (
           }
         });
       } else {
-        dispatch(documentManager.savePage(pageId));
+        dispatch(documentManager.savePage(pageId, page.absolutePath));
       }
     }
     return returnedAction;

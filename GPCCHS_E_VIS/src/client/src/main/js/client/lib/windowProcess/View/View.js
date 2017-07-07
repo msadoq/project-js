@@ -72,7 +72,7 @@ export default class View extends PureComponent {
     isModified,
   }) => {
     const { collapseView, maximizeView, closeView, closeEditor, pageId, windowId } = this.props;
-    const isPathDefined = !!absolutePath;
+    const isPathDefined = oId || absolutePath;
     const useSaveAs = (!absolutePath && !oId);
     return [
       {
@@ -95,7 +95,7 @@ export default class View extends PureComponent {
       { type: 'separator' },
       {
         label: 'Save view',
-        click: () => main.saveView({ viewId, saveAs: false }, () => {}),
+        click: () => main.saveView({ viewId, saveAs: useSaveAs }, () => {}),
         enabled: (isPathDefined && isModified),
       },
       {

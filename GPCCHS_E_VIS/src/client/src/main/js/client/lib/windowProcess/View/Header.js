@@ -24,6 +24,8 @@ export default class Header extends PureComponent {
     isModified: PropTypes.bool.isRequired,
     collapseView: PropTypes.func.isRequired,
     onContextMenu: PropTypes.func.isRequired,
+    absolutePath: PropTypes.string.isRequired,
+    oId: PropTypes.string.isRequired,
   };
   static defaultProps = {
     title: 'Untitled',
@@ -64,8 +66,9 @@ export default class Header extends PureComponent {
   }
   save = (e) => {
     if (e) e.preventDefault();
-    const { viewId } = this.props;
-    main.saveView({ viewId, saveAs: false }, () => {});
+    const { viewId, absolutePath, oId } = this.props;
+    const useSaveAs = (!absolutePath && !oId);
+    main.saveView({ viewId, saveAs: useSaveAs }, () => {});
   }
   render() {
     const {

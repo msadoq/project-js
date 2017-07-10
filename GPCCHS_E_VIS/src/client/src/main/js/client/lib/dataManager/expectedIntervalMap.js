@@ -61,4 +61,6 @@ export default createSelector(
   (timebars, perRemoteIdMap, tbUuidPlaying) => expectedIntervalMap(
     timebars,
     perRemoteIdMap,
-    tbUuidPlaying));
+    tbUuidPlaying
+  )
+);

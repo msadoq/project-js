@@ -168,7 +168,7 @@ export default class LinesCanvas extends Component {
         }
 
         const x = line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x;
-        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].y;
+        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].value;
         lastY = yScale(y);
         lastX = xScale(x);
 
@@ -205,7 +205,10 @@ export default class LinesCanvas extends Component {
       }
 
       // Horizontal line
-      const lastYPosition = yScale(line.yAccessor(dataLine[dataLine.length - 1]));
+      const lastYPosition = yScale(
+        line.yAccessor ?
+          line.yAccessor(dataLine[dataLine.length - 1]) : dataLine[dataLine.length - 1].value
+      );
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);

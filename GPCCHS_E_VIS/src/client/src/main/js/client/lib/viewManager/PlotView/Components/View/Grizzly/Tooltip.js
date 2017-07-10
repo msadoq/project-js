@@ -102,7 +102,7 @@ export default class Tooltip extends React.Component {
         }
         const xClosestPacket = dataLine[index];
         if (xClosestPacket) {
-          const val = line.yAccessor(xClosestPacket);
+          const val = line.yAccessor ? line.yAccessor(xClosestPacket) : xClosestPacket.value;
           const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;
           linesList[axis.id].push({
             foundColor: line.colorAccessor ? line.colorAccessor(xClosestPacket) : null,

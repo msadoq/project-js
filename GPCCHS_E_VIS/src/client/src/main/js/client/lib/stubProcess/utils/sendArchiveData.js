@@ -14,6 +14,10 @@ const thisIsTheEnd = stubData.getBooleanProtobuf(true);
 const queries = {};
 
 function shouldPushANewValue(queryKey, timestamp) {
+  if (timestamp > Date.now()) {
+    return false; // stub never send value in the future
+  }
+
   const previous = _get(queries, queryKey);
   if (typeof previous === 'undefined') {
     queries[queryKey] = timestamp;
@@ -51,13 +55,12 @@ module.exports = function sendArchiveData(
   if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
     // compute number of steps from lower time to current
     const n = Math.floor((to - from) / globalConstants.DC_STUB_VALUE_TIMESTEP);
-    payloads.push(
-      getPayload(
-        from + (n * globalConstants.DC_STUB_VALUE_TIMESTEP),
-        dataId.comObject,
-        dataId.parameterName
-      )
-    );
+    let timestamp = from + (n * globalConstants.DC_STUB_VALUE_TIMESTEP);
+    if (timestamp > Date.now()) {
+      // stub never send value in the future
+      timestamp = Date.now() - globalConstants.DC_STUB_VALUE_TIMESTEP;
+    }
+    payloads.push(getPayload(timestamp, dataId.comObject, dataId.parameterName));
   } else {
     for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
       if (shouldPushANewValue(queryKey, i)) {

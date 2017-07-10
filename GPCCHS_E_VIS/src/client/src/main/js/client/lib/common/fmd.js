@@ -5,7 +5,9 @@ import { relative, join, basename, dirname } from 'path';
 import parameters from './configurationManager';
 import globalConstants, { MIME_TYPES } from '../constants';
 
-import ipcApi from '../mainProcess/ipc';
+const getIpcApi = () => (
+  process.env.APP_ENV === 'server' ? require('../serverProcess/ipc').dc : require('../mainProcess/ipc').server
+);
 
 const checkPath = (path, cb) => (
   fs.exists(path, pathExist => cb(null, !!pathExist))
@@ -16,7 +18,7 @@ export const isInFmd = path => startsWith(getRootDir(), path);
 export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 export const resolveDocument = (oId, callback) => {
-  ipcApi.server.requestFmdGet(oId, ({ err, type, detail }) => {
+  getIpcApi().requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {
       return callback(err);
     }
@@ -42,7 +44,7 @@ export const createDocument = (path, documentType, callback) => {
     if (pathExist) {
       return callback(null);
     }
-    return ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+    return getIpcApi().requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
       if (err) {
         return callback(err);
       }

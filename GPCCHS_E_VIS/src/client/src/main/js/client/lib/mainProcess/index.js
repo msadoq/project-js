@@ -122,7 +122,7 @@ export function onStart() {
           `${parameters.get('path')}/server.js`,
           {
             execPath: parameters.get('NODE_PATH'),
-            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()), APP_ENV: 'server' }),
           },
           onMessage,
           onServerReady
@@ -137,7 +137,7 @@ export function onStart() {
           {
             execPath: parameters.get('NODE_PATH'),
             execArgv: ['-r', 'babel-register', '-r', 'babel-polyfill'],
-            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+            env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()), APP_ENV: 'server' }),
           },
           onMessage,
           onServerReady

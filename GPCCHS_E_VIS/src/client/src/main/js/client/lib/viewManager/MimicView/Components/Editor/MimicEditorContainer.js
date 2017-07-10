@@ -12,13 +12,18 @@ import { getConfigurationByViewId } from '../../../../viewManager';
 import {
   open as openModal,
 } from '../../../../store/actions/modals';
-import { updateViewPanels } from '../../../../store/actions/ui';
-import { getViewPanels } from '../../../../store/reducers/ui/editor';
-
+import {
+  updateViewPanels,
+  updateViewEntryPointsPanels,
+  updateViewTab,
+} from '../../../../store/actions/ui';
+import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui/editor';
 
 const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
   panels: getViewPanels,
+  tab: getViewTab,
+  entryPointsPanels: getViewEntryPointsPanels,
 });
 
 const mapDispatchToProps = {
@@ -28,6 +33,8 @@ const mapDispatchToProps = {
   updateTitleStyle,
   openModal,
   updateViewPanels,
+  updateViewEntryPointsPanels,
+  updateViewTab,
 };
 
 const MimicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(MimicEditor);

@@ -1,19 +1,18 @@
-import React, { PropTypes } from 'react';
-import {
-  Accordion,
-  Panel,
-} from 'react-bootstrap';
-import _memoize from 'lodash/memoize';
+import React, { PropTypes, PureComponent } from 'react';
+import Collapse from 'rc-collapse';
 
 import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
+const { Panel } = Collapse;
+const emptyArray = [];
+
 /*
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
 */
-export default class EntryPointDetails extends React.Component {
+export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(PropTypes.shape({
@@ -25,6 +24,10 @@ export default class EntryPointDetails extends React.Component {
       timelineUuid: PropTypes.string,
     })).isRequired,
     idPoint: PropTypes.number.isRequired,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
+    ]).isRequired,
     entryPoint: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
@@ -39,13 +42,21 @@ export default class EntryPointDetails extends React.Component {
       }),
     }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
   }
 
-  state = {
-    isPanelNameOpen: false,
-    isPanelConnDataOpen: false,
-    isPanelStateColorsOpen: false,
-  };
+  static defaultProps = {
+    panels: [],
+  }
+
+  onChange = (openPanels) => {
+    const {
+      updateViewSubPanels,
+      viewId,
+      entryPoint,
+    } = this.props;
+    updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
+  }
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -55,34 +66,26 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
-  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
-
   render() {
     const {
       idPoint,
       entryPoint,
       viewId,
+      panels,
       timelines,
     } = this.props;
 
-    const {
-      isPanelNameOpen,
-      isPanelConnDataOpen,
-      isPanelStateColorsOpen,
-     } = this.state;
-
     return (
-      <Accordion>
+      <Collapse
+        accordion={false}
+        onChange={this.onChange}
+        defaultActiveKey={panels === true ? emptyArray : panels}
+      >
         <Panel
-          key={'Name'}
-          header="Name"
-          eventKey={'Name'}
-          expanded={isPanelNameOpen}
-          onSelect={this.openPanel('Name')}
-          onExited={this.closePanel('Name')}
+          key="parameters"
+          header="Parameters"
         >
-          {isPanelNameOpen && <AddEntryPoint
+          {Array.isArray(panels) && panels.includes('parameters') && <AddEntryPoint
             onSubmit={this.handleSubmit}
             form={`entrypoint-title-form-${idPoint}-${viewId}`}
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
@@ -92,14 +95,10 @@ export default class EntryPointDetails extends React.Component {
           />}
         </Panel>
         <Panel
-          key={'ConnData'}
-          header="Conn Data"
-          eventKey={'ConnData'}
-          expanded={isPanelConnDataOpen}
-          onSelect={this.openPanel('ConnData')}
-          onExited={this.closePanel('ConnData')}
+          key="coordinates"
+          header="Coordinates"
         >
-          {isPanelConnDataOpen && <EntryPointConnectedData
+          {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
             timelines={timelines}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
@@ -107,14 +106,10 @@ export default class EntryPointDetails extends React.Component {
           />}
         </Panel>
         <Panel
-          key={'StateColors'}
+          key="stateColors"
           header="State colors"
-          eventKey={'StateColors'}
-          expanded={isPanelStateColorsOpen}
-          onSelect={this.openPanel('StateColors')}
-          onExited={this.closePanel('StateColors')}
         >
-          {isPanelStateColorsOpen && <EntryPointStateColors
+          {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={{
               stateColors: entryPoint.stateColors || [],
@@ -123,7 +118,7 @@ export default class EntryPointDetails extends React.Component {
             onSubmit={this.handleSubmit}
           />}
         </Panel>
-      </Accordion>
+      </Collapse>
     );
   }
 }

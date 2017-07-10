@@ -4,6 +4,8 @@ import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
+const emptyArray = [];
+
 /*
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
@@ -41,6 +43,7 @@ export default class EntryPointDetails extends React.Component {
     updateViewSubPanels: PropTypes.func.isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   }
+
   static defaultProps = {
     panels: [],
   };
@@ -76,7 +79,7 @@ export default class EntryPointDetails extends React.Component {
       <Collapse
         accordion={false}
         onChange={this.onChange}
-        defaultActiveKey={panels}
+        defaultActiveKey={panels === true ? emptyArray : panels}
       >
         <Panel
           key="name"

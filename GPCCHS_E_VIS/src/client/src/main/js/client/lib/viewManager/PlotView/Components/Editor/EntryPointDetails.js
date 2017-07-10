@@ -5,6 +5,8 @@ import EntryPointConnectedData from './EntryPointConnectedData';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 const { Panel } = Collapse;
+const emptyArray = [];
+
 /*
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
@@ -42,6 +44,7 @@ export default class EntryPointDetails extends PureComponent {
     updateViewSubPanels: PropTypes.func.isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
+
   static defaultProps = {
     panels: [],
   };
@@ -109,7 +112,7 @@ export default class EntryPointDetails extends PureComponent {
       <Collapse
         accordion={false}
         onChange={this.onChange}
-        defaultActiveKey={panels}
+        defaultActiveKey={panels === true ? emptyArray : panels}
       >
         <Panel
           key="parameters"

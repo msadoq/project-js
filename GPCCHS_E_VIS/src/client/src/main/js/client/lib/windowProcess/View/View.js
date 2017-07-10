@@ -31,6 +31,8 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
+    saveAs: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -95,12 +97,12 @@ export default class View extends PureComponent {
       { type: 'separator' },
       {
         label: 'Save view',
-        click: () => main.saveView({ viewId, saveAs: useSaveAs }, () => {}),
+        click: () => this.props.save(),
         enabled: (isPathDefined && isModified),
       },
       {
         label: 'Save view as...',
-        click: () => main.saveView({ viewId, saveAs: true }, () => {}),
+        click: () => this.props.saveAs(),
       },
       {
         label: 'Save view as a model...',

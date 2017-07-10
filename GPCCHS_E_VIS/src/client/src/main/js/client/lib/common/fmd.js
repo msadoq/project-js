@@ -44,7 +44,7 @@ export const createDocument = (path, documentType, callback) => {
     if (pathExist) {
       return callback(null);
     }
-    return getIpcApi().requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+    return getIpcApi().requestFmdCreate(fileName, folder, mimeType, ({ err, serializedOid }) => {
       if (err) {
         return callback(err);
       }

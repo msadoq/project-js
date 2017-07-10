@@ -7,7 +7,7 @@ import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
 
-const saveViewAs = (view, path, callback) => {
+const writeView = (view, path, callback) => {
   if (!view) {
     return callback(new Error('No view'));
   }
@@ -23,12 +23,13 @@ const saveViewAs = (view, path, callback) => {
 
     const schema = getSchema(view.type);
     const validationError = validation(view.type, preparedView, schema);
-
+    console.log('HERE -1', validationError);
     if (validationError) {
       return callback(validationError);
     }
 
     return writeDocument(path, preparedView, (errWrite, oId) => {
+      console.log('HERE0', errWrite);
       if (errWrite) {
         return callback(errWrite);
       }
@@ -39,5 +40,5 @@ const saveViewAs = (view, path, callback) => {
 };
 
 export default {
-  saveViewAs,
+  writeView,
 };

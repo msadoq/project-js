@@ -14,6 +14,7 @@ import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
 import { getFirstTimebarId } from '../store/reducers/timebars';
+import { getViewWithConfiguration } from '../viewManager';
 import { createBlankWorkspace } from './createBlankWorkspace';
 import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
@@ -21,7 +22,20 @@ import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
 
 import { writePage } from './writePage';
-import { setModified, setPageOid, updateAbsolutePath } from '../store/actions/pages';
+import { writeView } from './writeView';
+import {
+  setModified as setPageModified,
+  setPageOid,
+  updatePath as updatePagePath,
+  updateAbsolutePath as updatePageAbsolutePath,
+} from '../store/actions/pages';
+
+import {
+  setModified as setViewModified,
+  setViewOid,
+  updatePath as updateViewPath,
+  updateAbsolutePath as updateViewAbsolutePath,
+} from '../store/actions/views';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -190,9 +204,30 @@ export const savePage = (pageId, path) => (dispatch, getState) => {
     if (oid) {
       dispatch(setPageOid(pageId, oid));
     }
-    dispatch(updateAbsolutePath(pageId, path));
-    dispatch(setModified(pageId, false));
+    dispatch(updatePagePath(pageId, path));
+    dispatch(updatePageAbsolutePath(pageId, path));
+    dispatch(setPageModified(pageId, false));
     dispatch(addMessage('global', 'success', 'Page saved'));
+  });
+};
+// -------------------------------------------------------------------------- //
+
+// --- save a view ---------------------------------------------------------- //
+export const saveView = (viewId, path) => (dispatch, getState) => {
+  const view = getViewWithConfiguration(getState(), { viewId });
+  writeView(view, path, (err, oid) => {
+    console.log('HEREE 1', err);
+    if (err) {
+      dispatch(addMessage(viewId, 'danger', err));
+      return;
+    }
+    if (oid) {
+      dispatch(setViewOid(viewId, oid));
+    }
+    dispatch(updateViewPath(viewId, path));
+    dispatch(updateViewAbsolutePath(viewId, path));
+    dispatch(setViewModified(viewId, false));
+    dispatch(addMessage(viewId, 'success', 'View saved'));
   });
 };
 // -------------------------------------------------------------------------- //

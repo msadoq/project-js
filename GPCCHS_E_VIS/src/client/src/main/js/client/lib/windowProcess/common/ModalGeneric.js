@@ -34,6 +34,9 @@ const ModalGeneric = (props) => {
       break;
     case 'saveAgent':
       title = 'Save documents';
+      if (props.props.title) {
+        title = `${title} - ${props.props.title}`;
+      }
       child = (
         <SaveAgentModalContainer
           {...props.props}

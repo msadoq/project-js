@@ -1,7 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _ from 'lodash/fp';
 import { Button, Label, Glyphicon } from 'react-bootstrap';
-import classnames from 'classnames';
 
 const pagesPropTypes = PropTypes.arrayOf(PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -46,7 +45,7 @@ const SaveAgent = ({ pages, askSavePage, askSaveView }) => (
           <SaveButton
             saved={!page.isModified}
             onClick={() => askSavePage(page.uuid)}
-            disabled={_.some('isModified', page.views)}
+            disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
           >
             {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
           </SaveButton>
@@ -55,13 +54,12 @@ const SaveAgent = ({ pages, askSavePage, askSaveView }) => (
               page.views.map(view => (
                 <div key={view.uuid} className="mt5">
                   {view.title}
-                  {view.isModified && <Button
+                  <SaveButton
                     onClick={() => askSaveView(view.uuid)}
-                    bsStyle="primary"
-                    bsSize="xsmall"
+                    saved={!view.isModified}
                   >
                     {view.absolutePath ? 'Save' : 'Save as...'}
-                  </Button>}
+                  </SaveButton>
                 </div>
               ))
             }
@@ -82,11 +80,8 @@ export default class SaveAgentModal extends PureComponent {
     askSavePage: PropTypes.func.isRequired,
     askSaveView: PropTypes.func.isRequired,
     pages: pagesPropTypes.isRequired,
-    buttons: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    }).isRequired),
     closeModal: PropTypes.func.isRequired,
+    mode: PropTypes.oneOf(['close', 'save']).isRequired,
   }
 
   static defaultProps = {
@@ -94,7 +89,11 @@ export default class SaveAgentModal extends PureComponent {
   }
 
   render() {
-    const { buttons, closeModal, pages, askSaveView, askSavePage } = this.props;
+    const { closeModal, pages, askSaveView, askSavePage, mode } = this.props;
+    const documentsAreModified = _.anyPass([
+      _.some('isModified'),
+      _.pipe(_.flatMap('views'), _.some('isModified')),
+    ])(pages);
     return (
       <div>
         <SaveAgent
@@ -102,19 +101,19 @@ export default class SaveAgentModal extends PureComponent {
           askSaveView={askSaveView}
           askSavePage={askSavePage}
         />
-        <div>
-          {
-            buttons.map(({ label, value }) => (
-              <button
-                key={label + value}
-                className={classnames('btn', 'btn-primary', 'mr5')}
-                onClick={() => closeModal(value)}
-              >
-                {label}
-              </button>
-            ))
-          }
-        </div>
+        { mode === 'save' &&
+          <Button disabled={documentsAreModified}>
+            Ok
+          </Button>
+        }
+        { mode === 'close' &&
+          <Button
+            bsStyle={documentsAreModified ? 'warning' : 'primary'}
+            onClick={() => closeModal('close')}
+          >
+            {documentsAreModified ? 'Close page without saving' : 'Close page'}
+          </Button>
+        }
       </div>
     );
   }

@@ -1,10 +1,9 @@
 import * as types from '../../../types';
 
-import { closePage, askSavePage } from '../../../actions/pages';
+import { closePage } from '../../../actions/pages';
 import { getPage } from '../../../reducers/pages';
-import { getPageHasUnsavedViews } from '../../../selectors/pages';
 import { getWindowIdByPageId } from '../../../reducers/windows';
-import { getPageUnsavedViewIds } from '../selectors';
+import { getPageUnsavedViewIds, getPageHasUnsavedViews } from '../selectors';
 
 const onClosePage = () => (
   ({ getState, dispatch, openModal }) => next => (action) => {
@@ -19,12 +18,10 @@ const onClosePage = () => (
         type: 'saveAgent',
         documentType: 'page',
         mode: 'close',
-        pageIds: [pageId],
+        pageIds: [pageId, pageId],
         viewIds: getPageUnsavedViewIds(state, { pageId }),
       }, (closeAction) => {
-        if (closeAction.payload.choice === 'yes') {
-          dispatch(askSavePage(pageId));
-        } else if (closeAction.payload.choice === 'no') {
+        if (closeAction.payload.choice === 'close') {
           dispatch(closePage(pageId));
         }
       });

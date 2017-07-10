@@ -1,7 +1,7 @@
 import * as types from '../../../types';
 
 import { getPage } from '../../../reducers/pages';
-import { getPageUnsavedViewIds, getPageHasUnsavedViews } from '../selectors';
+import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
 import { getWindowIdByPageId } from '../../../reducers/windows';
 
 const onSavePage = documentManager => (
@@ -13,13 +13,14 @@ const onSavePage = documentManager => (
       const page = getPage(state, { pageId });
       const saveAs = action.payload.saveAs || (!page.oid && !page.absolutePath);
       const windowId = getWindowIdByPageId(state, { pageId });
-      if (getPageHasUnsavedViews(state, { pageId })) {
+      if (getPageHasNewViews(state, { pageId })) {
         openModal(windowId, {
+          title: 'new views must be saved',
           type: 'saveAgent',
           documentType: 'page',
           mode: 'save',
           pageIds: [pageId],
-          viewIds: getPageUnsavedViewIds(state, { pageId }),
+          viewIds: getPageNewViewIds(state, { pageId }),
         });
       } else if (saveAs) {
         openDialog(windowId, 'save', (closeAction) => {

@@ -29,7 +29,7 @@ export default class LinesCanvas extends Component {
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
         dataAccessor: PropTypes.func,
-        yAccessor: PropTypes.func.isRequired,
+        yAccessor: PropTypes.func,
         colorAccessor: PropTypes.func,
       })
     ).isRequired,

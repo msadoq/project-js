@@ -30,6 +30,12 @@ const SaveButton = (props) => {
     </Button>
   );
 };
+SaveButton.propTypes = {
+  saved: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 const SaveAgent = ({ pages, askSavePage, askSaveView }) => (
   <div className="mt20 mb20" >

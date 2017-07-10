@@ -33,7 +33,7 @@ export default class YAxis extends Component {
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
-        yAccessor: PropTypes.func.isRequired,
+        yAccessor: PropTypes.func,
       })
     ).isRequired,
     showLabels: PropTypes.bool,

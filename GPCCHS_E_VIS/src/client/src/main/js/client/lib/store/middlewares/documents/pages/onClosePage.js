@@ -18,7 +18,7 @@ const onClosePage = () => (
         type: 'saveAgent',
         documentType: 'page',
         mode: 'close',
-        pageIds: [pageId, pageId],
+        pageIds: [pageId],
         viewIds: getPageUnsavedViewIds(state, { pageId }),
       }, (closeAction) => {
         if (closeAction.payload.choice === 'close') {

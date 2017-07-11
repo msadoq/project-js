@@ -116,8 +116,7 @@ export default class ViewParams extends React.Component {
       showLegend,
       legend,
     };
-    // console.log(legend);
-    // console.log(showLegend);
+
     return (
       <ViewParamsForm
         initialValues={initVals}

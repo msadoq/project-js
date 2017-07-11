@@ -31,10 +31,11 @@ const getDefaultView = _.merge({
         style: 'Dashed',
       },
     }],
-    legend: {},
+    legend: { location: 'bottom' },
     markers: [],
     entryPoints: [],
     showYAxes: 'left',
+    showLegend: false,
   },
 });
 

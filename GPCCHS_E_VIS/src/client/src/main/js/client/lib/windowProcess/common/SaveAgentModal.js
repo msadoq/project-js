@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _ from 'lodash/fp';
-import { Button, Label, Glyphicon } from 'react-bootstrap';
+import { Button, Label, Glyphicon, Row, Col } from 'react-bootstrap';
+import styles from './SaveAgentModal.css';
 
 const pagesPropTypes = PropTypes.arrayOf(PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -20,9 +21,9 @@ const SaveButton = (props) => {
   return (
     <Button
       onClick={props.onClick}
+      className={styles.saveButton}
       bsStyle="primary"
       bsSize="xsmall"
-      className="ml10"
       disabled={props.disabled}
     >
       {props.children}
@@ -40,44 +41,55 @@ const SaveAgent = ({
   askSavePage, askSaveView, askSaveWorkspace,
   pages, workspaceFile, workspaceIsModified, workspaceIsNew,
 }) => (
-  <div className="mt20 mb20" >
-    {workspaceFile && <div className="mt10">
-      {workspaceFile}
-      <SaveButton
-        saved={!workspaceIsModified}
-        onClick={() => askSaveWorkspace()}
-        disabled={_.some(p => !p.absolutePath && !p.oId, pages)}
-      >
-        {workspaceIsNew ? 'Save as...' : 'Save'}
-      </SaveButton>
-    </div>}
+  <div>
+    {workspaceFile && <Row className="mb5">
+      <Col xs={2} />
+      <Col xs={7}>
+        <ul><li className={styles.bullet}><strong>{workspaceFile}</strong></li></ul>
+      </Col>
+      <Col className="" xs={3}>
+        <SaveButton
+          saved={!workspaceIsModified}
+          onClick={() => askSaveWorkspace()}
+          disabled={_.some(p => !p.absolutePath && !p.oId, pages)}
+        >
+          {workspaceIsNew ? 'Save as...' : 'Save'}
+        </SaveButton>
+      </Col>
+    </Row>}
     {
       pages.map(page => (
-        <div key={page.uuid} className="mt10">
-          {page.title}
-          <SaveButton
-            saved={!page.isModified}
-            onClick={() => askSavePage(page.uuid)}
-            disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
-          >
-            {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
-          </SaveButton>
-          <div className="">
-            {
-              page.views.map(view => (
-                <div key={view.uuid} className="mt5">
-                  {view.title}
+        <span>
+          <Row className="mb5" key={page.uuid}>
+            <Col xs={2} />
+            <Col xs={7} className="pl20"><ul><li className={styles.bullet}>{page.title}</li></ul></Col>
+            <Col xs={3}>
+              <SaveButton
+                saved={!page.isModified}
+                onClick={() => askSavePage(page.uuid)}
+                disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
+              >
+                {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
+              </SaveButton>
+            </Col>
+          </Row>
+          {
+            page.views.map(view => (
+              <Row className="mb5" key={view.uuid}>
+                <Col xs={2} />
+                <Col className="pl40" xs={7}><ul><li className={styles.bullet}>{view.title}</li></ul></Col>
+                <Col xs={3}>
                   <SaveButton
                     onClick={() => askSaveView(view.uuid)}
                     saved={!view.isModified}
                   >
                     {view.absolutePath ? 'Save' : 'Save as...'}
                   </SaveButton>
-                </div>
-              ))
-            }
-          </div>
-        </div>
+                </Col>
+              </Row>
+            ))
+          }
+        </span>
       ))
     }
   </div>
@@ -97,6 +109,7 @@ export default class SaveAgentModal extends PureComponent {
     workspaceFile: PropTypes.string,
     workspaceIsModified: PropTypes.bool.isRequired,
     workspaceIsNew: PropTypes.bool.isRequired,
+    documentType: PropTypes.string.isRequired,
     askSaveView: PropTypes.func.isRequired,
     askSavePage: PropTypes.func.isRequired,
     askSaveWorkspace: PropTypes.func.isRequired,
@@ -113,7 +126,7 @@ export default class SaveAgentModal extends PureComponent {
   render() {
     const {
       closeModal, pages, mode, workspaceFile, workspaceIsModified, workspaceIsNew,
-      askSaveView, askSavePage, askSaveWorkspace,
+      askSaveView, askSavePage, askSaveWorkspace, documentType,
     } = this.props;
     const documentsAreModified = _.anyPass([
       _.some('isModified'),
@@ -130,19 +143,21 @@ export default class SaveAgentModal extends PureComponent {
           askSavePage={askSavePage}
           askSaveWorkspace={askSaveWorkspace}
         />
-        { mode === 'save' &&
-          <Button disabled={documentsAreModified}>
-            Ok
-          </Button>
-        }
-        { mode === 'close' &&
-          <Button
-            bsStyle={documentsAreModified ? 'warning' : 'primary'}
-            onClick={() => closeModal('close')}
-          >
-            {documentsAreModified ? 'Close page without saving' : 'Close page'}
-          </Button>
-        }
+        <div className="text-center">
+          { mode === 'save' &&
+            <Button disabled={documentsAreModified}>
+              Ok
+            </Button>
+          }
+          { mode === 'close' &&
+            <Button
+              bsStyle={documentsAreModified ? 'warning' : 'primary'}
+              onClick={() => closeModal('close')}
+            >
+              {documentsAreModified ? `Close ${documentType} without saving` : `Close ${documentType}`}
+            </Button>
+          }
+        </div>
       </div>
     );
   }

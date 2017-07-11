@@ -36,8 +36,21 @@ SaveButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-const SaveAgent = ({ pages, askSavePage, askSaveView }) => (
+const SaveAgent = ({
+  askSavePage, askSaveView, askSaveWorkspace,
+  pages, workspaceFile, workspaceIsModified, workspaceIsNew,
+}) => (
   <div className="mt20 mb20" >
+    {workspaceFile && <div className="mt10">
+      {workspaceFile}
+      <SaveButton
+        saved={!workspaceIsModified}
+        onClick={() => askSaveWorkspace()}
+        disabled={_.some(p => !p.absolutePath && !p.oId, pages)}
+      >
+        {workspaceIsNew ? 'Save as...' : 'Save'}
+      </SaveButton>
+    </div>}
     {
       pages.map(page => (
         <div key={page.uuid} className="mt10">
@@ -73,23 +86,35 @@ SaveAgent.propTypes = {
   pages: pagesPropTypes.isRequired,
   askSavePage: PropTypes.func.isRequired,
   askSaveView: PropTypes.func.isRequired,
+  askSaveWorkspace: PropTypes.func.isRequired,
+  workspaceFile: PropTypes.string.isRequired,
+  workspaceIsModified: PropTypes.bool.isRequired,
+  workspaceIsNew: PropTypes.bool.isRequired,
 };
 
 export default class SaveAgentModal extends PureComponent {
   static propTypes = {
-    askSavePage: PropTypes.func.isRequired,
+    workspaceFile: PropTypes.string,
+    workspaceIsModified: PropTypes.bool.isRequired,
+    workspaceIsNew: PropTypes.bool.isRequired,
     askSaveView: PropTypes.func.isRequired,
+    askSavePage: PropTypes.func.isRequired,
+    askSaveWorkspace: PropTypes.func.isRequired,
     pages: pagesPropTypes.isRequired,
     closeModal: PropTypes.func.isRequired,
     mode: PropTypes.oneOf(['close', 'save']).isRequired,
   }
 
   static defaultProps = {
+    workspaceFile: '',
     buttons: [],
   }
 
   render() {
-    const { closeModal, pages, askSaveView, askSavePage, mode } = this.props;
+    const {
+      closeModal, pages, mode, workspaceFile, workspaceIsModified, workspaceIsNew,
+      askSaveView, askSavePage, askSaveWorkspace,
+    } = this.props;
     const documentsAreModified = _.anyPass([
       _.some('isModified'),
       _.pipe(_.flatMap('views'), _.some('isModified')),
@@ -97,9 +122,13 @@ export default class SaveAgentModal extends PureComponent {
     return (
       <div>
         <SaveAgent
+          workspaceFile={workspaceFile}
+          workspaceIsModified={workspaceIsModified}
+          workspaceIsNew={workspaceIsNew}
           pages={pages}
           askSaveView={askSaveView}
           askSavePage={askSavePage}
+          askSaveWorkspace={askSaveWorkspace}
         />
         { mode === 'save' &&
           <Button disabled={documentsAreModified}>

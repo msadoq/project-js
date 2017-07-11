@@ -11,6 +11,8 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
 export const openNewWorkspace = simple(types.HSC_OPEN_NEW_WORKSPACE, 'keepMessages');
 export const pause = simple(types.HSC_PAUSE);
 
+export const askSaveWorkspace = simple(types.WS_ASK_SAVE_WORKSPACE);
+
 export const updateDomainName = simple(types.WS_WORKSPACE_UPDATE_DOMAINNAME, 'domainName');
 export const updateSessionName = simple(types.WS_WORKSPACE_UPDATE_SESSIONNAME, 'sessionName');
 

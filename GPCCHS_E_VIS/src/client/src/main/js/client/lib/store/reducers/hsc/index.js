@@ -108,3 +108,4 @@ export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');
+export const getWorkspaceIsNew = state => (!state.hsc.file && !state.hsc.folder);

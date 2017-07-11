@@ -23,10 +23,10 @@ import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
-import { getIsWorkspaceOpening } from '../store/actions/hsc';
+import { getIsWorkspaceOpening, openNewWorkspace } from '../store/actions/hsc';
 import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
-import { openWorkspace, openBlankWorkspace } from '../documentManager';
+import { openWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
@@ -175,7 +175,7 @@ export function onStart() {
       if (!root) {
         logger.warn('No ISIS_DOCUMENTS_ROOT found');
         dispatch(addMessage('global', 'warning', 'No FMD support'));
-        dispatch(openBlankWorkspace({ keepMessages: true }));
+        dispatch(openNewWorkspace(true));
         callback(null);
         return;
       }
@@ -186,7 +186,7 @@ export function onStart() {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        dispatch(openBlankWorkspace({ keepMessages: true }));
+        dispatch(openNewWorkspace(true));
         callback(null);
         return;
       }
@@ -200,7 +200,7 @@ export function onStart() {
         if (err) {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
-          dispatch(openBlankWorkspace({ keepMessages: true }));
+          dispatch(openNewWorkspace(true));
         }
         callback(null);
       }));

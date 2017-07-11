@@ -6,9 +6,9 @@ import equals from 'lodash/fp/equals';
 import { add as addMessage } from '../../store/actions/messages';
 import { getPages, getModifiedPagesIds } from '../../store/reducers/pages';
 import { getViews, getModifiedViewsIds } from '../../store/reducers/views';
-import { updatePath, setWorkspaceModified } from '../../store/actions/hsc';
+import { updatePath, setWorkspaceModified, openNewWorkspace } from '../../store/actions/hsc';
 import { getWorkspaceFile, getWorkspaceFolder, getWorkspaceIsModified } from '../../store/reducers/hsc';
-import { saveWorkspace, openWorkspace, openBlankWorkspace } from '../../documentManager';
+import { saveWorkspace, openWorkspace } from '../../documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../store';
 
@@ -25,7 +25,7 @@ function workspaceOpenNew() {
       dispatch(addGlobalError(err));
       return;
     }
-    dispatch(openBlankWorkspace());
+    dispatch(openNewWorkspace());
   });
 }
 

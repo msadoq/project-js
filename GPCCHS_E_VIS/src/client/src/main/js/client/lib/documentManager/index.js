@@ -3,13 +3,13 @@ import {
   openView,
   openPage,
   openWorkspace,
-  openBlankWorkspace,
   savePage,
   saveView,
 } from './actions';
 
 import { saveWorkspace } from './saveWorkspace';
 import { readDocumentType } from './io';
+import { createBlankWorkspace } from './createBlankWorkspace';
 
 export default {
   // save
@@ -21,7 +21,7 @@ export default {
   openView,
   openPage,
   openWorkspace,
-  openBlankWorkspace,
+  createBlankWorkspace,
 
   // reload
   reloadView,

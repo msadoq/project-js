@@ -15,7 +15,7 @@ import * as types from '../store/types';
 
 import { getFirstTimebarId } from '../store/reducers/timebars';
 import { getViewWithConfiguration } from '../viewManager';
-import { createBlankWorkspace } from './createBlankWorkspace';
+
 import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
@@ -183,16 +183,6 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
   });
 };
 // -------------------------------------------------------------------------- //
-
-
-// --- open a blank workspace ----------------------------------------------- //
-export const openBlankWorkspace = ({ keepMessages } = {}) => (dispatch) => {
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-  dispatch(closeWorkspace(keepMessages));
-  dispatch({ type: types.WS_WORKSPACE_OPENED, payload: createBlankWorkspace() });
-};
-// -------------------------------------------------------------------------- //
-
 
 // --- save a page ---------------------------------------------------------- //
 export const savePage = (pageId, path) => (dispatch, getState) => {

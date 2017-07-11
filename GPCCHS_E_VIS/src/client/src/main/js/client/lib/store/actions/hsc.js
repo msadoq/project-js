@@ -8,6 +8,7 @@ export const setWorkspaceModified = simple(types.WS_WORKSPACE_SET_MODIFIED, 'fla
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
 export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
+export const openNewWorkspace = simple(types.HSC_OPEN_NEW_WORKSPACE, 'keepMessages');
 export const pause = simple(types.HSC_PAUSE);
 
 export const updateDomainName = simple(types.WS_WORKSPACE_UPDATE_DOMAINNAME, 'domainName');

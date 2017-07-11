@@ -23,13 +23,11 @@ const writeView = (view, path, callback) => {
 
     const schema = getSchema(view.type);
     const validationError = validation(view.type, preparedView, schema);
-    console.log('HERE -1', validationError);
     if (validationError) {
       return callback(validationError);
     }
 
     return writeDocument(path, preparedView, (errWrite, oId) => {
-      console.log('HERE0', errWrite);
       if (errWrite) {
         return callback(errWrite);
       }

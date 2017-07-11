@@ -216,7 +216,6 @@ export const savePage = (pageId, path) => (dispatch, getState) => {
 export const saveView = (viewId, path) => (dispatch, getState) => {
   const view = getViewWithConfiguration(getState(), { viewId });
   writeView(view, path, (err, oid) => {
-    console.log('HEREE 1', err);
     if (err) {
       dispatch(addMessage(viewId, 'danger', err));
       return;

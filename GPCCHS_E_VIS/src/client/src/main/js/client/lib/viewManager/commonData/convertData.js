@@ -1,15 +1,17 @@
 import moment from 'moment';
+import _isBuffer from 'lodash/isBuffer';
 import _isObject from 'lodash/isObject';
 import _isArray from 'lodash/isArray';
 import _isEmpty from 'lodash/isEmpty';
 import _cloneDeep from 'lodash/cloneDeep';
 
 export function isLongValue(data) {
-  if (data.type === 'time' || data.type === 'fineTime'
-    || data.type === 'long' || data.type === 'ulong') {
-    return true;
-  }
-  return false;
+  return (
+    data.type === 'time'
+    || data.type === 'fineTime'
+    || data.type === 'long'
+    || data.type === 'ulong'
+  );
 }
 
 export function convertLongData(data) {
@@ -30,14 +32,30 @@ export function convertData(data) {
   } else if (data.type === 'enum' || data.type === 'double') {
     return data.symbol;
   } else if (data.type === 'blob') {
+    // deprecated code, previously buffer was sent to IPC and transform in array of digits during process
+    // let hexVal = '';
+    // data.value.data.forEach((val) => {
+    //   let hVal = val.toString(16);
+    //   if (hVal.length < 2) {
+    //     hVal = '0'.concat(hVal);
+    //   }
+    //   hexVal = hexVal.concat(hVal).concat(' ');
+    // });
+    // return hexVal;
+    if (!_isBuffer(data.value)) {
+      // theoretically never happens
+      return data.value;
+    }
+    // @doc: https://nodejs.org/dist/latest-v6.x/docs/api/buffer.html#buffer_buffers_and_es6_iteration
     let hexVal = '';
-    data.value.data.forEach((val) => {
+    // eslint-disable-next-line no-restricted-syntax, "DV6 TBC_CNES LPISIS In this particular case (iteration on buffer) the for structure is better"
+    for (const val of data.value) {
       let hVal = val.toString(16);
       if (hVal.length < 2) {
         hVal = '0'.concat(hVal);
       }
       hexVal = hexVal.concat(hVal).concat(' ');
-    });
+    }
     return hexVal;
   } else if (!data.type) {
     return updateObjectValues(data);

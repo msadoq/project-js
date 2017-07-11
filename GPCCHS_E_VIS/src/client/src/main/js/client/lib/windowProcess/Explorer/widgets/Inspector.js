@@ -160,7 +160,7 @@ export default class Inspector extends PureComponent {
             }
             <li><span className={styles.title}>ParameterName: </span>{parameterName}</li>
             <li><span className={styles.title}>Catalog: </span>{catalog}</li>
-            <li><span className={styles.title}>COMObject: </span>{comObject}</li>
+            <li><span className={styles.title}>ObjectType: </span>{comObject}</li>
             <li>
               <span className={styles.title}>Session: </span>{sessionName}
               {' '}

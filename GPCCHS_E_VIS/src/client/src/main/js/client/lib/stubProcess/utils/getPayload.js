@@ -49,7 +49,7 @@ const getComObject = (comObject, timestamp, value) => {
           decommutedValues: [
             stubData.getDecommutedValue({
               name: 'GENE_AM_CCSDSVERS1',
-              extractedValue: Buffer.alloc(10, 2),
+              extractedValue: Buffer.alloc(10, 12),
               rawValue: 2,
               convertedValue: 2,
             }),

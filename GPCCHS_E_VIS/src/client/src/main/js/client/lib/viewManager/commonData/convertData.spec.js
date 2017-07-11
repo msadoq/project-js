@@ -1,30 +1,62 @@
-import { isLongValue, convertLongData, updateObjectValues } from './convertData';
+import { isLongValue, convertData, convertLongData, updateObjectValues } from './convertData';
 
-describe('viewManager/commonData/convertData', () => {
-  test('isLongValue: yes', () => {
-    const data = { type: 'long' };
-    expect(isLongValue(data)).toEqual(true);
-    data.type = 'ulong';
-    expect(isLongValue(data)).toEqual(true);
-    data.type = 'time';
-    expect(isLongValue(data)).toEqual(true);
-    data.type = 'fineTime';
-    expect(isLongValue(data)).toEqual(true);
+describe('viewManager:commonData:convertData', () => {
+  describe('isLongValue', () => {
+    test('should returns true if a longValue', () => {
+      const data = { type: 'long' };
+      expect(isLongValue(data)).toEqual(true);
+      data.type = 'ulong';
+      expect(isLongValue(data)).toEqual(true);
+      data.type = 'time';
+      expect(isLongValue(data)).toEqual(true);
+      data.type = 'fineTime';
+      expect(isLongValue(data)).toEqual(true);
+    });
+    test('should returns false if not a longValue', () => {
+      const data = { type: 'bool' };
+      expect(isLongValue(data)).toEqual(false);
+      data.type = 'string';
+      expect(isLongValue(data)).toEqual(false);
+      data.type = 'uinteger';
+      expect(isLongValue(data)).toEqual(false);
+    });
   });
-  test('isLongValue: no', () => {
-    const data = { type: 'bool' };
-    expect(isLongValue(data)).toEqual(false);
-    data.type = 'string';
-    expect(isLongValue(data)).toEqual(false);
-    data.type = 'uinteger';
-    expect(isLongValue(data)).toEqual(false);
+  describe('convertData', () => {
+    test('should supports long value', () => {
+      // convertLongData is tested in detail in another test case
+      expect(convertData({ type: 'long', symbol: '1485648450000' })).toEqual(1485648450000);
+    });
+    test('should supports boolean', () => {
+      expect(convertData({ type: 'boolean', value: true })).toEqual('true');
+      expect(convertData({ type: 'boolean', value: false })).toEqual('false');
+      expect(convertData({ type: 'boolean' })).toEqual('false');
+    });
+    test('should supports enum', () => {
+      expect(convertData({ type: 'enum', symbol: 'mySymbol' })).toEqual('mySymbol');
+    });
+    test('should supports double', () => {
+      expect(convertData({ type: 'double', symbol: 1024.102410241024 })).toEqual(1024.102410241024);
+    });
+    test('should supports blob', () => {
+      expect(convertData({ type: 'blob', value: Buffer.alloc(4, 12) })).toEqual('0c 0c 0c 0c ');
+      expect(convertData({ type: 'blob', value: new Buffer([]) })).toEqual('');
+    });
+    test('should supports no type specified', () => {
+      expect(convertData({ value: 10 })).toEqual({ value: 10 });
+      expect(convertData({ value: { type: 'boolean', value: true } }))
+        .toEqual({ value: { type: 'boolean', value: 'true' } });
+    });
+    test('should supports unknown type', () => {
+      const value = {};
+      expect(convertData({ type: 'unknown', value })).toBe(value);
+    });
   });
   describe('convertLongData', () => {
     test('long', () => {
       const data = { type: 'long', symbol: '1485648450000' };
       expect(convertLongData(data)).toEqual(1485648450000);
     });
-    test('long', () => {
+    test('ulong', () => {
       const data = { type: 'ulong', symbol: '1485648450000' };
       expect(convertLongData(data)).toEqual(1485648450000);
     });

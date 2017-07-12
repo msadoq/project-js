@@ -23,7 +23,7 @@ const onSaveWorkspace = documentManager => (
           viewIds: getNewViewIds(state),
         });
       } else if (saveAs) {
-        openDialog(windowId, 'save', (closeAction) => {
+        openDialog(windowId, 'save', {}, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             const absolutePath = choice;

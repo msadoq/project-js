@@ -13,7 +13,7 @@ const onSaveView = documentManager => (
       const windowId = window.uuid;
       const saveAs = action.payload.saveAs || (!view.oId && !view.absolutePath);
       if (saveAs) {
-        openDialog(windowId, 'save', (closeAction) => {
+        openDialog(windowId, 'save', {}, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             const absolutePath = choice;

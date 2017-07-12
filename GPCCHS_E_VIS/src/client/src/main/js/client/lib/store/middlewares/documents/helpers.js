@@ -6,10 +6,10 @@ import { open as openModal } from '../../actions/modals';
 
 const createDialogHelper = ({ dispatch }) => {
   const dialogCache = {};
-  const open = (windowId, type, onClose = _.noop) => {
+  const open = (windowId, type, options, onClose = _.noop) => {
     const dialogId = v4();
     dialogCache[dialogId] = onClose;
-    dispatch(openDialog(windowId, dialogId, type));
+    dispatch(openDialog(windowId, dialogId, type, options));
   };
   const interact = (action) => {
     if (action.type === types.HSC_DIALOG_CLOSED && dialogCache[action.payload.dialogId]) {

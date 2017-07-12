@@ -8,7 +8,7 @@ const onOpenPage = documentManager => (
       if (absolutePath) {
         dispatch(documentManager.openPage({ windowId, absolutePath }));
       } else {
-        openDialog(windowId, 'open', (closeAction) => {
+        openDialog(windowId, 'open', {}, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             dispatch(documentManager.openPage({ windowId, absolutePath: choice[0] }));

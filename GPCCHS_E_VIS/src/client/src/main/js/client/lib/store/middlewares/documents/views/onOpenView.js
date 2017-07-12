@@ -11,7 +11,7 @@ const onOpenView = documentManager => (
       if (absolutePath) {
         dispatch(documentManager.openView({ absolutePath }, window.focusedPage));
       } else {
-        openDialog(windowId, 'open', (closeAction) => {
+        openDialog(windowId, 'open', {}, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             dispatch(documentManager.openView({ absolutePath: choice[0] }, window.focusedPage));

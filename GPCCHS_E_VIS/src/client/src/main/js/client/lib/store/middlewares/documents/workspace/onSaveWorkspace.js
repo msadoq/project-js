@@ -20,7 +20,7 @@ const onSaveWorkspace = documentManager => (
           documentType: 'workspace',
           mode: 'save',
           pageIds: getWorkspaceNewPagesIds(state),
-          viewsIds: getNewViewIds(state),
+          viewIds: getNewViewIds(state),
         });
       } else if (saveAs) {
         openDialog(windowId, 'save', (closeAction) => {

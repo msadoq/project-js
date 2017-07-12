@@ -102,28 +102,32 @@ SaveView.propTypes = {
   }).isRequired,
 };
 
-const SavePage = ({ page, askSavePage, children }) => (
-  <span>
-    <Row className="mb5">
-      <Col xs={2} />
-      <Col xs={7} className="pl20"><ul><li className={styles.bullet}>{page.title}</li></ul></Col>
-      <Col xs={3}>
-        <SaveButton
-          saved={!page.isModified}
-          onClick={() => askSavePage(page.uuid)}
-          disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
-        >
-          {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
-        </SaveButton>
-      </Col>
-    </Row>
-    { children }
-  </span>
-);
+const SavePage = ({ page, askSavePage, children, boldTitle }) => {
+  const title = boldTitle ? <strong>{page.title}</strong> : page.title;
+  return (
+    <span>
+      <Row className="mb5">
+        <Col xs={2} />
+        <Col xs={7} className="pl20"><ul><li className={styles.bullet}>{title}</li></ul></Col>
+        <Col xs={3}>
+          <SaveButton
+            saved={!page.isModified}
+            onClick={() => askSavePage(page.uuid)}
+            disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
+          >
+            {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
+          </SaveButton>
+        </Col>
+      </Row>
+      { children }
+    </span>
+  );
+};
 SavePage.propTypes = {
   page: pagePropTypes.isRequired,
   askSavePage: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  boldTitle: PropTypes.bool.isRequired,
 };
 
 const SaveWizard = ({
@@ -140,7 +144,7 @@ const SaveWizard = ({
     />
     {
       pages.map(page => (
-        <SavePage key={page.uuid} askSavePage={askSavePage} page={page}>
+        <SavePage key={page.uuid} askSavePage={askSavePage} page={page} boldTitle={!workspaceFile}>
           {
             page.views.map(view => (
               <SaveView key={view.uuid} view={view} askSaveView={askSaveView} />

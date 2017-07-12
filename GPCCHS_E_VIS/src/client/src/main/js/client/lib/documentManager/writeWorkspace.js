@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { join, dirname } from 'path';
+import { join, dirname, basename } from 'path';
 import { LOG_DOCUMENT_SAVE } from '../constants';
 
 import { getWindows } from '../store/reducers/windows';
@@ -62,7 +62,7 @@ const prepareWorkspace = state => ({
   domainName: getDomainName(state),
 });
 
-const saveWorkspaceAs = (state, path, callback) => {
+const writeWorkspaceAs = (state, path, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
       return callback(errFolderCreation);
@@ -85,7 +85,7 @@ const saveWorkspaceAs = (state, path, callback) => {
   });
 };
 
-const saveWorkspace = (state, filePath, callback) => {
+const writeWorkspace = (state, filePath, callback) => {
   let path;
   if (!filePath || filePath === '') {
     const file = getWorkspaceFile(state);
@@ -97,10 +97,10 @@ const saveWorkspace = (state, filePath, callback) => {
   } else {
     path = filePath;
   }
-  return saveWorkspaceAs(state, path, callback);
+  return writeWorkspaceAs(state, path, callback);
 };
 
 export default {
-  saveWorkspace,
-  saveWorkspaceAs,
+  writeWorkspace,
+  writeWorkspaceAs,
 };

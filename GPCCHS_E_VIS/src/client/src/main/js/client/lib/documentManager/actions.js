@@ -5,7 +5,7 @@ import { LOG_DOCUMENT_OPEN } from '../constants';
 import getLogger from '../common/logManager';
 import parameters from '../common/configurationManager';
 
-import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
+import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace, setWorkspaceModified } from '../store/actions/hsc';
 
 import { server } from '../mainProcess/ipc';
 
@@ -21,6 +21,7 @@ import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
 
+import { writeWorkspace } from './writeWorkspace';
 import { writePage } from './writePage';
 import { writeView } from './writeView';
 import {
@@ -220,3 +221,17 @@ export const saveView = (viewId, path) => (dispatch, getState) => {
   });
 };
 // -------------------------------------------------------------------------- //
+
+// --- save a workspace ----------------------------------------------------------//
+export const saveWorkspace = path => (dispatch, getState) => {
+  writeWorkspace(getState(), path, (err) => {
+    if (err) {
+      dispatch(addMessage('global', 'danger', err));
+      return;
+    }
+    dispatch(updateWorkspacePath(dirname(path), basename(path)));
+    dispatch(setWorkspaceModified(false));
+    dispatch(addMessage('global', 'success', 'Workspace saved'));
+  });
+};
+// -------------------------------------------------------------------------------//

@@ -9,7 +9,7 @@ const onOpenWorkspace = documentManager => (
       dispatch(closeWorkspace(!!action.payload.keepMessages));
       dispatch({
         type: types.WS_WORKSPACE_OPENED,
-        payload: documentManager.createBlankWorkspace() 
+        payload: documentManager.createBlankWorkspace(),
       });
       dispatch(isWorkspaceOpening(false));
     }

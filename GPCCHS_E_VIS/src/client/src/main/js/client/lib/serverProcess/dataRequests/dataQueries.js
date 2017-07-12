@@ -3,7 +3,6 @@ import { GETLASTTYPE_GET_LAST } from '../../constants';
 import { get } from '../../common/configurationManager';
 import { getPlayingTimebarId } from '../../store/reducers/hsc';
 import { getTimebar } from '../../store/reducers/timebars';
-import computeForecastIntervals from './computeForecastIntervals';
 import computeMissingIntervals from './computeMissingIntervals';
 import connectedDataModel from '../models/connectedData';
 import { addRecord as registerQuery } from '../models/registeredQueries';
@@ -19,7 +18,6 @@ export default function makeDataQueries() {
 
     // compute forecast in play mode (if needed)
     const timebarUuid = getPlayingTimebarId(state);
-    let forecastIntervals;
     if (timebarUuid) {
       const upper = _get(getTimebar(state, { timebarUuid }), ['visuWindow', 'upper']);
       if (
@@ -27,15 +25,13 @@ export default function makeDataQueries() {
         || (previousForecast[1] - upper) < 100 // visuWindow is near the end of the forecast interval
         || upper < previousForecast[0] // visuWindow has moved backward
       ) {
-        forecastIntervals = computeForecastIntervals(dataMap.expectedIntervals, forecastTime);
-
         // store forecast for next observer execution
         previousForecast = [upper, (upper + forecastTime)];
       }
     }
 
     // determine missing data
-    const missingIntervals = computeMissingIntervals(dataMap, previous, forecastIntervals);
+    const missingIntervals = computeMissingIntervals(dataMap, previous, dataMap.forecastIntervals);
     const flatDataIds = Object.keys(missingIntervals);
     const n = flatDataIds.length;
     if (n) {
@@ -60,7 +56,9 @@ export default function makeDataQueries() {
           registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
 
           // register this getLast query in connectedDataModel
-          connectedDataModel.addLastQuery(connectedData, queryId, interval);
+          connectedDataModel.addLastQuery(connectedData, queryId, interval); // TODO if we use this record to allow incoming pub/sub data we probably need to stop removing record on TBD response OR USE dataMap on pub/sub incoming data ONLY for getLast data
+
+          // TODO dbrugne add a third operation to get missing data from cache and dispatch to reducers
         });
 
         /**
@@ -81,6 +79,10 @@ export default function makeDataQueries() {
           // emit query to DC
           const queryId =
             dc.requestTimebasedQuery(flatDataId, dataId, interval, {});
+
+          console.log('DC QUERY RANGE', flatDataId);
+
+          console.log('DC QUERY LAST', flatDataId);
 
           // register query to allow easy flatDataId retrieving on data reception
           registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line

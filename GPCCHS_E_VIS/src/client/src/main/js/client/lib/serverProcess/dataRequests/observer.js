@@ -44,7 +44,7 @@ export default function makeDataRequestsObserver(store) {
 
     // run dataSubscriptions observer (create and remove pub/sub subscriptions)
     profile.start('subscriptions');
-    dataSubscriptions(dataMap, previous); // TODO dbrugne issue when remoteId is no longer in dataMap (user change page) and interval is in cache when i recevie new pub/sub values
+    dataSubscriptions(dataMap, previous); // TODO dbrugne issue when remoteId is no longer in dataMap (user change page) and interval is in cache when i recevie new pub/sub values : remove deletion (should be done in dataCache cleanup)
     profile.stop('subscriptions');
 
     // run dataQueries observer (produce dataRequest for DC)

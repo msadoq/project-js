@@ -12,25 +12,16 @@ import { server } from './ipc';
 import { getStore } from './store';
 import {
   getLastCacheInvalidation,
-  getPlayingTimebarId,
 } from '../store/reducers/hsc';
 import {
   updateCacheInvalidation,
   pause,
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
-import displayQueries from '../dataManager/displayQueries';
-import { updateViewData } from '../store/actions/viewData';
 
 let logger;
 
 let nextTick = null;
-const previous = {
-  requestedDataMap: {},
-  injectionViewMap: {},
-  injectionRemoteIdMap: {},
-  injectionIntervals: {},
-};
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -49,10 +40,14 @@ export function clear() {
 
 export function start() {
   logger = getLogger('main:orchestration');
-  if (get('DUMP') === 'on') { // TODO dbrugne factorize in dumpPayloads module
+
+  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
+  if (get('DUMP') === 'on') {
     const dumpDir = (_isEmpty(get('DUMP_DIR')) ? tmpdir() : get('DUMP_DIR'));
     logger.warn(`Received payloads are dumped in ${dumpDir}`);
   }
+  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
+
   schedule();
 }
 
@@ -95,47 +90,6 @@ export function tick() {
         logger.debug('cache invalidation requested, skipping current tick');
       }
       callback(null);
-    },
-    // pull data
-    (callback) => {
-      execution.start('data retrieving');
-      // Create object with data to display
-      const isPlayingMode = !!getPlayingTimebarId(getState());
-      const queries = displayQueries(previous, dataMap, isPlayingMode);
-      server.requestData(queries, (dataToInject) => {
-        execution.stop('data retrieving');
-
-        // viewData
-        // Note: test added by dbrugne to avoid Redux action logger flood
-        if (
-          previous.injectionIntervals !== dataMap.expectedIntervals
-          || previous.injectionViewMap !== dataMap.perView
-          || Object.keys(dataToInject.data).length
-        ) {
-          execution.start('data injection');
-
-          dispatch(
-            updateViewData(
-              previous.injectionViewMap,
-              dataMap.perView,
-              previous.injectionIntervals,
-              dataMap.expectedIntervals,
-              dataToInject.data
-            )
-          );
-
-          const message = Object.keys(dataToInject.data).length
-            ? `${Object.keys(dataToInject.data).length} remoteId`
-            : undefined;
-          execution.stop('data injection', message);
-
-          previous.injectionIntervals = dataMap.expectedIntervals;
-          previous.injectionRemoteIdMap = dataMap.perRemoteId;
-          previous.injectionViewMap = dataMap.perView;
-        }
-
-        callback(null);
-      });
     },
   ], (err) => {
     if (err) {

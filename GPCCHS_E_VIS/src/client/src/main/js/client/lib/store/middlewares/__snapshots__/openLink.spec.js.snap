@@ -3,7 +3,9 @@
 exports[`middlewares/createOpenLinkMiddleware Message on type error 1`] = `
 Array [
   Object {
-    "_type": "WS_MESSAGE_ADD",
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
       "containerId": "global",
       "messages": Array [
@@ -13,6 +15,7 @@ Array [
       ],
       "type": "danger",
     },
+    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;

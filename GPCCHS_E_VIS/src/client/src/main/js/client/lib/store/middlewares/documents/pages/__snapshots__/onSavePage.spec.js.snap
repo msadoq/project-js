@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:middlewares:documents:onSavePage open a save filepicker, then save page (new page with oid) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "saveAs": true,
+    },
+    "type": "WS_ASK_SAVE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "documentType": "page",
+        "mode": "save",
+        "pageIds": Array [
+          "p1",
+        ],
+        "title": "new views must be saved",
+        "type": "saveAgent",
+        "viewIds": Array [
+          "v1",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:middlewares:documents:onSavePage open a save filepicker, then save page (save as...) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "saveAs": true,
+    },
+    "type": "WS_ASK_SAVE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+]
+`;
+
+exports[`store:middlewares:documents:onSavePage open a save wizard when page has new views 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "saveAs": false,
+    },
+    "type": "WS_ASK_SAVE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "documentType": "page",
+        "mode": "save",
+        "pageIds": Array [
+          "p1",
+        ],
+        "title": "new views must be saved",
+        "type": "saveAgent",
+        "viewIds": Array [
+          "v1",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:middlewares:documents:onSavePage simple save page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "saveAs": false,
+    },
+    "type": "WS_ASK_SAVE_PAGE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/an/absolute/path",
+      "pageId": "p1",
+    },
+    "type": "SAVE_PAGE.spec",
+  },
+]
+`;

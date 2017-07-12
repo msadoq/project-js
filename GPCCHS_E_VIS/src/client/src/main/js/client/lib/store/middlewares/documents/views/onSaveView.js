@@ -11,7 +11,7 @@ const onSaveView = documentManager => (
       const view = getView(state, { viewId });
       const window = getFocusedWindow(getState());
       const windowId = window.uuid;
-      const saveAs = action.payload.saveAs || (!view.oid && !view.absolutePath);
+      const saveAs = action.payload.saveAs || (!view.oId && !view.absolutePath);
       if (saveAs) {
         openDialog(windowId, 'save', (closeAction) => {
           const { choice } = closeAction.payload;

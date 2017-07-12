@@ -11,7 +11,7 @@ const onSavePage = documentManager => (
       const { pageId } = action.payload;
       const state = getState();
       const page = getPage(state, { pageId });
-      const saveAs = action.payload.saveAs || (!page.oid && !page.absolutePath);
+      const saveAs = action.payload.saveAs || (!page.oId && !page.absolutePath);
       const windowId = getWindowIdByPageId(state, { pageId });
       if (getPageHasNewViews(state, { pageId })) {
         openModal(windowId, {

@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import SaveAgentModal from './SaveAgentModal';
+import SaveWizardModal from './SaveWizardModal';
 import { getWorkspaceFile, getWorkspaceIsModified, getWorkspaceIsNew } from '../../../store/reducers/hsc';
 import { getPagesWithViews } from '../../../store/selectors/pages';
 import { askSaveView } from '../../../store/actions/views';
@@ -24,10 +24,10 @@ const mapDispatchToProps = {
   askSaveWorkspace,
 };
 
-const SaveAgentModalContainer = connect(mapStateToProps, mapDispatchToProps)(SaveAgentModal);
-SaveAgentModalContainer.propTypes = {
+const SaveWizardModalContainer = connect(mapStateToProps, mapDispatchToProps)(SaveWizardModal);
+SaveWizardModalContainer.propTypes = {
   pageIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   viewIds: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default SaveAgentModalContainer;
+export default SaveWizardModalContainer;

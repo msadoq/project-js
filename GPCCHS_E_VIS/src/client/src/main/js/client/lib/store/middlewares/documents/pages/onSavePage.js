@@ -16,7 +16,7 @@ const onSavePage = documentManager => (
       if (getPageHasNewViews(state, { pageId })) {
         openModal(windowId, {
           title: 'new views must be saved',
-          type: 'saveAgent',
+          type: 'saveWizard',
           documentType: 'page',
           mode: 'save',
           pageIds: [pageId],

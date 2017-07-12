@@ -16,7 +16,7 @@ const onSaveWorkspace = documentManager => (
       if (getWorkspaceHasNewPages(state)) {
         openModal(windowId, {
           title: 'new views must be saved',
-          type: 'saveAgent',
+          type: 'saveWizard',
           documentType: 'workspace',
           mode: 'save',
           pageIds: getWorkspaceNewPagesIds(state),

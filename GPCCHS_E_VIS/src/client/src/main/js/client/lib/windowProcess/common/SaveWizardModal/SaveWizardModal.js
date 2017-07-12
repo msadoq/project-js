@@ -1,7 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _ from 'lodash/fp';
 import { Button, Label, Glyphicon, Row, Col } from 'react-bootstrap';
-import styles from './SaveAgentModal.css';
+import styles from './SaveWizardModal.css';
 
 const pagePropTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -126,7 +126,7 @@ SavePage.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const SaveAgent = ({
+const SaveWizard = ({
   askSavePage, askSaveView, askSaveWorkspace,
   pages, workspaceFile, workspaceIsModified, workspaceIsNew,
 }) => (
@@ -151,7 +151,7 @@ const SaveAgent = ({
     }
   </div>
 );
-SaveAgent.propTypes = {
+SaveWizard.propTypes = {
   pages: PropTypes.arrayOf(pagePropTypes).isRequired,
   askSavePage: PropTypes.func.isRequired,
   askSaveView: PropTypes.func.isRequired,
@@ -161,7 +161,7 @@ SaveAgent.propTypes = {
   workspaceIsNew: PropTypes.bool.isRequired,
 };
 
-export default class SaveAgentModal extends PureComponent {
+export default class SaveWizardModal extends PureComponent {
   static propTypes = {
     workspaceFile: PropTypes.string,
     workspaceIsModified: PropTypes.bool.isRequired,
@@ -191,7 +191,7 @@ export default class SaveAgentModal extends PureComponent {
     ])(pages);
     return (
       <div>
-        <SaveAgent
+        <SaveWizard
           workspaceFile={workspaceFile}
           workspaceIsModified={workspaceIsModified}
           workspaceIsNew={workspaceIsNew}

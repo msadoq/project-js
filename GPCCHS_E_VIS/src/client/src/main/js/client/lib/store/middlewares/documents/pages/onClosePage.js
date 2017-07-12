@@ -15,7 +15,7 @@ const onClosePage = () => (
       const windowId = getWindowIdByPageId(state, { pageId });
       const pageNeedSave = title => openModal(windowId, {
         title,
-        type: 'saveAgent',
+        type: 'saveWizard',
         documentType: 'page',
         mode: 'close',
         pageIds: [pageId],

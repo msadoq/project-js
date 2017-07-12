@@ -165,18 +165,49 @@ SaveWizard.propTypes = {
   workspaceIsNew: PropTypes.bool.isRequired,
 };
 
+const ConfirmationButton = ({ closeModal, disabled, label, value, type }) => (
+  <Button
+    className="mr10"
+    disabled={disabled}
+    bsStyle={type}
+    onClick={() => closeModal(value)}
+  >
+    {label}
+  </Button>
+);
+ConfirmationButton.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  value: PropTypes.string,
+  type: PropTypes.string,
+};
+ConfirmationButton.defaultProps = {
+  disabled: false,
+  value: undefined,
+  type: 'primary',
+};
+
+const buttonPropTypes = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  value: PropTypes.string,
+  type: PropTypes.string,
+});
 export default class SaveWizardModal extends PureComponent {
   static propTypes = {
     workspaceFile: PropTypes.string,
     workspaceIsModified: PropTypes.bool.isRequired,
     workspaceIsNew: PropTypes.bool.isRequired,
-    documentType: PropTypes.string.isRequired,
     askSaveView: PropTypes.func.isRequired,
     askSavePage: PropTypes.func.isRequired,
     askSaveWorkspace: PropTypes.func.isRequired,
     pages: PropTypes.arrayOf(pagePropTypes).isRequired,
     closeModal: PropTypes.func.isRequired,
-    mode: PropTypes.oneOf(['close', 'save']).isRequired,
+    buttons: PropTypes.arrayOf(PropTypes.shape({
+      savedDocuments: buttonPropTypes.isRequired,
+      unsavedDocuments: buttonPropTypes.isRequired,
+    }).isRequired),
   }
 
   static defaultProps = {
@@ -186,8 +217,9 @@ export default class SaveWizardModal extends PureComponent {
 
   render() {
     const {
-      closeModal, pages, mode, workspaceFile, workspaceIsModified, workspaceIsNew,
-      askSaveView, askSavePage, askSaveWorkspace, documentType,
+      closeModal, pages, buttons,
+      workspaceFile, workspaceIsModified, workspaceIsNew,
+      askSaveView, askSavePage, askSaveWorkspace,
     } = this.props;
     const documentsAreModified = _.anyPass([
       _.some('isModified'),
@@ -205,21 +237,17 @@ export default class SaveWizardModal extends PureComponent {
           askSaveWorkspace={askSaveWorkspace}
         />
         <div className="text-center">
-          { mode === 'save' &&
-            <Button
-              disabled={documentsAreModified}
-              onClick={() => closeModal('ok')}
-            >
-              Ok
-            </Button>
-          }
-          { mode === 'close' &&
-            <Button
-              bsStyle={documentsAreModified ? 'danger' : 'primary'}
-              onClick={() => closeModal('close')}
-            >
-              {documentsAreModified ? `Close ${documentType} without saving` : `Close ${documentType}`}
-            </Button>
+          {
+            buttons.map(({ unsavedDocuments, savedDocuments }) => {
+              const buttonProps = documentsAreModified ? unsavedDocuments : savedDocuments;
+              return (
+                <ConfirmationButton
+                  {...buttonProps}
+                  closeModal={closeModal}
+                  key={unsavedDocuments.label}
+                />
+              );
+            })
           }
         </div>
       </div>

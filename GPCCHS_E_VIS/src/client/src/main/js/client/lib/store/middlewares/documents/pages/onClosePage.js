@@ -17,9 +17,14 @@ const onClosePage = () => (
         title,
         type: 'saveWizard',
         documentType: 'page',
-        mode: 'close',
         pageIds: [pageId],
         viewIds: getPageUnsavedViewIds(state, { pageId }),
+        buttons: [
+          {
+            savedDocuments: { label: 'Close page', value: 'close', type: 'primary' },
+            unsavedDocuments: { label: 'Close page without saving', value: 'close', type: 'danger' },
+          },
+        ],
       }, (closeAction) => {
         if (closeAction.payload.choice === 'close') {
           dispatch(closePage(pageId));

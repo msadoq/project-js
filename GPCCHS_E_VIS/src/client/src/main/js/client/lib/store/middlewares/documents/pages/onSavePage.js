@@ -18,9 +18,14 @@ const onSavePage = documentManager => (
           title: 'new views must be saved',
           type: 'saveWizard',
           documentType: 'page',
-          mode: 'save',
           pageIds: [pageId],
           viewIds: getPageNewViewIds(state, { pageId }),
+          buttons: [
+            {
+              savedDocuments: { label: 'Ok', value: 'ok', type: 'secondary' },
+              unsavedDocuments: { label: 'Ok', value: 'ok', type: 'secondary', disabled: true },
+            },
+          ],
         });
       } else if (saveAs) {
         openDialog(windowId, 'save', {}, (closeAction) => {

@@ -14,8 +14,8 @@ import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 import SaveBeforeClosingContainer from './SaveBeforeClosingContainer';
 import UnsavedViewWarningContainer from './UnsavedViewWarningContainer';
-import SaveAgentModalContainer from './SaveAgentModalContainer';
-import DialogModal from './DialogModal';
+import SaveAgentModalContainer from './SaveAgentModal/SaveAgentModalContainer';
+import DialogModal from './DialogModal'; // electron dialogbox
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 

@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import { Button, Label, Glyphicon, Row, Col } from 'react-bootstrap';
 import styles from './SaveAgentModal.css';
 
-const pagesPropTypes = PropTypes.arrayOf(PropTypes.shape({
+const pagePropTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
   isModified: PropTypes.bool,
@@ -12,7 +12,7 @@ const pagesPropTypes = PropTypes.arrayOf(PropTypes.shape({
     uuid: PropTypes.string.isRequired,
     isModified: PropTypes.bool,
   })).isRequired,
-}));
+});
 
 const SaveButton = (props) => {
   if (props.saved) {
@@ -36,13 +36,23 @@ SaveButton.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
 };
+SaveButton.defaultProps = {
+  disabled: false,
+};
 
-const SaveAgent = ({
-  askSavePage, askSaveView, askSaveWorkspace,
-  pages, workspaceFile, workspaceIsModified, workspaceIsNew,
-}) => (
-  <div>
-    {workspaceFile && <Row className="mb5">
+const SaveWorkspace = (props) => {
+  const {
+    askSaveWorkspace,
+    disableSaveButton,
+    workspaceFile,
+    workspaceIsModified,
+    workspaceIsNew,
+  } = props;
+  if (!workspaceFile) {
+    return null;
+  }
+  return (
+    <Row className="mb5">
       <Col xs={2} />
       <Col xs={7}>
         <ul><li className={styles.bullet}><strong>{workspaceFile}</strong></li></ul>
@@ -51,51 +61,98 @@ const SaveAgent = ({
         <SaveButton
           saved={!workspaceIsModified}
           onClick={() => askSaveWorkspace()}
-          disabled={_.some(p => !p.absolutePath && !p.oId, pages)}
+          disabled={disableSaveButton}
         >
           {workspaceIsNew ? 'Save as...' : 'Save'}
         </SaveButton>
       </Col>
-    </Row>}
+    </Row>
+  );
+};
+SaveWorkspace.propTypes = {
+  disableSaveButton: PropTypes.bool.isRequired,
+  askSaveWorkspace: PropTypes.func.isRequired,
+  workspaceFile: PropTypes.string.isRequired,
+  workspaceIsModified: PropTypes.bool.isRequired,
+  workspaceIsNew: PropTypes.bool.isRequired,
+};
+
+const SaveView = ({ view, askSaveView }) => (
+  <Row className="mb5" key={view.uuid}>
+    <Col xs={2} />
+    <Col className="pl40" xs={7}><ul><li className={styles.bullet}>{view.title}</li></ul></Col>
+    <Col xs={3}>
+      <SaveButton
+        onClick={() => askSaveView(view.uuid)}
+        saved={!view.isModified}
+      >
+        {view.absolutePath || view.oId ? 'Save' : 'Save as...'}
+      </SaveButton>
+    </Col>
+  </Row>
+);
+SaveView.propTypes = {
+  askSaveView: PropTypes.func.isRequired,
+  view: PropTypes.shape({
+    uuid: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    isModified: PropTypes.bool.isRequired,
+    absolutePath: PropTypes.string,
+    oId: PropTypes.string,
+  }).isRequired,
+};
+
+const SavePage = ({ page, askSavePage, children }) => (
+  <span key={page.uuid}>
+    <Row className="mb5">
+      <Col xs={2} />
+      <Col xs={7} className="pl20"><ul><li className={styles.bullet}>{page.title}</li></ul></Col>
+      <Col xs={3}>
+        <SaveButton
+          saved={!page.isModified}
+          onClick={() => askSavePage(page.uuid)}
+          disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
+        >
+          {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
+        </SaveButton>
+      </Col>
+    </Row>
+    { children }
+  </span>
+);
+SavePage.propTypes = {
+  page: pagePropTypes.isRequired,
+  askSavePage: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+const SaveAgent = ({
+  askSavePage, askSaveView, askSaveWorkspace,
+  pages, workspaceFile, workspaceIsModified, workspaceIsNew,
+}) => (
+  <div>
+    <SaveWorkspace
+      disableSaveButton={_.some(p => !p.absolutePath && !p.oId, pages)}
+      askSaveWorkspace={askSaveWorkspace}
+      workspaceFile={workspaceFile}
+      workspaceIsModified={workspaceIsModified}
+      workspaceIsNew={workspaceIsNew}
+    />
     {
       pages.map(page => (
-        <span>
-          <Row className="mb5" key={page.uuid}>
-            <Col xs={2} />
-            <Col xs={7} className="pl20"><ul><li className={styles.bullet}>{page.title}</li></ul></Col>
-            <Col xs={3}>
-              <SaveButton
-                saved={!page.isModified}
-                onClick={() => askSavePage(page.uuid)}
-                disabled={_.some(v => !v.absolutePath && !v.oId, page.views)}
-              >
-                {page.oId || page.absolutePath ? 'Save' : 'Save as...'}
-              </SaveButton>
-            </Col>
-          </Row>
+        <SavePage askSavePage={askSavePage} page={page}>
           {
             page.views.map(view => (
-              <Row className="mb5" key={view.uuid}>
-                <Col xs={2} />
-                <Col className="pl40" xs={7}><ul><li className={styles.bullet}>{view.title}</li></ul></Col>
-                <Col xs={3}>
-                  <SaveButton
-                    onClick={() => askSaveView(view.uuid)}
-                    saved={!view.isModified}
-                  >
-                    {view.absolutePath ? 'Save' : 'Save as...'}
-                  </SaveButton>
-                </Col>
-              </Row>
+              <SaveView view={view} askSaveView={askSaveView} />
             ))
           }
-        </span>
+        </SavePage>
       ))
     }
   </div>
 );
 SaveAgent.propTypes = {
-  pages: pagesPropTypes.isRequired,
+  pages: PropTypes.arrayOf(pagePropTypes).isRequired,
   askSavePage: PropTypes.func.isRequired,
   askSaveView: PropTypes.func.isRequired,
   askSaveWorkspace: PropTypes.func.isRequired,
@@ -113,7 +170,7 @@ export default class SaveAgentModal extends PureComponent {
     askSaveView: PropTypes.func.isRequired,
     askSavePage: PropTypes.func.isRequired,
     askSaveWorkspace: PropTypes.func.isRequired,
-    pages: pagesPropTypes.isRequired,
+    pages: PropTypes.arrayOf(pagePropTypes).isRequired,
     closeModal: PropTypes.func.isRequired,
     mode: PropTypes.oneOf(['close', 'save']).isRequired,
   }
@@ -151,7 +208,7 @@ export default class SaveAgentModal extends PureComponent {
           }
           { mode === 'close' &&
             <Button
-              bsStyle={documentsAreModified ? 'warning' : 'primary'}
+              bsStyle={documentsAreModified ? 'danger' : 'primary'}
               onClick={() => closeModal('close')}
             >
               {documentsAreModified ? `Close ${documentType} without saving` : `Close ${documentType}`}

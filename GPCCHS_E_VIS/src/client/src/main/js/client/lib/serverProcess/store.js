@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { get } from '../common/configurationManager';
+import makeIncomingMessage from '../store/middlewares/incomingData';
 import createMessagesMiddleware from '../store/middlewares/messages';
 import createPlayerMiddleware from '../store/middlewares/player';
 import createOpenLinkMiddleware from '../store/middlewares/openLink';
@@ -14,6 +15,7 @@ let store;
 
 const middlewares = [
   thunk,
+  makeIncomingMessage(get('INCOMING_DATA_INJECTION_FREQUENCY')),
   createMessagesMiddleware(),
   createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   createOpenLinkMiddleware(documentManager),

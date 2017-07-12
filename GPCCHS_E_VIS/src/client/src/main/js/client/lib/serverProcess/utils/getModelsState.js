@@ -3,7 +3,6 @@ const {
   getAllTimebasedDataModelRemoteIds,
   getTimebasedDataModel,
 } = require('./../models/timebasedDataFactory');
-const { get: getDataQueue } = require('./../models/dataQueue');
 const { getByQueryId: getRegisteredQueries } = require('./../models/registeredQueries');
 const { get: getDcStatus } = require('./../models/dcStatus');
 const { get: getLastPubSubTimestamp } = require('./../models/lastPubSubTimestamp');
@@ -22,8 +21,6 @@ module.exports = () => {
     { [model]: getTimebasedDataModel(model).count() }
   ), {});
 
-  const dataQueue = getDataQueue();
-
   const registeredQueries = getRegisteredQueries();
 
   const dcStatus = getDcStatus();
@@ -33,7 +30,6 @@ module.exports = () => {
   return {
     connectedData,
     timebasedData,
-    dataQueue,
     registeredQueries,
     dcStatus,
     lastPubSubTimestamp,

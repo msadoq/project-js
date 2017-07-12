@@ -9,17 +9,20 @@ const logger = require('../../../common/logManager')('controllers:onTimebasedPub
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
 const { get } = require('../../../common/configurationManager');
 const flattenDataId = require('../../../common/flattenDataId');
-const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+const { getStore } = require('../../store');
+const { incomingPubSub } = require('../../../viewManager/commonActions/dataActions');
 const dataMapSingleton = require('../../models/dataMapSingleton');
 const viewManager = require('../../../viewManager');
 const { DATASTRUCTURETYPE_LAST } = require('../../../constants');
 const intervalManager = require('../../../common/intervals');
 
+// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 const dump = (get('DUMP') === 'on');
+// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
 /** Check if timestamp is included in at least one interval used with view of last type
  *
@@ -86,7 +89,7 @@ module.exports = (args) => {
 
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
-    logger.silly('payloads should be sent by (timestamp, payloads) peers');
+    logger.warn('payloads should be sent by (timestamp, payloads) peers');
     return;
   }
 
@@ -111,12 +114,16 @@ module.exports = (args) => {
     return;
   }
 
+  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
   let dumpFolder;
   if (dump) {
     createDumpFolder(dataId);
     dumpFolder = getDumpFolder(dataId);
   }
+  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
+
   // loop over arguments peers (timestamp, payload)
+  const payloadsJson = {};
   while (payloadBuffers.length) {
     // pop the first two buffers from list
     const payloadBuffer = payloadBuffers.splice(0, 2);
@@ -127,7 +134,6 @@ module.exports = (args) => {
 
     setLastPubSubTimestamp(timestamp.ms);
 
-    let decodedPayload;
     execution.start('control interval');
     // if timestamp not in interval in connectedData model, continue to next iteration
     const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
@@ -152,17 +158,15 @@ module.exports = (args) => {
       });
       return;
     }
-
     execution.stop('control interval');
 
     // decode Payload only once by payloadBuffer loop to avoid resource-consuming
-    if (!decodedPayload) {
-      execution.start('decode payload');
-      // deprotobufferize payload
-      decodedPayload = decode(getType(dataId.comObject), payloadBuffer[1]);
-      execution.stop('decode payload');
-    }
+    execution.start('decode payload');
+    // deprotobufferize payload
+    const decodedPayload = decode(getType(dataId.comObject), payloadBuffer[1]);
+    execution.stop('decode payload');
 
+    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
     // dump
     if (dump && dumpFolder) {
       // save a file per timestamp with binary payload
@@ -172,6 +176,7 @@ module.exports = (args) => {
         }
       });
     }
+    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
     loggerData.debug({
       controller: 'onTimebasedPubSubData',
@@ -182,10 +187,6 @@ module.exports = (args) => {
       convertedValue: decodedPayload.convertedValue,
     });
 
-    const tbd = {
-      timestamp: timestamp.ms,
-      payload: decodedPayload,
-    };
     // If range case, stores data in cache
     if (isKnownInterval) {
       execution.start('retrieve timebasedData model');
@@ -193,24 +194,28 @@ module.exports = (args) => {
       execution.stop('retrieve timebasedData model');
 
       execution.start('store in timebasedData model');
-      timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
+      timebasedDataModel.addRecord(timestamp.ms, decodedPayload);
       execution.stop('store in timebasedData model');
     }
     execution.start('queue payloads');
     logger.silly('queue pubSub point to client');
     // queue a ws newData message (sent periodically)
-    addToQueue(flatDataId, tbd.timestamp, tbd.payload);
+    payloadsJson[timestamp.ms] = decodedPayload;
     // Case of flatDataId with filters
-    const dataMap = dataMapSingleton.get();
-    const rIds = Object.keys(dataMap.expectedIntervals);
-    rIds.forEach((id) => {
-      // add payload to queue if remoteId = flatDataId + filters
-      if (id !== flatDataId && _includes(id, flatDataId)) {
-        addToQueue(id, tbd.timestamp, tbd.payload);
-      }
-    });
+    // TODO : dbrugne restore this logic (Audrey has fixed the filter on pub/sub last data
+    // const dataMap = dataMapSingleton.get();
+    // const rIds = Object.keys(dataMap.expectedIntervals);
+    // rIds.forEach((id) => {
+    //   // add payload to queue if remoteId = flatDataId + filters
+    //   if (id !== flatDataId && _includes(id, flatDataId)) {
+    //     addToQueue(id, timestamp.ms, decodedPayload);
+    //   }
+    // });
     execution.stop('queue payloads');
   }
+
+  // dispatch the incoming data action
+  getStore().dispatch(incomingPubSub(flatDataId, payloadsJson));
 
   execution.stop('global', `${dataId.parameterName}: ${numberOfValues} payloads`);
   execution.print();

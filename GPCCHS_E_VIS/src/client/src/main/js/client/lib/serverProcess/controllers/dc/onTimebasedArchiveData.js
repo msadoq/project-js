@@ -11,13 +11,16 @@ const {
   removeByQueryId: removeRegisteredQuery,
   getByQueryId: getRegisteredQuery,
 } = require('../../models/registeredQueries');
-const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
+const { getStore } = require('../../store');
+const { incomingArchive } = require('../../../viewManager/commonActions/dataActions');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
 
+// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 const dump = (get('DUMP') === 'on');
+// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -43,7 +46,7 @@ module.exports = function onTimebasedArchiveData(args) {
 
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
-    logger.silly('payloads should be sent by (timestamp, payloads) peers');
+    logger.warn('payloads should be sent by (timestamp, payloads) peers');
     return;
   }
 
@@ -113,13 +116,17 @@ module.exports = function onTimebasedArchiveData(args) {
     timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
     execution.stop('retrieve store');
   }
+
+  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
   let dumpFolder;
   if (dump) {
     createDumpFolder(dataId);
     dumpFolder = getDumpFolder(dataId);
   }
+  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
   // only one loop to decode, insert in cache, and add to queue
+  const payloadsJson = {};
   while (payloadBuffers.length) {
     // pop the first two buffers from list
     const payloadBuffer = payloadBuffers.splice(0, 2);
@@ -136,6 +143,7 @@ module.exports = function onTimebasedArchiveData(args) {
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
+    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
     // dump
     if (dump && dumpFolder) {
       // save a file per timestamp with binary payload
@@ -145,6 +153,7 @@ module.exports = function onTimebasedArchiveData(args) {
         }
       });
     }
+    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
     loggerData.silly({
       controller: 'onTimebasedArchiveData',
@@ -165,9 +174,12 @@ module.exports = function onTimebasedArchiveData(args) {
     }
     // queue new data in spool
     execution.start('queue payloads');
-    addToQueue(remoteId, timestamp, payload);
+    payloadsJson[timestamp] = payload;
     execution.stop('queue payloads');
   }
+
+  // dispatch the incoming data action
+  getStore().dispatch(incomingArchive(remoteId, payloadsJson));
 
   loggerData.debug({
     controller: 'onTimebasedArchiveData',

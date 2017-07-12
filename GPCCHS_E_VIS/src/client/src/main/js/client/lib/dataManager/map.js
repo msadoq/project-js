@@ -1,18 +1,17 @@
 import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import { createSelector } from 'reselect';
-// import getLogger from 'common/log';
 
 import { getTimebars } from '../store/reducers/timebars';
 import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
+import forecastIntervalMap from './forecastIntervalMap';
 import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 import { getEntryPointsByViewId } from '../viewManager';
-
-// const logger = getLogger('data:map');
+import { get } from '../common/configurationManager';
 
 const perViewDataSelectors = {};
 export const getPerViewMap = createDeepEqualSelectorPerViewData(
@@ -43,78 +42,14 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
 
 export const getPerRemoteIdMap = createSelector(
   getPerViewMap,
-  (perViewMap) => {
-    const rIdMap = perRemoteIdMap(perViewMap);
-    return rIdMap;
-  }
-);
+  perRemoteIdMap
+); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
 
 
 /**
  * Return dataMap organized per view:
  *
- * {
- *   perRemoteId: {
- *     'remoteId': {
- *       dataId: { ... },
- *       filter: [{field: string, operator: string, operand: string}],
- *       localIds: {
- *         'localId': {
- *           field: string,
- *           timebarUuid: string,
- *           offset: number,
- *         },
- *       },
- *     },
- *   },
- *   perView: {
- *     'viewId': {
- *       type: 'TextView',
- *       masterSessionId: number,
- *       entryPoints: {
- *         'name': {
- *           remoteId: string,
- *           dataId: { ... },
- *           localId: string,
- *           field: string,
- *           offset: number,
- *           filters: [],
- *           timebarUuid: string,
- *           id: string,
- ----        error: string, // if exists => no other parameter
- *         },
- *       },
- *     },
- *     'viewId': {
- *       type: 'PlotView',
- *       masterSessionId: number,
- *       entryPoints: {
- *         'name': {
- *           remoteId: string,
- *           dataId: { ... },
- *           localId: string,
- *           fieldX: string,
- *           fieldY: string,
- *           offset: number,
- *           filters: [],
- *           timebarUuid: string,
- *           id: string,
- ----        error: string, // if exists => no other parameter
- *         },
- *        },
- *     },
- *     'viewId': {
- *       type: 'DynamicView',
- *       entryPoints: {
- *         dynamicEP: {
- *            remoteId: string,
- *            expectedInterval: [number, number],
- *          },
- *        },
- *     },
-
- *   },
- * }
+ * // TODO : update dataMap description structure
  *
  * @param state
  * @return {*}
@@ -125,11 +60,17 @@ export default createSelector(
   getTimebars,
   (viewMap, remoteIdMap, timebars) => {
     // compute expected intervals
-    const intervalMap = expectedIntervalMap(timebars, remoteIdMap);
+    const expectedIntervals = expectedIntervalMap(timebars, remoteIdMap);
+
+    // add forecast intervals
+    const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
+    const forecastIntervals = forecastIntervalMap(expectedIntervals, forecastTime); // TODO could be done in same loop with expectedIntervalMap
+
     return {
       perView: viewMap,
       perRemoteId: remoteIdMap,
-      expectedIntervals: intervalMap,
+      expectedIntervals,
+      forecastIntervals,
     };
   }
 );

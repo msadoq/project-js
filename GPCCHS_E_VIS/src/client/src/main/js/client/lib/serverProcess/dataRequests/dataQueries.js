@@ -18,6 +18,7 @@ export default function makeDataQueries() {
 
     // compute forecast in play mode (if needed)
     const timebarUuid = getPlayingTimebarId(state);
+    let shouldForecast = false;
     if (timebarUuid) {
       const upper = _get(getTimebar(state, { timebarUuid }), ['visuWindow', 'upper']);
       if (
@@ -27,13 +28,20 @@ export default function makeDataQueries() {
       ) {
         // store forecast for next observer execution
         previousForecast = [upper, (upper + forecastTime)];
+
+        shouldForecast = true;
       }
     }
 
     // determine missing data
-    const missingIntervals = computeMissingIntervals(dataMap, previous, dataMap.forecastIntervals);
+    const missingIntervals = computeMissingIntervals(
+      dataMap,
+      previous,
+      shouldForecast ? dataMap.forecastIntervals : undefined
+    );
     const flatDataIds = Object.keys(missingIntervals);
     const n = flatDataIds.length;
+
     if (n) {
       flatDataIds.forEach((flatDataId) => {
         const { dataId, last, range, filters } = missingIntervals[flatDataId];
@@ -52,6 +60,9 @@ export default function makeDataQueries() {
           // emit query to DC
           const queryId =
             dc.requestTimebasedQuery(flatDataId, dataId, interval, args);
+
+          console.log('DC QUERY LAST', flatDataId);
+
           // register query to allow easy flatDataId retrieving on data reception
           registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
 
@@ -81,8 +92,6 @@ export default function makeDataQueries() {
             dc.requestTimebasedQuery(flatDataId, dataId, interval, {});
 
           console.log('DC QUERY RANGE', flatDataId);
-
-          console.log('DC QUERY LAST', flatDataId);
 
           // register query to allow easy flatDataId retrieving on data reception
           registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line

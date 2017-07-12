@@ -4,11 +4,9 @@ import fs from 'fs';
 
 import { getTmpPath, freezeMe } from '../common/jest';
 
-import * as documentManagerApi from '.';
+import { writeView } from './writeView';
 
-const { saveView } = documentManagerApi;
-
-describe('documentManager/saveViews', () => {
+describe('documentManager/writeViews', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -56,10 +54,10 @@ describe('documentManager/saveViews', () => {
     rimraf(getTmpPath(), done);
   });
 
-  describe('saveView', () => {
+  describe('writeView', () => {
     test('saves the view', (done) => {
       const view = freezeMe(state.views.dynamic1);
-      saveView(view, view.absolutePath, (err) => {
+      writeView(view, view.absolutePath, (err) => {
         expect(err).toBeFalsy();
         fs.readFile(view.absolutePath, 'utf8', (error, fileContent) => {
           expect(error).toBeFalsy();
@@ -71,7 +69,7 @@ describe('documentManager/saveViews', () => {
     test('fails because invalid view', (done) => {
       const invalidView = _.set('configuration.entryPoints', ['invalid entrypoint'], state.views.dynamic1);
       const view = freezeMe(invalidView);
-      saveView(view, view.absolutePath, (err) => {
+      writeView(view, view.absolutePath, (err) => {
         expect(err).toBeInstanceOf(Error);
         fs.access(view.absolutePath, fs.constants.F_OK, (error) => {
           expect(error).toBeTruthy();
@@ -80,26 +78,26 @@ describe('documentManager/saveViews', () => {
       });
     });
     test('fails because no view', (done) => {
-      saveView(undefined, undefined, (err) => {
+      writeView(undefined, undefined, (err) => {
         expect(err).toBeInstanceOf(Error);
         done();
       });
     });
     test('fails because no view', (done) => {
-      saveView(state.views.dynamic1, '/unknownPath/view.json', (err) => {
+      writeView(state.views.dynamic1, '/unknownPath/view.json', (err) => {
         expect(err).toBeInstanceOf(Error);
         expect(err.message).toMatch(/Unable to create folder/);
         done();
       });
     });
     test('fails because view type is invalid', (done) => {
-      saveView(state.views.unknownViewType, state.views.unknownViewType.absolutePath, (err) => {
+      writeView(state.views.unknownViewType, state.views.unknownViewType.absolutePath, (err) => {
         expect(err).toBeInstanceOf(Error);
         done();
       });
     });
     test('fails because given path is not absolute', (done) => {
-      saveView(state.views.dynamic1, 'invalid relative path', (err) => {
+      writeView(state.views.dynamic1, 'invalid relative path', (err) => {
         expect(err).toBeInstanceOf(Error);
         done();
       });

@@ -202,7 +202,10 @@ export default class SaveWizardModal extends PureComponent {
         />
         <div className="text-center">
           { mode === 'save' &&
-            <Button disabled={documentsAreModified}>
+            <Button
+              disabled={documentsAreModified}
+              onClick={() => closeModal('ok')}
+            >
               Ok
             </Button>
           }

@@ -78,7 +78,7 @@ SaveWorkspace.propTypes = {
 };
 
 const SaveView = ({ view, askSaveView }) => (
-  <Row className="mb5" key={view.uuid}>
+  <Row className="mb5">
     <Col xs={2} />
     <Col className="pl40" xs={7}><ul><li className={styles.bullet}>{view.title}</li></ul></Col>
     <Col xs={3}>
@@ -103,7 +103,7 @@ SaveView.propTypes = {
 };
 
 const SavePage = ({ page, askSavePage, children }) => (
-  <span key={page.uuid}>
+  <span>
     <Row className="mb5">
       <Col xs={2} />
       <Col xs={7} className="pl20"><ul><li className={styles.bullet}>{page.title}</li></ul></Col>
@@ -140,10 +140,10 @@ const SaveAgent = ({
     />
     {
       pages.map(page => (
-        <SavePage askSavePage={askSavePage} page={page}>
+        <SavePage key={page.uuid} askSavePage={askSavePage} page={page}>
           {
             page.views.map(view => (
-              <SaveView view={view} askSaveView={askSaveView} />
+              <SaveView key={view.uuid} view={view} askSaveView={askSaveView} />
             ))
           }
         </SavePage>

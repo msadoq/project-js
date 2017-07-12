@@ -1,3 +1,4 @@
+import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -23,4 +24,10 @@ const mapDispatchToProps = {
   askSaveWorkspace,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SaveAgentModal);
+const SaveAgentModalContainer = connect(mapStateToProps, mapDispatchToProps)(SaveAgentModal);
+SaveAgentModalContainer.propTypes = {
+  pageIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  viewIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+export default SaveAgentModalContainer;

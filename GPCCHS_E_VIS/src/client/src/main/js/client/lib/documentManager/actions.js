@@ -161,6 +161,7 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
       });
     }
     if (err) {
+      dispatch(isWorkspaceOpening(false));
       return cb(errors);
     }
 

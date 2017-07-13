@@ -7,7 +7,7 @@ import { readFile } from 'fs';
 import { MIME_TYPES } from '../constants';
 import { getTmpPath, freezeMe } from '../common/jest';
 
-import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
+import { writeWorkspace, writeWorkspaceAs } from './writeWorkspace';
 import * as fmdApi from '../common/fmd';
 import fs from '../common/fs';
 
@@ -29,7 +29,7 @@ const readJson = (path, cb) => {
   });
 };
 
-describe('documentManager/saveWorkspace', () => {
+describe('documentManager/writeWorkspace', () => {
   let stub;
   beforeAll(() => {
     stub = sinon.stub(fmdApi, 'createDocument').callsFake(mockedCreateDocument);
@@ -122,10 +122,10 @@ describe('documentManager/saveWorkspace', () => {
     rimraf(getTmpPath(), done);
   });
 
-  describe('saveWorkspace', () => {
+  describe('writeWorkspace', () => {
     test('saves', (done) => {
       const path = join(state.hsc.folder, state.hsc.file);
-      saveWorkspace(state, path, (err) => {
+      writeWorkspace(state, path, (err) => {
         expect(err).not.toBeAnError();
         fs.isExists(path, (exist) => {
           expect(exist).toBe(true);
@@ -136,7 +136,7 @@ describe('documentManager/saveWorkspace', () => {
 
     test('saves correct content', (done) => {
       const path = join(state.hsc.folder, state.hsc.file);
-      saveWorkspace(state, path, () => {
+      writeWorkspace(state, path, () => {
         readJson(path, (err, content) => {
           expect(content).toMatchSnapshot();
           done();
@@ -147,7 +147,7 @@ describe('documentManager/saveWorkspace', () => {
     test('fails when validate', (done) => {
       const modifiedState = _.unset('timebars.abcd.mode', state);
       const path = join(modifiedState.hsc.folder, modifiedState.hsc.file);
-      saveWorkspace(modifiedState, path, (err) => {
+      writeWorkspace(modifiedState, path, (err) => {
         expect(err).toBeAnError();
         fs.isExists(path, (exist) => {
           expect(exist).toBe(false);
@@ -157,17 +157,17 @@ describe('documentManager/saveWorkspace', () => {
     });
 
     test('fails when cannot get path from workspace', (done) => {
-      saveWorkspace({ hsc: {} }, '', (err) => {
+      writeWorkspace({ hsc: {} }, '', (err) => {
         expect(err).toBeAnError();
         done();
       });
     });
   });
 
-  describe('saveWorkspaceAs', () => {
+  describe('writeWorkspaceAs', () => {
     test('saves', (done) => {
       const path = join(folder, 'workspace.json');
-      saveWorkspaceAs(state, path, (err) => {
+      writeWorkspaceAs(state, path, (err) => {
         expect(err).not.toBeAnError();
         readFile(path, 'utf8', (errorReading, content) => {
           expect(errorReading).not.toBeAnError();
@@ -178,14 +178,14 @@ describe('documentManager/saveWorkspace', () => {
     });
 
     test('fails when createFolder', (done) => {
-      saveWorkspaceAs(state, '/unknown/document.json', (err) => {
+      writeWorkspaceAs(state, '/unknown/document.json', (err) => {
         expect(err).toBeAnError();
         done();
       });
     });
 
     test('fails when writeDocument', (done) => {
-      saveWorkspaceAs(state, '/', (err) => {
+      writeWorkspaceAs(state, '/', (err) => {
         expect(err).toBeAnError();
         done();
       });

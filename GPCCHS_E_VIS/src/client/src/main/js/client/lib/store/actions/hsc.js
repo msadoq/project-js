@@ -8,12 +8,12 @@ export const setWorkspaceModified = simple(types.WS_WORKSPACE_SET_MODIFIED, 'fla
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
 export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE, 'keepMessages');
-export const openNewWorkspace = simple(types.HSC_OPEN_NEW_WORKSPACE, 'keepMessages');
 export const pause = simple(types.HSC_PAUSE);
 
 export const askSaveWorkspace = simple(types.WS_ASK_SAVE_WORKSPACE, 'windowId', 'saveAs');
-export const askOpenWorkspace = simple(types.WS_ASK_OPEN_WORKSPACE, 'windowId', 'isNew');
-export const askCloseWorkspace = simple(types.WS_ASK_CLOSE_WORKSPACE, 'windowId');
+export const askOpenWorkspace = simple(types.WS_ASK_OPEN_WORKSPACE, 'windowId', 'absolutePath', 'isNew');
+export const askOpenNewWorkspace = windowId => askOpenWorkspace(windowId, null, true);
+export const askCloseWorkspace = simple(types.WS_ASK_CLOSE_WORKSPACE, 'windowId', 'keepMessages');
 
 export const updateDomainName = simple(types.WS_WORKSPACE_UPDATE_DOMAINNAME, 'domainName');
 export const updateSessionName = simple(types.WS_WORKSPACE_UPDATE_SESSIONNAME, 'sessionName');

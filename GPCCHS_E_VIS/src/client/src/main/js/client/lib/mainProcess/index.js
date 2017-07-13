@@ -23,10 +23,10 @@ import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
-import { getIsWorkspaceOpening, openNewWorkspace } from '../store/actions/hsc';
+import { askOpenWorkspace, askOpenNewWorkspace, isWorkspaceOpening } from '../store/actions/hsc';
+import { getIsWorkspaceOpening } from '../store/reducers/hsc';
 import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
-import { openWorkspace } from '../documentManager';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
@@ -175,7 +175,7 @@ export function onStart() {
       if (!root) {
         logger.warn('No ISIS_DOCUMENTS_ROOT found');
         dispatch(addMessage('global', 'warning', 'No FMD support'));
-        dispatch(openNewWorkspace(true));
+        dispatch(askOpenNewWorkspace());
         callback(null);
         return;
       }
@@ -186,7 +186,7 @@ export function onStart() {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        dispatch(openNewWorkspace(true));
+        dispatch(askOpenNewWorkspace());
         callback(null);
         return;
       }
@@ -196,14 +196,11 @@ export function onStart() {
       splashScreen.setMessage(`loading ${file}`);
       logger.info(`loading ${file}`);
 
-      dispatch(openWorkspace({ absolutePath }, (err) => {
-        if (err) {
-          splashScreen.setMessage('loading default workspace...');
-          logger.info('loading default workspace...');
-          dispatch(openNewWorkspace(true));
-        }
-        callback(null);
-      }));
+      splashScreen.setMessage('loading default workspace...');
+      logger.info('loading default workspace...');
+      dispatch(isWorkspaceOpening(true));
+      dispatch(askOpenWorkspace(null, absolutePath));
+      callback(null);
     },
     function requestCatalogSessions(callback) {
       // should have rte sessions in store at start

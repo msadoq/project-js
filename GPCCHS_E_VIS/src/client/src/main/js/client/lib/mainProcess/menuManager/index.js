@@ -22,13 +22,13 @@ const workspace = {
     label: 'New...',
     accelerator: 'CmdOrCtrl+N',
     click(item, focusedWindow) {
-      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, true));
+      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, null, true));
     },
   }, {
     label: 'Open...',
     accelerator: 'CmdOrCtrl+O',
     click(item, focusedWindow) {
-      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, false));
+      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, null, false));
     },
   }, {
     label: 'Edit...',

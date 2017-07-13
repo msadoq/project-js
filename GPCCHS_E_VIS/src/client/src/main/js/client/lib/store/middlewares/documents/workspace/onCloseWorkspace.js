@@ -18,7 +18,7 @@ const onCloseWorkspace = () => withOpenModal(
   ({ getState, dispatch, openModal }) => next => (action) => {
     const nextAction = next(action);
     if (isClosingWindow(action) || isClosingWorkspace(action)) {
-      const { windowId } = action.payload;
+      const { windowId, keepMessages = false } = action.payload;
       const state = getState();
       const allWindowIds = getWindowIds(state);
       const windowIds = isClosingWindow(action) ? [windowId] : allWindowIds;
@@ -52,7 +52,7 @@ const onCloseWorkspace = () => withOpenModal(
           if (isClosingWindow(action)) {
             dispatch(closeWindow(windowId));
           } else if (isClosingWorkspace(action)) {
-            dispatch(closeWorkspace());
+            dispatch(closeWorkspace(keepMessages));
           }
         }
       });
@@ -68,7 +68,7 @@ const onCloseWorkspace = () => withOpenModal(
       } else if (isClosingWindow(action)) {
         dispatch(closeWindow(windowId));
       } else if (isClosingWorkspace(action)) {
-        dispatch(closeWorkspace());
+        dispatch(closeWorkspace(keepMessages));
       }
     }
     return nextAction;

@@ -8,7 +8,7 @@ const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, getState, openModal, openDialog }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
-      const { isNew, windowId } = action.payload;
+      const { isNew, windowId, absolutePath } = action.payload;
       const state = getState();
 
       const modifiedPagesIds = getModifiedPagesIds(state);
@@ -16,6 +16,27 @@ const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
 
       const isPagesSaved = modifiedPagesIds.length === 0;
       const isViewsSaved = modifiedViewsIds.length === 0;
+
+      const openWorkspace = () => {
+        if (isNew) {
+          dispatch(isWorkspaceOpening(true));
+          dispatch(closeWorkspace(true));
+          dispatch({
+            type: types.WS_WORKSPACE_OPENED,
+            payload: documentManager.createBlankWorkspace(),
+          });
+          dispatch(isWorkspaceOpening(false));
+        } else if (absolutePath) {
+          dispatch(documentManager.openWorkspace({ absolutePath }));
+        } else {
+          openDialog(windowId, 'open', {}, (closeAction) => {
+            const { choice } = closeAction.payload;
+            if (choice) {
+              dispatch(documentManager.openWorkspace({ absolutePath: choice[0] }));
+            }
+          });
+        }
+      };
 
       const workspaceNeedSave = title => openModal(windowId, {
         title,
@@ -31,7 +52,7 @@ const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
         ],
       }, (closeAction) => {
         if (closeAction.payload.choice === 'open') {
-          openWorkspace(isNew, dispatch, documentManager, state, openDialog, windowId);
+          openWorkspace();
         }
       });
 
@@ -42,29 +63,10 @@ const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
       } else if (!isViewsSaved) {
         workspaceNeedSave('Views are modified');
       } else {
-        openWorkspace(isNew, dispatch, documentManager, state, openDialog, windowId);
+        openWorkspace();
       }
     }
     return nextAction;
   }));
-
-const openWorkspace = (isNew, dispatch, documentManager, state, openDialog, windowId) => {
-  if (isNew) {
-    dispatch(isWorkspaceOpening(true));
-    dispatch(closeWorkspace(true));
-    dispatch({
-      type: types.WS_WORKSPACE_OPENED,
-      payload: documentManager.createBlankWorkspace(),
-    });
-    dispatch(isWorkspaceOpening(false));
-  } else {
-    openDialog(windowId, 'open', {}, (closeAction) => {
-      const { choice } = closeAction.payload;
-      if (choice) {
-        dispatch(documentManager.openWorkspace({ absolutePath: choice[0] }));
-      }
-    });
-  }
-};
 
 export default onOpenWorkspace;

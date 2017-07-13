@@ -15,8 +15,8 @@ import * as types from '../store/types';
 
 import { getFirstTimebarId } from '../store/reducers/timebars';
 import { getViewWithConfiguration } from '../viewManager';
+import readView from './readView';
 
-import { simpleReadView } from './readView';
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
@@ -43,7 +43,7 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 const reload = simple(types.WS_VIEW_RELOAD, 'viewId', 'view');
 
 export const reloadView = (viewId, absolutePath) => (dispatch) => {
-  simpleReadView({ absolutePath }, (err, view) => {
+  readView.simpleReadView({ absolutePath }, (err, view) => {
     if (err) {
       return dispatch(addMessage(
         viewId,
@@ -63,7 +63,7 @@ export const reloadView = (viewId, absolutePath) => (dispatch) => {
 
 // --- open a view ---------------------------------------------------------- //
 export const openView = (viewInfo, pageId) => (dispatch) => {
-  simpleReadView(viewInfo, (ignoredErr, view) => {
+  readView.simpleReadView(viewInfo, (ignoredErr, view) => {
     if (view.error) {
       dispatch(addGlobalError(view.error));
       return;

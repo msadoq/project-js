@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 import { getViews } from '../../reducers/views';
-import { getPages, getPageViewsIds } from '../../reducers/pages';
-import { getWindowPageIds } from '../../reducers/windows';
+import { getPages } from '../../reducers/pages';
+import { getWindowPages } from '../../selectors/windows';
 import { getPageViews } from '../../selectors/pages';
 
 const filterUnsavedViewIds = _.pipe(_.filter('isModified'), _.map(_.get('uuid')));
@@ -62,13 +62,35 @@ export const getNewViewIds = createSelector(
   filterNewViewIds
 );
 
-export const getPageIdsByWindowIds = (state, { windowIds }) => (
+const getPagesByWindowIds = (state, { windowIds }) => (
   _.flatMap(windowId => (
-    getWindowPageIds(state, { windowId })
+    getWindowPages(state, { windowId })
   ), windowIds)
 );
 
-export const getViewIdsByWindowIds = (state, { windowIds }) => {
-  const pageIds = getPageIdsByWindowIds(state, { windowIds });
-  return _.flatMap(pageId => getPageViewsIds(state, { pageId }), pageIds);
-};
+const getViewIdsByWindowIds = createSelector(
+  getPagesByWindowIds,
+  _.flatMap('views')
+);
+
+const getViewsByWindowIds = createSelector(
+  getViewIdsByWindowIds,
+  getViews,
+  _.pick
+);
+
+export const getModifiedPageIdsByWindowIds = createSelector(
+  getPagesByWindowIds,
+  _.pipe(
+    _.filter('isModified'),
+    _.map('uuid')
+  )
+);
+
+export const getModifiedViewIdsByWindowIds = createSelector(
+  getViewsByWindowIds,
+  _.pipe(
+    _.filter('isModified'),
+    _.map('uuid')
+  )
+);

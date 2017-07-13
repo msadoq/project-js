@@ -12,6 +12,8 @@ import { getWindowPageIds } from '../reducers/windows';
  */
 export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'focusedPage');
 
+export const askCloseWindow = simple(types.WS_ASK_CLOSE_WINDOW, 'windowId');
+
 export const closeWindow = windowId => (dispatch, getState) => {
   const state = getState();
   const pages = getWindowPageIds(state, { windowId });

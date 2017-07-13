@@ -64,6 +64,11 @@ export default function windows(stateWindows = {}, action) {
 /* --- Selectors ------------------------------------------------------------ */
 export const getWindows = state => _.getOr({}, 'windows', state);
 
+export const getWindowIds = createSelector(
+  getWindows,
+  _.keys
+);
+
 export const getWindowsArray = createSelector(
   getWindows,
   _.values

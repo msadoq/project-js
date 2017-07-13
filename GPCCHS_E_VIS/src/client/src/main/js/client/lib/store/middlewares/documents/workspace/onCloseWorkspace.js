@@ -1,10 +1,48 @@
 import * as types from '../../../types';
+import { getModifiedPagesIds } from '../../../reducers/pages';
+import { getModifiedViewsIds } from '../../../reducers/views';
+import { closeWorkspace } from '../../../actions/hsc';
 
-const onCloseWorkspace = documentManager => (
-  ({ dispatch }) => next => (action) => {
+const onCloseWorkspace = () => (
+  ({ getState, dispatch, openModal }) => next => (action) => {
     const returnedAction = next(action);
-    if (action.type === types.HSC_CLOSE_WORKSPACE) {
-      console.log('close workspace');
+    if (action.type === types.WS_ASK_CLOSE_WORKSPACE) {
+      const { windowId } = action.payload;
+      const state = getState();
+
+      const modifiedPagesIds = getModifiedPagesIds(state);
+      const modifiedViewsIds = getModifiedViewsIds(state);
+
+      const isPagesSaved = modifiedPagesIds.length === 0;
+      const isViewsSaved = modifiedViewsIds.length === 0;
+
+      const pageNeedSave = title => openModal(windowId, {
+        title,
+        type: 'saveWizard',
+        documentType: 'page',
+        pageIds: modifiedPagesIds,
+        viewIds: modifiedViewsIds,
+        buttons: [
+          {
+            savedDocuments: { label: 'Close workspace', value: 'close', type: 'primary' },
+            unsavedDocuments: { label: 'Close workspace without saving', value: 'close', type: 'danger' },
+          },
+        ],
+      }, (closeAction) => {
+        if (closeAction.payload.choice === 'close') {
+          dispatch(closeWorkspace());
+        }
+      });
+
+      if (!isViewsSaved && !isPagesSaved) {
+        pageNeedSave('Page and views are modified');
+      } else if (!isPagesSaved) {
+        pageNeedSave('Page is modified');
+      } else if (!isViewsSaved) {
+        pageNeedSave('Views are modified');
+      } else {
+        dispatch(closeWorkspace());
+      }
     }
     return returnedAction;
   });

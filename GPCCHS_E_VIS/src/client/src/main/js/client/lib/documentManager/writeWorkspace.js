@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { join, dirname, basename } from 'path';
+import { join, dirname } from 'path';
 import { LOG_DOCUMENT_SAVE } from '../constants';
 
 import { getWindows } from '../store/reducers/windows';
@@ -23,7 +23,7 @@ const getPageLocation = ({ oId, path, absolutePath }) => {
   if (oId) {
     return { oId };
   }
-  return { path: path || absolutePath };
+  return { path: absolutePath || path };
 };
 
 const prepareWindows = state => _.map(win => ({

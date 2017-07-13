@@ -21,6 +21,12 @@ const onSaveWorkspace = documentManager => (
           mode: 'save',
           pageIds: getWorkspaceNewPagesIds(state),
           viewIds: getNewViewIds(state),
+          buttons: [
+            {
+              savedDocuments: { label: 'Ok', value: 'ok', type: 'primary' },
+              unsavedDocuments: { label: 'Ok', value: 'ok', type: 'danger' },
+            },
+          ],
         });
       } else if (saveAs) {
         openDialog(windowId, 'save', {}, (closeAction) => {

@@ -154,13 +154,11 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
     const keepErrors = _.pipe(_.filter(_.has('error')), _.map('error'));
     const keepValues = _.pipe(_.filter(_.has('value')), _.map('value'));
     const { views, pages } = documents;
-
     const errors = _.compact([err, ...keepErrors(views), ...keepErrors(pages)]);
     if (!_.isEmpty(errors)) {
       setImmediate(() => { // TODO : find why store is not synced at this point
         dispatch(addGlobalError(errors));
       });
-      dispatch(isWorkspaceOpening(false));
     }
     if (err) {
       return cb(errors);

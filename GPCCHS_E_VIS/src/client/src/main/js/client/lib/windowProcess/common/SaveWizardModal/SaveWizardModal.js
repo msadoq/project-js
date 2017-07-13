@@ -224,6 +224,7 @@ export default class SaveWizardModal extends PureComponent {
     const documentsAreModified = _.anyPass([
       _.some('isModified'),
       _.pipe(_.flatMap('views'), _.some('isModified')),
+      () => workspaceFile && workspaceIsModified,
     ])(pages);
     return (
       <div>

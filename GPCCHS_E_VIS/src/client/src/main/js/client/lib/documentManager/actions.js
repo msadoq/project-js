@@ -7,7 +7,7 @@ import parameters from '../common/configurationManager';
 
 import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace, setWorkspaceModified } from '../store/actions/hsc';
 
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 
 import simple from '../store/helpers/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
@@ -72,7 +72,7 @@ export const openView = (viewInfo, pageId) => (dispatch) => {
       type: types.WS_VIEW_OPENED,
       payload: { view: view.value, pageId },
     });
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath);
+    dc.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath);
   });
 };
 // -------------------------------------------------------------------------- //
@@ -103,7 +103,7 @@ export const openPage = pageInfo => (dispatch, getState) => {
     });
 
     const path = page.absolutePath || page.path || page.oId;
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
+    dc.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };
 // -------------------------------------------------------------------------- //
@@ -176,7 +176,7 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
     dispatch(isWorkspaceOpening(false));
 
     logLoadedDocumentsCount(documents);
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
+    dc.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
 
     dispatch(updateWorkspacePath(dirname(path), basename(path)));
     return cb(null);

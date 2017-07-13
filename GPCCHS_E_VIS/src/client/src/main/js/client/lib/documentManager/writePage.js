@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import { dirname } from 'path';
 import { LOG_DOCUMENT_SAVE } from '../constants';
 
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import validation from './validation';
@@ -60,7 +60,7 @@ const writePageAs = (state, pageId, path, callback) => {
         callback(errfs);
         return;
       }
-      server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
+      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
       callback(null, oid);
     });
   });

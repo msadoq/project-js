@@ -1,7 +1,7 @@
 import { dirname } from 'path';
 import { LOG_DOCUMENT_SAVE } from '../constants';
 
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 import validation from './validation';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
@@ -31,7 +31,7 @@ const writeView = (view, path, callback) => {
       if (errWrite) {
         return callback(errWrite);
       }
-      server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
+      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null, oId);
     });
   });

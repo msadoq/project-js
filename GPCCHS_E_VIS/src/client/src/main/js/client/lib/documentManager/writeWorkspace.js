@@ -15,7 +15,7 @@ import {
 } from '../store/reducers/hsc';
 
 import validation from './validation';
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
@@ -79,7 +79,7 @@ const writeWorkspaceAs = (state, path, callback) => {
       if (err) {
         return callback(err);
       }
-      server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
+      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       return callback(null);
     });
   });

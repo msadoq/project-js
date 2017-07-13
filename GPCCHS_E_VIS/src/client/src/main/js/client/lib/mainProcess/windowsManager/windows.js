@@ -5,7 +5,7 @@ import getLogger from '../../common/logManager';
 import parameters from '../../common/configurationManager';
 import getHtmlPath from './getHtmlPath';
 import { getStore } from '../store';
-import { focusWindow, blurWindow } from '../../store/actions/hsc';
+import { focusWindow, blurWindow, askSaveWorkspace } from '../../store/actions/hsc';
 import getIsSaveNeeded from '../../store/selectors/hsc';
 import { getWindows } from '../../store/reducers/windows';
 import {
@@ -15,7 +15,6 @@ import {
   restore,
 } from '../../store/actions/windows';
 import { getWorkspaceIsModified } from '../../store/reducers/hsc';
-import { workspaceSave } from '../menuManager/workspaceSave';
 import { showQuestionMessage } from '../dialog';
 
 const logger = getLogger('main:windowsManager:windows');
@@ -95,7 +94,7 @@ export function open(windowId, data, callback) {
         ['Yes', 'No', 'Cancel']
       );
       if (choice === 0) { // save
-        workspaceSave(window.windowId);
+        askSaveWorkspace(window.windowId);
       } else if (choice === 2) { // cancel
         e.preventDefault();
       }

@@ -48,10 +48,6 @@ const commands = {
         absolutePath,
       });
     },
-    openWorkspace: ({ absolutePath }) =>
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
-        absolutePath,
-      }),
     openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
         pageId,

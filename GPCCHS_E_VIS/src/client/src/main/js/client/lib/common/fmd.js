@@ -5,8 +5,10 @@ import { relative, join, basename, dirname } from 'path';
 import parameters from './configurationManager';
 import globalConstants, { MIME_TYPES } from '../constants';
 
+const dc = require('../serverProcess/ipc').dc;
+
 const getIpcApi = () => (
-  process.env.APP_ENV === 'server' ? require('../serverProcess/ipc').dc : require('../mainProcess/ipc').server
+  require('../serverProcess/ipc').dc
 );
 
 const checkPath = (path, cb) => (
@@ -18,12 +20,13 @@ export const isInFmd = path => startsWith(getRootDir(), path);
 export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 export const resolveDocument = (oId, callback) => {
-  getIpcApi().requestFmdGet(oId, ({ err, type, detail }) => {
+  getIpcApi().requestFmdGet(oId, ({ payload }) => {
+    const { err, type, detail } = payload;
     if (err) {
       return callback(err);
     }
     if (type !== globalConstants.FMDFILETYPE_DOCUMENT) {
-      return callback(new Error('document is not a file'));
+      return callback(new Error('Error fmd : document is not a file'));
     }
     return callback(
       null,
@@ -44,7 +47,8 @@ export const createDocument = (path, documentType, callback) => {
     if (pathExist) {
       return callback(null);
     }
-    return getIpcApi().requestFmdCreate(fileName, folder, mimeType, ({ err, serializedOid }) => {
+    return getIpcApi().requestFmdCreate(fileName, folder, mimeType, ({ payload }) => {
+      const { err, serializedOid } = payload;
       if (err) {
         return callback(err);
       }

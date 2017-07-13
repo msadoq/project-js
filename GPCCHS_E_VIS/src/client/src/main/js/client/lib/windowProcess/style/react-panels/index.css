@@ -3,7 +3,7 @@
 .panelWrapper{
   overflow: visible !important;
   z-index: 10;
-  background: var(--gray-lighter);
+  background: var(--theme-light);
 }
 .divider{
   z-index: 9;

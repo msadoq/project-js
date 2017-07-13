@@ -1,19 +1,19 @@
 @import './variables.css';
 
 .MainNav {
-  background: var(--gray-light);
+  background: var(--theme-main);
   li.active a {
     border-width: 0px;
-    background-color: var(--gray-lighter-2);
-    color: #000;
+    background-color: var(--theme-light-2);
+    color: var(--navTabActiveText);
     &:hover {
-      background-color: var(--gray-lighter-2);
+      background-color: var(--theme-light-2);
     }
   }
   li:not(.active) a {
     border-width: 0px;
-    background-color: var(--gray);
-    color: #FFF;
+    background-color: var(--theme-dark);
+    color: var(--navTabText);
     &:hover {
       background-color: #111;
     }

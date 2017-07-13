@@ -1,7 +1,7 @@
 @import './variables.css';
 
 .PlotView{
-  background-color: var(--gray);
+  background-color: var(--theme-dark);
 }
 .PlotView .tick text {
   fill: #FFF;

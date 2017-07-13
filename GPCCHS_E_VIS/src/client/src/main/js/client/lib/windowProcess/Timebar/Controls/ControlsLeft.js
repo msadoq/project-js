@@ -240,7 +240,7 @@ export default class ControlsLeft extends PureComponent {
               allButtonsKlasses,
               {
                 [styles.controlButtonPlay]: isPlaying,
-                [styles.controlButtonActive]: isPlaying,
+                active: isPlaying,
                 [styles.controlButtonPause]: !isPlaying,
               }
             )}

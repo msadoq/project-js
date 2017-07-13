@@ -25,7 +25,20 @@
   --borderAcc: yellow;
   --borderDesc: lightblue;
 
-  --controlBlue: #60a7e5;
+  --controlBlue: #113;
+  --controlBlueHover: #115;
+  --controlBlueActive: #60a7e5;
+  --controlBlueActiveInnerShadow: #4097d5;
+
+  --leftTabButtonColor: #FFF;
+
+  --navTabText: #FFF;
+  --navTabActiveText: #000;
+
+  --theme-light-2: #EEE;
+  --theme-light: #CCC;
+  --theme-main: #777;
+  --theme-dark: #555;
 }
 .collapsed {
   .react-resizable-handle{

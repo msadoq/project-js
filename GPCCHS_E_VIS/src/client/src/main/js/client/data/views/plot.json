@@ -10,7 +10,7 @@
     "strikeOut": false,
     "align": "center",
     "color": "#ffffff",
-    "bgColor": "#009688"
+    "bgColor": "#111111"
   },
   "backgroundColor": "#FFFFFF",
   "links": [
@@ -37,7 +37,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFF"
       },
       "min": 0,
       "max": 10,
@@ -67,7 +67,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFF"
       },
       "min": -300,
       "max": 300,

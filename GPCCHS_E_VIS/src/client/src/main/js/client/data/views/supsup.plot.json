@@ -131,7 +131,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFF"
       },
       "min": 0,
       "max": 10,
@@ -161,7 +161,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFF"
       },
       "min": -300,
       "max": 300,

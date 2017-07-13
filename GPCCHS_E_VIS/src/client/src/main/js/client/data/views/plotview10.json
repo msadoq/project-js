@@ -9,8 +9,8 @@
     "underline": true,
     "strikeOut": false,
     "align": "center",
-    "color": "#000000",
-    "bgColor": "#aaccff"
+    "color": "#FFFFFF",
+    "bgColor": "#111155"
   },
   "backgroundColor": "#FFFFFF",
   "links": [
@@ -404,7 +404,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFF"
       },
       "min": 0,
       "max": 10,
@@ -433,7 +433,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFF"
       },
       "min": 120,
       "max": 140,
@@ -462,7 +462,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFFFFF"
       },
       "min": -600,
       "max": 600,
@@ -492,7 +492,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFFFFF"
       },
       "min": -600,
       "max": 600,
@@ -521,7 +521,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#000000"
+        "color": "#FFFFFF"
       },
       "min": -600,
       "max": 600,

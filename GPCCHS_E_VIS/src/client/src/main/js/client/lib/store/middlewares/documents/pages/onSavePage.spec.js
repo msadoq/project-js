@@ -1,8 +1,10 @@
+import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { withOpenModal, withOpenDialog } from '../helpers';
 import { askSavePage } from '../../../actions/pages';
+import { dialogClosed } from '../../../actions/ui';
 import onSavePage from './onSavePage';
 
 const documentManager = {
@@ -14,10 +16,19 @@ const mockStore = configureMockStore([
 ]);
 
 describe('store:middlewares:documents:onSavePage', () => {
-  test('simple save page', () => {
+  test('simple save page with absolutePath', () => {
     const store = mockStore({
       pages: {
         p1: { views: [], absolutePath: '/an/absolute/path' },
+      },
+    });
+    store.dispatch(askSavePage('p1', false));
+    expect(store.getActions()).toMatchSnapshot();
+  });
+  test('simple save page with oId', () => {
+    const store = mockStore({
+      pages: {
+        p1: { views: [], oId: 'oid:/an/absolute/path' },
       },
     });
     store.dispatch(askSavePage('p1', false));
@@ -38,37 +49,51 @@ describe('store:middlewares:documents:onSavePage', () => {
     store.dispatch(askSavePage('p1', false));
     expect(store.getActions()).toMatchSnapshot();
   });
-  test('open a save filepicker, then save page (save as...)', () => {
+  test('open a save filepicker, then save page as... (because no oid and absolutePath)', () => {
     const store = mockStore({
       windows: {
         w1: { pages: ['p1'] },
       },
       pages: {
-        p1: { views: ['v1'] },
-      },
-      views: {
-        v1: { uuid: 'v1', title: 'View 1', absolutePath: '/an/absolute/path' },
+        p1: { views: [] },
       },
     });
-    store.dispatch(askSavePage('p1', true));
+    store.dispatch(askSavePage('p1', false));
+    const dialogId = _.last(store.getActions()).payload.dialogId;
+    store.dispatch(dialogClosed('w1', dialogId, 'myChoice', {}));
     expect(store.getActions()).toMatchSnapshot();
   });
-  test('open a save filepicker, then save page (new page with oid)', () => {
+  test('open a save filepicker, then save page as... (because saveAs true in payload)', () => {
     const store = mockStore({
       windows: {
         w1: { pages: ['p1'] },
       },
       pages: {
-        p1: { views: ['v1'], oId: 'OID' },
-      },
-      views: {
-        v1: { uuid: 'v1', title: 'View 1' },
+        p1: { views: [], absolutePath: '/an/absolute/path' },
       },
     });
     store.dispatch(askSavePage('p1', true));
+    const dialogId = _.last(store.getActions()).payload.dialogId;
+    store.dispatch(dialogClosed('w1', dialogId, 'myChoice', {}));
     expect(store.getActions()).toMatchSnapshot();
   });
-  test('open a save filepicker, then save page (new page with absolutePath)');
-  test('open a save filepicker, then do nothing (cancel)');
-  test('an unknown action should be next');
+  test('open a save filepicker, then do nothing (cancel)', () => {
+    const store = mockStore({
+      windows: {
+        w1: { pages: ['p1'] },
+      },
+      pages: {
+        p1: { views: [] },
+      },
+    });
+    store.dispatch(askSavePage('p1', true));
+    const dialogId = _.last(store.getActions()).payload.dialogId;
+    store.dispatch(dialogClosed('w1', dialogId, null, {}));
+    expect(store.getActions()).toMatchSnapshot();
+  });
+  test('an unknown action should be next', () => {
+    const store = mockStore({});
+    store.dispatch({ type: 'TEST' });
+    expect(store.getActions()).toEqual([{ type: 'TEST' }]);
+  });
 });

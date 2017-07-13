@@ -2,7 +2,6 @@ import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { withOpenModal, withOpenDialog } from '../helpers';
 import { askSavePage } from '../../../actions/pages';
 import { dialogClosed } from '../../../actions/ui';
 import onSavePage from './onSavePage';
@@ -12,7 +11,7 @@ const documentManager = {
 };
 const mockStore = configureMockStore([
   thunk,
-  withOpenDialog(withOpenModal(onSavePage(documentManager))),
+  onSavePage(documentManager),
 ]);
 
 describe('store:middlewares:documents:onSavePage', () => {

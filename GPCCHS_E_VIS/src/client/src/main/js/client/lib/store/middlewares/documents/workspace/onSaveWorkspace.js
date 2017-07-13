@@ -2,8 +2,9 @@ import { join } from 'path';
 import * as types from '../../../types';
 import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from '../selectors';
 import { getWorkspaceFile, getWorkspaceFolder } from '../../../reducers/hsc';
+import { withOpenModal, withOpenDialog } from '../helpers';
 
-const onSaveWorkspace = documentManager => (
+const onSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, openDialog, openModal, getState }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_SAVE_WORKSPACE) {
@@ -41,6 +42,6 @@ const onSaveWorkspace = documentManager => (
       }
     }
     return returnedAction;
-  });
+  }));
 
 export default onSaveWorkspace;

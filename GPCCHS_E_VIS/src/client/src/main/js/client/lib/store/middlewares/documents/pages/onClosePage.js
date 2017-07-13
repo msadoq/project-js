@@ -4,8 +4,9 @@ import { closePage } from '../../../actions/pages';
 import { getPage } from '../../../reducers/pages';
 import { getWindowIdByPageId } from '../../../reducers/windows';
 import { getPageUnsavedViewIds, getPageHasUnsavedViews } from '../selectors';
+import { withOpenModal } from '../helpers';
 
-const onClosePage = () => (
+const onClosePage = () => withOpenModal(
   ({ getState, dispatch, openModal }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_PAGE) {

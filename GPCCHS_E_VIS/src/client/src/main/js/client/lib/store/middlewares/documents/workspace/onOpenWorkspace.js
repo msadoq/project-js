@@ -2,8 +2,9 @@ import * as types from '../../../types';
 import { getModifiedPagesIds } from '../../../reducers/pages';
 import { getModifiedViewsIds } from '../../../reducers/views';
 import { closeWorkspace, isWorkspaceOpening } from '../../../actions/hsc';
+import { withOpenModal, withOpenDialog } from '../helpers';
 
-const onOpenWorkspace = documentManager => (
+const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, getState, openModal, openDialog }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
@@ -45,7 +46,7 @@ const onOpenWorkspace = documentManager => (
       }
     }
     return returnedAction;
-  });
+  }));
 
 const openWorkspace = (isNew, dispatch, documentManager, state, openDialog, windowId) => {
   if (isNew) {

@@ -2,8 +2,9 @@ import * as types from '../../../types';
 import { getModifiedPagesIds } from '../../../reducers/pages';
 import { getModifiedViewsIds } from '../../../reducers/views';
 import { closeWorkspace } from '../../../actions/hsc';
+import { withOpenModal } from '../helpers';
 
-const onCloseWorkspace = () => (
+const onCloseWorkspace = () => withOpenModal(
   ({ getState, dispatch, openModal }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_WORKSPACE) {

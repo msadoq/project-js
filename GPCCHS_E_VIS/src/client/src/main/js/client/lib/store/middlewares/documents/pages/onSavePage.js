@@ -3,8 +3,9 @@ import * as types from '../../../types';
 import { getPage } from '../../../reducers/pages';
 import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
 import { getWindowIdByPageId } from '../../../reducers/windows';
+import { withOpenDialog, withOpenModal } from '../helpers';
 
-const onSavePage = documentManager => (
+const onSavePage = documentManager => withOpenModal(withOpenDialog(
   ({ getState, dispatch, openDialog, openModal }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_SAVE_PAGE) {
@@ -41,7 +42,7 @@ const onSavePage = documentManager => (
     }
     return returnedAction;
   }
-);
+));
 
 
 export default onSavePage;

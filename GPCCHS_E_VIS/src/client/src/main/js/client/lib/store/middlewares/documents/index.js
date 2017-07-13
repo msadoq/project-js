@@ -1,12 +1,9 @@
-import _ from 'lodash/fp';
 import pipeMiddlewares from '../../helpers/pipeMiddlewares';
 import createViewsMiddleware from './views';
 import createPagesMiddleware from './pages';
 import createWorkspacesMiddleware from './workspace';
-import { withOpenDialog, withOpenModal } from './helpers';
 
-const enhancer = _.compose(withOpenModal, withOpenDialog);
-const createDocumentsMiddleware = documentManager => enhancer(
+const createDocumentsMiddleware = documentManager => (
   pipeMiddlewares(
     createViewsMiddleware(documentManager),
     createPagesMiddleware(documentManager),

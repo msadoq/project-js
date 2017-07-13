@@ -1,6 +1,7 @@
 import * as types from '../../../types';
+import { withOpenDialog } from '../helpers';
 
-const onOpenPage = documentManager => (
+const onOpenPage = documentManager => withOpenDialog(
   ({ dispatch, openDialog }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_OPEN_PAGE) {

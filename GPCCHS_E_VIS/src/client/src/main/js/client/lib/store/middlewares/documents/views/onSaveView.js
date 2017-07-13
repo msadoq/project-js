@@ -1,8 +1,9 @@
 import * as types from '../../../types';
 import { getView } from '../../../reducers/views';
 import { getFocusedWindow } from '../../../selectors/windows';
+import { withOpenDialog } from '../helpers';
 
-const onSaveView = documentManager => (
+const onSaveView = documentManager => withOpenDialog(
   ({ getState, dispatch, openDialog }) => next => (action) => {
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_SAVE_VIEW) {

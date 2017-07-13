@@ -25,6 +25,11 @@
   --borderAcc: yellow;
   --borderDesc: lightblue;
 
+
+  /* THEMING */
+  /*
+    To edit default bootstrap colors, check the theming part in style/bootstrap
+  */
   --controlBlue: #113;
   --controlBlueHover: #115;
   --controlBlueActive: #60a7e5;

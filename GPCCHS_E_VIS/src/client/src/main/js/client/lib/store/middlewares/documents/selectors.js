@@ -2,7 +2,8 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 import { getViews } from '../../reducers/views';
-import { getPages } from '../../reducers/pages';
+import { getPages, getPageViewsIds } from '../../reducers/pages';
+import { getWindowPageIds } from '../../reducers/windows';
 import { getPageViews } from '../../selectors/pages';
 
 const filterUnsavedViewIds = _.pipe(_.filter('isModified'), _.map(_.get('uuid')));
@@ -60,3 +61,14 @@ export const getNewViewIds = createSelector(
   getViews,
   filterNewViewIds
 );
+
+export const getPageIdsByWindowIds = (state, { windowIds }) => (
+  _.flatMap(windowId => (
+    getWindowPageIds(state, { windowId })
+  ), windowIds)
+);
+
+export const getViewIdsByWindowIds = (state, { windowIds }) => {
+  const pageIds = getPageIdsByWindowIds(state, { windowIds });
+  return _.flatMap(pageId => getPageViewsIds(state, { pageId }), pageIds);
+};

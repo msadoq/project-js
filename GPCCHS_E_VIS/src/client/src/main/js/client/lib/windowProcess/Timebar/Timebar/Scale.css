@@ -1,6 +1,6 @@
+
 .timebarRuleContainer{
   overflow: hidden;
-  background-color: #FFF;
   height: 20px;
   border: 1px solid #aaa;
   border-top: none;
@@ -10,7 +10,6 @@
   position: relative;
   border-top: none;
   height: 20px;
-
 }
 .scale{
   position: absolute;

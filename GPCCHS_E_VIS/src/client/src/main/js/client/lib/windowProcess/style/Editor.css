@@ -1,0 +1,23 @@
+@import './variables.css';
+
+.Editor {
+  background-color: var(--gray-lighter);
+  .nav-tabs {
+    li, li > a {
+      border-width: 0px;
+    }
+    li.active, li.active > a:hover {
+      border-width: 0px;
+      /*background-color: var(--gray-light) !important;*/
+    }
+    li:not(.active) {
+      background-color: var(--gray);
+      & > a {
+        color: #FFF;
+      }
+      &:hover, & > a:hover {
+        background-color: #000 !important;
+      }
+    }
+  }
+}

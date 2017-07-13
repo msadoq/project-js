@@ -183,7 +183,7 @@ export default class ControlsLeft extends PureComponent {
       </Popover>);
 
     return (
-      <ul className={styles.controlsUl}>
+      <ul className={classnames(styles.controlsUl, styles.controlsUlLeft)}>
         {(messages && messages.length) ?
           <li className={styles.controlsLi}>
             <button

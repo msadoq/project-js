@@ -1,0 +1,11 @@
+@import './variables.css';
+
+.PlotView{
+  background-color: var(--gray);
+}
+.PlotView .tick text {
+  fill: #FFF;
+}
+.PlotView .tick line {
+  stroke: #eee;
+}

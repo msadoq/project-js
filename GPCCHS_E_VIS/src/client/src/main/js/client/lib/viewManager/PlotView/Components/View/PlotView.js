@@ -550,7 +550,7 @@ export class GrizzlyPlotView extends PureComponent {
         onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
-        className="h100 posRelative"
+        className="h100 posRelative PlotView"
         style={mainStyle}
       >
         { (legend.location === 'top' || legend.location === 'left') &&
@@ -559,7 +559,7 @@ export class GrizzlyPlotView extends PureComponent {
         <GrizzlyChart
           height={plotHeight}
           width={width}
-          tooltipColor="blue"
+          tooltipColor="white"
           enableTooltip
           allowYZoom
           allowYPan

@@ -58,30 +58,39 @@
 
 .lowerFormattedTime{
   position: absolute;
-  top: -14px;
+  top: -16px;
   transform: translateX(-100%);
-  color: #d34;
+  color: var(--boundCursorsColor);
   font-weight: bold;
   font-size: .9em;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px;
+  border-radius: 1px;
 }
 .upperFormattedTime{
   position: absolute;
-  top: -14px;
+  top: -16px;
   right: 0;
-  color: #d34;
+  color: var(--boundCursorsColor);
   transform: translateX(100%);
   font-weight: bold;
   font-size: .9em;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px;
+  border-radius: 1px;
 }
 .currentFormattedTime{
   position: absolute;
-  top: -14px;
-  color: #1A2;
+  top: -16px;
+  color: var(--currentCursorColor);
   white-space: nowrap;
   z-index: 2;
   transform: translateX(-50%);
   font-weight: bold;
   font-size: .9em;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px;
+  border-radius: 1px;
 }
 
 .handle{

@@ -8,17 +8,17 @@
 }
 .btn-control{
   color: #fff;
-  background-color: #666;
+  background-color: #113;
   border: 1px solid #555;
   outline: 0;
   text-align: center;
   &:hover {
-    background-color: #555;
+    background-color: #115;
     color: #fff;
     outline: 0 !important;
   }
   &:active{
-    background-color: #aaa;
+    background-color: #44a;
     color: #fff;
     outline: 0 !important;
   }
@@ -44,6 +44,10 @@
   background: transparent;
   border: none;
   min-width: 20px;
+  color: #000;
+  &:hover{
+    background: transparent;
+  }
 }
 .btn-a{
   border: none;

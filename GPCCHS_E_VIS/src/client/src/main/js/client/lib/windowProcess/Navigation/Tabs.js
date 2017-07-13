@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
+import classnames from 'classnames';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import { get } from '../../common/configurationManager';
 import DummyDrag from './DummyDrag';
@@ -105,13 +106,17 @@ export default class Tabs extends PureComponent {
 
   render() {
     const { pages, focusedPageId } = this.props;
-    let dumpColor = '';
-    if (get('DUMP') === 'on') {
-      dumpColor = styles.band;
-    }
 
     return (
-      <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect} className={dumpColor}>
+      <Nav
+        bsStyle="tabs"
+        activeKey={focusedPageId}
+        onSelect={this.handleSelect}
+        className={classnames(
+          'MainNav',
+          { [styles.band]: get('DUMP') === 'on' }
+        )}
+      >
         {
           pages.map((page, key) =>
             <NavItem

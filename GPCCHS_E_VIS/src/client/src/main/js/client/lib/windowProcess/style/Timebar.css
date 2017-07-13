@@ -1,0 +1,30 @@
+@import './variables.css';
+
+.LeftTab {
+  background-color: var(--gray-light);
+  .timebarName {
+    color: #FFF;
+  }
+}
+
+.RightTab {
+  .ViewportWrapper {
+    background: var(--gray-light);
+  }
+  .Controls {
+    background-color: var(--gray-light);
+  }
+  .FormatedFullDate {
+    background: rgba(0, 0, 0, 0.4);
+    color: #FFF;
+  }
+  .Timelines {
+    background-color: var(--gray);
+  }
+  .Scale {
+    background-color: var(--gray-light);
+    .ScaleTime {
+      color: #FFF;
+    }
+  }
+}

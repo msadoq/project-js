@@ -1,6 +1,9 @@
+@import '../variables.css';
+
 .panelWrapper{
   overflow: visible !important;
   z-index: 10;
+  background: var(--gray-lighter);
 }
 .divider{
   z-index: 9;

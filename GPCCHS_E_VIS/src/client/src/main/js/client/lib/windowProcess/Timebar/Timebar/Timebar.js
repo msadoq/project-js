@@ -1124,7 +1124,7 @@ export default class Timebar extends PureComponent {
 
     return (
       <div
-        className={styles.viewportWrapper}
+        className={classnames('ViewportWrapper', styles.viewportWrapper)}
         ref={this.assignEl}
         onMouseMove={this.willUpdateCursorTime}
         onMouseLeave={this.hideCursorTime}
@@ -1184,7 +1184,7 @@ export default class Timebar extends PureComponent {
           */ }
           <div
             ref={this.assignTimelinesEl}
-            className={styles.timelines}
+            className={classnames('Timelines', styles.timelines)}
             onScroll={onVerticalScroll}
           >
             { timelines && timelines.length !== 0 && timelines.map(v =>

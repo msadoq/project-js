@@ -1,0 +1,24 @@
+@import './variables.css';
+
+.MainNav {
+  background: var(--gray-light);
+  li.active a {
+    border-width: 0px;
+    background-color: var(--gray-lighter-2);
+    color: #000;
+    &:hover {
+      background-color: var(--gray-lighter-2);
+    }
+  }
+  li:not(.active) a {
+    border-width: 0px;
+    background-color: var(--gray);
+    color: #FFF;
+    &:hover {
+      background-color: #111;
+    }
+  }
+  .DragMe {
+    color: #FFF;
+  }
+}

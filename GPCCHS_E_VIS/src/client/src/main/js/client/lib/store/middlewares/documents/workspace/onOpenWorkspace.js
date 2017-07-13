@@ -8,7 +8,6 @@ const onOpenWorkspace = documentManager => (
     const returnedAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
       const { isNew, windowId } = action.payload;
-      console.log(action.payload);
       const state = getState();
 
       const modifiedPagesIds = getModifiedPagesIds(state);
@@ -60,11 +59,8 @@ const openWorkspace = (isNew, dispatch, documentManager, state, openDialog, wind
   } else {
     openDialog(windowId, 'open', {}, (closeAction) => {
       const { choice } = closeAction.payload;
-      console.log(choice);
       if (choice) {
-        // dispatch(isWorkspaceOpening(true));
         dispatch(documentManager.openWorkspace({ absolutePath: choice[0] }));
-        // dispatch(isWorkspaceOpening(false));
       }
     });
   }

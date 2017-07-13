@@ -19,7 +19,7 @@ const onCloseWorkspace = () => (
       const pageNeedSave = title => openModal(windowId, {
         title,
         type: 'saveWizard',
-        documentType: 'page',
+        documentType: 'workspace',
         pageIds: modifiedPagesIds,
         viewIds: modifiedViewsIds,
         buttons: [

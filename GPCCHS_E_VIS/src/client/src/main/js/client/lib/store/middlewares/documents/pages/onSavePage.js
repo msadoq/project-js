@@ -7,7 +7,7 @@ import { withOpenDialog, withOpenModal } from '../helpers';
 
 const onSavePage = documentManager => withOpenModal(withOpenDialog(
   ({ getState, dispatch, openDialog, openModal }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
@@ -40,7 +40,7 @@ const onSavePage = documentManager => withOpenModal(withOpenDialog(
         dispatch(documentManager.savePage(pageId, page.absolutePath));
       }
     }
-    return returnedAction;
+    return nextAction;
   }
 ));
 

@@ -4,7 +4,7 @@ import { withOpenDialog } from '../helpers';
 
 const onOpenView = documentManager => withOpenDialog(
   ({ dispatch, openDialog, getState }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_VIEW) {
       const { absolutePath } = action.payload;
       const window = getFocusedWindow(getState());
@@ -20,7 +20,7 @@ const onOpenView = documentManager => withOpenDialog(
         });
       }
     }
-    return returnedAction;
+    return nextAction;
   }
 );
 

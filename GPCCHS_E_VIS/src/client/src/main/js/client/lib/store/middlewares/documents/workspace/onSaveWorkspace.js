@@ -6,7 +6,7 @@ import { withOpenModal, withOpenDialog } from '../helpers';
 
 const onSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, openDialog, openModal, getState }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_WORKSPACE) {
       const { windowId } = action.payload;
       const state = getState();
@@ -41,7 +41,7 @@ const onSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
         dispatch(documentManager.saveWorkspace(join(workspaceFolder, workspaceFile)));
       }
     }
-    return returnedAction;
+    return nextAction;
   }));
 
 export default onSaveWorkspace;

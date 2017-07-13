@@ -8,7 +8,7 @@ import { withOpenModal } from '../helpers';
 
 const onClosePage = () => withOpenModal(
   ({ getState, dispatch, openModal }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
@@ -42,7 +42,7 @@ const onClosePage = () => withOpenModal(
         dispatch(closePage(pageId));
       }
     }
-    return returnedAction;
+    return nextAction;
   }
 );
 

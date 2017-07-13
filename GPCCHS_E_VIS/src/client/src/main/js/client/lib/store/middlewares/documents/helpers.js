@@ -48,9 +48,9 @@ export const withOpenModal = middleware => storeApi => (next) => {
   const modalHelper = createModalHelper(storeApi);
   const configuredMiddleware = middleware({ ...storeApi, openModal: modalHelper.open })(next);
   return (action) => {
-    const returnedAction = configuredMiddleware(action);
+    const nextAction = configuredMiddleware(action);
     modalHelper.interact(action);
-    return returnedAction;
+    return nextAction;
   };
 };
 
@@ -58,8 +58,8 @@ export const withOpenDialog = middleware => storeApi => (next) => {
   const dialogHelper = createDialogHelper(storeApi);
   const configuredMiddleware = middleware({ ...storeApi, openDialog: dialogHelper.open })(next);
   return (action) => {
-    const returnedAction = configuredMiddleware(action);
+    const nextAction = configuredMiddleware(action);
     dialogHelper.interact(action);
-    return returnedAction;
+    return nextAction;
   };
 };

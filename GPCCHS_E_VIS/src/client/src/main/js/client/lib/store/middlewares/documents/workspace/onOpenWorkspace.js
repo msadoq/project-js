@@ -6,7 +6,7 @@ import { withOpenModal, withOpenDialog } from '../helpers';
 
 const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, getState, openModal, openDialog }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
       const { isNew, windowId } = action.payload;
       const state = getState();
@@ -45,7 +45,7 @@ const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
         openWorkspace(isNew, dispatch, documentManager, state, openDialog, windowId);
       }
     }
-    return returnedAction;
+    return nextAction;
   }));
 
 const openWorkspace = (isNew, dispatch, documentManager, state, openDialog, windowId) => {

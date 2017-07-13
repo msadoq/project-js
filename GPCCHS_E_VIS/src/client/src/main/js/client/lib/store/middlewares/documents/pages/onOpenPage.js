@@ -3,7 +3,7 @@ import { withOpenDialog } from '../helpers';
 
 const onOpenPage = documentManager => withOpenDialog(
   ({ dispatch, openDialog }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_PAGE) {
       const { windowId, absolutePath } = action.payload;
       if (absolutePath) {
@@ -17,7 +17,7 @@ const onOpenPage = documentManager => withOpenDialog(
         });
       }
     }
-    return returnedAction;
+    return nextAction;
   }
 );
 

@@ -6,7 +6,7 @@ import parameters from '../../common/configurationManager';
 import getHtmlPath from './getHtmlPath';
 import { getStore } from '../store';
 import { focusWindow, blurWindow, askSaveWorkspace } from '../../store/actions/hsc';
-import getIsSaveNeeded from '../../store/selectors/hsc';
+import { getIsSaveNeeded } from '../../store/selectors/hsc';
 import { getWindows } from '../../store/reducers/windows';
 import {
   closeWindow,

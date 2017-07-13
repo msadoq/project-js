@@ -37,4 +37,6 @@ const getIsSaveNeeded = (state, { windowId }) => {
   return false;
 };
 
-export default getIsSaveNeeded;
+export default {
+  getIsSaveNeeded,
+};

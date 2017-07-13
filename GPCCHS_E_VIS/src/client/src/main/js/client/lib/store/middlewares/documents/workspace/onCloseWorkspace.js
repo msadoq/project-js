@@ -16,7 +16,7 @@ const onCloseWorkspace = () => (
       const isPagesSaved = modifiedPagesIds.length === 0;
       const isViewsSaved = modifiedViewsIds.length === 0;
 
-      const pageNeedSave = title => openModal(windowId, {
+      const workspaceNeedSave = title => openModal(windowId, {
         title,
         type: 'saveWizard',
         documentType: 'workspace',
@@ -35,11 +35,11 @@ const onCloseWorkspace = () => (
       });
 
       if (!isViewsSaved && !isPagesSaved) {
-        pageNeedSave('Page and views are modified');
+        workspaceNeedSave('Page and views are modified');
       } else if (!isPagesSaved) {
-        pageNeedSave('Page is modified');
+        workspaceNeedSave('Page is modified');
       } else if (!isViewsSaved) {
-        pageNeedSave('Views are modified');
+        workspaceNeedSave('Views are modified');
       } else {
         dispatch(closeWorkspace());
       }

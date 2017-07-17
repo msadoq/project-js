@@ -1,35 +1,30 @@
-import sinon from 'sinon';
 import { get } from './configurationManager';
-import globalConstants from '../constants';
 import * as fmdApi from './fmd';
-import ipcApi from '../mainProcess/ipc';
 
-const mockedRequestFmdCreate = (folder, fileName, mimeType, cb) => cb({
-  err: fileName === 'filename:error' ? new Error() : null,
-  serializedOid: 4242,
-});
-
-const mockedRequestFmdGet = (oId, cb) => cb({
-  err: oId === 'oid:error' ? new Error() : null,
-  type: oId === 'oid:typeError' ? 'unknownType' : globalConstants.FMDFILETYPE_DOCUMENT,
-  detail: {
-    dirname: { value: 'a/b/c' },
-    basename: { value: 'document.json' },
-    properties: true,
+jest.mock('../serverProcess/ipc', () => ({
+  dc: {
+    sendProductLog: x => x,
+    requestFmdGet: (oId, cb) => cb({
+      payload: {
+        err: oId === 'oid:error' ? new Error() : null,
+        type: oId === 'oid:typeError' ? 'unknownType' : 2,
+        detail: {
+          dirname: { value: 'a/b/c' },
+          basename: { value: 'document.json' },
+          properties: true,
+        },
+      },
+    }),
+    requestFmdCreate: (fileName, folder, mimeType, cb) => cb({
+      payload: {
+        err: fileName === 'filename:error' ? new Error() : null,
+        serializedOid: fileName === 'filename:error' ? undefined : 4242,
+      },
+    }),
   },
-});
+}));
 
 describe('common/fmd', () => {
-  let stubs = [];
-  beforeAll(() => {
-    stubs = [
-      sinon.stub(ipcApi.server, 'requestFmdCreate').callsFake(mockedRequestFmdCreate),
-      sinon.stub(ipcApi.server, 'requestFmdGet').callsFake(mockedRequestFmdGet),
-    ];
-  });
-  afterAll(() => {
-    stubs.forEach(stub => stub.restore());
-  });
   describe('getRootDir', () => {
     test('should return same thing than parameters.get', () => {
       expect(fmdApi.getRootDir()).toEqual(get('ISIS_DOCUMENTS_ROOT'));
@@ -68,8 +63,6 @@ describe('common/fmd', () => {
       fmdApi.createDocument(validPath, 'WorkSpace', (err, oid) => {
         expect(oid).toEqual(4242);
         expect(typeof err).not.toBe('error');
-        const fn = ipcApi.server.requestFmdCreate;
-        expect(fn.calledWith('/', fileName, 'WorkspaceDoc')).toBe(true);
         done();
       });
     });
@@ -90,7 +83,7 @@ describe('common/fmd', () => {
     test('give an error when ipc fail', (done) => {
       fmdApi.createDocument('./filename:error', 'WorkSpace', (err, oid) => {
         expect(oid).toBeUndefined();
-        expect(err).toBeInstanceOf(Error);
+        expect(err).toBeAnError();
         done();
       });
     });
@@ -106,7 +99,6 @@ describe('common/fmd', () => {
         expect(typeof err).not.toBe('error');
         expect(filePath).toEqual(`${fmdApi.getRootDir()}/a/b/c/document.json`);
         expect(properties).toBe(true);
-        expect(ipcApi.server.requestFmdGet.calledWith('oid')).toBe(true);
         done();
       });
     });
@@ -115,7 +107,6 @@ describe('common/fmd', () => {
         expect(err).toBeInstanceOf(Error);
         expect(filePath).toBeUndefined();
         expect(properties).toBeUndefined();
-        expect(ipcApi.server.requestFmdGet.calledWith('oid')).toBe(true);
         done();
       });
     });
@@ -124,7 +115,6 @@ describe('common/fmd', () => {
         expect(err).toBeInstanceOf(Error);
         expect(filePath).toBeUndefined();
         expect(properties).toBeUndefined();
-        expect(ipcApi.server.requestFmdGet.calledWith('oid')).toBe(true);
         done();
       });
     });

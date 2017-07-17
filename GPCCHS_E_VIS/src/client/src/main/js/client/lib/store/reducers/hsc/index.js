@@ -61,7 +61,7 @@ export default function hsc(state = initialState, action) {
       return _.set('isModified', action.payload.flag, state);
     case types.WS_WORKSPACE_OPENED:
       return { ...state,
-        isModified: false,
+        isModified: !!action.payload.isModified,
         domainName: action.payload.domainName,
         sessionName: action.payload.sessionName,
       };

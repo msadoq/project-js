@@ -1,6 +1,6 @@
 import * as types from '../../../types';
 import { getView } from '../../../reducers/views';
-import { getFocusedWindow } from '../../../selectors/windows';
+import { getWindowIdByViewId } from '../../../selectors/windows';
 import { withOpenDialog } from '../helpers';
 
 const onSaveView = documentManager => withOpenDialog(
@@ -10,8 +10,7 @@ const onSaveView = documentManager => withOpenDialog(
       const { viewId } = action.payload;
       const state = getState();
       const view = getView(state, { viewId });
-      const window = getFocusedWindow(getState());
-      const windowId = window.uuid;
+      const windowId = getWindowIdByViewId(state, { viewId });
       const saveAs = action.payload.saveAs || (!view.oId && !view.absolutePath);
       if (saveAs) {
         openDialog(windowId, 'save', {}, (closeAction) => {

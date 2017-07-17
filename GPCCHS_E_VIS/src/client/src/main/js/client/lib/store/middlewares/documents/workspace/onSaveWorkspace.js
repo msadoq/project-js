@@ -1,15 +1,15 @@
 import { join } from 'path';
 import * as types from '../../../types';
 import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from '../selectors';
-import { getWorkspaceFile, getWorkspaceFolder } from '../../../reducers/hsc';
+import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../../reducers/hsc';
 import { withOpenModal, withOpenDialog } from '../helpers';
 
 const onSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, openDialog, openModal, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_WORKSPACE) {
-      const { windowId } = action.payload;
       const state = getState();
+      const windowId = action.payload.windowId || getFocusedWindowId(state);
       const workspaceFile = getWorkspaceFile(state);
       const workspaceFolder = getWorkspaceFolder(state);
 

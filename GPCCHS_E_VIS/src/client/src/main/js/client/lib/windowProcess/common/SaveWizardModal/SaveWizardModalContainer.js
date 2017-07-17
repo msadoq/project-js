@@ -11,9 +11,7 @@ import { askSaveWorkspace } from '../../../store/actions/hsc';
 
 const mapStateToProps = createStructuredSelector({
   pages: getPagesWithViews,
-  workspaceFile: (state, { documentType }) => (
-    documentType === 'workspace' ? getWorkspaceFile(state) : undefined
-  ),
+  workspaceFile: getWorkspaceFile,
   workspaceIsModified: getWorkspaceIsModified,
   workspaceIsNew: getWorkspaceIsNew,
 });

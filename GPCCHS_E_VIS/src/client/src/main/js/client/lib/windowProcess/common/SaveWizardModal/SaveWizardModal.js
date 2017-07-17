@@ -7,6 +7,7 @@ import SaveWizard from './SaveWizard';
 
 export default class SaveWizardModal extends PureComponent {
   static propTypes = {
+    documentType: PropTypes.oneOf(['workspace', 'window', 'page']).isRequired,
     workspaceFile: PropTypes.string,
     workspaceIsModified: PropTypes.bool.isRequired,
     workspaceIsNew: PropTypes.bool.isRequired,
@@ -28,18 +29,19 @@ export default class SaveWizardModal extends PureComponent {
 
   render() {
     const {
-      closeModal, pages, buttons,
+      closeModal, pages, buttons, documentType,
       workspaceFile, workspaceIsModified, workspaceIsNew,
       askSaveView, askSavePage, askSaveWorkspace,
     } = this.props;
     const documentsAreModified = _.anyPass([
       _.some('isModified'),
       _.pipe(_.flatMap('views'), _.some('isModified')),
-      () => workspaceFile && workspaceIsModified,
+      () => documentType === 'workspace' && workspaceIsModified,
     ])(pages);
     return (
       <div>
         <SaveWizard
+          isWorkspace={documentType === 'workspace'}
           workspaceFile={workspaceFile}
           workspaceIsModified={workspaceIsModified}
           workspaceIsNew={workspaceIsNew}

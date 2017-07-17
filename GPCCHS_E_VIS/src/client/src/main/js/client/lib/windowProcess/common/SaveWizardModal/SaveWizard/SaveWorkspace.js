@@ -8,18 +8,19 @@ const SaveWorkspace = (props) => {
   const {
     askSaveWorkspace,
     disableSaveButton,
+    isWorkspace,
     workspaceFile,
     workspaceIsModified,
     workspaceIsNew,
   } = props;
-  if (!workspaceFile) {
+  if (!isWorkspace) {
     return null;
   }
   return (
     <Row className="mb5">
       <Col xs={2} />
       <Col xs={7}>
-        <ul><li className={styles.bullet}><strong>{workspaceFile}</strong></li></ul>
+        <ul><li className={styles.bullet}><strong>{workspaceFile || 'Workspace'}</strong></li></ul>
       </Col>
       <Col className="" xs={3}>
         <SaveButton
@@ -36,6 +37,7 @@ const SaveWorkspace = (props) => {
 SaveWorkspace.propTypes = {
   disableSaveButton: PropTypes.bool.isRequired,
   askSaveWorkspace: PropTypes.func.isRequired,
+  isWorkspace: PropTypes.bool.isRequired,
   workspaceFile: PropTypes.string.isRequired,
   workspaceIsModified: PropTypes.bool.isRequired,
   workspaceIsNew: PropTypes.bool.isRequired,

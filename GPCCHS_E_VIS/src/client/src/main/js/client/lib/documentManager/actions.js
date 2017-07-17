@@ -203,11 +203,12 @@ export const savePage = (pageId, path) => (dispatch, getState) => {
 // -------------------------------------------------------------------------- //
 
 // --- save a view ---------------------------------------------------------- //
-export const saveView = (viewId, path) => (dispatch, getState) => {
+export const saveView = (viewId, path, cb = _.noop) => (dispatch, getState) => {
   const view = getViewWithConfiguration(getState(), { viewId });
   writeView(view, path, (err, oid) => {
     if (err) {
       dispatch(addMessage(viewId, 'danger', err));
+      cb(err);
       return;
     }
     if (oid) {
@@ -217,6 +218,7 @@ export const saveView = (viewId, path) => (dispatch, getState) => {
     dispatch(updateViewAbsolutePath(viewId, path));
     dispatch(setViewModified(viewId, false));
     dispatch(addMessage(viewId, 'success', 'View saved'));
+    cb(null, 'saved');
   });
 };
 // -------------------------------------------------------------------------- //

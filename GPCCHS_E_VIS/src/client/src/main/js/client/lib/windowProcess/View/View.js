@@ -16,7 +16,6 @@ const logger = getLogger('View');
 
 export default class View extends PureComponent {
   static propTypes = {
-    windowId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -65,17 +64,14 @@ export default class View extends PureComponent {
 
   getMainContextMenu = ({
     viewId,
-    isViewsEditorOpen,
     openModal,
     collapsed,
     maximized,
     oId,
     absolutePath,
-    isModified,
   }) => {
-    const { collapseView, maximizeView, closeView, closeEditor, pageId, windowId } = this.props;
+    const { collapseView, maximizeView, closeView } = this.props;
     const isPathDefined = !!(oId || absolutePath);
-    const useSaveAs = (!absolutePath && !oId);
     return [
       {
         label: 'Move view to...',
@@ -110,23 +106,7 @@ export default class View extends PureComponent {
       { type: 'separator' },
       {
         label: 'Close view',
-        click: () => {
-          if (isModified) {
-            openModal({
-              type: 'viewIsModified',
-              isViewsEditorOpen,
-              viewId,
-              pageId,
-              windowId,
-              saveAs: useSaveAs,
-            });
-          } else {
-            closeView();
-            if (isViewsEditorOpen && closeEditor) {
-              closeEditor();
-            }
-          }
-        },
+        click: () => closeView(),
       },
     ];
   };

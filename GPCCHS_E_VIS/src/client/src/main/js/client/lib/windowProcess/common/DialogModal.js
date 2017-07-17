@@ -1,5 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
-import classnames from 'classnames';
+import { Button } from 'react-bootstrap';
 
 export default class DialogModal extends PureComponent {
   static propTypes = {
@@ -24,14 +24,15 @@ export default class DialogModal extends PureComponent {
         <p />
         <div className="text-center">
           {
-            buttons.map(({ label, value }) => (
-              <button
+            buttons.map(({ label, value, type = 'primary' }) => (
+              <Button
+                className="mr10"
                 key={label + value}
-                className={classnames('btn', 'btn-primary', 'mr5')}
+                bsStyle={type}
                 onClick={() => closeModal(value)}
               >
                 {label}
-              </button>
+              </Button>
             ))
           }
         </div>

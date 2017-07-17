@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { updateLayout, askOpenPage } from '../../store/actions/pages';
-import { closeView, askOpenView } from '../../store/actions/views';
+import { askOpenView } from '../../store/actions/views';
 import { getPageViews } from '../../store/selectors/pages';
 import {
   getPageLayoutWithCollapsed,
@@ -23,7 +23,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch, { windowId, pageId }) => (
   bindActionCreators({
-    closeView: viewId => closeView(pageId, viewId),
     updateLayout: layout => updateLayout(pageId, layout),
     askOpenPage: filePath => askOpenPage(windowId, filePath),
     askOpenView: filePath => askOpenView(filePath),

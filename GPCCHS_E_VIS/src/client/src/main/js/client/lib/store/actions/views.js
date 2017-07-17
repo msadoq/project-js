@@ -12,7 +12,11 @@ import { getViewModule } from '../../viewManager';
 import { focusPage } from '../actions/windows';
 
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'view', 'pageId');
-export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
+
+export const closeView = viewId => (dispatch, getState) => {
+  const pageId = getPageIdByViewId(getState(), { viewId });
+  dispatch({ type: types.WS_VIEW_CLOSE, payload: { viewId, pageId } });
+};
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');

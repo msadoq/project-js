@@ -11,6 +11,8 @@ import { writeWorkspace, writeWorkspaceAs } from './writeWorkspace';
 import * as fmdApi from '../common/fmd';
 import fs from '../common/fs';
 
+jest.mock('../serverProcess/ipc');
+
 const mockedCreateDocument = (path, documentType, cb) => {
   const mimeType = MIME_TYPES[documentType];
   if (!mimeType) {

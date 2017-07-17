@@ -6,6 +6,8 @@ import { getTmpPath, freezeMe } from '../common/jest';
 import fs from '../common/fs';
 import { writePage, writePageAs } from './writePage';
 
+jest.mock('../serverProcess/ipc');
+
 describe('mainProcess/documents/writePage', () => {
   let state;
   beforeEach(() => {

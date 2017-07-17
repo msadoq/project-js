@@ -6,6 +6,8 @@ import * as readPageApi from './readPage';
 import * as readWorkspaceApi from './readWorkspace';
 import * as actions from './actions';
 
+jest.mock('../serverProcess/ipc');
+
 describe('documentManager:actions', () => {
   let stub;
   beforeEach(() => {

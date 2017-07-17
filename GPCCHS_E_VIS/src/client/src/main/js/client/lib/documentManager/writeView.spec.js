@@ -6,6 +6,8 @@ import { getTmpPath, freezeMe } from '../common/jest';
 
 import { writeView } from './writeView';
 
+jest.mock('../serverProcess/ipc');
+
 describe('documentManager/writeViews', () => {
   let state;
   beforeEach(() => {

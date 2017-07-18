@@ -1,25 +1,21 @@
 const { decode, getType } = require('../../../utils/adapters');
-const { writeFile } = require('fs');
-const { join } = require('path');
 const _find = require('lodash/find');
 const _get = require('lodash/get');
 const _includes = require('lodash/includes');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedPubSubData');
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
-const { get } = require('../../../common/configurationManager');
 const flattenDataId = require('../../../common/flattenDataId');
 const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
-const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+const { dumpBuffer } = require('../../utils/dumpBuffer');
 const dataMapSingleton = require('../../models/dataMapSingleton');
 const viewManager = require('../../../viewManager');
 const { DATASTRUCTURETYPE_LAST } = require('../../../constants');
 const intervalManager = require('../../../common/intervals');
 
-const dump = (get('DUMP') === 'on');
 
 /** Check if timestamp is included in at least one interval used with view of last type
  *
@@ -111,11 +107,6 @@ module.exports = (args) => {
     return;
   }
 
-  let dumpFolder;
-  if (dump) {
-    createDumpFolder(dataId);
-    dumpFolder = getDumpFolder(dataId);
-  }
   // loop over arguments peers (timestamp, payload)
   while (payloadBuffers.length) {
     // pop the first two buffers from list
@@ -163,15 +154,8 @@ module.exports = (args) => {
       execution.stop('decode payload');
     }
 
-    // dump
-    if (dump && dumpFolder) {
-      // save a file per timestamp with binary payload
-      writeFile(join(dumpFolder, timestamp.ms.toString()), payloadBuffer[1], (err) => {
-        if (err) {
-          loggerData.warn(`Error writing dump file ${timestamp}`);
-        }
-      });
-    }
+    // dump: if activated, save a file per timestamp with binary payload
+    dumpBuffer(dataId, timestamp.ms, payloadBuffer[1]);
 
     loggerData.debug({
       controller: 'onTimebasedPubSubData',

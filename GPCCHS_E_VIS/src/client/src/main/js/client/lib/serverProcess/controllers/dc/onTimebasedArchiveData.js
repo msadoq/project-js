@@ -1,12 +1,9 @@
 const _isBuffer = require('lodash/isBuffer');
-const { writeFile } = require('fs');
-const { join } = require('path');
 const { decode, encode, getType } = require('../../../utils/adapters');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
-const { get } = require('../../../common/configurationManager');
-const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+const { dumpBuffer } = require('../../utils/dumpBuffer');
 const {
   removeByQueryId: removeRegisteredQuery,
   getByQueryId: getRegisteredQuery,
@@ -16,8 +13,6 @@ const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFac
 const connectedDataModel = require('../../models/connectedData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
-
-const dump = (get('DUMP') === 'on');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -113,11 +108,6 @@ module.exports = function onTimebasedArchiveData(args) {
     timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
     execution.stop('retrieve store');
   }
-  let dumpFolder;
-  if (dump) {
-    createDumpFolder(dataId);
-    dumpFolder = getDumpFolder(dataId);
-  }
 
   // only one loop to decode, insert in cache, and add to queue
   while (payloadBuffers.length) {
@@ -136,15 +126,8 @@ module.exports = function onTimebasedArchiveData(args) {
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
-    // dump
-    if (dump && dumpFolder) {
-      // save a file per timestamp with binary payload
-      writeFile(join(dumpFolder, timestamp.toString()), payloadBuffer[1], (err) => {
-        if (err) {
-          loggerData.warn(`Error writing dump file ${timestamp}`);
-        }
-      });
-    }
+    // dump: if activated, save a file per timestamp with binary payload
+    dumpBuffer(dataId, timestamp, payloadBuffer[1]);
 
     loggerData.silly({
       controller: 'onTimebasedArchiveData',

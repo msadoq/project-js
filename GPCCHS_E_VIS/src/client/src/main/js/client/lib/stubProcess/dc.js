@@ -4,7 +4,6 @@ const stubs = require('../utils/stubs');
 const parameters = require('../common/configurationManager');
 
 parameters.init(resolve(__dirname, '../..'));
-console.warn(parameters.get('MESSAGES_NAMESPACES'));
 adapter.registerGlobal();
 stubs.loadStubs();
 

@@ -39,6 +39,11 @@ export default merge(baseConfig, {
       '!style!css!postcss!./lib/windowProcess/style',
       './benchmarks/grizzly/index',
     ],
+    'textview.benchmark': [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      './benchmarks/TextView/index',
+    ],
   },
 
   output: {

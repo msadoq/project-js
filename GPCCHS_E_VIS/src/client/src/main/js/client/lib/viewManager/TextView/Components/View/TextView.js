@@ -1,34 +1,12 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import {
   Parser,
   ProcessNodeDefinitions,
 } from 'html-to-react';
-import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
 import { html as beautifyHtml } from 'js-beautify';
-import getLogger from '../../../../common/logManager';
-import { get } from '../../../../common/configurationManager';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
-
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
-import styles from './TextView.css';
-
-const logger = getLogger('view:text');
-
-const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
-
-// parse clipboard data to create partial entry point
-function parseDragData(data) {
-  return {
-    name: data.item,
-    connectedData: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
-    },
-  };
-}
 
 const isValueNode = /{{\s*([^}]+)\s*}}/g;
 
@@ -73,9 +51,7 @@ const getEpSpan = (target) => {
 export default class TextView extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    addEntryPoint: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
-    updateContent: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
@@ -87,15 +63,7 @@ export default class TextView extends PureComponent {
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    })),
-    removeLink: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
-    showLinks: PropTypes.bool,
-    updateShowLinks: PropTypes.func.isRequired,
-    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
+    perfOutput: PropTypes.bool,
   };
   static defaultProps = {
     data: {
@@ -105,6 +73,7 @@ export default class TextView extends PureComponent {
     inspectorEpId: null,
     links: [],
     showLinks: false,
+    perfOutput: false,
   };
 
   componentWillMount() {
@@ -125,17 +94,6 @@ export default class TextView extends PureComponent {
       shouldRender = true;
       this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
       this.content = this.getContentComponent();
-    }
-    if (nextProps.showLinks !== this.props.showLinks) {
-      shouldRender = true;
-    }
-    if (nextProps.isMaxVisuDurationExceeded !== this.props.isMaxVisuDurationExceeded) {
-      shouldRender = true;
-      // Update content
-      if (!nextProps.isMaxVisuDurationExceeded) {
-        this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
-        this.content = this.getContentComponent();
-      }
     }
     if (!shouldRender) {
       this.updateSpanValues(nextProps.data);
@@ -237,23 +195,6 @@ export default class TextView extends PureComponent {
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
 
-
-  onDrop = (e) => {
-    const data = e.dataTransfer.getData('text/plain');
-    const content = JSON.parse(data);
-
-    if (!_get(content, 'catalogName')) {
-      return;
-    }
-
-    this.props.addEntryPoint(
-      parseDragData(content)
-    );
-    this.props.openEditor();
-
-    e.stopPropagation();
-  }
-
   getContentComponent() {
     const processingInstructions = [
       {
@@ -296,6 +237,11 @@ export default class TextView extends PureComponent {
     if (!data.values) {
       return;
     }
+    const { perfOutput } = this.props;
+    if (perfOutput) {
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.time();
+    }
     requestAnimationFrame(() => {
       const spanIds = Object.keys(this.spanValues);
       for (let i = 0; i < spanIds.length; i += 1) {
@@ -328,66 +274,25 @@ export default class TextView extends PureComponent {
           }
         }
       }
+      if (perfOutput) {
+        // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+        console.log(
+          'Looped on',
+          spanIds.length,
+          'eps'
+        );
+        // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+        console.timeEnd();
+      }
     });
-  }
-
-  handleSubmit = (values) => {
-    const { updateContent } = this.props;
-    updateContent(values.html);
-  }
-
-  toggleShowLinks = (e) => {
-    e.preventDefault();
-    const { showLinks, updateShowLinks } = this.props;
-    updateShowLinks(!showLinks);
-  }
-  removeLink = (e, index) => {
-    e.preventDefault();
-    const { removeLink } = this.props;
-    removeLink(index);
   }
 
   htmlToReactParser = new Parser();
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
-    const { viewId, links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
-    logger.debug(`render ${viewId}`);
-    const style = { padding: '15px' };
-    if (isMaxVisuDurationExceeded) {
-      const noRenderMsg = 'Visu Window is too long for this type of view';
-      logger.debug('no render due to', noRenderMsg);
-      return (
-        <div className="flex">
-          <div className={styles.renderErrorText}>
-            Unable to render view <br />
-            {noRenderMsg}
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <DroppableContainer
-        onDrop={this.onDrop}
-        onContextMenu={this.onContextMenu}
-        className="h100 posRelative"
-      >
-        <Row>
-          <Col xs={12}>
-            <this.content />
-          </Col>
-          <Col xs={12} style={style}>
-            <LinksContainer
-              show={showLinks}
-              toggleShowLinks={this.toggleShowLinks}
-              links={links}
-              removeLink={this.removeLink}
-              pageId={pageId}
-            />
-          </Col>
-        </Row>
-      </DroppableContainer>
+      <this.content />
     );
   }
 }

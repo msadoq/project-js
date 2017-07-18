@@ -78,7 +78,7 @@ export default class Chart extends React.Component {
         dataAccessor: PropTypes.func,
         yAccessor: PropTypes.func,
         xAccessor: PropTypes.func,
-        colorAccessor: PropTypes.func,
+        colorAccessor: PropTypes.string,
         tooltipFormatter: PropTypes.func,
       })
     ).isRequired,

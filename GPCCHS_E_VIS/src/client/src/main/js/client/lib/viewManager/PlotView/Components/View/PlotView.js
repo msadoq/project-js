@@ -626,7 +626,7 @@ export class GrizzlyPlotView extends PureComponent {
                 dataAccessor: d => d[ep.name],
                 xAccessor: null, // default .x
                 yAccessor: null, // default .value
-                colorAccessor: d => d.color,
+                colorAccessor: 'color',
                 tooltipFormatter,
               })
             )

@@ -13,6 +13,7 @@ import simple from '../store/helpers/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
+import { getView } from '../store/reducers/views';
 import { getFirstTimebarId } from '../store/reducers/timebars';
 import { getViewWithConfiguration, getViewModule } from '../viewManager';
 import readView from './readView';
@@ -42,9 +43,10 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 const reload = simple(types.WS_VIEW_RELOAD, 'viewId', 'view');
 
-export const reloadView = (viewId, absolutePath) => (dispatch) => {
+export const reloadView = viewId => (dispatch, getState) => {
+  const { absolutePath } = getView(getState(), { viewId });
   readView.simpleReadView({ absolutePath }, (err, view) => {
-    if (err) {
+    if (err || view.error) {
       return dispatch(addMessage(
         viewId,
         'danger',
@@ -52,7 +54,7 @@ export const reloadView = (viewId, absolutePath) => (dispatch) => {
       ));
     }
 
-    dispatch(reload(viewId, _.set('uuid', viewId, view)));
+    dispatch(reload(viewId, _.set('uuid', viewId, view.value)));
     return dispatch(addMessage(
       viewId,
       'success',

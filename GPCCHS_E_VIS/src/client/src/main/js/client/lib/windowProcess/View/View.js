@@ -30,11 +30,17 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
+    reloadView: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
     saveAs: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    collapsed: PropTypes.bool.isRequired,
+    absolutePath: PropTypes.string,
   };
 
   static defaultProps = {
+    oId: '',
+    absolutePath: '',
     backgroundColor: '#FFFFFF',
     titleStyle: {
       bgColor: '#FEFEFE',
@@ -62,16 +68,12 @@ export default class View extends PureComponent {
     handleContextMenu([editorMenu, { type: 'separator' }, ...mainMenu]);
   }
 
-  getMainContextMenu = ({
-    viewId,
-    openModal,
-    collapsed,
-    maximized,
-    oId,
-    absolutePath,
-  }) => {
-    const { collapseView, maximizeView, closeView } = this.props;
-    const isPathDefined = !!(oId || absolutePath);
+  getMainContextMenu = () => {
+    const {
+      viewId, collapsed, maximized, absolutePath,
+      openModal, collapseView, maximizeView, closeView, reloadView,
+    } = this.props;
+    const isPathDefined = !!absolutePath;
     return [
       {
         label: 'Move view to...',
@@ -87,7 +89,7 @@ export default class View extends PureComponent {
       },
       {
         label: 'Reload view',
-        click: () => main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId }),
+        click: () => reloadView(),
         enabled: (isPathDefined),
       },
       { type: 'separator' },
@@ -130,7 +132,7 @@ export default class View extends PureComponent {
       collapseView,
     } = this.props;
     const ContentComponent = getViewComponent(type);
-    const mainMenu = this.getMainContextMenu(this.props);
+    const mainMenu = this.getMainContextMenu();
     const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (

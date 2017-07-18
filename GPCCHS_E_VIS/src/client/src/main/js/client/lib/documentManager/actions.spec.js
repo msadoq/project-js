@@ -19,11 +19,11 @@ describe('documentManager:actions', () => {
 
   describe('reloadView', () => {
     test('reload view', () => {
-      const store = mockStore();
+      const store = mockStore({ views: { myViewId: { absolutePath: '/an/absolute/path' } } });
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        cb(null, { some: 'properties' });
+        cb(null, { value: { some: 'properties' } });
       });
-      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      store.dispatch(actions.reloadView('myViewId'));
       expect(store.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_RELOAD',
@@ -40,11 +40,11 @@ describe('documentManager:actions', () => {
       ]);
     });
     test('invalid view file', () => {
-      const store = mockStore();
+      const store = mockStore({ views: { myViewId: { absolutePath: '/an/absolute/path' } } });
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         cb(new Error());
       });
-      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      store.dispatch(actions.reloadView('myViewId'));
       expect(store.getActions()).toMatchObject([
         {
           type: 'WS_MESSAGE_ADD',

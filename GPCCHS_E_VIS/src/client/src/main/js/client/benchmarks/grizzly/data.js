@@ -77,3 +77,15 @@ export const data10000PointsColorChanging = () => {
   }
   return points;
 };
+
+export const data10000Points4Colors = () => {
+  const points = [];
+  for (let i = 0; i < 10000; i += 1) {
+    points.push({
+      x: 100000 + (i / 10),
+      value: 500 + ((15 * i) % 500),
+      color: `#AA${['0', '6', 'A', 'F'][Math.round(i / 2500)]}`,
+    });
+  }
+  return points;
+};

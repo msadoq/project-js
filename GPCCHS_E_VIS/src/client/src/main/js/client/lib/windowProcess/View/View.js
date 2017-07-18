@@ -3,7 +3,6 @@ import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from '../../common/logManager';
-import globalConstants from '../../constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
 import { getViewComponent } from '../../viewManager/components';
@@ -34,6 +33,7 @@ export default class View extends PureComponent {
     save: PropTypes.func.isRequired,
     saveAs: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
+    saveViewAsModel: PropTypes.func.isRequired,
     collapsed: PropTypes.bool.isRequired,
     absolutePath: PropTypes.string,
   };
@@ -70,7 +70,7 @@ export default class View extends PureComponent {
 
   getMainContextMenu = () => {
     const {
-      viewId, collapsed, maximized, absolutePath,
+      collapsed, maximized, absolutePath,
       openModal, collapseView, maximizeView, closeView, reloadView,
     } = this.props;
     const isPathDefined = !!absolutePath;
@@ -103,7 +103,7 @@ export default class View extends PureComponent {
       },
       {
         label: 'Save view as a model...',
-        click: () => main.message(globalConstants.IPC_METHOD_CREATE_MODEL, { viewId }),
+        click: () => this.props.saveViewAsModel(),
       },
       { type: 'separator' },
       {

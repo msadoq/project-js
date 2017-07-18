@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from '../../store/reducers/pages';
 import { getView } from '../../store/reducers/views';
-import { updateEditorSearch, askSaveView, askCloseView, askReloadView } from '../../store/actions/views';
+import { updateEditorSearch, askSaveView, askCloseView, askReloadView, askSaveViewAsModel } from '../../store/actions/views';
 import { open as openModal, close as closeModal } from '../../store/actions/modals';
 import { setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
 import View from './View';
@@ -48,6 +48,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   saveAs: () => askSaveView(viewId, true),
   closeView: () => askCloseView(viewId),
   reloadView: () => askReloadView(viewId),
+  saveViewAsModel: () => askSaveViewAsModel(viewId),
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

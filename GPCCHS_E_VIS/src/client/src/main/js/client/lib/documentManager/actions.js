@@ -14,7 +14,7 @@ import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
 import { getFirstTimebarId } from '../store/reducers/timebars';
-import { getViewWithConfiguration } from '../viewManager';
+import { getViewWithConfiguration, getViewModule } from '../viewManager';
 import readView from './readView';
 
 import { readPageAndViews } from './readPage';
@@ -219,6 +219,18 @@ export const saveView = (viewId, path, cb = _.noop) => (dispatch, getState) => {
     dispatch(setViewModified(viewId, false));
     dispatch(addMessage(viewId, 'success', 'View saved'));
     cb(null, 'saved');
+  });
+};
+
+export const saveViewAsModel = (viewId, path) => (dispatch, getState) => {
+  const view = getViewWithConfiguration(getState(), { viewId });
+  const viewToSave = getViewModule(view.type).prepareViewForModel(view);
+  writeView(viewToSave, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Model unsaved ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Model saved'));
+    }
   });
 };
 // -------------------------------------------------------------------------- //

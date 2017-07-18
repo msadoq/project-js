@@ -5,26 +5,28 @@ import {
   openWorkspace,
   savePage,
   saveView,
+  saveViewAsModel,
   saveWorkspace,
 } from './actions';
 import { readDocumentType } from './io';
 import { createBlankWorkspace } from './createBlankWorkspace';
 
 export default {
-  // save
-  saveView,
-  savePage,
-  saveWorkspace,
-
-  // open
+  // view
   openView,
-  openPage,
-  openWorkspace,
-  createBlankWorkspace,
-
-  // reload
+  saveView,
+  saveViewAsModel,
   reloadView,
 
-  // io
+  // page
+  openPage,
+  savePage,
+
+  // workspace
+  createBlankWorkspace,
+  openWorkspace,
+  saveWorkspace,
+
+  // all documents
   readDocumentType,
 };

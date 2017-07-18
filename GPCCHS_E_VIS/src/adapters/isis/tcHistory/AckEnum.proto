@@ -1,0 +1,8 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package tcHistory.protobuf;
+
+enum AckEnum {
+  ACK_NOT_RECEIVED = 0;
+  ACK_SUCCESS = 1;
+  ACK_FAILURE = 2;
+}

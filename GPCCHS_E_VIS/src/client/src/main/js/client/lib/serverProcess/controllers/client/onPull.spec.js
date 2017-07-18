@@ -4,9 +4,12 @@ const {
   get: getDataQueue,
 } = require('../../models/dataQueue');
 const onPull = require('./onPull');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData } = require('../../../utils/stubs');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const { mockLoadStubs } = require('../../../common/jest');
 
+mockLoadStubs();
+const dataStub = getStubData();
 describe('controllers/client/onPull', () => {
   beforeEach(() => {
     resetDataQueue();

@@ -13,6 +13,8 @@ mkdir -p $APP_FOLDER/lib && cp -R ./lib/stubProcess $APP_FOLDER/lib
 # Because stub need constants.js, copy it
 cp ./lib/constants.js $APP_FOLDER/lib
 mkdir -p $APP_FOLDER/lib/common && cp -R ./lib/common/logManager $APP_FOLDER/lib/common
+
+cp -R ./lib/utils $APP_FOLDER/lib
 cp -R ./lib/common/configurationManager $APP_FOLDER/lib/common
 
 # Start packaged vima

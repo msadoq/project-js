@@ -1,0 +1,22 @@
+{
+  "name": "isis-adapters",
+  "jest": {
+    "verbose": true,
+    "testRegex": "(spec)\\.(js|jsx)$",
+    "moduleNameMapper": {
+      "\\.(less|css)$": "identity-obj-proxy"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!common)|(node_modules/common/node_modules)"
+    ]
+  },
+  "dependencies": {
+    "bytebuffer": "~5.0.1",
+    "lodash": "~4.17.4",
+    "protobufjs": "~6.7.3",
+    "jest": "~20.0.4"
+  },
+  "scripts" : {
+    "test": "NODE_ENV=test jest"
+  }
+}

@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
-import globalConstants from '../../constants';
 
 import styles from './Header.css';
 import { main } from '../ipc';
@@ -25,6 +24,8 @@ export default class Header extends PureComponent {
     isModified: PropTypes.bool.isRequired,
     collapseView: PropTypes.func.isRequired,
     onContextMenu: PropTypes.func.isRequired,
+    absolutePath: PropTypes.string.isRequired,
+    oId: PropTypes.string.isRequired,
   };
   static defaultProps = {
     title: 'Untitled',
@@ -65,8 +66,9 @@ export default class Header extends PureComponent {
   }
   save = (e) => {
     if (e) e.preventDefault();
-    const { viewId } = this.props;
-    main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
+    const { viewId, absolutePath, oId } = this.props;
+    const useSaveAs = (!absolutePath && !oId);
+    main.saveView({ viewId, saveAs: useSaveAs }, () => {});
   }
   render() {
     const {

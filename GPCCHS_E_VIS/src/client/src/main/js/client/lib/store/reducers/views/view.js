@@ -50,6 +50,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_ADD_ENTRYPOINT,
     types.WS_VIEW_UPDATE_DOMAINNAME,
     types.WS_VIEW_UPDATE_SESSIONNAME,
+    types.WS_VIEW_TOGGLE_LEGEND,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     return setIsModified(true, stateView);
@@ -73,9 +74,9 @@ function simpleView(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD_BLANK:
     case types.WS_VIEW_RELOAD:
-    case types.WS_VIEW_OPEN:
-    case types.WS_PAGE_OPEN:
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_VIEW_OPENED:
+    case types.WS_PAGE_OPENED:
+    case types.WS_WORKSPACE_OPENED: {
       const newView = _.omit(['configuration', 'windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
       return _.defaults(initialState, newView);
     }

@@ -1,6 +1,7 @@
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
+// editor
 export const updateViewTab = simple(
   types.WS_EDITOR_UI_TAB,
   'viewId',
@@ -20,4 +21,21 @@ export const updateViewSubPanels = simple(
   'section',
   'panel',
   'subPanels'
+);
+
+export const openDialog = simple(
+  types.HSC_OPEN_DIALOG,
+  'windowId',
+  'dialogId',
+  'type', // can be 'save', 'open' or 'message'
+  (options = {}) => ({ options })
+);
+
+// dialog
+export const dialogClosed = simple(
+  types.HSC_DIALOG_CLOSED,
+  'windowId',
+  'dialogId',
+  'choice',
+  (options = {}) => ({ options })
 );

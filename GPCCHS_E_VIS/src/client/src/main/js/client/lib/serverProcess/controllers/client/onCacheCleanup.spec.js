@@ -1,10 +1,11 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const _concat = require('lodash/concat');
-const dataStub = require('common/protobuf/stubs');
-const { decode } = require('common/protobuf');
+const { getStubData } = require('../../../utils/stubs');
+const { decode } = require('../../../utils/adapters');
 
 const { getRemoteId } = require('../../../common/jest');
 const registeredCallbacks = require('../../../common/callbacks');
@@ -26,6 +27,8 @@ let calls = [];
 const zmqEmulator = (payload) => {
   calls = _concat(calls, payload);
 };
+
+const dataStub = getStubData();
 
 /* onCacheCleanup Test
  *

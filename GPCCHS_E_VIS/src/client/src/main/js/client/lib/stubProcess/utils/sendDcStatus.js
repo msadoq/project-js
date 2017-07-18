@@ -1,10 +1,11 @@
 const logger = require('../../common/logManager')('stubs:utils');
-const stubData = require('common/protobuf/stubs');
+const stubs = require('../../utils/stubs');
+
+const stubData = stubs.getStubData();
 
 const header = stubData.getDcStatusHeaderProtobuf();
 const healthy = stubData.getHealthyDcStatusProtobuf();
 const congestion = stubData.getCongestionDcStatusProtobuf();
-
 const current = {
   isCongestionned: false,
   from: Date.now(),

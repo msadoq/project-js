@@ -3,27 +3,30 @@ import {
   openView,
   openPage,
   openWorkspace,
-  openBlankWorkspace,
-  openPageOrView,
+  savePage,
+  saveView,
+  saveViewAsModel,
+  saveWorkspace,
 } from './actions';
-import { saveView, saveViewAs } from './saveView';
-import { savePage } from './savePage';
-import { saveWorkspace } from './saveWorkspace';
+import { readDocumentType } from './io';
+import { createBlankWorkspace } from './createBlankWorkspace';
 
 export default {
-  // save
+  // view
+  openView,
   saveView,
-  saveViewAs,
+  saveViewAsModel,
+  reloadView,
+
+  // page
+  openPage,
   savePage,
+
+  // workspace
+  createBlankWorkspace,
+  openWorkspace,
   saveWorkspace,
 
-  // open
-  openView,
-  openPage,
-  openWorkspace,
-  openBlankWorkspace,
-  openPageOrView,
-
-  // reload
-  reloadView,
+  // all documents
+  readDocumentType,
 };

@@ -26,12 +26,13 @@ class AddPlotAxis extends PureComponent {
       tickStep: PropTypes.string,
       autoTick: PropTypes.bool,
       showTicks: PropTypes.bool,
-      isLogarithmic: PropTypes.bool,
+      logarithmic: PropTypes.bool,
       showAxis: PropTypes.bool,
       showLabels: PropTypes.bool,
       style: PropTypes.object,
     }).isRequired,
     showTicks: PropTypes.bool,
+    logarithmic: PropTypes.bool,
     autoTick: PropTypes.bool,
     autoLimits: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
@@ -65,6 +66,7 @@ class AddPlotAxis extends PureComponent {
   static defaultProps = {
     showTicks: false,
     autoTick: false,
+    logarithmic: false,
     autoLimits: false,
     axisId: null,
     entryPoints: [],
@@ -85,6 +87,7 @@ class AddPlotAxis extends PureComponent {
       entryPoints,
       axisId,
       initialValues,
+      logarithmic,
     } = this.props;
 
     const relatedEntryPoints = [];
@@ -282,12 +285,47 @@ class AddPlotAxis extends PureComponent {
 
         <HorizontalFormGroup label="Logarithmic">
           <Field
-            name="isLogarithmic"
+            name="logarithmic"
             component={ButtonToggleField}
             styleOff="warning"
           />
         </HorizontalFormGroup>
-
+        {
+          logarithmic &&
+          <div
+            style={{
+              padding: 6,
+              marginBottom: 5,
+              borderRadius: 3,
+              border: '1px solid #CCC',
+            }}
+          >
+            <HorizontalFormGroup label="Logarithm min">
+              <Field
+                name="logSettings.min"
+                component={InputField}
+                className="form-control input-sm"
+                type="text"
+              />
+            </HorizontalFormGroup>
+            <HorizontalFormGroup label="Logarithm max">
+              <Field
+                name="logSettings.max"
+                component={InputField}
+                className="form-control input-sm"
+                type="text"
+              />
+            </HorizontalFormGroup>
+            <HorizontalFormGroup label="Logarithm base">
+              <Field
+                name="logSettings.base"
+                component={InputField}
+                className="form-control input-sm"
+                type="number"
+              />
+            </HorizontalFormGroup>
+          </div>
+        }
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}
@@ -335,6 +373,7 @@ export default connect(
       autoTick: formValueSelector(form)(state, 'autoTick'),
       autoLimits: formValueSelector(form)(state, 'autoLimits'),
       label: formValueSelector(form)(state, 'label'),
+      logarithmic: formValueSelector(form)(state, 'logarithmic'),
     })
   )(
     reduxForm({

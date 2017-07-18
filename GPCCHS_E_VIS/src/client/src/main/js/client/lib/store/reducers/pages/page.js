@@ -38,8 +38,8 @@ const getGeometry = _.pipe(
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function pageReducer(statePage = initialState, action) {
   switch (action.type) {
-    case types.WS_PAGE_OPEN:
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_PAGE_OPENED:
+    case types.WS_WORKSPACE_OPENED: {
       const newPage = _.merge(statePage, {
         ...action.payload.page,
         panels: panels(undefined, action),
@@ -60,7 +60,7 @@ export default function pageReducer(statePage = initialState, action) {
         panels: panels(undefined, action),
       });
     }
-    case types.WS_VIEW_OPEN: {
+    case types.WS_VIEW_OPENED: {
       return _.pipe(
         _.update('views', _.concat(_, action.payload.view.uuid)),
         _.update('layout', _.concat(_, getGeometry(action.payload.view))),

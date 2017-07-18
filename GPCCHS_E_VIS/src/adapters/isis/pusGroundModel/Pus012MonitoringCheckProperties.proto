@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus012MonitoringCheckProperties {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.UINTEGER ridStatus = 1;
+  optional ccsds_mal.protobuf.UINTEGER actionStatus = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 3;
+  optional ccsds_mal.protobuf.UINTEGER rid = 4;
+  optional ccsds_mal.protobuf.STRING mask = 5;
+  optional ccsds_mal.protobuf.STRING actionName = 6;
+  optional ccsds_mal.protobuf.STRING ridLabel = 7;
+}

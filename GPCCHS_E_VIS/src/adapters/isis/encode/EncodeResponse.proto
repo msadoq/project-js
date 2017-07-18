@@ -1,0 +1,12 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./EncodedValuesList.proto";
+import "./EncodedType.proto";
+
+package encode.protobuf;
+
+message EncodeResponse {
+extensions 3 to 103;
+
+  optional encode.protobuf.EncodedType encodedType = 1;
+  optional encode.protobuf.EncodedValuesList encodedValues = 2;
+}

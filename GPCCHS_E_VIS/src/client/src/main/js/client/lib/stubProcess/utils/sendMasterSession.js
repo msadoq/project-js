@@ -1,5 +1,8 @@
-const stubData = require('common/protobuf/stubs');
-const { encode, getType } = require('common/protobuf');
+const stubs = require('../../utils/stubs');
+
+stubs.loadStubs();
+const stubData = stubs.getStubData();
+const { encode, getType } = require('../../utils/adapters');
 
 const MASTER_SESSION_ID = 42;
 

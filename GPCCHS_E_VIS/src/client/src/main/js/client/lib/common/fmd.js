@@ -5,7 +5,7 @@ import { relative, join, basename, dirname } from 'path';
 import parameters from './configurationManager';
 import globalConstants, { MIME_TYPES } from '../constants';
 
-import ipcApi from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 
 const checkPath = (path, cb) => (
   fs.exists(path, pathExist => cb(null, !!pathExist))
@@ -16,12 +16,13 @@ export const isInFmd = path => startsWith(getRootDir(), path);
 export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 export const resolveDocument = (oId, callback) => {
-  ipcApi.server.requestFmdGet(oId, ({ err, type, detail }) => {
+  dc.requestFmdGet(oId, ({ payload }) => {
+    const { err, type, detail } = payload;
     if (err) {
       return callback(err);
     }
     if (type !== globalConstants.FMDFILETYPE_DOCUMENT) {
-      return callback(new Error('document is not a file'));
+      return callback(new Error('Error fmd : document is not a file'));
     }
     return callback(
       null,
@@ -42,7 +43,8 @@ export const createDocument = (path, documentType, callback) => {
     if (pathExist) {
       return callback(null);
     }
-    return ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+    return dc.requestFmdCreate(fileName, folder, mimeType, ({ payload }) => {
+      const { err, serializedOid } = payload;
       if (err) {
         return callback(err);
       }

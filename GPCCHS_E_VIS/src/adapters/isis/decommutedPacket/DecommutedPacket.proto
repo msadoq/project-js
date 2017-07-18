@@ -1,0 +1,16 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/TIME.proto";
+import "./DecommutedValue.proto";
+
+
+package decommutedPacket.protobuf;
+
+message DecommutedPacket {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.TIME onboardDate = 1;
+  optional ccsds_mal.protobuf.TIME groundDate = 2;
+  optional ccsds_mal.protobuf.BOOLEAN isNominal = 3;
+  repeated decommutedPacket.protobuf.DecommutedValue decommutedValues = 4;
+}

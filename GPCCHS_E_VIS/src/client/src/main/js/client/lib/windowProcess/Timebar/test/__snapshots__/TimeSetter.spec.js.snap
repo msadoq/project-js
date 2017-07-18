@@ -24,6 +24,11 @@ exports[`Timesetter renders correctly 1`] = `
   <h4>
     Visu window default width
   </h4>
+  <span
+    className=""
+  >
+        hours       minutes     seconds   milliseconds
+  </span>
   <div
     className="fieldsContainer"
   >
@@ -39,6 +44,9 @@ exports[`Timesetter renders correctly 1`] = `
           onBlur={[Function]}
           placeholder="hours"
         />
+        <span>
+          :
+        </span>
       </div>
       <div
         className="inputDiv"
@@ -49,6 +57,9 @@ exports[`Timesetter renders correctly 1`] = `
           onBlur={[Function]}
           placeholder="minutes"
         />
+        <span>
+          :
+        </span>
       </div>
       <div
         className="inputDiv"
@@ -59,6 +70,9 @@ exports[`Timesetter renders correctly 1`] = `
           onBlur={[Function]}
           placeholder="seconds"
         />
+        <span>
+          .
+        </span>
       </div>
       <div
         className="inputDiv"

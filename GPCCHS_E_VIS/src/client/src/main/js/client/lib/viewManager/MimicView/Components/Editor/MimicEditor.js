@@ -30,9 +30,15 @@ export default class Editor extends Component {
     }),
     updateViewPanels: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
+    tab: PropTypes.number,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
   };
 
-  state = { currentDisplay: 0, search: '' };
+  static defaultProps = {
+    tab: null,
+  }
+
+  state = { search: '' };
 
   addEntryPoint = (values) => {
     const { addEntryPoint, viewId } = this.props;
@@ -64,15 +70,21 @@ export default class Editor extends Component {
   }
 
   changeSearch = s => this.setState({ search: s });
-  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+
+  changeCurrentDisplay = (id) => {
+    const { updateViewTab, viewId } = this.props;
+    updateViewTab(viewId, id);
+  }
 
   render() {
     const { currentDisplay, search } = this.state;
     const {
+      entryPointsPanels,
       closeEditor,
       updateTitleStyle,
       updateTitle,
       openModal,
+      tab,
       viewId,
       configuration: {
         entryPoints,
@@ -86,13 +98,13 @@ export default class Editor extends Component {
     return (
       <div className={styles.contentWrapper}>
         <Navbar
-          currentDisplay={currentDisplay}
+          currentDisplay={tab === null ? 0 : tab}
           items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={closeEditor}
         />
         <div className={styles.content}>
-          {currentDisplay === 0 && <div>
+          {(tab === 0 || tab === null) && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
               openModal={openModal}
@@ -101,13 +113,16 @@ export default class Editor extends Component {
               search={search}
             />
             <EntryPointTree
+              viewId={viewId}
               entryPoints={entryPoints}
+              entryPointsPanels={entryPointsPanels}
+              updateViewPanels={updateViewPanels}
               search={search}
               remove={this.removeEntryPoint}
             />
           </div>}
-          {currentDisplay === 1 && <MimicTabContainer />}
-          {currentDisplay === 2 &&
+          {tab === 1 && <MimicTabContainer />}
+          {tab === 2 &&
             <Misc
               updateViewPanels={updateViewPanels}
               viewId={viewId}

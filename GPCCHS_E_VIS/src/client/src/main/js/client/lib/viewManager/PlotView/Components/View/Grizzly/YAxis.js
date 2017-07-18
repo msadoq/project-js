@@ -15,6 +15,7 @@ export default class YAxis extends Component {
     yAxisId: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string,
     yAxesAt: PropTypes.string,
+    logarithmic: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     yScale: PropTypes.func.isRequired,
     yExtents: PropTypes.arrayOf(
@@ -32,7 +33,7 @@ export default class YAxis extends Component {
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
-        yAccessor: PropTypes.func.isRequired,
+        yAccessor: PropTypes.func,
       })
     ).isRequired,
     showLabels: PropTypes.bool,
@@ -211,6 +212,7 @@ export default class YAxis extends Component {
       showGrid,
       gridStyle,
       xAxisAt,
+      logarithmic,
       yExtents,
     } = this.props;
 
@@ -237,7 +239,10 @@ export default class YAxis extends Component {
       yAxisFunction = axisRight(yScale);
     }
 
-    if (autoTick) {
+    if (logarithmic) {
+      yAxisFunction = yAxisFunction
+        .ticks(8);
+    } else if (autoTick) {
       yAxisFunction = yAxisFunction
         .ticks(8);
     } else {
@@ -254,7 +259,7 @@ export default class YAxis extends Component {
 
     yAxisFunction = yAxisFunction
       .tickSize(tickSize)
-      .tickFormat(tickFormat);
+      .tickFormat(logarithmic ? d => d : tickFormat);
 
     const yMiniOffset = xAxisAt === 'top' ? 0 : -1;
     // style for <svg><g>

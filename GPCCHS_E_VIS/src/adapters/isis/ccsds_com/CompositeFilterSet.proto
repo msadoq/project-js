@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./CompositeFilter.proto";
+
+
+package ccsds_com.protobuf;
+
+message CompositeFilterSet {
+extensions 2 to 102;
+
+  repeated ccsds_com.protobuf.CompositeFilter compositeFilter = 1;
+}

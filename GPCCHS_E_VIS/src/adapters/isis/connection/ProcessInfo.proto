@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+
+
+package connection.protobuf;
+
+message ProcessInfo {
+extensions 2 to 102;
+
+  optional ccsds_mal.protobuf.STRING name = 1;
+}

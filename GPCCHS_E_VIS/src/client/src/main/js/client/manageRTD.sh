@@ -83,7 +83,7 @@ installRTD() {
 }
 
 usage() {
-  echo "Usage: $0 --install|--update"
+  echo "Usage: $0 --install|--update|--copy"
 }
 
 if [ "$#" -eq 1 ]; then

@@ -1,0 +1,26 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus142ParameterMonitoringDefinition.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus142FunctionalMonitoring {
+extensions 13 to 113;
+
+  optional ccsds_mal.protobuf.UINTEGER fmonId = 1;
+  optional ccsds_mal.protobuf.UINTEGER protectionStatus = 2;
+  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.UINTEGER checkingStatus = 4;
+  optional ccsds_mal.protobuf.UINTEGER rid = 5;
+  repeated pusGroundModel.protobuf.Pus142ParameterMonitoringDefinition pus142ParameterMonitoringDefinition = 6;
+  optional ccsds_mal.protobuf.UINTEGER validityParameterId = 7;
+  optional ccsds_mal.protobuf.UINTEGER validityParameterMask = 8;
+  optional ccsds_mal.protobuf.ATTRIBUTE validityParameterExpectedValue = 9;
+  optional pusGroundModel.protobuf.PusElement pusElement = 10;
+  optional ccsds_mal.protobuf.STRING ridLabel = 11;
+  optional ccsds_mal.protobuf.STRING fmonIdLabel = 12;
+}

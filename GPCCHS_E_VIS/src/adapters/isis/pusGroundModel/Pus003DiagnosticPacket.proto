@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./Pus003Packet.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus003DiagnosticPacket {
+extensions 2 to 102;
+
+  optional pusGroundModel.protobuf.Pus003Packet pus003Packet = 1;
+}

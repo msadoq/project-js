@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 
 import PlotAxes from './PlotAxes';
 import { getAxes, getShowYAxes, getEntryPoints } from '../../store/configurationSelectors';
-import { getViewSubPanels } from '../../../../store/reducers/ui';
+import { getViewSubPanels } from '../../../../store/reducers/ui/editor';
 import { updateViewSubPanels } from '../../../../store/actions/ui';
 import {
   removeAxis,

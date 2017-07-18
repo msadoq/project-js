@@ -21,6 +21,9 @@ describe('store:health:reducer', () => {
     expect(r).toHaveProperty('dcStatus', globalConstants.HEALTH_STATUS_HEALTHY);
     expect(r).toHaveProperty('hssStatus', globalConstants.HEALTH_STATUS_HEALTHY);
     expect(r).toHaveProperty('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    expect(r).toHaveProperty('stress', 'server', false);
+    expect(r).toHaveProperty('stress', 'main', false);
+    expect(r).toHaveProperty('stress', 'window', false);
     expect(typeof r).toBe('object');
     expect(Object.keys(r.windowsStatus)).toHaveLength(0);
     expect(r).toHaveProperty('lastPubSubTimestamp', null);
@@ -32,6 +35,11 @@ describe('store:health:reducer', () => {
       mainStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       lastPubSubTimestamp: 42,
       windowsStatus: { id42: 42 },
+      stress: {
+        main: false,
+        server: false,
+        window: false,
+      },
     };
     expect(reducer(state, {})).toBe(state);
   });
@@ -185,14 +193,28 @@ describe('store:health:selectors', () => {
           '59f33479-807b-4427-89d6-35afe5bf71ae': 'WARNING',
         },
         lastPubSubTimestamp: 1487672503931,
+        stress: {
+          server: true,
+          main: true,
+          windows: true,
+        },
       },
     };
     expect(getHealthMapForWindow(state, { windowId: '59f33479-807b-4427-89d6-35afe5bf71af' })).toEqual({
       dc: state.health.dcStatus,
-      hss: state.health.hssStatus,
-      main: state.health.mainStatus,
+      hss: {
+        isStressed: state.health.stress.server,
+        status: state.health.mainStatus,
+      },
+      main: {
+        isStressed: state.health.stress.main,
+        status: state.health.mainStatus,
+      },
       lastPubSubTimestamp: 1487672503931,
-      window: 'HEALTHY',
+      windows: {
+        isStressed: state.health.stress.windows,
+        status: 'HEALTHY',
+      },
     });
   });
 });

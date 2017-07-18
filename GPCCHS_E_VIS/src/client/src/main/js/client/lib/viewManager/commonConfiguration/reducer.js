@@ -7,9 +7,9 @@ const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), st
 export default (stateConf, action) => {
   switch (action.type) {
     // loading view configuration
-    case types.WS_VIEW_OPEN:
-    case types.WS_PAGE_OPEN:
-    case types.WS_WORKSPACE_OPEN:
+    case types.WS_VIEW_OPENED:
+    case types.WS_PAGE_OPENED:
+    case types.WS_WORKSPACE_OPENED:
     case types.WS_VIEW_ADD_BLANK:
     case types.WS_VIEW_RELOAD:
       return _.defaults(stateConf, action.payload.view.configuration);

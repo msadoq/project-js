@@ -3,12 +3,13 @@ import _get from 'lodash/get';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getPages } from '../reducers/pages';
+import { getPages, getPageIdByViewId } from '../reducers/pages';
 import {
   getWindows,
   getWindowPageIds,
   getWindowFocusedPageId,
   getWindowsArray,
+  getWindowIdByPageId,
 } from '../reducers/windows';
 import { getViews } from '../reducers/views';
 
@@ -37,6 +38,15 @@ export const getWindowFocusedPageSelector = createSelector(
   getWindowFocusedPageId,
   getPages,
   _.get
+);
+
+export const getWindowByPageId = createSelector(
+  getWindows,
+  (state, { pageId }) => pageId,
+  (windows, pageId) => _.find(
+    _.compose(_.find(_.equals(pageId)), _.get('pages')),
+    windows
+  )
 );
 
 /* -------------------------------------------------------------------------- */
@@ -84,4 +94,9 @@ export const getWindowsVisibleViews = createSelector(
         viewData: views[v.viewId],
       }))
 );
+
+export const getWindowIdByViewId = (state, { viewId }) => {
+  const pageId = getPageIdByViewId(state, { viewId });
+  return getWindowIdByPageId(state, { pageId });
+};
 /* -------------------------------------------------------------------------- */

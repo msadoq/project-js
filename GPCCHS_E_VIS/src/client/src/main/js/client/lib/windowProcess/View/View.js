@@ -3,7 +3,6 @@ import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from '../../common/logManager';
-import globalConstants from '../../constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
 import { getViewComponent } from '../../viewManager/components';
@@ -16,7 +15,6 @@ const logger = getLogger('View');
 
 export default class View extends PureComponent {
   static propTypes = {
-    windowId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -31,9 +29,18 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
+    reloadView: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
+    saveAs: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    saveViewAsModel: PropTypes.func.isRequired,
+    collapsed: PropTypes.bool.isRequired,
+    absolutePath: PropTypes.string,
   };
 
   static defaultProps = {
+    oId: '',
+    absolutePath: '',
     backgroundColor: '#FFFFFF',
     titleStyle: {
       bgColor: '#FEFEFE',
@@ -61,20 +68,12 @@ export default class View extends PureComponent {
     handleContextMenu([editorMenu, { type: 'separator' }, ...mainMenu]);
   }
 
-  getMainContextMenu = ({
-    viewId,
-    isViewsEditorOpen,
-    openModal,
-    collapsed,
-    maximized,
-    oId,
-    absolutePath,
-    isModified,
-  }) => {
-    const { collapseView, maximizeView, closeView, closeEditor, pageId, windowId } = this.props;
-    const isPathDefined = oId || absolutePath;
-
-    const useSaveAs = (!absolutePath && !oId);
+  getMainContextMenu = () => {
+    const {
+      collapsed, maximized, absolutePath,
+      openModal, collapseView, maximizeView, closeView, reloadView,
+    } = this.props;
+    const isPathDefined = !!absolutePath;
     return [
       {
         label: 'Move view to...',
@@ -90,48 +89,26 @@ export default class View extends PureComponent {
       },
       {
         label: 'Reload view',
-        click: () => main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId }),
-        enabled: (isPathDefined && isModified),
+        click: () => reloadView(),
+        enabled: (isPathDefined),
       },
       { type: 'separator' },
       {
         label: 'Save view',
-        click: () => {
-          main.message(
-            globalConstants.IPC_METHOD_SAVE_VIEW,
-            { viewId }
-          );
-        },
-        enabled: (isPathDefined && isModified),
+        click: () => this.props.save(),
       },
       {
         label: 'Save view as...',
-        click: () => main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs: true }),
+        click: () => this.props.saveAs(),
       },
       {
         label: 'Save view as a model...',
-        click: () => main.message(globalConstants.IPC_METHOD_CREATE_MODEL, { viewId }),
+        click: () => this.props.saveViewAsModel(),
       },
       { type: 'separator' },
       {
         label: 'Close view',
-        click: () => {
-          if (isModified) {
-            openModal({
-              type: 'viewIsModified',
-              isViewsEditorOpen,
-              viewId,
-              pageId,
-              windowId,
-              saveAs: useSaveAs,
-            });
-          } else {
-            closeView();
-            if (isViewsEditorOpen && closeEditor) {
-              closeEditor();
-            }
-          }
-        },
+        click: () => closeView(),
       },
     ];
   };
@@ -155,7 +132,7 @@ export default class View extends PureComponent {
       collapseView,
     } = this.props;
     const ContentComponent = getViewComponent(type);
-    const mainMenu = this.getMainContextMenu(this.props);
+    const mainMenu = this.getMainContextMenu();
     const borderColor = _get(titleStyle, 'bgColor');
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (

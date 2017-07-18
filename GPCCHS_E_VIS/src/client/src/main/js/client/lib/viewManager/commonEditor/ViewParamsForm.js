@@ -37,6 +37,10 @@ class ViewParamsForm extends React.Component {
     sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }
 
+  componentDidMount() {
+    setTimeout(this.props.reset, 0);
+  }
+
   handleTitle = ({ target: { value: title } }) => {
     this.setState({ title });
   }

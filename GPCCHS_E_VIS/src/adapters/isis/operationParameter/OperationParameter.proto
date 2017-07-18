@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/FINETIME.proto";
+import "../ccsds_mal/STRING.proto";
+
+
+package operationParameter.protobuf;
+
+message OperationParameter {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.STRING name = 1;
+  optional ccsds_mal.protobuf.FINETIME timestamp = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 3;
+}

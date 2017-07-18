@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./StationElmt.proto";
+
+
+package connection.protobuf;
+
+message StationList {
+extensions 2 to 102;
+
+  repeated connection.protobuf.StationElmt stationElmts = 1;
+}

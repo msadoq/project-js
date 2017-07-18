@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`middlewares/createOpenLinkMiddleware Message on type error 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "myPath",
+      "type": "InvalidType",
+      "windowId": "w1",
+    },
+    "type": "WS_OPEN_LINK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Error, unknown type 'InvalidType'",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "myPath",
+      "type": "Page",
+      "windowId": "w1",
+    },
+    "type": "WS_OPEN_LINK",
+  },
+  Object {
+    "absolutePath": "myPath",
+    "type": "OPEN_PAGE",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a view 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "myPath",
+      "page": Object {},
+      "type": "PlotView",
+      "windowId": "w1",
+    },
+    "type": "WS_OPEN_LINK",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a view 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "myPath",
+      "page": Object {},
+      "type": "TextView",
+      "windowId": "w1",
+    },
+    "type": "WS_OPEN_LINK",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a view 3`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "myPath",
+      "page": Object {},
+      "type": "MimicView",
+      "windowId": "w1",
+    },
+    "type": "WS_OPEN_LINK",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a view 4`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "myPath",
+      "page": Object {},
+      "type": "DynamiucView",
+      "windowId": "w1",
+    },
+    "type": "WS_OPEN_LINK",
+  },
+]
+`;

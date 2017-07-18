@@ -13,7 +13,7 @@ import '!style!css!codemirror/addon/hint/show-hint.css';
 import {
   Alert,
 } from 'react-bootstrap';
-
+import handleContextMenu from '../common/handleContextMenu';
 import { lint } from '../../../lib/common/htmllint';
 import './CodeMirrorField.css';
 
@@ -40,12 +40,14 @@ export default class CodeMirrorField extends React.Component {
       error: PropTypes.string,
     }).isRequired,
     options: PropTypes.shape({}),
+    collection: PropTypes.arrayOf({}),
   }
 
   static defaultProps = {
     className: '',
     autocompleteList: [],
     options: {},
+    collection: [],
   }
 
   componentDidMount() {
@@ -76,6 +78,14 @@ export default class CodeMirrorField extends React.Component {
     */
     this.codeMirror.setOption('lint', false);
 
+    /*
+    this.props.cmOptions.forEach((event) => {
+      console.log(event);
+      this.codeMirror.on(event.name, event.func);
+    });
+    */
+    this.codeMirror.on('contextmenu', () => this.onContextMenu());
+
     // Fix display bug with CodeMirror
     setTimeout(() => this.forceUpdate());
   }
@@ -88,6 +98,30 @@ export default class CodeMirrorField extends React.Component {
     }
   }
 
+  onContextMenuClick = (e) => {
+    const doc = this.codeMirror.getDoc();
+    const cursor = doc.getCursor();
+    const line = doc.getLine(cursor.line);
+    const pos = {
+      line: cursor.line,
+      ch: line.lenght - 1,
+    };
+    doc.replaceRange(`\n${e.code}\n`, pos);
+  }
+  onContextMenu =() => {
+    handleContextMenu(
+      this.props.collection.map(col =>
+       ({
+         ...col,
+         click: this.onContextMenuClick,
+         submenu: col.submenu.map(sub => ({
+           ...sub,
+           click: this.onContextMenuClick,
+         })),
+       })
+      )
+    );
+  }
   element;
   codeMirrorInstance;
   codeMirror;

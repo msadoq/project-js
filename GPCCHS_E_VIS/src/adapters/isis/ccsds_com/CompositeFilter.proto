@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+
+
+package ccsds_com.protobuf;
+
+message CompositeFilter {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.STRING fieldName = 1;
+  optional ccsds_mal.protobuf.UINTEGER type = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE fieldValue = 3;
+}

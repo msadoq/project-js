@@ -1,0 +1,20 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus012ParameterMonitoringDefinition.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus012Model {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.UINTEGER apid = 1;
+  repeated pusGroundModel.protobuf.Pus012ParameterMonitoringDefinition pus012ParameterMonitoringDefinition = 2;
+  optional ccsds_mal.protobuf.UINTEGER noOfParameterMonitoringDefinition = 3;
+  optional ccsds_mal.protobuf.UINTEGER serviceStatus = 4;
+  optional ccsds_mal.protobuf.TIME groundDate = 5;
+  optional pusGroundModel.protobuf.PusElement pusElement = 6;
+  optional ccsds_mal.protobuf.UINTEGER status = 7;
+}

@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/IDENTIFIER.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
+
+
+package cop1.protobuf;
+
+message ProccessedTC {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.IDENTIFIER tCID = 1;
+  optional ccsds_mal.protobuf.TIME receivedDate = 2;
+  optional ccsds_mal.protobuf.UOCTET mnemo = 3;
+  repeated ccsds_mal.protobuf.UINTEGER segment_id = 4;
+  optional ccsds_mal.protobuf.BLOB rawtc_data = 5;
+}

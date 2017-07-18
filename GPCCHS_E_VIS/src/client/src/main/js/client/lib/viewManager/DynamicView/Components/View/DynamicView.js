@@ -118,6 +118,7 @@ export default class DynamicView extends PureComponent {
     viewId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
+    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -175,7 +176,7 @@ export default class DynamicView extends PureComponent {
   }
 
   render() {
-    const { data, entryPoints, links, pageId, showLinks } = this.props;
+    const { data, entryPoints, links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
     const ep = data.value;
     const error = _get(entryPoints, 'dynamicEP.error');
     if (!ep || error) {
@@ -188,7 +189,16 @@ export default class DynamicView extends PureComponent {
         </div>
       );
     }
-
+    if (isMaxVisuDurationExceeded) {
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            Visu Window is too long for this type of view
+          </div>
+        </div>
+      );
+    }
     const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (

@@ -20,14 +20,14 @@ export default function textViewData(state = {}, action) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_VIEW_RELOAD:
-    case types.WS_VIEW_OPEN:
+    case types.WS_VIEW_OPENED:
     case types.WS_VIEW_ADD_BLANK:
       if (action.payload.view.type !== constants.VM_VIEW_TEXT) {
         return state;
       }
       return { ...state, [action.payload.view.uuid]: initialState };
-    case types.WS_PAGE_OPEN:
-    case types.WS_WORKSPACE_OPEN:
+    case types.WS_PAGE_OPENED:
+    case types.WS_WORKSPACE_OPENED:
       {
         const { views } = action.payload;
         if (!views) {

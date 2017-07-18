@@ -48,20 +48,6 @@ const commands = {
         absolutePath,
       });
     },
-    openPage: ({ windowId, absolutePath }) =>
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_PAGE, {
-        windowId,
-        absolutePath,
-      }),
-    openWorkspace: ({ absolutePath }) =>
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
-        absolutePath,
-      }),
-    sendHealthStatus: (windowId, status) =>
-      commands.main.message(globalConstants.IPC_METHOD_HEALTH_STATUS, {
-        windowId,
-        status,
-      }),
     openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
         pageId,
@@ -83,11 +69,46 @@ const commands = {
       commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
     saveView: ({ viewId, saveAs }, callback) =>
       commands.main.rpc(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs }, callback),
-    savePage: (windowId, stopOnUnsavedView, callback) =>
-      commands.main.rpc(
-        globalConstants.IPC_METHOD_SAVE_PAGE,
-        { windowId, stopOnUnsavedView },
-        callback),
+    getRteDomains: (sessionId, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
+        sessionId,
+      }, callback),
+    getRteCatalogs: (sessionId, domainId, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_CATALOGS, {
+        sessionId,
+        domainId,
+      }, callback),
+    getRteItemNames: (catalog, version, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_ITEM_NAMES, {
+        catalog,
+        version,
+      }, callback),
+    openRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_OPEN_RTE_ITEM, {
+        sessionId,
+        domainId,
+        catalog,
+        version,
+        namespace,
+        name,
+        key,
+      }, callback),
+    focusRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_FOCUS_RTE_ITEM, {
+        sessionId,
+        domainId,
+        catalog,
+        version,
+        namespace,
+        name,
+        key,
+      }, callback),
+    resolveRteLink: ({ link, sessionId, domainId }, callback) =>
+      commands.main.message(globalConstants.IPC_METHOD_RESOLVE_RTE_LINK, {
+        link,
+        sessionId,
+        domainId,
+      }, callback),
   },
 };
 

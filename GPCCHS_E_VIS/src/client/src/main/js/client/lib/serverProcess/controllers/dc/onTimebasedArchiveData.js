@@ -1,14 +1,9 @@
-const { eachSeries } = require('async');
-const _chunk = require('lodash/chunk');
 const _isBuffer = require('lodash/isBuffer');
-const { writeFile } = require('fs');
-const { join } = require('path');
-const { decode, encode, getType } = require('common/protobuf');
+const { decode, encode, getType } = require('../../../utils/adapters');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
-const { get } = require('../../../common/configurationManager');
-const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+const { dumpBuffer } = require('../../utils/dumpBuffer');
 const {
   removeByQueryId: removeRegisteredQuery,
   getByQueryId: getRegisteredQuery,
@@ -18,8 +13,6 @@ const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFac
 const connectedDataModel = require('../../models/connectedData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
-
-const dump = (get('DUMP') === 'on');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -32,18 +25,25 @@ const dump = (get('DUMP') === 'on');
  * - store decoded payloads in timebasedData model
  * - queue a ws newData message (sent periodically)
  *
- * @param queryIdBuffer
- * @param dataIdBuffer
- * @param isLastBuffer
- * @param payloadBuffers
- * @return {undefined}
+ * @param args array
  */
-module.exports = (
-  queryIdBuffer,
-  dataIdBuffer,
-  isLastBuffer,
-  ...payloadBuffers
-) => {
+module.exports = function onTimebasedArchiveData(args) {
+  // TODO dbrugne throw exception in dev when receiving more that one value for a getLast request
+
+  const queryIdBuffer = args[0];
+  // args[1] is dataIdBuffer (not used in current implementation)
+  const isLastBuffer = args[2];
+
+  const payloadBuffers = Array.prototype.slice.call(args, 3);
+
+  // check payloads parity
+  if (payloadBuffers.length % 2 !== 0) {
+    logger.silly('payloads should be sent by (timestamp, payloads) peers');
+    return;
+  }
+
+  const numberOfValues = payloadBuffers.length / 2;
+
   const execution = executionMonitor('archiveData');
   execution.start('global');
 
@@ -54,10 +54,15 @@ module.exports = (
 
   // if queryId not in registeredQueries, stop logic
   execution.start('register query');
+  // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
   const remoteId = getRegisteredQuery(queryId);
   if (typeof remoteId === 'undefined') {
     return;
   }
+  // TODO dbrugne decomment when try catch implemented
+  // if (connectedDataModel.isLastQuery(remoteId, queryId) && payloadBuffers.length !== 2) {
+  //   throw new Error(`onTimebasedArchiveData : More than 1 payload for getLast request (${payloadBuffers.length / 2})`);
+  // }
   logger.silly('received data from query', queryId);
   execution.stop('register query');
 
@@ -96,13 +101,6 @@ module.exports = (
   }
   execution.stop('get comObject type');
 
-  // check payloads parity
-  if (payloadBuffers.length % 2 !== 0) {
-    logger.silly('payloads should be sent by (timestamp, payloads) peers');
-    return;
-  }
-
-  const payloadCount = payloadBuffers.length / 2;
   // retrieve cache collection
   let timebasedDataModel;
   if (!isLastQuery) {
@@ -110,19 +108,17 @@ module.exports = (
     timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
     execution.stop('retrieve store');
   }
-  let dumpFolder;
-  if (dump) {
-    createDumpFolder(dataId);
-    dumpFolder = getDumpFolder(dataId);
-  }
 
   // only one loop to decode, insert in cache, and add to queue
-  eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
+  while (payloadBuffers.length) {
+    // pop the first two buffers from list
+    const payloadBuffer = payloadBuffers.splice(0, 2);
+
+    // robustness code, LPISIS could send empty ZeroMQ frame
     if (!_isBuffer(payloadBuffer[0]) || !_isBuffer(payloadBuffer[1])) {
-      // robustness code, LPISIS could send empty ZeroMQ frame
       loggerData.warn(`received an empty ZeroMQ frame from DC for ${remoteId}`);
-      callback(null);
-      return;
+      // eslint-disable-next-line no-continue, "DV6 TBC_CNES LPISIS use continue to preserve readability and avoid long block in an if condition"
+      continue;
     }
 
     execution.start('decode payloads');
@@ -130,15 +126,8 @@ module.exports = (
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
-    // dump
-    if (dump && dumpFolder) {
-      // save a file per timestamp with binary payload
-      writeFile(join(dumpFolder, timestamp.toString()), payloadBuffer[1], (err) => {
-        if (err) {
-          loggerData.warn(`Error writing dump file ${timestamp}`);
-        }
-      });
-    }
+    // dump: if activated, save a file per timestamp with binary payload
+    dumpBuffer(dataId, timestamp, payloadBuffer[1]);
 
     loggerData.silly({
       controller: 'onTimebasedArchiveData',
@@ -161,17 +150,15 @@ module.exports = (
     execution.start('queue payloads');
     addToQueue(remoteId, timestamp, payload);
     execution.stop('queue payloads');
+  }
 
-    callback(null);
-  }, () => {
-    loggerData.debug({
-      controller: 'onTimebasedArchiveData',
-      remoteId,
-      payloadCount,
-      endOfQuery,
-    });
-
-    execution.stop('global', `${dataId.parameterName}: ${payloadCount} payloads`);
-    execution.print();
+  loggerData.debug({
+    controller: 'onTimebasedArchiveData',
+    remoteId,
+    numberOfValues,
+    endOfQuery,
   });
+
+  execution.stop('global', `${dataId.parameterName}: ${numberOfValues} payloads`);
+  execution.print();
 };

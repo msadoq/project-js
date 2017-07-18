@@ -465,6 +465,18 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           'ep1', oldState, intervals);
         expect(newState).toEqual({});
       });
+      test('no interval', () => {
+        const oldState = { ep1: { 10: { x: 1001.5, col1: 101 },
+          11: { x: 1002.5, value: 102 } },
+          min: { ep1: 101 },
+          max: { ep1: 102 },
+          minTime: { ep1: 10 },
+          maxTime: { ep1: 11 },
+        };
+        const newState = selectEpData(payload.rId1, viewDataMap.plot3.entryPoints.ep1,
+          'ep1', oldState, undefined);
+        expect(newState).toEqual({});
+      });
     });
   });
 });

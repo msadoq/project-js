@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./FlowConfiguration.proto";
+import "./FlowIdentifier.proto";
+
+
+package connection.protobuf;
+
+message InitFlowConfiguration {
+extensions 3 to 103;
+
+  optional connection.protobuf.FlowConfiguration configuration = 1;
+  optional connection.protobuf.FlowIdentifier identifier = 2;
+}

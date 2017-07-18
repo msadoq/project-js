@@ -1,0 +1,21 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/IDENTIFIER.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mc/AttributeValue.proto";
+
+
+package encode.protobuf;
+
+message EncodingAction {
+extensions 9 to 109;
+
+  repeated ccsds_mc.protobuf.AttributeValue argumentValues = 1;
+  repeated ccsds_mal.protobuf.IDENTIFIER argumentDefinitions = 2;
+  repeated ccsds_mal.protobuf.BOOLEAN isConvertedValues = 3;
+  optional ccsds_mal.protobuf.UINTEGER sourceId = 4;
+  optional ccsds_mal.protobuf.BOOLEAN isForSending = 5;
+  optional ccsds_mal.protobuf.BOOLEAN countOverwriteFlag = 6;
+  optional ccsds_mal.protobuf.BOOLEAN preencryptedFlag = 7;
+  optional ccsds_mal.protobuf.UINTEGER ackField = 8;
+}

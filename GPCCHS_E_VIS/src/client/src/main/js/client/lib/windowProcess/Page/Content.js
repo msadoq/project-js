@@ -50,6 +50,8 @@ export default class Content extends PureComponent {
     windowId: PropTypes.string.isRequired,
     maximizedViewUuid: PropTypes.string,
     width: PropTypes.number,
+    askOpenPage: PropTypes.func.isRequired,
+    askOpenView: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -68,24 +70,16 @@ export default class Content extends PureComponent {
   onDrop = (e) => { // eslint-disable-line class-methods-use-this
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
+    const filePath = path.join(
+      global.parameters.get('ISIS_DOCUMENTS_ROOT'),
+      _.get('filepath', content) || _.get('filePath', content)
+    );
 
     const type = getDropItemType(content.mimeType);
 
     _.cond([
-      [_.eq('view'), () => main.openView({
-        windowId: this.props.windowId,
-        absolutePath: path.join(
-          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-          _.getOr(_.get('filepath', content), 'filePath', content)
-        ),
-      })],
-      [_.eq('page'), () => main.openPage({
-        windowId: this.props.windowId,
-        absolutePath: path.join(
-          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-          _.getOr(_.get('filepath', content), 'filePath', content)
-        ),
-      })],
+      [_.eq('view'), () => this.props.askOpenView(filePath)],
+      [_.eq('page'), () => this.props.askOpenPage(filePath)],
       [_.eq('workspace'), () => main.openWorkspace({
         absolutePath: path.join(
           global.parameters.get('ISIS_DOCUMENTS_ROOT'),

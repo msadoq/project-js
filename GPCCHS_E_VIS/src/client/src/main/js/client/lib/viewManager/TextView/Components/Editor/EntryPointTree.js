@@ -9,6 +9,8 @@ import classnames from 'classnames';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 import styles from './EntryPointTree.css';
 
+const emptyArray = [];
+
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -84,7 +86,7 @@ export default class EntryPointTree extends Component {
       <Collapse
         accordion={false}
         onChange={this.onChange}
-        defaultActiveKey={Object.keys(entryPointsPanels)}
+        defaultActiveKey={entryPointsPanels === true ? emptyArray : Object.keys(entryPointsPanels)}
       >
         {list.map((entryPoint, key) => {
           const isOpen = entryPointsPanels[entryPoint.id];

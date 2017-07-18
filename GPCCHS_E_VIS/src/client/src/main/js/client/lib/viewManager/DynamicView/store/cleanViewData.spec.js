@@ -11,8 +11,6 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
     viewMap = {
       text: {
         type: 'TextView',
-        masterSessionId: 10,
-        structureType: 'last',
         entryPoints: {
           STAT_SU_PID: {
             id: 'id1',
@@ -28,15 +26,12 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           },
         },
       },
       dynamic: {
         type: 'DynamicView',
-        masterSessionId: 10,
-        structureType: 'last',
         entryPoints: {
           dynamicEP: {
             id: 'id70',
@@ -52,8 +47,7 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
             filter: [],
             localId: 'undefined.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+            remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
             type: 'DynamicView',
             stateColors: [{
               color: '#000000',
@@ -74,10 +68,10 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
       },
     };
     oldIntervals = {
-      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': { expectedInterval: [10, 15] },
       },
-      'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         'undefined.tb1:0': { expectedInterval: [10, 15] },
       },
     };
@@ -91,7 +85,7 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
   test('interval update dynamic: keep', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
+    newIntervals['TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
       = [12, 17];
     const frozen = freezeMe(viewDataState.dynamic);
     expect(
@@ -101,11 +95,18 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
   test('interval update dynamic: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
+    newIntervals['TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
       = [3, 8];
     const frozen = freezeMe(viewDataState.dynamic);
     expect(
       cleanCurrentViewData(frozen, viewMap.dynamic, newMap.dynamic, oldIntervals, newIntervals)
     ).toEqual({});
+  });
+  test('interval error dynamic: remove', () => {
+    const newMap = _cloneDeep(viewMap);
+    const frozen = freezeMe(viewDataState.dynamic);
+    expect(
+      cleanCurrentViewData(frozen, viewMap.dynamic, newMap.dynamic, oldIntervals, undefined)
+    ).toEqual({ index: {}, value: {} });
   });
 });

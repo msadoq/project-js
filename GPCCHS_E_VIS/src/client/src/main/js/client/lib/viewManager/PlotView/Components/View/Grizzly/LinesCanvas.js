@@ -18,7 +18,7 @@ export default class LinesCanvas extends Component {
     data: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
     showPointLabels: PropTypes.bool,
-    // perfOutput: PropTypes.bool.isRequired,
+    perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -29,8 +29,8 @@ export default class LinesCanvas extends Component {
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
         dataAccessor: PropTypes.func,
-        yAccessor: PropTypes.func.isRequired,
-        colorAccessor: PropTypes.func,
+        yAccessor: PropTypes.func,
+        colorAccessor: PropTypes.string,
       })
     ).isRequired,
   }
@@ -81,7 +81,7 @@ export default class LinesCanvas extends Component {
 
   draw = () => {
     const {
-      // perfOutput,
+      perfOutput,
       height,
       width,
       lines,
@@ -99,17 +99,18 @@ export default class LinesCanvas extends Component {
 
     ctx.clearRect(0, 0, width, height);
 
-    // let totalPoints = 0;
-    // if (perfOutput) console.time();
+    let totalPoints = 0;
+    // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+    if (perfOutput) console.time();
 
-    // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
     const points = {};
+    // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
     lines.forEach((line) => {
       points[line.id] = [];
       const dataLine = line.dataAccessor && data
         ? line.dataAccessor(data)
         : line.data;
-      // if (perfOutput) totalPoints += dataLine.length;
+      if (perfOutput) totalPoints += dataLine.length;
       if (!dataLine) {
         // console.log(`No data for line ${line.id}`);
         return;
@@ -155,7 +156,7 @@ export default class LinesCanvas extends Component {
       let lastY;
       for (let i = 0; i < dataLine.length; i += 1) {
         if (line.colorAccessor) {
-          const color = line.colorAccessor(dataLine[i]) || fill;
+          const color = dataLine[i][line.colorAccessor] || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;
@@ -167,7 +168,7 @@ export default class LinesCanvas extends Component {
         }
 
         const x = line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x;
-        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].y;
+        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].value;
         lastY = yScale(y);
         lastX = xScale(x);
 
@@ -204,7 +205,10 @@ export default class LinesCanvas extends Component {
       }
 
       // Horizontal line
-      const lastYPosition = yScale(line.yAccessor(dataLine[dataLine.length - 1]));
+      const lastYPosition = yScale(
+        line.yAccessor ?
+          line.yAccessor(dataLine[dataLine.length - 1]) : dataLine[dataLine.length - 1].value
+      );
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
@@ -244,18 +248,20 @@ export default class LinesCanvas extends Component {
     }
 
 
-    // if (perfOutput) {
-    //   console.log(
-    //     'axis',
-    //     axisId,
-    //     'Just drawed',
-    //     lines.length,
-    //     'lines, about',
-    //     totalPoints,
-    //     'total points'
-    //   );
-    //   console.timeEnd();
-    // }
+    if (perfOutput) {
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.log(
+        'axis',
+        axisId,
+        'Just drawed',
+        lines.length,
+        'lines, about',
+        totalPoints,
+        'total points'
+      );
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.timeEnd();
+    }
   }
 
   assignEl = (el) => { this.el = el; }

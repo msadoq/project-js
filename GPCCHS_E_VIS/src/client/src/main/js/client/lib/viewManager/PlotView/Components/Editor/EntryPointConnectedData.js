@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { Form } from 'react-bootstrap';
@@ -23,136 +23,142 @@ import FiltersFields from '../../../commonEditor/Fields/FiltersFields';
   Composant react-select :
   https://github.com/JedWatson/react-select
 */
-const EntryPointConnectedData = (props) => {
-  const {
-    handleSubmit,
-    pristine,
-    reset,
-    submitting,
-    valid,
-    axes,
-    timelines,
-    unit,
-    axisId,
-    domains,
-  } = props;
-
-  let filteredAxes;
-  if (axes && unit) {
-    filteredAxes = Object.keys(axes)
-    .map(key => ({
-      ...axes[key],
-      axisId: key,
-    })).filter(axis =>
-      axis.unit === unit || axis.id === axisId
-    );
-  } else {
-    filteredAxes = [];
+class EntryPointConnectedData extends Component {
+  componentDidMount() {
+    setTimeout(this.props.reset, 0);
   }
 
-  return (
-    <Form horizontal onSubmit={handleSubmit}>
-      <div>
-        <HorizontalFormGroup label="Formula">
-          <Field
-            name="formula"
-            component={TextareaField}
-            rows="4"
-            className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
+  render() {
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid,
+      axes,
+      timelines,
+      unit,
+      axisId,
+      domains,
+    } = this.props;
 
-        <HorizontalFormGroup label="Field X">
-          <Field
-            name="fieldX"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
+    let filteredAxes;
+    if (axes && unit) {
+      filteredAxes = Object.keys(axes)
+      .map(key => ({
+        ...axes[key],
+        axisId: key,
+      })).filter(axis =>
+        axis.unit === unit || axis.id === axisId
+      );
+    } else {
+      filteredAxes = [];
+    }
 
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="unit"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-          {axes &&
-            <p
-              style={{ fontSize: '0.9em', paddingTop: '2px' }}
-            >
-              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-            </p>
-          }
-        </HorizontalFormGroup>
+    return (
+      <Form horizontal onSubmit={handleSubmit}>
+        <div>
+          <HorizontalFormGroup label="Formula">
+            <Field
+              name="formula"
+              component={TextareaField}
+              rows="4"
+              className="form-control input-sm"
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Domain">
-          <Field
-            name="domain"
-            clearable={false}
-            component={ReactSelectField}
-            options={domains.map(d =>
-              ({
-                label: d.name,
-                value: d.name,
-              })
-            ).concat({
-              label: '*',
-              value: '*',
-            })}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Field X">
+            <Field
+              name="fieldX"
+              component={InputField}
+              type="text"
+              className="form-control input-sm"
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Timeline">
-          <Field
-            name="timeline"
-            clearable={false}
-            component={ReactSelectField}
-            options={timelines.map(t =>
-              ({
-                label: t.id,
-                value: t.id,
-              })
-            ).concat({
-              label: '*',
-              value: '*',
-            })}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Axis">
-          <Field
-            name="axisId"
-            clearable={false}
-            component={ReactSelectField}
-            options={
-              filteredAxes.map(axis => ({
-                label: axis.label,
-                value: axis.axisId,
-              })).concat({
-                label: '-',
-                value: '',
-              })
+          <HorizontalFormGroup label="Unit">
+            <Field
+              name="unit"
+              component={InputField}
+              type="text"
+              className="form-control input-sm"
+            />
+            {axes &&
+              <p
+                style={{ fontSize: '0.9em', paddingTop: '2px' }}
+              >
+                { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+              </p>
             }
+          </HorizontalFormGroup>
+
+          <HorizontalFormGroup label="Domain">
+            <Field
+              name="domain"
+              clearable={false}
+              component={ReactSelectField}
+              options={domains.map(d =>
+                ({
+                  label: d.name,
+                  value: d.name,
+                })
+              ).concat({
+                label: '*',
+                value: '*',
+              })}
+            />
+          </HorizontalFormGroup>
+
+          <HorizontalFormGroup label="Timeline">
+            <Field
+              name="timeline"
+              clearable={false}
+              component={ReactSelectField}
+              options={timelines.map(t =>
+                ({
+                  label: t.id,
+                  value: t.id,
+                })
+              ).concat({
+                label: '*',
+                value: '*',
+              })}
+            />
+          </HorizontalFormGroup>
+
+          <HorizontalFormGroup label="Axis">
+            <Field
+              name="axisId"
+              clearable={false}
+              component={ReactSelectField}
+              options={
+                filteredAxes.map(axis => ({
+                  label: axis.label,
+                  value: axis.axisId,
+                })).concat({
+                  label: '-',
+                  value: '',
+                })
+              }
+            />
+          </HorizontalFormGroup>
+
+          <FieldArray
+            name="filter"
+            component={FiltersFields}
           />
-        </HorizontalFormGroup>
+        </div>
 
-        <FieldArray
-          name="filter"
-          component={FiltersFields}
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
         />
-      </div>
-
-      <ClearSubmitButtons
-        pristine={pristine}
-        submitting={submitting}
-        reset={reset}
-        valid={valid}
-      />
-    </Form>
-  );
-};
+      </Form>
+    );
+  }
+}
 
 EntryPointConnectedData.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"

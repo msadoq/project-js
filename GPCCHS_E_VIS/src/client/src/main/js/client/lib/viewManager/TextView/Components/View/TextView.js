@@ -14,6 +14,7 @@ import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import styles from './TextView.css';
 
 const logger = getLogger('view:text');
 
@@ -45,12 +46,12 @@ const getTextStyle = color => ({
 });
 
 const memoizedGetTextStyles = (() => {
-  const styles = [];
+  const style = [];
   return (color) => {
-    if (!styles[color]) {
-      styles[color] = getTextStyle(color);
+    if (!style[color]) {
+      style[color] = getTextStyle(color);
     }
-    return styles[color];
+    return style[color];
   };
 })();
 
@@ -94,6 +95,7 @@ export default class TextView extends PureComponent {
     pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
+    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     data: {
@@ -126,6 +128,14 @@ export default class TextView extends PureComponent {
     }
     if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
+    }
+    if (nextProps.isMaxVisuDurationExceeded !== this.props.isMaxVisuDurationExceeded) {
+      shouldRender = true;
+      // Update content
+      if (!nextProps.isMaxVisuDurationExceeded) {
+        this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
+        this.content = this.getContentComponent();
+      }
     }
     if (!shouldRender) {
       this.updateSpanValues(nextProps.data);
@@ -301,14 +311,21 @@ export default class TextView extends PureComponent {
           if (v === undefined) {
             v = '';
           }
-          sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
-          if (ep.error) {
+          if (v !== sv.val) {
+            sv.val = v;
+            sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
+          }
+          if (ep.error && ep.error !== sv.title) {
+            sv.title = ep.error;
             sv.el.setAttribute('title', ep.error);
           }
 
           const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#00FF00');
-          sv.el.style.color = s.color;
-          sv.el.style.textShadow = s.textShadow;
+          if (s.color !== sv.color) {
+            sv.color = s.color;
+            sv.el.style.color = s.color;
+            sv.el.style.textShadow = s.textShadow;
+          }
         }
       }
     });
@@ -334,9 +351,21 @@ export default class TextView extends PureComponent {
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
-    const { viewId, links, pageId, showLinks } = this.props;
+    const { viewId, links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
     logger.debug(`render ${viewId}`);
     const style = { padding: '15px' };
+    if (isMaxVisuDurationExceeded) {
+      const noRenderMsg = 'Visu Window is too long for this type of view';
+      logger.debug('no render due to', noRenderMsg);
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            {noRenderMsg}
+          </div>
+        </div>
+      );
+    }
 
     return (
       <DroppableContainer

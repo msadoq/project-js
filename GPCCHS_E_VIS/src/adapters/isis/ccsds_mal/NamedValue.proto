@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./ATTRIBUTE.proto";
+import "./IDENTIFIER.proto";
+
+
+package ccsds_mal.protobuf;
+
+message NamedValue {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.IDENTIFIER name = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 2;
+}

@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus014ForwardedPacket {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.UINTEGER apid = 1;
+  optional ccsds_mal.protobuf.BOOLEAN forwardingStatus = 2;
+  optional pusGroundModel.protobuf.PusElement pusElement = 3;
+}

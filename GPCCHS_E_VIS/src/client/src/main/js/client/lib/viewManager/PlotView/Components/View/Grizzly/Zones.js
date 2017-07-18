@@ -65,7 +65,10 @@ export default class Zones extends Component {
         */ }
         {yAxesInteractive && yAxesAt === 'left' && yAxes.map((axis, index) =>
           <div
-            className={styles.ZonesAxis}
+            className={classnames({
+              [styles.ZonesAxisLog]: axis.logarithmic,
+              [styles.ZonesAxis]: !axis.logarithmic,
+            })}
             key={axis.id}
             style={{
               width: yAxisWidth,
@@ -75,7 +78,10 @@ export default class Zones extends Component {
         )}
         {yAxesInteractive && yAxesAt === 'right' && yAxes.map((axis, index) =>
           <div
-            className={styles.ZonesAxis}
+            className={classnames({
+              [styles.ZonesAxisLog]: axis.logarithmic,
+              [styles.ZonesAxis]: !axis.logarithmic,
+            })}
             key={axis.id}
             style={{
               width: yAxisWidth,

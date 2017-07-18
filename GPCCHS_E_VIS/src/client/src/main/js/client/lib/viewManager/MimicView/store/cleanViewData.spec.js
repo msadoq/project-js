@@ -6,13 +6,10 @@ describe('viewManager/TextView/store/cleanViewData', () => {
   let viewDataState;
   let viewMap;
   let oldIntervals;
-  // let newIntervals;
   beforeEach(() => {
     viewMap = {
-      text: {
-        type: 'TextView',
-        masterSessionId: 10,
-        structureType: 'last',
+      mimic: {
+        type: 'MimicView',
         entryPoints: {
           STAT_SU_PID: {
             id: 'id1',
@@ -28,8 +25,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           },
           STAT_WILDCARD_TIMELINE: {
             id: 'id46',
@@ -45,8 +41,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+            remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
           },
           STAT_UNKNOW_DOMAIN: {
             error: 'invalid entry point, no domain matches',
@@ -87,10 +82,8 @@ describe('viewManager/TextView/store/cleanViewData', () => {
           STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
         },
       },
-      dynamic1: {
+      dynamic: {
         type: 'DynamicView',
-        masterSessionId: 10,
-        structureType: 'last',
         entryPoints: {
           dynamicEP: {
             id: 'id70',
@@ -106,8 +99,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'undefined.tb1:0',
             timebarUuid: 'tb1',
-            structureType: 'last',
-            remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+            remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
             type: 'DynamicView',
             stateColors: [{
               color: '#000000',
@@ -122,7 +114,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
       },
     };
     viewDataState = {
-      text: {
+      mimic: {
         index: {
           STAT_SU_PID: 14,
           STAT_WILDCARD_TIMELINE: 13,
@@ -134,44 +126,42 @@ describe('viewManager/TextView/store/cleanViewData', () => {
       },
     };
     oldIntervals = {
-      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         'groundDate/extractedValue.tb1:0/0': { expectedInterval: [10, 20] },
       },
-      'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
+      },
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         'undefined.tb1:0': { expectedInterval: [10, 15] },
       },
     };
   });
   test('no update', () => {
-    const frozen = freezeMe(viewDataState.text);
+    const frozen = freezeMe(viewDataState.mimic);
     expect(
-      cleanCurrentViewData(frozen, viewMap.text, viewMap.text, oldIntervals, oldIntervals)
+      cleanCurrentViewData(frozen, viewMap.mimic, viewMap.mimic, oldIntervals, oldIntervals)
     ).toBe(frozen);
   });
-  test('interval update text: keep', () => {
+  test('interval update mimic: keep', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
+    newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [12, 17];
-    const frozen = freezeMe(viewDataState.text);
+    const frozen = freezeMe(viewDataState.mimic);
     expect(
-      cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
+      cleanCurrentViewData(frozen, viewMap.mimic, newMap.mimic, oldIntervals, newIntervals)
     ).toBe(frozen);
   });
-  test('interval update text: remove', () => {
+  test('interval update mimic: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const newIntervals = _cloneDeep(oldIntervals);
-    newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
+    newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
       = [3, 8];
-    const frozen = freezeMe(viewDataState.text);
+    const frozen = freezeMe(viewDataState.mimic);
     expect(
-      cleanCurrentViewData(frozen, viewMap.text, newMap.text, oldIntervals, newIntervals)
+      cleanCurrentViewData(frozen, viewMap.mimic, newMap.mimic, oldIntervals, newIntervals)
     ).toEqual({
       index: {
         STAT_WILDCARD_TIMELINE: 13,
@@ -180,5 +170,12 @@ describe('viewManager/TextView/store/cleanViewData', () => {
         STAT_WILDCARD_TIMELINE: { value: 13, monit: 'info' },
       },
     });
+  });
+  test('interval error mimic: remove', () => {
+    const newMap = _cloneDeep(viewMap);
+    const frozen = freezeMe(viewDataState.mimic);
+    expect(
+      cleanCurrentViewData(frozen, viewMap.mimic, newMap.mimic, oldIntervals, undefined)
+    ).toEqual({ index: {}, values: {} });
   });
 });

@@ -5,23 +5,7 @@ REDUX_SYNCHRONIZATION_PATCH_KEY,
 import makeMasterDispatcher from './makeMasterDispatcher';
 
 describe('makeMasterDispatcher', () => {
-  test('call reducer and does not forward if nothing change', () => {
-    let reducerCalled = false;
-    let sentAction = false;
-    const state = { key: 'old' };
-    const action = {};
-    const out = makeMasterDispatcher(
-      () => (reducerCalled = true),
-      () => state,
-      () => (sentAction = true),
-      'string'
-    )(action);
-
-    expect(out).toBe(action);
-    expect(reducerCalled).toBe(true);
-    expect(sentAction).toBe(false);
-  });
-  test('call reducer and forward "patch" action if something change', () => {
+  test('call reducer and forward "patch" action', () => {
     let state = { key: 'old' };
     let sentAction;
     const action = { type: 'string', payload: { field: 'string' } };

@@ -4,6 +4,8 @@ import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
 import { resolve } from 'path';
 
+import * as serializers from './serializers';
+
 /*
   Setting up the testing framework before each test.
   Please see : https://facebook.github.io/jest/docs/cli.html#setuptestframeworkscriptfile-file
@@ -28,6 +30,11 @@ global.testConfig = {
 };
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));
+
+// jest snapshots serializers
+_.each(serializer => (
+  expect.addSnapshotSerializer(serializer)
+), serializers);
 
 // jest expect.extend utils
 const isNodeError = _.allPass([

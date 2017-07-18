@@ -1,0 +1,31 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/FLOAT.proto";
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
+
+
+package cop1.protobuf;
+
+message COP1InternalState {
+extensions 19 to 119;
+
+  optional ccsds_mal.protobuf.UOCTET stored_lockout_flag = 1;
+  optional ccsds_mal.protobuf.UOCTET stored_wait_flag = 2;
+  optional ccsds_mal.protobuf.UOCTET stored_restransmit_flag = 3;
+  optional ccsds_mal.protobuf.UOCTET aD_out_flag = 4;
+  optional ccsds_mal.protobuf.UINTEGER v_S_nbmod = 5;
+  optional ccsds_mal.protobuf.UOCTET bC_out_flag = 6;
+  optional ccsds_mal.protobuf.UOCTET bD_out_flag = 7;
+  optional ccsds_mal.protobuf.UINTEGER nN_R_nbmod = 8;
+  optional ccsds_mal.protobuf.UINTEGER transmission_limit = 9;
+  optional ccsds_mal.protobuf.UINTEGER timeout_type = 10;
+  optional ccsds_mal.protobuf.UINTEGER transmission_count = 11;
+  optional ccsds_mal.protobuf.UINTEGER sliding_window_width = 12;
+  optional ccsds_mal.protobuf.FLOAT t1_initial = 13;
+  optional ccsds_mal.protobuf.FLOAT regulation_tc_delay = 14;
+  optional ccsds_mal.protobuf.UOCTET suspend_state = 15;
+  optional ccsds_mal.protobuf.UINTEGER v_S = 16;
+  optional ccsds_mal.protobuf.UINTEGER state = 17;
+  optional ccsds_mal.protobuf.INTEGER nN_R = 18;
+}

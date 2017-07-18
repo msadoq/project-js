@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./CUIdentifier.proto";
+import "./OperationDefinition.proto";
+
+
+package connection.protobuf;
+
+message CUOperationDefinition {
+extensions 3 to 103;
+
+  optional connection.protobuf.CUIdentifier identifier = 1;
+  optional connection.protobuf.OperationDefinition definition = 2;
+}

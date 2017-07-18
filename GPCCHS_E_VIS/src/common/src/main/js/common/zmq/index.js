@@ -40,7 +40,7 @@ let sockets = {};
 const connect = (socket, url, callback, handler) => {
   socket.connect(url);
   if (handler) {
-    socket.on('message', (...args) => handler(...args));
+    socket.on('message', handler);
   }
   return callback(null);
 };
@@ -52,7 +52,7 @@ const bind = (socket, url, callback, handler) => socket.bind(
       return callback(err);
     }
     if (handler) {
-      socket.on('message', (...args) => handler(...args));
+      socket.on('message', handler);
     }
     return callback(null);
   }

@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/STRING.proto";
+
+
+package briefcase.protobuf;
+
+message BriefcaseContent {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.BLOB author = 1;
+  optional ccsds_mal.protobuf.STRING title = 2;
+  optional ccsds_mal.protobuf.STRING description = 3;
+  repeated ccsds_mal.protobuf.BLOB link = 4;
+}

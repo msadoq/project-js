@@ -57,8 +57,8 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
     }
 
     const viewDataMap = {
-      text1: {
-        type: 'TextView',
+      mimic1: {
+        type: 'MimicView',
         entryPoints: {
           ep4: {
             remoteId: 'rId1',
@@ -84,8 +84,8 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
           },
         },
       },
-      text2: {
-        type: 'TextView',
+      mimic2: {
+        type: 'MimicView',
         entryPoints: {
           ep5: {
             remoteId: 'rId1',
@@ -126,7 +126,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
     };
     test('state undefined', () => {
       const data =
-        selectDataPerView(viewDataMap.text1, expectedIntervals, payload, { index: {}, values: {} });
+      selectDataPerView(viewDataMap.mimic1, expectedIntervals, payload, { index: {}, values: {} });
       expect(data.index.ep4).toEqual(20);
       expect(data.index.ep7).toEqual(13);
       expect(data.values.ep4.value).toEqual(203);
@@ -136,7 +136,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
-      const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
+      const data = selectDataPerView(viewDataMap.mimic1, expectedIntervals, payload, oldState);
       expect(data.index.ep4).toEqual(20);
       expect(data.index.ep7).toEqual(13);
       expect(data.values.ep4.value).toEqual(203);
@@ -146,7 +146,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
-      const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
+      const data = selectDataPerView(viewDataMap.mimic1, expectedIntervals, payload, oldState);
       expect(data.index.ep4).toEqual(20);
       expect(data.index.ep7).toEqual(13);
       expect(data.values.ep4.value).toEqual(203);
@@ -156,11 +156,27 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;
-      const data = selectDataPerView(viewDataMap.text1, expectedIntervals, payload, oldState);
+      const data = selectDataPerView(viewDataMap.mimic1, expectedIntervals, payload, oldState);
       expect(data.index.ep4).toEqual(20);
       expect(data.index.ep7).toEqual(13);
       expect(data.values.ep4.value).toEqual(203);
       expect(data.values.ep7.value).toEqual('val3');
+    });
+    test('visuWindow duration too long', () => {
+      const oldState = { index: { ep4: 18 }, values: { ep4: { value: 201, color: '#0000FF' } } };
+      const intervals = {
+        rId1: {
+          localrId1: { error: 'invalid visuWindow' },
+          localEp5: { error: 'invalid visuWindow' },
+          localEpDyn: { error: 'invalid visuWindow' },
+        },
+        rId2: {
+          localrId2: { error: 'invalid visuWindow' },
+          localEp6: { error: 'invalid visuWindow' },
+        },
+      };
+      const data = selectDataPerView(viewDataMap.mimic2, intervals, payload, oldState);
+      expect(data).toEqual({ });
     });
   });
 });

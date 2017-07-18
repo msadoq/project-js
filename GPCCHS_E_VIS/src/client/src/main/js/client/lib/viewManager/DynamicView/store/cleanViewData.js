@@ -1,5 +1,6 @@
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
+import _omit from 'lodash/omit';
 
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Unavoidable complexity"
 export default function cleanCurrentViewData(
@@ -41,8 +42,13 @@ export default function cleanCurrentViewData(
   // update on expected interval
   const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
   const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
-  if (!oldInterval || !newInterval ||
-    oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
+  if (!newInterval) {
+    return { ...currentViewState,
+      index: _omit(currentViewState.index, epName),
+      value: _omit(currentViewState.values, epName),
+    };
+  } else if (oldInterval &&
+    (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
     const lower = newInterval[0] + newEp.offset;
     const upper = newInterval[1] + newEp.offset;
     const currentTime = currentViewState.index;

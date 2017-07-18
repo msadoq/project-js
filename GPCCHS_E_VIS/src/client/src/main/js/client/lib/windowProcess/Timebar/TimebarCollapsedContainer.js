@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { pause, smartPlay } from '../../store/actions/hsc';
+import { pause, play } from '../../store/actions/hsc';
 import { getTimebar } from '../../store/reducers/timebars';
 import { getPage } from '../../store/reducers/pages';
 import { getPlayingTimebarId } from '../../store/reducers/hsc';
@@ -20,7 +20,7 @@ export default connect(
     };
   }, {
     pause,
-    play: smartPlay,
+    play,
     minimizeTimebar,
   }
 )(TimebarCollapsed);

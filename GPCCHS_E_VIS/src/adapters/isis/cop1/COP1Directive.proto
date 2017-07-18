@@ -1,0 +1,12 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "./DirectiveIdentifier.proto";
+
+package cop1.protobuf;
+
+message COP1Directive {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.ATTRIBUTE attribute = 1;
+  optional cop1.protobuf.DirectiveIdentifier id = 2;
+}

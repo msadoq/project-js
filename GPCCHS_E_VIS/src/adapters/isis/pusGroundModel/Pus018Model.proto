@@ -1,0 +1,22 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus018ConfiguredObcp.proto";
+import "./Pus018Obcp.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus018Model {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.UINTEGER engineStatus = 1;
+  repeated pusGroundModel.protobuf.Pus018Obcp pus018Obcp = 2;
+  optional ccsds_mal.protobuf.TIME groundDate = 3;
+  optional ccsds_mal.protobuf.UINTEGER apid = 4;
+  optional ccsds_mal.protobuf.UINTEGER noOBCPs = 5;
+  optional pusGroundModel.protobuf.PusElement pusElement = 6;
+  repeated pusGroundModel.protobuf.Pus018ConfiguredObcp pus018ConfiguredObcp = 7;
+  optional ccsds_mal.protobuf.UINTEGER status = 8;
+}

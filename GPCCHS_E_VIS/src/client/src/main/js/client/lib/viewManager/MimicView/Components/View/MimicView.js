@@ -3,42 +3,17 @@ import { Row, Col } from 'react-bootstrap';
 import _each from 'lodash/each';
 import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import getLogger from '../../../../common/logManager';
+import styles from './MimicView.css';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
 
-
 const htmlToReactParser = new HtmlToReactParser();
-/*
-const svg = '<svg id ="mySvg" xmlns="http://www.w3.org/2000/svg"  width="2000" height="2000">'
-           + '<text text-anchor="middle" font-family="serif"
-           font-size="24"  y="100" x="400" id="svg_7"
-           stroke-linecap="null" stroke-linejoin="null"
-           stroke-dasharray="null" stroke-width="0" stroke="#000000"
-           fill="#000000">This value will change</text>'
-           + '<circle id="circle" cx ="400" cy="400" fill="blue"
-           r="40" stroke-width="2" stroke="#424242" />'
-           + '<line id="l1" x1="250" y1="250" transform="rotate(45)
-           translate(100 100)" x2="600" y2="600" stroke="green" stroke-width="2"/>'
-           + '<rect  x="150" y="150"  width="50" id="r1" transform="rotate(45)
-           translate(100 100)" height="50" stroke-width="5" stroke="#000000" fill="#FF0000" />'
-           + '<rect id="svg_1" height="103" width="103" y="145" x="31"
-           stroke-width="5" stroke="#000000" fill="#FF0000"/>'
-           + '<polyline id="ply1" transform=" rotate(45) translate(100 100)  "
-            points="0,40 40,40 40,80 80,80 80,120 120,120 120,160" stroke="green"
-            fill="blue" strokeWidth="5" />'
-           + '</svg>';
-
-const vGauge = '<svg id="vGauge" xmlns="http://www.w3.org/2000/svg" width="200" height="200">'
-              + ' <path d="M50,180 Q58,190 66,180 L66,20 Q58,10 50,20 z" x2="50" y2="30" style=" fill:#EEE" />'
-              + ' <path d="M50,180 Q58,190 66,180 L66,60 Q58,50 50,60 z" x2="50" y2="30" style=" fill:#A49" />'
-        //      + ' <text x="52" y="120" style="stroke:#FFF">70%</text>'
-              + '</svg>'; */
-// const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const isValidNode = () => true;
 // const isValueNode = /{{\s*([^}]+)\s*}}/g;
-
+const logger = getLogger('view:mimic');
 
 export default class MimicView extends Component {
   static propTypes = {
@@ -63,6 +38,7 @@ export default class MimicView extends Component {
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
+    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     links: [],
@@ -85,15 +61,23 @@ export default class MimicView extends Component {
       nextProps.entryPoints !== this.props.entryPoints
     ) {
       shouldRender = true;
-      this.content = this.getContentComponent();
+      this.content = this.getContentComponent(nextProps);
       // this.updateSvgsValues(nextProps.data);
     }
     if (nextProps.showLinks !== this.props.showLinks) {
       shouldRender = true;
     }
+    if (nextProps.isMaxVisuDurationExceeded !== this.props.isMaxVisuDurationExceeded) {
+      shouldRender = true;
+      if (!nextProps.isMaxVisuDurationExceeded) {
+        this.content = this.getContentComponent(nextProps);
+        this.updateSvgsValues(nextProps.data);
+      }
+    }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
     }
+
     return shouldRender;
   }
 
@@ -147,19 +131,19 @@ export default class MimicView extends Component {
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
 
-  getContentComponent() {
+  getContentComponent(props = this.props) {
     const processingInstructions = [
       {
-        shouldProcessNode: (node => node.attribs && (node.attribs.animation === 'scaleY' || node.attribs.animation === 'scaleX')),
+        shouldProcessNode: (node => node.attribs && (node.attribs.isis_animation === 'scaleY' || node.attribs.isis_animation === 'scaleX')),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const domain = node.attribs.domain.split(',');
-          const fixed = node.attribs.fixed;
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain.split(',');
+          const fixed = node.attribs.isis_fixed;
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             domain,
             fixed,
@@ -168,17 +152,17 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && (node.attribs.animation === 'translateX' || node.attribs.animation === 'translateY')),
+        shouldProcessNode: (node => node.attribs && (node.attribs.isis_animation === 'translateX' || node.attribs.isis_animation === 'translateY')),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const domain = node.attribs.domain.split(',');
-          const width = node.attribs.width;
-          const direction = node.attribs.direction;
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain.split(',');
+          const width = node.attribs.isis_width;
+          const direction = node.attribs.isis_direction;
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             domain,
             width,
@@ -188,17 +172,17 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'rotate'),
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'rotate'),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const domain = node.attribs.domain.split(',');
-          const angle = node.attribs.angle;
-          const center = node.attribs.center.split(',');
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain.split(',');
+          const angle = node.attribs.isis_angle;
+          const center = node.attribs.isis_center.split(',');
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             domain,
             angle,
@@ -208,30 +192,32 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'textBox'),
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'textBox'),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const font = node.attribs.font ? node.attribs.font : 'arial';
-          const textColorLevels = node.attribs.textcolor ? node.attribs.textcolor.split(';') : [];
-          const bgColorLevels = node.attribs.bgcolor ? node.attribs.bgcolor.split(';') : [];
+          const epName = node.attribs.isis_ep;
+          const font = node.attribs.isis_font ? node.attribs.isis_font : 'arial';
+          const textColorThresholds = node.attribs.isis_textcolor_thresholds ? node.attribs.isis_textcolor_thresholds.split(';') : [];
+          const textColorRegex = node.attribs.isis_textcolor_regex ? node.attribs.isis_textcolor_regex.split('|') : [];
+          const bgColorLevels = node.attribs.isis_bgcolor ? node.attribs.isis_bgcolor.split(';') : [];
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
-          const size = node.attribs.size ? node.attribs.size : '12px';
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
+          const size = node.attribs.isis_size ? node.attribs.isis_size : '12px';
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
-            textColorLevels,
+            textColorThresholds,
+            textColorRegex,
             bgColorLevels,
             font,
           });
           return (
             <g key={id}>
-              <rect id={`${id}-bg`} x={node.attribs.x} y={node.attribs.y} width={0} height={0} />
+              <rect id={`${id}-bg`} x={node.attribs.isis_x} y={node.attribs.isis_y} width={0} height={0} />
               <text
                 id={id}
-                x={node.attribs.x}
-                y={node.attribs.y}
+                x={node.attribs.isis_x}
+                y={node.attribs.isis_y}
                 style={{ fontSize: size, fontFamily: font }}
               >
                 {children}
@@ -241,17 +227,39 @@ export default class MimicView extends Component {
         },
       },
       {
-        shouldProcessNode: (node => node.attribs && node.attribs.animation === 'colour'),
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'colour'),
         processNode: (node, children) => {
-          const epName = node.attribs.ep;
-          const operators = node.attribs.operators.split('*');
+          const epName = node.attribs.isis_ep;
+          const operators = node.attribs.isis_operators.split('*');
           const rand = Math.round(Math.random() * 100000);
-          const id = `${node.attribs.animation}-${epName}-${rand}`;
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
-            type: node.attribs.animation,
+            type: node.attribs.isis_animation,
             epName,
             operators,
+          });
+          return (
+            <g id={id} key={id}>
+              { children }
+            </g>
+          );
+        },
+      },
+      {
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'show'),
+        processNode: (node, children) => {
+          const epName = node.attribs.isis_ep;
+          const displayThresholds = node.attribs.isis_thresholds ? node.attribs.isis_thresholds.split(';') : [];
+          const displayRegex = node.attribs.isis_regex ? node.attribs.isis_regex.split('|') : [];
+          const rand = Math.round(Math.random() * 100000);
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
+          this.svgEls.push({
+            id,
+            type: node.attribs.isis_animation,
+            epName,
+            displayThresholds,
+            displayRegex,
           });
           return (
             <g id={id} key={id}>
@@ -266,12 +274,182 @@ export default class MimicView extends Component {
       },
     ];
     return htmlToReactParser.parseWithInstructions(
-      this.props.content,
+      props.content,
       isValidNode,
       processingInstructions
     );
   }
 
+  scaleAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
+    ratio = ratio < 0 ? 0 : ratio;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    if (g.type === 'scaleY') {
+      el.style.transform = `scaleY(${ratio})`;
+    } else {
+      el.style.transform = `scaleX(${ratio})`;
+    }
+    el.style.transformOrigin = g.fixed || 'bottom';
+  }
+
+  translateAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    let distance = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
+    distance = distance < 0 ? 0 : distance;
+    distance = distance > g.width ? g.width : distance;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    if (g.type === 'translateY') {
+      if (g.direction === 'top') {
+        distance *= -1;
+      }
+      el.style.transform = `translate(0px, ${distance}px)`;
+    } else {
+      if (g.direction === 'left') {
+        distance *= -1;
+      }
+      el.style.transform = `translate(${distance}px, 0px)`;
+    }
+  }
+
+  rotateAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    let angle = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
+    angle = angle < 0 ? 0 : angle;
+    angle = angle > g.angle ? g.angle : angle;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
+    el.style.transform = `rotate(${angle}deg)`;
+  }
+
+  textBoxAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    const el = g.el;
+    const elBg = g.elBg;
+    if (el) {
+      const SVGRect = el.getBBox();
+      elBg.setAttribute('width', SVGRect.width);
+      elBg.setAttribute('height', SVGRect.height);
+      elBg.setAttribute('y', SVGRect.y);
+      el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
+      let fillText = '#000';
+      let fillBg = '';
+      for (let i = 0; i < g.textColorThresholds.length; i += 1) {
+        const stateColor = g.textColorThresholds[i].split('|');
+        if (epLastVal > stateColor[0]) {
+          fillText = stateColor[1];
+        }
+      }
+      for (let i = 0; i < g.textColorRegex.length; i += 1) {
+        const stateColor = g.textColorRegex[i].split('=');
+        const regex = RegExp(stateColor[0]);
+        if (epLastVal.match(regex)) {
+          fillText = stateColor[1];
+        }
+      }
+      el.style.fill = fillText;
+      for (let i = 0; i < g.bgColorLevels.length; i += 1) {
+        const stateColor = g.bgColorLevels[i].split('$');
+        if (epLastVal > stateColor[0]) {
+          fillBg = stateColor[1];
+        }
+      }
+      elBg.style.fill = fillBg;
+      elBg.style.fillOpacity = fillBg === '' ? 0 : 1;
+    }
+  }
+
+  colourAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const epLastVal = data.values[g.epName].value;
+    const el = g.el;
+    if (!el) {
+      return;
+    }
+    let color;
+    for (let i = 0; i < g.operators.length; i += 1) {
+      const stateColor = g.operators[i].split('$');
+      if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
+        color = stateColor[2];
+      } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
+        color = stateColor[2];
+      }
+    }
+    const nodes = el.childNodes;
+    if (color) {
+      for (let i = 0; i < nodes.length; i += 1) {
+        if (nodes[i].style) {
+          nodes[i].style.fill = color;
+        }
+      }
+    }
+  }
+
+  showAnimation = (data, g) => {
+    if (!data.values[g.epName]) {
+      return;
+    }
+    const el = g.el;
+    const epLastVal = data.values[g.epName].value;
+    if (el) {
+      let visibility = 'hidden';
+      for (let i = 0; i < g.displayThresholds.length; i += 1) {
+        const stateColor = g.displayThresholds[i].split('$');
+        if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
+          visibility = stateColor[2];
+        } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
+          visibility = stateColor[2];
+        }
+      }
+      for (let i = 0; i < g.displayRegex.length; i += 1) {
+        const stateColor = g.displayRegex[i].split('=');
+        const regex = RegExp(stateColor[0]);
+        if (epLastVal.match(regex)) {
+          visibility = stateColor[1];
+        }
+      }
+      el.style.visibility = visibility === 'show' ? 'visible' : 'hidden';
+    }
+  }
   updateSvgsValues = (data) => {
     if (!data || !data.values) {
       return;
@@ -282,123 +460,17 @@ export default class MimicView extends Component {
         this.svgEls[key].elBg = document.getElementById(`${g.id}-bg`);
       }
       if (g.type === 'scaleY' || g.type === 'scaleX') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        let ratio = (epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0]);
-        ratio = ratio < 0 ? 0 : ratio;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        if (g.type === 'scaleY') {
-          el.style.transform = `scaleY(${ratio})`;
-        } else {
-          el.style.transform = `scaleX(${ratio})`;
-        }
-        el.style.transformOrigin = g.fixed || 'bottom';
+        this.scaleAnimation(data, g);
       } else if (g.type === 'translateX' || g.type === 'translateY') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        let distance = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
-        distance = distance < 0 ? 0 : distance;
-        distance = distance > g.width ? g.width : distance;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        if (g.type === 'translateY') {
-          if (g.direction === 'top') {
-            distance *= -1;
-          }
-          el.style.transform = `translate(0px, ${distance}px)`;
-        } else {
-          if (g.direction === 'left') {
-            distance *= -1;
-          }
-          el.style.transform = `translate(${distance}px, 0px)`;
-        }
+        this.translateAnimation(data, g);
       } else if (g.type === 'rotate') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        let angle = ((epLastVal - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
-        angle = angle < 0 ? 0 : angle;
-        angle = angle > g.angle ? g.angle : angle;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
-        el.style.transform = `rotate(${angle}deg)`;
+        this.rotateAnimation(data, g);
       } else if (g.type === 'textBox') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        const el = g.el;
-        const elBg = g.elBg;
-        if (el) {
-          const SVGRect = el.getBBox();
-          elBg.setAttribute('width', SVGRect.width);
-          elBg.setAttribute('height', SVGRect.height);
-          elBg.setAttribute('y', SVGRect.y);
-          el.innerHTML = isNaN(epLastVal) ? epLastVal : Math.round(epLastVal * 100) / 100;
-          let fillText = '#000';
-          let fillBg = '#FFF';
-          for (let i = 0; i < g.textColorLevels.length; i += 1) {
-            const stateColor = g.textColorLevels[i].split('$');
-            if (epLastVal > stateColor[0]) {
-              fillText = stateColor[1];
-            }
-          }
-          el.style.fill = fillText;
-          for (let i = 0; i < g.bgColorLevels.length; i += 1) {
-            const stateColor = g.bgColorLevels[i].split('$');
-            if (epLastVal > stateColor[0]) {
-              fillBg = stateColor[1];
-            }
-          }
-          elBg.style.fill = fillBg;
-        }
+        this.textBoxAnimation(data, g);
       } else if (g.type === 'colour') {
-        if (!data.values[g.epName]) {
-          return;
-        }
-        const epLastVal = data.values[g.epName].value;
-        const el = g.el;
-        if (!el) {
-          return;
-        }
-        let color;
-        for (let i = 0; i < g.operators.length; i += 1) {
-          const stateColor = g.operators[i].split('$');
-          if (stateColor[0] === '=' && epLastVal === stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '!=' && epLastVal !== stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '>' && epLastVal > stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '>=' && epLastVal >= stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '<' && epLastVal < stateColor[1]) {
-            color = stateColor[2];
-          } else if (stateColor[0] === '<=' && epLastVal <= stateColor[1]) {
-            color = stateColor[2];
-          }
-        }
-        const nodes = el.childNodes;
-        if (color) {
-          for (let i = 0; i < nodes.length; i += 1) {
-            if (nodes[i].style) {
-              nodes[i].style.fill = color;
-            }
-          }
-        }
+        this.colourAnimation(data, g);
+      } else if (g.type === 'show') {
+        this.showAnimation(data, g);
       }
     });
   }
@@ -417,9 +489,21 @@ export default class MimicView extends Component {
   }
 
   render() {
-    const { links, pageId, showLinks } = this.props;
+    const { links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
     const style = { padding: '15px' };
 
+    if (isMaxVisuDurationExceeded) {
+      const noRenderMsg = 'Visu Window is too long for this type of view';
+      logger.debug('no render due to', noRenderMsg);
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            {noRenderMsg}
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="h100 posRelative" onContextMenu={this.onContextMenu}>
         <Row className="h100 posRelative">

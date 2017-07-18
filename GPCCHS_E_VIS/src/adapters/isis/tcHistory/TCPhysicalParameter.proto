@@ -1,0 +1,21 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/IDENTIFIER.proto";
+import "./PusHeader.proto";
+import "./TCDetailType.proto";
+
+package tcHistory.protobuf;
+
+message TCPhysicalParameter {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.IDENTIFIER argumentIdentifier = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 2;
+  optional ccsds_mal.protobuf.BOOLEAN valueIsRaw = 3;
+  optional tcHistory.protobuf.TCDetailType tcDetailsType = 4;
+  optional tcHistory.protobuf.PusHeader pusHeader = 5;
+  optional ccsds_mal.protobuf.BLOB rawPacket = 6;
+  repeated tcHistory.protobuf.TCPhysicalParameter tcPhysicalParameter = 7;
+}

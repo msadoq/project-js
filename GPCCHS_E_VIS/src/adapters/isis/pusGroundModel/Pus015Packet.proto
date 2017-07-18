@@ -1,0 +1,20 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus015Packet {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.UINTEGER apid = 1;
+  optional ccsds_mal.protobuf.UINTEGER serviceTpe = 2;
+  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 3;
+  optional ccsds_mal.protobuf.UINTEGER sid = 4;
+  optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 5;
+  optional pusGroundModel.protobuf.PusElement pusElement = 6;
+  optional ccsds_mal.protobuf.UINTEGER packetType = 7;
+  optional ccsds_mal.protobuf.STRING sidLabel = 8;
+}

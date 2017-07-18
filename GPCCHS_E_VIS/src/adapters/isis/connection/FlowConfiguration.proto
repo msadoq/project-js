@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/URI.proto";
+
+
+package connection.protobuf;
+
+message FlowConfiguration {
+extensions 4 to 104;
+
+  repeated ccsds_mal.protobuf.URI configurationFiles = 1;
+  optional ccsds_mal.protobuf.INTEGER reconnectionDelay = 2;
+  optional ccsds_mal.protobuf.INTEGER reconnectionNumber = 3;
+}

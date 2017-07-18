@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/DURATION.proto";
+import "../ccsds_mal/INTEGER.proto";
+
+
+package opAlert.protobuf;
+
+message OpAlertConfiguration {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.INTEGER numberCalls = 1;
+  optional ccsds_mal.protobuf.BOOLEAN alertByPHONE = 2;
+  optional ccsds_mal.protobuf.BOOLEAN alertByAUDIO = 3;
+  optional ccsds_mal.protobuf.BOOLEAN alertByEMAIL = 4;
+  optional ccsds_mal.protobuf.BOOLEAN alertBySMS = 5;
+  optional ccsds_mal.protobuf.INTEGER maxNumberRetries = 6;
+  optional ccsds_mal.protobuf.DURATION delayRetries = 7;
+}

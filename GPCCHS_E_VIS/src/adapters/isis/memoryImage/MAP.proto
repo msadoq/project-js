@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./MAPData.proto";
+
+
+package memoryImage.protobuf;
+
+message MAP {
+extensions 2 to 102;
+
+  repeated memoryImage.protobuf.MAPData data = 1;
+}

@@ -5,14 +5,14 @@ import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/win
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
-import { minimizeEditor, minimizeExplorer, collapseTimebar } from '../../store/actions/pages';
-import { viewOpen, viewAddBlank } from './viewOpen';
-import { pageOpen, pageAddBlank } from './pageOpen';
-import { pageSave, pageSaveAs } from './pageSave';
-import { workspaceSave, workspaceSaveAs } from './workspaceSave';
-import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
-import { workspaceClose } from './workspaceClose';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
+import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from '../../store/actions/hsc';
+import { askOpenView } from '../../store/actions/views';
+import { viewAddBlank } from './viewOpen';
+import pageAddBlank from './pageAddBlank';
+
 import { getAvailableViews } from '../../viewManager';
+import { getFocusedPageId } from '../../store/selectors/pages';
 
 const { Menu } = require('electron');
 
@@ -22,13 +22,13 @@ const workspace = {
     label: 'New...',
     accelerator: 'CmdOrCtrl+N',
     click(item, focusedWindow) {
-      workspaceOpenNew(focusedWindow);
+      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, null, true));
     },
   }, {
     label: 'Open...',
     accelerator: 'CmdOrCtrl+O',
     click(item, focusedWindow) {
-      workspaceOpen(focusedWindow);
+      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, null, false));
     },
   }, {
     label: 'Edit...',
@@ -46,18 +46,18 @@ const workspace = {
     label: 'Save',
     accelerator: 'CmdOrCtrl+S',
     click: (item, focusedWindow) => {
-      workspaceSave(focusedWindow);
+      getStore().dispatch(askSaveWorkspace(focusedWindow.windowId));
     },
   }, {
     label: 'Save as...',
     accelerator: 'CmdOrCtrl+Shift+S',
     click: (item, focusedWindow) => {
-      workspaceSaveAs(focusedWindow);
+      getStore().dispatch(askSaveWorkspace(focusedWindow.windowId, true));
     },
   }, {
     label: 'Quit',
-    click: () => {
-      workspaceClose();
+    click: (item, focusedWindow) => {
+      getStore().dispatch(askCloseWorkspace(focusedWindow.windowId));
     },
   }],
 };
@@ -99,9 +99,7 @@ const page = {
     },
   }, {
     label: 'Open...',
-    click(item, focusedWindow) {
-      pageOpen(focusedWindow);
-    },
+    click: (item, focusedWindow) => getStore().dispatch(askOpenPage(focusedWindow.windowId)),
   }, {
     label: 'Edit...',
     click(item, focusedWindow) {
@@ -124,13 +122,17 @@ const page = {
     },
   }, {
     label: 'Save',
-    click(item, focusedWindow) {
-      pageSave(focusedWindow);
+    click(item, { windowId }) {
+      const { getState, dispatch } = getStore();
+      const pageId = getFocusedPageId(getState(), { windowId });
+      dispatch(askSavePage(pageId));
     },
   }, {
     label: 'Save As...',
-    click(item, focusedWindow) {
-      pageSaveAs(focusedWindow);
+    click(item, { windowId }) {
+      const { getState, dispatch } = getStore();
+      const pageId = getFocusedPageId(getState(), { windowId });
+      dispatch(askSavePage(pageId, true));
     },
   }],
 };
@@ -148,9 +150,7 @@ const view = {
     {
       label: 'Open...',
       accelerator: '',
-      click(item, focusedWindow) {
-        viewOpen(focusedWindow);
-      },
+      click: () => getStore().dispatch(askOpenView()),
     },
   ],
 };
@@ -193,7 +193,7 @@ const panel = {
           const { windowId } = focusedWindow;
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
-          dispatch(collapseTimebar(pageId, !panels.timebarCollapsed));
+          dispatch(minimizeTimebar(pageId, !panels.timebarIsMinimized));
         }
       },
     },

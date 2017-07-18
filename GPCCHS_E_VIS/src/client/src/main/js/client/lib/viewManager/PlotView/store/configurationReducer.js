@@ -7,6 +7,7 @@ const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), st
 
 const addElementIn = (key, val, state) => _.update(key, x => _.compact(_.concat(x, val)), state);
 
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default (stateConf = { search: '', showLegend: true }, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_LEGEND:

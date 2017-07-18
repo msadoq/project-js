@@ -1,0 +1,30 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/ULONG.proto";
+import "./PusHeader.proto";
+
+
+package tcHistory.protobuf;
+
+message TCFile {
+extensions 15 to 115;
+
+  optional ccsds_mal.protobuf.TIME encodingDate = 1;
+  optional tcHistory.protobuf.PusHeader pusHeader = 2;
+  optional ccsds_mal.protobuf.BLOB rawPacket = 3;
+  optional ccsds_mal.protobuf.INTEGER tcId = 4;
+  optional ccsds_mal.protobuf.UINTEGER tcSourceId = 5;
+  optional ccsds_mal.protobuf.ULONG sequenceCount = 6;
+  repeated ccsds_mal.protobuf.STRING parameterPhysicalValue = 7;
+  optional ccsds_mal.protobuf.STRING fileReference = 8;
+  optional ccsds_mal.protobuf.STRING partition = 9;
+  repeated ccsds_mal.protobuf.BLOB tc13 = 10;
+  optional ccsds_mal.protobuf.STRING generatedProcedure = 11;
+  optional ccsds_mal.protobuf.STRING fileUri = 12;
+  optional ccsds_mal.protobuf.STRING fileType = 13;
+  optional ccsds_mal.protobuf.ULONG fileChecksum = 14;
+}

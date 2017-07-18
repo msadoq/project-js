@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 import PanelGroup from 'react-panelgroup';
 import classnames from 'classnames';
+import _ from 'lodash/fp';
 import _memoize from 'lodash/memoize';
 import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
@@ -32,7 +33,7 @@ const tabsContainerStyle = { height: 40 };
 
 const explorerWidgets = [
   ['D', 'Datastore Explorer', 'dsex'],
-  ['R', 'RTE', 'rte'],
+  ['C', 'Catalog Explorer', 'rte'],
   ['I', 'Inspector', 'inspector'],
 ];
 
@@ -228,12 +229,10 @@ class Window extends PureComponent {
     minimizeTimebar(pageId, true);
   }
 
-  closeModal = (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    const { windowId, closeModal } = this.props;
-    closeModal(windowId);
+  closeModal = (choiceOrEvent) => {
+    const { windowId, closeModal, modal } = this.props;
+    const choice = _.hasIn('preventDefault', choiceOrEvent) ? undefined : choiceOrEvent;
+    closeModal(windowId, { ...modal, opened: false }, choice);
   }
 
   render() {

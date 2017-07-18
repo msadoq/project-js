@@ -6,7 +6,7 @@ import Links from './Links';
 import { addLink, removeLink, updateLink } from '../../../store/actions/views';
 import { updateViewSubPanels } from '../../../store/actions/ui';
 import { getLinks } from '../../../store/reducers/views';
-import { getViewSubPanels } from '../../../store/reducers/ui';
+import { getViewSubPanels } from '../../../store/reducers/ui/editor';
 
 
 const mapStateToProps = createStructuredSelector({

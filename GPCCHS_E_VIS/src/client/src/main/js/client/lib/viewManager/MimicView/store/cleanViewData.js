@@ -1,9 +1,19 @@
 /* eslint-disable no-continue */
+/* eslint-disable complexity, "DV6 TBC_CNES clean current view data need hight complexity" */
 import _find from 'lodash/find';
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 
+/** ************************************************
+ * Clean viewData for current viewData
+ * @param currentState view data State
+ * @param oldViewFromMap current view definition
+ * @param newViewFromMap current view definition
+ * @param oldIntervals expected intervals for all entry points
+ * @param newIntervals expected intervals for all entry points
+ * @return cleaned state for current view
+/** ************************************************/
 export default function cleanCurrentViewData(
   currentViewState,
   oldViewDef,
@@ -87,8 +97,13 @@ export default function cleanCurrentViewData(
     // update on expected interval
     const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
-    if (!oldInterval || !newInterval ||
-      oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
+    if (!newInterval) {
+      viewData = { ...viewData,
+        index: _omit(viewData.index, epName),
+        values: _omit(viewData.values, epName),
+      };
+    } else if (oldInterval &&
+      (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
       const currentTime = viewData.index[epName];

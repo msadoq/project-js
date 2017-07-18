@@ -1,19 +1,22 @@
+const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:onFmdGetData');
 const globalConstants = require('../../../constants');
-const { decode } = require('common/protobuf');
 
 /**
  * Triggered on retrieve FMD document path response
  *
  * - decode and pass to registered callback
  *
- * @param queryIdBuffer
- * @param statusBuffer
- * @param buffer
- * @param secondBuffer
+ * @param reply function
+ * @param args array
  */
-module.exports = (reply, queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
+module.exports = (reply, args) => {
   logger.silly('called');
+
+  const queryIdBuffer = args[0];
+  const statusBuffer = args[1];
+  const buffer = args[2];
+  const secondBuffer = args[3];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
@@ -27,19 +30,19 @@ module.exports = (reply, queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
     let detail;
     switch (type) {
       case globalConstants.FMDFILETYPE_COLLECTION: {
-        detail = decode('lpisis.file.Collection', secondBuffer);
+        detail = decode('isis.file.Collection', secondBuffer);
         break;
       }
       case globalConstants.FMDFILETYPE_COLLECTION_DOCUMENT: {
-        detail = decode('lpisis.file.CollectionDocument', secondBuffer);
+        detail = decode('isis.file.CollectionDocument', secondBuffer);
         break;
       }
       case globalConstants.FMDFILETYPE_DOCUMENT: {
-        detail = decode('lpisis.file.Document', secondBuffer);
+        detail = decode('isis.file.Document', secondBuffer);
         break;
       }
       case globalConstants.FMDFILETYPE_FOLDER: {
-        detail = decode('lpisis.file.Folder', secondBuffer);
+        detail = decode('isis.file.Folder', secondBuffer);
         break;
       }
       default:

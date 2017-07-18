@@ -1,11 +1,13 @@
-const { registerProtobuf } = require('../../../common/jest');
 
-registerProtobuf();
+const { decode } = require('../../../utils/adapters');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
+
+mockRegister();
+mockLoadStubs();
 
 const _concat = require('lodash/concat');
 
 const globalConstants = require('../../../constants');
-const { decode } = require('common/protobuf');
 const registeredCallbacks = require('../../../common/callbacks');
 
 const onSessionsQuery = require('./onSessionsQuery');

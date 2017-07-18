@@ -13,20 +13,21 @@ const initialState = {
   values: {},
 };
 
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function mimicViewData(state = {}, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_VIEW_RELOAD:
-    case types.WS_VIEW_OPEN:
+    case types.WS_VIEW_OPENED:
     case types.WS_VIEW_ADD_BLANK:
       if (action.payload.view.type !== constants.VM_VIEW_MIMIC) {
         return state;
       }
       return { ...state, [action.payload.view.uuid]: initialState };
-    case types.WS_PAGE_OPEN:
-    case types.WS_WORKSPACE_OPEN:
+    case types.WS_PAGE_OPENED:
+    case types.WS_WORKSPACE_OPENED:
       {
         const { views } = action.payload;
         if (!views) {

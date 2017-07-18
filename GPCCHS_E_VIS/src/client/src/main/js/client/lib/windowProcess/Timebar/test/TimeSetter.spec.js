@@ -10,6 +10,7 @@ const propsStub = {
   timebarMode: TimebarFixture.mode,
   isPlaying: TimebarFixture.isPlaying,
   timebarRulerResolution: TimebarFixture.rulerResolution,
+  cancelRemoveMessage: () => null,
   updateCursors: () => null,
   updateDefaultWidth: () => null,
   pause: () => null,

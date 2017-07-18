@@ -1,0 +1,18 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package cop1.protobuf;
+
+enum DirectiveIdentifier {
+  Initiate_AD_without_CLCW_check = 1;
+  Initiate_AD_with_CLCW_check = 2;
+  Initiate_AD_with_unlock = 3;
+  Initiate_AD_with_set_V_R = 4;
+  Terminate_AD_service = 5;
+  Resume_AD_service = 6;
+  Set_VS_to_VsS = 7;
+  Set_fop_sliding_window_width = 8;
+  Set_T1_Initial = 9;
+  Set_Transmission_Limit = 10;
+  Set_Timeout_Type = 11;
+  Change_mode = 17;
+  Change_decoder = 18;
+}

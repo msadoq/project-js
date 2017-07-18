@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./FlowSmallStatus.proto";
+
+
+package connection.protobuf;
+
+message FlowStatus {
+extensions 2 to 102;
+
+  optional connection.protobuf.FlowSmallStatus status = 1;
+}

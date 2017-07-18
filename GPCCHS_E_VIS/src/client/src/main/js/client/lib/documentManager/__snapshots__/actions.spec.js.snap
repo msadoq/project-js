@@ -16,51 +16,7 @@ Array [
       ],
       "windowId": "windowId",
     },
-    "type": "WS_PAGE_OPEN",
-  },
-]
-`;
-
-exports[`documentManager:actions openPageOrView open a page 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "page": Object {
-        "timebarUuid": undefined,
-        "type": "Page",
-        "windowId": "windowId",
-      },
-      "views": Array [
-        Object {
-          "type": "TextView",
-        },
-      ],
-      "windowId": "windowId",
-    },
-    "type": "WS_PAGE_OPEN",
-  },
-]
-`;
-
-exports[`documentManager:actions openPageOrView open a view in a blank page 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "page": Object {
-        "timebarUuid": undefined,
-      },
-      "windowId": "w1",
-    },
-    "type": "WS_PAGE_ADD_BLANK",
-  },
-  Object {
-    "payload": Object {
-      "pageId": "p1",
-      "view": Object {
-        "title": "my view",
-      },
-    },
-    "type": "WS_VIEW_OPEN",
+    "type": "WS_PAGE_OPENED",
   },
 ]
 `;
@@ -80,6 +36,9 @@ Array [
     "type": "HSC_ISWORKSPACE_OPENING",
   },
   Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
       "containerId": "global",
       "messages": Array [
@@ -115,7 +74,7 @@ Array [
         Object {
           "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
           "isModified": false,
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "path": "/pages/little.json",
           "timebarId": "TB1",
           "title": "Unknown",
           "type": "Page",
@@ -192,7 +151,7 @@ Array [
           "isModified": false,
           "links": Array [],
           "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "path": "/views/empty.text.json",
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
@@ -223,7 +182,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {
@@ -262,7 +221,7 @@ Array [
         Object {
           "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
           "isModified": false,
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "path": "/pages/little.json",
           "timebarId": "TB1",
           "title": "Unknown",
           "type": "Page",
@@ -328,7 +287,7 @@ Array [
           "isModified": false,
           "links": Array [],
           "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "path": "/views/empty.text.json",
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
@@ -359,7 +318,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {
@@ -398,7 +357,7 @@ Array [
         Object {
           "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
           "isModified": false,
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "path": "/pages/little.json",
           "timebarId": "TB1",
           "title": "Unknown",
           "type": "Page",
@@ -463,7 +422,7 @@ Array [
           "isModified": false,
           "links": Array [],
           "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "path": "/views/empty.text.json",
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
@@ -494,7 +453,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {
@@ -533,7 +492,7 @@ Array [
         Object {
           "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
           "isModified": false,
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json",
+          "path": "/pages/little.json",
           "timebarId": "TB1",
           "title": "Unknown",
           "type": "Page",
@@ -598,7 +557,7 @@ Array [
           "isModified": false,
           "links": Array [],
           "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json",
+          "path": "/views/empty.text.json",
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
@@ -629,7 +588,7 @@ Array [
         },
       ],
     },
-    "type": "WS_WORKSPACE_OPEN",
+    "type": "WS_WORKSPACE_OPENED",
   },
   Object {
     "payload": Object {

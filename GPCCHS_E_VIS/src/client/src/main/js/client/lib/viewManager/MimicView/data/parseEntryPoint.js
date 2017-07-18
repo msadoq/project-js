@@ -4,20 +4,9 @@ import globalConstants from '../../../constants';
 import getLogger from '../../../common/logManager';
 const flattenDataId = require('../../../common/flattenDataId');
 import parseConnectedData from '../../commonData/parseConnectedData';
+import flattenStateColors from '../../commonData/flattenStateColors';
 
 const logger = getLogger('data:MimicView:parseEntryPoint');
-function flattenStateColors(stateColors = []) {
-  if (!stateColors.length) {
-    return '';
-  }
-
-  return __.compose(
-    str => `:${str}`,
-    __.join(','),
-    __.sortBy(__.identity),
-    __.map(({ color, condition: { field, operator, operand } }) => `${color}.${field}.${operator}.${operand}`)
-  )(stateColors);
-}
 
 function parseEntryPoint(
   domains,
@@ -40,7 +29,7 @@ function parseEntryPoint(
   }
   const { dataId, field, offset, filters } = cd;
   // compute remoteId
-  const remoteId = flattenDataId(dataId);
+  const remoteId = flattenDataId(dataId, filters);
 
   const ep = {
     [name]: {

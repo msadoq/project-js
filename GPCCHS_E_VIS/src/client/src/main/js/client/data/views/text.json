@@ -48,12 +48,12 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "invalid domain",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
     {
-      "name": "Toto",
+      "name": "TMMGT_AC_APP",
       "connectedData": {
         "formula": "",
         "unit": "s",

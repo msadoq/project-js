@@ -1,20 +1,24 @@
+const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:onSessionData');
-const { decode } = require('common/protobuf');
+const { pop } = require('../../../common/callbacks');
 
 /**
  * Triggered on DC session request response.
  *
  * - decode and pass to registered callback
  *
- * @param queryIdBuffer
- * @param buffer
+ * @param args array
  */
-module.exports = (reply, queryIdBuffer, buffer) => {
+module.exports = (args) => {
   logger.silly('called');
+
+  const queryIdBuffer = args[0];
+  const buffer = args[1];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
+  const callback = pop(queryId);
 
   const { sessions } = decode('dc.dataControllerUtils.Sessions', buffer);
-  reply(queryId, { sessions });
+  callback(sessions);
 };

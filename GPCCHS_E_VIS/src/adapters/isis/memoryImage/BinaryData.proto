@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/ULONG.proto";
+
+
+package memoryImage.protobuf;
+
+message BinaryData {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.ULONG address = 1;
+  optional ccsds_mal.protobuf.STRING data = 2;
+}

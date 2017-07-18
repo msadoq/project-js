@@ -15,7 +15,7 @@ export default class Controls extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    sessionId: PropTypes.number,
+    enableRealTime: PropTypes.bool.isRequired,
     messages: PropTypes.arrayOf(
       PropTypes.shape({
         message: PropTypes.string.isRequired,
@@ -32,8 +32,6 @@ export default class Controls extends PureComponent {
   }
 
   static defaultProps = {
-    masterSessionId: null,
-    sessionId: null,
     messages: [],
   }
 
@@ -43,7 +41,7 @@ export default class Controls extends PureComponent {
         className={styles.controls}
       >
         <ControlsLeft
-          sessionId={this.props.sessionId}
+          enableRealTime={this.props.enableRealTime}
           isPlaying={this.props.isPlaying}
           play={this.props.play}
           pause={this.props.pause}
@@ -57,7 +55,7 @@ export default class Controls extends PureComponent {
           openModal={this.props.openModal}
         />
         <ControlsRight
-          sessionId={this.props.sessionId}
+          enableRealTime={this.props.enableRealTime}
           switchToNormalMode={this.props.switchToNormalMode}
           switchToRealtimeMode={this.props.switchToRealtimeMode}
           switchToExtensibleMode={this.props.switchToExtensibleMode}

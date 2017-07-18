@@ -8,6 +8,7 @@ export default class InputField extends React.Component {
   static propTypes = {
     input: PropTypes.shape({
       name: PropTypes.string,
+      onChange: PropTypes.func.isRequired,
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     placeholder: PropTypes.string,
@@ -33,6 +34,24 @@ export default class InputField extends React.Component {
     className: 'form-control input-sm',
   }
 
+  componentDidUpdate() {
+    /*
+      on mount, component is rendered but input.value is empty, and
+      present only at the second render, we want to fill the input
+      when we receive this value (2nd render)
+    */
+    if (this.props.input.value && !this.el.value) {
+      this.el.value = this.props.input.value;
+    }
+  }
+
+  onChange = (e) => {
+    this.touched = true;
+    this.props.input.onChange(e);
+  }
+
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const {
       input,
@@ -40,7 +59,6 @@ export default class InputField extends React.Component {
       type,
       className,
       meta: {
-        touched,
         error,
         warning,
       },
@@ -49,21 +67,23 @@ export default class InputField extends React.Component {
     return (
       <div
         className={classnames({
-          'has-error': touched && error,
-          'has-warning': touched && warning,
-          'has-success': touched && !(error || warning),
+          'has-error': this.touched && error,
+          'has-warning': this.touched && warning,
+          'has-success': this.touched && !(error || warning),
         })}
       >
         <input
-          {...input}
+          onChange={this.onChange}
+          defaultValue={input.value}
+          ref={this.assignEl}
           className={className}
           placeholder={placeholder}
           type={type}
         />
-        {touched && error && <Alert bsStyle="danger" className="m0">
+        {this.touched && error && <Alert bsStyle="danger" className="m0">
           {error}
         </Alert>}
-        {touched && warning && <Alert bsStyle="warning" className="m0">
+        {this.touched && warning && <Alert bsStyle="warning" className="m0">
           {warning}
         </Alert>}
       </div>

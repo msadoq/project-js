@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus019EventAction {
+extensions 7 to 107;
+
+  optional ccsds_mal.protobuf.UINTEGER apid = 1;
+  optional ccsds_mal.protobuf.UINTEGER rid = 2;
+  optional ccsds_mal.protobuf.UINTEGER actionStatus = 3;
+  optional ccsds_mal.protobuf.BLOB actionTcPacketHeader = 4;
+  optional pusGroundModel.protobuf.PusElement pusElement = 5;
+  optional ccsds_mal.protobuf.STRING ridLabel = 6;
+}

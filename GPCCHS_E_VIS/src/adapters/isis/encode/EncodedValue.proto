@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/LONG.proto";
+import "../ccsds_mal/UINTEGER.proto";
+
+
+package encode.protobuf;
+
+message EncodedValue {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.BLOB rawValue = 1;
+  optional ccsds_mal.protobuf.UINTEGER sequenceCount = 2;
+  optional ccsds_mal.protobuf.LONG definitionId = 3;
+}

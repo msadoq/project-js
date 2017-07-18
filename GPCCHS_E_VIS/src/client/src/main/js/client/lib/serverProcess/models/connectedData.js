@@ -4,6 +4,7 @@ const _filter = require('lodash/filter');
 const _each = require('lodash/each');
 const _some = require('lodash/some');
 const _has = require('lodash/has');
+const _set = require('lodash/set');
 const _reduce = require('lodash/reduce');
 const logger = require('../../common/logManager')('models:connectedData');
 const flattenDataId = require('../../common/flattenDataId');
@@ -11,9 +12,10 @@ const intervalManager = require('../../common/intervals');
 
 const database = require('./loki');
 
-const createConnectedData = dataId => ({
-  flatDataId: flattenDataId(dataId),
+const createConnectedData = (dataId, filters) => ({
+  flatDataId: flattenDataId(dataId, filters),
   dataId,
+  filters,
   intervals: {
     all: [],
     received: [],
@@ -99,44 +101,24 @@ collection.setIntervalAsReceived = (flatDataId, queryUuid, connectedData) => {
   return cd;
 };
 
-collection.addRecord = (dataId) => {
-  let connectedData = collection.by('flatDataId', flattenDataId(dataId));
+collection.addRecord = (dataId, filters) => { // TODO => rename addRecordIfNotExists
+  let connectedData = collection.by('flatDataId', flattenDataId(dataId, filters));
   if (connectedData) {
     return connectedData;
   }
-  connectedData = createConnectedData(dataId);
+  connectedData = createConnectedData(dataId, filters);
   return collection.insert(connectedData);
 };
 
-collection.addRequestedInterval = (flatDataId, queryUuid, interval, connectedData) => {
-  // Add a query interval in the list of requested intervals for this flatDataId
-  // And create the flatDataId if it doesnt exist
-
-  let cd = connectedData;
-  if (!cd) {
-    cd = collection.by('flatDataId', flatDataId);
-    if (!cd) {
-      return undefined;
-    }
-  }
-  cd.intervals.requested[queryUuid] = interval;
-  cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
-  return cd;
+collection.addRequestedInterval = (model, queryId, interval) => {
+  _set(model, ['intervals', 'requested', queryId], interval);
+  _set(model, ['intervals', 'all'], intervalManager.merge(model.intervals.all, interval));
 };
 
-collection.addLastQuery = (flatDataId, queryUuid, interval, connectedData) => {
-  // Add a query id in the list of getLast requested for this flatDataId
-  // And create the flatDataId if it doesnt exist
-  let cd = connectedData;
-  if (!cd) {
-    cd = collection.by('flatDataId', flatDataId);
-    if (!cd) {
-      return undefined;
-    }
-  }
-  cd.lastQueries[queryUuid] = interval;
-  return cd;
+collection.addLastQuery = (model, queryId, interval) => {
+  _set(model, ['lastQueries', queryId], interval);
 };
+
 collection.removeLastQuery = (flatDataId, queryUuid, connectedData) => {
   // Add a query id in the list of getLast requested for this flatDataId
   // And create the flatDataId if it doesnt exist

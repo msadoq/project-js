@@ -1,8 +1,12 @@
 {
   "PROFILING": "off",
+  "SERVER_HEALTH_CRITICAL_DELAY": 250,
+  "MAIN_HEALTH_CRITICAL_DELAY": 250,
+  "RENDERER_HEALTH_CRITICAL_DELAY": 100,
   "DEBUG": "off",
   "WDYU": "off",
   "ORCHESTRATION_FREQUENCY": 500,
+  "PLAYER_FREQUENCY": 500,
   "CACHE_INVALIDATION_FREQUENCY": 300000,
   "WILDCARD_CHARACTER": "*",
   "DEFAULT_FIELD": {
@@ -17,6 +21,11 @@
   "VISU_WINDOW_LOW_MS": 300000,
   "VISU_WINDOW_UP_MS": 30000,
   "VISU_WINDOW_DEFAULT_WIDTH": 900000,
+  "VISU_WINDOW_MAX_DURATION": {
+    "PlotView": 21600000,
+    "HistoryView": 3600000,
+    "PacketView": 3600000
+  },
   "STATE_COLORS": {
     "alarm": "darkorange",
     "critical": "darkred",
@@ -151,5 +160,15 @@
       "al.s-1",
       "parsec.s-1"
     ]
-  }
+  },
+  "MESSAGES_NAMESPACES" : [
+    {
+      "path" : "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/",
+      "ns" :"isis"
+    },
+    {
+      "path" : "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/",
+      "ns" :"dc"
+    }
+  ]
 }

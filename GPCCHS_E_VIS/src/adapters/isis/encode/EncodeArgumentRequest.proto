@@ -1,0 +1,18 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/LONG.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+
+
+package encode.protobuf;
+
+message EncodeArgumentRequest {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.LONG definitionId = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE engValue = 2;
+  optional ccsds_mal.protobuf.UINTEGER bitLength = 3;
+  optional ccsds_mal.protobuf.STRING newEncodingFormat = 4;
+  optional ccsds_mal.protobuf.STRING newRawValueType = 5;
+}

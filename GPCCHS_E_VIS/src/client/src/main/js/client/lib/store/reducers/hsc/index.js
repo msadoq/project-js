@@ -25,6 +25,7 @@ export default function hsc(state = initialState, action) {
     case types.HSC_PAUSE:
       return Object.assign({}, state, { playingTimebarId: null });
     case types.HSC_SET_WINDOWS_AS_OPENED:
+    case types.WS_WINDOW_SET_IS_LOADED:
       return Object.assign({}, state, { windowsOpened: true });
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:
       return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });
@@ -53,17 +54,19 @@ export default function hsc(state = initialState, action) {
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
     case types.WS_WINDOW_UPDATE_TITLE:
+    case types.WS_WINDOW_ADD:
+    case types.WS_WINDOW_CLOSE:
       return _.set('isModified', true, state);
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);
-    case types.WS_WORKSPACE_OPEN:
+    case types.WS_WORKSPACE_OPENED:
       return { ...state,
-        isModified: false,
+        isModified: !!action.payload.isModified,
         domainName: action.payload.domainName,
         sessionName: action.payload.sessionName,
       };
     // Forecast Management
-    case types.WS_PAGE_OPEN:
+    case types.WS_PAGE_OPENED:
     case types.WS_PAGE_ADD_BLANK:
     case types.WS_PAGE_CLOSE:
       return Object.assign({}, state, {
@@ -99,12 +102,12 @@ const inHsc = key => _.path(['hsc', key]);
 // simples
 export const getWorkspaceFile = inHsc('file');
 export const getWorkspaceFolder = inHsc('folder');
-export const getWindowsOpened = inHsc('windowsOpened');
+export const getWindowsOpened = inHsc('windowsOpened'); // TODO rename getIsWindowsOpened
 export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
-export const getForecast = inHsc('forecast');
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');
+export const getWorkspaceIsNew = state => (!state.hsc.file && !state.hsc.folder);

@@ -1,7 +1,9 @@
 const { join, dirname, basename } = require('path');
 const { existsSync } = require('fs');
 const { get } = require('../../common/configurationManager');
-const stubData = require('common/protobuf/stubs');
+const stubs = require('../../utils/stubs');
+
+const stubData = stubs.getStubData();
 
 module.exports = function sendFmdGet(queryId, oid, zmq) {
   const buffer = [

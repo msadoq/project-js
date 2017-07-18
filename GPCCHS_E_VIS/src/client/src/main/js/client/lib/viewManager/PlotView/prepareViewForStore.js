@@ -6,7 +6,7 @@ const indexAxes = _.update('axes', _.indexBy(axis => axis.id || axis.label || v4
 const getDefaultView = _.merge({
   title: 'New Plot View',
   type: 'PlotView',
-  backgroundColor: '3FFFFFF',
+  backgroundColor: '#FFFFFF',
   defaultRatio: { length: 5, width: 5 },
   links: [],
   configuration: {
@@ -31,10 +31,11 @@ const getDefaultView = _.merge({
         style: 'Dashed',
       },
     }],
-    legend: {},
+    legend: { location: 'bottom' },
     markers: [],
     entryPoints: [],
     showYAxes: 'left',
+    showLegend: false,
   },
 });
 

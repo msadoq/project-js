@@ -4,20 +4,9 @@ import globalConstants from '../../../constants';
 import getLogger from '../../../common/logManager';
 const flattenDataId = require('../../../common/flattenDataId');
 import parseConnectedData from '../../commonData/parseConnectedData';
+import flattenStateColors from '../../commonData/flattenStateColors';
 
 const logger = getLogger('data:TextView:parseEntryPoint');
-function flattenStateColors(stateColors = []) {
-  if (!stateColors.length) {
-    return '';
-  }
-
-  return __.compose(
-    str => `:${str}`,
-    __.join(','),
-    __.sortBy(__.identity),
-    __.map(({ color, condition: { field, operator, operand } }) => `${color}.${field}.${operator}.${operand}`)
-  )(stateColors);
-}
 
 function parseEntryPoint(
   domains,
@@ -40,6 +29,7 @@ function parseEntryPoint(
   }
   const { connectedData, name, id, stateColors } = entryPoint;
 
+  // rq: parseConnectedData move filter to filters
   const cd = parseConnectedData(
     domains,
     sessions,
@@ -58,9 +48,8 @@ function parseEntryPoint(
     return { [name]: { error: cd.error } };
   }
   const { dataId, field, offset, filters } = cd;
-  // compute remoteId
-  const remoteId = flattenDataId(dataId);
-
+  // compute remoteId with filters to use them with getLast
+  const remoteId = flattenDataId(dataId, filters);
   const ep = {
     [name]: {
       remoteId,

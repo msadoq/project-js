@@ -1,10 +1,13 @@
 const _concat = require('lodash/concat');
-const { decode } = require('common/protobuf');
-const dataStub = require('common/protobuf/stubs');
+const { decode } = require('../../../utils/adapters');
+const { getStubData } = require('../../../utils/stubs');
 const globalConstants = require('../../../constants');
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
+
+const dataStub = getStubData();
 
 const onFmdGet = require('./onFmdGet');
 

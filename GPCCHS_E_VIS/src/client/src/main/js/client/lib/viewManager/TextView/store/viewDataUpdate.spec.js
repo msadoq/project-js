@@ -178,5 +178,21 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
       expect(data.index).toEqual({ ep4: 20 });
       expect(data.values).toEqual({ ep4: { value: 203, color: '#0000FF' } });
     });
+    test('visuWindow duration too long', () => {
+      const oldState = { index: { ep4: 18 }, values: { ep4: { value: 201, color: '#0000FF' } } };
+      const intervals = {
+        rId1: {
+          localrId1: { error: 'invalid visuWindow' },
+          localEp5: { error: 'invalid visuWindow' },
+          localEpDyn: { error: 'invalid visuWindow' },
+        },
+        rId2: {
+          localrId2: { error: 'invalid visuWindow' },
+          localEp6: { error: 'invalid visuWindow' },
+        },
+      };
+      const data = selectDataPerView(viewDataMap.text2, intervals, payload, oldState);
+      expect(data).toEqual({ });
+    });
   });
 });

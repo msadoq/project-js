@@ -141,31 +141,6 @@ describe('store:actions:timebars', () => {
     });
   });
 
-  describe('handlePlay', () => {
-    test('doest nothing without playingTimebarUuid', () => {
-      const emptyStore = mockStore();
-      emptyStore.dispatch(actions.handlePlay(0, 0));
-      expect(emptyStore.getActions()).toHaveLength(0);
-    });
-    test('doest nothing without playingTimebar', () => {
-      const storeWithoutTimebars = mockStore({ timebars: [], hsc: { playingTimebarId: 1234 } });
-      storeWithoutTimebars.dispatch(actions.handlePlay(0, 0));
-      expect(storeWithoutTimebars.getActions()).toHaveLength(0);
-    });
-    test('updates cursors', () => {
-      store.dispatch(actions.handlePlay(0, 0));
-      expect(store.getActions()).toEqual([
-        {
-          type: 'WS_TIMEBAR_UPDATE_CURSORS',
-          payload: {
-            visuWindow: { current: 150, lower: 100, upper: 117200000 },
-            slideWindow: { lower: 125, upper: 117200000 },
-            timebarUuid: 'tb1',
-          },
-        },
-      ]);
-    });
-  });
   describe('updateSpeed', () => {
     test('disables real time then update speed', () => {
       store.dispatch(actions.updateSpeed('tb1', 42));
@@ -247,9 +222,9 @@ describe('store:actions:timebars', () => {
       ]);
     });
   });
-  describe('goNow', () => {
+  describe('moveTo', () => {
     test('disables real time and pause then go now', () => {
-      store.dispatch(actions.goNow('tb1', 42));
+      store.dispatch(actions.moveTo('tb1', 42));
       expect(store.getActions()).toEqual([
         {
           type: 'WS_TIMEBAR_SET_REALTIME',
@@ -276,7 +251,7 @@ describe('store:actions:timebars', () => {
       ]);
     });
     test('pauses and add an error message', () => {
-      store.dispatch(actions.goNow('tb3', 42));
+      store.dispatch(actions.moveTo('tb3', 42));
       expect(store.getActions()).toEqual([
         {
           type: 'WS_MESSAGE_RESET',
@@ -332,13 +307,6 @@ describe('store:actions:timebars', () => {
       store.dispatch(actions.switchToRealtimeMode('tb3', 1));
       expect(store.getActions()).toEqual([
         {
-          type: 'WS_TIMEBAR_SET_REALTIME',
-          payload: {
-            timebarUuid: 'tb3',
-            flag: true,
-          },
-        },
-        {
           type: 'WS_MESSAGE_RESET',
           payload: {
             containerId: 'timeSetter-tb3',
@@ -370,13 +338,6 @@ describe('store:actions:timebars', () => {
     test('sets real time mode, reset speed to 1 and update cursors + smartPlay', () => {
       store.dispatch(actions.switchToRealtimeMode('tb2', 1));
       expect(store.getActions()).toEqual([
-        {
-          type: 'WS_TIMEBAR_SET_REALTIME',
-          payload: {
-            timebarUuid: 'tb2',
-            flag: true,
-          },
-        },
         {
           type: 'WS_TIMEBAR_SPEED_UPDATE',
           payload: {
@@ -411,13 +372,6 @@ describe('store:actions:timebars', () => {
       store.dispatch(actions.switchToRealtimeMode('tb1', 1));
       expect(store.getActions()).toEqual([
         {
-          type: 'WS_TIMEBAR_SET_REALTIME',
-          payload: {
-            timebarUuid: 'tb1',
-            flag: true,
-          },
-        },
-        {
           type: 'WS_TIMEBAR_MODE_UPDATE',
           payload: {
             timebarUuid: 'tb1',
@@ -450,13 +404,6 @@ describe('store:actions:timebars', () => {
     test('sets real time mode, reset speed to 1, reset mode to Normal and update cursors + smartPlay', () => {
       store.dispatch(actions.switchToRealtimeMode('tb4', 1));
       expect(store.getActions()).toEqual([
-        {
-          type: 'WS_TIMEBAR_SET_REALTIME',
-          payload: {
-            timebarUuid: 'tb4',
-            flag: true,
-          },
-        },
         {
           type: 'WS_TIMEBAR_SPEED_UPDATE',
           payload: {

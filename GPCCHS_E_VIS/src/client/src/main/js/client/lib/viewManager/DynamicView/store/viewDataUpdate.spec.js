@@ -141,5 +141,28 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
+    test('visuWindow duration too long', () => {
+      const oldState = { index: 20,
+        value: {
+          val1: { type: 'uinteger', value: 221 },
+          val4: { type: 'enum', value: 'val12', symbol: 'val10' },
+          referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.022Z' },
+          time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+          monitoringState: { type: 'uinteger', value: 'ok' },
+        } };
+      const intervals = {
+        rId1: {
+          localrId1: { expectedInterval: [10, 20] },
+          localEp5: { expectedInterval: [18, 20] },
+          localEpDyn: { error: 'visuWindow' },
+        },
+        rId2: {
+          localrId2: { expectedInterval: [10, 13] },
+          localEp6: { expectedInterval: [12, 20] },
+        },
+      };
+      const data = selectDataPerView(viewDataMap.dynamic, intervals, payload, oldState);
+      expect(data).toEqual({ });
+    });
   });
 });

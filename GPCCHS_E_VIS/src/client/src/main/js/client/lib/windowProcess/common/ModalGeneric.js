@@ -14,12 +14,36 @@ import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 import SaveBeforeClosingContainer from './SaveBeforeClosingContainer';
 import UnsavedViewWarningContainer from './UnsavedViewWarningContainer';
+import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
+import DialogModal from './DialogModal'; // electron dialogbox
 
+/* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 
 const ModalGeneric = (props) => {
   let child;
   let title;
   switch (props.props.type) {
+    case 'dialog':
+      title = props.props.title;
+      child = (
+        <DialogModal
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'saveWizard':
+      title = 'Save documents';
+      if (props.props.title) {
+        title = `${title} - ${props.props.title}`;
+      }
+      child = (
+        <SaveWizardModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
     case 'addTimeline':
       title = 'Add timeline';
       child =

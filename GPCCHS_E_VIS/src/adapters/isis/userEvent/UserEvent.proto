@@ -1,0 +1,21 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/NamedValue.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/ULONG.proto";
+
+
+package userEvent.protobuf;
+
+message UserEvent {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.TIME eventDate = 1;
+  optional ccsds_mal.protobuf.TIME systemDate = 2;
+  optional ccsds_mal.protobuf.STRING mission = 3;
+  optional ccsds_mal.protobuf.ULONG satellite = 4;
+  optional ccsds_mal.protobuf.BLOB producer = 5;
+  repeated ccsds_mal.protobuf.NamedValue specificAttributes = 6;
+  optional ccsds_mal.protobuf.BLOB userProfile = 7;
+}

@@ -1,0 +1,19 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/IDENTIFIER.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+
+
+package encode.protobuf;
+
+message TimeTaggedTelecommand {
+extensions 7 to 107;
+
+  optional ccsds_mal.protobuf.UINTEGER ackField = 1;
+  optional ccsds_mal.protobuf.UINTEGER sourceId = 2;
+  optional ccsds_mal.protobuf.UINTEGER subScheduledId = 3;
+  repeated ccsds_mal.protobuf.IDENTIFIER definitionIds = 4;
+  repeated ccsds_mal.protobuf.TIME dates = 5;
+  repeated ccsds_mal.protobuf.BLOB rawValues = 6;
+}

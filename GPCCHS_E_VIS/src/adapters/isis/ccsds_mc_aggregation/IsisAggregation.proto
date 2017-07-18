@@ -1,0 +1,29 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/DURATION.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UOCTET.proto";
+import "../ccsds_mal/USHORT.proto";
+import "./Parameter.proto";
+import "./GenerationMode.proto";
+import "./packetType.proto";
+
+package ccsds_mc_aggregation.protobuf;
+
+message IsisAggregation {
+extensions 14 to 114;
+
+  optional ccsds_mc_aggregation.protobuf.GenerationMode generationMode = 1;
+  optional ccsds_mal.protobuf.BOOLEAN filtered = 2;
+  optional ccsds_mal.protobuf.DURATION deltaTime = 3;
+  optional ccsds_mal.protobuf.DURATION intervalTime = 4;
+  optional ccsds_mal.protobuf.DURATION setIntervalTime = 5;
+  optional ccsds_mal.protobuf.TIME onboardDate = 6;
+  optional ccsds_mal.protobuf.TIME groundDate = 7;
+  optional ccsds_mc_aggregation.protobuf.packetType packetType = 8;
+  optional ccsds_mal.protobuf.USHORT apid = 9;
+  optional ccsds_mal.protobuf.UOCTET service = 10;
+  optional ccsds_mal.protobuf.UOCTET subService = 11;
+  optional ccsds_mal.protobuf.UOCTET destinationId = 12;
+  repeated ccsds_mc_aggregation.protobuf.Parameter values = 13;
+}

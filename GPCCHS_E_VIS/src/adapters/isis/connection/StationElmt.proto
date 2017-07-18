@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+import "./FlowConfiguration.proto";
+
+
+package connection.protobuf;
+
+message StationElmt {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.STRING stationId = 1;
+  optional connection.protobuf.FlowConfiguration configuration = 2;
+}

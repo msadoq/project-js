@@ -7,4 +7,6 @@ const { server } = require('../../ipc');
  *
  * @param action
  */
-module.exports = action => server.sendReduxDispatch(action);
+module.exports = (action) => {
+  server.sendReduxDispatch(action);
+};

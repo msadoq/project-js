@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 import TextTab from './TextTab';
-import { openHtmlEditor, closeHtmlEditor } from '../../../../store/actions/editor';
-import { getEditorTextViewId } from '../../../../store/reducers/editor';
+import { openCodeEditor, closeCodeEditor } from '../../../../store/actions/editor';
+import { getViewId as getCodeEditorViewId } from '../../../../store/reducers/codeEditor';
 
 
 const mapStateToProps = (state) => {
-  const viewId = getEditorTextViewId(state);
+  const viewId = getCodeEditorViewId(state);
   return {
-    htmlEditorViewId: viewId,
+    codeEditorViewId: viewId,
   };
 };
 
-const TextTabContainer = connect(mapStateToProps, { openHtmlEditor, closeHtmlEditor })(TextTab);
+const TextTabContainer = connect(mapStateToProps, { openCodeEditor, closeCodeEditor })(TextTab);
 
 export default TextTabContainer;

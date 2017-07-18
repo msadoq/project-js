@@ -17,7 +17,7 @@ describe('store:timebarTimelines:reducer', () => {
   });
   test('add timebar and timelines ids when load a workspace', () => {
     const action = {
-      type: types.WS_WORKSPACE_OPEN,
+      type: types.WS_WORKSPACE_OPENED,
       payload: {
         timebars: {
           tb1: {

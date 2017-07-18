@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package cop1.protobuf;
+
+enum TerminateType {
+  No_retransmit = 5;
+  VC_change = 2;
+  IF_queue_clear = 4;
+  Satellite_change = 3;
+  AD_BD_switch = 6;
+  Size_change = 7;
+  Directive = 1;
+  Protocol = 0;
+}

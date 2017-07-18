@@ -1,12 +1,12 @@
+const parameters = require('../common/configurationManager');
 const async = require('async');
 const parseArgs = require('minimist');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
 const zmq = require('common/zmq/index');
-const { getType, encode, decode } = require('common/protobuf/index');
+const { encode, decode, getType } = require('../utils/adapters');
 const constants = require('../constants');
-const parameters = require('../common/configurationManager');
 
 const sessionIdTest = 1;
 const domainIdTest = 4;
@@ -121,7 +121,7 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
           expect(_slice(argsBuffers, 3).length % 2).toBe(0);
           _each(_chunk(_slice(argsBuffers, 3), 2), (argBuffer) => {
             expect(() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).not.toThrowError();
-            expect(() => decode(getType(dataId.comObject), argBuffer[1])).not.toThrowError();
+            expect(() => decode(dataId.comObject, argBuffer[1])).not.toThrowError();
           });
           step = (isLast === true) ? steps.STOP : step;
         }
@@ -188,8 +188,8 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
 
 const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   logger('sessionMasterDataHandler');
-  logger(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
-  expect(() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).not.toThrowError();
+  logger(decode(getType('UINTEGER'), argsBuffers[1]));
+  expect(() => decode(getType('UINTEGER'), argsBuffers[1])).not.toThrowError();
   zmq.closeSockets();
 };
 
@@ -512,7 +512,7 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
         // (_slice(argsBuffers, 2).length % 2).should.equal(0);
         _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
           expect(() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).not.toThrowError();
-          expect(() => decode(getType(dataId.comObject), argBuffer[1])).not.toThrowError();
+          expect(() => decode(dataId.comObject, argBuffer[1])).not.toThrowError();
         });
         sendZmqMessage(tbStopSubMessageArgs(dataId));
       }

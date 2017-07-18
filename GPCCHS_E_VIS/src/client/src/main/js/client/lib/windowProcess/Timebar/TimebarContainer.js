@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { pause, smartPlay as play } from '../../store/actions/hsc';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import { getPlayingTimebarId } from '../../store/reducers/hsc';
 import TimebarWrapper from './TimebarWrapper';
@@ -15,8 +14,5 @@ export default connect(
       pageId,
       timelines,
     };
-  }, {
-    pause,
-    play,
   }
 )(TimebarWrapper);

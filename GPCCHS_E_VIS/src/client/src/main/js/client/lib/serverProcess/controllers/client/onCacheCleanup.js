@@ -4,7 +4,7 @@ const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onCacheCleanup');
 const removeIntervals = require('../../../common/intervals/remove');
 const { removeMultiQueryIds: removeRegisteredQuery } = require('../../models/registeredQueries');
-const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
+// const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const {
   getTimebasedDataModel,
   removeTimebasedDataModel,
@@ -99,7 +99,7 @@ module.exports = (sendMessageToDc, dataMap) => {
     // else, no more intervals for this flatDataId
     // get corresponding dataId from connectedData model
     execution.start('get dataId');
-    const dataId = connectedDataModel.getDataId(flatDataId);
+    // const dataId = connectedDataModel.getDataId(flatDataId);
     execution.stop('get dataId');
     // remove flatDataId from connectedData model
     execution.start('remove connected data');
@@ -109,11 +109,11 @@ module.exports = (sendMessageToDc, dataMap) => {
     execution.start('remove tbd model');
     removeTimebasedDataModel(flatDataId);
     execution.stop('remove tbd model');
-    const message = createDeleteSubscriptionMessage(dataId);
-    execution.start('create and push sub message');
-    // queue the message
-    messageQueue.push(message.args);
-    execution.stop('create and push sub message');
+    // const message = createDeleteSubscriptionMessage(dataId);
+    // execution.start('create and push sub message');
+    // // queue the message
+    // messageQueue.push(message.args);
+    // execution.stop('create and push sub message');
   });
   logger.silly('message queue length', messageQueue.length);
   // send queued messages to DC

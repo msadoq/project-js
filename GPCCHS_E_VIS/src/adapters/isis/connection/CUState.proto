@@ -1,0 +1,9 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package connection.protobuf;
+
+enum CUState {
+  CUState_Closed = 0;
+  CUState_Connected = 8;
+  CUState_ExchangingData = 12;
+  CUState_Error = 16;
+}

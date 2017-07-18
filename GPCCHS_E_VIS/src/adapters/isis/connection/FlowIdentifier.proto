@@ -1,0 +1,16 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/LONG.proto";
+import "../ccsds_mal/STRING.proto";
+import "./FlowInfo.proto";
+
+
+package connection.protobuf;
+
+message FlowIdentifier {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.LONG flowID = 1;
+  optional ccsds_mal.protobuf.STRING spacecraftID = 2;
+  optional ccsds_mal.protobuf.STRING stationID = 3;
+  optional connection.protobuf.FlowInfo flowInfo = 4;
+}

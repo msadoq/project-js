@@ -221,6 +221,10 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
 export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap) {
   // get expected interval
   const expectedInterval = _get(intervalMap, [ep.remoteId, ep.localId, 'expectedInterval']);
+  // case of error when visuWindow duration is too long
+  if (!expectedInterval) {
+    return {};
+  }
   const lower = expectedInterval[0];
   const upper = expectedInterval[1];
   const newState = {};
@@ -234,7 +238,7 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
     const value = remoteIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
-      logger.warn('get a payload without .referenceTimestamp key');
+      logger.warn('get a payload without .referenceTimestamp key ggg', remoteIdPayload);
       continue;
     }
     // check value is in interval

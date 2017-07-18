@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/TIME.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus011TimeShift {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.TIME applicationTime = 1;
+  optional ccsds_mal.protobuf.INTEGER timeShiftOffset = 2;
+}

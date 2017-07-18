@@ -102,10 +102,10 @@ export default class Tooltip extends React.Component {
         }
         const xClosestPacket = dataLine[index];
         if (xClosestPacket) {
-          const val = line.yAccessor(xClosestPacket);
+          const val = line.yAccessor ? line.yAccessor(xClosestPacket) : xClosestPacket.value;
           const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;
           linesList[axis.id].push({
-            foundColor: line.colorAccessor ? line.colorAccessor(xClosestPacket) : null,
+            foundColor: line.colorAccessor ? xClosestPacket[line.colorAccessor] : null,
             lineColor: line.fill || '#222222',
             id: line.id,
             value: val,
@@ -144,7 +144,7 @@ export default class Tooltip extends React.Component {
   timeFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L')
 
   tooltipWidth = 350;
-
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES Calculate Tooltip position need complexity"
   render() {
     if (this.pseudoState.showTooltip) {
       this.fillAndDisplayTooltip(null, false);

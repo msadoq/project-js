@@ -1,7 +1,6 @@
 import { app } from 'electron';
 import { onStart, onStop, onWindowsClose, onError } from './lib/mainProcess';
 import { init } from './lib/common/configurationManager';
-// import { createWindow } from './lib/mainProcess/testPerf';
 
 init(__dirname, true);
 
@@ -18,7 +17,6 @@ app.on('ready', () => {
 
   try {
     onStart();
-    // createWindow();
   } catch (e) {
     onError(e);
   }

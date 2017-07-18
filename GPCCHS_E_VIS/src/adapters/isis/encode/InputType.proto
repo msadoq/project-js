@@ -1,0 +1,8 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package encode.protobuf;
+
+enum InputType {
+  IN_PHYSICAL_VALUES = 1;
+  IN_BINARY_PROFILE = 2;
+  IN_RAW_PACKET = 3;
+}

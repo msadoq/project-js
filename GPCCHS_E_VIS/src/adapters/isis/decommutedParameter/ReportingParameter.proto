@@ -1,0 +1,25 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/USHORT.proto";
+import "../ccsds_mc/ValidityState.proto";
+
+package decommutedParameter.protobuf;
+
+message ReportingParameter {
+extensions 12 to 112;
+
+  optional ccsds_mal.protobuf.TIME onboardDate = 1;
+  optional ccsds_mal.protobuf.TIME groundDate = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE convertedValue = 3;
+  optional ccsds_mal.protobuf.ATTRIBUTE rawValue = 4;
+  optional ccsds_mal.protobuf.ATTRIBUTE extractedValue = 5;
+  optional ccsds_mal.protobuf.STRING monitoringState = 6;
+  optional ccsds_mal.protobuf.USHORT triggerOnCounter = 7;
+  optional ccsds_mal.protobuf.USHORT triggerOffCounter = 8;
+  optional ccsds_mc.protobuf.ValidityState validityState = 9;
+  optional ccsds_mal.protobuf.BOOLEAN isObsolete = 10;
+  optional ccsds_mal.protobuf.BOOLEAN isNominal = 11;
+}

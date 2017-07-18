@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/FLOAT.proto";
+import "../ccsds_mal/INTEGER.proto";
+
+
+package cop1.protobuf;
+
+message COP1WaitQueue {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.INTEGER internal_id = 1;
+  optional ccsds_mal.protobuf.BLOB frame_data = 2;
+  optional ccsds_mal.protobuf.FLOAT reemission_delay = 3;
+}

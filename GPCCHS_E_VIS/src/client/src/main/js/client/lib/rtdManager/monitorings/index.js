@@ -1,6 +1,7 @@
 import _isNil from 'lodash/isNil';
 import cst from './constants';
 
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
   const monitoringType = monitoring.MonitoringType;
   switch (monitoringType) {

@@ -1,8 +1,0 @@
-// Produced by Acceleo JavaScript Generator 1.1.0
-package ccsds_mc_aggregation.protobuf;
-
-enum GenerationMode {
-  ADHOC = 1;
-  PERIODIC = 2;
-  FILTERED_TIMEOUT = 3;
-}

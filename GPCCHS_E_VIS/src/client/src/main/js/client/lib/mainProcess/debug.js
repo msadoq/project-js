@@ -1,15 +1,9 @@
 import _each from 'lodash/each';
-import { get } from '../common/configurationManager';
 import getLogger from '../common/logManager';
 
 const logger = getLogger('main:debug');
 
-export default (callback) => {
-  // not installable when bundled and doesn't needed when DEBUG is off
-  if (process.env.IS_BUNDLED === 'on' || get('DEBUG') !== 'on') {
-    return callback(null);
-  }
-
+export default () => {
   // electron-debug
   // eslint-disable-next-line global-require, "DV6 TBC_CNES Load extensions only in debug mode"
   const enableDebug = require('electron-debug');
@@ -31,6 +25,4 @@ export default (callback) => {
       logger.error(e);
     }
   });
-
-  return callback(null);
 };

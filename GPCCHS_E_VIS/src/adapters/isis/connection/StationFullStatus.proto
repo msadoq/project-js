@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./StationIdentifier.proto";
+import "./StationStatus.proto";
+
+
+package connection.protobuf;
+
+message StationFullStatus {
+extensions 3 to 103;
+
+  optional connection.protobuf.StationIdentifier identifier = 1;
+  optional connection.protobuf.StationStatus status = 2;
+}

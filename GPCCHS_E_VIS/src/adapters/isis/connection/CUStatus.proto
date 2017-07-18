@@ -1,0 +1,12 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "./CUState.proto";
+
+package connection.protobuf;
+
+message CUStatus {
+extensions 3 to 103;
+
+  optional connection.protobuf.CUState state = 1;
+  optional ccsds_mal.protobuf.BLOB sLEReport = 2;
+}

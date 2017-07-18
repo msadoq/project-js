@@ -3,6 +3,7 @@ import { connect } from 'rtd/catalogs';
 import { Reporting as loadReportings } from 'rtd/stubs/loaders';
 import { Reporting as generateReporting } from 'rtd/stubs/generators';
 import {
+  getUnit,
   getShortDescription,
   getLongDescription,
   getAliases,
@@ -60,6 +61,12 @@ describe('rtdManager/reportings', () => {
     if (rtdStub) {
       rtdStub.restore();
     }
+  });
+  test('getUnit', (done) => {
+    getUnit({ rtd, sessionId, domainId }, reporting, (err, unit) => {
+      expect(typeof unit).toBe('string');
+      done();
+    });
   });
   test('getShortDescription', (done) => {
     getShortDescription({ rtd, sessionId, domainId }, reporting, (err, desc) => {

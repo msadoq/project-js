@@ -1,0 +1,11 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/ATTRIBUTE.proto";
+
+
+package ccsds_mc.protobuf;
+
+message AttributeValue {
+extensions 2 to 102;
+
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 1;
+}

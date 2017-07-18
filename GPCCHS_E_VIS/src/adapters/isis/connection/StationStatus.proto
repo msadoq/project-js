@@ -1,0 +1,12 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./FlowFullStatus.proto";
+import "./SynthesisState.proto";
+
+package connection.protobuf;
+
+message StationStatus {
+extensions 3 to 103;
+
+  optional connection.protobuf.SynthesisState state = 1;
+  repeated connection.protobuf.FlowFullStatus flowStates = 2;
+}

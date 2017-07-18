@@ -13,6 +13,7 @@ import EntryPointDetailsContainer from './EntryPointDetailsContainer';
   Permet également d'appliquer un filtre sur le nom
 */
 const { Panel } = Collapse;
+const emptyArray = [];
 
 export default class EntryPointTree extends PureComponent {
   static propTypes = {
@@ -61,7 +62,7 @@ export default class EntryPointTree extends PureComponent {
       <Collapse
         accordion={false}
         onChange={this.onChange}
-        defaultActiveKey={Object.keys(entryPointsPanels)}
+        defaultActiveKey={entryPointsPanels === true ? emptyArray : Object.keys(entryPointsPanels)}
       >
         {list.map((entryPoint, key) => {
           const isOpen = entryPointsPanels[entryPoint.id];

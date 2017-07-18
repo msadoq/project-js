@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/LONG.proto";
+import "../ccsds_mal/STRING.proto";
+
+
+package file.protobuf;
+
+message CollectionVirtualFolder {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.STRING name = 1;
+  optional ccsds_mal.protobuf.LONG uid = 2;
+}

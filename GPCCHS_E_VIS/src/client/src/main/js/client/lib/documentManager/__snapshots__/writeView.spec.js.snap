@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`documentManager/writeViews writeView saves the view 1`] = `
+"{
+  \\"type\\": \\"DynamicView\\",
+  \\"title\\": \\"Dynamic view\\",
+  \\"links\\": [],
+  \\"defaultRatio\\": {
+    \\"length\\": 5,
+    \\"width\\": 3
+  },
+  \\"entryPoint\\": {
+    \\"connectedData\\": {
+      \\"formula\\": \\"TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>\\",
+      \\"filter\\": [],
+      \\"domain\\": \\"fr.cnes.isis.simupus\\",
+      \\"timeline\\": \\"Session 1\\"
+    },
+    \\"name\\": \\"dynamicEP\\",
+    \\"id\\": \\"2d20116c-1c13-4c37-ad90-f15d38ce17ca\\"
+  },
+  \\"entryPoints\\": []
+}"
+`;

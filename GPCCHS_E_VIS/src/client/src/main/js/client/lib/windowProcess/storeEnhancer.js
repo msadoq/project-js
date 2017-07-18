@@ -10,7 +10,7 @@ const log = getLogger('renderer:store:enhancer');
  * - Intercepts dispatched actions and forwards to main process
  * - on REDUX_SYNCHRONIZATION_PATCH_KEY action apply diff to current store
  */
-export default function makeRendererStoreEnhancer(identity, sendUp) {
+export default function makeRendererStoreEnhancer(identity, sendUp, isDebugOn) {
   return function rendererStoreEnhancer(previousStoreCreator) {
     if (process.type !== 'renderer') {
       throw new Error('rendererStoreEnhancer used in a non-renderer process');
@@ -23,7 +23,7 @@ export default function makeRendererStoreEnhancer(identity, sendUp) {
 
       // Intercepts dispatched actions and forwards to main process
       const storeDotDispatch = store.dispatch;
-      store.dispatch = makeSlaveDispatcher(storeDotDispatch, sendUp, identity, log);
+      store.dispatch = makeSlaveDispatcher(storeDotDispatch, sendUp, identity, log, isDebugOn);
 
       return store;
     };

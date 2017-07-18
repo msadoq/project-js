@@ -47,7 +47,7 @@ const pagesReducer = (statePages = {}, action) => {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_PAGE_OPEN:
+    case types.WS_PAGE_OPENED:
     case types.WS_PAGE_ADD_BLANK:
       return _.set(action.payload.page.uuid, page(undefined, action), statePages);
     case types.WS_WINDOW_CLOSE:
@@ -57,7 +57,7 @@ const pagesReducer = (statePages = {}, action) => {
     case types.WS_VIEW_MOVE_TO_PAGE: {
       return moveViewToPage(statePages, action);
     }
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       return loadPages(statePages, action);
     }
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH: {

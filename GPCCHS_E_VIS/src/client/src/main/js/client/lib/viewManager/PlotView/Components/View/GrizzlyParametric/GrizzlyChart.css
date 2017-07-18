@@ -1,0 +1,296 @@
+.container{
+  position: relative;
+  .zoomAndPanLabels{
+    position: absolute;
+    top: 5px;
+    width: 100px;
+    z-index: 10;
+    & > button{
+      text-align: left;
+      display: block;
+      margin-bottom: 4px;
+    }
+  }
+  .canvas{
+    position: absolute;
+  }
+}
+
+.xAxisDiv{
+  position: absolute;
+  .xAxis{
+    overflow: visible !important;
+    .xAxisGroup{
+      line {
+        stroke: #AAA;
+      }
+    }
+  }
+  .xAxisLabel{
+    border-radius: 2px;
+    padding: 2px 6px;
+    &.labelUnderline{
+      text-decoration: underline;
+    }
+    &.labelBold{
+      font-weight: bold;;
+    }
+    &.labelItalic{
+      font-style: italic;
+    }
+  }
+  .xAxisLineLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 7;
+    }
+  }
+}
+.yAxisDiv{
+  position: absolute;
+  .yAxis{
+    overflow: visible !important;
+    .yAxisGroup{
+      line {
+        stroke: #AAA;
+      }
+    }
+  }
+  .yAxisLabel{
+    border-radius: 2px;
+    padding: 2px 6px;
+    &.labelUnderline{
+      text-decoration: underline;
+    }
+    &.labelBold{
+      font-weight: bold;;
+    }
+    &.labelItalic{
+      font-style: italic;
+    }
+  }
+  .yAxisLineLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 7;
+    }
+  }
+  .yAxisPointLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 6;
+    }
+  }
+}
+.xAxis{
+  position: absolute;
+  overflow: visible !important;
+  .xAxisPointLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 6;
+    }
+  }
+}
+.xAxisGroup{
+  line {
+    stroke: #AAA;
+  }
+}
+.xAxisHideTicks {
+  & > g > text {
+    display: none;
+  }
+}
+
+.Dotted{
+  line {
+    stroke-dasharray: 2.2;
+  }
+}
+.Dashed{
+  line {
+    stroke-dasharray: 5;
+  }
+}
+
+.tooltipDiv{
+  position: relative;
+  z-index: 4;
+  overflow: visible;
+  .tooltipVerticalCursor{
+    position: absolute;
+    top: 0;
+    width: 1px;
+    background: #111;
+    transition: opacity ease-out 0.1s;
+  }
+  .tooltipLinePointDiv{
+    position: relative;
+  }
+  .tooltipLinePoint{
+    width: 5px;
+    height: 5px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 40);
+    position: absolute;
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
+  }
+  .tooltipHorizontalCursor{
+    left: 0;
+    position: absolute;
+    height: 1px;
+    background: #111;
+    transition: opacity ease-out 0.1s;
+  }
+  .tooltipXLabel{
+    position: absolute;
+    font-size: 0.9em;
+    padding: 2px;
+    background: #111;
+    color: #FFF;
+    z-index: 5;
+  }
+  .tooltipYLabel{
+    position: absolute;
+    font-size: 0.9em;
+    padding: 2px;
+    background: #111;
+    color: #FFF;
+    z-index: 5;
+  }
+  .tooltip{
+    position: absolute;
+    z-index: 6;
+    min-height: 90px;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.90);
+    border-radius: 2px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+    padding: 6px;
+    transition: left ease-out 0.2s, top ease-out 0.2s, opacity ease-out 0.1s;
+    .tooltipAxisLabel{
+      font-style: bold;
+    }
+    .tooltipLine{
+      position: relative;
+      & > p{
+        font-size: 1.0em;
+        position: absolute;
+        top: 2px;
+        left: 22px;
+      }
+    }
+    .tooltipLineSquare{
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .tooltipLineName{
+      margin-right: 6px;
+    }
+    .tooltipNoData{
+      font-size: 1.2em;
+      font-style: bold;
+      text-align: center;
+    }
+    .tooltipOffset{
+      color: #235;
+      position: absolute;
+      right: 0;
+      top: 2px;
+      &.red{
+        color: #A33;
+      }
+      &.green{
+        color: #4B4;
+      }
+    }
+    &.tooltipBlack{
+      background: rgba(00, 00, 00, 0.85);
+      color: #FFF;
+      .tooltipOffset {
+        &.red{
+          color: #F55;
+        }
+        &.green{
+          color: #4F4;
+        }
+      }
+    }
+    &.tooltipBlue{
+      background: rgba(00, 00, 35, 0.85);
+      color: #FFF;
+      .tooltipOffset {
+        &.red{
+          color: #F55;
+        }
+        &.green{
+          color: #4F4;
+        }
+      }
+    }
+  }
+}
+
+.Zones{
+  z-index: 8;
+  position: absolute;
+  & > .ZonesYAxis{
+    cursor: row-resize;
+  }
+  & > .ZonesXAxis{
+    cursor: col-resize;
+  }
+  & > .ZonesAxis{
+    position: absolute;
+    /*pointer-events: none;*/
+    box-shadow: inset 0px 0px 1px rgba(0, 140, 220, 0.3), inset 0px 0px 2px rgba(0, 140, 220, 0.3), inset 0px 0px 3px rgba(0, 140, 220, 0.3);
+    background: rgba(0, 140, 220, 0.03);
+    &:hover{
+      box-shadow: inset 0px 0px 1px rgba(0, 140, 220, 0.6), inset 0px 0px 2px rgba(0, 140, 220, 0.6), inset 0px 0px 3px rgba(0, 140, 220, 0.6);
+      background: rgba(0, 140, 220, 0.11);
+    }
+  }
+  & > .ZonesAxisLog{
+    position: absolute;
+    /*pointer-events: none;*/
+    cursor: row-resize;
+  }
+
+  & > .ZonesChart{
+    position: absolute;
+    box-shadow: inset 0px 0px 1px rgba(0, 220, 140, 0.3), inset 0px 0px 2px rgba(0, 220, 140, 0.3), inset 0px 0px 3px rgba(0, 220, 140, 0.3);
+    background: rgba(0, 220, 140, 0.03);
+    cursor: col-resize;
+    &:hover{
+      box-shadow: inset 0px 0px 1px rgba(0, 220, 140, 0.6), inset 0px 0px 2px rgba(0, 220, 140, 0.6), inset 0px 0px 3px rgba(0, 220, 140, 0.6);
+      background: rgba(0, 220, 140, 0.11);
+    }
+  }
+}

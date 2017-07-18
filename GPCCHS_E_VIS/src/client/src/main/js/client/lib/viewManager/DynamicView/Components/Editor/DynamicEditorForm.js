@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
@@ -6,69 +6,75 @@ import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearS
 import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
 import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
 
-const EntryPointConnectedData = (props) => {
-  const {
-    handleSubmit,
-    pristine,
-    reset,
-    submitting,
-    valid,
-    timelines,
-    domains,
-  } = props;
+class EntryPointConnectedData extends Component {
+  componentDidMount() {
+    setTimeout(this.props.reset, 0);
+  }
 
-  return (
-    <Form horizontal onSubmit={handleSubmit}>
-      <HorizontalFormGroup label="Formula">
-        <Field
-          name="formula"
-          component={TextareaField}
-          className="form-control input-sm"
-        />
-      </HorizontalFormGroup>
+  render() {
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid,
+      timelines,
+      domains,
+    } = this.props;
 
-      <HorizontalFormGroup label="Domain">
-        <Field
-          name="domain"
-          clearable={false}
-          component={ReactSelectField}
-          options={domains.map(d =>
-            ({
-              label: d.name,
-              value: d.name,
-            })
-          ).concat({
-            label: '*',
-            value: '*',
-          })}
-        />
-      </HorizontalFormGroup>
+    return (
+      <Form horizontal onSubmit={handleSubmit}>
+        <HorizontalFormGroup label="Formula">
+          <Field
+            name="formula"
+            component={TextareaField}
+            className="form-control input-sm"
+          />
+        </HorizontalFormGroup>
 
-      <HorizontalFormGroup label="Timeline">
-        <Field
-          name="timeline"
-          clearable={false}
-          component={ReactSelectField}
-          options={timelines.map(t =>
-            ({
-              label: t.id,
-              value: t.id,
-            })
-          ).concat({
-            label: '*',
-            value: '*',
-          })}
+        <HorizontalFormGroup label="Domain">
+          <Field
+            name="domain"
+            clearable={false}
+            component={ReactSelectField}
+            options={domains.map(d =>
+              ({
+                label: d.name,
+                value: d.name,
+              })
+            ).concat({
+              label: '*',
+              value: '*',
+            })}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Timeline">
+          <Field
+            name="timeline"
+            clearable={false}
+            component={ReactSelectField}
+            options={timelines.map(t =>
+              ({
+                label: t.id,
+                value: t.id,
+              })
+            ).concat({
+              label: '*',
+              value: '*',
+            })}
+          />
+        </HorizontalFormGroup>
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
         />
-      </HorizontalFormGroup>
-      <ClearSubmitButtons
-        pristine={pristine}
-        submitting={submitting}
-        reset={reset}
-        valid={valid}
-      />
-    </Form>
-  );
-};
+      </Form>
+    );
+  }
+}
 
 EntryPointConnectedData.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"

@@ -7,7 +7,7 @@ export default function timebarTimelines(stateTbTl = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       return _.compose(
         _.merge(stateTbTl),         // 3. merge with old stateTbTl
         _.mapValues('timelines'),   // 2. map timelines

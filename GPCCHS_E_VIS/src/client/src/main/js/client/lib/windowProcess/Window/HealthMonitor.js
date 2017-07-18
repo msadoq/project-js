@@ -1,55 +1,28 @@
 import { Component, PropTypes } from 'react';
-import {
-  HSC_RENDERER_WARNING_STEP,
-  HSC_RENDERER_CRITICAL_STEP,
-  HEALTH_STATUS_HEALTHY,
-  HEALTH_STATUS_WARNING,
-  HEALTH_STATUS_CRITICAL,
-} from '../../constants';
-import { main } from '../ipc';
+import { noop } from 'lodash';
 
-const INTERVAL = 500;
-
-export default class HealthMonitor extends Component {
+class HealthMonitor extends Component {
   static propTypes = {
-    windowId: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
+    startMonitoring: PropTypes.func,
+    stopMonitoring: PropTypes.func,
   };
 
+  static defaultProps = {
+    startMonitoring: noop,
+    stopMonitoring: noop,
+  }
+
   componentDidMount() {
-    this.currentStatus = HEALTH_STATUS_HEALTHY;
-    this.lastTickTime = Date.now();
-
-    this.timeout = this.checkHighCPULoad();
-    document.getElementById('waitingRenderer').style.display = 'none';
+    this.props.startMonitoring();
   }
-
   componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
-
-  checkHighCPULoad = () => {
-    const { windowId } = this.props;
-
-    const elapsed = Date.now() - this.lastTickTime;
-    const delay = elapsed - INTERVAL;
-
-    if (delay >= HSC_RENDERER_CRITICAL_STEP && this.currentStatus !== HEALTH_STATUS_CRITICAL) {
-      this.currentStatus = HEALTH_STATUS_CRITICAL;
-      main.sendHealthStatus(windowId, HEALTH_STATUS_CRITICAL);
-    } else if (delay >= HSC_RENDERER_WARNING_STEP && this.currentStatus !== HEALTH_STATUS_WARNING) {
-      this.currentStatus = HEALTH_STATUS_WARNING;
-      main.sendHealthStatus(windowId, HEALTH_STATUS_WARNING);
-    } else if (this.currentStatus !== HEALTH_STATUS_HEALTHY) {
-      this.currentStatus = HEALTH_STATUS_HEALTHY;
-      main.sendHealthStatus(windowId, HEALTH_STATUS_HEALTHY);
-    }
-
-    this.lastTickTime = Date.now();
-    this.timeout = setTimeout(() => this.checkHighCPULoad(), INTERVAL);
+    this.props.stopMonitoring();
   }
 
   render() {
     return this.props.children;
   }
 }
+
+export default HealthMonitor;

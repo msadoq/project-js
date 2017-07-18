@@ -1,6 +1,7 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
 const { getRemoteId } = require('../../../common/jest');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
@@ -11,8 +12,11 @@ const {
 } = require('../../models/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const dataStub = require('common/protobuf/stubs');
+const { getStubData, loadStubs } = require('../../../utils/stubs');
 const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
+
+loadStubs();
+const dataStub = getStubData();
 
 /*
  * onTimebasedArchiveData test:
@@ -46,8 +50,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   test('unknown queryId', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
-    connectedDataModel.addRecord(dataId);
-    connectedDataModel.addRequestedInterval(flatDataId, queryId, interval);
+    const m = connectedDataModel.addRecord(dataId);
+    connectedDataModel.addRequestedInterval(m, queryId, interval);
     // launch test
     onTimebasedArchiveData(
       queryIdProto,
@@ -76,8 +80,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   test('works when range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
-    connectedDataModel.addRecord(dataId);
-    connectedDataModel.addRequestedInterval(flatDataId, queryId, interval);
+    const m = connectedDataModel.addRecord(dataId);
+    connectedDataModel.addRequestedInterval(m, queryId, interval);
     registerQuery(queryId, flatDataId);
     // launch test
     onTimebasedArchiveData(
@@ -125,8 +129,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   test('last chunk with range query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
-    connectedDataModel.addRecord(dataId);
-    connectedDataModel.addRequestedInterval(flatDataId, queryId, interval);
+    const m = connectedDataModel.addRecord(dataId);
+    connectedDataModel.addRequestedInterval(m, queryId, interval);
     registerQuery(queryId, flatDataId);
     // launch test
     onTimebasedArchiveData(
@@ -173,8 +177,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
   test('last chunk with last query', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
-    connectedDataModel.addRecord(dataId);
-    connectedDataModel.addLastQuery(flatDataId, queryId, interval);
+    const m = connectedDataModel.addRecord(dataId);
+    connectedDataModel.addLastQuery(m, queryId, interval);
     registerQuery(queryId, flatDataId);
     // launch test
     onTimebasedArchiveData(
@@ -209,8 +213,8 @@ describe('controllers/utils/onTimebasedArchiveData', () => {
     const isLast = dataStub.getBooleanProtobuf(true);
     const queryIds = ['queryId1', 'queryId2', 'queryId3', 'queryId4', 'queryId5', 'queryId6'];
     const intervals = [[0, 5], [0, 7], [5, 20], [12, 17], [25, 30], [42, 91]];
-    connectedDataModel.addRecord(dataId);
-    connectedDataModel.addRequestedInterval(flatDataId, queryId, interval);
+    const m = connectedDataModel.addRecord(dataId);
+    connectedDataModel.addRequestedInterval(m, queryId, interval);
     for (let i = 0; i < 6; i += 1) {
       connectedDataModel.addRequestedInterval(flatDataId, queryIds[i], intervals[i]);
       registerQuery(queryIds[i], flatDataId);

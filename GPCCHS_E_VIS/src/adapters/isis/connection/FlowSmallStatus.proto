@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "./CUFullStatus.proto";
+import "./ProcessFullState.proto";
+import "./SynthesisState.proto";
+
+package connection.protobuf;
+
+message FlowSmallStatus {
+extensions 4 to 104;
+
+  optional connection.protobuf.SynthesisState state = 1;
+  repeated connection.protobuf.CUFullStatus connectionStates = 2;
+  repeated connection.protobuf.ProcessFullState processFullState = 3;
+}

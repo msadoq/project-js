@@ -27,7 +27,11 @@ describe('makeSlaveDispatcher', () => {
       'string'
     )(action);
 
-    expect(out).toBe(action);
+    expect(out).toMatchObject({
+      meta: {
+        origin: 'string',
+      },
+    });
     expect(originalDispatch).toBe(false);
     expect(sentAction).not.toBe(action);
     expect(sentAction).toMatchObject({

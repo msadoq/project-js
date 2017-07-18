@@ -1,8 +1,0 @@
-// Produced by Acceleo JavaScript Generator 1.1.0
-package ccsds_mc_aggregation.protobuf;
-
-enum packetType {
-  RM = 1;
-  TM = 2;
-  CLCW = 3;
-}

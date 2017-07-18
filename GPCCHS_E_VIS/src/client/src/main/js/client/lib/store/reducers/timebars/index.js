@@ -4,6 +4,9 @@ import { createSelector } from 'reselect';
 
 import * as types from '../../types';
 import timebar from './timebar';
+import { get } from '../../../common/configurationManager';
+
+const maxVisuWindowDuration = get('VISU_WINDOW_MAX_DURATION');
 
 /* --- Reducer -------------------------------------------------------------- */
 export default function timebarsReducer(stateTimebars = {}, action) {
@@ -12,7 +15,7 @@ export default function timebarsReducer(stateTimebars = {}, action) {
       return {};
     case types.WS_TIMEBAR_CREATE_NEW:
       return _.set(action.payload.timebarUuid, timebar(undefined, action), stateTimebars);
-    case types.WS_WORKSPACE_OPEN: {
+    case types.WS_WORKSPACE_OPENED: {
       const setPayloadTimebar = _.set('payload.timebar');
       const singleTimebarReducer = state => (
         timebar(undefined, setPayloadTimebar(state, action))
@@ -52,3 +55,18 @@ export const getTimebarId = createSelector(
 );
 export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
 export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
+
+export const getTimebarVisuWindowDuration = (state, { timebarUuid }) => {
+  const tb = state.timebars[timebarUuid];
+  if (!tb) {
+    return 0;
+  }
+  return tb.visuWindow.upper - tb.visuWindow.lower;
+};
+
+export const isMaxVisuDurationExceeded = (state, { viewType, timebarUuid }) => {
+  if (maxVisuWindowDuration[viewType]) {
+    return getTimebarVisuWindowDuration(state, { timebarUuid }) > maxVisuWindowDuration[viewType];
+  }
+  return false;
+};

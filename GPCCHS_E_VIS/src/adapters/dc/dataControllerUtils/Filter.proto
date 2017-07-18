@@ -1,0 +1,22 @@
+package dataControllerUtils.protobuf;
+
+import "../ccsds_mal/ATTRIBUTE.proto";
+
+message Filter {
+extensions 4 to 104;
+    required string fieldName = 1;
+
+      enum FILTER_TYPE {
+        OP_EQ = 0;
+        OP_NE = 1;
+        OP_LT = 2;
+        OP_LE = 3;
+        OP_GT = 4;
+        OP_GE = 5;
+        OP_CONTAINS = 6;
+        OP_ICONTAINS = 7;
+      }
+
+    required FILTER_TYPE type = 2;
+    required ccsds_mal.protobuf.ATTRIBUTE fieldValue = 3;
+}

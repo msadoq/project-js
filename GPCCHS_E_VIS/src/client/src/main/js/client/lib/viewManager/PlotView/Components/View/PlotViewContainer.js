@@ -5,7 +5,7 @@ import { addEntryPoint, removeEntryPoint, removeLink, updateShowLinks, toggleLeg
   from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
-import { getTimebar } from '../../../../store/reducers/timebars';
+import { getTimebar, isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
 import { getInspectorEpId } from '../../../../store/reducers/inspector';
 import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
 import { getTimebarTimelines } from '../../../../store/reducers/timebarTimelines';
@@ -20,7 +20,6 @@ const mapStateToProps = (state, { viewId }) => {
   const timebar = getTimebar(state, { timebarUuid: page.timebarUuid });
   const defaultTimelineUuid = getTimebarTimelines(state, { timebarUuid: page.timebarUuid })[0];
   const defaultTimeline = getTimeline(state, { timelineUuid: defaultTimelineUuid });
-
   return {
     configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
@@ -32,6 +31,8 @@ const mapStateToProps = (state, { viewId }) => {
     links: getLinks(state, { viewId }),
     pageId,
     showLinks: areLinksShown(state, { viewId }),
+    isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
+      { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
   };
 };
 

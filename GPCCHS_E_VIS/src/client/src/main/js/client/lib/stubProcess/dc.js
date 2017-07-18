@@ -1,22 +1,21 @@
+const { resolve } = require('path');
+const adapter = require('../utils/adapters');
+const stubs = require('../utils/stubs');
+const parameters = require('../common/configurationManager');
+
+parameters.init(resolve(__dirname, '../..'));
+adapter.registerGlobal();
+stubs.loadStubs();
+
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 
-const path = require('path');
 const logger = require('../common/logManager')('stubs:utils');
 const zmq = require('common/zmq');
-const globalConstants = require('../constants');
-const protobuf = require('common/protobuf');
-const parameters = require('../common/configurationManager');
+const constants = require('../constants');
+const protobuf = require('../utils/adapters');
 
-const registerDc = require('common/protobuf/adapters/dc');
-const registerLpisis = require('common/protobuf/adapters/lpisis');
-
-const rootPath = process.env.IS_BUNDLED ? __dirname : path.resolve(__dirname, '../..');
-
-registerDc(path.join(rootPath, 'node_modules/common/protobuf/proto/dc')); // Temporary fix for packaging
-registerLpisis(path.join(rootPath, 'node_modules/common/protobuf/proto/lpisis')); // Temporary fix for packaging
-
-const stubData = require('common/protobuf/stubs');
+const stubData = stubs.getStubData();
 
 const isParameterSupported = require('./utils/isParameterSupported');
 const sendDomainData = require('./utils/sendDomainData');
@@ -56,54 +55,53 @@ const pushError = (queryId = '', reason = '') => {
 // Message Controller
 const onHssMessage = (...args) => {
   logger.debug('onHssMessage');
-
-  const header = protobuf.decode('dc.dataControllerUtils.Header', args[0]);
-  const queryId = protobuf.decode('dc.dataControllerUtils.String', args[1]).string;
+  const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
+  const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
 
   switch (header.messageType) {
-    case globalConstants.MESSAGETYPE_FMD_GET_QUERY: {
+    case constants.MESSAGETYPE_FMD_GET_QUERY: {
       logger.info('push fmd get data');
       return sendFmdGet(
         queryId,
-        protobuf.decode('dc.dataControllerUtils.FMDGet', args[2]).serializedOid,
+        adapter.decode('dc.dataControllerUtils.FMDGet', args[2]).serializedOid,
         zmq
       );
     }
-    case globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY: {
+    case constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY: {
       logger.info('handle create document');
       return sendFmdCreate(
         queryId,
-        protobuf.decode('dc.dataControllerUtils.FMDCreateDocument', args[2]),
+        adapter.decode('dc.dataControllerUtils.FMDCreateDocument', args[2]),
         zmq
       );
     }
-    case globalConstants.MESSAGETYPE_LOG_SEND: {
+    case constants.MESSAGETYPE_LOG_SEND: {
       logger.info('handle log');
-      const { uid, arguments: a } = protobuf.decode('dc.dataControllerUtils.SendLog', args[2]);
+      const { uid, arguments: a } = adapter.decode('dc.dataControllerUtils.SendLog', args[2]);
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Stub file, output on console"
       return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
     }
-    case globalConstants.MESSAGETYPE_SESSION_TIME_QUERY: {
+    case constants.MESSAGETYPE_SESSION_TIME_QUERY: {
       logger.info('push session time');
       return sendSessionTime(
         queryId,
-        protobuf.decode('dc.dataControllerUtils.SessionGetTime', args[2]).id,
+        adapter.decode('dc.dataControllerUtils.SessionGetTime', args[2]).id,
         zmq
       );
     }
-    case globalConstants.MESSAGETYPE_SESSION_MASTER_QUERY: {
+    case constants.MESSAGETYPE_SESSION_MASTER_QUERY: {
       logger.info('push master session');
       return sendMasterSession(queryId, zmq);
     }
-    case globalConstants.MESSAGETYPE_DOMAIN_QUERY: {
+    case constants.MESSAGETYPE_DOMAIN_QUERY: {
       logger.info('push domains data');
       return sendDomainData(queryId, zmq);
     }
-    case globalConstants.MESSAGETYPE_SESSION_QUERY: {
+    case constants.MESSAGETYPE_SESSION_QUERY: {
       logger.info('push sessions data');
       return sendSessionData(queryId, zmq);
     }
-    case globalConstants.MESSAGETYPE_TIMEBASED_QUERY: {
+    case constants.MESSAGETYPE_TIMEBASED_QUERY: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       if (!isParameterSupported(dataId)) {
         logger.warn('query of unsupported parameter sent to DC stub', dataId);
@@ -112,16 +110,16 @@ const onHssMessage = (...args) => {
           `parameter ${dataId.parameterName} not yet supported by stub`
         );
       }
-      const interval = protobuf.decode('dc.dataControllerUtils.TimeInterval', args[3]);
-      const queryArguments = protobuf.decode(
+      const interval = adapter.decode('dc.dataControllerUtils.TimeInterval', args[3]);
+      const queryArguments = adapter.decode(
         'dc.dataControllerUtils.QueryArguments', args[4]
       );
-      const queryKey = JSON.stringify(dataId, queryArguments);
+      const queryKey = JSON.stringify({ dataId, queryArguments });
       queries.push({ queryKey, queryId, dataId, interval, queryArguments });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
-    case globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
+    case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
       if (!isParameterSupported(dataId)) {
@@ -137,14 +135,14 @@ const onHssMessage = (...args) => {
         }
       }
       const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
-      if (action === globalConstants.SUBSCRIPTIONACTION_ADD) {
+      if (action === constants.SUBSCRIPTIONACTION_ADD) {
         subscriptions[parameter] = {
           queryId,
           dataId,
         };
         logger.debug('subscription added', parameter);
       }
-      if (action === globalConstants.SUBSCRIPTIONACTION_DELETE) {
+      if (action === constants.SUBSCRIPTIONACTION_DELETE) {
         subscriptions = _omit(subscriptions, parameter);
         logger.debug('subscription removed', parameter);
       }
@@ -184,7 +182,7 @@ function dcCall() {
 }
 
 function nextDcCall() {
-  setTimeout(dcCall, globalConstants.DC_STUB_FREQUENCY);
+  setTimeout(dcCall, constants.DC_STUB_FREQUENCY);
 }
 
 zmq.open(
@@ -207,8 +205,8 @@ zmq.open(
     }
 
     logger.info('sockets opened');
-    if (process.send) {
-      process.send('ready');
+    if (process.send) { // only when started as child process
+      process.send({ [constants.CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true });
     }
 
     nextDcCall();

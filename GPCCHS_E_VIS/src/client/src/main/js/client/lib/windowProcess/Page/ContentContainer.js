@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { updateLayout } from '../../store/actions/pages';
-import { closeView } from '../../store/actions/views';
+import { updateLayout, askOpenPage } from '../../store/actions/pages';
+import { askOpenView } from '../../store/actions/views';
 import { getPageViews } from '../../store/selectors/pages';
 import {
   getPageLayoutWithCollapsed,
@@ -21,10 +21,11 @@ const mapStateToProps = createStructuredSelector({
   maximizedViewUuid: getMaximizedViewdUuid,
 });
 
-const mapDispatchToProps = (dispatch, { pageId }) => (
+const mapDispatchToProps = (dispatch, { windowId, pageId }) => (
   bindActionCreators({
-    closeView: viewId => closeView(pageId, viewId),
     updateLayout: layout => updateLayout(pageId, layout),
+    askOpenPage: filePath => askOpenPage(windowId, filePath),
+    askOpenView: filePath => askOpenView(filePath),
   }, dispatch)
 );
 

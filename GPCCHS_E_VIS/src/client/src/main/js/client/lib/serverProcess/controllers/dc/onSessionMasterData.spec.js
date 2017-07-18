@@ -1,17 +1,20 @@
-const { registerProtobuf } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
-registerProtobuf();
+mockRegister();
+mockLoadStubs();
 
-const dataStub = require('common/protobuf/stubs');
-const protobuf = require('common/protobuf');
+const { getStubData } = require('../../../utils/stubs');
+const protobuf = require('../../../utils/adapters');
 const onSessionMasterData = require('./onSessionMasterData');
+
+const dataStub = getStubData();
 
 describe('controllers/client/onSessionMasterData', () => {
   test('should returns master session data', (done) => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myUinteger = 42;
-    const myUintegerProto = protobuf.encode(protobuf.getType('UINTEGER'), { value: myUinteger });
+    const myUintegerProto = protobuf.encode(protobuf.getType('UINTEGER'), myUinteger);
 
     const check = (...args) => {
       expect(args).toMatchObject([

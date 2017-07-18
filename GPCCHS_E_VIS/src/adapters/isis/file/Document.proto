@@ -1,0 +1,23 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/NamedValue.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UOCTET.proto";
+import "../ccsds_mal/URI.proto";
+import "./ProfileRight.proto";
+import "./UserRight.proto";
+
+
+package file.protobuf;
+
+message Document {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.BLOB lockedBy = 1;
+  optional ccsds_mal.protobuf.URI dirname = 2;
+  repeated ccsds_mal.protobuf.NamedValue properties = 3;
+  repeated file.protobuf.UserRight usersAccess = 4;
+  repeated file.protobuf.ProfileRight profilesAccess = 5;
+  optional ccsds_mal.protobuf.STRING basename = 6;
+  optional ccsds_mal.protobuf.UOCTET confidentiality = 7;
+}

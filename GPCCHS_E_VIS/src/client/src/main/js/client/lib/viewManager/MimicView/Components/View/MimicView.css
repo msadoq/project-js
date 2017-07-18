@@ -1,0 +1,13 @@
+.errorContent {
+  padding: 1em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.renderErrorText {
+  margin: auto;
+  font-size: 3em;
+  color: #CCC;
+  text-align: center;
+  font-weight: 600;
+}

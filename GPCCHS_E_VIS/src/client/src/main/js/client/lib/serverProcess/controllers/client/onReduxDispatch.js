@@ -7,4 +7,7 @@ import { getStore } from '../../store';
  *
  * @param action
  */
-module.exports = action => getStore().dispatch(action);
+
+module.exports = (action) => {
+  getStore().dispatch(action);
+};

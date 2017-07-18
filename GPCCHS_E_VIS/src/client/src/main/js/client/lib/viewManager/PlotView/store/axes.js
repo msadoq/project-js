@@ -55,6 +55,12 @@ function createAxis(stateConf, label, unit) {
     showLabels: true,
     max: 300,
     min: -300,
+    logarithmic: false,
+    logSettings: {
+      min: 0.1,
+      max: 1000000000,
+      base: 10,
+    },
     label,
     unit,
     id: getUniqueAxisId(stateConf, label),

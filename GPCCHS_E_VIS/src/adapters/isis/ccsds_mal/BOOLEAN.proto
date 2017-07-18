@@ -1,0 +1,6 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+package ccsds_mal.protobuf;
+
+message BOOLEAN {
+    required bool value = 1;
+}

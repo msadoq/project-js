@@ -4,8 +4,9 @@ import { mockStore, freezeMe } from '../common/jest';
 import readView from './readView';
 import * as readPageApi from './readPage';
 import * as readWorkspaceApi from './readWorkspace';
-import * as io from './io';
 import * as actions from './actions';
+
+jest.mock('../serverProcess/ipc');
 
 describe('documentManager:actions', () => {
   let stub;
@@ -18,11 +19,11 @@ describe('documentManager:actions', () => {
 
   describe('reloadView', () => {
     test('reload view', () => {
-      const store = mockStore();
+      const store = mockStore({ views: { myViewId: { absolutePath: '/an/absolute/path' } } });
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        cb(null, { some: 'properties' });
+        cb(null, { value: { some: 'properties' } });
       });
-      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      store.dispatch(actions.reloadView('myViewId'));
       expect(store.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_RELOAD',
@@ -39,11 +40,11 @@ describe('documentManager:actions', () => {
       ]);
     });
     test('invalid view file', () => {
-      const store = mockStore();
+      const store = mockStore({ views: { myViewId: { absolutePath: '/an/absolute/path' } } });
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         cb(new Error());
       });
-      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      store.dispatch(actions.reloadView('myViewId'));
       expect(store.getActions()).toMatchObject([
         {
           type: 'WS_MESSAGE_ADD',
@@ -79,7 +80,7 @@ describe('documentManager:actions', () => {
         },
       ]);
     });
-    test('dispatches a WS_VIEW_OPEN when view is loaded', () => {
+    test('dispatches a WS_VIEW_OPENED when view is loaded', () => {
       const store = mockStore();
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         cb(null, { value: { title: 'my view' } });
@@ -87,7 +88,7 @@ describe('documentManager:actions', () => {
       store.dispatch(actions.openView('viewInfo', 'myPageId'));
       expect(store.getActions()).toEqual([
         {
-          type: 'WS_VIEW_OPEN',
+          type: 'WS_VIEW_OPENED',
           payload: {
             pageId: 'myPageId',
             view: { title: 'my view' },
@@ -127,80 +128,6 @@ describe('documentManager:actions', () => {
       store.dispatch(actions.openPage('page_info'));
       expect(store.getActions()).toMatchSnapshot();
       done();
-    });
-  });
-
-  describe('openPageOrView', () => {
-    test('open a page', () => {
-      const store = mockStore();
-      stub = sinon.stub(readPageApi, 'readPageAndViews').callsFake((pageInfo, cb) => {
-        cb(null, {
-          views: [{ value: { type: 'TextView' } }],
-          pages: [{ value: { windowId: 'windowId', type: 'Page' } }],
-        });
-      });
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(null, 'Page');
-      });
-      store.dispatch(actions.openPageOrView('page_info'));
-      expect(store.getActions()).toMatchSnapshot();
-      stubReadDocumentType.restore();
-    });
-    test('open a view in a blank page', () => {
-      const store = mockStore(
-        freezeMe({
-          hsc: { focusWindow: 'w1' },
-          windows: { w1: { focusedPage: 'p1' } },
-        })
-      );
-      stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        cb(null, { value: { title: 'my view' } });
-      });
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(null, 'TextView');
-      });
-      store.dispatch(actions.openPageOrView('view_info'));
-
-      const actionsWithoutUuids = _.unset('[0].payload.page.uuid', store.getActions());
-      expect(actionsWithoutUuids).toMatchSnapshot();
-      expect(store.getActions()[0].payload.page.uuid).toBeAnUuid();
-      stubReadDocumentType.restore();
-    });
-    test('give an error when readDocument failed', () => {
-      const store = mockStore(freezeMe({}));
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(new Error('an error'));
-      });
-      store.dispatch(actions.openPageOrView());
-      expect(store.getActions()).toMatchObject([
-        {
-          type: 'WS_MESSAGE_ADD',
-          payload: {
-            containerId: 'global',
-            type: 'danger',
-            messages: [{ content: 'an error' }],
-          },
-        },
-      ]);
-      stubReadDocumentType.restore();
-    });
-    test('give an error when view type is unknown', () => {
-      const store = mockStore(freezeMe({}));
-      const stubReadDocumentType = sinon.stub(io, 'readDocumentType').callsFake((docInfo, cb) => {
-        cb(null, 'A Type');
-      });
-      store.dispatch(actions.openPageOrView());
-      expect(store.getActions()).toMatchObject([
-        {
-          type: 'WS_MESSAGE_ADD',
-          payload: {
-            containerId: 'global',
-            type: 'danger',
-            messages: [{ content: "Error, unknown type 'A Type'" }],
-          },
-        },
-      ]);
-      stubReadDocumentType.restore();
     });
   });
 
@@ -251,7 +178,7 @@ describe('documentManager:actions', () => {
             title: 'Unknown',
             views: [],
             path:
-              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/little.json',
+              '/pages/little.json',
             timebarId: 'TB1',
             uuid: 'add811db-9c39-447a-b826-d26e55c6cc93',
             timebarUuid: 'e9ab5b2f-e813-41bd-ae8a-b3121ebddb77',
@@ -267,8 +194,7 @@ describe('documentManager:actions', () => {
       views: [
         {
           value: {
-            path:
-              '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json',
+            path: '/views/empty.text.json',
             geometry: {
               x: 0,
               y: 0,
@@ -422,57 +348,6 @@ describe('documentManager:actions', () => {
           done();
         });
       }));
-    });
-  });
-
-  describe('openBlankWorkspace', () => {
-    test('close current workspace, then open a freshly new created workspace', () => {
-      const store = mockStore();
-      store.dispatch(actions.openBlankWorkspace());
-      const workspaceOpenPayload = store.getActions()[1].payload;
-      const firstTimebar = workspaceOpenPayload.timebars[0];
-      expect(firstTimebar.visuWindow).toHaveKeys(['lower', 'upper', 'current']);
-      expect(firstTimebar.slideWindow).toHaveKeys(['lower', 'upper']);
-      expect(firstTimebar).toHaveKeys(['rulerStart']);
-      expect(workspaceOpenPayload.windows[0].pages[0]).toBeAnUuid();
-      expect(workspaceOpenPayload.windows[0].uuid).toBeAnUuid();
-      expect(workspaceOpenPayload.timebars[0].uuid).toBeAnUuid();
-      expect(workspaceOpenPayload.pages[0].uuid).toBeAnUuid();
-      expect(workspaceOpenPayload.pages[0].timebarUuid).toBeAnUuid();
-      expect(store.getActions()).toMatchObject([
-        { type: 'HSC_CLOSE_WORKSPACE', payload: {} },
-        {
-          type: 'WS_WORKSPACE_OPEN',
-          payload: {
-            windows: [
-              {
-                title: 'Unknown',
-                type: 'documentWindow',
-                geometry: { w: 1200, h: 900, x: 10, y: 10 },
-              },
-            ],
-            timebars: [
-              {
-                type: 'timeBarConfiguration',
-                id: 'TB1',
-                mode: 'Normal',
-                rulerResolution: 11250,
-                speed: 1,
-                offsetFromUTC: 0,
-                timelines: [],
-              },
-            ],
-            pages: [
-              {
-                type: 'Page',
-                title: 'Unknown',
-                hideBorders: false,
-                timebarId: 'TB1',
-              },
-            ],
-          },
-        },
-      ]);
     });
   });
 });

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-// import { v4 } from 'uuid';
 import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from '../../../windowProcess/commonReduxForm/InputField';
@@ -55,7 +54,7 @@ class AddLink extends Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Path or OID">
+        <HorizontalFormGroup label="Path">
           <Field
             name="path"
             changePath={this.changePath}

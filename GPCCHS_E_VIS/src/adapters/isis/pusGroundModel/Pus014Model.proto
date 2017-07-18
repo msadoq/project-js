@@ -1,0 +1,27 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "./Pus014EventReportPacket.proto";
+import "./Pus014HkOrDiagPacket.proto";
+import "./Pus014TmPacket.proto";
+import "./PusElement.proto";
+
+
+package pusGroundModel.protobuf;
+
+message Pus014Model {
+extensions 13 to 113;
+
+  repeated pusGroundModel.protobuf.Pus014EventReportPacket pus014EventReportPacket = 1;
+  repeated pusGroundModel.protobuf.Pus014HkOrDiagPacket pus014HkPacket = 2;
+  repeated pusGroundModel.protobuf.Pus014TmPacket pus014TmPacket = 3;
+  optional ccsds_mal.protobuf.TIME groundDate = 4;
+  optional ccsds_mal.protobuf.UINTEGER apid = 5;
+  repeated pusGroundModel.protobuf.Pus014HkOrDiagPacket pus014DiagPacket = 6;
+  optional ccsds_mal.protobuf.UINTEGER noEventReportPackets = 7;
+  optional ccsds_mal.protobuf.UINTEGER noDiagPackets = 8;
+  optional ccsds_mal.protobuf.UINTEGER noHKPackets = 9;
+  optional ccsds_mal.protobuf.UINTEGER noTMPackets = 10;
+  optional pusGroundModel.protobuf.PusElement pusElement = 11;
+  optional ccsds_mal.protobuf.UINTEGER status = 12;
+}

@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/TIME.proto";
+import "./ClosingWay.proto";
+
+package opAlert.protobuf;
+
+message OpAlertClosingData {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.BLOB closingUser = 1;
+  optional ccsds_mal.protobuf.TIME closingDate = 2;
+  optional opAlert.protobuf.ClosingWay closingWay = 3;
+}

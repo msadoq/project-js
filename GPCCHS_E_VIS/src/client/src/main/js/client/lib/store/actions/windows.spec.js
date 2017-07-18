@@ -46,16 +46,6 @@ describe('store:actions:windows', () => {
         },
       ]);
     });
-    test('set pause then set focus', () => {
-      store.dispatch(actions.focusPage('myWindowId', 'p2'));
-      expect(store.getActions()).toEqual([
-        { type: 'HSC_PAUSE', payload: {} },
-        {
-          type: 'WS_WINDOW_PAGE_FOCUS',
-          payload: { windowId: 'myWindowId', pageId: 'p2' },
-        },
-      ]);
-    });
     test('do nothing when page is unknown', () => {
       store.dispatch(actions.focusPage('unknownWindow', 'unknownPage'));
       expect(store.getActions()).toEqual([]);

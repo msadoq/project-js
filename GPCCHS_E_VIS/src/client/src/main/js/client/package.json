@@ -51,7 +51,8 @@
     "copy-rtd": "./manageRTD.sh --copy",
     "prepare:maven:build": "node ./scripts/prepareMavenBuild.js",
     "postinstall": "electron-rebuild",
-    "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
+    "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
+    "benchmark-grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"

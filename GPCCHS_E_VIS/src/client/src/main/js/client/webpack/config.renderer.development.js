@@ -34,6 +34,11 @@ export default merge(baseConfig, {
       '!style!css!postcss!./lib/windowProcess/style',
       './lib/codeEditorProcess/index',
     ],
+    'grizzly.benchmark': [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      './lib/grizzlyProcess/index',
+    ],
   },
 
   output: {

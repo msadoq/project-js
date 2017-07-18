@@ -91,7 +91,7 @@ const line1000Points = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line1000Points2 = {
@@ -106,7 +106,7 @@ const line1000Points2 = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line1000PointsColorChanging = {
@@ -121,7 +121,7 @@ const line1000PointsColorChanging = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line1000Points4Colors = {
@@ -136,7 +136,7 @@ const line1000Points4Colors = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line10000Points = {
@@ -151,7 +151,7 @@ const line10000Points = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line10000Points2 = {
@@ -166,7 +166,7 @@ const line10000Points2 = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line25000Points = {
@@ -181,7 +181,7 @@ const line25000Points = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const line25000Points2 = {
@@ -196,7 +196,7 @@ const line25000Points2 = {
   dataAccessor: null,
   xAccessor: null, // default .x
   yAccessor: null, // default .value
-  colorAccessor: d => d.color,
+  colorAccessor: 'color',
 };
 
 const axisLines2lines1000points = [line1000Points, line1000Points2];

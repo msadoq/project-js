@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
@@ -44,7 +45,22 @@ class AddLink extends Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit} key={myFormKey}>
+      <Form
+        key={myFormKey}
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          valid={valid}
+          reset={reset}
+        />
+        <br />
         <HorizontalFormGroup label="Label">
           <Field
             name="name"
@@ -63,13 +79,6 @@ class AddLink extends Component {
             myFormKey={myFormKey}
           />
         </HorizontalFormGroup>
-
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          valid={valid}
-          reset={reset}
-        />
       </Form>
     );
   }

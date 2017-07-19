@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
 import {
   Form,
 } from 'react-bootstrap';
@@ -29,15 +30,23 @@ class EntryPointConnectedData extends Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
-        <EntryPointConnectedDataFields
-          timelines={timelines}
-        />
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}
           reset={reset}
           valid={valid}
+        />
+        <br />
+        <EntryPointConnectedDataFields
+          timelines={timelines}
         />
       </Form>
     );

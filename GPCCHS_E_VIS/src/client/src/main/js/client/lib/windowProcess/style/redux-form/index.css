@@ -1,0 +1,6 @@
+.redux-form-dirty {
+  box-shadow: 0px 0px 1px #B55, 0px 0px 2px #B55, 0px 0px 3px #B55;
+}
+.redux-form-padded {
+  padding: 4px;
+}

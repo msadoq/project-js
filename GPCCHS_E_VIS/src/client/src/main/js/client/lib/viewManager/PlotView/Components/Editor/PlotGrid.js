@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import { Field, reduxForm } from 'redux-form';
 import {
   Form,
@@ -59,7 +60,20 @@ class PlotGrid extends React.Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
         <HorizontalFormGroup label="Show">
           <Field
             name="showGrid"
@@ -104,13 +118,6 @@ class PlotGrid extends React.Component {
             }
           </Field>
         </HorizontalFormGroup>
-
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
       </Form>
     );
   }

@@ -107,7 +107,20 @@ class AddPlotAxis extends PureComponent {
 
     if (axisId === 'time') {
       return (
-        <Form horizontal onSubmit={handleSubmit}>
+        <Form
+          horizontal
+          onSubmit={handleSubmit}
+          className={classnames(
+            { 'redux-form-dirty': !pristine },
+            'redux-form-padded'
+          )}
+        >
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
+          />
           {
             relatedEntryPoints.length ?
               <div>
@@ -162,18 +175,25 @@ class AddPlotAxis extends PureComponent {
               />
             </HorizontalFormGroup>
           }
-          <ClearSubmitButtons
-            pristine={pristine}
-            submitting={submitting}
-            reset={reset}
-            valid={valid}
-          />
         </Form>
       );
     }
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
         {
           relatedEntryPoints.length ?
             <div>
@@ -326,12 +346,6 @@ class AddPlotAxis extends PureComponent {
             </HorizontalFormGroup>
           </div>
         }
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
       </Form>
     );
   }

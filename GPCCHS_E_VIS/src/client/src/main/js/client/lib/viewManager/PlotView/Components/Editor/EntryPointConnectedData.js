@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { Form } from 'react-bootstrap';
@@ -56,7 +57,21 @@ class EntryPointConnectedData extends Component {
     }
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
+        <br />
         <div>
           <HorizontalFormGroup label="Formula">
             <Field
@@ -148,13 +163,6 @@ class EntryPointConnectedData extends Component {
             component={FiltersFields}
           />
         </div>
-
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
       </Form>
     );
   }

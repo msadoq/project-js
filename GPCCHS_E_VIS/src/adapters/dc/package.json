@@ -1,6 +1,6 @@
 {
   "name": "dc-adapter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "jest": {
     "verbose": true,
     "testRegex": "(spec)\\.(js|jsx)$",

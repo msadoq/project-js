@@ -3,11 +3,13 @@
   "installedESLint": true,
   "globals": {
     "describe": true,
-    "it": true,
-    "before": true,
-    "after": true,
     "beforeEach": true,
-    "afterEach": true
+    "afterEach": true,
+    "expect": true,
+    "jest": true,
+    "test": true,
+    "beforeAll": true,
+    "afterAll": true
   },
   "rules": {
     "max-statements-per-line": ["warn", { "max": 1 }],

@@ -13,10 +13,10 @@
     li:not(.active) {
       background-color: var(--theme-main);
       & > a {
-        color: #FFF;
+        color: var(--navTabText) !important;
       }
       &:hover, & > a:hover {
-        background-color: #000 !important;
+        background-color: var(--theme-dark-2) !important;
       }
     }
   }

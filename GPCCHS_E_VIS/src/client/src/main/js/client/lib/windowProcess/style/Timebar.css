@@ -1,18 +1,18 @@
 @import './variables.css';
 
 .LeftTab {
-  background-color: var(--theme-main);
+  background-color: var(--theme-light);
   .timebarName {
-    color: #FFF;
+    color: #000;
   }
 }
 
 .RightTab {
   .ViewportWrapper {
-    background: var(--theme-main);
+    background: var(--theme-light);
   }
   .Controls {
-    background-color: var(--theme-main);
+    background-color: var(--theme-light);
   }
   .FormatedFullDate {
     background: rgba(0, 0, 0, 0.4);
@@ -24,10 +24,10 @@
   .Scale {
     background-color: var(--theme-main);
     .ScaleTime {
-      color: #FFF;
+      color: #000;
     }
   }
   .LowerFormattedTime, .UpperFormattedTime, .CurrentFormattedTime {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0);
   }
 }

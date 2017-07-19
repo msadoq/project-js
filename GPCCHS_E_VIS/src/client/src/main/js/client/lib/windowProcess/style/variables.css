@@ -37,13 +37,29 @@
 
   --leftTabButtonColor: #FFF;
 
+  /*
   --navTabText: #FFF;
-  --navTabActiveText: #000;
 
   --theme-light-2: #EEE;
   --theme-light: #CCC;
   --theme-main: #777;
   --theme-dark: #555;
+  --theme-dark-2: #444;
+  */
+
+  --leftTabButtonColor: #000;
+
+  --navTabText: #000;
+  --navTabActiveText: #000;
+
+  --theme-light-2: #FFF;
+  --theme-light: #EEE;
+  --theme-main: #DDD;
+  --theme-dark: #AAA;
+  --theme-dark-2: #999;
+
+  --plotViewBg: #FAFAFA;
+  --grizzlyBg: #E0E0E0;
 }
 .collapsed {
   .react-resizable-handle{

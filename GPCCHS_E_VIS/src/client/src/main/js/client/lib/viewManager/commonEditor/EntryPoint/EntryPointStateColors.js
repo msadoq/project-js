@@ -3,10 +3,10 @@ import {
   reduxForm,
   FieldArray,
 } from 'redux-form';
+import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import StateColorsFields from '../Fields/StateColorsFields';
 import EntryPointMonitoringStateColors from './EntryPointMonitoringStateColors';
-import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 
 /*
@@ -31,19 +31,24 @@ const EntryPointStateColors = (props) => {
     <div>
       <EntryPointMonitoringStateColors />
       <h4>Custom colors</h4>
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
         <FieldArray
           name="stateColors"
           component={StateColorsFields}
         />
-        <HorizontalFormGroup>
-          <ClearSubmitButtons
-            pristine={pristine}
-            submitting={submitting}
-            reset={reset}
-            valid={valid}
-          />
-        </HorizontalFormGroup>
       </Form>
     </div>
   );

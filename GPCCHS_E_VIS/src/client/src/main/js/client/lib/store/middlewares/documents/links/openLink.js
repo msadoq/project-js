@@ -1,15 +1,15 @@
 import _ from 'lodash/fp';
-import * as types from '../types';
-import { addBlankPage } from '../../store/actions/pages';
-import { getFocusedWindowId } from '../../store/reducers/hsc';
-import { getWindowFocusedPageId } from '../../store/reducers/windows';
-import { add as addMessage } from '../../store/actions/messages';
+import * as types from '../../../types';
+import { addBlankPage } from '../../../../store/actions/pages';
+import { getFocusedWindowId } from '../../../../store/reducers/hsc';
+import { getWindowFocusedPageId } from '../../../../store/reducers/windows';
+import { add as addMessage } from '../../../../store/actions/messages';
 
 const createOpenLinkMiddleware = documentManager => store => next => (action) => {
   if (action.type !== types.WS_OPEN_LINK) {
     return next(action);
   }
-
+  const nextAction = next(action);
   const { dispatch } = store;
   const isView = type => /^.*View$/.test(type);
   const isPage = _.equals('Page');
@@ -29,7 +29,7 @@ const createOpenLinkMiddleware = documentManager => store => next => (action) =>
       dispatch(addMessage('global', 'danger', `Error, unknown type '${type}'`));
     }
   });
-  return action;
+  return nextAction;
 };
 
 

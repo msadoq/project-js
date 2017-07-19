@@ -9,7 +9,7 @@ import { getView } from '../reducers/views';
  * @param windowId
  * @returns {boolean}
  */
-function getIsSaveNeeded(state, { windowId }) {
+const getIsSaveNeeded = (state, { windowId }) => {
   const pageIds = getWindowPageIds(state, { windowId }) || [];
   // is there is a page to save?
   let viewIds = [];
@@ -35,6 +35,8 @@ function getIsSaveNeeded(state, { windowId }) {
 
   // nothing to save in this window
   return false;
-}
+};
 
-module.exports = { getIsSaveNeeded };
+export default {
+  getIsSaveNeeded,
+};

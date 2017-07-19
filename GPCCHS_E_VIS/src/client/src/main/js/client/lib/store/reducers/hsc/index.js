@@ -54,12 +54,14 @@ export default function hsc(state = initialState, action) {
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:
     case types.WS_WINDOW_UPDATE_TITLE:
+    case types.WS_WINDOW_ADD:
+    case types.WS_WINDOW_CLOSE:
       return _.set('isModified', true, state);
     case types.WS_WORKSPACE_SET_MODIFIED:
       return _.set('isModified', action.payload.flag, state);
     case types.WS_WORKSPACE_OPENED:
       return { ...state,
-        isModified: false,
+        isModified: !!action.payload.isModified,
         domainName: action.payload.domainName,
         sessionName: action.payload.sessionName,
       };
@@ -108,3 +110,4 @@ export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getWorkspaceIsModified = inHsc('isModified');
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');
+export const getWorkspaceIsNew = state => (!state.hsc.file && !state.hsc.folder);

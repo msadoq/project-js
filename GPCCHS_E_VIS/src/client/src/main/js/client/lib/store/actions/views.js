@@ -12,7 +12,11 @@ import { getViewModule } from '../../viewManager';
 import { focusPage } from '../actions/windows';
 
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'view', 'pageId');
-export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
+
+export const closeView = viewId => (dispatch, getState) => {
+  const pageId = getPageIdByViewId(getState(), { viewId });
+  dispatch({ type: types.WS_VIEW_CLOSE, payload: { viewId, pageId } });
+};
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
@@ -65,6 +69,12 @@ export const removeMarker = simple(types.WS_VIEW_REMOVE_MARKER, 'viewId', 'index
 
 export const addProcedure = simple(types.WS_VIEW_ADD_PROCEDURE, 'viewId', 'procedure');
 export const removeProcedure = simple(types.WS_VIEW_REMOVE_PROCEDURE, 'viewId', 'index');
+
+export const askSaveView = simple(types.WS_ASK_SAVE_VIEW, 'viewId', 'saveAs');
+export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'absolutePath');
+export const askCloseView = simple(types.WS_ASK_CLOSE_VIEW, 'viewId');
+export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
+export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
 
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index', 'entryPoint');

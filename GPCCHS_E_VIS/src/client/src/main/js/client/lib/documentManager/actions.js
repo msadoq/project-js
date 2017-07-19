@@ -5,31 +5,48 @@ import { LOG_DOCUMENT_OPEN } from '../constants';
 import getLogger from '../common/logManager';
 import parameters from '../common/configurationManager';
 
-import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
+import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace, setWorkspaceModified } from '../store/actions/hsc';
 
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 
 import simple from '../store/helpers/simpleActionCreator';
 import { add as addMessage } from '../store/actions/messages';
 import * as types from '../store/types';
 
+import { getView } from '../store/reducers/views';
 import { getFirstTimebarId } from '../store/reducers/timebars';
-import { createBlankWorkspace } from './createBlankWorkspace';
-import { simpleReadView } from './readView';
+import { getViewWithConfiguration, getViewModule } from '../viewManager';
+import readView from './readView';
+
 import { readPageAndViews } from './readPage';
 import { readWorkspacePagesAndViews } from './readWorkspace';
 import { getSession } from '../store/reducers/sessions';
 
+import { writeWorkspace } from './writeWorkspace';
 import { writePage } from './writePage';
-import { setModified, setPageOid } from '../store/actions/pages';
+import { writeView } from './writeView';
+import {
+  setModified as setPageModified,
+  setPageOid,
+  updatePath as updatePagePath,
+  updateAbsolutePath as updatePageAbsolutePath,
+} from '../store/actions/pages';
+
+import {
+  setModified as setViewModified,
+  setViewOid,
+  updatePath as updateViewPath,
+  updateAbsolutePath as updateViewAbsolutePath,
+} from '../store/actions/views';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 const reload = simple(types.WS_VIEW_RELOAD, 'viewId', 'view');
 
-export const reloadView = (viewId, absolutePath) => (dispatch) => {
-  simpleReadView({ absolutePath }, (err, view) => {
-    if (err) {
+export const reloadView = viewId => (dispatch, getState) => {
+  const { absolutePath } = getView(getState(), { viewId });
+  readView.simpleReadView({ absolutePath }, (err, view) => {
+    if (err || view.error) {
       return dispatch(addMessage(
         viewId,
         'danger',
@@ -37,7 +54,7 @@ export const reloadView = (viewId, absolutePath) => (dispatch) => {
       ));
     }
 
-    dispatch(reload(viewId, _.set('uuid', viewId, view)));
+    dispatch(reload(viewId, _.set('uuid', viewId, view.value)));
     return dispatch(addMessage(
       viewId,
       'success',
@@ -48,7 +65,7 @@ export const reloadView = (viewId, absolutePath) => (dispatch) => {
 
 // --- open a view ---------------------------------------------------------- //
 export const openView = (viewInfo, pageId) => (dispatch) => {
-  simpleReadView(viewInfo, (ignoredErr, view) => {
+  readView.simpleReadView(viewInfo, (ignoredErr, view) => {
     if (view.error) {
       dispatch(addGlobalError(view.error));
       return;
@@ -57,7 +74,7 @@ export const openView = (viewInfo, pageId) => (dispatch) => {
       type: types.WS_VIEW_OPENED,
       payload: { view: view.value, pageId },
     });
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath);
+    dc.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath);
   });
 };
 // -------------------------------------------------------------------------- //
@@ -88,7 +105,7 @@ export const openPage = pageInfo => (dispatch, getState) => {
     });
 
     const path = page.absolutePath || page.path || page.oId;
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
+    dc.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };
 // -------------------------------------------------------------------------- //
@@ -139,15 +156,14 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
     const keepErrors = _.pipe(_.filter(_.has('error')), _.map('error'));
     const keepValues = _.pipe(_.filter(_.has('value')), _.map('value'));
     const { views, pages } = documents;
-
     const errors = _.compact([err, ...keepErrors(views), ...keepErrors(pages)]);
     if (!_.isEmpty(errors)) {
       setImmediate(() => { // TODO : find why store is not synced at this point
         dispatch(addGlobalError(errors));
       });
-      dispatch(isWorkspaceOpening(false));
     }
     if (err) {
+      dispatch(isWorkspaceOpening(false));
       return cb(errors);
     }
 
@@ -162,23 +178,13 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
     dispatch(isWorkspaceOpening(false));
 
     logLoadedDocumentsCount(documents);
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
+    dc.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
 
     dispatch(updateWorkspacePath(dirname(path), basename(path)));
     return cb(null);
   });
 };
 // -------------------------------------------------------------------------- //
-
-
-// --- open a blank workspace ----------------------------------------------- //
-export const openBlankWorkspace = ({ keepMessages } = {}) => (dispatch) => {
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-  dispatch(closeWorkspace(keepMessages));
-  dispatch({ type: types.WS_WORKSPACE_OPENED, payload: createBlankWorkspace() });
-};
-// -------------------------------------------------------------------------- //
-
 
 // --- save a page ---------------------------------------------------------- //
 export const savePage = (pageId, path) => (dispatch, getState) => {
@@ -190,8 +196,57 @@ export const savePage = (pageId, path) => (dispatch, getState) => {
     if (oid) {
       dispatch(setPageOid(pageId, oid));
     }
-    dispatch(setModified(pageId, false));
+    dispatch(updatePagePath(pageId, path));
+    dispatch(updatePageAbsolutePath(pageId, path));
+    dispatch(setPageModified(pageId, false));
     dispatch(addMessage('global', 'success', 'Page saved'));
   });
 };
 // -------------------------------------------------------------------------- //
+
+// --- save a view ---------------------------------------------------------- //
+export const saveView = (viewId, path, cb = _.noop) => (dispatch, getState) => {
+  const view = getViewWithConfiguration(getState(), { viewId });
+  writeView(view, path, (err, oid) => {
+    if (err) {
+      dispatch(addMessage(viewId, 'danger', err));
+      cb(err);
+      return;
+    }
+    if (oid) {
+      dispatch(setViewOid(viewId, oid));
+    }
+    dispatch(updateViewPath(viewId, path));
+    dispatch(updateViewAbsolutePath(viewId, path));
+    dispatch(setViewModified(viewId, false));
+    dispatch(addMessage(viewId, 'success', 'View saved'));
+    cb(null, 'saved');
+  });
+};
+
+export const saveViewAsModel = (viewId, path) => (dispatch, getState) => {
+  const view = getViewWithConfiguration(getState(), { viewId });
+  const viewToSave = getViewModule(view.type).prepareViewForModel(view);
+  writeView(viewToSave, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Model unsaved ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Model saved'));
+    }
+  });
+};
+// -------------------------------------------------------------------------- //
+
+// --- save a workspace ----------------------------------------------------------//
+export const saveWorkspace = path => (dispatch, getState) => {
+  writeWorkspace(getState(), path, (err) => {
+    if (err) {
+      dispatch(addMessage('global', 'danger', err));
+      return;
+    }
+    dispatch(updateWorkspacePath(dirname(path), basename(path)));
+    dispatch(setWorkspaceModified(false));
+    dispatch(addMessage('global', 'success', 'Workspace saved'));
+  });
+};
+// -------------------------------------------------------------------------------//

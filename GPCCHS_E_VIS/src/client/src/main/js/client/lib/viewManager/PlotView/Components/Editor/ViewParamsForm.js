@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import { Field, reduxForm } from 'redux-form';
 import {
   Form,
@@ -62,7 +63,20 @@ class ViewParamsForm extends React.Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
         <div className="page-header">
           <h4>Title</h4>
         </div>
@@ -140,13 +154,6 @@ class ViewParamsForm extends React.Component {
             )}
           />
         </HorizontalFormGroup>
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-
       </Form>
     );
   }

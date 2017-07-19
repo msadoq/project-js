@@ -3,7 +3,7 @@ import { Glyphicon, Button, Col, Row } from 'react-bootstrap';
 import classnames from 'classnames';
 import _find from 'lodash/find';
 import styles from './Links.css';
-import { resolveFmdPath } from '../../common/pathResolver';
+// import { resolveFmdPath } from '../../common/pathResolver';
 
 export default class Links extends PureComponent {
   static propTypes = {
@@ -30,18 +30,18 @@ export default class Links extends PureComponent {
     showLinks: false,
   }
 
-  onClick = (e, key) => {
+  onClick = () => {
     // Get link path
-    const path = this.props.links[key].path;
-    const resolvedPath = {};
+    // const path = this.props.links[key].path;
+    // const resolvedPath = {};
     // resolve link: abs path, fmd path or OID
-    if (path.startsWith('/')) {
-      resolveFmdPath(path, (err, resPath) => {
-        if (!err) {
-          resolvedPath.absolutePath = resPath.resolvedPath;
-          this.openFile(resolvedPath);
-        }
-      });
+    // if (path.startsWith('/')) {
+    //   resolveFmdPath(path, (err, resPath) => {
+    //     if (!err) {
+    //       resolvedPath.absolutePath = resPath.resolvedPath;
+    //       this.openFile(resolvedPath);
+    //     }
+    //   });
     // } else {
     //   resolveOid(path, (err, resPath) => {
     //     if (!err) {
@@ -49,7 +49,7 @@ export default class Links extends PureComponent {
     //       this.openFile(resolvedPath);
     //     }
     //   });
-    }
+    // }
   }
 
   openFile = (resolvedPath) => {

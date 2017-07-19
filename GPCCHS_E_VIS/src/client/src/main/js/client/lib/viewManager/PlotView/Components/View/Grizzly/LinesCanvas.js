@@ -30,7 +30,7 @@ export default class LinesCanvas extends Component {
         pointStyle: PropTypes.string,
         dataAccessor: PropTypes.func,
         yAccessor: PropTypes.func,
-        colorAccessor: PropTypes.func,
+        colorAccessor: PropTypes.string,
       })
     ).isRequired,
   }
@@ -156,7 +156,7 @@ export default class LinesCanvas extends Component {
       let lastY;
       for (let i = 0; i < dataLine.length; i += 1) {
         if (line.colorAccessor) {
-          const color = line.colorAccessor(dataLine[i]) || fill;
+          const color = dataLine[i][line.colorAccessor] || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;

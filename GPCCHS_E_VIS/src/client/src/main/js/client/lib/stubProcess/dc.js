@@ -1,9 +1,11 @@
+const { resolve } = require('path');
 const adapter = require('../utils/adapters');
 const stubs = require('../utils/stubs');
+const parameters = require('../common/configurationManager');
 
+parameters.init(resolve(__dirname, '../..'));
 adapter.registerGlobal();
 stubs.loadStubs();
-const parameters = require('../common/configurationManager');
 
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
@@ -203,7 +205,9 @@ zmq.open(
     }
 
     logger.info('sockets opened');
-    process.send({ [constants.CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true });
+    if (process.send) { // only when started as child process
+      process.send({ [constants.CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true });
+    }
 
     nextDcCall();
   }

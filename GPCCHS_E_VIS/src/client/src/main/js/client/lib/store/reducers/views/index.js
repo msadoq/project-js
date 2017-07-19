@@ -10,6 +10,11 @@ export default createReducerByViews(view);
 export const getViews = _.get('views');
 export const getView = (state, { viewId }) => _.get(viewId, getViews(state));
 
+export const getViewIsModified = createSelector(
+  getView,
+  _.get('isModified')
+);
+
 export const getModifiedViewsIds = state =>
   Object
     .keys(getViews(state))

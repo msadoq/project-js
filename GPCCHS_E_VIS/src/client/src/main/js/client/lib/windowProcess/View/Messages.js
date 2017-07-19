@@ -21,7 +21,6 @@ export default class Messages extends PureComponent {
       removeMessage,
       cancelRemoveMessage,
     } = this.props;
-
     return (
       <div>
         {messages && messages.map((v, i) => {

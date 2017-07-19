@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
@@ -23,7 +24,21 @@ class EntryPointConnectedData extends Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
+        <br />
         <HorizontalFormGroup label="Formula">
           <Field
             name="formula"
@@ -65,12 +80,6 @@ class EntryPointConnectedData extends Component {
             })}
           />
         </HorizontalFormGroup>
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
       </Form>
     );
   }

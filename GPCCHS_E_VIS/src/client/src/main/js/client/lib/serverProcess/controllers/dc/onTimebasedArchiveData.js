@@ -1,12 +1,9 @@
 const _isBuffer = require('lodash/isBuffer');
-const { writeFile } = require('fs');
-const { join } = require('path');
 const { decode, encode, getType } = require('../../../utils/adapters');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
-const { get } = require('../../../common/configurationManager');
-const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
+const { dumpBuffer } = require('../../utils/dumpBuffer');
 const {
   removeByQueryId: removeRegisteredQuery,
   getByQueryId: getRegisteredQuery,
@@ -17,10 +14,6 @@ const { getStore } = require('../../store');
 const { incomingArchive } = require('../../../viewManager/commonActions/dataActions');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
-
-// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-const dump = (get('DUMP') === 'on');
-// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -117,14 +110,6 @@ module.exports = function onTimebasedArchiveData(args) {
     execution.stop('retrieve store');
   }
 
-  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-  let dumpFolder;
-  if (dump) {
-    createDumpFolder(dataId);
-    dumpFolder = getDumpFolder(dataId);
-  }
-  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-
   // only one loop to decode, insert in cache, and add to queue
   const payloadsJson = {};
   while (payloadBuffers.length) {
@@ -143,17 +128,8 @@ module.exports = function onTimebasedArchiveData(args) {
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
-    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-    // dump
-    if (dump && dumpFolder) {
-      // save a file per timestamp with binary payload
-      writeFile(join(dumpFolder, timestamp.toString()), payloadBuffer[1], (err) => {
-        if (err) {
-          loggerData.warn(`Error writing dump file ${timestamp}`);
-        }
-      });
-    }
-    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
+    // dump: if activated, save a file per timestamp with binary payload
+    dumpBuffer(dataId, timestamp, payloadBuffer[1]);
 
     loggerData.silly({
       controller: 'onTimebasedArchiveData',

@@ -6,10 +6,10 @@ import { open as openModal } from '../../actions/modals';
 
 const createDialogHelper = ({ dispatch }) => {
   const dialogCache = {};
-  const open = (windowId, type, onClose = _.noop) => {
+  const open = (windowId, type, options, onClose = _.noop) => {
     const dialogId = v4();
     dialogCache[dialogId] = onClose;
-    dispatch(openDialog(windowId, dialogId, type));
+    dispatch(openDialog(windowId, dialogId, type, options));
   };
   const interact = (action) => {
     if (action.type === types.HSC_DIALOG_CLOSED && dialogCache[action.payload.dialogId]) {
@@ -44,18 +44,22 @@ const createModalHelper = ({ dispatch }) => {
   };
 };
 
-export const withOpenModal = middleware => (storeApi) => {
+export const withOpenModal = middleware => storeApi => (next) => {
   const modalHelper = createModalHelper(storeApi);
-  return next => (action) => {
+  const configuredMiddleware = middleware({ ...storeApi, openModal: modalHelper.open })(next);
+  return (action) => {
+    const nextAction = configuredMiddleware(action);
     modalHelper.interact(action);
-    return middleware({ ...storeApi, openModal: modalHelper.open })(next)(action);
+    return nextAction;
   };
 };
 
-export const withOpenDialog = middleware => (storeApi) => {
+export const withOpenDialog = middleware => storeApi => (next) => {
   const dialogHelper = createDialogHelper(storeApi);
-  return next => (action) => {
+  const configuredMiddleware = middleware({ ...storeApi, openDialog: dialogHelper.open })(next);
+  return (action) => {
+    const nextAction = configuredMiddleware(action);
     dialogHelper.interact(action);
-    return middleware({ ...storeApi, openDialog: dialogHelper.open })(next)(action);
+    return nextAction;
   };
 };

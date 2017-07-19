@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`documentManager/saveWorkspace saveWorkspace saves correct content 1`] = `
+exports[`documentManager/writeWorkspace writeWorkspace saves correct content 1`] = `
 Object {
   "timebars": Array [
     Object {
@@ -55,7 +55,7 @@ Object {
 }
 `;
 
-exports[`documentManager/saveWorkspace saveWorkspaceAs saves 1`] = `
+exports[`documentManager/writeWorkspace writeWorkspaceAs saves 1`] = `
 "{
   \\"type\\": \\"WorkSpace\\",
   \\"windows\\": [

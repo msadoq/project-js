@@ -1,13 +1,13 @@
 import { dirname } from 'path';
 import { LOG_DOCUMENT_SAVE } from '../constants';
 
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 import validation from './validation';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
 
-const saveViewAs = (view, path, callback) => {
+const writeView = (view, path, callback) => {
   if (!view) {
     return callback(new Error('No view'));
   }
@@ -23,7 +23,6 @@ const saveViewAs = (view, path, callback) => {
 
     const schema = getSchema(view.type);
     const validationError = validation(view.type, preparedView, schema);
-
     if (validationError) {
       return callback(validationError);
     }
@@ -32,12 +31,12 @@ const saveViewAs = (view, path, callback) => {
       if (errWrite) {
         return callback(errWrite);
       }
-      server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
+      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null, oId);
     });
   });
 };
 
 export default {
-  saveViewAs,
+  writeView,
 };

@@ -1,25 +1,35 @@
 import * as types from '../../../types';
 
 import { getPage } from '../../../reducers/pages';
-import { getPageHasUnsavedViews } from '../../../selectors/pages';
+import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
 import { getWindowIdByPageId } from '../../../reducers/windows';
+import { withOpenDialog, withOpenModal } from '../helpers';
 
-const onSavePage = documentManager => (
+const onSavePage = documentManager => withOpenModal(withOpenDialog(
   ({ getState, dispatch, openDialog, openModal }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
       const page = getPage(state, { pageId });
-      const saveAs = action.payload.saveAs || (!page.oid && !page.absolutePath);
+      const saveAs = action.payload.saveAs || (!page.oId && !page.absolutePath);
       const windowId = getWindowIdByPageId(state, { pageId });
-      if (getPageHasUnsavedViews(state, { pageId })) {
-        // here save agent
-        openModal(windowId, { type: 'saveAgent', pageId }, () => {
-          // console.warn(closeAction);
+      if (getPageHasNewViews(state, { pageId })) {
+        openModal(windowId, {
+          title: 'new views must be saved',
+          type: 'saveWizard',
+          documentType: 'page',
+          pageIds: [pageId],
+          viewIds: getPageNewViewIds(state, { pageId }),
+          buttons: [
+            {
+              savedDocuments: { label: 'Ok', value: 'ok', type: 'secondary' },
+              unsavedDocuments: { label: 'Ok', value: 'ok', type: 'secondary', disabled: true },
+            },
+          ],
         });
       } else if (saveAs) {
-        openDialog(windowId, 'save', (closeAction) => {
+        openDialog(windowId, 'save', {}, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             const absolutePath = choice;
@@ -27,12 +37,12 @@ const onSavePage = documentManager => (
           }
         });
       } else {
-        dispatch(documentManager.savePage(pageId));
+        dispatch(documentManager.savePage(pageId, page.absolutePath));
       }
     }
-    return returnedAction;
+    return nextAction;
   }
-);
+));
 
 
 export default onSavePage;

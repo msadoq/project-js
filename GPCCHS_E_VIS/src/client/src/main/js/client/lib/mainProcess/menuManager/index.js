@@ -6,11 +6,11 @@ import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
 import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
-import { viewOpen, viewAddBlank } from './viewOpen';
-import { pageAddBlank } from './pageOpen';
-import { workspaceSave, workspaceSaveAs } from './workspaceSave';
-import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
-import { workspaceClose } from './workspaceClose';
+import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from '../../store/actions/hsc';
+import { askOpenView } from '../../store/actions/views';
+import { viewAddBlank } from './viewOpen';
+import pageAddBlank from './pageAddBlank';
+
 import { getAvailableViews } from '../../viewManager';
 import { getFocusedPageId } from '../../store/selectors/pages';
 
@@ -22,13 +22,13 @@ const workspace = {
     label: 'New...',
     accelerator: 'CmdOrCtrl+N',
     click(item, focusedWindow) {
-      workspaceOpenNew(focusedWindow);
+      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, null, true));
     },
   }, {
     label: 'Open...',
     accelerator: 'CmdOrCtrl+O',
     click(item, focusedWindow) {
-      workspaceOpen(focusedWindow);
+      getStore().dispatch(askOpenWorkspace(focusedWindow.windowId, null, false));
     },
   }, {
     label: 'Edit...',
@@ -46,18 +46,18 @@ const workspace = {
     label: 'Save',
     accelerator: 'CmdOrCtrl+S',
     click: (item, focusedWindow) => {
-      workspaceSave(focusedWindow);
+      getStore().dispatch(askSaveWorkspace(focusedWindow.windowId));
     },
   }, {
     label: 'Save as...',
     accelerator: 'CmdOrCtrl+Shift+S',
     click: (item, focusedWindow) => {
-      workspaceSaveAs(focusedWindow);
+      getStore().dispatch(askSaveWorkspace(focusedWindow.windowId, true));
     },
   }, {
     label: 'Quit',
-    click: () => {
-      workspaceClose();
+    click: (item, focusedWindow) => {
+      getStore().dispatch(askCloseWorkspace(focusedWindow.windowId));
     },
   }],
 };
@@ -150,9 +150,7 @@ const view = {
     {
       label: 'Open...',
       accelerator: '',
-      click(item, focusedWindow) {
-        viewOpen(focusedWindow);
-      },
+      click: () => getStore().dispatch(askOpenView()),
     },
   ],
 };

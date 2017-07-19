@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`documentManager/saveViews saveViewAs saves the view 1`] = `
+exports[`documentManager/writeViews writeView saves the view 1`] = `
 "{
   \\"type\\": \\"DynamicView\\",
   \\"title\\": \\"Dynamic view\\",

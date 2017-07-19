@@ -15,7 +15,7 @@ import {
 } from '../store/reducers/hsc';
 
 import validation from './validation';
-import { server } from '../mainProcess/ipc';
+import { dc } from '../serverProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
@@ -23,7 +23,7 @@ const getPageLocation = ({ oId, path, absolutePath }) => {
   if (oId) {
     return { oId };
   }
-  return { path: path || absolutePath };
+  return { path: absolutePath || path };
 };
 
 const prepareWindows = state => _.map(win => ({
@@ -62,7 +62,7 @@ const prepareWorkspace = state => ({
   domainName: getDomainName(state),
 });
 
-const saveWorkspaceAs = (state, path, callback) => {
+const writeWorkspaceAs = (state, path, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
       return callback(errFolderCreation);
@@ -79,13 +79,13 @@ const saveWorkspaceAs = (state, path, callback) => {
       if (err) {
         return callback(err);
       }
-      server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
+      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       return callback(null);
     });
   });
 };
 
-const saveWorkspace = (state, filePath, callback) => {
+const writeWorkspace = (state, filePath, callback) => {
   let path;
   if (!filePath || filePath === '') {
     const file = getWorkspaceFile(state);
@@ -97,10 +97,10 @@ const saveWorkspace = (state, filePath, callback) => {
   } else {
     path = filePath;
   }
-  return saveWorkspaceAs(state, path, callback);
+  return writeWorkspaceAs(state, path, callback);
 };
 
 export default {
-  saveWorkspace,
-  saveWorkspaceAs,
+  writeWorkspace,
+  writeWorkspaceAs,
 };

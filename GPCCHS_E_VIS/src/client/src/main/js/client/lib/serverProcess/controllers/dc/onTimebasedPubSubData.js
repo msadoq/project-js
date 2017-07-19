@@ -1,28 +1,21 @@
 const { decode, getType } = require('../../../utils/adapters');
-const { writeFile } = require('fs');
-const { join } = require('path');
 const _find = require('lodash/find');
 const _get = require('lodash/get');
-const _includes = require('lodash/includes');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedPubSubData');
 const loggerData = require('../../../common/logManager')('controllers:incomingData');
-const { get } = require('../../../common/configurationManager');
 const flattenDataId = require('../../../common/flattenDataId');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
-const { createDumpFolder, getDumpFolder } = require('../../utils/dumpFolder');
-const { getStore } = require('../../store');
 const { incomingPubSub } = require('../../../viewManager/commonActions/dataActions');
+const { dumpBuffer } = require('../../utils/dumpBuffer');
+const { getStore } = require('../../store');
 const dataMapSingleton = require('../../models/dataMapSingleton');
 const viewManager = require('../../../viewManager');
 const { DATASTRUCTURETYPE_LAST } = require('../../../constants');
 const intervalManager = require('../../../common/intervals');
 
-// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-const dump = (get('DUMP') === 'on');
-// TODO dbrugne move in dedicated middleware ///////////////////////////////////////
 
 /** Check if timestamp is included in at least one interval used with view of last type
  *
@@ -114,14 +107,6 @@ module.exports = (args) => {
     return;
   }
 
-  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-  let dumpFolder;
-  if (dump) {
-    createDumpFolder(dataId);
-    dumpFolder = getDumpFolder(dataId);
-  }
-  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-
   // loop over arguments peers (timestamp, payload)
   const payloadsJson = {};
   while (payloadBuffers.length) {
@@ -166,17 +151,8 @@ module.exports = (args) => {
     const decodedPayload = decode(getType(dataId.comObject), payloadBuffer[1]);
     execution.stop('decode payload');
 
-    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-    // dump
-    if (dump && dumpFolder) {
-      // save a file per timestamp with binary payload
-      writeFile(join(dumpFolder, timestamp.ms.toString()), payloadBuffer[1], (err) => {
-        if (err) {
-          loggerData.warn(`Error writing dump file ${timestamp}`);
-        }
-      });
-    }
-    // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
+    // dump: if activated, save a file per timestamp with binary payload
+    dumpBuffer(dataId, timestamp.ms, payloadBuffer[1]);
 
     loggerData.debug({
       controller: 'onTimebasedPubSubData',

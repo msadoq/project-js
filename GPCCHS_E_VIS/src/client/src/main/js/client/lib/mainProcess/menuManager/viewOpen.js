@@ -3,36 +3,33 @@ import { v4 } from 'uuid';
 import { LOG_DOCUMENT_OPEN } from '../../constants';
 
 import { server } from '../ipc';
-import { openView } from '../../documentManager';
-import { getPathByFilePicker } from '../dialog';
 import { addBlankView } from '../../store/actions/views';
 import { addBlankPage } from '../../store/actions/pages';
-import { getWorkspaceFolder } from '../../store/reducers/hsc';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getStore } from '../store';
 import { getViewModule } from '../../viewManager';
 
-function viewOpen(focusedWindow) {
-  if (!focusedWindow) {
-    return;
-  }
-  const folder = getWorkspaceFolder(getStore().getState());
-  getPathByFilePicker(folder, 'view', 'open', (err, absolutePath) => {
-    viewOpenWithPath({ windowId: focusedWindow.windowId, absolutePath });
-  });
-}
+// function viewOpen(focusedWindow) {
+//   if (!focusedWindow) {
+//     return;
+//   }
+//   const folder = getWorkspaceFolder(getStore().getState());
+//   getPathByFilePicker(folder, 'view', 'open', (err, absolutePath) => {
+//     viewOpenWithPath({ windowId: focusedWindow.windowId, absolutePath });
+//   });
+// }
 
-function viewOpenWithPath({ windowId, absolutePath }) {
-  const { dispatch, getState } = getStore();
-  const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
-  const pageId = focusedPageId || v4();
-  const viewInfo = { absolutePath };
-  if (!focusedPageId) {
-    dispatch(addBlankPage(windowId, pageId));
-  }
-  dispatch(openView(viewInfo, pageId));
-}
-
+// function viewOpenWithPath({ windowId, absolutePath }) {
+//   const { dispatch, getState } = getStore();
+//   const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
+//   const pageId = focusedPageId || v4();
+//   const viewInfo = { absolutePath };
+//   if (!focusedPageId) {
+//     dispatch(addBlankPage(windowId, pageId));
+//   }
+//   dispatch(openView(viewInfo, pageId));
+// }
+//
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
   const { windowId } = focusedWindow;
@@ -50,7 +47,7 @@ const viewAddBlank = (type, focusedWindow) => {
 };
 
 export default {
-  viewOpen,
-  viewOpenWithPath,
+  // viewOpen,
+  // viewOpenWithPath,
   viewAddBlank,
 };

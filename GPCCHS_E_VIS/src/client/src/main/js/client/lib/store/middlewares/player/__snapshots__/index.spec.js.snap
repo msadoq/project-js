@@ -3,7 +3,9 @@
 exports[`store:middlewares:player play/pause cannot play if a code editor is opened 1`] = `
 Array [
   Object {
-    "_type": "WS_MESSAGE_ADD",
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
       "containerId": "global",
       "messages": Array [
@@ -13,6 +15,7 @@ Array [
       ],
       "type": "warning",
     },
+    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;
@@ -20,7 +23,9 @@ Array [
 exports[`store:middlewares:player play/pause cannot play if a health status is critical 1`] = `
 Array [
   Object {
-    "_type": "WS_MESSAGE_ADD",
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
       "containerId": "global",
       "messages": Array [
@@ -30,6 +35,7 @@ Array [
       ],
       "type": "warning",
     },
+    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;
@@ -37,7 +43,9 @@ Array [
 exports[`store:middlewares:player play/pause cannot play if an editor is opened 1`] = `
 Array [
   Object {
-    "_type": "WS_MESSAGE_ADD",
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
       "containerId": "global",
       "messages": Array [
@@ -47,6 +55,7 @@ Array [
       ],
       "type": "warning",
     },
+    "type": "WS_MESSAGE_ADD",
   },
 ]
 `;

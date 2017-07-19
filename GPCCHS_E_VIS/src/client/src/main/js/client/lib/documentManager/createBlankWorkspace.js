@@ -42,6 +42,7 @@ const createBlankWorkspace = () => {
     timebarId: 'TB1',
   };
   const workspace = {
+    isModified: true,
     windows: [Object.assign(window, { uuid: wsUuid })],
     timebars: [Object.assign(timebar, { uuid: tbUuid })],
     pages: [Object.assign(page, { uuid: pgUuid })],

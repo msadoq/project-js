@@ -105,7 +105,7 @@ export default class Tooltip extends React.Component {
           const val = line.yAccessor ? line.yAccessor(xClosestPacket) : xClosestPacket.value;
           const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;
           linesList[axis.id].push({
-            foundColor: line.colorAccessor ? line.colorAccessor(xClosestPacket) : null,
+            foundColor: line.colorAccessor ? xClosestPacket[line.colorAccessor] : null,
             lineColor: line.fill || '#222222',
             id: line.id,
             value: val,

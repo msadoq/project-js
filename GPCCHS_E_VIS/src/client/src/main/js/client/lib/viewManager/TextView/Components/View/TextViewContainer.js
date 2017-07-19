@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { createStructuredSelector } from 'reselect';
 
-import TextView from './TextView';
+import TextViewWrapper from './TextViewWrapper';
 import {
   addEntryPoint,
   updateContent,
@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   updateShowLinks: flag => updateShowLinks(viewId, flag),
 }, dispatch);
 
-const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextView);
+const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextViewWrapper);
 
 TextViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

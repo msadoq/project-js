@@ -34,8 +34,8 @@ describe('store:helpers:pipeMiddlewares', () => {
   });
 
   test('middlewares dispatch', () => {
-    const returnedAction = store.dispatch({ type: 'DUMMY' });
-    expect(returnedAction).toEqual({ type: 'DUMMY' });
+    const nextAction = store.dispatch({ type: 'DUMMY' });
+    expect(nextAction).toEqual({ type: 'DUMMY' });
     expect(store.getActions()).toEqual([
       { type: 'DUMMY_M1', payload: 'STATE' },
       { type: 'DUMMY_M2', payload: 'STATE' },

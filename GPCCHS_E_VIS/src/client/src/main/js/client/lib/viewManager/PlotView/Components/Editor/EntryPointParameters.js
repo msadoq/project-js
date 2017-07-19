@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import {
   Form,
 } from 'react-bootstrap';
@@ -51,7 +52,20 @@ class EntryPointParameters extends React.Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
+      <Form
+        horizontal
+        onSubmit={handleSubmit}
+        className={classnames(
+          { 'redux-form-dirty': !pristine },
+          'redux-form-padded'
+        )}
+      >
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
         <div className="page-header">
           <h4>Name</h4>
         </div>
@@ -104,13 +118,6 @@ class EntryPointParameters extends React.Component {
             component={ColorPickerField}
           />
         </HorizontalFormGroup>
-
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
       </Form>
     );
   }

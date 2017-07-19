@@ -1,13 +1,14 @@
 import * as types from '../../../types';
 
-import { closePage, askSavePage } from '../../../actions/pages';
+import { closePage } from '../../../actions/pages';
 import { getPage } from '../../../reducers/pages';
-import { getPageHasUnsavedViews } from '../../../selectors/pages';
 import { getWindowIdByPageId } from '../../../reducers/windows';
+import { getPageUnsavedViewIds, getPageHasUnsavedViews } from '../selectors';
+import { withOpenModal } from '../helpers';
 
-const onClosePage = () => (
+const onClosePage = () => withOpenModal(
   ({ getState, dispatch, openModal }) => next => (action) => {
-    const returnedAction = next(action);
+    const nextAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
@@ -15,13 +16,18 @@ const onClosePage = () => (
       const windowId = getWindowIdByPageId(state, { pageId });
       const pageNeedSave = title => openModal(windowId, {
         title,
-        type: 'dialog',
-        buttons: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }, { label: 'Cancel' }],
-        message: 'Would you want to save before closing ?',
+        type: 'saveWizard',
+        documentType: 'page',
+        pageIds: [pageId],
+        viewIds: getPageUnsavedViewIds(state, { pageId }),
+        buttons: [
+          {
+            savedDocuments: { label: 'Close page', value: 'close', type: 'primary' },
+            unsavedDocuments: { label: 'Close page without saving', value: 'close', type: 'danger' },
+          },
+        ],
       }, (closeAction) => {
-        if (closeAction.payload.choice === 'yes') {
-          dispatch(askSavePage(pageId));
-        } else if (closeAction.payload.choice === 'no') {
+        if (closeAction.payload.choice === 'close') {
           dispatch(closePage(pageId));
         }
       });
@@ -36,7 +42,7 @@ const onClosePage = () => (
         dispatch(closePage(pageId));
       }
     }
-    return returnedAction;
+    return nextAction;
   }
 );
 

@@ -6,6 +6,8 @@ import * as readPageApi from './readPage';
 import * as readWorkspaceApi from './readWorkspace';
 import * as actions from './actions';
 
+jest.mock('../serverProcess/ipc');
+
 describe('documentManager:actions', () => {
   let stub;
   beforeEach(() => {
@@ -17,11 +19,11 @@ describe('documentManager:actions', () => {
 
   describe('reloadView', () => {
     test('reload view', () => {
-      const store = mockStore();
+      const store = mockStore({ views: { myViewId: { absolutePath: '/an/absolute/path' } } });
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
-        cb(null, { some: 'properties' });
+        cb(null, { value: { some: 'properties' } });
       });
-      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      store.dispatch(actions.reloadView('myViewId'));
       expect(store.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_RELOAD',
@@ -38,11 +40,11 @@ describe('documentManager:actions', () => {
       ]);
     });
     test('invalid view file', () => {
-      const store = mockStore();
+      const store = mockStore({ views: { myViewId: { absolutePath: '/an/absolute/path' } } });
       stub = sinon.stub(readView, 'simpleReadView').callsFake((viewInfo, cb) => {
         cb(new Error());
       });
-      store.dispatch(actions.reloadView('myViewId', '/absolute/path'));
+      store.dispatch(actions.reloadView('myViewId'));
       expect(store.getActions()).toMatchObject([
         {
           type: 'WS_MESSAGE_ADD',
@@ -346,57 +348,6 @@ describe('documentManager:actions', () => {
           done();
         });
       }));
-    });
-  });
-
-  describe('openBlankWorkspace', () => {
-    test('close current workspace, then open a freshly new created workspace', () => {
-      const store = mockStore();
-      store.dispatch(actions.openBlankWorkspace());
-      const workspaceOpenPayload = store.getActions()[1].payload;
-      const firstTimebar = workspaceOpenPayload.timebars[0];
-      expect(firstTimebar.visuWindow).toHaveKeys(['lower', 'upper', 'current']);
-      expect(firstTimebar.slideWindow).toHaveKeys(['lower', 'upper']);
-      expect(firstTimebar).toHaveKeys(['rulerStart']);
-      expect(workspaceOpenPayload.windows[0].pages[0]).toBeAnUuid();
-      expect(workspaceOpenPayload.windows[0].uuid).toBeAnUuid();
-      expect(workspaceOpenPayload.timebars[0].uuid).toBeAnUuid();
-      expect(workspaceOpenPayload.pages[0].uuid).toBeAnUuid();
-      expect(workspaceOpenPayload.pages[0].timebarUuid).toBeAnUuid();
-      expect(store.getActions()).toMatchObject([
-        { type: 'HSC_CLOSE_WORKSPACE', payload: {} },
-        {
-          type: 'WS_WORKSPACE_OPENED',
-          payload: {
-            windows: [
-              {
-                title: 'Unknown',
-                type: 'documentWindow',
-                geometry: { w: 1200, h: 900, x: 10, y: 10 },
-              },
-            ],
-            timebars: [
-              {
-                type: 'timeBarConfiguration',
-                id: 'TB1',
-                mode: 'Normal',
-                rulerResolution: 11250,
-                speed: 1,
-                offsetFromUTC: 0,
-                timelines: [],
-              },
-            ],
-            pages: [
-              {
-                type: 'Page',
-                title: 'Unknown',
-                hideBorders: false,
-                timebarId: 'TB1',
-              },
-            ],
-          },
-        },
-      ]);
     });
   });
 });

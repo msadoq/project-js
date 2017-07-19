@@ -1,6 +1,4 @@
-import _isEmpty from 'lodash/isEmpty';
 import { series } from 'async';
-import { tmpdir } from 'os';
 import { get } from '../common/configurationManager';
 import {
   IPC_METHOD_CACHE_CLEANUP,
@@ -18,6 +16,7 @@ import {
   pause,
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
+import { dumpLog } from '../serverProcess/utils/dumpBuffer';
 
 let logger;
 
@@ -40,14 +39,7 @@ export function clear() {
 
 export function start() {
   logger = getLogger('main:orchestration');
-
-  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-  if (get('DUMP') === 'on') {
-    const dumpDir = (_isEmpty(get('DUMP_DIR')) ? tmpdir() : get('DUMP_DIR'));
-    logger.warn(`Received payloads are dumped in ${dumpDir}`);
-  }
-  // TODO dbrugne move in dedicated middleware ///////////////////////////////////////
-
+  dumpLog();
   schedule();
 }
 

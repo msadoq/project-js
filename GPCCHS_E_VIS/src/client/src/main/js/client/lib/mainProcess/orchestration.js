@@ -18,7 +18,7 @@ import {
 } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import displayQueries from '../dataManager/displayQueries';
-import { updateViewData } from '../store/actions/viewData';
+import { updateViewData } from '../viewManager/commonActions/dataActions';
 import { dumpLog } from '../serverProcess/utils/dumpBuffer';
 
 let logger;

@@ -30,10 +30,10 @@ export default class Links extends PureComponent {
     showLinks: false,
   }
 
-  onClick = (e, key) => {
+  onClick = () => {
     // Get link path
-    const path = this.props.links[key].path;
-    const resolvedPath = {};
+    // const path = this.props.links[key].path;
+    // const resolvedPath = {};
     // resolve link: abs path, fmd path or OID
     // if (path.startsWith('/')) {
     //   resolveFmdPath(path, (err, resPath) => {

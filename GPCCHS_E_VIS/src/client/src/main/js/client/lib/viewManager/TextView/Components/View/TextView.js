@@ -274,17 +274,17 @@ export default class TextView extends PureComponent {
           }
         }
       }
+      if (perfOutput) {
+        // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+        console.log(
+          'Looped on',
+          spanIds.length,
+          'eps'
+        );
+        // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+        console.timeEnd();
+      }
     });
-    if (perfOutput) {
-      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.log(
-        'Looped on',
-        Object.keys(this.spanValues).length,
-        'eps'
-      );
-      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.timeEnd();
-    }
   }
 
   htmlToReactParser = new Parser();

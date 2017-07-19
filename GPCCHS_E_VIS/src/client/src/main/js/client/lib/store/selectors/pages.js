@@ -40,6 +40,20 @@ export const isAnyInspectorOpened = createSelector(
     _.reduce((checksum, page) => checksum || (!page.panels.explorerIsMinimized && page.panels.explorerTab === 'inspector'), false, pages)
 );
 
+const getPageIdsByViewIds = createSelector(
+  getPages,
+  (state, { viewIds }) => viewIds,
+  (pages, viewIds) => _.pipe(
+    _.pickBy(_.pipe(
+      _.get('views'),
+      _.intersection(viewIds),
+      _.get('length'),
+      Boolean
+    )),
+    _.map('uuid')
+  )(pages)
+);
+
 export const getPageWithViews = createSelector(
   getPage,
   getViews,
@@ -50,6 +64,7 @@ export const getPageWithViews = createSelector(
   })
 );
 
-export const getPagesWithViews = (state, { pageIds, viewIds }) => (
-  pageIds.map(pageId => getPageWithViews(state, { pageId, viewIds }))
-);
+export const getPagesWithViews = (state, { pageIds, viewIds }) => {
+  const allPageIds = _.uniq(_.concat(pageIds, getPageIdsByViewIds(state, { viewIds })));
+  return allPageIds.map(pageId => getPageWithViews(state, { pageId, viewIds }));
+};

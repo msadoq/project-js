@@ -28,7 +28,7 @@
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "build:server": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.server.js --progress --profile --colors",
     "package:electron": "cd dist && electron-packager . --no-prune --overwrite",
-    "clean": "rimraf ./dist stats.json scripts/lint-reporter/*.csv",
+    "clean": "rimraf ./dist stats.json ./coverage ./scripts/lint-reporter/*.csv",
     "hello": "npm run link && npm run install:adapters && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "install:adapters": "(cd ../../../../../adapters/dc && npm install) && (cd ../../../../../adapters/isis && npm install)",
     "link:common": "npm link ../../../../../common/src/main/js/common && (cd ../../../../../common/src/main/js/common && npm install)",

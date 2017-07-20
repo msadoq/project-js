@@ -10,21 +10,28 @@ import { getFocusedWindowId } from '../../../reducers/hsc';
 import { add as addMessage } from '../../../actions/messages';
 import { getRootDir } from '../../../../common/fmd';
 
+const isRelativePath = path => /^\./.test(path);
+const isAbsolutePath = _.complement(isRelativePath);
+
 const openViewLink = documentManager => ({ getState, dispatch }) => (action) => {
   const state = getState();
   const { viewId, linkId } = action.payload;
   const link = getLink(state, { viewId, linkId });
-  const fmdPath = join(getRootDir(), link.path);
+  const viewWithLink = getView(getState(), { viewId });
+  const viewFolder = viewWithLink.absolutePath ? dirname(viewWithLink.absolutePath) : null;
+  const fullPath = (
+    isAbsolutePath(link.path) ? join(getRootDir(), link.path) : join(viewFolder, link.path)
+  );
   const views = getViews(state);
   const view =
     _.find({ absolutePath: link.path }, views)
-    || _.find({ absolutePath: fmdPath }, views);
+    || _.find({ absolutePath: fullPath }, views);
   if (view) {
     dispatch(focusView(view.uuid));
   } else {
     const newPageId = v4();
     dispatch(addBlankPage(undefined, newPageId));
-    dispatch(documentManager.openView({ absolutePath: link.path }, newPageId));
+    dispatch(documentManager.openView({ path: link.path, viewFolder }, newPageId));
   }
 };
 
@@ -32,16 +39,20 @@ const openPageLink = documentManager => ({ getState, dispatch }) => (action) => 
   const state = getState();
   const { viewId, linkId } = action.payload;
   const link = getLink(state, { viewId, linkId });
-  const fmdPath = join(getRootDir(), link.path);
+  const viewWithLink = getView(getState(), { viewId });
+  const viewFolder = viewWithLink.absolutePath ? dirname(viewWithLink.absolutePath) : null;
+  const fullPath = (
+    isAbsolutePath(link.path) ? join(getRootDir(), link.path) : join(viewFolder, link.path)
+  );
   const pages = getPages(state);
   const page =
     _.find({ absolutePath: link.path }, pages)
-    || _.find({ absolutePath: fmdPath }, pages);
+    || _.find({ absolutePath: fullPath }, pages);
   if (page) {
     dispatch(focusPage(page.uuid));
   } else {
     const windowId = getFocusedWindowId(state);
-    dispatch(documentManager.openPage({ absolutePath: link.path, windowId })); // here need to determinate if absolute or not
+    dispatch(documentManager.openPage({ path: link.path, viewFolder, windowId }));
   }
 };
 

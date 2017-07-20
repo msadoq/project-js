@@ -4,6 +4,7 @@ import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _set from 'lodash/set';
 import _get from 'lodash/get';
+import classnames from 'classnames';
 import _throttle from 'lodash/throttle';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { Button } from 'react-bootstrap';
@@ -485,6 +486,23 @@ export default class Chart extends Component {
     e => this.resetYZoomLevel(e, axisId)
   )
 
+  memoizeBackgroundDivStyle = _memoize(
+    (hash, marginTop, marginSide, yAxesAt, width, height) => {
+      const style = {};
+      if (yAxesAt === 'left') {
+        style.left = marginSide;
+      } else if (yAxesAt === 'right') {
+        style.right = marginSide;
+      }
+      return {
+        ...style,
+        top: marginTop,
+        width,
+        height,
+      };
+    }
+  );
+
   render() {
     const {
       height,
@@ -644,6 +662,17 @@ export default class Chart extends Component {
           xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
         /> }
+        <div
+          className={classnames('Background', styles.Background)}
+          style={this.memoizeBackgroundDivStyle(
+            `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
+            marginTop,
+            marginSide,
+            yAxesAt,
+            this.chartWidth,
+            this.chartHeight
+          )}
+        />
         {
           this.yAxes.map(yAxis =>
             <LinesCanvas

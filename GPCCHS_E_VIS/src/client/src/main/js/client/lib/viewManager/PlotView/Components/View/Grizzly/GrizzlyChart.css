@@ -16,6 +16,10 @@
   }
 }
 
+.Background {
+  position: absolute;
+}
+
 .yAxisDiv{
   position: absolute;
   .yAxis{

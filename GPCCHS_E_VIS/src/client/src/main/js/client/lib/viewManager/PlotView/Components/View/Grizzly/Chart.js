@@ -661,6 +661,7 @@ export default class Chart extends Component {
           yAxesAt={yAxesAt}
           xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
+          memoizeDivStyle={this.memoizeBackgroundDivStyle}
         /> }
         <div
           className={classnames('Background', styles.Background)}
@@ -692,6 +693,7 @@ export default class Chart extends Component {
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
               perfOutput={perfOutput}
+              memoizeDivStyle={this.memoizeBackgroundDivStyle}
             />
           )
         }

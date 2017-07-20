@@ -36,9 +36,6 @@ const commands = {
     reloadSessions: (callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_RELOAD_SESSIONS, null, callback);
     },
-    serverDebug: (callback) => {
-      commands.main.rpc(globalConstants.IPC_METHOD_SERVER_DEBUG, null, callback);
-    },
     getSessionTime: (sessionId, callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_SESSION_TIME, sessionId, callback);
     },

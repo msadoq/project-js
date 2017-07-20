@@ -64,6 +64,7 @@ export default class TextView extends PureComponent {
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
     perfOutput: PropTypes.bool,
+    openLink: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: {
@@ -198,6 +199,14 @@ export default class TextView extends PureComponent {
   getContentComponent() {
     const processingInstructions = [
       {
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_link),
+        processNode: (node, children) => {
+          const link = node.attribs.isis_link;
+          const className = node.attribs.class || '';
+          return (<div style={{ cursor: 'pointer' }} data-isis-link={link} className={className}>{children}</div>);
+        },
+      },
+      {
         shouldProcessNode: (node => node.data && node.data.match(isValueNode)),
         processNode: (node, children, index) => {
           const matches = node.data.match(isValueNode);
@@ -205,8 +214,8 @@ export default class TextView extends PureComponent {
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
-
-            const id = `${this.props.viewId}_tv_${epName}`;
+            const rand = Math.round(Math.random() * 100000);
+            const id = `${this.props.viewId}_tv_${epName}_${rand}`;
 
             this.spanValues[id] = { ep: epName };
 
@@ -287,12 +296,19 @@ export default class TextView extends PureComponent {
     });
   }
 
+  handleClicked = (e) => {
+    if (e.target.getAttribute('data-isis-link')) {
+      this.props.openLink(e.target.getAttribute('data-isis-link'));
+    }
+  }
   htmlToReactParser = new Parser();
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
     return (
-      <this.content />
+      <div onClick={e => this.handleClicked(e)}>
+        <this.content />
+      </div>
     );
   }
 }

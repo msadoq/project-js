@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { createStructuredSelector } from 'reselect';
-
+import _ from 'lodash/fp';
 import TextViewWrapper from './TextViewWrapper';
 import {
   addEntryPoint,
@@ -10,6 +10,7 @@ import {
   removeLink,
   updateShowLinks,
 } from '../../../../store/actions/views';
+import { askOpenLink } from '../../../../store/actions/links';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
@@ -43,9 +44,17 @@ const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   addEntryPoint: data => addEntryPoint(viewId, data),
   removeLink: key => removeLink(viewId, key),
   updateShowLinks: flag => updateShowLinks(viewId, flag),
+  openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
 
-const TextViewContainer = connect(mapStateToProps, mapDispatchToProps)(TextViewWrapper);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  openLink: linkName => dispatchProps.openLink(_.findIndex({ name: linkName }, stateProps.links)),
+});
+
+const TextViewContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(TextViewWrapper);
 
 TextViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

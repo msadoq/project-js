@@ -493,6 +493,7 @@ export class GrizzlyPlotView extends PureComponent {
       visuWindow,
       links,
       pageId,
+      viewId,
       showLinks,
     } = this.props;
     let {
@@ -640,6 +641,7 @@ export class GrizzlyPlotView extends PureComponent {
           toggleShowLinks={this.toggleShowLinks}
           links={links}
           removeLink={this.removeLink}
+          viewId={viewId}
           pageId={pageId}
         />
 

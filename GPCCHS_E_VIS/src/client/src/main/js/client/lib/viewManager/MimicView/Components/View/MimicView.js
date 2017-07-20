@@ -489,7 +489,7 @@ export default class MimicView extends Component {
   }
 
   render() {
-    const { links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
+    const { links, viewId, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
     const style = { padding: '15px' };
 
     if (isMaxVisuDurationExceeded) {
@@ -514,6 +514,7 @@ export default class MimicView extends Component {
               links={links}
               removeLink={this.removeLink}
               pageId={pageId}
+              viewId={viewId}
             />
           </Col>
           <Col xs={12} className="h100 posRelative">

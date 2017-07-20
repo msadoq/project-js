@@ -251,6 +251,7 @@ export default class TextViewWrapper extends PureComponent {
               toggleShowLinks={this.toggleShowLinks}
               links={links}
               removeLink={this.removeLink}
+              viewId={viewId}
               pageId={pageId}
             />
           </Col>

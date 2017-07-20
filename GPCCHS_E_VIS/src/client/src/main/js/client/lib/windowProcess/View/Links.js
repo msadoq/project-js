@@ -1,7 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Glyphicon, Button, Col, Row } from 'react-bootstrap';
 import classnames from 'classnames';
-import _find from 'lodash/find';
 import styles from './Links.css';
 // import { resolveFmdPath } from '../../common/pathResolver';
 
@@ -14,23 +13,15 @@ export default class Links extends PureComponent {
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     })),
-    pages: PropTypes.shape({}),
-    views: PropTypes.shape({}),
-    pageId: PropTypes.string.isRequired,
-    windowId: PropTypes.string.isRequired,
-    focusPage: PropTypes.func.isRequired,
-    focusView: PropTypes.func.isRequired,
-    addMessage: PropTypes.func.isRequired,
-    openLink: PropTypes.func.isRequired,
+    askOpenLink: PropTypes.func.isRequired,
+    viewId: PropTypes.string.isRequired,
   }
   static defaultProps = {
     links: [],
-    pages: {},
-    views: {},
-    showLinks: false,
   }
 
-  onClick = () => {
+  onClick = (linkId) => {
+    this.props.askOpenLink(this.props.viewId, linkId);
     // Get link path
     // const path = this.props.links[key].path;
     // const resolvedPath = {};
@@ -52,34 +43,34 @@ export default class Links extends PureComponent {
     // }
   }
 
-  openFile = (resolvedPath) => {
-    const { pages, views, focusPage, focusView, pageId, windowId, addMessage, openLink }
-      = this.props;
-
-    if (!resolvedPath.absolutePath) {
-      addMessage('global', 'danger', 'Unable to open link');
-      return;
-    }
-    const linkedPage = _find(pages, resolvedPath);
-    // Link is a page already opened
-    if (linkedPage) {
-      if (linkedPage === pageId) {
-        return;
-      }
-      // setFocus on the page linked
-      focusPage(linkedPage.uuid);
-      return;
-    }
-    const linkedView = _find(views, resolvedPath);
-    // link is a view already opened
-    if (linkedView) {
-      // setFocus on the page which contains the view linked
-      focusView(linkedView.uuid);
-      return;
-    }
-    // Open the link
-    openLink(windowId, resolvedPath.absolutePath);
-  }
+  // openFile = (resolvedPath) => {
+  //   const { pages, views, focusPage, focusView, pageId, windowId, addMessage, askOpenLink }
+  //     = this.props;
+  //
+  //   if (!resolvedPath.absolutePath) {
+  //     addMessage('global', 'danger', 'Unable to open link');
+  //     return;
+  //   }
+  //   const linkedPage = _find(pages, resolvedPath);
+  //   // Link is a page already opened
+  //   if (linkedPage) {
+  //     if (linkedPage === pageId) {
+  //       return;
+  //     }
+  //     // setFocus on the page linked
+  //     focusPage(linkedPage.uuid);
+  //     return;
+  //   }
+  //   const linkedView = _find(views, resolvedPath);
+  //   // link is a view already opened
+  //   if (linkedView) {
+  //     // setFocus on the page which contains the view linked
+  //     focusView(linkedView.uuid);
+  //     return;
+  //   }
+  //   // Open the link
+  //   askOpenLink(windowId, resolvedPath.absolutePath);
+  // }
 
   render() {
     const { links, show, removeLink } = this.props;
@@ -103,7 +94,7 @@ export default class Links extends PureComponent {
             links.map((link, ikey) =>
             (<div key={'div'.concat(ikey)}>
               <Col xs={6} key={link.name.concat(ikey)} className={classnames(styles.link)}>
-                <Button bsStyle="link" onClick={e => this.onClick(e, ikey)} >{link.name}</Button>
+                <Button bsStyle="link" onClick={() => this.onClick(ikey)} >{link.name}</Button>
                 <Glyphicon
                   glyph="remove"
                   onClick={e => removeLink(e, ikey)}

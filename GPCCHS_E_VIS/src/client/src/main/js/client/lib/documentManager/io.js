@@ -6,8 +6,10 @@ import * as fmd from '../common/fmd';
 import resolvePath from '../common/pathResolver';
 import { read, parse } from '../common/fs';
 
-export const readDocument = ({ pageFolder, workspaceFolder, path, oId, absolutePath }, cb) => {
-  const folder = pageFolder || workspaceFolder;
+export const readDocument = (
+  { pageFolder, workspaceFolder, viewFolder, documentFolder, path, oId, absolutePath }, cb
+) => {
+  const folder = viewFolder || pageFolder || workspaceFolder || documentFolder;
   const relativePath = path;
   resolvePath({ folder, relativePath, oId, absolutePath }, (err, { resolvedPath, properties }) => {
     if (err) {

@@ -1,10 +1,10 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PropTypes, Component } from 'react';
 import _get from 'lodash/get';
 import { Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Legend.css';
 
-export default class Legend extends PureComponent {
+export default class Legend extends Component {
 
   static propTypes = {
     show: PropTypes.bool.isRequired,
@@ -16,9 +16,7 @@ export default class Legend extends PureComponent {
     hideEpNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     showEp: PropTypes.func.isRequired,
     showEpNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-    yAxes: PropTypes.arrayOf(
-      PropTypes.shape
-    ).isRequired,
+    axes: PropTypes.shape().isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
@@ -28,9 +26,22 @@ export default class Legend extends PureComponent {
   static defaultProps = {
     legendLocation: 'bottom',
   }
+
+  shouldComponentUpdate(nextProps) {
+    let shouldRender = false;
+    const attrs = Object.keys(this.props);
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
+        console.log(attrs[i], 'changed');
+        shouldRender = true;
+      }
+    }
+    return shouldRender;
+  }
+
   render() {
     const {
-      yAxes,
+      axes,
       lines,
       show,
       showEp,
@@ -43,6 +54,7 @@ export default class Legend extends PureComponent {
       plotHeight,
     } = this.props;
 
+    const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
     const sortedAndValidAxes = yAxes
       .map((axis) => {
         const axisLines = lines

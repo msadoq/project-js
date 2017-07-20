@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
@@ -17,9 +17,7 @@ import XAxis from './XAxis';
 import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
 
-const defaultPointLabels = {};
-
-export default class Chart extends React.Component {
+export default class Chart extends Component {
 
   static propTypes = {
     yAxesAt: PropTypes.string,
@@ -75,7 +73,7 @@ export default class Chart extends React.Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        dataAccessor: PropTypes.func,
+        dataAccessor: PropTypes.string,
         yAccessor: PropTypes.func,
         xAccessor: PropTypes.func,
         colorAccessor: PropTypes.string,
@@ -415,13 +413,6 @@ export default class Chart extends React.Component {
     _set(this.labelsPosition, [yAxisId, lineId], yPosition);
   }
 
-  updatePointLabelsPosition = (yAxisId, points) => {
-    if (!this.pointLabels) {
-      this.pointLabels = {};
-    }
-    _set(this.pointLabels, yAxisId, points);
-  }
-
   yAxisWidth = 90;
   xAxisHeight = 40;
 
@@ -671,9 +662,7 @@ export default class Chart extends React.Component {
               data={yAxis.data}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
-              updatePointLabelsPosition={this.updatePointLabelsPosition}
               perfOutput={perfOutput}
-              showPointLabels={yAxis.showPointLabels}
             />
           )
         }
@@ -694,7 +683,6 @@ export default class Chart extends React.Component {
               gridStyle={yAxis.gridStyle}
               axisLabel={yAxis.axisLabel}
               gridSize={yAxis.gridSize}
-              showPointLabels={yAxis.showPointLabels}
               logarithmic={yAxis.logarithmic}
               yAxisWidth={this.yAxisWidth}
               chartWidth={this.chartWidth}
@@ -709,7 +697,6 @@ export default class Chart extends React.Component {
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
-              pointLabels={_get(this.pointLabels, yAxis.id, {})}
             />
           )
         }
@@ -746,9 +733,7 @@ export default class Chart extends React.Component {
               width={this.chartWidth}
               xAxisAt={xAxisAt}
               yAxesAt={yAxesAt}
-              yAxes={this.yAxes}
               xExtents={calculatedXExtents}
-              pointLabels={this.pointLabels || defaultPointLabels}
             />
         }
         <Zones

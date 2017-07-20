@@ -11,7 +11,6 @@ export default class YAxis extends Component {
 
   static propTypes = {
     getLabelPosition: PropTypes.func.isRequired,
-    pointLabels: PropTypes.objectOf(PropTypes.array).isRequired,
     yAxisId: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string,
     yAxesAt: PropTypes.string,
@@ -41,7 +40,6 @@ export default class YAxis extends Component {
     autoTick: PropTypes.bool,
     tickStep: PropTypes.number,
     showGrid: PropTypes.bool,
-    showPointLabels: PropTypes.bool,
     gridStyle: PropTypes.string,
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
@@ -71,7 +69,6 @@ export default class YAxis extends Component {
     gridSize: 1,
     tickStep: 8,
     autoTick: false,
-    showPointLabels: false,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -93,18 +90,18 @@ export default class YAxis extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
-      'yScale', 'autoTick', 'tickStep', 'pointLabels', 'showPointLabels'];
+      'yScale', 'autoTick', 'tickStep'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
       }
     }
 
-    const linesNames = nextProps.lines.map(l => l.name).join('-');
-    if (!this.linesNames || linesNames !== this.linesNames) {
+    const linesIds = nextProps.lines.map(l => l.id).join('-');
+    if (!this.linesIds || linesIds !== this.linesIds) {
       shouldRender = true;
     }
-    this.linesNames = linesNames;
+    this.linesIds = linesIds;
 
     // update line label refs's style attribute
     if (!shouldRender) {
@@ -315,9 +312,6 @@ export default class YAxis extends Component {
       unit,
       labelStyle,
       lines,
-      format,
-      pointLabels,
-      showPointLabels,
     } = this.props;
 
     const axisWidth = index === 0 && showGrid ? chartWidth + yAxisWidth : yAxisWidth;
@@ -371,30 +365,6 @@ export default class YAxis extends Component {
             >
               {line.id}
             </span>
-          )
-        }
-        {
-          lines.map(line =>
-            showPointLabels && pointLabels[line.id] &&
-            pointLabels[line.id].map(point =>
-              <span
-                key={`${line.id}-${point.x}-${point.y}`}
-                style={{
-                  display: point.yPos < 0 || point.yPos > height ? 'none' : 'block',
-                  background: point.color,
-                  color: '#FFF',
-                  top: `${point.yPos}px`,
-                  transform: yAxesAt === 'left' ? 'translate(-102%, -50%)' : 'translate(102%, -50%)',
-                  [yAxesAt === 'left' ? 'left' : 'right']: `${yAxisWidth}px`,
-                }}
-                className={classnames(
-                  'label',
-                  styles.yAxisPointLabel
-                )}
-              >
-                {this.memoizeFormatter(format)(point.y)}
-              </span>
-            )
           )
         }
         <svg

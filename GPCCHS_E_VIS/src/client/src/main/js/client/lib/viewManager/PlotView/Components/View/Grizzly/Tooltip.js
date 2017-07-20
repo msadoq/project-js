@@ -92,7 +92,7 @@ export default class Tooltip extends React.Component {
 
       axis.lines.forEach((line) => {
         const dataLine = (line.dataAccessor && axis.data) ?
-          line.dataAccessor(axis.data) : line.data;
+          axis.data[line.dataAccessor] : line.data;
         if (!dataLine) {
           return;
         }

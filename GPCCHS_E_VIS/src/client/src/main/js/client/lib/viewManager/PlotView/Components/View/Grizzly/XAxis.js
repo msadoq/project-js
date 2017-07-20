@@ -13,15 +13,11 @@ export default class XAxis extends Component {
   static propTypes = {
     yAxesAt: PropTypes.string,
     xAxisAt: PropTypes.string,
-    pointLabels: PropTypes.objectOf(PropTypes.shape()).isRequired,
     xAxisHeight: PropTypes.number.isRequired,
     showGrid: PropTypes.bool,
     showTicks: PropTypes.bool,
     autoTick: PropTypes.bool,
     tickStep: PropTypes.number,
-    yAxes: PropTypes.arrayOf(
-      PropTypes.shape()
-    ).isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
@@ -51,8 +47,7 @@ export default class XAxis extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     const attrs = ['yAxesAt', 'xAxisAt', 'height', 'width', 'margin',
-      'gridStyle', 'gridSize', 'showTicks', 'autoTick', 'tickStep',
-      'pointLabels'];
+      'gridStyle', 'gridSize', 'showTicks', 'autoTick', 'tickStep'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
@@ -174,8 +169,6 @@ export default class XAxis extends Component {
       yAxesAt,
       showGrid,
       xAxisHeight,
-      pointLabels,
-      yAxes,
       xExtents,
       xAxisAt,
     } = this.props;
@@ -211,33 +204,6 @@ export default class XAxis extends Component {
           xAxisAt
         )}
       >
-        {
-          yAxes.map(yAxis =>
-            yAxis.showPointLabels &&
-            pointLabels[yAxis.id] &&
-            yAxis.lines.map(line =>
-              pointLabels[yAxis.id][line.id] &&
-              pointLabels[yAxis.id][line.id].map(point =>
-                <span
-                  key={`${line.id}-${point.x}-${point.y}`}
-                  style={{
-                    display: point.xPos < 0 || point.xPos > width ? 'none' : 'block',
-                    background: point.color,
-                    color: '#FFF',
-                    left: `${point.xPos}px`,
-                    transform: xAxisAt === 'bottom' ? 'translate(-50%, 18%)' : 'translate(102%, -50%)',
-                  }}
-                  className={classnames(
-                    'label',
-                    styles.xAxisPointLabel
-                  )}
-                >
-                  {this.tickFormat(point.x)}
-                </span>
-              )
-            )
-          )
-        }
         <svg
           style={this.memoizeStyle(
             `${s.width}-${s.height}-${s.top}-${xAxisAt}`,

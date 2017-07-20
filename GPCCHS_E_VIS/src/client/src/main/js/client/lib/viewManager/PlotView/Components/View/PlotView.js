@@ -532,7 +532,7 @@ export class GrizzlyPlotView extends PureComponent {
     const legendComponent =
       (<Legend
         plotHeight={plotHeight}
-        yAxes={yAxes}
+        axes={axes}
         legendLocation={legend.location}
         lines={this.props.configuration.entryPoints}
         show={showLegend}
@@ -623,7 +623,7 @@ export class GrizzlyPlotView extends PureComponent {
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                dataAccessor: d => d[ep.name],
+                dataAccessor: ep.name,
                 xAccessor: null, // default .x
                 yAccessor: null, // default .value
                 colorAccessor: 'color',

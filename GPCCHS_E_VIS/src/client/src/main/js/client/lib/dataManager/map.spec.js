@@ -328,6 +328,7 @@ describe('data:map', () => {
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
           remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           type: 'TextView',
         },
         STAT_UNKNOW_DOMAIN: {
@@ -359,6 +360,7 @@ describe('data:map', () => {
           localId: 'groundDate/extractedValue.tb1:0',
           timebarUuid: 'tb1',
           remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           type: 'PlotView',
           stateColors: [{
             color: '#000000',
@@ -390,6 +392,7 @@ describe('data:map', () => {
           localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',
           timebarUuid: 'tb1',
           remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+          tbdId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
           type: 'DynamicView',
           stateColors: [{
             color: '#000000',

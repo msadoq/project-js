@@ -60,6 +60,7 @@ export default function parseEntryPoint(
   const ep = {
     [name]: {
       remoteId,
+      tbdId: remoteId,
       dataId: cd.dataId,
       localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
       fieldX: connectedData.fieldX,

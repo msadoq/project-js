@@ -1,5 +1,8 @@
 /* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
-import { DATASTRUCTURETYPE_LAST, DATASTRUCTURETYPE_RANGE } from '../constants';
+import {
+  DATASTRUCTURETYPE_LAST,
+  DATASTRUCTURETYPE_LASTFROM0,
+  DATASTRUCTURETYPE_RANGE } from '../constants';
 
 import plotViewData from './PlotView/data';
 import textViewData from './TextView/data';
@@ -71,6 +74,7 @@ const list = {
     schema: mimicViewSchema,
     viewModule: mimicViewModule,
     structureType: DATASTRUCTURETYPE_LAST,
+    structureTypeTmp: DATASTRUCTURETYPE_LASTFROM0,
     structureModule: mimicViewData,
     dataSelectors: mimicViewDataSelectors,
   },
@@ -108,6 +112,10 @@ export function getViewModule(type) {
 export function getStructureType(type) {
   isViewTypeExists(type);
   return list[type].structureType;
+}
+export function getStructureTypeTmp(type) {
+  isViewTypeExists(type);
+  return list[type].structureTypeTmp ? list[type].structureTypeTmp : list[type].structureType;
 }
 
 export function getStructureModule(type) {

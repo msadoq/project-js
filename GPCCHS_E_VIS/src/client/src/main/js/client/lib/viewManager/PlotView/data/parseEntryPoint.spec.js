@@ -81,6 +81,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
         type: 'PlotView',
         stateColors: [
           {
@@ -120,6 +121,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
         type: 'PlotView',
         stateColors: [
           {
@@ -159,6 +161,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
         type: 'PlotView',
         stateColors: [
           {
@@ -198,6 +201,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         localId: 'groundDate/extractedValue.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:2:d2',
         type: 'PlotView',
         stateColors: [
           {

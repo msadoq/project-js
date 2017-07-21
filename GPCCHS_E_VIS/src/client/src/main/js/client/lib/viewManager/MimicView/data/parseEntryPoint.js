@@ -34,6 +34,7 @@ function parseEntryPoint(
   const ep = {
     [name]: {
       remoteId,
+      tbdId: remoteId,
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
       field,

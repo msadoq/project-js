@@ -74,6 +74,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         timebarUuid: 'TB1',
         structureType: globalConstants.DATASTRUCTURETYPE_LAST,
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
         type: 'MimicView',
       },
     });
@@ -102,6 +103,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         timebarUuid: 'TB1',
         structureType: globalConstants.DATASTRUCTURETYPE_LAST,
         remoteId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1:raw.=.2',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1:raw.=.2',
         type: 'MimicView',
       },
     });

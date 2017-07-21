@@ -7,6 +7,9 @@ import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import forecastIntervalMap from './forecastIntervalMap';
 import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
+import perRangeTbdIdMap from './perRangeTbdIdData';
+import perLastTbdIdMap from './perLastTbdIdData';
+import perLastFrom0TbdIdMap from './perLastFrom0TbdIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
@@ -44,6 +47,18 @@ export const getPerRemoteIdMap = createSelector(
   getPerViewMap,
   perRemoteIdMap
 ); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
+export const getPerRangeTbdIdMap = createSelector(
+  getPerViewMap,
+  perRangeTbdIdMap
+); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
+export const getPerLastTbdIdMap = createSelector(
+  getPerViewMap,
+  perLastTbdIdMap
+); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
+export const getPerLastFrom0TbdIdMap = createSelector(
+  getPerViewMap,
+  perLastFrom0TbdIdMap
+); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
 
 
 /**
@@ -57,18 +72,24 @@ export const getPerRemoteIdMap = createSelector(
 export default createSelector(
   getPerViewMap,
   getPerRemoteIdMap,
+  getPerRangeTbdIdMap,
+  getPerLastTbdIdMap,
+  getPerLastFrom0TbdIdMap,
   getTimebars,
-  (viewMap, remoteIdMap, timebars) => {
+  (viewMap, remoteIdMap, rangeTbdIdMap, lastTbdIdMap, lastFrom0TbdIdMap, timebars) => {
     // compute expected intervals
     const expectedIntervals = expectedIntervalMap(timebars, remoteIdMap);
 
     // add forecast intervals
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
-    const forecastIntervals = forecastIntervalMap(expectedIntervals, forecastTime); // TODO could be done in same loop with expectedIntervalMap
+    const forecastIntervals = forecastIntervalMap(expectedIntervals, forecastTime);
 
     return {
       perView: viewMap,
       perRemoteId: remoteIdMap,
+      perRangeTbdId: rangeTbdIdMap,
+      perLastTbdId: lastTbdIdMap,
+      perLastFrom0TbdId: lastFrom0TbdIdMap,
       expectedIntervals,
       forecastIntervals,
     };

@@ -216,6 +216,7 @@ describe('dataManager/perViewData', () => {
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
           remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           type: 'TextView',
         },
         STAT_WILDCARD_TIMELINE: {
@@ -235,6 +236,7 @@ describe('dataManager/perViewData', () => {
           localId: 'extractedValue.tb1:0',
           timebarUuid: 'tb1',
           remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:181:4',
           type: 'TextView',
         },
         STAT_UNKNOW_DOMAIN: { error: 'invalid entry point, no domain matches' },
@@ -254,6 +256,7 @@ describe('dataManager/perViewData', () => {
           localId: 'extractedValue.tb1:0',
           offset: 0,
           remoteId: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>:181:4',
           timebarUuid: 'tb1',
           type: 'TextView',
         },
@@ -289,6 +292,7 @@ describe('dataManager/perViewData', () => {
           timebarUuid: 'tb1',
           type: 'PlotView',
           remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           stateColors: [{
             color: '#000000',
             condition: {
@@ -322,6 +326,7 @@ describe('dataManager/perViewData', () => {
           localId: 'undefined.tb1:0',
           timebarUuid: 'tb1',
           remoteId: 'Decommuted.STAT_SU_PID<DecommutedPacket>:181:4',
+          tbdId: 'Decommuted.STAT_SU_PID<DecommutedPacket>:181:4',
           type: 'DynamicView',
         },
       },

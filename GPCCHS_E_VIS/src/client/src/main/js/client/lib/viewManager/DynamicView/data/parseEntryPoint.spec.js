@@ -70,6 +70,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
+        tbdId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:1:d1',
         type: 'DynamicView',
       },
     });
@@ -96,6 +97,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
+        tbdId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
         type: 'DynamicView',
       },
     });
@@ -122,6 +124,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
+        tbdId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
         type: 'DynamicView',
       },
     });
@@ -148,6 +151,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         localId: 'undefined.TB1:0',
         timebarUuid: 'TB1',
         remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
+        tbdId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:2:d2',
         type: 'DynamicView',
       },
     });

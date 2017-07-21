@@ -488,6 +488,12 @@ export default class MimicView extends Component {
     removeLink(viewId, index);
   }
 
+  handleClicked = (e) => {
+    if (e.target.getAttribute('data-isis-link')) {
+      this.props.openLink(e.target.getAttribute('data-isis-link'));
+    }
+  }
+
   render() {
     const { links, viewId, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
     const style = { padding: '15px' };
@@ -517,8 +523,8 @@ export default class MimicView extends Component {
               viewId={viewId}
             />
           </Col>
-          <Col xs={12} className="h100 posRelative">
-            <svg width="100%" height="100%">{this.content}</svg>
+          <Col xs={12} className="h100 posRelative" onClick={e => this.handleClicked(e)}>
+              <svg width="100%" height="100%">{this.content}</svg>
           </Col>
         </Row>
       </div>

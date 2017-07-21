@@ -1,7 +1,9 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _ from 'lodash/fp';
 
+import { askOpenLink } from '../../../../store/actions/links';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { getViewContent } from '../../store/configurationSelectors';
 import MimicView from './MimicView';
@@ -30,15 +32,24 @@ const mapStateToProps = (state, { viewId }) => {
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    openLink: linkId => askOpenLink(viewId, linkId),
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   removeLink,
   updateShowLinks,
+  openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
 
-const MimicViewContainer = connect(mapStateToProps, mapDispatchToProps)(MimicView);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  openLink: linkName => dispatchProps.openLink(_.findIndex({ name: linkName }, stateProps.links)),
+});
+
+const MimicViewContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(MimicView);
 
 MimicViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

@@ -201,9 +201,20 @@ export default class TextView extends PureComponent {
       {
         shouldProcessNode: (node => node.attribs && node.attribs.isis_link),
         processNode: (node, children) => {
-          const link = node.attribs.isis_link;
-          const className = node.attribs.class || '';
-          return (<div style={{ cursor: 'pointer' }} data-isis-link={link} className={className}>{children}</div>);
+          const tagProps = {};
+          Object.keys(node.attribs).forEach((key) => {
+            if (key === 'isis_link') {
+              tagProps['data-isis-link'] = node.attribs[key];
+            } else if (key === 'class') {
+              tagProps.className = node.attribs[key];
+            } else {
+              tagProps[key] = node.attribs[key];
+            }
+          });
+          tagProps.style = { cursor: 'pointer' };
+          tagProps.title = `open ${node.attribs.isis_link}`;
+          const reactElement = React.createElement(node.name, tagProps, children);
+          return reactElement;
         },
       },
       {

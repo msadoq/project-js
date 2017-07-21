@@ -488,7 +488,6 @@ export class GrizzlyPlotView extends PureComponent {
         axes,
         grids,
         showLegend,
-        logSettings,
         legend,
       },
       visuWindow,

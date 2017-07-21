@@ -34,7 +34,6 @@ export default class Chart extends Component {
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
     perfOutput: PropTypes.bool,
-    logSettings: PropTypes.shape(),
     additionalStyle: PropTypes.shape({}).isRequired,
     xAxis: PropTypes.shape({
       xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -45,6 +44,7 @@ export default class Chart extends Component {
     }).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
+        logSettings: PropTypes.shape(),
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
         data: PropTypes.objectOf(PropTypes.shape),
@@ -95,7 +95,6 @@ export default class Chart extends Component {
     tooltipColor: 'white',
     perfOutput: false,
     parametric: false,
-    logSettings: {},
   }
 
   state = {
@@ -245,7 +244,6 @@ export default class Chart extends Component {
       yAxes,
       lines,
       xAxis: { xExtents },
-      logSettings,
     } = this.props;
     const {
       yZoomLevels,
@@ -289,10 +287,11 @@ export default class Chart extends Component {
             axis.data
           );
         } else if (axis.logarithmic) {
-          const factor = (logSettings.base || 10) ** Math.floor(Math.log10(zoomLevel ** 5));
+          const base = _get(axis, ['logSettings', 'base'], 10);
+          const factor = base ** Math.floor(Math.log10(zoomLevel ** 5));
           const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40 || 1);
-          const yExtendsLower = (10 ** panPower) * ((logSettings.min || 1) / factor);
-          const yExtendsUpper = (10 ** panPower) * ((logSettings.max || 10000000) * factor);
+          const yExtendsLower = (base ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
+          const yExtendsUpper = (base ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
 
           if (!this.yExtents[axis.id]) {
             this.yExtents[axis.id] = _memoize(
@@ -301,7 +300,7 @@ export default class Chart extends Component {
             );
           }
           yExtents = this.yExtents[axis.id](
-            `${axis.id}-${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
+            `${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
             axis.orient,
             yExtendsLower,
             yExtendsUpper
@@ -322,7 +321,7 @@ export default class Chart extends Component {
             );
           }
           yExtents = this.yExtents[axis.id](
-            `${axis.id}-${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
+            `${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
             axis.orient,
             yExtendsLower,
             yExtendsUpper
@@ -337,6 +336,7 @@ export default class Chart extends Component {
                 return scaleLog()
                   .domain([yExtentsLower, yExtentsUpper])
                   .range([height, 0])
+                  .base(_get(axis, ['logSettings', 'base'], 10))
                   .nice();
               }
               return scaleLinear()

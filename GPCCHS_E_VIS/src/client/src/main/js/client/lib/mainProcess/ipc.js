@@ -63,9 +63,6 @@ const commands = {
     requestSessions: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_SESSIONS_REQUEST, null, callback);
     },
-    requestSessionTime: (sessionId, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_SESSION_TIME, { sessionId }, callback);
-    },
     requestMasterSession: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_MASTER_SESSION, null, callback);
     },

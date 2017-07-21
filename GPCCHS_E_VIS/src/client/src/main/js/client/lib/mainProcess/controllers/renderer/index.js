@@ -5,8 +5,6 @@ import reply from '../../../common/ipc/reply';
 
 import onReduxCurrentState from './onReduxCurrentState';
 import onReduxDispatch from './onReduxDispatch';
-import onGetSessionTime from './onGetSessionTime';
-import onReloadSessions from './onReloadSessions';
 import onServerDebug from './onServerDebug';
 import onOpenInspector from './onOpenInspector';
 import onResolveLink from './onResolveLink';
@@ -21,8 +19,6 @@ import onResolveRteLink from './onResolveRteLink';
 const controller = {
   [constants.IPC_METHOD_REDUX_CURRENT_STATE]: (...args) => onReduxCurrentState(reply, ...args),
   [constants.IPC_METHOD_REDUX_DISPATCH]: onReduxDispatch,
-  [constants.IPC_METHOD_SESSION_TIME]: onGetSessionTime,
-  [constants.IPC_METHOD_RELOAD_SESSIONS]: onReloadSessions,
   [constants.IPC_METHOD_SERVER_DEBUG]: onServerDebug,
   [constants.IPC_METHOD_OPEN_INSPECTOR]: onOpenInspector,
   [constants.IPC_METHOD_RESOLVE_LINK]: onResolveLink,

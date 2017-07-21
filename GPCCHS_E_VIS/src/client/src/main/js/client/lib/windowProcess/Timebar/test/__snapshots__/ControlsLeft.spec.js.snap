@@ -2,7 +2,7 @@
 
 exports[`Controls renders correctly 1`] = `
 <ul
-  className="controlsUl"
+  className="controlsUl controlsUlLeft"
 >
   
   <li
@@ -48,7 +48,7 @@ exports[`Controls renders correctly 1`] = `
     className="controlsLi"
   >
     <button
-      className="btn btn-xs btn-control controlButtonPlay controlButtonActive"
+      className="btn btn-xs btn-control controlButtonPlay active"
       onClick={[Function]}
       title="pause"
     >
@@ -84,16 +84,13 @@ exports[`Controls renders correctly 1`] = `
   <li
     className="controlsLi"
   >
-    <span
-      className="btn btn-xs btn-control controlButtonDisabled"
-      onBlur={[Function]}
-      onClick={null}
-      onFocus={[Function]}
-      onMouseOut={[Function]}
-      onMouseOver={[Function]}
+    <button
+      className="btn btn-xs btn-control"
+      onClick={[Function]}
+      title="Go now"
     >
-      Now
-    </span>
+      NOW
+    </button>
   </li>
   <li
     className="controlsLi"

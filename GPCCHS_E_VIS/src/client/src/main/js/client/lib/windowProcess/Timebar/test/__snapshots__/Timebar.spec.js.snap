@@ -2,7 +2,7 @@
 
 exports[`Timebar renders correctly 1`] = `
 <div
-  className="viewportWrapper"
+  className="ViewportWrapper viewportWrapper"
   onMouseLeave={[Function]}
   onMouseMove={[Function]}
 >
@@ -67,12 +67,12 @@ exports[`Timebar renders correctly 1`] = `
         onMouseDown={[Function]}
       />
       <span
-        className="lowerFormattedTime"
+        className="LowerFormattedTime lowerFormattedTime"
       >
         10:58:05.354
       </span>
       <span
-        className="currentFormattedTime"
+        className="CurrentFormattedTime currentFormattedTime"
         style={
           Object {
             "left": "44.90186940085962%",
@@ -82,13 +82,13 @@ exports[`Timebar renders correctly 1`] = `
         10:58:14.025
       </span>
       <span
-        className="upperFormattedTime"
+        className="UpperFormattedTime upperFormattedTime"
       >
         10:58:24.665
       </span>
     </div>
     <div
-      className="timelines"
+      className="Timelines timelines"
       onScroll={[Function]}
     >
       <div
@@ -142,7 +142,7 @@ exports[`Timebar renders correctly 1`] = `
     </div>
   </div>
   <div
-    className="timebarRuleContainer"
+    className="Scale timebarRuleContainer"
     onMouseDown={[Function]}
   >
     <div
@@ -162,7 +162,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:57:20
         </span>
@@ -179,7 +179,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:57:40
         </span>
@@ -196,7 +196,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:58:00
         </span>
@@ -213,7 +213,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:58:20
         </span>
@@ -230,7 +230,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:58:40
         </span>
@@ -247,7 +247,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:59:00
         </span>
@@ -264,7 +264,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:59:20
         </span>
@@ -281,7 +281,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           10:59:40
         </span>
@@ -298,7 +298,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:00:00
         </span>
@@ -315,7 +315,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:00:20
         </span>
@@ -332,7 +332,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:00:40
         </span>
@@ -349,7 +349,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:01:00
         </span>
@@ -366,7 +366,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:01:20
         </span>
@@ -383,7 +383,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:01:40
         </span>
@@ -400,7 +400,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:02:00
         </span>
@@ -417,7 +417,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:02:20
         </span>
@@ -434,7 +434,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:02:40
         </span>
@@ -451,7 +451,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:03:00
         </span>
@@ -468,7 +468,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:03:20
         </span>
@@ -485,7 +485,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:03:40
         </span>
@@ -502,7 +502,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:04:00
         </span>
@@ -519,7 +519,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:04:20
         </span>
@@ -536,7 +536,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:04:40
         </span>
@@ -553,7 +553,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:05:00
         </span>
@@ -570,7 +570,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:05:20
         </span>
@@ -587,7 +587,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:05:40
         </span>
@@ -604,7 +604,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:06:00
         </span>
@@ -621,7 +621,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:06:20
         </span>
@@ -638,7 +638,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:06:40
         </span>
@@ -655,7 +655,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:07:00
         </span>
@@ -672,7 +672,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:07:20
         </span>
@@ -689,7 +689,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:07:40
         </span>
@@ -706,7 +706,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:08:00
         </span>
@@ -723,7 +723,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:08:20
         </span>
@@ -740,7 +740,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:08:40
         </span>
@@ -757,7 +757,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:09:00
         </span>
@@ -774,7 +774,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:09:20
         </span>
@@ -791,7 +791,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:09:40
         </span>
@@ -808,7 +808,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:10:00
         </span>
@@ -825,7 +825,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:10:20
         </span>
@@ -842,7 +842,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:10:40
         </span>
@@ -859,7 +859,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:11:00
         </span>
@@ -876,7 +876,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:11:20
         </span>
@@ -893,7 +893,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:11:40
         </span>
@@ -910,7 +910,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:12:00
         </span>
@@ -927,7 +927,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:12:20
         </span>
@@ -944,7 +944,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:12:40
         </span>
@@ -961,7 +961,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:13:00
         </span>
@@ -978,7 +978,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:13:20
         </span>
@@ -995,7 +995,7 @@ exports[`Timebar renders correctly 1`] = `
         }
       >
         <span
-          className="scaleTime"
+          className="ScaleTime scaleTime"
         >
           11:13:40
         </span>

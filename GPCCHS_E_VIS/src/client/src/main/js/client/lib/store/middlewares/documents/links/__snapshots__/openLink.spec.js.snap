@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`middlewares/createOpenLinkMiddleware Error : Message on readDocumentType error 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 2,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Error readDocumentType",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware Error : Message on unknown link 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 999,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "v1",
+      "messages": Array [
+        Object {
+          "content": "Unknown link",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware Error: Message on type error 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 5,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Error, unknown type 'unknownType'",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a linked page already opened (focus) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 4,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "windowId": "w1",
+    },
+    "type": "WS_WINDOW_PAGE_FOCUS",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a linked view already opened (focus) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 3,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "windowId": "w1",
+    },
+    "type": "WS_WINDOW_PAGE_FOCUS",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 0,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "payload": Object {
+      "path": "/page",
+      "viewFolder": "/path/to",
+      "windowId": "w1",
+    },
+    "type": "OPEN_PAGE",
+  },
+]
+`;
+
+exports[`middlewares/createOpenLinkMiddleware open a view 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 1,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "page": Object {
+        "timebarUuid": "tb1",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_PAGE_ADD_BLANK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "path": "/textview",
+      "viewFolder": "/path/to",
+    },
+    "type": "OPEN_VIEW",
+  },
+]
+`;

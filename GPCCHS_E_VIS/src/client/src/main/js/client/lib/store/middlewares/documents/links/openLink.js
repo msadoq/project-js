@@ -8,9 +8,9 @@ import { getLink, getView, getViews } from '../../../reducers/views';
 import { getPages } from '../../../reducers/pages';
 import { getFocusedWindowId } from '../../../reducers/hsc';
 import { add as addMessage } from '../../../actions/messages';
-import { getRootDir } from '../../../../common/fmd';
+import { get } from '../../../../common/configurationManager';
 
-const isRelativePath = path => /^\./.test(path);
+const isRelativePath = path => /^\./.test(path); // TODO inverse logic
 const isAbsolutePath = _.complement(isRelativePath);
 
 const openViewLink = documentManager => ({ getState, dispatch }) => (action) => {
@@ -20,7 +20,7 @@ const openViewLink = documentManager => ({ getState, dispatch }) => (action) => 
   const viewWithLink = getView(getState(), { viewId });
   const viewFolder = viewWithLink.absolutePath ? dirname(viewWithLink.absolutePath) : null;
   const fullPath = (
-    isAbsolutePath(link.path) ? join(getRootDir(), link.path) : join(viewFolder, link.path)
+    isAbsolutePath(link.path) ? join(get('ISIS_DOCUMENTS_ROOT'), link.path) : join(viewFolder, link.path)
   );
   const views = getViews(state);
   const view =
@@ -42,7 +42,7 @@ const openPageLink = documentManager => ({ getState, dispatch }) => (action) => 
   const viewWithLink = getView(getState(), { viewId });
   const viewFolder = viewWithLink.absolutePath ? dirname(viewWithLink.absolutePath) : null;
   const fullPath = (
-    isAbsolutePath(link.path) ? join(getRootDir(), link.path) : join(viewFolder, link.path)
+    isAbsolutePath(link.path) ? join(get('ISIS_DOCUMENTS_ROOT'), link.path) : join(viewFolder, link.path)
   );
   const pages = getPages(state);
   const page =
@@ -86,6 +86,5 @@ const createOpenLinkMiddleware = documentManager => store => next => (action) =>
   });
   return nextAction;
 };
-
 
 export default createOpenLinkMiddleware;

@@ -13,7 +13,7 @@ import {
 } from '../actions/inspector';
 import { getInspectorEpId } from '../reducers/inspector';
 
-const logger = getLogger('main:controllers:renderer:onOpenInspector');
+const logger = getLogger('server:store:middlewares:inspector');
 
 export default () => ({ getState, dispatch }) => next => (action) => {
   const nextAction = next(action);

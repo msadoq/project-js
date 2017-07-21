@@ -5,7 +5,6 @@ import reply from '../../../common/ipc/reply';
 
 import onReduxCurrentState from './onReduxCurrentState';
 import onReduxDispatch from './onReduxDispatch';
-import onOpenInspector from './onOpenInspector';
 import onResolveLink from './onResolveLink';
 import onOpenWikiHelper from './onOpenWikiHelper';
 import onGetRteDomains from './onGetRteDomains';
@@ -18,7 +17,6 @@ import onResolveRteLink from './onResolveRteLink';
 const controller = {
   [constants.IPC_METHOD_REDUX_CURRENT_STATE]: (...args) => onReduxCurrentState(reply, ...args),
   [constants.IPC_METHOD_REDUX_DISPATCH]: onReduxDispatch,
-  [constants.IPC_METHOD_OPEN_INSPECTOR]: onOpenInspector,
   [constants.IPC_METHOD_RESOLVE_LINK]: onResolveLink,
   [constants.IPC_METHOD_WIKI_HELPER]: onOpenWikiHelper,
   [constants.IPC_METHOD_GET_RTE_DOMAINS]: onGetRteDomains,

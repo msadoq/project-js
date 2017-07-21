@@ -8,7 +8,7 @@ import {
   isViewTypeSupported,
   getSchema,
   getViewModule,
-} from '../viewManager';
+} from '../../viewManager';
 
 const simpleReadView = async.reflect((viewInfo, cb) => {
   readDocument(viewInfo, (err, viewContent, properties, viewPath) => {

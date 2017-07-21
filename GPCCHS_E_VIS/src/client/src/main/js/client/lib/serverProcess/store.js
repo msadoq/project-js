@@ -8,7 +8,7 @@ import makeInspectorMiddleware from '../store/middlewares/inspector';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
-import documentManager from '../documentManager';
+import documentManager from './documentManager';
 
 let store;
 

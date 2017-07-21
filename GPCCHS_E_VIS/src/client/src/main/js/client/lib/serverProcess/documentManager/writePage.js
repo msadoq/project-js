@@ -1,14 +1,14 @@
 import _ from 'lodash/fp';
 import { dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from '../constants';
+import { LOG_DOCUMENT_SAVE } from '../../constants';
 
-import { dc } from '../serverProcess/ipc';
-import { createFolder } from '../common/fs';
+import { dc } from '../ipc';
+import { createFolder } from '../../common/fs';
 import { writeDocument } from './io';
 import validation from './validation';
 
-import { getPage, getPageAbsolutePath } from '../store/reducers/pages';
-import { getView } from '../store/reducers/views';
+import { getPage, getPageAbsolutePath } from '../../store/reducers/pages';
+import { getView } from '../../store/reducers/views';
 
 const preparePage = (state, page) => ({
   type: 'Page',

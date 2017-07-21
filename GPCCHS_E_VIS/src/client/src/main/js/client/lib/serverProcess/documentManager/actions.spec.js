@@ -1,12 +1,12 @@
 import _ from 'lodash/fp';
 import sinon from 'sinon';
-import { mockStore, freezeMe } from '../common/jest';
+import { mockStore, freezeMe } from '../../common/jest';
 import readView from './readView';
 import * as readPageApi from './readPage';
 import * as readWorkspaceApi from './readWorkspace';
 import * as actions from './actions';
 
-jest.mock('../serverProcess/ipc');
+jest.mock('../ipc');
 
 describe('documentManager:actions', () => {
   let stub;

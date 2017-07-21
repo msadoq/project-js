@@ -4,9 +4,9 @@ import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
 import sinon from 'sinon';
 
-import { MIME_TYPES } from '../constants';
+import { MIME_TYPES } from '../../constants';
 
-import { getTmpPath } from '../common/jest';
+import { getTmpPath } from '../../common/jest';
 import * as fmdApi from './fmd';
 import * as io from './io';
 
@@ -217,7 +217,7 @@ describe('documentManager/io', () => {
       });
     });
     test('get an error if readed document has no type', (done) => {
-      const path = '../../../package.json';
+      const path = '../../../../package.json';
       io.readDocumentType({ path, pageFolder: folder }, (err) => {
         expect(err).toBeAnError();
         expect(err.message).toMatch(/no type/);

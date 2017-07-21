@@ -1,7 +1,7 @@
-import { get } from '../common/configurationManager';
+import { get } from '../../common/configurationManager';
 import * as fmdApi from './fmd';
 
-jest.mock('../serverProcess/ipc', () => ({
+jest.mock('../ipc', () => ({
   dc: {
     sendProductLog: x => x,
     requestFmdGet: (oId, cb) => cb({

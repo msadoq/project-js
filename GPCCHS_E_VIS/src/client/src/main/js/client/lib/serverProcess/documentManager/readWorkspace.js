@@ -3,7 +3,7 @@ import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
 
-import { copyProp } from '../common/fp';
+import { copyProp } from '../../common/fp';
 
 import validation from './validation';
 

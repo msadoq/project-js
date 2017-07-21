@@ -1,22 +1,22 @@
 import _ from 'lodash/fp';
 import { join, dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from '../constants';
+import { LOG_DOCUMENT_SAVE } from '../../constants';
 
-import { getWindows } from '../store/reducers/windows';
-import { getPage } from '../store/reducers/pages';
-import { getTimebars, getTimebarId } from '../store/reducers/timebars';
-import { getTimebarTimelines } from '../store/reducers/timebarTimelines';
-import { getTimeline } from '../store/reducers/timelines';
+import { getWindows } from '../../store/reducers/windows';
+import { getPage } from '../../store/reducers/pages';
+import { getTimebars, getTimebarId } from '../../store/reducers/timebars';
+import { getTimebarTimelines } from '../../store/reducers/timebarTimelines';
+import { getTimeline } from '../../store/reducers/timelines';
 import {
   getWorkspaceFile,
   getWorkspaceFolder,
   getDomainName,
   getSessionName,
-} from '../store/reducers/hsc';
+} from '../../store/reducers/hsc';
 
 import validation from './validation';
-import { dc } from '../serverProcess/ipc';
-import { createFolder } from '../common/fs';
+import { dc } from '../ipc';
+import { createFolder } from '../../common/fs';
 import { writeDocument } from './io';
 
 const getPageLocation = ({ oId, path, absolutePath }) => {

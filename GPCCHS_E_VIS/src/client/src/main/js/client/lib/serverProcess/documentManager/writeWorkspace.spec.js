@@ -4,14 +4,14 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 import { readFile } from 'fs';
 
-import { MIME_TYPES } from '../constants';
-import { getTmpPath, freezeMe } from '../common/jest';
+import { MIME_TYPES } from '../../constants';
+import { getTmpPath, freezeMe } from '../../common/jest';
 
 import { writeWorkspace, writeWorkspaceAs } from './writeWorkspace';
 import * as fmdApi from './fmd';
-import fs from '../common/fs';
+import fs from '../../common/fs';
 
-jest.mock('../serverProcess/ipc');
+jest.mock('../ipc');
 
 const mockedCreateDocument = (path, documentType, cb) => {
   const mimeType = MIME_TYPES[documentType];

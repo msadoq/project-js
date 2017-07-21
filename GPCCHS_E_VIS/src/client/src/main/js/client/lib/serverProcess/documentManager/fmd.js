@@ -2,10 +2,10 @@ import startsWith from 'lodash/fp/startsWith';
 import fs from 'fs';
 import { relative, join, basename, dirname } from 'path';
 
-import parameters from '../common/configurationManager';
-import globalConstants, { MIME_TYPES } from '../constants';
+import parameters from '../../common/configurationManager';
+import globalConstants, { MIME_TYPES } from '../../constants';
 
-import { dc } from '../serverProcess/ipc';
+import { dc } from '../../serverProcess/ipc';
 
 const checkPath = (path, cb) => (
   fs.exists(path, pathExist => cb(null, !!pathExist))

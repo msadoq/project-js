@@ -42,12 +42,6 @@ const commands = {
     getSessionTime: (sessionId, callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_SESSION_TIME, sessionId, callback);
     },
-    openView: ({ windowId, absolutePath }) => {
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_VIEW, {
-        windowId,
-        absolutePath,
-      });
-    },
     openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
         pageId,
@@ -67,8 +61,6 @@ const commands = {
       }, callback),
     openDocuWikiHelper: () =>
       commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
-    saveView: ({ viewId, saveAs }, callback) =>
-      commands.main.rpc(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs }, callback),
     getRteDomains: (sessionId, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
         sessionId,

@@ -69,16 +69,6 @@ const commands = {
     requestMasterSession: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_MASTER_SESSION, null, callback);
     },
-    requestFmdGet: (oid, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_FMD_GET, { oid }, callback);
-    },
-    requestFmdCreate: (fileFolder, fileName, mimeType, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_FMD_CREATE, {
-        path: fileFolder,
-        name: fileName,
-        mimeType,
-      }, callback);
-    },
     requestData: (queries, callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, { queries }, callback);
     },

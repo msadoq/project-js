@@ -9,27 +9,6 @@ import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getStore } from '../store';
 import { getViewModule } from '../../viewManager';
 
-// function viewOpen(focusedWindow) {
-//   if (!focusedWindow) {
-//     return;
-//   }
-//   const folder = getWorkspaceFolder(getStore().getState());
-//   getPathByFilePicker(folder, 'view', 'open', (err, absolutePath) => {
-//     viewOpenWithPath({ windowId: focusedWindow.windowId, absolutePath });
-//   });
-// }
-
-// function viewOpenWithPath({ windowId, absolutePath }) {
-//   const { dispatch, getState } = getStore();
-//   const focusedPageId = getWindowFocusedPageId(getState(), { windowId });
-//   const pageId = focusedPageId || v4();
-//   const viewInfo = { absolutePath };
-//   if (!focusedPageId) {
-//     dispatch(addBlankPage(windowId, pageId));
-//   }
-//   dispatch(openView(viewInfo, pageId));
-// }
-//
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
   const { windowId } = focusedWindow;
@@ -46,8 +25,4 @@ const viewAddBlank = (type, focusedWindow) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.get('type', view)}`);
 };
 
-export default {
-  // viewOpen,
-  // viewOpenWithPath,
-  viewAddBlank,
-};
+export default viewAddBlank;

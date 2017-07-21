@@ -34,6 +34,7 @@ export default class Chart extends Component {
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
     perfOutput: PropTypes.bool,
+    logSettings: PropTypes.shape(),
     additionalStyle: PropTypes.shape({}).isRequired,
     xAxis: PropTypes.shape({
       xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -94,6 +95,7 @@ export default class Chart extends Component {
     tooltipColor: 'white',
     perfOutput: false,
     parametric: false,
+    logSettings: {},
   }
 
   state = {
@@ -148,14 +150,11 @@ export default class Chart extends Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { allowZoom, allowYZoom, yAxes } = this.props;
+    const { allowZoom, allowYZoom } = this.props;
     const { zoomLevel, yZoomLevels, ctrlPressed } = this.state;
 
     if (ctrlPressed) {
       const hoveredAxisId = this.wichAxisIsHovered(e);
-      if (hoveredAxisId && _get(yAxes.find(a => a.id === hoveredAxisId), 'logarithmic')) {
-        return;
-      }
       if (allowYZoom && hoveredAxisId) {
         const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
         const newYZoomLevels = {
@@ -175,7 +174,7 @@ export default class Chart extends Component {
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowPan, allowYPan, yAxes } = this.props;
+    const { allowPan, allowYPan } = this.props;
     const { pan, yPans, ctrlPressed } = this.state;
     if (!ctrlPressed) {
       return;
@@ -184,9 +183,6 @@ export default class Chart extends Component {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
     const hoveredAxisId = this.wichAxisIsHovered(e);
-    if (hoveredAxisId && _get(yAxes.find(a => a.id === hoveredAxisId), 'logarithmic')) {
-      return;
-    }
     if (allowYPan && hoveredAxisId) {
       const yPan = _get(yPans, hoveredAxisId, 0);
       this.setState({
@@ -249,6 +245,7 @@ export default class Chart extends Component {
       yAxes,
       lines,
       xAxis: { xExtents },
+      logSettings,
     } = this.props;
     const {
       yZoomLevels,
@@ -291,14 +288,32 @@ export default class Chart extends Component {
             axisLines,
             axis.data
           );
+        } else if (axis.logarithmic) {
+          const factor = (logSettings.base || 10) ** Math.floor(Math.log10(zoomLevel ** 5));
+          const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40 || 1);
+          const yExtendsLower = (10 ** panPower) * ((logSettings.min || 1) / factor);
+          const yExtendsUpper = (10 ** panPower) * ((logSettings.max || 10000000) * factor);
+
+          if (!this.yExtents[axis.id]) {
+            this.yExtents[axis.id] = _memoize(
+              (hash, orient, lower, upper) =>
+                (orient === 'top' ? [lower, upper] : [upper, lower])
+            );
+          }
+          yExtents = this.yExtents[axis.id](
+            `${axis.id}-${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
+            axis.orient,
+            yExtendsLower,
+            yExtendsUpper
+          );
         } else {
           const center = (axis.yExtents[0] + axis.yExtents[1]) / 2;
           const range = axis.yExtents[1] - axis.yExtents[0];
           const zoomedRange = range / zoomLevel;
           const scaledPan = (pan / this.chartHeight) * range * -1;
           const pannedCenter = center + scaledPan;
-          const xExtendsLower = pannedCenter - (zoomedRange / 2);
-          const xExtendsUpper = pannedCenter + (zoomedRange / 2);
+          const yExtendsLower = pannedCenter - (zoomedRange / 2);
+          const yExtendsUpper = pannedCenter + (zoomedRange / 2);
           // First render, instanciate one memoize method per Y axis
           if (!this.yExtents[axis.id]) {
             this.yExtents[axis.id] = _memoize(
@@ -307,10 +322,10 @@ export default class Chart extends Component {
             );
           }
           yExtents = this.yExtents[axis.id](
-            `${axis.id}-${axis.orient}-${xExtendsLower}-${xExtendsUpper}`,
+            `${axis.id}-${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
             axis.orient,
-            xExtendsLower,
-            xExtendsUpper
+            yExtendsLower,
+            yExtendsUpper
           );
         }
 
@@ -320,7 +335,7 @@ export default class Chart extends Component {
             (hash, yExtentsLower, yExtentsUpper, height, logarithmic) => {
               if (logarithmic) {
                 return scaleLog()
-                  .domain([0.1, 1000000000])
+                  .domain([yExtentsLower, yExtentsUpper])
                   .range([height, 0])
                   .nice();
               }

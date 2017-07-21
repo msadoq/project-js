@@ -488,6 +488,7 @@ export class GrizzlyPlotView extends PureComponent {
         axes,
         grids,
         showLegend,
+        logSettings,
         legend,
       },
       visuWindow,
@@ -611,6 +612,7 @@ export class GrizzlyPlotView extends PureComponent {
               label: axis.label,
               labelStyle: axis.style,
               logarithmic: axis.logarithmic,
+              logSettings: axis.logSettings,
             };
           })}
           lines={

@@ -252,6 +252,7 @@ export default class Chart extends Component {
 
     return yAxes
       .map((axis) => {
+        const logBase = _get(axis, ['logSettings', 'base'], 10);
         const zoomLevel = _get(yZoomLevels, axis.id, 1);
         const pan = _get(yPans, axis.id, 0);
         const axisLines = lines
@@ -287,12 +288,10 @@ export default class Chart extends Component {
             axis.data
           );
         } else if (axis.logarithmic) {
-          const base = _get(axis, ['logSettings', 'base'], 10);
-          const factor = base ** Math.floor(Math.log10(zoomLevel ** 5));
-          const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40 || 1);
-          const yExtendsLower = (base ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
-          const yExtendsUpper = (base ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
-
+          const factor = logBase ** Math.floor(Math.log10(zoomLevel ** 5));
+          const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40);
+          const yExtendsLower = (logBase ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
+          const yExtendsUpper = (logBase ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
           if (!this.yExtents[axis.id]) {
             this.yExtents[axis.id] = _memoize(
               (hash, orient, lower, upper) =>
@@ -331,12 +330,12 @@ export default class Chart extends Component {
         // First render, instanciate one memoize method per Y axis
         if (!this.yScales[axis.id]) {
           this.yScales[axis.id] = _memoize(
-            (hash, yExtentsLower, yExtentsUpper, height, logarithmic) => {
+            (hash, yExtentsLower, yExtentsUpper, height, logarithmic, base) => {
               if (logarithmic) {
                 return scaleLog()
                   .domain([yExtentsLower, yExtentsUpper])
                   .range([height, 0])
-                  .base(_get(axis, ['logSettings', 'base'], 10))
+                  .base(base)
                   .nice();
               }
               return scaleLinear()
@@ -346,11 +345,12 @@ export default class Chart extends Component {
           );
         }
         const yScale = this.yScales[axis.id](
-          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}-${axis.logarithmic}`,
+          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}-${axis.logarithmic}-${logBase}`,
           yExtents[0],
           yExtents[1],
           this.chartHeight,
-          axis.logarithmic
+          axis.logarithmic,
+          logBase
         );
 
         // rank axes to sort them and define the master / grid showing one

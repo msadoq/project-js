@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { MIME_TYPES } from '../constants';
 
 import { getTmpPath } from '../common/jest';
-import * as fmdApi from '../common/fmd';
+import * as fmdApi from './fmd';
 import * as io from './io';
 
 const mockedCreateDocument = (path, documentType, cb) => {

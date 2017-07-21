@@ -1,4 +1,4 @@
-import { get } from './configurationManager';
+import { get } from '../common/configurationManager';
 import * as fmdApi from './fmd';
 
 jest.mock('../serverProcess/ipc', () => ({

@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 import fs from 'fs';
 
-import * as fmd from '../common/fmd';
-
-import resolvePath from '../common/pathResolver';
 import { read, parse } from '../common/fs';
+
+import * as fmd from './fmd';
+import resolvePath from './pathResolver';
 
 export const readDocument = (
   { pageFolder, workspaceFolder, viewFolder, documentFolder, path, oId, absolutePath }, cb

@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import startsWith from 'lodash/fp/startsWith';
 
 import * as fmd from './fmd';
-import { isExists } from './fs';
+import { isExists } from '../common/fs';
 
 export const resolveFmdPath = (path, cb) => {
   if (!_.startsWith('/', path)) {

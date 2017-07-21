@@ -8,7 +8,7 @@ import { MIME_TYPES } from '../constants';
 import { getTmpPath, freezeMe } from '../common/jest';
 
 import { writeWorkspace, writeWorkspaceAs } from './writeWorkspace';
-import * as fmdApi from '../common/fmd';
+import * as fmdApi from './fmd';
 import fs from '../common/fs';
 
 jest.mock('../serverProcess/ipc');

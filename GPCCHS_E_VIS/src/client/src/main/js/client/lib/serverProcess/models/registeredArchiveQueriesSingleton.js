@@ -1,36 +1,33 @@
-import { v4 } from 'uuid';
 import _isString from 'lodash/isString';
 import _isEmpty from 'lodash/isEmpty';
 import _has from 'lodash/has';
 
 let queriesIdCollections = {};
 
-const add = (tbdId, type) => {
+const add = (queryId, tbdId, type) => {
   if (!_isString(tbdId) || _isEmpty(tbdId)) {
     throw new Error(`adding a new query required a string id '${tbdId}'`);
   }
-  if (_has(queriesIdCollections, tbdId)) {
-    throw new Error(`a query is already registered for this id '${tbdId}'`);
+  if (_has(queriesIdCollections, queryId)) {
+    throw new Error(`a query is already registered for this id '${queryId}'`);
   }
-  if (!_isString(tbdId)) {
+  if (!_isString(type)) {
     throw new Error(`invalid type '${type}'`);
   }
-  const queryId = v4();
   queriesIdCollections[queryId] = { tbdId, type };
-  return queryId;
 };
 
-const get = id => queriesIdCollections[id];
+const get = queryId => queriesIdCollections[queryId];
 
 const getAll = () => queriesIdCollections;
 
-const remove = (id) => {
-  delete queriesIdCollections[id];
+const remove = (queryId) => {
+  delete queriesIdCollections[queryId];
 };
 
-const pop = (id) => {
-  const query = get(id);
-  remove(id);
+const pop = (queryId) => {
+  const query = get(queryId);
+  remove(queryId);
   return query;
 };
 

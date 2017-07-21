@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { get } from '../common/configurationManager';
-import createMessagesMiddleware from '../store/middlewares/messages';
-import createPlayerMiddleware from '../store/middlewares/player';
-import createDocumentsMiddleware from '../store/middlewares/documents';
+import makeMessagesMiddleware from '../store/middlewares/messages';
+import makePlayerMiddleware from '../store/middlewares/player';
+import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
@@ -14,9 +14,9 @@ let store;
 
 const middlewares = [
   thunk,
-  createMessagesMiddleware(),
-  createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
-  createDocumentsMiddleware(documentManager),
+  makeMessagesMiddleware(),
+  makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
+  makeDocumentsMiddleware(documentManager),
   makeInspectorMiddleware(),
 ];
 

@@ -39,7 +39,7 @@ const createDelay = () => {
 
 const isAnimated = _.get('meta.withAnimation');
 
-export default function createMessagesMiddleware() {
+export default function makeMessagesMiddleware() {
   const delayTimeout = createDelay();
   const delayAnimation = createDelay();
   return ({ dispatch }) => next => (action) => {

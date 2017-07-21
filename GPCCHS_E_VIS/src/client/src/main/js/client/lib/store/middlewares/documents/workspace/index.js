@@ -3,10 +3,10 @@ import onOpenWorkspace from './onOpenWorkspace';
 import onSaveWorkspace from './onSaveWorkspace';
 import onCloseWorkspace from './onCloseWorkspace';
 
-const createWorkspaceMiddleware = documentManager => pipeMiddlewares(
+const makeWorkspaceMiddleware = documentManager => pipeMiddlewares(
   onOpenWorkspace(documentManager),
   onSaveWorkspace(documentManager),
   onCloseWorkspace(documentManager)
 );
 
-export default createWorkspaceMiddleware;
+export default makeWorkspaceMiddleware;

@@ -1,16 +1,16 @@
 import pipeMiddlewares from '../../helpers/pipeMiddlewares';
-import createViewsMiddleware from './views';
-import createPagesMiddleware from './pages';
-import createWorkspacesMiddleware from './workspace';
-import createOpenLinkMiddleware from './links/openLink';
+import makeViewsMiddleware from './views';
+import makePagesMiddleware from './pages';
+import makeWorkspacesMiddleware from './workspace';
+import makeOpenLinkMiddleware from './links/openLink';
 
-const createDocumentsMiddleware = documentManager => (
+const makeDocumentsMiddleware = documentManager => (
   pipeMiddlewares(
-    createViewsMiddleware(documentManager),
-    createPagesMiddleware(documentManager),
-    createWorkspacesMiddleware(documentManager),
-    createOpenLinkMiddleware(documentManager)
+    makeViewsMiddleware(documentManager),
+    makePagesMiddleware(documentManager),
+    makeWorkspacesMiddleware(documentManager),
+    makeOpenLinkMiddleware(documentManager)
   )
 );
 
-export default createDocumentsMiddleware;
+export default makeDocumentsMiddleware;

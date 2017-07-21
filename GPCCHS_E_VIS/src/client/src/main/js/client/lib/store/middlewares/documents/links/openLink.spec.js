@@ -1,8 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import createOpenLinkMiddleware from './openLink';
+import makeOpenLinkMiddleware from './openLink';
 
-describe('middlewares/createOpenLinkMiddleware', () => {
+describe('middlewares/makeOpenLinkMiddleware', () => {
   const documentManager = {
     openPage: payload => ({ type: 'OPEN_PAGE', payload }),
     openView: (payload, pageId) => ({ type: 'OPEN_VIEW', payload: { ...payload, pageId } }),
@@ -20,7 +20,7 @@ describe('middlewares/createOpenLinkMiddleware', () => {
     },
   };
 
-  const mockStore = configureMockStore([thunk, createOpenLinkMiddleware(documentManager)]);
+  const mockStore = configureMockStore([thunk, makeOpenLinkMiddleware(documentManager)]);
   const store = mockStore({
     timebars: { tb1: {} },
     windows: { w1: { pages: ['p1'] } },

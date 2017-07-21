@@ -121,7 +121,7 @@ const goNowHandler = ({ dispatch, getState }, next, action) => {
   return next(action);
 };
 
-const createPlayerMiddleware = (
+const makePlayerMiddleware = (
   PLAYER_FREQUENCY = 500,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = 0.1
 ) => {
@@ -152,4 +152,4 @@ const createPlayerMiddleware = (
   };
 };
 
-export default createPlayerMiddleware;
+export default makePlayerMiddleware;

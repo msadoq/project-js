@@ -5,7 +5,7 @@ import onCloseView from './onCloseView';
 import onReloadView from './onReloadView';
 import onSaveViewAsModel from './onSaveViewAsModel';
 
-const createViewsMiddleware = documentManager => pipeMiddlewares(
+const makeViewsMiddleware = documentManager => pipeMiddlewares(
   onOpenView(documentManager),
   onSaveView(documentManager),
   onCloseView(documentManager),
@@ -13,4 +13,4 @@ const createViewsMiddleware = documentManager => pipeMiddlewares(
   onSaveViewAsModel(documentManager)
 );
 
-export default createViewsMiddleware;
+export default makeViewsMiddleware;

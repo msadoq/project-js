@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`middlewares/createOpenLinkMiddleware Error : Message on readDocumentType error 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware Error : Message on readDocumentType error 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -27,7 +27,7 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware Error : Message on unknown link 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware Error : Message on unknown link 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -54,7 +54,7 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware Error: Message on type error 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware Error: Message on type error 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -81,7 +81,7 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware open a linked page already opened (focus) 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware open a linked page already opened (focus) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -100,7 +100,7 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware open a linked view already opened (focus) 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware open a linked view already opened (focus) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -119,7 +119,7 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware open a page 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware open a page 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -139,7 +139,7 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware open a view 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware open a view 1`] = `
 Array [
   Object {
     "payload": Object {

@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
-import createMessagesMiddleware from './messages';
+import makeMessagesMiddleware from './messages';
 
-const mockStore = configureMockStore([createMessagesMiddleware()]);
+const mockStore = configureMockStore([makeMessagesMiddleware()]);
 
 describe('store:middlewares:messages', () => {
   jest.useFakeTimers();

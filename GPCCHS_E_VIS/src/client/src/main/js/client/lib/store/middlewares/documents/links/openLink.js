@@ -56,7 +56,7 @@ const openPageLink = documentManager => ({ getState, dispatch }) => (action) => 
   }
 };
 
-const createOpenLinkMiddleware = documentManager => store => next => (action) => {
+const makeOpenLinkMiddleware = documentManager => store => next => (action) => {
   if (action.type !== types.WS_ASK_OPEN_LINK) {
     return next(action);
   }
@@ -87,4 +87,4 @@ const createOpenLinkMiddleware = documentManager => store => next => (action) =>
   return nextAction;
 };
 
-export default createOpenLinkMiddleware;
+export default makeOpenLinkMiddleware;

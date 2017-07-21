@@ -10,10 +10,9 @@ import { getFocusedWindowId } from '../../../reducers/hsc';
 import { add as addMessage } from '../../../actions/messages';
 import { get } from '../../../../common/configurationManager';
 
-const isRelativePath = path => /^\./.test(path); // TODO inverse logic
-const isAbsolutePath = _.complement(isRelativePath);
+const isAbsolutePath = path => /^\//.test(path);
 
-const openViewLink = documentManager => ({ getState, dispatch }) => (action) => {
+const openDocumentLink = (documentManager, docType) => ({ getState, dispatch }) => (action) => {
   const state = getState();
   const { viewId, linkId } = action.payload;
   const link = getLink(state, { viewId, linkId });
@@ -22,35 +21,19 @@ const openViewLink = documentManager => ({ getState, dispatch }) => (action) => 
   const fullPath = (
     isAbsolutePath(link.path) ? join(get('ISIS_DOCUMENTS_ROOT'), link.path) : join(viewFolder, link.path)
   );
-  const views = getViews(state);
-  const view =
-    _.find({ absolutePath: link.path }, views)
-    || _.find({ absolutePath: fullPath }, views);
-  if (view) {
-    dispatch(focusView(view.uuid));
-  } else {
+  const getDocuments = docType === 'page' ? getPages : getViews;
+  const focus = docType === 'page' ? focusPage : focusView;
+  const documents = getDocuments(state);
+  const doc =
+    _.find({ absolutePath: link.path }, documents)
+    || _.find({ absolutePath: fullPath }, documents);
+  if (doc) {
+    dispatch(focus(doc.uuid));
+  } else if (docType === 'view') {
     const newPageId = v4();
     dispatch(addBlankPage(undefined, newPageId));
     dispatch(documentManager.openView({ path: link.path, viewFolder }, newPageId));
-  }
-};
-
-const openPageLink = documentManager => ({ getState, dispatch }) => (action) => {
-  const state = getState();
-  const { viewId, linkId } = action.payload;
-  const link = getLink(state, { viewId, linkId });
-  const viewWithLink = getView(getState(), { viewId });
-  const viewFolder = viewWithLink.absolutePath ? dirname(viewWithLink.absolutePath) : null;
-  const fullPath = (
-    isAbsolutePath(link.path) ? join(get('ISIS_DOCUMENTS_ROOT'), link.path) : join(viewFolder, link.path)
-  );
-  const pages = getPages(state);
-  const page =
-    _.find({ absolutePath: link.path }, pages)
-    || _.find({ absolutePath: fullPath }, pages);
-  if (page) {
-    dispatch(focusPage(page.uuid));
-  } else {
+  } else if (docType === 'page') {
     const windowId = getFocusedWindowId(state);
     dispatch(documentManager.openPage({ path: link.path, viewFolder, windowId }));
   }
@@ -77,9 +60,9 @@ const makeOpenLinkMiddleware = documentManager => store => next => (action) => {
       return;
     }
     if (isView(type)) {
-      openViewLink(documentManager)(store)(action);
+      openDocumentLink(documentManager, 'view')(store)(action);
     } else if (isPage(type)) {
-      openPageLink(documentManager)(store)(action);
+      openDocumentLink(documentManager, 'page')(store)(action);
     } else {
       dispatch(addMessage('global', 'danger', `Error, unknown type '${type}'`));
     }

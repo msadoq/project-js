@@ -39,6 +39,7 @@ export default class MimicView extends Component {
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
+    openLink: PropTypes.func.isRequired,
   };
   static defaultProps = {
     links: [],
@@ -524,7 +525,7 @@ export default class MimicView extends Component {
             />
           </Col>
           <Col xs={12} className="h100 posRelative" onClick={e => this.handleClicked(e)}>
-              <svg width="100%" height="100%">{this.content}</svg>
+            <svg width="100%" height="100%">{this.content}</svg>
           </Col>
         </Row>
       </div>

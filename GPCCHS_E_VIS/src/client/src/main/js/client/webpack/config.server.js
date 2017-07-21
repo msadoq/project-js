@@ -17,6 +17,7 @@ export default merge(baseConfig, {
     'memcpy',
     'zmq',
     'bindings',
+    'hiredis',
   ],
 
   plugins: [

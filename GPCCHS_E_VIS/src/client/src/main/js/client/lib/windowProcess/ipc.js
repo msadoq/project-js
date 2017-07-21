@@ -33,9 +33,6 @@ const commands = {
     sendReduxDispatch: (action) => {
       commands.main.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
     },
-    serverDebug: (callback) => {
-      commands.main.rpc(globalConstants.IPC_METHOD_SERVER_DEBUG, null, callback);
-    },
     openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
         pageId,

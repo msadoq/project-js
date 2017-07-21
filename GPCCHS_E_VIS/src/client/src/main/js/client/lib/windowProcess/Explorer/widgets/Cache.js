@@ -1,9 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, ControlLabel, Col, Panel, Button } from 'react-bootstrap';
-import Inspector from 'react-json-inspector';
 
 import moment from 'moment';
-import { main } from '../../ipc';
 import styles from '../Explorer.css';
 
 export default class Cache extends PureComponent {
@@ -16,18 +14,8 @@ export default class Cache extends PureComponent {
     lastCacheCleanUp: 0,
   };
 
-  state = {
-    serverInfo: {},
-  };
-
   cleanCache = () => {
     this.props.updateCacheInvalidation(Date.now() - 1e10);
-    // this.props.dummy();
-  };
-
-  serverDebug = () => {
-    main.serverDebug(debug => this.setState({ serverInfo: debug }));
-      // <Inspector data={debug} />); // eslint-disable-line no-console
   };
 
   render() {
@@ -50,15 +38,6 @@ export default class Cache extends PureComponent {
         >
         Clean Cache
         </Button>
-        <Button
-          bsStyle="primary"
-          block
-          onClick={this.serverDebug}
-          type="button"
-        >
-        Server Info
-        </Button>
-        <Inspector data={this.state.serverInfo} search={false} />;
       </div>
     );
   }

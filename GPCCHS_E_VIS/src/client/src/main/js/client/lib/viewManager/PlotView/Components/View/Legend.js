@@ -87,7 +87,7 @@ export default class Legend extends Component {
             <div
               key={axis.id}
             >
-              <h4 className={styles.plotLegendAxisName}>{axis.label}</h4>
+              <h4 className={classnames('LegendAxisName', styles.plotLegendAxisName)}>{axis.label}</h4>
               <div
                 className={
                   classnames({
@@ -99,7 +99,7 @@ export default class Legend extends Component {
                 {
                   axis.lines.map(line =>
                     <div
-                      className={styles.legend}
+                      className={classnames('LegendItem', styles.legend)}
                       style={{
                         borderColor: _get(line, ['objectStyle', 'curveColor']) || '#222',
                       }}

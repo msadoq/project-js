@@ -12,3 +12,9 @@
 .PlotView .tick line {
   stroke: #FFF;
 }
+.PlotView .LegendAxisName {
+  color: #FFF;
+}
+.PlotView .LegendItem {
+  background: #FFF;
+}

@@ -1,0 +1,376 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:inspector getTelemetryStaticElements give an error 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "options": Object {
+        "dataId": Object {
+          "catalog": "Reporting",
+          "domainId": "domainId",
+          "parameterName": "error",
+          "sessionId": "sessionId",
+        },
+        "epId": "myEp",
+        "epName": "ep",
+        "field": "field",
+      },
+      "pageId": "p1",
+      "type": "MimicView",
+      "viewId": "v1",
+    },
+    "type": "HSC_ASK_OPEN_INSPECTOR",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": false,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "focusedTab": "inspector",
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_FOCUS_IN_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "data": null,
+    },
+    "type": "HSC_SET_INSPECTOR_STATIC_DATA",
+  },
+  Object {
+    "payload": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "domainId": "domainId",
+        "parameterName": "error",
+        "sessionId": "sessionId",
+      },
+      "epId": "myEp",
+      "epName": "ep",
+      "field": "field",
+      "viewId": "v1",
+      "viewType": "MimicView",
+    },
+    "type": "HSC_SET_INSPECTOR_GENERAL_DATA",
+  },
+  Object {
+    "payload": Object {
+      "loading": true,
+    },
+    "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
+  },
+  Object {
+    "payload": Object {
+      "displayingTM": true,
+    },
+    "type": "HSC_IS_INSPECTOR_DISPLAYING_A_TM",
+  },
+  Object {
+    "payload": Object {
+      "loading": false,
+    },
+    "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
+  },
+  Object {
+    "payload": Object {},
+    "type": "HSC_DELETE_INSPECTOR_GENERAL_DATA",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Parameter error was not found in catalog Reporting for session sessionId and domain domainId",
+        },
+      ],
+      "type": "warning",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:inspector getTelemetryStaticElements give no data 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "options": Object {
+        "dataId": Object {
+          "catalog": "Reporting",
+          "domainId": "domainId",
+          "parameterName": "nodata",
+          "sessionId": "sessionId",
+        },
+        "epId": "myEp",
+        "epName": "ep",
+        "field": "field",
+      },
+      "pageId": "p1",
+      "type": "MimicView",
+      "viewId": "v1",
+    },
+    "type": "HSC_ASK_OPEN_INSPECTOR",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": false,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "focusedTab": "inspector",
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_FOCUS_IN_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "data": null,
+    },
+    "type": "HSC_SET_INSPECTOR_STATIC_DATA",
+  },
+  Object {
+    "payload": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "domainId": "domainId",
+        "parameterName": "nodata",
+        "sessionId": "sessionId",
+      },
+      "epId": "myEp",
+      "epName": "ep",
+      "field": "field",
+      "viewId": "v1",
+      "viewType": "MimicView",
+    },
+    "type": "HSC_SET_INSPECTOR_GENERAL_DATA",
+  },
+  Object {
+    "payload": Object {
+      "loading": true,
+    },
+    "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
+  },
+  Object {
+    "payload": Object {
+      "displayingTM": true,
+    },
+    "type": "HSC_IS_INSPECTOR_DISPLAYING_A_TM",
+  },
+  Object {
+    "payload": Object {
+      "loading": false,
+    },
+    "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
+  },
+  Object {
+    "payload": Object {},
+    "type": "HSC_DELETE_INSPECTOR_GENERAL_DATA",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Parameter nodata was not found in catalog Reporting for session sessionId and domain domainId",
+        },
+      ],
+      "type": "warning",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:inspector open inspector and get telemetry static elements 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "options": Object {
+        "dataId": Object {
+          "catalog": "Reporting",
+          "domainId": "domainId",
+          "parameterName": "param",
+          "sessionId": "sessionId",
+        },
+        "epId": "myEp",
+        "epName": "ep",
+        "field": "field",
+      },
+      "pageId": "p1",
+      "type": "MimicView",
+      "viewId": "v1",
+    },
+    "type": "HSC_ASK_OPEN_INSPECTOR",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": false,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "focusedTab": "inspector",
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_FOCUS_IN_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "data": null,
+    },
+    "type": "HSC_SET_INSPECTOR_STATIC_DATA",
+  },
+  Object {
+    "payload": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "domainId": "domainId",
+        "parameterName": "param",
+        "sessionId": "sessionId",
+      },
+      "epId": "myEp",
+      "epName": "ep",
+      "field": "field",
+      "viewId": "v1",
+      "viewType": "MimicView",
+    },
+    "type": "HSC_SET_INSPECTOR_GENERAL_DATA",
+  },
+  Object {
+    "payload": Object {
+      "loading": true,
+    },
+    "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
+  },
+  Object {
+    "payload": Object {
+      "displayingTM": true,
+    },
+    "type": "HSC_IS_INSPECTOR_DISPLAYING_A_TM",
+  },
+  Object {
+    "payload": Object {
+      "data": Object {
+        "domainId": "domainId",
+        "parameterName": "param",
+        "prepared": true,
+        "sessionId": "sessionId",
+      },
+    },
+    "type": "HSC_SET_INSPECTOR_STATIC_DATA",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:inspector open inspector and just set inspector genetal data if catalog is not "Reporting" 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "options": Object {
+        "dataId": Object {
+          "catalog": "noReporting",
+          "domainId": "domainId",
+          "parameterName": "param",
+          "sessionId": "sessionId",
+        },
+        "epId": "myEp",
+        "epName": "ep",
+        "field": "field",
+      },
+      "pageId": "p1",
+      "type": "MimicView",
+      "viewId": "v1",
+    },
+    "type": "HSC_ASK_OPEN_INSPECTOR",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": false,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "focusedTab": "inspector",
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_FOCUS_IN_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "data": null,
+    },
+    "type": "HSC_SET_INSPECTOR_STATIC_DATA",
+  },
+  Object {
+    "payload": Object {
+      "dataId": Object {
+        "catalog": "noReporting",
+        "domainId": "domainId",
+        "parameterName": "param",
+        "sessionId": "sessionId",
+      },
+      "epId": "myEp",
+      "epName": "ep",
+      "field": "field",
+      "viewId": "v1",
+      "viewType": "MimicView",
+    },
+    "type": "HSC_SET_INSPECTOR_GENERAL_DATA",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:inspector simply open inspector 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "options": Object {
+        "dataId": Object {
+          "catalog": "Reporting",
+          "domainId": "domainId",
+          "parameterName": "param",
+          "sessionId": "sessionId",
+        },
+        "epId": "ep1",
+        "epName": "ep",
+        "field": "field",
+      },
+      "pageId": "p1",
+      "type": "MimicView",
+      "viewId": "v1",
+    },
+    "type": "HSC_ASK_OPEN_INSPECTOR",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": false,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EXPLORER",
+  },
+  Object {
+    "payload": Object {
+      "focusedTab": "inspector",
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_FOCUS_IN_EXPLORER",
+  },
+]
+`;

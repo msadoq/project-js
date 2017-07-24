@@ -12,8 +12,6 @@ import EditWindowContainer from '../Window/EditWindowContainer';
 import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
-import SaveBeforeClosingContainer from './SaveBeforeClosingContainer';
-import UnsavedViewWarningContainer from './UnsavedViewWarningContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
 import DialogModal from './DialogModal'; // electron dialogbox
 
@@ -141,35 +139,6 @@ const ModalGeneric = (props) => {
       title = 'Add link';
       child = (
         <AddLinkContainer
-          {...props.props}
-          closeModal={props.onClose}
-        />
-      );
-      break;
-    case 'viewIsModified':
-      title = 'View is modified';
-      child = (
-        <SaveBeforeClosingContainer
-          {...props.props}
-          docType="view"
-          closeModal={props.onClose}
-        />
-      );
-      break;
-    case 'pageIsModified':
-      title = 'Page is modified';
-      child = (
-        <SaveBeforeClosingContainer
-          {...props.props}
-          docType="page"
-          closeModal={props.onClose}
-        />
-      );
-      break;
-    case 'unsavedViews':
-      title = 'Unsaved Views';
-      child = (
-        <UnsavedViewWarningContainer
           {...props.props}
           closeModal={props.onClose}
         />

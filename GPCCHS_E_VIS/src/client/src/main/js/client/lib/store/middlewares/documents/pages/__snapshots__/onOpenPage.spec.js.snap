@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents/onOpenPage open a page directly 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/",
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_PAGE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/",
+      "windowId": "w1",
+    },
+    "type": "OPEN_PAGE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onOpenPage open a page using filepicker (cancel choice) 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": Array [
+        "the/chosen/one",
+      ],
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "the/chosen/one",
+      "windowId": "w1",
+    },
+    "type": "OPEN_PAGE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "",
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "open",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onOpenPage open a page using filepicker (cancel choice) 2`] = `
+Array [
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {},
+    "type": "HSC_DIALOG_CLOSED",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onOpenPage open a page using filepicker 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/",
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_PAGE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/",
+      "windowId": "w1",
+    },
+    "type": "OPEN_PAGE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "",
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "open",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onOpenPage open a page using filepicker 2`] = `
+Array [
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": Array [
+        "the/chosen/one",
+      ],
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "the/chosen/one",
+      "windowId": "w1",
+    },
+    "type": "OPEN_PAGE",
+  },
+]
+`;

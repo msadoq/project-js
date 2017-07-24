@@ -31,6 +31,7 @@ export default class LinesCanvas extends Component {
         colorAccessor: PropTypes.func,
       })
     ).isRequired,
+    memoizeDivStyle: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -250,15 +251,8 @@ export default class LinesCanvas extends Component {
       yAxesAt,
       top,
       margin,
+      memoizeDivStyle,
     } = this.props;
-
-    const style = {};
-    // horizontal position
-    if (yAxesAt === 'left') {
-      style.left = margin;
-    } else if (yAxesAt === 'right') {
-      style.right = margin;
-    }
 
     return (
       <canvas
@@ -266,10 +260,13 @@ export default class LinesCanvas extends Component {
         height={height}
         width={width}
         className={styles.canvas}
-        style={this.memoizeStyle(
-          `${top}-${style.left}-${style.right}`,
-          style,
-          top
+        style={memoizeDivStyle(
+          `${top}-${margin}-${yAxesAt}-${width}-${height}`,
+          top,
+          margin,
+          yAxesAt,
+          width,
+          height
         )}
       />
     );

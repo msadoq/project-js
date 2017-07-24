@@ -25,6 +25,7 @@ export default class Tooltip extends React.Component {
     xAxisHeight: PropTypes.number.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxesAt: PropTypes.string.isRequired,
+    memoizeDivStyle: PropTypes.func.isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -148,6 +149,7 @@ export default class Tooltip extends React.Component {
       xAxesUniq,
       yAxisWidth,
       xAxisHeight,
+      memoizeDivStyle,
     } = this.props;
     const {
       showTooltip,
@@ -158,18 +160,6 @@ export default class Tooltip extends React.Component {
       tooltipOnRight,
       tooltipOnBottom,
     } = this.pseudoState;
-
-    const style = {};
-    // horizontal position
-    if (yAxesAt === 'left') {
-      style.left = margin;
-    } else if (yAxesAt === 'right') {
-      style.right = margin;
-    }
-    // vertical position
-    style.top = top;
-    style.width = width;
-    style.height = height;
 
     const tooltiLinesToDisplay = linesList && Object.values(linesList).length;
     const tooltipStyle = { width: this.tooltipWidth };
@@ -201,7 +191,14 @@ export default class Tooltip extends React.Component {
         onMouseLeave={this.mouseLeave}
         ref={this.assignEl}
         className={styles.tooltipDiv}
-        style={style}
+        style={memoizeDivStyle(
+          `${top}-${margin}-${yAxesAt}-${width}-${height}`,
+          top,
+          margin,
+          yAxesAt,
+          width,
+          height
+        )}
       >
         {
           tooltiLinesToDisplay &&

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
@@ -585,6 +586,23 @@ export default class Chart extends React.Component {
     e => this.resetZoomLevel(e, axisId)
   )
 
+  memoizeBackgroundDivStyle = _memoize(
+    (hash, marginTop, marginSide, yAxesAt, width, height) => {
+      const style = {};
+      if (yAxesAt === 'left') {
+        style.left = marginSide;
+      } else if (yAxesAt === 'right') {
+        style.right = marginSide;
+      }
+      return {
+        ...style,
+        top: marginTop,
+        width,
+        height,
+      };
+    }
+  );
+
   render() {
     const {
       height,
@@ -683,6 +701,17 @@ export default class Chart extends React.Component {
             })
           }
         </div>
+        <div
+          className={classnames('Background', styles.Background)}
+          style={this.memoizeBackgroundDivStyle(
+            `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
+            marginTop,
+            marginSide,
+            yAxesAt,
+            this.chartWidth,
+            this.chartHeight
+          )}
+        />
         {
           Object.keys(this.pairs).map((key) => {
             const pair = this.pairs[key];
@@ -702,6 +731,7 @@ export default class Chart extends React.Component {
                 lines={pair.lines}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
+                memoizeDivStyle={this.memoizeBackgroundDivStyle}
               />
             );
           })
@@ -721,6 +751,7 @@ export default class Chart extends React.Component {
             xAxesAt={xAxisAt}
             yAxisWidth={this.yAxisWidth}
             xAxisHeight={this.xAxisHeight}
+            memoizeDivStyle={this.memoizeBackgroundDivStyle}
           />
         }
         {

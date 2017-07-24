@@ -16,6 +16,10 @@
   }
 }
 
+.Background {
+  position: absolute;
+}
+
 .xAxisDiv{
   position: absolute;
   .xAxis{

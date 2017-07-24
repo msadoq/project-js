@@ -11,7 +11,8 @@ export function addInterval(knownIntervals, interval) {
 }
 
 export function getExpectedInterval(lower, current) {
-  return [lower, current];
+  // return [lower, current];
+  return [0, current];
 }
 
 export function retrieveNeededIntervals(knownInterval, interval) {

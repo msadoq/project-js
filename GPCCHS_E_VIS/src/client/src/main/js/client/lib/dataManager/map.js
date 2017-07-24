@@ -11,6 +11,9 @@ import perRangeTbdIdMap from './perRangeTbdIdData';
 import perLastTbdIdMap from './perLastTbdIdData';
 import perLastFrom0TbdIdMap from './perLastFrom0TbdIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
+import expectedRangeIntervalMap from './expectedRangeIntervalMap';
+import expectedLastIntervalMap from './expectedLastIntervalMap';
+import expectedLastFrom0IntervalMap from './expectedLastFrom0IntervalMap';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 import { getEntryPointsByViewId } from '../viewManager';
@@ -79,9 +82,28 @@ export default createSelector(
   (viewMap, remoteIdMap, rangeTbdIdMap, lastTbdIdMap, lastFrom0TbdIdMap, timebars) => {
     // compute expected intervals
     const expectedIntervals = expectedIntervalMap(timebars, remoteIdMap);
+    let forecastIntervalsMap = {};
+    const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
+    const rangeIntervals = expectedRangeIntervalMap(
+        timebars,
+        rangeTbdIdMap,
+        forecastIntervalsMap,
+        forecastTime);
+    forecastIntervalsMap = rangeIntervals.forecastIntervals;
+    const lastIntervals = expectedLastIntervalMap(
+        timebars,
+        lastTbdIdMap,
+        forecastIntervalsMap,
+        forecastTime);
+    forecastIntervalsMap = lastIntervals.forecastIntervals;
+    const lastFrom0Intervals = expectedLastFrom0IntervalMap(
+        timebars,
+        lastFrom0TbdIdMap,
+        forecastIntervalsMap,
+        forecastTime);
+    forecastIntervalsMap = lastFrom0Intervals.forecastIntervals;
 
     // add forecast intervals
-    const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const forecastIntervals = forecastIntervalMap(expectedIntervals, forecastTime);
 
     return {
@@ -91,7 +113,11 @@ export default createSelector(
       perLastTbdId: lastTbdIdMap,
       perLastFrom0TbdId: lastFrom0TbdIdMap,
       expectedIntervals,
-      forecastIntervals,
+      forecastIntervals: forecastIntervalsMap,
+      forecastIntervalsOld: forecastIntervals,
+      expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
+      expectedLastIntervals: lastIntervals.expectedLastIntervals,
+      expectedLastFrom0Intervals: lastFrom0Intervals.expectedLastFrom0Intervals,
     };
   }
 );

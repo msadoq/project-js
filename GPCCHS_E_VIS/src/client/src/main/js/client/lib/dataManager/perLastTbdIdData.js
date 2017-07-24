@@ -2,7 +2,7 @@ import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
 import { DATASTRUCTURETYPE_LAST } from '../constants';
-import { getStructureType } from '../viewManager';
+import { getStructureTypeTmp } from '../viewManager'; // TODO aleal change to getStructureType
 
 export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
   const { tbdId } = ep;
@@ -42,7 +42,7 @@ export default function perLastTbdIdMap(perViewMap) {
   let lastTbdIdMap = {};
   _each(perViewMap, (view, viewId) => {
     // Get structure type of view to treat only range structure
-    if (getStructureType(view.type) === DATASTRUCTURETYPE_LAST) {
+    if (getStructureTypeTmp(view.type) === DATASTRUCTURETYPE_LAST) {
       _each(view.entryPoints, (entryPoint) => {
         lastTbdIdMap = addEpInLastTbdIdMap(lastTbdIdMap, entryPoint, viewId);
       });

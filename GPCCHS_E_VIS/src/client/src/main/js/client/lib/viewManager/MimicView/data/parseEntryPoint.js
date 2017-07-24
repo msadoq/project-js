@@ -41,7 +41,6 @@ function parseEntryPoint(
       offset,
       filters,
       timebarUuid,
-      structureType: globalConstants.DATASTRUCTURETYPE_LAST,
       id,
       type: viewType,
     },

@@ -1,0 +1,276 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents/onClosePage close page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+    },
+    "type": "WS_ASK_CLOSE_PAGE",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "viewIds": Array [
+        "v1",
+        "v2",
+      ],
+      "windowId": "w1",
+    },
+    "type": "WS_PAGE_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onClosePage close page using save wizard 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p2",
+    },
+    "type": "WS_ASK_CLOSE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close page",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close page without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "page",
+        "pageIds": Array [
+          "p2",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          undefined,
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p2",
+      "viewIds": Array [
+        "v3",
+        "v4",
+      ],
+      "windowId": "w1",
+    },
+    "type": "WS_PAGE_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onClosePage do not close page when cancel with save wizard 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p2",
+    },
+    "type": "WS_ASK_CLOSE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close page",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close page without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "page",
+        "pageIds": Array [
+          "p2",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          undefined,
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onClosePage page and views are modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p2",
+    },
+    "type": "WS_ASK_CLOSE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close page",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close page without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "page",
+        "pageIds": Array [
+          "p2",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          undefined,
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onClosePage page is modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p3",
+    },
+    "type": "WS_ASK_CLOSE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close page",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close page without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "page",
+        "pageIds": Array [
+          "p3",
+        ],
+        "title": "Page is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": undefined,
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents/onClosePage views are modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "p4",
+    },
+    "type": "WS_ASK_CLOSE_PAGE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close page",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close page without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "page",
+        "pageIds": Array [
+          "p4",
+        ],
+        "title": "Views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          undefined,
+        ],
+      },
+      "windowId": undefined,
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;

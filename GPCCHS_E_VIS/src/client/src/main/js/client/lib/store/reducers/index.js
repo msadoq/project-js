@@ -16,6 +16,7 @@ import masterSession from './masterSession';
 import health from './health';
 import codeEditor from './codeEditor';
 import inspector from './inspector';
+import knownRanges from './knownRanges';
 import ui from './ui';
 import rte from './rte';
 
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   inspector,
   ui,
   rte,
+  knownRanges,
   ...configurationReducers,
   ...dataReducers,
 });

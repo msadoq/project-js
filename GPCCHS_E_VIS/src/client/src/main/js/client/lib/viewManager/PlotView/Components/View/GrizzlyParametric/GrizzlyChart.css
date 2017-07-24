@@ -281,11 +281,6 @@
       background: rgba(0, 140, 220, 0.11);
     }
   }
-  & > .ZonesAxisLog{
-    position: absolute;
-    /*pointer-events: none;*/
-    cursor: row-resize;
-  }
 
   & > .ZonesChart{
     position: absolute;

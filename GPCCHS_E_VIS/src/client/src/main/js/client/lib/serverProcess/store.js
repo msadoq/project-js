@@ -5,6 +5,8 @@ import makeIncomingMessage from '../store/middlewares/incomingData';
 import createMessagesMiddleware from '../store/middlewares/messages';
 import createPlayerMiddleware from '../store/middlewares/player';
 import createDocumentsMiddleware from '../store/middlewares/documents';
+import createIncomingDataMiddleware from '../store/middlewares/incomingData2';
+import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
@@ -18,6 +20,8 @@ const middlewares = [
   createMessagesMiddleware(),
   createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   createDocumentsMiddleware(documentManager),
+  createIncomingDataMiddleware(),
+  createRetrieveDataMiddleware(),
 ];
 
 export default function makeCreateStore(identity, isDebugOn) {

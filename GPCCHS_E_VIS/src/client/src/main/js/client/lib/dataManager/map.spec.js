@@ -1,5 +1,5 @@
 import u from 'updeep';
-import map, { getPerRemoteIdMap, getPerViewMap } from './map';
+import map, { getPerRangeTbdIdMap, getPerLastTbdIdMap, getPerViewMap } from './map';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
 
@@ -65,7 +65,24 @@ describe('data:map', () => {
             'text1',
             'plot1',
             'dynamic1',
+            'mimic1',
           ],
+        },
+      },
+      MimicViewConfiguration: {
+        mimic1: {
+          title: 'MimicView Sup/Sup',
+          type: 'MimicView',
+          entryPoints: [{
+            name: 'STAT_SU_PID',
+            id: 'id1',
+            connectedData: {
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session 1',
+            },
+          }],
         },
       },
       TextViewConfiguration: {
@@ -214,6 +231,9 @@ describe('data:map', () => {
         dynamic1: {
           type: 'DynamicView',
         },
+        mimic1: {
+          type: 'MimicView',
+        },
       },
       domains: [
         {
@@ -259,50 +279,69 @@ describe('data:map', () => {
     };
   });
   const dataMap = {
-    'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
-      dataId: {
-        catalog: 'TelemetryPacket',
-        parameterName: 'CLCW_TM_NOMINAL',
-        comObject: 'DecommutedPacket',
-        domainId: 4,
-        domain: 'fr.cnes.isis.simupus',
-        sessionId: 181,
-        sessionName: 'Session#181',
-      },
-      views: ['dynamic1'],
-      localIds: {
-        'undefined.tb1:0:#000000.monitoringState.==.waiting': {
-          timebarUuid: 'tb1',
-          offset: 0,
-          viewType: 'DynamicView',
+    perRangeTbdIdMap: {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_SU_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
+          sessionId: 181,
+          sessionName: 'Session#181',
+        },
+        views: ['plot1'],
+        filters: [],
+        localIds: {
+          'groundDate/extractedValue.tb1:0': {
+            fieldX: 'groundDate',
+            fieldY: 'extractedValue',
+            timebarUuid: 'tb1',
+            offset: 0,
+            viewType: 'PlotView',
+          },
         },
       },
     },
-    'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'STAT_SU_PID',
-        comObject: 'ReportingParameter',
-        domainId: 4,
-        domain: 'fr.cnes.isis.simupus',
-        sessionId: 181,
-        sessionName: 'Session#181',
-      },
-      views: ['text1', 'plot1'],
-      filters: [],
-      localIds: {
-        'groundDate/extractedValue.tb1:0': {
-          fieldX: 'groundDate',
-          fieldY: 'extractedValue',
-          timebarUuid: 'tb1',
-          offset: 0,
-          viewType: 'PlotView',
+    perLastTbdIdMap: {
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
+          sessionId: 181,
+          sessionName: 'Session#181',
         },
-        'extractedValue.tb1:0': {
-          field: 'extractedValue',
-          timebarUuid: 'tb1',
-          offset: 0,
-          viewType: 'TextView',
+        views: ['dynamic1'],
+        localIds: {
+          'undefined.tb1:0:#000000.monitoringState.==.waiting': {
+            timebarUuid: 'tb1',
+            offset: 0,
+            viewType: 'DynamicView',
+          },
+        },
+      },
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_SU_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
+          sessionId: 181,
+          sessionName: 'Session#181',
+        },
+        views: ['text1', 'mimic1'],
+        filters: [],
+        localIds: {
+          'extractedValue.tb1:0': {
+            field: 'extractedValue',
+            timebarUuid: 'tb1',
+            offset: 0,
+            viewType: 'MimicView',
+          },
         },
       },
     },
@@ -336,6 +375,31 @@ describe('data:map', () => {
         },
         STAT_UNKNOW_TIMELINE: {
           error: 'invalid entry point, no timeline matches',
+        },
+      },
+    },
+    mimic1: {
+      type: 'MimicView',
+      entryPoints: {
+        STAT_SU_PID: {
+          id: 'id1',
+          dataId: {
+            catalog: 'Reporting',
+            parameterName: 'STAT_SU_PID',
+            comObject: 'ReportingParameter',
+            domainId: 4,
+            domain: 'fr.cnes.isis.simupus',
+            sessionId: 181,
+            sessionName: 'Session#181',
+          },
+          field: 'extractedValue',
+          offset: 0,
+          filters: [],
+          localId: 'extractedValue.tb1:0',
+          timebarUuid: 'tb1',
+          remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+          type: 'MimicView',
         },
       },
     },
@@ -408,29 +472,39 @@ describe('data:map', () => {
   };
 
   const intervalMap = {
-    'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-      'extractedValue.tb1:0': {
-        expectedInterval: [1420106790818, 1420106843902],
-      },
-      'groundDate/extractedValue.tb1:0': {
-        expectedInterval: [1420106790818, 1420107056239],
+    range: {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        'groundDate/extractedValue.tb1:0': {
+          expectedInterval: [1420106790818, 1420107056239],
+        },
       },
     },
-    'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
-      'undefined.tb1:0:#000000.monitoringState.==.waiting': {
-        expectedInterval: [1420106790818, 1420106843902],
+    last: {
+      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        'extractedValue.tb1:0': {
+          expectedInterval: [0, 1420106843902],
+        },
+      },
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+        'undefined.tb1:0:#000000.monitoringState.==.waiting': {
+          expectedInterval: [1420106790818, 1420106843902],
+        },
       },
     },
   };
+
   test('should compute dataMap', () => {
     const r = map(state);
-    expect(r.perRemoteId).toEqual(dataMap);
+    expect(r.perRangeTbdId).toEqual(dataMap.perRangeTbdIdMap);
+    expect(r.perLastTbdId).toEqual(dataMap.perLastTbdIdMap);
     expect(r.perView).toEqual(viewMap);
-    expect(r.expectedIntervals).toEqual(intervalMap);
+    expect(r.expectedRangeIntervals).toEqual(intervalMap.range);
+    expect(r.expectedLastIntervals).toEqual(intervalMap.last);
   });
   test('memoization map', () => {
     map.resetRecomputations();
-    getPerRemoteIdMap.resetRecomputations();
+    getPerRangeTbdIdMap.resetRecomputations();
+    getPerLastTbdIdMap.resetRecomputations();
     getPerViewMap.resetRecomputations();
     expect(map.recomputations()).toEqual(0);
     map(state);
@@ -441,7 +515,8 @@ describe('data:map', () => {
     map(newState);
     // Only intervals have to be recomputed
     expect(map.recomputations()).toEqual(2);
-    expect(getPerRemoteIdMap.recomputations()).toEqual(1);
+    expect(getPerRangeTbdIdMap.recomputations()).toEqual(1);
+    expect(getPerLastTbdIdMap.recomputations()).toEqual(1);
     expect(getPerViewMap.recomputations()).toEqual(1);
   });
 });

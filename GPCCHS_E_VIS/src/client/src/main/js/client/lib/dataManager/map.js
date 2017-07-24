@@ -9,11 +9,9 @@ import makeGetPerViewData from './perViewData';
 import perRemoteIdMap from './perRemoteIdData';
 import perRangeTbdIdMap from './perRangeTbdIdData';
 import perLastTbdIdMap from './perLastTbdIdData';
-import perLastFrom0TbdIdMap from './perLastFrom0TbdIdData';
 import { expectedIntervalMap } from './expectedIntervalMap';
 import expectedRangeIntervalMap from './expectedRangeIntervalMap';
 import expectedLastIntervalMap from './expectedLastIntervalMap';
-import expectedLastFrom0IntervalMap from './expectedLastFrom0IntervalMap';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 import { getEntryPointsByViewId } from '../viewManager';
@@ -58,10 +56,6 @@ export const getPerLastTbdIdMap = createSelector(
   getPerViewMap,
   perLastTbdIdMap
 ); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
-export const getPerLastFrom0TbdIdMap = createSelector(
-  getPerViewMap,
-  perLastFrom0TbdIdMap
-); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
 
 
 /**
@@ -77,9 +71,8 @@ export default createSelector(
   getPerRemoteIdMap,
   getPerRangeTbdIdMap,
   getPerLastTbdIdMap,
-  getPerLastFrom0TbdIdMap,
   getTimebars,
-  (viewMap, remoteIdMap, rangeTbdIdMap, lastTbdIdMap, lastFrom0TbdIdMap, timebars) => {
+  (viewMap, remoteIdMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
     // compute expected intervals
     const expectedIntervals = expectedIntervalMap(timebars, remoteIdMap);
     let forecastIntervalsMap = {};
@@ -96,12 +89,6 @@ export default createSelector(
         forecastIntervalsMap,
         forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
-    const lastFrom0Intervals = expectedLastFrom0IntervalMap(
-        timebars,
-        lastFrom0TbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
-    forecastIntervalsMap = lastFrom0Intervals.forecastIntervals;
 
     // add forecast intervals
     const forecastIntervals = forecastIntervalMap(expectedIntervals, forecastTime);
@@ -111,13 +98,11 @@ export default createSelector(
       perRemoteId: remoteIdMap,
       perRangeTbdId: rangeTbdIdMap,
       perLastTbdId: lastTbdIdMap,
-      perLastFrom0TbdId: lastFrom0TbdIdMap,
       expectedIntervals,
       forecastIntervals: forecastIntervalsMap,
       forecastIntervalsOld: forecastIntervals,
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
-      expectedLastFrom0Intervals: lastFrom0Intervals.expectedLastFrom0Intervals,
     };
   }
 );

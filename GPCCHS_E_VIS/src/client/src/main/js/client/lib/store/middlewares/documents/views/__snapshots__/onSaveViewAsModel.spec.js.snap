@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:onSaveViewAsModel save view as model (cancel filepicker) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_SAVE_VIEW_AS_MODEL",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "/the/chosen/one",
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/the/chosen/one",
+      "viewId": "v1",
+    },
+    "type": "SAVE_VIEW_AS_MODEL",
+  },
+  Object {
+    "payload": Object {
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_SAVE_VIEW_AS_MODEL",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {},
+    "type": "HSC_DIALOG_CLOSED",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onSaveViewAsModel save view as model 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_SAVE_VIEW_AS_MODEL",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "/the/chosen/one",
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/the/chosen/one",
+      "viewId": "v1",
+    },
+    "type": "SAVE_VIEW_AS_MODEL",
+  },
+]
+`;

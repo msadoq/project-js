@@ -1,6 +1,4 @@
 import getLogger from '../../common/logManager';
-import { getTelemetryStaticElements } from '../../rtdManager';
-import prepareDataToTree from '../../rtdManager/prepareDataToTree';
 import * as types from '../types';
 import { add } from '../actions/messages';
 import { minimizeExplorer, focusTabInExplorer } from '../actions/pages';
@@ -15,7 +13,7 @@ import { getInspectorEpId } from '../reducers/inspector';
 
 const logger = getLogger('server:store:middlewares:inspector');
 
-export default () => ({ getState, dispatch }) => next => (action) => {
+export default rtdManager => ({ getState, dispatch }) => next => (action) => {
   const nextAction = next(action);
   if (action.type === types.HSC_ASK_OPEN_INSPECTOR) {
     const {
@@ -41,7 +39,7 @@ export default () => ({ getState, dispatch }) => next => (action) => {
 
     logger.info(`request ${parameterName} for session ${sessionId} and domain ${domainId}`);
 
-    getTelemetryStaticElements({ sessionId, domainId }, parameterName, (err, data) => {
+    rtdManager.getTelemetryStaticElements({ sessionId, domainId }, parameterName, (err, data) => {
       if (err || !data) {
         dispatch(isInspectorStaticDataLoading(false));
         dispatch(deleteInspectorGeneralData());
@@ -52,7 +50,7 @@ export default () => ({ getState, dispatch }) => next => (action) => {
         ));
         return;
       }
-      const staticData = prepareDataToTree(data);
+      const staticData = rtdManager.prepareDataToTree(data);
       dispatch(setInspectorStaticData(staticData));
     });
   }

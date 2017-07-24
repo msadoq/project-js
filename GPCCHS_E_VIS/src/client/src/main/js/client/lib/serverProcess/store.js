@@ -8,6 +8,7 @@ import makeInspectorMiddleware from '../store/middlewares/inspector';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
+import * as rtdManager from '../rtdManager';
 import documentManager from './documentManager';
 
 let store;
@@ -17,7 +18,7 @@ const middlewares = [
   makeMessagesMiddleware(),
   makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   makeDocumentsMiddleware(documentManager),
-  makeInspectorMiddleware(),
+  makeInspectorMiddleware(rtdManager),
 ];
 
 export default function makeCreateStore(identity, isDebugOn) {

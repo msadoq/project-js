@@ -1,0 +1,350 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:onCloseView close without saving 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v2",
+    },
+    "type": "WS_ASK_CLOSE_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Close view without saving",
+            "type": "danger",
+            "value": "close",
+          },
+          Object {
+            "label": "Close and save view",
+            "value": "save_and_close",
+          },
+        ],
+        "message": "Would you want to close view without saving ?",
+        "title": "Close view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": true,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EDITOR",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "viewId": "v2",
+    },
+    "type": "WS_VIEW_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onCloseView error on saving (do not close) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v2",
+    },
+    "type": "WS_ASK_CLOSE_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Close view without saving",
+            "type": "danger",
+            "value": "close",
+          },
+          Object {
+            "label": "Close and save view",
+            "value": "save_and_close",
+          },
+        ],
+        "message": "Would you want to close view without saving ?",
+        "title": "Close view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "save_and_close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onCloseView open save as modal, then cancel 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v3",
+    },
+    "type": "WS_ASK_CLOSE_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Close view without saving",
+            "type": "danger",
+            "value": "close",
+          },
+          Object {
+            "label": "Close and save view",
+            "value": "save_and_close",
+          },
+        ],
+        "message": "Would you want to close view without saving ?",
+        "title": "Close view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "save_and_close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {},
+    "type": "HSC_DIALOG_CLOSED",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onCloseView save and close 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v2",
+    },
+    "type": "WS_ASK_CLOSE_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Close view without saving",
+            "type": "danger",
+            "value": "close",
+          },
+          Object {
+            "label": "Close and save view",
+            "value": "save_and_close",
+          },
+        ],
+        "message": "Would you want to close view without saving ?",
+        "title": "Close view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "save_and_close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "path": "/path",
+      "viewId": "v2",
+    },
+    "type": "SAVE_VIEW",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": true,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EDITOR",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "viewId": "v2",
+    },
+    "type": "WS_VIEW_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onCloseView save as and close 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v3",
+    },
+    "type": "WS_ASK_CLOSE_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Close view without saving",
+            "type": "danger",
+            "value": "close",
+          },
+          Object {
+            "label": "Close and save view",
+            "value": "save_and_close",
+          },
+        ],
+        "message": "Would you want to close view without saving ?",
+        "title": "Close view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "save_and_close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "/the/path",
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "path": "/the/path",
+      "viewId": "v3",
+    },
+    "type": "SAVE_VIEW",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": true,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EDITOR",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "viewId": "v3",
+    },
+    "type": "WS_VIEW_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onCloseView simple close 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_CLOSE_VIEW",
+  },
+  Object {
+    "payload": Object {
+      "isMinimized": true,
+      "pageId": "p1",
+    },
+    "type": "WS_PAGE_PANELS_MINIMIZE_EDITOR",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "viewId": "v1",
+    },
+    "type": "WS_VIEW_CLOSE",
+  },
+]
+`;

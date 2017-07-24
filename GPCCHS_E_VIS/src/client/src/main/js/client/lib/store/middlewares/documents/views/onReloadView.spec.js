@@ -17,7 +17,7 @@ const askReloadView = viewId => ({
 
 const mockStore = configureMockStore([onReloadView(documentManager)]);
 
-describe('store:serverProcess:middlewares:documents:onSaveViewAsModel', () => {
+describe('store:serverProcess:middlewares:documents:onReloadView', () => {
   const store = mockStore({
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1', 'v2'] } },

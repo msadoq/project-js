@@ -17,7 +17,7 @@ const askSaveView = (viewId, saveAs = false) => ({
 
 const mockStore = configureMockStore([onSaveView(documentManager)]);
 
-describe('store:serverProcess:middlewares:documents:onSaveViewAsModel', () => {
+describe('store:serverProcess:middlewares:documents:onSaveView', () => {
   const store = mockStore({
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1', 'v2'] } },

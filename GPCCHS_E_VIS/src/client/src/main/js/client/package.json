@@ -52,8 +52,8 @@
     "prepare:maven:build": "node ./scripts/prepareMavenBuild.js",
     "postinstall": "electron-rebuild && npm run install-adapters",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
-    "benchmark-grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js",
-    "benchmark-textview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/textview.benchmark.js"
+    "benchmark:grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js",
+    "benchmark:textview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/textview.benchmark.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"

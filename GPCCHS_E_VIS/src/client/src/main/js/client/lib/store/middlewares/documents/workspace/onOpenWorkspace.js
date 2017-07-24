@@ -4,7 +4,7 @@ import { getModifiedViewsIds } from '../../../reducers/views';
 import { closeWorkspace, isWorkspaceOpening } from '../../../actions/hsc';
 import { withOpenModal, withOpenDialog } from '../helpers';
 
-const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
+const makeOnOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, getState, openModal, openDialog }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
@@ -69,4 +69,4 @@ const onOpenWorkspace = documentManager => withOpenModal(withOpenDialog(
     return nextAction;
   }));
 
-export default onOpenWorkspace;
+export default makeOnOpenWorkspace;

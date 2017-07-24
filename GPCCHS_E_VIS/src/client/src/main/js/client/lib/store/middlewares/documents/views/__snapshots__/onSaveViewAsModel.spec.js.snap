@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:serverProcess:middlewares:documents:onSaveViewAsModel save view as model (cancel filepicker) 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnSaveViewAsModel save view as model (cancel filepicker) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -62,7 +62,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onSaveViewAsModel save view as model 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnSaveViewAsModel save view as model 1`] = `
 Array [
   Object {
     "payload": Object {

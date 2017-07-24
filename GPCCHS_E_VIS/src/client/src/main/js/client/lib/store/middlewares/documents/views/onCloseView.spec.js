@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import onCloseView from './onCloseView';
+import makeOnCloseView from './onCloseView';
 import * as types from '../../../types';
 
 let saveViewError = false;
@@ -20,9 +20,9 @@ const askCloseView = viewId => ({
   payload: { viewId },
 });
 
-const mockStore = configureMockStore([thunk, onCloseView(documentManager)]);
+const mockStore = configureMockStore([thunk, makeOnCloseView(documentManager)]);
 
-describe('store:serverProcess:middlewares:documents:onCloseView', () => {
+describe('store:serverProcess:middlewares:documents:makeOnCloseView', () => {
   const store = mockStore({
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1', 'v2', 'v3'] } },

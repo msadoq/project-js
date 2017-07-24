@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
-import onReloadView from './onReloadView';
+import makeOnReloadView from './onReloadView';
 import * as types from '../../../types';
 
 const documentManager = {
@@ -15,9 +15,9 @@ const askReloadView = viewId => ({
   payload: { viewId },
 });
 
-const mockStore = configureMockStore([onReloadView(documentManager)]);
+const mockStore = configureMockStore([makeOnReloadView(documentManager)]);
 
-describe('store:serverProcess:middlewares:documents:onReloadView', () => {
+describe('store:serverProcess:middlewares:documents:makeOnReloadView', () => {
   const store = mockStore({
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1', 'v2'] } },

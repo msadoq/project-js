@@ -2,7 +2,7 @@ import * as types from '../../../types';
 import { getFocusedWindow } from '../../../selectors/windows';
 import { withOpenDialog } from '../helpers';
 
-const onOpenView = documentManager => withOpenDialog(
+const makeOnOpenView = documentManager => withOpenDialog(
   ({ dispatch, openDialog, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_VIEW) {
@@ -24,4 +24,4 @@ const onOpenView = documentManager => withOpenDialog(
   }
 );
 
-export default onOpenView;
+export default makeOnOpenView;

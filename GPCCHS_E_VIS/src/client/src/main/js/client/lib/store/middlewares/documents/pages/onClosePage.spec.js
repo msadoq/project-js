@@ -2,17 +2,17 @@ import _ from 'lodash/fp';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
-import onClosePage from './onClosePage';
+import makeOnClosePage from './onClosePage';
 import * as types from '../../../types';
 
-const mockStore = configureMockStore([thunk, onClosePage()]);
+const mockStore = configureMockStore([thunk, makeOnClosePage()]);
 
 const askClosePage = pageId => ({
   type: types.WS_ASK_CLOSE_PAGE,
   payload: { pageId },
 });
 
-describe('store:serverProcess:middlewares:documents/onClosePage', () => {
+describe('store:serverProcess:middlewares:documents/makeOnClosePage', () => {
   const store = mockStore({
     windows: {
       w1: { pages: ['p1', 'p2'] },

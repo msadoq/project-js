@@ -1,12 +1,12 @@
 import pipeMiddlewares from '../../../helpers/pipeMiddlewares';
-import onOpenWorkspace from './onOpenWorkspace';
-import onSaveWorkspace from './onSaveWorkspace';
-import onCloseWorkspace from './onCloseWorkspace';
+import makeOnOpenWorkspace from './onOpenWorkspace';
+import makeOnSaveWorkspace from './onSaveWorkspace';
+import makeOnCloseWorkspace from './onCloseWorkspace';
 
 const makeWorkspaceMiddleware = documentManager => pipeMiddlewares(
-  onOpenWorkspace(documentManager),
-  onSaveWorkspace(documentManager),
-  onCloseWorkspace(documentManager)
+  makeOnOpenWorkspace(documentManager),
+  makeOnSaveWorkspace(documentManager),
+  makeOnCloseWorkspace(documentManager)
 );
 
 export default makeWorkspaceMiddleware;

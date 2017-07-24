@@ -4,17 +4,17 @@ import thunk from 'redux-thunk';
 
 import { askSavePage } from '../../../actions/pages';
 import { dialogClosed } from '../../../actions/ui';
-import onSavePage from './onSavePage';
+import makeOnSavePage from './onSavePage';
 
 const documentManager = {
   savePage: (pageId, absolutePath) => ({ type: 'SAVE_PAGE.spec', payload: { pageId, absolutePath } }),
 };
 const mockStore = configureMockStore([
   thunk,
-  onSavePage(documentManager),
+  makeOnSavePage(documentManager),
 ]);
 
-describe('store:middlewares:documents:onSavePage', () => {
+describe('store:middlewares:documents:makeOnSavePage', () => {
   test('simple save page with absolutePath', () => {
     const store = mockStore({
       pages: {

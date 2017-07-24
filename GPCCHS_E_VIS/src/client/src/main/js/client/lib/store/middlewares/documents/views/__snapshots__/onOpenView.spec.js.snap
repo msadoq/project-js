@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:serverProcess:middlewares:documents:onOpenView open filepicker, then cancel opening view 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView open filepicker, then cancel opening view 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -29,7 +29,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onOpenView open view 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView open view 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -51,7 +51,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onOpenView open view using filepicker 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView open view using filepicker 1`] = `
 Array [
   Object {
     "payload": Object {

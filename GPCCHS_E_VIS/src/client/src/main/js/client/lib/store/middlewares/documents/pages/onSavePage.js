@@ -5,7 +5,7 @@ import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
 import { getWindowIdByPageId } from '../../../reducers/windows';
 import { withOpenDialog, withOpenModal } from '../helpers';
 
-const onSavePage = documentManager => withOpenModal(withOpenDialog(
+const makeOnSavePage = documentManager => withOpenModal(withOpenDialog(
   ({ getState, dispatch, openDialog, openModal }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_PAGE) {
@@ -45,4 +45,4 @@ const onSavePage = documentManager => withOpenModal(withOpenDialog(
 ));
 
 
-export default onSavePage;
+export default makeOnSavePage;

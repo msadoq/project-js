@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:serverProcess:middlewares:documents:onReloadView display modal, then do not reload view (cancel) 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnReloadView display modal, then do not reload view (cancel) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -44,7 +44,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onReloadView display modal, then reload view 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnReloadView display modal, then reload view 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -95,7 +95,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onReloadView reload view 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnReloadView reload view 1`] = `
 Array [
   Object {
     "payload": Object {

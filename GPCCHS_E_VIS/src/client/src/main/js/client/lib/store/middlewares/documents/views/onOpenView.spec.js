@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
-import onOpenView from './onOpenView';
+import makeOnOpenView from './onOpenView';
 import * as types from '../../../types';
 
 const documentManager = {
@@ -15,9 +15,9 @@ const askSaveView = absolutePath => ({
   payload: { absolutePath },
 });
 
-const mockStore = configureMockStore([onOpenView(documentManager)]);
+const mockStore = configureMockStore([makeOnOpenView(documentManager)]);
 
-describe('store:serverProcess:middlewares:documents:onOpenView', () => {
+describe('store:serverProcess:middlewares:documents:makeOnOpenView', () => {
   const store = mockStore({
     hsc: { focusWindow: 'w1' },
     windows: { w1: { uuid: 'w1', focusedPage: 'p1' } },

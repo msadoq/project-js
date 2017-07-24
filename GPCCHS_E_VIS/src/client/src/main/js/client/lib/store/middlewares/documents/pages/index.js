@@ -1,12 +1,12 @@
 import pipeMiddlewares from '../../../helpers/pipeMiddlewares';
-import onOpenPage from './onOpenPage';
-import onClosePage from './onClosePage';
-import onSavePage from './onSavePage';
+import makeOnOpenPage from './onOpenPage';
+import makeOnClosePage from './onClosePage';
+import makeOnSavePage from './onSavePage';
 
 const makePagesMiddleware = documentManager => pipeMiddlewares(
-  onOpenPage(documentManager),
-  onSavePage(documentManager),
-  onClosePage(documentManager)
+  makeOnOpenPage(documentManager),
+  makeOnSavePage(documentManager),
+  makeOnClosePage(documentManager)
 );
 
 export default makePagesMiddleware;

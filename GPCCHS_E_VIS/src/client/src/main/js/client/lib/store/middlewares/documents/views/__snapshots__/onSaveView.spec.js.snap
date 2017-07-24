@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:serverProcess:middlewares:documents:onSaveView save view 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnSaveView save view 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -19,7 +19,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onSaveView save view as (forced) 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnSaveView save view as (forced) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -58,7 +58,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onSaveView save view as (then cancel) 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnSaveView save view as (then cancel) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -88,7 +88,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onSaveView save view as 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnSaveView save view as 1`] = `
 Array [
   Object {
     "payload": Object {

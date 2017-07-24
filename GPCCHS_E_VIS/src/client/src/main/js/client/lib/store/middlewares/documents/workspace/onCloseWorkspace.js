@@ -14,7 +14,7 @@ import {
 const isClosingWorkspace = _.propEq('type', types.WS_ASK_CLOSE_WORKSPACE);
 const isClosingWindow = _.propEq('type', types.WS_ASK_CLOSE_WINDOW);
 
-const onCloseWorkspace = () => withOpenModal(
+const makeOnCloseWorkspace = () => withOpenModal(
   ({ getState, dispatch, openModal }) => next => (action) => {
     const nextAction = next(action);
     if (isClosingWindow(action) || isClosingWorkspace(action)) {
@@ -74,4 +74,4 @@ const onCloseWorkspace = () => withOpenModal(
     return nextAction;
   });
 
-export default onCloseWorkspace;
+export default makeOnCloseWorkspace;

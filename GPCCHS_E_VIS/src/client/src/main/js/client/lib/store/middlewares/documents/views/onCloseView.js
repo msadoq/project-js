@@ -8,7 +8,7 @@ import { minimizeEditor } from '../../../actions/pages';
 
 const closeEditor = pageId => minimizeEditor(pageId, true);
 
-const onCloseView = documentManager => withOpenDialog(withOpenModal(
+const makeOnCloseView = documentManager => withOpenDialog(withOpenModal(
   ({ dispatch, openModal, openDialog, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_VIEW) {
@@ -65,4 +65,4 @@ const onCloseView = documentManager => withOpenDialog(withOpenModal(
   }
 ));
 
-export default onCloseView;
+export default makeOnCloseView;

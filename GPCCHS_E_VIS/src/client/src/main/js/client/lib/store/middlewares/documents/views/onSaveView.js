@@ -3,7 +3,7 @@ import { getView } from '../../../reducers/views';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 import { withOpenDialog } from '../helpers';
 
-const onSaveView = documentManager => withOpenDialog(
+const makeOnSaveView = documentManager => withOpenDialog(
   ({ getState, dispatch, openDialog }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_VIEW) {
@@ -28,4 +28,4 @@ const onSaveView = documentManager => withOpenDialog(
   }
 );
 
-export default onSaveView;
+export default makeOnSaveView;

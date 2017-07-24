@@ -3,7 +3,7 @@ import { withOpenModal } from '../helpers';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 import { getView } from '../../../reducers/views';
 
-const onReloadView = documentManager => withOpenModal(
+const makeOnReloadView = documentManager => withOpenModal(
   ({ dispatch, openModal, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_RELOAD_VIEW) {
@@ -33,4 +33,4 @@ const onReloadView = documentManager => withOpenModal(
   }
 );
 
-export default onReloadView;
+export default makeOnReloadView;

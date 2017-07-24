@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import * as types from '../../../types';
-import onOpenPage from './onOpenPage';
+import makeOnOpenPage from './onOpenPage';
 
 const documentManager = {
   openPage: payload => ({
@@ -10,14 +10,14 @@ const documentManager = {
   }),
 };
 
-const mockStore = configureMockStore([onOpenPage(documentManager)]);
+const mockStore = configureMockStore([makeOnOpenPage(documentManager)]);
 
 const askOpenPage = (absolutePath = '/', windowId = 'w1') => ({
   type: types.WS_ASK_OPEN_PAGE,
   payload: { windowId, absolutePath },
 });
 
-describe('store:serverProcess:middlewares:documents/onOpenPage', () => {
+describe('store:serverProcess:middlewares:documents/makeOnOpenPage', () => {
   const store = mockStore({});
   test('open a page directly', () => {
     store.dispatch(askOpenPage());

@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
-import onSaveViewAsModel from './onSaveViewAsModel';
+import makeOnSaveViewAsModel from './onSaveViewAsModel';
 import * as types from '../../../types';
 
 const documentManager = {
@@ -15,9 +15,9 @@ const askSaveViewAsModel = viewId => ({
   payload: { viewId },
 });
 
-const mockStore = configureMockStore([onSaveViewAsModel(documentManager)]);
+const mockStore = configureMockStore([makeOnSaveViewAsModel(documentManager)]);
 
-describe('store:serverProcess:middlewares:documents:onSaveViewAsModel', () => {
+describe('store:serverProcess:middlewares:documents:makeOnSaveViewAsModel', () => {
   const store = mockStore({
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1'] } },

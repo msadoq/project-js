@@ -2,7 +2,7 @@ import * as types from '../../../types';
 import { withOpenDialog } from '../helpers';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 
-const onSaveViewAsModel = documentManager => withOpenDialog(
+const makeOnSaveViewAsModel = documentManager => withOpenDialog(
   ({ dispatch, openDialog, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_VIEW_AS_MODEL) {
@@ -20,4 +20,4 @@ const onSaveViewAsModel = documentManager => withOpenDialog(
   }
 );
 
-export default onSaveViewAsModel;
+export default makeOnSaveViewAsModel;

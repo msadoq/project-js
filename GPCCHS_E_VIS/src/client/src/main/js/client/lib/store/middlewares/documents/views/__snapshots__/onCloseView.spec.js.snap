@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:serverProcess:middlewares:documents:onCloseView close without saving 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnCloseView close without saving 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -60,7 +60,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onCloseView error on saving (do not close) 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnCloseView error on saving (do not close) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -106,7 +106,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onCloseView open save as modal, then cancel 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnCloseView open save as modal, then cancel 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -170,7 +170,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onCloseView save and close 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnCloseView save and close 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -237,7 +237,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onCloseView save as and close 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnCloseView save as and close 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -324,7 +324,7 @@ Array [
 ]
 `;
 
-exports[`store:serverProcess:middlewares:documents:onCloseView simple close 1`] = `
+exports[`store:serverProcess:middlewares:documents:makeOnCloseView simple close 1`] = `
 Array [
   Object {
     "payload": Object {

@@ -4,7 +4,7 @@ import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from 
 import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../../reducers/hsc';
 import { withOpenModal, withOpenDialog } from '../helpers';
 
-const onSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
+const makeOnSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
   ({ dispatch, openDialog, openModal, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_WORKSPACE) {
@@ -44,4 +44,4 @@ const onSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
     return nextAction;
   }));
 
-export default onSaveWorkspace;
+export default makeOnSaveWorkspace;

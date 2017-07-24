@@ -1,7 +1,7 @@
 import * as types from '../../../types';
 import { withOpenDialog } from '../helpers';
 
-const onOpenPage = documentManager => withOpenDialog(
+const makeOnOpenPage = documentManager => withOpenDialog(
   ({ dispatch, openDialog }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_PAGE) {
@@ -21,4 +21,4 @@ const onOpenPage = documentManager => withOpenDialog(
   }
 );
 
-export default onOpenPage;
+export default makeOnOpenPage;

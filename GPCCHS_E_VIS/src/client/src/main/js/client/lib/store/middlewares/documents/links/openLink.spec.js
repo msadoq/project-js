@@ -1,5 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
+import { askOpenLink } from '../../../actions/links';
 import makeOpenLinkMiddleware from './openLink';
 
 describe('middlewares/makeOpenLinkMiddleware', () => {
@@ -55,13 +57,7 @@ describe('middlewares/makeOpenLinkMiddleware', () => {
     store.clearActions();
   });
 
-  const openLink = linkId => ({
-    type: 'WS_ASK_OPEN_LINK',
-    payload: {
-      viewId: 'v1',
-      linkId,
-    },
-  });
+  const openLink = linkId => askOpenLink('v1', linkId);
 
   test('open a page', () => {
     store.dispatch(openLink(0));

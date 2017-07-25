@@ -15,6 +15,8 @@ export default class Editor extends Component {
     openModal: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
+    title: PropTypes.string,
+    titleStyle: PropTypes.shape().isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
@@ -30,6 +32,7 @@ export default class Editor extends Component {
 
   static defaultProps = {
     tab: null,
+    title: '',
   }
 
   removeEntryPoint = (key) => {
@@ -63,6 +66,8 @@ export default class Editor extends Component {
       tab,
       viewId,
       panels,
+      titleStyle,
+      title,
       entryPointsPanels,
       updateViewPanels,
       configuration: {
@@ -73,6 +78,12 @@ export default class Editor extends Component {
 
     return (
       <div className={styles.contentWrapper}>
+        <h4
+          className="text-center mb10"
+        >
+          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <b>{title}</b>
+        </h4>
         <Navbar
           currentDisplay={tab === null ? 0 : tab}
           items={navBarItems}

@@ -12,11 +12,14 @@ import {
 import {
   open as openModal,
 } from '../../../../store/actions/modals';
+import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
 import { updateViewPanels, updateViewTab } from '../../../../store/actions/ui';
 import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui/editor';
 import { getConfigurationByViewId } from '../../../../viewManager';
 
 const mapStateToProps = createStructuredSelector({
+  title: getViewTitle,
+  titleStyle: getViewTitleStyle,
   configuration: getConfigurationByViewId,
   panels: getViewPanels,
   tab: getViewTab,

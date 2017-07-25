@@ -1,6 +1,13 @@
 @import './variables.css';
 
 .Editor {
+  .EditorVignette {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    transform: translateY(4px);
+    border-radius: 2px;
+  }
   background-color: var(--theme-light-2);
   .nav-tabs {
     li, li > a {

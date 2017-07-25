@@ -19,6 +19,8 @@ export default class PlotEditor extends Component {
     entryPointsPanels: PropTypes.shape({}).isRequired,
     tab: PropTypes.number,
     viewId: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    titleStyle: PropTypes.shape().isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
       entryPoints: PropTypes.array,
@@ -33,6 +35,7 @@ export default class PlotEditor extends Component {
   static defaultProps = {
     tab: null,
     links: [],
+    title: '',
   }
 
   removeEntryPoint = (key) => {
@@ -55,12 +58,12 @@ export default class PlotEditor extends Component {
       entryPointsPanels,
       viewId,
       updateViewPanels,
+      title,
+      titleStyle,
       configuration: {
         entryPoints,
         axes,
         grids,
-        title,
-        titleStyle,
         markers,
         search,
       },
@@ -68,6 +71,12 @@ export default class PlotEditor extends Component {
 
     return (
       <div className={styles.contentWrapper}>
+        <h4
+          className="text-center mb10"
+        >
+          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <b>{title}</b>
+        </h4>
         <Navbar
           currentDisplay={tab === null ? 0 : tab}
           items={navbarItems}
@@ -101,7 +110,6 @@ export default class PlotEditor extends Component {
             <PlotTab
               axes={axes}
               markers={markers}
-              title={title}
               grids={grids}
               titleStyle={titleStyle}
               openModal={openModal}

@@ -59,7 +59,7 @@ describe('store:middlewares:documents:makeOnSavePage', () => {
     });
     store.dispatch(askSavePage('p1', false));
     const dialogId = _.last(store.getActions()).payload.dialogId;
-    store.dispatch(dialogClosed('w1', dialogId, 'myChoice', {}));
+    store.dispatch(dialogClosed('w1', 'myChoice', {}, dialogId));
     expect(store.getActions()).toMatchSnapshot();
   });
   test('open a save filepicker, then save page as... (because saveAs true in payload)', () => {
@@ -73,7 +73,7 @@ describe('store:middlewares:documents:makeOnSavePage', () => {
     });
     store.dispatch(askSavePage('p1', true));
     const dialogId = _.last(store.getActions()).payload.dialogId;
-    store.dispatch(dialogClosed('w1', dialogId, 'myChoice', {}));
+    store.dispatch(dialogClosed('w1', 'myChoice', {}, dialogId));
     expect(store.getActions()).toMatchSnapshot();
   });
   test('open a save filepicker, then do nothing (cancel)', () => {
@@ -87,7 +87,7 @@ describe('store:middlewares:documents:makeOnSavePage', () => {
     });
     store.dispatch(askSavePage('p1', true));
     const dialogId = _.last(store.getActions()).payload.dialogId;
-    store.dispatch(dialogClosed('w1', dialogId, null, {}));
+    store.dispatch(dialogClosed('w1', null, {}, dialogId));
     expect(store.getActions()).toMatchSnapshot();
   });
   test('an unknown action should be next', () => {

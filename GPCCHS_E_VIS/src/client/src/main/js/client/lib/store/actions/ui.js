@@ -26,16 +26,16 @@ export const updateViewSubPanels = simple(
 export const openDialog = simple(
   types.HSC_OPEN_DIALOG,
   'windowId',
-  'dialogId',
   'type', // can be 'save', 'open' or 'message'
-  (options = {}) => ({ options })
+  (options = {}) => ({ options }),
+  (dialogId = 'default') => ({ dialogId })
 );
 
 // dialog
 export const dialogClosed = simple(
   types.HSC_DIALOG_CLOSED,
   'windowId',
-  'dialogId',
   'choice',
-  (options = {}) => ({ options })
+  (options = {}) => ({ options }),
+  (dialogId = 'default') => ({ dialogId })
 );

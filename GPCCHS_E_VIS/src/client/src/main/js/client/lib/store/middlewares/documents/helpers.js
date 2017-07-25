@@ -9,7 +9,7 @@ const createDialogHelper = ({ dispatch }) => {
   const open = (windowId, type, options, onClose = _.noop) => {
     const dialogId = v4();
     dialogCache[dialogId] = onClose;
-    dispatch(openDialog(windowId, dialogId, type, options));
+    dispatch(openDialog(windowId, type, options, dialogId));
   };
   const interact = (action) => {
     if (action.type === types.HSC_DIALOG_CLOSED && dialogCache[action.payload.dialogId]) {

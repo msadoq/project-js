@@ -13,7 +13,7 @@ const makeOnOpenView = documentManager => withListenAction(
       if (absolutePath) {
         dispatch(documentManager.openView({ absolutePath }, window.focusedPage));
       } else {
-        dispatch(openDialog(windowId, undefined, 'open', {}));
+        dispatch(openDialog(windowId, 'open'));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

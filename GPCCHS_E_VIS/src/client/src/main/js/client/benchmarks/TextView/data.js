@@ -119,7 +119,7 @@ export const data200EpsRandomColors = () => {
     };
     entryPoints[eps[i]] = {};
   }
-  const epSpans = eps.map(v => `<span>{{${v}}}</span`).join('');
+  const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,

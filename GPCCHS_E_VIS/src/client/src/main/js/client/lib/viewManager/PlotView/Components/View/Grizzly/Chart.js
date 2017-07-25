@@ -651,17 +651,6 @@ export default class Chart extends Component {
             >Panned {panMs}ms</Button>
           }
         </div>
-        <CurrentCursorCanvas
-          parametric={parametric}
-          width={this.chartWidth}
-          height={this.chartHeight}
-          xAxisAt={xAxisAt}
-          current={current}
-          yAxesAt={yAxesAt}
-          top={marginTop}
-          margin={marginSide}
-          xScale={xScale}
-        />
         { enableTooltip && <Tooltip
           parametric={parametric}
           tooltipColor={tooltipColor}
@@ -688,6 +677,17 @@ export default class Chart extends Component {
             this.chartWidth,
             this.chartHeight
           )}
+        />
+        <CurrentCursorCanvas
+          parametric={parametric}
+          width={this.chartWidth}
+          height={this.chartHeight}
+          xAxisAt={xAxisAt}
+          current={current}
+          yAxesAt={yAxesAt}
+          top={marginTop}
+          margin={marginSide}
+          xScale={xScale}
         />
         {
           this.yAxes.map(yAxis =>

@@ -3,10 +3,13 @@ import * as types from '../../../types';
 import { getPage } from '../../../reducers/pages';
 import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
 import { getWindowIdByPageId } from '../../../reducers/windows';
-import { withOpenDialog, withOpenModal } from '../helpers';
 
-const makeOnSavePage = documentManager => withOpenModal(withOpenDialog(
-  ({ getState, dispatch, openDialog, openModal }) => next => (action) => {
+import { openDialog } from '../../../actions/ui';
+import { open as openModal } from '../../../actions/modals';
+import withListenAction from '../../../helpers/withListenAction';
+
+const makeOnSavePage = documentManager => withListenAction(
+  ({ getState, dispatch, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_PAGE) {
       const { pageId } = action.payload;
@@ -15,7 +18,7 @@ const makeOnSavePage = documentManager => withOpenModal(withOpenDialog(
       const saveAs = action.payload.saveAs || (!page.oId && !page.absolutePath);
       const windowId = getWindowIdByPageId(state, { pageId });
       if (getPageHasNewViews(state, { pageId })) {
-        openModal(windowId, {
+        dispatch(openModal(windowId, {
           title: 'new views must be saved',
           type: 'saveWizard',
           documentType: 'page',
@@ -27,9 +30,10 @@ const makeOnSavePage = documentManager => withOpenModal(withOpenDialog(
               unsavedDocuments: { label: 'Ok', value: 'ok', type: 'secondary', disabled: true },
             },
           ],
-        });
+        }));
       } else if (saveAs) {
-        openDialog(windowId, 'save', {}, (closeAction) => {
+        dispatch(openDialog(windowId, 'save'));
+        listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             const absolutePath = choice;
@@ -42,7 +46,7 @@ const makeOnSavePage = documentManager => withOpenModal(withOpenDialog(
     }
     return nextAction;
   }
-));
+);
 
 
 export default makeOnSavePage;

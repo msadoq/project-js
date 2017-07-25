@@ -7,20 +7,14 @@ import _ from 'lodash/fp';
 const withListenAction = middleware => storeApi => (next) => {
   const observers = {};
   const listenAction = (type, observer = _.noop) => {
-    if (observers[type]) {
-      observers[type] = [...observers[type], observer];
-    } else {
-      observers[type] = [observer];
-    }
+    observers[type] = observer;
   };
   const configuredMiddleware = middleware({ ...storeApi, listenAction })(next);
   return (action) => {
     const nextAction = configuredMiddleware(action);
-    if (_.isArray(observers[action.type])) {
-      _.each((observer) => {
-        observers[action.type] = _.reject(_.equals(observer), observers[action.type]);
-        observer(action);
-      }, observers[action.type]);
+    if (observers[action.type]) {
+      observers[action.type](action);
+      observers[action.type] = undefined;
     }
     return nextAction;
   };

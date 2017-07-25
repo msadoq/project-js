@@ -1,0 +1,393 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace cancel opening workspace (filepicker) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "open",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {},
+    "type": "HSC_DIALOG_CLOSED",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace open new workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/absolute/path",
+      "isNew": true,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "flag": true,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": true,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "workspace": true,
+    },
+    "type": "WS_WORKSPACE_OPENED",
+  },
+  Object {
+    "payload": Object {
+      "flag": false,
+    },
+    "type": "HSC_ISWORKSPACE_OPENING",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace open workspace (filepicker) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "open",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": Array [
+        "/chosen/path",
+      ],
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": Object {
+        "absolutePath": "/chosen/path",
+      },
+    },
+    "type": "OPEN_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace simple open workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/absolute/path",
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": Object {
+        "absolutePath": "/absolute/path",
+      },
+    },
+    "type": "OPEN_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save (pages and views) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Open workspace",
+              "type": "primary",
+              "value": "open",
+            },
+            "unsavedDocuments": Object {
+              "label": "Open workspace without saving",
+              "type": "danger",
+              "value": "open",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          undefined,
+          undefined,
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save (pages) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Open workspace",
+              "type": "primary",
+              "value": "open",
+            },
+            "unsavedDocuments": Object {
+              "label": "Open workspace without saving",
+              "type": "danger",
+              "value": "open",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          undefined,
+          undefined,
+        ],
+        "title": "Page is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save (views) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Open workspace",
+              "type": "primary",
+              "value": "open",
+            },
+            "unsavedDocuments": Object {
+              "label": "Open workspace without saving",
+              "type": "danger",
+              "value": "open",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [],
+        "title": "Views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save, save it, then open another workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/absolute/path",
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Open workspace",
+              "type": "primary",
+              "value": "open",
+            },
+            "unsavedDocuments": Object {
+              "label": "Open workspace without saving",
+              "type": "danger",
+              "value": "open",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          undefined,
+          undefined,
+        ],
+        "title": "Page is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "open",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": Object {
+        "absolutePath": "/absolute/path",
+      },
+    },
+    "type": "OPEN_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save, then cancel opening workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/absolute/path",
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Open workspace",
+              "type": "primary",
+              "value": "open",
+            },
+            "unsavedDocuments": Object {
+              "label": "Open workspace without saving",
+              "type": "danger",
+              "value": "open",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          undefined,
+          undefined,
+        ],
+        "title": "Page is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+]
+`;

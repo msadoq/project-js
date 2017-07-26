@@ -1,4 +1,3 @@
-import _cloneDeep from 'lodash/cloneDeep';
 import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/knownRanges';
 import knownRangesReducer, {

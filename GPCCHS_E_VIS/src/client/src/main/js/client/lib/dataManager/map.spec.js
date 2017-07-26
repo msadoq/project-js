@@ -273,7 +273,7 @@ describe('data:map', () => {
     };
   });
   const dataMap = {
-    perRangeTbdIdMap: {
+    perRangeTbdId: {
       'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
         dataId: {
           catalog: 'Reporting',
@@ -297,7 +297,7 @@ describe('data:map', () => {
         },
       },
     },
-    perLastTbdIdMap: {
+    perLastTbdId: {
       'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
         dataId: {
           catalog: 'TelemetryPacket',
@@ -489,8 +489,8 @@ describe('data:map', () => {
 
   test('should compute dataMap', () => {
     const r = map(state);
-    expect(r.perRangeTbdId).toEqual(dataMap.perRangeTbdIdMap);
-    expect(r.perLastTbdId).toEqual(dataMap.perLastTbdIdMap);
+    expect(r.perRangeTbdId).toEqual(dataMap.perRangeTbdId);
+    expect(r.perLastTbdId).toEqual(dataMap.perLastTbdId);
     expect(r.perView).toEqual(viewMap);
     expect(r.expectedRangeIntervals).toEqual(intervalMap.range);
     expect(r.expectedLastIntervals).toEqual(intervalMap.last);

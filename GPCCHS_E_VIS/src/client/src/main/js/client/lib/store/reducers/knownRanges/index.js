@@ -1,12 +1,13 @@
 import _ from 'lodash/fp';
 import _isArray from 'lodash/isArray';
 import _isEmpty from 'lodash/isEmpty';
+import _filter from 'lodash/filter';
 import * as types from '../../types';
 import mergeIntervals from '../../../common/intervals/merge';
 import removeIntervals from '../../../common/intervals/remove';
-import includesTimestamp from '../../../common/intervals/includesTimestamp';
+import missingIntervals from '../../../common/intervals/missing';
+// import includesTimestamp from '../../../common/intervals/includesTimestamp';
 import flattenDataId from '../../../common/flattenDataId';
-
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -25,13 +26,22 @@ export default function knownRanges(state = {}, action) {
       }
       let newState = state;
       if (!state[tbdId]) {
-        newState = { ...state, [tbdId]: [] };
+        newState = { ...state,
+          [tbdId]: {
+            flatDataId: flattenDataId(action.payload.dataId),
+            filters: action.payload.filters || [],
+            intervals: [],
+          },
+        };
       }
       const mergedIntervals =
-        mergeIntervals(newState[tbdId], action.payload.intervals);
+        mergeIntervals(newState[tbdId].intervals, action.payload.intervals);
       return {
         ...newState,
-        [tbdId]: mergedIntervals,
+        [tbdId]: {
+          ...newState[tbdId],
+          intervals: mergedIntervals,
+        },
       };
     }
     case types.WS_KNOWNINTERVAL_DELETE: {
@@ -43,14 +53,17 @@ export default function knownRanges(state = {}, action) {
         return state;
       }
       // compute remaining intervals
-      const remainingIntervals = removeIntervals(state[tbdId], action.payload.intervals);
+      const remainingIntervals = removeIntervals(state[tbdId].intervals, action.payload.intervals);
       // if no remaining interval, remove tbdId key in state
       if (_isEmpty(remainingIntervals)) {
         return _.omit(tbdId, state);
       }
       return {
         ...state,
-        [tbdId]: remainingIntervals,
+        [tbdId]: {
+          ...state[tbdId],
+          intervals: remainingIntervals,
+        },
       };
     }
     default:
@@ -63,44 +76,36 @@ export default function knownRanges(state = {}, action) {
 /**
  * Get all the known ranges per tbdId.
  * @param {object} state - The current state.
- * @return {object} array of known intervals per tbdId.
+ * @param {string} tbdId - The specified tbdId
+ * @return {object} array of known intervals for tbdId.
  */
-export const getKnownRanges = state => state.knownRanges;
+export const getKnownRanges = (state, { tbdId }) => state.knownRanges[tbdId];
 
 /**
  * Get known intervalPerLastTbdId for a specified tbdId.
  * @param {object} state - The current state.
  * @param {string} tbdId - The specified tbdId
- * @return {object} array of known intervals for the tbdId.
+ * @param {array} queryIntervals - The required interval
+ * @return {array} array of missing intervals for the tbdId.
  */
-export const getKnownIntervals = (state, { tbdId }) => state.knownRanges[tbdId];
+export const getMissingIntervals = (state, { tbdId, queryInterval }) => {
+  const tbdIdRanges = getKnownRanges(state, { tbdId });
+  if (!tbdIdRanges) {
+    return [queryInterval];
+  }
+  return missingIntervals(tbdIdRanges.intervals, queryInterval);
+};
 
 /**
  * Checks if dataId with a specified timestamp is inside knownRanges
  * @param {object} state - The current state.
- * @param {string} dataId - The specified dataId
- * @param {number} timestamp - The specified timestamp
- * @return {bool} true if the data is inside a known range.
+ * @param {object} dataId - The specified dataId
+ * @return {array} list of tbdId corresponding to dataId
  */
-export const isDataInCache = (state, { dataId, timestamp }) => {
+export const isDataIdInCache = (state, { dataId }) => {
   // flatten DataId to compare with tbdId
   const flatDataId = flattenDataId(dataId);
   // Checks if DataId exists in tbdId and timestamp is in an interval
-  const intervals = getKnownIntervals(state, { tbdId: flatDataId });
-  if (intervals && includesTimestamp(intervals, timestamp)) {
-    return true;
-  }
-  // Checks if there is / are tbdId containing dataId
   const tbdIds = Object.keys(state.knownRanges);
-  for (let i = 0; i < tbdIds.length; i += 1) {
-    if (tbdIds[i].startsWith(flatDataId)) {
-      // Checks if DataId exists in tbdId and timestamp is in an interval
-      const knownIntervals = getKnownIntervals(state, { tbdId: tbdIds[i] });
-      if (knownIntervals && includesTimestamp(knownIntervals, timestamp)) {
-        return true;
-      }
-    }
-  }
-  // No interval includes the dataId with this timestamp
-  return false;
+  return _filter(tbdIds, tbdId => state.knownRanges[tbdId].flatDataId === flatDataId);
 };

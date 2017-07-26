@@ -150,12 +150,6 @@ describe('data:map', () => {
             {
               name: 'STAT_SU_PID',
               id: 'id60',
-              // connectedDataX: {
-              //   formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
-              //   filter: [],
-              //   domain: 'fr.cnes.isis.simupus',
-              //   timeline: 'Session 1',
-              // },
               connectedData: {
                 fieldX: 'groundDate',
                 formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',

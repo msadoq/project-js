@@ -121,6 +121,10 @@ const listCollections = () => tbdIds;
 const removeCollection = (tbdId) => {
   const { collection } = getCollection(tbdId);
   collection.clear();
+  const index = tbdIds.indexOf(tbdId);
+  if (index > -1) {
+    tbdIds.splice(index, 1);
+  }
 };
 
 /**
@@ -135,9 +139,10 @@ const removeAllCollections = () => {
  * @param lokiJsCollection collection
  * @param Object value
  */
-const addRecord = (collection, value) => {
+const addRecord = (tbdId, value) => {
   const timestamp = value.timestamp;
   const payload = value.payload;
+  const { collection } = getOrCreateCollection(tbdId);
   const record = collection.by('timestamp', timestamp);
   if (typeof record === 'undefined') {
     return collection.insert({
@@ -156,9 +161,9 @@ const addRecord = (collection, value) => {
  */
 const addRecords = (tbdId, records) => {
   logger.silly(`add ${records.length} records`);
-  const { collection } = getCollection(tbdId);
+  // const { collection } = getCollection(tbdId);
   for (let i = 0; i < records.length; i += 1) {
-    addRecord(collection, records[i]);
+    addRecord(tbdId, records[i]);
   }
 };
 
@@ -166,6 +171,7 @@ export default {
   getLastData,
   getRangeData,
   removeRecords,
+  addRecord,
   addRecords,
   listCollections,
   removeCollection,

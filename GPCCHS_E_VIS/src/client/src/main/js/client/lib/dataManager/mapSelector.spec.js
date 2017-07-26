@@ -1,5 +1,6 @@
 import { isDataIdInDatamapLast, isTimestampInLastInterval } from './mapSelector';
 import flattenDataId from '../common/flattenDataId';
+import dataMapGenerator from './map';
 
 describe('dataManager/mapSelector', () => {
   let dataId;
@@ -12,6 +13,7 @@ describe('dataManager/mapSelector', () => {
       sessionId: 1,
     };
   });
+
   const state = {
     timebars: {
       tb1: {
@@ -130,6 +132,8 @@ describe('dataManager/mapSelector', () => {
       sessionId: 10,
     },
   };
+  const dataMap = dataMapGenerator(state);
+
   test('isDataIdInDatamapLast: empty state', () => {
     expect(isDataIdInDatamapLast({}, dataId)).toEqual([]);
   });
@@ -143,18 +147,18 @@ describe('dataManager/mapSelector', () => {
       'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extractedValue.=.2',
     ]);
   });
-  test('isTimestampInLastInterval: empty state', () => {
-    expect(isTimestampInLastInterval({}, flattenDataId(dataId), 1420106843802)).toEqual(false);
+  test('isTimestampInLastInterval: empty dataMap', () => {
+    expect(isTimestampInLastInterval(dataMapGenerator({}), flattenDataId(dataId), 1420106843802)).toEqual(false);
   });
   test('isTimestampInLastInterval: unknown dataId', () => {
-    expect(isTimestampInLastInterval(state, flattenDataId(dataId), 1420106843802)).toEqual(false);
+    expect(isTimestampInLastInterval(dataMap, flattenDataId(dataId), 1420106843802)).toEqual(false);
   });
   test('isTimestampInLastInterval: known dataId timestamp ok', () => {
     dataId.parameterName = 'STAT_SU_PID';
-    expect(isTimestampInLastInterval(state, flattenDataId(dataId), 1420106843802)).toEqual(true);
+    expect(isTimestampInLastInterval(dataMap, flattenDataId(dataId), 1420106843802)).toEqual(true);
   });
   test('isTimestampInLastInterval: known dataId timestamp nok', () => {
     dataId.parameterName = 'STAT_SU_PID';
-    expect(isTimestampInLastInterval(state, flattenDataId(dataId), 1420106843952)).toEqual(false);
+    expect(isTimestampInLastInterval(dataMap, flattenDataId(dataId), 1420106843952)).toEqual(false);
   });
 });

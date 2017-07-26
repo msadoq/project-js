@@ -14,8 +14,7 @@ export const isDataIdInDatamapLast = (state, dataId) => {
   });
 };
 
-export const isTimestampInLastInterval = (state, tbdId, timestamp) => {
-  const dataMap = dataMapGenerator(state);
+export const isTimestampInLastInterval = (dataMap, tbdId, timestamp) => {
   if (!dataMap.expectedLastIntervals[tbdId]) {
     return false;
   }

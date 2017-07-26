@@ -11,6 +11,7 @@ import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
 import { main } from './ipc';
 import documentManager from '../documentManager';
+import lokiManager from './models/lokiKnownRangesData';
 
 let store;
 
@@ -20,7 +21,7 @@ const middlewares = [
   createMessagesMiddleware(),
   createPlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   createDocumentsMiddleware(documentManager),
-  createIncomingDataMiddleware(),
+  createIncomingDataMiddleware(lokiManager),
   createRetrieveDataMiddleware(),
 ];
 

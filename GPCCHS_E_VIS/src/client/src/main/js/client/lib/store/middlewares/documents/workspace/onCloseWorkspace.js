@@ -63,7 +63,7 @@ const makeOnCloseWorkspace = () => withOpenModal(
         workspaceNeedSave('Page is modified');
       } else if (!isViewsSaved) {
         workspaceNeedSave('Views are modified');
-      } else if (getWorkspaceIsModified(state) && isClosingWorkspace(state)) {
+      } else if (getWorkspaceIsModified(state) && isClosingWorkspace(action)) {
         workspaceNeedSave('Workspace is modified');
       } else if (isClosingWindow(action)) {
         dispatch(closeWindow(windowId));

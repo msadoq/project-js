@@ -1,0 +1,621 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close window cancel closing using wizard 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WINDOW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close window",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close window without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "window",
+        "pageIds": Array [
+          "p1",
+          "p2",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close window close using save wizard 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WINDOW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close window",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close window without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "window",
+        "pageIds": Array [
+          "p1",
+          "p2",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "pages": Array [
+        "p1",
+        "p2",
+      ],
+      "views": Array [
+        "v1",
+        "v2",
+        "v3",
+      ],
+      "windowId": "w1",
+    },
+    "type": "WS_WINDOW_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close window display wizard when page and views are modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WINDOW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close window",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close window without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "window",
+        "pageIds": Array [
+          "p1",
+          "p2",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close window display wizard when page is modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WINDOW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close window",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close window without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "window",
+        "pageIds": Array [
+          "p1",
+          "p2",
+        ],
+        "title": "Page is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close window display wizard when views are modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WINDOW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close window",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close window without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "window",
+        "pageIds": Array [],
+        "title": "Views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close window simple close 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WINDOW",
+  },
+  Object {
+    "payload": Object {
+      "pages": Array [
+        "p1",
+        "p2",
+      ],
+      "views": Array [
+        "v1",
+        "v2",
+        "v3",
+      ],
+      "windowId": "w1",
+    },
+    "type": "WS_WINDOW_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close workspace cancel closing using wizard 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close workspace",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close workspace without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          "p1",
+          "p2",
+          "p3",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close workspace close using save wizard 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close workspace",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close workspace without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          "p1",
+          "p2",
+          "p3",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "close",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close workspace display wizard when page and views are modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close workspace",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close workspace without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          "p1",
+          "p2",
+          "p3",
+        ],
+        "title": "Page and views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close workspace display wizard when page is modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close workspace",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close workspace without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [
+          "p1",
+          "p2",
+          "p3",
+        ],
+        "title": "Page is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close workspace display wizard when views are modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close workspace",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close workspace without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [],
+        "title": "Views are modified",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace close workspace simple close 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+    },
+    "type": "HSC_CLOSE_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace display wizard when workspace is modified 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "keepMessages": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Close workspace",
+              "type": "primary",
+              "value": "close",
+            },
+            "unsavedDocuments": Object {
+              "label": "Close workspace without saving",
+              "type": "danger",
+              "value": "close",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [],
+        "title": "Workspace is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;

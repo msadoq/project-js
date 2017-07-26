@@ -6,7 +6,7 @@ import * as types from '../../types';
 import mergeIntervals from '../../../common/intervals/merge';
 import removeIntervals from '../../../common/intervals/remove';
 import missingIntervals from '../../../common/intervals/missing';
-// import includesTimestamp from '../../../common/intervals/includesTimestamp';
+import includesTimestamp from '../../../common/intervals/includesTimestamp';
 import flattenDataId from '../../../common/flattenDataId';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -97,7 +97,7 @@ export const getMissingIntervals = (state, { tbdId, queryInterval }) => {
 };
 
 /**
- * Checks if dataId with a specified timestamp is inside knownRanges
+ * Checks if dataId is inside knownRanges
  * @param {object} state - The current state.
  * @param {object} dataId - The specified dataId
  * @return {array} list of tbdId corresponding to dataId
@@ -108,4 +108,19 @@ export const isDataIdInCache = (state, { dataId }) => {
   // Checks if DataId exists in tbdId and timestamp is in an interval
   const tbdIds = Object.keys(state.knownRanges);
   return _filter(tbdIds, tbdId => state.knownRanges[tbdId].flatDataId === flatDataId);
+};
+
+/**
+ * Checks if timestamp is inside knownRanges[tbdId]
+ * @param {object} state - The current state.
+ * @param {string} tbdId - The specified dataId
+ * @param {number} timestamp - The timestamp to check
+ * @return {bool} true if timestamp is inside an interval
+ */
+export const isTimestampInKnownRanges = (state, { tbdId, timestamp }) => {
+  const intervals = getKnownRanges(state, { tbdId });
+  if (!intervals) {
+    return false;
+  }
+  return includesTimestamp(intervals, timestamp);
 };

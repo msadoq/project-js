@@ -4,6 +4,7 @@ import knownRangesReducer, {
   getKnownRanges,
   getMissingIntervals,
   isDataIdInCache,
+  isTimestampInKnownRanges,
 } from '.';
 
 const reducer = freezeArgs(knownRangesReducer);
@@ -159,6 +160,28 @@ describe('store:knownRanges:selectors', () => {
       dataId.parameterName = 'paramName2';
       expect(isDataIdInCache(state, { dataId }))
       .toEqual(['catalog.paramName2<comObject>:2:1:extractedValue.=.2']);
+    });
+  });
+  describe('isTimestampInKnownRanges', () => {
+    const state2 = { knownRanges: {
+      tbdId1: [[10, 20]],
+      tbdId2: [[10, 20], [30, 40]],
+    } };
+    test('empty state', () => {
+      expect(isTimestampInKnownRanges({ knownRanges: {} }, { tbdId: 'tbdId', timestamp: '12' }))
+      .toEqual(false);
+    });
+    test('unknown tbdId', () => {
+      expect(isTimestampInKnownRanges(state2, { tbdId: 'tbdId', timestamp: '12' }))
+      .toEqual(false);
+    });
+    test('tbdId ok and timestamp inside', () => {
+      expect(isTimestampInKnownRanges(state2, { tbdId: 'tbdId2', timestamp: '12' }))
+      .toEqual(true);
+    });
+    test('tbdId ok and timestamp outside', () => {
+      expect(isTimestampInKnownRanges(state2, { tbdId: 'tbdId2', timestamp: '25' }))
+      .toEqual(false);
     });
   });
 });

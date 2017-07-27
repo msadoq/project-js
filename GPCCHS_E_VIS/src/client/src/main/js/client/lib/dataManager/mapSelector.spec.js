@@ -148,17 +148,22 @@ describe('dataManager/mapSelector', () => {
     ]);
   });
   test('isTimestampInLastInterval: empty dataMap', () => {
-    expect(isTimestampInLastInterval(dataMapGenerator({}), flattenDataId(dataId), 1420106843802)).toEqual(false);
+    expect(isTimestampInLastInterval(dataMapGenerator({}),
+    { tbdId: flattenDataId(dataId), timestamp: 1420106843802 }))
+    .toEqual(false);
   });
   test('isTimestampInLastInterval: unknown dataId', () => {
-    expect(isTimestampInLastInterval(dataMap, flattenDataId(dataId), 1420106843802)).toEqual(false);
+    expect(isTimestampInLastInterval(dataMap,
+      { tbdId: flattenDataId(dataId), timestamp: 1420106843802 })).toEqual(false);
   });
   test('isTimestampInLastInterval: known dataId timestamp ok', () => {
     dataId.parameterName = 'STAT_SU_PID';
-    expect(isTimestampInLastInterval(dataMap, flattenDataId(dataId), 1420106843802)).toEqual(true);
+    expect(isTimestampInLastInterval(dataMap,
+      { tbdId: flattenDataId(dataId), timestamp: 1420106843802 })).toEqual(true);
   });
   test('isTimestampInLastInterval: known dataId timestamp nok', () => {
     dataId.parameterName = 'STAT_SU_PID';
-    expect(isTimestampInLastInterval(dataMap, flattenDataId(dataId), 1420106843952)).toEqual(false);
+    expect(isTimestampInLastInterval(dataMap,
+      { tbdId: flattenDataId(dataId), timestamp: 1420106843952 })).toEqual(false);
   });
 });

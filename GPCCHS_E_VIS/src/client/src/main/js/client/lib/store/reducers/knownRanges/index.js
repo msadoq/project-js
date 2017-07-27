@@ -118,9 +118,9 @@ export const isDataIdInCache = (state, { dataId }) => {
  * @return {bool} true if timestamp is inside an interval
  */
 export const isTimestampInKnownRanges = (state, { tbdId, timestamp }) => {
-  const intervals = getKnownRanges(state, { tbdId });
-  if (!intervals) {
+  const tbdIdRanges = getKnownRanges(state, { tbdId });
+  if (!tbdIdRanges) {
     return false;
   }
-  return includesTimestamp(intervals, timestamp);
+  return includesTimestamp(tbdIdRanges.intervals, timestamp);
 };

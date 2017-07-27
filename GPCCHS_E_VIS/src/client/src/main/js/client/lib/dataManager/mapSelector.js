@@ -24,3 +24,8 @@ export const isTimestampInLastInterval = (dataMap, { tbdId, timestamp }) => {
   }, []);
   return isTimestampInInterval(intervals, timestamp);
 };
+
+export const isTimestampInLastDatamapInterval = (state, { tbdId, timestamp }) => {
+  const dataMap = dataMapGenerator(state);
+  return isTimestampInLastInterval(dataMap, { tbdId, timestamp });
+};

@@ -164,8 +164,16 @@ describe('store:knownRanges:selectors', () => {
   });
   describe('isTimestampInKnownRanges', () => {
     const state2 = { knownRanges: {
-      tbdId1: [[10, 20]],
-      tbdId2: [[10, 20], [30, 40]],
+      tbdId1: {
+        flatDataId: 'tbdId1',
+        filters: [],
+        intervals: [[10, 20]],
+      },
+      tbdId2: {
+        flatDataId: 'tbdId2',
+        filters: [{ field: 'extractedValue', operator: '=', operand: '2' }],
+        intervals: [[10, 20], [30, 40]],
+      },
     } };
     test('empty state', () => {
       expect(isTimestampInKnownRanges({ knownRanges: {} }, { tbdId: 'tbdId', timestamp: '12' }))

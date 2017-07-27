@@ -1,6 +1,5 @@
 import exit from 'exit';
 import { series } from 'async';
-import { connect as createRtd } from 'rtd/catalogs';
 import { setRtd, getRtd } from '../rtdManager';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
@@ -18,6 +17,7 @@ import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import { setRteSessions } from '../store/actions/rte';
 
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
 const HEALTH_CRITICAL_DELAY = get('SERVER_HEALTH_CRITICAL_DELAY');
 adapter.registerGlobal();
@@ -53,6 +53,7 @@ series({
   },
   rtd: (callback) => {
     if (get('RTD_ON') === 'on') {
+      const createRtd = dynamicRequire('rtd/catalogs').connect;
       const socket = get('RTD_UNIX_SOCKET');
       let stub = false;
       if (get('STUB_RTD_ON') === 'on') {

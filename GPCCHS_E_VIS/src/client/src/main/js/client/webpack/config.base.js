@@ -34,6 +34,10 @@ export default {
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),
+    new webpack.BannerPlugin(
+      'global.dynamicRequire = require;',
+      { raw: true, entryOnly: false }
+    ),
   ],
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here

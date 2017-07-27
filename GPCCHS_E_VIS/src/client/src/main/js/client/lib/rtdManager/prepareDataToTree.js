@@ -3,7 +3,6 @@ import _map from 'lodash/map';
 import _isArray from 'lodash/isArray';
 import _isObject from 'lodash/isObject';
 import _isString from 'lodash/isString';
-import { LINK as RTD_LINK } from 'rtd/constants';
 import {
   NODE_TYPE_ARRAY as ARRAY,
   NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
@@ -15,7 +14,10 @@ import {
   NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
 } from '../constants';
 
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
+
 const getType = (parentType, key, value) => {
+  const RTD_LINK = dynamicRequire('rtd/constants').LINK;
   if (_isArray(value)) {
     if (parentType === ARRAY) {
       return ARRAY_ITEM;

@@ -1,5 +1,5 @@
-import { LINK as RTD_LINK } from 'rtd/constants';
-import { parse as parseLink } from 'rtd/catalogs/utils/links';
+// import { LINK as RTD_LINK } from 'rtd/constants';
+// import { parse as parseLink } from 'rtd/catalogs/utils/links';
 import getLogger from '../../../common/logManager';
 import { NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
 import { getStore } from '../../store';
@@ -11,9 +11,13 @@ import {
   updateInspectorStaticDataNode,
 } from '../../../store/actions/inspector';
 
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
+
 const logger = getLogger('main:controllers:renderer:onResolveLink');
 
 export default function ({ link, path, sessionId, domainId }) {
+  const RTD_LINK = dynamicRequire('rtd/constants').LINK;
+  const parseLink = dynamicRequire('rtd/catalogs/utils/links').parse;
   const { dispatch } = getStore();
   logger.info(`resolve ${link} Link for session ${sessionId} and domain ${domainId}`);
   const { catalog, namespace, name } = parseLink(link);

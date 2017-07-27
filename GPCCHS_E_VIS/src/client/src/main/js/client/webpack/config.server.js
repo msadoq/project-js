@@ -1,8 +1,12 @@
+import fs from 'fs';
+import { gracefulify } from 'graceful-fs';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 import baseConfig from './config.base';
+
+gracefulify(fs); // workaround to this error : "EMFILE: too many open files" or "ENFILE: file table overflow"
 
 export default merge(baseConfig, {
   devtool: 'source-map',
@@ -23,7 +27,7 @@ export default merge(baseConfig, {
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.BannerPlugin(
-      'require("source-map-support").install(); global.dynamicRequire = require;',
+      'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
     new webpack.DefinePlugin({
@@ -31,6 +35,7 @@ export default merge(baseConfig, {
       'process.env.APP_ENV': JSON.stringify('server'),
     }),
     new CopyWebpackPlugin([
+      { from: 'node_modules/rtd/**/*' },
       { from: 'node_modules/long/**/*' },
       { from: 'node_modules/zmq/**/*' },
       { from: 'node_modules/bindings/**/*' },

@@ -9,12 +9,20 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='Run visualization application')
-    parser.add_argument("--debug","-d",
+    parser.add_argument("--debug",
         action='store_true',
         help="Activate the traces"
     )
     parser.add_argument("--gpccdc_config_file",
         help="GPCCDC xml configuration file")
+    parser.add_argument("--sessionid","-s",
+        type=int,
+        default=0,
+        help="Id of the operational session")
+    parser.add_argument("--domainid","-d",
+        type=int,
+        default=3,
+        help="Id of the domain")
     #Parse known and unknown arguments
     known_args = None
     unknown_args = None

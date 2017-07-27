@@ -6,7 +6,7 @@ import { decode, getType } from '../../../utils/adapters';
 import dataMapGenerator from '../../../dataManager/map';
 import { isTimestampInLastInterval } from '../../../dataManager/mapSelector';
 
-const { dumpBuffer } = require('../../../utils/adapters');
+const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
 
 const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
   if (action.type === types.INCOMING_RANGE_DATA) {

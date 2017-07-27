@@ -24,11 +24,6 @@ export const getWorkspaceUnsavedPageIds = createSelector(
   filterUnsavedPageIds
 );
 
-export const getWorkspaceHasUnsavedPages = createSelector(
-  getWorkspaceUnsavedPageIds,
-  pagesIds => pagesIds.length > 0
-);
-
 const hasNot = _.compose(_.negate, _.has);
 const isNewView = _.allPass([hasNot('absolutePath'), hasNot('oId')]);
 const isNewPage = _.allPass([hasNot('absolutePath')]);

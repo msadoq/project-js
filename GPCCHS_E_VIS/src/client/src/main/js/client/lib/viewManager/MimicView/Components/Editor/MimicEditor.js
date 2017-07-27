@@ -22,7 +22,7 @@ export default class Editor extends Component {
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     title: PropTypes.string,
-    titleStyle: PropTypes.shape().isRequired,
+    titleStyle: PropTypes.shape(),
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
@@ -37,6 +37,7 @@ export default class Editor extends Component {
   };
 
   static defaultProps = {
+    titleStyle: {},
     tab: null,
     title: '',
   }

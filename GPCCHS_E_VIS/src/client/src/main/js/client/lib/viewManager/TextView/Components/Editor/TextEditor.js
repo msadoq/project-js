@@ -16,7 +16,7 @@ export default class Editor extends Component {
     updateViewTab: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     title: PropTypes.string,
-    titleStyle: PropTypes.shape().isRequired,
+    titleStyle: PropTypes.shape(),
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
@@ -31,6 +31,7 @@ export default class Editor extends Component {
   };
 
   static defaultProps = {
+    titleStyle: {},
     tab: null,
     title: '',
   }

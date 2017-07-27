@@ -20,7 +20,7 @@ export default class PlotEditor extends Component {
     tab: PropTypes.number,
     viewId: PropTypes.string.isRequired,
     title: PropTypes.string,
-    titleStyle: PropTypes.shape().isRequired,
+    titleStyle: PropTypes.shape(),
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
       entryPoints: PropTypes.array,
@@ -33,6 +33,7 @@ export default class PlotEditor extends Component {
   };
 
   static defaultProps = {
+    titleStyle: {},
     tab: null,
     links: [],
     title: '',

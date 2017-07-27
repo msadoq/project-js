@@ -22,7 +22,7 @@ export default class DynamicEditor extends Component {
       size: PropTypes.number,
       strikeOut: PropTypes.bool,
       underline: PropTypes.bool,
-    }).isRequired,
+    }),
     title: PropTypes.string,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
@@ -39,6 +39,7 @@ export default class DynamicEditor extends Component {
   }
 
   static defaultProps = {
+    titleStyle: {},
     tab: null,
     title: '',
   }

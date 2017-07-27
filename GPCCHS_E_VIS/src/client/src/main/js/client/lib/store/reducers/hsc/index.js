@@ -11,7 +11,7 @@ const initialState = {
   folder: null,
   file: null,
   focusWindow: null,
-  isModified: true,
+  isModified: false,
   forecast: {},
   domainName: null,
   sessionName: null,
@@ -57,8 +57,9 @@ export default function hsc(state = initialState, action) {
     case types.WS_WINDOW_ADD:
     case types.WS_WINDOW_CLOSE:
       return _.set('isModified', true, state);
-    case types.WS_WORKSPACE_SET_MODIFIED:
+    case types.WS_WORKSPACE_SET_MODIFIED: {
       return _.set('isModified', action.payload.flag, state);
+    }
     case types.WS_WORKSPACE_OPENED:
       return { ...state,
         isModified: !!action.payload.isModified,
@@ -97,7 +98,7 @@ export default function hsc(state = initialState, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 
-const inHsc = key => _.path(['hsc', key]);
+const inHsc = (key, fallback) => _.pathOr(fallback, ['hsc', key]);
 
 // simples
 export const getWorkspaceFile = inHsc('file');
@@ -107,7 +108,7 @@ export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
-export const getWorkspaceIsModified = inHsc('isModified');
+export const getWorkspaceIsModified = inHsc('isModified', false);
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');
 export const getWorkspaceIsNew = state => (!state.hsc.file && !state.hsc.folder);

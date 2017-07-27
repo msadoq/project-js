@@ -54,6 +54,17 @@ describe('store:serverProcess:middlewares:documents:onOpenWorkspace', () => {
     expect(store.getActions()).toMatchSnapshot();
   });
 
+  test('workspace need save (workspace)', () => {
+    const unsavedStore = mockStore({
+      hsc: { isModified: true },
+      windows: { w1: {} },
+      pages: { p1: { }, p2: { } },
+      views: {},
+    });
+    unsavedStore.dispatch(askOpenWorkspace());
+    expect(unsavedStore.getActions()).toMatchSnapshot();
+  });
+
   test('workspace need save (pages)', () => {
     const unsavedStore = mockStore({
       windows: { w1: {} },

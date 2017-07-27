@@ -273,6 +273,49 @@ Array [
 ]
 `;
 
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save (workspace) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+      "isNew": false,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Open workspace",
+              "type": "primary",
+              "value": "open",
+            },
+            "unsavedDocuments": Object {
+              "label": "Open workspace without saving",
+              "type": "danger",
+              "value": "open",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "pageIds": Array [],
+        "title": "Workspace is modified",
+        "type": "saveWizard",
+        "viewIds": Array [],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
 exports[`store:serverProcess:middlewares:documents:onOpenWorkspace workspace need save, save it, then open another workspace 1`] = `
 Array [
   Object {

@@ -2,10 +2,13 @@ import { join } from 'path';
 import * as types from '../../../types';
 import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from '../selectors';
 import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../../reducers/hsc';
-import { withOpenModal, withOpenDialog } from '../helpers';
 
-const makeOnSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
-  ({ dispatch, openDialog, openModal, getState }) => next => (action) => {
+import { openDialog } from '../../../actions/ui';
+import { open as openModal } from '../../../actions/modals';
+import withListenAction from '../../../helpers/withListenAction';
+
+const makeOnSaveWorkspace = documentManager => withListenAction(
+  ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_WORKSPACE) {
       const state = getState();
@@ -15,7 +18,7 @@ const makeOnSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
 
       const saveAs = action.payload.saveAs || (!workspaceFile && !workspaceFolder);
       if (getWorkspaceHasNewPages(state)) {
-        openModal(windowId, {
+        dispatch(openModal(windowId, {
           title: 'new views must be saved',
           type: 'saveWizard',
           documentType: 'workspace',
@@ -28,9 +31,10 @@ const makeOnSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
               unsavedDocuments: { label: 'Ok', value: 'ok', type: 'secondary', disabled: true },
             },
           ],
-        });
+        }));
       } else if (saveAs) {
-        openDialog(windowId, 'save', {}, (closeAction) => {
+        dispatch(openDialog(windowId, 'save'));
+        listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             const absolutePath = choice;
@@ -42,6 +46,6 @@ const makeOnSaveWorkspace = documentManager => withOpenModal(withOpenDialog(
       }
     }
     return nextAction;
-  }));
+  });
 
 export default makeOnSaveWorkspace;

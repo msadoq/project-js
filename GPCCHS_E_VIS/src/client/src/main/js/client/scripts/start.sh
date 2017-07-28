@@ -1,5 +1,11 @@
 #!/bin/sh
 APP_FOLDER=./dist/lpisis_gpcchs_e_clt-linux-x64/resources/app
+VIMA=dist/lpisis_gpcchs_e_clt-linux-x64/lpisis_gpcchs_e_clt
+
+if [ "`uname`" == "Darwin" ] ; then
+  APP_FOLDER=./dist/lpisis_gpcchs_e_clt-darwin-x64/lpisis_gpcchs_e_clt.app/Contents/Resources/app
+  VIMA=./dist/lpisis_gpcchs_e_clt-darwin-x64/lpisis_gpcchs_e_clt.app/Contents/MacOS/lpisis_gpcchs_e_clt
+fi
 
 # Make a build if vima is not packaged yet
 [ -d $APP_FOLDER ] || npm run build
@@ -18,4 +24,4 @@ cp -R ./lib/utils $APP_FOLDER/lib
 cp -R ./lib/common/configurationManager $APP_FOLDER/lib/common
 
 # Start packaged vima
-./dist/lpisis_gpcchs_e_clt-linux-x64/lpisis_gpcchs_e_clt
+$VIMA

@@ -14,6 +14,7 @@ import makeDataRequestsObserver from './dataRequests/observer';
 import { dc } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
+import makeViewNeededDataStoreObserver from '../store/observers/viewNeededDataStoreObserver';
 
 const HEALTH_CRITICAL_DELAY = get('SERVER_HEALTH_CRITICAL_DELAY');
 adapter.registerGlobal();
@@ -45,6 +46,7 @@ series({
   // store
   const store = makeCreateStore('server', isDebugEnabled)();
   store.subscribe(makeDataRequestsObserver(store));
+  store.subscribe(makeViewNeededDataStoreObserver(store));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));

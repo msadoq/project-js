@@ -2,8 +2,7 @@
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
-  LOWER_BOUND_TYPE,
-  ZERO_BOUND_TYPE } from '../constants';
+} from '../constants';
 
 import plotViewData from './PlotView/data';
 import textViewData from './TextView/data';
@@ -42,7 +41,6 @@ const list = {
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: plotViewData,
     dataSelectors: plotViewDataSelectors,
-    boundType: LOWER_BOUND_TYPE,
   },
   [constants.VM_VIEW_TEXT]: {
     schema: textViewSchema,
@@ -50,7 +48,6 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: textViewData,
     dataSelectors: textViewDataSelectors,
-    boundType: LOWER_BOUND_TYPE,
   },
   [constants.VM_VIEW_DYNAMIC]: {
     schema: dynamicViewSchema,
@@ -58,14 +55,12 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
     dataSelectors: dynamicViewDataSelectors,
-    boundType: LOWER_BOUND_TYPE,
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,
     viewModule: historyViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: historyViewData,
-    boundType: LOWER_BOUND_TYPE,
     // dataSelectors: historyViewDataSelectors,
   },
   [constants.VM_VIEW_PACKET]: {
@@ -73,7 +68,6 @@ const list = {
     viewModule: packetViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: packetViewData,
-    boundType: LOWER_BOUND_TYPE,
     // dataSelectors: packetViewDataSelectors,
   },
   [constants.VM_VIEW_MIMIC]: {
@@ -82,7 +76,6 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: mimicViewData,
     dataSelectors: mimicViewDataSelectors,
-    boundType: ZERO_BOUND_TYPE,
   },
 };
 
@@ -128,9 +121,4 @@ export function getStructureModule(type) {
 export function getDataSelectors(type) {
   isViewTypeExists(type);
   return list[type].dataSelectors;
-}
-
-export function getBoundType(type) {
-  isViewTypeExists(type);
-  return list[type].boundType;
 }

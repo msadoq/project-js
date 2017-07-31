@@ -2,7 +2,7 @@ import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
-import _indexOf from 'lodash/indexOf';
+import _findIndex from 'lodash/findIndex';
 
 /**
  * Return the current missing intervals requests list
@@ -82,7 +82,7 @@ export default function computeMissingLastIntervals(dataMap, lastMap) {
         };
       }
       // Check if interval is not already in queries
-      const index = _indexOf(queries[tbdId].intervals,
+      const index = _findIndex(queries[tbdId].intervals,
         interval => interval[0] === needed[0] && interval[1] === needed[1]);
       if (index === -1) {
         // Save in final object

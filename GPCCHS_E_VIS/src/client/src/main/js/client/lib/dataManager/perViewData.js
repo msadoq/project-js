@@ -1,4 +1,5 @@
 import _isUndefined from 'lodash/isUndefined';
+import _findIndex from 'lodash/findIndex';
 import any from 'lodash/fp/any';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
@@ -8,7 +9,7 @@ import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getSessions } from '../store/reducers/sessions';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
-import { getPageDomainName, getPageSessionName } from '../store/reducers/pages';
+import { getPageDomainName, getPageSessionName, getPageLayout } from '../store/reducers/pages';
 import { getDomainName, getSessionName } from '../store/reducers/hsc';
 import {
   getStructureModule,
@@ -37,16 +38,18 @@ export default function makeGetPerViewData() {
     getConfigurationByViewId,
     (state, { pageId }) => getPageDomainName(state, { pageId }),
     (state, { pageId }) => getPageSessionName(state, { pageId }),
+    (state, { pageId }) => getPageLayout(state, { pageId }),
     getDomainName, // in HSC
     getSessionName, // in HSC
     (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, configuration,
-    pageDomain, pageSessionName, workspaceDomain, workspaceSessionName) => {
+    pageDomain, pageSessionName, layout, workspaceDomain, workspaceSessionName) => {
       if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, configuration])) {
         return {};
       }
-      const { type } = view;
+      const { type, uuid } = view;
       // Ignore collapsed view
-      if (configuration.collapsed) {
+      const index = _findIndex(layout, viewLayout => viewLayout.i === uuid);
+      if (index !== -1 && layout[index].collapsed === true) {
         return {};
       }
       const { entryPoints } = configuration;

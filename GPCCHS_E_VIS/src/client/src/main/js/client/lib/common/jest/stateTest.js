@@ -94,7 +94,11 @@ export default {
         connectedData: {
           digits: 5,
           domain: 'fr.cnes.isis.simupus',
-          filter: [],
+          filter: [{
+            field: 'raw',
+            operator: '>',
+            operand: '100',
+          }],
           format: 'decimal',
           formula: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue',
           timeline: 'Session 1',

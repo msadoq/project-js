@@ -282,6 +282,33 @@ export default {
         },
         stateColors: [],
         timeBasedData: true,
+      }, {
+        connectedData: {
+          axisId: 'VBat',
+          digits: 5,
+          domain: 'fr.cnes.isis',
+          fieldX: 'groundDate',
+          filter: [],
+          format: 'decimal',
+          formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
+          timeline: 'Session Offset',
+          unit: 'V',
+        },
+        id: 'plot1ep3',
+        name: 'ATT_BC_REVTCOUNT1',
+        objectStyle: {
+          curveColor: '#ff9800',
+          line: {
+            size: 3,
+            style: 'Continuous',
+          },
+          points: {
+            size: 3,
+            style: 'None',
+          },
+        },
+        stateColors: [],
+        timeBasedData: true,
       }],
       grids: [{
         line: {
@@ -507,6 +534,18 @@ export default {
         },
         id: 'text1ep1',
         name: 'AGA_AM_PRIORITY',
+      }, {
+        connectedData: {
+          digits: 5,
+          domain: 'fr.cnes.isis.simupus',
+          filter: [],
+          format: 'decimal',
+          formula: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue',
+          timeline: 'Session Offset',
+          unit: 'V',
+        },
+        id: 'text1ep10',
+        name: 'AGA_AM_PRIOR_OFFSET',
       }, {
         connectedData: {
           digits: 5,
@@ -751,7 +790,7 @@ export default {
     },
   }],
   timebarTimelines: {
-    tb1: ['tl1'],
+    tb1: ['tl1', 'tlOffset'],
   },
   timebars: {
     tb1: {
@@ -783,6 +822,14 @@ export default {
       offset: 0,
       sessionName: 'Master',
       uuid: 'tl1',
+    },
+    tlOffset: {
+      color: null,
+      id: 'Session Offset',
+      kind: 'Session',
+      offset: 10000,
+      sessionName: 'Master',
+      uuid: 'tlOffset',
     },
   },
   ui: {

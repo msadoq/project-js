@@ -7,7 +7,7 @@ mockRegister();
 mockLoadStubs();
 
 const mockStore = configureMockStore();
-const { encode } = require('../../../utils/adapters');
+const { encode, decode } = require('../../../utils/adapters');
 const onPubSubData = require('./pubSubController');
 
 const dataStub = getStubData();
@@ -18,6 +18,7 @@ describe('controllers/pubSub', () => {
   const myDataId = dataStub.getDataId();
 
   const myDataIdProto = encode('dc.dataControllerUtils.DataId', myDataId);
+  const myDataIdDecoded = decode('dc.dataControllerUtils.DataId', myDataIdProto);
 
   const t1 = 1420106790820;
   const t2 = 1420106790830;
@@ -40,7 +41,7 @@ describe('controllers/pubSub', () => {
     const expectedPayload = {
       type: 'INCOMING_PUBSUB_DATA',
       payload: {
-        dataId: myDataIdProto,
+        dataId: myDataIdDecoded,
         peers: [timestamp1, protoRp1, timestamp2, protoRp2],
       },
     };

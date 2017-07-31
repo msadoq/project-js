@@ -1,8 +1,8 @@
 import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
-import { DATASTRUCTURETYPE_LAST, ZERO_BOUND_TYPE } from '../constants';
-import { getStructureType, getBoundType } from '../viewManager'; // TODO aleal change to getStructureType
+import { DATASTRUCTURETYPE_LAST } from '../constants';
+import { getStructureType } from '../viewManager';
 
 export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
   const { tbdId } = ep;
@@ -33,9 +33,6 @@ export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
       viewType: type,
       field,
     });
-  // Checks the lower bound of the recorded interval to consider views of type last and lastFrom0
-  } else if (getBoundType(type) === ZERO_BOUND_TYPE) {
-    newMap[tbdId].localIds[localId].viewType = type;
   }
   return newMap;
 }

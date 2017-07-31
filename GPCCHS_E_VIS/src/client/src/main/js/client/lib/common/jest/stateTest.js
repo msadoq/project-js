@@ -1,6 +1,4 @@
-module.exports = { state };
-
-const state = {
+export default {
   DynamicViewConfiguration: {
     dynamic1: {
       entryPoints: [{

@@ -93,7 +93,7 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
 /* ************************************/
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
 export function viewRangeAdd(state = {}, payloads) {
-  const epNames = Object.keys(payloads || {}); // get remoteIds
+  const epNames = Object.keys(payloads || {}); // get tbdIds
   if (!epNames.length || epNames.length < 5) {
     // no data
     return state;
@@ -123,19 +123,19 @@ export function viewRangeAdd(state = {}, payloads) {
     if (epName === 'min' || epName === 'max' || epName === 'minTime' || epName === 'maxTime') {
       continue;
     }
-    const remoteIdPayloads = payloads[epName];
-    const masterTimes = Object.keys(remoteIdPayloads);
+    const tbdIdPayloads = payloads[epName];
+    const masterTimes = Object.keys(tbdIdPayloads);
     // _each(masterTimes, (masterTime) => {
     for (let j = 0; j < masterTimes.length; j += 1) {
       const masterTime = masterTimes[j];
       // Check validity of current payload
-      let currentValue = remoteIdPayloads[masterTime];
+      let currentValue = tbdIdPayloads[masterTime];
       if (!_isNumber(currentValue.value)) {
         // continue;
         if (typeof currentValue.value === 'string') {
           currentValue = {
-            ...remoteIdPayloads[masterTime],
-            symbol: remoteIdPayloads[masterTime].value,
+            ...tbdIdPayloads[masterTime],
+            symbol: tbdIdPayloads[masterTime].value,
             value: parameters.get('STRING_PLOT_VALUE'),
           };
         }
@@ -200,10 +200,10 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
     Object.keys(currentViewMap.entryPoints).forEach((epName) => {
       const ep = currentViewMap.entryPoints[epName];
       // No payload for this remote Id
-      if (!payload[ep.remoteId]) {
+      if (!payload[ep.tbdId]) {
         return;
       }
-      const newSubState = selectEpData(payload[ep.remoteId], ep, epName, epSubState, intervalMap);
+      const newSubState = selectEpData(payload[ep.tbdId], ep, epName, epSubState, intervalMap);
       epSubState = { ...epSubState, ...newSubState };
     });
   }
@@ -218,9 +218,9 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
  * @param: intervals for all entry Points
  * @return: updated state
 /* ************************************/
-export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap) {
+export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
   // get expected interval
-  const expectedInterval = _get(intervalMap, [ep.remoteId, ep.localId, 'expectedInterval']);
+  const expectedInterval = _get(intervalMap, [ep.tbdId, ep.localId, 'expectedInterval']);
   // case of error when visuWindow duration is too long
   if (!expectedInterval) {
     return {};
@@ -233,12 +233,12 @@ export function selectEpData(remoteIdPayload, ep, epName, viewState, intervalMap
   let minTime;
   let maxTime;
 
-  const timestamps = Object.keys(remoteIdPayload);
+  const timestamps = Object.keys(tbdIdPayload);
   for (let i = 0; i < timestamps.length; i += 1) {
-    const value = remoteIdPayload[timestamps[i]];
+    const value = tbdIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
-      logger.warn('get a payload without .referenceTimestamp key ggg', remoteIdPayload);
+      logger.warn('get a payload without .referenceTimestamp key ggg', tbdIdPayload);
       continue;
     }
     // check value is in interval

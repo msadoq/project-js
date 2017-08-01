@@ -1,7 +1,7 @@
 import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
 import * as types from '../../types';
-import { injectNewData } from '../../actions/incomingData';
+import { newData } from '../../actions/incomingData';
 import { decode, getType } from '../../../utils/adapters';
 import dataMapGenerator from '../../../dataManager/map';
 import { isTimestampInLastInterval } from '../../../dataManager/mapSelector';
@@ -22,7 +22,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
       return next(action);
     }
 
-    const payloadsJson = {};
+    const payloadsJson = { [tbdId]: {} };
     const dataMap = dataMapGenerator(getState());
     let index = 0;
     if (dataMap.expectedRangeIntervals[tbdId]) {
@@ -38,7 +38,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
           dumpBuffer(dataId, timestamp, peers[index + 1]);
 
           // queue new data in spool
-          payloadsJson[timestamp] = payload;
+          payloadsJson[tbdId][timestamp] = payload;
         }
         index += 2;
       }
@@ -56,7 +56,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
         if (isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
           const payload = decode(payloadProtobufType, peers[index + 1]);
-          payloadsJson[timestamp] = payload;
+          payloadsJson[tbdId][timestamp] = payload;
         }
 
         // dump: if activated, save a file per timestamp with binary payload
@@ -65,7 +65,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
       }
     }
     // If data nedds to be send to reducers, dispatch action
-    if (!_isEmpty(payloadsJson)) dispatch(injectNewData(tbdId, payloadsJson));
+    if (!_isEmpty(payloadsJson[tbdId])) dispatch(newData(payloadsJson));
   }
   return next(action);
 };

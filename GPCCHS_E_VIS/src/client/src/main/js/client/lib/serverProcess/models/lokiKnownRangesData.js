@@ -80,23 +80,35 @@ const deleteInterval = (collection, lower, upper) => {
   collection.chain().find(query).remove();
 };
 
-/**
- * Get all the data present in a collection for a given tbdId between a lower and an upper value
- * @param string tbdId
- * @param number lower
- * @param number upper
- */
-const getRangeData = (tbdId, lower, upper) => {
-  const { collection, isNew } = getOrCreateCollection(tbdId);
-  if (isNew) return [];
-  return searchInterval(collection, lower, upper);
-};
+
+
 
 const getLastData = (tbdId, lower, upper) => {
   const { collection, isNew } = getOrCreateCollection(tbdId);
   if (isNew) return {};
   return searchLast(collection, lower, upper);
 };
+
+/**
+ * Get all the data present in a collection for a given tbdId between a lower and an upper value
+ * @param string tbdId
+ * @param number lower
+ * @param number upper
+ */
+const getRangesRecords = (tbdId, intervals) => {
+  const { collection, isNew } = getOrCreateCollection(tbdId);
+  const rangesRecords = { [tbdId]: {} };
+  if (isNew) return rangesRecords;
+  for (let i = 0; i < intervals.length; i += 1) {
+    const searched = searchInterval(collection, intervals[i][0], intervals[i][1]);
+    for (let j = 0; j < searched.length; j += 1) {
+      const currentSearch = searched[j];
+      rangesRecords[tbdId][currentSearch.timestamp] = currentSearch.payload;
+    }
+  }
+  return rangesRecords;
+};
+
 
 /**
  * Remove all the data present in a collection for a given tbdId between a lower and an upper value
@@ -169,7 +181,7 @@ const addRecords = (tbdId, records) => {
 
 export default {
   getLastData,
-  getRangeData,
+  getRangesRecords,
   removeRecords,
   addRecord,
   addRecords,

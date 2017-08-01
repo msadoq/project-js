@@ -44,7 +44,7 @@ describe('store:middlewares:prepareLast', () => {
     data[t1] = deprotoRp1;
     data[t2] = deprotoRp2;
     const expectedPayload = {
-      type: 'INJECT_NEW_DATA',
+      type: 'NEW_DATA',
       payload: {
         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,

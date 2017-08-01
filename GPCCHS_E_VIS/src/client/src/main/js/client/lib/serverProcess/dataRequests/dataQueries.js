@@ -6,7 +6,9 @@ import { getTimebar } from '../../store/reducers/timebars';
 import computeMissingIntervals from './computeMissingIntervals';
 import connectedDataModel from '../models/connectedData';
 import { addRecord as registerQuery } from '../models/registeredQueries';
+import { add } from '../models/registeredArchiveQueriesSingleton';
 import { dc } from '../ipc';
+import flattenDataId from '../../common/flattenDataId';
 
 const getLastArguments = { getLastType: GETLASTTYPE_GET_LAST };
 
@@ -65,7 +67,8 @@ export default function makeDataQueries() {
 
           // register query to allow easy flatDataId retrieving on data reception
           registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
-
+          // TODO pgaucher Remove this
+          add(queryId, flattenDataId(dataId, filters), 'LAST', dataId);
           // register this getLast query in connectedDataModel
           connectedDataModel.addLastQuery(connectedData, queryId, interval); // TODO if we use this record to allow incoming pub/sub data we probably need to stop removing record on TBD response OR USE dataMap on pub/sub incoming data ONLY for getLast data
 

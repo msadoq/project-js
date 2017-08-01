@@ -12,7 +12,7 @@ import { set as setLastPubSubTimestamp } from '../../../serverProcess/models/las
 import executionMonitor from '../../../common/logManager/execution';
 import { dumpBuffer } from '../../../serverProcess/utils/dumpBuffer';
 import dataMapGenerator from '../../../dataManager/map';
-import { injectNewData } from '../../../store/actions/incomingData';
+import { newData } from '../../../store/actions/incomingData';
 
 const logger = require('../../../common/logManager')('middlewares:preparePubSub');
 
@@ -21,7 +21,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   if (action.type !== types.INCOMING_PUBSUB_DATA) {
     return next(action);
   }
-  console.log('[PreparePubSubMiddleware] ON_INCOMING_PUBSUB_DATA action');
+  // console.log('[PreparePubSubMiddleware] ON_INCOMING_PUBSUB_DATA action');
 
   const execution = executionMonitor('preparePubSub');
   execution.start('global');
@@ -72,10 +72,11 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
     // deprotobufferize payload
     const decodedPayload = decode(payloadProtobufType, dataBuffer);
     execution.stop('decode payload');
-
     // For each tbdId in storeList
+    // console.log('storeTbdIds : ', storeTbdIds);
     for (let i = 0; i < storeTbdIds.length; i += 1) {
       const tbdId = storeTbdIds[i];
+      // console.log('isTimestampInKnownRanges : ', isTimestampInKnownRanges(state, { tbdId, timestamp: timestamp.ms }));
       const filters = getKnownRanges(state, { tbdId }).filters;
       payloadsJson = updateFinalPayload(state,
         { tbdId,
@@ -104,9 +105,10 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   }
   // dispatch data per tbdId
   const tbdIds = Object.keys(payloadsJson);
+  // console.log('tbdIds : ', tbdIds);
   for (let i = 0; i < tbdIds.length; i += 1) {
     const tbdId = tbdIds[i];
-    dispatch(injectNewData(tbdId, payloadsJson[tbdId]));
+    dispatch(newData(tbdId, payloadsJson[tbdId]));
   }
 
   return next(action);

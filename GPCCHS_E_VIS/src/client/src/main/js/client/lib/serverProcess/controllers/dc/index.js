@@ -15,12 +15,24 @@ const onSessionMasterData = require('./onSessionMasterData');
 const onSessionTimeData = require('./onSessionTimeData');
 const onDcStatus = require('./onDcStatus');
 
+const archiveController = require('./archiveController');
+const pubSubController = require('./pubSubController');
+
+const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
+const { getStore } = require('../../store');
+
 const controllers = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,
   [constants.MESSAGETYPE_RESPONSE]: onResponse,
   [constants.MESSAGETYPE_SESSION_DATA]: onSessionsData,
-  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: onTimebasedArchiveData,
-  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
+  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (args) => {
+    onTimebasedArchiveData(args);
+    archiveController(args, getStore, { get, remove });
+  },
+  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
+    onTimebasedPubSubData(args);
+    pubSubController(args, getStore);
+  },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: args => onFmdCreateData(reply, args),
   [constants.MESSAGETYPE_FMD_GET_DATA]: args => onFmdGetData(reply, args),
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,

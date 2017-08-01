@@ -65,7 +65,7 @@ export default function plotViewData(state = {}, action) {
       });
       return newState;
     }
-    case types.DATA_UPDATE_VIEWDATA: {
+    /* case types.DATA_UPDATE_VIEWDATA: {
       const oldIntervals = action.payload.oldExpectedIntervals;
       const newIntervals = action.payload.newExpectedIntervals;
       const { dataToInject, newViewMap, oldViewMap } = action.payload;
@@ -95,6 +95,47 @@ export default function plotViewData(state = {}, action) {
         if (dataKeys.length) {
           // Data Selection
           const epSubState = selectDataPerView(newViewMap[viewId], newIntervals, dataToInject);
+          if (Object.keys(epSubState).length !== 0) {
+            // Data injection
+            const viewState = viewRangeAdd(newState[viewId], epSubState);
+            if (viewState !== newState[viewId]) {
+              newState = { ...newState, [viewId]: viewState };
+            }
+          }
+        }
+      }
+      // console.log('newState up ', newState);
+      return newState || {};
+    } */
+    case types.INJECT_DATA_RANGE: {
+      // console.log('-----TEXT VIEW INJECT RANGE---------------------');
+      const { dataToInject, newViewMap, oldViewMap, oldExpectedRangeIntervals, newExpectedRangeIntervals } = action.payload;
+      const dataKeys = Object.keys(dataToInject);
+      // If nothing changed and no data to import, return state
+      const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
+      const intervalsAreEqual = _isEqual(newExpectedRangeIntervals, oldExpectedRangeIntervals);
+      if (viewMapIsEqual && intervalsAreEqual && !dataKeys.length) {
+        return state;
+      }
+      // since now, state will changed
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+        const viewData = state[viewId];
+        // Cleaning
+        const subState = cleanCurrentViewData(
+          viewData,
+          oldViewMap[viewId],
+          newViewMap[viewId],
+          oldExpectedRangeIntervals,
+          newExpectedRangeIntervals);
+        if (subState !== viewData) {
+          newState = { ...newState, [viewId]: subState };
+        }
+        if (dataKeys.length) {
+          // Data Selection
+          const epSubState = selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
           if (Object.keys(epSubState).length !== 0) {
             // Data injection
             const viewState = viewRangeAdd(newState[viewId], epSubState);

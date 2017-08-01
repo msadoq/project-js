@@ -210,7 +210,11 @@ export const INCOMING_LAST_DATA = 'INCOMING_LAST_DATA';
 export const INCOMING_RANGE_DATA = 'INCOMING_RANGE_DATA';
 export const INCOMING_PUBSUB_DATA = 'INCOMING_PUBSUB_DATA';
 
-export const INJECT_NEW_DATA = 'INJECT_NEW_DATA';
+export const NEW_DATA = 'NEW_DATA';
+
+// Is it a good idea to seprate both ?
+export const INJECT_DATA_RANGE = 'INJECT_DATA_RANGE';
+export const INJECT_DATA_LAST = 'INJECT_DATA_LAST';
 
 export const VIEWS_NEED_LAST = 'VIEWS_NEED_LAST';
 export const VIEWS_NEED_RANGE = 'VIEWS_NEED_RANGE';

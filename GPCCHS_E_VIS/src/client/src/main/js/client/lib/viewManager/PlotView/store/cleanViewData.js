@@ -83,10 +83,10 @@ export default function cleanCurrentViewData(
       continue;
     }
     // update on expected interval
-    // If EP is valid, old and new remoteId are the same
+    // If EP is valid, old and new tbdId are the same
     // Consider new localId to take into account offset modification
-    const oldInterval = _get(oldIntervals, [oldEp.remoteId, oldEp.localId, 'expectedInterval']);
-    const newInterval = _get(newIntervals, [oldEp.remoteId, newEp.localId, 'expectedInterval']);
+    const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
+    const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
     if (!newInterval) {
       newState = { ...newState,
         indexes: _omit(newState.indexes, epName),
@@ -110,7 +110,7 @@ export default function cleanCurrentViewData(
 function isInvalidEntryPoint(oldEp, newEp) {
   if (!newEp || (newEp.error && newEp.error !== oldEp.error)
     || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
-    || oldEp.remoteId !== newEp.remoteId) {
+    || oldEp.tbdId !== newEp.tbdId) {
     return true;
   }
   return false;

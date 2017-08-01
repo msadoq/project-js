@@ -454,7 +454,7 @@ describe('store:middlewares:prepareRange', () => {
     data[t1] = deprotoRp1;
     data[t2] = deprotoRp2;
     const expectedPayload = {
-      type: 'INJECT_NEW_DATA',
+      type: 'NEW_DATA',
       payload: {
         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,
@@ -468,7 +468,7 @@ describe('store:middlewares:prepareRange', () => {
     store.dispatch(incomingDataNotInLast());
     const actions = store.getActions();
     const expectedPayload = {
-      type: 'INJECT_NEW_DATA',
+      type: 'NEW_DATA',
     };
     expect(actions).not.toContainEqual(expectedPayload);
   });
@@ -480,7 +480,7 @@ describe('store:middlewares:prepareRange', () => {
     const data = {};
     data[timestampInLast1] = deprotoRp2;
     const expectedPayload = {
-      type: 'INJECT_NEW_DATA',
+      type: 'NEW_DATA',
       payload: {
         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,
@@ -498,7 +498,7 @@ describe('store:middlewares:prepareRange', () => {
     data[timestampInLast1] = deprotoRp1;
     data[timestampInLast2] = deprotoRp2;
     const expectedPayload = {
-      type: 'INJECT_NEW_DATA',
+      type: 'NEW_DATA',
       payload: {
         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,

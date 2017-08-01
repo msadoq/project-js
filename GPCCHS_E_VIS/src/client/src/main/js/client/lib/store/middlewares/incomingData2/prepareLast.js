@@ -1,7 +1,7 @@
 import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
 import * as types from '../../types';
-import { injectNewData } from '../../actions/incomingData';
+import { newData } from '../../actions/incomingData';
 import { decode, getType } from '../../../utils/adapters';
 
 const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
@@ -14,7 +14,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
     const peers = action.payload.peers;
 
     const payloadProtobufType = getType(dataId.comObject);
-    const payloadsJson = {};
+    const payloadsJson = { [tbdId]: {} };
     let index = 0;
     while (index + 1 < peers.length) {
       // pop the first two buffers from list
@@ -27,11 +27,11 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
         dumpBuffer(dataId, timestamp, peers[index + 1]);
 
         // queue new data in spool
-        payloadsJson[timestamp] = payload;
+        payloadsJson[tbdId][timestamp] = payload;
       }
       index += 2;
     }
-    if (!_isEmpty(payloadsJson)) dispatch(injectNewData(tbdId, payloadsJson));
+    if (!_isEmpty(payloadsJson[tbdId])) dispatch(newData(payloadsJson));
   }
   return next(action);
 };

@@ -30,7 +30,12 @@ const onArchiveData = (args, getStore, { get, remove }) => {
   // if queryId not in registeredQueries, stop logic
   execution.start('register query');
   // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
-  const { tbdId, type, dataId } = get(queryId);
+  const requestData = get(queryId);
+  // JUst to ensure the request exists in the singleton
+  if (!requestData) {
+    return;
+  }
+  const { tbdId, type, dataId } = requestData;
   const store = getStore();
   if (typeof tbdId === 'undefined') {
     return;

@@ -76,7 +76,6 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
     // console.log('storeTbdIds : ', storeTbdIds);
     for (let i = 0; i < storeTbdIds.length; i += 1) {
       const tbdId = storeTbdIds[i];
-      // console.log('isTimestampInKnownRanges : ', isTimestampInKnownRanges(state, { tbdId, timestamp: timestamp.ms }));
       const filters = getKnownRanges(state, { tbdId }).filters;
       payloadsJson = updateFinalPayload(state,
         { tbdId,
@@ -105,10 +104,9 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   }
   // dispatch data per tbdId
   const tbdIds = Object.keys(payloadsJson);
-  // console.log('tbdIds : ', tbdIds);
   for (let i = 0; i < tbdIds.length; i += 1) {
     const tbdId = tbdIds[i];
-    dispatch(newData(tbdId, payloadsJson[tbdId]));
+    // dispatch(newData(tbdId, payloadsJson[tbdId]));
   }
 
   return next(action);

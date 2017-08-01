@@ -66,9 +66,9 @@ export default function makeDataQueries() {
           console.log('DC QUERY LAST', flatDataId);
 
           // register query to allow easy flatDataId retrieving on data reception
-          registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
+          // registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
           // TODO pgaucher Remove this
-          add(queryId, flattenDataId(dataId, filters), 'LAST', dataId);
+          // add(queryId, flattenDataId(dataId, filters), 'LAST', dataId);
           // register this getLast query in connectedDataModel
           connectedDataModel.addLastQuery(connectedData, queryId, interval); // TODO if we use this record to allow incoming pub/sub data we probably need to stop removing record on TBD response OR USE dataMap on pub/sub incoming data ONLY for getLast data
 
@@ -91,16 +91,16 @@ export default function makeDataQueries() {
         // query each missing interval to DC
         intervalsToRequest.forEach((interval) => {
           // emit query to DC
-          const queryId =
-            dc.requestTimebasedQuery(flatDataId, dataId, interval, {});
+          /* const queryId =
+            dc.requestTimebasedQuery(flatDataId, dataId, interval, {}); */
 
           console.log('DC QUERY RANGE', flatDataId);
 
           // register query to allow easy flatDataId retrieving on data reception
-          registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
+          // registerQuery(queryId, flatDataId); // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
 
           // register this queried interval in connectedDataModel
-          connectedDataModel.addRequestedInterval(connectedData, queryId, interval);
+          // connectedDataModel.addRequestedInterval(connectedData, queryId, interval);
         });
       });
     }

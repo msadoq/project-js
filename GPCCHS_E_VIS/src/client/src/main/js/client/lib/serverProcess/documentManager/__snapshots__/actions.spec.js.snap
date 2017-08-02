@@ -186,12 +186,6 @@ Array [
   },
   Object {
     "payload": Object {
-      "flag": false,
-    },
-    "type": "HSC_ISWORKSPACE_OPENING",
-  },
-  Object {
-    "payload": Object {
       "file": "path",
       "folder": "/fake/absolute",
     },
@@ -319,12 +313,6 @@ Array [
       ],
     },
     "type": "WS_WORKSPACE_OPENED",
-  },
-  Object {
-    "payload": Object {
-      "flag": false,
-    },
-    "type": "HSC_ISWORKSPACE_OPENING",
   },
   Object {
     "payload": Object {
@@ -457,12 +445,6 @@ Array [
   },
   Object {
     "payload": Object {
-      "flag": false,
-    },
-    "type": "HSC_ISWORKSPACE_OPENING",
-  },
-  Object {
-    "payload": Object {
       "file": "path",
       "folder": "/fake/absolute",
     },
@@ -589,12 +571,6 @@ Array [
       ],
     },
     "type": "WS_WORKSPACE_OPENED",
-  },
-  Object {
-    "payload": Object {
-      "flag": false,
-    },
-    "type": "HSC_ISWORKSPACE_OPENING",
   },
   Object {
     "payload": Object {

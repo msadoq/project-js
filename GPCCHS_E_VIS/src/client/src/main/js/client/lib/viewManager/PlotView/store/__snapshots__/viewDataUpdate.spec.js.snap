@@ -1,0 +1,448 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PlotView/store/viewDataUpdate data selection selectEpData empty state 1`] = `
+Object {
+  "ATT_BC_REVTCOUNT1": Object {
+    "110120": Object {
+      "symbol": undefined,
+      "value": 11.012,
+      "x": 100120,
+    },
+    "110220": Object {
+      "symbol": undefined,
+      "value": 11.022,
+      "x": 100220,
+    },
+    "110320": Object {
+      "symbol": undefined,
+      "value": 11.032,
+      "x": 100320,
+    },
+    "110420": Object {
+      "symbol": undefined,
+      "value": 11.042,
+      "x": 100420,
+    },
+    "110520": Object {
+      "symbol": undefined,
+      "value": 11.052,
+      "x": 100520,
+    },
+    "110620": Object {
+      "symbol": undefined,
+      "value": 11.062,
+      "x": 100620,
+    },
+    "110720": Object {
+      "symbol": undefined,
+      "value": 11.072,
+      "x": 100720,
+    },
+    "110820": Object {
+      "symbol": undefined,
+      "value": 11.082,
+      "x": 100820,
+    },
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 11.082,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 110820,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 11.012,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 110120,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/viewDataUpdate data selection selectEpData state not empty 1`] = `
+Object {
+  "ATT_BC_REVTCOUNT1": Object {
+    "110120": Object {
+      "symbol": undefined,
+      "value": 11.012,
+      "x": 100120,
+    },
+    "110220": Object {
+      "symbol": undefined,
+      "value": 11.022,
+      "x": 100220,
+    },
+    "110320": Object {
+      "symbol": undefined,
+      "value": 11.032,
+      "x": 100320,
+    },
+    "110420": Object {
+      "symbol": undefined,
+      "value": 11.042,
+      "x": 100420,
+    },
+    "110520": Object {
+      "symbol": undefined,
+      "value": 11.052,
+      "x": 100520,
+    },
+    "110620": Object {
+      "symbol": undefined,
+      "value": 11.062,
+      "x": 100620,
+    },
+    "110720": Object {
+      "symbol": undefined,
+      "value": 11.072,
+      "x": 100720,
+    },
+    "110820": Object {
+      "symbol": undefined,
+      "value": 11.082,
+      "x": 100820,
+    },
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 11.082,
+    "OldTbdId": 102,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 110820,
+    "OldTbdId": 12,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 11.012,
+    "OldTbdId": 101,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 110120,
+    "OldTbdId": 10,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/viewDataUpdate data selection selectEpData undefined state 1`] = `
+Object {
+  "ATT_BC_REVTCOUNT1": Object {
+    "110120": Object {
+      "symbol": undefined,
+      "value": 11.012,
+      "x": 100120,
+    },
+    "110220": Object {
+      "symbol": undefined,
+      "value": 11.022,
+      "x": 100220,
+    },
+    "110320": Object {
+      "symbol": undefined,
+      "value": 11.032,
+      "x": 100320,
+    },
+    "110420": Object {
+      "symbol": undefined,
+      "value": 11.042,
+      "x": 100420,
+    },
+    "110520": Object {
+      "symbol": undefined,
+      "value": 11.052,
+      "x": 100520,
+    },
+    "110620": Object {
+      "symbol": undefined,
+      "value": 11.062,
+      "x": 100620,
+    },
+    "110720": Object {
+      "symbol": undefined,
+      "value": 11.072,
+      "x": 100720,
+    },
+    "110820": Object {
+      "symbol": undefined,
+      "value": 11.082,
+      "x": 100820,
+    },
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 11.082,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 110820,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 11.012,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 110120,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/viewDataUpdate viewRangeAdd should add points one point in middle 1`] = `
+Object {
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      100000,
+      200000,
+      300000,
+      400000,
+      500000,
+    ],
+    "TMMGT_BC_VIRTCHAN3": Array [
+      100000,
+      200000,
+      300000,
+      300100,
+      400000,
+      500000,
+    ],
+  },
+  "lines": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 149.30028143545633,
+        "value": 149.30028143545633,
+        "x": 100000,
+      },
+      Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 200000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 300000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 164.3002814355,
+        "value": 164.3002814355,
+        "x": 400000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169.3002814355,
+        "value": 169.3002814355,
+        "x": 500000,
+      },
+    ],
+    "TMMGT_BC_VIRTCHAN3": Array [
+      Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 139.30028143545633,
+        "value": 139.30028143545633,
+        "x": 100000,
+      },
+      Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 144.3002814355,
+        "value": 144.3002814355,
+        "x": 200000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 149.3002814355,
+        "value": 149.3002814355,
+        "x": 300000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 300100,
+        "symbol": 150,
+        "value": 150,
+        "x": 300100,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 400000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 500000,
+      },
+    ],
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 169.3002814355,
+    "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 500000,
+    "TMMGT_BC_VIRTCHAN3": 500000,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 149.30028143545633,
+    "TMMGT_BC_VIRTCHAN3": 139.30028143545633,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 100000,
+    "TMMGT_BC_VIRTCHAN3": 100000,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/viewDataUpdate viewRangeAdd should add points points everywhere 1`] = `
+Object {
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      100000,
+      200000,
+      300000,
+      300010,
+      400000,
+      500000,
+      500010,
+    ],
+    "TMMGT_BC_VIRTCHAN3": Array [
+      90100,
+      100000,
+      200000,
+      200100,
+      300000,
+      400000,
+      500000,
+    ],
+  },
+  "lines": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 149.30028143545633,
+        "value": 149.30028143545633,
+        "x": 100000,
+      },
+      Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 200000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 300000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 300010,
+        "symbol": 159,
+        "value": 159,
+        "x": 300010,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 164.3002814355,
+        "value": 164.3002814355,
+        "x": 400000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169.3002814355,
+        "value": 169.3002814355,
+        "x": 500000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169,
+        "value": 169,
+        "x": 500010,
+      },
+    ],
+    "TMMGT_BC_VIRTCHAN3": Array [
+      Object {
+        "color": "darkred",
+        "masterTime": 90100,
+        "symbol": 139,
+        "value": 139,
+        "x": 90100,
+      },
+      Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 139.30028143545633,
+        "value": 139.30028143545633,
+        "x": 100000,
+      },
+      Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 144.3002814355,
+        "value": 144.3002814355,
+        "x": 200000,
+      },
+      Object {
+        "color": "blue",
+        "masterTime": 200100,
+        "symbol": 144,
+        "value": 144,
+        "x": 200100,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 149.3002814355,
+        "value": 149.3002814355,
+        "x": 300000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 400000,
+      },
+      Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 500000,
+      },
+    ],
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 169.3002814355,
+    "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 500000,
+    "TMMGT_BC_VIRTCHAN3": 500000,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 149.30028143545633,
+    "TMMGT_BC_VIRTCHAN3": 139,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 100000,
+    "TMMGT_BC_VIRTCHAN3": 90100,
+  },
+}
+`;

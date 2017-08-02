@@ -199,7 +199,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
   if (currentViewMap) {
     Object.keys(currentViewMap.entryPoints).forEach((epName) => {
       const ep = currentViewMap.entryPoints[epName];
-      // No payload for this remote Id
+      // No payload for this tbd  Id
       if (!payload[ep.tbdId]) {
         return;
       }
@@ -249,7 +249,6 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
     if (!applyFilters(value, ep.filters)) {
       continue;
     }
-
     const masterTime = timestamp + ep.offset;
 
     const valX = _get(value, [ep.fieldX, 'value']);

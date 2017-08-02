@@ -108,8 +108,8 @@ export default function plotViewData(state = {}, action) {
       return newState || {};
     } */
     case types.INJECT_DATA_RANGE: {
-      // console.log('-----TEXT VIEW INJECT RANGE---------------------');
-      const { dataToInject, newViewMap, oldViewMap, oldExpectedRangeIntervals, newExpectedRangeIntervals } = action.payload;
+      const { dataToInject, newViewMap, oldViewMap, oldExpectedRangeIntervals,
+        newExpectedRangeIntervals } = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
@@ -135,7 +135,8 @@ export default function plotViewData(state = {}, action) {
         }
         if (dataKeys.length) {
           // Data Selection
-          const epSubState = selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
+          const epSubState =
+            selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
           if (Object.keys(epSubState).length !== 0) {
             // Data injection
             const viewState = viewRangeAdd(newState[viewId], epSubState);

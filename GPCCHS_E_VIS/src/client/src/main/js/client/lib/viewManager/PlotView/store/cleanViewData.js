@@ -208,8 +208,7 @@ export function removeViewDataByEp(viewData, epName, lower, upper) {
     // all points of entryPoint are in visuWindow
     return viewData;
   }
-
-  // drop everything: keep min and max for PlotView drawing
+  // drop everything
   if (viewData.indexes[epName][0] > upper || _last(viewData.indexes[epName]) < lower) {
     return { ...viewData,
       indexes: _omit(viewData.indexes, epName),
@@ -220,7 +219,7 @@ export function removeViewDataByEp(viewData, epName, lower, upper) {
       maxTime: _omit(viewData.maxTime, epName),
     };
   }
-  // cut
+  // cut: keep min and max for PlotView drawing
   const iLower = _findIndex(viewData.indexes[epName], t => t >= lower);
   let iUpper = _findLastIndex(viewData.indexes[epName], t => t <= upper);
   iUpper = (iUpper === -1) ? viewData.indexes[epName].length - 1 : iUpper;

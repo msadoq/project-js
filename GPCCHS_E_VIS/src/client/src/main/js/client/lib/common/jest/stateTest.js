@@ -15,7 +15,7 @@ export default {
   },
   DynamicViewData: {
     dynamic1: {
-      index: 1501244085972,
+      index: 399900,
       value: {
         decommutedValues: [{
           convertedValue: {
@@ -136,9 +136,9 @@ export default {
   MimicViewData: {
     mimic1: {
       index: {
-        AGA_AM_PRIORITY: 1501244085000,
-        AGA_AM_PRIOR_MS: 1501244085000,
-        TMMGT_BC_VIRTCHAN3: 1501244085972,
+        AGA_AM_PRIORITY: 399920,
+        AGA_AM_PRIOR_MS: 399900,
+        TMMGT_BC_VIRTCHAN3: 399980,
       },
       values: {
         AGA_AM_PRIORITY: {
@@ -436,73 +436,71 @@ export default {
   PlotViewData: {
     plot1: {
       indexes: {
-        TMMGT_BC_VIRTCHAN3: [1420106790818, 1420106844818,
-          1420106898818, 1420106952818, 1420107006818],
-        ATT_BC_REVTCOUNT1: [1420106790818, 1420106844818,
-          1420106898818, 1420106952818, 1420107006818],
+        TMMGT_BC_VIRTCHAN3: [100000, 200000, 300000, 400000, 500000],
+        ATT_BC_REVTCOUNT1: [100000, 200000, 300000, 400000, 500000],
       },
       lines: {
         TMMGT_BC_VIRTCHAN3: [{
           color: 'darkred',
-          masterTime: 1501244085972,
+          masterTime: 100020,
           symbol: 139.30028143545633,
           value: 139.30028143545633,
-          x: 1501244085992,
+          x: 100000,
         }, {
           color: 'blue',
-          masterTime: 1420106844798,
+          masterTime: 200020,
           symbol: 144.3002814355,
           value: 144.3002814355,
-          x: 1420106844818,
+          x: 200000,
         }, {
           color: 'green',
-          masterTime: 1420106898798,
+          masterTime: 300020,
           symbol: 149.3002814355,
           value: 149.3002814355,
-          x: 1420106898818,
+          x: 300000,
         }, {
           color: 'green',
-          masterTime: 1420106952798,
+          masterTime: 400020,
           symbol: 154.3002814355,
           value: 154.3002814355,
-          x: 1420106952818,
+          x: 400000,
         }, {
           color: 'green',
-          masterTime: 1420107006798,
+          masterTime: 500020,
           symbol: 159.3002814355,
           value: 159.3002814355,
-          x: 1420107006818,
+          x: 500000,
         }],
         ATT_BC_REVTCOUNT1: [{
           color: 'darkred',
-          masterTime: 1501244085972,
+          masterTime: 100020,
           symbol: 149.30028143545633,
           value: 149.30028143545633,
-          x: 1501244085992,
+          x: 100000,
         }, {
           color: 'blue',
-          masterTime: 1420106844798,
+          masterTime: 200020,
           symbol: 154.3002814355,
           value: 154.3002814355,
-          x: 1420106844818,
+          x: 200000,
         }, {
           color: 'green',
-          masterTime: 1420106898798,
+          masterTime: 300020,
           symbol: 159.3002814355,
           value: 159.3002814355,
-          x: 1420106898818,
+          x: 300000,
         }, {
           color: 'green',
-          masterTime: 1420106952798,
+          masterTime: 400020,
           symbol: 164.3002814355,
           value: 164.3002814355,
-          x: 1420106952818,
+          x: 400000,
         }, {
           color: 'green',
-          masterTime: 1420107006798,
+          masterTime: 500020,
           symbol: 169.3002814355,
           value: 169.3002814355,
-          x: 1420107006818,
+          x: 500000,
         }],
       },
       max: {
@@ -510,16 +508,16 @@ export default {
         ATT_BC_REVTCOUNT1: 169.3002814355,
       },
       maxTime: {
-        TMMGT_BC_VIRTCHAN3: 1420107006818,
-        ATT_BC_REVTCOUNT1: 1420107006818,
+        TMMGT_BC_VIRTCHAN3: 500000,
+        ATT_BC_REVTCOUNT1: 500000,
       },
       min: {
         TMMGT_BC_VIRTCHAN3: 139.30028143545633,
         ATT_BC_REVTCOUNT1: 149.30028143545633,
       },
       minTime: {
-        TMMGT_BC_VIRTCHAN3: 1501244085992,
-        ATT_BC_REVTCOUNT1: 1501244085992,
+        TMMGT_BC_VIRTCHAN3: 100000,
+        ATT_BC_REVTCOUNT1: 100000,
       },
     },
   },
@@ -581,8 +579,8 @@ export default {
   TextViewData: {
     text1: {
       index: {
-        AGA_AM_PRIORITY: 1420106843852,
-        TMMGT_BC_VIRTCHAN3: 1420106843702,
+        AGA_AM_PRIORITY: 499900,
+        TMMGT_BC_VIRTCHAN3: 499920,
       },
       values: {
         AGA_AM_PRIORITY: {

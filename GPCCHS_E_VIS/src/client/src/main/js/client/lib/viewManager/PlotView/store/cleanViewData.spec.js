@@ -1,134 +1,55 @@
 import _cloneDeep from 'lodash/cloneDeep';
+import _omit from 'lodash/omit';
 import cleanCurrentViewData,
   { updateEpLabel,
     scanForMinAndMax,
     removeViewDataByEp } from './cleanViewData';
 import { freezeMe } from '../../../common/jest';
+import state from '../../../common/jest/stateTest';
+import dataMapGenerator from '../../../dataManager/map';
 
 
 describe('viewManager/PlotView/store/cleanViewData', () => {
-  let viewDataState;
-  let viewMap;
-  let oldIntervals;
-  // let newIntervals;
-  beforeEach(() => {
-    viewMap = {
-      plot: {
-        type: 'PlotView',
-        entryPoints: {
-          STAT_SU_PID: {
-            id: 'id60',
-            dataId: {
-              catalog: 'Reporting',
-              parameterName: 'STAT_SU_PID',
-              comObject: 'ReportingParameter',
-              domainId: 4,
-              sessionId: 181,
-            },
-            fieldX: 'groundDate',
-            fieldY: 'extractedValue',
-            offset: 0,
-            filter: [],
-            localId: 'groundDate/extractedValue.tb1:0/0',
-            timebarUuid: 'tb1',
-            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-            stateColors: [{
-              color: '#000000',
-              condition: {
-                field: 'monitoringState',
-                operator: '==',
-                operand: 'waiting',
-              },
-            }],
-          },
-          STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
-        },
-      },
-    };
-    viewDataState = {
-      plot: {
-        indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
-        lines: {
-          STAT_SU_PID: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          { masterTime: 13, value: 13, x: 13 },
-          { masterTime: 14, value: 13, x: 14 },
-          { masterTime: 15, value: 13, x: 15 },
-          { masterTime: 16, value: 13, x: 16 },
-          ] },
-        min: { STAT_SU_PID: 13 },
-        max: { STAT_SU_PID: 13 },
-        minTime: { STAT_SU_PID: 16 },
-        maxTime: { STAT_SU_PID: 16 },
-      },
-    };
-    oldIntervals = {
-      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-        'groundDate/extractedValue.tb1:0/0': { expectedInterval: [10, 20] },
-      },
-      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
-        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
-      },
-      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
-        'undefined.tb1:0': { expectedInterval: [10, 15] },
-      },
-    };
-  });
+  const dataMap = dataMapGenerator(state);
+  const viewMap = dataMap.perView;
 
   describe('cleanCurrentViewData', () => {
     test('no update', () => {
-      const frozen = freezeMe(viewDataState.plot);
+      const frozen = freezeMe(state.PlotViewData.plot1);
       expect(
-        cleanCurrentViewData(frozen, viewMap.plot, viewMap.plot, oldIntervals, oldIntervals)
-      ).toBe(frozen);
-    });
-    test('interval update Dynamic: keep', () => {
-      const newMap = _cloneDeep(viewMap);
-      const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
-        = [12, 17];
-      const frozen = freezeMe(viewDataState.plot);
-      const newState = cleanCurrentViewData(frozen, viewMap.plot, newMap.plot, oldIntervals,
-        newIntervals);
-      expect(newState).toBe(frozen);
+        cleanCurrentViewData(frozen, viewMap.plot1, viewMap.plot1, dataMap.expectedRangeIntervals,
+          dataMap.expectedRangeIntervals)).toBe(frozen);
     });
     test('interval update Plot: keep all', () => {
       const newMap = _cloneDeep(viewMap);
-      const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
-        = [10, 25];
-      const frozen = freezeMe(viewDataState.plot);
+      const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      .expectedInterval[1] += 5000;
+      const frozen = freezeMe(state.PlotViewData.plot1);
       expect(
-        cleanCurrentViewData(frozen, viewMap.plot, newMap.plot, oldIntervals, newIntervals)
-      ).toBe(frozen);
+        cleanCurrentViewData(frozen, viewMap.plot1, newMap.plot1, dataMap.expectedRangeIntervals,
+          newIntervals)).toBe(frozen);
     });
     test('interval update Plot: keep some', () => {
       const newMap = _cloneDeep(viewMap);
-      const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
-        = [15, 25];
-      const newState = cleanCurrentViewData(freezeMe(viewDataState.plot), viewMap.plot, newMap.plot,
-        oldIntervals, newIntervals);
-      expect(newState.lines.STAT_SU_PID).toEqual([
-        { masterTime: 15, value: 13, x: 15 },
-        { masterTime: 16, value: 13, x: 16 },
-      ]);
-      expect(newState.indexes.STAT_SU_PID).toEqual([15, 16]);
-      expect(newState.min).toEqual({ STAT_SU_PID: 13 });
-      expect(newState.max).toEqual({ STAT_SU_PID: 13 });
-      expect(newState.minTime).toEqual({ STAT_SU_PID: 16 });
-      expect(newState.maxTime).toEqual({ STAT_SU_PID: 16 });
+      const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      .expectedInterval[1] += 5000;
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      .expectedInterval[0] += 5000;
+      const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
+        newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
+      expect(newState).toMatchSnapshot();
     });
     test('interval update Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
-      const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
-        = [20, 25];
-      const newState = cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,
-        newMap.plot, oldIntervals, newIntervals);
+      const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
+      newIntervals['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100']['groundDate/extractedValue.tb1:0']
+        .expectedInterval = [500010, 900000];
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+        .expectedInterval = [490010, 890000];
+      const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
+              newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
       expect(newState).toEqual({ indexes: {},
         lines: {},
         min: {},
@@ -139,8 +60,8 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     });
     test('interval error Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
-      const newState = cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,
-        newMap.plot, oldIntervals, undefined);
+      const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
+        newMap.plot1, dataMap.expectedRangeIntervals, undefined);
       expect(newState).toEqual({ indexes: {},
         lines: {},
         min: {},
@@ -150,127 +71,41 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       });
     });
     test('Ep renaming', () => {
-      const newPlot = { entryPoints: {
-        STAT_SU_PID10: {
-          id: 'id60',
-          dataId: {
-            catalog: 'Reporting',
-            parameterName: 'STAT_SU_PID',
-            comObject: 'ReportingParameter',
-            domainId: 4,
-            sessionId: 181,
-          },
-          fieldX: 'groundDate',
-          fieldY: 'extractedValue',
-          offset: 0,
-          filter: [],
-          localId: 'groundDate/extractedValue.tb1:0/0',
-          timebarUuid: 'tb1',
-          remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-          stateColors: [{
-            color: '#000000',
-            condition: {
-              field: 'monitoringState',
-              operator: '==',
-              operand: 'waiting',
-            },
-          }],
-        },
-        STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
-      } };
-      const newIntervals = _cloneDeep(oldIntervals);
-      newIntervals['Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0']
-        .expectedInterval = [15, 25];
-
-      expect(cleanCurrentViewData(Object.freeze(viewDataState.plot), viewMap.plot,
-        newPlot, oldIntervals, oldIntervals)).toEqual({
-          indexes: { STAT_SU_PID10: [10, 11, 12, 13, 14, 15, 16] },
-          lines: {
-            STAT_SU_PID10: [
-            { masterTime: 10, value: 13, x: 10 },
-            { masterTime: 11, value: 13, x: 11 },
-            { masterTime: 12, value: 13, x: 12 },
-            { masterTime: 13, value: 13, x: 13 },
-            { masterTime: 14, value: 13, x: 14 },
-            { masterTime: 15, value: 13, x: 15 },
-            { masterTime: 16, value: 13, x: 16 },
-            ] },
-          min: { STAT_SU_PID10: 13 },
-          max: { STAT_SU_PID10: 13 },
-          minTime: { STAT_SU_PID10: 16 },
-          maxTime: { STAT_SU_PID10: 16 },
-        });
+      const newMap = _cloneDeep(viewMap);
+      newMap.plot1.entryPoints = {
+        ...newMap.plot1.entryPoints,
+        ATT_BC_REVTCOUNT10: Object.assign({}, newMap.plot1.entryPoints.ATT_BC_REVTCOUNT1),
+      };
+      newMap.plot1.entryPoints = _omit(newMap.plot1.entryPoints, 'ATT_BC_REVTCOUNT1');
+      expect(cleanCurrentViewData(Object.freeze(state.PlotViewData.plot1), viewMap.plot1,
+        newMap.plot1, dataMap.expectedRangeIntervals, dataMap.expectedRangeIntervals))
+        .toMatchSnapshot();
     });
   });
   describe('updateEpLabel', () => {
     test('values ok', () => {
-      expect(updateEpLabel(freezeMe(viewDataState.plot), 'STAT_SU_PID', 'STAT_SU_PID1')).toEqual({
-        indexes: { STAT_SU_PID1: [10, 11, 12, 13, 14, 15, 16] },
-        lines: {
-          STAT_SU_PID1: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          { masterTime: 13, value: 13, x: 13 },
-          { masterTime: 14, value: 13, x: 14 },
-          { masterTime: 15, value: 13, x: 15 },
-          { masterTime: 16, value: 13, x: 16 },
-          ] },
-        min: { STAT_SU_PID1: 13 },
-        max: { STAT_SU_PID1: 13 },
-        minTime: { STAT_SU_PID1: 16 },
-        maxTime: { STAT_SU_PID1: 16 },
-      });
+      expect(updateEpLabel(freezeMe(state.PlotViewData.plot1), 'ATT_BC_REVTCOUNT1', 'ATT_BC_REVTCOUNT10'))
+      .toMatchSnapshot();
     });
     test('unknown value', () => {
-      const frozen = freezeMe(viewDataState.plot);
-      expect(updateEpLabel(frozen, 'STAT_SU_PID2', 'STAT_SU_PID1')).toBe(frozen);
+      const frozen = freezeMe(state.PlotViewData.plot1);
+      expect(updateEpLabel(frozen, 'ATT_BC_REVTCOUNT10', 'ATT_BC_REVTCOUNT100')).toBe(frozen);
     });
   });
   describe('scanForMinAndMax', () => {
     test('nothing to change', () => {
-      const frozen = freezeMe(viewDataState.plot);
+      const frozen = freezeMe(state.PlotViewData.plot1);
       expect(scanForMinAndMax(frozen)).toBe(frozen);
     });
     test('min to update', () => {
-      viewDataState.plot.minTime.STAT_SU_PID = 100;
-      expect(scanForMinAndMax(freezeMe(viewDataState.plot))).toEqual({
-        indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
-        lines: {
-          STAT_SU_PID: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          { masterTime: 13, value: 13, x: 13 },
-          { masterTime: 14, value: 13, x: 14 },
-          { masterTime: 15, value: 13, x: 15 },
-          { masterTime: 16, value: 13, x: 16 },
-          ] },
-        min: { STAT_SU_PID: 13 },
-        max: { STAT_SU_PID: 13 },
-        minTime: { STAT_SU_PID: 16 },
-        maxTime: { STAT_SU_PID: 16 },
-      });
+      const plotViewData = _cloneDeep(state.PlotViewData.plot1);
+      plotViewData.minTime.TMMGT_BC_VIRTCHAN3 = 900000;
+      expect(scanForMinAndMax(freezeMe(plotViewData))).toMatchSnapshot();
     });
     test('max to update', () => {
-      viewDataState.plot.maxTime.STAT_SU_PID = 1;
-      expect(scanForMinAndMax(freezeMe(viewDataState.plot))).toEqual({
-        indexes: { STAT_SU_PID: [10, 11, 12, 13, 14, 15, 16] },
-        lines: {
-          STAT_SU_PID: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          { masterTime: 13, value: 13, x: 13 },
-          { masterTime: 14, value: 13, x: 14 },
-          { masterTime: 15, value: 13, x: 15 },
-          { masterTime: 16, value: 13, x: 16 },
-          ] },
-        min: { STAT_SU_PID: 13 },
-        max: { STAT_SU_PID: 13 },
-        minTime: { STAT_SU_PID: 16 },
-        maxTime: { STAT_SU_PID: 16 },
-      });
+      const plotViewData = _cloneDeep(state.PlotViewData.plot1);
+      plotViewData.maxTime.TMMGT_BC_VIRTCHAN3 = 1000;
+      expect(scanForMinAndMax(freezeMe(plotViewData))).toMatchSnapshot();
     });
   });
   describe('removeViewDataByEp', () => {
@@ -281,55 +116,20 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       expect(removeViewDataByEp(otherFrozen, 10, 20)).toBe(otherFrozen);
     });
     test('should support nothing to keep', () => {
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', -3, -1)).toEqual({ indexes: {},
-        lines: {},
-        min: {},
-        max: {},
-        minTime: {},
-        maxTime: {},
-      });
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 4, 6)).toEqual({ indexes: {},
-        lines: {},
-        min: {},
-        max: {},
-        minTime: {},
-        maxTime: {},
-      });
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 2, 1)).toEqual({ indexes: {},
-        lines: {},
-        min: {},
-        max: {},
-        minTime: {},
-        maxTime: {},
-      });
+      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 0, 100))
+      .toMatchSnapshot();
+    });
+    test('upper < lower: nothing to keep', () => {
+      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 10000, 100))
+      .toMatchSnapshot();
     });
     test('should support partial keeping', () => {
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 10, 12)).toEqual({
-        indexes: { STAT_SU_PID: [10, 11, 12] },
-        lines: {
-          STAT_SU_PID: [
-          { masterTime: 10, value: 13, x: 10 },
-          { masterTime: 11, value: 13, x: 11 },
-          { masterTime: 12, value: 13, x: 12 },
-          ] },
-
-        min: { STAT_SU_PID: 13 },
-        max: { STAT_SU_PID: 13 },
-        minTime: { STAT_SU_PID: 16 },
-        maxTime: { STAT_SU_PID: 16 },
-      });
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 10, 11)
-      .indexes.STAT_SU_PID).toEqual([10, 11]);
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 5, 12)
-      .indexes.STAT_SU_PID).toEqual([10, 11, 12]);
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 11, 13)
-      .indexes.STAT_SU_PID).toEqual([11, 12, 13]);
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 15, 25)
-      .indexes.STAT_SU_PID).toEqual([15, 16]);
+      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 100000, 200000))
+      .toMatchSnapshot();
     });
     test('should support keep everything', () => {
-      expect(removeViewDataByEp(freezeMe(viewDataState.plot), 'STAT_SU_PID', 10, 16)
-      .indexes.STAT_SU_PID).toEqual([10, 11, 12, 13, 14, 15, 16]);
+      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 100000, 500000))
+      .toMatchSnapshot();
     });
   });
 });

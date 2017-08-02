@@ -131,6 +131,7 @@ export default class View extends PureComponent {
       closeEditor,
       collapseView,
       askOpenInspector,
+      collapsed,
     } = this.props;
     const ContentComponent = getViewComponent(type);
     const mainMenu = this.getMainContextMenu();
@@ -148,6 +149,7 @@ export default class View extends PureComponent {
           collapseView={collapseView}
           onContextMenu={() => this.onContextMenu(mainMenu)}
         />
+        { !collapsed &&
         <div
           className={styles.content}
           style={this.backgroundColorStyle(backgroundColor)}
@@ -163,6 +165,7 @@ export default class View extends PureComponent {
             mainMenu={mainMenu}
           />
         </div>
+        }
       </div>
     );
   }

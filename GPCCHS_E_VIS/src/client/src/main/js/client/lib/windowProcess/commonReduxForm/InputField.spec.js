@@ -4,6 +4,7 @@ import InputField from './InputField';
 
 const propsStub = {
   input: {
+    onChange: () => {},
     value: 'testval',
     type: 'testtype',
   },

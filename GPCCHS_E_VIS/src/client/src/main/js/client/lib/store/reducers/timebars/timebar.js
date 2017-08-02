@@ -77,7 +77,6 @@ export default function timebarReducer(stateTimebar = initialState, action) {
           };
         }
       }
-
       if (sw) {
         if (
           sw.lower !== tb.slideWindow.lower ||
@@ -90,12 +89,12 @@ export default function timebarReducer(stateTimebar = initialState, action) {
         }
       }
       if (newValues.slideWindow || newValues.visuWindow) {
-        return u({
+        return {
+          ...stateTimebar,
           visuWindow: newValues.visuWindow || tb.visuWindow,
           slideWindow: newValues.slideWindow || tb.slideWindow,
-        }, stateTimebar);
+        };
       }
-
       return stateTimebar;
     }
     default:

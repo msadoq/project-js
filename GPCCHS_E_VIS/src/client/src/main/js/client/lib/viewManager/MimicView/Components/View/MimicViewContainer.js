@@ -6,7 +6,7 @@ import _ from 'lodash/fp';
 import { askOpenLink } from '../../../../store/actions/links';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { getViewContent } from '../../store/configurationSelectors';
-import MimicView from './MimicView';
+import MimicViewWrapper from './MimicViewWrapper';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
 import { getInspectorEpId } from '../../../../store/reducers/inspector';
@@ -49,7 +49,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   openLink: linkName => dispatchProps.openLink(_.findIndex({ name: linkName }, stateProps.links)),
 });
 
-const MimicViewContainer = connect(mapStateToProps, mapDispatchToProps, mergeProps)(MimicView);
+const MimicViewContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(MimicViewWrapper);
 
 MimicViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

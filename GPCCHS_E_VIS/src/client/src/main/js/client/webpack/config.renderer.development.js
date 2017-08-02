@@ -44,6 +44,11 @@ export default merge(baseConfig, {
       '!style!css!postcss!./lib/windowProcess/style',
       './benchmarks/TextView/index',
     ],
+    'mimicview.benchmark': [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      './benchmarks/MimicView/index',
+    ],
   },
 
   output: {

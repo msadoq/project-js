@@ -5,6 +5,7 @@ import * as types from '../../types';
 /* --- Reducer -------------------------------------------------------------- */
 
 const initialState = {
+  isWorkspaceOpening: true,
   windowsOpened: false,
   playingTimebarId: null,
   lastCacheInvalidation: Date.now(),

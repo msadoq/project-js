@@ -163,8 +163,9 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
       });
     }
     if (err) {
+      cb(errors);
       dispatch(isWorkspaceOpening(false));
-      return cb(errors);
+      return;
     }
 
     dispatch(closeWorkspace());
@@ -175,13 +176,13 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
       timebars: documents.timebars.map(prepareTimebar(documents.timelines, getState())),
     };
     dispatch({ type: types.WS_WORKSPACE_OPENED, payload });
-    dispatch(isWorkspaceOpening(false));
 
     logLoadedDocumentsCount(documents);
     dc.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
 
     dispatch(updateWorkspacePath(dirname(path), basename(path)));
-    return cb(null);
+    cb(null);
+    dispatch(isWorkspaceOpening(false));
   });
 };
 // -------------------------------------------------------------------------- //

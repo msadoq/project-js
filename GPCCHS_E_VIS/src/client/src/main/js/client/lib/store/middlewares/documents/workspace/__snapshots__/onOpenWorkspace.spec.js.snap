@@ -31,11 +31,30 @@ Array [
 ]
 `;
 
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace open initial workspace with an error, so open default workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "error",
+      "isNew": true,
+      "windowId": "w1",
+    },
+    "type": "WS_ASK_OPEN_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "workspace": true,
+    },
+    "type": "WS_WORKSPACE_OPENED",
+  },
+]
+`;
+
 exports[`store:serverProcess:middlewares:documents:onOpenWorkspace open new workspace 1`] = `
 Array [
   Object {
     "payload": Object {
-      "absolutePath": "/absolute/path",
+      "absolutePath": null,
       "isNew": true,
       "windowId": "w1",
     },
@@ -102,9 +121,7 @@ Array [
   },
   Object {
     "payload": Object {
-      "absolutePath": Object {
-        "absolutePath": "/chosen/path",
-      },
+      "absolutePath": "/chosen/path",
     },
     "type": "OPEN_WORKSPACE",
   },
@@ -123,9 +140,7 @@ Array [
   },
   Object {
     "payload": Object {
-      "absolutePath": Object {
-        "absolutePath": "/absolute/path",
-      },
+      "absolutePath": "/absolute/path",
     },
     "type": "OPEN_WORKSPACE",
   },
@@ -371,9 +386,7 @@ Array [
   },
   Object {
     "payload": Object {
-      "absolutePath": Object {
-        "absolutePath": "/absolute/path",
-      },
+      "absolutePath": "/absolute/path",
     },
     "type": "OPEN_WORKSPACE",
   },

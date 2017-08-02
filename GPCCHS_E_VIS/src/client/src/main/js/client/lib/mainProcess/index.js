@@ -188,6 +188,7 @@ export function onStart() {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
+        dispatch(isWorkspaceOpening(true));
         dispatch(askOpenNewWorkspace());
         callback(null);
         return;
@@ -201,7 +202,7 @@ export function onStart() {
       splashScreen.setMessage('loading default workspace...');
       logger.info('loading default workspace...');
       dispatch(isWorkspaceOpening(true));
-      dispatch(askOpenWorkspace(null, absolutePath));
+      dispatch(askOpenWorkspace(null, absolutePath, true));
       callback(null);
     },
     function requestCatalogSessions(callback) {

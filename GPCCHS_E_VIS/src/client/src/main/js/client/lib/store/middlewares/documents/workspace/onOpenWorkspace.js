@@ -23,7 +23,7 @@ const makeOnOpenWorkspace = documentManager => withListenAction(
       const isViewsSaved = modifiedViewsIds.length === 0;
 
       const openWorkspace = () => {
-        if (isNew) {
+        if (isNew && !absolutePath) {
           dispatch(isWorkspaceOpening(true));
           dispatch(closeWorkspace(true));
           dispatch({
@@ -32,7 +32,14 @@ const makeOnOpenWorkspace = documentManager => withListenAction(
           });
           dispatch(isWorkspaceOpening(false));
         } else if (absolutePath) {
-          dispatch(documentManager.openWorkspace({ absolutePath }));
+          dispatch(documentManager.openWorkspace({ absolutePath }, (errors) => {
+            if (errors && isNew) {
+              dispatch({
+                type: types.WS_WORKSPACE_OPENED,
+                payload: documentManager.createBlankWorkspace(),
+              });
+            }
+          }));
         } else {
           dispatch(openDialog(windowId, 'open'));
           listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {

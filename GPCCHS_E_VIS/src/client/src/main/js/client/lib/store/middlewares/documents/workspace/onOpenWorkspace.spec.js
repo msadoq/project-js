@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
 import makeOnOpenWorkspace from './onOpenWorkspace';
@@ -6,13 +7,19 @@ import * as types from '../../../types';
 
 const documentManager = {
   createBlankWorkspace: () => ({ workspace: true }),
-  openWorkspace: absolutePath => ({
-    type: 'OPEN_WORKSPACE',
-    payload: { absolutePath },
-  }),
+  openWorkspace: ({ absolutePath }, cb = _.noop) => {
+    if (absolutePath === 'error') {
+      cb('error');
+      return _.noop; // return a noop thunk
+    }
+    return {
+      type: 'OPEN_WORKSPACE',
+      payload: { absolutePath },
+    };
+  },
 };
 
-const mockStore = configureMockStore([makeOnOpenWorkspace(documentManager)]);
+const mockStore = configureMockStore([thunk, makeOnOpenWorkspace(documentManager)]);
 
 const askOpenWorkspace = (absolutePath, isNew = false) => ({
   type: types.WS_ASK_OPEN_WORKSPACE,
@@ -36,7 +43,12 @@ describe('store:serverProcess:middlewares:documents:onOpenWorkspace', () => {
   });
 
   test('open new workspace', () => {
-    store.dispatch(askOpenWorkspace('/absolute/path', true));
+    store.dispatch(askOpenWorkspace(null, true));
+    expect(store.getActions()).toMatchSnapshot();
+  });
+
+  test('open initial workspace with an error, so open default workspace', () => {
+    store.dispatch(askOpenWorkspace('error', true));
     expect(store.getActions()).toMatchSnapshot();
   });
 

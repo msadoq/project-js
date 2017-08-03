@@ -50,9 +50,12 @@ export default function makeViewNeededDataStoreObserver(store) {
 
     // Dispatch neededData
     const { dispatch } = store;
-    dispatch(viewsNeedRange(neededRangeData));
-    // TODO pgaucher dispatch if {}
-    dispatch(viewsNeedLast(neededLastData));
+    if (Object.keys(neededRangeData).length) {
+      dispatch(viewsNeedRange(neededRangeData));
+    }
+    if (Object.keys(neededLastData).length) {
+      dispatch(viewsNeedLast(neededLastData));
+    }
 
     profile.print();
   };

@@ -1,4 +1,4 @@
-const { join } = require('path');
+const { join, resolve } = require('path');
 const _each = require('lodash/each');
 const parameters = require('../../common/configurationManager');
 
@@ -8,7 +8,7 @@ const stubData = {};
 const loadStubs = (override) => {
   const MESSAGES_NAMESPACES = override || parameters.get('MESSAGES_NAMESPACES');
   _each(MESSAGES_NAMESPACES, (msgNasmespaces) => {
-    const adapterPath = join(msgNasmespaces.path, msgNasmespaces.ns);
+    const adapterPath = resolve(msgNasmespaces.path, msgNasmespaces.ns);
     const stubIndex = require(join(adapterPath, STUB_INDEX)); // eslint-disable-line
     Object.assign(stubData, stubIndex);
   });

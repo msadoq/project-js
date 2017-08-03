@@ -1,6 +1,8 @@
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
+export const askOpenInspector = simple(types.HSC_ASK_OPEN_INSPECTOR, 'pageId', 'viewId', 'type', 'options');
+
 // GENERAL
 export const isInspectorDisplayingTM = simple(types.HSC_IS_INSPECTOR_DISPLAYING_A_TM, 'displayingTM');
 export const setInspectorGeneralData = simple(types.HSC_SET_INSPECTOR_GENERAL_DATA, 'viewId', 'viewType', 'epId', 'epName', 'dataId', 'field');

@@ -64,6 +64,7 @@ export default class TextView extends PureComponent {
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
     perfOutput: PropTypes.bool,
+    openLink: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: {
@@ -198,6 +199,25 @@ export default class TextView extends PureComponent {
   getContentComponent() {
     const processingInstructions = [
       {
+        shouldProcessNode: (node => node.attribs && node.attribs.isis_link),
+        processNode: (node, children) => {
+          const tagProps = {};
+          Object.keys(node.attribs).forEach((key) => {
+            if (key === 'isis_link') {
+              tagProps['data-isis-link'] = node.attribs[key];
+            } else if (key === 'class') {
+              tagProps.className = node.attribs[key];
+            } else {
+              tagProps[key] = node.attribs[key];
+            }
+          });
+          tagProps.style = { cursor: 'pointer' };
+          tagProps.title = `open ${node.attribs.isis_link}`;
+          const reactElement = React.createElement(node.name, tagProps, children);
+          return reactElement;
+        },
+      },
+      {
         shouldProcessNode: (node => node.data && node.data.match(isValueNode)),
         processNode: (node, children, index) => {
           const matches = node.data.match(isValueNode);
@@ -205,8 +225,8 @@ export default class TextView extends PureComponent {
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
-
-            const id = `${this.props.viewId}_tv_${epName}`;
+            const rand = Math.round(Math.random() * 100000);
+            const id = `${this.props.viewId}_tv_${epName}_${rand}`;
 
             this.spanValues[id] = { ep: epName };
 
@@ -275,24 +295,21 @@ export default class TextView extends PureComponent {
         }
       }
     });
-    if (perfOutput) {
-      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.log(
-        'Looped on',
-        Object.keys(this.spanValues).length,
-        'eps'
-      );
-      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.timeEnd();
-    }
   }
 
+  handleClicked = (e) => {
+    if (e.target.getAttribute('data-isis-link')) {
+      this.props.openLink(e.target.getAttribute('data-isis-link'));
+    }
+  }
   htmlToReactParser = new Parser();
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
     return (
-      <this.content />
+      <div onClick={e => this.handleClicked(e)}>
+        <this.content />
+      </div>
     );
   }
 }

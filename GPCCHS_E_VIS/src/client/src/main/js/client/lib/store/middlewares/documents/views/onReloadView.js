@@ -1,10 +1,12 @@
 import * as types from '../../../types';
-import { withOpenModal } from '../helpers';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 import { getView } from '../../../reducers/views';
 
-const onReloadView = documentManager => withOpenModal(
-  ({ dispatch, openModal, getState }) => next => (action) => {
+import { open as openModal } from '../../../actions/modals';
+import withListenAction from '../../../helpers/withListenAction';
+
+const makeOnReloadView = documentManager => withListenAction(
+  ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_RELOAD_VIEW) {
       const state = getState();
@@ -14,7 +16,7 @@ const onReloadView = documentManager => withOpenModal(
       if (!isModified) {
         dispatch(documentManager.reloadView(viewId));
       } else {
-        openModal(windowId, {
+        dispatch(openModal(windowId, {
           type: 'dialog',
           title: 'Reload view',
           message: 'If you continue, view modifications will be lost.',
@@ -22,7 +24,8 @@ const onReloadView = documentManager => withOpenModal(
             { label: 'Reload view', value: 'reload', type: 'warning' },
             { label: 'Cancel' },
           ],
-        }, (closeAction) => {
+        }));
+        listenAction(types.WS_MODAL_CLOSE, (closeAction) => {
           if (closeAction.payload.choice === 'reload') {
             dispatch(documentManager.reloadView(viewId));
           }
@@ -33,4 +36,4 @@ const onReloadView = documentManager => withOpenModal(
   }
 );
 
-export default onReloadView;
+export default makeOnReloadView;

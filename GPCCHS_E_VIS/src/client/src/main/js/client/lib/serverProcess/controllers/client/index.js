@@ -6,12 +6,8 @@ const reply = require('../../../common/ipc/reply');
 
 const onReduxCurrentState = require('./onReduxCurrentState');
 const onReduxDispatch = require('./onReduxDispatch');
-const onDomainsQuery = require('./onDomainsQuery');
+const onPull = require('./onDataPull');
 const onCacheCleanup = require('./onCacheCleanup');
-const onSessionsQuery = require('./onSessionsQuery');
-const onFmdGet = require('./onFmdGet');
-const onFmdCreate = require('./onFmdCreate');
-const onGetMasterSession = require('./onGetMasterSession');
 const onProductLog = require('./onProductLog');
 
 const pushToDc = args => zmq.push('dcPush', args);
@@ -19,13 +15,9 @@ const pushToDc = args => zmq.push('dcPush', args);
 const controller = {
   [constants.IPC_METHOD_REDUX_CURRENT_STATE]: (...args) => onReduxCurrentState(reply, ...args),
   [constants.IPC_METHOD_REDUX_DISPATCH]: onReduxDispatch,
-  [constants.IPC_METHOD_DOMAINS_REQUEST]: (...args) => onDomainsQuery(pushToDc, ...args),
-  [constants.IPC_METHOD_SESSIONS_REQUEST]: (...args) => onSessionsQuery(pushToDc, ...args),
   [constants.IPC_METHOD_CACHE_CLEANUP]: (...args) => onCacheCleanup(pushToDc, ...args),
-  [constants.IPC_METHOD_FMD_GET]: (...args) => onFmdGet(pushToDc, ...args),
-  [constants.IPC_METHOD_FMD_CREATE]: (...args) => onFmdCreate(pushToDc, ...args),
-  [constants.IPC_METHOD_MASTER_SESSION]: (...args) => onGetMasterSession(pushToDc, ...args),
-  [constants.IPC_METHOD_PRODUCT_LOG]: (...args) => onProductLog(pushToDc, ...args),
+  [constants.IPC_METHOD_TIMEBASED_PULL]: (...args) => onPull(reply, ...args),
+  [constants.IPC_METHOD_PRODUCT_LOG]: (...args) => onProductLog(pushToDc, ...args), // TODO : middleware
 };
 
 module.exports = data => handle(

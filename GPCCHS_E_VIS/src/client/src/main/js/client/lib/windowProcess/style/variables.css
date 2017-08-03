@@ -25,7 +25,41 @@
   --borderAcc: yellow;
   --borderDesc: lightblue;
 
-  --controlBlue: #60a7e5;
+
+  /* THEMING */
+  /*
+    To edit default bootstrap colors, check the theming part in style/bootstrap
+  */
+  --controlBlue: #113;
+  --controlBlueHover: #115;
+  --controlBlueActive: #60a7e5;
+  --controlBlueActiveInnerShadow: #4097d5;
+
+  --leftTabButtonColor: #FFF;
+
+  /*
+  --navTabText: #FFF;
+
+  --theme-light-2: #EEE;
+  --theme-light: #CCC;
+  --theme-main: #777;
+  --theme-dark: #555;
+  --theme-dark-2: #444;
+  */
+
+  --leftTabButtonColor: #000;
+
+  --navTabText: #000;
+  --navTabActiveText: #000;
+
+  --theme-light-2: #FFF;
+  --theme-light: #EEE;
+  --theme-main: #DDD;
+  --theme-dark: #AAA;
+  --theme-dark-2: #999;
+
+  --plotViewBg: #FAFAFA;
+  --grizzlyBg: #E0E0E0;
 }
 .collapsed {
   .react-resizable-handle{

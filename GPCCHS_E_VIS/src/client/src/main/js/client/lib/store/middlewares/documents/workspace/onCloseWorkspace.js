@@ -5,17 +5,19 @@ import { getWindowIds } from '../../../reducers/windows';
 
 import { closeWindow } from '../../../actions/windows';
 import { closeWorkspace } from '../../../actions/hsc';
-import { withOpenModal } from '../helpers';
 import {
   getModifiedViewIdsByWindowIds,
   getModifiedPageIdsByWindowIds,
 } from '../selectors';
 
+import { open as openModal } from '../../../actions/modals';
+import withListenAction from '../../../helpers/withListenAction';
+
 const isClosingWorkspace = _.propEq('type', types.WS_ASK_CLOSE_WORKSPACE);
 const isClosingWindow = _.propEq('type', types.WS_ASK_CLOSE_WINDOW);
 
-const onCloseWorkspace = () => withOpenModal(
-  ({ getState, dispatch, openModal }) => next => (action) => {
+const makeOnCloseWorkspace = () => withListenAction(
+  ({ getState, dispatch, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (isClosingWindow(action) || isClosingWorkspace(action)) {
       const { windowId, keepMessages = false } = action.payload;
@@ -29,33 +31,37 @@ const onCloseWorkspace = () => withOpenModal(
       const isPagesSaved = modifiedPagesIds.length === 0;
       const isViewsSaved = modifiedViewsIds.length === 0;
 
+      const isLastWindow = (allWindowIds.length === 1 && allWindowIds[0] === windowId);
       const documentType = (
-        (isClosingWorkspace(action) || (allWindowIds.length === 1 && allWindowIds[0] === windowId))
+        (isClosingWorkspace(action) || isLastWindow)
         ? 'workspace'
         : 'window'
       );
 
-      const workspaceNeedSave = title => openModal(windowId, {
-        title,
-        type: 'saveWizard',
-        documentType,
-        pageIds: modifiedPagesIds,
-        viewIds: modifiedViewsIds,
-        buttons: [
-          {
-            savedDocuments: { label: `Close ${documentType}`, value: 'close', type: 'primary' },
-            unsavedDocuments: { label: `Close ${documentType} without saving`, value: 'close', type: 'danger' },
-          },
-        ],
-      }, (closeAction) => {
-        if (closeAction.payload.choice === 'close') {
-          if (isClosingWindow(action)) {
-            dispatch(closeWindow(windowId));
-          } else if (isClosingWorkspace(action)) {
-            dispatch(closeWorkspace(keepMessages));
+      const workspaceNeedSave = (title) => {
+        dispatch(openModal(windowId, {
+          title,
+          type: 'saveWizard',
+          documentType,
+          pageIds: modifiedPagesIds,
+          viewIds: modifiedViewsIds,
+          buttons: [
+            {
+              savedDocuments: { label: `Close ${documentType}`, value: 'close', type: 'primary' },
+              unsavedDocuments: { label: `Close ${documentType} without saving`, value: 'close', type: 'danger' },
+            },
+          ],
+        }));
+        listenAction(types.WS_MODAL_CLOSE, (closeAction) => {
+          if (closeAction.payload.choice === 'close') {
+            if (isClosingWindow(action)) {
+              dispatch(closeWindow(windowId));
+            } else if (isClosingWorkspace(action)) {
+              dispatch(closeWorkspace(keepMessages));
+            }
           }
-        }
-      });
+        });
+      };
 
       if (!isViewsSaved && !isPagesSaved) {
         workspaceNeedSave('Page and views are modified');
@@ -63,7 +69,7 @@ const onCloseWorkspace = () => withOpenModal(
         workspaceNeedSave('Page is modified');
       } else if (!isViewsSaved) {
         workspaceNeedSave('Views are modified');
-      } else if (getWorkspaceIsModified(state) && isClosingWorkspace(state)) {
+      } else if (getWorkspaceIsModified(state) && (isClosingWorkspace(action) || isLastWindow)) {
         workspaceNeedSave('Workspace is modified');
       } else if (isClosingWindow(action)) {
         dispatch(closeWindow(windowId));
@@ -74,4 +80,4 @@ const onCloseWorkspace = () => withOpenModal(
     return nextAction;
   });
 
-export default onCloseWorkspace;
+export default makeOnCloseWorkspace;

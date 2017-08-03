@@ -1,15 +1,18 @@
 import * as types from '../../../types';
-import { withOpenModal, withOpenDialog } from '../helpers';
 import { getView, getViewIsModified } from '../../../reducers/views';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 import { getPageIdByViewId } from '../../../reducers/pages';
 import { closeView } from '../../../actions/views';
 import { minimizeEditor } from '../../../actions/pages';
 
+import { openDialog } from '../../../actions/ui';
+import { open as openModal } from '../../../actions/modals';
+import withListenAction from '../../../helpers/withListenAction';
+
 const closeEditor = pageId => minimizeEditor(pageId, true);
 
-const onCloseView = documentManager => withOpenDialog(withOpenModal(
-  ({ dispatch, openModal, openDialog, getState }) => next => (action) => {
+const makeOnCloseView = documentManager => withListenAction(
+  ({ dispatch, listenAction, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_VIEW) {
       const state = getState();
@@ -31,7 +34,7 @@ const onCloseView = documentManager => withOpenDialog(withOpenModal(
         }));
       };
       if (getViewIsModified(state, { viewId })) {
-        openModal(windowId, {
+        dispatch(openModal(windowId, {
           type: 'dialog',
           title: 'Close view',
           message: 'Would you want to close view without saving ?',
@@ -39,13 +42,15 @@ const onCloseView = documentManager => withOpenDialog(withOpenModal(
             { label: 'Close view without saving', value: 'close', type: 'danger' },
             { label: 'Close and save view', value: 'save_and_close' },
           ],
-        }, (closeModalAction) => {
+        }));
+        listenAction(types.WS_MODAL_CLOSE, (closeModalAction) => {
           if (closeModalAction.payload.choice === 'close') {
             close();
           } else if (closeModalAction.payload.choice === 'save_and_close') {
             const saveAs = !view.oId && !view.absolutePath;
             if (saveAs) {
-              openDialog(windowId, 'save', {}, (closeDialogAction) => {
+              dispatch(openDialog(windowId, 'save'));
+              listenAction(types.HSC_DIALOG_CLOSED, (closeDialogAction) => {
                 const { choice } = closeDialogAction.payload;
                 if (choice) {
                   const absolutePath = choice;
@@ -63,6 +68,6 @@ const onCloseView = documentManager => withOpenDialog(withOpenModal(
     }
     return nextAction;
   }
-));
+);
 
-export default onCloseView;
+export default makeOnCloseView;

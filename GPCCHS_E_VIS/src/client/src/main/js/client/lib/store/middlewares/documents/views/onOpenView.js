@@ -1,9 +1,10 @@
 import * as types from '../../../types';
 import { getFocusedWindow } from '../../../selectors/windows';
-import { withOpenDialog } from '../helpers';
+import { openDialog } from '../../../actions/ui';
+import withListenAction from '../../../helpers/withListenAction';
 
-const onOpenView = documentManager => withOpenDialog(
-  ({ dispatch, openDialog, getState }) => next => (action) => {
+const makeOnOpenView = documentManager => withListenAction(
+  ({ dispatch, listenAction, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_VIEW) {
       const { absolutePath } = action.payload;
@@ -12,7 +13,8 @@ const onOpenView = documentManager => withOpenDialog(
       if (absolutePath) {
         dispatch(documentManager.openView({ absolutePath }, window.focusedPage));
       } else {
-        openDialog(windowId, 'open', {}, (closeAction) => {
+        dispatch(openDialog(windowId, 'open'));
+        listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             dispatch(documentManager.openView({ absolutePath: choice[0] }, window.focusedPage));
@@ -24,4 +26,4 @@ const onOpenView = documentManager => withOpenDialog(
   }
 );
 
-export default onOpenView;
+export default makeOnOpenView;

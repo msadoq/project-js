@@ -52,7 +52,7 @@ export const data40Eps = () => {
     data[eps[i]] = { value: i, color: '#FFF' };
     entryPoints[eps[i]] = {};
   }
-  const epSpans = eps.map(v => `<span>{{${v}}}</span`).join('');
+  const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
@@ -68,7 +68,7 @@ export const data40EpsRandom = () => {
     data[eps[i]] = { value: Math.round(Math.random() * 1000), color: '#FFF' };
     entryPoints[eps[i]] = {};
   }
-  const epSpans = eps.map(v => `<span>{{${v}}}</span`).join('');
+  const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
@@ -84,7 +84,7 @@ export const data100EpsRandom = () => {
     data[eps[i]] = { value: Math.round(Math.random() * 1000), color: '#FFF' };
     entryPoints[eps[i]] = {};
   }
-  const epSpans = eps.map(v => `<span>{{${v}}}</span`).join('');
+  const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
@@ -100,7 +100,7 @@ export const data200EpsRandom = () => {
     data[eps[i]] = { value: Math.round(Math.random() * 1000), color: '#FFF' };
     entryPoints[eps[i]] = {};
   }
-  const epSpans = eps.map(v => `<span>{{${v}}}</span`).join('');
+  const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
@@ -119,7 +119,7 @@ export const data200EpsRandomColors = () => {
     };
     entryPoints[eps[i]] = {};
   }
-  const epSpans = eps.map(v => `<span>{{${v}}}</span`).join('');
+  const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,

@@ -13,54 +13,50 @@ describe('store:reducers:ui:dialog', () => {
   describe('reducer', () => {
     describe('open dialog', () => {
       test('add a dialog box', () => {
-        const nextState = reducer({}, openDialog('w1', 'myDialog', 'message', { params: true }));
+        const nextState = reducer({}, openDialog('w1', 'message', { params: true }));
         expect(nextState).toEqual({
-          w1: { myDialog: { type: 'message', options: { params: true } } },
+          w1: { default: { type: 'message', options: { params: true } } },
         });
       });
       test('add a dialog box without options', () => {
-        const nextState = reducer({}, openDialog('w1', 'myDialog', 'message'));
+        const nextState = reducer({}, openDialog('w1', 'message'));
         expect(nextState).toEqual({
-          w1: { myDialog: { type: 'message', options: {} } },
+          w1: { default: { type: 'message', options: {} } },
         });
       });
       test('does nothing if dialog box already exist', () => {
-        const nextState = reducer(dialogState, openDialog('dummyWindow', 'myDialog', 'message'));
+        const nextState = reducer(dialogState, openDialog('dummyWindow', 'message', {}, 'myDialog'));
         expect(nextState).toBe(dialogState);
       });
       test('does nothing when no windowId', () => {
-        const nextState = reducer(dialogState, openDialog(null, 'myDialog', 'message'));
-        expect(nextState).toBe(dialogState);
-      });
-      test('does nothing when no dialogId', () => {
-        const nextState = reducer(dialogState, openDialog('dummyWindow', null, 'message'));
+        const nextState = reducer(dialogState, openDialog(null, 'message'));
         expect(nextState).toBe(dialogState);
       });
       test('does nothing when no type', () => {
-        const nextState = reducer(dialogState, openDialog('dummyWindow', 'myDialog', null));
+        const nextState = reducer(dialogState, openDialog('dummyWindow', null));
         expect(nextState).toBe(dialogState);
       });
     });
 
     describe('close dialog', () => {
       test('remove a dialog box with falsy choice', () => {
-        const nextState = reducer(dialogState, dialogClosed('dummyWindow', 'myDialog', 0));
+        const nextState = reducer(dialogState, dialogClosed('dummyWindow', 0, {}, 'myDialog'));
         expect(nextState).toEqual({
           otherWindow: { myOtherDialog: { type: 'save', options: {} } },
         });
       });
       test('remove a dialog box with no choice', () => {
-        const nextState = reducer(dialogState, dialogClosed('dummyWindow', 'myDialog'));
+        const nextState = reducer(dialogState, dialogClosed('dummyWindow', undefined, {}, 'myDialog'));
         expect(nextState).toEqual({
           otherWindow: { myOtherDialog: { type: 'save', options: {} } },
         });
       });
       test('does nothing if windowId does not exist', () => {
-        const nextState = reducer(dialogState, dialogClosed('unknownWindow', 'myDialog', 0));
+        const nextState = reducer(dialogState, dialogClosed('unknownWindow', 0));
         expect(nextState).toBe(dialogState);
       });
       test('does nothing if dialogId does not exist', () => {
-        const nextState = reducer(dialogState, dialogClosed('dummyWindow', 'unknownDialog', 0));
+        const nextState = reducer(dialogState, dialogClosed('dummyWindow', 0, {}, 'unknownDialogId'));
         expect(nextState).toBe(dialogState);
       });
     });

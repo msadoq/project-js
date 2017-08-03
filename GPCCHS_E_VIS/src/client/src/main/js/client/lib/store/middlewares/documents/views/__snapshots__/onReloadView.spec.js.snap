@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:makeOnReloadView display modal, then do not reload view (cancel) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v2",
+    },
+    "type": "WS_ASK_RELOAD_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Reload view",
+            "type": "warning",
+            "value": "reload",
+          },
+          Object {
+            "label": "Cancel",
+          },
+        ],
+        "message": "If you continue, view modifications will be lost.",
+        "title": "Reload view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:makeOnReloadView display modal, then reload view 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v2",
+    },
+    "type": "WS_ASK_RELOAD_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Reload view",
+            "type": "warning",
+            "value": "reload",
+          },
+          Object {
+            "label": "Cancel",
+          },
+        ],
+        "message": "If you continue, view modifications will be lost.",
+        "title": "Reload view",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "reload",
+      "props": Object {},
+    },
+    "type": "WS_MODAL_CLOSE",
+  },
+  Object {
+    "payload": Object {
+      "viewId": "v2",
+    },
+    "type": "RELOAD_VIEW",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:makeOnReloadView reload view 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_RELOAD_VIEW",
+  },
+  Object {
+    "payload": Object {
+      "viewId": "v1",
+    },
+    "type": "RELOAD_VIEW",
+  },
+]
+`;

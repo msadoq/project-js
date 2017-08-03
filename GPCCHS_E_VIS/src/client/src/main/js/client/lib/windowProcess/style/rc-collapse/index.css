@@ -1,7 +1,14 @@
 @import '../../../../node_modules/rc-collapse/assets/index.css';
+@import '../variables.css';
 
 .rc-collapse-header{
   position: relative;
+  background-color: var(--theme-light);
+  color: var(--navTabActiveText) !important;
+}
+.rc-collapse-header[aria-expanded="true"] {
+  background-color: var(--theme-main);
+  color: var(--navTabText) !important;
 }
 .rc-collapse-content-active{
   padding: 4px 8px;

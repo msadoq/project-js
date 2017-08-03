@@ -4,6 +4,7 @@ import TimebarFixture from '../../../../test/__mocks__/Timebar';
 import ControlsLeft from '../Controls/ControlsLeft';
 
 const propsStub = {
+  enableRealTime: true,
   updateSpeed: () => null,
   toggleTimesetter: () => null,
   pause: () => null,

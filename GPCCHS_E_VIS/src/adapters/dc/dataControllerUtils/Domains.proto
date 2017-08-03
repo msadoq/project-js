@@ -1,5 +1,4 @@
 package dataControllerUtils.protobuf;
-syntax = "proto3";
 import "./Domain.proto";
 
 message Domains {

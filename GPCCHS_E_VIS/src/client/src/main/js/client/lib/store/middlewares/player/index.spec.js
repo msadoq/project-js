@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 
 import { freezeMe } from '../../../common/jest';
 import * as types from '../../types';
-import createPlayerMiddleware from '.';
+import makePlayerMiddleware from '.';
 
 const timebarFixture = {
   mode: 'Normal',
@@ -43,7 +43,7 @@ jest.mock('../../../serverProcess/ipc', () => ({
 
 describe('store:middlewares:player', () => {
   jest.useFakeTimers();
-  const middlewares = [thunk, createPlayerMiddleware()];
+  const middlewares = [thunk, makePlayerMiddleware()];
   const mockStore = _.compose(configureMockStore(middlewares), freezeMe);
 
   describe('play/pause', () => {

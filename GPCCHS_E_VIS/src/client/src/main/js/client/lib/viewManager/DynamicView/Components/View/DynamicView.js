@@ -176,7 +176,9 @@ export default class DynamicView extends PureComponent {
   }
 
   render() {
-    const { data, entryPoints, links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
+    const {
+      data, entryPoints, links, viewId, pageId, showLinks, isMaxVisuDurationExceeded,
+    } = this.props;
     const ep = data.value;
     const error = _get(entryPoints, 'dynamicEP.error');
     if (!ep || error) {
@@ -229,6 +231,7 @@ export default class DynamicView extends PureComponent {
             toggleShowLinks={this.toggleShowLinks}
             links={links}
             removeLink={this.removeLink}
+            viewId={viewId}
             pageId={pageId}
           />
         </div>

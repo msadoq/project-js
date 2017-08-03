@@ -1,14 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`middlewares/createOpenLinkMiddleware Message on type error 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware Error : Message on readDocumentType error 1`] = `
 Array [
   Object {
     "payload": Object {
-      "absolutePath": "myPath",
-      "type": "InvalidType",
-      "windowId": "w1",
+      "linkId": 2,
+      "viewId": "v1",
     },
-    "type": "WS_OPEN_LINK",
+    "type": "WS_ASK_OPEN_LINK",
   },
   Object {
     "meta": Object {
@@ -18,7 +17,7 @@ Array [
       "containerId": "global",
       "messages": Array [
         Object {
-          "content": "Error, unknown type 'InvalidType'",
+          "content": "Error readDocumentType",
         },
       ],
       "type": "danger",
@@ -28,75 +27,148 @@ Array [
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware open a page 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware Error : Message on unknown link 1`] = `
 Array [
   Object {
     "payload": Object {
-      "absolutePath": "myPath",
-      "type": "Page",
-      "windowId": "w1",
+      "linkId": 999,
+      "viewId": "v1",
     },
-    "type": "WS_OPEN_LINK",
+    "type": "WS_ASK_OPEN_LINK",
   },
   Object {
-    "absolutePath": "myPath",
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "v1",
+      "messages": Array [
+        Object {
+          "content": "Unknown link",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`middlewares/makeOpenLinkMiddleware Error: Message on type error 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 5,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Error, unknown type 'unknownType'",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`middlewares/makeOpenLinkMiddleware open a linked page already opened (focus) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 4,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "windowId": "w1",
+    },
+    "type": "WS_WINDOW_PAGE_FOCUS",
+  },
+]
+`;
+
+exports[`middlewares/makeOpenLinkMiddleware open a linked view already opened (focus) 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 3,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "payload": Object {
+      "pageId": "p1",
+      "windowId": "w1",
+    },
+    "type": "WS_WINDOW_PAGE_FOCUS",
+  },
+]
+`;
+
+exports[`middlewares/makeOpenLinkMiddleware open a page 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "linkId": 0,
+      "viewId": "v1",
+    },
+    "type": "WS_ASK_OPEN_LINK",
+  },
+  Object {
+    "payload": Object {
+      "path": "/page",
+      "viewFolder": "/path/to",
+      "windowId": "w1",
+    },
     "type": "OPEN_PAGE",
   },
 ]
 `;
 
-exports[`middlewares/createOpenLinkMiddleware open a view 1`] = `
+exports[`middlewares/makeOpenLinkMiddleware open a view 1`] = `
 Array [
   Object {
     "payload": Object {
-      "absolutePath": "myPath",
-      "page": Object {},
-      "type": "PlotView",
-      "windowId": "w1",
+      "linkId": 1,
+      "viewId": "v1",
     },
-    "type": "WS_OPEN_LINK",
+    "type": "WS_ASK_OPEN_LINK",
   },
-]
-`;
-
-exports[`middlewares/createOpenLinkMiddleware open a view 2`] = `
-Array [
   Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
-      "absolutePath": "myPath",
-      "page": Object {},
-      "type": "TextView",
+      "page": Object {
+        "timebarUuid": "tb1",
+      },
       "windowId": "w1",
     },
-    "type": "WS_OPEN_LINK",
+    "type": "WS_PAGE_ADD_BLANK",
   },
-]
-`;
-
-exports[`middlewares/createOpenLinkMiddleware open a view 3`] = `
-Array [
   Object {
-    "payload": Object {
-      "absolutePath": "myPath",
-      "page": Object {},
-      "type": "MimicView",
-      "windowId": "w1",
+    "meta": Object {
+      "jestSerialized": true,
     },
-    "type": "WS_OPEN_LINK",
-  },
-]
-`;
-
-exports[`middlewares/createOpenLinkMiddleware open a view 4`] = `
-Array [
-  Object {
     "payload": Object {
-      "absolutePath": "myPath",
-      "page": Object {},
-      "type": "DynamiucView",
-      "windowId": "w1",
+      "path": "/textview",
+      "viewFolder": "/path/to",
     },
-    "type": "WS_OPEN_LINK",
+    "type": "OPEN_VIEW",
   },
 ]
 `;

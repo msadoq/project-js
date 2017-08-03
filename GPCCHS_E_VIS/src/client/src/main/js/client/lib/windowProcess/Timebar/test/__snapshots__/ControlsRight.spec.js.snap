@@ -9,7 +9,7 @@ exports[`Controls renders correctly 1`] = `
       className="controlsLi"
     >
       <button
-        className="btn btn-xs btn-control controlButtonActive"
+        className="btn btn-xs btn-control active"
         mode="Normal"
         onClick={[Function]}
         title="Normal mode"
@@ -44,17 +44,14 @@ exports[`Controls renders correctly 1`] = `
     <li
       className="controlsLi"
     >
-      <span
-        className="btn btn-xs btn-control controlButtonDisabled"
+      <button
+        className="btn btn-xs btn-control"
+        id="realtime"
         mode="Realtime"
-        onBlur={[Function]}
-        onClick={null}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
+        onClick={[Function]}
       >
         Real time
-      </span>
+      </button>
     </li>
   </ul>
 </div>

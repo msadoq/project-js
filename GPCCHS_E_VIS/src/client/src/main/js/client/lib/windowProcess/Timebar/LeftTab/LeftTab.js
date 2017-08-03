@@ -122,8 +122,8 @@ export default class LeftTab extends PureComponent {
       <Col
         xs={3}
         className={classnames(
-          styles.leftTab,
-          'subdiv'
+          'LeftTab',
+          styles.leftTab
         )}
       >
         <div className={styles.leftTabTopPanel}>
@@ -137,7 +137,7 @@ export default class LeftTab extends PureComponent {
               glyph="remove"
             />
           </Button>
-          <h5 className={styles.timebarName}>
+          <h5 className={classnames('timebarName', styles.timebarName)}>
             <b>{timebarName}</b>
           </h5>
           <Button

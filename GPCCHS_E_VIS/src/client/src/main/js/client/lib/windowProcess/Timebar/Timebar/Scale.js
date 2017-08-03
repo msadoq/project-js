@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { PureComponent, PropTypes } from 'react';
+import classnames from 'classnames';
 import styles from './Scale.css';
 import { levelsRules, getZoomLevel } from '../../common/timeFormats';
 
@@ -112,7 +113,7 @@ export default class TimebarScale extends PureComponent {
 
     return (
       <div
-        className={styles.timebarRuleContainer}
+        className={classnames('Scale', styles.timebarRuleContainer)}
         onMouseDown={this.onMouseDown}
       >
         <div
@@ -127,7 +128,7 @@ export default class TimebarScale extends PureComponent {
                 className={styles.scaleBar}
                 style={{ left: `${percentBetweenScales * i}%` }}
               >
-                <span className={styles.scaleTime}>{s.formatted}</span>
+                <span className={classnames('ScaleTime', styles.scaleTime)}>{s.formatted}</span>
                 <span className={styles.scaleBar} />
               </div>
             )

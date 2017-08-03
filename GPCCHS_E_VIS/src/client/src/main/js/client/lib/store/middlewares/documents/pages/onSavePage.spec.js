@@ -4,17 +4,17 @@ import thunk from 'redux-thunk';
 
 import { askSavePage } from '../../../actions/pages';
 import { dialogClosed } from '../../../actions/ui';
-import onSavePage from './onSavePage';
+import makeOnSavePage from './onSavePage';
 
 const documentManager = {
   savePage: (pageId, absolutePath) => ({ type: 'SAVE_PAGE.spec', payload: { pageId, absolutePath } }),
 };
 const mockStore = configureMockStore([
   thunk,
-  onSavePage(documentManager),
+  makeOnSavePage(documentManager),
 ]);
 
-describe('store:middlewares:documents:onSavePage', () => {
+describe('store:middlewares:documents:makeOnSavePage', () => {
   test('simple save page with absolutePath', () => {
     const store = mockStore({
       pages: {
@@ -59,7 +59,7 @@ describe('store:middlewares:documents:onSavePage', () => {
     });
     store.dispatch(askSavePage('p1', false));
     const dialogId = _.last(store.getActions()).payload.dialogId;
-    store.dispatch(dialogClosed('w1', dialogId, 'myChoice', {}));
+    store.dispatch(dialogClosed('w1', 'myChoice', {}, dialogId));
     expect(store.getActions()).toMatchSnapshot();
   });
   test('open a save filepicker, then save page as... (because saveAs true in payload)', () => {
@@ -73,7 +73,7 @@ describe('store:middlewares:documents:onSavePage', () => {
     });
     store.dispatch(askSavePage('p1', true));
     const dialogId = _.last(store.getActions()).payload.dialogId;
-    store.dispatch(dialogClosed('w1', dialogId, 'myChoice', {}));
+    store.dispatch(dialogClosed('w1', 'myChoice', {}, dialogId));
     expect(store.getActions()).toMatchSnapshot();
   });
   test('open a save filepicker, then do nothing (cancel)', () => {
@@ -87,7 +87,7 @@ describe('store:middlewares:documents:onSavePage', () => {
     });
     store.dispatch(askSavePage('p1', true));
     const dialogId = _.last(store.getActions()).payload.dialogId;
-    store.dispatch(dialogClosed('w1', dialogId, null, {}));
+    store.dispatch(dialogClosed('w1', null, {}, dialogId));
     expect(store.getActions()).toMatchSnapshot();
   });
   test('an unknown action should be next', () => {

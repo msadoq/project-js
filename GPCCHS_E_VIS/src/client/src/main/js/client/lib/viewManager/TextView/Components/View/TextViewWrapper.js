@@ -66,6 +66,7 @@ export default class TextViewWrapper extends PureComponent {
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
+    openLink: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: {
@@ -243,6 +244,7 @@ export default class TextViewWrapper extends PureComponent {
               isInspectorOpened={isInspectorOpened}
               inspectorEpId={inspectorEpId}
               entryPoints={entryPoints}
+              openLink={this.props.openLink}
             />
           </Col>
           <Col xs={12} style={style}>
@@ -251,6 +253,7 @@ export default class TextViewWrapper extends PureComponent {
               toggleShowLinks={this.toggleShowLinks}
               links={links}
               removeLink={this.removeLink}
+              viewId={viewId}
               pageId={pageId}
             />
           </Col>

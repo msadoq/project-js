@@ -1,9 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _set from 'lodash/set';
 import _get from 'lodash/get';
+import classnames from 'classnames';
 import _throttle from 'lodash/throttle';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { Button } from 'react-bootstrap';
@@ -17,9 +18,7 @@ import XAxis from './XAxis';
 import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
 
-const defaultPointLabels = {};
-
-export default class Chart extends React.Component {
+export default class Chart extends Component {
 
   static propTypes = {
     yAxesAt: PropTypes.string,
@@ -45,6 +44,7 @@ export default class Chart extends React.Component {
     }).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
+        logSettings: PropTypes.shape(),
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
         data: PropTypes.objectOf(PropTypes.shape),
@@ -75,7 +75,7 @@ export default class Chart extends React.Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        dataAccessor: PropTypes.func,
+        dataAccessor: PropTypes.string,
         yAccessor: PropTypes.func,
         xAccessor: PropTypes.func,
         colorAccessor: PropTypes.string,
@@ -149,14 +149,11 @@ export default class Chart extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { allowZoom, allowYZoom, yAxes } = this.props;
+    const { allowZoom, allowYZoom } = this.props;
     const { zoomLevel, yZoomLevels, ctrlPressed } = this.state;
 
     if (ctrlPressed) {
       const hoveredAxisId = this.wichAxisIsHovered(e);
-      if (hoveredAxisId && _get(yAxes.find(a => a.id === hoveredAxisId), 'logarithmic')) {
-        return;
-      }
       if (allowYZoom && hoveredAxisId) {
         const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
         const newYZoomLevels = {
@@ -176,7 +173,7 @@ export default class Chart extends React.Component {
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowPan, allowYPan, yAxes } = this.props;
+    const { allowPan, allowYPan } = this.props;
     const { pan, yPans, ctrlPressed } = this.state;
     if (!ctrlPressed) {
       return;
@@ -185,9 +182,6 @@ export default class Chart extends React.Component {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
     const hoveredAxisId = this.wichAxisIsHovered(e);
-    if (hoveredAxisId && _get(yAxes.find(a => a.id === hoveredAxisId), 'logarithmic')) {
-      return;
-    }
     if (allowYPan && hoveredAxisId) {
       const yPan = _get(yPans, hoveredAxisId, 0);
       this.setState({
@@ -258,6 +252,7 @@ export default class Chart extends React.Component {
 
     return yAxes
       .map((axis) => {
+        const logBase = _get(axis, ['logSettings', 'base'], 10);
         const zoomLevel = _get(yZoomLevels, axis.id, 1);
         const pan = _get(yPans, axis.id, 0);
         const axisLines = lines
@@ -292,14 +287,31 @@ export default class Chart extends React.Component {
             axisLines,
             axis.data
           );
+        } else if (axis.logarithmic) {
+          const factor = logBase ** Math.floor(Math.log10(zoomLevel ** 5));
+          const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40);
+          const yExtendsLower = (logBase ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
+          const yExtendsUpper = (logBase ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
+          if (!this.yExtents[axis.id]) {
+            this.yExtents[axis.id] = _memoize(
+              (hash, orient, lower, upper) =>
+                (orient === 'top' ? [lower, upper] : [upper, lower])
+            );
+          }
+          yExtents = this.yExtents[axis.id](
+            `${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
+            axis.orient,
+            yExtendsLower,
+            yExtendsUpper
+          );
         } else {
           const center = (axis.yExtents[0] + axis.yExtents[1]) / 2;
           const range = axis.yExtents[1] - axis.yExtents[0];
           const zoomedRange = range / zoomLevel;
           const scaledPan = (pan / this.chartHeight) * range * -1;
           const pannedCenter = center + scaledPan;
-          const xExtendsLower = pannedCenter - (zoomedRange / 2);
-          const xExtendsUpper = pannedCenter + (zoomedRange / 2);
+          const yExtendsLower = pannedCenter - (zoomedRange / 2);
+          const yExtendsUpper = pannedCenter + (zoomedRange / 2);
           // First render, instanciate one memoize method per Y axis
           if (!this.yExtents[axis.id]) {
             this.yExtents[axis.id] = _memoize(
@@ -308,21 +320,22 @@ export default class Chart extends React.Component {
             );
           }
           yExtents = this.yExtents[axis.id](
-            `${axis.id}-${axis.orient}-${xExtendsLower}-${xExtendsUpper}`,
+            `${axis.orient}-${yExtendsLower}-${yExtendsUpper}`,
             axis.orient,
-            xExtendsLower,
-            xExtendsUpper
+            yExtendsLower,
+            yExtendsUpper
           );
         }
 
         // First render, instanciate one memoize method per Y axis
         if (!this.yScales[axis.id]) {
           this.yScales[axis.id] = _memoize(
-            (hash, yExtentsLower, yExtentsUpper, height, logarithmic) => {
+            (hash, yExtentsLower, yExtentsUpper, height, logarithmic, base) => {
               if (logarithmic) {
                 return scaleLog()
-                  .domain([0.1, 1000000000])
+                  .domain([yExtentsLower, yExtentsUpper])
                   .range([height, 0])
+                  .base(base)
                   .nice();
               }
               return scaleLinear()
@@ -332,11 +345,12 @@ export default class Chart extends React.Component {
           );
         }
         const yScale = this.yScales[axis.id](
-          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}-${axis.logarithmic}`,
+          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}-${axis.logarithmic}-${logBase}`,
           yExtents[0],
           yExtents[1],
           this.chartHeight,
-          axis.logarithmic
+          axis.logarithmic,
+          logBase
         );
 
         // rank axes to sort them and define the master / grid showing one
@@ -415,13 +429,6 @@ export default class Chart extends React.Component {
     _set(this.labelsPosition, [yAxisId, lineId], yPosition);
   }
 
-  updatePointLabelsPosition = (yAxisId, points) => {
-    if (!this.pointLabels) {
-      this.pointLabels = {};
-    }
-    _set(this.pointLabels, yAxisId, points);
-  }
-
   yAxisWidth = 90;
   xAxisHeight = 40;
 
@@ -493,6 +500,23 @@ export default class Chart extends React.Component {
   memoizeResetYZoomLevel= _memoize(axisId =>
     e => this.resetYZoomLevel(e, axisId)
   )
+
+  memoizeBackgroundDivStyle = _memoize(
+    (hash, marginTop, marginSide, yAxesAt, width, height) => {
+      const style = {};
+      if (yAxesAt === 'left') {
+        style.left = marginSide;
+      } else if (yAxesAt === 'right') {
+        style.right = marginSide;
+      }
+      return {
+        ...style,
+        top: marginTop,
+        width,
+        height,
+      };
+    }
+  );
 
   render() {
     const {
@@ -627,17 +651,6 @@ export default class Chart extends React.Component {
             >Panned {panMs}ms</Button>
           }
         </div>
-        <CurrentCursorCanvas
-          parametric={parametric}
-          width={this.chartWidth}
-          height={this.chartHeight}
-          xAxisAt={xAxisAt}
-          current={current}
-          yAxesAt={yAxesAt}
-          top={marginTop}
-          margin={marginSide}
-          xScale={xScale}
-        />
         { enableTooltip && <Tooltip
           parametric={parametric}
           tooltipColor={tooltipColor}
@@ -652,7 +665,30 @@ export default class Chart extends React.Component {
           yAxesAt={yAxesAt}
           xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
+          memoizeDivStyle={this.memoizeBackgroundDivStyle}
         /> }
+        <div
+          className={classnames('Background', styles.Background)}
+          style={this.memoizeBackgroundDivStyle(
+            `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
+            marginTop,
+            marginSide,
+            yAxesAt,
+            this.chartWidth,
+            this.chartHeight
+          )}
+        />
+        <CurrentCursorCanvas
+          parametric={parametric}
+          width={this.chartWidth}
+          height={this.chartHeight}
+          xAxisAt={xAxisAt}
+          current={current}
+          yAxesAt={yAxesAt}
+          top={marginTop}
+          margin={marginSide}
+          xScale={xScale}
+        />
         {
           this.yAxes.map(yAxis =>
             <LinesCanvas
@@ -671,9 +707,8 @@ export default class Chart extends React.Component {
               data={yAxis.data}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
-              updatePointLabelsPosition={this.updatePointLabelsPosition}
               perfOutput={perfOutput}
-              showPointLabels={yAxis.showPointLabels}
+              memoizeDivStyle={this.memoizeBackgroundDivStyle}
             />
           )
         }
@@ -694,7 +729,6 @@ export default class Chart extends React.Component {
               gridStyle={yAxis.gridStyle}
               axisLabel={yAxis.axisLabel}
               gridSize={yAxis.gridSize}
-              showPointLabels={yAxis.showPointLabels}
               logarithmic={yAxis.logarithmic}
               yAxisWidth={this.yAxisWidth}
               chartWidth={this.chartWidth}
@@ -709,7 +743,6 @@ export default class Chart extends React.Component {
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
-              pointLabels={_get(this.pointLabels, yAxis.id, {})}
             />
           )
         }
@@ -746,9 +779,7 @@ export default class Chart extends React.Component {
               width={this.chartWidth}
               xAxisAt={xAxisAt}
               yAxesAt={yAxesAt}
-              yAxes={this.yAxes}
               xExtents={calculatedXExtents}
-              pointLabels={this.pointLabels || defaultPointLabels}
             />
         }
         <Zones

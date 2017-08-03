@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:middlewares:documents:onSavePage open a save filepicker, then do nothing (cancel) 1`] = `
+exports[`store:middlewares:documents:makeOnSavePage open a save filepicker, then do nothing (cancel) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -34,7 +34,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:documents:onSavePage open a save filepicker, then save page as... (because no oid and absolutePath) 1`] = `
+exports[`store:middlewares:documents:makeOnSavePage open a save filepicker, then save page as... (because no oid and absolutePath) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -75,7 +75,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:documents:onSavePage open a save filepicker, then save page as... (because saveAs true in payload) 1`] = `
+exports[`store:middlewares:documents:makeOnSavePage open a save filepicker, then save page as... (because saveAs true in payload) 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -116,7 +116,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:documents:onSavePage open a save wizard when page has new views 1`] = `
+exports[`store:middlewares:documents:makeOnSavePage open a save wizard when page has new views 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -163,7 +163,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:documents:onSavePage simple save page with absolutePath 1`] = `
+exports[`store:middlewares:documents:makeOnSavePage simple save page with absolutePath 1`] = `
 Array [
   Object {
     "payload": Object {
@@ -182,7 +182,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:documents:onSavePage simple save page with oId 1`] = `
+exports[`store:middlewares:documents:makeOnSavePage simple save page with oId 1`] = `
 Array [
   Object {
     "payload": Object {

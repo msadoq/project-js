@@ -33,54 +33,30 @@ const commands = {
     sendReduxDispatch: (action) => {
       commands.main.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
     },
-    reloadSessions: (callback) => {
-      commands.main.rpc(globalConstants.IPC_METHOD_RELOAD_SESSIONS, null, callback);
-    },
-    getSessionTime: (sessionId, callback) => {
-      commands.main.rpc(globalConstants.IPC_METHOD_SESSION_TIME, sessionId, callback);
-    },
-    openView: ({ windowId, absolutePath }) => {
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_VIEW, {
-        windowId,
-        absolutePath,
-      });
-    },
-    openInspector: (pageId, viewId, viewType, { epId, epName, dataId, field }, callback) =>
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_INSPECTOR, {
-        pageId,
-        viewId,
-        viewType,
-        epId,
-        epName,
-        dataId,
-        field,
-      }, callback),
-    resolveLink: ({ link, path, sessionId, domainId }, callback) =>
+    resolveLink: ({ link, path, sessionId, domainId }, callback) => // TODO middleware)
       commands.main.message(globalConstants.IPC_METHOD_RESOLVE_LINK, {
         link,
         path,
         sessionId,
         domainId,
       }, callback),
-    openDocuWikiHelper: () =>
+    openDocuWikiHelper: () => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
-    saveView: ({ viewId, saveAs }, callback) =>
-      commands.main.rpc(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId, saveAs }, callback),
-    getRteDomains: (sessionId, callback) =>
+    getRteDomains: (sessionId, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
         sessionId,
       }, callback),
-    getRteCatalogs: (sessionId, domainId, callback) =>
+    getRteCatalogs: (sessionId, domainId, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_GET_RTE_CATALOGS, {
         sessionId,
         domainId,
       }, callback),
-    getRteItemNames: (catalog, version, callback) =>
+    getRteItemNames: (catalog, version, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_GET_RTE_ITEM_NAMES, {
         catalog,
         version,
       }, callback),
-    openRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) =>
+    openRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_OPEN_RTE_ITEM, {
         sessionId,
         domainId,
@@ -90,7 +66,7 @@ const commands = {
         name,
         key,
       }, callback),
-    focusRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) =>
+    focusRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_FOCUS_RTE_ITEM, {
         sessionId,
         domainId,
@@ -100,7 +76,7 @@ const commands = {
         name,
         key,
       }, callback),
-    resolveRteLink: ({ link, sessionId, domainId }, callback) =>
+    resolveRteLink: ({ link, sessionId, domainId }, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_RESOLVE_RTE_LINK, {
         link,
         sessionId,

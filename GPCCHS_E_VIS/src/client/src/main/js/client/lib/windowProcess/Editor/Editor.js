@@ -55,7 +55,7 @@ export default class Editor extends PureComponent {
     }
 
     return (
-      <div className={classnames('subdiv', 'h100', styles.editor)}>
+      <div className={classnames('Editor', 'subdiv', 'h100', styles.editor)}>
         <EditorComponent
           viewId={viewId}
           pageId={pageId}

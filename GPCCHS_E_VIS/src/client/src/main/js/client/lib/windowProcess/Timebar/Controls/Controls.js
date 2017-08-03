@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import classnames from 'classnames';
 import ControlsLeft from './ControlsLeft';
 import ControlsRight from './ControlsRight';
 import styles from './Controls.css';
@@ -38,7 +39,7 @@ export default class Controls extends PureComponent {
   render() {
     return (
       <div
-        className={styles.controls}
+        className={classnames(styles.controls, 'Controls')}
       >
         <ControlsLeft
           enableRealTime={this.props.enableRealTime}

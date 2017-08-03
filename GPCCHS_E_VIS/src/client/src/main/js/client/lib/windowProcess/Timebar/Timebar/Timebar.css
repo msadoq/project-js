@@ -13,7 +13,6 @@
     height: calc(100% - 52px);
 }
 
-
 .arrowLeft, .arrowRight, .arrowExt{
     z-index: 11;
     position: absolute;
@@ -80,4 +79,3 @@
   bottom: 0;
   background-color: #F45;
 }
-

@@ -108,15 +108,44 @@ export default function plotViewData(state = {}, action) {
       return newState || {};
     } */
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, oldViewMap, oldExpectedRangeIntervals,
-        newExpectedRangeIntervals } = action.payload;
+      const { dataToInject, newViewMap, newExpectedRangeIntervals } = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
-      const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
-      const intervalsAreEqual = _isEqual(newExpectedRangeIntervals, oldExpectedRangeIntervals);
-      if (viewMapIsEqual && intervalsAreEqual && !dataKeys.length) {
+      if (!dataKeys.length) {
         return state;
       }
+      // since now, state will changed
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+        // Data Selection
+        const epSubState =
+          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
+        if (Object.keys(epSubState).length !== 0) {
+          // Data injection
+          const viewState = viewRangeAdd(newState[viewId], epSubState);
+          if (viewState !== newState[viewId]) {
+            newState = { ...newState, [viewId]: viewState };
+          }
+        }
+      }
+      return newState || {};
+    }
+    case types.WS_TIMEBAR_UPDATE_CURSORS: {
+      const { oldDataMap, dataMap } = action.payload;
+      // If nothing changed and no data to import, return state
+      const newViewMap = dataMap.perView;
+      const oldViewMap = oldDataMap ? oldDataMap.perView : {};
+      const newExpectedRangeIntervals = dataMap.expectedRangeIntervals;
+      const oldExpectedRangeIntervals = oldDataMap ? oldDataMap.expectedRangeIntervals : {};
+      const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
+      const intervalsAreEqual = _isEqual(newExpectedRangeIntervals, oldExpectedRangeIntervals);
+      if (viewMapIsEqual && intervalsAreEqual) {
+        return state;
+      }
+      oldDataMap ? console.log('***old ok', oldExpectedRangeIntervals) : console.log('***old nok');
+
       // since now, state will changed
       let newState = state;
       const viewIds = Object.keys(state);
@@ -126,27 +155,16 @@ export default function plotViewData(state = {}, action) {
         // Cleaning
         const subState = cleanCurrentViewData(
           viewData,
-          oldViewMap[viewId],
-          newViewMap[viewId],
-          oldExpectedRangeIntervals,
-          newExpectedRangeIntervals);
+          oldDataMap ? oldDataMap.perView[viewId] : undefined,
+          dataMap.perView[viewId],
+          oldDataMap ? oldDataMap.expectedRangeIntervals : undefined,
+          dataMap.expectedRangeIntervals);
         if (subState !== viewData) {
           newState = { ...newState, [viewId]: subState };
         }
-        if (dataKeys.length) {
-          // Data Selection
-          const epSubState =
-            selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
-          if (Object.keys(epSubState).length !== 0) {
-            // Data injection
-            const viewState = viewRangeAdd(newState[viewId], epSubState);
-            if (viewState !== newState[viewId]) {
-              newState = { ...newState, [viewId]: viewState };
-            }
-          }
-        }
       }
-      return newState || {};
+      console.log('********_isEqual', _isEqual(newState, state));
+      return newState;
     }
     default:
       return state;

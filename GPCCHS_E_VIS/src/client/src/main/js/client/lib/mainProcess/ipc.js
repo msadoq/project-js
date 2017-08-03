@@ -57,32 +57,10 @@ const commands = {
     sendReduxDispatch: (action) => {
       commands.server.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
     },
-    requestDomains: (callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_DOMAINS_REQUEST, null, callback);
-    },
-    requestSessions: (callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_SESSIONS_REQUEST, null, callback);
-    },
-    requestSessionTime: (sessionId, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_SESSION_TIME, { sessionId }, callback);
-    },
-    requestMasterSession: (callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_MASTER_SESSION, null, callback);
-    },
-    requestFmdGet: (oid, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_FMD_GET, { oid }, callback);
-    },
-    requestFmdCreate: (fileFolder, fileName, mimeType, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_FMD_CREATE, {
-        path: fileFolder,
-        name: fileName,
-        mimeType,
-      }, callback);
-    },
-    requestData: (queries, callback) => {
+    requestData: (queries, callback) => { // TODO : wait data consumption before remove
       commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, { queries }, callback);
     },
-    sendProductLog: (uid, ...args) => {
+    sendProductLog: (uid, ...args) => {  // TODO middleware
       commands.server.message(globalConstants.IPC_METHOD_PRODUCT_LOG, {
         uid,
         args,

@@ -72,10 +72,7 @@ export default class Zones extends Component {
         */ }
         {yAxesInteractive && yAxesAt === 'left' && yAxes.map((axis, index) =>
           <div
-            className={classnames(styles.ZonesYAxis, {
-              [styles.ZonesAxisLog]: axis.logarithmic,
-              [styles.ZonesAxis]: !axis.logarithmic,
-            })}
+            className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
             key={axis.id}
             style={{
               width: yAxisWidth,
@@ -87,10 +84,7 @@ export default class Zones extends Component {
         )}
         {yAxesInteractive && yAxesAt === 'right' && yAxes.map((axis, index) =>
           <div
-            className={classnames(styles.ZonesYAxis, {
-              [styles.ZonesAxisLog]: axis.logarithmic,
-              [styles.ZonesAxis]: !axis.logarithmic,
-            })}
+            className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
             key={axis.id}
             style={{
               width: yAxisWidth,
@@ -102,10 +96,7 @@ export default class Zones extends Component {
         )}
         {xAxesInteractive && xAxesAt === 'top' && xAxes.map((axis, index) =>
           <div
-            className={classnames(styles.ZonesXAxis, {
-              [styles.ZonesAxisLog]: axis.logarithmic,
-              [styles.ZonesAxis]: !axis.logarithmic,
-            })}
+            className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
             key={axis.id}
             style={{
               height: xAxisHeight,
@@ -117,10 +108,7 @@ export default class Zones extends Component {
         )}
         {xAxesInteractive && xAxesAt === 'bottom' && xAxes.map((axis, index) =>
           <div
-            className={classnames(styles.ZonesXAxis, {
-              [styles.ZonesAxisLog]: axis.logarithmic,
-              [styles.ZonesAxis]: !axis.logarithmic,
-            })}
+            className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
             key={axis.id}
             style={{
               height: xAxisHeight,

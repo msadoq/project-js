@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView open filepicker, then cancel opening view 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+    },
+    "type": "WS_ASK_OPEN_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "open",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {},
+    "type": "HSC_DIALOG_CLOSED",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView open view 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": "/an/absolute/path",
+    },
+    "type": "WS_ASK_OPEN_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "viewInfo": Object {
+        "absolutePath": "/an/absolute/path",
+      },
+    },
+    "type": "OPEN_VIEW",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView open view using filepicker 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "absolutePath": undefined,
+    },
+    "type": "WS_ASK_OPEN_VIEW",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "open",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": Array [
+        "/the/chosen/one",
+      ],
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "viewInfo": Object {
+        "absolutePath": "/the/chosen/one",
+      },
+    },
+    "type": "OPEN_VIEW",
+  },
+]
+`;

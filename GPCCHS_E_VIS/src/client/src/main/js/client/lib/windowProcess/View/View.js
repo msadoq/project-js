@@ -6,7 +6,6 @@ import getLogger from '../../common/logManager';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from './MessagesContainer';
 import { getViewComponent } from '../../viewManager/components';
-import { main } from '../ipc';
 import handleContextMenu from '../common/handleContextMenu';
 
 import styles from './View.css';
@@ -24,6 +23,7 @@ export default class View extends PureComponent {
     backgroundColor: PropTypes.string,
     maximized: PropTypes.bool,
     isViewsEditorOpen: PropTypes.bool.isRequired,
+    askOpenInspector: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
@@ -130,6 +130,8 @@ export default class View extends PureComponent {
       openEditor,
       closeEditor,
       collapseView,
+      askOpenInspector,
+      collapsed,
     } = this.props;
     const ContentComponent = getViewComponent(type);
     const mainMenu = this.getMainContextMenu();
@@ -147,6 +149,7 @@ export default class View extends PureComponent {
           collapseView={collapseView}
           onContextMenu={() => this.onContextMenu(mainMenu)}
         />
+        { !collapsed &&
         <div
           className={styles.content}
           style={this.backgroundColorStyle(backgroundColor)}
@@ -155,13 +158,14 @@ export default class View extends PureComponent {
           <ContentComponent
             viewId={viewId}
             pageId={pageId}
-            openInspector={args => main.openInspector(pageId, viewId, type, args)}
+            openInspector={args => askOpenInspector(pageId, viewId, type, args)}
             isViewsEditorOpen={isViewsEditorOpen}
             openEditor={openEditor}
             closeEditor={closeEditor}
             mainMenu={mainMenu}
           />
         </div>
+        }
       </div>
     );
   }

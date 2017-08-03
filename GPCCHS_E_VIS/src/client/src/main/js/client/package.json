@@ -28,9 +28,9 @@
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "build:server": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.server.js --progress --profile --colors",
     "package:electron": "cd dist && electron-packager . --no-prune --overwrite",
-    "clean": "rimraf ./dist stats.json scripts/lint-reporter/*.csv",
+    "clean": "rimraf ./dist stats.json ./coverage ./scripts/lint-reporter/*.csv",
     "hello": "npm run link && npm run install:adapters && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
-    "install:adapters": "(cd ../../../../../adapters/dc && npm install) && (cd ../../../../../adapters/isis && npm install)",
+    "hello:no-rtd": "npm run link:common && npm run install:adapters && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link:common": "npm link ../../../../../common/src/main/js/common && (cd ../../../../../common/src/main/js/common && npm install)",
     "link:rtd": "npm link ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && (cd ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && npm install)",
     "link": "npm run link:common && npm run link:rtd",
@@ -46,14 +46,14 @@
     "open:test:coverage": "firefox coverage/test/lcov-report/index.html",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
-    "update-rtd": "./manageRTD.sh --update",
-    "install-rtd": "./manageRTD.sh --install && (cd node_modules/rtd && npm install)",
-    "copy-rtd": "./manageRTD.sh --copy",
+    "install:adapters": "node ./scripts/adaptersInstall.js",
+    "install:rtd": "node ./scripts/rtdInstall.js",
     "prepare:maven:build": "node ./scripts/prepareMavenBuild.js",
-    "postinstall": "electron-rebuild",
+    "postinstall": "electron-rebuild && npm run install:rtd && npm run install:adapters",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
-    "benchmark-grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js",
-    "benchmark-textview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/textview.benchmark.js"
+    "benchmark:grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js",
+    "benchmark:textview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/textview.benchmark.js",
+    "benchmark:mimicview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/mimicview.benchmark.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -120,6 +120,7 @@
     "fast-json-patch": "^1.2.2",
     "fbjs-scripts": "~0.7.1",
     "file-loader": "~0.11.1",
+    "graceful-fs": "^4.1.11",
     "html-to-react": "~1.2.4",
     "htmlhint": "~0.9.13",
     "identity-obj-proxy": "~3.0.0",
@@ -195,5 +196,6 @@
     "node": "6.x",
     "npm": "3.x"
   },
-  "style": "./lib/app.global.css"
+  "style": "./lib/app.global.css",
+  "devDependencies": {}
 }

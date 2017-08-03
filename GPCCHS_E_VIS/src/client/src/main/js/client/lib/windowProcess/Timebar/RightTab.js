@@ -168,13 +168,14 @@ class RightTabContent extends PureComponent {
       <div
         className={classnames(
           styles[this.borderColorKlass()],
+          'RightTab',
           styles.rightTab,
           'subdiv'
         )}
       >
         <span
           ref={this.assignFormattedFullDateEl}
-          className={styles.formatedFullDate}
+          className={classnames('FormatedFullDate', styles.formatedFullDate)}
         />
         <ControlsContainer
           timebarRealTime={timebar.realTime}

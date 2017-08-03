@@ -17,7 +17,13 @@ export default function patchReducer(state, action) {
 
   const patch = _getOr([], ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action);
   if (patch.length) {
-    return applyPatch(state, patch);
+    let patched = state;
+    try {
+      patched = applyPatch(state, patch, { strict: true });
+    } catch (e) {
+      console.log(e);
+    }
+    return patched;
   }
 
   return state;

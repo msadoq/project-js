@@ -20,7 +20,7 @@ const showDialog = (window, { type, options, id }, cb) => {
     logger.error(`unknown dialog type '${type}'`);
     return;
   }
-  dialogs[type](window, options, choice => cb(window.windowId, id, choice, options));
+  dialogs[type](window, options, choice => cb(window.windowId, choice, options, id));
 };
 
 const showDialogs = (dialogsByWindows, cb) => {
@@ -55,8 +55,8 @@ export default function makeDialogObserver(store) {
   return () => {
     const dialogsToShow = getDialogDifference(getDialogState(), prevDialogState);
     if (!_.isEmpty(dialogsToShow)) {
-      showDialogs(dialogsToShow, (windowId, dialogId, choice, options) => {
-        store.dispatch(dialogClosed(windowId, dialogId, choice, options));
+      showDialogs(dialogsToShow, (windowId, choice, options, dialogId) => {
+        store.dispatch(dialogClosed(windowId, choice, options, dialogId));
       });
     }
     prevDialogState = getDialogState();

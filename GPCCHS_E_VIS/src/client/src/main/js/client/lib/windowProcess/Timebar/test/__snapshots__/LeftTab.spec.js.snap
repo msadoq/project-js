@@ -2,7 +2,7 @@
 
 exports[`Lefttab renders correctly 1`] = `
 <div
-  className="leftTab subdiv col-xs-3"
+  className="LeftTab leftTab col-xs-3"
 >
   <div
     className="leftTabTopPanel"
@@ -19,7 +19,7 @@ exports[`Lefttab renders correctly 1`] = `
       />
     </button>
     <h5
-      className="timebarName"
+      className="timebarName timebarName"
     >
       <b>
         Timebar 01

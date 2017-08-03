@@ -1,15 +1,18 @@
 import * as types from '../../../types';
-import { withOpenDialog } from '../helpers';
 
-const onOpenPage = documentManager => withOpenDialog(
-  ({ dispatch, openDialog }) => next => (action) => {
+import { openDialog } from '../../../actions/ui';
+import withListenAction from '../../../helpers/withListenAction';
+
+const makeOnOpenPage = documentManager => withListenAction(
+  ({ dispatch, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_PAGE) {
       const { windowId, absolutePath } = action.payload;
       if (absolutePath) {
         dispatch(documentManager.openPage({ windowId, absolutePath }));
       } else {
-        openDialog(windowId, 'open', {}, (closeAction) => {
+        dispatch(openDialog(windowId, 'open', {}));
+        listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             dispatch(documentManager.openPage({ windowId, absolutePath: choice[0] }));
@@ -21,4 +24,4 @@ const onOpenPage = documentManager => withOpenDialog(
   }
 );
 
-export default onOpenPage;
+export default makeOnOpenPage;

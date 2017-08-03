@@ -12,7 +12,7 @@ import * as serializers from './serializers';
 */
 
 global.testConfig = {
-  ISIS_DOCUMENTS_ROOT: resolve(__dirname, '../../documentManager/fixtures'),
+  ISIS_DOCUMENTS_ROOT: resolve(__dirname, '../../serverProcess/documentManager/fixtures'),
   WILDCARD_CHARACTER: '*',
   VISUWINDOW_MAX_LENGTH: 42,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN: 0.1,

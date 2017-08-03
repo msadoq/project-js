@@ -87,7 +87,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Normal'),
+                  active: (timebarMode === 'Normal'),
                 }
               )}
               onClick={this.switchMode}
@@ -102,7 +102,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Extensible'),
+                  active: (timebarMode === 'Extensible'),
                 }
               )}
               onClick={this.switchMode}
@@ -117,7 +117,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Fixed'),
+                  active: (timebarMode === 'Fixed'),
                 }
               )}
               onClick={this.switchMode}
@@ -149,7 +149,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: timebarRealTime,
+                  active: timebarRealTime,
                 }
               )}
               onClick={this.switchMode}

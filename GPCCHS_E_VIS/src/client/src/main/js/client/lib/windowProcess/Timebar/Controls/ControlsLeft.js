@@ -183,7 +183,7 @@ export default class ControlsLeft extends PureComponent {
       </Popover>);
 
     return (
-      <ul className={styles.controlsUl}>
+      <ul className={classnames(styles.controlsUl, styles.controlsUlLeft)}>
         {(messages && messages.length) ?
           <li className={styles.controlsLi}>
             <button
@@ -240,7 +240,7 @@ export default class ControlsLeft extends PureComponent {
               allButtonsKlasses,
               {
                 [styles.controlButtonPlay]: isPlaying,
-                [styles.controlButtonActive]: isPlaying,
+                active: isPlaying,
                 [styles.controlButtonPause]: !isPlaying,
               }
             )}

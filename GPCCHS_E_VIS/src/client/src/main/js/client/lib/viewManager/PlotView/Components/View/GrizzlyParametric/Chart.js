@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
@@ -156,17 +157,12 @@ export default class Chart extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { allowXZoom, allowYZoom, yAxes, xAxes } = this.props;
+    const { allowXZoom, allowYZoom } = this.props;
     const { zoomLevels, ctrlPressed } = this.state;
 
     if (ctrlPressed) {
       const hoveredAxis = this.wichAxisIsHovered(e);
       const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
-      const foundAxis = yAxes.find(a => a.id === hoveredAxisId) ||
-        xAxes.find(a => a.id === hoveredAxisId);
-      if (hoveredAxisId && foundAxis && foundAxis.logarithmic) {
-        return;
-      }
       if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
         const zoomLevel = _get(zoomLevels, hoveredAxisId, 1);
         const newZoomLevels = {
@@ -182,7 +178,7 @@ export default class Chart extends React.Component {
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowXZoom, allowYZoom, yAxes, xAxes } = this.props;
+    const { allowXZoom, allowYZoom } = this.props;
     const { pans, ctrlPressed } = this.state;
     if (!ctrlPressed) {
       return;
@@ -193,11 +189,6 @@ export default class Chart extends React.Component {
     const hoveredAxis = this.wichAxisIsHovered(e);
     const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
     const hoveredAxisType = hoveredAxis ? hoveredAxis[2] : null;
-    const foundAxis = yAxes.find(a => a.id === hoveredAxisId) ||
-      xAxes.find(a => a.id === hoveredAxisId);
-    if (hoveredAxisId && foundAxis && foundAxis.logarithmic) {
-      return;
-    }
     if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
       const pan = _get(pans, hoveredAxisId, 0);
       this.setState({
@@ -284,6 +275,7 @@ export default class Chart extends React.Component {
       // Extents [lower, upper] for x and y axes
       for (let j = 0; j < [line.xAxis, line.yAxis].length; j += 1) {
         const axis = [line.xAxis, line.yAxis][j];
+        const logBase = _get(axis, ['logSettings', 'base'], 10);
         const isXAxis = j === 0;
         const zoomLevel = _get(zoomLevels, axis.id, 1);
         const pan = _get(pans, axis.id, 0);
@@ -315,6 +307,23 @@ export default class Chart extends React.Component {
             pairLines,
             line.data
           );
+        } else if (axis.logarithmic) {
+          const factor = logBase ** Math.floor(Math.log10(zoomLevel ** 5));
+          const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40);
+          const extendsLower = (logBase ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
+          const extendsUpper = (logBase ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
+          if (!this.extents[axis.id]) {
+            this.extents[axis.id] = _memoize(
+              (hash, orient, lower, upper) =>
+                (orient === 'top' ? [lower, upper] : [upper, lower])
+            );
+          }
+          axis.calculatedExtents = this.extents[axis.id](
+            `${axis.orient}-${extendsLower}-${extendsUpper}`,
+            axis.orient,
+            extendsLower,
+            extendsUpper
+          );
         } else {
           // First render, instanciate one memoize method per Y axis
           if (!this.extents[axis.id]) {
@@ -341,11 +350,12 @@ export default class Chart extends React.Component {
 
         if (!this.scales[axis.id]) {
           this.scales[axis.id] = _memoize(
-            (hash, extentsLower, extentsUpper, height, logarithmic) => {
+            (hash, extentsLower, extentsUpper, height, logarithmic, base) => {
               if (logarithmic) {
                 return scaleLog()
-                  .domain([0.1, 1000000000])
+                  .domain([extentsLower, extentsUpper])
                   .range([height, 0])
+                  .base(base)
                   .nice();
               }
               return scaleLinear()
@@ -360,7 +370,8 @@ export default class Chart extends React.Component {
           axis.calculatedExtents[0],
           axis.calculatedExtents[1],
           isXAxis ? this.chartWidth : this.chartHeight,
-          axis.logarithmic
+          axis.logarithmic,
+          logBase
         );
 
         axis.rank = axis.showGrid ? 100 : axis.id.length;
@@ -585,6 +596,23 @@ export default class Chart extends React.Component {
     e => this.resetZoomLevel(e, axisId)
   )
 
+  memoizeBackgroundDivStyle = _memoize(
+    (hash, marginTop, marginSide, yAxesAt, width, height) => {
+      const style = {};
+      if (yAxesAt === 'left') {
+        style.left = marginSide;
+      } else if (yAxesAt === 'right') {
+        style.right = marginSide;
+      }
+      return {
+        ...style,
+        top: marginTop,
+        width,
+        height,
+      };
+    }
+  );
+
   render() {
     const {
       height,
@@ -683,6 +711,17 @@ export default class Chart extends React.Component {
             })
           }
         </div>
+        <div
+          className={classnames('Background', styles.Background)}
+          style={this.memoizeBackgroundDivStyle(
+            `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
+            marginTop,
+            marginSide,
+            yAxesAt,
+            this.chartWidth,
+            this.chartHeight
+          )}
+        />
         {
           Object.keys(this.pairs).map((key) => {
             const pair = this.pairs[key];
@@ -702,6 +741,7 @@ export default class Chart extends React.Component {
                 lines={pair.lines}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
+                memoizeDivStyle={this.memoizeBackgroundDivStyle}
               />
             );
           })
@@ -721,6 +761,7 @@ export default class Chart extends React.Component {
             xAxesAt={xAxisAt}
             yAxisWidth={this.yAxisWidth}
             xAxisHeight={this.xAxisHeight}
+            memoizeDivStyle={this.memoizeBackgroundDivStyle}
           />
         }
         {

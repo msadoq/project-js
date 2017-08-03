@@ -58,8 +58,9 @@ class GPCCHS(object):
     _gpccdc_conf_filename = 'config_gpccdc_d_dbr-default.xml'
     _gpccdc_url = 'tcp://127.0.0.1:{}'
     _container_pid_file_basename = '{}gpinde-{}-{}-{}-container.pid'
+    _creditsFile_basename='{}gpinde-{}-{}-{}-default.ses'
 
-    _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
+    _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd --ai {2} --si {3} --di {4} -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
     _hscRunCmd = './lpisis_gpcchs_e_clt --ISIS_DOCUMENTS_ROOT={} --NODE_PATH={} --ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} --ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{}'
 
@@ -85,10 +86,28 @@ class GPCCHS(object):
             try:
                 hdl = open(filename,'r')
             except IOError:
-                print("GPCCHS Getting desktopx container process ID failed, cannot read file:",filename)
+                print("GPCCHS Getting display container process ID failed, cannot read file:",filename)
             else:            
                 self.__container_pid, _ = hdl.read().split()
+                hdl.close()
         return self.__container_pid
+
+    @property
+    def _auth_id(self):
+        """
+        Get authentification ID
+        """
+        if not self.__auth_id:
+            filename = self._creditsFile.format(self._ISIS_WORK_DIR)
+            try:
+                hdl = open(filename,'r')
+            except IOError:
+                print("GPCCHS Getting display session authentification Id ID failed, cannot read file:",filename)
+            else:
+                fileLines = hdl.read().split()
+                self.__auth_id = fileLines[-1]
+                hdl.close()
+        return self.__auth_id
 
     @property
     def _container_cmd_base(self):
@@ -97,7 +116,10 @@ class GPCCHS(object):
         """
         return self._startContainerCmd.format(
             self._container_pid,
-            self._container_dir
+            self._container_dir,
+            self._auth_id,
+            str(self._session_id),
+            str(self._domain_id)
         )
 
     @property
@@ -165,9 +187,14 @@ class GPCCHS(object):
         self._dcPullPort = None
         self._feature_id = None
         self.__container_pid = None
+        self.__auth_id = None
         self._gpccdc_created = False
         self._gpccdc_started = False
         self._gpccdc_config_file = options.gpccdc_config_file
+        self._session_id = options.sessionid
+        self._domain_id = options.domainid
+        if self._session_id == 0:
+            print("Warning, -s argument not provided, default session ID 0 is used")
         if os.environ.get('ISIS_DOCUMENT_DIR') != None:
             self._fmd_root = os.environ.get('ISIS_DOCUMENT_DIR') + '/'
         else:
@@ -189,6 +216,7 @@ class GPCCHS(object):
         else:
             raise IsisContainerError("GPCCHS Launcher cannot read DISPLAY environment variable")
         self._container_pid_file = self._container_pid_file_basename.format("{}",user, hostname, display)
+        self._creditsFile = self._creditsFile_basename.format("{}",user, hostname,display)
         self._feature_conf = self._ISIS_WORK_DIR + self._gpccdc_conf_filename
         self._hsc_args = unknown_args
         self._debug = options.debug
@@ -700,12 +728,20 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='Run visualization application')
-    parser.add_argument("--debug","-d",
+    parser.add_argument("--debug",
         action='store_true',
         help="Activate the traces"
     )
     parser.add_argument("--gpccdc_config_file",
         help="GPCCDC xml configuration file")
+    parser.add_argument("--sessionid","-s",
+        type=int,
+        default=0,
+        help="Id of the operational session")
+    parser.add_argument("--domainid","-d",
+        type=int,
+        default=3,
+        help="Id of the domain")
     #Parse known and unknown arguments
     known_args = None
     unknown_args = None

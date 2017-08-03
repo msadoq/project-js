@@ -493,6 +493,7 @@ export class GrizzlyPlotView extends PureComponent {
       visuWindow,
       links,
       pageId,
+      viewId,
       showLinks,
     } = this.props;
     let {
@@ -532,7 +533,7 @@ export class GrizzlyPlotView extends PureComponent {
     const legendComponent =
       (<Legend
         plotHeight={plotHeight}
-        yAxes={yAxes}
+        axes={axes}
         legendLocation={legend.location}
         lines={this.props.configuration.entryPoints}
         show={showLegend}
@@ -550,7 +551,7 @@ export class GrizzlyPlotView extends PureComponent {
         onContextMenu={this.onContextMenu}
         onDrop={this.onDrop}
         text="add entry point"
-        className="h100 posRelative"
+        className="h100 posRelative PlotView"
         style={mainStyle}
       >
         { (legend.location === 'top' || legend.location === 'left') &&
@@ -559,7 +560,7 @@ export class GrizzlyPlotView extends PureComponent {
         <GrizzlyChart
           height={plotHeight}
           width={width}
-          tooltipColor="blue"
+          tooltipColor="white"
           enableTooltip
           allowYZoom
           allowYPan
@@ -610,6 +611,7 @@ export class GrizzlyPlotView extends PureComponent {
               label: axis.label,
               labelStyle: axis.style,
               logarithmic: axis.logarithmic,
+              logSettings: axis.logSettings,
             };
           })}
           lines={
@@ -623,7 +625,7 @@ export class GrizzlyPlotView extends PureComponent {
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                dataAccessor: d => d[ep.name],
+                dataAccessor: ep.name,
                 xAccessor: null, // default .x
                 yAccessor: null, // default .value
                 colorAccessor: 'color',
@@ -640,6 +642,7 @@ export class GrizzlyPlotView extends PureComponent {
           toggleShowLinks={this.toggleShowLinks}
           links={links}
           removeLink={this.removeLink}
+          viewId={viewId}
           pageId={pageId}
         />
 

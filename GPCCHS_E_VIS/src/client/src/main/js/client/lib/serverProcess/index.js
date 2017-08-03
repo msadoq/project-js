@@ -1,5 +1,6 @@
 import exit from 'exit';
 import { series } from 'async';
+import { setRtd, getRtd } from '../rtdManager';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
@@ -15,6 +16,9 @@ import { dc } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeViewNeededDataStoreObserver from '../store/observers/viewNeededDataStoreObserver';
+import { setRteSessions } from '../store/actions/rte';
+
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
 const HEALTH_CRITICAL_DELAY = get('SERVER_HEALTH_CRITICAL_DELAY');
 adapter.registerGlobal();
@@ -25,6 +29,21 @@ const logger = getLogger('main');
 let monitoring = {};
 process.title = 'gpcchs_hss';
 
+const requestCatalogSessions = (store) => {
+  // should have rte sessions in store at start
+  if (get('RTD_ON') === 'on') {
+    logger.info('requesting catalog explorer sessions...');
+    const rtdApi = getRtd();
+    rtdApi.getDatabase().getSessionList((err, sessions) => {
+      if (err) {
+        return;
+      }
+      logger.info('injecting catalog explorer sessions...');
+      store.dispatch(setRteSessions(sessions));
+    });
+  }
+};
+
 series({
   // ZeroMQ sockets
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
@@ -32,6 +51,27 @@ series({
   logBook: (callback) => {
     dc.sendProductLog(LOG_APPLICATION_START);
     callback(null);
+  },
+  rtd: (callback) => {
+    if (get('RTD_ON') === 'on') {
+      const createRtd = dynamicRequire('rtd/catalogs').connect;
+      const socket = get('RTD_UNIX_SOCKET');
+      let stub = false;
+      if (get('STUB_RTD_ON') === 'on') {
+        stub = true;
+      }
+      logger.info('starting RTD client...');
+      createRtd({ socket, stub }, (err, rtd) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        setRtd(rtd);
+        callback(null);
+      });
+    } else {
+      callback(null);
+    }
   },
   // Initial data for store (domains, sessions, master session ID)
   initialData: callback => fetchInitialData(callback),
@@ -50,6 +90,8 @@ series({
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));
+
+  requestCatalogSessions(store);
 
   /* Start Health Monitoring mechanism
   On a status change, the Server Health status is updated

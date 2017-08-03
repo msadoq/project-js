@@ -60,6 +60,12 @@ export const getLinks = createSelector(
   _.get('links')
 );
 
+export const getLink = createSelector(
+  (state, { linkId }) => linkId,
+  getLinks,
+  _.get
+);
+
 export const areLinksShown = createSelector(
   getView,
   _.get('showLinks')

@@ -4,6 +4,7 @@ import TimebarFixture from '../../../../test/__mocks__/Timebar';
 import ControlsRight from '../Controls/ControlsRight';
 
 const propsStub = {
+  enableRealTime: true,
   play: () => null,
   switchToFixedMode: () => null,
   switchToExtensibleMode: () => null,

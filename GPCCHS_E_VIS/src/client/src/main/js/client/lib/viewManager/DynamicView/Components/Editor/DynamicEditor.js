@@ -22,7 +22,8 @@ export default class DynamicEditor extends Component {
       size: PropTypes.number,
       strikeOut: PropTypes.bool,
       underline: PropTypes.bool,
-    }).isRequired,
+    }),
+    title: PropTypes.string,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }).isRequired,
@@ -38,7 +39,9 @@ export default class DynamicEditor extends Component {
   }
 
   static defaultProps = {
+    titleStyle: {},
     tab: null,
+    title: '',
   }
 
   changeCurrentDisplay = (id) => {
@@ -71,10 +74,26 @@ export default class DynamicEditor extends Component {
 
   render() {
     const { entryPoints } = this.props.configuration;
-    const { timelines, viewId, tab, domains, updateViewPanels, panels, openModal } = this.props;
+    const {
+      timelines,
+      viewId,
+      tab,
+      domains,
+      updateViewPanels,
+      panels,
+      openModal,
+      title,
+      titleStyle,
+    } = this.props;
     const nullObject = {};
     return (
       <div className={styles.contentWrapper}>
+        <h4
+          className="text-center mb10"
+        >
+          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <b>{title}</b>
+        </h4>
         <Navbar
           currentDisplay={tab === null ? 0 : tab}
           changeCurrentDisplay={this.changeCurrentDisplay}

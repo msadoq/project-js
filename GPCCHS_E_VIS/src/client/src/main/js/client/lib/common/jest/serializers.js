@@ -33,6 +33,16 @@ export const dialogActionSerializer = createActionSerializer({
   ]),
 });
 
+export const pageAddBlankActionSerializer = createActionSerializer({
+  print: _.update('payload.page', _.unset('uuid')),
+  test: typeIs(types.WS_PAGE_ADD_BLANK),
+});
+
+export const openViewActionSerializer = createActionSerializer({
+  print: _.update('payload', _.unset('pageId')),
+  test: typeIs('OPEN_VIEW'),
+});
+
 export const modalActionSerializer = createActionSerializer({
   print: _.update('payload.props', _.unset('modalId')),
   test: _.anyPass([

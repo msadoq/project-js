@@ -116,13 +116,13 @@ export default class PlotAxes extends Component {
             const axis = axes[axisId];
             const addPlotAxisInitalValues = {
               ...axis,
-              max: axis.max.toString(),
-              min: axis.min.toString(),
-              tickStep: axis.tickStep.toString(),
+              max: axis.max ? axis.max.toString() : null,
+              min: axis.min ? axis.min.toString() : null,
+              tickStep: axis.tickStep ? axis.tickStep.toString() : null,
               logSettings: {
-                min: axis.logSettings.min.toString(),
-                max: axis.logSettings.max.toString(),
-                base: axis.logSettings.base.toString(),
+                min: axis.logSettings.min ? axis.logSettings.min.toString() : null,
+                max: axis.logSettings.max ? axis.logSettings.max.toString() : null,
+                base: axis.logSettings.base ? axis.logSettings.base.toString() : null,
               },
             };
             return (

@@ -1,16 +1,16 @@
 import pipeMiddlewares from '../../../helpers/pipeMiddlewares';
-import onSaveView from './onSaveView';
-import onOpenView from './onOpenView';
-import onCloseView from './onCloseView';
-import onReloadView from './onReloadView';
-import onSaveViewAsModel from './onSaveViewAsModel';
+import makeOnSaveView from './onSaveView';
+import makeOnOpenView from './onOpenView';
+import makeOnCloseView from './onCloseView';
+import makeOnReloadView from './onReloadView';
+import makeOnSaveViewAsModel from './onSaveViewAsModel';
 
-const createViewsMiddleware = documentManager => pipeMiddlewares(
-  onOpenView(documentManager),
-  onSaveView(documentManager),
-  onCloseView(documentManager),
-  onReloadView(documentManager),
-  onSaveViewAsModel(documentManager)
+const makeViewsMiddleware = documentManager => pipeMiddlewares(
+  makeOnOpenView(documentManager),
+  makeOnSaveView(documentManager),
+  makeOnCloseView(documentManager),
+  makeOnReloadView(documentManager),
+  makeOnSaveViewAsModel(documentManager)
 );
 
-export default createViewsMiddleware;
+export default makeViewsMiddleware;

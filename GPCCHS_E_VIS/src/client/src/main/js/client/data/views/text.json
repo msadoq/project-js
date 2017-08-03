@@ -18,7 +18,7 @@
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.json"
     },
     {
-      "name": "view.pbf.plot",
+      "name": "view.pbf.text",
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json"
     }
   ],
@@ -26,7 +26,7 @@
     "length": 5,
     "width": 5
   },
-  "content": "<style>  .myTextView {float: left; font-size: 1.2rem; }  .myTextView .myContener { background-color: #0f1051; margin-top: 4px; margin-left: 6px; padding:2px; float: left; border-radius: 1px; border: 1px ridge #0f0041; height: 51px; width: 180px; }  .myContener .name {display: block;  overflow: hidden; background-color: white; color: black; font-weight: bolder; font-size: 11px; padding: 2px; text-align: center;}  .myContener .value { text-align: center; display: block; overflow: hidden; background-color: #0f0041; color: #00ff00; font-weight: bold; padding: 10px; margin-bottom: 10px; }</style><div class='myTextView'>    <div class='myContener'><span class='name'>AGA_AM_PRIORITY</span><span class='value'>{{AGA_AM_PRIORITY}}</span></div>    <div class='myContener'><span class='name'>TMMGT_BC_VIRTCHAN3</span><span class='value'>{{TMMGT_BC_VIRTCHAN3}}</span></div></div>",
+  "content": "<style>\n  .myTextView {\n    float: left;\n    font-size: 1.2rem;\n  }\n\n  .myTextView .myContener {\n    background-color: #0f1051;\n    margin-top: 4px;\n    margin-left: 6px;\n    padding: 2px;\n    float: left;\n    border-radius: 1px;\n    border: 1px ridge #0f0041;\n    height: 51px;\n    width: 180px;\n  }\n\n  .myContener .name {\n    display: block;\n    overflow: hidden;\n    background-color: white;\n    color: black;\n    font-weight: bolder;\n    font-size: 11px;\n    padding: 2px;\n    text-align: center;\n  }\n\n  .myContener .value {\n    text-align: center;\n    display: block;\n    overflow: hidden;\n    background-color: #0f0041;\n    color: #00ff00;\n    font-weight: bold;\n    padding: 10px;\n    margin-bottom: 10px;\n  }\n</style>\n<div class='myTextView'>\n  <div class='myContener'><span isis_link='view.pbf.text' class='name'>AGA_AM_PRIORITY</span><span class='value'>{{AGA_AM_PRIORITY}}</span></div>\n  <div class='myContener'><span class='name'>TMMGT_BC_VIRTCHAN3</span><span class='value'>{{TMMGT_BC_VIRTCHAN3}}</span></div>\n</div>",
   "entryPoints": [
     {
       "name": "AGA_AM_PRIORITY",

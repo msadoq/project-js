@@ -15,6 +15,8 @@ import {
   getComputedParameterTriggers,
 } from './reportings';
 
+export prepareDataToTree from './prepareDataToTree';
+
 let rtd;
 const disabledRtd = {
   getCatalogByName: (a, b, c, d, e, cb) => cb(null),

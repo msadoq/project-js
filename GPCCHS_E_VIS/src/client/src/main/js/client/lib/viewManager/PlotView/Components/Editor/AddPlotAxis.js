@@ -354,17 +354,16 @@ class AddPlotAxis extends PureComponent {
 const requiredFields = ['label'];
 const validate = (values = {}, props) => {
   const errors = {};
-
   if (
-      Object.keys(props.axes).find(key => props.axes[key].label === values.label) &&
-      !props.axisId // form used for creation and not edition
+    Object.keys(props.axes).find(key => props.axes[key].label === values.label) &&
+    !props.axisId // form used for creation and not edition
   ) {
     errors.label = 'Label already taken';
   }
-  if (parseFloat(values.max).toString().length !== values.max.length) {
+  if (values.max && parseFloat(values.max).toString().length !== values.max.length) {
     errors.max = 'Invalid value';
   }
-  if (parseFloat(values.min).toString().length !== values.min.length) {
+  if (values.min && parseFloat(values.min).toString().length !== values.min.length) {
     errors.min = 'Invalid value';
   }
   if (!errors.max && parseFloat(values.max) <= parseFloat(values.min)) {

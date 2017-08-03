@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:documents:onSaveWorkspace save as workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "WS_ASK_SAVE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "choice": "/the/chosen/one",
+    },
+    "type": "HSC_DIALOG_CLOSED",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/the/chosen/one",
+    },
+    "type": "SAVE_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onSaveWorkspace save as, then cancel 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "WS_ASK_SAVE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "options": Object {},
+      "type": "save",
+      "windowId": "w1",
+    },
+    "type": "HSC_OPEN_DIALOG",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {},
+    "type": "HSC_DIALOG_CLOSED",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onSaveWorkspace save workspace 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "WS_ASK_SAVE_WORKSPACE",
+  },
+  Object {
+    "payload": Object {
+      "absolutePath": "/folder/file",
+    },
+    "type": "SAVE_WORKSPACE",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onSaveWorkspace save workspace with new pages 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "WS_ASK_SAVE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "savedDocuments": Object {
+              "label": "Ok",
+              "type": "secondary",
+              "value": "ok",
+            },
+            "unsavedDocuments": Object {
+              "disabled": true,
+              "label": "Ok",
+              "type": "secondary",
+              "value": "ok",
+            },
+          },
+        ],
+        "documentType": "workspace",
+        "mode": "save",
+        "pageIds": Array [
+          "p1",
+        ],
+        "title": "new views must be saved",
+        "type": "saveWizard",
+        "viewIds": Array [
+          "v1",
+          "v2",
+          "v3",
+        ],
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;

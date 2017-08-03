@@ -8,7 +8,7 @@ import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
 import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from '../../store/actions/hsc';
 import { askOpenView } from '../../store/actions/views';
-import { viewAddBlank } from './viewOpen';
+import viewAddBlank from './viewAddBlank';
 import pageAddBlank from './pageAddBlank';
 
 import { getAvailableViews } from '../../viewManager';

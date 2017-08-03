@@ -16,6 +16,10 @@
   }
 }
 
+.Background {
+  position: absolute;
+}
+
 .xAxisDiv{
   position: absolute;
   .xAxis{
@@ -276,11 +280,6 @@
       box-shadow: inset 0px 0px 1px rgba(0, 140, 220, 0.6), inset 0px 0px 2px rgba(0, 140, 220, 0.6), inset 0px 0px 3px rgba(0, 140, 220, 0.6);
       background: rgba(0, 140, 220, 0.11);
     }
-  }
-  & > .ZonesAxisLog{
-    position: absolute;
-    /*pointer-events: none;*/
-    cursor: row-resize;
   }
 
   & > .ZonesChart{

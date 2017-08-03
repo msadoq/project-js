@@ -1,7 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import path from 'path';
-import { connect as createRtd } from 'rtd/catalogs';
 
 import getLogger from '../common/logManager';
 import parameters from '../common/configurationManager';
@@ -37,6 +36,8 @@ import makeElectronObserver from './electronManager';
 let monitoring = {};
 const HEALTH_CRITICAL_DELAY = parameters.get('MAIN_HEALTH_CRITICAL_DELAY');
 const logger = getLogger('main:index');
+
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
 function scheduleTimeout(delay, message) {
   let timeout = setTimeout(() => {
@@ -146,6 +147,7 @@ export function onStart() {
     },
     function initRtdClient(callback) {
       if (parameters.get('RTD_ON') === 'on') {
+        const createRtd = dynamicRequire('rtd/catalogs').connect;
         const socket = parameters.get('RTD_UNIX_SOCKET');
         let stub = false;
         if (parameters.get('STUB_RTD_ON') === 'on') {
@@ -186,6 +188,7 @@ export function onStart() {
         splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
+        dispatch(isWorkspaceOpening(true));
         dispatch(askOpenNewWorkspace());
         callback(null);
         return;
@@ -199,7 +202,7 @@ export function onStart() {
       splashScreen.setMessage('loading default workspace...');
       logger.info('loading default workspace...');
       dispatch(isWorkspaceOpening(true));
-      dispatch(askOpenWorkspace(null, absolutePath));
+      dispatch(askOpenWorkspace(null, absolutePath, true));
       callback(null);
     },
     function requestCatalogSessions(callback) {

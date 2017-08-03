@@ -2,6 +2,8 @@ const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:onFmdCreateData');
 const globalConstants = require('../../../constants');
 
+const { pop } = require('../../../common/callbacks');
+
 /**
  * Triggered on create FMD document response
  *
@@ -10,7 +12,7 @@ const globalConstants = require('../../../constants');
  * @param reply function
  * @param args array
  */
-module.exports = (reply, args) => {
+module.exports = (args) => {
   logger.silly('called');
 
   const queryIdBuffer = args[0];
@@ -18,13 +20,14 @@ module.exports = (reply, args) => {
   const buffer = args[2];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
+  const callback = pop(queryId);
   logger.silly('decoded queryId', queryId);
 
   const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
   if (status !== globalConstants.STATUS_SUCCESS) {
     const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
-    reply(queryId, { err: reason });
+    callback({ err: reason });
   } else {
-    reply(queryId, decode('dc.dataControllerUtils.FMDFileInfo', buffer));
+    callback(decode('dc.dataControllerUtils.FMDFileInfo', buffer));
   }
 };

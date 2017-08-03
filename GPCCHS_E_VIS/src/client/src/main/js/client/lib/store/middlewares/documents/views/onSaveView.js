@@ -1,10 +1,12 @@
 import * as types from '../../../types';
 import { getView } from '../../../reducers/views';
 import { getWindowIdByViewId } from '../../../selectors/windows';
-import { withOpenDialog } from '../helpers';
 
-const onSaveView = documentManager => withOpenDialog(
-  ({ getState, dispatch, openDialog }) => next => (action) => {
+import { openDialog } from '../../../actions/ui';
+import withListenAction from '../../../helpers/withListenAction';
+
+const makeOnSaveView = documentManager => withListenAction(
+  ({ getState, dispatch, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_VIEW) {
       const { viewId } = action.payload;
@@ -13,7 +15,8 @@ const onSaveView = documentManager => withOpenDialog(
       const windowId = getWindowIdByViewId(state, { viewId });
       const saveAs = action.payload.saveAs || (!view.oId && !view.absolutePath);
       if (saveAs) {
-        openDialog(windowId, 'save', {}, (closeAction) => {
+        dispatch(openDialog(windowId, 'save'));
+        listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
             const absolutePath = choice;
@@ -28,4 +31,4 @@ const onSaveView = documentManager => withOpenDialog(
   }
 );
 
-export default onSaveView;
+export default makeOnSaveView;

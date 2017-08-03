@@ -1,4 +1,3 @@
-const { should } = require('../utils/test');
 const zmq = require('./');
 
 describe('io/zmq', () => {
@@ -19,58 +18,58 @@ describe('io/zmq', () => {
   };
 
   describe('open', () => {
-    it('already existing key', (done) => {
+    test('already existing key', (done) => {
       zmq.open({ myKey: { type: 'push', url, role: 'server' } }, () => {
         zmq.open({ myKey: { type: 'push', url, role: 'server' } }, (err) => {
-          err.should.be.an('error')
-            .with.property('message', 'A ZeroMQ socket is already opened with this key: myKey');
+          expect(err).toBeAnError();
+          expect(err).toHaveProperty('message', 'A ZeroMQ socket is already opened with this key: myKey');
           done();
         });
       });
     });
-    it('unsupported types', (done) => {
+    test('unsupported types', (done) => {
       zmq.open({ myKey: { type: 'unknown', role: 'server' } }, (err) => {
-        err.should.be.an('error')
-          .with.property('message', 'Unknown ZeroMQ socket type: unknown');
+        expect(err).toBeAnError();
+        expect(err).toHaveProperty('message', 'Unknown ZeroMQ socket type: unknown');
         done();
       });
     });
-    it('handler required', (done) => {
+    test('handler required', (done) => {
       zmq.open({ myKey: { type: 'pull', role: 'server' } }, (err) => {
-        err.should.be.an('error')
-          .with.property('message', 'Handler function required for ZeroMQ socket type: pull');
+        expect(err).toBeAnError();
+        expect(err).toHaveProperty('message', 'Handler function required for ZeroMQ socket type: pull');
         done();
       });
     });
-    it('role required', (done) => {
+    test('role required', (done) => {
       zmq.open({ myKey: { type: 'push' } }, (err) => {
-        err.should.be.an('error')
-          .with.property('message', 'Role must be client or server and is required');
+        expect(err).toBeAnError();
+        expect(err).toHaveProperty('message', 'Role must be client or server and is required');
         done();
       });
     });
   });
   describe('get', () => {
-    it('exists', (done) => {
+    test('exists', (done) => {
       zmq.open({ myKey: { type: 'pull', role: 'client', url, handler: () => {} } }, () => {
-        zmq.get('myKey', 'pull').should.be.an('object').with.property('type', 'pull');
+        expect(zmq.get('myKey', 'pull')).toHaveProperty('type', 'pull');
         done();
       });
     });
-    it('not exists', () => {
-      (() => zmq.get('myKey', 'pull')).should.throw(Error);
+    test('not exists', () => {
+      expect(() => zmq.get('myKey', 'pull')).toThrow(Error);
     });
-    it('incorect type', (done) => {
+    test('incorect type', (done) => {
       zmq.open({ myKey: { type: 'pull', role: 'client', url, handler: () => {} } }, () => {
-        (() => zmq.get('myKey', 'push')).should.throw(Error);
+        expect(() => zmq.get('myKey', 'push')).toThrow(Error);
         done();
       });
     });
   });
   describe('disallow wrong type', () => {
-    it('call pull on push', (done) => {
+    test('call pull on push', (done) => {
       zmq.open({ myKey: { type: 'pull', role: 'client', url, handler: () => {} } }, () => {
-        (() => zmq.push('myKey', new Buffer('string'))).should.throw(Error);
+        expect(() => zmq.push('myKey', new Buffer('string'))).toThrow(Error);
         done();
       });
     });
@@ -79,26 +78,27 @@ describe('io/zmq', () => {
     const getHandler = (done) => {
       let n = 0;
       return (msg) => {
-        msg.should.be.an.instanceof(Buffer);
+        expect(msg).toBeInstanceOf(Buffer);
         switch (n) {
           case 0:
-            msg.toString().should.equal('foo');
+            expect(msg.toString()).toEqual('foo');
             break;
           case 1:
-            msg.toString().should.equal('bar');
+            expect(msg.toString()).toEqual('bar');
             break;
           case 2:
-            msg.toString().should.equal('baz');
+            expect(msg.toString()).toEqual('baz');
             done();
             break;
           default:
-            should.fail();
+            // should.fail();
+            expect(msg).toBeFalsy();
             break;
         }
         n += 1;
       };
     };
-    it('successive messages', (done) => {
+    test('successive messages', (done) => {
       zmq.open({
         // open order is important for inproc:// socket
         myPull: { type: 'pull', role: 'client', url, handler: getHandler(done) },
@@ -109,7 +109,7 @@ describe('io/zmq', () => {
         zmq.push('myPush', 'baz');
       }));
     });
-    it('pushes are spooled until a pull connect', (done) => {
+    test('pushes are spooled until a pull connect', (done) => {
       // this test could only be done with tcp:// sockets
       // issue: https://github.com/JustinTulloss/zeromq.node/issues/544
       const tcp = 'tcp://127.0.0.1:45694';
@@ -126,15 +126,15 @@ describe('io/zmq', () => {
     });
   });
   describe('req/res', () => {
-    it('works', (done) => {
+    test('works', (done) => {
       const repHandler = (msg) => {
-        msg.should.be.an.instanceof(Buffer);
-        msg.toString().should.equal('hello');
+        expect(msg).toBeInstanceOf(Buffer);
+        expect(msg.toString()).toEqual('hello');
         zmq.respond('myRep', 'world');
       };
       const reqHandler = (msg) => {
-        msg.should.be.an.instanceof(Buffer);
-        msg.toString().should.equal('world');
+        expect(msg).toBeInstanceOf(Buffer);
+        expect(msg.toString()).toEqual('world');
         done();
       };
       zmq.open({

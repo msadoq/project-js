@@ -2,11 +2,9 @@ const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');
 const constants = require('../../../constants');
 
-const reply = require('../../../common/ipc/reply');
-
 const onResponse = require('./onResponse');
 const onDomainsData = require('./onDomainsData');
-const onTimebasedArchiveData = require('./onTimebasedArchiveData');
+// const onTimebasedArchiveData = require('./onTimebasedArchiveData');
 const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const onSessionsData = require('./onSessionsData');
 const onFmdCreateData = require('./onFmdCreateData');
@@ -16,7 +14,7 @@ const onSessionTimeData = require('./onSessionTimeData');
 const onDcStatus = require('./onDcStatus');
 
 const archiveController = require('./archiveController');
-const pubSubController = require('./pubSubController');
+// const pubSubController = require('./pubSubController');
 
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
@@ -29,12 +27,9 @@ const controllers = {
     // onTimebasedArchiveData(args);
     archiveController(args, getStore, { get, remove });
   },
-  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
-    onTimebasedPubSubData(args);
-    pubSubController(args, getStore);
-  },
-  [constants.MESSAGETYPE_FMD_CREATE_DATA]: args => onFmdCreateData(reply, args),
-  [constants.MESSAGETYPE_FMD_GET_DATA]: args => onFmdGetData(reply, args),
+  // [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
+  [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
+  [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,
   [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeData,
   [constants.MESSAGETYPE_DC_STATUS]: onDcStatus,
@@ -61,7 +56,7 @@ module.exports = function dcController() {
 
   const fn = controllers[messageType];
   if (!fn) {
-    return logger.warn(`invalid message received (unknown messageType) '${messageType}'`);
+    return logger.silly(`invalid message received (unknown messageType) '${messageType}'`);
   }
 
   logger.silly(`running '${messageType}'`);

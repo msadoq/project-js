@@ -1,0 +1,30 @@
+@import './variables.css';
+
+.Editor {
+  .EditorVignette {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    transform: translateY(4px);
+    border-radius: 2px;
+  }
+  background-color: var(--theme-light-2);
+  .nav-tabs {
+    li, li > a {
+      border-width: 0px;
+    }
+    li.active, li.active > a:hover {
+      border-width: 0px;
+      /*background-color: var(--gray-light) !important;*/
+    }
+    li:not(.active) {
+      background-color: var(--theme-main);
+      & > a {
+        color: var(--navTabText) !important;
+      }
+      &:hover, & > a:hover {
+        background-color: var(--theme-dark-2) !important;
+      }
+    }
+  }
+}

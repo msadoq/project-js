@@ -1,10 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import _each from 'lodash/each';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
-import getLogger from '../../../../common/logManager';
-import styles from './MimicView.css';
+
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
@@ -13,46 +8,36 @@ const htmlToReactParser = new HtmlToReactParser();
 const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const isValidNode = () => true;
 // const isValueNode = /{{\s*([^}]+)\s*}}/g;
-const logger = getLogger('view:mimic');
+
 
 export default class MimicView extends Component {
+
   static propTypes = {
     content: PropTypes.string.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }).isRequired,
-    viewId: PropTypes.string.isRequired,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    })),
-    removeLink: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
-    showLinks: PropTypes.bool,
-    updateShowLinks: PropTypes.func.isRequired,
-    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
-    isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorEpId: PropTypes.string,
-    openInspector: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
-  };
+    perfOutput: PropTypes.bool,
+  }
+
   static defaultProps = {
+    data: {
+      values: {},
+    },
+    entryPoints: {},
+    inspectorEpId: null,
     links: [],
     showLinks: false,
-    inspectorEpId: null,
+    perfOutput: false,
   };
 
   componentWillMount() {
     this.svgEls = [];
     this.content = this.getContentComponent();
-    this.updateSvgsValues(this.props.data);
   }
   componentDidMount() {
-    // this.content = this.getContentComponent();
+    this.updateSvgsValues(this.props.data);
   }
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
@@ -64,73 +49,21 @@ export default class MimicView extends Component {
       this.content = this.getContentComponent(nextProps);
       // this.updateSvgsValues(nextProps.data);
     }
-    if (nextProps.showLinks !== this.props.showLinks) {
-      shouldRender = true;
-    }
-    if (nextProps.isMaxVisuDurationExceeded !== this.props.isMaxVisuDurationExceeded) {
-      shouldRender = true;
-      if (!nextProps.isMaxVisuDurationExceeded) {
-        this.content = this.getContentComponent(nextProps);
-        this.updateSvgsValues(nextProps.data);
-      }
-    }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);
     }
-
     return shouldRender;
   }
 
-  onContextMenu = (event) => {
-    event.stopPropagation();
-    const {
-      entryPoints,
-      openInspector,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
-      mainMenu,
-      isInspectorOpened,
-      inspectorEpId,
-    } = this.props;
-    const separator = { type: 'separator' };
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
-    const inspectorMenu = {
-      label: 'Open in Inspector',
-      submenu: [],
-    };
-    _each(entryPoints, (ep, epName) => {
-      const label = `${epName}`;
-      if (ep.error) {
-        inspectorMenu.submenu.push({ label, enabled: false });
-        return;
-      }
-      const { id, dataId, field } = ep;
-      const opened = isInspectorOpened && (inspectorEpId === id);
-      inspectorMenu.submenu.push({
-        label,
-        type: 'checkbox',
-        click: () => openInspector({
-          epId: id,
-          dataId,
-          epName,
-          field,
-        }),
-        checked: opened,
-      });
-    });
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
-  };
+  componentWillUpdate(nextProps) {
+    this.svgEls = [];
+    this.content = this.getContentComponent(nextProps);
+  }
 
+  componentDidUpdate() {
+    console.log('micmic did upadate');
+    this.updateSvgsValues(this.props.data);
+  }
   getContentComponent(props = this.props) {
     const processingInstructions = [
       {
@@ -454,6 +387,11 @@ export default class MimicView extends Component {
     if (!data || !data.values) {
       return;
     }
+    const { perfOutput } = this.props;
+    if (perfOutput) {
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.time();
+    }
     this.svgEls.forEach((g, key) => {
       if (!g.el) {
         this.svgEls[key].el = document.getElementById(g.id);
@@ -477,50 +415,9 @@ export default class MimicView extends Component {
 
   svgEls = [];
 
-  toggleShowLinks = (e) => {
-    e.preventDefault();
-    const { showLinks, updateShowLinks, viewId } = this.props;
-    updateShowLinks(viewId, !showLinks);
-  }
-  removeLink = (e, index) => {
-    e.preventDefault();
-    const { removeLink, viewId } = this.props;
-    removeLink(viewId, index);
-  }
-
   render() {
-    const { links, pageId, showLinks, isMaxVisuDurationExceeded } = this.props;
-    const style = { padding: '15px' };
-
-    if (isMaxVisuDurationExceeded) {
-      const noRenderMsg = 'Visu Window is too long for this type of view';
-      logger.debug('no render due to', noRenderMsg);
-      return (
-        <div className="flex">
-          <div className={styles.renderErrorText}>
-            Unable to render view <br />
-            {noRenderMsg}
-          </div>
-        </div>
-      );
-    }
     return (
-      <div className="h100 posRelative" onContextMenu={this.onContextMenu}>
-        <Row className="h100 posRelative">
-          <Col xs={12} style={style}>
-            <LinksContainer
-              show={showLinks}
-              toggleShowLinks={this.toggleShowLinks}
-              links={links}
-              removeLink={this.removeLink}
-              pageId={pageId}
-            />
-          </Col>
-          <Col xs={12} className="h100 posRelative">
-            <svg width="100%" height="100%">{this.content}</svg>
-          </Col>
-        </Row>
-      </div>
+      <svg width="100%" height="100%">{this.content}</svg>
     );
   }
 }

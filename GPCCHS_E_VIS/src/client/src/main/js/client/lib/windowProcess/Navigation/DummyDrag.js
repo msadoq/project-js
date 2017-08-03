@@ -61,7 +61,7 @@ const dragStartFactory = _.memoize(item => e => dragStart(item, e));
 
 const DummyDrag = () => (
   <div style={s.container} >
-    <span style={{ marginRight: '1em' }}>Drag-moi</span>
+    <span className="DragMe" style={{ marginRight: '1em' }}>Drag-moi</span>
     {items.map(item =>
       <div
         key={item.name}

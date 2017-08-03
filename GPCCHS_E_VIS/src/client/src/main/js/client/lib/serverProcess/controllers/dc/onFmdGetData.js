@@ -1,6 +1,7 @@
 const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:onFmdGetData');
 const globalConstants = require('../../../constants');
+const { pop } = require('../../../common/callbacks');
 
 /**
  * Triggered on retrieve FMD document path response
@@ -10,7 +11,7 @@ const globalConstants = require('../../../constants');
  * @param reply function
  * @param args array
  */
-module.exports = (reply, args) => {
+module.exports = (args) => {
   logger.silly('called');
 
   const queryIdBuffer = args[0];
@@ -21,10 +22,12 @@ module.exports = (reply, args) => {
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
 
+  const callback = pop(queryId);
+
   const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
   if (status !== globalConstants.STATUS_SUCCESS) {
     const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
-    reply(queryId, { err: reason });
+    callback({ err: reason });
   } else {
     const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffer);
     let detail;
@@ -46,11 +49,11 @@ module.exports = (reply, args) => {
         break;
       }
       default:
-        reply(queryId, { err: `received unknown file type '${type}'` });
+        callback({ err: `received unknown file type '${type}'` });
         return;
     }
 
-    reply(queryId, {
+    callback({
       type,
       oId: serializedOid,
       detail,

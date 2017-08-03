@@ -5,6 +5,7 @@ import { getView } from '../../store/reducers/views';
 import { updateEditorSearch, askSaveView, askCloseView, askReloadView, askSaveViewAsModel } from '../../store/actions/views';
 import { open as openModal, close as closeModal } from '../../store/actions/modals';
 import { setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
+import { askOpenInspector } from '../../store/actions/inspector';
 import View from './View';
 
 const makeMapStateToProps = () => {
@@ -49,6 +50,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   closeView: () => askCloseView(viewId),
   reloadView: () => askReloadView(viewId),
   saveViewAsModel: () => askSaveViewAsModel(viewId),
+  askOpenInspector,
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

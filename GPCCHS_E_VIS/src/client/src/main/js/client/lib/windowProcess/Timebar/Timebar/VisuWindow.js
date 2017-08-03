@@ -131,6 +131,7 @@ function VisuWindow(props) {
       */ }
       <span
         className={classnames(
+          'LowerFormattedTime',
           styles.lowerFormattedTime,
           {
             [styles.moved]: moveLower,
@@ -141,13 +142,14 @@ function VisuWindow(props) {
         {formatDate(lower, true)}
       </span>
       <span
-        className={styles.currentFormattedTime}
+        className={classnames('CurrentFormattedTime', styles.currentFormattedTime)}
         style={{ left: `${currentPercentOffset}%` }}
       >
         {formatDate(current, true)}
       </span>
       <span
         className={classnames(
+          'UpperFormattedTime',
           styles.upperFormattedTime,
           {
             [styles.moved]: moveUpper,

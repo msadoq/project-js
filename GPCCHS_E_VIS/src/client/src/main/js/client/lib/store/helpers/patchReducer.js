@@ -10,6 +10,7 @@ import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
  * @param action
  * @returns {*}
  */
+// let count = 0;
 export default function patchReducer(state, action) {
   if (!action) {
     return state;
@@ -17,13 +18,17 @@ export default function patchReducer(state, action) {
 
   const patch = _getOr([], ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action);
   if (patch.length) {
-    let patched = state;
-    try {
-      patched = applyPatch(state, patch, { strict: true });
-    } catch (e) {
-      console.log(e);
-    }
-    return patched;
+    let newState = state;
+    patch.forEach((p) => {
+      try {
+        newState = applyPatch(newState, [p], { strict: true });
+      } catch (e) {
+        count += 1;
+        // console.log('*****************', count);
+      }
+    });
+
+    return newState;
   }
 
   return state;

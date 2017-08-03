@@ -1,3 +1,4 @@
+import _cloneDeep from 'lodash/cloneDeep';
 import dataMapGenerator from '../../dataManager/map';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
 import execution from '../../common/logManager/execution';
@@ -5,6 +6,7 @@ import computeMissingRangeIntervals from './computeMissingRangeIntervals';
 import computeMissingLastIntervals from './computeMissingLastIntervals';
 
 import { viewsNeedRange, viewsNeedLast } from '../../store/actions/retrieveData';
+import { cleanViewData } from '../../store/actions/viewData';
 
 /**
  * Store observer that reacts on store updates to dispatch needed data.
@@ -12,7 +14,7 @@ import { viewsNeedRange, viewsNeedLast } from '../../store/actions/retrieveData'
  * @return {function} The new state.
  */
 export default function makeViewNeededDataStoreObserver(store) {
-  let previous; // previous dataMap
+  let previousDataMap; // previous dataMap
   return function viewNeededDataStoreObserver() {
     const state = store.getState();
 
@@ -31,25 +33,30 @@ export default function makeViewNeededDataStoreObserver(store) {
     const dataMap = dataMapGenerator(state);
     profile.stop('dataMap generation');
 
-    if (dataMap === previous) {
+    if (dataMap === previousDataMap) {
       profile.print();
       return;
     }
+    const { dispatch } = store;
     // get needed range intervals
     profile.start('missingRangeIntervals');
-    const neededRangeData = computeMissingRangeIntervals(dataMap, previous);
+    const neededRangeData = computeMissingRangeIntervals(dataMap, previousDataMap);
     profile.stop('missingRangeIntervals');
 
     // get needed last intervals
     profile.start('missingLastIntervals');
-    const neededLastData = computeMissingLastIntervals(dataMap, previous);
+    const neededLastData = computeMissingLastIntervals(dataMap, previousDataMap);
     profile.stop('missingLastIntervals');
 
+    const previous = _cloneDeep(previousDataMap);
     // store dataMap for next observer execution
-    previous = dataMap;
+    previousDataMap = dataMap;
+    // Clean viewData
+    if (previous) {
+      dispatch(cleanViewData(dataMap, previous));
+    }
 
     // Dispatch neededData
-    const { dispatch } = store;
     if (Object.keys(neededRangeData).length) {
       dispatch(viewsNeedRange(neededRangeData));
     }

@@ -13,12 +13,10 @@ import {
 } from './timelines';
 import { pause, play } from './hsc';
 import { getTimebar } from '../reducers/timebars';
-import dataMapGenerator from '../../dataManager/map';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
 
-let oldDataMap;
 /**
  * Simple actions
  */
@@ -79,18 +77,14 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
       if (timeSetterMessages && timeSetterMessages.length) {
         dispatch(resetMessages(`timeSetter-${timebarUuid}`));
       }
-      const dataMap = dataMapGenerator(state);
       dispatch({
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {
           visuWindow,
           slideWindow: newSlideWindow,
           timebarUuid,
-          oldDataMap,
-          dataMap,
         },
       });
-      oldDataMap = dataMap;
     }
   };
 

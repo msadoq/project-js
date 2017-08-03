@@ -57,15 +57,6 @@ const commands = {
     sendReduxDispatch: (action) => {
       commands.server.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
     },
-    requestDomains: (callback) => { // TODEL
-      commands.server.rpc(globalConstants.IPC_METHOD_DOMAINS_REQUEST, null, callback);
-    },
-    requestSessions: (callback) => { // TODEL
-      commands.server.rpc(globalConstants.IPC_METHOD_SESSIONS_REQUEST, null, callback);
-    },
-    requestMasterSession: (callback) => { // TODEL (?)
-      commands.server.rpc(globalConstants.IPC_METHOD_MASTER_SESSION, null, callback);
-    },
     requestData: (queries, callback) => { // TODO : wait data consumption before remove
       commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, { queries }, callback);
     },

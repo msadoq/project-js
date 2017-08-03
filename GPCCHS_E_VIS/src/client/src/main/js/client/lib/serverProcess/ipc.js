@@ -84,7 +84,7 @@ const commands = {
     requestMasterSession: (callback) => {
       commands.dc.rpc(constants.MESSAGETYPE_SESSION_MASTER_QUERY, undefined, callback);
     },
-    requestSessionTime: (sessionId, callback) => {
+    requestSessionTime: (sessionId, callback) => { // unused, TO DELETE ?
       commands.dc.rpc(constants.MESSAGETYPE_SESSION_TIME_QUERY, [
         encode('dc.dataControllerUtils.SessionGetTime', { id: sessionId }),
       ], callback);

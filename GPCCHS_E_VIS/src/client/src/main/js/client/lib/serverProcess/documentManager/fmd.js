@@ -16,8 +16,7 @@ export const isInFmd = path => startsWith(getRootDir(), path);
 export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 export const resolveDocument = (oId, callback) => {
-  dc.requestFmdGet(oId, ({ payload }) => {
-    const { err, type, detail } = payload;
+  dc.requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {
       return callback(err);
     }
@@ -43,8 +42,7 @@ export const createDocument = (path, documentType, callback) => {
     if (pathExist) {
       return callback(null);
     }
-    return dc.requestFmdCreate(fileName, folder, mimeType, ({ payload }) => {
-      const { err, serializedOid } = payload;
+    return dc.requestFmdCreate(fileName, folder, mimeType, ({ err, serializedOid }) => {
       if (err) {
         return callback(err);
       }

@@ -2,8 +2,6 @@ const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');
 const constants = require('../../../constants');
 
-const reply = require('../../../common/ipc/reply');
-
 const onResponse = require('./onResponse');
 const onDomainsData = require('./onDomainsData');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
@@ -21,8 +19,8 @@ const controllers = {
   [constants.MESSAGETYPE_SESSION_DATA]: onSessionsData,
   [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: onTimebasedArchiveData,
   [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
-  [constants.MESSAGETYPE_FMD_CREATE_DATA]: args => onFmdCreateData(reply, args), // TODO : do not use reply
-  [constants.MESSAGETYPE_FMD_GET_DATA]: args => onFmdGetData(reply, args), // TODO : do not use reply
+  [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
+  [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,
   [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeData,
   [constants.MESSAGETYPE_DC_STATUS]: onDcStatus,

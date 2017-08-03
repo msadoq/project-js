@@ -5,21 +5,17 @@ jest.mock('../ipc', () => ({
   dc: {
     sendProductLog: x => x,
     requestFmdGet: (oId, cb) => cb({
-      payload: {
-        err: oId === 'oid:error' ? new Error() : null,
-        type: oId === 'oid:typeError' ? 'unknownType' : 2,
-        detail: {
-          dirname: { value: 'a/b/c' },
-          basename: { value: 'document.json' },
-          properties: true,
-        },
+      err: oId === 'oid:error' ? new Error() : null,
+      type: oId === 'oid:typeError' ? 'unknownType' : 2,
+      detail: {
+        dirname: { value: 'a/b/c' },
+        basename: { value: 'document.json' },
+        properties: true,
       },
     }),
     requestFmdCreate: (fileName, folder, mimeType, cb) => cb({
-      payload: {
-        err: fileName === 'filename:error' ? new Error() : null,
-        serializedOid: fileName === 'filename:error' ? undefined : 4242,
-      },
+      err: fileName === 'filename:error' ? new Error() : null,
+      serializedOid: fileName === 'filename:error' ? undefined : 4242,
     }),
   },
 }));

@@ -1,7 +1,5 @@
 import { v4 } from 'uuid';
 import _ from 'lodash/fp';
-import _get from 'lodash/get';
-import _find from 'lodash/find';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 
@@ -37,15 +35,3 @@ export const reset = simple(
   types.WS_MESSAGE_RESET,
   'containerId'
 );
-export function addOnce(containerId, type, message) {
-  return (dispatch, getState) => {
-    const path = ['messages', containerId];
-    const messages = _get(getState(), path);
-    const found = !!_find(messages, m => m.message === message);
-    if (found) {
-      return;
-    }
-
-    dispatch(add(containerId, type, message));
-  };
-}

@@ -10,7 +10,7 @@ import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
  * @param action
  * @returns {*}
  */
-// let count = 0;
+let count = 0;
 export default function patchReducer(state, action) {
   if (!action) {
     return state;

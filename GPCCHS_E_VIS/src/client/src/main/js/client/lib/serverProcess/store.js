@@ -5,9 +5,10 @@ import makeMessagesMiddleware from '../store/middlewares/messages';
 import makePlayerMiddleware from '../store/middlewares/player';
 import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
+import makeProductLogMiddleware from '../store/middlewares/productLog';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
-import { main } from './ipc';
+import { main, dc } from './ipc';
 import * as rtdManager from '../rtdManager';
 import documentManager from './documentManager';
 
@@ -19,6 +20,7 @@ const middlewares = [
   makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   makeDocumentsMiddleware(documentManager),
   makeInspectorMiddleware(rtdManager),
+  makeProductLogMiddleware(dc.sendProductLog),
 ];
 
 export default function makeCreateStore(identity, isDebugOn) {

@@ -18,6 +18,11 @@ export const askCloseWorkspace = simple(types.WS_ASK_CLOSE_WORKSPACE, 'windowId'
 export const updateDomainName = simple(types.WS_WORKSPACE_UPDATE_DOMAINNAME, 'domainName');
 export const updateSessionName = simple(types.WS_WORKSPACE_UPDATE_SESSIONNAME, 'sessionName');
 
+export const sendProductLog = (uid, ...args) => ({
+  type: types.HSC_SEND_PRODUCT_LOG,
+  payload: { uid, args },
+});
+
 /**
  * Play mode
  */

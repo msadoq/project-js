@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 import { LOG_DOCUMENT_OPEN } from '../../constants';
+import { sendProductLog } from '../../store/actions/hsc';
 
-import { server } from '../ipc';
 import { addBlankView } from '../../store/actions/views';
 import { addBlankPage } from '../../store/actions/pages';
 import { getWindowFocusedPageId } from '../../store/reducers/windows';
@@ -22,7 +22,7 @@ const viewAddBlank = (type, focusedWindow) => {
     dispatch(addBlankPage(focusedWindow.windowId, pageId));
   }
   dispatch(addBlankView(view, pageId));
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.get('type', view)}`);
+  dispatch(sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.get('type', view)}`));
 };
 
 export default viewAddBlank;

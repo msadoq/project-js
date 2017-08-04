@@ -6,8 +6,6 @@ import { encode } from '../utils/adapters';
 import constants from '../constants';
 import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
-import { getStore } from './store';
-import { add as addMessage } from '../store/actions/messages';
 
 const logger = getLogger('server:ipc');
 
@@ -38,8 +36,7 @@ function getStaticProtobuf(type) {
 
 function onDcResponseCallback(err) {
   if (err) {
-    const { dispatch } = getStore();
-    dispatch(addMessage('global', 'danger', `Error from Data Consumer: ${err}`));
+    logger.error(`Error from Data Consumer: ${err}`);
   }
 }
 

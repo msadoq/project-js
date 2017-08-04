@@ -18,6 +18,8 @@ export const HSC_PAUSE = 'HSC_PAUSE';
 export const HSC_FOCUS_WINDOW = 'HSC_FOCUS_WINDOW';
 export const HSC_BLUR_WINDOW = 'HSC_BLUR_WINDOW';
 
+export const HSC_SEND_PRODUCT_LOG = 'HSC_SEND_PRODUCT_LOG';
+
 export const HSC_OPEN_DIALOG = 'HSC_OPEN_DIALOG';
 export const HSC_DIALOG_CLOSED = 'HSC_DIALOG_CLOSED';
 

@@ -23,6 +23,7 @@ export const updateViewSubPanels = simple(
   'subPanels'
 );
 
+// dialog
 export const openDialog = simple(
   types.HSC_OPEN_DIALOG,
   'windowId',
@@ -31,7 +32,6 @@ export const openDialog = simple(
   (dialogId = 'default') => ({ dialogId })
 );
 
-// dialog
 export const dialogClosed = simple(
   types.HSC_DIALOG_CLOSED,
   'windowId',
@@ -39,3 +39,6 @@ export const dialogClosed = simple(
   (options = {}) => ({ options }),
   (dialogId = 'default') => ({ dialogId })
 );
+
+// wiki helper
+export const openWikiHelper = simple(types.HSC_OPEN_WIKI_HELPER);

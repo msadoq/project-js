@@ -40,8 +40,6 @@ const commands = {
         sessionId,
         domainId,
       }, callback),
-    openDocuWikiHelper: () => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_WIKI_HELPER),
     getRteDomains: (sessionId, callback) => // TODO middleware
       commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
         sessionId,

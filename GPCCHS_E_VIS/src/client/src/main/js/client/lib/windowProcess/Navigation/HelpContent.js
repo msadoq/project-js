@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import styles from './HelpContent.css';
-import commands from '../ipc';
 
-const HelpContent = () => (
+const HelpContent = ({ openWikiHelper }) => (
   <div className={styles.help}>
     <Col xs={4}>
       <h2 className={styles.subTitle}>Timebar</h2>
@@ -35,15 +34,15 @@ const HelpContent = () => (
     <Col xs={3} xsOffset={1}>
       <h2 className={styles.subTitle}>Wiki</h2>
       <button
-        onClick={(e) => {
-          e.preventDefault();
-          commands.main.openDocuWikiHelper();
-        }}
+        onClick={() => openWikiHelper()}
       >
         Open wiki helper
       </button>
     </Col>
   </div>
 );
+HelpContent.propTypes = {
+  openWikiHelper: PropTypes.func.isRequired,
+};
 
 export default HelpContent;

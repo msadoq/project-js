@@ -1,9 +1,9 @@
 import { v4 } from 'uuid';
-import openWikiHelper from '../controllers/renderer/onOpenWikiHelper';
 import { getStore } from '../store';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
 import { getPanels } from '../../store/reducers/pages';
 import { addWindow, displayHelp } from '../../store/actions/windows';
+import { openWikiHelper } from '../../store/actions/ui';
 import { open as openModal } from '../../store/actions/modals';
 import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
 import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from '../../store/actions/hsc';
@@ -253,7 +253,7 @@ const edit = {
     {
       label: 'Wiki',
       accelerator: 'F1',
-      click: openWikiHelper,
+      click: () => getStore().dispatch(openWikiHelper()),
     },
   ],
 };

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mainProcess:store:middlewares:wikiHelper send product logs 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "args": Array [
+        "1",
+        "2",
+        "3",
+      ],
+      "uid": 1337,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
+  },
+]
+`;

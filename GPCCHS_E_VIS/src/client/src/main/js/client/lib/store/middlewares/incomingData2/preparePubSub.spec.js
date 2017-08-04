@@ -6,6 +6,7 @@ import { isTimestampInLastDatamapInterval } from '../../../dataManager/mapSelect
 import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
 import { getStubData } from '../../../utils/stubs';
 import * as types from '../../types';
+import state from '../../../common/jest/stateTest';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
@@ -15,239 +16,9 @@ const dataStub = getStubData();
 
 describe('store:middlewares:preparePubSub', () => {
   const mockStore = configureMockStore([preparePubSub(lokiManager)]);
-  const state = {
-    timebars: {
-      tb1: {
-        id: 'TB1',
-        visuWindow: {
-          lower: 1420106790818,
-          upper: 1420107056239,
-          current: 1420106843902,
-          defaultWidth: 900000,
-        },
-        playingState: 'pause',
-        masterId: 'Session 2',
-        mode: 'Normal',
-      },
-    },
-    knownRanges: {
-      'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {
-        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
-        filters: [],
-        intervals: [[10, 20], [1420106790800, 1420106790850]],
-      },
-      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extracted.>.1': {
-        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
-        filters: [],
-        intervals: [[10, 20], [1420106790800, 1420106790850]],
-      },
-    },
-    timelines: {
-      tl1: {
-        id: 'Session 1',
-        offset: 0,
-        kind: 'Session',
-        sessionName: 'Session#181',
-        color: null,
-      },
-    },
-    timebarTimelines: {
-      tb1: ['tl1'],
-    },
-    windows: {
-      win1: {
-        isLoaded: true,
-        title: 'Sup/Sup workspace',
-        focusedPage: 'page1',
-        pages: [
-          'page1',
-        ],
-      },
-    },
-    pages: {
-      page1: {
-        title: 'page Sup/Sup workspace',
-        timebarUuid: 'tb1',
-        views: [
-          'text1',
-          'plot1',
-          'dynamic1',
-          'mimic1',
-        ],
-      },
-    },
-    MimicViewConfiguration: {
-      mimic1: {
-        title: 'MimicView Sup/Sup',
-        type: 'MimicView',
-        entryPoints: [{
-          name: 'STAT_SU_PID',
-          id: 'id1',
-          connectedData: {
-            formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-            filter: [],
-            domain: 'fr.cnes.isis.simupus',
-            timeline: 'Session 1',
-          },
-        }],
-      },
-    },
-    TextViewConfiguration: {
-      text1: {
-        title: 'TextView Sup/Sup',
-        type: 'TextView',
-        entryPoints: [
-          {
-            name: 'STAT_SU_PID',
-            id: 'id1',
-            connectedData: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-          },
-        ],
-      },
-    },
-    PlotViewConfiguration: {
-      plot1: {
-        entryPoints: [
-          {
-            name: 'STAT_SU_PID',
-            id: 'id60',
-            connectedData: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              fieldX: 'groundDate',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            stateColors: [
-              {
-                color: '#000000',
-                condition: {
-                  field: 'extractedValue',
-                  operator: '>',
-                  operand: '1',
-                },
-              },
-            ],
-          },
-          {
-            name: 'STAT_SU_PID2',
-            id: 'id60',
-            connectedData: {
-              fieldX: 'groundDate',
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [{
-                field: 'extractedValue',
-                operator: '>',
-                operand: '1',
-              }],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            stateColors: [
-              {
-                color: '#000000',
-                condition: {
-                  field: 'extractedValue',
-                  operator: '>',
-                  operand: '1',
-                },
-              },
-            ],
-          },
-          // {
-          //   name: 'STAT_PARAMETRIC',
-          //   connectedData: {
-          //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-          //     fieldX: 'groundDate',
-          //     filter: [],
-          //     domain: 'fr.cnes.isis',
-          //     timeline: 'Session 1',
-          //   },
-          //   stateColors: [
-          //     {
-          //       color: '#000000',
-          //       condition: {
-          //         field: 'monitoringState',
-          //         operator: '==',
-          //         operand: 'waiting',
-          //       },
-          //     },
-          //   ],
-          // },
-        ],
-        title: 'Plotview Sup/Sup workspace',
-      },
-    },
-    DynamicViewConfiguration: {
-      dynamic1: {
-        type: 'DynamicView',
-        entryPoints: [{
-          connectedData: {
-            formula: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
-            filter: [],
-            domain: 'fr.cnes.isis.simupus',
-            timeline: 'Session 1',
-          },
-          name: 'dynamicEP',
-          id: 'id70',
-          stateColors: [{
-            color: '#000000',
-            condition: {
-              field: 'monitoringState',
-              operator: '==',
-              operand: 'waiting',
-            },
-          }],
-        }],
-      },
-    },
-    views: {
-      text1: {
-        type: 'TextView',
-      },
-      plot1: {
-        type: 'PlotView',
-      },
-      dynamic1: {
-        type: 'DynamicView',
-      },
-      mimic1: {
-        type: 'MimicView',
-      },
-    },
-    domains: [
-      {
-        itemNamespace: 'Domains',
-        name: 'fr.cnes.isis.simupus',
-        oid: '0051525005151000565215465660515',
-        domainId: 1,
-        parentDomainId: 1,
-      },
-    ],
-    sessions: [
-      {
-        name: 'Session#181',
-        id: 1,
-        timestamp: {
-          ms: 1480426701831,
-          ps: null,
-        },
-        delta: 42,
-        offsetWithmachineTime: 2373665,
-      },
-    ],
-    masterSession: {
-      sessionId: 10,
-    },
-  };
   const decodedPayload = {
-    myValue1: { type: 'integer', value: 1 },
-    myValue2: { type: 'integer', value: 2 } };
+    extractedValue: { type: 'integer', value: 1 },
+    rawValue: { type: 'integer', value: 2 } };
 
   beforeEach(() => {
     lokiManager.removeAllCollections();
@@ -255,22 +26,22 @@ describe('store:middlewares:preparePubSub', () => {
   describe('updateFinalPayload', () => {
     test('in store, tbdId in store, timestamp ok, empty finalPayloads', () => {
       const store = mockStore(state);
-      const tbdId = 'Reporting.STAT_SU_PID<ReportingParameter>:1:1';
+      const tbdId = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
       const finalPayloads = updateFinalPayload(store.getState(),
         { tbdId,
-          timestamp: 15,
+          timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
           addRecord: lokiManager.addRecord },
         {});
-      expect(finalPayloads).toEqual({ [tbdId]: { 15: decodedPayload } });
+      expect(finalPayloads).toEqual({ [tbdId]: { 320000: decodedPayload } });
       expect(lokiManager.listCollections()).toEqual([tbdId]);
     });
     test('in store, tbdId in store, timestamp nok, empty finalPayloads', () => {
       const store = mockStore(state);
       const finalPayloads = updateFinalPayload(store.getState(),
-        { tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+        { tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1',
           timestamp: 150,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
@@ -279,7 +50,7 @@ describe('store:middlewares:preparePubSub', () => {
         {});
       expect(finalPayloads).toEqual({ });
       expect(lokiManager.listCollections()).toEqual([]);
-      expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1'))
+      expect(lokiManager.displayCollection('Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1'))
       .toEqual([]);
     });
     test('in store, tbdId not in store, empty finalPayloads', () => {
@@ -302,71 +73,71 @@ describe('store:middlewares:preparePubSub', () => {
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
           addRecord: lokiManager.addRecord },
-        { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': { 15: decodedPayload } });
+        { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 15: decodedPayload } });
       expect(finalPayloads)
-      .toEqual({ 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': { 15: decodedPayload } });
+      .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 15: decodedPayload } });
       expect(lokiManager.listCollections()).toEqual([]);
     });
     test('in store, tbdId in store, timestamp ok, finalPayloads not empty', () => {
-      const tbdId1 = 'Reporting.STAT_SU_PID<ReportingParameter>:1:1';
+      const tbdId1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
       const tbdId2 = 'Reporting.OTHER_PID<ReportingParameter>:1:1';
       const finalPayloads = updateFinalPayload(state,
         { tbdId: tbdId1,
-          timestamp: 15,
+          timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
           addRecord: lokiManager.addRecord },
-        { [tbdId1]: { 1420106790810: decodedPayload } });
+        { [tbdId1]: { 300000: decodedPayload } });
       expect(finalPayloads)
-      .toEqual({ [tbdId1]: { 15: decodedPayload, 1420106790810: decodedPayload } });
+      .toEqual({ [tbdId1]: { 300000: decodedPayload, 320000: decodedPayload } });
       const finalPayloads2 = updateFinalPayload(state,
         { tbdId: tbdId1,
-          timestamp: 15,
+          timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
           addRecord: lokiManager.addRecord },
-        { [tbdId2]: { 1420106790810: decodedPayload } });
+        { [tbdId2]: { 300000: decodedPayload } });
       expect(finalPayloads2).toEqual({
-        [tbdId1]: { 15: decodedPayload },
-        [tbdId2]: { 1420106790810: decodedPayload },
+        [tbdId1]: { 320000: decodedPayload },
+        [tbdId2]: { 300000: decodedPayload },
       });
       expect(lokiManager.listCollections()).toEqual([tbdId1]);
     });
     test('in dataMap, tbdId not in last', () => {
       const finalPayloads = updateFinalPayload(state,
         { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1',
-          timestamp: 15,
+          timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
           filters: [] },
-        { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': { 15: decodedPayload } });
+        { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 320000: decodedPayload } });
       expect(finalPayloads)
-      .toEqual({ 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': { 15: decodedPayload } });
+      .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 320000: decodedPayload } });
       expect(lokiManager.listCollections()).toEqual([]);
     });
     test('in dataMap, tbdId in last', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
-          timestamp: 1420106790810,
+        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+          timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
           filters: [] },
         { });
       expect(finalPayloads).toEqual({
-        'Reporting.STAT_SU_PID<ReportingParameter>:1:1': { 1420106790810: decodedPayload },
+        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': { 320000: decodedPayload },
       });
       expect(lokiManager.listCollections()).toEqual([]);
     });
     test('in dataMap, tbdId in last but does not validate filters', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
-          timestamp: 1420106790810,
+        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+          timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
           filters: [{
-            field: 'myValue1',
+            field: 'extractedValue',
             operator: '>',
             operand: '10',
           }] },
@@ -375,14 +146,14 @@ describe('store:middlewares:preparePubSub', () => {
     });
   });
   describe('preparePubSub middleware', () => {
-    const t1 = 1420106790820;
-    const t2 = 1420106790830;
+    const t1 = 350000;
+    const t2 = 360000;
 
-    const timestampInLast1 = 1420106843802;
-    const timestampInLast2 = 1420106843852;
+    const timestampInLast1 = 370000;
+    const timestampInLast2 = 380000;
 
-    const timestampNotInLast1 = 1420106843952;
-    const timestampNotInLast2 = 1420106843955;
+    const timestampNotInLast1 = 500000;
+    const timestampNotInLast2 = 510000;
 
     const timestamp1 = dataStub.getTimestampProtobuf({ ms: t1 });
     const timestamp2 = dataStub.getTimestampProtobuf({ ms: t2 });
@@ -401,7 +172,7 @@ describe('store:middlewares:preparePubSub', () => {
 
     const dataId = {
       catalog: 'Reporting',
-      parameterName: 'STAT_SU_PID',
+      parameterName: 'AGA_AM_PRIORITY',
       comObject: 'ReportingParameter',
       sessionId: 1,
       domainId: 1,
@@ -409,7 +180,7 @@ describe('store:middlewares:preparePubSub', () => {
     const incomingRangeData = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+        tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1',
         dataId,
         peers: [timestamp1, protoRp1, timestamp2, protoRp2],
       },
@@ -418,7 +189,7 @@ describe('store:middlewares:preparePubSub', () => {
     const incomingDataNotInLast = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+        tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:1:1',
         dataId,
         peers: [timestampNotInLast1Proto, protoRp1, timestampNotInLast2Proto, protoRp2],
       },
@@ -427,7 +198,7 @@ describe('store:middlewares:preparePubSub', () => {
     const incomingDataOneInLast = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+        tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
         dataId,
         peers: [timestampNotInLast1Proto, protoRp1, timestampInLast1Proto, protoRp2],
       },
@@ -436,7 +207,7 @@ describe('store:middlewares:preparePubSub', () => {
     const incomingDataAllInLast = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+        tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
         dataId,
         peers: [timestampInLast1Proto, protoRp1, timestampInLast2Proto, protoRp2],
       },
@@ -462,7 +233,7 @@ describe('store:middlewares:preparePubSub', () => {
       state.pages.page1.views = ['plot1'];
       const store = mockStore(state);
       store.dispatch(incomingRangeData());
-      expect(Object.keys(store.getActions()[0].payload.data))
+      expect(Object.keys(store.getActions()[0].payload.peers))
       .toEqual([String(t1), String(t2)]);
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });
@@ -476,7 +247,7 @@ describe('store:middlewares:preparePubSub', () => {
       state.pages.page1.views = ['text1', 'mimic1'];
       const store = mockStore(state);
       store.dispatch(incomingDataOneInLast());
-      expect(Object.keys(store.getActions()[0].payload.data))
+      expect(Object.keys(store.getActions()[0].payload.peers))
       .toEqual([String(timestampInLast1)]);
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });
@@ -484,7 +255,7 @@ describe('store:middlewares:preparePubSub', () => {
       state.pages.page1.views = ['text1', 'mimic1'];
       const store = mockStore(state);
       store.dispatch(incomingDataAllInLast());
-      expect(Object.keys(store.getActions()[0].payload.data))
+      expect(Object.keys(store.getActions()[0].payload.peers))
       .toEqual([String(timestampInLast1), String(timestampInLast2)]);
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });

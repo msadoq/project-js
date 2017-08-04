@@ -1,5 +1,3 @@
-
-// import _cloneDeep from 'lodash/cloneDeep';
 import makeGetPerViewData from './perViewData';
 import state from '../common/jest/stateTest';
 

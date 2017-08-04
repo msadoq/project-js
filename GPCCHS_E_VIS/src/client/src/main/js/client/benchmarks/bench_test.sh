@@ -24,27 +24,25 @@ function toMega {
 SLEEP_DELAY=5
 CPT=0
 ZERO=0
-echo 'window.benchRendererData = [];' > bench_renderer_data.js
+# echo 'window.benchRendererData = [];' > bench_renderer_data.js
 RENDERER_PID="$(getRendererPID)"
 TOP=`top -b -n 1 -p $RENDERER_PID | sed -n '8p' | awk '{print $6}'`
-TOP=`toMega $TOP`
 CPU=`top -b -n 1 -p $RENDERER_PID | sed -n '8p' | awk '{print $9}' | xargs printf "%.*f\n" 0`
 CONTENT=''
 
 while [ -n "$TOP" ]; do
-  CONTENT=`cat bench_renderer_data.js`
-  CONTENT=${CONTENT::-2}
-  if [ $CPT -eq $ZERO ]; then
-    CONTENT="$CONTENT[$CPT,$TOP,$CPU]];"
-  else
-    CONTENT="$CONTENT,[$(($CPT*$SLEEP_DELAY)),$TOP,$CPU]];"
-  fi
-  echo $TOP
-  echo $CONTENT > bench_renderer_data.js
+  #CONTENT=`cat bench_renderer_data.js`
+  #CONTENT=${CONTENT::-2}
+  #if [ $CPT -eq $ZERO ]; then
+  #  CONTENT="$CONTENT[$CPT,$TOP,$CPU]];"
+  #else
+  #  CONTENT="$CONTENT,[$(($CPT*$SLEEP_DELAY)),$TOP,$CPU]];"
+  #fi
+  #echo $CONTENT > bench_renderer_data.js
   sleep $SLEEP_DELAY
   CPT=$(($CPT+1))
   TOP=`top -b -n 1 -p $RENDERER_PID | sed -n '8p' | awk '{print $6}'`
-  TOP=`toMega $TOP`
+  toMega $TOP
   CPU=`top -b -n 1 -p $RENDERER_PID | sed -n '8p' | awk '{print $9}' | xargs printf "%.*f\n" 0`
 
 done

@@ -1,5 +1,5 @@
 import configureMockStore from 'redux-mock-store';
-import makeMessagesMiddleware from './messages';
+import makeMessagesMiddleware from './';
 
 const mockStore = configureMockStore([makeMessagesMiddleware()]);
 

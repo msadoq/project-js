@@ -61,7 +61,6 @@ export default class MimicView extends Component {
   }
 
   componentDidUpdate() {
-    console.log('micmic did upadate');
     this.updateSvgsValues(this.props.data);
   }
   getContentComponent(props = this.props) {
@@ -390,7 +389,7 @@ export default class MimicView extends Component {
     const { perfOutput } = this.props;
     if (perfOutput) {
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.time();
+      // console.time();
     }
     this.svgEls.forEach((g, key) => {
       if (!g.el) {
@@ -413,13 +412,13 @@ export default class MimicView extends Component {
     });
     if (perfOutput) {
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.log(
-        'Looped on',
-        this.svgEls.length,
-        'eps'
-      );
+      // console.log(
+      //   'Looped on',
+      //   this.svgEls.length,
+      //   'eps'
+      // );
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.timeEnd();
+      // console.timeEnd();
     }
   }
 

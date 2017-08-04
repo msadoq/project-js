@@ -5,6 +5,7 @@ import knownRangesReducer, {
   getMissingIntervals,
   isDataIdInCache,
   isTimestampInKnownRanges,
+  getUpperIntervalIsInKnownRanges,
 } from '.';
 
 const reducer = freezeArgs(knownRangesReducer);
@@ -190,6 +191,37 @@ describe('store:knownRanges:selectors', () => {
     test('tbdId ok and timestamp outside', () => {
       expect(isTimestampInKnownRanges(state2, { tbdId: 'tbdId2', timestamp: '25' }))
       .toEqual(false);
+    });
+  });
+
+  describe('getUpperIntervalIsInKnownRanges', () => {
+    const state2 = { knownRanges: {
+      tbdId1: {
+        flatDataId: 'tbdId1',
+        filters: [],
+        intervals: [[10, 20]],
+      },
+      tbdId2: {
+        flatDataId: 'tbdId2',
+        filters: [{ field: 'extractedValue', operator: '=', operand: '2' }],
+        intervals: [[10, 20], [30, 40]],
+      },
+    } };
+    test('empty state', () => {
+      expect(getUpperIntervalIsInKnownRanges({ knownRanges: {} }, 'tbdId', [1, 12]))
+      .toEqual({ isInInterval: false, interval: [] });
+    });
+    test('unknown tbdId', () => {
+      expect(getUpperIntervalIsInKnownRanges(state2, 'tbdId', [1, 12]))
+      .toEqual({ isInInterval: false, interval: [] });
+    });
+    test('tbdId ok and timestamp inside', () => {
+      expect(getUpperIntervalIsInKnownRanges(state2, 'tbdId2', [1, 12]))
+      .toEqual({ isInInterval: true, interval: [10, 20] });
+    });
+    test('tbdId ok and timestamp outside', () => {
+      expect(getUpperIntervalIsInKnownRanges(state2, 'tbdId2', [1, 25]))
+      .toEqual({ isInInterval: false, interval: [] });
     });
   });
 });

@@ -7,6 +7,7 @@ import mergeIntervals from '../../../common/intervals/merge';
 import removeIntervals from '../../../common/intervals/remove';
 import missingIntervals from '../../../common/intervals/missing';
 import includesTimestamp from '../../../common/intervals/includesTimestamp';
+import getIncludesTimestamp from '../../../common/intervals/getIncludesTimestamp';
 import flattenDataId from '../../../common/flattenDataId';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -124,3 +125,22 @@ export const isTimestampInKnownRanges = (state, { tbdId, timestamp }) => {
   }
   return includesTimestamp(tbdIdRanges.intervals, timestamp);
 };
+
+/**
+ * Checks if upper value of an interval is inside knownRanges[tbdId] and return the found interval
+ * @param {object} state - The current state.
+ * @param {string} tbdId - The specified dataId
+ * @param {number} interval - The interval to get the upper value
+ * @return {Object} { isInInterval, interval } - A boolean if is in knownInterval, the interval in which it has been found
+ */
+export const getUpperIntervalIsInKnownRanges = (state, tbdId, interval) => {
+  const tbdIdRanges = getKnownRanges(state, { tbdId });
+  if (!tbdIdRanges) {
+    return {
+      isInInterval: false,
+      interval: [],
+    };
+  }
+  return getIncludesTimestamp(tbdIdRanges.intervals, interval[1]);
+};
+

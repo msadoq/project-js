@@ -21,7 +21,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   if (action.type !== types.INCOMING_PUBSUB_DATA) {
     return next(action);
   }
-  // console.log('[PreparePubSubMiddleware] ON_INCOMING_PUBSUB_DATA action');
+  console.log('[PreparePubSubMiddleware] ON_INCOMING_PUBSUB_DATA action');
 
   const execution = executionMonitor('preparePubSub');
   execution.start('global');
@@ -104,10 +104,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   }
   // dispatch data per tbdId
   const tbdIds = Object.keys(payloadsJson);
-  for (let i = 0; i < tbdIds.length; i += 1) {
-    const tbdId = tbdIds[i];
-    // dispatch(newData(tbdId, payloadsJson[tbdId]));
-  }
+  if (tbdIds.length) dispatch(newData(payloadsJson));
 
   return next(action);
 };

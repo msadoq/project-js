@@ -14,7 +14,7 @@ const onSessionTimeData = require('./onSessionTimeData');
 const onDcStatus = require('./onDcStatus');
 
 const archiveController = require('./archiveController');
-// const pubSubController = require('./pubSubController');
+const pubSubController = require('./pubSubController');
 
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
@@ -27,7 +27,10 @@ const controllers = {
     // onTimebasedArchiveData(args);
     archiveController(args, getStore, { get, remove });
   },
-  // [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
+  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
+    // onTimebasedPubSubData
+    pubSubController(args, getStore);
+  },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,

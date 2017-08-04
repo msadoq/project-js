@@ -48,6 +48,8 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         .expectedInterval = [500010, 900000];
       newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
         .expectedInterval = [490010, 890000];
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:0']
+        .expectedInterval = [500010, 900000];
       const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
               newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
       expect(newState).toEqual({ indexes: {},

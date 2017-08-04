@@ -65,7 +65,8 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals:
         [[state.timebars.tb1.visuWindow.upper - offset,
-          state1.timebars.tb1.visuWindow.upper - offset]],
+          state1.timebars.tb1.visuWindow.upper - offset],
+        [state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
       },
     });
   });
@@ -91,7 +92,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower - offset,
-          state.timebars.tb1.visuWindow.lower - offset]],
+          state.timebars.tb1.visuWindow.lower]],
       },
     });
   });

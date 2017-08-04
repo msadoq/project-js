@@ -1,5 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import perRangeTbdIdMap, { addEpInRangeTbdIdMap } from './perRangeTbdIdData';
+import dataMapGenerator from './map';
+import state from '../common/jest/stateTest';
 
 describe('dataManager/perRangeTbdIdData', () => {
   const epValid = {
@@ -152,94 +154,96 @@ describe('dataManager/perRangeTbdIdData', () => {
     });
   });
   test('perRangeTbdIdMap', () => {
-    const perViewMap = {
-      text: {
-        type: 'TextView',
-        entryPoints: {
-          STAT_SU_PID: {
-            id: 'id1',
-            dataId: {
-              catalog: 'Reporting',
-              parameterName: 'STAT_SU_PID',
-              comObject: 'ReportingParameter',
-              domainId: 4,
-              sessionId: 181,
-            },
-            field: 'extractedValue',
-            offset: 0,
-            filters: [],
-            localId: 'extractedValue.tb1:0',
-            timebarUuid: 'tb1',
-            tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-            type: 'TextView',
-          },
-          STAT_WILDCARD_TIMELINE: {
-            id: 'id46',
-            dataId: {
-              catalog: 'Reporting',
-              parameterName: 'STAT_WILDCARD_TIMELINE',
-              comObject: 'ReportingParameter',
-              domainId: 4,
-              sessionId: 10,
-            },
-            field: 'extractedValue',
-            offset: 0,
-            filters: [],
-            localId: 'extractedValue.tb1:0',
-            timebarUuid: 'tb1',
-            tbdId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
-            type: 'TextView',
-          },
-          STAT_UNKNOW_DOMAIN: { error: 'invalid entry point, no domain matches' },
-        },
-      },
-      plot: {
-        type: 'PlotView',
-        masterSessionId: 10,
-        entryPoints: {
-          STAT_SU_PID: {
-            id: 'id60',
-            dataId: {
-              catalog: 'Reporting',
-              parameterName: 'STAT_SU_PID',
-              comObject: 'ReportingParameter',
-              domainId: 4,
-              sessionId: 181,
-            },
-            fieldX: 'groundDate',
-            fieldY: 'extractedValue',
-            offset: 0,
-            filters: [],
-            localId: 'groundDate/extractedValue.tb1:0/0',
-            timebarUuid: 'tb1',
-            tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-            type: 'PlotView',
-          },
-          STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
-        },
-      },
-    };
-    expect(perRangeTbdIdMap(perViewMap)).toEqual({
-      'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-        dataId: {
-          catalog: 'Reporting',
-          parameterName: 'STAT_SU_PID',
-          comObject: 'ReportingParameter',
-          domainId: 4,
-          sessionId: 181,
-        },
-        filters: [],
-        localIds: {
-          'groundDate/extractedValue.tb1:0/0': {
-            fieldX: 'groundDate',
-            fieldY: 'extractedValue',
-            offset: 0,
-            timebarUuid: 'tb1',
-            viewType: 'PlotView',
-          },
-        },
-        views: ['plot'],
-      },
-    });
+    // const perViewMap = {
+    //   text: {
+    //     type: 'TextView',
+    //     entryPoints: {
+    //       STAT_SU_PID: {
+    //         id: 'id1',
+    //         dataId: {
+    //           catalog: 'Reporting',
+    //           parameterName: 'STAT_SU_PID',
+    //           comObject: 'ReportingParameter',
+    //           domainId: 4,
+    //           sessionId: 181,
+    //         },
+    //         field: 'extractedValue',
+    //         offset: 0,
+    //         filters: [],
+    //         localId: 'extractedValue.tb1:0',
+    //         timebarUuid: 'tb1',
+    //         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+    //         type: 'TextView',
+    //       },
+    //       STAT_WILDCARD_TIMELINE: {
+    //         id: 'id46',
+    //         dataId: {
+    //           catalog: 'Reporting',
+    //           parameterName: 'STAT_WILDCARD_TIMELINE',
+    //           comObject: 'ReportingParameter',
+    //           domainId: 4,
+    //           sessionId: 10,
+    //         },
+    //         field: 'extractedValue',
+    //         offset: 0,
+    //         filters: [],
+    //         localId: 'extractedValue.tb1:0',
+    //         timebarUuid: 'tb1',
+    //         tbdId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+    //         type: 'TextView',
+    //       },
+    //       STAT_UNKNOW_DOMAIN: { error: 'invalid entry point, no domain matches' },
+    //     },
+    //   },
+    //   plot: {
+    //     type: 'PlotView',
+    //     masterSessionId: 10,
+    //     entryPoints: {
+    //       STAT_SU_PID: {
+    //         id: 'id60',
+    //         dataId: {
+    //           catalog: 'Reporting',
+    //           parameterName: 'STAT_SU_PID',
+    //           comObject: 'ReportingParameter',
+    //           domainId: 4,
+    //           sessionId: 181,
+    //         },
+    //         fieldX: 'groundDate',
+    //         fieldY: 'extractedValue',
+    //         offset: 0,
+    //         filters: [],
+    //         localId: 'groundDate/extractedValue.tb1:0/0',
+    //         timebarUuid: 'tb1',
+    //         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+    //         type: 'PlotView',
+    //       },
+    //       STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+    //     },
+    //   },
+    // };
+    const dataMap = dataMapGenerator(state);
+    expect(perRangeTbdIdMap(dataMap.perView)).toMatchSnapshot();
+    // toEqual({
+    //   'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+    //     dataId: {
+    //       catalog: 'Reporting',
+    //       parameterName: 'STAT_SU_PID',
+    //       comObject: 'ReportingParameter',
+    //       domainId: 4,
+    //       sessionId: 181,
+    //     },
+    //     filters: [],
+    //     localIds: {
+    //       'groundDate/extractedValue.tb1:0/0': {
+    //         fieldX: 'groundDate',
+    //         fieldY: 'extractedValue',
+    //         offset: 0,
+    //         timebarUuid: 'tb1',
+    //         viewType: 'PlotView',
+    //       },
+    //     },
+    //     views: ['plot'],
+    //   },
+    // });
   });
 });

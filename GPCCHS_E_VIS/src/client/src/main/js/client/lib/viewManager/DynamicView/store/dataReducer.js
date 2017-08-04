@@ -102,6 +102,28 @@ export default function dynamicViewData(state = {}, action) {
       }
       return newState || {};
     }
+    case types.WS_VIEWDATA_CLEAN: {
+      const { previousDataMap, dataMap } = action.payload;
+
+      // since now, state will changed
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+        const viewData = state[viewId];
+        // Cleaning
+        const subState = cleanCurrentViewData(
+          viewData,
+          previousDataMap.perView[viewId],
+          dataMap.perView[viewId],
+          previousDataMap.expectedRangeIntervals,
+          dataMap.expectedRangeIntervals);
+        if (subState !== viewData) {
+          newState = { ...newState, [viewId]: subState };
+        }
+      }
+      return newState;
+    }
     default:
       return state;
   }

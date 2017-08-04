@@ -6,10 +6,20 @@ Object {
     "indexes": Object {
       "ATT_BC_REVTCOUNT1": Array [
         100000,
+        100120,
+        100220,
+        100320,
+        100420,
+        100520,
+        100620,
+        100720,
+        100820,
         200000,
         300000,
         400000,
         500000,
+      ],
+      "ATT_BC_REVTCOUNT1_Offset": Array [
         110120,
         110220,
         110320,
@@ -45,6 +55,54 @@ Object {
           "x": 100000,
         },
         Object {
+          "masterTime": 100120,
+          "symbol": undefined,
+          "value": 11.012,
+          "x": 100120.2,
+        },
+        Object {
+          "masterTime": 100220,
+          "symbol": undefined,
+          "value": 11.022,
+          "x": 100220.2,
+        },
+        Object {
+          "masterTime": 100320,
+          "symbol": undefined,
+          "value": 11.032,
+          "x": 100320.2,
+        },
+        Object {
+          "masterTime": 100420,
+          "symbol": undefined,
+          "value": 11.042,
+          "x": 100420.2,
+        },
+        Object {
+          "masterTime": 100520,
+          "symbol": undefined,
+          "value": 11.052,
+          "x": 100520.2,
+        },
+        Object {
+          "masterTime": 100620,
+          "symbol": undefined,
+          "value": 11.062,
+          "x": 100620.2,
+        },
+        Object {
+          "masterTime": 100720,
+          "symbol": undefined,
+          "value": 11.072,
+          "x": 100720.2,
+        },
+        Object {
+          "masterTime": 100820,
+          "symbol": undefined,
+          "value": 11.082,
+          "x": 100820.2,
+        },
+        Object {
           "color": "blue",
           "masterTime": 200020,
           "symbol": 154.3002814355,
@@ -72,6 +130,8 @@ Object {
           "value": 169.3002814355,
           "x": 500000,
         },
+      ],
+      "ATT_BC_REVTCOUNT1_Offset": Array [
         Object {
           "masterTime": 110120,
           "symbol": undefined,
@@ -208,19 +268,23 @@ Object {
       ],
     },
     "max": Object {
-      "ATT_BC_REVTCOUNT1": 169.3002814355,
-      "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
+      "ATT_BC_REVTCOUNT1": 11.082,
+      "ATT_BC_REVTCOUNT1_Offset": 11.082,
+      "TMMGT_BC_VIRTCHAN3": 11.082,
     },
     "maxTime": Object {
-      "ATT_BC_REVTCOUNT1": 500000,
-      "TMMGT_BC_VIRTCHAN3": 500000,
+      "ATT_BC_REVTCOUNT1": 100820,
+      "ATT_BC_REVTCOUNT1_Offset": 110820,
+      "TMMGT_BC_VIRTCHAN3": 100820,
     },
     "min": Object {
       "ATT_BC_REVTCOUNT1": 11.012,
+      "ATT_BC_REVTCOUNT1_Offset": 11.012,
       "TMMGT_BC_VIRTCHAN3": 11.012,
     },
     "minTime": Object {
-      "ATT_BC_REVTCOUNT1": 110120,
+      "ATT_BC_REVTCOUNT1": 100120,
+      "ATT_BC_REVTCOUNT1_Offset": 110120,
       "TMMGT_BC_VIRTCHAN3": 100120,
     },
   },

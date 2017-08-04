@@ -87,8 +87,6 @@ export default function cleanCurrentViewData(
     // Consider new localId to take into account offset modification
     const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
-    console.log('*********oldInterval', oldInterval);
-    console.log('*********newInterval', newInterval);
     if (!newInterval) {
       newState = { ...newState,
         indexes: _omit(newState.indexes, epName),
@@ -102,7 +100,6 @@ export default function cleanCurrentViewData(
       (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
-      console.log('************removeViewDataByEp');
       const newData = removeViewDataByEp(newState, epName, lower, upper);
       // Update of min and max if needed
       newState = scanForMinAndMax(newData);

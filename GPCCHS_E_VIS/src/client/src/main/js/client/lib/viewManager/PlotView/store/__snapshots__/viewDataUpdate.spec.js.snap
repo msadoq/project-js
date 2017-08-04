@@ -3,42 +3,42 @@
 exports[`viewManager/PlotView/store/viewDataUpdate data selection selectEpData empty state 1`] = `
 Object {
   "ATT_BC_REVTCOUNT1": Object {
-    "110120": Object {
+    "100120": Object {
       "symbol": undefined,
       "value": 11.012,
       "x": 100120,
     },
-    "110220": Object {
+    "100220": Object {
       "symbol": undefined,
       "value": 11.022,
       "x": 100220,
     },
-    "110320": Object {
+    "100320": Object {
       "symbol": undefined,
       "value": 11.032,
       "x": 100320,
     },
-    "110420": Object {
+    "100420": Object {
       "symbol": undefined,
       "value": 11.042,
       "x": 100420,
     },
-    "110520": Object {
+    "100520": Object {
       "symbol": undefined,
       "value": 11.052,
       "x": 100520,
     },
-    "110620": Object {
+    "100620": Object {
       "symbol": undefined,
       "value": 11.062,
       "x": 100620,
     },
-    "110720": Object {
+    "100720": Object {
       "symbol": undefined,
       "value": 11.072,
       "x": 100720,
     },
-    "110820": Object {
+    "100820": Object {
       "symbol": undefined,
       "value": 11.082,
       "x": 100820,
@@ -48,13 +48,13 @@ Object {
     "ATT_BC_REVTCOUNT1": 11.082,
   },
   "maxTime": Object {
-    "ATT_BC_REVTCOUNT1": 110820,
+    "ATT_BC_REVTCOUNT1": 100820,
   },
   "min": Object {
     "ATT_BC_REVTCOUNT1": 11.012,
   },
   "minTime": Object {
-    "ATT_BC_REVTCOUNT1": 110120,
+    "ATT_BC_REVTCOUNT1": 100120,
   },
 }
 `;
@@ -62,42 +62,42 @@ Object {
 exports[`viewManager/PlotView/store/viewDataUpdate data selection selectEpData state not empty 1`] = `
 Object {
   "ATT_BC_REVTCOUNT1": Object {
-    "110120": Object {
+    "100120": Object {
       "symbol": undefined,
       "value": 11.012,
       "x": 100120,
     },
-    "110220": Object {
+    "100220": Object {
       "symbol": undefined,
       "value": 11.022,
       "x": 100220,
     },
-    "110320": Object {
+    "100320": Object {
       "symbol": undefined,
       "value": 11.032,
       "x": 100320,
     },
-    "110420": Object {
+    "100420": Object {
       "symbol": undefined,
       "value": 11.042,
       "x": 100420,
     },
-    "110520": Object {
+    "100520": Object {
       "symbol": undefined,
       "value": 11.052,
       "x": 100520,
     },
-    "110620": Object {
+    "100620": Object {
       "symbol": undefined,
       "value": 11.062,
       "x": 100620,
     },
-    "110720": Object {
+    "100720": Object {
       "symbol": undefined,
       "value": 11.072,
       "x": 100720,
     },
-    "110820": Object {
+    "100820": Object {
       "symbol": undefined,
       "value": 11.082,
       "x": 100820,
@@ -108,7 +108,7 @@ Object {
     "OldTbdId": 102,
   },
   "maxTime": Object {
-    "ATT_BC_REVTCOUNT1": 110820,
+    "ATT_BC_REVTCOUNT1": 100820,
     "OldTbdId": 12,
   },
   "min": Object {
@@ -116,7 +116,7 @@ Object {
     "OldTbdId": 101,
   },
   "minTime": Object {
-    "ATT_BC_REVTCOUNT1": 110120,
+    "ATT_BC_REVTCOUNT1": 100120,
     "OldTbdId": 10,
   },
 }
@@ -125,42 +125,42 @@ Object {
 exports[`viewManager/PlotView/store/viewDataUpdate data selection selectEpData undefined state 1`] = `
 Object {
   "ATT_BC_REVTCOUNT1": Object {
-    "110120": Object {
+    "100120": Object {
       "symbol": undefined,
       "value": 11.012,
       "x": 100120,
     },
-    "110220": Object {
+    "100220": Object {
       "symbol": undefined,
       "value": 11.022,
       "x": 100220,
     },
-    "110320": Object {
+    "100320": Object {
       "symbol": undefined,
       "value": 11.032,
       "x": 100320,
     },
-    "110420": Object {
+    "100420": Object {
       "symbol": undefined,
       "value": 11.042,
       "x": 100420,
     },
-    "110520": Object {
+    "100520": Object {
       "symbol": undefined,
       "value": 11.052,
       "x": 100520,
     },
-    "110620": Object {
+    "100620": Object {
       "symbol": undefined,
       "value": 11.062,
       "x": 100620,
     },
-    "110720": Object {
+    "100720": Object {
       "symbol": undefined,
       "value": 11.072,
       "x": 100720,
     },
-    "110820": Object {
+    "100820": Object {
       "symbol": undefined,
       "value": 11.082,
       "x": 100820,
@@ -170,13 +170,13 @@ Object {
     "ATT_BC_REVTCOUNT1": 11.082,
   },
   "maxTime": Object {
-    "ATT_BC_REVTCOUNT1": 110820,
+    "ATT_BC_REVTCOUNT1": 100820,
   },
   "min": Object {
     "ATT_BC_REVTCOUNT1": 11.012,
   },
   "minTime": Object {
-    "ATT_BC_REVTCOUNT1": 110120,
+    "ATT_BC_REVTCOUNT1": 100120,
   },
 }
 `;

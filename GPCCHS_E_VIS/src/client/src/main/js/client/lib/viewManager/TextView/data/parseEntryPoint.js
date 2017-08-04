@@ -48,12 +48,11 @@ function parseEntryPoint(
     return { [name]: { error: cd.error } };
   }
   const { dataId, field, offset, filters } = cd;
-  // compute remoteId with filters to use them with getLast
-  const remoteId = flattenDataId(dataId, filters);
+  // compute tbdId with filters to use them with getLast
+  const tbdId = flattenDataId(dataId, filters);
   const ep = {
     [name]: {
-      remoteId,
-      tbdId: remoteId,
+      tbdId,
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
       field,

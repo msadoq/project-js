@@ -117,6 +117,7 @@ exports[`viewManager/PlotView/store/cleanViewData cleanCurrentViewData interval 
 Object {
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
+      100000,
       200000,
       300000,
       400000,
@@ -132,6 +133,13 @@ Object {
   },
   "lines": Object {
     "ATT_BC_REVTCOUNT1": Array [
+      Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 149.30028143545633,
+        "value": 149.30028143545633,
+        "x": 100000,
+      },
       Object {
         "color": "blue",
         "masterTime": 200020,
@@ -204,15 +212,15 @@ Object {
     "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
   },
   "maxTime": Object {
-    "ATT_BC_REVTCOUNT1": 500020,
+    "ATT_BC_REVTCOUNT1": 500000,
     "TMMGT_BC_VIRTCHAN3": 500000,
   },
   "min": Object {
-    "ATT_BC_REVTCOUNT1": 154.3002814355,
+    "ATT_BC_REVTCOUNT1": 149.30028143545633,
     "TMMGT_BC_VIRTCHAN3": 139.30028143545633,
   },
   "minTime": Object {
-    "ATT_BC_REVTCOUNT1": 200020,
+    "ATT_BC_REVTCOUNT1": 100000,
     "TMMGT_BC_VIRTCHAN3": 100000,
   },
 }

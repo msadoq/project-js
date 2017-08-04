@@ -47,13 +47,12 @@ function parseEntryPoint(
     return { [name]: { error: cd.error } };
   }
   const { dataId, field, offset } = cd;
-  // compute remoteId
-  const remoteId = flattenDataId(dataId);
+  // compute tbdId = flat DataId + filters
+  const tbdId = flattenDataId(dataId);
 
   const ep = {
     [name]: {
-      remoteId,
-      tbdId: remoteId,
+      tbdId,
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
       offset,

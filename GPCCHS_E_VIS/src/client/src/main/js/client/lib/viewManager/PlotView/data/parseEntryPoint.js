@@ -55,12 +55,11 @@ export default function parseEntryPoint(
     return { [name]: { error: 'parametric entryPoint detected for this view' } };
   }
 
-  const remoteId = flattenDataId(cd.dataId, cd.filters);
+  const tbdId = flattenDataId(cd.dataId, cd.filters);
 
   const ep = {
     [name]: {
-      remoteId,
-      tbdId: remoteId,
+      tbdId,
       dataId: cd.dataId,
       localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
       fieldX: connectedData.fieldX,

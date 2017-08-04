@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dataManager/perViewData dynamic view 1`] = `
+Object {
+  "entryPoints": Object {
+    "dynamicEP": Object {
+      "dataId": Object {
+        "catalog": "TelemetryPacket",
+        "comObject": "DecommutedPacket",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "CLCW_TM_NOMINAL",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "id": "dynamic1ep1",
+      "localId": "undefined.tb1:0",
+      "offset": 0,
+      "tbdId": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4",
+      "timebarUuid": "tb1",
+      "type": "DynamicView",
+    },
+  },
+  "type": "DynamicView",
+}
+`;
+
+exports[`dataManager/perViewData plot view 1`] = `
+Object {
+  "entryPoints": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domain": "fr.cnes.isis",
+        "domainId": 1,
+        "parameterName": "ATT_BC_REVTCOUNT1",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "fieldX": "groundDate",
+      "fieldY": "extractedValue",
+      "filters": Array [],
+      "id": "plot1ep2",
+      "localId": "groundDate/extractedValue.tb1:0",
+      "offset": 0,
+      "stateColors": Array [],
+      "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1",
+      "timebarUuid": "tb1",
+      "type": "PlotView",
+    },
+    "ATT_BC_REVTCOUNT1_Offset": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domain": "fr.cnes.isis",
+        "domainId": 1,
+        "parameterName": "ATT_BC_REVTCOUNT1",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "fieldX": "groundDate",
+      "fieldY": "extractedValue",
+      "filters": Array [],
+      "id": "plot1ep3",
+      "localId": "groundDate/extractedValue.tb1:10000",
+      "offset": 10000,
+      "stateColors": Array [],
+      "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1",
+      "timebarUuid": "tb1",
+      "type": "PlotView",
+    },
+    "TMMGT_BC_VIRTCHAN3": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "fieldX": "groundDate",
+      "fieldY": "extractedValue",
+      "filters": Array [
+        Object {
+          "field": "extractedValue",
+          "operand": 100,
+          "operator": "<",
+        },
+      ],
+      "id": "plot1ep1",
+      "localId": "groundDate/extractedValue.tb1:0",
+      "offset": 0,
+      "stateColors": Array [
+        Object {
+          "color": "#000000",
+          "condition": Object {
+            "field": "monitoringState",
+            "operand": "waiting",
+            "operator": "==",
+          },
+        },
+      ],
+      "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100",
+      "timebarUuid": "tb1",
+      "type": "PlotView",
+    },
+  },
+  "type": "PlotView",
+}
+`;
+
+exports[`dataManager/perViewData text view 1`] = `
+Object {
+  "entryPoints": Object {
+    "AGA_AM_PRIORITY": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "AGA_AM_PRIORITY",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "field": "extractedValue",
+      "filters": Array [],
+      "id": "text1ep1",
+      "localId": "extractedValue.tb1:0",
+      "offset": 0,
+      "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4",
+      "timebarUuid": "tb1",
+      "type": "TextView",
+    },
+    "AGA_AM_PRIOR_OFFSET": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "AGA_AM_PRIORITY",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "field": "extractedValue",
+      "filters": Array [],
+      "id": "text1ep10",
+      "localId": "extractedValue.tb1:10000",
+      "offset": 10000,
+      "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4",
+      "timebarUuid": "tb1",
+      "type": "TextView",
+    },
+    "TMMGT_AC_APP": Object {
+      "error": "unable to parse this connectedData formula ",
+    },
+    "TMMGT_BC_VIRTCHAN3": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "field": "extractedValue",
+      "filters": Array [],
+      "id": "text1ep2",
+      "localId": "extractedValue.tb1:0",
+      "offset": 0,
+      "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "timebarUuid": "tb1",
+      "type": "TextView",
+    },
+  },
+  "type": "TextView",
+}
+`;

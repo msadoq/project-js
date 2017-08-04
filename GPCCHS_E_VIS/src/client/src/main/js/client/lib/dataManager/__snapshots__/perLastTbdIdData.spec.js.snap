@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dataManager/perLastTbdIdData perLastTbdIdMap 1`] = `
+Object {
+  "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4": Object {
+    "dataId": Object {
+      "catalog": "Reporting",
+      "comObject": "ReportingParameter",
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
+      "parameterName": "AGA_AM_PRIORITY",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": Array [],
+    "localIds": Object {
+      "extractedValue.tb1:0": Object {
+        "field": "extractedValue",
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "TextView",
+      },
+      "extractedValue.tb1:10000": Object {
+        "field": "extractedValue",
+        "offset": 10000,
+        "timebarUuid": "tb1",
+        "viewType": "TextView",
+      },
+      "monitoringState.tb1:0": Object {
+        "field": "monitoringState",
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "MimicView",
+      },
+    },
+    "views": Array [
+      "text1",
+      "mimic1",
+    ],
+  },
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4": Object {
+    "dataId": Object {
+      "catalog": "Reporting",
+      "comObject": "ReportingParameter",
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
+      "parameterName": "TMMGT_BC_VIRTCHAN3",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": Array [],
+    "localIds": Object {
+      "extractedValue.tb1:0": Object {
+        "field": "extractedValue",
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "TextView",
+      },
+    },
+    "views": Array [
+      "text1",
+    ],
+  },
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100": Object {
+    "dataId": Object {
+      "catalog": "Reporting",
+      "comObject": "ReportingParameter",
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
+      "parameterName": "TMMGT_BC_VIRTCHAN3",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": Array [
+      Object {
+        "field": "raw",
+        "operand": "100",
+        "operator": ">",
+      },
+    ],
+    "localIds": Object {
+      "extractedValue.tb1:0": Object {
+        "field": "extractedValue",
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "MimicView",
+      },
+    },
+    "views": Array [
+      "mimic1",
+    ],
+  },
+  "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4": Object {
+    "dataId": Object {
+      "catalog": "TelemetryPacket",
+      "comObject": "DecommutedPacket",
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
+      "parameterName": "CLCW_TM_NOMINAL",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": undefined,
+    "localIds": Object {
+      "undefined.tb1:0": Object {
+        "field": undefined,
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "DynamicView",
+      },
+    },
+    "views": Array [
+      "dynamic1",
+    ],
+  },
+}
+`;

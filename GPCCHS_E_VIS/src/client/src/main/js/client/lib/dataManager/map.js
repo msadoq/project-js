@@ -4,12 +4,9 @@ import { createSelector } from 'reselect';
 
 import { getTimebars } from '../store/reducers/timebars';
 import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
-import forecastIntervalMap from './forecastIntervalMap';
 import makeGetPerViewData from './perViewData';
-import perRemoteIdMap from './perRemoteIdData';
 import perRangeTbdIdMap from './perRangeTbdIdData';
 import perLastTbdIdMap from './perLastTbdIdData';
-import { expectedIntervalMap } from './expectedIntervalMap';
 import expectedRangeIntervalMap from './expectedRangeIntervalMap';
 import expectedLastIntervalMap from './expectedLastIntervalMap';
 import { getPageIdByViewId } from '../store/reducers/pages';
@@ -44,10 +41,6 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
     }, {})
   );
 
-export const getPerRemoteIdMap = createSelector(
-  getPerViewMap,
-  perRemoteIdMap
-); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
 export const getPerRangeTbdIdMap = createSelector(
   getPerViewMap,
   perRangeTbdIdMap
@@ -68,13 +61,11 @@ export const getPerLastTbdIdMap = createSelector(
  */
 export default createSelector(
   getPerViewMap,
-  getPerRemoteIdMap,
   getPerRangeTbdIdMap,
   getPerLastTbdIdMap,
   getTimebars,
-  (viewMap, remoteIdMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
+  (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
     // compute expected intervals
-    const expectedIntervals = expectedIntervalMap(timebars, remoteIdMap);
     let forecastIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const rangeIntervals = expectedRangeIntervalMap(
@@ -90,17 +81,11 @@ export default createSelector(
         forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
 
-    // add forecast intervals
-    const forecastIntervals = forecastIntervalMap(expectedIntervals, forecastTime);
-
     return {
       perView: viewMap,
-      perRemoteId: remoteIdMap,
       perRangeTbdId: rangeTbdIdMap,
       perLastTbdId: lastTbdIdMap,
-      expectedIntervals,
       forecastIntervals: forecastIntervalsMap,
-      forecastIntervalsOld: forecastIntervals,
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
     };

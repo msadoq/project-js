@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dataManager/perRangeTbdIdData perRangeTbdIdMap 1`] = `
+Object {
+  "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1": Object {
+    "dataId": Object {
+      "catalog": "Reporting",
+      "comObject": "ReportingParameter",
+      "domain": "fr.cnes.isis",
+      "domainId": 1,
+      "parameterName": "ATT_BC_REVTCOUNT1",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": Array [],
+    "localIds": Object {
+      "groundDate/extractedValue.tb1:0": Object {
+        "fieldX": "groundDate",
+        "fieldY": "extractedValue",
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "PlotView",
+      },
+      "groundDate/extractedValue.tb1:10000": Object {
+        "fieldX": "groundDate",
+        "fieldY": "extractedValue",
+        "offset": 10000,
+        "timebarUuid": "tb1",
+        "viewType": "PlotView",
+      },
+    },
+    "views": Array [
+      "plot1",
+    ],
+  },
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
+    "dataId": Object {
+      "catalog": "Reporting",
+      "comObject": "ReportingParameter",
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
+      "parameterName": "TMMGT_BC_VIRTCHAN3",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": Array [
+      Object {
+        "field": "extractedValue",
+        "operand": 100,
+        "operator": "<",
+      },
+    ],
+    "localIds": Object {
+      "groundDate/extractedValue.tb1:0": Object {
+        "fieldX": "groundDate",
+        "fieldY": "extractedValue",
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "PlotView",
+      },
+    },
+    "views": Array [
+      "plot1",
+    ],
+  },
+}
+`;

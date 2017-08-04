@@ -299,7 +299,7 @@ export default {
           unit: 'V',
         },
         id: 'plot1ep3',
-        name: 'ATT_BC_REVTCOUNT1',
+        name: 'ATT_BC_REVTCOUNT1_Offset',
         objectStyle: {
           curveColor: '#ff9800',
           line: {

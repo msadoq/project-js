@@ -1,6 +1,7 @@
 import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
+import _findIndex from 'lodash/findIndex';
 import { DATASTRUCTURETYPE_LAST } from '../constants';
 import { getStructureType } from '../viewManager';
 
@@ -20,8 +21,11 @@ export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
       filters,
     };
   } else {
-    // Add the connected view
-    newMap[tbdId].views.push(viewId);
+    // Add the connected view only once
+    const index = _findIndex(newMap[tbdId].views, id => id === viewId);
+    if (index < 0) {
+      newMap[tbdId].views.push(viewId);
+    }
   }
   const { localId, field, offset, timebarUuid, type } = ep;
   // If localId doesn't exist, adds an entry in map

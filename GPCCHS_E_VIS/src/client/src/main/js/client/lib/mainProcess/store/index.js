@@ -5,11 +5,12 @@ import thunk from 'redux-thunk';
 import makeMainEnhancer from './storeEnhancer';
 import makeWikiHelperMiddleware from './middlewares/wikiHelper';
 import { server } from '../ipc';
+import { get } from '../../common/configurationManager';
 
 let store;
 
 const middlewares = [
-  makeWikiHelperMiddleware(open),
+  makeWikiHelperMiddleware(open, () => get('USER_MANUAL_URL')),
 ];
 
 export default function makeCreateStore(identity, isDebugOn) {

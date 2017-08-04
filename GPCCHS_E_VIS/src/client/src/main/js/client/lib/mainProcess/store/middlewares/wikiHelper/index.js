@@ -1,20 +1,19 @@
 import _ from 'lodash/fp';
-import * as types from '../../../store/types';
-import { add as addMessage } from '../../../store/actions/messages';
-import { get } from '../../../common/configurationManager';
+import * as types from '../../../../store/types';
+import { add as addMessage } from '../../../../store/actions/messages';
 
 const addGlobalWarning = msg => addMessage('global', 'warning', msg);
 const addGlobalError = msg => addMessage('global', 'error', msg);
 
-const isUrl = _.anypass([
+const isUrl = _.anyPass([
   _.startsWith('http://'),
   _.startsWith('https://'),
 ]);
 
-export default open => ({ dispatch }) => next => (action) => {
+export default (open, getUrl = _.noop) => ({ dispatch }) => next => (action) => {
   const nextAction = next(action);
   if (action.type === types.HSC_OPEN_WIKI_HELPER) {
-    const url = get('USER_MANUAL_URL');
+    const url = getUrl();
     if (!url) {
       dispatch(addGlobalWarning('Wiki helper : no USER_MANUAL_URL provided'));
       return nextAction;

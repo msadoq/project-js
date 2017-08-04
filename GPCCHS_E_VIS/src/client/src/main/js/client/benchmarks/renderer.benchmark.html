@@ -4,6 +4,8 @@
 <head>
     <title>Renderer bench</title>
     <script type="text/javascript" src="bench_renderer_data.js"></script>
+    <script type="text/javascript" src="bench_hss_data.js"></script>
+    <script type="text/javascript" src="bench_main_data.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'line']});
@@ -11,33 +13,87 @@
 
     function drawBasic() {
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'X');
-        data.addColumn('number', 'RES');
+        var data1 = new google.visualization.DataTable();
+        var data2 = new google.visualization.DataTable();
+        var data3 = new google.visualization.DataTable();
+        data1.addColumn('number', 'Time');
+        data1.addColumn('number', 'RES');
+        data1.addColumn('number', 'CPU');
+        data2.addColumn('number', 'Time');
+        data2.addColumn('number', 'RES');
+        data2.addColumn('number', 'CPU');
+        data3.addColumn('number', 'Time');
+        data3.addColumn('number', 'RES');
+        data3.addColumn('number', 'CPU');
 
-        data.addRows(window.benchData);
+        data1.addRows(window.benchRendererData);
+        data2.addRows(window.benchHssData);
+        data3.addRows(window.benchMainData);
 
-        var options = {
+        var options1 = {
           hAxis: {
             title: 'Time (seconds)'
           },
           vAxis: {
-            title: 'Mo'
+            0: { title: 'Ko' },
+            1: { title: '%'}
           },
-          title: 'Renderer bench',
-          height: '600'
+          series: {
+            0: {targetAxisIndex: 0},
+            1: {targetAxisIndex: 1}
+          },
+          title: 'Renderer process',
+          height: '360'
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var options2 = {
+          hAxis: {
+            title: 'Time (seconds)'
+          },
+          vAxis: {
+            0: { title: 'Ko' },
+            1: { title: '%'}
+          },
+          series: {
+            0: {targetAxisIndex: 0},
+            1: {targetAxisIndex: 1}
+          },
+          title: 'Hss process',
+          height: '360'
+        };
 
-        chart.draw(data, options);
+        var options3 = {
+          hAxis: {
+            title: 'Time (seconds)'
+          },
+          vAxis: {
+            0: { title: 'Ko' },
+            1: { title: '%'}
+          },
+          series: {
+            0: {targetAxisIndex: 0},
+            1: {targetAxisIndex: 1}
+          },
+          title: 'Main process',
+          height: '360'
+        };
+
+        var chart1 = new google.visualization.LineChart(document.getElementById('renderer_chart_div'));
+        var chart2 = new google.visualization.LineChart(document.getElementById('hss_chart_div'));
+        var chart3 = new google.visualization.LineChart(document.getElementById('main_chart_div'));
+
+        chart1.draw(data1, options1);
+        chart2.draw(data2, options2);
+        chart3.draw(data3, options3);
       }
       setInterval(function(){ location.reload()}, 10000);
     </script>
 </head>
 
 <body>
-    <div id="chart_div"></div>
+    <div id="renderer_chart_div"></div>
+    <div id="hss_chart_div"></div>
+    <div id="main_chart_div"></div>
 </body>
 
 </html>

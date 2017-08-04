@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as types from '../types';
-import makeInspectorMiddleware from './inspector';
+import * as types from '../../types';
+import makeInspectorMiddleware from './';
 
 const rtdManager = {
   prepareDataToTree: data => ({ ...data, prepared: true }),

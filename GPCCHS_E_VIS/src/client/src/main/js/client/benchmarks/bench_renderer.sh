@@ -17,7 +17,14 @@ function toMega {
     local zeros="000"
     echo $res$zeros
   else
-    echo $1
+    if [[ ${tmp:0:1} == "m" ]]; then
+      local tmp_=`echo $tmp | cut -c 2- | rev`
+      local res="${tmp_//.}"
+      local zeros="00"
+      echo $res$zeros
+    else
+      echo $1
+    fi
   fi
 }
 

@@ -163,11 +163,11 @@
   },
   "MESSAGES_NAMESPACES" : [
     {
-      "path" : "../../../../../adapters/",
+      "path" : "./adapters/",
       "ns" :"isis"
     },
     {
-      "path" : "../../../../../adapters/",
+      "path" : "./adapters/",
       "ns" :"dc"
     }
   ]

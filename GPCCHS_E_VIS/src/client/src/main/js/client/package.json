@@ -8,7 +8,8 @@
     "testRegex": "(spec)\\.(js|jsx)$",
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/dist/"
+      "/dist/",
+      "/adapters/"
     ],
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"

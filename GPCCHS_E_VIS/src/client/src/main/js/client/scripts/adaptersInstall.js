@@ -1,7 +1,7 @@
 const { join } = require('path');
 const { execSync } = require('child_process');
 
-const ADAPTERS_PATH = '../../../../../adapters/';
+const ADAPTERS_PATH = './adapters/';
 
 const adapters = ['isis', 'dc'];
 

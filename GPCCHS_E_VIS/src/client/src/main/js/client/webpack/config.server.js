@@ -42,6 +42,7 @@ export default merge(baseConfig, {
       { from: 'node_modules/zmq/**/*', context: 'node_modules/common' }, // for dev (with run hello)
       { from: 'node_modules/bindings/**/*', context: 'node_modules/common' }, // for dev (with run hello)
       { from: 'node_modules/common/**/*' },
+      { from: 'adapters/**/*' },
     ]),
   ],
 

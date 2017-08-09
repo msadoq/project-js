@@ -20,7 +20,7 @@ export default function ({ link, sessionId, domainId }) {
   const { catalog, namespace, name } = parseLink(link);
   const rtd = getRtd();
 
-  rtd.getDatabase().getVersionByDomain(catalog, sessionId, domainId, (vErr, version) => {
+  rtd.getDatabase().getCatalogAndVersionListByDomain(sessionId, domainId, (vErr, version) => {
     if (vErr || !version) {
       dispatch(add(
         'global',

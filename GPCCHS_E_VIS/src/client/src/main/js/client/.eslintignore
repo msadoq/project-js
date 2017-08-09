@@ -1,5 +1,7 @@
 node_modules
 coverage
+benchmarks
+adapters
 dist
 docs
 data

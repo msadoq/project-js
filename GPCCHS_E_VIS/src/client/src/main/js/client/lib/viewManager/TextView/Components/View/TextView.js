@@ -11,15 +11,15 @@ import handleContextMenu from '../../../../windowProcess/common/handleContextMen
 const isValueNode = /{{\s*([^}]+)\s*}}/g;
 
 const getTextStyle = color => ({
-  textShadow: `
-    0 0 5px rgba(255, 255, 255, 0.1),
-    0 0 10px rgba(255, 255, 255, 0.1),
-    0 0 20px ${color},
-    0 0 30px ${color},
-    0 0 40px ${color},
-    0 0 55px ${color},
-    0 0 75px ${color}
-  `,
+  // textShadow: `
+  //   0 0 5px rgba(255, 255, 255, 0.1),
+  //   0 0 10px rgba(255, 255, 255, 0.1),
+  //   0 0 20px ${color},
+  //   0 0 30px ${color},
+  //   0 0 40px ${color},
+  //   0 0 55px ${color},
+  //   0 0 75px ${color}
+  // `,
   color,
 });
 
@@ -286,7 +286,7 @@ export default class TextView extends PureComponent {
             sv.el.setAttribute('title', ep.error);
           }
 
-          const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#00FF00');
+          const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#41a62a');
           if (s.color !== sv.color) {
             sv.color = s.color;
             sv.el.style.color = s.color;

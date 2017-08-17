@@ -24,13 +24,13 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
   }
   const epName = epNames[0];
   const ep = currentViewMap.entryPoints[epName];
-  // Entry points on this remoteId
-  const { remoteId, localId } = ep;
-  const remoteIdPayload = payload[remoteId];
-  if (!remoteIdPayload) {
+  // Entry points on this tbdId
+  const { tbdId, localId } = ep;
+  const tbdIdPayload = payload[tbdId];
+  if (!tbdIdPayload) {
     return {};
   }
-  const expectedInterval = _get(intervalMap, [remoteId, localId, 'expectedInterval']);
+  const expectedInterval = _get(intervalMap, [tbdId, localId, 'expectedInterval']);
   // case of error when visuWindow duration is too long
   if (!expectedInterval) {
     return {};
@@ -48,9 +48,9 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
   }
   let newValue;
   // search over payloads
-  const timestamps = Object.keys(remoteIdPayload);
+  const timestamps = Object.keys(tbdIdPayload);
   for (let j = 0; j < timestamps.length; j += 1) {
-    const p = remoteIdPayload[timestamps[j]];
+    const p = tbdIdPayload[timestamps[j]];
     const timestamp = _get(p, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
       logger.warn('get a payload without .referenceTimestamp key');

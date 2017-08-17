@@ -98,7 +98,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           type: 'TextView',
           entryPoints: {
             ep1: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               field: 'time',
               localId: 'local1',
             },
@@ -108,7 +108,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           type: 'DynamicView',
           entryPoints: {
             epDynamic: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               offset: 0,
               localId: 'local2',
             },
@@ -124,12 +124,12 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           type: 'TextView',
           entryPoints: {
             ep1: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               field: 'time',
               localId: 'local1',
             },
             ep4: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               field: 'val4',
               localId: 'local4',
             },
@@ -139,7 +139,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           type: 'DynamicView',
           entryPoints: {
             epDynamic: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               offset: 0,
               localId: 'local1',
             },
@@ -224,7 +224,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
         },
       });
     });
-    test('valid viewData with state: remoteId update', () => {
+    test('valid viewData with state: tbdId update', () => {
       const state = freezeMe({
         dynamic: {
           index: 8,

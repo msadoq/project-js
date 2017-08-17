@@ -53,10 +53,19 @@ const createIntervalQuery = (lower, upper) => {
  * @return Object query
  */
 const createDiffQuery = (intervals) => {
-  const query = { $and: [] };
+  const query = { $or: [] };
   for (let i = 0; i < intervals.length; i += 1) {
-    query.$and.push({ timestamp: { $gte: intervals[i][1] } });
-    query.$and.push({ timestamp: { $lte: intervals[i][0] } });
+    const $and = [];
+    if (i === 0) {
+      query.$or.push({ timestamp: { $lt: intervals[i][0] } });
+    }
+    if (i === intervals.length - 1) {
+      query.$or.push({ timestamp: { $gt: intervals[i][1] } });
+    } else {
+      $and.push({ timestamp: { $gt: intervals[i][1] } });
+      $and.push({ timestamp: { $lt: intervals[i + 1][0] } });
+      query.$or.push({ $and });
+    }
   }
   return query;
 };
@@ -97,7 +106,7 @@ const deleteInterval = (collection, lower, upper) => {
 
 
 
-const getLastData = (tbdId, lower, upper) => {
+const getLastRecords = (tbdId, lower, upper) => {
   const { collection, isNew } = getOrCreateCollection(tbdId);
   if (isNew) return {};
   return searchLast(collection, lower, upper);
@@ -201,11 +210,11 @@ const addRecords = (tbdId, records) => {
 const removeAllExceptIntervals = (tbdId, intervals) => {
   const query = createDiffQuery(intervals);
   const { collection } = getCollection(tbdId);
-  collection.chain().find(query).remove();
+  if (collection) collection.chain().find(query).remove();
 };
 
 export default {
-  getLastData,
+  getLastRecords,
   getRangesRecords,
   removeRecords,
   addRecord,

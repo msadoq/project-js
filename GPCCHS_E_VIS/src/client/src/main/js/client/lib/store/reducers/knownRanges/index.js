@@ -91,7 +91,7 @@ export const getKnownRanges = (state, { tbdId }) => state.knownRanges[tbdId];
 export const getTbdIdsAndDataIdList = (state) => {
   const tbdIdsList = Object.keys(state.knownRanges);
   const tbdIdAndDataIdList = [];
-  for (let i = 0; i < tbdIdsList.length; i += 1){
+  for (let i = 0; i < tbdIdsList.length; i += 1) {
     tbdIdAndDataIdList[i] = {
       tbdId: tbdIdsList[i],
       dataId: state.knownRanges[tbdIdsList[i]].dataId,

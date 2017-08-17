@@ -1,13 +1,14 @@
 const {
-  getRangeData,
+  getRangesRecords,
   removeRecords,
-  getLastData,
+  getLastRecords,
   addRecords,
   // listCollections,
   // removeCollection,
   removeAllCollections,
   getOrCreateCollection,
   displayCollection,
+  removeAllExceptIntervals,
 } = require('./lokiKnownRangesData');
 
 const myRecords = [
@@ -42,40 +43,31 @@ describe('models/timebasedDataFactory', () => {
   describe('getRangeData', () => {
     test('tbdId is not present', () => {
       const tbdId = 'myTbdId';
-      const range = getRangeData(tbdId, [6, 12]);
-      expect(range).toMatchObject([]);
+      const range = getRangesRecords(tbdId, [[6, 12]]);
+      expect(range).toMatchObject({ [tbdId]: {} });
     });
     test('tbdId is already present ', () => {
       const tbdId = 'myTbdId';
       getOrCreateCollection(tbdId);
       addRecords(tbdId, myRecords);
 
-      const range = getRangeData(tbdId, 6, 12);
-      expect(range).toMatchObject(
-        [{
-          timestamp: 6,
-          payload: 6,
+      const range = getRangesRecords(tbdId, [[6, 12]]);
+      expect(range).toMatchObject({
+        myTbdId: {
+          6: 6,
+          7: 7,
+          11: 11,
+          12: 12,
         },
-        {
-          timestamp: 7,
-          payload: 7,
-        },
-        {
-          timestamp: 11,
-          payload: 11,
-        },
-        {
-          timestamp: 12,
-          payload: 12,
-        }]);
+      });
     });
   });
 
   describe('getLastData', () => {
     test('tbdId is not present', () => {
       const tbdId = 'myTbdId';
-      const range = getLastData(tbdId, [6, 9]);
-      expect(range).toMatchObject([]);
+      const range = getLastRecords(tbdId, [6, 9]);
+      expect(range).toMatchObject({});
     });
 
     test('tbdId is already present ', () => {
@@ -83,7 +75,7 @@ describe('models/timebasedDataFactory', () => {
       getOrCreateCollection(tbdId);
       addRecords(tbdId, myRecords);
 
-      const range = getLastData(tbdId, 6, 9);
+      const range = getLastRecords(tbdId, 6, 9);
       expect(range).toMatchObject(
         [{
           timestamp: 7,
@@ -112,5 +104,25 @@ describe('models/timebasedDataFactory', () => {
           payload: 12,
         }]);
     });
+  });
+
+  describe('removeAllExceptIntervals', () => {
+    const tbdId = 'myTbdId';
+    getOrCreateCollection(tbdId);
+    addRecords(tbdId, myRecords);
+    removeAllExceptIntervals(tbdId, [[4, 6], [12, 14]]);
+    expect(displayCollection(tbdId)).toMatchObject(
+      [{
+        timestamp: 5,
+        payload: 5,
+      },
+      {
+        timestamp: 6,
+        payload: 6,
+      },
+      {
+        timestamp: 12,
+        payload: 12,
+      }]);
   });
 });

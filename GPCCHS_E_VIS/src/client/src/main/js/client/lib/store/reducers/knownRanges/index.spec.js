@@ -6,6 +6,7 @@ import knownRangesReducer, {
   isDataIdInCache,
   isTimestampInKnownRanges,
   getUpperIntervalIsInKnownRanges,
+  getTbdIdsAndDataIdList,
 } from '.';
 
 const reducer = freezeArgs(knownRangesReducer);
@@ -33,29 +34,34 @@ describe('store:knownRanges:reducer', () => {
     expect(nextState).toEqual({ myTbdId1: {
       flatDataId: 'catalog.paramName<comObject>:181:4',
       filters: [],
-      intervals: [[15, 25]] } });
+      intervals: [[15, 25]],
+      dataId } });
     const nextState2 =
       reducer(nextState, actions.sendArchiveQuery('myTbdId1', dataId, [[10, 20], [50, 60]]));
     expect(nextState2).toEqual({ myTbdId1: {
       flatDataId: 'catalog.paramName<comObject>:181:4',
       filters: [],
-      intervals: [[10, 25], [50, 60]] } });
+      intervals: [[10, 25], [50, 60]],
+      dataId } });
   });
   test('Should add tbdId known interval: multi intervals', () => {
     const nextState = reducer({ myTbdId0: {
       flatDataId: 'catalog.paramName0<comObject>:181:4',
       filters: [],
-      intervals: [[15, 25]] } },
+      intervals: [[15, 25]],
+      dataId } },
       actions.sendArchiveQuery('myTbdId1', dataId, [[2, 6], [15, 25]]));
     expect(nextState).toEqual({
       myTbdId0: {
         flatDataId: 'catalog.paramName0<comObject>:181:4',
         filters: [],
-        intervals: [[15, 25]] },
+        intervals: [[15, 25]],
+        dataId },
       myTbdId1: {
         flatDataId: 'catalog.paramName<comObject>:181:4',
         filters: [],
-        intervals: [[2, 6], [15, 25]] } });
+        intervals: [[2, 6], [15, 25]],
+        dataId } });
   });
   test('Remove intervals: empty state', () => {
     const nextState = reducer({}, actions.removeKnownRanges('tbdId1', [2, 4]));
@@ -222,6 +228,36 @@ describe('store:knownRanges:selectors', () => {
     test('tbdId ok and timestamp outside', () => {
       expect(getUpperIntervalIsInKnownRanges(state2, 'tbdId2', [1, 25]))
       .toEqual({ isInInterval: false, interval: [] });
+    });
+  });
+
+  describe('getTbdIdsAndDataIdList' , () => {
+    const state3 = {
+      knownRanges: {
+        tbdId1: {
+          flatDataId: 'tbdId1',
+          filters: [],
+          intervals: [[10, 20]],
+          dataId: 'dataId1',
+        },
+        tbdId2: {
+          flatDataId: 'tbdId2',
+          filters: [{ field: 'extractedValue', operator: '=', operand: '2' }],
+          intervals: [[10, 20], [30, 40]],
+          dataId: 'dataId2',
+        },
+      },
+    };
+
+    test('getTbdIdsAndDataIdList', () => {
+      expect(getTbdIdsAndDataIdList(state3))
+      .toEqual([{
+        tbdId: 'tbdId1',
+        dataId: 'dataId1',
+      }, {
+        tbdId: 'tbdId2',
+        dataId: 'dataId2',
+      }]);
     });
   });
 });

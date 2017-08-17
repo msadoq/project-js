@@ -1,16 +1,15 @@
-import { get } from '../../../common/configurationManager';
 import dataMapGenerator from '../../../dataManager/map';
-import { removeAllExceptIntervals } from '../../../serverProcess/models/lokiKnownRangesData';
 import mergeIntervals from '../../../common/intervals/merge';
 
 let lastCleanTimestamp = new Date();
 
-const cleanTrigger = get('FORECAST_TRIGGER');
-const cleanCache = () => ({ getState }) => next => (action) => {
+const cleanCache = (cleanTrigger, lokiManager) => ({ getState }) => next => (action) => {
   const now = new Date();
   if (now - lastCleanTimestamp >= cleanTrigger) {
+    console.log('here');
     const state = getState();
     const { expectedRangeIntervals } = dataMapGenerator(state);
+    console.log(expectedRangeIntervals);
     const tbdIds = Object.keys(expectedRangeIntervals);
     for (let i = 0; i < tbdIds.length; i += 1) {
       let merged = [];
@@ -19,7 +18,8 @@ const cleanCache = () => ({ getState }) => next => (action) => {
       for (let j = 0; j < localsIds.length; j += 1) {
         merged = mergeIntervals(merged, currentExpectedRange[localsIds[j]].expectedInterval);
       }
-      removeAllExceptIntervals(tbdIds[i], merged);
+      console.log(merged);
+      lokiManager.removeAllExceptIntervals(tbdIds[i], merged);
     }
     lastCleanTimestamp = new Date();
   }

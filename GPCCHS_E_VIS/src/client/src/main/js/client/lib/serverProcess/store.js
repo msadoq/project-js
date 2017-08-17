@@ -23,7 +23,7 @@ const middlewares = [
   makeIncomingMessage(get('INCOMING_DATA_INJECTION_FREQUENCY')),
   createIncomingDataMiddleware(lokiManager),
   createRetrieveDataMiddleware(ipc),
-  createCacheMiddleware(),
+  createCacheMiddleware(lokiManager),
   makeMessagesMiddleware(),
   makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   makeDocumentsMiddleware(documentManager),

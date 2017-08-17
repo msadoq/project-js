@@ -48,6 +48,20 @@ const createIntervalQuery = (lower, upper) => {
 };
 
 /**
+ * Create query to get data outside the list of intervals
+ * @param [interval] interval
+ * @return Object query
+ */
+const createDiffQuery = (intervals) => {
+  const query = { $and: [] };
+  for (let i = 0; i < intervals.length; i += 1) {
+    query.$and.push({ timestamp: { $gte: intervals[i][1] } });
+    query.$and.push({ timestamp: { $lte: intervals[i][0] } });
+  }
+  return query;
+};
+
+/**
  * Returns an interval of values for a given collection, and for a given range
  * @param lokiJsCollection collection
  * @param string tbdId
@@ -179,6 +193,17 @@ const addRecords = (tbdId, records) => {
   }
 };
 
+/**
+ * Remove all data outside the list of interval
+ * @param string tbdId
+ * @param Array<interval> intervals
+ */
+const removeAllExceptIntervals = (tbdId, intervals) => {
+  const query = createDiffQuery(intervals);
+  const { collection } = getCollection(tbdId);
+  collection.chain().find(query).remove();
+};
+
 export default {
   getLastData,
   getRangesRecords,
@@ -190,4 +215,5 @@ export default {
   removeAllCollections,
   getOrCreateCollection,
   displayCollection,
+  removeAllExceptIntervals,
 };

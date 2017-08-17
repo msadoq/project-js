@@ -10,15 +10,13 @@ const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
 
 const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
   if (action.type === types.INCOMING_RANGE_DATA) {
-    console.log('[PrepareRangeMiddleware] ON_INCOMING_RANGE_DATA action');
-
     const tbdId = action.payload.tbdId;
     const dataId = action.payload.dataId;
     const peers = action.payload.peers;
     const payloadProtobufType = getType(dataId.comObject);
 
     if (typeof payloadProtobufType === 'undefined') {
-      console.log('protobufType unknwon');
+      console.error('protobufType unknown');
       return next(action);
     }
 

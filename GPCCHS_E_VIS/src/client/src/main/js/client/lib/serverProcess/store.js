@@ -4,12 +4,12 @@ import { get } from '../common/configurationManager';
 import makeIncomingMessage from '../store/middlewares/incomingData';
 import createIncomingDataMiddleware from '../store/middlewares/incomingData2';
 import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
+import createCacheMiddleware from '../store/middlewares/cache';
 import makeServerEnhancer from './storeEnhancer';
 import reducer from '../store/reducers';
-import { main } from './ipc';
+import ipc from './ipc';
 import documentManager from './documentManager';
 import lokiManager from './models/lokiKnownRangesData';
-// =======
 import makeMessagesMiddleware from '../store/middlewares/messages';
 import makePlayerMiddleware from '../store/middlewares/player';
 import makeDocumentsMiddleware from '../store/middlewares/documents';
@@ -22,8 +22,8 @@ const middlewares = [
   thunk,
   makeIncomingMessage(get('INCOMING_DATA_INJECTION_FREQUENCY')),
   createIncomingDataMiddleware(lokiManager),
-  createRetrieveDataMiddleware(),
-// =======
+  createRetrieveDataMiddleware(ipc),
+  createCacheMiddleware(),
   makeMessagesMiddleware(),
   makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   makeDocumentsMiddleware(documentManager),
@@ -34,7 +34,7 @@ export default function makeCreateStore(identity, isDebugOn) {
   return (initialState) => {
     const enhancer = compose(applyMiddleware(...middlewares), makeServerEnhancer(
       identity,
-      main.sendReduxPatch,
+      ipc.main.sendReduxPatch,
       isDebugOn
     ));
     store = createStore(reducer, initialState, enhancer);

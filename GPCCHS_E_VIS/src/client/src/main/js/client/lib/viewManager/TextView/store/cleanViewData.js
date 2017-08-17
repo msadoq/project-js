@@ -75,7 +75,7 @@ export default function cleanCurrentViewData(
     }
     const newEp = newViewDef.entryPoints[epName];
     // EP definition modified: remove entry point from viewData
-    if (ep.field !== newEp.field || ep.remoteId !== newEp.remoteId) {
+    if (ep.field !== newEp.field || ep.tbdId !== newEp.tbdId) {
       if (!viewData.index[epName]) {
         continue;
       }
@@ -86,8 +86,8 @@ export default function cleanCurrentViewData(
       continue;
     }
     // update on expected interval
-    const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
-    const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
+    const oldInterval = _get(oldIntervals, [ep.tbdId, ep.localId, 'expectedInterval']);
+    const newInterval = _get(newIntervals, [ep.tbdId, ep.localId, 'expectedInterval']);
     if (!newInterval) {
       viewData = { ...viewData,
         index: _omit(viewData.index, epName),

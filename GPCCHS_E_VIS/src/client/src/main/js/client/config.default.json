@@ -36,6 +36,7 @@
     "warning": "#FFFF00"
   },
   "FORECAST": 30000,
+  "FORECAST_TRIGGER" : 5000,
   "STRING_PLOT_VALUE": 1,
   "USER_MANUAL_URL": "http://vmisisaivcontrol01.cnes-isis.toulouse.atos.net/farm/WIKI_ISIS_GPA/doku.php?id=isis:lp:sum:gpvi:toc",
   "UNITS": {

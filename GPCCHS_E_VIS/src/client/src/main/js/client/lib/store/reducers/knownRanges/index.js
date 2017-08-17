@@ -29,6 +29,7 @@ export default function knownRanges(state = {}, action) {
       if (!state[tbdId]) {
         newState = { ...state,
           [tbdId]: {
+            dataId: action.payload.dataId,
             flatDataId: flattenDataId(action.payload.dataId),
             filters: action.payload.filters || [],
             intervals: [],
@@ -81,6 +82,23 @@ export default function knownRanges(state = {}, action) {
  * @return {object} array of known intervals for tbdId.
  */
 export const getKnownRanges = (state, { tbdId }) => state.knownRanges[tbdId];
+
+/**
+ * Get the list of tbdIds.
+ * @param {object} state - The current state.
+ * @return {object} array of known tbdIds.
+ */
+export const getTbdIdsAndDataIdList = (state) => {
+  const tbdIdsList = Object.keys(state.knownRanges);
+  const tbdIdAndDataIdList = [];
+  for (let i = 0; i < tbdIdsList.length; i += 1){
+    tbdIdAndDataIdList[i] = {
+      tbdId: tbdIdsList[i],
+      dataId: state.knownRanges[tbdIdsList[i]].dataId,
+    };
+  }
+  return tbdIdAndDataIdList;
+};
 
 /**
  * Get known intervalPerLastTbdId for a specified tbdId.

@@ -4,8 +4,6 @@ const constants = require('../../../constants');
 
 const onResponse = require('./onResponse');
 const onDomainsData = require('./onDomainsData');
-// const onTimebasedArchiveData = require('./onTimebasedArchiveData');
-const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const onSessionsData = require('./onSessionsData');
 const onFmdCreateData = require('./onFmdCreateData');
 const onFmdGetData = require('./onFmdGetData');
@@ -56,7 +54,6 @@ module.exports = function dcController() {
   if (!messageType) {
     return logger.warn('invalid message received (no messageType)');
   }
-
   const fn = controllers[messageType];
   if (!fn) {
     return logger.silly(`invalid message received (unknown messageType) '${messageType}'`);

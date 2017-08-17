@@ -8,7 +8,6 @@ const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
 
 const prepareLast = () => ({ dispatch }) => next => (action) => {
   if (action.type === types.INCOMING_LAST_DATA) {
-    console.log('[PrepareLastMiddleware] ON_INCOMING_LAST_DATA action');
     const tbdId = action.payload.tbdId;
     const dataId = action.payload.dataId;
     const peers = action.payload.peers;

@@ -18,17 +18,6 @@ export default function patchReducer(state, action) {
 
   const patch = _getOr([], ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action);
   if (patch.length) {
-    // let newState = state;
-    // patch.forEach((p) => {
-    //   try {
-    //     newState = applyPatch(newState, [p], { strict: true });
-    //   } catch (e) {
-    //     // count += 1;
-    //     // console.log('*****************', count);
-    //   }
-    // });
-
-    // return newState;
     return applyPatch(state, patch);
   }
 

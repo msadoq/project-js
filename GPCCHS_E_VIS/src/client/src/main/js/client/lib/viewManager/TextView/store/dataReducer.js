@@ -62,9 +62,9 @@ export default function textViewData(state = {}, action) {
       });
       return newState;
     }
-    case types.DATA_UPDATE_VIEWDATA: {
-      const oldIntervals = action.payload.oldExpectedIntervals;
-      const newIntervals = action.payload.newExpectedIntervals;
+    case types.INJECT_DATA_LAST: {
+      const oldIntervals = action.payload.oldExpectedLastIntervals;
+      const newIntervals = action.payload.newExpectedLastIntervals;
       const { dataToInject, newViewMap, oldViewMap } = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
@@ -106,7 +106,8 @@ export default function textViewData(state = {}, action) {
       }
       return newState || {};
     }
-    case types.WS_VIEWDATA_CLEAN: {
+    /* case types.WS_VIEWDATA_CLEAN: {
+      console.log('INJECT NEW DATA');
       const { previousDataMap, dataMap } = action.payload;
       // since now, state will changed
       let newState = state;
@@ -126,7 +127,7 @@ export default function textViewData(state = {}, action) {
         }
       }
       return newState;
-    }
+    }*/
     default:
       return state;
   }

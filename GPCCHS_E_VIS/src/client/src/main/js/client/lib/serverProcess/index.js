@@ -16,6 +16,7 @@ import { dc } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeViewNeededDataStoreObserver from '../store/observers/viewNeededDataStoreObserver';
+import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
 import { setRteSessions } from '../store/actions/rte';
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
@@ -87,6 +88,7 @@ series({
   const store = makeCreateStore('server', isDebugEnabled)();
   store.subscribe(makeDataRequestsObserver(store));
   store.subscribe(makeViewNeededDataStoreObserver(store));
+  store.subscribe(makeSubscriptionStoreObserver(store));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));

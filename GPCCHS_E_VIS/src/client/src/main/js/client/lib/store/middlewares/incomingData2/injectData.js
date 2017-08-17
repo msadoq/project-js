@@ -8,19 +8,9 @@ let previousDataMap = {};
 let queue = [];
 const injectData = () => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
   if (action.type === types.NEW_DATA) {
-    // dispatch(injectDataAction(action.payload.data));
     const dataToInject = action.payload.data;
-    // console.log(dataToInject);
-    throttledDispatch(dispatch, getState());
     addToQueue(dataToInject);
-    // TODO pgaucher add throttle mechanism 
-    // const { remoteId, data } = action.payload;
-
-      // add to buffer on every call
-    // addToQueue(remoteId, data);
-
-      // send action to reducer only 1 time every frequency ms
-    // throttledDispatch(getState(), next);
+    throttledDispatch(dispatch, getState());
   }
   return next(action);
 };
@@ -30,13 +20,9 @@ const injectData = () => ({ dispatch, getState }) => next => (action) => { // es
  *
  * @type {function}
  */
-const throttledDispatch = _.throttle(1, (dispatch, state) => {
-  console.log('DISPATCH!!');
-  // dataMap
+const throttledDispatch = _.throttle(50, (dispatch, state) => {
   dataMap = dataMapGenerator(state);
 
-
-  // console.log('[injectDataMidlwr] ON_NEW_DATA action : ', dataToInject);
   const oldViewMap = _.getOr({}, 'perView', previousDataMap);
   const newViewMap = _.getOr({}, 'perView', dataMap);
 
@@ -47,7 +33,6 @@ const throttledDispatch = _.throttle(1, (dispatch, state) => {
   const newExpectedLastIntervals = _.getOr({}, 'expectedLastIntervals', dataMap);
 
   const dataToInject = popQueue();
-
   const updateRangeData = injectDataRange(
     oldViewMap,
     newViewMap,
@@ -63,7 +48,6 @@ const throttledDispatch = _.throttle(1, (dispatch, state) => {
     newExpectedLastIntervals,
     dataToInject
   );
-
   dispatch(updateRangeData);
   dispatch(updateLastData);
 

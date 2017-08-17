@@ -101,7 +101,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'TextView',
           entryPoints: {
             ep1: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               field: 'time',
               localId: 'local1',
             },
@@ -111,7 +111,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'PlotView',
           entryPoints: {
             ep2: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
@@ -129,12 +129,12 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'TextView',
           entryPoints: {
             ep1: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               field: 'time',
               localId: 'local1',
             },
             ep4: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               field: 'val4',
               localId: 'local4',
             },
@@ -144,14 +144,14 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'PlotView',
           entryPoints: {
             ep2: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
               localId: 'local2',
             },
             ep3: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               fieldX: 'time',
               fieldY: 'val4',
               offset: 0,

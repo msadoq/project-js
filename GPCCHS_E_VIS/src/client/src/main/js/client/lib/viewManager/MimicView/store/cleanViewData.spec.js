@@ -25,7 +25,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            remoteId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           },
           STAT_WILDCARD_TIMELINE: {
             id: 'id46',
@@ -41,7 +41,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'extractedValue.tb1:0',
             timebarUuid: 'tb1',
-            remoteId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+            tbdId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
           },
           STAT_UNKNOW_DOMAIN: {
             error: 'invalid entry point, no domain matches',
@@ -69,7 +69,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             localId: 'groundDate/extractedValue.tb1:0/0',
             timebarUuid: 'tb1',
             structureType: 'range',
-            remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            tbdId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
             stateColors: [{
               color: '#000000',
               condition: {
@@ -99,7 +99,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
             filter: [],
             localId: 'undefined.tb1:0',
             timebarUuid: 'tb1',
-            remoteId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+            tbdId: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
             type: 'DynamicView',
             stateColors: [{
               color: '#000000',

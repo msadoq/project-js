@@ -61,7 +61,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         type: 'MimicView',
         entryPoints: {
           ep4: {
-            remoteId: 'rId1',
+            tbdId: 'rId1',
             field: 'val3',
             localId: 'localrId1',
             offset: 0,
@@ -77,7 +77,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
             ],
           },
           ep7: {
-            remoteId: 'rId2',
+            tbdId: 'rId2',
             field: 'val4',
             offset: 0,
             localId: 'localrId2',
@@ -88,13 +88,13 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         type: 'MimicView',
         entryPoints: {
           ep5: {
-            remoteId: 'rId1',
+            tbdId: 'rId1',
             field: 'val3',
             offset: 0,
             localId: 'localEp5',
           },
           ep6: {
-            remoteId: 'rId2',
+            tbdId: 'rId2',
             field: 'val3',
             offset: 0,
             localId: 'localEp6',
@@ -105,7 +105,7 @@ describe('viewManager/TextView/store/viewDataUpdate', () => {
         type: 'DynamicView',
         entryPoints: {
           dynamicEP: {
-            remoteId: 'rId1',
+            tbdId: 'rId1',
             decommutedValues: [{ name: 'val1' }, { name: 'val2' }],
             offset: 0,
             localId: 'localEpDyn',

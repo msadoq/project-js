@@ -14,9 +14,9 @@ const store1 = {
     tb1: {
       id: 'TB1',
       visuWindow: {
-        lower: 0,
-        upper: 100,
-        current: 50,
+        lower: 7,
+        upper: 28,
+        current: 12,
         defaultWidth: 900000,
       },
       playingState: 'pause',
@@ -268,6 +268,12 @@ describe('cacheCleanup', () => {
   test('cacheClean', () => {
     lokiManager.addRecords('Reporting.STAT_SU_PID<ReportingParameter>:1:1', data);
     store.dispatch(lambdaAction());
-    console.log(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1'));
+    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1'))
+    .toMatchObject([
+      {
+        timestamp: 12,
+      }, {
+        timestamp: 25,
+      }]);
   });
 });

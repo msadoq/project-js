@@ -1,8 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { get } from '../common/configurationManager';
-import makeIncomingMessage from '../store/middlewares/incomingData';
-import createIncomingDataMiddleware from '../store/middlewares/incomingData2';
+import createIncomingDataMiddleware from '../store/middlewares/incomingData';
 import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
 import createCacheMiddleware from '../store/middlewares/cache';
 import makeServerEnhancer from './storeEnhancer';
@@ -20,7 +19,6 @@ let store;
 
 const middlewares = [
   thunk,
-  makeIncomingMessage(get('INCOMING_DATA_INJECTION_FREQUENCY')),
   createIncomingDataMiddleware(lokiManager),
   createRetrieveDataMiddleware(ipc),
   createCacheMiddleware(lokiManager),

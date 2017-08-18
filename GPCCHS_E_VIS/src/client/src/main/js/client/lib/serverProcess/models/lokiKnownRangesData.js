@@ -106,10 +106,16 @@ const deleteInterval = (collection, lower, upper) => {
 
 
 
-const getLastRecords = (tbdId, lower, upper) => {
+const getLastRecords = (tbdId, interval) => {
   const { collection, isNew } = getOrCreateCollection(tbdId);
-  if (isNew) return {};
-  return searchLast(collection, lower, upper);
+  const lastRecords = { [tbdId]: {} };
+  if (isNew) return lastRecords;
+
+  const searched = searchLast(collection, interval[0], interval[1]);
+  if (searched.length === 0) return lastRecords;
+
+  lastRecords[tbdId][searched[0].timestamp] = searched[0].payload;
+  return lastRecords;
 };
 
 /**

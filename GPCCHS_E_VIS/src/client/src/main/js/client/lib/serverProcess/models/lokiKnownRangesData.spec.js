@@ -75,12 +75,8 @@ describe('models/timebasedDataFactory', () => {
       getOrCreateCollection(tbdId);
       addRecords(tbdId, myRecords);
 
-      const range = getLastRecords(tbdId, 6, 9);
-      expect(range).toMatchObject(
-        [{
-          timestamp: 7,
-          payload: 7,
-        }]);
+      const range = getLastRecords(tbdId, [6, 9]);
+      expect(range).toMatchObject({ myTbdId: { 7: 7 } });
     });
   });
 

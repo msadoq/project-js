@@ -7,9 +7,9 @@ import { get } from '../../../common/configurationManager';
 const forecastTime = get('FORECAST');
 const forecastTrigger = get('FORECAST_TRIGGER');
 
-const createRetrieveDataMiddleware = (ipc, dataManager) => pipeMiddlewares(
-  retrieveRange(ipc, dataManager),
-  retrieveLast(ipc, dataManager),
+const createRetrieveDataMiddleware = ipc => pipeMiddlewares(
+  retrieveRange(ipc),
+  retrieveLast(ipc),
   forecastData(ipc, forecastTime, forecastTrigger)
 );
 

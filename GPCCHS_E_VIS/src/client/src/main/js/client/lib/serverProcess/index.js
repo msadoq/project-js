@@ -11,7 +11,6 @@ import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
-import makeDataRequestsObserver from './dataRequests/observer';
 import { dc } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
@@ -86,7 +85,6 @@ series({
   const isDebugEnabled = get('DEBUG') === 'on';
   // store
   const store = makeCreateStore('server', isDebugEnabled)();
-  store.subscribe(makeDataRequestsObserver(store));
   store.subscribe(makeViewNeededDataStoreObserver(store));
   store.subscribe(makeSubscriptionStoreObserver(store));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));

@@ -68,6 +68,21 @@ export default function knownRanges(state = {}, action) {
         },
       };
     }
+    // TODO PGAUCHER
+    case types.REPLACE_KNOWN_RANGES: {
+      const tbdIdInterval = action.payload.tbdIdInterval;
+      const stateTmp = {
+        ...state,
+      };
+
+      for (let i = 0; i < tbdIdInterval.length; i += 1) {
+        stateTmp[tbdIdInterval[i].tbdId] = {
+          ...state[tbdIdInterval[i].tbdId],
+          intervals: tbdIdInterval[i].interval,
+        };
+      }
+      return stateTmp;
+    }
     default:
       return state;
   }

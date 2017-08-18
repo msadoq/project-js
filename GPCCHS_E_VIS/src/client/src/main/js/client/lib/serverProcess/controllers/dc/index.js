@@ -22,11 +22,9 @@ const controllers = {
   [constants.MESSAGETYPE_RESPONSE]: onResponse,
   [constants.MESSAGETYPE_SESSION_DATA]: onSessionsData,
   [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (args) => {
-    // onTimebasedArchiveData(args);
     archiveController(args, getStore, { get, remove });
   },
   [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
-    // onTimebasedPubSubData
     pubSubController(args, getStore);
   },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,

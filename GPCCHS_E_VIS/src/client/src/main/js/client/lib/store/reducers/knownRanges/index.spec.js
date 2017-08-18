@@ -108,6 +108,30 @@ describe('store:knownRanges:reducer', () => {
       filters: [],
       intervals: [[20, 30]] } });
   });
+
+  test('Replace intervals', () => {
+    const state = {
+      tbdId: {
+        flatDataId: 'tbdId',
+        filters: [],
+        intervals: [[2, 50]] },
+      tbdId2: {
+        flatDataId: 'tbdId2',
+        filters: [],
+        intervals: [[20, 30]] },
+    };
+    const nextState = reducer(state, actions.replaceKnownRanges([{ tbdId: 'tbdId', interval: [[220, 230]] }]));
+    expect(nextState).toEqual({
+      tbdId: {
+        flatDataId: 'tbdId',
+        filters: [],
+        intervals: [[220, 230]] },
+      tbdId2: {
+        flatDataId: 'tbdId2',
+        filters: [],
+        intervals: [[20, 30]],
+      } });
+  });
 });
 
 /* --- Selectors -------------------------------------------------------------- */

@@ -1,11 +1,13 @@
 import dataMapGenerator from '../../../dataManager/map';
 import mergeIntervals from '../../../common/intervals/merge';
+import { replaceKnownRanges } from '../../actions/knownRanges';
 
 let lastCleanTimestamp = new Date();
 
-const cleanCache = (cleanTrigger, lokiManager) => ({ getState }) => next => (action) => {
+const cleanCache = (cleanTrigger, lokiManager) => ({ getState, dispatch }) => next => (action) => {
   const now = new Date();
   if (now - lastCleanTimestamp >= cleanTrigger) {
+    const tbdIdInterval = [];
     const state = getState();
     const { expectedRangeIntervals } = dataMapGenerator(state);
     const tbdIds = Object.keys(expectedRangeIntervals);
@@ -17,8 +19,13 @@ const cleanCache = (cleanTrigger, lokiManager) => ({ getState }) => next => (act
         merged = mergeIntervals(merged, currentExpectedRange[localsIds[j]].expectedInterval);
       }
       lokiManager.removeAllExceptIntervals(tbdIds[i], merged);
+      tbdIdInterval.push({
+        tbdId: tbdIds[i],
+        interval: merged,
+      });
     }
     lastCleanTimestamp = new Date();
+    dispatch(replaceKnownRanges(tbdIdInterval));
   }
   return next(action);
 };

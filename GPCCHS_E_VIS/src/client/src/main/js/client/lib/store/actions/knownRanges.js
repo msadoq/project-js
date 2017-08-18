@@ -5,3 +5,4 @@ import * as types from '../types';
 export const sendArchiveQuery =
   simple(types.WS_KNOWNINTERVAL_ADD, 'tbdId', 'dataId', 'intervals', 'filters');
 export const removeKnownRanges = simple(types.WS_KNOWNINTERVAL_DELETE, 'tbdId', 'intervals');
+export const replaceKnownRanges = simple(types.REPLACE_KNOWN_RANGES, 'tbdIdInterval');

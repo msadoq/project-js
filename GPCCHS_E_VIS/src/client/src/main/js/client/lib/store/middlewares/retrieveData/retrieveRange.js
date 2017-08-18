@@ -36,7 +36,9 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
         }
         mergedInterval = mergeIntervals(mergedInterval, missingIntervals);
       }
-      dispatch(sendArchiveQuery(tbdId, dataId, mergedInterval, filters));
+      if (mergedInterval.length !== 0) {
+        dispatch(sendArchiveQuery(tbdId, dataId, mergedInterval, filters));
+      }
     }
   }
   return next(action);

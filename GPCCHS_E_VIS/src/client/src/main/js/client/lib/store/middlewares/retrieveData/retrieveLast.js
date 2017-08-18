@@ -16,31 +16,30 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
       const tbdId = tbdIds[i];
       const { dataId, filters, intervals } = neededLast[tbdIds[i]];
       // const rangesRecords = getRangesRecords(tbdId, intervals)[tbdId];
-      console.log(intervals);
+      // console.log(intervals);
       for (let j = 0; j < intervals.length; j += 1) {
         // TODO pgaucher, can this be optimized ?
-        const { isInInterval } = getUpperIntervalIsInKnownRanges(getState(),
+        const { isInInterval, interval } = getUpperIntervalIsInKnownRanges(getState(),
                                                                            tbdId,
                                                                            intervals[j]);
         if (!isInInterval) {
           const args = { ...getLastArguments, filters };
-          console.log('request last 1 ');
+          // console.log('request last 1 ');
           const queryId = ipc.dc.requestTimebasedQuery(tbdId, dataId, intervals[j], args);
           add(queryId, tbdId, type, dataId);
         } else {
-          const lastRecords = getLastRecords(tbdId, intervals[j])[tbdId];
+          const lastRecords = getLastRecords(tbdId, interval)[tbdId];
           if (Object.keys(lastRecords).length !== 0) {
-            console.log('data exists : ', lastRecords);
+            // console.log('data exists : ', lastRecords);
             dispatch(newData({ [tbdId]: lastRecords }));
           } else {
-            
             const args = { ...getLastArguments, filters };
-            /* const queryId = ipc.dc.requestTimebasedQuery(tbdId,
+            const queryId = ipc.dc.requestTimebasedQuery(tbdId,
                                                          dataId,
-                                                         [intervals[j][0], interval[0]],
-                                                         args); */
-            console.log('request last 2 ');
-            // add(queryId, tbdId, type, dataId);
+                                                         intervals[j],
+                                                         args);
+            // console.log('request last 2 ');
+            add(queryId, tbdId, type, dataId);
           }
         }
       }

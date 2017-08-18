@@ -36,6 +36,7 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
               { tbdId: currentTbdId,
                 queryInterval: mergedInterval[k],
               });
+              // TODO get filters
             for (let l = 0; l < missingIntervals.length; l += 1) {
               const queryId = ipc.dc.requestTimebasedQuery(currentTbdId,
                                                           dataId,

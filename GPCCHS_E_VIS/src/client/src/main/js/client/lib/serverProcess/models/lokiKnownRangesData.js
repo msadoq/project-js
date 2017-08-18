@@ -217,9 +217,11 @@ const removeAllExceptIntervals = (tbdId, intervals) => {
   const query = createDiffQuery(intervals);
   const { collection } = getCollection(tbdId);
   if (collection) collection.chain().find(query).remove();
+  // if (collection.data.length === 0) removeCollection(tbdId);
 };
 
 export default {
+  getCollection,
   getLastRecords,
   getRangesRecords,
   removeRecords,

@@ -9,6 +9,7 @@ const {
   getOrCreateCollection,
   displayCollection,
   removeAllExceptIntervals,
+  getCollection,
 } = require('./lokiKnownRangesData');
 
 const myRecords = [
@@ -121,4 +122,12 @@ describe('models/timebasedDataFactory', () => {
         payload: 12,
       }]);
   });
+
+  /* describe('removeAllExceptIntervals with collection empty deletion', () => {
+    const tbdId = 'myTbdId';
+    getOrCreateCollection(tbdId);
+    addRecords(tbdId, myRecords);
+    removeAllExceptIntervals(tbdId, [[2, 3]]);
+    expect(getCollection(tbdId)).not.toBeDefined();
+  });*/
 });

@@ -20,7 +20,7 @@ class GPDSTD_ScriptError(Exception):
     Class for error in the parameters provided to this script
     """
     def __init__(self, msg):    
-        print msg
+        print "ERROR : " + msg
         sys.exit(1)
         pass
 
@@ -695,12 +695,12 @@ if __name__ == '__main__':
     nbParamsInExistingAggs = aggGen.getAggregationsDetails()
     nbParamsInExistingAggs.sort()
     nbExistingParamsInCatalog = aggGen.getParametersDetails()
-    print "Number of parameters in each aggregation of analysed telemetry packet file are " + ", ".join(map(str,nbParamsInExistingAggs))
+    print "Number of parameters in each aggregation of analysed telemetry packet file are " + ", ".join(map(str,nbParamsInExistingAggs)) + " and total number of parameters in catalog is " + str(len(allParamsNamesOids))
     #print repr(aggGen.getAggsOidsByParamOid())
 
     # Check if telemetry packet file shall be generated
     # It shall be generated if a list of aggregations is specified
-    if len(args.agg):
+    if args.agg and len(args.agg):
         nbRequestedParamsInAggs = args.agg
         nbRequestedParamsInAggs.sort()
         # Telemetry packet file shall be generated if the specified list of aggregation doesn't have the same number of parameters as the ones in telemetry packet file
@@ -711,7 +711,7 @@ if __name__ == '__main__':
         aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
 
     # Manage the parameter aggregation file generation
-    if len(args.paramagg):
+    if args.paramagg and len(args.paramagg):
         print "Generate a parameter aggregation file for GPCCDC configuration in " + expanduser(args.paramagg)
         aggGen.generateParameterAggregationFile(expanduser(args.paramagg))
 
@@ -833,7 +833,7 @@ if __name__ == '__main__':
         AggrList.append(deepcopy(aggr))
   
     # Create the generator instance
-    print "Writing the injection data file " + expanduser(args.paramagg) + " with " + str(args.niter) + " times " + str(len(AggrList)) + " aggregation(s) containing the following number of parameters: " + " ".join(map(str,[len(a["values"]) for a in AggrList]))
+    print "Writing the injection data file " + expanduser(args.output) + " with " + str(args.niter) + " times " + str(len(AggrList)) + " aggregation(s) containing the following number of parameters: " + " ".join(map(str,[len(a["values"]) for a in AggrList]))
     injDataGen = GPDSTD_InjectedDataFileGenerator(args.niter,AggrList,expanduser(args.output),False,args.overwrite)
     # Generate the output file
     injDataGen.generate()

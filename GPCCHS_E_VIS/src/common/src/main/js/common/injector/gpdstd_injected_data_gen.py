@@ -266,8 +266,12 @@ class GPDSTD_AggregationsGenerator(object):
                     # Remove the useless aggregation from injected data
                     del self._injectionData[name]
             # Check if required aggregations remains, which means they shall be added
-            createdAggCounter = 1
+            createdAggCounter = 0
+            # Initialize the parameter index counter to use as many parameters of the catalog as possible in the aggregations
+            newParamIdx = 0
             while len(nbParamsPerAgg):
+                # Update aggregation counter used to name them
+                createdAggCounter = createdAggCounter + 1
                 # Get the number of parameters to put in this new aggregation and remove from the list this requested aggregation
                 nbParamsInNewAgg = nbParamsPerAgg.pop()
                 #print "Create a new aggregation with " + nbParamsInNewAgg + " parameters"
@@ -285,7 +289,7 @@ class GPDSTD_AggregationsGenerator(object):
                 nameOfTheTemplateAgg = aggToAdd["Name"]
                 newAggName = aggToAdd["Name"] + "_" + str(createdAggCounter)
                 # Check if generated name already exist
-                while newAggName in self._aggregations.keys():
+                while newAggName in self._injectionData.keys():
                     # Concatenate "_" and added aggregation index to create an original name
                     newAggName = newAggName + "_" + str(createdAggCounter)
                 # Continue with original uid generation
@@ -300,8 +304,6 @@ class GPDSTD_AggregationsGenerator(object):
                 # Check if there enough parameters in catalog for this new aggregation
                 if nbParamsInNewAgg > len(self._reportingParameters):
                     raise GPDSTD_ScriptError("There is not enough parameter in given catalog (" + self._reportingParamsCatalogJsonFile + ") to generate an aggregation with " + nbParamsInNewAgg + " parameters")
-                # Initialize the parameter index used to get parameter names in catalog
-                newParamIdx = 0
                 # Fill in the new aggregation fields
                 aggToAdd["Name"] = unicode(newAggName)
                 aggToAdd["Uid"] = unicode(newAggUid)
@@ -346,13 +348,14 @@ class GPDSTD_AggregationsGenerator(object):
                             # Update the injected data
                             paramsOids.append(self._reportingParameters[paramName])
                             # Update parameter index
-                            newParamIdx = newParamIdx + 1
+                            newParamIdx = (newParamIdx + 1) % len(self._reportingParameters)
                             #print "Added parameter " + self._reportingParameters.keys()[newParamIdx] + " in aggregation named " + newAggName
                     # Check if there is parameters to remove from template aggregation
                     while len(parameters) > nbParamsInNewAgg:
                         parameters.pop()
                     # Update the injected data
                     self._injectionData[newAggName]['paramsOids'] = paramsOids
+                    #print "Update injection data by adding paramsOids of len " + repr(len(paramsOids)) + " to agg named " + newAggName + ", then injection data have " + repr(len(self._injectionData)) + " aggregations"
             # Once generated, write the telemetry packet json file content
             try:
                 # Open for writing
@@ -687,6 +690,7 @@ if __name__ == '__main__':
     args, unknown = GPDSTD_ArgsParser.parse_known_args()
     
     # Read the Reporting and Telemetry packet catalogs
+    #print "Args.agg: "  + repr(args.agg)
     aggGen = GPDSTD_AggregationsGenerator(args.domain,args.overwrite)
     print "Analyse catalog file " + expanduser(args.catalog)
     allParamsNamesOids = aggGen.getParametersFromReportingCatalogFile(expanduser(args.catalog))

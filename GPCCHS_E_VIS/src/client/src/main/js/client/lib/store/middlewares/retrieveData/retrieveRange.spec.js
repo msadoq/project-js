@@ -44,6 +44,7 @@ describe('store:middlewares:retrieveRange', () => {
         sessionId: 0,
       },
       intervals: [[4, 6]],
+      filters: [],
     },
     tbdId2:
     {
@@ -58,6 +59,7 @@ describe('store:middlewares:retrieveRange', () => {
         sessionId: 0,
       },
       intervals: [[10, 20]],
+      filters: [],
     },
   };
 

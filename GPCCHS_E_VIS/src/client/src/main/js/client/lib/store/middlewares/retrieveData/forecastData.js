@@ -6,18 +6,28 @@ import dataMapGenerator from '../../../dataManager/map';
 import mergeIntervals from '../../../common/intervals/merge';
 import { sendArchiveQuery } from '../../actions/knownRanges';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
-import { get } from '../../../serverProcess/models/tbdIdDataIdMap';
+import { get, getFilters } from '../../../serverProcess/models/tbdIdDataIdMap';
 
 const type = 'RANGE';
 let previousForecast;
 
+// playPressed is used to relaunch a forecast every time the play button is pressed
+// For example, this is useful when you change a page, and you pressed play, forecast is launched again
+let playPressed = false;
+
 const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispatch }) => next => (action) => {
+
+  if (action.type === types.HSC_PLAY) {
+    playPressed = true;
+  }
+
   if (action.type === types.WS_TIMEBAR_UPDATE_CURSORS) {
     const state = getState();
     const playingTimebarId = getPlayingTimebarId(state);
     if (playingTimebarId) {
       const visuWindow = getTimebar(state, { timebarUuid: playingTimebarId }).visuWindow;
-      if (!previousForecast || (previousForecast.end - visuWindow.upper <= forecastTrigger)) {
+      if (!previousForecast || (previousForecast.end - visuWindow.upper <= forecastTrigger) || playPressed) {
+        playPressed = false;
         const dataMap = dataMapGenerator(state);
         const forecastIntervals = dataMap.forecastIntervals;
         const tbdIds = Object.keys(forecastIntervals);
@@ -32,6 +42,7 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
           }
           for (let k = 0; k < mergedInterval.length; k += 1) {
             const dataId = get(currentTbdId);
+            const filters = getFilters(currentTbdId);
             const missingIntervals = getMissingIntervals(state,
               { tbdId: currentTbdId,
                 queryInterval: mergedInterval[k],
@@ -41,10 +52,11 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
               const queryId = ipc.dc.requestTimebasedQuery(currentTbdId,
                                                           dataId,
                                                           missingIntervals[l],
-                                                          { filters: [] });
+                                                          { filters });
               add(queryId, currentTbdId, type, dataId);
+              console.log('sendding forecast for : ', currentTbdId, missingIntervals[l]);
             }
-            dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, []));
+            dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, filters));
           }
         }
         const now = visuWindow.upper;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:middlewares:preparePubSub preparePubSub middleware Not in Last 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 1,
+        "parameterName": "AGA_AM_PRIORITY",
+        "sessionId": 1,
+      },
+      "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:1:1",
+    },
+    "type": "INCOMING_PUBSUB_DATA",
+  },
+]
+`;

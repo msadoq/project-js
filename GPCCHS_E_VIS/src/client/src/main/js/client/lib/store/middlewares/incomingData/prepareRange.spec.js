@@ -450,17 +450,16 @@ describe('store:middlewares:prepareRange', () => {
         payload: deprotoRp2,
       }]);
     const actions = store.getActions();
-    const data = {};
-    data[t1] = deprotoRp1;
-    data[t2] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t1] = deprotoRp1;
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,
       },
     };
-    expect(actions).toContainEqual(expectedPayload);
+    expect(actions[0]).toMatchObject(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and no timestamp is in expectedLast ', () => {
@@ -477,16 +476,15 @@ describe('store:middlewares:prepareRange', () => {
     const store = mockStore(store2);
     store.dispatch(incomingDataOneInLast());
     const actions = store.getActions();
-    const data = {};
-    data[timestampInLast1] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][timestampInLast1] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,
       },
     };
-    expect(actions).toContainEqual(expectedPayload);
+    expect(actions[0]).toMatchObject(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and all timestamp are in expectedLast ', () => {
@@ -494,16 +492,15 @@ describe('store:middlewares:prepareRange', () => {
     store.dispatch(incomingDataAllInLast());
 
     const actions = store.getActions();
-    const data = {};
-    data[timestampInLast1] = deprotoRp1;
-    data[timestampInLast2] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][timestampInLast1] = deprotoRp1;
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][timestampInLast2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,
       },
     };
-    expect(actions).toContainEqual(expectedPayload);
+    expect(actions[0]).toMatchObject(expectedPayload);
   });
 });

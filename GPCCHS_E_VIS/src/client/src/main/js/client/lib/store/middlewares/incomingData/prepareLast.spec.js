@@ -40,16 +40,15 @@ describe('store:middlewares:prepareLast', () => {
     const store = mockStore();
     store.dispatch(incomingLastData());
     const actions = store.getActions();
-    const data = {};
-    data[t1] = deprotoRp1;
-    data[t2] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t1] = deprotoRp1;
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
-        tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
         data,
       },
     };
-    expect(actions).toContainEqual(expectedPayload);
+    expect(actions[0]).toMatchObject(expectedPayload);
   });
 });

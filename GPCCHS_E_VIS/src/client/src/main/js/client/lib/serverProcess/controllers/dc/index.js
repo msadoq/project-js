@@ -21,17 +21,12 @@ const controllers = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,
   [constants.MESSAGETYPE_RESPONSE]: onResponse,
   [constants.MESSAGETYPE_SESSION_DATA]: onSessionsData,
-<<<<<<< HEAD
   [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (args) => {
     archiveController(args, getStore, { get, remove });
   },
   [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
     pubSubController(args, getStore);
   },
-=======
-  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: onTimebasedArchiveData,
-  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
->>>>>>> dev
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,

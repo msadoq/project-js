@@ -20,7 +20,7 @@ module.exports = (intervals, timestamp) => {
       if (timestamp >= intervals[i][0] && timestamp <= intervals[i][1]) {
         return {
           isInInterval: true,
-          interval: intervals[i],
+          interval: [intervals[i][0], timestamp],
         };
       }
     }
@@ -32,6 +32,6 @@ module.exports = (intervals, timestamp) => {
   const isInInterval = (timestamp >= intervals[0] && timestamp <= intervals[1]);
   return {
     isInInterval,
-    interval: isInInterval ? intervals : [],
+    interval: isInInterval ? [intervals[0], timestamp] : [],
   };
 };

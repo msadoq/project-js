@@ -7,7 +7,7 @@ import { newData } from '../../actions/incomingData';
 
 const type = 'LAST';
 const getLastArguments = { getLastType: GETLASTTYPE_GET_LAST };
-// TODO FIX ERROR
+
 const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
   if (action.type === types.VIEWS_NEED_LAST) {
     const neededLast = action.payload.neededLastData;
@@ -24,13 +24,13 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
                                                                            intervals[j]);
         if (!isInInterval) {
           const args = { ...getLastArguments, filters };
-          // console.log('request last 1 ');
+          console.log('requestTimebasedQuery last : ', tbdId);
           const queryId = ipc.dc.requestTimebasedQuery(tbdId, dataId, intervals[j], args);
           add(queryId, tbdId, type, dataId);
         } else {
           const lastRecords = getLastRecords(tbdId, interval)[tbdId];
           if (Object.keys(lastRecords).length !== 0) {
-            // console.log('data exists : ', lastRecords);
+            console.log('data exists in last : ', tbdId);
             dispatch(newData({ [tbdId]: lastRecords }));
           } else {
             const args = { ...getLastArguments, filters };
@@ -38,7 +38,7 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
                                                          dataId,
                                                          intervals[j],
                                                          args);
-            // console.log('request last 2 ');
+            console.log('Data is in known range but does not exists for last :  requestTimebasedQuery', tbdId);
             add(queryId, tbdId, type, dataId);
           }
         }

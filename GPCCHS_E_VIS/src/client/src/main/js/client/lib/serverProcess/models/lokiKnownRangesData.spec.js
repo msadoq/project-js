@@ -104,23 +104,25 @@ describe('models/timebasedDataFactory', () => {
   });
 
   describe('removeAllExceptIntervals', () => {
-    const tbdId = 'myTbdId';
-    getOrCreateCollection(tbdId);
-    addRecords(tbdId, myRecords);
-    removeAllExceptIntervals(tbdId, [[4, 6], [12, 14]]);
-    expect(displayCollection(tbdId)).toMatchObject(
-      [{
-        timestamp: 5,
-        payload: 5,
-      },
-      {
-        timestamp: 6,
-        payload: 6,
-      },
-      {
-        timestamp: 12,
-        payload: 12,
-      }]);
+    test('removeAllExceptIntervals', () => {
+      const tbdId = 'myTbdId';
+      getOrCreateCollection(tbdId);
+      addRecords(tbdId, myRecords);
+      removeAllExceptIntervals(tbdId, [[4, 6], [12, 14]]);
+      expect(displayCollection(tbdId)).toMatchObject(
+        [{
+          timestamp: 5,
+          payload: 5,
+        },
+        {
+          timestamp: 6,
+          payload: 6,
+        },
+        {
+          timestamp: 12,
+          payload: 12,
+        }]);
+    });
   });
 
   /* describe('removeAllExceptIntervals with collection empty deletion', () => {

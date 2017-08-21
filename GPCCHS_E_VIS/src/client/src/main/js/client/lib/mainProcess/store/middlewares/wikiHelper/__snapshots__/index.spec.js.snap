@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mainProcess:store:middlewares:wikiHelper catch error if failing to open 1`] = `
+Array [
+  Object {
+    "type": "HSC_OPEN_WIKI_HELPER",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Wiki helper : an error has occured",
+        },
+      ],
+      "type": "error",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`mainProcess:store:middlewares:wikiHelper no url provided 1`] = `
+Array [
+  Object {
+    "type": "HSC_OPEN_WIKI_HELPER",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Wiki helper : no USER_MANUAL_URL provided",
+        },
+      ],
+      "type": "warning",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`mainProcess:store:middlewares:wikiHelper open url (http) 1`] = `
+Array [
+  Object {
+    "type": "HSC_OPEN_WIKI_HELPER",
+  },
+]
+`;
+
+exports[`mainProcess:store:middlewares:wikiHelper open url (https) 1`] = `
+Array [
+  Object {
+    "type": "HSC_OPEN_WIKI_HELPER",
+  },
+]
+`;
+
+exports[`mainProcess:store:middlewares:wikiHelper open url (without protocol) 1`] = `
+Array [
+  Object {
+    "type": "HSC_OPEN_WIKI_HELPER",
+  },
+]
+`;

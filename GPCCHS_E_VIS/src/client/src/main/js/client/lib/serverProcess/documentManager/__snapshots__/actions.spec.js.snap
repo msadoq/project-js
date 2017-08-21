@@ -18,6 +18,40 @@ Array [
     },
     "type": "WS_PAGE_OPENED",
   },
+  Object {
+    "payload": Object {
+      "args": Array [
+        "page",
+        undefined,
+      ],
+      "uid": 6505,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
+  },
+]
+`;
+
+exports[`documentManager:actions openView dispatches a WS_VIEW_OPENED when view is loaded 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "pageId": "myPageId",
+      "view": Object {
+        "title": "my view",
+      },
+    },
+    "type": "WS_VIEW_OPENED",
+  },
+  Object {
+    "payload": Object {
+      "args": Array [
+        "view",
+        undefined,
+      ],
+      "uid": 6505,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
+  },
 ]
 `;
 
@@ -186,6 +220,16 @@ Array [
   },
   Object {
     "payload": Object {
+      "args": Array [
+        "workspace",
+        "/fake/absolute/path",
+      ],
+      "uid": 6505,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
+  },
+  Object {
+    "payload": Object {
       "file": "path",
       "folder": "/fake/absolute",
     },
@@ -313,6 +357,16 @@ Array [
       ],
     },
     "type": "WS_WORKSPACE_OPENED",
+  },
+  Object {
+    "payload": Object {
+      "args": Array [
+        "workspace",
+        "/fake/absolute/path",
+      ],
+      "uid": 6505,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
   },
   Object {
     "payload": Object {
@@ -445,6 +499,16 @@ Array [
   },
   Object {
     "payload": Object {
+      "args": Array [
+        "workspace",
+        "/fake/absolute/path",
+      ],
+      "uid": 6505,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
+  },
+  Object {
+    "payload": Object {
       "file": "path",
       "folder": "/fake/absolute",
     },
@@ -571,6 +635,16 @@ Array [
       ],
     },
     "type": "WS_WORKSPACE_OPENED",
+  },
+  Object {
+    "payload": Object {
+      "args": Array [
+        "workspace",
+        "/fake/absolute/path",
+      ],
+      "uid": 6505,
+    },
+    "type": "HSC_SEND_PRODUCT_LOG",
   },
   Object {
     "payload": Object {

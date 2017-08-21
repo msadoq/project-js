@@ -14,6 +14,7 @@ import makePlayerMiddleware from '../store/middlewares/player';
 import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
 import * as rtdManager from '../rtdManager';
+import makeProductLogMiddleware from '../store/middlewares/productLog';
 
 let store;
 
@@ -26,6 +27,7 @@ const middlewares = [
   makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
   makeDocumentsMiddleware(documentManager),
   makeInspectorMiddleware(rtdManager),
+  makeProductLogMiddleware(ipc.dc.sendProductLog),
 ];
 
 export default function makeCreateStore(identity, isDebugOn) {

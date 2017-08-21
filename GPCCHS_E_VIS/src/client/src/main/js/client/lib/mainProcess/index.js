@@ -20,9 +20,8 @@ import { fork, get, kill } from '../common/processManager';
 import makeCreateStore, { getStore } from './store';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
-import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
-import { askOpenWorkspace, askOpenNewWorkspace, isWorkspaceOpening } from '../store/actions/hsc';
+import { askOpenWorkspace, askOpenNewWorkspace, isWorkspaceOpening, sendProductLog } from '../store/actions/hsc';
 import { getIsWorkspaceOpening } from '../store/reducers/hsc';
 import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
@@ -243,7 +242,7 @@ export function onStart() {
 }
 
 export function onStop() {
-  server.sendProductLog(LOG_APPLICATION_STOP);
+  getStore().dispatch(sendProductLog(LOG_APPLICATION_STOP));
   logger.info('stopping application');
 
   // TODO dbrugne move in server lifecycle ========================================
@@ -275,7 +274,7 @@ export function onWindowsClose() {
 }
 
 export function onError(err) {
-  server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
+  getStore().dispatch(sendProductLog(LOG_APPLICATION_ERROR, err.message));
   logger.error('Application error:', err);
   app.exit(1);
 }

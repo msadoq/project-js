@@ -86,15 +86,7 @@ describe('documentManager:actions', () => {
         cb(null, { value: { title: 'my view' } });
       });
       store.dispatch(actions.openView('viewInfo', 'myPageId'));
-      expect(store.getActions()).toEqual([
-        {
-          type: 'WS_VIEW_OPENED',
-          payload: {
-            pageId: 'myPageId',
-            view: { title: 'my view' },
-          },
-        },
-      ]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 

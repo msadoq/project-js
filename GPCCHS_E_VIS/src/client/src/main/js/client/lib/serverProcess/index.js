@@ -9,9 +9,9 @@ import makeCreateStore from './store';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
+import { sendProductLog } from '../store/actions/hsc';
 import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
-import { dc } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeViewNeededDataStoreObserver from '../store/observers/viewNeededDataStoreObserver';
@@ -49,7 +49,6 @@ series({
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
   // Send logBook to LPISIS
   logBook: (callback) => {
-    dc.sendProductLog(LOG_APPLICATION_START);
     callback(null);
   },
   rtd: (callback) => {
@@ -87,6 +86,7 @@ series({
   const store = makeCreateStore('server', isDebugEnabled)();
   store.subscribe(makeViewNeededDataStoreObserver(store));
   store.subscribe(makeSubscriptionStoreObserver(store));
+  store.dispatch(sendProductLog(LOG_APPLICATION_START));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));

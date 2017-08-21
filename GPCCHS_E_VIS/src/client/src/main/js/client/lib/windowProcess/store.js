@@ -1,5 +1,4 @@
 import _always from 'lodash/fp/always';
-import _getOr from 'lodash/fp/getOr';
 import _set from 'lodash/fp/set';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -12,7 +11,6 @@ import {
   COMPUTED_TIMING_DATA,
   TIMING_MILESTONES,
   TIMING_DATA,
-  REDUX_SYNCHRONIZATION_PATCH_KEY,
  } from '../constants';
 
 let store;
@@ -24,19 +22,20 @@ function prepareEnhancers(isDebugOn) {
     isDebugOn
   );
 
+  const middlewares = [];
+
   // renderer (no debug)
   if (!isDebugOn) {
-    return compose(applyMiddleware(thunk), enhancer);
+    return compose(applyMiddleware(thunk), enhancer, applyMiddleware(...middlewares));
   }
   // renderer (with debug)
   const reduxLogger = createLogger({
     level: 'info',
     collapsed: true,
-    predicate: (state, action) => (
-      _getOr(false, ['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], action)
-    ),
     actionTransformer: isDebugOn ? decorateActionWithTiming : action => action,
   });
+
+  const devMiddlewares = [reduxLogger];
 
   const isThereDevTools = typeof window !== 'undefined'
     && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -44,7 +43,11 @@ function prepareEnhancers(isDebugOn) {
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 
-  return composeEnhancers(applyMiddleware(thunk, reduxLogger), enhancer);
+  return composeEnhancers(
+    applyMiddleware(thunk),
+    enhancer,
+    applyMiddleware(...middlewares, ...devMiddlewares)
+  );
 }
 
 /**

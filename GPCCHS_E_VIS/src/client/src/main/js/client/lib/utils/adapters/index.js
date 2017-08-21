@@ -6,6 +6,7 @@ const parameters = require('../../common/configurationManager');
 const protobuf = require('common/protobuf');
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
+const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../../..');
 
 const TYPE_PROTO = 'protobuf';
 const TYPE_RAW = 'raw';
@@ -18,7 +19,7 @@ const registerGlobal = (override) => {
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
     }
-    const adapterPath = resolve(msgNasmespaces.path, msgNasmespaces.ns);
+    const adapterPath = resolve(rootVimaFolder, msgNasmespaces.path, msgNasmespaces.ns);
     const namespaces = dynamicRequire(adapterPath);
     const namespacesKeys = Object.keys(namespaces);
     _each(namespacesKeys, (adapters) => {

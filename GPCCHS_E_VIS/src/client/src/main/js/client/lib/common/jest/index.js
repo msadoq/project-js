@@ -10,11 +10,11 @@ import { registerGlobal } from '../../utils/adapters';
 
 const mockedAdaptersPath = [
   {
-    path: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/',
+    path: './adapters/',
     ns: 'isis',
   },
   {
-    path: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/adapters/',
+    path: './adapters/',
     ns: 'dc',
   },
 ];

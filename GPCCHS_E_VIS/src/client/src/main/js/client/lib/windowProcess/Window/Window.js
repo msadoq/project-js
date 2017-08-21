@@ -8,7 +8,7 @@ import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
 import getLogger from '../../common/logManager';
 import Dimensions from '../common/Dimensions';
-import HelpContent from '../Navigation/HelpContent';
+import HelpContentContainer from '../Navigation/HelpContentContainer';
 import MessagesContainer from '../Navigation/MessagesContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import EditorContainer from '../Editor/EditorContainer';
@@ -407,7 +407,7 @@ class Window extends PureComponent {
       <div
         className={styles.container}
       >
-        {isHelpDisplayed ? <HelpContent /> : ''}
+        {isHelpDisplayed ? <HelpContentContainer /> : ''}
         {modalComponent}
         <div
           style={tabsContainerStyle}

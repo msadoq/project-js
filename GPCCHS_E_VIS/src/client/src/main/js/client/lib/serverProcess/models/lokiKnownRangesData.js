@@ -209,15 +209,21 @@ const addRecords = (tbdId, records) => {
 };
 
 /**
- * Remove all data outside the list of interval
+ * Remove all data per tbdIds, except those present in the list of interval to preserve
  * @param string tbdId
  * @param Array<interval> intervals
  */
-const removeAllExceptIntervals = (tbdId, intervals) => {
-  const query = createDiffQuery(intervals);
-  const { collection } = getCollection(tbdId);
-  if (collection) collection.chain().find(query).remove();
-  // if (collection.data.length === 0) removeCollection(tbdId);
+const removeAllExceptIntervals = (toKeep) => {
+  const tbdIdsTemp = [...tbdIds];
+  for (let i = 0; i < tbdIdsTemp.length; i += 1) {
+    if (toKeep[tbdIdsTemp[i]]) {
+      const query = createDiffQuery(toKeep[tbdIdsTemp[i]].interval);
+      const { collection } = getCollection(tbdIdsTemp[i]);
+      if (collection) collection.chain().find(query).remove();
+    } else {
+      removeCollection(tbdIdsTemp[i]);
+    }
+  }
 };
 
 export default {

@@ -10,7 +10,7 @@ const forecastTrigger = get('FORECAST_TRIGGER');
 const createRetrieveDataMiddleware = ipc => pipeMiddlewares(
   retrieveRange(ipc),
   retrieveLast(ipc),
-  forecastData(ipc, forecastTime, forecastTrigger)
+  forecastData(ipc, Number(forecastTime), Number(forecastTrigger))
 );
 
 export default createRetrieveDataMiddleware;

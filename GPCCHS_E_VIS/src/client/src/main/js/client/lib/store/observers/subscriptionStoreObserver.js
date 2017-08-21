@@ -25,8 +25,6 @@ export default function makeSubscriptionStoreObserver(store) {
     const allKnownRanges = getTbdIdsAndDataIdList(state);
     const toSubscribe = _differenceWith(allKnownRanges, previousKnownRanges, compareTbdId);
     const toUnsubscribe = _differenceWith(previousKnownRanges, allKnownRanges, compareTbdId);
-    // if (toSubscribe.length !== 0) console.log('toSubscribe : ', toSubscribe);
-    // if (toUnsubscribe.length !== 0) console.log('toUnsub : ', toUnsubscribe);
     previousKnownRanges = allKnownRanges;
 
     for (let i = 0; i < toSubscribe.length; i += 1){

@@ -69,19 +69,21 @@ export default function knownRanges(state = {}, action) {
       };
     }
     // TODO PGAUCHER
-    case types.REPLACE_KNOWN_RANGES: {
+    case types.RESET_KNOWN_RANGES: {
+      let newState = { ...state };
       const tbdIdInterval = action.payload.tbdIdInterval;
-      const stateTmp = {
-        ...state,
-      };
-
-      for (let i = 0; i < tbdIdInterval.length; i += 1) {
-        stateTmp[tbdIdInterval[i].tbdId] = {
-          ...state[tbdIdInterval[i].tbdId],
-          intervals: tbdIdInterval[i].interval,
-        };
+      const tbdIds = Object.keys(newState);
+      for (let i = 0; i < tbdIds.length; i += 1){
+        if (tbdIdInterval[tbdIds[i]]) {
+          newState[tbdIds[i]] = {
+            ...newState[tbdIds[i]],
+            intervals: tbdIdInterval[tbdIds[i]].interval,
+          };
+        } else {
+          newState = _.omit(tbdIds[i], newState);
+        }
       }
-      return stateTmp;
+      return newState;
     }
     default:
       return state;

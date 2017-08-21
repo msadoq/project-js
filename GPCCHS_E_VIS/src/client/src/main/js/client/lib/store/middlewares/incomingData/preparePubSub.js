@@ -21,7 +21,6 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   if (action.type !== types.INCOMING_PUBSUB_DATA) {
     return next(action);
   }
-  // console.log('[PreparePubSubMiddleware] ON_INCOMING_PUBSUB_DATA action');
 
   const execution = executionMonitor('preparePubSub');
   execution.start('global');

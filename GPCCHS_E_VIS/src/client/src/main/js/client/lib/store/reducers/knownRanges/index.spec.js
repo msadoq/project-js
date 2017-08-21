@@ -109,7 +109,7 @@ describe('store:knownRanges:reducer', () => {
       intervals: [[20, 30]] } });
   });
 
-  test('Replace intervals', () => {
+  test('Reset intervals', () => {
     const state = {
       tbdId: {
         flatDataId: 'tbdId',
@@ -120,17 +120,12 @@ describe('store:knownRanges:reducer', () => {
         filters: [],
         intervals: [[20, 30]] },
     };
-    const nextState = reducer(state, actions.replaceKnownRanges([{ tbdId: 'tbdId', interval: [[220, 230]] }]));
+    const nextState = reducer(state, actions.resetKnownRange({ tbdId: { interval: [[20, 60]] } }));
     expect(nextState).toEqual({
       tbdId: {
         flatDataId: 'tbdId',
         filters: [],
-        intervals: [[220, 230]] },
-      tbdId2: {
-        flatDataId: 'tbdId2',
-        filters: [],
-        intervals: [[20, 30]],
-      } });
+        intervals: [[20, 60]] } });
   });
 });
 
@@ -247,7 +242,7 @@ describe('store:knownRanges:selectors', () => {
     });
     test('tbdId ok and timestamp inside', () => {
       expect(getUpperIntervalIsInKnownRanges(state2, 'tbdId2', [1, 12]))
-      .toEqual({ isInInterval: true, interval: [10, 20] });
+      .toEqual({ isInInterval: true, interval: [10, 12] });
     });
     test('tbdId ok and timestamp outside', () => {
       expect(getUpperIntervalIsInKnownRanges(state2, 'tbdId2', [1, 25]))
@@ -255,7 +250,7 @@ describe('store:knownRanges:selectors', () => {
     });
   });
 
-  describe('getTbdIdsAndDataIdList' , () => {
+  describe('getTbdIdsAndDataIdList', () => {
     const state3 = {
       knownRanges: {
         tbdId1: {

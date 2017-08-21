@@ -3,13 +3,12 @@ const {
   removeRecords,
   getLastRecords,
   addRecords,
-  // listCollections,
+  listCollections,
   // removeCollection,
   removeAllCollections,
   getOrCreateCollection,
   displayCollection,
   removeAllExceptIntervals,
-  getCollection,
 } = require('./lokiKnownRangesData');
 
 const myRecords = [
@@ -106,9 +105,18 @@ describe('models/timebasedDataFactory', () => {
   describe('removeAllExceptIntervals', () => {
     test('removeAllExceptIntervals', () => {
       const tbdId = 'myTbdId';
+      const tbdId2 = 'myTbdId2';
+      const tbdId3 = 'myTbdId3';
       getOrCreateCollection(tbdId);
+      getOrCreateCollection(tbdId2);
+      getOrCreateCollection(tbdId3);
+      expect(listCollections().length).toEqual(3);
       addRecords(tbdId, myRecords);
-      removeAllExceptIntervals(tbdId, [[4, 6], [12, 14]]);
+      removeAllExceptIntervals({
+        [tbdId]: {
+          interval: [[4, 6], [12, 14]],
+        },
+      });
       expect(displayCollection(tbdId)).toMatchObject(
         [{
           timestamp: 5,
@@ -122,14 +130,7 @@ describe('models/timebasedDataFactory', () => {
           timestamp: 12,
           payload: 12,
         }]);
+      expect(listCollections().length).toEqual(1);
     });
   });
-
-  /* describe('removeAllExceptIntervals with collection empty deletion', () => {
-    const tbdId = 'myTbdId';
-    getOrCreateCollection(tbdId);
-    addRecords(tbdId, myRecords);
-    removeAllExceptIntervals(tbdId, [[2, 3]]);
-    expect(getCollection(tbdId)).not.toBeDefined();
-  });*/
 });

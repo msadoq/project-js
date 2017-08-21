@@ -20,7 +20,7 @@ const injectData = () => ({ dispatch, getState }) => next => (action) => { // es
  *
  * @type {function}
  */
-const throttledDispatch = _.throttle(50, (dispatch, state) => {
+const throttledDispatch = _.throttle(500, (dispatch, state) => {
   dataMap = dataMapGenerator(state);
 
   const oldViewMap = _.getOr({}, 'perView', previousDataMap);

@@ -54,8 +54,9 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
           continue;
         }
         const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
+        const payload = decode(payloadProtobufType, peers[index + 1]);
+        lokiManager.addRecord(tbdId, { timestamp, payload });
         if (isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
-          const payload = decode(payloadProtobufType, peers[index + 1]);
           payloadsJson[tbdId][timestamp] = payload;
         }
 

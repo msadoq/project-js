@@ -24,13 +24,13 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
                                                                            intervals[j]);
         if (!isInInterval) {
           const args = { ...getLastArguments, filters };
-          console.log('requestTimebasedQuery last : ', tbdId);
+          // console.log('requestTimebasedQuery last : ', tbdId);
           const queryId = ipc.dc.requestTimebasedQuery(tbdId, dataId, intervals[j], args);
           add(queryId, tbdId, type, dataId);
         } else {
           const lastRecords = getLastRecords(tbdId, interval)[tbdId];
           if (Object.keys(lastRecords).length !== 0) {
-            console.log('data exists in last : ', tbdId);
+            // console.log('data exists in last : ', tbdId);
             dispatch(newData({ [tbdId]: lastRecords }));
           } else {
             const args = { ...getLastArguments, filters };
@@ -38,7 +38,7 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
                                                          dataId,
                                                          intervals[j],
                                                          args);
-            console.log('Data is in known range but does not exists for last :  requestTimebasedQuery', tbdId);
+            // console.log('Data is in known range but does not exists for last :  requestTimebasedQuery', tbdId);
             add(queryId, tbdId, type, dataId);
           }
         }

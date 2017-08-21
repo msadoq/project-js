@@ -54,7 +54,7 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
                                                           missingIntervals[l],
                                                           { filters });
               add(queryId, currentTbdId, type, dataId);
-              console.log('sendding forecast for : ', currentTbdId, missingIntervals[l]);
+              // console.log('sendding forecast for : ', currentTbdId, missingIntervals[l]);
             }
             dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, filters));
           }

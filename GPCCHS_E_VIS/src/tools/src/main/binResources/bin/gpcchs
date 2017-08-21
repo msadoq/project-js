@@ -1,4 +1,4 @@
-#!/usr/share/isis/bin/python3.4
+#!/usr/bin/env isisPython
 
 import sys
 import argparse

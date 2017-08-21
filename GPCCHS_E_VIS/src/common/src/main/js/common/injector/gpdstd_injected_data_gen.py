@@ -25,7 +25,14 @@ class GPDSTD_ScriptError(Exception):
         pass
 
 # Creation of an argument parser manage the arguments given to this script
-GPDSTD_ArgsParser = argparse.ArgumentParser(description='Generate injected data files for GPDSTD_P_INJ aggregation injector\n Usage example:\n python gpdstd_injected_data_gen.py -n 5 -w -o aggregation_injector.json -c "/data/isis/documents/DATA_REF/CCC/SDB/ISIS/SupSup/Reporting/1.0/Reporting_1.0.json" -t "/data/isis/documents/DATA_REF/CCC/SDB/ISIS/SupSup/TelemetryPacket/1.0/TelemetryPacket_1.0.json" -g TelemetryPacket_1.0.json -p ParameterAggregations.json -a 52 -a 20 -d 1 -f "str(100+int(math.sin(4*t/3.1415926535)*100))" 10 -f "str(100+int(math.sin(4*(t+(3.1415926535/2))/3.1415926535)*100))" 10 -f "str(t)" 100 -s "(t%4)" 9999')
+GPDSTD_ArgsParser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,description='''\
+Generate injected data files for GPDSTD_P_INJ aggregation injector
+
+Usage example in command line:
+
+python gpdstd_injected_data_gen.py -n 10 -w -o ~/aggregation_injector.json -c "/data/isis/documents/DATA_REF/CCC/SDB/ISIS/SupSup/Reporting/1.0/Reporting_1.0.json" -t "/data/isis/documents/DATA_REF/CCC/SDB/ISIS/SupSup/TelemetryPacket/1.0/TelemetryPacket_1.0.json" -g ~/TelemetryPacket_1.0.json -p ~/ParameterAggregations.json -b ~/ParameterAggregation_1.0.json 2 2 1 90 -d 1 -a 100 -a 52 -a 20 -a 10 -a 5 -a 5 -a 5 -a 3 -a 3 -a 1 -f "str(100+int(math.sin(4*t/3.1415926535)*100))" 10 -f "str(t)" 90 -f "str(100+int(math.sin(4*(t+(3.1415926535/2))/3.1415926535)*100))" 10 -f "str(t)" 42 -f "str(10*t)" 10 -f "str(t)" 10 -f "str(2*t)" 10 -f "str(t+10)" 15 -f "str(t+50)" 10 -s "(t%4)" 9999 -v
+
+Script for python 2.x, check python version with python --version or use \python to prevent aliasing of python command''')
 requiredArgs = GPDSTD_ArgsParser.add_argument_group('required arguments')
 requiredArgs.add_argument("--output","-o",required=True,type=str,
                               help="Full path of the output json file containing injected data")
@@ -45,8 +52,10 @@ GPDSTD_ArgsParser.add_argument("--agg","-a",action='append',type=int,
                               help="Number of parameters of an aggregation to generate, use this option as many times as different aggregations shall be generated. If not used, all the aggregations of tmpacket file will be used")
 GPDSTD_ArgsParser.add_argument("--generate","-g",default=None,type=str,
                               help="Full path of the telemetry packet file to generate as replacement to the given one. This file will be generated only if the one of --tmpacket option doesn't fit with the aggregations specified by the --agg options")
-GPDSTD_ArgsParser.add_argument("--paramagg","-p",default=None,type=str,
+GPDSTD_ArgsParser.add_argument("--dcparamagg","-p",default=None,type=str,
                               help="Full path of the parameter aggregation file to generate for GPCCDC configuration. File not generated is option not present.")
+GPDSTD_ArgsParser.add_argument("--sdbparamagg","-b",default=None,nargs=5,action='append',type=str,
+                              help="Full path of the parameter aggregation file to generate for SDB configuration, followed by the area, service, version and number of this catalog. This file is not generated is this option is not present.")
 GPDSTD_ArgsParser.add_argument("--valueformula","-f",default=None,nargs=2,action='append',
                               help="Define a formula to compute parameter value, and the numbers of parameters for which it shall be used. The number of times a forumla is used is computed accroding to the content of tmpacket file content or --agg options values if used")
 GPDSTD_ArgsParser.add_argument("--stateformula","-s",default=None,nargs=2,action='append',
@@ -61,7 +70,7 @@ class GPDSTD_AggregationsGenerator(object):
         Initialize and configure the generator
         '''
         self._defaultDomain = defaultDomain
-        self._reportingParameters = dict()                # Dictionnary of parameters iod with their names as key
+        self._reportingParameters = dict()                # Dictionnary of parameters oid with their names as key
         self._aggregations = dict()                       # Dictionnary of aggregation oid and parameters names with aggregation names as key
         self._tmPacketJson = None                         # Content of the tm packet json file
         self._overwriteFiles = Overwrite
@@ -76,7 +85,7 @@ class GPDSTD_AggregationsGenerator(object):
     def getParametersFromReportingCatalogFile(self,filePath):
         '''
         Read a reporting catalog json file and get all the parameters defined in it with their names and Oid in a dictionnary like this:
-        {'STAT_SU_CSTIME': '000200020100c400010000000000000017','STAT_SU_SIGCATCH': '000200020100c400010000000000000034','STAT_SU_SIGIGNORE_2': '000200020100c400010000000000000137'}
+        {'STAT_SU_CSTIME': '000200020100C400010000000000000017','STAT_SU_SIGCATCH': '000200020100C400010000000000000034','STAT_SU_SIGIGNORE_2': '000200020100C400010000000000000137'}
         '''
         area = None
         service = None
@@ -114,12 +123,12 @@ class GPDSTD_AggregationsGenerator(object):
                                 domain = int(self._defaultDomain)
                             else:
                                 domain = int(domain)
-                            self._reportingParameters[name] = '{0:04x}'.format(area) + \
-                                                              '{0:04x}'.format(service) + \
-                                                              '{0:02x}'.format(version) + \
-                                                              '{0:04x}'.format(number) + \
-                                                              '{0:04x}'.format(domain) + \
-                                                              '{0:016x}'.format(uid)
+                            self._reportingParameters[name] = '{0:04X}'.format(area) + \
+                                                              '{0:04X}'.format(service) + \
+                                                              '{0:02X}'.format(version) + \
+                                                              '{0:04X}'.format(number) + \
+                                                              '{0:04X}'.format(domain) + \
+                                                              '{0:016X}'.format(uid)
                             #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: ", + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(ret_dict[name])
             else:
                 raise GPDSTD_ScriptError('Catalog file (' + self._reportingParamsCatalogJsonFile + ') doesn\'t contain expected element "Items"')
@@ -172,12 +181,12 @@ class GPDSTD_AggregationsGenerator(object):
                             else:
                                 domain = int(domain)
                         # Compute aggregation Oid
-                        oid = '{0:04x}'.format(area) + \
-                              '{0:04x}'.format(service) + \
-                              '{0:02x}'.format(version) + \
-                              '{0:04x}'.format(number) + \
-                              '{0:04x}'.format(domain) + \
-                              '{0:016x}'.format(uid)
+                        oid = '{0:04X}'.format(area) + \
+                              '{0:04X}'.format(service) + \
+                              '{0:02X}'.format(version) + \
+                              '{0:04X}'.format(number) + \
+                              '{0:04X}'.format(domain) + \
+                              '{0:016X}'.format(uid)
                         # Analyse the list of parameters in the aggregation                                
                         if "Components" in aggregation:
                             parameters =  aggregation["Components"]
@@ -366,9 +375,12 @@ class GPDSTD_AggregationsGenerator(object):
             outputfile.write(filecontent)
             outputfile.close()
             
-    def generateParameterAggregationFile(self,filePath):
+    def generateDcParameterAggregationFile(self,filePath):
         '''
-        Generate the parameter aggregation file for GPCCDC configuration
+        Generate the parameter aggregation file for GPCCDC configuration, format is:
+        {"parameterAggregations": [{"aggregations": [{"oid": "000200020100c700010000000000000001"},{"oid": "000200020100c700010000000000000004"}],"parameterOid":"000200020100c400010000000000000001"},
+        {(...)},{(...)}
+        ]}
         '''
         if not len(self._aggsOidListByParamOid):
             raise GPDSTD_ScriptError("Telemetry packet file shall be read with getAggregationsFromTelemetryPacketFile() function before any parameter aggregation file generation")
@@ -389,15 +401,59 @@ class GPDSTD_AggregationsGenerator(object):
         outputfile.write(filecontent)
         outputfile.close()
         
+    def generateSdbParameterAggregationFile(self,filePath,area,service,version,number):
+        '''
+        Generate the parameter aggregation file for SDB configuration, format is:
+        {"Catalog": {"Name": "ParameterAggregation","Version": "1.0","ObjectType": {"Area": 2,"Service": 2,"Version": 1,"Number": 90},
+        "Items": [{"ItemNamespace": "Aggregation","Name": "STAT_SU_PID","Oid": null,"Uid": 1,"Aggregations": [{"Oid": "000200020100c700030000000000000001"}]},
+        {(...)},{(...)}
+        ]}}
+        '''
+        if not len(self._aggsOidListByParamOid):
+            raise GPDSTD_ScriptError("Telemetry packet file shall be read with getAggregationsFromTelemetryPacketFile() function before any parameter aggregation file generation")
+        try:
+            # Open for writing
+            outputfile = open(filePath,'w+')
+        except IOError as e:
+            raise GPDSTD_ScriptError("Cannot open output file for parameter aggregation json generation: {0}, message is : {1}".format(filePath,e.strerror))
+        paramOidList = self._aggsOidListByParamOid.keys()
+        paramOidList.sort()
+        itemsList = []
+        for paramOid in paramOidList:
+            # Look for parameter Name
+            paramName = next((name for name, oid in self._reportingParameters.items() if oid == paramOid), None)
+            # If the name of the parameter has been found
+            if paramName:
+                itemsEntry = OrderedDict()
+                itemsEntry["ItemNamespace"] = "Aggregation"
+                itemsEntry["Name"] = paramName
+                itemsEntry["Oid"] = None
+                itemsEntry["Uid"] = int(paramOid[-16:])
+                itemsEntry['Aggregations']= [{ "Oid" : o } for o in self._aggsOidListByParamOid[paramOid]]
+                itemsList.append(itemsEntry)
+        objectType = OrderedDict()
+        objectType["Area"] = int(area)
+        objectType["Service"] = int(service)
+        objectType["Version"] = int(version)
+        objectType["Number"] = int(number)
+        genCatalog = OrderedDict()
+        genCatalog["Name"] = "ParameterAggregation"
+        genCatalog["Version"] = "1.0"
+        genCatalog["ObjectType"] = objectType
+        genCatalog["Items"] = itemsList
+        filecontent = json.dumps({"Catalog": genCatalog}, indent=4)
+        outputfile.write(filecontent)
+        outputfile.close()
+        
     def getInjectionData(self):
         '''
         Return a structure with all necesary information to generate the injection data, like this:
         {
-            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100c400010000000000000001', '000200020100c400010000000000000002', ]},
-            'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100c400010000000000000053', '000200020100c400010000000000000054']},
-            'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000068', '000200020100c400010000000000000069']},
-            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000078', '000200020100c400010000000000000079', ]},
-            'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100c400010000000000000017', '000200020100c400010000000000000034']}
+            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100C400010000000000000001', '000200020100C400010000000000000002', ]},
+            'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100C400010000000000000053', '000200020100C400010000000000000054']},
+            'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100C400010000000000000068', '000200020100C400010000000000000069']},
+            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100C400010000000000000078', '000200020100C400010000000000000079', ]},
+            'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100C400010000000000000017', '000200020100C400010000000000000034']}
         }
         '''
         if not len(self._injectionData):
@@ -714,10 +770,15 @@ if __name__ == '__main__':
         print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",expanduser(args.generate)
         aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
 
-    # Manage the parameter aggregation file generation
-    if args.paramagg and len(args.paramagg):
-        print "Generate a parameter aggregation file for GPCCDC configuration in " + expanduser(args.paramagg)
-        aggGen.generateParameterAggregationFile(expanduser(args.paramagg))
+    # Manage the GPCCDC parameter aggregation file generation
+    if args.dcparamagg and len(args.dcparamagg):
+        print "Generate a parameter aggregation file for GPCCDC configuration in " + expanduser(args.dcparamagg)
+        aggGen.generateDcParameterAggregationFile(expanduser(args.dcparamagg))
+
+    # Manage the SDB parameter aggregation file generation
+    if args.sdbparamagg and len(args.sdbparamagg)==1 and len(args.sdbparamagg[0])==5:
+        print "Generate a parameter aggregation file for SDB configuration in " + expanduser(args.sdbparamagg[0][0])
+        aggGen.generateSdbParameterAggregationFile(expanduser(args.sdbparamagg[0][0]),args.sdbparamagg[0][1],args.sdbparamagg[0][2],args.sdbparamagg[0][3],args.sdbparamagg[0][4])
 
     # Manage the output json file generation containing injected data
     

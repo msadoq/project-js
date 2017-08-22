@@ -31,14 +31,18 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         // const payloadBuffer = peers.splice(0, 2);
         // robustness code, LPISIS could send empty ZeroMQ frame
         if (_isBuffer(peers[index]) && _isBuffer(peers[index + 1])) {
-          const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
-          const payload = decode(payloadProtobufType, peers[index + 1]);
-          lokiManager.addRecord(tbdId, { timestamp, payload });
-          // dump: if activated, save a file per timestamp with binary payload
-          dumpBuffer(dataId, timestamp, peers[index + 1]);
+          try {
+            const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
+            dumpBuffer(dataId, timestamp, peers[index + 1]);
+            const payload = decode(payloadProtobufType, peers[index + 1]);
+            lokiManager.addRecord(tbdId, { timestamp, payload });
+            // dump: if activated, save a file per timestamp with binary payload
 
-          // queue new data in spool
-          payloadsJson[tbdId][timestamp] = payload;
+            // queue new data in spool
+            payloadsJson[tbdId][timestamp] = payload;
+          } catch (e) {
+            console.error(e);
+          }
         }
         index += 2;
       }
@@ -48,20 +52,20 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         // const payloadBuffer = peers.splice(0, 2);
 
         // robustness code, LPISIS could send empty ZeroMQ frame
-        if (!_isBuffer(peers[index]) || !_isBuffer(peers[index + 1])) {
-          // loggerData.warn(`received an empty ZeroMQ frame from DC for ${remoteId}`);
-          // eslint-disable-next-line no-continue, "DV6 TBC_CNES LPISIS use continue to preserve readability and avoid long block in an if condition"
-          continue;
+        if (_isBuffer(peers[index]) && _isBuffer(peers[index + 1])) {
+          try {
+            const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
+            // dump: if activated, save a file per timestamp with binary payload
+            dumpBuffer(dataId, timestamp, peers[index + 1]);
+            const payload = decode(payloadProtobufType, peers[index + 1]);
+            lokiManager.addRecord(tbdId, { timestamp, payload });
+            if (isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
+              payloadsJson[tbdId][timestamp] = payload;
+            }
+          } catch (e) {
+            console.error(e);
+          }
         }
-        const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
-        const payload = decode(payloadProtobufType, peers[index + 1]);
-        lokiManager.addRecord(tbdId, { timestamp, payload });
-        if (isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
-          payloadsJson[tbdId][timestamp] = payload;
-        }
-
-        // dump: if activated, save a file per timestamp with binary payload
-        dumpBuffer(dataId, timestamp, peers[index + 1]);
         index += 2;
       }
     }

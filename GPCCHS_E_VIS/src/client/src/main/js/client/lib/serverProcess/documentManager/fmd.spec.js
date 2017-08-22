@@ -41,10 +41,10 @@ describe('common/fmd', () => {
 
   describe('getRelativeFmdPath', () => {
     test('should return relative fmd path (starting with \'/\')', () => {
-      expect(fmdApi.getRelativeFmdPath(fmdApi.getRootDir())).toEqual('/');
-      expect(fmdApi.getRelativeFmdPath(`${fmdApi.getRootDir()}/..`)).toEqual('/..');
-      expect(fmdApi.getRelativeFmdPath(`${fmdApi.getRootDir()}/yolo`)).toEqual('/yolo');
-      expect(fmdApi.getRelativeFmdPath(`${fmdApi.getRootDir()}/../fixtures/yolo`)).toEqual('/yolo');
+      expect(fmdApi.getRelativeFmdPath(fmdApi.getRootDir())).toEqual('');
+      expect(fmdApi.getRelativeFmdPath(`${fmdApi.getRootDir()}/..`)).toEqual('..');
+      expect(fmdApi.getRelativeFmdPath(`${fmdApi.getRootDir()}/yolo`)).toEqual('yolo');
+      expect(fmdApi.getRelativeFmdPath(`${fmdApi.getRootDir()}/../fixtures/yolo`)).toEqual('yolo');
     });
   });
 

@@ -158,7 +158,8 @@ class GPDSTD_AggregationsGenerator(object):
             Inputfile = open(self._existingTmPacketJsonFile,'r')
         except IOError as e:
             raise GPDSTD_ScriptError("Cannot open telemetry packet file : {0}, message is : {1}".format(self._existingTmPacketJsonFile,e.strerror))
-        self._tmPacketJson = json.load(Inputfile)
+        # Read the Telemetry packet json file and put it in an ordered dictionnary (essential to let avro accepte the file)
+        self._tmPacketJson = json.load(Inputfile,object_pairs_hook=OrderedDict)
         Inputfile.close()
         # Analyse its content to retrieve relevant information
         if "Catalog" in self._tmPacketJson:
@@ -345,6 +346,9 @@ class GPDSTD_AggregationsGenerator(object):
                            "ts180.referenceRecord" in paramToAdd["TelemetryPacketEntry"] and \
                            "TargetItem" in paramToAdd["TelemetryPacketEntry"]["ts180.referenceRecord"] and \
                            "string" in paramToAdd["TelemetryPacketEntry"]["ts180.referenceRecord"]["TargetItem"]:
+                            # Fill in the new parameter order
+                            if "Order" in paramToAdd:
+                                paramToAdd["Order"] = addedParamIdx
                             # Fill in the new parameter name
                             paramName = self._reportingParameters.keys()[newParamIdx]
                             paramToAdd["TelemetryPacketEntry"]["ts180.referenceRecord"]["TargetItem"]["string"] = paramName

@@ -2,18 +2,16 @@ import { get, add, getFilters } from './tbdIdDataIdMap';
 
 describe('models/tbdIdDataIdMap', () => {
   test('Add dataId', () => {
-    add('myTbdId', 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:field1.operator1.operand1:field2.operator2.operand2');
-    expect(get('myTbdId')).toEqual('Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:field1.operator1.operand1:field2.operator2.operand2');
+    add('Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:field1.operator1.operand1:field2.operator2.operand2', { myDataId: 'mydataid' });
+    expect(get('Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:field1.operator1.operand1:field2.operator2.operand2')).toMatchObject({ myDataId: 'mydataid' });
   });
 
   test('Get filters : no filter', () => {
-    add('myTbdId2', 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:');
-    expect(getFilters('myTbdId2')).toEqual([]);
+    expect(getFilters('Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:')).toEqual([]);
   });
 
   test('Get filters : 2 filters', () => {
-    add('myTbdId3', 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:field1.operator1.operand1:field2.operator2.operand2');
-    expect(getFilters('myTbdId3')).toEqual([{
+    expect(getFilters('Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:field1.operator1.operand1:field2.operator2.operand2')).toEqual([{
       field: 'field1',
       operator: 'operator1',
       operand: 'operand1',

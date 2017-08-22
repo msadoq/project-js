@@ -29,7 +29,7 @@ export const get = tbdId => map[tbdId];
  */
 export const getFilters = (tbdId) => {
   const filtersArray = [];
-  const splitted = map[tbdId].split(':');
+  const splitted = tbdId.split(':');
 
   for (let i = 3; i < splitted.length; i += 1) {
     const filterSplitted = splitted[i].split('.');

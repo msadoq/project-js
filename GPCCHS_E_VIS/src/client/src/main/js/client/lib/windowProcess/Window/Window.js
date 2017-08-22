@@ -91,6 +91,7 @@ class Window extends PureComponent {
   componentDidMount() {
     // set in store that this is window is fully loaded and ready to run
     const { setIsLoaded, windowId } = this.props;
+    window.addEventListener('auxclick', this.handleAuxClick, false);
     setTimeout(() => setIsLoaded(windowId), 0);
   }
 
@@ -233,6 +234,11 @@ class Window extends PureComponent {
     const { windowId, closeModal, modal } = this.props;
     const choice = _.hasIn('preventDefault', choiceOrEvent) ? undefined : choiceOrEvent;
     closeModal(windowId, { ...modal, opened: false }, choice);
+  }
+
+  handleAuxClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   render() {

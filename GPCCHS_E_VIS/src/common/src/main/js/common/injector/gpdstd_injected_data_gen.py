@@ -85,7 +85,7 @@ class GPDSTD_AggregationsGenerator(object):
     def getParametersFromReportingCatalogFile(self,filePath):
         '''
         Read a reporting catalog json file and get all the parameters defined in it with their names and Oid in a dictionnary like this:
-        {'STAT_SU_CSTIME': '000200020100C400010000000000000017','STAT_SU_SIGCATCH': '000200020100C400010000000000000034','STAT_SU_SIGIGNORE_2': '000200020100C400010000000000000137'}
+        {'STAT_SU_CSTIME': '000200020100c400010000000000000017','STAT_SU_SIGCATCH': '000200020100c400010000000000000034','STAT_SU_SIGIGNORE_2': '000200020100c400010000000000000137'}
         '''
         area = None
         service = None
@@ -123,12 +123,12 @@ class GPDSTD_AggregationsGenerator(object):
                                 domain = int(self._defaultDomain)
                             else:
                                 domain = int(domain)
-                            self._reportingParameters[name] = '{0:04X}'.format(area) + \
-                                                              '{0:04X}'.format(service) + \
-                                                              '{0:02X}'.format(version) + \
-                                                              '{0:04X}'.format(number) + \
-                                                              '{0:04X}'.format(domain) + \
-                                                              '{0:016X}'.format(uid)
+                            self._reportingParameters[name] = '{0:04x}'.format(area) + \
+                                                              '{0:04x}'.format(service) + \
+                                                              '{0:02x}'.format(version) + \
+                                                              '{0:04x}'.format(number) + \
+                                                              '{0:04x}'.format(domain) + \
+                                                              '{0:016x}'.format(uid)
                             #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: ", + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(ret_dict[name])
             else:
                 raise GPDSTD_ScriptError('Catalog file (' + self._reportingParamsCatalogJsonFile + ') doesn\'t contain expected element "Items"')
@@ -140,9 +140,9 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         Read a telemetry packet json file and get all the its aggregations and parameters names in a dictionnary like this:
         {
-         'STAT_SU_STATFILE': {'oid': '000200020100C700010000000000000001', 'parameters': ['STAT_SU_PID', 'STAT_SU_COMM', 'STAT_SU_STATE']},
-         'TEST_STAB_VIMA_PACKET_1': {'oid': '000200020100C700010000000000000002', 'parameters': ['STAT_SU_PID_1', 'STAT_SU_COMM_1']},
-         'TEST_STAB_VIMA_PACKET_3': {'oid': '000200020100C700010000000000000003', 'parameters': ['STAT_SU_STARTCODE_1', 'STAT_SU_ENDCODE_1', 'STAT_SU_STARTSTACK_1]}
+         'STAT_SU_STATFILE': {'oid': '000200020100c700010000000000000001', 'parameters': ['STAT_SU_PID', 'STAT_SU_COMM', 'STAT_SU_STATE']},
+         'TEST_STAB_VIMA_PACKET_1': {'oid': '000200020100c700010000000000000002', 'parameters': ['STAT_SU_PID_1', 'STAT_SU_COMM_1']},
+         'TEST_STAB_VIMA_PACKET_3': {'oid': '000200020100c700010000000000000003', 'parameters': ['STAT_SU_STARTCODE_1', 'STAT_SU_ENDCODE_1', 'STAT_SU_STARTSTACK_1]}
         }
         '''
         area = None
@@ -182,12 +182,12 @@ class GPDSTD_AggregationsGenerator(object):
                             else:
                                 domain = int(domain)
                         # Compute aggregation Oid
-                        oid = '{0:04X}'.format(area) + \
-                              '{0:04X}'.format(service) + \
-                              '{0:02X}'.format(version) + \
-                              '{0:04X}'.format(number) + \
-                              '{0:04X}'.format(domain) + \
-                              '{0:016X}'.format(uid)
+                        oid = '{0:04x}'.format(area) + \
+                              '{0:04x}'.format(service) + \
+                              '{0:02x}'.format(version) + \
+                              '{0:04x}'.format(number) + \
+                              '{0:04x}'.format(domain) + \
+                              '{0:016x}'.format(uid)
                         # Analyse the list of parameters in the aggregation                                
                         if "Components" in aggregation:
                             parameters =  aggregation["Components"]
@@ -303,7 +303,7 @@ class GPDSTD_AggregationsGenerator(object):
                     # Concatenate "_" and added aggregation index to create an original name
                     newAggName = newAggName + "_" + str(createdAggCounter)
                 # Continue with original uid generation
-                newAggUid = int(aggToAdd["Uid"]) + 1
+                newAggUid = createdAggCounter + 1
                 # Check if generated uid exists
                 while newAggUid in self._aggUidInExistingFile.values():
                     newAggUid = newAggUid + 1
@@ -316,9 +316,9 @@ class GPDSTD_AggregationsGenerator(object):
                     raise GPDSTD_ScriptError("There is not enough parameter in given catalog (" + self._reportingParamsCatalogJsonFile + ") to generate an aggregation with " + nbParamsInNewAgg + " parameters")
                 # Fill in the new aggregation fields
                 aggToAdd["Name"] = unicode(newAggName)
-                aggToAdd["Uid"] = unicode(newAggUid)
+                aggToAdd["Uid"] = newAggUid
                 # Compute the new aggregation Oid
-                newAggOid = self._aggregations[nameOfTheTemplateAgg]["oid"][0:18] + '{0:016X}'.format(newAggUid)
+                newAggOid = self._aggregations[nameOfTheTemplateAgg]["oid"][0:18] + '{0:016x}'.format(newAggUid)
                 # Update the injected data
                 self._injectionData[newAggName] = {'uid' : newAggUid, 'paramsOids' : [] }
                 paramsOids = []
@@ -453,11 +453,11 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         Return a structure with all necesary information to generate the injection data, like this:
         {
-            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100C400010000000000000001', '000200020100C400010000000000000002', ]},
-            'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100C400010000000000000053', '000200020100C400010000000000000054']},
-            'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100C400010000000000000068', '000200020100C400010000000000000069']},
-            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100C400010000000000000078', '000200020100C400010000000000000079', ]},
-            'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100C400010000000000000017', '000200020100C400010000000000000034']}
+            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100c400010000000000000001', '000200020100c400010000000000000002', ]},
+            'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100c400010000000000000053', '000200020100c400010000000000000054']},
+            'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000068', '000200020100c400010000000000000069']},
+            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000078', '000200020100c400010000000000000079', ]},
+            'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100c400010000000000000017', '000200020100c400010000000000000034']}
         }
         '''
         if not len(self._injectionData):

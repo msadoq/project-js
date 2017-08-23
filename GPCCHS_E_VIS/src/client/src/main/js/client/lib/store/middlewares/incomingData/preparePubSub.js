@@ -26,83 +26,90 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   execution.start('global');
 
   // check payloads parity
-  const payloadBuffers = action.payload.peers;
-  if (payloadBuffers.length % 2 !== 0) {
-    logger.warn('payloads should be sent by (timestamp, payloads) peers');
-    return next(action);
-  }
+  const payloadBuffersMap = action.payload.data;
+  const payloadBuffersArray = Object.keys(payloadBuffersMap);
 
-  const state = getState();
-  const dataId = action.payload.dataId;
-  // ** get payload type and check validity
-  const payloadProtobufType = getType(dataId.comObject);
-  if (typeof payloadProtobufType === 'undefined') {
-    logger.error('unsupported comObject', dataId.comObject); // TODO send error to client
-    return next(action);
-  }
-  // Retrieves tbdIds corresponding to dataId from store.knownRanges (storeTbdIds)
-  const storeTbdIds = isDataIdInCache(state, { dataId });
-  // Retrieve tbdIds corresponding to dataId from dataMap.expectedLastInterval (dataMapTbdIds)
-  const dataMapTbdIds = isDataIdInDatamapLast(state, dataId);
-  // Compute dataMap
-  const dataMap = dataMapGenerator(state);
-
-  // Reduce peers as data by decoding timestamp buffers
-  // Loop over peers and for each decode timestamp
   let payloadsJson = {};
-  let iBuffer = 0;
-  while (iBuffer < payloadBuffers.length) {
-    // Get elements by peer
-    const timeBuffer = payloadBuffers[iBuffer];
-    iBuffer += 1;
-    const dataBuffer = payloadBuffers[iBuffer];
-    iBuffer += 1;
 
-    execution.start('decode timestamp');
-    const timestamp = decode('dc.dataControllerUtils.Timestamp', timeBuffer);
-    execution.stop('decode timestamp');
+  for (let i = 0; i < payloadBuffersArray.length; i += 1) {
+    const { dataId, payloadBuffers } = payloadBuffersMap[payloadBuffersArray[i]];
 
-    setLastPubSubTimestamp(timestamp.ms);
-    // dump: if activated, save a file per timestamp with binary payload
-    dumpBuffer(dataId, timestamp.ms, dataBuffer);
-
-    // decode Payload only once by payloadBuffer loop to avoid resource-consuming
-    execution.start('decode payload');
-    // deprotobufferize payload
-    const decodedPayload = decode(payloadProtobufType, dataBuffer);
-    execution.stop('decode payload');
-    // For each tbdId in storeList
-    // console.log('storeTbdIds : ', storeTbdIds);
-    for (let i = 0; i < storeTbdIds.length; i += 1) {
-      const tbdId = storeTbdIds[i];
-      const filters = getKnownRanges(state, { tbdId }).filters;
-      payloadsJson = updateFinalPayload(state,
-        { tbdId,
-          timestamp: timestamp.ms,
-          decodedPayload,
-          isInIntervals: isTimestampInKnownRanges,
-          filters,
-          addRecord: lokiManager.addRecord },
-        payloadsJson);
+    if (payloadBuffers.length % 2 !== 0) {
+      logger.warn('payloads should be sent by (timestamp, payloads) peers');
+      return next(action);
     }
-    // For each tbdId in dataMapList
-    for (let i = 0; i < dataMapTbdIds.length; i += 1) {
-      const tbdId = dataMapTbdIds[i];
-      // If tbdId already present in final object, checks if current timestamp is already stored
-      if (!payloadsJson[tbdId] || !payloadsJson[tbdId][timestamp.ms]) {
-        const filters = dataMap.perLastTbdId[tbdId].filters;
+
+    const state = getState();
+    // ** get payload type and check validity
+    const payloadProtobufType = getType(dataId.comObject);
+    if (typeof payloadProtobufType === 'undefined') {
+      logger.error('unsupported comObject', dataId.comObject); // TODO send error to client
+      return next(action);
+    }
+    // Retrieves tbdIds corresponding to dataId from store.knownRanges (storeTbdIds)
+    const storeTbdIds = isDataIdInCache(state, { dataId });
+    // Retrieve tbdIds corresponding to dataId from dataMap.expectedLastInterval (dataMapTbdIds)
+    const dataMapTbdIds = isDataIdInDatamapLast(state, dataId);
+    // Compute dataMap
+    const dataMap = dataMapGenerator(state);
+
+    // Reduce peers as data by decoding timestamp buffers
+    // Loop over peers and for each decode timestamp
+    let iBuffer = 0;
+    while (iBuffer < payloadBuffers.length) {
+      // Get elements by peer
+      const timeBuffer = payloadBuffers[iBuffer];
+      iBuffer += 1;
+      const dataBuffer = payloadBuffers[iBuffer];
+      iBuffer += 1;
+
+      execution.start('decode timestamp');
+      const timestamp = decode('dc.dataControllerUtils.Timestamp', timeBuffer);
+      execution.stop('decode timestamp');
+
+      setLastPubSubTimestamp(timestamp.ms);
+      // dump: if activated, save a file per timestamp with binary payload
+      dumpBuffer(dataId, timestamp.ms, dataBuffer);
+
+      // decode Payload only once by payloadBuffer loop to avoid resource-consuming
+      execution.start('decode payload');
+      // deprotobufferize payload
+      const decodedPayload = decode(payloadProtobufType, dataBuffer);
+      execution.stop('decode payload');
+      // For each tbdId in storeList
+      // console.log('storeTbdIds : ', storeTbdIds);
+      for (let j = 0; j < storeTbdIds.length; j += 1) {
+        const tbdId = storeTbdIds[j];
+        const filters = getKnownRanges(state, { tbdId }).filters;
         payloadsJson = updateFinalPayload(state,
           { tbdId,
             timestamp: timestamp.ms,
             decodedPayload,
-            isInIntervals: isTimestampInLastDatamapInterval,
-            filters },
+            isInIntervals: isTimestampInKnownRanges,
+            filters,
+            addRecord: lokiManager.addRecord },
           payloadsJson);
+      }
+      // For each tbdId in dataMapList
+      for (let k = 0; k < dataMapTbdIds.length; k += 1) {
+        const tbdId = dataMapTbdIds[k];
+        // If tbdId already present in final object, checks if current timestamp is already stored
+        if (!payloadsJson[tbdId] || !payloadsJson[tbdId][timestamp.ms]) {
+          const filters = dataMap.perLastTbdId[tbdId].filters;
+          payloadsJson = updateFinalPayload(state,
+            { tbdId,
+              timestamp: timestamp.ms,
+              decodedPayload,
+              isInIntervals: isTimestampInLastDatamapInterval,
+              filters },
+            payloadsJson);
+        }
       }
     }
   }
   // dispatch data per tbdId
   const tbdIds = Object.keys(payloadsJson);
+  // console.log(tbdIds);
   if (tbdIds.length) dispatch(newData(payloadsJson));
 
   return next(action);

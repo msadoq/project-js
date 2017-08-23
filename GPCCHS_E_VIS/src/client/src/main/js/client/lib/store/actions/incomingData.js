@@ -4,7 +4,7 @@ import simple from '../helpers/simpleActionCreator';
 // Actions dispatched from archiveController to the prepareData middlewares
 export const incomingLast = simple(types.INCOMING_LAST_DATA, 'tbdId', 'peers', 'dataId');
 export const incomingRange = simple(types.INCOMING_RANGE_DATA, 'tbdId', 'peers', 'dataId');
-export const incomingPubSub = simple(types.INCOMING_PUBSUB_DATA, 'dataId', 'peers');
+export const incomingPubSub = simple(types.INCOMING_PUBSUB_DATA, 'data');
 
 // Action dispatch by the prepareData middlewares
 export const newData = simple(types.NEW_DATA, 'data');

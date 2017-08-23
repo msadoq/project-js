@@ -12,10 +12,12 @@ const onSessionTimeData = require('./onSessionTimeData');
 const onDcStatus = require('./onDcStatus');
 
 const archiveController = require('./archiveController');
-const pubSubController = require('./pubSubController');
+const makePubSubController = require('./pubSubController');
 
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
+
+const pubSubController = makePubSubController();
 
 const controllers = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,

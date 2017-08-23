@@ -25,7 +25,6 @@ import { askOpenWorkspace, askOpenNewWorkspace, isWorkspaceOpening, sendProductL
 import { getIsWorkspaceOpening } from '../store/reducers/hsc';
 import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
-import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
@@ -235,7 +234,7 @@ export function onStart() {
     splashScreen.setMessage('ready!');
     logger.info('ready!');
     // TODO dbrugne move in server lifecycle ========================================
-    startOrchestration();
+    // startOrchestration();
     if (monitoring.startMonitoring) monitoring.startMonitoring();
     // TODO dbrugne move in server lifecycle ========================================
   });
@@ -248,7 +247,7 @@ export function onStop() {
   // TODO dbrugne move in server lifecycle ========================================
   // stop orchestration
   if (monitoring.stopMonitoring) monitoring.stopMonitoring();
-  stopOrchestration();
+  // stopOrchestration();
   // TODO dbrugne move in server lifecycle ========================================
 
   // stop child processes

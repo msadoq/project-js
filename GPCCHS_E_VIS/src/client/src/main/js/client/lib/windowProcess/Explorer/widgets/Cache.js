@@ -15,7 +15,7 @@ export default class Cache extends PureComponent {
   };
 
   cleanCache = () => {
-    this.props.updateCacheInvalidation(Date.now() - 1e10);
+    this.props.updateCacheInvalidation(Date.now());
   };
 
   render() {

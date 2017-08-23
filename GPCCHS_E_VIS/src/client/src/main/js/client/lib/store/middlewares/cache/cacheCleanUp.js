@@ -1,12 +1,13 @@
 import dataMapGenerator from '../../../dataManager/map';
 import mergeIntervals from '../../../common/intervals/merge';
 import { resetKnownRange } from '../../actions/knownRanges';
+import * as types from '../../types';
 
 let lastCleanTimestamp = new Date();
 
 const cleanCache = (cleanTrigger, lokiManager) => ({ getState, dispatch }) => next => (action) => {
   const now = new Date();
-  if (now - lastCleanTimestamp >= cleanTrigger) {
+  if (now - lastCleanTimestamp >= cleanTrigger || action.type === types.HSC_UPDATE_LAST_CACHE_INVALIDATION) {
     const state = getState();
     const { expectedRangeIntervals } = dataMapGenerator(state);
     const tbdIds = Object.keys(expectedRangeIntervals);

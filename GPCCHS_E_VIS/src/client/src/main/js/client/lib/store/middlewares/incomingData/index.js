@@ -5,9 +5,9 @@ import preparePubSub from './preparePubSub';
 import injectData from './injectData';
 
 const createIncomingDataMiddleware = lokiManager => pipeMiddlewares(
+  preparePubSub(lokiManager),
   prepareRange(lokiManager),
   prepareLast(lokiManager),
-  preparePubSub(lokiManager),
   injectData()
 );
 

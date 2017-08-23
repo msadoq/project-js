@@ -208,6 +208,15 @@ const addRecords = (tbdId, records) => {
   }
 };
 
+const getChargeLoki = () => {
+  let counter = 0;
+  for (let i = 0; i < tbdIds.length; i += 1) {
+    const { collection } = getCollection(tbdIds[i]);
+    if (collection) counter += collection.data.length;
+  }
+  return counter;
+};
+
 /**
  * Remove all data per tbdIds, except those present in the list of interval to preserve
  * @param string tbdId
@@ -215,6 +224,7 @@ const addRecords = (tbdId, records) => {
  */
 const removeAllExceptIntervals = (toKeep) => {
   const tbdIdsTemp = [...tbdIds];
+  console.log('Number of elements before in cache : ', getChargeLoki());
   for (let i = 0; i < tbdIdsTemp.length; i += 1) {
     if (toKeep[tbdIdsTemp[i]]) {
       const query = createDiffQuery(toKeep[tbdIdsTemp[i]].interval);
@@ -224,7 +234,10 @@ const removeAllExceptIntervals = (toKeep) => {
       removeCollection(tbdIdsTemp[i]);
     }
   }
+  console.log('Number of elements after in cache : ', getChargeLoki());
 };
+
+
 
 export default {
   getCollection,

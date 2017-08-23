@@ -4,6 +4,7 @@ import PlotTab from './PlotTab';
 import { Misc } from '../../../commonEditor/Misc';
 import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
+import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 import styles from '../../../commonEditor/Editor.css';
 
 const navbarItems = ['Entry Points', 'Plot', 'Misc'];
@@ -78,6 +79,7 @@ export default class PlotEditor extends Component {
           <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
           <b>{title}</b>
         </h4>
+        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
         <Navbar
           currentDisplay={tab === null ? 0 : tab}
           items={navbarItems}

@@ -5,6 +5,7 @@ import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
 import DynamicTab from './DynamicTab';
 import { Misc } from '../../../commonEditor/Misc';
+import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
@@ -94,6 +95,7 @@ export default class DynamicEditor extends Component {
           <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
           <b>{title}</b>
         </h4>
+        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
         <Navbar
           currentDisplay={tab === null ? 0 : tab}
           changeCurrentDisplay={this.changeCurrentDisplay}

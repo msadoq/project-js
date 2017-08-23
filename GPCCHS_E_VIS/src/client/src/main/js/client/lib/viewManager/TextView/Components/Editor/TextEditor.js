@@ -3,6 +3,7 @@ import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
 import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
+import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 import TextTabContainer from './TextTabContainer';
 import { Misc } from '../../../commonEditor/Misc';
 
@@ -85,6 +86,7 @@ export default class Editor extends Component {
           <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
           <b>{title}</b>
         </h4>
+        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
         <Navbar
           currentDisplay={tab === null ? 0 : tab}
           items={navBarItems}

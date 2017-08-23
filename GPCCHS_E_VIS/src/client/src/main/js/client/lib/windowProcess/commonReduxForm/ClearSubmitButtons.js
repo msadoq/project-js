@@ -23,6 +23,7 @@ const ClearSubmitButtons = (props) => {
           type="button"
           disabled={pristine || submitting}
           onClick={reset}
+          className="mr5"
         >
           Clear
         </Button>}

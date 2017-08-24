@@ -1,8 +1,10 @@
+import { createSelector } from 'reselect';
 import _filter from 'lodash/filter';
 import _reduce from 'lodash/reduce';
 import dataMapGenerator from './map';
 import flattenDataId from '../common/flattenDataId';
 import isTimestampInInterval from '../common/intervals/includesTimestamp';
+
 
 export const isDataIdInDatamapLast = (state, dataId) => {
   const dataMap = dataMapGenerator(state);
@@ -29,3 +31,17 @@ export const isTimestampInLastDatamapInterval = (state, { tbdId, timestamp }) =>
   const dataMap = dataMapGenerator(state);
   return isTimestampInLastInterval(dataMap, { tbdId, timestamp });
 };
+
+export const getCurrentDisplayedLastTbdId = createSelector(
+  dataMapGenerator,
+  (dataMap) => {
+    const knownTbdIds = [];
+    const { perLastTbdId } = dataMap;
+    const perLastTbdIdArray = Object.keys(perLastTbdId);
+
+    for (let i = 0; i < perLastTbdIdArray.length; i += 1) {
+      knownTbdIds.push({ tbdId: perLastTbdIdArray[i], dataId: perLastTbdId[perLastTbdIdArray[i]].dataId });
+    }
+    return knownTbdIds;
+  }
+);

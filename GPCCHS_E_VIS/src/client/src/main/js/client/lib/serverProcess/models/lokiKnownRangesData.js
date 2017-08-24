@@ -224,7 +224,6 @@ const getChargeLoki = () => {
  */
 const removeAllExceptIntervals = (toKeep) => {
   const tbdIdsTemp = [...tbdIds];
-  console.log('Number of elements before in cache : ', getChargeLoki());
   for (let i = 0; i < tbdIdsTemp.length; i += 1) {
     if (toKeep[tbdIdsTemp[i]]) {
       const query = createDiffQuery(toKeep[tbdIdsTemp[i]].interval);
@@ -234,7 +233,6 @@ const removeAllExceptIntervals = (toKeep) => {
       removeCollection(tbdIdsTemp[i]);
     }
   }
-  console.log('Number of elements after in cache : ', getChargeLoki());
 };
 
 
@@ -252,4 +250,5 @@ export default {
   getOrCreateCollection,
   displayCollection,
   removeAllExceptIntervals,
+  getChargeLoki,
 };

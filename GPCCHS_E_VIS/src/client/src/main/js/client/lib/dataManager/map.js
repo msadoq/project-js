@@ -18,9 +18,10 @@ const perViewDataSelectors = {};
 export const getPerViewMap = createDeepEqualSelectorPerViewData(
   state => state,
   getWindowsVisibleViews,
-  (state, views) =>
+  (state, views) => {
     // Per view
-    _reduce(views, (map, { viewId, timebarUuid }) => {
+    console.log('Here getPerViewMap');
+    return _reduce(views, (map, { viewId, timebarUuid }) => {
       const ep = getEntryPointsByViewId(state, { viewId });
       if (!ep || !ep.length) {
         return map;
@@ -38,7 +39,8 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
 
       _set(map, [viewId], props);
       return map;
-    }, {})
+    }, {});
+  }
   );
 
 export const getPerRangeTbdIdMap = createSelector(
@@ -65,6 +67,10 @@ export default createSelector(
   getPerLastTbdIdMap,
   getTimebars,
   (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
+    // console.log('viewMap: ', viewMap);
+    // console.log('rangeTbdIdMap: ', rangeTbdIdMap);
+    // console.log('lastTbdIdMap: ', lastTbdIdMap);
+    // console.log('timebars: ', timebars);
     // compute expected intervals
     let forecastIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
@@ -80,7 +86,7 @@ export default createSelector(
         forecastIntervalsMap,
         forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
-
+    console.log('generate dataMap');
     return {
       perView: viewMap,
       perRangeTbdId: rangeTbdIdMap,

@@ -121,6 +121,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   }
   // dispatch data per tbdId
   const tbdIds = Object.keys(payloadsJson);
+
   if (tbdIds.length) {
     dispatch(newData(payloadsJson));
   }

@@ -51,3 +51,4 @@ release
 /server.js.map
 .env
 stats.json
+benchmarks/vima/*.js

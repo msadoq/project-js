@@ -1,0 +1,18 @@
+{
+  "type": "Page",
+  "title": "Unknown",
+  "views": [
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text100.json",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 5,
+        "maximized": true
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

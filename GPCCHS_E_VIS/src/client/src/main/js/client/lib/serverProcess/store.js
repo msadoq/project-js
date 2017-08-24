@@ -15,34 +15,28 @@ import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
 import * as rtdManager from '../rtdManager';
 import makeProductLogMiddleware from '../store/middlewares/productLog';
-import makePatchGenerator from '../store/middlewares/patch/patchGenerator';
-import getLogger from '../common/logManager';
-
-const log = getLogger('server:store:enhancer');
-
 
 let store;
 
-const createMiddlewares = (identity, isDebugOn) => {
-  const middlewares = [
-    thunk,
-    // createIncomingDataMiddleware(lokiManager),
-    createRetrieveDataMiddleware(ipc),
-    createCacheMiddleware(lokiManager),
-    makeMessagesMiddleware(),
-    makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
-    makeDocumentsMiddleware(documentManager),
-    makeInspectorMiddleware(rtdManager),
-    makeProductLogMiddleware(ipc.dc.sendProductLog),
-    makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn),
-  ];
-  return middlewares;
-};
-
+const middlewares = [
+  thunk,
+  createIncomingDataMiddleware(lokiManager),
+  createRetrieveDataMiddleware(ipc),
+  createCacheMiddleware(lokiManager),
+  makeMessagesMiddleware(),
+  makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
+  makeDocumentsMiddleware(documentManager),
+  makeInspectorMiddleware(rtdManager),
+  makeProductLogMiddleware(ipc.dc.sendProductLog),
+];
 
 export default function makeCreateStore(identity, isDebugOn) {
   return (initialState) => {
-    const enhancer = applyMiddleware(...createMiddlewares(identity, isDebugOn));
+    const enhancer = compose(applyMiddleware(...middlewares), makeServerEnhancer(
+      identity,
+      ipc.main.sendReduxPatch,
+      isDebugOn
+    ));
     store = createStore(reducer, initialState, enhancer);
     return store;
   };

@@ -7,51 +7,12 @@
   "domainName": "fr.cnes.isis.simupus",
   "views": [
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json",
-      "geometry": {
-        "x": 0,
-        "y": 0,
-        "w": 6,
-        "h": 3,
-        "maxH": 100,
-        "maxW": 100
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json",
-      "geometry": {
-        "x": 6,
-        "y": 0,
-        "w": 6,
-        "h": 24,
-        "maxH": 100,
-        "maxW": 100
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.json",
       "geometry": {
         "x": 0,
         "y": 16,
         "w": 6,
         "h": 8
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json",
-      "geometry": {
-        "x": 0,
-        "y": 3,
-        "w": 6,
-        "h": 13,
-        "collapsed": false,
-        "maximized": false
       },
       "hideBorders": false,
       "windowState": "Normalized"

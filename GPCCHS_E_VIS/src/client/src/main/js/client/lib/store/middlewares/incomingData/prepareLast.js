@@ -8,6 +8,7 @@ import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
 
 const prepareLast = () => ({ dispatch }) => next => (action) => {
+  const nextAction = next(action);
   if (action.type === types.INCOMING_LAST_DATA) {
     const tbdId = action.payload.tbdId;
     const dataId = action.payload.dataId;
@@ -34,7 +35,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
     }
     if (!_isEmpty(payloadsJson[tbdId])) dispatch(newData(payloadsJson));
   }
-  return next(action);
+  return nextAction;
 };
 
 export default prepareLast;

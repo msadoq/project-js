@@ -10,6 +10,7 @@ import mergeIntervals from '../../../common/intervals/merge';
 const type = 'RANGE';
 
 const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
+  const nextAction = next(action);
   if (action.type === types.VIEWS_NEED_RANGE) {
     const neededRange = action.payload.neededRangeData;
     const tbdIds = Object.keys(neededRange);
@@ -41,7 +42,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
       }
     }
   }
-  return next(action);
+  return nextAction;
 };
 
 export default retrieveRange;

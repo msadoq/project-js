@@ -8,7 +8,7 @@ mockLoadStubs();
 
 const mockStore = configureMockStore();
 const { encode, decode } = require('../../../utils/adapters');
-const onPubSubData = require('./pubSubController');
+const makeOnPubSubData = require('./pubSubController');
 
 const dataStub = getStubData();
 

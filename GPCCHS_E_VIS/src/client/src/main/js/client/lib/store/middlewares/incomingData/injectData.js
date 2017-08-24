@@ -7,12 +7,13 @@ let dataMap = {};
 let previousDataMap = {};
 let queue = [];
 const injectData = () => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
+  const nextAction = next(action);
   if (action.type === types.NEW_DATA) {
     const dataToInject = action.payload.data;
     addToQueue(dataToInject);
     throttledDispatch(dispatch, getState());
   }
-  return next(action);
+  return nextAction;
 };
 
 /**

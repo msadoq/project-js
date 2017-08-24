@@ -10,16 +10,16 @@ import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
 
 const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
+  const nextAction = next(action);
   if (action.type === types.INCOMING_RANGE_DATA) {
     const tbdId = action.payload.tbdId;
     const dataId = action.payload.dataId;
     const peers = action.payload.peers;
     const payloadProtobufType = getType(dataId.comObject);
     add(tbdId, dataId);
-
     if (typeof payloadProtobufType === 'undefined') {
       console.error('protobufType unknown');
-      return next(action);
+      return nextAction;
     }
 
     const payloadsJson = { [tbdId]: {} };
@@ -72,7 +72,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
     // If data nedds to be send to reducers, dispatch action
     if (!_isEmpty(payloadsJson[tbdId])) dispatch(newData(payloadsJson));
   }
-  return next(action);
+  return nextAction;
 };
 
 export default prepareRange;

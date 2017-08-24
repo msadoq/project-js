@@ -18,10 +18,10 @@ const logger = require('../../../common/logManager')('middlewares:preparePubSub'
 
 const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
   // Catches incomingPubSub(dataId, peers)
+  const nextAction = next(action);
   if (action.type !== types.INCOMING_PUBSUB_DATA) {
-    return next(action);
+    return nextAction;
   }
-
   const execution = executionMonitor('preparePubSub');
   execution.start('global');
 
@@ -112,7 +112,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   // console.log(tbdIds);
   if (tbdIds.length) dispatch(newData(payloadsJson));
 
-  return next(action);
+  return nextAction;
 };
 
 /**

@@ -9,6 +9,7 @@ const type = 'LAST';
 const getLastArguments = { getLastType: GETLASTTYPE_GET_LAST };
 
 const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
+  const nextAction = next(action);
   if (action.type === types.VIEWS_NEED_LAST) {
     const neededLast = action.payload.neededLastData;
     const tbdIds = Object.keys(neededLast);
@@ -45,7 +46,7 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
       }
     }
   }
-  return next(action);
+  return nextAction;
 };
 
 export default retrieveLast;

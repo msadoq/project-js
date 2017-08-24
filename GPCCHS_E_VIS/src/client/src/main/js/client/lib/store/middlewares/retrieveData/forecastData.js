@@ -16,7 +16,7 @@ let previousForecast;
 let playPressed = false;
 
 const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispatch }) => next => (action) => {
-
+  const nextAction = next(action);
   if (action.type === types.HSC_PLAY) {
     playPressed = true;
   }
@@ -55,7 +55,9 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
                                                           { filters });
               add(queryId, currentTbdId, type, dataId);
             }
-            dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, filters));
+            if (dataId) {
+              dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, filters));
+            }
           }
         }
         const now = visuWindow.upper;
@@ -63,7 +65,7 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
       }
     }
   }
-  return next(action);
+  return nextAction;
 };
 
 export default forecastData;

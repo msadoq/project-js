@@ -8,6 +8,7 @@ const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 const forecastTime = '20000';
 const forecastTrigger = '1000';
 
+let counter = 0;
 mockRegister();
 mockLoadStubs();
 const dataStub = getStubData();
@@ -15,6 +16,8 @@ const mockIpc = {
   dc: {
     requestTimebasedQuery: (flatDataId, dataId, interval, args) => {
       console.log(flatDataId, dataId, interval, args);
+      counter += 1;
+      return counter;
     },
   },
 };

@@ -13,7 +13,7 @@ export const createDeepEqualSelector = createSelectorCreator(
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
-// ********************************************************/
+******************************************************* */
 function perViewDataEqualityCheck(current, previous) {
   if (current.timelines !== previous.timelines
     || current.windows !== previous.windows

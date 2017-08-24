@@ -85,12 +85,12 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
     maxTime: { ...state.maxTime, [epName]: stateMinOrMaxTime },
   };
 }
-/** ************************************
+/* ************************************
  * Add payloads in plot view data state
  * @param: data state of current view
  * @param: data to add in state
  * @return: updated state
-/* ************************************/
+/* *********************************** */
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
 export function viewRangeAdd(state = {}, payloads) {
   const epNames = Object.keys(payloads || {}); // get tbdIds
@@ -187,13 +187,13 @@ export function viewRangeAdd(state = {}, payloads) {
   }
   return newState;
 }
-/** ************************************
+/* ************************************
  * Select payload to add for current view
  * @param: current view data map
  * @param: intervals for all entry Points
  * @param: received data
  * @return: updated state
-/* ************************************/
+/* *********************************** */
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
@@ -209,7 +209,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
   }
   return epSubState;
 }
-/** ************************************
+/* ************************************
  * Select payload to add for current entry Point
  * @param: payload of current entry point
  * @param: entry point definition
@@ -217,7 +217,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
  * @param: sub state of current view
  * @param: intervals for all entry Points
  * @return: updated state
-/* ************************************/
+/* *********************************** */
 export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
   // get expected interval
   const expectedInterval = _get(intervalMap, [ep.tbdId, ep.localId, 'expectedInterval']);

@@ -8,7 +8,7 @@ import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
 import _omit from 'lodash/omit';
 
-/** ************************************************
+/* ************************************************
  * Clean viewData for current viewData
  * @param currentState view data State
  * @param oldViewFromMap current view definition
@@ -16,7 +16,7 @@ import _omit from 'lodash/omit';
  * @param oldIntervals expected intervals for all entry points
  * @param newIntervals expected intervals for all entry points
  * @return cleaned state for current view
-/** ************************************************/
+/** *********************************************** */
 export default function cleanCurrentViewData(
   currentState,
   oldViewFromMap,

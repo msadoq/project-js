@@ -6,13 +6,13 @@ import { convertData } from '../../commonData/convertData';
 
 const logger = getLogger('data:lastValue');
 
-/** ************************************
+/* ************************************
  * Select payload to add for current view
  * @param: current view data map
  * @param: intervals for all entry Points
  * @param: received data
  * @return: updated state
-/* ************************************/
+/* *********************************** */
 export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubState) {
   let epSubState = {};
   if (!currentViewMap) {

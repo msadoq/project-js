@@ -123,7 +123,7 @@ export default function dynamicViewData(state = {}, action) {
         }
       }
       return newState;
-    }*/
+    } */
     default:
       return state;
   }

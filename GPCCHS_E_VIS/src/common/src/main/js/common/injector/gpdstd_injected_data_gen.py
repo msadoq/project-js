@@ -55,7 +55,7 @@ GPDSTD_ArgsParser.add_argument("--generate","-g",default=None,type=str,
 GPDSTD_ArgsParser.add_argument("--dcparamagg","-p",default=None,type=str,
                               help="Full path of the parameter aggregation file to generate for GPCCDC configuration. File not generated is option not present.")
 GPDSTD_ArgsParser.add_argument("--sdbparamagg","-b",default=None,nargs=5,action='append',type=str,
-                              help="Full path of the parameter aggregation file to generate for SDB configuration, followed by the area, service, version and number of this catalog. This file is not generated is this option is not present.")
+                              help="Full path of the parameter aggregation file to generate for SDB configuration, followed by the area, service, version and number of this catalog. This file is not generated if this option is not present.")
 GPDSTD_ArgsParser.add_argument("--valueformula","-f",default=None,nargs=2,action='append',
                               help="Define a formula to compute parameter value, and the numbers of parameters for which it shall be used. The number of times a forumla is used is computed accroding to the content of tmpacket file content or --agg options values if used")
 GPDSTD_ArgsParser.add_argument("--stateformula","-s",default=None,nargs=2,action='append',
@@ -71,7 +71,7 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         self._defaultDomain = defaultDomain
         self._reportingParameters = dict()                # Dictionnary of parameters oid with their names as key
-        self._aggregations = dict()                       # Dictionnary of aggregation oid and parameters names with aggregation names as key
+        self._aggregations = OrderedDict()                # Dictionnary of aggregation oid and parameters names with aggregation names as key
         self._tmPacketJson = None                         # Content of the tm packet json file
         self._overwriteFiles = Overwrite
         self._nbParamPerAggInExistingFile = dict()        # Dictionnary of number of parameters by aggregation with aggregation names as key
@@ -81,6 +81,14 @@ class GPDSTD_AggregationsGenerator(object):
         self._namesOfParamsInExistingTmPacketFile = []    # List of the names of the parameters in all aggregations
         self._aggsOidListByParamOid = dict()              # Dictionnary of the list of the aggregations oid for each parameter with parameter oid ad key
         self._injectionData = dict()                      # Dictionnary of the list of parameters in each aggregation and aggregation uid with aggregation name as key
+
+    def uidtoHex(self,val, nbits):
+        '''
+        Convert val into hexadecimal value with padding to nbits in case of negative value
+        val shall be of type long
+        nbits shall be a positive integer
+        '''
+        return hex((val + (1 << nbits)) % (1 << nbits))[2:-1]
 
     def getParametersFromReportingCatalogFile(self,filePath):
         '''
@@ -115,7 +123,7 @@ class GPDSTD_AggregationsGenerator(object):
                     if "Uid" in parameter:
                         uid = int(parameter["Uid"])
                         name = parameter["Name"]
-                        #print 'Uid of current parameter is : ',repr(uid)
+                        #print 'Uid of current parameter is : ' + repr(uid) + " and value in dict is: " + repr(parameter["Uid"])
                         if "IsisCommon" in parameter and "ts180.isisCommonRecord" in parameter["IsisCommon"] and "Domain" in parameter["IsisCommon"]["ts180.isisCommonRecord"]:
                             #print '"IsisCommon" found in parameter and "Domain" found in "IsisCommon"'
                             domain = parameter["IsisCommon"]["ts180.isisCommonRecord"]["Domain"]
@@ -128,8 +136,8 @@ class GPDSTD_AggregationsGenerator(object):
                                                               '{0:02x}'.format(version) + \
                                                               '{0:04x}'.format(number) + \
                                                               '{0:04x}'.format(domain) + \
-                                                              '{0:016x}'.format(uid)
-                            #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: ", + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(ret_dict[name])
+                                                              self.uidtoHex(uid,64)
+                            #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: " + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(self._reportingParameters[name])
             else:
                 raise GPDSTD_ScriptError('Catalog file (' + self._reportingParamsCatalogJsonFile + ') doesn\'t contain expected element "Items"')
         else:
@@ -214,9 +222,9 @@ class GPDSTD_AggregationsGenerator(object):
                         self._aggregations[name] = { "oid" : oid, "parameters" : paramsList }
                         self._aggUidInExistingFile[name] = uid
             else:
-                raise GPDSTD_ScriptError('Telemetry packet file (' + self._tmPacketJson + ') doesn\'t contain expected element "Items"')
+                raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') doesn\'t contain expected element "Items"')
         else:
-            raise GPDSTD_ScriptError('Telemetry packet file (' + self._tmPacketJson + ') doesn\'t contain expected element "Catalog"')
+            raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') doesn\'t contain expected element "Catalog"')
         # Build analysis data for later telemetry packet file generation
         for agg in self._aggregations:
             if 'parameters' in self._aggregations[agg]:
@@ -226,7 +234,10 @@ class GPDSTD_AggregationsGenerator(object):
             for aggName in self._aggregations.keys():
                 paramsOid = []
                 for paramName in self._aggregations[aggName]['parameters']:
-                    paramsOid.append(self._reportingParameters[paramName])
+                    if paramName in self._reportingParameters:
+                        paramsOid.append(self._reportingParameters[paramName])
+                    else:
+                        raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') is not consistent with Reporting parameter catalog (' + self._reportingParamsCatalogJsonFile + ') : the parameter ' + paramName +  ' is mentionned in Telemetry packet file but doesn\'t existe in Reporting parameter catalog')
                 self._injectionData[aggName] = {'uid' : self._aggUidInExistingFile[aggName], 'paramsOids' : paramsOid }
         #print "nbParamPerAggInExistingFile : " +  repr(self._nbParamPerAggInExistingFile)
         return self._aggregations
@@ -283,7 +294,7 @@ class GPDSTD_AggregationsGenerator(object):
                 # Update aggregation counter used to name them
                 createdAggCounter = createdAggCounter + 1
                 # Get the number of parameters to put in this new aggregation and remove from the list this requested aggregation
-                nbParamsInNewAgg = nbParamsPerAgg.pop()
+                nbParamsInNewAgg = nbParamsPerAgg.pop(0)
                 #print "Create a new aggregation with " + nbParamsInNewAgg + " parameters"
                 # Try to replace a useless aggregation to create the new required one
                 if len(uselessAggs):
@@ -297,7 +308,8 @@ class GPDSTD_AggregationsGenerator(object):
                 # Start with original name
                 #print "Name of the aggregation used as template (replaced or copied): " +  aggToAdd["Name"]
                 nameOfTheTemplateAgg = aggToAdd["Name"]
-                newAggName = aggToAdd["Name"] + "_" + str(createdAggCounter)
+                # Create the new aggregation name by simple copy of the template one, because this template may be a useless aggregation, so its name may be free
+                newAggName = aggToAdd["Name"]
                 # Check if generated name already exist
                 while newAggName in self._injectionData.keys():
                     # Concatenate "_" and added aggregation index to create an original name
@@ -432,7 +444,7 @@ class GPDSTD_AggregationsGenerator(object):
                 itemsEntry["ItemNamespace"] = "Aggregation"
                 itemsEntry["Name"] = paramName
                 itemsEntry["Oid"] = None
-                itemsEntry["Uid"] = int(paramOid[-16:])
+                itemsEntry["Uid"] = int(paramOid[-16:],16)
                 itemsEntry['Aggregations']= [{ "Oid" : o } for o in self._aggsOidListByParamOid[paramOid]]
                 itemsList.append(itemsEntry)
         objectType = OrderedDict()
@@ -453,10 +465,10 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         Return a structure with all necesary information to generate the injection data, like this:
         {
-            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100c400010000000000000001', '000200020100c400010000000000000002', ]},
+            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100c400010000000000000001', '000200020100c400010000000000000002']},
             'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100c400010000000000000053', '000200020100c400010000000000000054']},
             'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000068', '000200020100c400010000000000000069']},
-            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000078', '000200020100c400010000000000000079', ]},
+            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000078', '000200020100c400010000000000000079']},
             'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100c400010000000000000017', '000200020100c400010000000000000034']}
         }
         '''
@@ -524,6 +536,13 @@ class GPDSTD_InjectedDataFileGenerator(object):
             else:
                 params['output'] = params['output'] + '"' + repr(params['element']) + '"'
         
+        if not typeFound and isinstance(params['element'],long):
+            typeFound = True
+            if self.numbersWithinQuotes == False:
+                params['output'] = params['output'] + repr(params['element'])
+            else:
+                params['output'] = params['output'] + '"' + repr(params['element']) + '"'
+        
         if not typeFound and isinstance(params['element'],float):
             typeFound = True
             if self.numbersWithinQuotes == False:
@@ -563,7 +582,7 @@ class GPDSTD_InjectedDataFileGenerator(object):
                     params['output'] = params['output'] + '"' + repr(paramValue) + '"'
                 
         if not typeFound:
-            raise GPDSTD_ScriptError("A parameter with not supported type (list, dict, int, float, string) has been found in : " + " ".join(params['backtrace'])) 
+            raise GPDSTD_ScriptError("A parameter with not supported type (list, dict, int, long, float, string) has been found in : " + " ".join(params['backtrace'])) 
         
     def genListElt(self, params, listElt,eltPos):
         '''
@@ -694,6 +713,7 @@ class GPDSTD_InjectedDataFileGenerator(object):
             # Compute and display progression status (usefull for huge file generation
             progress = float(t+1)/float(self.nbAggToGen) * 100
             sys.stdout.write("\rProgress status : %0.1f"%progress + "%       ")
+            sys.stdout.flush()
             # Loop for each aggregation in order to not generate for each iteration the json list brackets (the entire file to generate shall be a single json list)
             for aggr in self.aggrList:
                 params['element'] = aggr
@@ -711,25 +731,6 @@ class GPDSTD_InjectedDataFileGenerator(object):
         
         # Close the output file
         outputfile.close()
-
-def paramMonitoringState(t):
-    '''
-    Helper function to generate a monitoringState
-    INFORMATIONAL = 0
-    WARNING = 1
-    ALARM = 2
-    SEVERE = 3
-    CRITICAL = 4
-    OUT_OF_RANGE = 5
-    '''    
-    ret_val = 0
-    if (t%4) ==  1:
-        ret_val = 1
-    if (t%4) ==  2:
-        ret_val = 2
-    if (t%4) ==  3:
-        ret_val = 3
-    return ret_val
 
 def float_to_raw(f):
     '''
@@ -765,8 +766,7 @@ if __name__ == '__main__':
     # Check if telemetry packet file shall be generated
     # It shall be generated if a list of aggregations is specified
     if args.agg and len(args.agg):
-        nbRequestedParamsInAggs = args.agg
-        nbRequestedParamsInAggs.sort()
+        nbRequestedParamsInAggs = deepcopy(args.agg)
         # Telemetry packet file shall be generated if the specified list of aggregation doesn't have the same number of parameters as the ones in telemetry packet file
         if nbParamsInExistingAggs != nbRequestedParamsInAggs and not args.generate:
             raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
@@ -802,9 +802,33 @@ if __name__ == '__main__':
         stateFormulaCnt = int(valFormulaParam[1])
     
     # Loops for injected data generation
-    AggrList = []
+    
+    # Build the list of aggregations names to put in injection data in order to repect the requested order
+    OrderedAggrListNames = []
+    AggrListNames = injectedData.keys()
+    # Check if the number of parameters per aggregation has been specified
+    if args.agg and len(args.agg):
+        # For each aggregation to generate, look for the name of the aggregation with the requested number of parameters
+        for nbParamInAgg in args.agg:
+            # Build a dictionnary with not already used aggregation names as key and number of parameters as value
+            aggNames = { name : len(injectedData[name]["paramsOids"]) for name in AggrListNames}
+            # Look for the name of the aggregation with the required number of parameters from the remaining aggregations
+            aggName  = next((name for name, nbParam in aggNames.items() if nbParam == nbParamInAgg), None)
+            # Check if an aggregation with requested number of parameters has been found
+            if aggName:
+                # Remove the aggregation name from the list, to not use it twice
+                AggrListNames.remove(aggName)
+                # Add the aggregation name to the ordered list
+                OrderedAggrListNames.append(aggName)
+            else:
+                raise GPDSTD_ScriptError("No aggregation found in generated injection data for aggregation with " + repr(nbParamInAgg) +  " parameters")
+    else:
+        # In case number of parameters in aggregation is not specified, simply read the keys of the ordered dict filled during the read of telemetry parcket file
+        OrderedAggrListNames = allAggrs.keys()
+        
     # For each aggregation to generate
-    for aggrName in injectedData.keys():
+    AggrList = []
+    for aggrName in OrderedAggrListNames:
         paramValues = []
         # For each parameter of the aggregation
         for oid in injectedData[aggrName]['paramsOids']:

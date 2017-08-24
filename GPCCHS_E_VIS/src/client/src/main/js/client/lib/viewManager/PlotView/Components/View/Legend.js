@@ -32,7 +32,6 @@ export default class Legend extends Component {
     const attrs = Object.keys(this.props);
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
-        console.log(attrs[i], 'changed');
         shouldRender = true;
       }
     }

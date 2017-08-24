@@ -5,7 +5,7 @@ import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 
-/** ************************************************
+/* ************************************************
  * Clean viewData for current viewData
  * @param currentState view data State
  * @param oldViewFromMap current view definition
@@ -13,7 +13,7 @@ import _omit from 'lodash/omit';
  * @param oldIntervals expected intervals for all entry points
  * @param newIntervals expected intervals for all entry points
  * @return cleaned state for current view
-/** ************************************************/
+/** *********************************************** */
 export default function cleanCurrentViewData(
   currentViewState,
   oldViewDef,

@@ -331,7 +331,6 @@ export class GrizzlyPlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
-      data,
       visuWindow,
       entryPoints,
       isMaxVisuDurationExceeded,
@@ -345,9 +344,6 @@ export class GrizzlyPlotView extends PureComponent {
     }
     if (!visuWindow) {
       info = 'No vizualisation window';
-    }
-    if (!data.lines || !Object.keys(data.lines).length) {
-      info = 'no point';
     }
     if (!entryPoints || !Object.keys(entryPoints).length) {
       info = 'invalid view configuration';

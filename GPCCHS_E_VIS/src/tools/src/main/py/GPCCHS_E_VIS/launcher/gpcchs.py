@@ -1,7 +1,4 @@
-
-# Produced by Acceleo Python Generator 1.1.0-R7S1-20151214
-
-#!/usr/bin/env python
+#!/usr/bin/env isisPython
 # -*- coding: utf-8 -*-
 """! 
 Project   : ISIS
@@ -23,11 +20,8 @@ import os
 import re
 import sys
 import subprocess
+import argparse
 from time import sleep
-
-from jinja2 import FileSystemLoader
-from jinja2 import Template
-from jinja2 import Environment
 
 class IsisContainerError(Exception):
     """
@@ -35,8 +29,24 @@ class IsisContainerError(Exception):
     """
     pass
     
-# End of user code
+   
+# Create an argument parser
+GPCCHS_argsparser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,description='''\
+Run the Javascript VIsualization Main Application
 
+Usage example in command line:
+
+gpcchs -d 1 -s 180 --gpccdc_config_file /data/isis/documents/SESSION/INTEGRATION/ESSAIS/GPVIMA-0112/CCC/CONF_COMPONENT/GPCCDC/config_gpccdc_d_dbr-default.xml
+''')
+GPCCHS_argsparser.add_argument("--debug",action='store_true',
+    help='Activate the traces if used, additional traces can be added by adding "--LOG=console?level=debug" option too'
+)
+GPCCHS_argsparser.add_argument("--gpccdc_config_file",required=True,
+    help="GPCCDC xml configuration file")
+GPCCHS_argsparser.add_argument("--sessionid","-s",type=int,default=0,
+    help="Id of the operational session")
+GPCCHS_argsparser.add_argument("--domainid","-d",type=int,default=3,
+    help="Id of the domain")
 
 class GPCCHS(object):
     """!
@@ -724,24 +734,7 @@ class GPCCHS(object):
         return rc
 
 if __name__ == '__main__':
-    # Imported only if called through CLI
-    import argparse
 
-    parser = argparse.ArgumentParser(description='Run visualization application')
-    parser.add_argument("--debug",
-        action='store_true',
-        help="Activate the traces"
-    )
-    parser.add_argument("--gpccdc_config_file",
-        help="GPCCDC xml configuration file")
-    parser.add_argument("--sessionid","-s",
-        type=int,
-        default=0,
-        help="Id of the operational session")
-    parser.add_argument("--domainid","-d",
-        type=int,
-        default=3,
-        help="Id of the domain")
     #Parse known and unknown arguments
     known_args = None
     unknown_args = None

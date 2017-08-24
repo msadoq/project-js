@@ -1,7 +1,7 @@
 @import './variables.css';
 
 .LeftTab {
-  background-color: var(--theme-light);
+  background-color: var(--leftTabBg);
   .timebarName {
     color: #000;
   }
@@ -9,20 +9,20 @@
 
 .RightTab {
   .ViewportWrapper {
-    background: var(--theme-light);
+    background: var(--rightTabBg);
   }
   .Controls {
-    background-color: var(--theme-light);
+    background-color: var(--rightTabBg);
   }
   .FormatedFullDate {
     background: rgba(0, 0, 0, 0.4);
     color: #FFF;
   }
   .Timelines {
-    background-color: var(--theme-dark);
+    background-color: var(--timelinesBg);
   }
   .Scale {
-    background-color: var(--theme-main);
+    background-color: var(--scaleBg);
     .ScaleTime {
       color: #000;
     }

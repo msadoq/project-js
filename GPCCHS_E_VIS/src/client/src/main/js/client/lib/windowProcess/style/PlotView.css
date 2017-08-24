@@ -1,20 +1,20 @@
 @import './variables.css';
 
 .PlotView{
-  background-color: #666;
+  background-color: var(--plotBg);
 }
 .PlotView .Background {
-  background-color: #444;
+  background-color: var(--grizzlyBg);
 }
 .PlotView .tick text {
-  fill: #FFF;
+  fill: var(--plotTextAndTicksColor);
 }
 .PlotView .tick line {
-  stroke: #FFF;
+  stroke: var(--plotTextAndTicksColor);
 }
 .PlotView .LegendAxisName {
-  color: #FFF;
+  color: var(--plotTextAndTicksColor);
 }
 .PlotView .LegendItem {
-  background: #FFF;
+  background: var(--plotTextAndTicksColor);
 }

@@ -1,0 +1,22 @@
+/* Theme light */
+
+:root{
+  --navTabText: #000;
+  --navTabActiveText: #000;
+  --theme-light-2: #63ffa6;
+  --theme-light: #42f48f;
+  --theme-main: #31c672;
+  --theme-dark: #27a55e;
+  --theme-dark-2: #1b7743;
+
+  --rightTabBg: #31c672;
+  --leftTabBg: #31c672;
+  --timelinesBg: #27a55e;
+  --scaleBg: #27a55e;
+
+  --plotBg: #1b7743;
+  --grizzlyBg: #0b6733;
+  --plotTextAndTicksColor: #FFF;
+
+  --editorBorderColor: #1b7743;
+}

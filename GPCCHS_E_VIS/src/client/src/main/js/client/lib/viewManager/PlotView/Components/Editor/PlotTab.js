@@ -103,7 +103,7 @@ export default class PlotTab extends Component {
           expanded={isMarkersOpen}
           open={this.openMarkers}
           close={this.closeMarkers}
-        />*/}
+        /> */}
       </Collapse>
     );
   }

@@ -13,7 +13,7 @@ import _nth from 'lodash/nth';
 import _indexOf from 'lodash/indexOf';
 import getLogger from '../../../common/logManager';
 import Tree from './Tree';
-import { NODE_TYPE_LINK as LINK/* , NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK*/ } from '../../../constants';
+import { NODE_TYPE_LINK as LINK/* , NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK */ } from '../../../constants';
 import styles from './CatalogExplorer.css';
 import { main } from '../../ipc';
 import handleContextMenu from '../../common/handleContextMenu';
@@ -93,10 +93,10 @@ export default class CatalogExplorerRight extends PureComponent {
         sessionId,
         domainId,
       });
-      return;*/
+      return; */
     }
     if (event.buttons === 2) {
-      if (node.type === LINK /* || node.type === RESOLVED_LINK*/) {
+      if (node.type === LINK /* || node.type === RESOLVED_LINK */) {
         const workspace = {
           label: 'Open link in Catalog Explorer',
           click: () => main.resolveRteLink({

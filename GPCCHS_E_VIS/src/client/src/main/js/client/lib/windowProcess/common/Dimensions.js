@@ -67,15 +67,17 @@ module.exports = function Dimensions({
       // pending https://github.com/KyleAMathews/element-resize-event/issues/2
     }
 
-    /**
+    /*
      * Returns the underlying wrapped component instance.
      * Useful if you need to access a method or property of the component
      * passed to react-dimensions.
      *
      * @return {object} The rendered React component
-     **/
+     */
     getWrappedInstance = () => this.instance;
-    setWrappedInstance = el => (this.instance = el);
+    setWrappedInstance = (el) => {
+      this.instance = el;
+    }
 
     render() {
       const { containerWidth, containerHeight } = this.state;

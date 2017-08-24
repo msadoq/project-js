@@ -127,7 +127,7 @@ export default function textViewData(state = {}, action) {
         }
       }
       return newState;
-    }*/
+    } */
     default:
       return state;
   }

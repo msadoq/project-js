@@ -152,7 +152,7 @@ export default function rte(state = initialState, action) {
         { staticData: recursiveToggleNode(state.staticData, action.payload.toggled) }
       );
 
-      break;*/
+      break; */
     // OPENED ITEM NODE
     /* case types.HSC_UPDATE_INSPECTOR_STATIC_DATA_NODE:
        return u.updateIn(
@@ -160,14 +160,14 @@ export default function rte(state = initialState, action) {
         { ...action.payload.data, loading: false },
         state
       );
-      break;*/
+      break; */
     /* case types.HSC_IS_INSPECTOR_STATIC_DATA_NODE_LOADING:
        return u.updateIn(
         ['staticData', ...action.payload.path],
         { loading: action.payload.loading, toggled: true },
         state
       );
-      break;*/
+      break; */
     case types.HSC_IS_RTE_CATALOG_NODE_TOGGLED:
       return u.updateIn(
         ['catalogs', ...action.payload.path],

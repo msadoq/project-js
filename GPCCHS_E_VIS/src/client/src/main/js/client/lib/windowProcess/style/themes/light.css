@@ -14,9 +14,9 @@
   --timelinesBg: #DDD;
   --scaleBg: #DDD;
 
-  --plotBg: #BBB;
-  --grizzlyBg: #b0b0b0;
-  --plotTextAndTicksColor: #111;
+  --plotBg: #999;
+  --grizzlyBg: #777;
+  --plotTextAndTicksColor: #FFF;
 
   --editorBorderColor: #555;
 }

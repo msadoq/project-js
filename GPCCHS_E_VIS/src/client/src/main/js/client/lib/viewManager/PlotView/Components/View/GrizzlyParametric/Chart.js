@@ -527,43 +527,6 @@ export default class Chart extends React.Component {
   yAxisWidth = 90;
   xAxisHeight = 40;
 
-  memoizeXScale = _memoize((hash, domainLower, domainUpper, rangeUpper) =>
-    scaleLinear()
-      .domain([domainLower, domainUpper])
-      .range([0, rangeUpper])
-  );
-
-  memoizeCalculatedXExtents =
-    _memoize((hash, xExtentsLower, xExtentsUpper, pan, zoomLevel, chartWidth) => {
-      let newXExtents = [xExtentsLower, xExtentsUpper];
-
-      let panMs = 0;
-      if (pan !== 0) {
-        panMs = (pan / chartWidth) * (newXExtents[0] - newXExtents[1]);
-        panMs = parseFloat(panMs.toFixed(2));
-      }
-
-      if (zoomLevel !== 1) {
-        const xExtentsMs = newXExtents[1] - newXExtents[0];
-        const zoomOffsetMs = xExtentsMs -
-            (xExtentsMs / zoomLevel);
-
-        newXExtents = [
-          (newXExtents[0] + (zoomOffsetMs / 2)),
-          (newXExtents[1] - (zoomOffsetMs / 2)),
-        ];
-      }
-
-      if (pan !== 0) {
-        newXExtents = [
-          newXExtents[0] + panMs,
-          newXExtents[1] + panMs,
-        ];
-      }
-      return [newXExtents, panMs];
-    }
-  );
-
   assignEl = (el) => { this.el = el; }
 
   resetPan = (e, axisId) => {
@@ -723,48 +686,6 @@ export default class Chart extends React.Component {
           )}
         />
         {
-          Object.keys(this.pairs).map((key) => {
-            const pair = this.pairs[key];
-            return (
-              <LinesCanvas
-                key={key}
-                width={this.chartWidth}
-                height={this.chartHeight}
-                xAxesAt={xAxisAt}
-                yAxesAt={yAxesAt}
-                top={marginTop}
-                margin={marginSide}
-                xScale={pair.xAxis.scale}
-                yScale={pair.yAxis.scale}
-                showLabelsX={pair.xAxis.showLabels}
-                showLabelsY={pair.yAxis.showLabels}
-                lines={pair.lines}
-                updateLabelPosition={this.updateLabelPosition}
-                perfOutput={perfOutput}
-                memoizeDivStyle={this.memoizeBackgroundDivStyle}
-              />
-            );
-          })
-        }
-        {
-          enableTooltip &&
-          <Tooltip
-            tooltipColor={tooltipColor}
-            yAxesUniq={this.yAxesUniq}
-            xAxesUniq={this.xAxesUniq}
-            pairs={this.pairs}
-            width={this.chartWidth}
-            height={this.chartHeight}
-            top={marginTop}
-            margin={marginSide}
-            yAxesAt={yAxesAt}
-            xAxesAt={xAxisAt}
-            yAxisWidth={this.yAxisWidth}
-            xAxisHeight={this.xAxisHeight}
-            memoizeDivStyle={this.memoizeBackgroundDivStyle}
-          />
-        }
-        {
           ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
             <YAxis
               key={yAxis.id}
@@ -831,6 +752,48 @@ export default class Chart extends React.Component {
               getLabelPosition={this.getLabelPosition}
             />
           )
+        }
+        {
+          Object.keys(this.pairs).map((key) => {
+            const pair = this.pairs[key];
+            return (
+              <LinesCanvas
+                key={key}
+                width={this.chartWidth}
+                height={this.chartHeight}
+                xAxesAt={xAxisAt}
+                yAxesAt={yAxesAt}
+                top={marginTop}
+                margin={marginSide}
+                xScale={pair.xAxis.scale}
+                yScale={pair.yAxis.scale}
+                showLabelsX={pair.xAxis.showLabels}
+                showLabelsY={pair.yAxis.showLabels}
+                lines={pair.lines}
+                updateLabelPosition={this.updateLabelPosition}
+                perfOutput={perfOutput}
+                memoizeDivStyle={this.memoizeBackgroundDivStyle}
+              />
+            );
+          })
+        }
+        {
+          enableTooltip &&
+          <Tooltip
+            tooltipColor={tooltipColor}
+            yAxesUniq={this.yAxesUniq}
+            xAxesUniq={this.xAxesUniq}
+            pairs={this.pairs}
+            width={this.chartWidth}
+            height={this.chartHeight}
+            top={marginTop}
+            margin={marginSide}
+            yAxesAt={yAxesAt}
+            xAxesAt={xAxisAt}
+            yAxisWidth={this.yAxisWidth}
+            xAxisHeight={this.xAxisHeight}
+            memoizeDivStyle={this.memoizeBackgroundDivStyle}
+          />
         }
         {
           <Zones

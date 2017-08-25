@@ -26,7 +26,7 @@ let store;
 const createMiddlewares = (identity, isDebugOn) => {
   const middlewares = [
     thunk,
-    createIncomingDataMiddleware(lokiManager),
+    createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING')),
     createRetrieveDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),
     makeMessagesMiddleware(),

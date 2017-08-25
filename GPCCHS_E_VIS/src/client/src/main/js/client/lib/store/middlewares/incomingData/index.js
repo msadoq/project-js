@@ -4,11 +4,11 @@ import prepareLast from './prepareLast';
 import preparePubSub from './preparePubSub';
 import injectData from './injectData';
 
-const createIncomingDataMiddleware = lokiManager => pipeMiddlewares(
+const createIncomingDataMiddleware = (lokiManager, timingInjectData) => pipeMiddlewares(
   preparePubSub(lokiManager),
   prepareRange(lokiManager),
   prepareLast(lokiManager),
-  injectData()
+  injectData(timingInjectData)
 );
 
 export default createIncomingDataMiddleware;

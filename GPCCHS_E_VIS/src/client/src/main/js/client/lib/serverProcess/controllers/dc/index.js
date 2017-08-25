@@ -1,3 +1,5 @@
+import { get as getConf } from '../../../common/configurationManager';
+
 const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');
 const constants = require('../../../constants');
@@ -17,7 +19,7 @@ const makePubSubController = require('./pubSubController');
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
 
-const pubSubController = makePubSubController();
+const pubSubController = makePubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
 
 const controllers = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,

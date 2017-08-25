@@ -11,10 +11,10 @@ const { decode } = require('../../../utils/adapters');
  * @param {Array<Buffer>} args - Array of this form : [queryIdBuffer, dataIdBuffer,timestampBuffer1, payload1,...,timestampBuffer_n, payload_n ]
  * @param {function} getStore - Function that returns the current store
  */
-const makeOnPubSubData = () => {
+const makeOnPubSubData = (timing) => {
   let queue = {};
 
-  const throttledDispatch = _.throttle(1000, (store) => {
+  const throttledDispatch = _.throttle(timing, (store) => {
     store.dispatch(incomingPubSub(queue));
     queue = {};
   });

@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import * as types from '../../types';
 import { injectDataRange, injectDataLast } from '../../actions/incomingData';
 import dataMapGenerator from '../../../dataManager/map';
+import executionMonitor from '../../../common/logManager/execution';
 
 let dataMap = {};
 let previousDataMap = {};
@@ -49,8 +50,7 @@ const injectData = (timing) => {
   /**
    * Adds a payload to queue queue
    *
-   * @param remoteId
-   * @param data { [timestamp]: payload }
+   * @param {Object} data { [tbdId]: { [timestamp]: payload } }
    */
   function addToQueue(data) {
     const tbdIds = Object.keys(data);
@@ -58,7 +58,6 @@ const injectData = (timing) => {
       if (typeof queue[tbdIds[i]] === 'undefined') {
         queue[tbdIds[i]] = {};
       }
-
       queue[tbdIds[i]] = Object.assign(queue[tbdIds[i]], data[tbdIds[i]]);
     }
   }
@@ -75,11 +74,19 @@ const injectData = (timing) => {
 
   return ({ dispatch, getState }) => next => (action) => {
     const nextAction = next(action);
-    if (action.type === types.NEW_DATA) {
-      const dataToInject = action.payload.data;
-      addToQueue(dataToInject);
-      throttledDispatch(dispatch, getState());
+    if (action.type !== types.NEW_DATA) {
+      return nextAction;
     }
+
+    const execution = executionMonitor('middleware:injectData');
+    execution.start('global');
+
+    const dataToInject = action.payload.data;
+    addToQueue(dataToInject);
+    throttledDispatch(dispatch, getState());
+
+    execution.stop('global');
+    execution.print();
     return nextAction;
   };
 };

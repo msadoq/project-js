@@ -14,7 +14,6 @@ import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
-import makeViewNeededDataStoreObserver from '../store/observers/viewNeededDataStoreObserver';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
 import { setRteSessions } from '../store/actions/rte';
 
@@ -84,7 +83,6 @@ series({
   const isDebugEnabled = get('DEBUG') === 'on';
   // store
   const store = makeCreateStore('server', isDebugEnabled)();
-  store.subscribe(makeViewNeededDataStoreObserver(store));
   store.subscribe(makeSubscriptionStoreObserver(store));
   store.dispatch(sendProductLog(LOG_APPLICATION_START));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));

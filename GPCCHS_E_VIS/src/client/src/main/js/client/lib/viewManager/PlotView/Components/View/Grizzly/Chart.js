@@ -15,7 +15,6 @@ import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
-import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
 
 export default class Chart extends Component {
@@ -28,7 +27,6 @@ export default class Chart extends Component {
     current: PropTypes.number.isRequired,
     enableTooltip: PropTypes.bool,
     tooltipColor: PropTypes.string,
-    parametric: PropTypes.bool,
     allowZoom: PropTypes.bool,
     allowYZoom: PropTypes.bool,
     allowYPan: PropTypes.bool,
@@ -94,7 +92,6 @@ export default class Chart extends Component {
     allowPan: true,
     tooltipColor: 'white',
     perfOutput: false,
-    parametric: false,
   }
 
   state = {
@@ -521,7 +518,6 @@ export default class Chart extends Component {
   render() {
     const {
       height,
-      parametric,
       width,
       yAxesAt,
       xAxisAt,
@@ -652,7 +648,6 @@ export default class Chart extends Component {
           }
         </div>
         { enableTooltip && <Tooltip
-          parametric={parametric}
           tooltipColor={tooltipColor}
           yAxes={this.yAxes}
           width={this.chartWidth}
@@ -679,7 +674,6 @@ export default class Chart extends Component {
           )}
         />
         <CurrentCursorCanvas
-          parametric={parametric}
           width={this.chartWidth}
           height={this.chartHeight}
           xAxisAt={xAxisAt}
@@ -689,29 +683,6 @@ export default class Chart extends Component {
           margin={marginSide}
           xScale={xScale}
         />
-        {
-          this.yAxes.map(yAxis =>
-            <LinesCanvas
-              parametric={parametric}
-              key={yAxis.id}
-              width={this.chartWidth}
-              height={this.chartHeight}
-              xAxisAt={xAxisAt}
-              yAxesAt={yAxesAt}
-              top={marginTop}
-              margin={marginSide}
-              xScale={xScale}
-              yScale={yAxis.yScale}
-              showLabels={yAxis.showLabels}
-              axisId={yAxis.id}
-              data={yAxis.data}
-              lines={yAxis.lines}
-              updateLabelPosition={this.updateLabelPosition}
-              perfOutput={perfOutput}
-              memoizeDivStyle={this.memoizeBackgroundDivStyle}
-            />
-          )
-        }
         {
           ['left', 'right'].includes(yAxesAt) && this.yAxes.map((yAxis, index) =>
             <YAxis
@@ -747,40 +718,43 @@ export default class Chart extends Component {
           )
         }
         {
-          parametric ?
-            <XAxisParametric
+          <XAxis
+            showGrid={_get(this.yAxes, '0.showGrid')}
+            gridStyle={_get(this.yAxes, '0.gridStyle')}
+            gridSize={_get(this.yAxes, '0.gridSize')}
+            showTicks={showTicks}
+            autoTick={autoTick}
+            tickStep={tickStep}
+            margin={marginSide}
+            xAxisHeight={this.xAxisHeight}
+            height={this.chartHeight}
+            width={this.chartWidth}
+            xAxisAt={xAxisAt}
+            yAxesAt={yAxesAt}
+            xExtents={calculatedXExtents}
+          />
+        }
+        {
+          this.yAxes.map(yAxis =>
+            <LinesCanvas
+              key={yAxis.id}
+              width={this.chartWidth}
+              height={this.chartHeight}
+              xAxisAt={xAxisAt}
+              yAxesAt={yAxesAt}
+              top={marginTop}
+              margin={marginSide}
               xScale={xScale}
-              yAxesAt={yAxesAt}
-              xAxisAt={xAxisAt}
-              xAxisHeight={this.xAxisHeight}
-              showGrid={_get(this.yAxes, '0.showGrid')}
-              showTicks={showTicks}
-              autoTick={autoTick}
-              tickStep={tickStep}
-              width={this.chartWidth}
-              height={this.chartHeight}
-              margin={marginSide}
-              gridStyle={_get(this.yAxes, '0.gridStyle')}
-              gridSize={_get(this.yAxes, '0.gridSize')}
-              format={'.2f'}
-              xExtents={calculatedXExtents}
+              yScale={yAxis.yScale}
+              showLabels={yAxis.showLabels}
+              axisId={yAxis.id}
+              data={yAxis.data}
+              lines={yAxis.lines}
+              updateLabelPosition={this.updateLabelPosition}
+              perfOutput={perfOutput}
+              memoizeDivStyle={this.memoizeBackgroundDivStyle}
             />
-            :
-            <XAxis
-              showGrid={_get(this.yAxes, '0.showGrid')}
-              gridStyle={_get(this.yAxes, '0.gridStyle')}
-              gridSize={_get(this.yAxes, '0.gridSize')}
-              showTicks={showTicks}
-              autoTick={autoTick}
-              tickStep={tickStep}
-              margin={marginSide}
-              xAxisHeight={this.xAxisHeight}
-              height={this.chartHeight}
-              width={this.chartWidth}
-              xAxisAt={xAxisAt}
-              yAxesAt={yAxesAt}
-              xExtents={calculatedXExtents}
-            />
+          )
         }
         <Zones
           xAxisAt={xAxisAt}

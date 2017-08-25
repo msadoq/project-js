@@ -23,8 +23,6 @@ export default class Tooltip extends React.Component {
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
     current: PropTypes.number.isRequired,
-    parametric: PropTypes.bool.isRequired,
-    xFormat: PropTypes.string.isRequired,
     memoizeDivStyle: PropTypes.func.isRequired,
   }
 
@@ -160,8 +158,6 @@ export default class Tooltip extends React.Component {
       yAxes,
       yAxisWidth,
       xAxisAt,
-      parametric,
-      xFormat,
       memoizeDivStyle,
     } = this.props;
     const {
@@ -290,8 +286,7 @@ export default class Tooltip extends React.Component {
             }}
           >
             {
-              parametric ?
-              this.memoizeXFormatter(xFormat)(xInDomain) : this.timeFormat(new Date(xInDomain))
+              this.timeFormat(new Date(xInDomain))
             }
           </span>
         }

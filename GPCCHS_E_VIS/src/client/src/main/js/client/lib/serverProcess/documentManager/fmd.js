@@ -13,7 +13,7 @@ const checkPath = (path, cb) => (
 
 export const getRootDir = () => parameters.get('ISIS_DOCUMENTS_ROOT');
 export const isInFmd = path => startsWith(getRootDir(), path);
-export const getRelativeFmdPath = path => `${relative(getRootDir(), path)}`;
+export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 export const resolveDocument = (oId, callback) => {
   dc.requestFmdGet(oId, ({ err, type, detail }) => {

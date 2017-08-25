@@ -8,7 +8,7 @@ const { getFMDDocumentProperty } = require('./fMDDocumentProperty.stub');
 
 const getFMDCreateDocument = override => applyOverride({
   name: 'myDocument',
-  path: 'my/path/to/heaven',
+  path: '/my/path/to/heaven',
   mimeType: '.doc',
   domainId: 3,
   properties: [getFMDDocumentProperty(), getFMDDocumentProperty()],

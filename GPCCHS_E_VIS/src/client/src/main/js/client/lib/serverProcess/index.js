@@ -14,7 +14,6 @@ import connectToZmq from './lifecycle/zmq';
 import fetchInitialData from './lifecycle/data';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
-import makeViewNeededDataStoreObserver from '../store/observers/viewNeededDataStoreObserver';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
 import { setRteSessions } from '../store/actions/rte';
 

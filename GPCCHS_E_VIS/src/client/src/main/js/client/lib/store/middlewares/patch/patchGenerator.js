@@ -7,11 +7,9 @@ import {
 } from '../../../constants';
 
 const createPatch = (sendDown, identity, log, isDebugOn) => ({ getState }) => next => (action) => {
-
   if (log) {
     log.silly('Master action dispatched : ', action.type);
   }
-
   const prevState = getState();
   const timingBegin = process.hrtime();
   const result = next(action);
@@ -25,7 +23,6 @@ const createPatch = (sendDown, identity, log, isDebugOn) => ({ getState }) => ne
     patchAction = _set(['meta', TIMING_DATA, TIMING_MILESTONES.AFTER_SERVER_STORE_UPDATE], timingEnd, patchAction);
   }
   const patch = compare(prevState, newState);
-  console.log('patch length: ',action.type, patch.length);
   patchAction = _set(['meta', REDUX_SYNCHRONIZATION_PATCH_KEY], patch, patchAction);
   if (log) {
     log.silly('patch forwarded to main process', action.type);

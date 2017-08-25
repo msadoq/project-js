@@ -36,7 +36,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
 
     if (payloadBuffers.length % 2 !== 0) {
       logger.warn('payloads should be sent by (timestamp, payloads) peers');
-      return next(action);
+      return nextAction;
     }
 
     const state = getState();
@@ -44,7 +44,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
     const payloadProtobufType = getType(dataId.comObject);
     if (typeof payloadProtobufType === 'undefined') {
       logger.error('unsupported comObject', dataId.comObject); // TODO send error to client
-      return next(action);
+      return nextAction;
     }
     // Retrieves tbdIds corresponding to dataId from store.knownRanges (storeTbdIds)
     const storeTbdIds = isDataIdInCache(state, { dataId });

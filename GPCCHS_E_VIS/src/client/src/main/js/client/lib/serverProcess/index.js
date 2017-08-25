@@ -84,7 +84,6 @@ series({
   const isDebugEnabled = get('DEBUG') === 'on';
   // store
   const store = makeCreateStore('server', isDebugEnabled)();
-  store.subscribe(makeViewNeededDataStoreObserver(store));
   store.subscribe(makeSubscriptionStoreObserver(store));
   store.dispatch(sendProductLog(LOG_APPLICATION_START));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));

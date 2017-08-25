@@ -2,17 +2,26 @@ import _ from 'lodash/fp';
 import * as types from '../../types';
 import { injectDataRange, injectDataLast } from '../../actions/incomingData';
 import dataMapGenerator from '../../../dataManager/map';
+import executionMonitor from '../../../common/logManager/execution';
 
 let dataMap = {};
 let previousDataMap = {};
 let queue = [];
-const injectData = () => ({ dispatch, getState }) => next => (action) => { // eslint-disable-line
+const injectData = () => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
-  if (action.type === types.NEW_DATA) {
-    const dataToInject = action.payload.data;
-    addToQueue(dataToInject);
-    throttledDispatch(dispatch, getState());
+  if (action.type !== types.NEW_DATA) {
+    return nextAction;
   }
+
+  const execution = executionMonitor('middleware:injectData');
+  execution.start('global');
+
+  const dataToInject = action.payload.data;
+  addToQueue(dataToInject);
+  throttledDispatch(dispatch, getState());
+
+  execution.stop('global');
+  execution.print();
   return nextAction;
 };
 

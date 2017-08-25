@@ -8,7 +8,7 @@ import {
 } from './animations';
 
 describe('Mimic animations:scaleAnimation', () => {
-  test('scaleY', () => {
+  test('scaleAnimation - y', () => {
     const data = {
       values: { ep1: { value: 50 } },
     };
@@ -35,7 +35,7 @@ describe('Mimic animations:scaleAnimation', () => {
 });
 
 describe('Mimic animations:translateAnimation', () => {
-  test('translateY', () => {
+  test('translateAnimation - y', () => {
     const data = {
       values: { ep1: { value: 40 } },
     };
@@ -63,7 +63,7 @@ describe('Mimic animations:translateAnimation', () => {
 });
 
 describe('Mimic animations:rotateAnimation', () => {
-  test('rotate', () => {
+  test('rotateAnimation', () => {
     const data = {
       values: { ep1: { value: 50 } },
     };
@@ -241,7 +241,7 @@ describe('Mimic animations:textBoxAnimation', () => {
 });
 
 describe('Mimic animations:colourAnimation', () => {
-  test('colour', () => {
+  test('colourAnimation', () => {
     const data = {
       values: { ep1: { value: 'info' } },
     };

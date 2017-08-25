@@ -67,8 +67,7 @@ const throttledDispatch = _.throttle(500, (dispatch, state) => {
 /**
  * Adds a payload to queue queue
  *
- * @param remoteId
- * @param data { [timestamp]: payload }
+ * @param {Object} data { [tbdId]: { [timestamp]: payload } }
  */
 function addToQueue(data) {
   const tbdIds = Object.keys(data);

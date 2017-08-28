@@ -88,7 +88,11 @@ export default class MimicView extends Component {
             domain,
             fixed,
           });
-          return (<g id={id} key={id}>{children}</g>);
+          return React.createElement(
+            node.name,
+            { ...node.attribs, id, key: id },
+            children
+          );
         },
       },
       {
@@ -108,7 +112,11 @@ export default class MimicView extends Component {
             width,
             direction,
           });
-          return (<g id={id} key={id}>{children}</g>);
+          return React.createElement(
+            node.name,
+            { ...node.attribs, id, key: id },
+            children
+          );
         },
       },
       {
@@ -128,7 +136,11 @@ export default class MimicView extends Component {
             angle,
             center,
           });
-          return (<g id={id} key={id}>{children}</g>);
+          return React.createElement(
+            node.name,
+            { ...node.attribs, id, key: id },
+            children
+          );
         },
       },
       {
@@ -179,10 +191,10 @@ export default class MimicView extends Component {
             epName,
             operators,
           });
-          return (
-            <g id={id} key={id}>
-              { children }
-            </g>
+          return React.createElement(
+            node.name,
+            { ...node.attribs, id, key: id },
+            children
           );
         },
       },
@@ -201,10 +213,10 @@ export default class MimicView extends Component {
             displayThresholds,
             displayRegex,
           });
-          return (
-            <g id={id} key={id}>
-              { children }
-            </g>
+          return React.createElement(
+            node.name,
+            { ...node.attribs, id, key: id },
+            children
           );
         },
       },

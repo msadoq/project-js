@@ -317,6 +317,7 @@ export default class TextView extends PureComponent {
 
   render() {
     return (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions, "DV6 TBC_CNES Links handler"
       <div onClick={e => this.handleClicked(e)}>
         <this.content />
       </div>

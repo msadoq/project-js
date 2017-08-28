@@ -98,8 +98,8 @@ describe('Mimic animations:textBoxAnimation', () => {
     const data = {
       values: { ep1: { value: 30 } },
     };
-    // eslint-disable-next-line
-    const Elbg = function(style) {
+    // eslint-disable-next-line func-names, "DV6 TBC_CNES Function to mock dom element"
+    const Elbg = function (style) {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };
@@ -145,8 +145,8 @@ describe('Mimic animations:textBoxAnimation', () => {
     const data = {
       values: { ep1: { value: 'info' } },
     };
-    // eslint-disable-next-line
-    const Elbg = function(style) {
+    // eslint-disable-next-line func-names, "DV6 TBC_CNES Function to mock dom element"
+    const Elbg = function (style) {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };
@@ -194,8 +194,8 @@ describe('Mimic animations:textBoxAnimation', () => {
     const data = {
       values: { ep1: { value: 30 } },
     };
-    // eslint-disable-next-line
-    const Elbg = function(style) {
+    // eslint-disable-next-line func-names, "DV6 TBC_CNES Function to mock dom element"
+    const Elbg = function (style) {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };

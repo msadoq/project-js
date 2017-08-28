@@ -185,6 +185,10 @@ export default class Tooltip extends React.Component {
       tooltipStyle.top = yInRange + 20;
     }
 
+    // Fixed tooltip, override previous top and left css propreties
+    tooltipStyle.top = 10;
+    tooltipStyle.left = 10;
+
     return (
       <div
         onMouseMove={this.mouseMove}

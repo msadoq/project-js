@@ -9,7 +9,6 @@ import { viewsNeedRange, viewsNeedLast } from '../../../store/actions/retrieveDa
 import { cleanViewData } from '../../../store/actions/viewData';
 
 
-
 const makeViewNeededData = () => {
   let previousDataMap;
 
@@ -24,7 +23,7 @@ const makeViewNeededData = () => {
       return nextAction;
     }
 
-    const profile = execution('dataMap:store:observer');
+    const profile = execution('middleware:viewNeededData');
 
     // dataMap generation
     // Note: could change on many windows, pages or views update like layouts or panels, but since

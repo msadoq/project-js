@@ -7,6 +7,9 @@ import mergeIntervals from '../../../common/intervals/merge';
 import { sendArchiveQuery } from '../../actions/knownRanges';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import { get, getFilters } from '../../../serverProcess/models/tbdIdDataIdMap';
+import executionMonitor from '../../../common/logManager/execution';
+
+
 
 const type = 'RANGE';
 let previousForecast;
@@ -15,7 +18,8 @@ let previousForecast;
 // For example, this is useful when you change a page, and you pressed play, forecast is launched again
 let playPressed = false;
 
-const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispatch }) => next => (action) => {
+const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next => (action) => {
+  const execution = executionMonitor('middleware:forecastData');
   const nextAction = next(action);
   if (action.type === types.HSC_PLAY) {
     playPressed = true;
@@ -26,9 +30,15 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
     const playingTimebarId = getPlayingTimebarId(state);
     if (playingTimebarId) {
       const visuWindow = getTimebar(state, { timebarUuid: playingTimebarId }).visuWindow;
-      if (!previousForecast || (previousForecast.end - visuWindow.upper <= forecastTrigger) || playPressed) {
+      if (!previousForecast ||
+          (previousForecast.end - visuWindow.upper <= trigger) ||
+           playPressed
+         ) {
+        execution.start('Global');
         playPressed = false;
+        execution.start('DataMap generation');
         const dataMap = dataMapGenerator(state);
+        execution.stop('DataMap generation');
         const forecastIntervals = dataMap.forecastIntervals;
         const tbdIds = Object.keys(forecastIntervals);
         for (let i = 0; i < tbdIds.length; i += 1) {
@@ -36,10 +46,12 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
           const currentForecastInterval = forecastIntervals[currentTbdId];
           const localsIds = Object.keys(currentForecastInterval);
           let mergedInterval = [];
+          execution.start('Merge intervals');
           for (let j = 0; j < localsIds.length; j += 1) {
             mergedInterval = mergeIntervals(mergedInterval,
                                             currentForecastInterval[localsIds[j]].expectedInterval);
           }
+          execution.stop('Merge intervals');
           for (let k = 0; k < mergedInterval.length; k += 1) {
             const dataId = get(currentTbdId);
             const filters = getFilters(currentTbdId);
@@ -61,7 +73,9 @@ const forecastData = (ipc, forecastTime, forecastTrigger) => ({ getState, dispat
           }
         }
         const now = visuWindow.upper;
-        previousForecast = { start: now, end: Number(now) + Number(forecastTime) };
+        previousForecast = { start: now, end: Number(now) + Number(time) };
+        execution.stop('Global');
+        execution.print();
       }
     }
   }

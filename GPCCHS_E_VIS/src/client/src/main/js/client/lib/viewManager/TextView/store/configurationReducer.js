@@ -9,7 +9,10 @@ export default (stateConf = { content: '', search: '' }, action) => {
       return _.update('entryPoints', _.concat(_, action.payload.entryPoint), stateConf);
     }
     case types.WS_VIEW_UPDATE_EDITOR_SEARCH:
-      return _.set('search', action.payload.search, stateConf);
+      if (action.payload.search !== stateConf.search) {
+        return _.set('search', action.payload.search, stateConf);
+      }
+      return stateConf;
     default:
       return stateConf;
   }

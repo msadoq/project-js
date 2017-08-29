@@ -38,7 +38,6 @@ export default function windows(stateWindows = {}, action) {
       );
       return _.set(windowId, window(stateWindows[windowId], action), stateWindows);
     }
-    case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_TIMELINE_REMOVE:
     case types.WS_PAGE_TIMEBAR_MOUNT:

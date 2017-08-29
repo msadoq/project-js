@@ -40,7 +40,11 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
         const viewId = _.get('payload.viewId', action);
         const currentView = _.get(viewId, stateViews);
         if (currentView) {
-          return _.set(viewId, simpleReducer(currentView, action), stateViews);
+          const subState = simpleReducer(currentView, action);
+          // Update state only if subState is updated to avoid unnecessary computation
+          if (stateViews[viewId] !== subState) {
+            return _.set(viewId, subState, stateViews);
+          }
         }
         return stateViews;
       }

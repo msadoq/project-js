@@ -13,6 +13,7 @@ const getIsModified = (action) => {
   return _.get('payload.isModified', action);
 };
 
+
 // This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
 const viewIsModified = (stateView, action) => {
@@ -53,9 +54,13 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_TOGGLE_LEGEND,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
-    return setIsModified(true, stateView);
+    if (!stateView.isModified) {
+      return setIsModified(true, stateView);
+    }
   } else if (shouldSetModifiedToFalse(action.type)) {
-    return setIsModified(false, stateView);
+    if (stateView.isModified) {
+      return setIsModified(false, stateView);
+    }
   }
   return stateView;
 };

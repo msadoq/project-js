@@ -33,6 +33,7 @@ const onArchiveData = (args, getStore, { get, remove }) => {
   const requestData = get(queryId);
   // JUst to ensure the request exists in the singleton
   if (!requestData) {
+    logger.error('Already received isLast for this given queryId');
     return;
   }
   const { tbdId, type, dataId } = requestData;

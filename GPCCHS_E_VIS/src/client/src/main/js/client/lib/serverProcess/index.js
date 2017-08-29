@@ -46,7 +46,7 @@ const requestCatalogSessions = (store) => {
 series({
   // ZeroMQ sockets
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
-  // Send logBook to LPISIS
+  // TODO : Send logBook to LPISIS (after store init to allow dispatch)
   logBook: (callback) => {
     callback(null);
   },
@@ -82,8 +82,21 @@ series({
   process.on('message', clientController);
   const isDebugEnabled = get('DEBUG') === 'on';
   // store
-  const store = makeCreateStore('server', isDebugEnabled)();
+  const store = makeCreateStore('server', isDebugEnabled)(); // STORE
   store.subscribe(makeSubscriptionStoreObserver(store));
+
+  // inform main that everything is ready and pass initialState
+  // warning: as IPC never change the message sending order, this message will be sent before any "patch" message
+  //          on the main side this message will trigger the store creation (fully synchronous), so there is no
+  //          risk that a "patch", will be applied on an not instancied store.
+  process.send({
+    [CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true,
+    payload: {
+      initialState: store.getState(),
+    },
+  });
+
+  // hydrate store with initial data from LPISIS
   store.dispatch(sendProductLog(LOG_APPLICATION_START));
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
@@ -102,15 +115,6 @@ series({
     }, store);
     monitoring.startMonitoring();
   }
-  // TODO dbrugne init configuration and inject in store
-
-  // inform main that everything is ready and pass initialState
-  process.send({
-    [CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true,
-    payload: {
-      initialState: store.getState(),
-    },
-  });
 });
 
 // handle graceful shutdown

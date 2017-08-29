@@ -35,7 +35,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     makeInspectorMiddleware(rtdManager),
     makeProductLogMiddleware(ipc.dc.sendProductLog),
     makeViewNeededData(),
-    makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn),
+    makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
   return middlewares;
 };

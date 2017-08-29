@@ -5,6 +5,9 @@ import { getStore } from '../../store';
  *
  * @param action
  */
-export default function onReduxPatch(action) {
-  getStore().dispatch(action);
+export default function onReduxPatch(actionQueue) {
+  const { queue } = actionQueue;
+  for (let i = 0; i < queue.length; i += 1) {
+    getStore().dispatch(queue[i]);
+  }
 }

@@ -47,10 +47,13 @@ class HtmlSourceForm extends PureComponent {
         >
           { viewType === 'TextView' && <h3>TextView HTML Editor</h3> }
           { viewType === 'MimicView' && <h3>MimicView SVG Editor</h3> }
-          <p>Hint :
-          template litterals to be replaced by values must be nested in
-          <code>{'<span>'}</code> any side text will be removed.s
-          ex: <code>{'<span>{{EP_PARAM_105}}</span>'}</code></p>
+          {
+            viewType === 'TextView' &&
+            <p>Hint :
+            template litterals to be replaced by values must be nested in
+            <code>{'<span>'}</code> any side text will be removed.
+            ex: <code>{'<span>{{EP_PARAM_105}}</span>'}</code></p>
+          }
         </div>
         <Field
           name="html"

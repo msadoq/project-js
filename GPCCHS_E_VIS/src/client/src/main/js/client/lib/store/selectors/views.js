@@ -1,5 +1,6 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
+import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
 import { getWindowPageIds } from '../reducers/windows';
@@ -14,16 +15,37 @@ export const createDeepEqualSelector = createSelectorCreator(
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
 ******************************************************* */
+function arePagesEqual(currentPages, previousPages) {
+  const currentIds = Object.keys(currentPages);
+  const previousIds = Object.keys(previousPages);
+  if (!_isEqual(currentIds, previousIds)) {
+    return false;
+  }
+  for (let i = 0; i < currentIds.length; i += 1) {
+    const currentPage = currentPages[currentIds[i]];
+    const previousPage = previousPages[currentIds[i]];
+    if (currentPage.layout !== previousPage.layout
+      || currentPage.views !== previousPage.views) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function perViewDataEqualityCheck(current, previous) {
   if (current.timelines !== previous.timelines
     || current.windows !== previous.windows
-    || current.pages !== previous.pages
     || current.views !== previous.views
     || current.domains !== previous.domains
     || current.sessions !== previous.sessions
     || current.masterSession !== previous.masterSession
     || current.timebarTimelines !== previous.timebarTimelines) {
     return false;
+  }
+  if (current.pages !== previous.pages) {
+    if (!arePagesEqual(current.pages, previous.pages)) {
+      return false;
+    }
   }
   const confs = Object.keys(configurationReducers);
   for (let i = 0; i < confs.length; i += 1) {
@@ -36,7 +58,6 @@ function perViewDataEqualityCheck(current, previous) {
     return false;
   }
   return true;
-  // return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
 }
 export const createDeepEqualSelectorPerViewData = createSelectorCreator(
   defaultMemoize,

@@ -7,51 +7,65 @@ import {
   showAnimation,
 } from './animations';
 
+// eslint-disable-next-line func-names, "DV6 TBC_CNES Function to mock dom element"
+const El = function (style, innerHTML, getBBox, childNodes) {
+  this.setAttribute = (a, b) => {
+    this[a] = b;
+  };
+  this.getAttribute = a => this[a];
+  this.style = style || {};
+  if (getBBox) {
+    this.getBBox = getBBox;
+  }
+  if (innerHTML) {
+    this.innerHTML = innerHTML;
+  }
+  if (childNodes) {
+    this.childNodes = childNodes;
+  }
+};
+
 describe('Mimic animations:scaleAnimation', () => {
   const svgEl = {
     epName: 'ep1',
     domain: [0, 100],
     type: 'scaleY',
     defaultValue: 40,
-    el: { style: {} },
+    el: new El({}),
   };
   test('scaleAnimation - defaultValue', () => {
     const data = { values: {} };
     scaleAnimation(data, svgEl);
-    expect(svgEl)
-    .toEqual({
+    expect(JSON.stringify(svgEl))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
       type: 'scaleY',
       defaultValue: 40,
-      el: {
-        style: {
-          transform: 'scaleY(0.4)',
-          transformOrigin: 'bottom',
-          visibility: 'visible',
-        },
-      },
-    });
+      el: new El({
+        transform: 'scaleY(0.4)',
+        visibility: 'visible',
+        transformOrigin: 'center bottom 0px',
+      }),
+    }));
   });
   test('scaleAnimation - y', () => {
     const data = {
       values: { ep1: { value: 50 } },
     };
     scaleAnimation(data, svgEl);
-    expect(svgEl)
-    .toEqual({
+    expect(JSON.stringify(svgEl))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
       type: 'scaleY',
       defaultValue: 40,
-      el: {
-        style: {
-          transform: 'scaleY(0.5)',
-          transformOrigin: 'bottom',
-          visibility: 'visible',
-        },
-      },
-    });
+      el: new El({
+        transform: 'scaleY(0.5)',
+        visibility: 'visible',
+        transformOrigin: 'center bottom 0px',
+      }),
+    }));
   });
 });
 
@@ -62,43 +76,39 @@ describe('Mimic animations:translateAnimation', () => {
     type: 'translateY',
     defaultValue: 30,
     width: 100,
-    el: { style: {} },
+    el: new El({}),
   };
   test('translateAnimation - defaultValue', () => {
     const data = { values: {} };
     translateAnimation(data, g);
-    expect(g)
-    .toEqual({
+    expect(JSON.stringify(g))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
       type: 'translateY',
       defaultValue: 30,
       width: 100,
-      el: {
-        style: {
-          transform: 'translate(0px, 30px)',
-        },
-      },
-    });
+      el: new El({
+        transform: 'translate(0px, 30px)',
+      }),
+    }));
   });
   test('translateAnimation - y', () => {
     const data = {
       values: { ep1: { value: 40 } },
     };
     translateAnimation(data, g);
-    expect(g)
-    .toEqual({
+    expect(JSON.stringify(g))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
       type: 'translateY',
       defaultValue: 30,
       width: 100,
-      el: {
-        style: {
-          transform: 'translate(0px, 40px)',
-        },
-      },
-    });
+      el: new El({
+        transform: 'translate(0px, 40px)',
+      }),
+    }));
   });
 });
 
@@ -110,47 +120,43 @@ describe('Mimic animations:rotateAnimation', () => {
     type: 'translateY',
     defaultValue: 10,
     angle: 90,
-    el: { style: {} },
+    el: new El({}),
   };
   test('rotateAnimation - defaultValue', () => {
     const data = { values: {} };
     rotateAnimation(data, g);
-    expect(g)
-    .toEqual({
+    expect(JSON.stringify(g))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
       center: [0, 0],
       type: 'translateY',
       defaultValue: 10,
       angle: 90,
-      el: {
-        style: {
-          transform: 'rotate(9deg)',
-          transformOrigin: '0px 0px',
-        },
-      },
-    });
+      el: new El({
+        transformOrigin: '0px 0px 0px',
+        transform: 'rotate(9deg)',
+      }),
+    }));
   });
   test('rotateAnimation', () => {
     const data = {
       values: { ep1: { value: 50 } },
     };
     rotateAnimation(data, g);
-    expect(g)
-    .toEqual({
+    expect(JSON.stringify(g))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
       center: [0, 0],
       type: 'translateY',
       defaultValue: 10,
       angle: 90,
-      el: {
-        style: {
-          transform: 'rotate(45deg)',
-          transformOrigin: '0px 0px',
-        },
-      },
-    });
+      el: new El({
+        transformOrigin: '0px 0px 0px',
+        transform: 'rotate(45deg)',
+      }),
+    }));
   });
 });
 
@@ -164,6 +170,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };
+      this.getAttribute = a => this[a];
       this.style = style || {};
       this.height = 20;
       this.width = 100;
@@ -177,10 +184,11 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: ['20|#00F', '40|#daa520'],
       textColorRegex: [],
       bgColorLevels: [],
-      el: {
-        style: {},
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+      el: new El(
+        {},
+        null,
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg(),
     };
 
@@ -193,14 +201,14 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: ['20|#00F', '40|#daa520'],
       textColorRegex: [],
       bgColorLevels: [],
-      el: {
-        style: {
+      el: new El(
+        {
           fill: '#FAF',
           visibility: 'visible',
         },
-        innerHTML: 'error',
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+        'error',
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg({ fill: '#FFA' }),
     }));
   });
@@ -213,6 +221,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };
+      this.getAttribute = a => this[a];
       this.style = style || {};
       this.height = 20;
       this.width = 100;
@@ -225,10 +234,11 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: ['20|#00F', '40|#daa520'],
       textColorRegex: [],
       bgColorLevels: [],
-      el: {
-        style: {},
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+      el: new El(
+        {},
+        null,
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg(),
     };
 
@@ -240,14 +250,14 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: ['20|#00F', '40|#daa520'],
       textColorRegex: [],
       bgColorLevels: [],
-      el: {
-        style: {
+      el: new El(
+        {
           fill: '#00F',
           visibility: 'visible',
         },
-        innerHTML: 30,
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+        30,
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg({ fill: '', fillOpacity: 0 }),
     }));
   });
@@ -261,6 +271,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };
+      this.getAttribute = a => this[a];
       this.style = style || {};
       this.height = 20;
       this.width = 100;
@@ -273,10 +284,11 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorRegex: ['info=#00F', 'warning=#daa520'],
       textColorThresholds: [],
       bgColorLevels: [],
-      el: {
-        style: { visibility: 'visible' },
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+      el: new El(
+        { visibility: 'visible' },
+        null,
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg(),
     };
 
@@ -290,14 +302,14 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorRegex: ['info=#00F', 'warning=#daa520'],
       textColorThresholds: [],
       bgColorLevels: [],
-      el: {
-        style: {
+      el: new El(
+        {
           visibility: 'visible',
           fill: '#00F',
         },
-        innerHTML: 'info',
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+        'info',
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg({ fill: '', fillOpacity: 0 }),
     }));
   });
@@ -311,6 +323,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       this.setAttribute = (a, b) => {
         this[a] = b;
       };
+      this.getAttribute = a => this[a];
       this.style = style || {};
       this.height = 20;
       this.width = 100;
@@ -323,10 +336,11 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: [],
       textColorRegex: [],
       bgColorLevels: ['20$#00F', '40$#daa520'],
-      el: {
-        style: { visibility: 'visible' },
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+      el: new El(
+        { visibility: 'visible' },
+        null,
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg(),
     };
 
@@ -340,14 +354,14 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: [],
       textColorRegex: [],
       bgColorLevels: ['20$#00F', '40$#daa520'],
-      el: {
-        style: {
+      el: new El(
+        {
           visibility: 'visible',
           fill: '#000',
         },
-        innerHTML: 30,
-        getBBox: () => ({ width: 100, height: 20, y: 20 }),
-      },
+        30,
+        () => ({ width: 100, height: 20, y: 20 })
+      ),
       elBg: new Elbg({ fill: '#00F', fillOpacity: 1 }),
     }));
   });
@@ -358,46 +372,46 @@ describe('Mimic animations:colourAnimation', () => {
     epName: 'ep1',
     operators: ['=$info$#00F', '=$warning$#daa520'],
     defaultValue: '#FAF',
-    el: {
-      style: {},
-      childNodes: [
-        { style: {} },
-      ],
-    },
+    el: new El(
+      {},
+      null,
+      null,
+      [new El({})]
+    ),
   };
   test('colourAnimation - defaultValue', () => {
     const data = { values: {} };
     colourAnimation(data, g);
-    expect(g)
-    .toEqual({
+    expect(JSON.stringify(g))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       operators: ['=$info$#00F', '=$warning$#daa520'],
       defaultValue: '#FAF',
-      el: {
-        style: { visibility: 'visible' },
-        childNodes: [
-          { style: { fill: '#FAF' } },
-        ],
-      },
-    });
+      el: new El(
+        { visibility: 'visible' },
+        null,
+        null,
+        [new El({ fill: '#FAF' })]
+      ),
+    }));
   });
   test('colourAnimation', () => {
     const data = {
       values: { ep1: { value: 'info' } },
     };
     colourAnimation(data, g);
-    expect(g)
-    .toEqual({
+    expect(JSON.stringify(g))
+    .toBe(JSON.stringify({
       epName: 'ep1',
       operators: ['=$info$#00F', '=$warning$#daa520'],
       defaultValue: '#FAF',
-      el: {
-        style: { visibility: 'visible' },
-        childNodes: [
-          { style: { fill: '#00F' } },
-        ],
-      },
-    });
+      el: new El(
+        { visibility: 'visible' },
+        null,
+        null,
+        [new El({ fill: '#00F' })]
+      ),
+    }));
   });
 });
 

@@ -5,7 +5,7 @@ export const setAttributeIfChanged = (element, attributeName, newValue, type) =>
       element.setAttribute(attributeName, newValue);
     }
   } else if (value !== newValue) {
-    console.log('value changed', value, newValue);
+    // console.log('value changed', value, newValue);
     element.setAttribute(attributeName, newValue);
   }
 };
@@ -18,7 +18,7 @@ export const setStyleIfChanged = (element, attributeName, newValue, type) => {
       el.style[attributeName] = newValue;
     }
   } else if (value !== newValue) {
-    console.log('style changed', attributeName, value, ', ', newValue);
+    // console.log('style changed', attributeName, value, ', ', newValue);
     el.style[attributeName] = newValue;
   }
 };
@@ -48,7 +48,7 @@ export const scaleAnimation = (data, g) => {
     setStyleIfChanged(el, 'transform', `scaleX(${ratio})`, 'string');
   }
   setStyleIfChanged(el, 'visibility', 'visible', 'string');
-  setStyleIfChanged(el, 'transformOrigin', `${g.fixed} center 0px` || 'center bottom 0px', 'string');
+  setStyleIfChanged(el, 'transformOrigin', g.fixed ? `${g.fixed} center 0px` : 'center bottom 0px', 'string');
 };
 
 export const translateAnimation = (data, g) => {

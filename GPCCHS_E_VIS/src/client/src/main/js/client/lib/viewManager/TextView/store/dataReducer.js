@@ -78,17 +78,6 @@ export default function textViewData(state = {}, action) {
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
         const viewId = viewIds[i];
-        const viewData = state[viewId];
-        // Cleaning
-        const subState = cleanCurrentViewData(
-          viewData,
-          oldViewMap[viewId],
-          newViewMap[viewId],
-          oldIntervals,
-          newIntervals);
-        if (subState !== viewData) {
-          newState = { ...newState, [viewId]: subState };
-        }
         if (dataKeys.length) {
           // Data Selection
           const epSubState = selectDataPerView(
@@ -106,8 +95,7 @@ export default function textViewData(state = {}, action) {
       }
       return newState || {};
     }
-    /* case types.WS_VIEWDATA_CLEAN: {
-      console.log('INJECT NEW DATA');
+    case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
       // since now, state will changed
       let newState = state;
@@ -120,14 +108,14 @@ export default function textViewData(state = {}, action) {
           viewData,
           previousDataMap.perView[viewId],
           dataMap.perView[viewId],
-          previousDataMap.expectedRangeIntervals,
-          dataMap.expectedRangeIntervals);
+          previousDataMap.expectedLastIntervals,
+          dataMap.expectedLastIntervals);
         if (subState !== viewData) {
           newState = { ...newState, [viewId]: subState };
         }
       }
       return newState;
-    } */
+    }
     default:
       return state;
   }

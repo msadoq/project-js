@@ -103,13 +103,11 @@ export function onStart() {
         const store = makeCreateStore('main', isDebugEnabled)(initialState);
         store.subscribe(makeWindowsObserver(store));
         store.subscribe(makeElectronObserver(store));
-        if (isDebugEnabled) {
-          monitoring = eventLoopMonitoring({
-            criticalDelay: HEALTH_CRITICAL_DELAY,
-            onStatusChange: status => store.dispatch(updateMainStatus(status)),
-            id: 'main',
-          }, store);
-        }
+        monitoring = eventLoopMonitoring({
+          criticalDelay: HEALTH_CRITICAL_DELAY,
+          onStatusChange: status => store.dispatch(updateMainStatus(status)),
+          id: 'main',
+        }, store);
         callback(null);
       };
 

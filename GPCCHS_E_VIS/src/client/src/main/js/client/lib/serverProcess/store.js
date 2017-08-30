@@ -10,6 +10,7 @@ import documentManager from './documentManager';
 import lokiManager from './models/lokiKnownRangesData';
 import makeMessagesMiddleware from '../store/middlewares/messages';
 import makePlayerMiddleware from '../store/middlewares/player';
+import makeOnProcessOverload from '../store/middlewares/player/processOverload';
 import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
 import * as rtdManager from '../rtdManager';
@@ -30,6 +31,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     createRetrieveDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),
     makeMessagesMiddleware(),
+    makeOnProcessOverload(),
     makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
     makeDocumentsMiddleware(documentManager),
     makeInspectorMiddleware(rtdManager),

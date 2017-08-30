@@ -93,7 +93,7 @@ export default class MimicView extends Component {
           });
           return React.createElement(
             node.name,
-            { ...node.attribs, id, key: id },
+            { style: node.attribs.style, id, key: id },
             children
           );
         },
@@ -120,7 +120,7 @@ export default class MimicView extends Component {
           });
           return React.createElement(
             node.name,
-            { ...node.attribs, id, key: id },
+            { style: node.attribs.style, id, key: id },
             children
           );
         },
@@ -149,7 +149,7 @@ export default class MimicView extends Component {
           });
           return React.createElement(
             node.name,
-            { ...node.attribs, id, key: id },
+            { style: node.attribs.style, id, key: id },
             children
           );
         },
@@ -207,7 +207,7 @@ export default class MimicView extends Component {
           });
           return React.createElement(
             node.name,
-            { ...node.attribs, id, key: id },
+            { style: node.attribs.style, id, key: id },
             children
           );
         },
@@ -229,7 +229,7 @@ export default class MimicView extends Component {
           });
           return React.createElement(
             node.name,
-            { ...node.attribs, id, key: id },
+            { style: node.attribs.style, id, key: id },
             children
           );
         },

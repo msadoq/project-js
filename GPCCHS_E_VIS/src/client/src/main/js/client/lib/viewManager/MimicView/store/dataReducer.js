@@ -106,7 +106,7 @@ export default function mimicViewData(state = {}, action) {
       }
       return newState || {};
     }
-    case types.WS_VIEWDATA_CLEAN: {
+    /* case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
 
       // since now, state will changed
@@ -127,7 +127,7 @@ export default function mimicViewData(state = {}, action) {
         }
       }
       return newState;
-    }
+    } */
     default:
       return state;
   }

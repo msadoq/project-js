@@ -112,9 +112,6 @@ export function viewRangeAdd(state = {}, payloads) {
       newState = getExtremValue(newState, epName, payloads.max, payloads.maxTime, false);
     });
   }
-
-  let lastIndex = 0;
-  let lastTime = 0;
   // newState[epName] = [{ x: value.payload[ep.fieldX], value: value.payload[ep.fieldY],
   // masterTime: time }];
   // Loop on entry point names present in payloads
@@ -123,15 +120,15 @@ export function viewRangeAdd(state = {}, payloads) {
     if (epName === 'min' || epName === 'max' || epName === 'minTime' || epName === 'maxTime') {
       continue;
     }
+    let lastIndex = 0;
+    let lastTime = 0;
     const tbdIdPayloads = payloads[epName];
     const masterTimes = Object.keys(tbdIdPayloads);
-    // _each(masterTimes, (masterTime) => {
     for (let j = 0; j < masterTimes.length; j += 1) {
       const masterTime = masterTimes[j];
       // Check validity of current payload
       let currentValue = tbdIdPayloads[masterTime];
       if (!_isNumber(currentValue.value)) {
-        // continue;
         if (typeof currentValue.value === 'string') {
           currentValue = {
             ...tbdIdPayloads[masterTime],

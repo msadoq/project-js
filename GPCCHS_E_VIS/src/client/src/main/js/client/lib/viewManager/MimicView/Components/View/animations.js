@@ -1,3 +1,28 @@
+export const setAttributeIfChanged = (element, attributeName, newValue, type) => {
+  const value = element.getAttribute(attributeName);
+  if (type === 'number') {
+    if (parseFloat(value) !== newValue) {
+      element.setAttribute(attributeName, newValue);
+    }
+  } else if (value !== newValue) {
+    console.log('value changed', value, newValue);
+    element.setAttribute(attributeName, newValue);
+  }
+};
+
+export const setStyleIfChanged = (element, attributeName, newValue, type) => {
+  const el = element;
+  const value = element.style[attributeName];
+  if (type === 'number') {
+    if (parseFloat(value) !== newValue) {
+      el.style[attributeName] = newValue;
+    }
+  } else if (value !== newValue) {
+    console.log('style changed', attributeName, value, ', ', newValue);
+    el.style[attributeName] = newValue;
+  }
+};
+
 export const scaleAnimation = (data, g) => {
   const el = g.el;
   if (!el) {
@@ -8,7 +33,7 @@ export const scaleAnimation = (data, g) => {
     if (g.defaultValue) {
       value = g.defaultValue;
     } else {
-      el.style.visibility = 'hidden';
+      setStyleIfChanged(el, 'visibility', 'hidden', 'string');
       return;
     }
   } else {
@@ -16,13 +41,14 @@ export const scaleAnimation = (data, g) => {
   }
   let ratio = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
   ratio = ratio < 0 ? 0 : ratio;
+  ratio = Math.round(ratio * 1000) / 1000;
   if (g.type === 'scaleY') {
-    el.style.transform = `scaleY(${ratio})`;
+    setStyleIfChanged(el, 'transform', `scaleY(${ratio})`, 'string');
   } else {
-    el.style.transform = `scaleX(${ratio})`;
+    setStyleIfChanged(el, 'transform', `scaleX(${ratio})`, 'string');
   }
-  el.style.visibility = 'visible';
-  el.style.transformOrigin = g.fixed || 'bottom';
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
+  setStyleIfChanged(el, 'transformOrigin', `${g.fixed} center 0px` || 'center bottom 0px', 'string');
 };
 
 export const translateAnimation = (data, g) => {
@@ -35,7 +61,7 @@ export const translateAnimation = (data, g) => {
     if (g.defaultValue) {
       value = g.defaultValue;
     } else {
-      el.style.visibility = 'hidden';
+      setStyleIfChanged(el, 'visibility', 'hidden', 'string');
       return;
     }
   } else {
@@ -44,17 +70,18 @@ export const translateAnimation = (data, g) => {
   let distance = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
   distance = distance < 0 ? 0 : distance;
   distance = distance > g.width ? g.width : distance;
+  distance = Math.round(distance * 1000) / 1000;
   if (g.type === 'translateY') {
     if (g.direction === 'top') {
       distance *= -1;
     }
-    el.style.transform = `translate(0px, ${distance}px)`;
+    setStyleIfChanged(el, 'transform', `translate(0px, ${distance}px)`, 'string');
   } else {
     if (g.direction === 'left') {
       distance *= -1;
     }
-    el.style.visibility = 'visible';
-    el.style.transform = `translate(${distance}px, 0px)`;
+    setStyleIfChanged(el, 'visibility', 'visible', 'string');
+    setStyleIfChanged(el, 'transform', `translate(${distance}px, 0px)`, 'string');
   }
 };
 
@@ -68,7 +95,7 @@ export const rotateAnimation = (data, g) => {
     if (g.defaultValue) {
       value = g.defaultValue;
     } else {
-      el.style.visibility = 'hidden';
+      setStyleIfChanged(el, 'visibility', 'hidden', 'string');
       return;
     }
   } else {
@@ -77,8 +104,9 @@ export const rotateAnimation = (data, g) => {
   let angle = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
   angle = angle < 0 ? 0 : angle;
   angle = angle > g.angle ? g.angle : angle;
-  el.style.transformOrigin = `${g.center[0]}px ${g.center[1]}px`;
-  el.style.transform = `rotate(${angle}deg)`;
+  angle = Math.round(angle * 1000) / 1000;
+  setStyleIfChanged(el, 'transformOrigin', `${g.center[0]}px ${g.center[1]}px 0px`, 'string');
+  setStyleIfChanged(el, 'transform', `rotate(${angle}deg)`, 'string');
 };
 
 export const textBoxAnimation = (data, g) => {
@@ -89,16 +117,16 @@ export const textBoxAnimation = (data, g) => {
   }
   const SVGRect = el.getBBox();
 
-  elBg.setAttribute('width', SVGRect.width);
-  elBg.setAttribute('height', SVGRect.height);
-  elBg.setAttribute('y', SVGRect.y);
+  setAttributeIfChanged(elBg, 'width', SVGRect.width, 'number');
+  setAttributeIfChanged(elBg, 'height', SVGRect.height, 'number');
+  setAttributeIfChanged(elBg, 'y', SVGRect.y, 'number');
 
   if (!data.values[g.epName] || !data.values[g.epName].value) {
     if (g.defaultValue) {
-      el.style.fill = g.defaultValue[0];
-      elBg.style.fill = g.defaultValue[1];
+      setStyleIfChanged(el, 'fill', g.defaultValue[0], 'string');
+      setStyleIfChanged(elBg, 'fill', g.defaultValue[1], 'string');
+      setStyleIfChanged(el, 'visibility', 'visible', 'string');
       el.innerHTML = g.defaultValue[2];
-      el.style.visibility = 'visible';
     } else {
       el.style.visibility = 'hidden';
     }
@@ -122,16 +150,16 @@ export const textBoxAnimation = (data, g) => {
       fillText = stateColor[1];
     }
   }
-  el.style.fill = fillText;
-  el.style.visibility = 'visible';
+  setStyleIfChanged(el, 'fill', fillText, 'string');
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
   for (let i = 0; i < g.bgColorLevels.length; i += 1) {
     const stateColor = g.bgColorLevels[i].split('$');
     if (value > stateColor[0]) {
       fillBg = stateColor[1];
     }
   }
-  elBg.style.fill = fillBg;
-  elBg.style.fillOpacity = fillBg === '' ? 0 : 1;
+  setStyleIfChanged(elBg, 'fill', fillBg, 'string');
+  setStyleIfChanged(elBg, 'fillOpacity', fillBg === '' ? 0 : 1, 'number');
 };
 
 export const colourAnimation = (data, g) => {
@@ -144,7 +172,7 @@ export const colourAnimation = (data, g) => {
     if (g.defaultValue) {
       color = g.defaultValue;
     } else {
-      el.style.visibility = 'hidden';
+      setStyleIfChanged(el, 'visibility', 'hidden', 'string');
       return;
     }
   } else {
@@ -166,12 +194,12 @@ export const colourAnimation = (data, g) => {
       }
     }
   }
-  el.style.visibility = 'visible';
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
   const nodes = el.childNodes;
   if (color) {
     for (let i = 0; i < nodes.length; i += 1) {
       if (nodes[i].style) {
-        nodes[i].style.fill = color;
+        setStyleIfChanged(nodes[i], 'fill', color, 'string');
       }
     }
   }
@@ -183,7 +211,7 @@ export const showAnimation = (data, g) => {
     return;
   }
   if (!data.values[g.epName] || !data.values[g.epName].value) {
-    el.style.visibility = 'hidden';
+    setStyleIfChanged(el, 'visibility', 'hidden', 'string');
     return;
   }
   let visibility = 'hidden';
@@ -212,5 +240,5 @@ export const showAnimation = (data, g) => {
       visibility = stateColor[1];
     }
   }
-  el.style.visibility = visibility === 'show' ? 'visible' : 'hidden';
+  setStyleIfChanged(el, 'visibility', visibility === 'show' ? 'visible' : 'hidden', 'string');
 };

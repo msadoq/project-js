@@ -8,15 +8,34 @@ import {
 } from './animations';
 
 describe('Mimic animations:scaleAnimation', () => {
-  test('scaleAnimation - y', () => {
-    const data = {
-      values: { ep1: { value: 50 } },
-    };
-    const svgEl = {
+  const svgEl = {
+    epName: 'ep1',
+    domain: [0, 100],
+    type: 'scaleY',
+    defaultValue: 40,
+    el: { style: {} },
+  };
+  test('scaleAnimation - defaultValue', () => {
+    const data = { values: {} };
+    scaleAnimation(data, svgEl);
+    expect(svgEl)
+    .toEqual({
       epName: 'ep1',
       domain: [0, 100],
       type: 'scaleY',
-      el: { style: {} },
+      defaultValue: 40,
+      el: {
+        style: {
+          transform: 'scaleY(0.4)',
+          transformOrigin: 'bottom',
+          visibility: 'visible',
+        },
+      },
+    });
+  });
+  test('scaleAnimation - y', () => {
+    const data = {
+      values: { ep1: { value: 50 } },
     };
     scaleAnimation(data, svgEl);
     expect(svgEl)
@@ -24,10 +43,12 @@ describe('Mimic animations:scaleAnimation', () => {
       epName: 'ep1',
       domain: [0, 100],
       type: 'scaleY',
+      defaultValue: 40,
       el: {
         style: {
           transform: 'scaleY(0.5)',
           transformOrigin: 'bottom',
+          visibility: 'visible',
         },
       },
     });
@@ -35,16 +56,34 @@ describe('Mimic animations:scaleAnimation', () => {
 });
 
 describe('Mimic animations:translateAnimation', () => {
-  test('translateAnimation - y', () => {
-    const data = {
-      values: { ep1: { value: 40 } },
-    };
-    const g = {
+  const g = {
+    epName: 'ep1',
+    domain: [0, 100],
+    type: 'translateY',
+    defaultValue: 30,
+    width: 100,
+    el: { style: {} },
+  };
+  test('translateAnimation - defaultValue', () => {
+    const data = { values: {} };
+    translateAnimation(data, g);
+    expect(g)
+    .toEqual({
       epName: 'ep1',
       domain: [0, 100],
       type: 'translateY',
+      defaultValue: 30,
       width: 100,
-      el: { style: {} },
+      el: {
+        style: {
+          transform: 'translate(0px, 30px)',
+        },
+      },
+    });
+  });
+  test('translateAnimation - y', () => {
+    const data = {
+      values: { ep1: { value: 40 } },
     };
     translateAnimation(data, g);
     expect(g)
@@ -52,6 +91,7 @@ describe('Mimic animations:translateAnimation', () => {
       epName: 'ep1',
       domain: [0, 100],
       type: 'translateY',
+      defaultValue: 30,
       width: 100,
       el: {
         style: {
@@ -63,17 +103,37 @@ describe('Mimic animations:translateAnimation', () => {
 });
 
 describe('Mimic animations:rotateAnimation', () => {
-  test('rotateAnimation', () => {
-    const data = {
-      values: { ep1: { value: 50 } },
-    };
-    const g = {
+  const g = {
+    epName: 'ep1',
+    domain: [0, 100],
+    center: [0, 0],
+    type: 'translateY',
+    defaultValue: 10,
+    angle: 90,
+    el: { style: {} },
+  };
+  test('rotateAnimation - defaultValue', () => {
+    const data = { values: {} };
+    rotateAnimation(data, g);
+    expect(g)
+    .toEqual({
       epName: 'ep1',
       domain: [0, 100],
       center: [0, 0],
       type: 'translateY',
+      defaultValue: 10,
       angle: 90,
-      el: { style: {} },
+      el: {
+        style: {
+          transform: 'rotate(9deg)',
+          transformOrigin: '0px 0px',
+        },
+      },
+    });
+  });
+  test('rotateAnimation', () => {
+    const data = {
+      values: { ep1: { value: 50 } },
     };
     rotateAnimation(data, g);
     expect(g)
@@ -82,6 +142,7 @@ describe('Mimic animations:rotateAnimation', () => {
       domain: [0, 100],
       center: [0, 0],
       type: 'translateY',
+      defaultValue: 10,
       angle: 90,
       el: {
         style: {
@@ -94,6 +155,55 @@ describe('Mimic animations:rotateAnimation', () => {
 });
 
 describe('Mimic animations:textBoxAnimation', () => {
+  test('textBoxAnimation - textColorThresholds - defaultValue', () => {
+    const data = {
+      values: {},
+    };
+    // eslint-disable-next-line func-names, "DV6 TBC_CNES Function to mock dom element"
+    const Elbg = function (style) {
+      this.setAttribute = (a, b) => {
+        this[a] = b;
+      };
+      this.style = style || {};
+      this.height = 20;
+      this.width = 100;
+      this.y = 20;
+    };
+
+    const g = {
+      epName: 'ep1',
+      type: 'textBox',
+      defaultValue: ['#FAF', '#FFA', 'error'],
+      textColorThresholds: ['20|#00F', '40|#daa520'],
+      textColorRegex: [],
+      bgColorLevels: [],
+      el: {
+        style: {},
+        getBBox: () => ({ width: 100, height: 20, y: 20 }),
+      },
+      elBg: new Elbg(),
+    };
+
+    textBoxAnimation(data, g);
+    expect(JSON.stringify(g))
+    .toEqual(JSON.stringify({
+      epName: 'ep1',
+      type: 'textBox',
+      defaultValue: ['#FAF', '#FFA', 'error'],
+      textColorThresholds: ['20|#00F', '40|#daa520'],
+      textColorRegex: [],
+      bgColorLevels: [],
+      el: {
+        style: {
+          fill: '#FAF',
+          visibility: 'visible',
+        },
+        innerHTML: 'error',
+        getBBox: () => ({ width: 100, height: 20, y: 20 }),
+      },
+      elBg: new Elbg({ fill: '#FFA' }),
+    }));
+  });
   test('textBoxAnimation - textColorThresholds', () => {
     const data = {
       values: { ep1: { value: 30 } },
@@ -133,6 +243,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       el: {
         style: {
           fill: '#00F',
+          visibility: 'visible',
         },
         innerHTML: 30,
         getBBox: () => ({ width: 100, height: 20, y: 20 }),
@@ -163,7 +274,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorThresholds: [],
       bgColorLevels: [],
       el: {
-        style: {},
+        style: { visibility: 'visible' },
         getBBox: () => ({ width: 100, height: 20, y: 20 }),
       },
       elBg: new Elbg(),
@@ -181,6 +292,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       bgColorLevels: [],
       el: {
         style: {
+          visibility: 'visible',
           fill: '#00F',
         },
         innerHTML: 'info',
@@ -212,7 +324,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       textColorRegex: [],
       bgColorLevels: ['20$#00F', '40$#daa520'],
       el: {
-        style: {},
+        style: { visibility: 'visible' },
         getBBox: () => ({ width: 100, height: 20, y: 20 }),
       },
       elBg: new Elbg(),
@@ -230,6 +342,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       bgColorLevels: ['20$#00F', '40$#daa520'],
       el: {
         style: {
+          visibility: 'visible',
           fill: '#000',
         },
         innerHTML: 30,
@@ -241,25 +354,45 @@ describe('Mimic animations:textBoxAnimation', () => {
 });
 
 describe('Mimic animations:colourAnimation', () => {
+  const g = {
+    epName: 'ep1',
+    operators: ['=$info$#00F', '=$warning$#daa520'],
+    defaultValue: '#FAF',
+    el: {
+      style: {},
+      childNodes: [
+        { style: {} },
+      ],
+    },
+  };
+  test('colourAnimation - defaultValue', () => {
+    const data = { values: {} };
+    colourAnimation(data, g);
+    expect(g)
+    .toEqual({
+      epName: 'ep1',
+      operators: ['=$info$#00F', '=$warning$#daa520'],
+      defaultValue: '#FAF',
+      el: {
+        style: { visibility: 'visible' },
+        childNodes: [
+          { style: { fill: '#FAF' } },
+        ],
+      },
+    });
+  });
   test('colourAnimation', () => {
     const data = {
       values: { ep1: { value: 'info' } },
-    };
-    const g = {
-      epName: 'ep1',
-      operators: ['=$info$#00F', '=$warning$#daa520'],
-      el: {
-        childNodes: [
-          { style: {} },
-        ],
-      },
     };
     colourAnimation(data, g);
     expect(g)
     .toEqual({
       epName: 'ep1',
       operators: ['=$info$#00F', '=$warning$#daa520'],
+      defaultValue: '#FAF',
       el: {
+        style: { visibility: 'visible' },
         childNodes: [
           { style: { fill: '#00F' } },
         ],
@@ -269,17 +402,30 @@ describe('Mimic animations:colourAnimation', () => {
 });
 
 describe('Mimic animations:showAnimation', () => {
-  test('show', () => {
-    const data = {
-      values: { ep1: { value: 'info' } },
-    };
-    const g = {
+  const g = {
+    epName: 'ep1',
+    displayThresholds: ['=$info$show', '=$warning$hide'],
+    displayRegex: [],
+    el: {
+      style: {},
+    },
+  };
+  test('show - defaultValue', () => {
+    const data = { values: {} };
+    showAnimation(data, g);
+    expect(g)
+    .toEqual({
       epName: 'ep1',
       displayThresholds: ['=$info$show', '=$warning$hide'],
       displayRegex: [],
       el: {
-        style: {},
+        style: { visibility: 'hidden' },
       },
+    });
+  });
+  test('show', () => {
+    const data = {
+      values: { ep1: { value: 'info' } },
     };
     showAnimation(data, g);
     expect(g)

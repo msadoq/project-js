@@ -10,7 +10,7 @@ export const setAttributeIfChanged = (element, attributeName, newValue, type) =>
   }
 };
 
-export const setStyleIfChanged = (element, attributeName, newValue, type) => {
+const setStyleIfChanged = (element, attributeName, newValue, type) => {
   const el = element;
   const value = element.style[attributeName];
   if (type === 'number') {
@@ -105,6 +105,7 @@ export const rotateAnimation = (data, g) => {
   angle = angle < 0 ? 0 : angle;
   angle = angle > g.angle ? g.angle : angle;
   angle = Math.round(angle * 1000) / 1000;
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
   setStyleIfChanged(el, 'transformOrigin', `${g.center[0]}px ${g.center[1]}px 0px`, 'string');
   setStyleIfChanged(el, 'transform', `rotate(${angle}deg)`, 'string');
 };

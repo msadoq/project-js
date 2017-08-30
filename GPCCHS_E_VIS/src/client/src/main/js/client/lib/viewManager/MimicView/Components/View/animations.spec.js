@@ -134,6 +134,7 @@ describe('Mimic animations:rotateAnimation', () => {
       defaultValue: 10,
       angle: 90,
       el: new El({
+        visibility: 'visible',
         transformOrigin: '0px 0px 0px',
         transform: 'rotate(9deg)',
       }),
@@ -153,6 +154,7 @@ describe('Mimic animations:rotateAnimation', () => {
       defaultValue: 10,
       angle: 90,
       el: new El({
+        visibility: 'visible',
         transformOrigin: '0px 0px 0px',
         transform: 'rotate(45deg)',
       }),

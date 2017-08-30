@@ -152,7 +152,7 @@ export default class MimicViewWrapper extends PureComponent {
               content={content}
               entryPoints={entryPoints}
               data={data}
-              perfOutput
+              perfOutput={false}
             />
           </Col>
         </Row>

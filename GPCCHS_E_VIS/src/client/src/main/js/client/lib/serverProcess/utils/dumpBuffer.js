@@ -75,11 +75,11 @@ const dumpLog = () => {
   }
 };
 
-/** write buffer in a file with timestamp as name
+/* write buffer in a file with timestamp as name
  * @param dataId: defines folder hierarchy
  * @param timestamp: buffer corresponding timestamp in ms
  * @param buffer: the buffer to save in file
- **/
+ * */
 const dumpBuffer = (dataId, timestamp, buffer) => {
   // check dump activation
   if (get('DUMP') === 'on') {
@@ -98,4 +98,6 @@ const dumpBuffer = (dataId, timestamp, buffer) => {
   }
 };
 
-module.exports = { dumpBuffer, dumpLog, createDumpFolder };
+const isDumpActivated = () => get('DUMP') === 'on';
+
+module.exports = { dumpBuffer, dumpLog, createDumpFolder, isDumpActivated };

@@ -8,7 +8,6 @@ import { isTimestampInLastInterval } from '../../../dataManager/mapSelector';
 import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from '../../../common/logManager/execution';
 
-const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
 
 const logger = require('../../../common/logManager')('middleware:prepareRange');
 
@@ -50,11 +49,6 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         execution.start('decode timestamp');
         const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
         execution.stop('decode timestamp');
-
-        // dump: if activated, save a file per timestamp with binary payload
-        execution.start('dump buffer');
-        dumpBuffer(dataId, timestamp, peers[index + 1]);
-        execution.stop('dump buffer');
 
         execution.start('decode payload');
         const payload = decode(payloadProtobufType, peers[index + 1]);

@@ -6,8 +6,6 @@ import { decode, getType } from '../../../utils/adapters';
 import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from '../../../common/logManager/execution';
 
-const { dumpBuffer } = require('../../../serverProcess/utils/dumpBuffer');
-
 const prepareLast = () => ({ dispatch }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_LAST_DATA) {
@@ -27,7 +25,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
   let index = 0;
   while (index + 1 < peers.length) {
     // robustness code, LPISIS could send empty ZeroMQ frame
-    if ( _isBuffer(peers[index]) && _isBuffer(peers[index + 1])) {
+    if (_isBuffer(peers[index]) && _isBuffer(peers[index + 1])) {
       execution.start('decode timestamp');
       const timestamp = decode('dc.dataControllerUtils.Timestamp', peers[index]).ms;
       execution.stop('decode timestamp');
@@ -35,11 +33,6 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
       execution.start('decode payload');
       const payload = decode(payloadProtobufType, peers[index + 1]);
       execution.stop('decode payload');
-
-      // dump: if activated, save a file per timestamp with binary payload
-      execution.start('dump buffer');
-      dumpBuffer(dataId, timestamp, peers[index + 1]);
-      execution.stop('dump buffer');
 
       // queue new data in spool
       payloadsJson[tbdId][timestamp] = payload;

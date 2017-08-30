@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { get } from '../common/configurationManager';
 import createIncomingDataMiddleware from '../store/middlewares/incomingData';
+import createDumpBufferMiddleware from '../store/middlewares/dumpBuffer';
 import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
 import createCacheMiddleware from '../store/middlewares/cache';
 import reducer from '../store/reducers';
@@ -18,6 +19,7 @@ import makeProductLogMiddleware from '../store/middlewares/productLog';
 import makePatchGenerator from '../store/middlewares/patch/patchGenerator';
 import makeViewNeededData from '../store/middlewares/viewNeededData/viewNeededData';
 import getLogger from '../common/logManager';
+import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
 
 const log = getLogger('server:store:enhancer');
 
@@ -39,6 +41,9 @@ const createMiddlewares = (identity, isDebugOn) => {
     makeViewNeededData(),
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
+  if (isDumpActivated()) {
+    middlewares.push(createDumpBufferMiddleware());
+  }
   return middlewares;
 };
 

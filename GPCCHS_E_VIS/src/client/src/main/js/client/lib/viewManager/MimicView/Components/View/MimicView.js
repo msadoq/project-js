@@ -16,6 +16,9 @@ const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const isValidNode = () => true;
 // const isValueNode = /{{\s*([^}]+)\s*}}/g;
 
+const validOrigin = values =>
+  ['center', 'right', 'left'].includes(values[0])
+    && ['center', 'top', 'bottom'].includes(values[1]);
 
 export default class MimicView extends Component {
 
@@ -80,7 +83,12 @@ export default class MimicView extends Component {
           const domain = node.attribs.isis_domain
             .split(',')
             .map(a => parseFloat(a));
-          const fixed = node.attribs.isis_fixed;
+          let origin = node.attribs.isis_origin;
+          if (!origin || !validOrigin(origin.split(','))) {
+            origin = null;
+          } else {
+            origin = origin.replace(',', ' ');
+          }
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -89,7 +97,7 @@ export default class MimicView extends Component {
             defaultValue: parseFloat(node.attribs.isis_default),
             epName,
             domain,
-            fixed,
+            origin,
           });
           return React.createElement(
             node.name,
@@ -107,6 +115,12 @@ export default class MimicView extends Component {
             .map(a => parseFloat(a));
           const width = parseFloat(node.attribs.isis_width);
           const direction = node.attribs.isis_direction;
+          let origin = node.attribs.isis_origin;
+          if (!origin || !validOrigin(origin.split(','))) {
+            origin = null;
+          } else {
+            origin = origin.replace(',', ' ');
+          }
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -117,6 +131,7 @@ export default class MimicView extends Component {
             domain,
             width,
             direction,
+            origin,
           });
           return React.createElement(
             node.name,
@@ -132,10 +147,16 @@ export default class MimicView extends Component {
           const domain = node.attribs.isis_domain
             .split(',')
             .map(a => parseFloat(a));
-          const angle = parseFloat(node.attribs.isis_angle);
-          const center = node.attribs.isis_center
+          const angle = node.attribs.isis_angle
             .split(',')
             .map(a => parseFloat(a));
+          let origin = node.attribs.isis_origin;
+          if (!origin || !validOrigin(origin.split(','))) {
+            console.log('NOT VALID', origin);
+            origin = null;
+          } else {
+            origin = origin.replace(',', ' ');
+          }
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -145,7 +166,7 @@ export default class MimicView extends Component {
             epName,
             domain,
             angle,
-            center,
+            origin,
           });
           return React.createElement(
             node.name,

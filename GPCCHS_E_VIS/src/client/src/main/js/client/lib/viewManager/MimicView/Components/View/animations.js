@@ -39,13 +39,19 @@ export const scaleAnimation = (data, g) => {
   } else {
     value = data.values[g.epName].value;
   }
-  let ratio = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
-  ratio = ratio < 0 ? 0 : ratio;
-  ratio = Math.round(ratio * 1000) / 1000;
+  const val = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
+  let scale = g.scale[0] + (val * (g.scale[1] - g.scale[0]));
+  if (scale > g.scale[1]) {
+    scale = g.scale[1];
+  } else if (scale < g.scale[0]) {
+    scale = g.scale[0];
+  }
+  scale /= 100; // Because g.scale are expressed in percent
+  scale = Math.round(scale * 1000) / 1000;
   if (g.type === 'scaleY') {
-    setStyleIfChanged(el, 'transform', `scaleY(${ratio})`, 'string');
+    setStyleIfChanged(el, 'transform', `scaleY(${scale})`, 'string');
   } else {
-    setStyleIfChanged(el, 'transform', `scaleX(${ratio})`, 'string');
+    setStyleIfChanged(el, 'transform', `scaleX(${scale})`, 'string');
   }
   setStyleIfChanged(el, 'visibility', 'visible', 'string');
   setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'left top 0px', 'string');
@@ -67,9 +73,9 @@ export const translateAnimation = (data, g) => {
   } else {
     value = data.values[g.epName].value;
   }
-  let distance = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
+  let distance = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.distance;
   distance = distance < 0 ? 0 : distance;
-  distance = distance > g.width ? g.width : distance;
+  distance = distance > g.distance ? g.distance : distance;
   distance = Math.round(distance * 1000) / 1000;
   if (g.type === 'translateY') {
     if (g.direction === 'top') {
@@ -82,7 +88,6 @@ export const translateAnimation = (data, g) => {
     }
     setStyleIfChanged(el, 'transform', `translate(${distance}px, 0px)`, 'string');
     setStyleIfChanged(el, 'visibility', 'visible', 'string');
-    setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'left top 0px', 'string');
   }
 };
 
@@ -163,7 +168,6 @@ export const textBoxAnimation = (data, g) => {
   setStyleIfChanged(elBg, 'fillOpacity', fillBg === '' ? 0 : 1, 'number');
 
   setStyleIfChanged(el, 'visibility', 'visible', 'string');
-  setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'top left 0px', 'string');
 };
 
 export const colourAnimation = (data, g) => {

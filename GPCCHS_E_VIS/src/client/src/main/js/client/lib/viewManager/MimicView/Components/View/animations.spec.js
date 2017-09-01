@@ -29,6 +29,7 @@ describe('Mimic animations:scaleAnimation', () => {
   const svgEl = {
     epName: 'ep1',
     domain: [0, 100],
+    scale: [0, 100],
     type: 'scaleY',
     defaultValue: 40,
     el: new El({}),
@@ -40,12 +41,13 @@ describe('Mimic animations:scaleAnimation', () => {
     .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
+      scale: [0, 100],
       type: 'scaleY',
       defaultValue: 40,
       el: new El({
         transform: 'scaleY(0.4)',
         visibility: 'visible',
-        transformOrigin: 'center bottom 0px',
+        transformOrigin: 'left top 0px',
       }),
     }));
   });
@@ -58,12 +60,13 @@ describe('Mimic animations:scaleAnimation', () => {
     .toBe(JSON.stringify({
       epName: 'ep1',
       domain: [0, 100],
+      scale: [0, 100],
       type: 'scaleY',
       defaultValue: 40,
       el: new El({
         transform: 'scaleY(0.5)',
         visibility: 'visible',
-        transformOrigin: 'center bottom 0px',
+        transformOrigin: 'left top 0px',
       }),
     }));
   });
@@ -75,7 +78,7 @@ describe('Mimic animations:translateAnimation', () => {
     domain: [0, 100],
     type: 'translateY',
     defaultValue: 30,
-    width: 100,
+    distance: 100,
     el: new El({}),
   };
   test('translateAnimation - defaultValue', () => {
@@ -87,7 +90,7 @@ describe('Mimic animations:translateAnimation', () => {
       domain: [0, 100],
       type: 'translateY',
       defaultValue: 30,
-      width: 100,
+      distance: 100,
       el: new El({
         transform: 'translate(0px, 30px)',
       }),
@@ -104,7 +107,7 @@ describe('Mimic animations:translateAnimation', () => {
       domain: [0, 100],
       type: 'translateY',
       defaultValue: 30,
-      width: 100,
+      distance: 100,
       el: new El({
         transform: 'translate(0px, 40px)',
       }),
@@ -119,7 +122,8 @@ describe('Mimic animations:rotateAnimation', () => {
     center: [0, 0],
     type: 'translateY',
     defaultValue: 10,
-    angle: 90,
+    angle: [0, 90],
+    origin: 'center center',
     el: new El({}),
   };
   test('rotateAnimation - defaultValue', () => {
@@ -132,11 +136,12 @@ describe('Mimic animations:rotateAnimation', () => {
       center: [0, 0],
       type: 'translateY',
       defaultValue: 10,
-      angle: 90,
+      angle: [0, 90],
+      origin: 'center center',
       el: new El({
-        visibility: 'visible',
-        transformOrigin: '0px 0px 0px',
         transform: 'rotate(9deg)',
+        visibility: 'visible',
+        transformOrigin: 'center center 0px',
       }),
     }));
   });
@@ -152,11 +157,12 @@ describe('Mimic animations:rotateAnimation', () => {
       center: [0, 0],
       type: 'translateY',
       defaultValue: 10,
-      angle: 90,
+      angle: [0, 90],
+      origin: 'center center',
       el: new El({
-        visibility: 'visible',
-        transformOrigin: '0px 0px 0px',
         transform: 'rotate(45deg)',
+        visibility: 'visible',
+        transformOrigin: 'center center 0px',
       }),
     }));
   });

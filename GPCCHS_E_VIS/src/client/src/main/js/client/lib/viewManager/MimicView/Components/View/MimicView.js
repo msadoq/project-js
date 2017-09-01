@@ -83,6 +83,12 @@ export default class MimicView extends Component {
           const domain = node.attribs.isis_domain
             .split(',')
             .map(a => parseFloat(a));
+          const scale = node.attribs.isis_scale ?
+              node.attribs.isis_scale
+                .split(',')
+                .map(a => parseFloat(a))
+            :
+              [0, 100];
           let origin = node.attribs.isis_origin;
           if (!origin || !validOrigin(origin.split(','))) {
             origin = null;
@@ -98,10 +104,17 @@ export default class MimicView extends Component {
             epName,
             domain,
             origin,
+            scale,
+          });
+          const validAttributes = {};
+          Object.keys(node.attribs).forEach((attr) => {
+            if (!attr.startsWith('isis_') && attr !== 'style') {
+              validAttributes[attr] = node.attribs[attr];
+            }
           });
           return React.createElement(
             node.name,
-            { style: node.attribs.style, id, key: id },
+            { ...validAttributes, id, key: id },
             children
           );
         },
@@ -113,14 +126,8 @@ export default class MimicView extends Component {
           const domain = node.attribs.isis_domain
             .split(',')
             .map(a => parseFloat(a));
-          const width = parseFloat(node.attribs.isis_width);
+          const distance = parseFloat(node.attribs.isis_distance);
           const direction = node.attribs.isis_direction;
-          let origin = node.attribs.isis_origin;
-          if (!origin || !validOrigin(origin.split(','))) {
-            origin = null;
-          } else {
-            origin = origin.replace(',', ' ');
-          }
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -129,13 +136,18 @@ export default class MimicView extends Component {
             defaultValue: parseFloat(node.attribs.isis_default),
             epName,
             domain,
-            width,
+            distance,
             direction,
-            origin,
+          });
+          const validAttributes = {};
+          Object.keys(node.attribs).forEach((attr) => {
+            if (!attr.startsWith('isis_') && attr !== 'style') {
+              validAttributes[attr] = node.attribs[attr];
+            }
           });
           return React.createElement(
             node.name,
-            { style: node.attribs.style, id, key: id },
+            { ...validAttributes, id, key: id },
             children
           );
         },
@@ -152,7 +164,6 @@ export default class MimicView extends Component {
             .map(a => parseFloat(a));
           let origin = node.attribs.isis_origin;
           if (!origin || !validOrigin(origin.split(','))) {
-            console.log('NOT VALID', origin);
             origin = null;
           } else {
             origin = origin.replace(',', ' ');
@@ -168,9 +179,15 @@ export default class MimicView extends Component {
             angle,
             origin,
           });
+          const validAttributes = {};
+          Object.keys(node.attribs).forEach((attr) => {
+            if (!attr.startsWith('isis_') && attr !== 'style') {
+              validAttributes[attr] = node.attribs[attr];
+            }
+          });
           return React.createElement(
             node.name,
-            { style: node.attribs.style, id, key: id },
+            { ...validAttributes, id, key: id },
             children
           );
         },
@@ -226,9 +243,15 @@ export default class MimicView extends Component {
             epName,
             operators,
           });
+          const validAttributes = {};
+          Object.keys(node.attribs).forEach((attr) => {
+            if (!attr.startsWith('isis_') && attr !== 'style') {
+              validAttributes[attr] = node.attribs[attr];
+            }
+          });
           return React.createElement(
             node.name,
-            { style: node.attribs.style, id, key: id },
+            { ...validAttributes, id, key: id },
             children
           );
         },
@@ -248,9 +271,15 @@ export default class MimicView extends Component {
             displayThresholds,
             displayRegex,
           });
+          const validAttributes = {};
+          Object.keys(node.attribs).forEach((attr) => {
+            if (!attr.startsWith('isis_') && attr !== 'style') {
+              validAttributes[attr] = node.attribs[attr];
+            }
+          });
           return React.createElement(
             node.name,
-            { style: node.attribs.style, id, key: id },
+            { ...validAttributes, id, key: id },
             children
           );
         },

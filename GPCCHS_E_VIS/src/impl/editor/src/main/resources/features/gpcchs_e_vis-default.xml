@@ -5,6 +5,6 @@
         <bundle start-level="1">fr.cnes.lpisis.gpds.cpp/gpdstd_d_tbd_consumerPubSub/gpdstd_d_tbd_consumerPubSub-${gpdstd.version}</bundle>
         <bundle start-level="2">fr.cnes.lpisis.gpcc.cpp/gpccdc_d_dbr_archiveClient/gpccdc_d_dbr_archiveClient-${gpccdc.version}</bundle>
         <bundle start-level="2">fr.cnes.lpisis.gpcc.cpp/gpccdc_d_dbr_consumerPubSubViSlave/gpccdc_d_dbr_consumerPubSubViSlave-${gpccdc.version}</bundle>
-		<bundle start-level="3">fr.cnes.lpisis.gpcc.cpp/gpcctc_l_cnt_isisStartContainer_launcher/gpcctc_l_cnt_isisStartContainer_launcher-${gpcctc.version}</bundle>
+        <bundle start-level="3">fr.cnes.lpisis.gpcc.cpp/gpcctc_l_cnt_isisStartContainer_launcher/gpcctc_l_cnt_isisStartContainer_launcher-${gpcctc.version}</bundle>
 	</feature>
 </features>

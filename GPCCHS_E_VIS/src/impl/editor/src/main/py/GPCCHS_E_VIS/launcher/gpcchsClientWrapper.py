@@ -40,7 +40,7 @@ class GPCCHSClientWrapper(object):
         signal.SIGQUIT,  # Terminal quit signal
     )
     _cmd_options = {}
-    _hsc_cmd = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client/lpisis_gpcchs_e_clt --ISIS_DOCUMENTS_ROOT={} --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --ZMQ_GPCCDC_PUSH={} --ZMQ_GPCCDC_PULL={} '
+    _hsc_cmd = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client/lpisis_gpcchs_e_clt --ISIS_DOCUMENTS_ROOT={} --NODE_PATH=/usr/share/isis/bin/node --ZMQ_GPCCDC_PUSH={} --ZMQ_GPCCDC_PULL={} '
 
     @property
     def _pid(self):
@@ -81,11 +81,15 @@ class GPCCHSClientWrapper(object):
         self._fmd_root_dir = options.fmd_root_dir
         self._zmq_push = options.zmq_push_url
         self._zmq_pull = options.zmq_pull_url
+        self._hsc_args = [""]
         if unknown_args and len(unknown_args) and unknown_args[0] != "None":
             self._hsc_args = unknown_args
-        else:
-            self._hsc_args = [""]
+        if self._debug == True:
+            print("gpcchsClientWrapper called, unknown_args:", repr(unknown_args))
+            print("gpcchsClientWrapper, _hsc_args:", repr(self._hsc_args))
         self._process = None
+        # Set necessary environment variables
+        os.environ["RTD_UNIX_SOCKET"]='0'
         # End of user code
 
     def __del__(self):
@@ -164,9 +168,11 @@ class GPCCHSClientWrapper(object):
         Start executing inner command
         """
         self._prepare()
+        cmdAsList = self._cmd_as_list
         if self._debug == True:
-            print('GPCCHS_ClientWrapper Running command : {}'.format(' '.join(self._cmd_as_list)))
-        self._process = self._process_factory(self._cmd_as_list, **self._cmd_options)
+            cmdAsList.append("--LOG=console?level=debug") #To remove when iedit will forward arguments containing spaces (FA7446)
+            print('GPCCHS_ClientWrapper Running command : {}'.format(' '.join(cmdAsList)))
+        self._process = self._process_factory(cmdAsList, **self._cmd_options)
 
     def _wait(self):
         """
@@ -213,7 +219,7 @@ class GPCCHSClientWrapper(object):
 if __name__ == '__main__':
     # Imported only if called through CLI
     import argparse
-
+    
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "debug",

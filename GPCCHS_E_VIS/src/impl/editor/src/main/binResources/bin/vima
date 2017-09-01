@@ -1,0 +1,28 @@
+#!/usr/share/isis/bin/python3.4
+
+import sys
+import argparse
+from GPCCHS_E_VIS.launcher.gpcchs import GPCCHS
+
+if __name__ == '__main__':
+    # Imported only if called through CLI
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Run visualization application')
+    parser.add_argument("--debug",
+        action='store_true',
+        help="Activate the traces"
+    )
+    parser.add_argument("--config", "-c",
+        default="",
+        help="Optional configuration file")
+    parser.add_argument("--feature","-f",
+        default="",
+        help="Feature to launch")
+    #Parse known and unknown arguments
+    known_args = None
+    unknown_args = None
+    known_args, unknown_args = parser.parse_known_args()
+
+    exit(GPCCHS(known_args, unknown_args).run())
+    # End of user code

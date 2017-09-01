@@ -16,7 +16,7 @@
     <module>common</module>
     <module>client</module>
     <module>launcher</module>
-    <module>tools</module>
+    <module>impl/editor</module>
   </modules>
   <build>
     <plugins>

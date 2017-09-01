@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Produced by Acceleo Feature Generator Acceleo Python Generator 1.1.0-R7S2-20151214 -->
 <features>
-	<feature name="gpcchs_e_vis_launcher-default" version="${project.version}">
-        <bundle start-level="1">fr.cnes.lpisis.gpds.cpp/gpdstd_d_tbd_consumerPubSub/gpdstd_d_tbd_consumerPubSub-${gpdstd.version}</bundle>
-        <bundle start-level="2">fr.cnes.lpisis.gpcc.cpp/gpccdc_d_dbr_archiveClient/gpccdc_d_dbr_archiveClient-${gpccdc.version}</bundle>
-        <bundle start-level="2">fr.cnes.lpisis.gpcc.cpp/gpccdc_d_dbr_consumerPubSubViSlave/gpccdc_d_dbr_consumerPubSubViSlave-${gpccdc.version}</bundle>
-        <bundle start-level="3">fr.cnes.lpisis.gpcc.cpp/gpcctc_l_cnt_isisStartContainer_launcher/gpcctc_l_cnt_isisStartContainer_launcher-${gpcctc.version}</bundle>
+	<feature name="gpcchs_e_vis_editor-default" version="${project.version}">
+        <bundle>fr.cnes.lpisis.gpcc.python/gpcchs_e_vis_ihmLauncher/gpcchs_e_vis_ihmLauncher-${gpccdc.version}</bundle>
 	</feature>
 </features>

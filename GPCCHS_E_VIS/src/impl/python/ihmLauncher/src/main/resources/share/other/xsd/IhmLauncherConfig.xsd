@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- definition of complex elements -->
+  
+  <xs:complexType name="IhmLauncherConfig">
+    <xs:sequence>
+      <xs:element name="debug" type="xs:boolean"/>
+      <xs:element name="fmdRoot" type= "xs:string"/>
+      <xs:element name="nodePath" type= "xs:string"/>
+      <xs:element name="dcPushUri" type= "xs:string"/>
+      <xs:element name="dcPullUri" type= "xs:string"/>
+      <xs:element name="dcConfFile" type= "xs:string"/>
+      <xs:element name="additionalArg" type= "xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="IhmLauncherConfig" type="IhmLauncherConfig"/>
+
+</xs:schema> 

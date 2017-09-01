@@ -2,21 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.cnes.lpisis.gpcc</groupId>
-  <artifactId>gpcchs_e_vis_modules_builder</artifactId>
+  <artifactId>gpcchs_e_vis_impl_python_builder</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.2-R8S4-SNAPSHOT</version>
+  <version>1.1.2-R8S3-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
-    <groupId>fr.cnes.lpisis</groupId>
-    <artifactId>isis-system</artifactId>
-    <version>1.1.2-R8S4-SNAPSHOT</version>
+    <groupId>fr.cnes.lpisis.gpcc</groupId>
+    <artifactId>gpcchs_e_vis-parent</artifactId>
+    <version>1.1.2-R8S3-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <modules>
-    <module>common</module>
-    <module>client</module>
-    <module>launcher</module>
-    <module>impl</module>
+    <module>ihmLauncher</module>
   </modules>
   <build>
     <plugins>

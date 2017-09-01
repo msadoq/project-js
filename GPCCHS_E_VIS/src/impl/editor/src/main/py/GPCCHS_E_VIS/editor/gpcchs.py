@@ -33,8 +33,8 @@ class IsisContainerError(Exception):
 
 # Creation of an argument parser to provide it to the caller python code
 GPCCHS_argsParser = argparse.ArgumentParser(description='Run the visualization main application')
-GPCCHS_argsParser.add_argument("--debug",action='store_true',
-                              help="Activate the debug traces")
+GPCCHS_argsParser.add_argument("-d","--debug",action='store_true',
+                              help="Activate the debug traces in console")
                              
 class GPCCHS_launcher(object):
     """!

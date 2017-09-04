@@ -142,12 +142,12 @@ module.exports = {
   MIME_TYPES: {
     WorkSpace: 'WorkspaceDoc',
     Page: 'PageDoc',
-    TextView: 'ViewDoc',
-    PlotView: 'ViewDoc',
-    DynamicView: 'ViewDoc',
-    MimicView: 'ViewDoc',
-    PacketView: 'ViewDoc',
-    HistoryView: 'ViewDoc',
+    TextView: 'TextViewDoc',
+    PlotView: 'PlotViewDoc',
+    DynamicView: 'DynamicViewDoc',
+    MimicView: 'MimicViewDoc',
+    PacketView: 'PacketViewDoc',
+    HistoryView: 'HistoryViewDoc',
   },
   // REDUX SYNCHRONIZATION
   REDUX_SYNCHRONIZATION_PATCH_KEY: 'patch',

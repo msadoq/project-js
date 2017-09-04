@@ -215,7 +215,7 @@ export default class TextViewWrapper extends PureComponent {
       const noRenderMsg = 'Visu Window is too long for this type of view';
       logger.debug('no render due to', noRenderMsg);
       return (
-        <div className="flex">
+        <div className={`flex ${styles.container}`}>
           <div className={styles.renderErrorText}>
             Unable to render view <br />
             {noRenderMsg}
@@ -228,7 +228,7 @@ export default class TextViewWrapper extends PureComponent {
       <DroppableContainer
         onDrop={this.onDrop}
         onContextMenu={this.onContextMenu}
-        className="h100 posRelative"
+        className={`h100 posRelative ${styles.container}`}
       >
         <Row>
           <Col xs={12}>

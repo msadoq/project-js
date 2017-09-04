@@ -1,9 +1,9 @@
 .container {
   position: relative;
-  overflow: visible;;
+  overflow: hidden;
 }
 .content {
   height: calc(100% - 28px);
   width: 100%;
-  overflow: auto;
+  /*overflow: auto;*/
 }

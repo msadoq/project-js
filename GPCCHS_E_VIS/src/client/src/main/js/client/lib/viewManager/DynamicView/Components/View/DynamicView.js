@@ -183,7 +183,7 @@ export default class DynamicView extends PureComponent {
     const error = _get(entryPoints, 'dynamicEP.error');
     if (!ep || error) {
       return (
-        <div className="flex">
+        <div className={`flex ${styles.container}`}>
           <div className={styles.renderErrorText}>
             Unable to render view <br />
             {error}
@@ -193,7 +193,7 @@ export default class DynamicView extends PureComponent {
     }
     if (isMaxVisuDurationExceeded) {
       return (
-        <div className="flex">
+        <div className={`flex ${styles.container}`}>
           <div className={styles.renderErrorText}>
             Unable to render view <br />
             Visu Window is too long for this type of view
@@ -205,6 +205,7 @@ export default class DynamicView extends PureComponent {
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <div
+        className={styles.container}
         onContextMenu={this.onContextMenu}
       >
         <header className={styles.header}>

@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import _get from 'lodash/get';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
@@ -80,7 +81,7 @@ export default class Content extends PureComponent {
     const content = JSON.parse(data);
     const filePath = path.join(
       global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-      _.get('filepath', content) || _.get('filePath', content)
+      _get(content, 'filepath', '') || _get(content, 'filePath', '')
     );
 
     const type = getDropItemType(content.mimeType);

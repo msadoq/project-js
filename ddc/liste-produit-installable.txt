@@ -4,7 +4,6 @@
 fr.cnes.lpisis.gpcc.js.gpcchs_e_vis_client
 fr.cnes.lpisis.gpcc.js.gpcchs_e_vis_common
 fr.cnes.lpisis.gpcc.js.gpcchs_e_vis_launcher
-fr.cnes.lpisis.gpcc.js.gpcchs_e_vis_server
 fr.cnes.lpisis.gpcc.python.gpcchs_e_vis_tools
 
 

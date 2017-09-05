@@ -11,6 +11,7 @@ The previous generation of the following articles is required:
         LPISIS/COTS/ZEROMQ
         LPISIS/COTS/node
         LPISIS/COTS/npm_repository
+        LPISIS/GPDS
 
 This article will be generated through the execution of the jenkins job called GPCCHS
 which is itself launched by the jenkins job called BUILD_VI.

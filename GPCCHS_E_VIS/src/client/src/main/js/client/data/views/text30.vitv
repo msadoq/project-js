@@ -438,7 +438,7 @@
   "links": [
     {
       "name": "pageMedium",
-      "path": "../pageMedium.json"
+      "path": "../pageMedium.vipg"
     }
   ],
   "defaultRatio": {

@@ -114,7 +114,7 @@
   "links": [
     {
       "name": "pagePBF1",
-      "path": "/pages/pbf.page.json"
+      "path": "/pages/pbf.page.vipg"
     }
   ],
   "defaultRatio": {

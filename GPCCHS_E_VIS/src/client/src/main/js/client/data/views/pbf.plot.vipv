@@ -15,7 +15,7 @@
   "links": [
     {
       "name": "pagePBF1",
-      "path": "./pages/pagePBF1.json"
+      "path": "./pages/pagePBF1.vipg"
     }
   ],
   "defaultRatio": {

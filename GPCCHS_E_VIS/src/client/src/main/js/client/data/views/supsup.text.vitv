@@ -138,7 +138,7 @@
   "links": [
     {
       "name": "pageTest",
-      "path": "../pageTest.json"
+      "path": "../pageTest.vipg"
     }
   ],
   "defaultRatio": {

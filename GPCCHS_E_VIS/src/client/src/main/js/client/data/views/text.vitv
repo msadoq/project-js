@@ -15,11 +15,11 @@
   "links": [
     {
       "name": "page.exe2.workspace",
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.json"
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.vipg"
     },
     {
       "name": "view.pbf.text",
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json"
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.vitv"
     }
   ],
   "defaultRatio": {

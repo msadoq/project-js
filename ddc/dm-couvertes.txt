@@ -1,4 +1,4 @@
-#GPCCHS 1.1.0 21/02/2017 dm-couvertes.txt
+#GPCCHS 1.1.0 28/02/2017 dm-couvertes.txt
 
 
 # ref_OGM_cnes | ref_emetteur | pere_OGM | pere_FT | titre | impact::= LOG/DOC/AUTRE | tracabilite::= CODE/DOC/NON_TRACE

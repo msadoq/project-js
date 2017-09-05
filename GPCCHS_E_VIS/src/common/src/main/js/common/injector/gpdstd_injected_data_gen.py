@@ -777,15 +777,24 @@ if __name__ == '__main__':
     #print repr(aggGen.getAggsOidsByParamOid())
 
     # Check if telemetry packet file shall be generated
-    # It shall be generated if a list of aggregations is specified
+    # It shall be generated if a list of aggregations is specified and this list doesn't fit with provided TelemetryPacket file
     if args.agg and len(args.agg):
         nbRequestedParamsInAggs = deepcopy(args.agg)
+        nbParamInAggsToChk = deepcopy(nbParamsInExistingAggs)
         # Telemetry packet file shall be generated if the specified list of aggregation doesn't have the same number of parameters as the ones in telemetry packet file
-        if nbParamsInExistingAggs != nbRequestedParamsInAggs and not args.generate:
-            raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
-        #At this point telemetry packet file generation is required and possible
-        print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",expanduser(args.generate)
-        aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
+        isErrToRaise = False
+        if not args.generate:
+            for nbParams in nbRequestedParamsInAggs:
+                if nbParams in nbParamInAggsToChk:
+                    nbParamInAggsToChk.remove(nbParams)
+                else:
+                    isErrToRaise = True
+            if isErrToRaise:
+                raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
+        else:
+	    #At this point telemetry packet file generation is required and possible
+	    print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",expanduser(args.generate)
+	    aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
 
     # Manage the GPCCDC parameter aggregation file generation
     if args.dcparamagg and len(args.dcparamagg):

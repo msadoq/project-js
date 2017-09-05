@@ -27,7 +27,7 @@ export default class ViewParams extends React.Component {
         <ButtonGroup className="mt5 mb5 text-right">
           <Button
             bsStyle="primary"
-            bsSize="tiny"
+            bsSize="small"
             type="submit"
             onClick={this.askReloadView}
             className="mr5"
@@ -37,7 +37,7 @@ export default class ViewParams extends React.Component {
           </Button>
           <Button
             bsStyle="success"
-            bsSize="tiny"
+            bsSize="small"
             type="submit"
             disabled={!isModified}
             onClick={this.askSaveView}

@@ -41,7 +41,7 @@
     "start": "./scripts/start.sh",
     "start-hot": "APP_ENV=main HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
     "start:dc:stub": "LOG=console ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:5043 ISIS_DOCUMENTS_ROOT=/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data WORKSPACE=dev.workspace.viws node ./lib/stubProcess/dc.js",
-    "test": "NODE_ENV=test jest onSave*",
+    "test": "NODE_ENV=test jest",
     "test:adapters": "(cd ./adapters/dc && npm test) && (cd ./adapters/isis && npm test)",
     "test:watch": "npm test -- --watch",
     "test:coverage": "npm test -- --coverage",

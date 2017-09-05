@@ -1,0 +1,36 @@
+.container {
+  background-color: orange;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.table, .th, .td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.table {
+  overflow-x: auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.thead .th {
+  position: sticky;
+  top: 0;
+  background: lightgrey;
+  z-index: 10;
+}
+
+.td, .th {
+  padding: 10px;
+}
+
+.td {
+  height: 33px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 320px;
+}

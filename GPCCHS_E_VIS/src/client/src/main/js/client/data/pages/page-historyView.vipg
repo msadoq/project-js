@@ -12,6 +12,18 @@
       },
       "hideBorders": false,
       "windowState": "Normalized"
+    },
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.vitv",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 5,
+        "collapsed": false
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
     }
   ]
 }

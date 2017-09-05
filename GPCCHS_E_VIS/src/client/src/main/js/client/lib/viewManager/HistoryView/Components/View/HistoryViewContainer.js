@@ -18,7 +18,6 @@ const lines = createLines(100);
 
 const mapStateToProps = createStructuredSelector({
   data: () => ({
-    labels: { name: 'Name', timestamp: 'Time', value: 'Value' },
     cols: ['timestamp', 'name', 'value', 'a', 'b', 'c'],
     lines,
   }),

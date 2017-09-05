@@ -3,7 +3,7 @@
   "title": "Maximized view page",
   "views": [
     {
-      "path": "/views/plotview10.json",
+      "path": "/views/plotview10.vipv",
       "geometry": {
         "x": 0,
         "y": 0,
@@ -15,7 +15,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/text.json",
+      "path": "/views/text.vitv",
       "geometry": {
         "x": 0,
         "y": 11,

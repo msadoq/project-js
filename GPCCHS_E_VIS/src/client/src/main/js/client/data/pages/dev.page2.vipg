@@ -3,10 +3,10 @@
   "hideBorders": false,
   "timebarHeight": 140,
   "timebarCollapsed": false,
-  "title": "PBF page",
+  "title": "FMD page",
   "views": [
     {
-      "path": "/views/pbf.text.json",
+      "oId": "oid:views/text30.vitv",
       "geometry": {
       "kind": "Relative",
       "x": 0,
@@ -17,7 +17,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/pbf.plot.json",
+      "oId": "oid:views/plotview4.vipv",
       "geometry": {
         "kind": "Relative",
         "x": 6,

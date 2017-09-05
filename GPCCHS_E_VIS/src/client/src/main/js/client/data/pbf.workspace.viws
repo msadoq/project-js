@@ -6,11 +6,11 @@
       "title": "PBF workspace",
       "pages": [
         {
-          "path": "./pages/pbf.page.json",
+          "path": "./pages/pbf.page.vipg",
           "timebarId": "TB1"
         },
         {
-          "oId": "oid:/pages/dev.page2.json",
+          "oId": "oid:/pages/dev.page2.vipg",
           "timebarId": "TB1"
         }
       ],

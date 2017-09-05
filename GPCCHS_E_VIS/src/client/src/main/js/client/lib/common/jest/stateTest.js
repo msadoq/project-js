@@ -625,7 +625,7 @@ export default {
     },
   },
   hsc: {
-    file: 'dev.workspace.json',
+    file: 'dev.workspace.viws',
     focusWindow: 'myWindow',
     folder: '/mydata/data',
     forecast: {},

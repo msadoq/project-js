@@ -6,11 +6,11 @@
     "title": "Large workspace",
     "pages": [
       {
-        "path": "./pages/pageLarge1.json",
+        "path": "./pages/pageLarge1.vipg",
         "timebarId": "TB1"
       },
       {
-        "oId": "oid:/pages/dev.page2.json",
+        "oId": "oid:/pages/dev.page2.vipg",
         "timebarId": "TB1"
       }
     ],

@@ -154,7 +154,7 @@ module.exports = {
     Page: '.vipg',
     TextView: '.vitv',
     PlotView: '.vipv',
-    DynamicView: '.cciv',
+    DynamicView: '.vidv',
     MimicView: '.vimv',
     PacketView: '.vikv',
     HistoryView: '.vihv',

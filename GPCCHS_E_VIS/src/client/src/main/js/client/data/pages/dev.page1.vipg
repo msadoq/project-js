@@ -7,7 +7,7 @@
   "domainName": "fr.cnes.isis.simupus",
   "views": [
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.vitv",
       "geometry": {
         "x": 0,
         "y": 0,
@@ -20,7 +20,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv",
       "geometry": {
         "x": 6,
         "y": 0,
@@ -33,7 +33,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv",
       "geometry": {
         "x": 0,
         "y": 16,
@@ -44,7 +44,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.vimv",
       "geometry": {
         "x": 0,
         "y": 3,

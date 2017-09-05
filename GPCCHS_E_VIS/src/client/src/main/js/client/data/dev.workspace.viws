@@ -13,15 +13,15 @@
       },
       "pages": [
         {
-          "path": "pages/dev.page1.json",
+          "path": "pages/dev.page1.vipg",
           "timebarId": "TB1"
         },
         {
-          "oId": "oid:/pages/dev.page2.json",
+          "oId": "oid:/pages/dev.page2.vipg",
           "timebarId": "TB1"
         },
         {
-          "path": "pages/maximized.page.json",
+          "path": "pages/maximized.page.vipg",
           "timebarId": "TB1"
         }
       ]

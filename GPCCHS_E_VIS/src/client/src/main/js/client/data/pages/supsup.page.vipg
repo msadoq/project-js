@@ -6,7 +6,7 @@
   "timebarCollapsed": false,
   "views": [
     {
-      "path": "/views/supsup.plot10.json",
+      "path": "/views/supsup.plot10.vipv",
       "geometry": {
         "kind": "Relative",
         "x": 4,
@@ -17,7 +17,7 @@
       "windowState": "Normalized"
     },
 {
-      "path": "/views/supsup.plot.json",
+      "path": "/views/supsup.plot.vipv",
       "geometry": {
         "kind": "Relative",
         "x": 0,
@@ -28,7 +28,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/supsup.text.json",
+      "path": "/views/supsup.text.vitv",
       "geometry": {
         "kind": "Relative",
         "x": 8,

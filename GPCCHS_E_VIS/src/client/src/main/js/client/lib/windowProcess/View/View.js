@@ -4,7 +4,7 @@ import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from '../../common/logManager';
 import HeaderContainer from './HeaderContainer';
-import MessagesContainer from './MessagesContainer';
+import MessagesContainer from '../common/MessagesContainer';
 import { getViewComponent } from '../../viewManager/components';
 import handleContextMenu from '../common/handleContextMenu';
 

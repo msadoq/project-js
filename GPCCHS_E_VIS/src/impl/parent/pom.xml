@@ -35,6 +35,20 @@
         <classifier>unix_dev</classifier>
         <version>${gpds.version}</version>
       </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.python</groupId>
+        <artifactId>gpcc_xmlRuntime</artifactId>
+        <type>isis-python-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.python</groupId>
+        <artifactId>gpcctc_l_cnt_isisContainerCommon</artifactId>
+        <type>isis-python-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>

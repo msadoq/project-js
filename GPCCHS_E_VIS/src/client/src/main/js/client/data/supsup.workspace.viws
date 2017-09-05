@@ -1,0 +1,47 @@
+{
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "documentWindow",
+      "title": "Sup/Sup workspace",
+      "pages": [
+        {
+          "path": "./pages/supsup.page.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "oId": "oid:/pages/dev.page2.vipg",
+          "timebarId": "TB1"
+        }
+      ],
+      "geometry": {
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
+        "w": 1310,
+        "h": 800
+      }
+    }
+  ],
+  "timebars": [
+      {
+        "type": "timeBarConfiguration",
+        "id": "TB1",
+        "mode": "Normal",
+        "rulerResolution": 1500,
+        "speed": 1.0,
+        "playingState": "pause",
+        "timeSpec": "LocalTime",
+        "offsetFromUTC": 0,
+        "timelines": [
+          {
+            "id": "Session 1",
+            "offset": 0,
+            "kind": "Session",
+            "sessionName": "Session#181"
+          }
+        ],
+        "masterId": "Session 1"
+      }
+    ]
+}

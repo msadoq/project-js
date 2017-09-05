@@ -1,0 +1,46 @@
+{
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "documentWindow",
+      "title": "PBF workspace",
+      "pages": [
+        {
+          "path": "./pages/pbf.page.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "oId": "oid:/pages/dev.page2.vipg",
+          "timebarId": "TB1"
+        }
+      ],
+      "geometry": {
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
+        "w": 1310,
+        "h": 800
+      }
+    }
+  ],
+  "timebars": [
+    {
+      "type": "timeBarConfiguration",
+      "id": "TB1",
+      "mode": "Normal",
+      "rulerResolution": 1500,
+      "speed": 1.0,
+      "timeSpec": "LocalTime",
+      "offsetFromUTC": 0,
+      "timelines": [
+        {
+          "id": "Session 1",
+          "offset": 0,
+          "kind": "Session",
+          "sessionName": "Master"
+        }
+      ],
+      "masterId": "Session 1"
+    }
+  ]
+}

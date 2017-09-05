@@ -1,0 +1,274 @@
+{
+  "type": "PlotView",
+  "title": "Plotview 4 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#000000"
+  },
+  "backgroundColor": "#333333",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.vipg"
+    }
+  ],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "procedures": [],
+  "entryPoints": [
+    {
+      "name": "ATT_BC_REVTCOUNT1",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "Square",
+          "size": 8
+        },
+        "curveColor": "#424242"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT2",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#58FA58"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT3",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#F7BE81"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT4",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#DF013A"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    }
+  ],
+  "axes": [
+    {
+      "label": "Time",
+      "id": "time",
+      "unit": "s",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#000000"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true,
+      "showLabels": true
+    },
+    {
+      "label": "VBat",
+      "id": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFFFFF"
+      },
+      "min": -300,
+      "max": 300,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true,
+      "showLabels": true
+    }
+  ],
+  "grids": [
+    {
+      "xAxisId": "time",
+      "yAxisId": "VBat",
+      "line": {
+        "style": "Continuous",
+        "size": 1
+      },
+      "showGrid": true
+    }
+  ],
+  "showYAxes": "left",
+  "legend": {
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "color": "#000000"
+    },
+    "location": "top"
+  },
+  "showLegend": false,
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ]
+}

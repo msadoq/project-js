@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { updateLayout, askOpenPage } from '../../store/actions/pages';
 import { askOpenView } from '../../store/actions/views';
+import { add } from '../../store/actions/messages';
 import { getPageViews } from '../../store/selectors/pages';
 import {
   getPageLayoutWithCollapsed,
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId }) => (
     updateLayout: layout => updateLayout(pageId, layout),
     askOpenPage: filePath => askOpenPage(windowId, filePath),
     askOpenView: filePath => askOpenView(filePath),
+    addMessage: add,
   }, dispatch)
 );
 

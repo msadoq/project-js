@@ -1,0 +1,449 @@
+{
+  "title": "TextView 30 parameters",
+  "type": "TextView",
+  "backgroundColor" : "#fce4ec",
+  "entryPoints": [
+    {
+      "name": "AGA_AM_OWNERID",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_NUMTC20",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_NUMTC20<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_RWH2ERROR",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_RWH2ERROR<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_GPS2NBNANOS",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_GPS2NBNANOS<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_LVPOSZJ2000",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_LVPOSZJ2000<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_TSTPARVQ",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_TSTPARVQ<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_NUMRJCTTC7",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_NUMRJCTTC7<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_TSTPARVFLT",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_TSTPARVFLT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_CLOCKFREQ",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_CLOCKFREQ<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_MNVDEADLRED",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_MNVDEADLRED<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_OFFSETGPS",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_OFFSETGPS<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_TMFMAXDLT",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_TMFMAXDLT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_DAGAEN",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_DAGAEN<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_ENABLED3",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_ENABLED3<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_NUMRJCTTC14",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_NUMRJCTTC14<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_TCSEQDELAY",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_TCSEQDELAY<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "OBCPE1_BC_NUMRJCTTC0",
+      "connectedData": {
+        "formula": "Reporting.OBCPE1_BC_NUMRJCTTC0<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "pageMedium",
+      "path": "../pageMedium.vipg"
+    }
+  ],
+  "defaultRatio": {
+    "length": 5,
+    "width": 3
+  },
+  "content": "<style>  .myTextView {float: left; font-size: 1.2rem; }  .myTextView .myContener { background-color: #0f1051; margin-top: 4px; margin-left: 6px; padding:2px; float: left; border-radius: 1px; border: 1px ridge #0f0041; height: 51px; width: 180px; }  .myContener .name {display: block;  overflow: hidden; background-color: white; color: black; font-weight: bolder; font-size: 11px; padding: 2px; text-align: center;}  .myContener .value { text-align: center; display: block; overflow: hidden; background-color: #0f0041; color: #00ff00; font-weight: bold; padding: 10px; margin-bottom: 10px; }</style><div class='myTextView'>    <div class='myContener'><span class='name'>AGA_AM_OWNERID</span><span class='value'>{{AGA_AM_OWNERID}}</span></div>    <div class='myContener'><span class='name'>AGA_AM_QP2</span><span class='value'>{{AGA_AM_QP2}}</span></div>    <div class='myContener'><span class='name'>AGA_AM_STATIONID</span><span class='value'>{{AGA_AM_STATIONID}}</span></div>    <div class='myContener'><span class='name'>AGA_AM_VALMASK</span><span class='value'>{{AGA_AM_VALMASK}}</span></div>    <div class='myContener'><span class='name'>ATT_BC_QUATSATREF</span><span class='value'>{{ATT_BC_QUATSATREF}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_144PARINT</span><span class='value'>{{GENE_AM_144PARINT}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_144PARUSHT</span><span class='value'>{{GENE_AM_144PARUSHT}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_FILEDATA</span><span class='value'>{{GENE_AM_FILEDATA}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_I146SPARE</span><span class='value'>{{GENE_AM_I146SPARE}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_I11TCPEC</span><span class='value'>{{GENE_AM_I11TCPEC}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_LDTBYTENUSE</span><span class='value'>{{GENE_AM_LDTBYTENUSE}}</span></div>    <div class='myContener'><span class='name'>GENE_AM_REPORTID</span><span class='value'>{{GENE_AM_REPORTID}}</span></div>    <div class='myContener'><span class='name'>ATT_BC_MAG1CURRENT</span><span class='value'>{{ATT_BC_MAG1CURRENT}}</span></div>    <div class='myContener'><span class='name'>ATT_BC_MAG2YFIELDM</span><span class='value'>{{ATT_BC_MAG2YFIELDM}}</span></div>    <div class='myContener'><span class='name'>ATT_BC_NUMTC20</span><span class='value'>{{ATT_BC_NUMTC20}}</span></div>    <div class='myContener'><span class='name'>ATT_BC_RWH2ERROR</span><span class='value'>{{ATT_BC_RWH2ERROR}}</span></div>    <div class='myContener'><span class='name'>ORB_BC_GPS2NBNANOS</span><span class='value'>{{ORB_BC_GPS2NBNANOS}}</span></div>    <div class='myContener'><span class='name'>ORB_BC_LVPOSZJ2000</span><span class='value'>{{ORB_BC_LVPOSZJ2000}}</span></div>    <div class='myContener'><span class='name'>ORB_BC_TSTPARVQ</span><span class='value'>{{ORB_BC_TSTPARVQ}}</span></div>    <div class='myContener'><span class='name'>POW_BC_NUMRJCTTC7</span><span class='value'>{{POW_BC_NUMRJCTTC7}}</span></div>    <div class='myContener'><span class='name'>POW_BC_TSTPARVFLT</span><span class='value'>{{POW_BC_TSTPARVFLT}}</span></div>    <div class='myContener'><span class='name'>SAT_BC_CLOCKFREQ</span><span class='value'>{{SAT_BC_CLOCKFREQ}}</span></div>    <div class='myContener'><span class='name'>SAT_BC_MNVDEADLRED</span><span class='value'>{{SAT_BC_MNVDEADLRED}}</span></div>    <div class='myContener'><span class='name'>SAT_BC_OFFSETGPS</span><span class='value'>{{SAT_BC_OFFSETGPS}}</span></div>    <div class='myContener'><span class='name'>SAT_BC_TMFMAXDLT</span><span class='value'>{{SAT_BC_TMFMAXDLT}}</span></div>    <div class='myContener'><span class='name'>MIS_BC_DAGAEN</span><span class='value'>{{MIS_BC_DAGAEN}}</span></div>    <div class='myContener'><span class='name'>MIS_BC_ENABLED3</span><span class='value'>{{MIS_BC_ENABLED3}}</span></div>    <div class='myContener'><span class='name'>FMGT_BC_NUMRJCTTC14</span><span class='value'>{{FMGT_BC_NUMRJCTTC14}}</span></div>    <div class='myContener'><span class='name'>FMGT_BC_TCSEQDELAY</span><span class='value'>{{FMGT_BC_TCSEQDELAY}}</span></div>    <div class='myContener'><span class='name'>OBCPE1_BC_NUMRJCTTC0</span><span class='value'>{{OBCPE1_BC_NUMRJCTTC0}}</span></div></div>"
+}

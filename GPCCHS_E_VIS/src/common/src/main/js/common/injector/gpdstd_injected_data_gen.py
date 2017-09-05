@@ -67,12 +67,12 @@ def uidToOid(uid):
     Convert val into hexadecimal with padding to 64bits
     val shall be an integer
     '''
-    oid = hex((uid + (1 << 64)) % (1 << 64))
-    if oid[0:2] == "0x":
+    oid = hex((uid + (1 << 64)) % (1 << 64)) # Conversion to signed 64bits hexadecimal value (negative values management)
+    if oid[0:2] == "0x": # Remove leading "0x" due to hexadecimal conversion
         oid = oid[2:]
-    if oid[-1:] not in "0123456789abcdef":
+    if oid[-1:] not in "0123456789abcdef": # Remove trailing "L" due to automatic conversion to long type
         oid = oid[:-1]
-    while len(oid)<16:
+    while len(oid)<16: # Padding with 0 up to 64 bits
         oid = "0" + oid
     return oid
     
@@ -81,8 +81,8 @@ def oidToUid(oid):
     Convert val into decimal providing that val is a signed hexadecimal value coded on 64bits
     val shall be an integer
     '''
-    uid = int(oid,16)
-    if uid > 0x8000000000000000:
+    uid = int(oid,16) # Conversion to integer value from hexadecimal
+    if uid > 0x8000000000000000: # Manage negative values for signed 64bits data type
         uid -= 0x10000000000000000
     return uid
 
@@ -252,7 +252,7 @@ class GPDSTD_AggregationsGenerator(object):
                     if paramName in self._reportingParameters:
                         paramsOid.append(self._reportingParameters[paramName])
                     else:
-                        raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') is not consistent with Reporting parameter catalog (' + self._reportingParamsCatalogJsonFile + ') : the parameter ' + paramName +  ' is mentionned in Telemetry packet file but doesn\'t existe in Reporting parameter catalog')
+                        raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') is not consistent with Reporting parameter catalog (' + self._reportingParamsCatalogJsonFile + ') : the parameter ' + paramName +  ' is mentionned in Telemetry packet file but doesn\'t exist in Reporting parameter catalog')
                 self._injectionData[aggName] = {'uid' : self._aggUidInExistingFile[aggName], 'paramsOids' : paramsOid }
         #print "nbParamPerAggInExistingFile : " +  repr(self._nbParamPerAggInExistingFile)
         return self._aggregations
@@ -777,15 +777,24 @@ if __name__ == '__main__':
     #print repr(aggGen.getAggsOidsByParamOid())
 
     # Check if telemetry packet file shall be generated
-    # It shall be generated if a list of aggregations is specified
+    # It shall be generated if a list of aggregations is specified and this list doesn't fit with provided TelemetryPacket file
     if args.agg and len(args.agg):
         nbRequestedParamsInAggs = deepcopy(args.agg)
+        nbParamInAggsToChk = deepcopy(nbParamsInExistingAggs)
         # Telemetry packet file shall be generated if the specified list of aggregation doesn't have the same number of parameters as the ones in telemetry packet file
-        if nbParamsInExistingAggs != nbRequestedParamsInAggs and not args.generate:
-            raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
-        #At this point telemetry packet file generation is required and possible
-        print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",expanduser(args.generate)
-        aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
+        isErrToRaise = False
+        if not args.generate:
+            for nbParams in nbRequestedParamsInAggs:
+                if nbParams in nbParamInAggsToChk:
+                    nbParamInAggsToChk.remove(nbParams)
+                else:
+                    isErrToRaise = True
+            if isErrToRaise:
+                raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
+        else:
+	    #At this point telemetry packet file generation is required and possible
+	    print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",expanduser(args.generate)
+	    aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
 
     # Manage the GPCCDC parameter aggregation file generation
     if args.dcparamagg and len(args.dcparamagg):
@@ -895,7 +904,7 @@ if __name__ == '__main__':
 
             objKey = {
                     "domaineId" : int(oid[14:18],16),
-                    "uid" : oidToUid(oid[18:])
+                    "uid" : str(oidToUid(oid[18:])) #str() use necessary to avoid trailing "L" with long type uid
                     }
             
             objDef = {

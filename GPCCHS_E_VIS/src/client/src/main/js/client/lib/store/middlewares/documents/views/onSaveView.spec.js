@@ -22,8 +22,8 @@ describe('store:serverProcess:middlewares:documents:makeOnSaveView', () => {
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1', 'v2'] } },
     views: {
-      v1: { uuid: 'v1', absolutePath: '/absolute/path' },
-      v2: { uuid: 'v2' },
+      v1: { uuid: 'v1', absolutePath: '/absolute/path', type: 'PlotView' },
+      v2: { uuid: 'v2', type: 'PlotView' },
     },
   });
 

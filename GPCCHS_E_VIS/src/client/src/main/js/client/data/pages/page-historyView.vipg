@@ -1,0 +1,17 @@
+{
+  "type": "Page",
+  "title": "Unknown",
+  "views": [
+    {
+      "oId": "oid:/views/historyView.vihv",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 17
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

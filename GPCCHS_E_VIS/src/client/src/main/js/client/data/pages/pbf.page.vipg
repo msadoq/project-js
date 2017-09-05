@@ -1,0 +1,31 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "timebarHeight": 140,
+  "timebarCollapsed": false,
+  "title": "PBF page",
+  "views": [
+    {
+      "path": "/views/pbf.text.vitv",
+      "geometry": {
+      "kind": "Relative",
+      "x": 0,
+      "y": 0,
+      "w": 6,
+      "h": 14
+      },
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/views/pbf.plot.vipv",
+      "geometry": {
+        "kind": "Relative",
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 14
+      },
+      "windowState": "Normalized"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This wrapper is necessary because it is not possible to ask generic launcher to add environment variables
+
+# Create necessary environment variable for GPCCHS javascript application
+export RTD_UNIX_SOCKET=0
+
+# Initialize sub process PID
+PID=0
+
+function cleanup {
+    if [ $PID -ne 0 ] ; then
+        kill $PID
+    fi
+}
+# Clean up launched process in case of unexpected termination of this script
+trap cleanup TERM
+
+# Launch as sub process the rest of the command line used to run this script
+"$@" &
+PID=$!
+
+# Wait for the sub process to terminate (necessary to let generic launcher correctly manage the sub process)
+wait $PID
+
+# Reset sub process PID
+PID=0
+
+# Forward the termination status to generic launcher
+exit $?

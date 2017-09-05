@@ -1,0 +1,29 @@
+{
+  "type": "Page",
+  "title": "Maximized view page",
+  "views": [
+    {
+      "path": "/views/plotview10.vipv",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 11,
+        "maximized": true
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/views/text.vitv",
+      "geometry": {
+        "x": 0,
+        "y": 11,
+        "w": 3,
+        "h": 3
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "timebarHeight": 140,
+  "timebarCollapsed": false,
+  "title": "page Large workspace 1",
+  "views": [
+    {
+      "path": "/views/text100.vitv",
+      "geometry": {
+      "kind": "Relative",
+      "x": 4,
+      "y": 4,
+      "w": 8,
+      "h": 16
+      },
+      "windowState": "Normalized"
+    },
+	{
+	  "path": "/views/plotview10.vipv",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 2,
+		"w": 4,
+		"h": 8
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/text30.vitv",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 6,
+		"w": 4,
+		"h": 8
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

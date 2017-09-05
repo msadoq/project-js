@@ -126,7 +126,7 @@ export default class MimicViewWrapper extends PureComponent {
       const noRenderMsg = 'Visu Window is too long for this type of view';
       logger.debug('no render due to', noRenderMsg);
       return (
-        <div className="flex">
+        <div className={`flex ${styles.container}`}>
           <div className={styles.renderErrorText}>
             Unable to render view <br />
             {noRenderMsg}
@@ -135,7 +135,7 @@ export default class MimicViewWrapper extends PureComponent {
       );
     }
     return (
-      <div className="h100 posRelative" onContextMenu={this.onContextMenu}>
+      <div className={`h100 posRelative ${styles.container}`} onContextMenu={this.onContextMenu}>
         <Row className="h100 posRelative">
           <Col xs={12} style={style}>
             <LinksContainer

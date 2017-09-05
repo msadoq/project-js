@@ -1,5 +1,7 @@
 import { join } from 'path';
 import * as types from '../../../types';
+import { EXTENSIONS } from '../../../../constants';
+
 import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from '../selectors';
 import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../../reducers/hsc';
 
@@ -33,7 +35,7 @@ const makeOnSaveWorkspace = documentManager => withListenAction(
           ],
         }));
       } else if (saveAs) {
-        dispatch(openDialog(windowId, 'save'));
+        dispatch(openDialog(windowId, 'save', { defaultPath: EXTENSIONS.WorkSpace }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

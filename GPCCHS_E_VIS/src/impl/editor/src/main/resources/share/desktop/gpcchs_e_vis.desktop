@@ -1,0 +1,17 @@
+[Desktop Entry]
+Categories=ISIS
+Name=VIMA
+GenericName=VIsualization Main Application
+Comment=VIsualization Main Application: Text, Plots, Decommuted packets, ...
+Icon=/usr/share/isis/share/other/icons/applications/vimajs-128x128.png
+Exec=/usr/share/isis/bin/vima
+NoDisplay=false
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+MimeType=
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

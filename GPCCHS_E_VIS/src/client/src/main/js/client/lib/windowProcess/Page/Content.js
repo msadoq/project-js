@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import _get from 'lodash/get';
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
@@ -6,6 +7,7 @@ import Grid from 'react-grid-layout';
 import path from 'path';
 import getLogger from '../../common/logManager';
 import ViewContainer from '../View/ViewContainer';
+import MessagesContainer from '../common/MessagesContainer';
 import DroppableContainer from '../common/DroppableContainer';
 import styles from './Content.css';
 import { main } from '../ipc';
@@ -52,6 +54,7 @@ export default class Content extends PureComponent {
     width: PropTypes.number,
     askOpenPage: PropTypes.func.isRequired,
     askOpenView: PropTypes.func.isRequired,
+    addMessage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -68,24 +71,39 @@ export default class Content extends PureComponent {
   };
 
   onDrop = (e) => { // eslint-disable-line class-methods-use-this
+    const {
+      askOpenView,
+      askOpenPage,
+      addMessage,
+      pageId,
+    } = this.props;
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
     const filePath = path.join(
       global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-      _.get('filepath', content) || _.get('filePath', content)
+      _get(content, 'filepath', '') || _get(content, 'filePath', '')
     );
 
     const type = getDropItemType(content.mimeType);
-
     _.cond([
-      [_.eq('view'), () => this.props.askOpenView(filePath)],
-      [_.eq('page'), () => this.props.askOpenPage(filePath)],
+      [_.eq('view'), () => askOpenView(filePath)],
+      [_.eq('page'), () => askOpenPage(filePath)],
       [_.eq('workspace'), () => main.openWorkspace({
         absolutePath: path.join(
           global.parameters.get('ISIS_DOCUMENTS_ROOT'),
           _.getOr(_.get('filepath', content), 'filePath', content)
         ),
       })],
+      [
+        _.stubTrue,
+        () => {
+          addMessage(
+            pageId,
+            'danger',
+            `Unsupported mime type: "${type}", supported mime type are ViewDoc, PageDoc and WorkspaceDoc`
+          );
+        },
+      ],
     ])(type);
   }
 
@@ -122,6 +140,9 @@ export default class Content extends PureComponent {
 
     return (
       <DroppableContainer onDrop={this.onDrop} style={droppableContainerStyle}>
+        <MessagesContainer
+          containerId={pageId}
+        />
         <Grid
           layout={layouts.lg}
           className="layout"

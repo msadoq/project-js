@@ -39,16 +39,22 @@ export const scaleAnimation = (data, g) => {
   } else {
     value = data.values[g.epName].value;
   }
-  let ratio = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
-  ratio = ratio < 0 ? 0 : ratio;
-  ratio = Math.round(ratio * 1000) / 1000;
+  const val = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
+  let scale = g.scale[0] + (val * (g.scale[1] - g.scale[0]));
+  if (scale > g.scale[1]) {
+    scale = g.scale[1];
+  } else if (scale < g.scale[0]) {
+    scale = g.scale[0];
+  }
+  scale /= 100; // Because g.scale are expressed in percent
+  scale = Math.round(scale * 1000) / 1000;
   if (g.type === 'scaleY') {
-    setStyleIfChanged(el, 'transform', `scaleY(${ratio})`, 'string');
+    setStyleIfChanged(el, 'transform', `scaleY(${scale})`, 'string');
   } else {
-    setStyleIfChanged(el, 'transform', `scaleX(${ratio})`, 'string');
+    setStyleIfChanged(el, 'transform', `scaleX(${scale})`, 'string');
   }
   setStyleIfChanged(el, 'visibility', 'visible', 'string');
-  setStyleIfChanged(el, 'transformOrigin', g.fixed ? `${g.fixed} center 0px` : 'center bottom 0px', 'string');
+  setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'left top 0px', 'string');
 };
 
 export const translateAnimation = (data, g) => {
@@ -67,9 +73,9 @@ export const translateAnimation = (data, g) => {
   } else {
     value = data.values[g.epName].value;
   }
-  let distance = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.width;
+  let distance = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.distance;
   distance = distance < 0 ? 0 : distance;
-  distance = distance > g.width ? g.width : distance;
+  distance = distance > g.distance ? g.distance : distance;
   distance = Math.round(distance * 1000) / 1000;
   if (g.type === 'translateY') {
     if (g.direction === 'top') {
@@ -80,8 +86,8 @@ export const translateAnimation = (data, g) => {
     if (g.direction === 'left') {
       distance *= -1;
     }
-    setStyleIfChanged(el, 'visibility', 'visible', 'string');
     setStyleIfChanged(el, 'transform', `translate(${distance}px, 0px)`, 'string');
+    setStyleIfChanged(el, 'visibility', 'visible', 'string');
   }
 };
 
@@ -101,13 +107,13 @@ export const rotateAnimation = (data, g) => {
   } else {
     value = data.values[g.epName].value;
   }
-  let angle = ((value - g.domain[0]) / (g.domain[1] - g.domain[0])) * g.angle;
-  angle = angle < 0 ? 0 : angle;
-  angle = angle > g.angle ? g.angle : angle;
+  const val = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
+  let angle = g.angle[0] + ((g.angle[1] - g.angle[0]) * val);
+  angle = (angle > g.angle[1] || angle < g.angle[0]) ? g.angle[0] : angle;
   angle = Math.round(angle * 1000) / 1000;
-  setStyleIfChanged(el, 'visibility', 'visible', 'string');
-  setStyleIfChanged(el, 'transformOrigin', `${g.center[0]}px ${g.center[1]}px 0px`, 'string');
   setStyleIfChanged(el, 'transform', `rotate(${angle}deg)`, 'string');
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
+  setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'left top 0px', 'string');
 };
 
 export const textBoxAnimation = (data, g) => {
@@ -152,7 +158,6 @@ export const textBoxAnimation = (data, g) => {
     }
   }
   setStyleIfChanged(el, 'fill', fillText, 'string');
-  setStyleIfChanged(el, 'visibility', 'visible', 'string');
   for (let i = 0; i < g.bgColorLevels.length; i += 1) {
     const stateColor = g.bgColorLevels[i].split('$');
     if (value > stateColor[0]) {
@@ -161,6 +166,8 @@ export const textBoxAnimation = (data, g) => {
   }
   setStyleIfChanged(elBg, 'fill', fillBg, 'string');
   setStyleIfChanged(elBg, 'fillOpacity', fillBg === '' ? 0 : 1, 'number');
+
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
 };
 
 export const colourAnimation = (data, g) => {

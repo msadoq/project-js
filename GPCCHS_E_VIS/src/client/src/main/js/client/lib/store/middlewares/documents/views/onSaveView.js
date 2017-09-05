@@ -1,4 +1,6 @@
 import * as types from '../../../types';
+import { EXTENSIONS } from '../../../../constants';
+
 import { getView } from '../../../reducers/views';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 
@@ -15,7 +17,7 @@ const makeOnSaveView = documentManager => withListenAction(
       const windowId = getWindowIdByViewId(state, { viewId });
       const saveAs = action.payload.saveAs || (!view.oId && !view.absolutePath);
       if (saveAs) {
-        dispatch(openDialog(windowId, 'save'));
+        dispatch(openDialog(windowId, 'save', { defaultPath: EXTENSIONS[view.type] }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

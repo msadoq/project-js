@@ -14,7 +14,9 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "defaultPath": ".vipg",
+      },
       "type": "save",
       "windowId": "w1",
     },
@@ -48,7 +50,9 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "defaultPath": ".vipg",
+      },
       "type": "save",
       "windowId": "w1",
     },
@@ -89,7 +93,9 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "defaultPath": ".vipg",
+      },
       "type": "save",
       "windowId": "w1",
     },

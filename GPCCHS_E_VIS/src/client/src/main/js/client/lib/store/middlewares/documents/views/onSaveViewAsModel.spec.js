@@ -21,7 +21,7 @@ describe('store:serverProcess:middlewares:documents:makeOnSaveViewAsModel', () =
   const store = mockStore({
     windows: { w1: { focusPage: 'p1', pages: ['p1'] } },
     pages: { p1: { uuid: 'p1', views: ['v1'] } },
-    views: { v1: { uuid: 'v1' } },
+    views: { v1: { uuid: 'v1', type: 'PlotView' } },
   });
 
   test('save view as model', () => {

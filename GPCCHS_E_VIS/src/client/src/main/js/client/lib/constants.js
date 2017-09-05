@@ -149,6 +149,16 @@ module.exports = {
     PacketView: 'PacketViewDoc',
     HistoryView: 'HistoryViewDoc',
   },
+  EXTENSIONS: {
+    WorkSpace: '.viws',
+    Page: '.vipg',
+    TextView: '.vitv',
+    PlotView: '.vipv',
+    DynamicView: '.cciv',
+    MimicView: '.vimv',
+    PacketView: '.vikv',
+    HistoryView: '.vihv',
+  },
   // REDUX SYNCHRONIZATION
   REDUX_SYNCHRONIZATION_PATCH_KEY: 'patch',
   TIMING_DATA: 'timing',

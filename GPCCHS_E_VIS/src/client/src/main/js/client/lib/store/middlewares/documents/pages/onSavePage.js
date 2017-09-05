@@ -1,4 +1,5 @@
 import * as types from '../../../types';
+import { EXTENSIONS } from '../../../../constants';
 
 import { getPage } from '../../../reducers/pages';
 import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
@@ -32,7 +33,7 @@ const makeOnSavePage = documentManager => withListenAction(
           ],
         }));
       } else if (saveAs) {
-        dispatch(openDialog(windowId, 'save'));
+        dispatch(openDialog(windowId, 'save', { defaultPath: EXTENSIONS.Page }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

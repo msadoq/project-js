@@ -1,0 +1,727 @@
+{
+  "type": "PlotView",
+  "title": "Plotview 10 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#FFFFFF",
+    "bgColor": "#111155"
+  },
+  "backgroundColor": "#FFFFFF",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.json"
+    }
+  ],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "procedures": [],
+  "axes": [
+    {
+      "label": "Time",
+      "id": "time",
+      "unit": "s",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFF"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true
+    },
+    {
+      "label": "VBat",
+      "id": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFF"
+      },
+      "min": 120,
+      "max": 140,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true
+    },
+    {
+      "label": "vBat 2",
+      "id": "vbat2",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFFFFF"
+      },
+      "min": -600,
+      "max": 600,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true,
+      "showLabels": true
+    },
+    {
+      "label": "VBat 3",
+      "id": "vbat3",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFFFFF"
+      },
+      "min": -600,
+      "max": 600,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true
+    },
+    {
+      "label": "VBat 4",
+      "id": "vbat4",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFFFFF"
+      },
+      "min": -600,
+      "max": 600,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true
+    }
+  ],
+  "grids": [
+    {
+      "showGrid": true,
+      "line": {
+        "size": 1,
+        "style": "Dashed"
+      },
+      "xAxisId": "time",
+      "yAxisId": "VBat"
+    }
+  ],
+  "legend": {
+    "location": "top",
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "color": "#000000"
+    }
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ],
+  "entryPoints": [
+    {
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "groundDate",
+        "format": "decimal",
+        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "GENE_AM_FRVERSION",
+      "objectStyle": {
+        "curveColor": "#4caf50",
+        "line": {
+          "size": 2,
+          "style": "Dotted"
+        },
+        "name": "GENE_AM_FRVERSION",
+        "points": {
+          "size": 0,
+          "style": "Dot"
+        }
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "waiting",
+            "operator": "=="
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_MAG1VOLTAGE",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#2196f3",
+        "name": "ATT_BC_MAG1VOLTAGE"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_NUMRJCTTC15",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "Square",
+          "size": 0
+        },
+        "curveColor": "#ff9800",
+        "name": "ATT_BC_NUMRJCTTC15"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_STR2QSTRREF",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#000000"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ORB_BC_LVVELXJ2000",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#ffc107",
+        "name": "ORB_BC_LVVELXJ2000"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ORB_BC_NXTDEADLINE",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#00bcd4",
+        "name": "ORB_BC_NXTDEADLINE"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "POW_BC_NUMRJCTTC18",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#21610B",
+        "name": "POW_BC_NUMRJCTTC18"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "SAT_BC_CCCIMMEDTC",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Dashed",
+          "size": 1
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#e91e63",
+        "name": "SAT_BC_CCCIMMEDTC"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "SAT_BC_LASTSQNUM5",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#03a9f4",
+        "name": "SAT_BC_LASTSQNUM5"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "MIS_BC_DALMVOLTAGE",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [
+          {
+            "field": "convertedValue",
+            "operator": "!=",
+            "operand": "0"
+          }
+        ],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Dotted",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#4000FF"
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "axisId": "",
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.extractedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "AGA_AM_OWNERID",
+      "objectStyle": {
+        "curveColor": "#795548",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "stateColors": [],
+      "unit": ""
+    },
+    {
+      "axisId": "",
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.convertedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "AGA_AM_QP2",
+      "objectStyle": {
+        "curveColor": "#f44336",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "stateColors": [],
+      "unit": ""
+    },
+    {
+      "axisId": "",
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.convertedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "AGA_AM_STATIONID",
+      "objectStyle": {
+        "curveColor": "#FFFFFF",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "stateColors": [],
+      "unit": ""
+    },
+    {
+      "axisId": "",
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.extractedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "AGA_AM_VALMASK",
+      "objectStyle": {
+        "curveColor": "#f44336",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "stateColors": [],
+      "unit": ""
+    },
+    {
+      "axisId": "",
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "ATT_BC_QUATSATREF",
+      "objectStyle": {
+        "curveColor": "#009688",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "stateColors": [],
+      "unit": ""
+    }
+  ],
+  "showYAxes": "left",
+  "showLegend": false,
+  "search": ""
+}

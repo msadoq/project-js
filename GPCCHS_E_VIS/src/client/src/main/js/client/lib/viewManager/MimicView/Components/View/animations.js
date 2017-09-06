@@ -185,8 +185,8 @@ export const colourAnimation = (data, g) => {
     }
   } else {
     const value = data.values[g.epName].value;
-    for (let i = 0; i < g.operators.length; i += 1) {
-      const stateColor = g.operators[i].split('$');
+    for (let i = 0; i < g.colorOperators.length; i += 1) {
+      const stateColor = g.colorOperators[i].split('|');
       if (stateColor[0] === '=' && value === stateColor[1]) {
         color = stateColor[2];
       } else if (stateColor[0] === '!=' && value !== stateColor[1]) {
@@ -199,6 +199,13 @@ export const colourAnimation = (data, g) => {
         color = stateColor[2];
       } else if (stateColor[0] === '<=' && value <= stateColor[1]) {
         color = stateColor[2];
+      }
+    }
+    for (let i = 0; i < g.colorRegex.length; i += 1) {
+      const stateColor = g.colorRegex[i].split('=');
+      const regex = RegExp(stateColor[0]);
+      if (value.match(regex)) {
+        color = stateColor[1];
       }
     }
   }

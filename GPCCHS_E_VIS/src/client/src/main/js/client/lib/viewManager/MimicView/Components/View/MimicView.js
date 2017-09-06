@@ -233,7 +233,8 @@ export default class MimicView extends Component {
         shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'colour'),
         processNode: (node, children) => {
           const epName = node.attribs.isis_ep;
-          const operators = node.attribs.isis_operators.split('*');
+          const colorOperators = node.attribs.isis_color_operators ? node.attribs.isis_color_operators.split(';;') : [];
+          const colorRegex = node.attribs.isis_color_regex ? node.attribs.isis_color_regex.split(';;') : [];
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -241,7 +242,8 @@ export default class MimicView extends Component {
             type: node.attribs.isis_animation,
             defaultValue: node.attribs.isis_default,
             epName,
-            operators,
+            colorOperators,
+            colorRegex,
           });
           const validAttributes = {};
           Object.keys(node.attribs).forEach((attr) => {

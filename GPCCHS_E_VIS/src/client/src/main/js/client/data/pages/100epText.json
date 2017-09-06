@@ -3,13 +3,12 @@
   "title": "Unknown",
   "views": [
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text100.json",
+      "oId": "oid:/views/mimic_demo.json",
       "geometry": {
         "x": 0,
         "y": 0,
-        "w": 5,
-        "h": 5,
-        "maximized": true
+        "w": 7,
+        "h": 19
       },
       "hideBorders": false,
       "windowState": "Normalized"

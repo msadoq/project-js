@@ -1,0 +1,141 @@
+{
+  "type": "PlotView",
+  "title": "Plotview 10 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#FFFFFF",
+    "bgColor": "#111155"
+  },
+  "backgroundColor": "#FFFFFF",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.json"
+    }
+  ],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "procedures": [],
+  "axes": [
+    {
+      "label": "VBat",
+      "id": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFF"
+      },
+      "min": 120,
+      "max": 140,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true
+    }
+  ],
+  "grids": [
+    {
+      "showGrid": true,
+      "line": {
+        "size": 1,
+        "style": "Dashed"
+      },
+      "xAxisId": "time",
+      "yAxisId": "VBat"
+    }
+  ],
+  "legend": {
+    "location": "top",
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "color": "#000000"
+    }
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ],
+  "entryPoints": [
+    {
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "groundDate",
+        "format": "decimal",
+        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "GENE_AM_FRVERSION",
+      "objectStyle": {
+        "curveColor": "#4caf50",
+        "line": {
+          "size": 2,
+          "style": "Dotted"
+        },
+        "name": "GENE_AM_FRVERSION",
+        "points": {
+          "size": 0,
+          "style": "Dot"
+        }
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "waiting",
+            "operator": "=="
+          }
+        }
+      ],
+      "timeBasedData": true
+    }
+  ],
+  "showYAxes": "left",
+  "showLegend": false,
+  "search": ""
+}

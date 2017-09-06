@@ -16,10 +16,7 @@ import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
-// import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
-
-// const defaultPointLabels = {};
 
 export default class Chart extends React.Component {
 

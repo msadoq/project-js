@@ -96,10 +96,13 @@ class HistoryView extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
+    const multipleScrollUp = _.times(() => this.onScrollUp());
+    const multipleScrollDown = _.times(() => this.onScrollDown());
+    const nbScroll = Math.abs(e.wheelDeltaY / WHEEL_DEFAULT_DELTA_Y);
     if (e.wheelDeltaY > 0) {
-      _.times(() => this.onScrollUp(), Math.abs(e.wheelDeltaY / WHEEL_DEFAULT_DELTA_Y));
+      multipleScrollUp(nbScroll);
     } else if (e.wheelDeltaY < 0) {
-      _.times(() => this.onScrollDown(), Math.abs(e.wheelDeltaY / WHEEL_DEFAULT_DELTA_Y));
+      multipleScrollDown(nbScroll);
     }
   }
 

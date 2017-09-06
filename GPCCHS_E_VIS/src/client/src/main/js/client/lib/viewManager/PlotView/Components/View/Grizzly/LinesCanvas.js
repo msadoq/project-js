@@ -6,10 +6,7 @@ export default class LinesCanvas extends Component {
   static propTypes = {
     updateLabelPosition: PropTypes.func.isRequired,
     axisId: PropTypes.string.isRequired,
-    yAxesAt: PropTypes.string.isRequired,
-    top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yScale: PropTypes.func.isRequired,
@@ -30,7 +27,7 @@ export default class LinesCanvas extends Component {
         colorAccessor: PropTypes.string,
       })
     ).isRequired,
-    memoizeDivStyle: PropTypes.func.isRequired,
+    divStyle: PropTypes.shape().isRequired,
   }
 
   static defaultProps = {
@@ -246,19 +243,8 @@ export default class LinesCanvas extends Component {
     const {
       height,
       width,
-      yAxesAt,
-      top,
-      margin,
-      memoizeDivStyle,
+      divStyle,
     } = this.props;
-
-    const style = {};
-    // horizontal position
-    if (yAxesAt === 'left') {
-      style.left = margin;
-    } else if (yAxesAt === 'right') {
-      style.right = margin;
-    }
 
     return (
       <canvas
@@ -266,14 +252,7 @@ export default class LinesCanvas extends Component {
         height={height}
         width={width}
         className={styles.canvas}
-        style={memoizeDivStyle(
-          `${top}-${margin}-${yAxesAt}-${width}-${height}`,
-          top,
-          margin,
-          yAxesAt,
-          width,
-          height
-        )}
+        style={divStyle}
       />
     );
   }

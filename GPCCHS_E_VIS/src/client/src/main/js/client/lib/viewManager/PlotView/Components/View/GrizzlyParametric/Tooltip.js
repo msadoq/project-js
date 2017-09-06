@@ -25,7 +25,7 @@ export default class Tooltip extends React.Component {
     xAxisHeight: PropTypes.number.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxesAt: PropTypes.string.isRequired,
-    memoizeDivStyle: PropTypes.func.isRequired,
+    divStyle: PropTypes.shape().isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -142,14 +142,12 @@ export default class Tooltip extends React.Component {
       width,
       yAxesAt,
       xAxesAt,
-      top,
-      margin,
       tooltipColor,
       yAxesUniq,
       xAxesUniq,
       yAxisWidth,
       xAxisHeight,
-      memoizeDivStyle,
+      divStyle,
     } = this.props;
     const {
       showTooltip,
@@ -195,14 +193,7 @@ export default class Tooltip extends React.Component {
         onMouseLeave={this.mouseLeave}
         ref={this.assignEl}
         className={styles.tooltipDiv}
-        style={memoizeDivStyle(
-          `${top}-${margin}-${yAxesAt}-${width}-${height}`,
-          top,
-          margin,
-          yAxesAt,
-          width,
-          height
-        )}
+        style={divStyle}
       >
         {
           tooltiLinesToDisplay &&

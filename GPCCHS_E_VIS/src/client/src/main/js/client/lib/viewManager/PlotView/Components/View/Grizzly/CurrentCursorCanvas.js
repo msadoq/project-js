@@ -4,13 +4,11 @@ import styles from './GrizzlyChart.css';
 export default class CurrentCursorCanvas extends PureComponent {
 
   static propTypes = {
-    yAxesAt: PropTypes.string.isRequired,
-    margin: PropTypes.number.isRequired,
-    top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
+    divStyle: PropTypes.shape().isRequired,
   }
 
   componentDidMount() {
@@ -48,21 +46,8 @@ export default class CurrentCursorCanvas extends PureComponent {
     const {
       height,
       width,
-      yAxesAt,
-      top,
-      margin,
+      divStyle,
     } = this.props;
-
-    const style = {};
-    // horizontal position
-    if (yAxesAt === 'left') {
-      style.left = margin;
-    } else if (yAxesAt === 'right') {
-      style.right = margin;
-    }
-
-    // vertical position
-    style.top = top;
 
     return (
       <canvas
@@ -70,7 +55,7 @@ export default class CurrentCursorCanvas extends PureComponent {
         height={height}
         width={width}
         className={styles.canvas}
-        style={style}
+        style={divStyle}
       />
     );
   }

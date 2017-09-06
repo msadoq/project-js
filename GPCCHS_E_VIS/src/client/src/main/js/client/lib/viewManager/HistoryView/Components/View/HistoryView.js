@@ -3,14 +3,17 @@ import Dimensions from '../../../../windowProcess/common/Dimensions';
 
 import styles from './HistoryView.css';
 
-const Table = ({ lines, cols }) => {
+const THEAD_DEFAULT_HEIGHT = 33; // in pixel
+const WHEEL_DEFAULT_DELTA_Y = 120;
+
+const Table = ({ lines, cols, position, rowHeight }) => {
   return (
     <table className={styles.table}>
       <thead className={styles.thead}>
         <tr className={styles.tr}>
           {
             cols.map(col => (
-              <th key={col} className={styles.th}>
+              <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col} className={styles.th}>
                 {col}
               </th>
             ))
@@ -19,11 +22,11 @@ const Table = ({ lines, cols }) => {
       </thead>
       <tbody className={styles.tbody}>
         {
-          lines.map(line => (
+          _.drop(position)(lines).map(line => (
             <tr key={line.name} className={styles.tr}>
               {
                 cols.map(col => (
-                  <td key={col} className={styles.td}>
+                  <td style={{ height: `${rowHeight}px` }} key={col} className={styles.td}>
                     {line[col]}
                   </td>
                 ))
@@ -44,7 +47,14 @@ class HistoryView extends React.Component {
     }).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
+    rowHeight: PropTypes.number,
   }
+
+  static defaultProps = {
+    rowHeight: THEAD_DEFAULT_HEIGHT, // in pixel
+  }
+
+  state = { position: 0 }
 
   componentDidMount() {
     if (this.historyViewRef) {
@@ -66,11 +76,13 @@ class HistoryView extends React.Component {
   }
 
   onScrollUp = () => {
-    console.warn('up');
+    if (this.state.position > 0) {
+      this.setState({ position: this.state.position - 1 });
+    }
   }
 
   onScrollDown = () => {
-    console.warn('down');
+    this.setState({ position: this.state.position + 1 });
   }
 
   render() {
@@ -84,7 +96,11 @@ class HistoryView extends React.Component {
         className={styles.container}
         style={style}
       >
-        <Table {...this.props.data} />
+        <Table
+          rowHeight={this.props.rowHeight}
+          position={this.state.position}
+          {...this.props.data}
+        />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import _ from 'lodash/fp';
 import Dimensions from '../../../../windowProcess/common/Dimensions';
 
 import styles from './HistoryView.css';
@@ -69,9 +70,9 @@ class HistoryView extends React.Component {
   onWheel = (e) => {
     e.preventDefault();
     if (e.wheelDeltaY > 0) {
-      this.onScrollUp();
+      _.times(() => this.onScrollUp(), Math.abs(e.wheelDeltaY / WHEEL_DEFAULT_DELTA_Y));
     } else if (e.wheelDeltaY < 0) {
-      this.onScrollDown();
+      _.times(() => this.onScrollDown(), Math.abs(e.wheelDeltaY / WHEEL_DEFAULT_DELTA_Y));
     }
   }
 
@@ -82,8 +83,14 @@ class HistoryView extends React.Component {
   }
 
   onScrollDown = () => {
-    this.setState({ position: this.state.position + 1 });
+    if (this.state.position <= this.getLastPosition()) {
+      this.setState({ position: this.state.position + 1 });
+    }
   }
+
+  getLastPosition = () => (
+    this.props.data.lines.length - Math.floor(this.props.containerHeight / this.props.rowHeight)
+  )
 
   render() {
     const style = {
@@ -106,4 +113,6 @@ class HistoryView extends React.Component {
   }
 }
 
-export default Dimensions({ elementResize: true })(HistoryView);
+export default _.compose(
+  Dimensions({ elementResize: true })
+)(HistoryView);

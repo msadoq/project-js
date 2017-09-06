@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import HistoryView from './HistoryView';
 
 const createLines = _.times(n => ({
-  name: v4() + '-' + v4() + '-' + v4() + '-' + v4(),
+  name: `${v4()}-${v4()}-${v4()}-${v4()}`,
   value: n + 1,
   id: (n + 1),
   a: !n ? _.times(_.always('z'), 1000) : 'aaaaaaaaaaaaaaaaaaaa',
@@ -19,6 +19,7 @@ const lines = createLines(100);
 
 const mapStateToProps = createStructuredSelector({
   data: () => ({
+    current: 10,
     cols: ['id', 'name', 'value', 'a', 'b', 'c'],
     lines,
   }),

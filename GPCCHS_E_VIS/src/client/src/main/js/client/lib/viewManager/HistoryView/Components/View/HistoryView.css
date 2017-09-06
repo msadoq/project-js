@@ -2,36 +2,38 @@
   background-color: orange;
   overflow-x: auto;
   overflow-y: hidden;
-}
 
-.table, .th, .td {
-  border: 1px solid black;
-  text-align: center;
-}
+  th {
+    background: lightgrey;
+  }
 
-.table {
-  overflow-x: auto;
-  border-collapse: collapse;
-  table-layout: fixed;
-  top: -100px;
-}
+  .prevCurrent td, .prevCurrent th {
+    border-bottom: none;
+  }
 
-.thead .th {
-  position: sticky;
-  top: 0;
-  background: lightgrey;
-  z-index: 10;
-}
+  .current td {
+    border: 1px solid green;
+  }
 
-.td, .th {
-  padding: 10px;
-}
+  table {
+    border-collapse: collapse;;
+  }
 
-.td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  white-space: nowrap;
-  min-width: 220px;
-  max-width: 220px;
+  table, th, td {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    white-space: nowrap;
+    min-width: 220px;
+    max-width: 220px;
+  }
 }

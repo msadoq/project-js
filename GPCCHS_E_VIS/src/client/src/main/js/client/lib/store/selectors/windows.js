@@ -61,33 +61,23 @@ const getWindowsFocusedPageIds = createSelector(
 const getWindowsFocusedPage = createSelector(
   createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
   getPages,
-  (pageIds, pages) => {
-    // console.log('HERE getWindowsFocusedPage');
-    return pageIds
-      .filter(id => id in pages)
-      .map(id => pages[id]);
-  }
+  (pageIds, pages) => pageIds.filter(id => id in pages).map(id => pages[id])
 );
 
 const getWindowsVisibleViewIds = createSelector(
   getWindowsFocusedPage,
-  (pages) => {
-    // console.log('HERE getWindowsVisibleViewIds');
-    return pages
+  pages => pages
       .filter(p => p.views && p.views.length && p.timebarUuid)
       .map(p => ({
         timebarUuid: p.timebarUuid,
         viewIds: p.views,
-      }));
-  }
+      }))
 );
 
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
-  (viewIds, views) => {
-    // console.log('HERE getWindowsVisibleViews');
-    return viewIds
+  (viewIds, views) => viewIds
       .map(p => p.viewIds.map(vId => ({
         timebarUuid: p.timebarUuid,
         viewId: vId,
@@ -97,8 +87,7 @@ export const getWindowsVisibleViews = createSelector(
       .map(v => ({
         ...v,
         viewData: views[v.viewId],
-      }));
-  }
+      }))
 );
 
 export const getWindowIdByViewId = (state, { viewId }) => {

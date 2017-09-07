@@ -144,10 +144,20 @@ export const textBoxAnimation = (data, g) => {
   el.innerHTML = isNaN(value) ? value : Math.round(value * 100) / 100;
   let fillText = '#000';
   let fillBg = '';
-  for (let i = 0; i < g.textColorThresholds.length; i += 1) {
-    const stateColor = g.textColorThresholds[i].split('|');
-    if (value > stateColor[0]) {
-      fillText = stateColor[1];
+  for (let i = 0; i < g.textColorOperators.length; i += 1) {
+    const stateColor = g.textColorOperators[i].split('|');
+    if (stateColor[0] === '=' && value === stateColor[1]) {
+      fillText = stateColor[2];
+    } else if (stateColor[0] === '!=' && value !== stateColor[1]) {
+      fillText = stateColor[2];
+    } else if (stateColor[0] === '>' && value > stateColor[1]) {
+      fillText = stateColor[2];
+    } else if (stateColor[0] === '>=' && value >= stateColor[1]) {
+      fillText = stateColor[2];
+    } else if (stateColor[0] === '<' && value < stateColor[1]) {
+      fillText = stateColor[2];
+    } else if (stateColor[0] === '<=' && value <= stateColor[1]) {
+      fillText = stateColor[2];
     }
   }
   for (let i = 0; i < g.textColorRegex.length; i += 1) {
@@ -158,9 +168,26 @@ export const textBoxAnimation = (data, g) => {
     }
   }
   setStyleIfChanged(el, 'fill', fillText, 'string');
-  for (let i = 0; i < g.bgColorLevels.length; i += 1) {
-    const stateColor = g.bgColorLevels[i].split('$');
-    if (value > stateColor[0]) {
+  for (let i = 0; i < g.bgColorOperators.length; i += 1) {
+    const stateColor = g.bgColorOperators[i].split('|');
+    if (stateColor[0] === '=' && value === stateColor[1]) {
+      fillBg = stateColor[2];
+    } else if (stateColor[0] === '!=' && value !== stateColor[1]) {
+      fillBg = stateColor[2];
+    } else if (stateColor[0] === '>' && value > stateColor[1]) {
+      fillBg = stateColor[2];
+    } else if (stateColor[0] === '>=' && value >= stateColor[1]) {
+      fillBg = stateColor[2];
+    } else if (stateColor[0] === '<' && value < stateColor[1]) {
+      fillBg = stateColor[2];
+    } else if (stateColor[0] === '<=' && value <= stateColor[1]) {
+      fillBg = stateColor[2];
+    }
+  }
+  for (let i = 0; i < g.bgColorRegex.length; i += 1) {
+    const stateColor = g.colorRegex[i].split('=');
+    const regex = RegExp(stateColor[0]);
+    if (value.match(regex)) {
       fillBg = stateColor[1];
     }
   }

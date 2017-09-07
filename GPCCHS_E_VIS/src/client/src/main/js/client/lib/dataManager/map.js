@@ -86,7 +86,6 @@ export default createSelector(
         forecastIntervalsMap,
         forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
-    console.log('generate dataMap');
     return {
       perView: viewMap,
       perRangeTbdId: rangeTbdIdMap,

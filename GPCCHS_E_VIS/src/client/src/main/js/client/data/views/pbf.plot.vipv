@@ -26,6 +26,15 @@
   "entryPoints": [
     {
       "name": "ATT_BC_REVTCOUNT1",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
@@ -56,11 +65,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT2",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
@@ -91,11 +108,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT3",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
@@ -126,11 +151,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT4",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
@@ -161,8 +194,7 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     }
   ],
   "axes": [

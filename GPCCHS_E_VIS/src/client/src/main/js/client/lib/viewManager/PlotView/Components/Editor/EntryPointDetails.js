@@ -20,6 +20,7 @@ export default class EntryPointDetails extends PureComponent {
     entryPoint: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
+      parametric: PropTypes.bool.isRequired,
       connectedData: PropTypes.shape({
         axisId: PropTypes.string,
         digit: PropTypes.number,
@@ -87,7 +88,9 @@ export default class EntryPointDetails extends PureComponent {
       idPoint,
       {
         ...entryPoint,
-        connectedData: values,
+        parametric: values.parametric,
+        connectedData: values.connectedData,
+        connectedDataParametric: values.connectedDataParametric,
       }
     );
   }
@@ -137,7 +140,11 @@ export default class EntryPointDetails extends PureComponent {
             viewId={viewId}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit}
-            initialValues={entryPoint.connectedData}
+            initialValues={{
+              connectedData: entryPoint.connectedData,
+              connectedDataParametric: entryPoint.connectedDataParametric,
+              parametric: entryPoint.parametric,
+            }}
           />}
         </Panel>
         <Panel

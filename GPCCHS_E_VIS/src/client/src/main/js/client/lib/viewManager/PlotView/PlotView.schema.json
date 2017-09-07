@@ -79,6 +79,29 @@
                 }
             }
         },
+        "connectedDataParametric": {
+          "type": "object",
+          "properties": {
+              "formulaX": {
+                  "type": "string"
+              },
+              "formulaY": {
+                  "type": "string"
+              },
+              "xUnit": {
+                  "type": "string"
+              },
+              "yUnit": {
+                  "type": "string"
+              },
+              "xAxisId": {
+                  "type": "string"
+              },
+              "yAxisId": {
+                  "type": "string"
+              }
+          }
+        },
         "connectedData": {
             "type": "object",
             "properties": {
@@ -89,6 +112,9 @@
                     "type": "string"
                 },
                 "unit": {
+                    "type": "string"
+                },
+                "axisId": {
                     "type": "string"
                 },
                 "digits": {
@@ -128,6 +154,9 @@
                 },
                 "connectedData": {
                     "$ref": "#/definitions/connectedData"
+                },
+                "connectedDataParametric": {
+                    "$ref": "#/definitions/connectedDataParametric"
                 },
                 "stateColours": {
                     "type": "array",

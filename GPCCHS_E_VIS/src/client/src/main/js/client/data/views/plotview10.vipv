@@ -27,6 +27,15 @@
   "entryPoints": [
     {
       "name": "GENE_AM_FRVERSION",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -58,11 +67,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_MAG1VOLTAGE",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -94,11 +111,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_NUMRJCTTC15",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -130,11 +155,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_STR2QSTRREF",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -165,11 +198,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ORB_BC_LVVELXJ2000",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -201,11 +242,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ORB_BC_NXTDEADLINE",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -237,11 +286,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "POW_BC_NUMRJCTTC18",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -273,11 +330,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "SAT_BC_CCCIMMEDTC",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -309,11 +374,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "SAT_BC_LASTSQNUM5",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -345,11 +418,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "MIS_BC_DALMVOLTAGE",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -387,8 +468,7 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     }
   ],
   "axes": [

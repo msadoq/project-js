@@ -131,6 +131,15 @@
   "entryPoints": [
     {
       "name": "TMMGT_BC_VIRTCHAN3",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -162,11 +171,19 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT1",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -189,8 +206,7 @@
         },
         "curveColor": "#ff9800"
       },
-      "stateColors": [],
-      "timeBasedData": true
+      "stateColors": []
     }
   ],
   "showYAxes": "left",

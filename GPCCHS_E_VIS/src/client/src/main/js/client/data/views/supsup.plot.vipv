@@ -14,6 +14,15 @@
   "entryPoints": [
     {
       "name": "STAT_SU_UTIME_EV",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -49,6 +58,15 @@
     },
     {
       "name": "STAT_SU_UTIME_CV",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
@@ -84,6 +102,15 @@
     },
 {
       "name": "STAT_SU_UTIME_RV",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "xUnit": "",
+        "yUnit": "V",
+        "xAxisId": "",
+        "yAxisId": "VBat"
+      },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.rawValue",
         "fieldX": "groundDate",

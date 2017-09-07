@@ -1,0 +1,28 @@
+.xDiv {
+  h4 {
+    position: absolute;
+    top: 0px;
+    left: 8px;
+    color: #22A;
+  }
+  position: relative;
+  padding: 4px;
+  border: 1px solid #22A;
+  background-color: rgba(34, 34, 170, 0.05);
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
+.yDiv {
+  h4 {
+    position: absolute;
+    top: 0px;
+    left: 8px;
+    color: #2A2;
+  }
+  position: relative;
+  padding: 4px;
+  border: 1px solid #2A2;
+  background-color: rgba(34, 170, 34, 0.05);
+  border-radius: 2px;
+  margin-bottom: 5px;
+}

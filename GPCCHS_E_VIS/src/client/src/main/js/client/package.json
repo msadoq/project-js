@@ -52,6 +52,7 @@
     "wp": "npm run webpack",
     "install:adapters": "node ./scripts/adaptersInstall.js",
     "install:rtd": "node ./scripts/rtdInstall.js",
+    "install:devtools": "./scripts/devtoolsInstall.sh",
     "prepare:maven:build": "node ./scripts/prepareMavenBuild.js",
     "postinstall": "electron-rebuild && npm run install:rtd && npm run install:adapters",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",

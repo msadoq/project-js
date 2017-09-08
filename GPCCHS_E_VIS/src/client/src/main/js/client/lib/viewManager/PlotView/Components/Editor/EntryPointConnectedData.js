@@ -41,8 +41,8 @@ class EntryPointConnectedData extends Component {
       valid,
       axes,
       timelines,
-      xUnit,
-      yUnit,
+      unitX,
+      unitY,
       unit,
       xAxisId,
       yAxisId,
@@ -59,7 +59,7 @@ class EntryPointConnectedData extends Component {
         axisId: key,
       }))
       .filter(axis =>
-        [xUnit, yUnit, unit].includes(axis.unit) ||
+        [unitX, unitY, unit].includes(axis.unit) ||
         axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
       );
     } else {
@@ -105,7 +105,7 @@ class EntryPointConnectedData extends Component {
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Unit X">
                   <Field
-                    name="connectedDataParametric.xUnit"
+                    name="connectedDataParametric.unitX"
                     component={InputField}
                     type="text"
                     className="form-control input-sm"
@@ -125,7 +125,7 @@ class EntryPointConnectedData extends Component {
                     component={ReactSelectField}
                     options={
                       filteredAxes
-                      .filter(a => a.unit === xUnit)
+                      .filter(a => a.unit === unitX)
                       .map(axis => ({
                         label: axis.label,
                         value: axis.axisId,
@@ -134,6 +134,22 @@ class EntryPointConnectedData extends Component {
                         value: '',
                       })
                     }
+                  />
+                </HorizontalFormGroup>
+                <HorizontalFormGroup label="Domain X">
+                  <Field
+                    name="connectedDataParametric.domainX"
+                    clearable={false}
+                    component={ReactSelectField}
+                    options={domains.map(d =>
+                      ({
+                        label: d.name,
+                        value: d.name,
+                      })
+                    ).concat({
+                      label: '*',
+                      value: '*',
+                    })}
                   />
                 </HorizontalFormGroup>
               </div>
@@ -149,7 +165,7 @@ class EntryPointConnectedData extends Component {
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Unit Y">
                   <Field
-                    name="connectedDataParametric.yUnit"
+                    name="connectedDataParametric.unitY"
                     component={InputField}
                     type="text"
                     className="form-control input-sm"
@@ -169,7 +185,7 @@ class EntryPointConnectedData extends Component {
                     component={ReactSelectField}
                     options={
                       filteredAxes
-                      .filter(a => a.unit === yUnit)
+                      .filter(a => a.unit === unitY)
                       .map(axis => ({
                         label: axis.label,
                         value: axis.axisId,
@@ -178,6 +194,22 @@ class EntryPointConnectedData extends Component {
                         value: '',
                       })
                     }
+                  />
+                </HorizontalFormGroup>
+                <HorizontalFormGroup label="Domain Y">
+                  <Field
+                    name="connectedDataParametric.domainY"
+                    clearable={false}
+                    component={ReactSelectField}
+                    options={domains.map(d =>
+                      ({
+                        label: d.name,
+                        value: d.name,
+                      })
+                    ).concat({
+                      label: '*',
+                      value: '*',
+                    })}
                   />
                 </HorizontalFormGroup>
               </div>
@@ -237,25 +269,25 @@ class EntryPointConnectedData extends Component {
                   }
                 />
               </HorizontalFormGroup>
+              <HorizontalFormGroup label="Domain">
+                <Field
+                  name="connectedData.domain"
+                  clearable={false}
+                  component={ReactSelectField}
+                  options={domains.map(d =>
+                    ({
+                      label: d.name,
+                      value: d.name,
+                    })
+                  ).concat({
+                    label: '*',
+                    value: '*',
+                  })}
+                />
+              </HorizontalFormGroup>
             </div>
           }
 
-          <HorizontalFormGroup label="Domain">
-            <Field
-              name="connectedData.domain"
-              clearable={false}
-              component={ReactSelectField}
-              options={domains.map(d =>
-                ({
-                  label: d.name,
-                  value: d.name,
-                })
-              ).concat({
-                label: '*',
-                value: '*',
-              })}
-            />
-          </HorizontalFormGroup>
 
           <HorizontalFormGroup label="Timeline">
             <Field
@@ -310,8 +342,8 @@ EntryPointConnectedData.propTypes = {
   axisId: PropTypes.string,
   xAxisId: PropTypes.string,
   yAxisId: PropTypes.string,
-  xUnit: PropTypes.string,
-  yUnit: PropTypes.string,
+  unitX: PropTypes.string,
+  unitY: PropTypes.string,
   unit: PropTypes.string,
   parametric: PropTypes.bool,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -323,8 +355,8 @@ EntryPointConnectedData.defaultProps = {
   axisId: null,
   xAxisId: null,
   yAxisId: null,
-  xUnit: null,
-  yUnit: null,
+  unitX: null,
+  unitY: null,
   unit: null,
 };
 
@@ -356,8 +388,8 @@ export default reduxForm({
         parametric: selector(state, 'parametric'),
         axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
         unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
-        xUnit: selector(state, 'connectedDataParametric.xUnit') || _get(props, 'initialValues.connectedDataParametric.xUnit'),
-        yUnit: selector(state, 'connectedDataParametric.yUnit') || _get(props, 'initialValues.connectedDataParametric.yUnit'),
+        unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
+        unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
         xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
         yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
       };

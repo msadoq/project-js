@@ -135,10 +135,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.extractedValue",
@@ -179,10 +181,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.extractedValue",
@@ -223,10 +227,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.extractedValue",
@@ -267,10 +273,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
@@ -311,10 +319,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.extractedValue",
@@ -355,10 +365,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.extractedValue",
@@ -399,10 +411,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.extractedValue",
@@ -443,10 +457,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.extractedValue",
@@ -487,10 +503,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.extractedValue",
@@ -531,10 +549,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.extractedValue",

@@ -88,10 +88,16 @@
               "formulaY": {
                   "type": "string"
               },
-              "xUnit": {
+              "domainX": {
                   "type": "string"
               },
-              "yUnit": {
+              "domainY": {
+                  "type": "string"
+              },
+              "unitX": {
+                  "type": "string"
+              },
+              "unitY": {
                   "type": "string"
               },
               "xAxisId": {

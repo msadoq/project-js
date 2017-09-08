@@ -99,15 +99,15 @@
   ],
   "entryPoints": [
     {
-      "connectedData": {
-        "axisId": "VBat",
-        "digits": 5,
-        "domain": "fr.cnes.isis.simupus",
-        "fieldX": "groundDate",
-        "format": "decimal",
-        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
-        "timeline": "Session 1",
-        "unit": "V"
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
       },
       "name": "GENE_AM_FRVERSION",
       "objectStyle": {

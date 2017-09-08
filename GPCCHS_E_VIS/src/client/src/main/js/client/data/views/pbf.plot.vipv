@@ -30,10 +30,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue",
@@ -73,10 +75,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedValue",
@@ -159,10 +163,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedValue",

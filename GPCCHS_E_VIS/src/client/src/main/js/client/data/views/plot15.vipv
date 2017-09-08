@@ -216,6 +216,16 @@
   ],
   "entryPoints": [
     {
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "axisId": "VBat",
         "digits": 5,
@@ -253,6 +263,16 @@
     },
     {
       "name": "ATT_BC_MAG1VOLTAGE",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -289,6 +309,16 @@
     },
     {
       "name": "ATT_BC_NUMRJCTTC15",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -325,6 +355,16 @@
     },
     {
       "name": "ATT_BC_STR2QSTRREF",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -360,6 +400,16 @@
     },
     {
       "name": "ORB_BC_LVVELXJ2000",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -396,6 +446,16 @@
     },
     {
       "name": "ORB_BC_NXTDEADLINE",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -432,6 +492,16 @@
     },
     {
       "name": "POW_BC_NUMRJCTTC18",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -468,6 +538,16 @@
     },
     {
       "name": "SAT_BC_CCCIMMEDTC",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -504,6 +584,16 @@
     },
     {
       "name": "SAT_BC_LASTSQNUM5",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -540,6 +630,16 @@
     },
     {
       "name": "MIS_BC_DALMVOLTAGE",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -582,6 +682,16 @@
     },
     {
       "axisId": "",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "axisId": "VBat",
         "digits": 5,
@@ -610,6 +720,16 @@
     },
     {
       "axisId": "",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "axisId": "VBat",
         "digits": 5,
@@ -638,6 +758,16 @@
     },
     {
       "axisId": "",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "axisId": "VBat",
         "digits": 5,
@@ -666,6 +796,16 @@
     },
     {
       "axisId": "",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "axisId": "VBat",
         "digits": 5,
@@ -694,6 +834,16 @@
     },
     {
       "axisId": "",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "axisId": "VBat",
         "digits": 5,

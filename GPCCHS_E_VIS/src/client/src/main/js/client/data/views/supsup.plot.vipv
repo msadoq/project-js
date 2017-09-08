@@ -18,10 +18,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
@@ -62,10 +64,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.convertedValue",
@@ -106,10 +110,12 @@
       "connectedDataParametric": {
         "formulaX": "",
         "formulaY": "",
-        "xUnit": "",
-        "yUnit": "V",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
         "xAxisId": "",
-        "yAxisId": "VBat"
+        "yAxisId": ""
       },
       "connectedData": {
         "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.rawValue",

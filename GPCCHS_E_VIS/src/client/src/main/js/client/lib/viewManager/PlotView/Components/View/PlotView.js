@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import getLogger from '../../../../common/logManager';
 import { get } from '../../../../common/configurationManager';
-import Dimensions from '../../../../windowProcess/common/Dimensions';
+import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
 
@@ -649,6 +649,6 @@ export class GrizzlyPlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = Dimensions({ elementResize: true })(GrizzlyPlotView);
+const SizeablePlotView = withDimensions({ elementResize: true })(GrizzlyPlotView);
 
 export default SizeablePlotView;

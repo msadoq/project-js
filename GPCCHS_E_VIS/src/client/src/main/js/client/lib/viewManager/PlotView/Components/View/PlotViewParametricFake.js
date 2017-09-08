@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from '../../../../common/logManager';
-import Dimensions from '../../../../windowProcess/common/Dimensions';
+import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 import GrizzlyChart from './GrizzlyParametric/Chart';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
@@ -374,6 +374,6 @@ export class GrizzlyPlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = Dimensions({ elementResize: true })(GrizzlyPlotView);
+const SizeablePlotView = withDimensions({ elementResize: true })(GrizzlyPlotView);
 
 export default SizeablePlotView;

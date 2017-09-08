@@ -7,7 +7,7 @@ import _memoize from 'lodash/memoize';
 import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
 import getLogger from '../../common/logManager';
-import Dimensions from '../common/Dimensions';
+import withDimensions from '../common/hoc/withDimensions';
 import HelpContentContainer from '../Navigation/HelpContentContainer';
 import MessagesContainer from '../Navigation/MessagesContainer';
 import TabsContainer from '../Navigation/TabsContainer';
@@ -455,7 +455,7 @@ class Window extends PureComponent {
   }
 }
 
-export default Dimensions({
+export default withDimensions({
   debounce: 100,
   elementResize: true,
   containerStyle: {

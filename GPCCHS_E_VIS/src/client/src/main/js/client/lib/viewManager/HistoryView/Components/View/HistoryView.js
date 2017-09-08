@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
-import Dimensions from '../../../../windowProcess/common/Dimensions';
+import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 
 import styles from './HistoryView.css';
 
@@ -144,5 +144,5 @@ class HistoryView extends React.Component {
 }
 
 export default _.compose(
-  Dimensions({ elementResize: true })
+  withDimensions({ elementResize: true })
 )(HistoryView);

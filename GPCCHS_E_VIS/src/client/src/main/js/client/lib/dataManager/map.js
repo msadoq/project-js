@@ -18,26 +18,32 @@ const perViewDataSelectors = {};
 export const getPerViewMap = createDeepEqualSelectorPerViewData(
   state => state,
   getWindowsVisibleViews,
-  (state, views) => _reduce(views, (map, { viewId, timebarUuid }) => {
-    const ep = getEntryPointsByViewId(state, { viewId });
-    if (!ep || !ep.length) {
-      return map;
-    }
-    if (!perViewDataSelectors[viewId]) {
-      perViewDataSelectors[viewId] = makeGetPerViewData();
-    }
-    const pageId = getPageIdByViewId(state, { viewId });
-    const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId });
+  (state, views) =>
+    // Per view
+    _reduce(
+      views,
+      (map, { viewId, timebarUuid }) => {
+        const ep = getEntryPointsByViewId(state, { viewId });
+        if (!ep || !ep.length) {
+          return map;
+        }
+        if (!perViewDataSelectors[viewId]) {
+          perViewDataSelectors[viewId] = makeGetPerViewData();
+        }
+        const pageId = getPageIdByViewId(state, { viewId });
+        const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId });
 
-    // Case of invalid view or collapsed view
-    if (!Object.keys(props).length) {
-      return map;
-    }
+        // Case of invalid view or collapsed view
+        if (!Object.keys(props).length) {
+          return map;
+        }
 
-    _set(map, [viewId], props);
-    return map;
-  }, {})
-  );
+        _set(map, [viewId], props);
+        return map;
+      },
+      {}
+    )
+);
 
 export const getPerRangeTbdIdMap = createSelector(
   getPerViewMap,

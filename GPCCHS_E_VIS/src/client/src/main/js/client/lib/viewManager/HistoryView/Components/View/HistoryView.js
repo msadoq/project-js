@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
+import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 
 import styles from './HistoryView.css';
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
-const WHEEL_DEFAULT_DELTA_Y = 120;
 
 const Table = ({ lines, cols, position, rowHeight, current }) => (
   <table>
@@ -84,28 +84,6 @@ class HistoryView extends React.Component {
 
   state = { position: 0 }
 
-  componentDidMount() {
-    if (this.historyViewRef) {
-      this.historyViewRef.addEventListener('mousewheel', this.onWheel, false);
-    }
-  }
-
-  componentWillUnmount() {
-    this.historyViewRef.removeEventListener('mousewheel', this.onWheel, false);
-  }
-
-  onWheel = (e) => {
-    e.preventDefault();
-    const multipleScrollUp = _.times(() => this.onScrollUp());
-    const multipleScrollDown = _.times(() => this.onScrollDown());
-    const nbScroll = Math.abs(e.wheelDeltaY / WHEEL_DEFAULT_DELTA_Y);
-    if (e.wheelDeltaY > 0) {
-      multipleScrollUp(nbScroll);
-    } else if (e.wheelDeltaY < 0) {
-      multipleScrollDown(nbScroll);
-    }
-  }
-
   onScrollUp = () => {
     if (this.state.position > 0) {
       this.setState({ position: this.state.position - 1 });
@@ -144,5 +122,6 @@ class HistoryView extends React.Component {
 }
 
 export default _.compose(
-  withDimensions({ elementResize: true })
+  withDimensions({ elementResize: true }),
+  withMouseWheelEvents()
 )(HistoryView);

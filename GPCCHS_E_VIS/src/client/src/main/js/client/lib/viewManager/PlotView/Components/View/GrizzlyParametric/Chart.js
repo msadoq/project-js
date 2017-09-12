@@ -16,10 +16,7 @@ import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
-// import XAxisParametric from './XAxisParametric';
 import Zones from './Zones';
-
-// const defaultPointLabels = {};
 
 export default class Chart extends React.Component {
 
@@ -626,6 +623,15 @@ export default class Chart extends React.Component {
     const marginTop = xAxisAt === 'top' ? (this.xAxesUniq.length * this.xAxisHeight) : 0;
     const marginSide = this.yAxesUniq.length * this.yAxisWidth;
 
+    const divStyle = this.memoizeBackgroundDivStyle(
+      `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
+      marginTop,
+      marginSide,
+      yAxesAt,
+      this.chartWidth,
+      this.chartHeight
+    );
+
     return (
       <div
         className={styles.container}
@@ -676,14 +682,7 @@ export default class Chart extends React.Component {
         </div>
         <div
           className={classnames('Background', styles.Background)}
-          style={this.memoizeBackgroundDivStyle(
-            `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
-            marginTop,
-            marginSide,
-            yAxesAt,
-            this.chartWidth,
-            this.chartHeight
-          )}
+          style={divStyle}
         />
         {
           ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
@@ -762,9 +761,6 @@ export default class Chart extends React.Component {
                 width={this.chartWidth}
                 height={this.chartHeight}
                 xAxesAt={xAxisAt}
-                yAxesAt={yAxesAt}
-                top={marginTop}
-                margin={marginSide}
                 xScale={pair.xAxis.scale}
                 yScale={pair.yAxis.scale}
                 showLabelsX={pair.xAxis.showLabels}
@@ -772,7 +768,7 @@ export default class Chart extends React.Component {
                 lines={pair.lines}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
-                memoizeDivStyle={this.memoizeBackgroundDivStyle}
+                divStyle={divStyle}
               />
             );
           })
@@ -786,13 +782,11 @@ export default class Chart extends React.Component {
             pairs={this.pairs}
             width={this.chartWidth}
             height={this.chartHeight}
-            top={marginTop}
-            margin={marginSide}
             yAxesAt={yAxesAt}
             xAxesAt={xAxisAt}
             yAxisWidth={this.yAxisWidth}
             xAxisHeight={this.xAxisHeight}
-            memoizeDivStyle={this.memoizeBackgroundDivStyle}
+            divStyle={divStyle}
           />
         }
         {

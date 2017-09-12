@@ -26,6 +26,17 @@
   "entryPoints": [
     {
       "name": "ATT_BC_REVTCOUNT1",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -56,11 +67,21 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT2",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -91,11 +112,21 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT3",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -126,11 +157,21 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     },
     {
       "name": "ATT_BC_REVTCOUNT4",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -161,8 +202,7 @@
             "operand": "waiting"
           }
         }
-      ],
-      "timeBasedData": true
+      ]
     }
   ],
   "axes": [

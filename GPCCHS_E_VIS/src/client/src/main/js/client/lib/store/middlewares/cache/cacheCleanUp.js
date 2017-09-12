@@ -7,7 +7,8 @@ let lastCleanTimestamp = new Date();
 
 const cleanCache = (cleanTrigger, lokiManager) => ({ getState, dispatch }) => next => (action) => {
   const now = new Date();
-  if (now - lastCleanTimestamp >= cleanTrigger || action.type === types.HSC_UPDATE_LAST_CACHE_INVALIDATION) {
+  if (now - lastCleanTimestamp >= cleanTrigger ||
+      action.type === types.HSC_UPDATE_LAST_CACHE_INVALIDATION) {
     const state = getState();
     const { expectedRangeIntervals } = dataMapGenerator(state);
     const tbdIds = Object.keys(expectedRangeIntervals);

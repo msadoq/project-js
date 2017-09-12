@@ -582,6 +582,14 @@ export default class Chart extends Component {
 
     const marginTop = xAxisAt === 'top' ? this.xAxisHeight : 0;
     const marginSide = this.yAxes.length * this.yAxisWidth;
+    const divStyle = this.memoizeBackgroundDivStyle(
+      `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
+      marginTop,
+      marginSide,
+      yAxesAt,
+      this.chartWidth,
+      this.chartHeight
+    );
 
     return (
       <div
@@ -652,35 +660,24 @@ export default class Chart extends Component {
           yAxes={this.yAxes}
           width={this.chartWidth}
           height={this.chartHeight}
-          top={marginTop}
           current={current}
-          margin={marginSide}
           xScale={xScale}
           xFormat={format}
           yAxesAt={yAxesAt}
           xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
-          memoizeDivStyle={this.memoizeBackgroundDivStyle}
+          divStyle={divStyle}
         /> }
         <div
           className={classnames('Background', styles.Background)}
-          style={this.memoizeBackgroundDivStyle(
-            `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
-            marginTop,
-            marginSide,
-            yAxesAt,
-            this.chartWidth,
-            this.chartHeight
-          )}
+          style={divStyle}
         />
         <CurrentCursorCanvas
           width={this.chartWidth}
           height={this.chartHeight}
+          divStyle={divStyle}
           xAxisAt={xAxisAt}
           current={current}
-          yAxesAt={yAxesAt}
-          top={marginTop}
-          margin={marginSide}
           xScale={xScale}
         />
         {
@@ -740,10 +737,6 @@ export default class Chart extends Component {
               key={yAxis.id}
               width={this.chartWidth}
               height={this.chartHeight}
-              xAxisAt={xAxisAt}
-              yAxesAt={yAxesAt}
-              top={marginTop}
-              margin={marginSide}
               xScale={xScale}
               yScale={yAxis.yScale}
               showLabels={yAxis.showLabels}
@@ -752,7 +745,7 @@ export default class Chart extends Component {
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
               perfOutput={perfOutput}
-              memoizeDivStyle={this.memoizeBackgroundDivStyle}
+              divStyle={divStyle}
             />
           )
         }

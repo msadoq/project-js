@@ -103,9 +103,11 @@ const deleteInterval = (collection, lower, upper) => {
   collection.chain().find(query).remove();
 };
 
-
-
-
+/**
+ * Get last record fot a given tbdId and interval
+ * @param string tbdId
+ * @param Array interval
+ */
 const getLastRecords = (tbdId, interval) => {
   const { collection, isNew } = getOrCreateCollection(tbdId);
   const lastRecords = { [tbdId]: {} };
@@ -234,8 +236,6 @@ const removeAllExceptIntervals = (toKeep) => {
     }
   }
 };
-
-
 
 export default {
   getCollection,

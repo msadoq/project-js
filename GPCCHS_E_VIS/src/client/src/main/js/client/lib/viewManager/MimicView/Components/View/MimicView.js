@@ -197,9 +197,10 @@ export default class MimicView extends Component {
         processNode: (node, children) => {
           const epName = node.attribs.isis_ep;
           const font = node.attribs.isis_font ? node.attribs.isis_font : 'arial';
-          const textColorThresholds = node.attribs.isis_textcolor_thresholds ? node.attribs.isis_textcolor_thresholds.split(';') : [];
-          const textColorRegex = node.attribs.isis_textcolor_regex ? node.attribs.isis_textcolor_regex.split('|') : [];
-          const bgColorLevels = node.attribs.isis_bgcolor ? node.attribs.isis_bgcolor.split(';') : [];
+          const textColorOperators = node.attribs.isis_textcolor_operators ? node.attribs.isis_textcolor_operators.split(';;') : [];
+          const textColorRegex = node.attribs.isis_textcolor_regex ? node.attribs.isis_textcolor_regex.split(';;') : [];
+          const bgColorOperators = node.attribs.isis_bgcolor_operators ? node.attribs.isis_bgcolor_operators.split(';;') : [];
+          const bgColorRegex = node.attribs.isis_bgcolor_regex ? node.attribs.isis_bgcolor_regex.split(';;') : [];
           const defaultValue = node.attribs.isis_default ? node.attribs.isis_default.split(';') : null;
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
@@ -209,9 +210,10 @@ export default class MimicView extends Component {
             type: node.attribs.isis_animation,
             defaultValue,
             epName,
-            textColorThresholds,
+            textColorOperators,
             textColorRegex,
-            bgColorLevels,
+            bgColorOperators,
+            bgColorRegex,
             font,
           });
           return (
@@ -233,7 +235,8 @@ export default class MimicView extends Component {
         shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'colour'),
         processNode: (node, children) => {
           const epName = node.attribs.isis_ep;
-          const operators = node.attribs.isis_operators.split('*');
+          const colorOperators = node.attribs.isis_color_operators ? node.attribs.isis_color_operators.split(';;') : [];
+          const colorRegex = node.attribs.isis_color_regex ? node.attribs.isis_color_regex.split(';;') : [];
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
@@ -241,7 +244,8 @@ export default class MimicView extends Component {
             type: node.attribs.isis_animation,
             defaultValue: node.attribs.isis_default,
             epName,
-            operators,
+            colorOperators,
+            colorRegex,
           });
           const validAttributes = {};
           Object.keys(node.attribs).forEach((attr) => {

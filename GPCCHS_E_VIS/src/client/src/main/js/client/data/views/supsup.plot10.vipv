@@ -24,368 +24,6 @@
     "width": 50
   },
   "procedures": [],
-  "entryPoints": [
-    {
-      "name": "STAT_SU_PPID",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#FFFF00",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_PPID",
-        "curveColor": "#3f51b5",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        }
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_TPGID",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#FF9966",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_TPGID",
-        "line": {
-          "size": 1,
-          "style": "Continuous"
-        },
-        "curveColor": "#2196f3"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_MINFLT",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#FF0099",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_MINFLT",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#009688"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_UTIME",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#6633FF",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_UTIME",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#2196f3"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_STIME",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#99CCFF",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_STIME",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#4caf50"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_PRIORITY",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#00FFCC",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_PRIORITY",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#8bc34a"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_ITREALVALUE",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#006699",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_ITREALVALUE",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#cddc39"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_RSS",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#996633",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_RSS",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#ffeb3b"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_SIGNAL",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#99FF00",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_SIGNAL",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#673ab7"
-      },
-      "timeBasedData": true
-    },
-    {
-      "name": "STAT_SU_SIGCATCH",
-      "connectedData": {
-        "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "VBat"
-      },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColor": "#CC0000",
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "==",
-            "operand": "waiting"
-          }
-        }
-      ],
-      "objectStyle": {
-        "name": "STAT_SU_SIGCATCH",
-        "line": {
-          "style": "Continuous",
-          "size": 1
-        },
-        "curveColor": "#9c27b0"
-      },
-      "timeBasedData": true
-    }
-  ],
   "axes": [
     {
       "label": "Time",
@@ -418,50 +56,49 @@
       "showLabels": true
     },
     {
-      "label": "VBat",
+      "autoLimits": true,
+      "autoTick": true,
       "id": "VBat",
-      "unit": "V",
-      "style": {
-        "font": "Arial",
-        "size": 12,
-        "bold": false,
-        "italic": false,
-        "underline": false,
-        "strikeOut": false,
-        "align": "left",
-        "color": "#FFF"
-      },
-      "min": 85,
-      "max": 160,
-      "autoLimits": false,
-      "tickStep": 50,
-      "autoTick": false,
-      "showTicks": true,
-      "showTickLabels": true,
-      "logarithmic": false,
+      "label": "VBat",
       "logSettings": {
-        "min": 0.1,
+        "base": 10,
         "max": 1000000000,
-        "base": 10
+        "min": 0.1
       },
+      "logarithmic": false,
+      "max": 160,
+      "min": 85,
       "showAxis": true,
-      "showLabels": true
+      "showLabels": true,
+      "showTickLabels": true,
+      "showTicks": true,
+      "style": {
+        "align": "left",
+        "bold": false,
+        "color": "#FFF",
+        "font": "Arial",
+        "italic": false,
+        "size": 12,
+        "strikeOut": false,
+        "underline": false
+      },
+      "tickStep": 50,
+      "unit": "V"
     }
   ],
   "grids": [
     {
-      "xAxisId": "time",
-      "yAxisId": "VBat",
+      "showGrid": true,
       "line": {
-        "style": "Dashed",
-        "size": 1
+        "size": 1,
+        "style": "Dashed"
       },
-      "showGrid": true
+      "xAxisId": "time",
+      "yAxisId": "VBat"
     }
   ],
-  "plotBackgroundColor": "#FFFFFF",
-  "showYAxes": "left",
   "legend": {
+    "location": "top",
     "style": {
       "font": "Arial",
       "size": 12,
@@ -471,10 +108,8 @@
       "strikeOut": false,
       "align": "left",
       "color": "#000000"
-    },
-    "location": "top"
+    }
   },
-  "showLegend": false,
   "markers": [
     {
       "kind": "Text",
@@ -492,5 +127,471 @@
       "relativePosX": 5.6,
       "relativePosY": 8.9
     }
-  ]
+  ],
+  "entryPoints": [
+    {
+      "name": "STAT_SU_PPID",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_PPID<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#FFFF00",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_PPID",
+        "curveColor": "#3f51b5",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        }
+      }
+    },
+    {
+      "name": "STAT_SU_TPGID",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#FF9966",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_TPGID",
+        "line": {
+          "size": 1,
+          "style": "Continuous"
+        },
+        "curveColor": "#2196f3"
+      }
+    },
+    {
+      "name": "STAT_SU_MINFLT",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_MINFLT<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#FF0099",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_MINFLT",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#009688"
+      }
+    },
+    {
+      "name": "STAT_SU_UTIME",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#6633FF",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_UTIME",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#2196f3"
+      }
+    },
+    {
+      "name": "STAT_SU_STIME",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#99CCFF",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_STIME",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#4caf50"
+      }
+    },
+    {
+      "name": "STAT_SU_PRIORITY",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_PRIORITY<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#00FFCC",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_PRIORITY",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#8bc34a"
+      }
+    },
+    {
+      "name": "STAT_SU_ITREALVALUE",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_ITREALVALUE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#006699",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_ITREALVALUE",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#cddc39"
+      }
+    },
+    {
+      "name": "STAT_SU_RSS",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#996633",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_RSS",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#ffeb3b"
+      }
+    },
+    {
+      "name": "STAT_SU_SIGNAL",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#99FF00",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_SIGNAL",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#673ab7"
+      }
+    },
+    {
+      "name": "STAT_SU_SIGCATCH",
+      "parametric": false,
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.STAT_SU_SIGCATCH<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColor": "#CC0000",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_SIGCATCH",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#9c27b0"
+      }
+    }
+  ],
+  "showYAxes": "left",
+  "showLegend": false,
+  "plotBackgroundColor": "#FFFFFF",
+  "search": ""
 }

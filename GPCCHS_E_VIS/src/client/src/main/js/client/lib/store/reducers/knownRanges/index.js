@@ -73,7 +73,7 @@ export default function knownRanges(state = {}, action) {
       let newState = { ...state };
       const tbdIdInterval = action.payload.tbdIdInterval;
       const tbdIds = Object.keys(newState);
-      for (let i = 0; i < tbdIds.length; i += 1){
+      for (let i = 0; i < tbdIds.length; i += 1) {
         if (tbdIdInterval[tbdIds[i]]) {
           newState[tbdIds[i]] = {
             ...newState[tbdIds[i]],

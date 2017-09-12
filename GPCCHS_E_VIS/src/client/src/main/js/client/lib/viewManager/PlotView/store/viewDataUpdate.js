@@ -94,7 +94,7 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
 export function viewRangeAdd(state = {}, payloads) {
   const epNames = Object.keys(payloads || {}); // get tbdIds
-  if (!epNames.length || epNames.length < 5) {
+  if (!epNames.length || epNames.length < 5) { // at least { min:{}, max:{}, minTime:{}, maxTime:{}}
     // no data
     return state;
   }

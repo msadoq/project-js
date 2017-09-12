@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import forecastData from './forecastData';
 import * as types from '../../types';
-import { getStubData } from '../../../utils/stubs';
+// import { getStubData } from '../../../utils/stubs';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 
@@ -11,11 +11,10 @@ const forecastTrigger = '1000';
 let counter = 0;
 mockRegister();
 mockLoadStubs();
-const dataStub = getStubData();
+// const dataStub = getStubData();
 const mockIpc = {
   dc: {
-    requestTimebasedQuery: (flatDataId, dataId, interval, args) => {
-      console.log(flatDataId, dataId, interval, args);
+    requestTimebasedQuery: (/* flatDataId, dataId, interval, args */) => {
       counter += 1;
       return counter;
     },

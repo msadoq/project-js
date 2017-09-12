@@ -91,6 +91,4 @@ const injectData = (timing) => {
   };
 };
 
-
-
 export default injectData;

@@ -5,9 +5,9 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1920,
-        "h": 1174,
-        "x": 0,
+        "w": 1916,
+        "h": 1170,
+        "x": 2,
         "y": 26,
         "kind": "Absolute"
       },

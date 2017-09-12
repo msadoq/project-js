@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import retrieveLast from './retrieveLast';
 import * as types from '../../types';
-import { getLastRecords, addRecords } from '../../../serverProcess/models/lokiKnownRangesData';
+import { /* getLastRecords , */ addRecords } from '../../../serverProcess/models/lokiKnownRangesData';
 import { GETLASTTYPE_GET_LAST } from '../../../constants';
 
 let mockResultIpc = {};

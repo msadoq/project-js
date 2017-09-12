@@ -2,8 +2,8 @@
   "type": "PlotView",
   "links": [
     {
-      "name": "pageSupsup",
-      "path": "./pages/pageSupsup.vipg"
+      "name": "page0112",
+      "path": "./pages/page0112.json"
     }
   ],
   "procedures": [],
@@ -11,41 +11,31 @@
     "length": 50,
     "width": 50
   },
+  "showYAxes": "left",
   "entryPoints": [
     {
-      "name": "STAT_SU_UTIME_EV",
-      "parametric": false,
-      "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
-        "domainX": "",
-        "domainY": "",
-        "unitX": "",
-        "unitY": "",
-        "xAxisId": "",
-        "yAxisId": ""
-      },
+      "name": "STAT_SU_UTIME",
       "connectedData": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
-        "axisId": "STAT_SU_UTIME"
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "GPVIMA0112",
+        "axisId": "VBat"
       },
       "objectStyle": {
         "line": {
-	  "style": "Dotted",
-	  "size": 10
-	},
+   "style": "Dotted",
+   "size": 10
+ },
         "points": {
-	  "style": "None",
-	  "size": 3
-	},
-      	"curveColor": "#CC0066"
+   "style": "None",
+   "size": 3
+ },
+       "curveColor": "#CC0066"
       },
       "stateColors": [
         {
@@ -59,39 +49,28 @@
       ]
     },
     {
-      "name": "STAT_SU_UTIME_CV",
-      "parametric": false,
-      "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
-        "domainX": "",
-        "domainY": "",
-        "unitX": "",
-        "unitY": "",
-        "xAxisId": "",
-        "yAxisId": ""
-      },
+      "name": "STAT_SU_STIME",
       "connectedData": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.convertedValue",
+        "formula": "Reporting.STAT_SU_STIME<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "vbat"
+        "axisId": "VBat"
       },
       "objectStyle": {
         "line": {
-	  "style": "Continuous",
-	  "size": 5
-	},
+   "style": "Continuous",
+   "size": 5
+ },
         "points": {
-	  "style": "None",
-	  "size": 3
-	},
-      	"curveColor": "#FFFF00"
+   "style": "None",
+   "size": 3
+ },
+       "curveColor": "#FFFF00"
       },
       "stateColors": [
         {
@@ -105,39 +84,28 @@
       ]
     },
 {
-      "name": "STAT_SU_UTIME_RV",
-      "parametric": false,
-      "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
-        "domainX": "",
-        "domainY": "",
-        "unitX": "",
-        "unitY": "",
-        "xAxisId": "",
-        "yAxisId": ""
-      },
+      "name": "STAT_SU_CUTIME",
       "connectedData": {
-        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.rawValue",
+        "formula": "Reporting.STAT_SU_CUTIME<ReportingParameter>.convertedValue",
         "fieldX": "groundDate",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "vbat"
+        "axisId": "VBat"
       },
       "objectStyle": {
         "line": {
-	  "style": "Continuous",
-	  "size": 2
-	},
+   "style": "Continuous",
+   "size": 2
+ },
         "points": {
-	  "style": "None",
-	  "size": 3
-	},
-      	"curveColor": "#00CC33"
+   "style": "None",
+   "size": 3
+ },
+       "curveColor": "#00CC33"
       },
       "stateColors": [
         {
@@ -154,7 +122,6 @@
   "axes": [
     {
       "label": "Time",
-      "id": "time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -164,7 +131,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#FFF"
+        "color": "#000000"
       },
       "min": 0,
       "max": 10,
@@ -173,18 +140,11 @@
       "autoTick": true,
       "showTicks": true,
       "showTickLabels": true,
-      "logarithmic": false,
-      "logSettings": {
-        "min": 0.1,
-        "max": 1000000000,
-        "base": 10
-      },
-      "showAxis": true,
-      "showLabels": true
+      "isLogarithmic": false,
+      "showAxis": true
     },
     {
       "label": "VBat",
-      "id": "vbat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -194,7 +154,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "color": "#FFF"
+        "color": "#000000"
       },
       "min": -300,
       "max": 300,
@@ -203,20 +163,14 @@
       "autoTick": false,
       "showTicks": true,
       "showTickLabels": true,
-      "logarithmic": false,
-      "logSettings": {
-        "min": 0.1,
-        "max": 1000000000,
-        "base": 10
-      },
-      "showAxis": true,
-      "showLabels": true
+      "isLogarithmic": false,
+      "showAxis": true
     }
   ],
   "grids": [
     {
       "xAxisId": "Time",
-      "yAxisId": "vbat",
+      "yAxisId": "VBat",
       "line": {
         "style": "Continuous",
         "size": 1
@@ -224,7 +178,7 @@
       "showGrid": true
     }
   ],
-  "title": "Plotview Sup/Sup workspace",
+  "title": "Plotview 0112 workspace",
   "titleStyle": {
     "font": "Arial",
     "size": 12,
@@ -236,7 +190,6 @@
     "color": "#000000"
   },
   "plotBackgroundColor": "#FFFFFF",
-  "showYAxes": "left",
   "legend": {
     "style": {
       "font": "Arial",
@@ -250,7 +203,6 @@
     },
     "location": "top"
   },
-  "showLegend": false,
   "markers": [
     {
       "kind": "Text",

@@ -1,21 +1,17 @@
 import React, { PropTypes, Component } from 'react';
-import _memoize from 'lodash/memoize';
 import styles from './GrizzlyChart.css';
 
 export default class LinesCanvas extends Component {
 
   static propTypes = {
     updateLabelPosition: PropTypes.func.isRequired,
-    yAxesAt: PropTypes.string.isRequired,
-    top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yScale: PropTypes.func.isRequired,
     showLabelsX: PropTypes.bool,
     showLabelsY: PropTypes.bool,
-    // perfOutput: PropTypes.bool.isRequired,
+    perfOutput: PropTypes.bool,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -31,12 +27,13 @@ export default class LinesCanvas extends Component {
         colorAccessor: PropTypes.func,
       })
     ).isRequired,
-    memoizeDivStyle: PropTypes.func.isRequired,
+    divStyle: PropTypes.shape().isRequired,
   }
 
   static defaultProps = {
     showLabelsX: false,
     showLabelsY: false,
+    perfOutput: false,
   }
 
   componentDidMount() {
@@ -79,7 +76,7 @@ export default class LinesCanvas extends Component {
 
   draw = () => {
     const {
-      // perfOutput,
+      perfOutput,
       height,
       width,
       lines,
@@ -94,15 +91,16 @@ export default class LinesCanvas extends Component {
 
     ctx.clearRect(0, 0, width, height);
 
-    // let totalPoints = 0;
-    // if (perfOutput) console.time();
+    let totalPoints = 0;
+    // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+    if (perfOutput) console.time();
 
     const points = {};
     // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
     lines.forEach((line) => {
       points[line.id] = [];
       const dataLine = line.data;
-      // if (perfOutput) totalPoints += dataLine.length;
+      if (perfOutput) totalPoints += dataLine.length;
       if (!dataLine) {
         // console.log(`No data for line ${line.id}`);
         return;
@@ -221,37 +219,29 @@ export default class LinesCanvas extends Component {
       ctx.stroke();
     });
 
-    // if (perfOutput) {
-    //   console.log(
-    //     'axis',
-    //     axisId,
-    //     'Just drawed',
-    //     lines.length,
-    //     'lines, about',
-    //     totalPoints,
-    //     'total points'
-    //   );
-    //   console.timeEnd();
-    // }
+    if (perfOutput) {
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.log(
+        'axis pair',
+        `{lines[0].xAxisId}-${lines[0].yAxisId}`,
+        'Just drawed',
+        lines.length,
+        'lines, about',
+        totalPoints,
+        'total points'
+      );
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
+      console.timeEnd();
+    }
   }
 
   assignEl = (el) => { this.el = el; }
-
-  memoizeStyle = _memoize((hash, margin, top) =>
-    ({
-      ...margin,
-      top,
-    })
-  );
 
   render() {
     const {
       height,
       width,
-      yAxesAt,
-      top,
-      margin,
-      memoizeDivStyle,
+      divStyle,
     } = this.props;
 
     return (
@@ -260,14 +250,7 @@ export default class LinesCanvas extends Component {
         height={height}
         width={width}
         className={styles.canvas}
-        style={memoizeDivStyle(
-          `${top}-${margin}-${yAxesAt}-${width}-${height}`,
-          top,
-          margin,
-          yAxesAt,
-          width,
-          height
-        )}
+        style={divStyle}
       />
     );
   }

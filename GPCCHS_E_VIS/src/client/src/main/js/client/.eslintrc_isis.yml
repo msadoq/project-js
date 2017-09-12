@@ -1,0 +1,103 @@
+---
+parser: babel-eslint
+parserOptions:
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
+ecmaFeatures:
+  jsx: true
+env:
+  mocha: true
+  jest: true
+  browser: true
+  node: true
+  es6: true
+plugins:
+  - react
+rules:
+  #Lot 1
+  comma-style:
+    - error
+    - last
+  complexity:
+    - warn
+    - 15
+  default-case:
+    - error
+    - commentPattern: "^no default$"
+  max-depth:
+    - warn
+    - 7
+  max-len:
+    - 0
+    # - error
+    # - 100
+    # - 2
+    # - ignoreUrls: true
+  max-statements:
+    - warn
+    - 100
+  max-statements-per-line:
+    - warn
+    - max: 1
+  no-const-assign:
+    - error
+  no-path-concat:
+    - error
+  no-shadow:
+    - error
+  no-undef-init:
+    - error
+  no-unused-vars:
+    - error
+    - vars: all
+      args: after-used
+      ignoreRestSibling: true
+  react/jsx-uses-vars:
+    - error
+  react/jsx-uses-react:
+    - error
+  react/react-in-jsx-scope:
+    - error
+  no-var:
+    - error
+  one-var:
+    - error
+    - never
+  react/jsx-no-undef:
+    - error
+  react/no-danger:
+    - error
+  semi:
+    - error
+    - always
+  use-isnan:
+    - error
+
+  # Lot 2
+  camelcase:
+    - error
+    - properties: never
+  func-names:
+    - warn
+  new-cap:
+    - error
+    - newIsCap: true
+      newIsCapExceptions: []
+      capIsNew: false
+      capIsNewExceptions:
+        - Immutable.Map
+        - Immutable.Set
+        - Immutable.List
+  no-undef:
+    - error
+  prefer-const:
+    - error
+    - destructuring: any
+      ignoreReadBeforeAssign: true
+  react/jsx-pascal-case:
+    - error
+    - allowAllCaps: true
+      ignore: []
+  space-infix-ops:
+    - error

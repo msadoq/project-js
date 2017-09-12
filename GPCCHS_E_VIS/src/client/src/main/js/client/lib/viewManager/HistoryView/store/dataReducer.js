@@ -4,7 +4,6 @@ import _without from 'lodash/without';
 import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import { getStore } from '../../../mainProcess/store';
-import { getSorting } from './configurationSelectors';
 import { getConfigurationByViewId } from '../../selectors';
 
 import * as types from '../../../store/types';
@@ -116,7 +115,6 @@ export default function historyViewData(state = {}, action) {
           selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject, sorting);
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
-          // const viewState = viewRangeAdd(newState[viewId], viewId, epSubState, sorting);
           const viewState = viewRangeAdd(newState[viewId], viewId, epSubState, historyConfig);
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };

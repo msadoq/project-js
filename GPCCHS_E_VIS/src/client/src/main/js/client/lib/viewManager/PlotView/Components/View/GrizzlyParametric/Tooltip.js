@@ -17,8 +17,6 @@ export default class Tooltip extends React.Component {
     ).isRequired,
     pairs: PropTypes.shape().isRequired,
     tooltipColor: PropTypes.string.isRequired,
-    margin: PropTypes.number.isRequired,
-    top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     yAxisWidth: PropTypes.number.isRequired,

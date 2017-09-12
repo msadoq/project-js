@@ -108,9 +108,15 @@ export default class EntryPointDetails extends PureComponent {
 
     // TODO Rerender (new ref)
     const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
-
+    // TODO Rerender (new ref)
+    const initialValuesConnectedData = {
+      connectedData: entryPoint.connectedData,
+      connectedDataParametric: entryPoint.connectedDataParametric,
+      parametric: entryPoint.parametric,
+    };
     // TODO Rerender (new ref)
     const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
+
     return (
       <Collapse
         accordion={false}
@@ -140,11 +146,7 @@ export default class EntryPointDetails extends PureComponent {
             viewId={viewId}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit}
-            initialValues={{
-              connectedData: entryPoint.connectedData,
-              connectedDataParametric: entryPoint.connectedDataParametric,
-              parametric: entryPoint.parametric,
-            }}
+            initialValues={initialValuesConnectedData}
           />}
         </Panel>
         <Panel
@@ -152,7 +154,6 @@ export default class EntryPointDetails extends PureComponent {
           header="State colors"
         >
           {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={initialValuesStateColors}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
             onSubmit={this.handleSubmit}

@@ -10,9 +10,10 @@
 .formatedFullDate{
   position: absolute;
   left: 50%;
-  transform: translate(-50%, 30%);
+  transform: translate(50%, 30%);
   padding: 2px;
   border-radius: 1px;
+  z-index: 3;
 }
 
 .play{ border-color: var(--borderPlay); }

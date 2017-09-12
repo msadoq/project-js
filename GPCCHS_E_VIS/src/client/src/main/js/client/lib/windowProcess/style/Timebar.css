@@ -15,8 +15,7 @@
     background-color: var(--rightTabBg);
   }
   .FormatedFullDate {
-    background: rgba(0, 0, 0, 0.4);
-    color: #FFF;
+    color: #111;
   }
   .Timelines {
     background-color: var(--timelinesBg);

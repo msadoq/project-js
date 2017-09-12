@@ -116,6 +116,7 @@ export const rotateAnimation = (data, g) => {
   setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'left top 0px', 'string');
 };
 
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Unavoidable complexity"
 export const textBoxAnimation = (data, g) => {
   const el = g.el;
   const elBg = g.elBg;
@@ -197,6 +198,7 @@ export const textBoxAnimation = (data, g) => {
   setStyleIfChanged(el, 'visibility', 'visible', 'string');
 };
 
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Unavoidable complexity"
 export const colourAnimation = (data, g) => {
   const el = g.el;
   if (!el) {

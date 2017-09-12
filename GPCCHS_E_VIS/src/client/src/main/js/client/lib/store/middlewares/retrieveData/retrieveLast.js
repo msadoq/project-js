@@ -6,8 +6,6 @@ import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingl
 import { newData } from '../../actions/incomingData';
 import executionMonitor from '../../../common/logManager/execution';
 
-
-
 const type = 'LAST';
 const getLastArguments = { getLastType: GETLASTTYPE_GET_LAST };
 
@@ -22,8 +20,6 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, filters, intervals } = neededLast[tbdIds[i]];
-      // const rangesRecords = getRangesRecords(tbdId, intervals)[tbdId];
-      // console.log(intervals);
       for (let j = 0; j < intervals.length; j += 1) {
         // TODO pgaucher, can this be optimized ?
         execution.start('Check if in known ranges');
@@ -33,7 +29,6 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
         execution.stop('Check if in known ranges');
         if (!isInInterval) {
           const args = { ...getLastArguments, filters };
-          // console.log('requestTimebasedQuery last : ', tbdId);
           const queryId = ipc.dc.requestTimebasedQuery(tbdId, dataId, intervals[j], args);
           add(queryId, tbdId, type, dataId);
         } else {
@@ -41,7 +36,6 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
           const lastRecords = getLastRecords(tbdId, interval)[tbdId];
           execution.stop('get last records');
           if (Object.keys(lastRecords).length !== 0) {
-            // console.log('data exists in last : ', tbdId);
             dispatch(newData({ [tbdId]: lastRecords }));
           } else {
             const args = { ...getLastArguments, filters };
@@ -49,7 +43,6 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
                                                          dataId,
                                                          intervals[j],
                                                          args);
-            // console.log('Data is in known range but does not exists for last :  requestTimebasedQuery', tbdId);
             add(queryId, tbdId, type, dataId);
           }
         }

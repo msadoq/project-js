@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import retrieveRange from './retrieveRange';
 import * as types from '../../types';
-import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
+// import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');

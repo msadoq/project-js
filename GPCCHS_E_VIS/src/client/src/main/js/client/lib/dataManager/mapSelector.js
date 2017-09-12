@@ -40,7 +40,10 @@ export const getCurrentDisplayedLastTbdId = createSelector(
     const perLastTbdIdArray = Object.keys(perLastTbdId);
 
     for (let i = 0; i < perLastTbdIdArray.length; i += 1) {
-      knownTbdIds.push({ tbdId: perLastTbdIdArray[i], dataId: perLastTbdId[perLastTbdIdArray[i]].dataId });
+      knownTbdIds.push({
+        tbdId: perLastTbdIdArray[i],
+        dataId: perLastTbdId[perLastTbdIdArray[i]].dataId,
+      });
     }
     return knownTbdIds;
   }

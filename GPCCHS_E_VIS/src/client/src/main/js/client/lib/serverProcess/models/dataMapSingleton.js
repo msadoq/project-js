@@ -6,6 +6,6 @@ module.exports = {
   },
   get: () => dataMap,
   reset: () => {
-    dataMap = { perRemoteId: {}, perView: {}, expectedIntervals: {}};
+    dataMap = { perRemoteId: {}, perView: {}, expectedIntervals: {} };
   },
 };

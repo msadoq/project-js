@@ -9,8 +9,6 @@ import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingl
 import { get, getFilters } from '../../../serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from '../../../common/logManager/execution';
 
-
-
 const type = 'RANGE';
 let previousForecast;
 

@@ -278,5 +278,4 @@ describe('store:middlewares:injectData', () => {
     .toMatchObject(dataMap.expectedLastIntervals);
     // expect(actions[1].payload.dataToInject).toMatchObject([data]);
   });
-
 });

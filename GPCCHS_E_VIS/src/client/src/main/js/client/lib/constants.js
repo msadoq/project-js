@@ -170,4 +170,6 @@ module.exports = {
     AFTER_STORE_UPDATE: 'afterStoreUpdate_',
   },
   COMPUTED_TIMING_DATA: 'computedTiming',
+  SORTING_UP: 'SORTING_UP',
+  SORTING_DOWN: 'SORTING_DOWN',
 };

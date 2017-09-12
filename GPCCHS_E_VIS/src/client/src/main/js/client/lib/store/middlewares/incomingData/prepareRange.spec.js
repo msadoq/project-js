@@ -459,7 +459,7 @@ describe('store:middlewares:prepareRange', () => {
         data,
       },
     };
-    expect(actions[0]).toMatchObject(expectedPayload);
+    expect(actions[1]).toMatchObject(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and no timestamp is in expectedLast ', () => {
@@ -484,7 +484,7 @@ describe('store:middlewares:prepareRange', () => {
         data,
       },
     };
-    expect(actions[0]).toMatchObject(expectedPayload);
+    expect(actions[1]).toMatchObject(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and all timestamp are in expectedLast ', () => {
@@ -501,6 +501,6 @@ describe('store:middlewares:prepareRange', () => {
         data,
       },
     };
-    expect(actions[0]).toMatchObject(expectedPayload);
+    expect(actions[1]).toMatchObject(expectedPayload);
   });
 });

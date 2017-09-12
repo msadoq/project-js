@@ -262,19 +262,19 @@ describe('store:middlewares:injectData', () => {
     const dataMap = dataMapGenerator(store);
     store.dispatch(injectNewData());
     const actions = store.getActions();
-    expect(actions[0]).toHaveProperty('type', 'INJECT_DATA_RANGE');
-    expect(actions[0].payload.oldViewMap).toMatchObject({});
-    expect(actions[0].payload.newViewMap).toMatchObject(dataMap.perView);
-    expect(actions[0].payload.oldExpectedRangeIntervals).toMatchObject({});
-    expect(actions[0].payload.newExpectedRangeIntervals)
+    expect(actions[1]).toHaveProperty('type', 'INJECT_DATA_RANGE');
+    expect(actions[1].payload.oldViewMap).toMatchObject({});
+    expect(actions[1].payload.newViewMap).toMatchObject(dataMap.perView);
+    expect(actions[1].payload.oldExpectedRangeIntervals).toMatchObject({});
+    expect(actions[1].payload.newExpectedRangeIntervals)
     .toMatchObject(dataMap.expectedRangeIntervals);
     // expect(actions[0].payload.dataToInject).toMatchObject([data]);
 
-    expect(actions[1]).toHaveProperty('type', 'INJECT_DATA_LAST');
-    expect(actions[1].payload.oldViewMap).toMatchObject({});
-    expect(actions[1].payload.newViewMap).toMatchObject(dataMap.perView);
-    expect(actions[1].payload.oldExpectedLastIntervals).toMatchObject({});
-    expect(actions[1].payload.newExpectedLastIntervals)
+    expect(actions[2]).toHaveProperty('type', 'INJECT_DATA_LAST');
+    expect(actions[2].payload.oldViewMap).toMatchObject({});
+    expect(actions[2].payload.newViewMap).toMatchObject(dataMap.perView);
+    expect(actions[2].payload.oldExpectedLastIntervals).toMatchObject({});
+    expect(actions[2].payload.newExpectedLastIntervals)
     .toMatchObject(dataMap.expectedLastIntervals);
     // expect(actions[1].payload.dataToInject).toMatchObject([data]);
   });

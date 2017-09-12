@@ -172,44 +172,61 @@ describe('store:middlewares:preparePubSub', () => {
 
     const dataId = {
       catalog: 'Reporting',
-      parameterName: 'AGA_AM_PRIORITY',
+      parameterName: 'TMMGT_BC_VIRTCHAN3',
       comObject: 'ReportingParameter',
-      sessionId: 1,
-      domainId: 1,
+      sessionId: 0,
+      domainId: 4,
     };
     const incomingRangeData = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1',
-        dataId,
-        peers: [timestamp1, protoRp1, timestamp2, protoRp2],
+        data: {
+          'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+            dataId,
+            payloadBuffers: [timestamp1, protoRp1, timestamp2, protoRp2],
+          },
+        },
       },
     });
 
     const incomingDataNotInLast = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:1:1',
-        dataId,
-        peers: [timestampNotInLast1Proto, protoRp1, timestampNotInLast2Proto, protoRp2],
+        data: {
+          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+            dataId,
+            payloadBuffers: [
+              timestampNotInLast1Proto,
+              protoRp1,
+              timestampNotInLast2Proto,
+              protoRp2,
+            ],
+          },
+        },
       },
     });
 
     const incomingDataOneInLast = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
-        dataId,
-        peers: [timestampNotInLast1Proto, protoRp1, timestampInLast1Proto, protoRp2],
+        data: {
+          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+            dataId,
+            payloadBuffers: [timestampNotInLast1Proto, protoRp1, timestampInLast1Proto, protoRp2],
+          },
+        },
       },
     });
 
     const incomingDataAllInLast = () => ({
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
-        tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
-        dataId,
-        peers: [timestampInLast1Proto, protoRp1, timestampInLast2Proto, protoRp2],
+        data: {
+          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+            dataId,
+            payloadBuffers: [timestampInLast1Proto, protoRp1, timestampInLast2Proto, protoRp2],
+          },
+        },
       },
     });
 
@@ -233,7 +250,7 @@ describe('store:middlewares:preparePubSub', () => {
       state.pages.page1.views = ['plot1'];
       const store = mockStore(state);
       store.dispatch(incomingRangeData());
-      expect(Object.keys(store.getActions()[0].payload.peers))
+      expect(Object.keys(store.getActions()[1].payload.data))
       .toEqual([String(t1), String(t2)]);
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });

@@ -30,7 +30,6 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
   // check payloads parity
   const payloadBuffersMap = action.payload.data;
   const payloadBuffersArray = Object.keys(payloadBuffersMap);
-
   // Compute dataMap
   execution.start('dataMap');
   const state = getState();
@@ -41,7 +40,6 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
 
   for (let i = 0; i < payloadBuffersArray.length; i += 1) {
     const { dataId, payloadBuffers } = payloadBuffersMap[payloadBuffersArray[i]];
-
     // get payload type and check validity
     const payloadProtobufType = getType(dataId.comObject);
     if (typeof payloadProtobufType === 'undefined') {

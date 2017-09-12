@@ -1,4 +1,5 @@
 import configureMockStore from 'redux-mock-store';
+import flattenDataId from '../../../common/flattenDataId';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 const { getStubData } = require('../../../utils/stubs');
@@ -42,8 +43,12 @@ describe('controllers/pubSub', () => {
     const expectedPayload = {
       type: 'INCOMING_PUBSUB_DATA',
       payload: {
-        dataId: myDataIdDecoded,
-        peers: [timestamp1, protoRp1, timestamp2, protoRp2],
+        data: {
+          [flattenDataId(myDataId)]: {
+            dataId: myDataIdDecoded,
+            payloadBuffers: [timestamp1, protoRp1, timestamp2, protoRp2],
+          },
+        },
       },
     };
     expect(actions).toContainEqual(expectedPayload);

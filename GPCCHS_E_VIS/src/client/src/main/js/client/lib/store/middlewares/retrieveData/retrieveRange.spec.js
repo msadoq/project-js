@@ -83,26 +83,9 @@ describe('store:middlewares:retrieveRange', () => {
 
     store.dispatch(viewsNeedRangeData());
     const actions = store.getActions();
-    expect(actions[0]).toMatchObject({
+    expect(actions[1]).toMatchObject({
       type: 'NEW_DATA',
       payload: { data: { tbdId1: { 4: '4', 5: '5', 6: '6' } } },
-    });
-    expect(actions[1]).toMatchObject({
-      type: 'WS_KNOWNINTERVAL_ADD',
-      payload: {
-        dataId:
-        {
-          catalog: 'Reporting',
-          parameterName: 'TMMGT_BC_VIRTCHAN3',
-          comObject: 'ReportingParameter',
-          domainId: 4,
-          domain: 'fr.cnes.isis.simupus',
-          sessionName: 'Master',
-          sessionId: 0,
-        },
-        intervals: [[4, 6]],
-        tbdId: 'tbdId1',
-      },
     });
   });
 });

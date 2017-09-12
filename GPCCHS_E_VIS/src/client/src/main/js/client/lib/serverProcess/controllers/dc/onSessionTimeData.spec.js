@@ -1,4 +1,5 @@
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
+const { set } = require('../../../common/callbacks');
 
 mockRegister();
 mockLoadStubs();
@@ -10,20 +11,16 @@ loadStubs();
 const dataStub = getStubData();
 
 describe('controllers/client/onSessionTimeData', () => {
-  test('should returns session time', (done) => {
+  test('should returns session time', () => {
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myTimestamp = 42;
     const myTimestampProto = dataStub.getTimestampProtobuf({ ms: myTimestamp });
 
-    const check = (...args) => {
-      expect(args).toMatchObject([
-        myQueryId,
-        { timestamp: myTimestamp },
-      ]);
-      done();
-    };
+    set(myQueryId, (expected) => {
+      expect(expected.timestamp).toBe(myTimestamp);
+    });
 
-    onSessionTimeData(check, myQueryIdProto, myTimestampProto);
+    onSessionTimeData([myQueryIdProto, myTimestampProto]);
   });
 });

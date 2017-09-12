@@ -9,7 +9,7 @@ describe('windowsManager:selectors', () => {
       views: { v1: { title: 'VIEW', configuration: true } },
     });
     test('should returns editor window title', () => {
-      expect(getEditorWindowTitle(state, { viewId: 'v1' })).toEqual('EDITOR_TITLE - VIEW');
+      expect(getEditorWindowTitle(state, { viewId: 'v1' })).toEqual('Code editor - VIEW');
     });
     test('should returns empty title on unknown view', () => {
       expect(getEditorWindowTitle(state, { viewId: 'unknown_view' })).toEqual('');

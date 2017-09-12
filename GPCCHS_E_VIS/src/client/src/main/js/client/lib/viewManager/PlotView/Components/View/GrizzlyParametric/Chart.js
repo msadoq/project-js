@@ -237,6 +237,7 @@ export default class Chart extends React.Component {
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
+  // eslint-disable-next-line complexity, "DV6 TBC_CNES axes sorting, must not be split"
   getSortedAndValidPairs = () => {
     const {
       yAxes,

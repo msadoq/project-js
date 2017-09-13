@@ -248,7 +248,10 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
     }
     const masterTime = timestamp + ep.offset;
 
-    const valX = _get(value, [ep.fieldX, 'value']);
+    let valX;
+    if (ep.fieldX) {
+      valX = _get(value, [ep.fieldX, 'value']);
+    }
     let valY = _get(value, [ep.fieldY, 'value']);
     if (!valY) {
       const symbol = _get(value, [ep.fieldY, 'symbol']);
@@ -257,7 +260,8 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
         valY = Number(symbol);
       }
     }
-    if (valX !== undefined && valY !== undefined) {
+    // if (valX !== undefined && valY !== undefined) {
+    if (valY !== undefined) {
       const newMin = getMin(min, valY, minTime, masterTime);
       min = newMin.min;
       minTime = newMin.minTime;
@@ -270,7 +274,9 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
         newState[epName] = {};
       }
       newState[epName][masterTime] = {
-        x: valX,
+        x: masterTime,
+        valX,
+        refTime: timestamp,
         value: valY,
         ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
         // Case of enum : add symbol to show it in tooltip

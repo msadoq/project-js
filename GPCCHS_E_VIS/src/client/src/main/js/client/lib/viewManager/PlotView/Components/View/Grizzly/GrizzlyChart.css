@@ -155,6 +155,7 @@
     }
     .tooltipLine{
       position: relative;
+      height: 35px;
       & > p{
         font-size: 1.0em;
         position: absolute;

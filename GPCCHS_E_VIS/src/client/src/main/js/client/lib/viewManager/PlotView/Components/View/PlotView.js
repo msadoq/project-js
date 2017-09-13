@@ -7,10 +7,10 @@ import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
+import moment from 'moment';
 import getLogger from '../../../../common/logManager';
 import { get } from '../../../../common/configurationManager';
 import Dimensions from '../../../../windowProcess/common/Dimensions';
-import { formatDuration } from '../../../../windowProcess/common/timeFormats';
 import GrizzlyChart from './Grizzly/Chart';
 import Legend from './Legend';
 
@@ -37,10 +37,8 @@ const getUniqueEpId = (id, entryPoints) => {
   return newId;
 };
 
-const tooltipFormatter = (id, foundColor, color, value,
-  x, formattedValue, formatter, packet) => {
-  const offset = value !== packet.masterTime ? formatDuration(packet.masterTime - x) : '';
-  return (
+const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, formatter, packet) =>
+  (
     <div
       key={id}
       className={grizzlyStyles.tooltipLine}
@@ -59,19 +57,13 @@ const tooltipFormatter = (id, foundColor, color, value,
         <span
           className={grizzlyStyles.tooltipLineValue}
         >{ packet.symbol ? packet.symbol : formattedValue }</span>
+        <span>&nbsp;&nbsp;&nbsp;{ moment(packet.refTime).utc().toISOString() }</span>
+        {packet.valX ?
+          <span>&nbsp;{'.....'}&nbsp;&nbsp;{ moment(packet.valX).utc().toISOString() }</span>
+          : <span /> }
       </p>
-      <span
-        className={classnames(
-          grizzlyStyles.tooltipOffset,
-          {
-            [grizzlyStyles.red]: offset[0] === '-',
-            [grizzlyStyles.green]: offset[0] && offset[0] !== '-',
-          }
-        )}
-      >{' '}{ offset }</span>
     </div>
   );
-};
 
 // parse clipboard data to create partial entry point
 function parseDragData(data, id, defaultTimelineId) {

@@ -170,7 +170,7 @@ export default class Tooltip extends React.Component {
     const tooltipStyle = { width: this.tooltipWidth };
     tooltipStyle.opacity = showTooltip ? 1 : 0;
     tooltipStyle.height = tooltiLinesToDisplay ?
-        (_sum(Object.values(linesList).map(a => a.length)) * 21)
+        (_sum(Object.values(linesList).map(a => a.length)) * 35)
           + (Object.values(linesList).length * 26)
           + 30
         :

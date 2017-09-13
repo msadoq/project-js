@@ -3,8 +3,6 @@ import _ from 'lodash/fp';
 import composeReducers from '../../helpers/composeReducers';
 import * as types from '../../types';
 
-// import createConfiguration from './configuration';
-
 const setIsModified = _.set('isModified');
 const getIsModified = (action) => {
   if (action.type === types.WS_VIEW_SETMODIFIED) {
@@ -137,12 +135,6 @@ function simpleView(stateView = initialState, action) {
       return stateView;
   }
 }
-
-// This reducer take care of the '.configuration' property of a view
-// const viewConfiguration = (stateView, action) => {
-//   const configuration = createConfiguration(stateView.type);
-//   return _.set('configuration', configuration(stateView.configuration, action), stateView);
-// };
 
 // expose a single reducer that deal with one view
 export default composeReducers(viewIsModified, simpleView);

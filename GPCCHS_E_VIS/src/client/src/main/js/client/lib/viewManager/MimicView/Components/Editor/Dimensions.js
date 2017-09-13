@@ -10,13 +10,11 @@ export default class Dimensions extends React.Component {
   }
 
   handleSubmit = (values) => {
-    console.log(values);
     const {
       updateDimensions,
     } = this.props;
 
     if (this.props.width !== values.width || this.props.height !== values.height) {
-      console.log(values.width, values.height);
       updateDimensions(values.width, values.height);
     }
   }

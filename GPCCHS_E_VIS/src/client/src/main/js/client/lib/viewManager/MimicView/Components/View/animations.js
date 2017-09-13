@@ -144,6 +144,7 @@ export const skewAnimation = (data, g) => {
   setStyleIfChanged(el, 'visibility', 'visible', 'string');
 };
 
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Unavoidable complexity"
 export const textBoxAnimation = (data, g) => {
   const el = g.el;
   const elBg = g.elBg;

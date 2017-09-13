@@ -36,13 +36,13 @@ export function getZoomLevel(msWidth) {
 }
 
 /**
- * Compute difference of hrtime
+ * Compute difference of hrtime, returns ms
  * @param {hrtime} a
  * @param {hrtime} b
  */
 export const computeDiffHrtime = (a, b) => {
   if (!a || !b) {
-    return 'Missing data';
+    return -1;
   }
   const as = a[0];
   const ans = a[1];
@@ -54,8 +54,7 @@ export const computeDiffHrtime = (a, b) => {
     s -= 1; // cut a second
     ns += 1e9; // add a billion nanosec (to neg number)
   }
-  const timing = `${(s * 1000) + (ns / 1000000)} ms`;
-  return timing;
+  return (s * 1000) + (ns / 1000000);
 };
 
 const day = 1000 * 60 * 60 * 24;

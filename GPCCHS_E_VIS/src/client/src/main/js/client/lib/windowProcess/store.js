@@ -55,16 +55,57 @@ function prepareEnhancers(isDebugOn) {
  * @param action
  * @return decorated action
  */
+function setTime(action, key, previous, current) {
+  return _set(
+    ['meta', COMPUTED_TIMING_DATA, key],
+    computeDiffHrtime(previous, current), action
+  );
+}
 const decorateActionWithTiming = (action) => {
   let actionTmp = action;
   if (actionTmp.meta) {
-    const currentTiming = process.hrtime();
-    actionTmp = _set(['meta', COMPUTED_TIMING_DATA, '1#RendererToServer'], computeDiffHrtime(action.meta[TIMING_DATA][TIMING_MILESTONES.BEFORE_SERVER_STORE_UPDATE], action.meta[TIMING_DATA][`${TIMING_MILESTONES.SEND_UP}${identity}`]), actionTmp);
-    actionTmp = _set(['meta', COMPUTED_TIMING_DATA, '2#MainToServer'], computeDiffHrtime(action.meta[TIMING_DATA][TIMING_MILESTONES.BEFORE_SERVER_STORE_UPDATE], action.meta[TIMING_DATA][`${TIMING_MILESTONES.SEND_UP}main`]), actionTmp);
-    actionTmp = _set(['meta', COMPUTED_TIMING_DATA, '3#ServerStoreUpdate'], computeDiffHrtime(action.meta[TIMING_DATA][TIMING_MILESTONES.AFTER_SERVER_STORE_UPDATE], action.meta[TIMING_DATA][TIMING_MILESTONES.BEFORE_SERVER_STORE_UPDATE]), actionTmp);
-    actionTmp = _set(['meta', COMPUTED_TIMING_DATA, '4#ServerToMain'], computeDiffHrtime(action.meta[TIMING_DATA][`${TIMING_MILESTONES.BEFORE_STORE_UPDATE}main`], action.meta[TIMING_DATA][TIMING_MILESTONES.AFTER_SERVER_STORE_UPDATE]), actionTmp);
-    actionTmp = _set(['meta', COMPUTED_TIMING_DATA, '5#MainStoreUpdate'], computeDiffHrtime(action.meta[TIMING_DATA][`${TIMING_MILESTONES.AFTER_STORE_UPDATE}main`], action.meta[TIMING_DATA][`${TIMING_MILESTONES.BEFORE_STORE_UPDATE}main`]), actionTmp);
-    actionTmp = _set(['meta', COMPUTED_TIMING_DATA, '6#MainToRenderer'], computeDiffHrtime(currentTiming, action.meta[TIMING_DATA][`${TIMING_MILESTONES.AFTER_STORE_UPDATE}main`]), actionTmp);
+    const timing = action.meta[TIMING_DATA];
+    actionTmp = setTime(
+      actionTmp,
+      '1#RendererToServer',
+      timing[TIMING_MILESTONES.BEFORE_SERVER_STORE_UPDATE],
+      timing[`${TIMING_MILESTONES.SEND_UP}${identity}`]
+    );
+
+    actionTmp = setTime(
+      actionTmp,
+      '2#MainToServer',
+      timing[TIMING_MILESTONES.BEFORE_SERVER_STORE_UPDATE],
+      timing[`${TIMING_MILESTONES.SEND_UP}main`]
+    );
+
+    actionTmp = setTime(
+      actionTmp,
+      '3#serverDispatch',
+      timing[TIMING_MILESTONES.AFTER_SERVER_STORE_UPDATE],
+      timing[TIMING_MILESTONES.BEFORE_SERVER_STORE_UPDATE]
+    );
+
+    actionTmp = setTime(
+      actionTmp,
+      '4#ServerToMain',
+      timing[`${TIMING_MILESTONES.BEFORE_STORE_UPDATE}main`],
+      timing[TIMING_MILESTONES.AFTER_SERVER_STORE_UPDATE]
+    );
+
+    actionTmp = setTime(
+      actionTmp,
+      '5#mainApply',
+      timing[`${TIMING_MILESTONES.AFTER_STORE_UPDATE}main`],
+      timing[`${TIMING_MILESTONES.BEFORE_STORE_UPDATE}main`]
+    );
+
+    actionTmp = setTime(
+      actionTmp,
+      '6#MainToRenderer',
+      process.hrtime(),
+      timing[`${TIMING_MILESTONES.AFTER_STORE_UPDATE}main`]
+    );
   }
   return actionTmp;
 };

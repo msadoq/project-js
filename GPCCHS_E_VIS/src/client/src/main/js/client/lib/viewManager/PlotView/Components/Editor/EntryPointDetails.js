@@ -15,7 +15,6 @@ export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    idPoint: PropTypes.number.isRequired,
     axes: PropTypes.shape({}).isRequired,
     entryPoint: PropTypes.shape({
       id: PropTypes.string,
@@ -60,16 +59,16 @@ export default class EntryPointDetails extends PureComponent {
   }
 
   handleSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
-    updateEntryPoint(viewId, idPoint, {
+    const { entryPoint, updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
     });
   }
 
   handleObjectParametersSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
-    updateEntryPoint(viewId, idPoint, {
+    const { entryPoint, updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       objectStyle: values,
       name: values.name,
@@ -81,11 +80,10 @@ export default class EntryPointDetails extends PureComponent {
       entryPoint,
       updateEntryPoint,
       viewId,
-      idPoint,
     } = this.props;
     updateEntryPoint(
       viewId,
-      idPoint,
+      entryPoint.id,
       {
         ...entryPoint,
         parametric: values.parametric,
@@ -97,7 +95,6 @@ export default class EntryPointDetails extends PureComponent {
 
   render() {
     const {
-      idPoint,
       entryPoint,
       viewId,
       axes,
@@ -129,7 +126,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
-            form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
+            form={`entrypoint-parameters-form-${entryPoint.id}-${viewId}`}
             initialValues={initialValuesParameters}
           />}
         </Panel>
@@ -142,9 +139,8 @@ export default class EntryPointDetails extends PureComponent {
             axes={axes}
             timelines={timelines}
             domains={domains}
-            idPoint={idPoint}
             viewId={viewId}
-            form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
+            form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit}
             initialValues={initialValuesConnectedData}
           />}
@@ -155,7 +151,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
             initialValues={initialValuesStateColors}
-            form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
+            form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
         </Panel>

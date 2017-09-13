@@ -21,7 +21,6 @@ export default class EntryPointDetails extends React.Component {
       sessionId: PropTypes.number,
       timelineUuid: PropTypes.string,
     })).isRequired,
-    idPoint: PropTypes.number.isRequired,
     entryPoint: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
@@ -58,8 +57,8 @@ export default class EntryPointDetails extends React.Component {
   };
 
   handleSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
-    updateEntryPoint(viewId, idPoint, {
+    const { entryPoint, updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
     });
@@ -67,7 +66,6 @@ export default class EntryPointDetails extends React.Component {
 
   render() {
     const {
-      idPoint,
       entryPoint,
       viewId,
       timelines,
@@ -87,7 +85,7 @@ export default class EntryPointDetails extends React.Component {
         >
           {Array.isArray(panels) && panels.includes('name') && <AddEntryPoint
             onSubmit={this.handleSubmit}
-            form={`entrypoint-title-form-${idPoint}-${viewId}`}
+            form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
             initialValues={{
               name: entryPoint.name,
@@ -101,7 +99,7 @@ export default class EntryPointDetails extends React.Component {
           {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedData
             timelines={timelines}
             domains={domains}
-            form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
+            form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}
           />}
@@ -115,7 +113,7 @@ export default class EntryPointDetails extends React.Component {
             initialValues={{
               stateColors: entryPoint.stateColors || [],
             }}
-            form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
+            form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
         </Panel>

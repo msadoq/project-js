@@ -23,7 +23,6 @@ export default class EntryPointDetails extends PureComponent {
       sessionId: PropTypes.number,
       timelineUuid: PropTypes.string,
     })).isRequired,
-    idPoint: PropTypes.number.isRequired,
     panels: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.bool,
@@ -59,8 +58,8 @@ export default class EntryPointDetails extends PureComponent {
   }
 
   handleSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
-    updateEntryPoint(viewId, idPoint, {
+    const { entryPoint, updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
     });
@@ -68,7 +67,6 @@ export default class EntryPointDetails extends PureComponent {
 
   render() {
     const {
-      idPoint,
       entryPoint,
       viewId,
       panels,
@@ -87,7 +85,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('parameters') && <AddEntryPoint
             onSubmit={this.handleSubmit}
-            form={`entrypoint-title-form-${idPoint}-${viewId}`}
+            form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={{
               name: entryPoint.name,
@@ -100,7 +98,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
             timelines={timelines}
-            form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
+            form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}
           />}
@@ -114,7 +112,7 @@ export default class EntryPointDetails extends PureComponent {
             initialValues={{
               stateColors: entryPoint.stateColors || [],
             }}
-            form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
+            form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
         </Panel>

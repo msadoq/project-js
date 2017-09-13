@@ -121,8 +121,7 @@ export default class EntryPointTree extends Component {
               }
             >
               {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.name}#detailsContainer`}
-                idPoint={key}
+                key={`${entryPoint.id}#detailsContainer`}
                 viewId={viewId}
                 windowId={windowId}
                 entryPoint={entryPoint}

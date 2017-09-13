@@ -166,11 +166,11 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
       }
     });
     test('valid viewData with empty state', () => {
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals: oldExpectedIntervals,
+          oldExpectedLastIntervals: oldExpectedIntervals,
+          newExpectedLastIntervals: oldExpectedIntervals,
           dataToInject,
         } };
       expect(dynamicViewData(freezeMe({ dynamic: {} }), action)).toEqual({
@@ -201,12 +201,12 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           },
         },
       });
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap: newViewMap,
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals,
+          oldExpectedLastInterval: oldExpectedIntervals,
+          newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
         } };
 
@@ -238,12 +238,12 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
           },
         },
       });
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap,
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals,
+          oldExpectedLastInterval: oldExpectedIntervals,
+          newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
         } };
       expect(dynamicViewData(state, action)).toEqual({

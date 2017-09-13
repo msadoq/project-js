@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`store:middlewares:preparePubSub preparePubSub middleware All data in Last 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "INCOMING_PUBSUB_DATA",
+  },
+  Object {
+    "payload": Object {},
+    "type": "NEW_DATA",
+  },
+]
+`;
+
 exports[`store:middlewares:preparePubSub preparePubSub middleware Not in Last 1`] = `
 Array [
   Object {
@@ -14,6 +27,32 @@ Array [
       "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:1:1",
     },
     "type": "INCOMING_PUBSUB_DATA",
+  },
+]
+`;
+
+exports[`store:middlewares:preparePubSub preparePubSub middleware One data in Last 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "INCOMING_PUBSUB_DATA",
+  },
+  Object {
+    "payload": Object {},
+    "type": "NEW_DATA",
+  },
+]
+`;
+
+exports[`store:middlewares:preparePubSub preparePubSub middleware Range Data to add in store 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "INCOMING_PUBSUB_DATA",
+  },
+  Object {
+    "payload": Object {},
+    "type": "NEW_DATA",
   },
 ]
 `;

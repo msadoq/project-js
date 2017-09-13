@@ -99,7 +99,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'TextView',
           entryPoints: {
             ep1: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               field: 'time',
               localId: 'local1',
             },
@@ -109,7 +109,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'PlotView',
           entryPoints: {
             ep2: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
@@ -127,12 +127,12 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'TextView',
           entryPoints: {
             ep1: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               field: 'time',
               localId: 'local1',
             },
             ep4: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               field: 'val4',
               localId: 'local4',
             },
@@ -142,14 +142,14 @@ describe('viewManager/TextView/store/dataReducer', () => {
           type: 'PlotView',
           entryPoints: {
             ep2: {
-              remoteId: 'rId1',
+              tbdId: 'rId1',
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
               localId: 'local2',
             },
             ep3: {
-              remoteId: 'rId2',
+              tbdId: 'rId2',
               fieldX: 'time',
               fieldY: 'val4',
               offset: 0,
@@ -184,12 +184,12 @@ describe('viewManager/TextView/store/dataReducer', () => {
       }
     });
     test('valid viewData with empty state', () => {
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap,
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals,
+          oldExpectedLastIntervals: oldExpectedIntervals,
+          newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
         } };
       expect(textViewData(freezeMe({ text: { index: {}, values: {} } }), action)).toEqual({
@@ -208,19 +208,19 @@ describe('viewManager/TextView/store/dataReducer', () => {
           ep1: { value: moment(9).utc().toISOString() },
           ep4: { value: 'val9' } },
       } });
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap,
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals,
+          oldExpectedLastIntervals: oldExpectedIntervals,
+          newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
         } };
       expect(textViewData(state, action)).toEqual({
         text: {
-          index: { ep1: 9, ep4: 9 },
+          index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(9).utc().toISOString() },
+            ep1: { value: moment(10).utc().toISOString() },
             ep4: { value: 'val9' } },
         },
       });

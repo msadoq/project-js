@@ -152,8 +152,8 @@ describe('store:middlewares:preparePubSub', () => {
     const timestampInLast1 = 370000;
     const timestampInLast2 = 380000;
 
-    const timestampNotInLast1 = 500000;
-    const timestampNotInLast2 = 510000;
+    const timestampNotInLast1 = 600000;
+    const timestampNotInLast2 = 610000;
 
     const timestamp1 = dataStub.getTimestampProtobuf({ ms: t1 });
     const timestamp2 = dataStub.getTimestampProtobuf({ ms: t2 });
@@ -250,30 +250,39 @@ describe('store:middlewares:preparePubSub', () => {
       state.pages.page1.views = ['plot1'];
       const store = mockStore(state);
       store.dispatch(incomingRangeData());
-      expect(Object.keys(store.getActions()[1].payload.data))
+      const list = Object.keys(store.getActions()[1].payload.data);
+      for (let i = 0; i < list.length; i += 1) {
+        expect(Object.keys(store.getActions()[1].payload.data[list[i]]))
       .toEqual([String(t1), String(t2)]);
+      }
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });
     test('Not in Last', () => {
       state.pages.page1.views = ['text1', 'mimic1'];
       const store = mockStore(state);
       store.dispatch(incomingDataNotInLast());
-      expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
+      expect(store.getActions().length).toBe(1);
     });
     test('One data in Last', () => {
       state.pages.page1.views = ['text1', 'mimic1'];
       const store = mockStore(state);
       store.dispatch(incomingDataOneInLast());
-      expect(Object.keys(store.getActions()[0].payload.peers))
-      .toEqual([String(timestampInLast1)]);
+      const list = Object.keys(store.getActions()[1].payload.data);
+      for (let i = 0; i < list.length; i += 1) {
+        expect(Object.keys(store.getActions()[1].payload.data[list[i]]))
+        .toEqual([String(timestampInLast1)]);
+      }
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });
     test('All data in Last', () => {
       state.pages.page1.views = ['text1', 'mimic1'];
       const store = mockStore(state);
       store.dispatch(incomingDataAllInLast());
-      expect(Object.keys(store.getActions()[0].payload.peers))
-      .toEqual([String(timestampInLast1), String(timestampInLast2)]);
+      const list = Object.keys(store.getActions()[1].payload.data);
+      for (let i = 0; i < list.length; i += 1) {
+        expect(Object.keys(store.getActions()[1].payload.data[list[i]]))
+        .toEqual([String(timestampInLast1), String(timestampInLast2)]);
+      }
       expect(removeDataFromPayload(store.getActions())).toMatchSnapshot();
     });
   });

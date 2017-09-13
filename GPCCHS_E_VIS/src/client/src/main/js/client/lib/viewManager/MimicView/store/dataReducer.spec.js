@@ -186,12 +186,12 @@ describe('viewManager/TextView/store/dataReducer', () => {
       }
     });
     test('valid viewData with empty state', () => {
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap,
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals,
+          oldExpectedLastIntervals: oldExpectedIntervals,
+          newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
         } };
       expect(mimicViewData(freezeMe({ text: { index: {}, values: {} } }), action)).toEqual({
@@ -210,12 +210,12 @@ describe('viewManager/TextView/store/dataReducer', () => {
           ep1: { value: moment(9).utc().toISOString() },
           ep4: { value: 'val9', monit: undefined } },
       } });
-      const action = { type: types.DATA_UPDATE_VIEWDATA,
+      const action = { type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap,
           newViewMap,
-          oldExpectedIntervals,
-          newExpectedIntervals,
+          oldExpectedLastIntervals: oldExpectedIntervals,
+          newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
         } };
       expect(mimicViewData(state, action)).toEqual({

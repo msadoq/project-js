@@ -169,7 +169,7 @@ describe('Mimic animations:rotateAnimation', () => {
 });
 
 describe('Mimic animations:textBoxAnimation', () => {
-  test('textBoxAnimation - textColorThresholds - defaultValue', () => {
+  test('textBoxAnimation - textColorOperators - defaultValue', () => {
     const data = {
       values: {},
     };
@@ -189,7 +189,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       epName: 'ep1',
       type: 'textBox',
       defaultValue: ['#FAF', '#FFA', 'error'],
-      textColorThresholds: ['20|#00F', '40|#daa520'],
+      textColorOperators: ['>|20|#00F', '>|40|#daa520'],
       textColorRegex: [],
       bgColorLevels: [],
       el: new El(
@@ -206,7 +206,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       epName: 'ep1',
       type: 'textBox',
       defaultValue: ['#FAF', '#FFA', 'error'],
-      textColorThresholds: ['20|#00F', '40|#daa520'],
+      textColorOperators: ['>|20|#00F', '>|40|#daa520'],
       textColorRegex: [],
       bgColorLevels: [],
       el: new El(
@@ -220,7 +220,7 @@ describe('Mimic animations:textBoxAnimation', () => {
       elBg: new Elbg({ fill: '#FFA' }),
     }));
   });
-  test('textBoxAnimation - textColorThresholds', () => {
+  test('textBoxAnimation - textColorOperators', () => {
     const data = {
       values: { ep1: { value: 30 } },
     };
@@ -239,9 +239,10 @@ describe('Mimic animations:textBoxAnimation', () => {
     const g = {
       epName: 'ep1',
       type: 'textBox',
-      textColorThresholds: ['20|#00F', '40|#daa520'],
+      textColorOperators: ['>|20|#00F', '>|40|#daa520'],
       textColorRegex: [],
-      bgColorLevels: [],
+      bgColorOperators: [],
+      bgColorRegex: [],
       el: new El(
         {},
         null,
@@ -252,12 +253,13 @@ describe('Mimic animations:textBoxAnimation', () => {
 
     textBoxAnimation(data, g);
     expect(JSON.stringify(g))
-    .toBe(JSON.stringify({
+    .toEqual(JSON.stringify({
       epName: 'ep1',
       type: 'textBox',
-      textColorThresholds: ['20|#00F', '40|#daa520'],
+      textColorOperators: ['>|20|#00F', '>|40|#daa520'],
       textColorRegex: [],
-      bgColorLevels: [],
+      bgColorOperators: [],
+      bgColorRegex: [],
       el: new El(
         {
           fill: '#00F',
@@ -290,8 +292,9 @@ describe('Mimic animations:textBoxAnimation', () => {
       epName: 'ep1',
       type: 'textBox',
       textColorRegex: ['info=#00F', 'warning=#daa520'],
-      textColorThresholds: [],
-      bgColorLevels: [],
+      textColorOperators: [],
+      bgColorOperators: [],
+      bgColorRegex: [],
       el: new El(
         { visibility: 'visible' },
         null,
@@ -308,8 +311,9 @@ describe('Mimic animations:textBoxAnimation', () => {
       epName: 'ep1',
       type: 'textBox',
       textColorRegex: ['info=#00F', 'warning=#daa520'],
-      textColorThresholds: [],
-      bgColorLevels: [],
+      textColorOperators: [],
+      bgColorOperators: [],
+      bgColorRegex: [],
       el: new El(
         {
           visibility: 'visible',
@@ -322,7 +326,7 @@ describe('Mimic animations:textBoxAnimation', () => {
     }));
   });
 
-  test('textBoxAnimation - bgColorLevels', () => {
+  test('textBoxAnimation - bgColorOperators', () => {
     const data = {
       values: { ep1: { value: 30 } },
     };
@@ -341,9 +345,10 @@ describe('Mimic animations:textBoxAnimation', () => {
     const g = {
       epName: 'ep1',
       type: 'textBox',
-      textColorThresholds: [],
+      textColorOperators: [],
       textColorRegex: [],
-      bgColorLevels: ['20$#00F', '40$#daa520'],
+      bgColorOperators: ['>|20|#00F', '>|40|#daa520'],
+      bgColorRegex: [],
       el: new El(
         { visibility: 'visible' },
         null,
@@ -356,12 +361,13 @@ describe('Mimic animations:textBoxAnimation', () => {
 
     // JSON.stringify because instances cannot be compared one with another
     expect(JSON.stringify(g))
-    .toBe(JSON.stringify({
+    .toEqual(JSON.stringify({
       epName: 'ep1',
       type: 'textBox',
-      textColorThresholds: [],
+      textColorOperators: [],
       textColorRegex: [],
-      bgColorLevels: ['20$#00F', '40$#daa520'],
+      bgColorOperators: ['>|20|#00F', '>|40|#daa520'],
+      bgColorRegex: [],
       el: new El(
         {
           visibility: 'visible',
@@ -378,7 +384,8 @@ describe('Mimic animations:textBoxAnimation', () => {
 describe('Mimic animations:colourAnimation', () => {
   const g = {
     epName: 'ep1',
-    operators: ['=$info$#00F', '=$warning$#daa520'],
+    colorRegex: ['info=#00F', 'warning=#daa520'],
+    colorOperators: [],
     defaultValue: '#FAF',
     el: new El(
       {},
@@ -391,9 +398,10 @@ describe('Mimic animations:colourAnimation', () => {
     const data = { values: {} };
     colourAnimation(data, g);
     expect(JSON.stringify(g))
-    .toBe(JSON.stringify({
+    .toEqual(JSON.stringify({
       epName: 'ep1',
-      operators: ['=$info$#00F', '=$warning$#daa520'],
+      colorRegex: ['info=#00F', 'warning=#daa520'],
+      colorOperators: [],
       defaultValue: '#FAF',
       el: new El(
         { visibility: 'visible' },
@@ -409,9 +417,10 @@ describe('Mimic animations:colourAnimation', () => {
     };
     colourAnimation(data, g);
     expect(JSON.stringify(g))
-    .toBe(JSON.stringify({
+    .toEqual(JSON.stringify({
       epName: 'ep1',
-      operators: ['=$info$#00F', '=$warning$#daa520'],
+      colorRegex: ['info=#00F', 'warning=#daa520'],
+      colorOperators: [],
       defaultValue: '#FAF',
       el: new El(
         { visibility: 'visible' },
@@ -426,8 +435,8 @@ describe('Mimic animations:colourAnimation', () => {
 describe('Mimic animations:showAnimation', () => {
   const g = {
     epName: 'ep1',
-    displayThresholds: ['=$info$show', '=$warning$hide'],
-    displayRegex: [],
+    displayOperators: [],
+    displayRegex: ['info=show', 'warning=hidden'],
     el: {
       style: {},
     },
@@ -438,8 +447,8 @@ describe('Mimic animations:showAnimation', () => {
     expect(g)
     .toEqual({
       epName: 'ep1',
-      displayThresholds: ['=$info$show', '=$warning$hide'],
-      displayRegex: [],
+      displayOperators: [],
+      displayRegex: ['info=show', 'warning=hidden'],
       el: {
         style: { visibility: 'hidden' },
       },
@@ -453,8 +462,8 @@ describe('Mimic animations:showAnimation', () => {
     expect(g)
     .toEqual({
       epName: 'ep1',
-      displayThresholds: ['=$info$show', '=$warning$hide'],
-      displayRegex: [],
+      displayOperators: [],
+      displayRegex: ['info=show', 'warning=hidden'],
       el: {
         style: { visibility: 'visible' },
       },

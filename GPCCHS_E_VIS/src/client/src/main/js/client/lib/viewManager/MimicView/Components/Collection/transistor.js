@@ -1,43 +1,13 @@
 const transistor = '<!-- TRANSISTOR -->\n' +
-'<g id="layer1" transform="translate(0,-852.36218)">\n\t' +
-'<path \n\t\t' +
-  'style="fill:none;stroke:#000000;stroke-width:5.83175421;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"\n\t\t' +
-  'id="path2987"\n\t\t' +
-  'd="m 200,100 a 100,100 0 1 1 -200,0 100,100 0 1 1 200,0 z"\n\t\t' +
-  'transform="matrix(0.857375,0,0,0.857375,14.2625,866.62468)"\n\t' +
-'/>\n\t' +
-'<rect \n\t\t' +
-  'style="fill:#000000;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"\n\t\t' +
-  'id="rect3757"\n\t\t' +
-  'width="15"\n\t\t' +
-  'height="100"\n\t\t' +
-  'x="50"\n\t\t' +
-  'y="50"\n\t\t' +
-  'transform="translate(0,852.36218)"\n\t' +
-'/>\n\t' +
-'<path \n\t\t' +
-  'style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"\n\t\t' +
-  'd="m 0,100 45,0 5,0"\n\t\t' +
-  'id="path3759"\n\t\t' +
-  'transform="translate(0,852.36218)"\n\t' +
-'/>\n\t' +
-'<path \n\t\t' +
-  'style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"\n\t\t' +
-  'd="M 55,90 150,50 150,0"\n\t\t' +
-  'id="path3765"\n\t\t' +
-  'transform="translate(0,852.36218)"\n\t' +
-'/>\n\t' +
-'<path \n\t\t' +
-  'id="path3777"\n\t\t' +
-  'd="m 55,962.36218 95,40.00002 0,50"\n\t\t' +
-  'style="fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"\n\t' +
-'/>\n\t' +
-'<path \n\t\t' +
-  'style="fill:#000000;fill-opacity:1;stroke:none"\n\t\t' +
-  'id="path3783"\n\t\t' +
-  'd="M 130,125 118.16987,121.83013 106.33975,118.66025 115,110 l 8.66025,-8.66025 3.16988,11.83012 z"\n\t\t' +
-  'transform="matrix(0.9519072,-0.30638649,0.30638649,0.9519072,-27.062848,917.63429)"\n\t' +
-'/>\n' +
-'</g>\n';
+'<g>\n\t' +
+ '<ellipse stroke="#000000" ry="150" rx="150" id="svg_1" cy="181" cx="183" stroke-width="6" fill="#ffffff"/>\n\t' +
+ '<line fill="none" stroke-width="6" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="4" y1="180" x2="107" y2="180" id="svg_2" stroke="#000000"/>\n\t' +
+ '<rect fill="#000000" stroke="#000000" stroke-width="6" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="106" y="80" width="38" height="200" id="svg_4"/>\n\t' +
+ '<line fill="none" stroke="#000000" stroke-width="6" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="146" y1="159" x2="256" y2="103" id="svg_5"/>\n\t' +
+ '<line fill="none" stroke="#000000" stroke-width="6" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="146" y1="207" x2="256" y2="254" id="svg_6"/>\n\t' +
+ '<line fill="none" stroke="#000000" stroke-width="6" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="254" y1="105" x2="254" y2="3" id="svg_7"/>/>\n\t' +
+ '<line fill="none" stroke="#000000" stroke-width="6" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="254" y1="253" x2="252" y2="366" id="svg_8" transform="rotate(-0.7117121815681458 253.00000000001296,309.49999999999835) "/>\n\t' +
+ '<polygon id="svg_9" fill="#000000" points="202,210.50515747070312 209.38092041015625,227.16769409179688 220.4522705078125,241.7474365234375 202,239.66461181640625 183.5477294921875,241.7474365234375 194.61911010742188,227.16769409179688 202,210.50515747070312 209.38092041015625,227.16769409179688 " stroke-width="6" stroke="#000000" transform="rotate(-10.143350601196289 201.99999999999966,226.12628173828128) "/>\n' +
+'</g>';
 
 export default transistor;

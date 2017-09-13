@@ -6,6 +6,7 @@ import {
   textBoxAnimation,
   colourAnimation,
   showAnimation,
+  skewAnimation,
 } from './animations';
 
 const HtmlToReactParser = require('html-to-react').Parser;
@@ -29,6 +30,8 @@ export default class MimicView extends Component {
       values: PropTypes.object,
     }).isRequired,
     perfOutput: PropTypes.bool,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -193,6 +196,39 @@ export default class MimicView extends Component {
         },
       },
       {
+        shouldProcessNode: (node => node.attribs && (node.attribs.isis_animation === 'skewY' || node.attribs.isis_animation === 'skewX')),
+        processNode: (node, children) => {
+          const epName = node.attribs.isis_ep;
+          const domain = node.attribs.isis_domain
+            .split(',')
+            .map(a => parseFloat(a));
+          const angle = node.attribs.isis_angle
+            .split(',')
+            .map(a => parseFloat(a));
+          const rand = Math.round(Math.random() * 100000);
+          const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
+          this.svgEls.push({
+            id,
+            type: node.attribs.isis_animation,
+            defaultValue: parseFloat(node.attribs.isis_default),
+            epName,
+            domain,
+            angle,
+          });
+          const validAttributes = {};
+          Object.keys(node.attribs).forEach((attr) => {
+            if (!attr.startsWith('isis_') && attr !== 'style') {
+              validAttributes[attr] = node.attribs[attr];
+            }
+          });
+          return React.createElement(
+            node.name,
+            { ...validAttributes, id, key: id },
+            children
+          );
+        },
+      },
+      {
         shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'textBox'),
         processNode: (node, children) => {
           const epName = node.attribs.isis_ep;
@@ -264,15 +300,15 @@ export default class MimicView extends Component {
         shouldProcessNode: (node => node.attribs && node.attribs.isis_animation === 'show'),
         processNode: (node, children) => {
           const epName = node.attribs.isis_ep;
-          const displayThresholds = node.attribs.isis_thresholds ? node.attribs.isis_thresholds.split(';') : [];
-          const displayRegex = node.attribs.isis_regex ? node.attribs.isis_regex.split('|') : [];
+          const displayOperators = node.attribs.isis_operators ? node.attribs.isis_operators.split(';;') : [];
+          const displayRegex = node.attribs.isis_regex ? node.attribs.isis_regex.split(';;') : [];
           const rand = Math.round(Math.random() * 100000);
           const id = `${node.attribs.isis_animation}-${epName}-${rand}`;
           this.svgEls.push({
             id,
             type: node.attribs.isis_animation,
             epName,
-            displayThresholds,
+            displayOperators,
             displayRegex,
           });
           const validAttributes = {};
@@ -326,6 +362,8 @@ export default class MimicView extends Component {
         colourAnimation(data, g);
       } else if (g.type === 'show') {
         showAnimation(data, g);
+      } else if (g.type === 'skewX' || g.type === 'skewY') {
+        skewAnimation(data, g);
       }
     });
     if (perfOutput) {
@@ -344,7 +382,7 @@ export default class MimicView extends Component {
 
   render() {
     return (
-      <svg width="100%" height="100%">{this.content}</svg>
+      <svg width={`${this.props.width}px`} height={`${this.props.height}px`}>{this.content}</svg>
     );
   }
 }

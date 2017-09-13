@@ -35,6 +35,8 @@ export default class MimicViewWrapper extends PureComponent {
     closeEditor: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
+    width: PropTypes.func.isRequired,
+    height: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -153,6 +155,8 @@ export default class MimicViewWrapper extends PureComponent {
               entryPoints={entryPoints}
               data={data}
               perfOutput={false}
+              width={this.props.width}
+              height={this.props.height}
             />
           </Col>
         </Row>

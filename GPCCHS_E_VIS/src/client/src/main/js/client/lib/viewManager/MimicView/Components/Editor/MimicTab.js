@@ -5,6 +5,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
+import DimensionsContainer from './DimensionsContainer';
 
 export default class MimicTab extends React.Component {
   static propTypes = {
@@ -20,10 +21,13 @@ export default class MimicTab extends React.Component {
   };
   state = {
     isTitleOpen: false,
+    isDimensionsOpen: false,
   };
 
   openTitle = () => this.setState({ isTitleOpen: true });
   closeTitle = () => this.setState({ isTitleOpen: false });
+  openDimensions = () => this.setState({ isDimensionsOpen: true });
+  closeDimensions = () => this.setState({ isDimensionsOpen: false });
 
   render() {
     const { viewId } = this.context;
@@ -39,6 +43,17 @@ export default class MimicTab extends React.Component {
             onExited={this.closeTitle}
           >
             {isTitleOpen && <ViewParamsContainer viewId={viewId} />}
+          </Panel>
+        </Accordion>
+        <Accordion>
+          <Panel
+            header="Dimensions"
+            eventKey="2"
+            expanded={this.state.isDimensionsOpen}
+            onSelect={this.openDimensions}
+            onExited={this.closeDimensions}
+          >
+            {this.state.isDimensionsOpen && <DimensionsContainer viewId={viewId} />}
           </Panel>
         </Accordion>
         {

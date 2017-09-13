@@ -116,7 +116,34 @@ export const rotateAnimation = (data, g) => {
   setStyleIfChanged(el, 'transformOrigin', g.origin ? `${g.origin} 0px` : 'left top 0px', 'string');
 };
 
-// eslint-disable-next-line complexity, "DV6 TBC_CNES Unavoidable complexity"
+export const skewAnimation = (data, g) => {
+  const el = g.el;
+  if (!el) {
+    return;
+  }
+  let value;
+  if (!data.values[g.epName] || !data.values[g.epName].value) {
+    if (g.defaultValue) {
+      value = g.defaultValue;
+    } else {
+      setStyleIfChanged(el, 'visibility', 'hidden', 'string');
+      return;
+    }
+  } else {
+    value = data.values[g.epName].value;
+  }
+  const val = (value - g.domain[0]) / (g.domain[1] - g.domain[0]);
+  let angle = g.angle[0] + ((g.angle[1] - g.angle[0]) * val);
+  angle = (angle > g.angle[1] || angle < g.angle[0]) ? g.angle[0] : angle;
+  angle = Math.round(angle * 1000) / 1000;
+  if (g.type === 'skewX') {
+    setStyleIfChanged(el, 'transform', `skewX(${angle}deg)`, 'string');
+  } else {
+    setStyleIfChanged(el, 'transform', `skewY(${angle}deg)`, 'string');
+  }
+  setStyleIfChanged(el, 'visibility', 'visible', 'string');
+};
+
 export const textBoxAnimation = (data, g) => {
   const el = g.el;
   const elBg = g.elBg;
@@ -260,8 +287,8 @@ export const showAnimation = (data, g) => {
   }
   let visibility = 'hidden';
   const value = data.values[g.epName].value;
-  for (let i = 0; i < g.displayThresholds.length; i += 1) {
-    const stateColor = g.displayThresholds[i].split('$');
+  for (let i = 0; i < g.displayOperators.length; i += 1) {
+    const stateColor = g.displayOperators[i].split('|');
     if (stateColor[0] === '=' && value === stateColor[1]) {
       visibility = stateColor[2];
     } else if (stateColor[0] === '!=' && value !== stateColor[1]) {

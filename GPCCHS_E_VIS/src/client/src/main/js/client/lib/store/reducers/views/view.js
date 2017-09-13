@@ -52,6 +52,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_DOMAINNAME,
     types.WS_VIEW_UPDATE_SESSIONNAME,
     types.WS_VIEW_TOGGLE_LEGEND,
+    types.WS_VIEW_UPDATE_DIMENSIONS,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     if (!stateView.isModified) {

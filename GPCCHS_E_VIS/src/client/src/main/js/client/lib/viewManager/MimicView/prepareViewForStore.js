@@ -5,6 +5,10 @@ const getDefaultView = _.merge({
   configuration: {
     content: '',
     entryPoints: [],
+    dimensions: {
+      width: 200,
+      height: 200,
+    },
   },
   type: 'MimicView',
   defaultRatio: { length: 5, width: 5 },

@@ -5,7 +5,7 @@ import _ from 'lodash/fp';
 
 import { askOpenLink } from '../../../../store/actions/links';
 import { getConfigurationByViewId } from '../../../../viewManager';
-import { getViewContent } from '../../store/configurationSelectors';
+import { getViewContent, getViewDimensions } from '../../store/configurationSelectors';
 import MimicViewWrapper from './MimicViewWrapper';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
@@ -16,10 +16,10 @@ import { removeLink, updateShowLinks } from '../../../../store/actions/views';
 import { getPageIdByViewId, getPage } from '../../../../store/reducers/pages';
 import { isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
 
-
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
+  const dimensions = getViewDimensions(state, { viewId });
   return {
     content: getViewContent(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
@@ -33,6 +33,8 @@ const mapStateToProps = (state, { viewId }) => {
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
     openLink: linkId => askOpenLink(viewId, linkId),
+    width: dimensions.width,
+    height: dimensions.height,
   };
 };
 

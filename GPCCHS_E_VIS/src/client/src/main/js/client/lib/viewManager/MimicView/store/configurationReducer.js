@@ -11,6 +11,8 @@ export default (stateConf = { content: '' }, action) => {
       const newEp = _.merge(getNewTextEntryPoint(), action.payload.entryPoint);
       return _.update('entryPoints', _.concat(_, newEp), stateConf);
     }
+    case types.WS_VIEW_UPDATE_DIMENSIONS:
+      return _.set('dimensions', { width: action.payload.width, height: action.payload.height }, stateConf);
     default:
       return stateConf;
   }

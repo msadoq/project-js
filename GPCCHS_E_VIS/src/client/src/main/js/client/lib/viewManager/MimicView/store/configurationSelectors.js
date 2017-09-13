@@ -8,6 +8,12 @@ const getViewContent = createSelector(
   _.get('content')
 );
 
+const getViewDimensions = createSelector(
+  getConfigurationByViewId,
+  _.get('dimensions')
+);
+
 export default {
   getViewContent,
+  getViewDimensions,
 };

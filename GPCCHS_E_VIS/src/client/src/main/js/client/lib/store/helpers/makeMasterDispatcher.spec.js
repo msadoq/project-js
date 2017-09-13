@@ -12,9 +12,15 @@ describe('makeMasterDispatcher', () => {
     const newState = { key: 'new' };
     const patch = compare(state, newState);
     const out = makeMasterDispatcher(
-      () => (state = newState),
+      () => {
+        state = newState;
+        return state;
+      },
       () => state,
-      a => (sentAction = a),
+      (a) => {
+        sentAction = a;
+        return sentAction;
+      },
       'string'
     )(action);
 

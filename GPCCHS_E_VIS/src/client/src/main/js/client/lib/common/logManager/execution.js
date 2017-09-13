@@ -62,7 +62,7 @@ module.exports = function init(namespace) {
   let executionMap = {};
 
   return {
-    reset: () => (executionMap = {}),
+    reset: () => { executionMap = {}; },
     start: key => start(executionMap, key),
     stop: (key, message) => stop(executionMap, key, message),
     print: () => print(executionMap, namespace),

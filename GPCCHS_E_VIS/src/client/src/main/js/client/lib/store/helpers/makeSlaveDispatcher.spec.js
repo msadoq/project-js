@@ -9,8 +9,14 @@ describe('makeSlaveDispatcher', () => {
       meta: { [REDUX_SYNCHRONIZATION_PATCH_KEY]: ['element'] },
     };
     const out = makeSlaveDispatcher(
-      a => (originalDispatch = (a === action)),
-      () => (sendUp = true)
+      (a) => {
+        originalDispatch = (a === action);
+        return originalDispatch;
+      },
+      () => {
+        sendUp = true;
+        return sendUp;
+      }
     )(action);
 
     expect(out).toBe(action);
@@ -22,8 +28,14 @@ describe('makeSlaveDispatcher', () => {
     let sentAction;
     const action = {};
     const out = makeSlaveDispatcher(
-      () => (originalDispatch = true),
-      a => (sentAction = a),
+      () => {
+        originalDispatch = true;
+        return originalDispatch;
+      },
+      (a) => {
+        sentAction = a;
+        return sentAction;
+      },
       'string'
     )(action);
 

@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 
-/*
+/**
 ** a higher order middleware to listen chained actions inside your middleware
 ** Check examples on documents middleware
-**/
+*/
 const withListenAction = middleware => storeApi => (next) => {
   const observers = {};
   const listenAction = (type, observer = _.noop) => {

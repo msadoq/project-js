@@ -297,7 +297,7 @@ export default class Tooltip extends React.Component {
           >
             {
               xInDomain &&
-              <h5>{this.timeFormat(new Date(xInDomain))}</h5>
+              <h5>Visualization time: {this.timeFormat(new Date(xInDomain))}</h5>
             }
             {
               Object.keys(linesList).map(axisId =>

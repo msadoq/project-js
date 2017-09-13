@@ -48,19 +48,14 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
         style={{ background: foundColor || color }}
       />
       <p>
-        <span
-          className={grizzlyStyles.tooltipLineName}
-          style={{
-            color,
-          }}
-        >{ id } :</span>
-        <span
-          className={grizzlyStyles.tooltipLineValue}
-        >{ packet.symbol ? packet.symbol : formattedValue }</span>
-        <span>&nbsp;&nbsp;&nbsp;{ moment(packet.refTime).utc().toISOString() }</span>
-        {packet.valX ?
-          <span>&nbsp;{'.....'}&nbsp;&nbsp;{ moment(packet.valX).utc().toISOString() }</span>
-          : <span /> }
+        <span className={grizzlyStyles.tooltipLineName} style={{ color }}>{ id } :</span>
+        <span className={grizzlyStyles.tooltipLineValue}>
+          { packet.symbol ? packet.symbol : formattedValue }
+        </span>
+        <br />
+        <strong>{ moment(packet.refTime).utc().toISOString() }</strong>
+        {' '}
+        {packet.valX ? <span>({ moment(packet.valX).utc().toISOString() })</span> : null}
       </p>
     </div>
   );

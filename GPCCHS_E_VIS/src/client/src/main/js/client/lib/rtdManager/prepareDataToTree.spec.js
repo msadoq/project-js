@@ -19,6 +19,7 @@ describe('rtdManager/prepareDataToTree', () => {
       type: 'object',
       children: [
         {
+          parentName: 'root',
           path: ['children', '0'],
           name: 'str',
           type: 'key',
@@ -27,14 +28,17 @@ describe('rtdManager/prepareDataToTree', () => {
           path: ['children', '1'],
           name: 'obj',
           type: 'object',
+          parentName: 'root',
           children: [{
             path: ['children', '1', 'children', '0'],
+            parentName: 'obj',
             name: 'key1',
             type: 'key',
             value: 'val1',
           }, {
             path: ['children', '1', 'children', '1'],
             name: 'key2',
+            parentName: 'obj',
             type: 'key',
             value: 'val2',
           }],
@@ -42,32 +46,39 @@ describe('rtdManager/prepareDataToTree', () => {
           path: ['children', '2'],
           name: 'arr',
           type: 'array',
+          parentName: 'root',
           children: [{
             path: ['children', '2', 'children', '0'],
             name: 0,
             type: 'item',
+            parentName: 'arr',
             value: 'item1',
           }, {
             path: ['children', '2', 'children', '1'],
             name: 1,
             type: 'item',
+            parentName: 'arr',
             value: 'item2',
           }],
         }, {
           path: ['children', '3'],
           name: 'objArr',
           type: 'array',
+          parentName: 'root',
           children: [{
             path: ['children', '3', 'children', '0'],
             name: 0,
             type: 'objectItem',
+            parentName: 'objArr',
             children: [{
               path: ['children', '3', 'children', '0', 'children', '0'],
               name: 'key3',
               type: 'key',
               value: 'val3',
+              parentName: 0,
             }],
           }, {
+            parentName: 'objArr',
             path: ['children', '3', 'children', '1'],
             name: 1,
             type: 'objectItem',
@@ -76,11 +87,13 @@ describe('rtdManager/prepareDataToTree', () => {
               name: 'key4',
               type: 'key',
               value: 'val4',
+              parentName: 1,
             }, {
               path: ['children', '3', 'children', '1', 'children', '1'],
               name: 'Link',
               type: 'link',
               value: 'foo@foo@foo',
+              parentName: 1,
             }],
           }],
         }, {
@@ -88,6 +101,7 @@ describe('rtdManager/prepareDataToTree', () => {
           name: 'Link',
           type: 'link',
           value: 'bar@bar@bar',
+          parentName: 'root',
         },
       ],
     }));

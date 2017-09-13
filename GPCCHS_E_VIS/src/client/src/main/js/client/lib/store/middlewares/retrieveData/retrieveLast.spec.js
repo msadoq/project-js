@@ -161,7 +161,7 @@ describe('store:middlewares:retrieveLast', () => {
     store.dispatch(viewsNeedLastData(neededLastData3));
     const actions = store.getActions();
     expect(actions.length).toEqual(2);
-    expect(actions[0]).toMatchObject({
+    expect(actions[1]).toMatchObject({
       type: 'NEW_DATA',
       payload: { data: { tbdId1: { 35: '35' } } },
     });

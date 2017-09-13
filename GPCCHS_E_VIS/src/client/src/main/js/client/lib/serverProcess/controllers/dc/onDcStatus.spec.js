@@ -24,7 +24,7 @@ describe('controllers/utils/onDcStatus', () => {
   test('congestion', () => {
     const congestion = dataStub.getCongestionDcStatusProtobuf();
 
-    onDcStatus(congestion);
+    onDcStatus([congestion]);
 
     expect(getDcStatus()).toEqual(globalConstants.HEALTH_STATUS_CRITICAL);
   });

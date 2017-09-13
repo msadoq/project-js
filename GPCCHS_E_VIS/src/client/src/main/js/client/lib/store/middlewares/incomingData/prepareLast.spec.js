@@ -49,6 +49,6 @@ describe('store:middlewares:prepareLast', () => {
         data,
       },
     };
-    expect(actions[0]).toMatchObject(expectedPayload);
+    expect(actions[1]).toMatchObject(expectedPayload);
   });
 });

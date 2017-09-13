@@ -99,8 +99,7 @@ export default class EntryPointTree extends PureComponent {
               }
             >
               {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.name}#details`}
-                idPoint={key}
+                key={`${entryPoint.id}#details`}
                 windowId={windowId}
                 viewId={viewId}
                 entryPoint={entryPoint}

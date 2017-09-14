@@ -3,7 +3,7 @@ import * as types from '../../../types';
 import { openDialog } from '../../../actions/ui';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getOpenExtensionsFilters } from '../doctypes';
+import { getOpenExtensionsFilters } from '../utils';
 
 const makeOnOpenPage = documentManager => withListenAction(
   ({ dispatch, listenAction }) => next => (action) => {

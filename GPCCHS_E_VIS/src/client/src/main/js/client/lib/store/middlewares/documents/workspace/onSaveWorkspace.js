@@ -8,7 +8,7 @@ import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getSaveExtensionsFilters } from '../doctypes';
+import { getSaveExtensionsFilters } from '../utils';
 
 const makeOnSaveWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {

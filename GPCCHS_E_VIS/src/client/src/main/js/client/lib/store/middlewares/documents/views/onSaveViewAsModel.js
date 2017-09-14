@@ -6,7 +6,7 @@ import { getWindowIdByViewId } from '../../../selectors/windows';
 import { openDialog } from '../../../actions/ui';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getSaveExtensionsFilters } from '../doctypes';
+import { getSaveExtensionsFilters } from '../utils';
 
 const makeOnSaveViewAsModel = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {

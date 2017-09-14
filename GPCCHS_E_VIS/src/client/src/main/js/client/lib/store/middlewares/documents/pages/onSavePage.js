@@ -8,7 +8,7 @@ import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getSaveExtensionsFilters } from '../doctypes';
+import { getSaveExtensionsFilters } from '../utils';
 
 const makeOnSavePage = documentManager => withListenAction(
   ({ getState, dispatch, listenAction }) => next => (action) => {

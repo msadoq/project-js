@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:middlewares:documents:doctypes getOpenExtensionsFilters returns a view open filter 1`] = `
+exports[`store:middlewares:documents:utils getOpenExtensionsFilters returns a view open filter 1`] = `
 Array [
   Object {
     "extensions": Array [
@@ -52,7 +52,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:documents:doctypes getSaveExtensionsFilters returns a view save filter 1`] = `
+exports[`store:middlewares:documents:utils getSaveExtensionsFilters returns a view save filter 1`] = `
 Array [
   Array [
     Object {

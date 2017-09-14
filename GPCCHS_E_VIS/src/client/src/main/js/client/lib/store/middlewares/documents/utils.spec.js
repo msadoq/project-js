@@ -1,7 +1,7 @@
-import { isView, getOpenExtensionsFilters, getSaveExtensionsFilters } from './doctypes';
+import { isView, getOpenExtensionsFilters, getSaveExtensionsFilters } from './utils';
 import views from '../../../viewManager';
 
-describe('store:middlewares:documents:doctypes', () => {
+describe('store:middlewares:documents:utils', () => {
   describe('isView', () => {
     test('returns true if doctype is a valid name', () => {
       expect(isView('PlotView')).toBe(true);

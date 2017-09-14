@@ -3,7 +3,7 @@ import { getFocusedWindow } from '../../../selectors/windows';
 import { openDialog } from '../../../actions/ui';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getOpenExtensionsFilters } from '../doctypes';
+import { getOpenExtensionsFilters } from '../utils';
 
 const makeOnOpenView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {

@@ -154,7 +154,16 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              undefined,
+            ],
+            "name": undefined,
+          },
+        ],
+      },
       "type": "save",
       "windowId": "w1",
     },
@@ -285,7 +294,16 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              undefined,
+            ],
+            "name": undefined,
+          },
+        ],
+      },
       "type": "save",
       "windowId": "w1",
     },

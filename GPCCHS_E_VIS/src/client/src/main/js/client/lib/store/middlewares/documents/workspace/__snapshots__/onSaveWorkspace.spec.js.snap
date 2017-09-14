@@ -12,7 +12,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".viws",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "viws",
+            ],
+            "name": "WorkSpace",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -49,7 +56,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".viws",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "viws",
+            ],
+            "name": "WorkSpace",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",

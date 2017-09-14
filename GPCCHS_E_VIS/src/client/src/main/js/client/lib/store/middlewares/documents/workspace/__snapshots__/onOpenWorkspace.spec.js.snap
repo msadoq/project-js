@@ -15,7 +15,16 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "viws",
+            ],
+            "name": "WorkSpace",
+          },
+        ],
+      },
       "type": "open",
       "windowId": "w1",
     },
@@ -102,7 +111,16 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "viws",
+            ],
+            "name": "WorkSpace",
+          },
+        ],
+      },
       "type": "open",
       "windowId": "w1",
     },

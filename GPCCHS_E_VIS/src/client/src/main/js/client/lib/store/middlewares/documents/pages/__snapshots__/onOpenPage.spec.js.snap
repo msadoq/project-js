@@ -51,7 +51,16 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
+      },
       "type": "open",
       "windowId": "w1",
     },
@@ -100,7 +109,16 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
+      },
       "type": "open",
       "windowId": "w1",
     },

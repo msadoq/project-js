@@ -13,7 +13,57 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vitv",
+              "vipv",
+              "vidv",
+              "vimv",
+              "vikv",
+              "vihv",
+            ],
+            "name": "Any VIMA views",
+          },
+          Object {
+            "extensions": Array [
+              "vitv",
+            ],
+            "name": "TextView",
+          },
+          Object {
+            "extensions": Array [
+              "vipv",
+            ],
+            "name": "PlotView",
+          },
+          Object {
+            "extensions": Array [
+              "vidv",
+            ],
+            "name": "DynamicView",
+          },
+          Object {
+            "extensions": Array [
+              "vimv",
+            ],
+            "name": "MimicView",
+          },
+          Object {
+            "extensions": Array [
+              "vikv",
+            ],
+            "name": "PacketView",
+          },
+          Object {
+            "extensions": Array [
+              "vihv",
+            ],
+            "name": "HistoryView",
+          },
+        ],
+      },
       "type": "open",
       "windowId": "w1",
     },
@@ -64,7 +114,57 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "options": Object {},
+      "options": Object {
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vitv",
+              "vipv",
+              "vidv",
+              "vimv",
+              "vikv",
+              "vihv",
+            ],
+            "name": "Any VIMA views",
+          },
+          Object {
+            "extensions": Array [
+              "vitv",
+            ],
+            "name": "TextView",
+          },
+          Object {
+            "extensions": Array [
+              "vipv",
+            ],
+            "name": "PlotView",
+          },
+          Object {
+            "extensions": Array [
+              "vidv",
+            ],
+            "name": "DynamicView",
+          },
+          Object {
+            "extensions": Array [
+              "vimv",
+            ],
+            "name": "MimicView",
+          },
+          Object {
+            "extensions": Array [
+              "vikv",
+            ],
+            "name": "PacketView",
+          },
+          Object {
+            "extensions": Array [
+              "vihv",
+            ],
+            "name": "HistoryView",
+          },
+        ],
+      },
       "type": "open",
       "windowId": "w1",
     },

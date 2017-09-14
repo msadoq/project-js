@@ -34,7 +34,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipv",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipv",
+            ],
+            "name": "PlotView",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -75,7 +82,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipv",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipv",
+            ],
+            "name": "PlotView",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -107,7 +121,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipv",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipv",
+            ],
+            "name": "PlotView",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",

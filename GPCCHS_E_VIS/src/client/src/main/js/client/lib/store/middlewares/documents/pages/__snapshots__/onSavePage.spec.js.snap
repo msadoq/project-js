@@ -15,7 +15,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipg",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -51,7 +58,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipg",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -94,7 +108,14 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipg",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",

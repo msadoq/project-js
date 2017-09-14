@@ -8,7 +8,7 @@ import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getSaveExtensionsFilters } from '../utils';
+import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const makeOnSaveWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
@@ -36,7 +36,10 @@ const makeOnSaveWorkspace = documentManager => withListenAction(
           ],
         }));
       } else if (saveAs) {
-        dispatch(openDialog(windowId, 'save', { filters: getSaveExtensionsFilters('WorkSpace') }));
+        dispatch(openDialog(windowId, 'save', {
+          filters: getSaveExtensionsFilters('WorkSpace'),
+          defaultPath: getDefaultFolder(state),
+        }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

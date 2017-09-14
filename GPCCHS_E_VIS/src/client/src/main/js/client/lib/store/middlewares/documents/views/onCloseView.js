@@ -9,7 +9,7 @@ import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
 
-import { getSaveExtensionsFilters } from '../utils';
+import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const closeEditor = pageId => minimizeEditor(pageId, true);
 
@@ -51,7 +51,10 @@ const makeOnCloseView = documentManager => withListenAction(
           } else if (closeModalAction.payload.choice === 'save_and_close') {
             const saveAs = !view.oId && !view.absolutePath;
             if (saveAs) {
-              dispatch(openDialog(windowId, 'save', { filters: getSaveExtensionsFilters(view.type) }));
+              dispatch(openDialog(windowId, 'save', {
+                filters: getSaveExtensionsFilters(view.type),
+                defaultPath: getDefaultFolder(state),
+              }));
               listenAction(types.HSC_DIALOG_CLOSED, (closeDialogAction) => {
                 const { choice } = closeDialogAction.payload;
                 if (choice) {

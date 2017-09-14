@@ -34,6 +34,7 @@ Array [
     },
     "payload": Object {
       "options": Object {
+        "defaultPath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures",
         "filters": Array [
           Object {
             "extensions": Array [
@@ -82,6 +83,7 @@ Array [
     },
     "payload": Object {
       "options": Object {
+        "defaultPath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures",
         "filters": Array [
           Object {
             "extensions": Array [
@@ -121,6 +123,7 @@ Array [
     },
     "payload": Object {
       "options": Object {
+        "defaultPath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures",
         "filters": Array [
           Object {
             "extensions": Array [

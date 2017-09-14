@@ -78,7 +78,7 @@ export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
 export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
 
 // ************ EntryPoint
-export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index', 'entryPoint');
+export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');
 export const removeEntryPoint = simple(types.WS_VIEW_REMOVE_ENTRYPOINT, 'viewId', 'index');
 const simpleAddEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 

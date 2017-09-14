@@ -8,6 +8,8 @@ import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
 
+import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
+
 const makeOnOpenWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
@@ -41,7 +43,10 @@ const makeOnOpenWorkspace = documentManager => withListenAction(
             }
           }));
         } else {
-          dispatch(openDialog(windowId, 'open'));
+          dispatch(openDialog(windowId, 'open', {
+            filters: getOpenExtensionsFilters('WorkSpace'),
+            defaultPath: getDefaultFolder(state),
+          }));
           listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
             const { choice } = closeAction.payload;
             if (choice) {

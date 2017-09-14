@@ -1,5 +1,4 @@
 import * as types from '../../../types';
-import { EXTENSIONS } from '../../../../constants';
 
 import { getPage } from '../../../reducers/pages';
 import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
@@ -8,6 +7,8 @@ import { getWindowIdByPageId } from '../../../reducers/windows';
 import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
+
+import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const makeOnSavePage = documentManager => withListenAction(
   ({ getState, dispatch, listenAction }) => next => (action) => {
@@ -33,7 +34,10 @@ const makeOnSavePage = documentManager => withListenAction(
           ],
         }));
       } else if (saveAs) {
-        dispatch(openDialog(windowId, 'save', { defaultPath: EXTENSIONS.Page }));
+        dispatch(openDialog(windowId, 'save', {
+          filters: getSaveExtensionsFilters('Page'),
+          defaultPath: getDefaultFolder(state),
+        }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:middlewares:documents:utils getOpenExtensionsFilters returns a view open filter 1`] = `
+Array [
+  Object {
+    "extensions": Array [
+      "vitv",
+      "vipv",
+      "vidv",
+      "vimv",
+      "vikv",
+      "vihv",
+    ],
+    "name": "Any VIMA views",
+  },
+  Object {
+    "extensions": Array [
+      "vitv",
+    ],
+    "name": "TextView",
+  },
+  Object {
+    "extensions": Array [
+      "vipv",
+    ],
+    "name": "PlotView",
+  },
+  Object {
+    "extensions": Array [
+      "vidv",
+    ],
+    "name": "DynamicView",
+  },
+  Object {
+    "extensions": Array [
+      "vimv",
+    ],
+    "name": "MimicView",
+  },
+  Object {
+    "extensions": Array [
+      "vikv",
+    ],
+    "name": "PacketView",
+  },
+  Object {
+    "extensions": Array [
+      "vihv",
+    ],
+    "name": "HistoryView",
+  },
+]
+`;
+
+exports[`store:middlewares:documents:utils getSaveExtensionsFilters returns a view save filter 1`] = `
+Array [
+  Array [
+    Object {
+      "extensions": Array [
+        "vipv",
+      ],
+      "name": "PlotView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "vitv",
+      ],
+      "name": "TextView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "vidv",
+      ],
+      "name": "DynamicView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "vihv",
+      ],
+      "name": "HistoryView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "vikv",
+      ],
+      "name": "PacketView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "vimv",
+      ],
+      "name": "MimicView",
+    },
+  ],
+]
+`;

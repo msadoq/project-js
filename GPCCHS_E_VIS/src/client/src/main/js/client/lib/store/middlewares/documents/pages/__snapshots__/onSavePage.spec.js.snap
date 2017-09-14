@@ -15,7 +15,15 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipg",
+        "defaultPath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -51,7 +59,15 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipg",
+        "defaultPath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",
@@ -94,7 +110,15 @@ Array [
     },
     "payload": Object {
       "options": Object {
-        "defaultPath": ".vipg",
+        "defaultPath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures",
+        "filters": Array [
+          Object {
+            "extensions": Array [
+              "vipg",
+            ],
+            "name": "Page",
+          },
+        ],
       },
       "type": "save",
       "windowId": "w1",

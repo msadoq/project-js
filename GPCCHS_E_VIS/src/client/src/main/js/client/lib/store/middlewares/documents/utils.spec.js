@@ -1,4 +1,5 @@
-import { isView, getOpenExtensionsFilters, getSaveExtensionsFilters } from './utils';
+import { getDefaultFolder, isView, getOpenExtensionsFilters, getSaveExtensionsFilters } from './utils';
+import parameters from '../../../common/configurationManager';
 import views from '../../../viewManager';
 
 describe('store:middlewares:documents:utils', () => {
@@ -44,6 +45,15 @@ describe('store:middlewares:documents:utils', () => {
     test('returns a view save filter', () => {
       const allViewsFilters = Object.keys(views).map(getSaveExtensionsFilters);
       expect(allViewsFilters).toMatchSnapshot();
+    });
+  });
+
+  describe('getDefaultFolder', () => {
+    test('returns workspace folder', () => {
+      expect(getDefaultFolder({ hsc: { folder: '/a/path' } })).toBe('/a/path');
+    });
+    test('returns ISIS_DOCUMENTS_ROOT as fallback', () => {
+      expect(getDefaultFolder()).toBe(parameters.get('ISIS_DOCUMENTS_ROOT'));
     });
   });
 });

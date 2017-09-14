@@ -1,4 +1,6 @@
 import _ from 'lodash/fp';
+import parameters from '../../../common/configurationManager';
+import { getWorkspaceFolder } from '../../reducers/hsc';
 import { EXTENSIONS } from '../../../constants';
 
 export const isView = docType => /^.*View$/.test(docType);
@@ -21,3 +23,8 @@ export const getOpenExtensionsFilters = (docType) => {
 };
 
 export const getSaveExtensionsFilters = docType => [getFilter(docType)];
+
+// warning, this selector is impure, do not memoize it
+export const getDefaultFolder = state => (
+  getWorkspaceFolder(state) || parameters.get('ISIS_DOCUMENTS_ROOT')
+);

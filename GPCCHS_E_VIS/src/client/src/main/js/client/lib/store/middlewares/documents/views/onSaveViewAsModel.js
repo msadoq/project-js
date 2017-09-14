@@ -1,11 +1,12 @@
 import * as types from '../../../types';
-import { EXTENSIONS } from '../../../../constants';
 
 import { getView } from '../../../reducers/views';
 import { getWindowIdByViewId } from '../../../selectors/windows';
 
 import { openDialog } from '../../../actions/ui';
 import withListenAction from '../../../helpers/withListenAction';
+
+import { getSaveExtensionsFilters } from '../doctypes';
 
 const makeOnSaveViewAsModel = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
@@ -15,7 +16,7 @@ const makeOnSaveViewAsModel = documentManager => withListenAction(
       const state = getState();
       const view = getView(state, { viewId });
       const windowId = getWindowIdByViewId(state, { viewId });
-      dispatch(openDialog(windowId, 'save', { defaultPath: EXTENSIONS[view.type] }));
+      dispatch(openDialog(windowId, 'save', { filters: getSaveExtensionsFilters(view.type) }));
       listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
         if (closeAction.payload.choice) {
           const absolutePath = closeAction.payload.choice;

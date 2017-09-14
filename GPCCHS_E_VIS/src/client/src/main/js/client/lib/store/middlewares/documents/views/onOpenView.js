@@ -3,6 +3,8 @@ import { getFocusedWindow } from '../../../selectors/windows';
 import { openDialog } from '../../../actions/ui';
 import withListenAction from '../../../helpers/withListenAction';
 
+import { getOpenExtensionsFilters } from '../doctypes';
+
 const makeOnOpenView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
     const nextAction = next(action);
@@ -13,7 +15,7 @@ const makeOnOpenView = documentManager => withListenAction(
       if (absolutePath) {
         dispatch(documentManager.openView({ absolutePath }, window.focusedPage));
       } else {
-        dispatch(openDialog(windowId, 'open'));
+        dispatch(openDialog(windowId, 'open', { filters: getOpenExtensionsFilters() }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

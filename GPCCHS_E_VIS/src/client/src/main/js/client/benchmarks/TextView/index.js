@@ -16,13 +16,6 @@ const propsTextView = {
   viewId: 'aaaa-aaaa',
   addEntryPoint: () => null,
   updateContent: () => null,
-  openInspector: () => null,
-  openEditor: () => null,
-  closeEditor: () => null,
-  isInspectorOpened: false,
-  inspectorEpId: 'bbbb-bbbb',
-  isViewsEditorOpen: false,
-  mainMenu: [],
   perfOutput: true,
 };
 

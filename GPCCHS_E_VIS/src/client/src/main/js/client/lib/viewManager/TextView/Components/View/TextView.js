@@ -3,10 +3,7 @@ import {
   Parser,
   ProcessNodeDefinitions,
 } from 'html-to-react';
-import _get from 'lodash/get';
-import _each from 'lodash/each';
 import { html as beautifyHtml } from 'js-beautify';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 
 const isValueNode = /{{\s*([^}]+)\s*}}/g;
 
@@ -53,18 +50,12 @@ export default class TextView extends PureComponent {
     viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
-    openInspector: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
-    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorEpId: PropTypes.string,
     perfOutput: PropTypes.bool,
     openLink: PropTypes.func.isRequired,
+    copySpanValues: PropTypes.func,
   };
   static defaultProps = {
     data: {
@@ -75,6 +66,7 @@ export default class TextView extends PureComponent {
     links: [],
     showLinks: false,
     perfOutput: false,
+    copySpanValues: null,
   };
 
   componentWillMount() {
@@ -105,96 +97,6 @@ export default class TextView extends PureComponent {
   componentDidUpdate() {
     this.updateSpanValues(this.props.data);
   }
-
-  onContextMenu = (event) => {
-    event.stopPropagation();
-    const {
-      entryPoints,
-      openInspector,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
-      mainMenu,
-      isInspectorOpened,
-      inspectorEpId,
-    } = this.props;
-    const span = getEpSpan(event.target);
-    const separator = { type: 'separator' };
-    if (span) {
-      const epName = _get(this.spanValues, [span.id, 'ep']);
-      const editorMenu = [{
-        label: `Open ${epName} in Editor`,
-        click: () => {
-          openEditor(epName);
-        },
-      }];
-      if (isViewsEditorOpen) {
-        editorMenu.push({
-          label: 'Close Editor',
-          click: () => closeEditor(),
-        });
-      }
-      const inspectorLabel = `Open ${epName} in Inspector`;
-      if (_get(entryPoints, [epName, 'error'])) {
-        const inspectorMenu = {
-          label: inspectorLabel,
-          enabled: false,
-        };
-        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
-        return;
-      }
-      const { id, dataId, field } = entryPoints[epName];
-      const opened = isInspectorOpened && (inspectorEpId === id);
-      const inspectorMenu = {
-        label: inspectorLabel,
-        type: 'checkbox',
-        click: () => openInspector({
-          epId: id,
-          dataId,
-          epName,
-          field,
-        }),
-        checked: opened,
-      };
-      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
-      return;
-    }
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
-    const inspectorMenu = {
-      label: 'Open in Inspector',
-      submenu: [],
-    };
-    _each(entryPoints, (ep, epName) => {
-      const label = `${epName}`;
-      if (ep.error) {
-        inspectorMenu.submenu.push({ label, enabled: false });
-        return;
-      }
-      const { id, dataId, field } = ep;
-      const opened = isInspectorOpened && (inspectorEpId === id);
-      inspectorMenu.submenu.push({
-        label,
-        type: 'checkbox',
-        click: () => openInspector({
-          epId: id,
-          dataId,
-          epName,
-          field,
-        }),
-        checked: opened,
-      });
-    });
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
-  };
 
   getContentComponent() {
     const processingInstructions = [
@@ -257,7 +159,7 @@ export default class TextView extends PureComponent {
     if (!data.values) {
       return;
     }
-    const { perfOutput } = this.props;
+    const { perfOutput, copySpanValues } = this.props;
     if (perfOutput) {
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
       console.time();
@@ -305,6 +207,9 @@ export default class TextView extends PureComponent {
         console.timeEnd();
       }
     });
+    if (copySpanValues) {
+      copySpanValues(this.spanValues);
+    }
   }
 
   handleClicked = (e) => {

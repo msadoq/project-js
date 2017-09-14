@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
+import classnames from 'classnames';
 import getLogger from '../../../../common/logManager';
 import { get } from '../../../../common/configurationManager';
 import LinksContainer from '../../../../windowProcess/View/LinksContainer';
@@ -68,6 +69,7 @@ export default class TextViewWrapper extends PureComponent {
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     data: {
       values: {},
@@ -90,6 +92,9 @@ export default class TextViewWrapper extends PureComponent {
       isInspectorOpened,
       inspectorEpId,
     } = this.props;
+    if (!this.spanValues) {
+      return;
+    }
     const span = getEpSpan(event.target);
     const separator = { type: 'separator' };
     if (span) {
@@ -185,6 +190,10 @@ export default class TextViewWrapper extends PureComponent {
     e.stopPropagation();
   }
 
+  setSpanValues = (spanValues) => {
+    this.spanValues = spanValues;
+  }
+
   handleSubmit = (values) => {
     const { updateContent } = this.props;
     updateContent(values.html);
@@ -195,6 +204,7 @@ export default class TextViewWrapper extends PureComponent {
     const { showLinks, updateShowLinks } = this.props;
     updateShowLinks(!showLinks);
   }
+
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink } = this.props;
@@ -203,10 +213,13 @@ export default class TextViewWrapper extends PureComponent {
 
   render() {
     const {
-      viewId, links, pageId, showLinks,
-      content, openEditor, isMaxVisuDurationExceeded,
-      openInspector, closeEditor, data, isViewsEditorOpen,
-      mainMenu, isInspectorOpened, inspectorEpId,
+      viewId,
+      links,
+      pageId,
+      showLinks,
+      content,
+      isMaxVisuDurationExceeded,
+      data,
       entryPoints,
      } = this.props;
     logger.debug(`render ${viewId}`);
@@ -228,23 +241,17 @@ export default class TextViewWrapper extends PureComponent {
       <DroppableContainer
         onDrop={this.onDrop}
         onContextMenu={this.onContextMenu}
-        className={`h100 posRelative ${styles.container}`}
+        className={classnames('h100', 'posRelative', styles.container)}
       >
         <Row>
           <Col xs={12}>
             <TextView
               viewId={viewId}
               content={content}
-              openInspector={openInspector}
-              openEditor={openEditor}
-              closeEditor={closeEditor}
-              isViewsEditorOpen={isViewsEditorOpen}
               data={data}
-              mainMenu={mainMenu}
-              isInspectorOpened={isInspectorOpened}
-              inspectorEpId={inspectorEpId}
               entryPoints={entryPoints}
               openLink={this.props.openLink}
+              copySpanValues={this.setSpanValues}
             />
           </Col>
           <Col xs={12} style={style}>

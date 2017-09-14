@@ -167,16 +167,11 @@ export class GrizzlyPlotView extends PureComponent {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
     updateDimensions: PropTypes.func.isRequired,
-    data: PropTypes.shape({
-      lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
-    }),
     visuWindow: PropTypes.shape({
-      lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      lower: PropTypes.number,
+      current: PropTypes.number,
+      upper: PropTypes.number,
     }),
-    viewId: PropTypes.string.isRequired,
-    addEntryPoint: PropTypes.func.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
@@ -188,24 +183,7 @@ export class GrizzlyPlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
-    toggleLegend: PropTypes.func.isRequired,
-    openInspector: PropTypes.func.isRequired,
-    isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorEpId: PropTypes.string,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    removeEntryPoint: PropTypes.func.isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
-    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    defaultTimelineId: PropTypes.string.isRequired,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    })),
-    removeLink: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
-    updateShowLinks: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
   };
 
@@ -339,13 +317,15 @@ export class GrizzlyPlotView extends PureComponent {
       visuWindow,
     } = this.props;
 
+    const addStyle = {};
+
     return (
       <div
         style={mainStyle}
         className="PlotView h100 posRelative"
       >
         <GrizzlyChart
-          additionalStyle={{}}
+          additionalStyle={addStyle}
           height={containerHeight - 5}
           width={containerWidth - 10}
           tooltipColor="white"

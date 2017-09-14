@@ -144,7 +144,8 @@ export default class XAxis extends Component {
     const positions = getLabelPosition(axisId);
     lines.forEach((line) => {
       const el = this[`label-${line.id}-el`];
-      const linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined')[line.id];
+      let linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined');
+      linePosition = linePosition ? linePosition[line.id] : null;
       if (!linePosition || (linePosition.x === null && el)) {
         el.setAttribute('style', 'display:none;');
       } else if (el) {
@@ -152,7 +153,7 @@ export default class XAxis extends Component {
         if (xAxesAt === 'top') {
           style += `transform: translate(-50%, 0%);top: ${8}px;`;
         } else {
-          style += `transform: translate(50%, 0%);top: ${index === 0 ? height : 0}px;`;
+          style += `transform: translate(-50%, 0%);top: ${index === 0 ? height : 0}px;`;
         }
         el.setAttribute('style', style);
       }

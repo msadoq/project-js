@@ -248,4 +248,25 @@
       background: rgba(0, 220, 140, 0.3);
     }
   }
+  & > .ZonesChartLasso {
+    position: absolute;
+    height: 100%;
+    box-shadow: inset 0px 0px 1px rgba(0, 220, 140, 0.3), inset 0px 0px 2px rgba(0, 220, 140, 0.3), inset 0px 0px 3px rgba(0, 220, 140, 0.3);
+    background: rgba(244, 66, 182, 0.1);
+    cursor: crosshair;
+    &:hover{
+      box-shadow: inset 0px 0px 1px rgba(0, 220, 140, 0.6), inset 0px 0px 2px rgba(0, 220, 140, 0.6), inset 0px 0px 3px rgba(0, 220, 140, 0.6);
+      background: rgba(244, 66, 182, 0.3);
+    }
+  }
+  .ZonesChartLassoRectangleDiv {
+    position: relative;
+    cursor: crosshair;
+  }
+  .ZonesChartLassoRectangle {
+    cursor: crosshair;
+    position: absolute;
+    background: rgba(244, 66, 182, 0.5);
+    border: 1px solid rgba(244, 66, 182, 1);
+  }
 }

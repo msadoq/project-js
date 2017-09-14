@@ -17,11 +17,18 @@ export default class Zones extends Component {
     ctrlPressed: PropTypes.bool.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
+    lassoX: PropTypes.number.isRequired,
+    lassoY: PropTypes.number.isRequired,
+    lassoOriginX: PropTypes.number.isRequired,
+    lassoOriginY: PropTypes.number.isRequired,
+    shiftPressed: PropTypes.bool.isRequired,
+    lassoing: PropTypes.bool.isRequired,
+    divStyle: PropTypes.shape().isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'xAxisAt', 'width', 'height', 'ctrlPressed'].forEach((attr) => {
+    ['yAxesAt', 'xAxisAt', 'width', 'height', 'ctrlPressed', 'shiftPressed', 'lassoX', 'lassoY'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }
@@ -44,6 +51,13 @@ export default class Zones extends Component {
       ctrlPressed,
       yAxesInteractive,
       chartInteractive,
+      divStyle,
+      shiftPressed,
+      lassoing,
+      lassoX,
+      lassoY,
+      lassoOriginX,
+      lassoOriginY,
     } = this.props;
 
     return (
@@ -51,7 +65,7 @@ export default class Zones extends Component {
         className={classnames(
           styles.Zones,
           {
-            hidden: !ctrlPressed,
+            hidden: !ctrlPressed && !shiftPressed,
           }
         )}
         style={{
@@ -63,7 +77,7 @@ export default class Zones extends Component {
         { /*
           Y Axes area
         */ }
-        {yAxesInteractive && yAxesAt === 'left' && yAxes.map((axis, index) =>
+        {yAxesInteractive && !shiftPressed && yAxesAt === 'left' && yAxes.map((axis, index) =>
           <div
             className={classnames({
               [styles.ZonesAxisLog]: axis.logarithmic,
@@ -76,7 +90,7 @@ export default class Zones extends Component {
             }}
           />
         )}
-        {yAxesInteractive && yAxesAt === 'right' && yAxes.map((axis, index) =>
+        {yAxesInteractive && !shiftPressed && yAxesAt === 'right' && yAxes.map((axis, index) =>
           <div
             className={classnames({
               [styles.ZonesAxisLog]: axis.logarithmic,
@@ -92,27 +106,34 @@ export default class Zones extends Component {
         { /*
           Chart area
         */ }
-        {chartInteractive && yAxesAt === 'left' && <div
-          className={styles.ZonesChart}
-          style={{
-            width: width - (yAxes.length * yAxisWidth),
-            right: 0,
-          }}
-        />}
-        {chartInteractive && yAxesAt === 'right' && <div
-          className={styles.ZonesChart}
-          style={{
-            width: width - (yAxes.length * yAxisWidth),
-            left: 0,
-          }}
-        />}
-        {chartInteractive && !yAxesAt && <div
-          className={styles.ZonesChart}
-          style={{
-            width,
-            left: 0,
-          }}
-        />}
+        {
+          chartInteractive && !shiftPressed &&
+          <div
+            className={styles.ZonesChart}
+            style={divStyle}
+          />
+        }
+        {
+          chartInteractive && shiftPressed &&
+          <div
+            className={styles.ZonesChartLasso}
+            style={divStyle}
+          />
+        }
+        {
+          chartInteractive && lassoing &&
+          <div className={styles.ZonesChartLassoRectangleDiv} style={divStyle}>
+            <div
+              className={styles.ZonesChartLassoRectangle}
+              style={{
+                width: Math.abs(lassoX),
+                height: Math.abs(lassoY),
+                top: lassoY < 0 ? lassoOriginY + lassoY : lassoOriginY,
+                left: lassoX < 0 ? lassoOriginX + lassoX : lassoOriginX,
+              }}
+            />
+          </div>
+        }
       </div>
     );
   }

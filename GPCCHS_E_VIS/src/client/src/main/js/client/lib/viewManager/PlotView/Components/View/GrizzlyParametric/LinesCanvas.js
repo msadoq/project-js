@@ -200,9 +200,9 @@ export default class LinesCanvas extends Component {
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
-      ctx.moveTo(xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x), lastYPosition);
+      ctx.moveTo(lastXPosition, lastYPosition);
       ctx.lineTo(
-        xScale(line.xAccessor ? line.xAccessor(dataLine[0]) : dataLine[0].x),
+        0,
         lastYPosition
       );
 

@@ -31,6 +31,7 @@ export default class Chart extends Component {
     allowYZoom: PropTypes.bool,
     allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
+    allowLasso: PropTypes.bool,
     perfOutput: PropTypes.bool,
     additionalStyle: PropTypes.shape({}).isRequired,
     xAxis: PropTypes.shape({
@@ -90,6 +91,7 @@ export default class Chart extends Component {
     allowYZoom: true,
     allowZoom: true,
     allowPan: true,
+    allowLasso: true,
     tooltipColor: 'white',
     perfOutput: false,
   }
@@ -100,6 +102,9 @@ export default class Chart extends Component {
     yZoomLevels: {},
     yPans: {},
     ctrlPressed: false,
+    shiftPressed: false,
+    panning: false,
+    lassoing: false,
   }
 
   componentDidMount() {
@@ -128,18 +133,28 @@ export default class Chart extends Component {
   }
 
   onKeyDown = (e) => {
-    if (e.keyCode === 17 && this.el && this.el.parentElement.querySelector(':hover')) {
-      this.setState({
-        ctrlPressed: true,
-      });
+    if (this.el && this.el.parentElement.querySelector(':hover')) {
+      if (e.keyCode === 17) {
+        this.setState({
+          ctrlPressed: true,
+        });
+      } else if (e.keyCode === 16) {
+        this.setState({
+          shiftPressed: true,
+        });
+      }
     }
   }
 
   onKeyUp = (e) => {
-    const { ctrlPressed } = this.state;
+    const { ctrlPressed, shiftPressed } = this.state;
     if (ctrlPressed && e.keyCode === 17) {
       this.setState({
         ctrlPressed: false,
+      });
+    } else if (shiftPressed && e.keyCode === 16) {
+      this.setState({
+        shiftPressed: false,
       });
     }
   }
@@ -170,16 +185,17 @@ export default class Chart extends Component {
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowPan, allowYPan } = this.props;
-    const { pan, yPans, ctrlPressed } = this.state;
-    if (!ctrlPressed) {
+    const { allowPan, allowYPan, allowLasso } = this.props;
+    const { pan, yPans, ctrlPressed, shiftPressed } = this.state;
+
+    if (!ctrlPressed && !shiftPressed) {
       return;
     }
     if (!this.onMouseMoveThrottle) {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
     const hoveredAxisId = this.wichAxisIsHovered(e);
-    if (allowYPan && hoveredAxisId) {
+    if (ctrlPressed && allowYPan && hoveredAxisId) {
       const yPan = _get(yPans, hoveredAxisId, 0);
       this.setState({
         mouseMoveCursorOriginY: e.pageY,
@@ -188,10 +204,21 @@ export default class Chart extends Component {
       });
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
-    } else if (allowPan && !hoveredAxisId) {
+    } else if (ctrlPressed && allowPan && !hoveredAxisId) {
       this.setState({
         mouseMoveCursorOriginX: e.pageX,
         xPanOrigin: pan,
+        panning: true,
+      });
+      document.addEventListener('mousemove', this.onMouseMoveThrottle);
+      document.addEventListener('mouseup', this.onMouseUp);
+    } else if (shiftPressed && allowLasso && !hoveredAxisId) {
+      this.setState({
+        mouseMoveCursorOriginX: e.pageX,
+        mouseMoveCursorOriginY: e.pageY,
+        lassoOriginX: (e.pageX - this.el.getBoundingClientRect().left) - this.divStyle.left,
+        lassoOriginY: (e.pageY - this.el.getBoundingClientRect().top) - this.divStyle.top,
+        lassoing: true,
       });
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
@@ -209,6 +236,8 @@ export default class Chart extends Component {
       yPans,
       yPanOrigin,
       yZoomLevels,
+      lassoing,
+      panning,
     } = this.state;
 
     if (panAxisId) {
@@ -220,18 +249,85 @@ export default class Chart extends Component {
       this.setState({
         yPans: newYPans,
       });
-    } else {
+    } else if (panning) {
       this.setState({
         pan: xPanOrigin + ((e.pageX - mouseMoveCursorOriginX) / zoomLevel),
+      });
+    } else if (lassoing) {
+      this.setState({
+        lassoX: e.pageX - mouseMoveCursorOriginX,
+        lassoY: e.pageY - mouseMoveCursorOriginY,
       });
     }
   }
 
   onMouseUp = (e) => {
     e.preventDefault();
-    this.setState({
-      panAxisId: null,
-    });
+    const {
+      yZoomLevels,
+      lassoing,
+      zoomLevel,
+      yPans,
+      pan,
+    } = this.state;
+    let {
+      lassoX,
+      lassoY,
+      lassoOriginX,
+      lassoOriginY,
+    } = this.state;
+
+    if (lassoing) {
+      // Lasso might not be right-bottom oriented
+      if (lassoX < 0) {
+        lassoOriginX += lassoX;
+        lassoX = Math.abs(lassoX);
+      }
+      if (lassoY < 0) {
+        lassoOriginY += lassoY;
+        lassoY = Math.abs(lassoY);
+      }
+      // Zoom on X axis
+      const zoomX = this.divStyle.width / lassoX;
+
+      // Zoom on all Y axes
+      const newYZoomLevels = {};
+      this.yAxes.forEach((axis) => {
+        const zoomY = this.divStyle.height / lassoY;
+        const zoomLevelY = zoomY * _get(yZoomLevels, axis.id, 1);
+        newYZoomLevels[axis.id] = zoomLevelY;
+      });
+
+      // Pan on X axis
+      const centerX = lassoOriginX + (lassoX / 2);
+      const toPanX = (this.divStyle.width / 2) - centerX;
+
+      // Pan on all Y axes
+      const newYPans = {};
+      this.yAxes.forEach((axis) => {
+        const panY = _get(yPans, axis.id, 0);
+        const centerY = lassoOriginY + (lassoY / 2);
+        const toPanY = (this.divStyle.height / 2) - centerY;
+        newYPans[axis.id] = panY - (toPanY / _get(yZoomLevels, axis.id, 1));
+      });
+
+      this.setState({
+        pan: pan + (toPanX / zoomLevel),
+        zoomLevel: zoomX * zoomLevel,
+        yZoomLevels: newYZoomLevels,
+        yPans: newYPans,
+        panAxisId: null,
+        lassoing: false,
+        shiftPressed: false,
+        panning: false,
+      });
+    } else {
+      this.setState({
+        panAxisId: null,
+        lassoing: false,
+        panning: false,
+      });
+    }
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
     document.addEventListener('mouseup', this.onMouseUp);
   }
@@ -545,6 +641,12 @@ export default class Chart extends Component {
       yZoomLevels,
       yPans,
       ctrlPressed,
+      lassoX,
+      lassoY,
+      shiftPressed,
+      lassoing,
+      lassoOriginX,
+      lassoOriginY,
     } = this.state;
 
     // Set chartHeight depending on xAxisAt (top/bottom/other)
@@ -582,7 +684,7 @@ export default class Chart extends Component {
 
     const marginTop = xAxisAt === 'top' ? this.xAxisHeight : 0;
     const marginSide = this.yAxes.length * this.yAxisWidth;
-    const divStyle = this.memoizeBackgroundDivStyle(
+    this.divStyle = this.memoizeBackgroundDivStyle(
       `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
       marginTop,
       marginSide,
@@ -666,16 +768,16 @@ export default class Chart extends Component {
           yAxesAt={yAxesAt}
           xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
-          divStyle={divStyle}
+          divStyle={this.divStyle}
         /> }
         <div
           className={classnames('Background', styles.Background)}
-          style={divStyle}
+          style={this.divStyle}
         />
         <CurrentCursorCanvas
           width={this.chartWidth}
           height={this.chartHeight}
-          divStyle={divStyle}
+          divStyle={this.divStyle}
           xAxisAt={xAxisAt}
           current={current}
           xScale={xScale}
@@ -745,12 +847,18 @@ export default class Chart extends Component {
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
               perfOutput={perfOutput}
-              divStyle={divStyle}
+              divStyle={this.divStyle}
             />
           )
         }
         <Zones
           xAxisAt={xAxisAt}
+          lassoX={lassoX}
+          lassoY={lassoY}
+          lassoOriginX={lassoOriginX}
+          lassoOriginY={lassoOriginY}
+          lassoing={lassoing}
+          shiftPressed={shiftPressed}
           xAxisHeight={this.xAxisHeight}
           ctrlPressed={ctrlPressed}
           yAxes={this.yAxes}
@@ -760,6 +868,7 @@ export default class Chart extends Component {
           chartInteractive={allowZoom || allowPan}
           height={this.chartHeight}
           width={width}
+          divStyle={this.divStyle}
         />
       </div>
     );

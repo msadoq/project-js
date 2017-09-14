@@ -154,7 +154,6 @@ export default class Tooltip extends React.Component {
       xInDomain,
       yInRange,
       tooltipOnRight,
-      tooltipOnBottom,
     } = this.pseudoState;
 
     const tooltiLinesToDisplay = linesList && Object.values(linesList).length;
@@ -170,20 +169,12 @@ export default class Tooltip extends React.Component {
     tooltipStyle.minHeight = tooltiLinesToDisplay ?
       30 + (Object.values(linesList).length * 55) : 55;
     tooltipStyle.transform = '';
-    if (tooltipOnRight) {
-      tooltipStyle.left = (xInRange - this.tooltipWidth) - 20;
-    } else {
-      tooltipStyle.left = xInRange + 20;
-    }
-    if (tooltipOnBottom) {
-      tooltipStyle.bottom = (height - yInRange) + 20;
-    } else {
-      tooltipStyle.top = yInRange + 20;
-    }
-
-    // Fixed tooltip, override previous top and left css propreties
     tooltipStyle.top = 10;
-    tooltipStyle.left = 10;
+    if (tooltipOnRight) {
+      tooltipStyle.left = 10;
+    } else {
+      tooltipStyle.right = 10;
+    }
 
     return (
       <div

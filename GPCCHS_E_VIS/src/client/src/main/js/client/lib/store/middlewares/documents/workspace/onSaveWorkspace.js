@@ -1,6 +1,5 @@
 import { join } from 'path';
 import * as types from '../../../types';
-import { EXTENSIONS } from '../../../../constants';
 
 import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from '../selectors';
 import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../../reducers/hsc';
@@ -8,6 +7,8 @@ import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../
 import { openDialog } from '../../../actions/ui';
 import { open as openModal } from '../../../actions/modals';
 import withListenAction from '../../../helpers/withListenAction';
+
+import { getSaveExtensionsFilters } from '../doctypes';
 
 const makeOnSaveWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
@@ -35,7 +36,7 @@ const makeOnSaveWorkspace = documentManager => withListenAction(
           ],
         }));
       } else if (saveAs) {
-        dispatch(openDialog(windowId, 'save', { defaultPath: EXTENSIONS.WorkSpace }));
+        dispatch(openDialog(windowId, 'save', { filters: getSaveExtensionsFilters('WorkSpace') }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {

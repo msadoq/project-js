@@ -309,7 +309,7 @@
     }
   }
   .ZonesChartLassoRectangleDiv {
-    position: relative;
+    position: absolute;
     cursor: crosshair;
     width: 100%;
     height: 100%;

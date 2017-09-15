@@ -261,7 +261,7 @@
     }
   }
   .ZonesChartLassoRectangleDiv {
-    position: relative;
+    position: absolute;
     cursor: crosshair;
   }
   .ZonesChartLassoRectangle {

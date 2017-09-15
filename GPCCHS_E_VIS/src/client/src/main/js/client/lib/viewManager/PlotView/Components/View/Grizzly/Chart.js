@@ -216,7 +216,7 @@ export default class Chart extends Component {
       this.setState({
         mouseMoveCursorOriginX: e.pageX,
         mouseMoveCursorOriginY: e.pageY,
-        lassoOriginX: (e.pageX - this.el.getBoundingClientRect().left) - this.divStyle.left,
+        lassoOriginX: (e.pageX - this.el.getBoundingClientRect().left) - (this.divStyle.left || 0),
         lassoOriginY: (e.pageY - this.el.getBoundingClientRect().top) - this.divStyle.top,
         lassoing: true,
       });

@@ -33,11 +33,12 @@
   .xAxisLabel{
     border-radius: 2px;
     padding: 2px 6px;
+    font-weight: normal;
     &.labelUnderline{
       text-decoration: underline;
     }
     &.labelBold{
-      font-weight: bold;;
+      font-weight: bold;
     }
     &.labelItalic{
       font-style: italic;

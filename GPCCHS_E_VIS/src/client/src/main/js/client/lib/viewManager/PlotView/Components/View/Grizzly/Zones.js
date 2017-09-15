@@ -17,13 +17,20 @@ export default class Zones extends Component {
     ctrlPressed: PropTypes.bool.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
-    lassoX: PropTypes.number.isRequired,
-    lassoY: PropTypes.number.isRequired,
-    lassoOriginX: PropTypes.number.isRequired,
-    lassoOriginY: PropTypes.number.isRequired,
+    lassoX: PropTypes.number,
+    lassoY: PropTypes.number,
+    lassoOriginX: PropTypes.number,
+    lassoOriginY: PropTypes.number,
     shiftPressed: PropTypes.bool.isRequired,
     lassoing: PropTypes.bool.isRequired,
     divStyle: PropTypes.shape().isRequired,
+  }
+
+  static defaultProps = {
+    lassoOriginX: 0,
+    lassoOriginY: 0,
+    lassoX: 0,
+    lassoY: 0,
   }
 
   shouldComponentUpdate(nextProps) {

@@ -35,8 +35,8 @@ export default class MimicViewWrapper extends PureComponent {
     closeEditor: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
-    width: PropTypes.func.isRequired,
-    height: PropTypes.func.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
 
   static defaultProps = {

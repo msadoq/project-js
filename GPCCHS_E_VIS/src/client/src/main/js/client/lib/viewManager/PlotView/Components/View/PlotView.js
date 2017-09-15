@@ -166,7 +166,7 @@ export class GrizzlyPlotView extends PureComponent {
     return shouldRender;
   }
 
-  onContextMenu = (event, name) => {
+  onContextMenuLegend = (event, name) => {
     event.stopPropagation();
     const {
       entryPoints,
@@ -179,58 +179,72 @@ export class GrizzlyPlotView extends PureComponent {
       isInspectorOpened,
     } = this.props;
     const separator = { type: 'separator' };
-    if (name) {
-      const editorMenu = [{
-        label: `Open ${name} in Editor`,
-        click: () => {
-          openEditor(name);
-        },
-      }];
-      if (isViewsEditorOpen) {
-        editorMenu.push({
-          label: 'Close Editor',
-          click: () => closeEditor(),
-        });
-      }
-      const inspectorLabel = `Open ${name} in Inspector`;
-      if (_get(entryPoints, [name, 'error'])) {
-        const inspectorMenu = {
-          label: inspectorLabel,
-          enabled: false,
-        };
-        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
-        return;
-      }
-      const { id, dataId, fieldY } = entryPoints[name];
-      const opened = isInspectorOpened && (inspectorEpId === id);
+    if (!name) {
+      return;
+    }
+    const editorMenu = [{
+      label: `Open ${name} in Editor`,
+      click: () => {
+        openEditor(name);
+      },
+    }];
+    if (isViewsEditorOpen) {
+      editorMenu.push({
+        label: 'Close Editor',
+        click: () => closeEditor(),
+      });
+    }
+    const inspectorLabel = `Open ${name} in Inspector`;
+    if (_get(entryPoints, [name, 'error'])) {
       const inspectorMenu = {
         label: inspectorLabel,
-        type: 'checkbox',
-        click: () => openInspector({
-          epId: id,
-          epName: name,
-          dataId,
-          field: fieldY,
-        }),
-        checked: opened,
+        enabled: false,
       };
       handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
       return;
     }
+    const { id, dataId, fieldY } = entryPoints[name];
+    const opened = isInspectorOpened && (inspectorEpId === id);
+    const inspectorMenu = {
+      label: inspectorLabel,
+      type: 'checkbox',
+      click: () => openInspector({
+        epId: id,
+        epName: name,
+        dataId,
+        field: fieldY,
+      }),
+      checked: opened,
+    };
+    handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+  }
+
+  onContextMenu = (e) => {
+    e.stopPropagation();
+    const {
+      entryPoints,
+      openInspector,
+      isViewsEditorOpen,
+      closeEditor,
+      openEditor,
+      mainMenu,
+      inspectorEpId,
+      isInspectorOpened,
+    } = this.props;
+    const separator = { type: 'separator' };
     const inspectorMenu = {
       label: 'Open parameter in Inspector',
       submenu: [],
     };
     _each(entryPoints, (ep, epName) => {
-      const label = `${epName}`;
       if (ep.error) {
-        inspectorMenu.submenu.push({ label, enabled: false });
+        inspectorMenu.submenu.push({ label: epName, enabled: false });
         return;
       }
       const { id, dataId, fieldY } = ep;
       const opened = isInspectorOpened && (inspectorEpId === id);
       inspectorMenu.submenu.push({
-        label,
+        label: epName,
         type: 'checkbox',
         click: () => openInspector({
           epId: id,
@@ -525,7 +539,7 @@ export class GrizzlyPlotView extends PureComponent {
         showEpNames={showEpNames}
         hideEp={this.hideEp}
         hideEpNames={hideEpNames}
-        onContextMenu={this.onContextMenu}
+        onContextMenu={this.onContextMenuLegend}
         removeEntryPoint={this.removeEntryPoint}
       />);
 

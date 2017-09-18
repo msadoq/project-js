@@ -86,7 +86,7 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     const frozen = freezeMe({ myDyn: {} });
     expect(dynamicViewData(freezeMe(frozen), action)).toBe(frozen);
   });
-  describe('DATA_UPDATE_VIEWDATA', () => {
+  describe('INJECT_DATA_LAST', () => {
     let newViewMap;
     let oldViewMap;
     let dataToInject;

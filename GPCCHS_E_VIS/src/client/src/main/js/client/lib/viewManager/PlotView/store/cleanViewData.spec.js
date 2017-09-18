@@ -45,11 +45,11 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
       newIntervals['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100']['groundDate/extractedValue.tb1:0']
-        .expectedInterval = [500010, 900000];
+        .expectedInterval = [500030, 900000];
       newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
-        .expectedInterval = [490010, 890000];
+        .expectedInterval = [490030, 890000];
       newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:0']
-        .expectedInterval = [500010, 900000];
+        .expectedInterval = [500030, 900000];
       const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
               newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
       expect(newState).toEqual({ indexes: {},
@@ -74,6 +74,35 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
     });
     test('Ep renaming', () => {
       const newMap = _cloneDeep(viewMap);
+      let newPlotData = _cloneDeep(state.PlotViewData.plot1);
+
+      newPlotData = {
+        ...newPlotData,
+        lines: {
+          ..._omit(newPlotData.lines, 'ATT_BC_REVTCOUNT1'),
+          ATT_BC_REVTCOUNT10: newPlotData.lines.ATT_BC_REVTCOUNT1,
+        },
+        indexes: {
+          ..._omit(newPlotData.indexes, 'ATT_BC_REVTCOUNT1'),
+          ATT_BC_REVTCOUNT10: newPlotData.indexes.ATT_BC_REVTCOUNT1,
+        },
+        min: {
+          ..._omit(newPlotData.min, 'ATT_BC_REVTCOUNT1'),
+          ATT_BC_REVTCOUNT10: newPlotData.min.ATT_BC_REVTCOUNT1,
+        },
+        minTime: {
+          ..._omit(newPlotData.minTime, 'ATT_BC_REVTCOUNT1'),
+          ATT_BC_REVTCOUNT10: newPlotData.minTime.ATT_BC_REVTCOUNT1,
+        },
+        max: {
+          ..._omit(newPlotData.max, 'ATT_BC_REVTCOUNT1'),
+          ATT_BC_REVTCOUNT10: newPlotData.max.ATT_BC_REVTCOUNT1,
+        },
+        maxTime: {
+          ..._omit(newPlotData.maxTime, 'ATT_BC_REVTCOUNT1'),
+          ATT_BC_REVTCOUNT10: newPlotData.maxTime.ATT_BC_REVTCOUNT1,
+        },
+      };
       newMap.plot1.entryPoints = {
         ...newMap.plot1.entryPoints,
         ATT_BC_REVTCOUNT10: Object.assign({}, newMap.plot1.entryPoints.ATT_BC_REVTCOUNT1),
@@ -81,7 +110,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       newMap.plot1.entryPoints = _omit(newMap.plot1.entryPoints, 'ATT_BC_REVTCOUNT1');
       expect(cleanCurrentViewData(Object.freeze(state.PlotViewData.plot1), viewMap.plot1,
         newMap.plot1, dataMap.expectedRangeIntervals, dataMap.expectedRangeIntervals))
-        .toMatchSnapshot();
+        .toEqual(newPlotData);
     });
   });
   describe('updateEpLabel', () => {
@@ -126,11 +155,11 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       .toMatchSnapshot();
     });
     test('should support partial keeping', () => {
-      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 100000, 200000))
+      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 100000, 200020))
       .toMatchSnapshot();
     });
     test('should support keep everything', () => {
-      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 100000, 500000))
+      expect(removeViewDataByEp(freezeMe(state.PlotViewData.plot1), 'TMMGT_BC_VIRTCHAN3', 100000, 600000))
       .toMatchSnapshot();
     });
   });

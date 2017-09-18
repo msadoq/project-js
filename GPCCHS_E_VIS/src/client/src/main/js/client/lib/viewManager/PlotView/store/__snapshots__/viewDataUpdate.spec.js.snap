@@ -233,119 +233,119 @@ exports[`viewManager/PlotView/store/viewDataUpdate viewRangeAdd should add point
 Object {
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
-      100000,
-      200000,
-      300000,
-      400000,
-      500000,
+      100020,
+      200020,
+      300020,
+      400020,
+      500020,
     ],
     "TMMGT_BC_VIRTCHAN3": Array [
-      100000,
-      200000,
-      300000,
+      100020,
+      200020,
+      300020,
       300100,
-      400000,
-      500000,
+      400020,
+      500020,
     ],
   },
   "lines": Object {
-    "ATT_BC_REVTCOUNT1": Array [
-      Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
         "color": "darkred",
         "masterTime": 100020,
         "symbol": 149.30028143545633,
         "value": 149.30028143545633,
         "x": 100000,
       },
-      Object {
+      "200020": Object {
         "color": "blue",
         "masterTime": 200020,
         "symbol": 154.3002814355,
         "value": 154.3002814355,
         "x": 200000,
       },
-      Object {
+      "300020": Object {
         "color": "green",
         "masterTime": 300020,
         "symbol": 159.3002814355,
         "value": 159.3002814355,
         "x": 300000,
       },
-      Object {
+      "400020": Object {
         "color": "green",
         "masterTime": 400020,
         "symbol": 164.3002814355,
         "value": 164.3002814355,
         "x": 400000,
       },
-      Object {
+      "500020": Object {
         "color": "green",
         "masterTime": 500020,
         "symbol": 169.3002814355,
         "value": 169.3002814355,
         "x": 500000,
       },
-    ],
-    "TMMGT_BC_VIRTCHAN3": Array [
-      Object {
+    },
+    "TMMGT_BC_VIRTCHAN3": Object {
+      "100020": Object {
         "color": "darkred",
         "masterTime": 100020,
         "symbol": 139.30028143545633,
         "value": 139.30028143545633,
         "x": 100000,
       },
-      Object {
+      "200020": Object {
         "color": "blue",
         "masterTime": 200020,
         "symbol": 144.3002814355,
         "value": 144.3002814355,
         "x": 200000,
       },
-      Object {
+      "300020": Object {
         "color": "green",
         "masterTime": 300020,
         "symbol": 149.3002814355,
         "value": 149.3002814355,
         "x": 300000,
       },
-      Object {
+      "300100": Object {
         "color": "green",
-        "masterTime": 300100,
+        "masterTime": 300120,
         "symbol": 150,
         "value": 150,
         "x": 300100,
       },
-      Object {
+      "400020": Object {
         "color": "green",
         "masterTime": 400020,
         "symbol": 154.3002814355,
         "value": 154.3002814355,
         "x": 400000,
       },
-      Object {
+      "500020": Object {
         "color": "green",
         "masterTime": 500020,
         "symbol": 159.3002814355,
         "value": 159.3002814355,
         "x": 500000,
       },
-    ],
+    },
   },
   "max": Object {
     "ATT_BC_REVTCOUNT1": 169.3002814355,
     "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
   },
   "maxTime": Object {
-    "ATT_BC_REVTCOUNT1": 500000,
-    "TMMGT_BC_VIRTCHAN3": 500000,
+    "ATT_BC_REVTCOUNT1": 500020,
+    "TMMGT_BC_VIRTCHAN3": 500020,
   },
   "min": Object {
     "ATT_BC_REVTCOUNT1": 149.30028143545633,
     "TMMGT_BC_VIRTCHAN3": 139.30028143545633,
   },
   "minTime": Object {
-    "ATT_BC_REVTCOUNT1": 100000,
-    "TMMGT_BC_VIRTCHAN3": 100000,
+    "ATT_BC_REVTCOUNT1": 100020,
+    "TMMGT_BC_VIRTCHAN3": 100020,
   },
 }
 `;
@@ -354,142 +354,142 @@ exports[`viewManager/PlotView/store/viewDataUpdate viewRangeAdd should add point
 Object {
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
-      100000,
-      200000,
-      300000,
+      100020,
+      200020,
       300010,
-      400000,
-      500000,
+      300020,
+      400020,
       500010,
+      500020,
     ],
     "TMMGT_BC_VIRTCHAN3": Array [
       90100,
-      100000,
-      200000,
+      100020,
+      200020,
       200100,
-      300000,
-      400000,
-      500000,
+      300020,
+      400020,
+      500020,
     ],
   },
   "lines": Object {
-    "ATT_BC_REVTCOUNT1": Array [
-      Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
         "color": "darkred",
         "masterTime": 100020,
         "symbol": 149.30028143545633,
         "value": 149.30028143545633,
         "x": 100000,
       },
-      Object {
+      "200020": Object {
         "color": "blue",
         "masterTime": 200020,
         "symbol": 154.3002814355,
         "value": 154.3002814355,
         "x": 200000,
       },
-      Object {
+      "300010": Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 159,
+        "value": 159,
+        "x": 300010,
+      },
+      "300020": Object {
         "color": "green",
         "masterTime": 300020,
         "symbol": 159.3002814355,
         "value": 159.3002814355,
         "x": 300000,
       },
-      Object {
-        "color": "green",
-        "masterTime": 300010,
-        "symbol": 159,
-        "value": 159,
-        "x": 300010,
-      },
-      Object {
+      "400020": Object {
         "color": "green",
         "masterTime": 400020,
         "symbol": 164.3002814355,
         "value": 164.3002814355,
         "x": 400000,
       },
-      Object {
-        "color": "green",
-        "masterTime": 500020,
-        "symbol": 169.3002814355,
-        "value": 169.3002814355,
-        "x": 500000,
-      },
-      Object {
+      "500010": Object {
         "color": "green",
         "masterTime": 500020,
         "symbol": 169,
         "value": 169,
         "x": 500010,
       },
-    ],
-    "TMMGT_BC_VIRTCHAN3": Array [
-      Object {
-        "color": "darkred",
-        "masterTime": 90100,
-        "symbol": 139,
-        "value": 139,
-        "x": 90100,
+      "500020": Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169.3002814355,
+        "value": 169.3002814355,
+        "x": 500000,
       },
-      Object {
+    },
+    "TMMGT_BC_VIRTCHAN3": Object {
+      "100020": Object {
         "color": "darkred",
         "masterTime": 100020,
         "symbol": 139.30028143545633,
         "value": 139.30028143545633,
         "x": 100000,
       },
-      Object {
+      "200020": Object {
         "color": "blue",
         "masterTime": 200020,
         "symbol": 144.3002814355,
         "value": 144.3002814355,
         "x": 200000,
       },
-      Object {
+      "200100": Object {
         "color": "blue",
-        "masterTime": 200100,
+        "masterTime": 200120,
         "symbol": 144,
         "value": 144,
         "x": 200100,
       },
-      Object {
+      "300020": Object {
         "color": "green",
         "masterTime": 300020,
         "symbol": 149.3002814355,
         "value": 149.3002814355,
         "x": 300000,
       },
-      Object {
+      "400020": Object {
         "color": "green",
         "masterTime": 400020,
         "symbol": 154.3002814355,
         "value": 154.3002814355,
         "x": 400000,
       },
-      Object {
+      "500020": Object {
         "color": "green",
         "masterTime": 500020,
         "symbol": 159.3002814355,
         "value": 159.3002814355,
         "x": 500000,
       },
-    ],
+      "90100": Object {
+        "color": "darkred",
+        "masterTime": 90120,
+        "symbol": 139,
+        "value": 139,
+        "x": 90100,
+      },
+    },
   },
   "max": Object {
     "ATT_BC_REVTCOUNT1": 169.3002814355,
     "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
   },
   "maxTime": Object {
-    "ATT_BC_REVTCOUNT1": 500000,
-    "TMMGT_BC_VIRTCHAN3": 500000,
+    "ATT_BC_REVTCOUNT1": 500020,
+    "TMMGT_BC_VIRTCHAN3": 500020,
   },
   "min": Object {
     "ATT_BC_REVTCOUNT1": 149.30028143545633,
     "TMMGT_BC_VIRTCHAN3": 139,
   },
   "minTime": Object {
-    "ATT_BC_REVTCOUNT1": 100000,
+    "ATT_BC_REVTCOUNT1": 100020,
     "TMMGT_BC_VIRTCHAN3": 90100,
   },
 }

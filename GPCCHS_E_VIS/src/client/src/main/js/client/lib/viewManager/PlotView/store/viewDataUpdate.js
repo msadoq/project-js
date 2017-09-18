@@ -61,15 +61,15 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
     // scan old data to evaluate min value
     let extremVal = minOrMax[epName];
     let extremValTime = minOrMaxTime[epName];
-    state.lines[epName].forEach((point) => {
-      if (!point.value) {
-        return;
-      }
-      if ((isMin && point.value < extremVal) || (!isMin && point.value > extremVal)) {
+    const timestamps = Object.keys(state.lines[epName]);
+    for (let i = 0; i < timestamps.length; i += 1) {
+      const point = state.lines[epName][timestamps[i]];
+      if (point.value
+        && ((isMin && point.value < extremVal) || (!isMin && point.value > extremVal))) {
         extremVal = point.value;
         extremValTime = point.masterTime;
       }
-    });
+    }
     // save values
     stateMinOrMax = extremVal;
     stateMinOrMaxTime = extremValTime;
@@ -112,8 +112,8 @@ export function viewRangeAdd(state = {}, payloads) {
       newState = getExtremValue(newState, epName, payloads.max, payloads.maxTime, false);
     });
   }
-  // newState[epName] = [{ x: value.payload[ep.fieldX], value: value.payload[ep.fieldY],
-  // masterTime: time }];
+  // newState[epName][masterTime] = { x: value.payload[ep.fieldX], value: value.payload[ep.fieldY],
+  // masterTime: time };
   // Loop on entry point names present in payloads
   for (let i = 0; i < epNames.length; i += 1) {
     const epName = epNames[i];
@@ -138,19 +138,18 @@ export function viewRangeAdd(state = {}, payloads) {
         }
       }
       if (!newState.lines[epName]) {
-        newState.lines[epName] = [];
+        newState.lines[epName] = {};
         newState.indexes[epName] = [];
       }
 
       const timestamp = parseInt(masterTime, 10); // TODO : avoid by passing .index[] in payload
+      newState.lines[epName][timestamp] = { masterTime: timestamp, ...currentValue };
       // if new value should be pushed at end (most common case in play mode)
       if (lastIndex === -1 && timestamp > lastTime) {
-        newState.lines[epName].push({ masterTime: timestamp, ...currentValue });
         newState.indexes[epName].push(timestamp);
         lastTime = timestamp;
         continue;
       }
-
       if (timestamp < lastTime) {
         lastIndex = 0; // fix the Object.keys() not always sorted behavior
       }
@@ -160,13 +159,11 @@ export function viewRangeAdd(state = {}, payloads) {
       lastIndex = index;
       if (index === -1) {
         // add at end
-        newState.lines[epName].push({ masterTime: timestamp, ...currentValue });
         newState.indexes[epName].push(timestamp);
         continue;
       }
       // timebased data update
       if (newState.indexes[epName][index] === timestamp) {
-        Object.assign(newState.lines[epName][index], currentValue);
         continue;
       }
       // add at index
@@ -174,11 +171,6 @@ export function viewRangeAdd(state = {}, payloads) {
         newState.indexes[epName].slice(0, index),
         timestamp,
         newState.indexes[epName].slice(index)
-      );
-      newState.lines[epName] = _concat(
-        newState.lines[epName].slice(0, index),
-        { ...currentValue, masterTime: timestamp },
-        newState.lines[epName].slice(index)
       );
     }
   }

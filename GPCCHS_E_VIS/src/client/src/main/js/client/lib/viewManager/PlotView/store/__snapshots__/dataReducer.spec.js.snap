@@ -5,7 +5,7 @@ Object {
   "plot1": Object {
     "indexes": Object {
       "ATT_BC_REVTCOUNT1": Array [
-        100000,
+        100020,
         100120,
         100220,
         100320,
@@ -14,10 +14,10 @@ Object {
         100620,
         100720,
         100820,
-        200000,
-        300000,
-        400000,
-        500000,
+        200020,
+        300020,
+        400020,
+        500020,
       ],
       "ATT_BC_REVTCOUNT1_Offset": Array [
         110120,
@@ -30,7 +30,7 @@ Object {
         110820,
       ],
       "TMMGT_BC_VIRTCHAN3": Array [
-        100000,
+        100020,
         100120,
         100220,
         100320,
@@ -39,22 +39,22 @@ Object {
         100620,
         100720,
         100820,
-        200000,
-        300000,
-        400000,
-        500000,
+        200020,
+        300020,
+        400020,
+        500020,
       ],
     },
     "lines": Object {
-      "ATT_BC_REVTCOUNT1": Array [
-        Object {
+      "ATT_BC_REVTCOUNT1": Object {
+        "100020": Object {
           "color": "darkred",
           "masterTime": 100020,
           "symbol": 149.30028143545633,
           "value": 149.30028143545633,
           "x": 100000,
         },
-        Object {
+        "100120": Object {
           "masterTime": 100120,
           "refTime": 100120,
           "symbol": undefined,
@@ -62,7 +62,7 @@ Object {
           "value": 11.012,
           "x": 100120,
         },
-        Object {
+        "100220": Object {
           "masterTime": 100220,
           "refTime": 100220,
           "symbol": undefined,
@@ -70,7 +70,7 @@ Object {
           "value": 11.022,
           "x": 100220,
         },
-        Object {
+        "100320": Object {
           "masterTime": 100320,
           "refTime": 100320,
           "symbol": undefined,
@@ -78,7 +78,7 @@ Object {
           "value": 11.032,
           "x": 100320,
         },
-        Object {
+        "100420": Object {
           "masterTime": 100420,
           "refTime": 100420,
           "symbol": undefined,
@@ -86,7 +86,7 @@ Object {
           "value": 11.042,
           "x": 100420,
         },
-        Object {
+        "100520": Object {
           "masterTime": 100520,
           "refTime": 100520,
           "symbol": undefined,
@@ -94,7 +94,7 @@ Object {
           "value": 11.052,
           "x": 100520,
         },
-        Object {
+        "100620": Object {
           "masterTime": 100620,
           "refTime": 100620,
           "symbol": undefined,
@@ -102,7 +102,7 @@ Object {
           "value": 11.062,
           "x": 100620,
         },
-        Object {
+        "100720": Object {
           "masterTime": 100720,
           "refTime": 100720,
           "symbol": undefined,
@@ -110,7 +110,7 @@ Object {
           "value": 11.072,
           "x": 100720,
         },
-        Object {
+        "100820": Object {
           "masterTime": 100820,
           "refTime": 100820,
           "symbol": undefined,
@@ -118,37 +118,37 @@ Object {
           "value": 11.082,
           "x": 100820,
         },
-        Object {
+        "200020": Object {
           "color": "blue",
           "masterTime": 200020,
           "symbol": 154.3002814355,
           "value": 154.3002814355,
           "x": 200000,
         },
-        Object {
+        "300020": Object {
           "color": "green",
           "masterTime": 300020,
           "symbol": 159.3002814355,
           "value": 159.3002814355,
           "x": 300000,
         },
-        Object {
+        "400020": Object {
           "color": "green",
           "masterTime": 400020,
           "symbol": 164.3002814355,
           "value": 164.3002814355,
           "x": 400000,
         },
-        Object {
+        "500020": Object {
           "color": "green",
           "masterTime": 500020,
           "symbol": 169.3002814355,
           "value": 169.3002814355,
           "x": 500000,
         },
-      ],
-      "ATT_BC_REVTCOUNT1_Offset": Array [
-        Object {
+      },
+      "ATT_BC_REVTCOUNT1_Offset": Object {
+        "110120": Object {
           "masterTime": 110120,
           "refTime": 100120,
           "symbol": undefined,
@@ -156,7 +156,7 @@ Object {
           "value": 11.012,
           "x": 110120,
         },
-        Object {
+        "110220": Object {
           "masterTime": 110220,
           "refTime": 100220,
           "symbol": undefined,
@@ -164,7 +164,7 @@ Object {
           "value": 11.022,
           "x": 110220,
         },
-        Object {
+        "110320": Object {
           "masterTime": 110320,
           "refTime": 100320,
           "symbol": undefined,
@@ -172,7 +172,7 @@ Object {
           "value": 11.032,
           "x": 110320,
         },
-        Object {
+        "110420": Object {
           "masterTime": 110420,
           "refTime": 100420,
           "symbol": undefined,
@@ -180,7 +180,7 @@ Object {
           "value": 11.042,
           "x": 110420,
         },
-        Object {
+        "110520": Object {
           "masterTime": 110520,
           "refTime": 100520,
           "symbol": undefined,
@@ -188,7 +188,7 @@ Object {
           "value": 11.052,
           "x": 110520,
         },
-        Object {
+        "110620": Object {
           "masterTime": 110620,
           "refTime": 100620,
           "symbol": undefined,
@@ -196,7 +196,7 @@ Object {
           "value": 11.062,
           "x": 110620,
         },
-        Object {
+        "110720": Object {
           "masterTime": 110720,
           "refTime": 100720,
           "symbol": undefined,
@@ -204,7 +204,7 @@ Object {
           "value": 11.072,
           "x": 110720,
         },
-        Object {
+        "110820": Object {
           "masterTime": 110820,
           "refTime": 100820,
           "symbol": undefined,
@@ -212,16 +212,16 @@ Object {
           "value": 11.082,
           "x": 110820,
         },
-      ],
-      "TMMGT_BC_VIRTCHAN3": Array [
-        Object {
+      },
+      "TMMGT_BC_VIRTCHAN3": Object {
+        "100020": Object {
           "color": "darkred",
           "masterTime": 100020,
           "symbol": 139.30028143545633,
           "value": 139.30028143545633,
           "x": 100000,
         },
-        Object {
+        "100120": Object {
           "masterTime": 100120,
           "refTime": 100120,
           "symbol": undefined,
@@ -229,7 +229,7 @@ Object {
           "value": 11.012,
           "x": 100120,
         },
-        Object {
+        "100220": Object {
           "masterTime": 100220,
           "refTime": 100220,
           "symbol": undefined,
@@ -237,7 +237,7 @@ Object {
           "value": 11.022,
           "x": 100220,
         },
-        Object {
+        "100320": Object {
           "masterTime": 100320,
           "refTime": 100320,
           "symbol": undefined,
@@ -245,7 +245,7 @@ Object {
           "value": 11.032,
           "x": 100320,
         },
-        Object {
+        "100420": Object {
           "masterTime": 100420,
           "refTime": 100420,
           "symbol": undefined,
@@ -253,7 +253,7 @@ Object {
           "value": 11.042,
           "x": 100420,
         },
-        Object {
+        "100520": Object {
           "masterTime": 100520,
           "refTime": 100520,
           "symbol": undefined,
@@ -261,7 +261,7 @@ Object {
           "value": 11.052,
           "x": 100520,
         },
-        Object {
+        "100620": Object {
           "masterTime": 100620,
           "refTime": 100620,
           "symbol": undefined,
@@ -269,7 +269,7 @@ Object {
           "value": 11.062,
           "x": 100620,
         },
-        Object {
+        "100720": Object {
           "masterTime": 100720,
           "refTime": 100720,
           "symbol": undefined,
@@ -277,7 +277,7 @@ Object {
           "value": 11.072,
           "x": 100720,
         },
-        Object {
+        "100820": Object {
           "masterTime": 100820,
           "refTime": 100820,
           "symbol": undefined,
@@ -285,35 +285,35 @@ Object {
           "value": 11.082,
           "x": 100820,
         },
-        Object {
+        "200020": Object {
           "color": "blue",
           "masterTime": 200020,
           "symbol": 144.3002814355,
           "value": 144.3002814355,
           "x": 200000,
         },
-        Object {
+        "300020": Object {
           "color": "green",
           "masterTime": 300020,
           "symbol": 149.3002814355,
           "value": 149.3002814355,
           "x": 300000,
         },
-        Object {
+        "400020": Object {
           "color": "green",
           "masterTime": 400020,
           "symbol": 154.3002814355,
           "value": 154.3002814355,
           "x": 400000,
         },
-        Object {
+        "500020": Object {
           "color": "green",
           "masterTime": 500020,
           "symbol": 159.3002814355,
           "value": 159.3002814355,
           "x": 500000,
         },
-      ],
+      },
     },
     "max": Object {
       "ATT_BC_REVTCOUNT1": 11.082,

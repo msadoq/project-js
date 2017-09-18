@@ -89,7 +89,7 @@ describe('viewManager/TextView/store/dataReducer', () => {
     const frozen = freezeMe({ myText: { index: {}, values: {} } });
     expect(mimicViewData(freezeMe(frozen), action)).toBe(frozen);
   });
-  describe('DATA_UPDATE_VIEWDATA', () => {
+  describe('INJECT_DATA_LAST', () => {
     let newViewMap;
     let oldViewMap;
     let dataToInject;

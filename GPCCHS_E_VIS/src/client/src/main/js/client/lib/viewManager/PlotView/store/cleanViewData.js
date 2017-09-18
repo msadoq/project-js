@@ -7,6 +7,7 @@ import _isEqual from 'lodash/isEqual';
 import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
 import _omit from 'lodash/omit';
+import _pick from 'lodash/pick';
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -168,7 +169,9 @@ export function scanForMinAndMax(viewDataState) {
     }
 
     // Scan state values
-    viewDataState.lines[epName].forEach((point) => {
+    const timestamps = Object.keys(viewDataState.lines[epName]);
+    for (let i = 0; i < timestamps.length; i += 1) {
+      const point = viewDataState.lines[epName][timestamps[i]];
       if (!point.value) {
         return;
       }
@@ -180,7 +183,7 @@ export function scanForMinAndMax(viewDataState) {
         maxVal[epName] = point.value;
         maxTimeVal[epName] = point.masterTime;
       }
-    });
+    }
   });
   // Nothing to update
   if (!Object.keys(minVal).length && !Object.keys(maxVal).length) {
@@ -223,14 +226,16 @@ export function removeViewDataByEp(viewData, epName, lower, upper) {
   const iLower = _findIndex(viewData.indexes[epName], t => t >= lower);
   let iUpper = _findLastIndex(viewData.indexes[epName], t => t <= upper);
   iUpper = (iUpper === -1) ? viewData.indexes[epName].length - 1 : iUpper;
+  const newIndexes = viewData.indexes[epName].slice(iLower, iUpper + 1);
+
   return { ...viewData,
     indexes: {
       ...viewData.indexes,
-      [epName]: viewData.indexes[epName].slice(iLower, iUpper + 1),
+      [epName]: newIndexes,
     },
     lines: {
       ...viewData.lines,
-      [epName]: viewData.lines[epName].slice(iLower, iUpper + 1),
+      [epName]: _pick(viewData.lines[epName], newIndexes),
     },
   };
 }

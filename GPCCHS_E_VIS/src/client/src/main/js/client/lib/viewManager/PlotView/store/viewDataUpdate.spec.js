@@ -23,10 +23,10 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       })).toEqual({
         indexes: { ep1: [10, 11] },
         lines: {
-          ep1: [
-          { masterTime: 10, x: 1, value: 0.1 },
-          { masterTime: 11, x: 2, value: 0.1 },
-          ] },
+          ep1: {
+            10: { masterTime: 10, x: 1, value: 0.1 },
+            11: { masterTime: 11, x: 2, value: 0.1 },
+          } },
         min: { ep1: 0.1 },
         minTime: { ep1: 10 },
         max: { ep1: 0.1 },

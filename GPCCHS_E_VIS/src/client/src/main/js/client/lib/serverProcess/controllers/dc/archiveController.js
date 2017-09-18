@@ -42,6 +42,11 @@ const onArchiveData = (args, getStore, { get, remove }) => {
     return;
   }
 
+  if (typeof dataId === 'undefined') {
+    logger.error(`Unknown data id for request queryId: ${queryId}, tbdId: ${tbdId}, type: ${type}`);
+    return;
+  }
+
   if (endOfQuery) {
     remove(queryId);
   }

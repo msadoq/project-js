@@ -12,7 +12,7 @@ class HtmlSourceForm extends PureComponent {
     reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
-    closeHtmlEditor: PropTypes.func.isRequired,
+    closeCodeEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.string),
     viewType: PropTypes.string.isRequired,
   }
@@ -23,11 +23,11 @@ class HtmlSourceForm extends PureComponent {
   onChange = editorState => this.setState({ editorState });
   resetAndClose = () => {
     this.props.reset();
-    this.props.closeHtmlEditor();
+    this.props.closeCodeEditor();
   }
   saveAndClose = () => {
     this.props.handleSubmit();
-    this.props.closeHtmlEditor();
+    this.props.closeCodeEditor();
   }
 
   render() {

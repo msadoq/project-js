@@ -6,7 +6,7 @@ import SvgSourceForm from './SvgSourceForm';
 export default class Source extends PureComponent {
   static propTypes = {
     updateContent: PropTypes.func.isRequired,
-    closeHtmlEditor: PropTypes.func.isRequired,
+    closeCodeEditor: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.string),
@@ -25,7 +25,7 @@ export default class Source extends PureComponent {
       viewId,
       content,
       entryPoints,
-      closeHtmlEditor,
+      closeCodeEditor,
       type,
     } = this.props;
     const initialValues = { html: beautifyHtml(content, { indent_size: 2 }) };
@@ -36,7 +36,7 @@ export default class Source extends PureComponent {
             <HtmlSourceForm
               key={viewId}
               entryPoints={entryPoints}
-              closeHtmlEditor={closeHtmlEditor}
+              closeCodeEditor={closeCodeEditor}
               onSubmit={this.updateContent}
               form={`textView-form-${viewId}`}
               initialValues={initialValues}
@@ -48,7 +48,7 @@ export default class Source extends PureComponent {
             <SvgSourceForm
               key={viewId}
               entryPoints={entryPoints}
-              closeHtmlEditor={closeHtmlEditor}
+              closeCodeEditor={closeCodeEditor}
               onSubmit={this.updateContent}
               form={`mimicView-form-${viewId}`}
               initialValues={initialValues}

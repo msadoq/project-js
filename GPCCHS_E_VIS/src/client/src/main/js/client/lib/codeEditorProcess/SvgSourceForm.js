@@ -31,7 +31,7 @@ class SvgSourceForm extends PureComponent {
     reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
-    closeHtmlEditor: PropTypes.func.isRequired,
+    closeCodeEditor: PropTypes.func.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.string),
     viewType: PropTypes.string.isRequired,
   }
@@ -139,11 +139,11 @@ class SvgSourceForm extends PureComponent {
 
   resetAndClose = () => {
     this.props.reset();
-    this.props.closeHtmlEditor();
+    this.props.closeCodeEditor();
   }
   saveAndClose = () => {
     this.props.handleSubmit();
-    this.props.closeHtmlEditor();
+    this.props.closeCodeEditor();
   }
 
   render() {
@@ -164,10 +164,15 @@ class SvgSourceForm extends PureComponent {
         >
           { viewType === 'TextView' && <h3>TextView HTML Editor</h3> }
           { viewType === 'MimicView' && <h3>MimicView SVG Editor</h3> }
-          <p>Hint :
-          template litterals to be replaced by values must be nested in
-          <code>{'<span>'}</code> any side text will be removed.s
-          ex: <code>{'<span>{{EP_PARAM_105}}</span>'}</code></p>
+          {
+            viewType === 'TextView' &&
+            <p>
+              Hint :
+              template litterals to be replaced by values must be nested in
+              <code>{'<span>'}</code> any side text will be removed.s
+              ex: <code>{'<span>{{EP_PARAM_105}}</span>'}</code>
+            </p>
+          }
         </div>
         <Field
           name="html"

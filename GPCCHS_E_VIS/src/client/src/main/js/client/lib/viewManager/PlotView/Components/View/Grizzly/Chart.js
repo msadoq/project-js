@@ -844,6 +844,7 @@ export default class Chart extends Component {
               showLabels={yAxis.showLabels}
               axisId={yAxis.id}
               data={yAxis.data}
+              indexes={yAxis.indexes}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
               perfOutput={perfOutput}

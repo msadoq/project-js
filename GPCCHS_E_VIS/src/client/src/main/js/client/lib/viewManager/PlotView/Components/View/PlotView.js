@@ -479,7 +479,7 @@ export class GrizzlyPlotView extends PureComponent {
       containerWidth,
       containerHeight,
       data,
-      data: { lines },
+      data: { lines, indexes },
       configuration: {
         showYAxes,
         axes,
@@ -591,6 +591,7 @@ export class GrizzlyPlotView extends PureComponent {
                   min < axis.min ? min : axis.min,
                   max > axis.max ? max : axis.max,
                 ],
+              indexes,
               data: lines,
               orient: 'top',
               format: '.3f',

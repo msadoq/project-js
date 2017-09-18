@@ -82,22 +82,25 @@ export default class Tooltip extends React.Component {
     const xInRange = (e ? e.clientX : this.pseudoState.clientX) -
       this.el.getBoundingClientRect().left;
     const xInDomain = xScale.invert(xInRange);
+
     const linesList = {};
 
     yAxes.forEach((axis) => {
       linesList[axis.id] = [];
 
       axis.lines.forEach((line) => {
+        const dataIndexes = (line.dataAccessor && axis.indexes) ?
+          axis.indexes[line.dataAccessor] : line.indexes;
         const dataLine = (line.dataAccessor && axis.data) ?
           axis.data[line.dataAccessor] : line.data;
         if (!dataLine) {
           return;
         }
-        const index = _sortedIndexBy(dataLine, { x: xInDomain }, o => o.x);
+        const index = _sortedIndexBy(dataIndexes, xInDomain);
         if (!index) {
           return;
         }
-        const xClosestPacket = dataLine[index];
+        const xClosestPacket = dataLine[dataIndexes[index]];
         if (xClosestPacket) {
           const val = line.yAccessor ? line.yAccessor(xClosestPacket) : xClosestPacket.value;
           const x = line.xAccessor ? line.xAccessor(xClosestPacket) : xClosestPacket.x;

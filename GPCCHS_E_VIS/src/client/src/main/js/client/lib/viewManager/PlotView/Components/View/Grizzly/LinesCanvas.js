@@ -11,6 +11,7 @@ export default class LinesCanvas extends Component {
     xScale: PropTypes.func.isRequired,
     yScale: PropTypes.func.isRequired,
     data: PropTypes.objectOf(PropTypes.shape),
+    indexes: PropTypes.objectOf(PropTypes.shape),
     showLabels: PropTypes.bool,
     perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
@@ -87,6 +88,7 @@ export default class LinesCanvas extends Component {
       width,
       lines,
       data,
+      indexes,
       xScale,
       updateLabelPosition,
       axisId,
@@ -104,14 +106,19 @@ export default class LinesCanvas extends Component {
 
     // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
     lines.forEach((line) => {
-      const dataLine = line.dataAccessor && data
+      const lineIndexes = line.dataAccessor && indexes
+        ? indexes[line.dataAccessor]
+        : line.indexes;
+      const lineData = line.dataAccessor && data
         ? data[line.dataAccessor]
         : line.data;
-      if (perfOutput) totalPoints += dataLine.length;
-      if (!dataLine) {
+
+      if (perfOutput) totalPoints += lineIndexes.length;
+      if (!lineIndexes || !lineData) {
         // console.log(`No data for line ${line.id}`);
         return;
       }
+
       // Default values
       const fill = line.fill || '#222222';
       const lineSize = typeof line.lineSize !== 'number' ? 1 : line.lineSize;
@@ -151,9 +158,11 @@ export default class LinesCanvas extends Component {
       let lastColor = fill;
       let lastX;
       let lastY;
-      for (let i = 0; i < dataLine.length; i += 1) {
+      const lineIndexLength = lineIndexes.length;
+      for (let i = 0; i < lineIndexLength; i += 1) {
+        const index = lineIndexes[i];
         if (line.colorAccessor) {
-          const color = dataLine[i][line.colorAccessor] || fill;
+          const color = lineData[index][line.colorAccessor] || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;
@@ -164,8 +173,8 @@ export default class LinesCanvas extends Component {
           }
         }
 
-        const x = line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x;
-        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].value;
+        const x = line.xAccessor ? line.xAccessor(lineData[index]) : lineData[index].x;
+        const y = line.yAccessor ? line.yAccessor(lineData[index]) : lineData[index].value;
         lastY = yScale(y);
         lastX = xScale(x);
 
@@ -196,15 +205,18 @@ export default class LinesCanvas extends Component {
       // Horizontal line
       const lastYPosition = yScale(
         line.yAccessor ?
-          line.yAccessor(dataLine[dataLine.length - 1]) : dataLine[dataLine.length - 1].value
+          line.yAccessor(lineData[lineIndexes[lineIndexLength - 1]]) :
+          lineData[lineIndexes[lineIndexLength - 1]].value
       );
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
-      const lastPacket = dataLine[dataLine.length - 1];
+      const lastPacket = lineData[lineIndexes[lineIndexLength - 1]];
       ctx.moveTo(xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x), lastYPosition);
       ctx.lineTo(
-        xScale(line.xAccessor ? line.xAccessor(dataLine[0]) : dataLine[0].x),
+        xScale(
+          line.xAccessor ? line.xAccessor(lineData[lineIndexes[0]]) : lineData[lineIndexes[0]].x
+        ),
         lastYPosition
       );
 

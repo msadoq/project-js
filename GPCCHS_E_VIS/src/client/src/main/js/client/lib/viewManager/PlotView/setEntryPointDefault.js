@@ -8,6 +8,7 @@ export default function (entryPoint) {
 
 const getNewPlotEntryPoint = () => ({
   name: 'NewEntryPoint',
+  parametric: false,
   connectedData: {
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
@@ -17,6 +18,16 @@ const getNewPlotEntryPoint = () => ({
     digits: 5,
     format: 'decimal',
     filter: [],
+  },
+  connectedDataParametric: {
+    formulaX: '',
+    formulaY: '',
+    domainX: '',
+    domainY: '',
+    unitX: '',
+    unitY: '',
+    xAxisId: '',
+    yAxisId: '',
   },
   objectStyle: {
     line: {

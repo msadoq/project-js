@@ -3,7 +3,7 @@ import { getViewType } from '../store/reducers/views';
 import { getConfigurationByViewId } from '../viewManager';
 import { getViewEntryPointsName } from '../store/selectors/views';
 import { updateContent } from '../store/actions/views';
-import { closeHtmlEditor } from '../store/actions/editor';
+import { closeCodeEditor } from '../store/actions/editor';
 import Source from './Source';
 
 const mapStateToProps = (state, { viewId }) => {
@@ -21,8 +21,8 @@ const mapDispatchToProps = dispatch => ({
   updateContent: (viewId, value) => {
     dispatch(updateContent(viewId, value.html));
   },
-  closeHtmlEditor: () => {
-    dispatch(closeHtmlEditor());
+  closeCodeEditor: () => {
+    dispatch(closeCodeEditor());
   },
 });
 

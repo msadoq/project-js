@@ -51,11 +51,17 @@ export default class LinesCanvas extends Component {
       }
     }
 
-    const linesNames = nextProps.lines.map(l => l.name).join('-');
-    if (!this.linesNames || linesNames !== this.linesNames) {
+    if (!this.linesObject) {
       shouldRender = true;
     }
-    this.linesNames = linesNames;
+    const linesObject = {};
+    nextProps.lines.forEach((l) => {
+      if (this.linesObject && l !== this.linesObject[l.name]) {
+        shouldRender = true;
+      }
+      linesObject[l.name] = l;
+    });
+    this.linesObject = linesObject;
 
     return shouldRender;
   }
@@ -96,10 +102,8 @@ export default class LinesCanvas extends Component {
     // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
     if (perfOutput) console.time();
 
-    const points = {};
     // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
     lines.forEach((line) => {
-      points[line.id] = [];
       const dataLine = line.dataAccessor && data
         ? data[line.dataAccessor]
         : line.data;
@@ -164,14 +168,6 @@ export default class LinesCanvas extends Component {
         const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].value;
         lastY = yScale(y);
         lastX = xScale(x);
-
-        points[line.id].push({
-          x,
-          xPos: lastX,
-          y,
-          yPos: lastY,
-          color: lastColor || fill,
-        });
 
         // Draw line
         if (lineSize > 0) {

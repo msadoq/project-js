@@ -124,17 +124,38 @@ export default class TextView extends PureComponent {
         processNode: (node, children, index) => {
           const matches = node.data.match(isValueNode);
           const nodes = [];
+
+          // innerHtml represents the part of node.data that needs to be processed
+          let innerHtml = node.data;
+
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
             const rand = Math.round(Math.random() * 100000);
             const id = `${this.props.viewId}_tv_${epName}_${rand}`;
 
-            this.spanValues[id] = { ep: epName };
+            let textString = '';
+            if (node.data.length !== match.length) {
+              const indexOf = innerHtml.indexOf(match);
 
+              // Is there text before the current match ?
+              if (indexOf !== 0) {
+                textString = innerHtml.substring(0, indexOf);
+                nodes.push(<span key={`${epName}-${index}-text-${i}`}>{textString}</span>);
+                innerHtml = innerHtml.substring(indexOf);
+              }
+            }
+
+            this.spanValues[id] = { ep: epName };
             nodes.push(
-              <span className="ep" key={`${epName}-${index}`} id={id} />
+              <span className="ep" key={`${epName}-${index}-${i}`} id={id} />
             );
+            innerHtml = innerHtml.substring(match.length);
+
+            // Is there text after the last match ?
+            if (i === matches.length - 1 && innerHtml.length) {
+              nodes.push(<span key={`${epName}-${index}-text-${i}-end`}>{innerHtml}</span>);
+            }
           }
           return nodes;
         },

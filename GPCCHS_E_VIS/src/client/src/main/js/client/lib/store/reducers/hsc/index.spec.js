@@ -8,6 +8,7 @@ import hscReducer, {
   getPlayingTimebarId,
   getFocusedWindowId,
   getIsWorkspaceOpening,
+  getIsWorkspaceOpened,
   getDomainName,
   getSessionName,
 } from './index';
@@ -52,7 +53,7 @@ describe('store:hsc:reducer', () => {
   });
   test('should closeWorkspace', () => {
     expect(reducer({ isWorkspaceOpening: false, folder: 'myFolder', file: 'myFile' },
-      actions.closeWorkspace())).toEqual({ isWorkspaceOpening: false });
+      actions.closeWorkspace())).toEqual({ isWorkspaceOpening: false, isWorkspaceOpened: false });
   });
   describe('play/pause', () => {
     test('should set timebarUuid as playing', () => {
@@ -148,6 +149,15 @@ describe('store:hsc:selectors', () => {
     });
     test('should support empty state', () => {
       expect(getIsWorkspaceOpening(emptyState)).toBeFalsy();
+    });
+  });
+  describe('getIsWorkspaceOpened', () => {
+    test('should return getIsWorkspaceOpened', () => {
+      const state = { hsc: { isWorkspaceOpened: true } };
+      expect(getIsWorkspaceOpened(state)).toEqual(true);
+    });
+    test('should support empty state', () => {
+      expect(getIsWorkspaceOpened(emptyState)).toBeFalsy();
     });
   });
   describe('getDomainName', () => {

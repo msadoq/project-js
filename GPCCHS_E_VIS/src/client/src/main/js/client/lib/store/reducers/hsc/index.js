@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
-import _omit from 'lodash/omit';
 import * as types from '../../types';
 
 /* --- Reducer -------------------------------------------------------------- */
 
 const initialState = {
+  isWorkspaceOpened: false,
   isWorkspaceOpening: true,
   windowsOpened: false,
   playingTimebarId: null,
@@ -35,7 +35,10 @@ export default function hsc(state = initialState, action) {
     case types.HSC_UPDATE_PATH:
       return Object.assign({}, state, { folder: action.payload.folder, file: action.payload.file });
     case types.HSC_CLOSE_WORKSPACE:
-      return _omit(state, ['folder', 'file']);
+      return _.pipe(
+        _.omit(['file', 'folder']),
+        _.set('isWorkspaceOpened', false)
+      )(state);
     case types.HSC_FOCUS_WINDOW:
       return Object.assign({}, state, {
         focusWindow: action.payload.windowId,
@@ -63,6 +66,7 @@ export default function hsc(state = initialState, action) {
     }
     case types.WS_WORKSPACE_OPENED:
       return { ...state,
+        isWorkspaceOpened: true,
         isModified: !!action.payload.isModified,
         domainName: action.payload.domainName,
         sessionName: action.payload.sessionName,
@@ -109,6 +113,7 @@ export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
+export const getIsWorkspaceOpened = inHsc('isWorkspaceOpened');
 export const getWorkspaceIsModified = inHsc('isModified', false);
 export const getDomainName = inHsc('domainName');
 export const getSessionName = inHsc('sessionName');

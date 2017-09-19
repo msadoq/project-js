@@ -35,7 +35,7 @@
     "link:common": "npm link ../../../../../common/src/main/js/common && (cd ../../../../../common/src/main/js/common && npm install)",
     "link:rtd": "npm link ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && (cd ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ && npm install)",
     "link": "npm run link:common && npm run link:rtd",
-    "lint": "eslint .",
+    "lint": "eslint . --cache",
     "lint:isis": "eslint -c .eslintrc_isis.yml .",
     "lint:report": "node -r babel-register scripts/lint-reporter/lint-reporter.js",
     "sh": "npm run start-hot",

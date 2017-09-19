@@ -1,4 +1,8 @@
+import _ from 'lodash/fp';
+import { join } from 'path';
+
 import * as types from '../../../types';
+import { get } from '../../../../common/configurationManager';
 import { getWorkspaceIsModified } from '../../../reducers/hsc';
 import { getModifiedPagesIds } from '../../../reducers/pages';
 import { getModifiedViewsIds } from '../../../reducers/views';
@@ -10,11 +14,14 @@ import withListenAction from '../../../helpers/withListenAction';
 
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 
+const isAbsolute = _.startsWith('/');
+const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT'), path));
+
 const makeOnOpenWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
-      const { isNew, windowId, absolutePath } = action.payload;
+      const { isNew, windowId, absolutePath, noPage = false } = action.payload;
       const state = getState();
 
       const modifiedPagesIds = getModifiedPagesIds(state);
@@ -30,15 +37,17 @@ const makeOnOpenWorkspace = documentManager => withListenAction(
           dispatch(closeWorkspace(true));
           dispatch({
             type: types.WS_WORKSPACE_OPENED,
-            payload: documentManager.createBlankWorkspace(),
+            payload: documentManager.createBlankWorkspace({ noPage }),
           });
           dispatch(isWorkspaceOpening(false));
         } else if (absolutePath) {
-          dispatch(documentManager.openWorkspace({ absolutePath }, (errors) => {
+          dispatch(documentManager.openWorkspace({
+            absolutePath: getPath(absolutePath),
+          }, (errors) => {
             if (errors && isNew) {
               dispatch({
                 type: types.WS_WORKSPACE_OPENED,
-                payload: documentManager.createBlankWorkspace(),
+                payload: documentManager.createBlankWorkspace({ noPage }),
               });
             }
           }));

@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import path from 'path';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
@@ -8,7 +9,7 @@ import * as types from '../../../types';
 const documentManager = {
   createBlankWorkspace: () => ({ workspace: true }),
   openWorkspace: ({ absolutePath }, cb = _.noop) => {
-    if (absolutePath === 'error') {
+    if (path.basename(absolutePath) === 'error') {
       cb('error');
       return _.noop; // return a noop thunk
     }

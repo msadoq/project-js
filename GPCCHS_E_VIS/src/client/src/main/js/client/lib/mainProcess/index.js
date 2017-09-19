@@ -1,6 +1,5 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
-import path from 'path';
 
 import getLogger from '../common/logManager';
 import parameters from '../common/configurationManager';
@@ -20,8 +19,7 @@ import { fork, get, kill } from '../common/processManager';
 import makeCreateStore, { getStore } from './store';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
-import { add as addMessage } from '../store/actions/messages';
-import { askOpenWorkspace, askOpenNewWorkspace, isWorkspaceOpening, sendProductLog } from '../store/actions/hsc';
+import { sendProductLog } from '../store/actions/hsc';
 import { getIsWorkspaceOpening } from '../store/reducers/hsc';
 import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
@@ -30,6 +28,7 @@ import makeWindowsObserver from './windowsManager/observer';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateMainStatus } from '../store/actions/health';
 import makeElectronObserver from './electronManager';
+import loadInitialDocuments from './loadInitialDocuments';
 
 let monitoring = {};
 const HEALTH_CRITICAL_DELAY = parameters.get('MAIN_HEALTH_CRITICAL_DELAY');
@@ -166,39 +165,7 @@ export function onStart() {
     function openInitialWorkspace(callback) {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
-
-      const { dispatch } = getStore();
-      const root = parameters.get('ISIS_DOCUMENTS_ROOT');
-
-      if (!root) {
-        logger.warn('No ISIS_DOCUMENTS_ROOT found');
-        dispatch(addMessage('global', 'warning', 'No FMD support'));
-        dispatch(askOpenNewWorkspace());
-        callback(null);
-        return;
-      }
-
-      const file = parameters.get('WORKSPACE');
-
-      if (!file) {
-        splashScreen.setMessage('loading default workspace...');
-        logger.info('loading default workspace...');
-        dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        dispatch(isWorkspaceOpening(true));
-        dispatch(askOpenNewWorkspace());
-        callback(null);
-        return;
-      }
-
-      const absolutePath = path.join(root, file);
-
-      splashScreen.setMessage(`loading ${file}`);
-      logger.info(`loading ${file}`);
-
-      splashScreen.setMessage('loading default workspace...');
-      logger.info('loading default workspace...');
-      dispatch(isWorkspaceOpening(true));
-      dispatch(askOpenWorkspace(null, absolutePath, true));
+      loadInitialDocuments(getStore().dispatch, splashScreen);
       callback(null);
     },
     function requestCatalogSessions(callback) {

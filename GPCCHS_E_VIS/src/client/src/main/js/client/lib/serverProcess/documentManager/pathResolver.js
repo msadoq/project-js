@@ -33,14 +33,15 @@ export const resolveOid = (oId, cb) => (
 );
 
 export default ({ folder, relativePath, oId, absolutePath }, cb) => {
+  const rootDir = folder || fmd.getRootDir();
   if (absolutePath) {
     return cb(null, { resolvedPath: absolutePath });
   }
   if (oId) {
     return resolveOid(oId, cb);
   }
-  if (folder && (!startsWith('/', relativePath))) {
-    return cb(null, { resolvedPath: join(folder, relativePath) });
+  if (rootDir && (!startsWith('/', relativePath))) {
+    return cb(null, { resolvedPath: join(rootDir, relativePath) });
   }
   if (!fmd.getRootDir()) {
     return cb(new Error(`Unable to load document ${relativePath} due to no fmd support`), {});

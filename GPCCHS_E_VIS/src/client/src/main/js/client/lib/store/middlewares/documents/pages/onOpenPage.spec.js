@@ -18,7 +18,7 @@ const askOpenPage = (absolutePath = '/', windowId = 'w1') => ({
 });
 
 describe('store:serverProcess:middlewares:documents/makeOnOpenPage', () => {
-  const store = mockStore({});
+  const store = mockStore({ hsc: { isWorkspaceOpened: true } });
   test('open a page directly', () => {
     store.dispatch(askOpenPage());
     expect(store.getActions()).toMatchSnapshot();

@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 
 import { getViews } from '../../reducers/views';
 import { getPages } from '../../reducers/pages';
+import { getWindows } from '../../reducers/windows';
+
 import { getWindowPages } from '../../selectors/windows';
 import { getPageViews } from '../../selectors/pages';
 
@@ -88,4 +90,9 @@ export const getModifiedViewIdsByWindowIds = createSelector(
     _.filter('isModified'),
     _.map('uuid')
   )
+);
+
+export const getUniqueWindowId = createSelector(
+  getWindows,
+  _.pipe(_.keys, _.head)
 );

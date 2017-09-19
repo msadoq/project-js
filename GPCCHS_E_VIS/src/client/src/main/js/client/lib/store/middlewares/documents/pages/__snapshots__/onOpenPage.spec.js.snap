@@ -11,8 +11,9 @@ Array [
   },
   Object {
     "payload": Object {
-      "absolutePath": "/",
+      "path": "/",
       "windowId": "w1",
+      "workspaceFolder": undefined,
     },
     "type": "OPEN_PAGE",
   },
@@ -36,6 +37,7 @@ Array [
     "payload": Object {
       "absolutePath": "the/chosen/one",
       "windowId": "w1",
+      "workspaceFolder": undefined,
     },
     "type": "OPEN_PAGE",
   },
@@ -93,8 +95,9 @@ Array [
   },
   Object {
     "payload": Object {
-      "absolutePath": "/",
+      "path": "/",
       "windowId": "w1",
+      "workspaceFolder": undefined,
     },
     "type": "OPEN_PAGE",
   },
@@ -146,6 +149,7 @@ Array [
     "payload": Object {
       "absolutePath": "the/chosen/one",
       "windowId": "w1",
+      "workspaceFolder": undefined,
     },
     "type": "OPEN_PAGE",
   },

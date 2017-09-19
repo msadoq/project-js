@@ -1,14 +1,15 @@
 import { v4 } from 'uuid';
 
-const createBlankWorkspace = () => {
-  const wsUuid = v4();
+const createBlankWorkspace = ({ noPage = false } = {}) => {
+  const winUuid = v4();
   const tbUuid = v4();
   const pgUuid = v4();
   const window = {
+    uuid: winUuid,
     title: 'Unknown',
     type: 'documentWindow',
-    focusedPage: pgUuid,
-    pages: [pgUuid],
+    focusedPage: noPage ? null : pgUuid,
+    pages: noPage ? [] : [pgUuid],
     geometry: {
       w: 1200,
       h: 900,
@@ -17,6 +18,7 @@ const createBlankWorkspace = () => {
     },
   };
   const timebar = {
+    uuid: tbUuid,
     type: 'timeBarConfiguration',
     id: 'TB1',
     mode: 'Normal',
@@ -35,7 +37,9 @@ const createBlankWorkspace = () => {
     offsetFromUTC: 0,
     timelines: [],
   };
-  const page = { type: 'Page',
+  const page = {
+    uuid: pgUuid,
+    type: 'Page',
     title: 'Unknown',
     hideBorders: false,
     timebarUuid: tbUuid,
@@ -43,9 +47,9 @@ const createBlankWorkspace = () => {
   };
   const workspace = {
     isModified: true,
-    windows: [Object.assign(window, { uuid: wsUuid })],
-    timebars: [Object.assign(timebar, { uuid: tbUuid })],
-    pages: [Object.assign(page, { uuid: pgUuid })],
+    windows: [window],
+    timebars: [timebar],
+    pages: noPage ? [] : [page],
   };
   return workspace;
 };

@@ -133,7 +133,13 @@ export default class Editor extends Component {
               remove={this.removeEntryPoint}
             />
           </div>}
-          {tab === 1 && <MimicTabContainer />}
+          {tab === 1 &&
+            <MimicTabContainer
+              panels={panels}
+              viewId={viewId}
+              updateViewPanels={updateViewPanels}
+            />
+          }
           {tab === 2 &&
             <Misc
               updateViewPanels={updateViewPanels}

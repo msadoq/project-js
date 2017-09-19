@@ -1,61 +1,68 @@
 import React, { PropTypes } from 'react';
+import Collapse from 'rc-collapse';
 import {
-  Accordion,
-  Panel,
   Button,
 } from 'react-bootstrap';
 import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
 import DimensionsContainer from './DimensionsContainer';
 
+const { Panel } = Collapse;
+
 export default class MimicTab extends React.Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
     openCodeEditor: PropTypes.func.isRequired,
     closeCodeEditor: PropTypes.func.isRequired,
     codeEditorViewId: PropTypes.string,
+    panels: PropTypes.shape({}).isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
   }
+
   static defaultProps = {
     codeEditorViewId: null,
   }
+
   static contextTypes = {
     viewId: React.PropTypes.string,
   };
-  state = {
-    isTitleOpen: false,
-    isDimensionsOpen: false,
-  };
 
-  openTitle = () => this.setState({ isTitleOpen: true });
-  closeTitle = () => this.setState({ isTitleOpen: false });
-  openDimensions = () => this.setState({ isDimensionsOpen: true });
-  closeDimensions = () => this.setState({ isDimensionsOpen: false });
+
+  onChange = (openPanels) => {
+    const { updateViewPanels, viewId } = this.props;
+    updateViewPanels(viewId, 'panels', openPanels);
+  }
 
   render() {
-    const { viewId } = this.context;
-    const { isTitleOpen } = this.state;
+    const { panels, viewId } = this.props;
+
     return (
       <div>
-        <Accordion>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={Object.keys(panels)}
+        >
           <Panel
             header="Parameters"
-            eventKey="1"
-            expanded={isTitleOpen}
-            onSelect={this.openTitle}
-            onExited={this.closeTitle}
+            key="parameter"
           >
-            {isTitleOpen && <ViewParamsContainer viewId={viewId} />}
+            {
+              panels.parameter &&
+              <ViewParamsContainer viewId={viewId} />
+            }
+
           </Panel>
-        </Accordion>
-        <Accordion>
           <Panel
             header="Dimensions"
-            eventKey="2"
-            expanded={this.state.isDimensionsOpen}
-            onSelect={this.openDimensions}
-            onExited={this.closeDimensions}
+            key="dimensions"
           >
-            {this.state.isDimensionsOpen && <DimensionsContainer viewId={viewId} />}
+            {
+              panels.dimensions &&
+              <DimensionsContainer viewId={viewId} />
+            }
           </Panel>
-        </Accordion>
+
+        </Collapse>
         {
           this.props.codeEditorViewId === viewId ?
             <Button onClick={() => this.props.closeCodeEditor()} className="center-block mt20">Close HTML Editor</Button> :

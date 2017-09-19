@@ -12,13 +12,13 @@ const makeOnOpenPage = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_PAGE) {
-      if (!getIsWorkspaceOpened(getState())) { // TODO tests
-        dispatch(askOpenWorkspace(null, null, true, true));
+      if (!getIsWorkspaceOpened(getState())) {
+        dispatch(askOpenWorkspace(null, null, true, true)); // TODO test this branch
       }
       const { absolutePath } = action.payload;
       const windowId = action.payload.windowId
-        || getFocusedWindowId(getState())
-        || getUniqueWindowId(getState());
+        || getFocusedWindowId(getState()) // TODO test this branch
+        || getUniqueWindowId(getState()); // TODO test this branch
       const workspaceFolder = getWorkspaceFolder(getState());
       if (absolutePath) {
         dispatch(documentManager.openPage({

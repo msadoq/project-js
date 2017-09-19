@@ -13,16 +13,16 @@ import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 import { getUniqueWindow } from '../selectors';
 
 const isAbsolute = _.startsWith('/');
-const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT'), path));
+const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT'), path)); // TODO test this branch
 
 const makeOnOpenView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_VIEW) {
-      if (!getIsWorkspaceOpened(getState())) { // TODO tests
-        dispatch(askOpenWorkspace(null, null, true, false));
+      if (!getIsWorkspaceOpened(getState())) {
+        dispatch(askOpenWorkspace(null, null, true, false)); // TODO test this branch
       }
-      const window = getFocusedWindow(getState()) || getUniqueWindow(getState());
+      const window = getFocusedWindow(getState()) || getUniqueWindow(getState()); // TODO test this branch
       const windowId = window.uuid; // HERE
       const absolutePath = action.payload.absolutePath && getPath(action.payload.absolutePath);
       if (absolutePath) {

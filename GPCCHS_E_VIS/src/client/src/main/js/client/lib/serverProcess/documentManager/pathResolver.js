@@ -7,7 +7,7 @@ import { isExists } from '../../common/fs';
 
 export const resolveFmdPath = (path, cb) => {
   if (!_.startsWith('/', path)) {
-    return cb(new Error(`Invalid FMD path ${path}`), {});
+    return cb(new Error(`Invalid FMD path ${path}`), {}); // TODO test this branch
   }
   const resolvedPath = join(fmd.getRootDir(), path);
   return isExists(resolvedPath, (exist) => {
@@ -25,7 +25,7 @@ export const resolveOid = (oId, cb) => (
     }
     return resolveFmdPath(resolvedPath, (err, infoResolved) => {
       if (err) {
-        return cb(err, {});
+        return cb(err, {}); // TODO test this branch
       }
       return cb(null, { ...infoResolved, properties });
     });
@@ -44,7 +44,7 @@ export default ({ folder, relativePath, oId, absolutePath }, cb) => {
     return cb(null, { resolvedPath: join(rootDir, relativePath) });
   }
   if (!fmd.getRootDir()) {
-    return cb(new Error(`Unable to load document ${relativePath} due to no fmd support`), {});
+    return cb(new Error(`Unable to load document ${relativePath} due to no fmd support`), {}); // TODO test this branch
   }
   return resolveFmdPath(relativePath, cb);
 };

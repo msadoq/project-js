@@ -192,7 +192,7 @@ export const openWorkspace = (workspaceInfo, cb = _.noop) => (dispatch, getState
 // -------------------------------------------------------------------------- //
 
 // --- save a page ---------------------------------------------------------- //
-export const savePage = (pageId, path) => (dispatch, getState) => {
+export const savePage = (pageId, path) => (dispatch, getState) => { // TODO test this function
   writePage(getState(), pageId, path, (err, oid) => {
     if (err) {
       dispatch(addMessage(pageId, 'danger', err));
@@ -210,7 +210,7 @@ export const savePage = (pageId, path) => (dispatch, getState) => {
 // -------------------------------------------------------------------------- //
 
 // --- save a view ---------------------------------------------------------- //
-export const saveView = (viewId, path, cb = _.noop) => (dispatch, getState) => {
+export const saveView = (viewId, path, cb = _.noop) => (dispatch, getState) => { // TODO test this function
   const view = getViewWithConfiguration(getState(), { viewId });
   writeView(view, path, (err, oid) => {
     if (err) {
@@ -229,7 +229,7 @@ export const saveView = (viewId, path, cb = _.noop) => (dispatch, getState) => {
   });
 };
 
-export const saveViewAsModel = (viewId, path) => (dispatch, getState) => {
+export const saveViewAsModel = (viewId, path) => (dispatch, getState) => { // TODO test this function
   const view = getViewWithConfiguration(getState(), { viewId });
   const viewToSave = getViewModule(view.type).prepareViewForModel(view);
   writeView(viewToSave, path, (errSaving) => {
@@ -243,7 +243,7 @@ export const saveViewAsModel = (viewId, path) => (dispatch, getState) => {
 // -------------------------------------------------------------------------- //
 
 // --- save a workspace ----------------------------------------------------------//
-export const saveWorkspace = path => (dispatch, getState) => {
+export const saveWorkspace = path => (dispatch, getState) => { // TODO test this function
   writeWorkspace(getState(), path, (err) => {
     if (err) {
       dispatch(addMessage('global', 'danger', err));

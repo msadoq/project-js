@@ -18,7 +18,7 @@ export default function makeRendererStoreEnhancer(identity, sendUp, isDebugOn) {
 
     return function createStore(reducer, initialState) {
       // Override reducer to apply received patch
-      const store = previousStoreCreator(patchReducer, initialState);
+      const store = previousStoreCreator(enableBatching(patchReducer), initialState);
       log.info('initialized');
 
       // Intercepts dispatched actions and forwards to main process
@@ -29,3 +29,14 @@ export default function makeRendererStoreEnhancer(identity, sendUp, isDebugOn) {
     };
   };
 }
+
+const enableBatching = (reduce) => {
+  const batchingReducer = (state, action) => {
+    if (action && action.meta && action.meta.batch) {
+      const reduced = action.payload.reduce(batchingReducer, state);
+      return reduced;
+    }
+    return reduce(state, action);
+  };
+  return batchingReducer;
+};

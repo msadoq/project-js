@@ -1,4 +1,6 @@
 import { getStore } from '../../store';
+import { BATCH } from '../../../store/types';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../../constants';
 
 /**
  * Dispatch "patch" action to store (will be intercepted by renderer store enhancer)
@@ -7,7 +9,14 @@ import { getStore } from '../../store';
  */
 export default function onReduxPatch(actionQueue) {
   const { queue } = actionQueue;
-  for (let i = 0; i < queue.length; i += 1) {
-    getStore().dispatch(queue[i]);
+  if (queue.length !== 0) {
+    getStore().dispatch({
+      type: BATCH,
+      meta: {
+        batch: true,
+        [REDUX_SYNCHRONIZATION_PATCH_KEY]: REDUX_SYNCHRONIZATION_PATCH_KEY,
+      },
+      payload: queue,
+    });
   }
 }

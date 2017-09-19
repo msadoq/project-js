@@ -42,7 +42,11 @@ const createPatch = (sendDown, identity, log, isDebugOn, timing) => {
     if (log) {
       log.silly('patch forwarded to main process', action.type);
     }
-    queue.push(patchAction);
+    if (patch.length !== 0) {
+      queue.push(patchAction);
+    } else {
+      // TODO pgaucher add action minified ( light payload ) for un-patched action
+    }
     throttledSendDown();
     execution.print();
     return result;

@@ -19,7 +19,7 @@ const mockStore = configureMockStore([makeOnOpenView(documentManager)]);
 
 describe('store:serverProcess:middlewares:documents:makeOnOpenView', () => {
   const store = mockStore({
-    hsc: { focusWindow: 'w1' },
+    hsc: { isWorkspaceOpened: true, focusWindow: 'w1' },
     windows: { w1: { uuid: 'w1', focusedPage: 'p1' } },
   });
 

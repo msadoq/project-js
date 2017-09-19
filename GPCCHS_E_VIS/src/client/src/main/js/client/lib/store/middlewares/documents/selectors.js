@@ -92,7 +92,14 @@ export const getModifiedViewIdsByWindowIds = createSelector(
   )
 );
 
-export const getUniqueWindowId = createSelector(
+// TODO tests
+export const getUniqueWindow = createSelector(
   getWindows,
-  _.pipe(_.keys, _.head)
+  _.pipe(_.values, _.head)
+);
+
+// TODO tests
+export const getUniqueWindowId = createSelector(
+  getUniqueWindow,
+  _.get('uuid')
 );

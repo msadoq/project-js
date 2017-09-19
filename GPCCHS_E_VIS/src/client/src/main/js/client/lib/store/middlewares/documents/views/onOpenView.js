@@ -1,24 +1,36 @@
+import _ from 'lodash/fp';
+import { join } from 'path';
+
+import { askOpenWorkspace } from '../../../actions/hsc';
+import { getIsWorkspaceOpened } from '../../../reducers/hsc';
+import { get } from '../../../../common/configurationManager';
 import * as types from '../../../types';
 import { getFocusedWindow } from '../../../selectors/windows';
 import { openDialog } from '../../../actions/ui';
 import withListenAction from '../../../helpers/withListenAction';
 
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
+import { getUniqueWindow } from '../selectors';
+
+const isAbsolute = _.startsWith('/');
+const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT'), path));
 
 const makeOnOpenView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_VIEW) {
-      const { absolutePath } = action.payload;
-      const state = getState();
-      const window = getFocusedWindow(state);
-      const windowId = window.uuid;
+      if (!getIsWorkspaceOpened(getState())) { // TODO tests
+        dispatch(askOpenWorkspace(null, null, true, false));
+      }
+      const window = getFocusedWindow(getState()) || getUniqueWindow(getState());
+      const windowId = window.uuid; // HERE
+      const absolutePath = action.payload.absolutePath && getPath(action.payload.absolutePath);
       if (absolutePath) {
         dispatch(documentManager.openView({ absolutePath }, window.focusedPage));
       } else {
         dispatch(openDialog(windowId, 'open', {
           filters: getOpenExtensionsFilters(),
-          defaultPath: getDefaultFolder(state),
+          defaultPath: getDefaultFolder(getState()),
         }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;

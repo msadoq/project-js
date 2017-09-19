@@ -6,7 +6,7 @@ import parameters from '../common/configurationManager';
 import { add as addMessage } from '../store/actions/messages';
 import { askOpenWorkspace, isWorkspaceOpening } from '../store/actions/hsc';
 import { askOpenPage } from '../store/actions/pages';
-// import { askOpenView } from '../store/actions/views';
+import { askOpenView } from '../store/actions/views';
 
 const logger = getLogger('main:loadInitialDocuments');
 
@@ -31,40 +31,32 @@ const loadDefaultWorkspace = (batchedDispatch, splashScreen) => {
   ]);
 };
 
-const loadWorkspace = (batchedDispatch, splashScreen, absPath) => {
-  const fileName = path.basename(absPath);
-  splashScreen.setMessage(`loading ${fileName}...`);
-  logger.info(`loading ${fileName}`);
-
-  batchedDispatch([
-    isWorkspaceOpening(true),
-    askOpenWorkspace(null, absPath, true),
-  ]);
-};
-
 const loadInitialDocuments = (dispatch, splashScreen) => {
   const documentsRoot = parameters.get('ISIS_DOCUMENTS_ROOT');
-  const workspace = parameters.get('WORKSPACE');
-  const page = parameters.get('PAGE');
-  // const view = parameters.get('VIEW');
+  const workspacePath = parameters.get('WORKSPACE');
+  const pagePath = parameters.get('PAGE');
+  const viewPath = parameters.get('VIEW');
   const batchedDispatch = _.each(dispatch);
-  // const getPath = relativePath => path.join(documentsRoot, relativePath);
 
-  // if (documentsRoot && view) {
-  //   dispatch(askOpenNewWorkspace());
-  //   setTimeout(() => {
-  //     dispatch(askOpenView(getPath(view)));
-  //   }, 1000);
-  //   return;
-  //   // return dispatch(askOpenView(getPath(view)));
-  // }
+  const logLoading = (fullPath) => {
+    const fileName = path.basename(fullPath);
+    splashScreen.setMessage(`loading ${fileName}...`);
+    logger.info(`loading ${fileName}`);
+  };
 
-  if (documentsRoot && workspace) {
-    return loadWorkspace(batchedDispatch, splashScreen, workspace);
+  if (documentsRoot && workspacePath) {
+    logLoading(workspacePath);
+    return dispatch(askOpenWorkspace(null, workspacePath, true));
   }
 
-  if (documentsRoot && page) {
-    return dispatch(askOpenPage(null, page));
+  if (documentsRoot && pagePath) {
+    logLoading(pagePath);
+    return dispatch(askOpenPage(null, pagePath));
+  }
+
+  if (documentsRoot && viewPath) {
+    logLoading(viewPath);
+    return dispatch(askOpenView(viewPath));
   }
 
   if (!documentsRoot) {

@@ -12,6 +12,8 @@ export default class LinesCanvas extends Component {
     showLabelsX: PropTypes.bool,
     showLabelsY: PropTypes.bool,
     perfOutput: PropTypes.bool,
+    data: PropTypes.objectOf(PropTypes.shape),
+    indexes: PropTypes.objectOf(PropTypes.shape),
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -91,6 +93,8 @@ export default class LinesCanvas extends Component {
       showLabelsY,
       yScale,
       xScale,
+      data,
+      indexes,
     } = this.props;
 
     const ctx = this.el.getContext('2d');
@@ -103,9 +107,10 @@ export default class LinesCanvas extends Component {
 
     // eslint-disable-next-line complexity, "DV6 TBC_CNES Draw function, must not be split"
     lines.forEach((line) => {
-      const dataLine = line.data;
-      if (perfOutput) totalPoints += dataLine.length;
-      if (!dataLine) {
+      const lineIndexes = indexes[line.id];
+      const lineData = data[line.id];
+      if (perfOutput) totalPoints += lineIndexes.length;
+      if (!lineData || !lineIndexes) {
         // console.log(`No data for line ${line.id}`);
         return;
       }
@@ -148,9 +153,15 @@ export default class LinesCanvas extends Component {
       let lastColor = fill;
       let lastX;
       let lastY;
-      for (let i = 0; i < dataLine.length; i += 1) {
+      const lineIndexesLength = lineIndexes.length;
+      for (let i = 0; i < lineIndexesLength; i += 1) {
+        const index = lineIndexes[i];
+        const packet = lineData[index];
+        if (!packet) {
+          return;
+        }
         if (line.colorAccessor) {
-          const color = line.colorAccessor(dataLine[i]) || fill;
+          const color = line.colorAccessor(packet) || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;
@@ -161,8 +172,8 @@ export default class LinesCanvas extends Component {
           }
         }
 
-        const x = line.xAccessor ? line.xAccessor(dataLine[i]) : dataLine[i].x;
-        const y = line.yAccessor ? line.yAccessor(dataLine[i]) : dataLine[i].y;
+        const x = line.xAccessor ? line.xAccessor(packet) : packet.x;
+        const y = line.yAccessor ? line.yAccessor(packet) : packet.y;
         lastY = yScale(y);
         lastX = xScale(x);
 
@@ -190,7 +201,7 @@ export default class LinesCanvas extends Component {
       }
 
       // Horizontal line
-      const lastPacket = dataLine[dataLine.length - 1];
+      const lastPacket = lineData[lineIndexes[lineIndexesLength - 1]];
       const lastXPosition = xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x);
       const lastYPosition = yScale(line.yAccessor ? line.yAccessor(lastPacket) : lastPacket.y);
       ctx.beginPath();

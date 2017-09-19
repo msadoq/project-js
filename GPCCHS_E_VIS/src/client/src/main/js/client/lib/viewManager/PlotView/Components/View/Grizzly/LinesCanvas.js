@@ -161,6 +161,10 @@ export default class LinesCanvas extends Component {
       const lineIndexLength = lineIndexes.length;
       for (let i = 0; i < lineIndexLength; i += 1) {
         const index = lineIndexes[i];
+        const packet = lineData[index];
+        if (!packet) {
+          return;
+        }
         if (line.colorAccessor) {
           const color = lineData[index][line.colorAccessor] || fill;
           if (color && color !== lastColor) {
@@ -173,8 +177,8 @@ export default class LinesCanvas extends Component {
           }
         }
 
-        const x = line.xAccessor ? line.xAccessor(lineData[index]) : lineData[index].x;
-        const y = line.yAccessor ? line.yAccessor(lineData[index]) : lineData[index].value;
+        const x = line.xAccessor ? line.xAccessor(packet) : packet.x;
+        const y = line.yAccessor ? line.yAccessor(packet) : packet.value;
         lastY = yScale(y);
         lastX = xScale(x);
 

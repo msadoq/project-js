@@ -76,7 +76,8 @@ export default class Chart extends React.Component {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        data: PropTypes.arrayOf(PropTypes.shape),
+        data: PropTypes.objectOf(PropTypes.shape),
+        indexes: PropTypes.arrayOf(PropTypes.number),
         id: PropTypes.string.isRequired,
         yAxisId: PropTypes.string.isRequired,
         xAxisId: PropTypes.string.isRequired,
@@ -477,13 +478,16 @@ export default class Chart extends React.Component {
         pairs[pairId] = {
           lines: [],
           data: {},
+          indexes: {},
           xAxis: line.xAxis,
           yAxis: line.yAxis,
         };
       }
       pairs[pairId].lines.push(line);
       pairs[pairId].data[line.id] = line.data;
+      pairs[pairId].indexes[line.id] = line.indexes;
     }
+
     this.yAxesUniq = _uniq(yAxesUniq).sort(a => a.rank);
     this.xAxesUniq = _uniq(xAxesUniq).sort(a => a.rank);
     this.linesUniq = _uniq(linesUniq);
@@ -870,6 +874,8 @@ export default class Chart extends React.Component {
                 showLabelsX={pair.xAxis.showLabels}
                 showLabelsY={pair.yAxis.showLabels}
                 lines={pair.lines}
+                indexes={pair.indexes}
+                data={pair.data}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
                 divStyle={this.divStyle}

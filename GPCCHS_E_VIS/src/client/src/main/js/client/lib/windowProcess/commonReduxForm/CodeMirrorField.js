@@ -40,7 +40,7 @@ export default class CodeMirrorField extends React.Component {
       error: PropTypes.string,
     }).isRequired,
     options: PropTypes.shape({}),
-    collection: PropTypes.arrayOf({}),
+    collection: PropTypes.arrayOf(PropTypes.shape),
   }
 
   static defaultProps = {
@@ -91,6 +91,11 @@ export default class CodeMirrorField extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // Bug on first render of codemirror, textarea is empty because props.input.value
+    // is empty on first render
+    if (this.props.input.value === '' && nextProps.input.value.length) {
+      this.codeMirror.doc.setValue(nextProps.input.value);
+    }
     if (nextProps.meta.error && nextProps.meta.error.length) {
       this.codeMirror.setOption('lint', true);
     } else {

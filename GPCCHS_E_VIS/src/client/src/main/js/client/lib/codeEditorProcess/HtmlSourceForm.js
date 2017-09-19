@@ -1,11 +1,11 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';
 import { lint } from '../common/htmllint';
 import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
 
-class HtmlSourceForm extends PureComponent {
+class HtmlSourceForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -21,6 +21,7 @@ class HtmlSourceForm extends PureComponent {
   }
 
   onChange = editorState => this.setState({ editorState });
+
   resetAndClose = () => {
     this.props.reset();
     this.props.closeCodeEditor();
@@ -40,6 +41,7 @@ class HtmlSourceForm extends PureComponent {
       entryPoints,
       viewType,
     } = this.props;
+
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
         <div
@@ -131,6 +133,7 @@ const validate = (values = {}, props) => {
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }
+
   return errors;
 };
 

@@ -29,6 +29,7 @@ export default class Source extends PureComponent {
       type,
     } = this.props;
     const initialValues = { html: beautifyHtml(content, { indent_size: 2 }) };
+
     return (
       <div>
         {

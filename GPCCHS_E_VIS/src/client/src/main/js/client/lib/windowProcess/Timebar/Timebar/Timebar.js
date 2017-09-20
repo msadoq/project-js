@@ -125,7 +125,7 @@ export default class Timebar extends PureComponent {
     if (nextProps.viewport !== this.props.viewport) {
       newState = {
         ...newState,
-        viewportlower: null,
+        viewportLower: null,
         viewportUpper: null,
       };
     }

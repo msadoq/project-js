@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import _ from 'lodash/fp';
 import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
+import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
 
 import styles from './HistoryView.css';
 
@@ -85,14 +86,14 @@ class HistoryView extends React.Component {
   state = { position: 0 }
 
   onScrollUp = () => {
-    if (this.state.position > 0) {
-      this.setState({ position: this.state.position - 1 });
+    if (this.batchedState.position > 0) {
+      this.setBatchedState(_.update('position', _.add(-1)));
     }
   }
 
   onScrollDown = () => {
-    if (this.state.position <= this.getLastPosition()) {
-      this.setState({ position: this.state.position + 1 });
+    if (this.batchedState.position <= this.getLastPosition()) {
+      this.setBatchedState(_.update('position', _.add(1)));
     }
   }
 
@@ -123,5 +124,6 @@ class HistoryView extends React.Component {
 
 export default _.compose(
   withDimensions({ elementResize: true }),
+  withBatchedSetState({ delay: 100 }),
   withMouseWheelEvents()
 )(HistoryView);

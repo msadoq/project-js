@@ -1,5 +1,6 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _findIndex from 'lodash/findIndex';
+import _indexOf from 'lodash/indexOf';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _get from 'lodash/get';
@@ -54,6 +55,29 @@ export function addDataInEpTable(epState, index, payload) {
     );
   }
   return { indexInLines, newState };
+}
+/* ************************************
+ * Returns true if name corresponds to time
+ * @param: column name
+ * @return: Returns true if name corresponds to time
+/* *********************************** */
+export function sortData(state, sortingConfig) {
+  const epNames = Object.keys(state.data);
+  if (!epNames.length) {
+    return state;
+  }
+  let newState = _cloneDeep(state);
+  newState.lines = [];
+  const colToSort = sortingConfig.colName || 'masterTime';
+  const direction = sortingConfig.direction || SORTING_ASC;
+  for (let i = 0; i < epNames.length; i += 1) {
+    const epName = epNames[i];
+    const timestamps = Object.keys(state.data[epName]);
+    for (let j = 0; j < timestamps.length; j += 1) {
+      newState = updateLines(newState, epNames[i], timestamps[j], colToSort, direction);
+    }
+  }
+  return newState;
 }
 /* ************************************
  * Returns true if name corresponds to time
@@ -134,7 +158,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   const colToSort = _get(viewConfig, ['sorting', 'colName'], 'masterTime');
   const direction = _get(viewConfig, ['sorting', 'direction'], SORTING_ASC);
   // hidden columns
-  // const hiddenCols = _get(viewConfig, 'hiddenCols', []);
+  const hiddenColumns = _get(viewConfig, 'hiddenColumns', []);
 
   // Loop on payloads to update state
   // data: contains all fields filtered by EP and by time [epName]: { [timestamp]: { values }}
@@ -144,6 +168,19 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   let newState = _cloneDeep(state);
   if (!newState.cols) {
     newState = { cols: [], lines: [], indexes: {}, data: {} };
+  }
+
+  // Update of columns to show
+  const payloadCols = Object.keys(payloads.cols);
+  for (let i = 0; i < payloadCols.length; i += 1) {
+    // look for col name in cols
+    if (_indexOf(newState.cols, payloadCols[i]) === -1) {
+      // Checks if current name is hidden
+      if (_indexOf(hiddenColumns, payloadCols[i]) === -1) {
+        // Add column name in cols table
+        newState.cols.push(payloadCols[i]);
+      }
+    }
   }
 
   // loop on EP name to add payload sorted by masterTime in EP table
@@ -178,50 +215,12 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
             newState.indexes[epName].slice(0, index),
             time,
             newState.indexes[epName].slice(index));
-        // const result = addDataInEpTable(newState[epName], index, payloads[epName][time]);
-        // newState[epName] = result.newState;
-        // indexInLines = result.indexInLines;
         }
       }
       lastTime = time;
 
-      // Sort payload by sorting column
-      // If sorting column is on time, use the previous index
-      // if (isSortingByTime(colToSort)) {
-      //   const iBegin =
-      //     _findIndex(newState.lines, val => (val.epName === epName && val.index === indexInLines));
-      //   // Get index for insertion in table lines
-      //   const iInsert = getIndex(newState, epName, payloads[epName][time], colToSort, direction,
-      //     iBegin);
-      //
-      //   // insert payload references in 'lines' table
-      //   // Add at end
-      //   if (iInsert === -1) {
-      //     newState.lines.push({ epName, index: indexInEpTable });
-      //   } else {
-      //     // insert payload
-      //     newState.lines = _concat(
-      //       newState.lines.slice(0, iInsert),
-      //       { epName, index: indexInEpTable },
-      //       newState.lines.slice(iInsert));
-      //     // update reference indexes in 'lines' table for epName
-      //     let end = iInsert;
-      //     let begin = 0;
-      //     if (direction === SORTING_ASC) {
-      //       begin = iInsert + 1;
-      //       end = newState.lines.length;
-      //     }
-      //
-      //     for (let j = begin; j < end; j += 1) {
-      //       if (newState.lines[j].epName === epName) {
-      //         newState.lines[j].index += 1; // data is sorted wih ascending timestamp in ep table
-      //       }
-      //     }
-      //   }
-      // } else {
       // Sorting considering specified column
       newState = updateLines(newState, epName, time, colToSort, direction);
-      // }
     }
   }
   return newState;
@@ -248,7 +247,10 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
         return;
       }
       const newSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
-      epSubState = { ...epSubState, ...newSubState };
+      epSubState = {
+        ...epSubState,
+        ...newSubState,
+        cols: { ...epSubState.cols, ...newSubState.cols } };
     });
   }
   return epSubState;
@@ -272,7 +274,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   const upper = expectedInterval[1];
 
   const timestamps = Object.keys(tbdIdPayload);
-  const newState = {};
+  const newState = { cols: {} };
 
   // Loop on payload timestamps
   for (let i = 0; i < timestamps.length; i += 1) {
@@ -292,9 +294,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
     const masterTime = timestamp + ep.offset;
     const valueToInsert = {
-      // masterTime: { type: 'time', value: masterTime },
-      // ...currentValue,
-      // epName: { type: 'string', value: epName },
       masterTime,
       epName,
       ...getStateColorObj(currentValue, ep.stateColors,
@@ -303,6 +302,10 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     const fields = Object.keys(currentValue);
     for (let iField = 0; iField < fields.length; iField += 1) {
       Object.assign(valueToInsert, { [fields[iField]]: convertData(currentValue[fields[iField]]) });
+      // Check if field names are already in cols table
+      if (!newState.cols[fields[iField]]) {
+        newState.cols[fields[iField]] = true;
+      }
     }
 
     if (!newState[epName]) {

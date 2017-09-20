@@ -1,7 +1,7 @@
 // import _ from 'lodash/fp';
 import _without from 'lodash/without';
 import * as types from '../../../store/types';
-import { SORTING_UP } from '../../../constants';
+import { SORTING_ASC } from '../../../constants';
 
 const initialState = {
   allColumns: {},
@@ -16,7 +16,7 @@ export default (stateConf = initialState, action) => {
         ...stateConf,
         sorting: {
           colName: action.payload.colName,
-          direction: action.payload.direction || SORTING_UP,
+          direction: action.payload.direction || SORTING_ASC,
         },
       };
     case types.WS_VIEW_HIDE_COL:

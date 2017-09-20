@@ -26,11 +26,11 @@ function requestWithTimeout(type, requestMethod, callback) {
   const clear = () => timeout !== null && clearTimeout(timeout);
 
   // trigger request
-  requestMethod((payload) => {
+  requestMethod((error, payload) => {
     clear();
 
     logger.info(`${type} received`);
-    callback(null, payload);
+    callback(error, payload);
   });
 }
 

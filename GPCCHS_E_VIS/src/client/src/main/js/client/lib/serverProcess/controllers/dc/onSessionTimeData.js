@@ -1,6 +1,8 @@
 const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:onSessionTimeData');
 const { pop } = require('../../../common/callbacks');
+const { add: addMessage } = require('../../../store/actions/messages');
+const { getStore } = require('../../store');
 
 /**
  * Triggered on DC session time request response.
@@ -18,6 +20,12 @@ module.exports = (args) => {
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.silly('decoded queryId', queryId);
   const callback = pop(queryId);
-
-  callback({ timestamp: decode('dc.dataControllerUtils.Timestamp', buffer).ms });
+  try {
+    callback({ timestamp: decode('dc.dataControllerUtils.Timestamp', buffer).ms });
+  } catch (e) {
+    logger.error('error on processing buffer', e);
+    getStore().dispatch(addMessage('global', 'warning',
+      'error on processing header buffer '.concat(e)));
+    callback({ err: e });
+  }
 };

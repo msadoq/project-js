@@ -16,6 +16,8 @@ const onDcStatus = require('./onDcStatus');
 const archiveController = require('./archiveController');
 const makePubSubController = require('./pubSubController');
 
+const { add: addMessage } = require('../../../store/actions/messages');
+
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
 
@@ -52,15 +54,21 @@ module.exports = function dcController() {
   const headerBuffer = args[1];
   const buffers = Array.prototype.slice.call(args, 2);
 
-  const { messageType } = decode('dc.dataControllerUtils.Header', headerBuffer);
-  if (!messageType) {
-    return logger.warn('invalid message received (no messageType)');
-  }
-  const fn = controllers[messageType];
-  if (!fn) {
-    return logger.silly(`invalid message received (unknown messageType) '${messageType}'`);
-  }
+  try {
+    const { messageType } = decode('dc.dataControllerUtils.Header', headerBuffer);
+    if (!messageType) {
+      return logger.warn('invalid message received (no messageType)');
+    }
+    const fn = controllers[messageType];
+    if (!fn) {
+      return logger.silly(`invalid message received (unknown messageType) '${messageType}'`);
+    }
 
-  logger.silly(`running '${messageType}'`);
-  return fn(buffers);
+    logger.silly(`running '${messageType}'`);
+    return fn(buffers);
+  } catch (e) {
+    getStore().dispatch(addMessage('global', 'warning',
+      'error on processing header buffer '.concat(e)));
+    return logger.error('error on processing header buffer', e);
+  }
 };

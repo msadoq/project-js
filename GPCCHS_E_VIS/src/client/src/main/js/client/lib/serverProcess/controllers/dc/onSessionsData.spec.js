@@ -15,7 +15,7 @@ describe('controllers/utils/onSessionData', () => {
     const mySessions = dataStub.getSessions();
     const mySessionsProto = dataStub.getSessionsProtobuf(mySessions);
 
-    set(myQueryId, (session) => {
+    set(myQueryId, (error, session) => {
       expect(session).toMatchObject(mySessions.sessions);
     });
 

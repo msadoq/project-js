@@ -1,9 +1,30 @@
+/*!*******************************************************************
+ * Project : ISIS
+ * Component : TODO declare component
+ * \file onResponse.js
+ * \author isis
+ * \date 28/08/2017
+ * \brief TODO brief description
+ *
+ * TODO complete description
+ ********************************************************************/
+
+/********************************************************************
+ * HISTORY
+ *
+ * END-HISTORY
+ ********************************************************************/
+
+
+
 const _isBuffer = require('lodash/isBuffer');
 const _isEqual = require('lodash/isEqual');
 const { encode, decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:onResponse');
 const globalConstants = require('../../../constants');
 const { pop } = require('../../../common/callbacks');
+const { add: addMessage } = require('../../../store/actions/messages');
+const { getStore } = require('../../store');
 
 const protobufSuccess = encode('dc.dataControllerUtils.Status', {
   status: globalConstants.STATUS_SUCCESS,
@@ -40,11 +61,18 @@ module.exports = (args) => {
     return callback(null);
   }
 
-  // deprotobufferize reason
-  const reason = _isBuffer(reasonBuffer)
-    ? decode('dc.dataControllerUtils.String', reasonBuffer).string
-    : reasonBuffer;
+  try {
+    // deprotobufferize reason
+    const reason = _isBuffer(reasonBuffer)
+      ? decode('dc.dataControllerUtils.String', reasonBuffer).string
+      : reasonBuffer;
 
-  // run callback
-  return callback(typeof reason !== 'undefined' ? reason : 'no reason provided by DC');
+    // run callback
+    return callback(typeof reason !== 'undefined' ? reason : 'no reason provided by DC');
+  } catch (e) {
+    logger.error('error on processing buffer', e);
+    getStore().dispatch(addMessage('global', 'warning',
+      'error on processing header buffer '.concat(e)));
+    return callback(e);
+  }
 };

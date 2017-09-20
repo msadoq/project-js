@@ -4,6 +4,7 @@ import flattenDataId from '../../../common/flattenDataId';
 const { incomingPubSub } = require('../../../store/actions/incomingData');
 const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
 const { decode } = require('../../../utils/adapters');
+const { add: addMessage } = require('../../../store/actions/messages');
 
 
 /**
@@ -34,7 +35,15 @@ const makeOnPubSubData = (timing) => {
   return (args, getStore) => {
     // args[0] is queryIdBuffer
     const dataIdBuffer = args[1];
-    const dataIdDecoded = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
+    let dataIdDecoded;
+    try {
+      dataIdDecoded = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
+    } catch (e) {
+      logger.error('error on processing buffer', e);
+      getStore().dispatch(addMessage('global', 'warning',
+        'error on processing header buffer '.concat(e)));
+      return;
+    }
     const payloadBuffers = Array.prototype.slice.call(args, 2);
     // check payloads parity
     if (payloadBuffers.length % 2 !== 0) {

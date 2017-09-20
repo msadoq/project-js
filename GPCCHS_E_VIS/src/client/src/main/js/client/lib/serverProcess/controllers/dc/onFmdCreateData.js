@@ -3,6 +3,8 @@ const logger = require('../../../common/logManager')('controllers:onFmdCreateDat
 const globalConstants = require('../../../constants');
 
 const { pop } = require('../../../common/callbacks');
+const { add: addMessage } = require('../../../store/actions/messages');
+const { getStore } = require('../../store');
 
 /**
  * Triggered on create FMD document response
@@ -23,11 +25,18 @@ module.exports = (args) => {
   const callback = pop(queryId);
   logger.silly('decoded queryId', queryId);
 
-  const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
-  if (status !== globalConstants.STATUS_SUCCESS) {
-    const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
-    callback({ err: reason });
-  } else {
-    callback(decode('dc.dataControllerUtils.FMDFileInfo', buffer));
+  try {
+    const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
+    if (status !== globalConstants.STATUS_SUCCESS) {
+      const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
+      callback({ err: reason });
+    } else {
+      callback(decode('dc.dataControllerUtils.FMDFileInfo', buffer));
+    }
+  } catch (e) {
+    logger.error('error on processing buffer', e);
+    getStore().dispatch(addMessage('global', 'warning',
+      'error on processing header buffer '.concat(e)));
+    callback({ err: e });
   }
 };

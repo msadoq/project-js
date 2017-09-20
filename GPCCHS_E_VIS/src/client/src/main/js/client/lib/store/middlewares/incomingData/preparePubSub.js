@@ -15,6 +15,7 @@ import { set as setLastPubSubTimestamp } from '../../../serverProcess/models/las
 import executionMonitor from '../../../common/logManager/execution';
 import dataMapGenerator from '../../../dataManager/map';
 import { newData } from '../../../store/actions/incomingData';
+import { add as addMessage } from '../../../store/actions/messages';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
 
@@ -67,53 +68,58 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
       const timeBuffer = payloadBuffers[iBuffer];
       const dataBuffer = payloadBuffers[iBuffer + 1];
       iBuffer += 2;
-      // robustness code, LPISIS could send empty ZeroMQ frame
-      if (_isBuffer(timeBuffer) && _isBuffer(dataBuffer)) {
-        execution.start('decode timestamp');
-        const timestamp = decode('dc.dataControllerUtils.Timestamp', timeBuffer);
-        execution.stop('decode timestamp');
+      try {
+        // robustness code, LPISIS could send empty ZeroMQ frame
+        if (_isBuffer(timeBuffer) && _isBuffer(dataBuffer)) {
+          execution.start('decode timestamp');
+          const timestamp = decode('dc.dataControllerUtils.Timestamp', timeBuffer);
+          execution.stop('decode timestamp');
 
-        // persist last received pub/sub timestamp
-        setLastPubSubTimestamp(timestamp.ms);
+          // persist last received pub/sub timestamp
+          setLastPubSubTimestamp(timestamp.ms);
 
-        // decode Payload only once by payloadBuffer loop to avoid resource-consuming
-        execution.start('decode payload');
-        const decodedPayload = decode(payloadProtobufType, dataBuffer);
-        execution.stop('decode payload');
+          // decode Payload only once by payloadBuffer loop to avoid resource-consuming
+          execution.start('decode payload');
+          const decodedPayload = decode(payloadProtobufType, dataBuffer);
+          execution.stop('decode payload');
 
-        // For each tbdId in storeList
-        execution.start('process for ranges');
-        for (let j = 0; j < storeTbdIds.length; j += 1) {
-          const tbdId = storeTbdIds[j];
-          const filters = getKnownRanges(state, { tbdId }).filters;
-          payloadsJson = updateFinalPayload(state, {
-            tbdId,
-            timestamp: timestamp.ms,
-            decodedPayload,
-            isInIntervals: isTimestampInKnownRanges,
-            filters,
-            addRecord: lokiManager.addRecord,
-          }, payloadsJson);
-        }
-        execution.stop('process for ranges');
-
-        // For each tbdId in dataMapList
-        execution.start('process for lasts');
-        for (let k = 0; k < dataMapTbdIds.length; k += 1) {
-          const tbdId = dataMapTbdIds[k];
-          // If tbdId already present in final object, checks if current timestamp is already stored
-          if (!payloadsJson[tbdId] || !payloadsJson[tbdId][timestamp.ms]) {
-            const filters = dataMap.perLastTbdId[tbdId].filters;
+          // For each tbdId in storeList
+          execution.start('process for ranges');
+          for (let j = 0; j < storeTbdIds.length; j += 1) {
+            const tbdId = storeTbdIds[j];
+            const filters = getKnownRanges(state, { tbdId }).filters;
             payloadsJson = updateFinalPayload(state, {
               tbdId,
               timestamp: timestamp.ms,
               decodedPayload,
-              isInIntervals: isTimestampInLastDatamapInterval,
+              isInIntervals: isTimestampInKnownRanges,
               filters,
+              addRecord: lokiManager.addRecord,
             }, payloadsJson);
           }
+          execution.stop('process for ranges');
+
+          // For each tbdId in dataMapList
+          execution.start('process for lasts');
+          for (let k = 0; k < dataMapTbdIds.length; k += 1) {
+            const tbdId = dataMapTbdIds[k];
+            // If tbdId already present in final object, checks if current timestamp is already stored
+            if (!payloadsJson[tbdId] || !payloadsJson[tbdId][timestamp.ms]) {
+              const filters = dataMap.perLastTbdId[tbdId].filters;
+              payloadsJson = updateFinalPayload(state, {
+                tbdId,
+                timestamp: timestamp.ms,
+                decodedPayload,
+                isInIntervals: isTimestampInLastDatamapInterval,
+                filters,
+              }, payloadsJson);
+            }
+          }
+          execution.stop('process for lasts');
         }
-        execution.stop('process for lasts');
+      } catch (e) {
+        dispatch(addMessage('global', 'warning', 'error on processing header buffer '.concat(e)));
+        logger.error('error on processing buffer', e);
       }
     }
   }

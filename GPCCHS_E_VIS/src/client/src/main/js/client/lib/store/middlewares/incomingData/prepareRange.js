@@ -7,6 +7,7 @@ import dataMapGenerator from '../../../dataManager/map';
 import { isTimestampInLastInterval } from '../../../dataManager/mapSelector';
 import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from '../../../common/logManager/execution';
+import { add as addMessage } from '../../../store/actions/messages';
 
 
 const logger = require('../../../common/logManager')('middleware:prepareRange');
@@ -65,6 +66,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         execution.stop('persist');
       } catch (e) {
         logger.error('error on processing buffer', e);
+        dispatch(addMessage('global', 'warning', 'error on processing header buffer '.concat(e)));
       }
     }
     index += 2;

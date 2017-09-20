@@ -18,7 +18,7 @@ describe('controllers/client/onSessionMasterData', () => {
     const myUintegerProto = protobuf.encode(protobuf.getType('UINTEGER'), myUinteger);
 
     let value;
-    set(myQueryId, (ret) => {
+    set(myQueryId, (error, ret) => {
       value = ret;
       expect(value).toBe(myUinteger);
     });

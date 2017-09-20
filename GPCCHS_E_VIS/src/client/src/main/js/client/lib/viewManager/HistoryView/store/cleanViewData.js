@@ -1,12 +1,13 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
-import _head from 'lodash/head';
-import _last from 'lodash/last';
 import _isEqual from 'lodash/isEqual';
+import _omit from 'lodash/omit';
+import _last from 'lodash/last';
 import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
-import _omit from 'lodash/omit';
+import _split from 'lodash/split';
+import _pick from 'lodash/pick';
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -15,6 +16,7 @@ import _omit from 'lodash/omit';
  * @param newViewFromMap current view definition
  * @param oldIntervals expected intervals for all entry points
  * @param newIntervals expected intervals for all entry points
+ * @param historyConfig configuration of current history view
  * @return cleaned state for current view
 /** *********************************************** */
 export default function cleanCurrentViewData(
@@ -22,25 +24,25 @@ export default function cleanCurrentViewData(
   oldViewFromMap,
   newViewFromMap,
   oldIntervals,
-  newIntervals) {
+  newIntervals,
+  historyConfig
+) {
   // Check if viewMap has changed
   if (_isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)) {
     return currentState;
   }
   // new visible view
-  if (!oldViewFromMap || !currentState || !Object.keys(currentState.indexes).length) {
+  if (!oldViewFromMap || !currentState) {
     return currentState;
   }
   let newState = currentState;
   // invisible view
   if (!newViewFromMap) {
     return {
+      cols: [],
+      lines: [],
+      data: {},
       indexes: {},
-      lines: {},
-      min: {},
-      max: {},
-      minTime: {},
-      maxTime: {},
     };
   }
   // entry point updates
@@ -68,14 +70,7 @@ export default function cleanCurrentViewData(
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
     if (isInvalidEntryPoint(oldEp, newEp)) {
-      newState = { ...newState,
-        indexes: _omit(newState.indexes, epName),
-        lines: _omit(newState.lines, epName),
-        min: _omit(newState.min, epName),
-        minTime: _omit(newState.minTime, epName),
-        max: _omit(newState.max, epName),
-        maxTime: _omit(newState.maxTime, epName),
-      };
+      newState = removeEpData(newState, epName, historyConfig);
       continue;
     }
     // Case of point already in error
@@ -87,29 +82,42 @@ export default function cleanCurrentViewData(
     // Consider new localId to take into account offset modification
     const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
-    if (!newInterval) {
-      newState = { ...newState,
-        indexes: _omit(newState.indexes, epName),
-        lines: _omit(newState.lines, epName),
-        min: _omit(newState.min, epName),
-        minTime: _omit(newState.minTime, epName),
-        max: _omit(newState.max, epName),
-        maxTime: _omit(newState.maxTime, epName),
-      };
+    if (!newInterval || oldEp.localId !== newEp.localId) {
+      newState = removeEpData(newState, epName, historyConfig);
     } else if (oldInterval &&
       (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
-      const newData = removeViewDataByEp(newState, epName, lower, upper);
-      // Update of min and max if needed
-      newState = scanForMinAndMax(newData);
+      newState = removeViewDataByEp(newState, epName, lower, upper, historyConfig);
     }
   }
   return newState;
 }
+function removeEpData(state, epName) {
+  let newState = _omit(state, ['data', epName]);
+  newState = _omit(newState, ['indexes', epName]);
+  // const hiddenCols = historyConfig.hiddenCols;
+
+  newState.lines = [];
+  for (let i = 0; i < state.lines.length; i += 1) {
+    const args = _split(state.lines[i], ' ');
+    if (args.length !== 2) {
+      continue;
+    }
+    if (args[0] !== epName) {
+      newState.lines.push(state.lines[i]);
+    }
+  }
+  if (!newState.data) {
+    newState.data = {};
+    newState.indexes = {};
+  }
+  return newState;
+}
+
 function isInvalidEntryPoint(oldEp, newEp) {
   if (!newEp || (newEp.error && newEp.error !== oldEp.error)
-    || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
+    || oldEp.field !== newEp.field  // TODO check if this comparison is ok
     || oldEp.tbdId !== newEp.tbdId) {
     return true;
   }
@@ -122,115 +130,79 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
     return viewData;
   }
   // unknown label
-  if (!viewData.lines[oldLabel]) {
+  if (!viewData.data || !viewData.data[oldLabel]) {
     return viewData;
   }
-
-  const newState = { ...viewData,
-    lines: _omit(viewData.lines, oldLabel),
-    indexes: _omit(viewData.indexes, oldLabel),
-    min: _omit(viewData.min, oldLabel),
-    minTime: _omit(viewData.minTime, oldLabel),
-    max: _omit(viewData.max, oldLabel),
-    maxTime: _omit(viewData.maxTime, oldLabel),
-  };
-
-  return { ...newState,
-    lines: { ...newState.lines, [newLabel]: viewData.lines[oldLabel] },
-    indexes: { ...newState.indexes, [newLabel]: viewData.indexes[oldLabel] },
-    min: { ...newState.min, [newLabel]: viewData.min[oldLabel] },
-    max: { ...newState.max, [newLabel]: viewData.max[oldLabel] },
-    minTime: { ...newState.minTime, [newLabel]: viewData.minTime[oldLabel] },
-    maxTime: { ...newState.maxTime, [newLabel]: viewData.maxTime[oldLabel] },
-  };
-}
-
-// function used to update min and max when no data is added to state
-export function scanForMinAndMax(viewDataState) {
-  if (!viewDataState || !viewDataState.indexes || !Object.keys(viewDataState.indexes).length) {
-    return viewDataState;
+  let newState = _omit(viewData, ['data', oldLabel]);
+  if (!newState.data) {
+    newState.data = {};
   }
-  const minVal = {};
-  const maxVal = {};
-  const minTimeVal = {};
-  const maxTimeVal = {};
-  // loop on EP names
-  const epNames = Object.keys(viewDataState.indexes);
-  epNames.forEach((epName) => {
-    // get interval to evaluate the min and max validity
-    const lower = _head(viewDataState.indexes[epName]);
-    const upper = _last(viewDataState.indexes[epName]);
-    // Check validity of current extrema
-    if (viewDataState.minTime[epName] >= lower && viewDataState.minTime[epName] <= upper
-      && viewDataState.maxTime[epName] >= lower && viewDataState.maxTime[epName] <= upper) {
-      // nothing to update
-      return;
+  newState.data[newLabel] = viewData.data[oldLabel];
+  newState = _omit(newState, ['indexes', oldLabel]);
+  if (!newState.indexes) {
+    newState.indexes = {};
+  }
+  newState.indexes[newLabel] = viewData.indexes[oldLabel];
+  // Update ep name in 'lines' table
+  newState.lines = [];
+  for (let i = 0; i < viewData.lines.length; i += 1) {
+    const args = _split(viewData.lines[i], ' ');
+    if (args.length !== 2) {
+      continue;
     }
-
-    // Scan state values
-    viewDataState.lines[epName].forEach((point) => {
-      if (!point.value) {
-        return;
-      }
-      if (!minVal[epName] || minVal[epName] >= point.value) {
-        minVal[epName] = point.value;
-        minTimeVal[epName] = point.masterTime;
-      }
-      if (!maxVal[epName] || maxVal[epName] <= point.value) {
-        maxVal[epName] = point.value;
-        maxTimeVal[epName] = point.masterTime;
-      }
-    });
-  });
-  // Nothing to update
-  if (!Object.keys(minVal).length && !Object.keys(maxVal).length) {
-    return viewDataState;
+    if (args[0] === oldLabel) {
+      newState.lines.push(newLabel.concat(' ').concat(args[1]));
+    }
   }
-  return { ...viewDataState,
-    min: Object.assign({}, viewDataState.min, minVal),
-    max: Object.assign({}, viewDataState.max, maxVal),
-    minTime: Object.assign({}, viewDataState.minTime, minTimeVal),
-    maxTime: Object.assign({}, viewDataState.maxTime, maxTimeVal),
-  };
+
+  return newState;
 }
 
-export function removeViewDataByEp(viewData, epName, lower, upper) {
+
+export function removeViewDataByEp(viewData, epName, lower, upper) { // , historyConfig);
   if (lower > upper) {
     // unpredictable usage
-    return { indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} };
+    return removeEpData(viewData, epName); // , historyConfig);
   }
   // keep everything
-  if (!viewData || !viewData.indexes || !viewData.indexes[epName]) {
+  if (!viewData || !viewData.indexes
+    || !viewData.indexes[epName] || !viewData.indexes[epName].length) {
     // state contains no data
     return viewData;
   }
+  // all points of entryPoint are in visuWindow
   if (viewData.indexes[epName][0] >= lower && _last(viewData.indexes[epName]) <= upper) {
-    // all points of entryPoint are in visuWindow
     return viewData;
   }
   // drop everything
   if (viewData.indexes[epName][0] > upper || _last(viewData.indexes[epName]) < lower) {
-    return { ...viewData,
-      indexes: _omit(viewData.indexes, epName),
-      lines: _omit(viewData.lines, epName),
-      min: _omit(viewData.min, epName),
-      minTime: _omit(viewData.minTime, epName),
-      max: _omit(viewData.max, epName),
-      maxTime: _omit(viewData.maxTime, epName),
-    };
+    return removeEpData(viewData, epName);
   }
-  // cut: keep min and max for PlotView drawing
-  const iLower = _findIndex(viewData.indexes[epName], t => t >= lower);
-  let iUpper = _findLastIndex(viewData.indexes[epName], t => t <= upper);
+  // keep some
+  // cut: keep inside min and max
+  const iLower = _findIndex(viewData.indexes[epName], val => val >= lower);
+  let iUpper = _findLastIndex(viewData.indexes[epName], val => val <= upper);
   iUpper = (iUpper === -1) ? viewData.indexes[epName].length - 1 : iUpper;
-  return { ...viewData,
+
+  const newIndexes = viewData.indexes[epName].slice(iLower, iUpper + 1);
+  const newLines = [];
+  for (let i = 0; i < viewData.lines.length; i += 1) {
+    const args = _split(viewData.lines[i], ' ');
+    if (args[0] !== epName || (args[1] >= lower && args[1] <= upper)) {
+      newLines.push(viewData.lines[i]);
+    }
+  }
+
+  return {
+    ...viewData,
+    data: {
+      ...viewData.data,
+      [epName]: _pick(viewData.data[epName], newIndexes),
+    },
     indexes: {
       ...viewData.indexes,
-      [epName]: viewData.indexes[epName].slice(iLower, iUpper + 1),
+      [epName]: newIndexes,
     },
-    lines: {
-      ...viewData.lines,
-      [epName]: viewData.lines[epName].slice(iLower, iUpper + 1),
-    },
+    lines: newLines,
   };
 }

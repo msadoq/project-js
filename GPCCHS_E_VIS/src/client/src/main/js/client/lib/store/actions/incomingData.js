@@ -10,6 +10,6 @@ export const incomingPubSub = simple(types.INCOMING_PUBSUB_DATA, 'data');
 export const newData = simple(types.NEW_DATA, 'data');
 
 export const injectDataRange = simple(types.INJECT_DATA_RANGE, 'oldViewMap', 'newViewMap',
-  'oldExpectedRangeIntervals', 'newExpectedRangeIntervals', 'dataToInject');
+  'oldExpectedRangeIntervals', 'newExpectedRangeIntervals', 'dataToInject', 'configuration');
 export const injectDataLast = simple(types.INJECT_DATA_LAST, 'oldViewMap', 'newViewMap',
   'oldExpectedLastIntervals', 'newExpectedLastIntervals', 'dataToInject');

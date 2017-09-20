@@ -33,7 +33,7 @@ describe('store:views:selectors', () => {
     });
     test('returns all views ids', () => {
       expect(getWindowAllViewsIds(state, { windowId: 'myWindow' }))
-      .toEqual(['text1', 'plot1', 'dynamic1', 'mimic1', 'plotCollapsed']);
+      .toEqual(['text1', 'plot1', 'dynamic1', 'mimic1', 'plotCollapsed', 'hist1']);
     });
   });
 });

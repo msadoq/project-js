@@ -93,7 +93,7 @@ export default {
           formula: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>',
           timeline: 'Session 1',
           filter: [{
-            field: 'raw',
+            field: 'rawValue',
             operator: '>',
             operand: '100',
           }],
@@ -125,46 +125,50 @@ export default {
   HistoryViewData: {
     hist1: {
       cols: ['referenceTimestamp', 'extractedValue', 'rawValue', 'monitoringState'],
-      lines: [
-        { epName: 'ATT_BC_REVTCOUNT1', index: 0 },
-        { epName: 'ATT_BC_REVTCOUNT1', index: 1 },
-        { epName: 'ATT_BC_REVTCOUNT1', index: 2 },
-        { epName: 'ATT_BC_REVTCOUNT1', index: 3 },
-        { epName: 'ATT_BC_REVTCOUNT1', index: 4 },
-      ],
-      ATT_BC_REVTCOUNT1: [
-        {
-          monitoringState: 'valid',
-          masterTime: 100020,
-          rawValue: 149.30028143545633,
-          extractedValue: 149.30028143545633,
-          referenceTimestamp: 100000,
-        }, {
-          monitoringState: 'valid',
-          masterTime: 200020,
-          rawValue: 154.3002814355,
-          extractedValue: 154.3002814355,
-          referenceTimestamp: 200000,
-        }, {
-          monitoringState: 'invalid',
-          masterTime: 300020,
-          rawValue: 159.3002814355,
-          extractedValue: 159.3002814355,
-          referenceTimestamp: 300000,
-        }, {
-          monitoringState: 'obsolete',
-          masterTime: 400020,
-          rawValue: 164.3002814355,
-          extractedValue: 164.3002814355,
-          referenceTimestamp: 400000,
-        }, {
-          monitoringState: 'valid',
-          masterTime: 500020,
-          rawValue: 169.3002814355,
-          extractedValue: 169.3002814355,
-          referenceTimestamp: 500000,
+      lines: ['ATT_BC_REVTCOUNT1 100020', 'ATT_BC_REVTCOUNT1 200020', 'ATT_BC_REVTCOUNT1 300020',
+        'ATT_BC_REVTCOUNT1 400020', 'ATT_BC_REVTCOUNT1 500020'],
+      indexes: {
+        ATT_BC_REVTCOUNT1: ['100020', '200020', '300020', '400020', '500020'],
+      },
+      data: {
+        ATT_BC_REVTCOUNT1: {
+          100020: {
+            monitoringState: 'valid',
+            masterTime: 100020,
+            rawValue: 149.30028143545633,
+            extractedValue: 149.30028143545633,
+            referenceTimestamp: 100000,
+          },
+          200020: {
+            monitoringState: 'valid',
+            masterTime: 200020,
+            rawValue: 154.3002814355,
+            extractedValue: 154.3002814355,
+            referenceTimestamp: 200000,
+          },
+          300020: {
+            monitoringState: 'invalid',
+            masterTime: 300020,
+            rawValue: 159.3002814355,
+            extractedValue: 159.3002814355,
+            referenceTimestamp: 300000,
+          },
+          400020: {
+            monitoringState: 'obsolete',
+            masterTime: 400020,
+            rawValue: 164.3002814355,
+            extractedValue: 164.3002814355,
+            referenceTimestamp: 400000,
+          },
+          500020: {
+            monitoringState: 'valid',
+            masterTime: 500020,
+            rawValue: 169.3002814355,
+            extractedValue: 169.3002814355,
+            referenceTimestamp: 500000,
+          },
         },
-      ],
+      },
     },
   },
   MimicViewConfiguration: {
@@ -309,7 +313,7 @@ export default {
           fieldX: 'groundDate',
           filter: [{
             field: 'extractedValue',
-            operand: 100,
+            operand: '100',
             operator: '<',
           }],
           format: 'decimal',
@@ -744,7 +748,7 @@ export default {
       flatDataId: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4',
       filters: [{
         field: 'extractedValue',
-        operand: 100,
+        operand: '100',
         operator: '<',
       }],
       intervals: [[2, 6], [100000, 500000]],

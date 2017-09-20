@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/HistoryView/store/cleanViewData cleanCurrentViewData Ep renaming 1`] = `
+Object {
+  "cols": Array [
+    "referenceTimestamp",
+    "extractedValue",
+    "rawValue",
+    "monitoringState",
+  ],
+  "data": Object {
+    "ATT_BC_REVTCOUNT10": Object {
+      "100020": Object {
+        "extractedValue": 149.30028143545633,
+        "masterTime": 100020,
+        "monitoringState": "valid",
+        "rawValue": 149.30028143545633,
+        "referenceTimestamp": 100000,
+      },
+      "200020": Object {
+        "extractedValue": 154.3002814355,
+        "masterTime": 200020,
+        "monitoringState": "valid",
+        "rawValue": 154.3002814355,
+        "referenceTimestamp": 200000,
+      },
+      "300020": Object {
+        "extractedValue": 159.3002814355,
+        "masterTime": 300020,
+        "monitoringState": "invalid",
+        "rawValue": 159.3002814355,
+        "referenceTimestamp": 300000,
+      },
+      "400020": Object {
+        "extractedValue": 164.3002814355,
+        "masterTime": 400020,
+        "monitoringState": "obsolete",
+        "rawValue": 164.3002814355,
+        "referenceTimestamp": 400000,
+      },
+      "500020": Object {
+        "extractedValue": 169.3002814355,
+        "masterTime": 500020,
+        "monitoringState": "valid",
+        "rawValue": 169.3002814355,
+        "referenceTimestamp": 500000,
+      },
+    },
+  },
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT10": Array [
+      "100020",
+      "200020",
+      "300020",
+      "400020",
+      "500020",
+    ],
+  },
+  "lines": Array [
+    "ATT_BC_REVTCOUNT10 100020",
+    "ATT_BC_REVTCOUNT10 200020",
+    "ATT_BC_REVTCOUNT10 300020",
+    "ATT_BC_REVTCOUNT10 400020",
+    "ATT_BC_REVTCOUNT10 500020",
+  ],
+}
+`;
+
+exports[`viewManager/HistoryView/store/cleanViewData cleanCurrentViewData interval update History: keep some 1`] = `
+Object {
+  "cols": Array [
+    "referenceTimestamp",
+    "extractedValue",
+    "rawValue",
+    "monitoringState",
+  ],
+  "data": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "200020": Object {
+        "extractedValue": 154.3002814355,
+        "masterTime": 200020,
+        "monitoringState": "valid",
+        "rawValue": 154.3002814355,
+        "referenceTimestamp": 200000,
+      },
+      "300020": Object {
+        "extractedValue": 159.3002814355,
+        "masterTime": 300020,
+        "monitoringState": "invalid",
+        "rawValue": 159.3002814355,
+        "referenceTimestamp": 300000,
+      },
+      "400020": Object {
+        "extractedValue": 164.3002814355,
+        "masterTime": 400020,
+        "monitoringState": "obsolete",
+        "rawValue": 164.3002814355,
+        "referenceTimestamp": 400000,
+      },
+      "500020": Object {
+        "extractedValue": 169.3002814355,
+        "masterTime": 500020,
+        "monitoringState": "valid",
+        "rawValue": 169.3002814355,
+        "referenceTimestamp": 500000,
+      },
+    },
+  },
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      "200020",
+      "300020",
+      "400020",
+      "500020",
+    ],
+  },
+  "lines": Array [
+    "ATT_BC_REVTCOUNT1 200020",
+    "ATT_BC_REVTCOUNT1 300020",
+    "ATT_BC_REVTCOUNT1 400020",
+    "ATT_BC_REVTCOUNT1 500020",
+  ],
+}
+`;
+
+exports[`viewManager/HistoryView/store/cleanViewData removeViewDataByEp should support keep everything 1`] = `
+Object {
+  "cols": Array [
+    "referenceTimestamp",
+    "extractedValue",
+    "rawValue",
+    "monitoringState",
+  ],
+  "data": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
+        "extractedValue": 149.30028143545633,
+        "masterTime": 100020,
+        "monitoringState": "valid",
+        "rawValue": 149.30028143545633,
+        "referenceTimestamp": 100000,
+      },
+      "200020": Object {
+        "extractedValue": 154.3002814355,
+        "masterTime": 200020,
+        "monitoringState": "valid",
+        "rawValue": 154.3002814355,
+        "referenceTimestamp": 200000,
+      },
+      "300020": Object {
+        "extractedValue": 159.3002814355,
+        "masterTime": 300020,
+        "monitoringState": "invalid",
+        "rawValue": 159.3002814355,
+        "referenceTimestamp": 300000,
+      },
+      "400020": Object {
+        "extractedValue": 164.3002814355,
+        "masterTime": 400020,
+        "monitoringState": "obsolete",
+        "rawValue": 164.3002814355,
+        "referenceTimestamp": 400000,
+      },
+      "500020": Object {
+        "extractedValue": 169.3002814355,
+        "masterTime": 500020,
+        "monitoringState": "valid",
+        "rawValue": 169.3002814355,
+        "referenceTimestamp": 500000,
+      },
+    },
+  },
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      "100020",
+      "200020",
+      "300020",
+      "400020",
+      "500020",
+    ],
+  },
+  "lines": Array [
+    "ATT_BC_REVTCOUNT1 100020",
+    "ATT_BC_REVTCOUNT1 200020",
+    "ATT_BC_REVTCOUNT1 300020",
+    "ATT_BC_REVTCOUNT1 400020",
+    "ATT_BC_REVTCOUNT1 500020",
+  ],
+}
+`;
+
+exports[`viewManager/HistoryView/store/cleanViewData removeViewDataByEp should support nothing to keep 1`] = `
+Object {
+  "cols": Array [
+    "referenceTimestamp",
+    "extractedValue",
+    "rawValue",
+    "monitoringState",
+  ],
+  "data": Object {},
+  "indexes": Object {},
+  "lines": Array [],
+}
+`;
+
+exports[`viewManager/HistoryView/store/cleanViewData removeViewDataByEp should support partial keeping 1`] = `
+Object {
+  "cols": Array [
+    "referenceTimestamp",
+    "extractedValue",
+    "rawValue",
+    "monitoringState",
+  ],
+  "data": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
+        "extractedValue": 149.30028143545633,
+        "masterTime": 100020,
+        "monitoringState": "valid",
+        "rawValue": 149.30028143545633,
+        "referenceTimestamp": 100000,
+      },
+      "200020": Object {
+        "extractedValue": 154.3002814355,
+        "masterTime": 200020,
+        "monitoringState": "valid",
+        "rawValue": 154.3002814355,
+        "referenceTimestamp": 200000,
+      },
+    },
+  },
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      "100020",
+      "200020",
+    ],
+  },
+  "lines": Array [
+    "ATT_BC_REVTCOUNT1 100020",
+    "ATT_BC_REVTCOUNT1 200020",
+  ],
+}
+`;
+
+exports[`viewManager/HistoryView/store/cleanViewData removeViewDataByEp upper < lower: nothing to keep 1`] = `
+Object {
+  "cols": Array [
+    "referenceTimestamp",
+    "extractedValue",
+    "rawValue",
+    "monitoringState",
+  ],
+  "data": Object {},
+  "indexes": Object {},
+  "lines": Array [],
+}
+`;

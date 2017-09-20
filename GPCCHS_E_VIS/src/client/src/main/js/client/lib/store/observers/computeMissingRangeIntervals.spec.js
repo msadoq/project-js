@@ -55,8 +55,18 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'extractedValue',
-          operand: 100,
+          operand: '100',
           operator: '<',
+        }],
+        intervals:
+          [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+      },
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100': {
+        dataId: dataId_TMMGT_BC_VIRTCHAN3,
+        filters: [{
+          field: 'rawValue',
+          operand: '100',
+          operator: '>',
         }],
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
@@ -82,8 +92,18 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'extractedValue',
-          operand: 100,
+          operand: '100',
           operator: '<',
+        }],
+        intervals:
+          [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
+      },
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100': {
+        dataId: dataId_TMMGT_BC_VIRTCHAN3,
+        filters: [{
+          field: 'rawValue',
+          operand: '100',
+          operator: '>',
         }],
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],

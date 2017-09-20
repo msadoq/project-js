@@ -85,7 +85,7 @@ Object {
       "filters": Array [
         Object {
           "field": "extractedValue",
-          "operand": 100,
+          "operand": "100",
           "operator": "<",
         },
       ],

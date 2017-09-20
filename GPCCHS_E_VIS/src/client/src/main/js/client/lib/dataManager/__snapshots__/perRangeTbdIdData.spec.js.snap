@@ -28,9 +28,15 @@ Object {
         "timebarUuid": "tb1",
         "viewType": "PlotView",
       },
+      "undefined.tb1:0": Object {
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "HistoryView",
+      },
     },
     "views": Array [
       "plot1",
+      "hist1",
     ],
   },
   "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
@@ -46,7 +52,7 @@ Object {
     "filters": Array [
       Object {
         "field": "extractedValue",
-        "operand": 100,
+        "operand": "100",
         "operator": "<",
       },
     ],
@@ -61,6 +67,34 @@ Object {
     },
     "views": Array [
       "plot1",
+    ],
+  },
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100": Object {
+    "dataId": Object {
+      "catalog": "Reporting",
+      "comObject": "ReportingParameter",
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
+      "parameterName": "TMMGT_BC_VIRTCHAN3",
+      "sessionId": 0,
+      "sessionName": "Master",
+    },
+    "filters": Array [
+      Object {
+        "field": "rawValue",
+        "operand": "100",
+        "operator": ">",
+      },
+    ],
+    "localIds": Object {
+      "undefined.tb1:0": Object {
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "HistoryView",
+      },
+    },
+    "views": Array [
+      "hist1",
     ],
   },
 }

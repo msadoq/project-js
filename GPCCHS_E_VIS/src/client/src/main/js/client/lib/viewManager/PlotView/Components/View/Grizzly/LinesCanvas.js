@@ -10,8 +10,8 @@ export default class LinesCanvas extends Component {
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yScale: PropTypes.func.isRequired,
-    data: PropTypes.objectOf(PropTypes.shape),
-    indexes: PropTypes.objectOf(PropTypes.shape),
+    data: PropTypes.objectOf(PropTypes.shape).isRequired,
+    indexes: PropTypes.objectOf(PropTypes.shape).isRequired,
     showLabels: PropTypes.bool,
     perfOutput: PropTypes.bool.isRequired,
     lines: PropTypes.arrayOf(
@@ -34,7 +34,6 @@ export default class LinesCanvas extends Component {
   static defaultProps = {
     showLabels: false,
     showPointLabels: false,
-    data: null,
   }
 
   componentDidMount() {
@@ -44,8 +43,8 @@ export default class LinesCanvas extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
 
-    const attrs = ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
-      'xScale', 'showLabels', 'data', 'yScale', 'showPointLabels', 'dataAccessor'];
+    const attrs = ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput', 'divStyle',
+      'xScale', 'showLabels', 'data', 'indexes', 'yScale', 'showPointLabels', 'dataAccessor'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;

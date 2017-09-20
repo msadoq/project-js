@@ -2,6 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import _ from 'lodash/fp';
 
+import { getWrappedInstance } from '../utils';
+
 const WHEEL_DEFAULT_DELTA_Y = 120;
 
 /*
@@ -10,10 +12,10 @@ const WHEEL_DEFAULT_DELTA_Y = 120;
 */
 
 export default () => WrappedComponent => (
-  class extends WrappedComponent {
+  class MouseWheelEventsHOC extends WrappedComponent {
     componentDidMount() {
-      if (this.wrappedInstance) {
-        this.wrappedNode = findDOMNode(this.wrappedInstance);
+      if (this.getWrappedInstance) {
+        this.wrappedNode = findDOMNode(this.getWrappedInstance());
         this.wrappedNode.addEventListener('mousewheel', this.onWheel, false);
       }
     }
@@ -22,13 +24,13 @@ export default () => WrappedComponent => (
       this.wrappedNode.removeEventListener('mousewheel', this.onWheel, false);
     }
 
-    scrollUp() {
-      return this.wrappedInstance.onScrollUp && this.wrappedInstance.onScrollUp();
-    }
+    scrollUp = () => (
+      this.getWrappedInstance().onScrollUp && this.getWrappedInstance().onScrollUp()
+    )
 
-    scrollDown() {
-      return this.wrappedInstance.onScrollUp && this.wrappedInstance.onScrollDown();
-    }
+    scrollDown = () => (
+      this.getWrappedInstance().onScrollUp && this.getWrappedInstance().onScrollDown()
+    )
 
     onWheel = (e) => {
       e.preventDefault();
@@ -45,7 +47,7 @@ export default () => WrappedComponent => (
     render() {
       return (
         <WrappedComponent
-          ref={(instance) => { this.wrappedInstance = instance; }}
+          ref={(i) => { this.getWrappedInstance = () => getWrappedInstance(i); }}
           {...this.props}
         />
       );

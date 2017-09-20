@@ -1,22 +1,3 @@
-/*!*******************************************************************
- * Project : ISIS
- * Component : TODO declare component
- * \file onResponse.js
- * \author isis
- * \date 28/08/2017
- * \brief TODO brief description
- *
- * TODO complete description
- ********************************************************************/
-
-/********************************************************************
- * HISTORY
- *
- * END-HISTORY
- ********************************************************************/
-
-
-
 const _isBuffer = require('lodash/isBuffer');
 const _isEqual = require('lodash/isEqual');
 const { encode, decode } = require('../../../utils/adapters');

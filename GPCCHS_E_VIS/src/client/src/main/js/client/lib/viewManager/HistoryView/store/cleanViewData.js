@@ -8,6 +8,7 @@ import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
 import _split from 'lodash/split';
 import _pick from 'lodash/pick';
+import { HISTORYVIEW_SEPARATOR } from '../../../constants';
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -100,7 +101,7 @@ function removeEpData(state, epName) {
 
   newState.lines = [];
   for (let i = 0; i < state.lines.length; i += 1) {
-    const args = _split(state.lines[i], ' ');
+    const args = _split(state.lines[i], HISTORYVIEW_SEPARATOR);
     if (args.length !== 2) {
       continue;
     }
@@ -146,7 +147,7 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
   // Update ep name in 'lines' table
   newState.lines = [];
   for (let i = 0; i < viewData.lines.length; i += 1) {
-    const args = _split(viewData.lines[i], ' ');
+    const args = _split(viewData.lines[i], HISTORYVIEW_SEPARATOR);
     if (args.length !== 2) {
       continue;
     }
@@ -187,7 +188,7 @@ export function removeViewDataByEp(viewData, epName, lower, upper) { // , histor
   const newIndexes = viewData.indexes[epName].slice(iLower, iUpper + 1);
   const newLines = [];
   for (let i = 0; i < viewData.lines.length; i += 1) {
-    const args = _split(viewData.lines[i], ' ');
+    const args = _split(viewData.lines[i], HISTORYVIEW_SEPARATOR);
     if (args[0] !== epName || (args[1] >= lower && args[1] <= upper)) {
       newLines.push(viewData.lines[i]);
     }

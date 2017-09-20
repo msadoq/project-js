@@ -172,4 +172,5 @@ module.exports = {
   COMPUTED_TIMING_DATA: 'computedTiming',
   SORTING_ASC: 'SORTING_ASC',
   SORTING_DESC: 'SORTING_DESC',
+  HISTORYVIEW_SEPARATOR: ' ',
 };

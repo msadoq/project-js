@@ -31,7 +31,8 @@ const injectData = (timing) => {
       newViewMap,
       oldExpectedRangeIntervals,
       newExpectedRangeIntervals,
-      dataToInject
+      dataToInject,
+      state.HistoryViewConfiguration
     );
 
     const updateLastData = injectDataLast(

@@ -53,7 +53,7 @@ export default function makeViewNeededDataStoreObserver(store) {
     previousDataMap = dataMap;
     // Clean viewData
     if (previous) {
-      dispatch(cleanViewData(dataMap, previous));
+      dispatch(cleanViewData(dataMap, previous, state.HistoryViewConfiguration));
     }
 
     // Dispatch neededData

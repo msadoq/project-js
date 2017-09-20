@@ -10,6 +10,9 @@ import * as constants from '../../constants';
 const initialState = {
   cols: [],
   lines: [],
+  data: {},
+  indexes: {},
+  current: {},
 };
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function historyViewData(state = {}, action) {

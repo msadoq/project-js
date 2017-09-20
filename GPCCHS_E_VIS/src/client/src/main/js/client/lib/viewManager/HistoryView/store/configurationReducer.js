@@ -3,8 +3,13 @@ import _without from 'lodash/without';
 import * as types from '../../../store/types';
 import { SORTING_UP } from '../../../constants';
 
+const initialState = {
+  allColumns: {},
+  sorting: {},
+  hiddenColumns: {},
+};
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default (stateConf, action) => {
+export default (stateConf = initialState, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_SORTING:
       return {

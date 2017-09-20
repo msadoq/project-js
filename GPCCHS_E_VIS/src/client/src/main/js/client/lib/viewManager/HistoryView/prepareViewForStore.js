@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { v4 } from 'uuid';
 
 const getDefaultView = _.merge({
   type: 'HistoryView',
@@ -7,9 +8,13 @@ const getDefaultView = _.merge({
   title: 'New History View',
   configuration: {
     entryPoints: [],
+    allColumns: {},
+    sorting: {},
+    hiddenColumns: {},
   },
 });
 
 export default _.pipe(
-    getDefaultView
+    getDefaultView,
+    _.update('configuration.entryPoints', _.map(_.update('id', v4)))
 );

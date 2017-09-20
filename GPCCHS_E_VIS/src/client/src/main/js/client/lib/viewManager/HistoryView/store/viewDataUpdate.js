@@ -3,12 +3,12 @@ import _findIndex from 'lodash/findIndex';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _get from 'lodash/get';
-import _isEmpty from 'lodash/isEmpty';
 import _split from 'lodash/split';
 import getLogger from '../../../common/logManager';
 import { getStateColorObj } from '../../commonData/stateColors';
 import { applyFilters } from '../../commonData/applyFilters';
-import { SORTING_DESC, SORTING_ASC } from '../../../constants';
+import { SORTING_DESC, SORTING_ASC, HISTORYVIEW_SEPARATOR } from '../../../constants';
+import { convertData } from '../../commonData/convertData';
 
 const logger = getLogger('data:rangeValues');
 
@@ -77,7 +77,7 @@ export function addDataInEpTable(epState, index, payload) {
  * @return: updated state
 /* *********************************** */
 export function updateLines(state, epName, timestamp, colToSort, direction) {
-  const valueToCompare = _get(state, ['data', epName, timestamp, colToSort, 'value']);
+  const valueToCompare = _get(state, ['data', epName, timestamp, colToSort]);
   if (!valueToCompare) {
     return state;
   }
@@ -85,7 +85,7 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
   let i = 0;
   let indexToInsert = -1;
   while (i < state.lines.length) {
-    const args = _split(state.lines[i], ' ');
+    const args = _split(state.lines[i], HISTORYVIEW_SEPARATOR);
     if (args.length !== 2) {
       logger.warn('Error updating Plot view data:', state.lines[i]);
       i += 1;
@@ -93,7 +93,7 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
     }
     const ep = args[0];
     const time = args[1];
-    const valRef = _get(state, ['data', ep, time, colToSort, 'value']);
+    const valRef = _get(state, ['data', ep, time, colToSort]);
     if (compareValue(valRef, valueToCompare, direction)) {
       indexToInsert = i;
       i = state.lines.length;
@@ -141,9 +141,9 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   // indexes: contains timestamps per EP and ordered [epName]: [t1, t2, ...]
   // lines: ordered table grouping all EP [ ep1 t1, ep2 t1, ep1 t2, ...]
   // cols: list of column names
-  let newState = { cols: [], lines: [], indexes: {}, data: {} };
-  if (state && !_isEmpty(state.cols)) {
-    newState = _cloneDeep(state);
+  let newState = _cloneDeep(state);
+  if (!newState.cols) {
+    newState = { cols: [], lines: [], indexes: {}, data: {} };
   }
 
   // loop on EP name to add payload sorted by masterTime in EP table
@@ -174,7 +174,10 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
         if (index === -1) {
           newState.indexes[epName].push(time);
         } else {
-          newState.indexes[epName] = _concat(newState.slice(0, index), time, newState.slice(index));
+          newState.indexes[epName] = _concat(
+            newState.indexes[epName].slice(0, index),
+            time,
+            newState.indexes[epName].slice(index));
         // const result = addDataInEpTable(newState[epName], index, payloads[epName][time]);
         // newState[epName] = result.newState;
         // indexInLines = result.indexInLines;
@@ -289,12 +292,18 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
     const masterTime = timestamp + ep.offset;
     const valueToInsert = {
-      masterTime: { type: 'time', value: masterTime },
-      ...currentValue,
-      epName: { type: 'string', value: epName },
+      // masterTime: { type: 'time', value: masterTime },
+      // ...currentValue,
+      // epName: { type: 'string', value: epName },
+      masterTime,
+      epName,
       ...getStateColorObj(currentValue, ep.stateColors,
         _get(currentValue, ['monitoringState', 'value'])),
     };
+    const fields = Object.keys(currentValue);
+    for (let iField = 0; iField < fields.length; iField += 1) {
+      Object.assign(valueToInsert, { [fields[iField]]: convertData(currentValue[fields[iField]]) });
+    }
 
     if (!newState[epName]) {
       newState[epName] = {};

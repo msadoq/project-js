@@ -71,6 +71,7 @@ const ModalGeneric = (props) => {
       title = 'Add entry point';
       switch (props.props.viewType) {
         case 'TextView':
+        case 'HistoryView':
           child = (
             <TextAddEntryPointContainer
               {...props.props}

@@ -4,6 +4,3 @@ benchmarks
 adapters
 dist
 docs
-data
-main.js
-**/*.js.map

@@ -4,12 +4,18 @@ import _ from 'lodash/fp';
 import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
+import { HISTORYVIEW_SEPARATOR } from '../../../../constants';
 
 import styles from './HistoryView.css';
 
+const getDataByLine = (lineId, allData) => {
+  const [ep, timestamp] = lineId.split(HISTORYVIEW_SEPARATOR);
+  return allData[ep][timestamp];
+};
+
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
-const Table = ({ lines, cols, position, rowHeight, current }) => (
+const Table = ({ lines, cols, position, rowHeight, current, data: allData }) => (
   <table>
     <thead>
       <tr
@@ -27,24 +33,26 @@ const Table = ({ lines, cols, position, rowHeight, current }) => (
     <tbody>
       {
         _.drop(position)(lines).map((line, i) => {
+          const data = getDataByLine(line, allData);
           const lineId = position + i;
           const isCurrent = current === lineId;
           const isPrevCurrent = current - 1 === lineId;
+          const rowKey = data.epName + data.masterTime + i; // TODO do not use 'i'
           return (
             <tr
               className={classnames({
                 [styles.current]: isCurrent,
                 [styles.prevCurrent]: isPrevCurrent,
               })}
-              key={line.name}
+              key={rowKey}
             >
               {
                 cols.map(col => (
                   <td
                     style={{ height: `${rowHeight}px` }}
-                    key={col}
+                    key={col + rowKey}
                   >
-                    {line[col]}
+                    {data[col]}
                   </td>
                 ))
               }
@@ -58,21 +66,24 @@ const Table = ({ lines, cols, position, rowHeight, current }) => (
 
 Table.propTypes = {
   position: PropTypes.number,
-  current: PropTypes.number.isRequired,
+  current: PropTypes.shape({}),
+  data: PropTypes.shape({}).isRequired,
   cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-  lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  lines: PropTypes.arrayOf(PropTypes.string).isRequired,
   rowHeight: PropTypes.number.isRequired,
 };
 Table.defaultProps = {
+  current: {},
   position: 0,
 };
 
 class HistoryView extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      current: PropTypes.number.isRequired,
+      current: PropTypes.shape({}),
+      data: PropTypes.shape({}).isRequired,
       cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-      lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+      lines: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -124,6 +135,6 @@ class HistoryView extends React.Component {
 
 export default _.compose(
   withDimensions({ elementResize: true }),
-  withBatchedSetState({ delay: 100 }),
+  withBatchedSetState({ delay: 60 }), // throttled every 60ms
   withMouseWheelEvents()
 )(HistoryView);

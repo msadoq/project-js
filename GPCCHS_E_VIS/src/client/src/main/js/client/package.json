@@ -60,7 +60,14 @@
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
     "benchmark:grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js",
     "benchmark:textview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/textview.benchmark.js",
-    "benchmark:mimicview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/mimicview.benchmark.js"
+    "benchmark:mimicview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/mimicview.benchmark.js",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "gitDir": "../../../../../../../",
+    "linters": {
+      "*.js": ["eslint", "git add"]
+    }
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -205,5 +212,8 @@
     "npm": "3.x"
   },
   "style": "./lib/app.global.css",
-  "devDependencies": {}
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.1"
+  }
 }

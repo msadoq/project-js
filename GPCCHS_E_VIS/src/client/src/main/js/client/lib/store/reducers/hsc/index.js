@@ -111,6 +111,7 @@ export const getWorkspaceFolder = inHsc('folder');
 export const getWindowsOpened = inHsc('windowsOpened'); // TODO rename getIsWindowsOpened
 export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
+export const getIsPlaying = _.compose(Boolean, getPlayingTimebarId);
 export const getFocusedWindowId = inHsc('focusWindow');
 export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');
 export const getIsWorkspaceOpened = inHsc('isWorkspaceOpened');

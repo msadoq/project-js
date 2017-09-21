@@ -6,6 +6,7 @@ import hscReducer, {
   getWindowsOpened,
   getLastCacheInvalidation,
   getPlayingTimebarId,
+  getIsPlaying,
   getFocusedWindowId,
   getIsWorkspaceOpening,
   getIsWorkspaceOpened,
@@ -122,6 +123,15 @@ describe('store:hsc:selectors', () => {
     });
     test('should support empty state', () => {
       expect(getPlayingTimebarId(emptyState)).toBeFalsy();
+    });
+  });
+  describe('getIsPlaying', () => {
+    test('return true', () => {
+      const state = { hsc: { playingTimebarId: 10 } };
+      expect(getIsPlaying(state)).toBe(true);
+    });
+    test('return false', () => {
+      expect(getIsPlaying(emptyState)).toBe(false);
     });
   });
   describe('getFocusedWindowId', () => {

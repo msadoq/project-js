@@ -4,4 +4,4 @@ import getExpectedInterval from './intervalManagement';
 export default {
   parseEntryPoint,
   getExpectedInterval,
-}
+};

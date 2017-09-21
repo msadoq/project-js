@@ -1,7 +1,5 @@
-import _isEqual from 'lodash/isEqual';
-import globalConstants from '../../../constants';
 import getLogger from '../../../common/logManager';
-const flattenDataId = require('../../../common/flattenDataId');
+import flattenDataId from '../../../common/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
 import parseConnectedDataParametric from '../../commonData/parseConnectedDataParametric';
 
@@ -89,14 +87,14 @@ export default function parseEntryPoint(
     };
 
     return ep;
-  } else {
-    const { connectedData, name, id, stateColors, parametric } = entryPoint;
-    if (!connectedData.fieldX) {
-      logger.info('invalid entryPoint', name, 'No field X');
-      return { [name]: { error: 'No field X' } };
-    }
+  }
+  const { connectedData, name, id, stateColors } = entryPoint;
+  if (!connectedData.fieldX) {
+    logger.info('invalid entryPoint', name, 'No field X');
+    return { [name]: { error: 'No field X' } };
+  }
 
-    const cd = parseConnectedData(
+  const cd = parseConnectedData(
       domains,
       sessions,
       timelines,
@@ -110,36 +108,35 @@ export default function parseEntryPoint(
       workspaceSessionName
     );
 
-    if (cd.error) {
-      logger.info('invalid entryPoint', name, cd.error);
-      return { [name]: { error: cd.error } };
-    }
-    // ignore parametric entryPoints
-    if (cd.dataId.field === connectedData.fieldX) {
-      logger.info('invalid entryPoint', name, 'parametric entryPoint detected for this view');
-      return { [name]: { error: 'parametric entryPoint detected for this view' } };
-    }
-
-    const tbdId = flattenDataId(cd.dataId, cd.filters);
-
-    const ep = {
-      [name]: {
-        tbdId,
-        dataId: cd.dataId,
-        localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
-        fieldX: connectedData.fieldX,
-        fieldY: cd.field,
-        offset: cd.offset,
-        timebarUuid,
-        filters: cd.filters,
-        id,
-        type: viewType,
-      },
-    };
-
-    if (stateColors) {
-      ep[name].stateColors = stateColors;
-    }
-    return ep;
+  if (cd.error) {
+    logger.info('invalid entryPoint', name, cd.error);
+    return { [name]: { error: cd.error } };
   }
+    // ignore parametric entryPoints
+  if (cd.dataId.field === connectedData.fieldX) {
+    logger.info('invalid entryPoint', name, 'parametric entryPoint detected for this view');
+    return { [name]: { error: 'parametric entryPoint detected for this view' } };
+  }
+
+  const tbdId = flattenDataId(cd.dataId, cd.filters);
+
+  const ep = {
+    [name]: {
+      tbdId,
+      dataId: cd.dataId,
+      localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
+      fieldX: connectedData.fieldX,
+      fieldY: cd.field,
+      offset: cd.offset,
+      timebarUuid,
+      filters: cd.filters,
+      id,
+      type: viewType,
+    },
+  };
+
+  if (stateColors) {
+    ep[name].stateColors = stateColors;
+  }
+  return ep;
 }

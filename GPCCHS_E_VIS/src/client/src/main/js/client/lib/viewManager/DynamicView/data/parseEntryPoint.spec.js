@@ -1,4 +1,3 @@
-import globalConstants from '../../../constants';
 import parseEntryPoint from './parseEntryPoint';
 
 describe('viewManager/DynamicView/data/parseEntryPoint', () => {
@@ -64,7 +63,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
           domainId: 'd1',
           domain: 'cnes',
           sessionId: 1,
-          sessionName:'session1',
+          sessionName: 'session1',
         },
         offset: 0,
         localId: 'undefined.TB1:0',
@@ -90,7 +89,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
           domainId: 'd2',
           domain: 'cnes.isis',
           sessionId: 2,
-          sessionName:'session2',
+          sessionName: 'session2',
         },
         offset: 0,
         localId: 'undefined.TB1:0',
@@ -116,7 +115,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
           domainId: 'd2',
           domain: 'cnes.isis',
           sessionId: 2,
-          sessionName:'session2',
+          sessionName: 'session2',
         },
         offset: 0,
         localId: 'undefined.TB1:0',
@@ -142,7 +141,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
           domainId: 'd2',
           domain: 'cnes.isis',
           sessionId: 2,
-          sessionName:'session2',
+          sessionName: 'session2',
         },
         offset: 0,
         localId: 'undefined.TB1:0',

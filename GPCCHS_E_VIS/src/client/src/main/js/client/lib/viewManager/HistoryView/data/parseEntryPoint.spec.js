@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep';
-import globalConstants from '../../../constants';
 import parseEntryPoint from './parseEntryPoint';
 
 describe('viewManager/HistoryView/data/parseEntryPoint', () => {

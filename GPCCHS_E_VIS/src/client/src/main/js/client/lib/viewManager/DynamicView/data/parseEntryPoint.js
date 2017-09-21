@@ -1,8 +1,5 @@
-import __ from 'lodash/fp';
-
-import globalConstants from '../../../constants';
 import getLogger from '../../../common/logManager';
-const flattenDataId = require('../../../common/flattenDataId');
+import flattenDataId from '../../../common/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
 import flattenStateColors from '../../commonData/flattenStateColors';
 

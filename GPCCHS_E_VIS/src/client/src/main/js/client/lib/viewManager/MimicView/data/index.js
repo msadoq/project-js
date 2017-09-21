@@ -2,7 +2,7 @@ import parseEntryPoint from './parseEntryPoint';
 import {
   addInterval,
   getExpectedInterval,
-  retrieveNeededIntervals
+  retrieveNeededIntervals,
 } from './intervalManagement';
 
 export default {
@@ -10,4 +10,4 @@ export default {
   addInterval,
   getExpectedInterval,
   retrieveNeededIntervals,
-}
+};

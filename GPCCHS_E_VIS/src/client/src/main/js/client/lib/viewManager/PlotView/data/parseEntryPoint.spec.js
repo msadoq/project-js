@@ -1,4 +1,3 @@
-import globalConstants from '../../../constants';
 import parseEntryPoint from './parseEntryPoint';
 
 describe('viewManager/PlotView/data/parseEntryPoint', () => {

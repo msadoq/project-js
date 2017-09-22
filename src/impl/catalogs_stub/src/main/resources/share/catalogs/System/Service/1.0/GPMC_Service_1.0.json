@@ -1,0 +1,2198 @@
+{
+    "Catalog": {
+        "Name": "Service",
+        "Version": "1.0",
+        "ObjectType": {
+            "Area": 2,
+            "Service": 2,
+            "Version": 1,
+            "Number": 91
+        },
+        "Items": [
+            {
+                "ItemNamespace": "MC",
+                "Name": "Action",
+                "Oid": null,
+                "Uid": 4192,
+                "AreaNumber": 4,
+                "ServiceNumber": 1,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "sendAction",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "ccsds_mc",
+                                "Type": "SubmitActionMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "definitionId",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "LONG",
+                                        "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                                    },
+                                    {
+                                        "Name": "action",
+                                        "Module": "GPCC-ccsds_mc",
+                                        "Type": "Action",
+                                        "Link": "DataType@GPCC-ccsds_mc@Action"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "MC",
+                "Name": "Parameter",
+                "Oid": null,
+                "Uid": 4193,
+                "AreaNumber": 4,
+                "ServiceNumber": 2,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "monitorValue",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "ccsds_mc",
+                                "Type": "MonitorValuePublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "source",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectId",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectId"
+                                    },
+                                    {
+                                        "Name": "value",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "MC",
+                "Name": "Statistic",
+                "Oid": null,
+                "Uid": 4194,
+                "AreaNumber": 4,
+                "ServiceNumber": 5,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "getStatistics",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "ccsds_mc",
+                                "Type": "GetStatisticsRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "statFuncObjInstIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "LONG",
+                                        "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                                    },
+                                    {
+                                        "Name": "paramInstObjKeys",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectKey",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectKey"
+                                    },
+                                    {
+                                        "Name": "paramInstObjTypes",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectType",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectType"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "ccsds_mc",
+                                "Type": "GetStatisticsResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "statEvalValues",
+                                        "Module": "GPCC-ccsds_mc",
+                                        "Type": "StatisticParameterReport",
+                                        "Link": "DataType@GPCC-ccsds_mc@StatisticParameterReport"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "resetEvaluation",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "ccsds_mc",
+                                "Type": "ResetEvaluationRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "suppliesGroupObjectsIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "BOOLEAN",
+                                        "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                                    },
+                                    {
+                                        "Name": "statisticLinkObjInstIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "LONG",
+                                        "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                                    },
+                                    {
+                                        "Name": "paramInstObjKeys",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectKey",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectKey"
+                                    },
+                                    {
+                                        "Name": "returnsLatestStatEvals",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "BOOLEAN",
+                                        "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                                    },
+                                    {
+                                        "Name": "paramInstObjTypes",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectType",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectType"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "ccsds_mc",
+                                "Type": "ResetEvaluationResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "latestStatEvals",
+                                        "Module": "GPCC-ccsds_mc",
+                                        "Type": "StatisticParameterReport",
+                                        "Link": "DataType@GPCC-ccsds_mc@StatisticParameterReport"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "monitorStatistics",
+                        "OperationNumber": 3,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "ccsds_mc",
+                                "Type": "MonitorStatisticsPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "objectDetails",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectDetails",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectDetails"
+                                    },
+                                    {
+                                        "Name": "statUpdateValue",
+                                        "Module": "GPCC-ccsds_mc",
+                                        "Type": "StatisticValue",
+                                        "Link": "DataType@GPCC-ccsds_mc@StatisticValue"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "enableGeneration",
+                        "OperationNumber": 4,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "ccsds_mc",
+                                "Type": "EnableGenerationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "suppliesGroupObjectsIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "BOOLEAN",
+                                        "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                                    },
+                                    {
+                                        "Name": "objInstIdAndBoolPairs",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "InstanceBooleanPair",
+                                        "Link": "DataType@GPCC-ccsds_com@InstanceBooleanPair"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "addParameterEvaluation",
+                        "OperationNumber": 5,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "ccsds_mc",
+                                "Type": "AddParameterEvaluationRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "statParamDetails",
+                                        "Module": "GPCC-ccsds_mc",
+                                        "Type": "StatisticParameterDetails",
+                                        "Link": "DataType@GPCC-ccsds_mc@StatisticParameterDetails"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "ccsds_mc",
+                                "Type": "AddParameterEvaluationResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "newLinkObjInstIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "LONG",
+                                        "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "updateParameterEvaluation",
+                        "OperationNumber": 6,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "ccsds_mc",
+                                "Type": "UpdateParameterEvaluationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "linksObjInstIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "LONG",
+                                        "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                                    },
+                                    {
+                                        "Name": "replacementIntervals",
+                                        "Module": "GPCC-ccsds_mc",
+                                        "Type": "StatisticLinkStruct",
+                                        "Link": "DataType@GPCC-ccsds_mc@StatisticLinkStruct"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "removeParameterEvaluation",
+                        "OperationNumber": 7,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "ccsds_mc",
+                                "Type": "RemoveParameterEvaluationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "linksObjInstIds",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "LONG",
+                                        "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "MC",
+                "Name": "Group",
+                "Oid": null,
+                "Uid": 4195,
+                "AreaNumber": 4,
+                "ServiceNumber": 8,
+                "ServiceVersion": 1,
+                "Operations": []
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "Packet",
+                "Oid": null,
+                "Uid": 4196,
+                "AreaNumber": 106,
+                "ServiceNumber": 1,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "monitorPacket",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "packet",
+                                "Type": "MonitorPacketPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "source",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectId",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectId"
+                                    },
+                                    {
+                                        "Name": "rawData",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "submitPacket",
+                        "OperationNumber": 3,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "packet",
+                                "Type": "SubmitPacketMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "details",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectDetails",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectDetails"
+                                    },
+                                    {
+                                        "Name": "key",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectKey",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectKey"
+                                    },
+                                    {
+                                        "Name": "packet",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "importFile",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "packet",
+                                "Type": "ImportFileSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "file",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "URI",
+                                        "Link": "Scalar@GPCC-ccsds_mal@URI"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "Cop1",
+                "Oid": null,
+                "Uid": 4197,
+                "AreaNumber": 106,
+                "ServiceNumber": 3,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "sendDirective",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "cop1",
+                                "Type": "SendDirectiveSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cop1Directive",
+                                        "Module": "GPMC-cop1",
+                                        "Type": "COP1Directive",
+                                        "Link": "DataType@GPMC-cop1@COP1Directive"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "monitorStatus",
+                        "OperationNumber": 6,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "cop1",
+                                "Type": "MonitorStatusPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cop1Status",
+                                        "Module": "GPMC-cop1",
+                                        "Type": "COP1Status",
+                                        "Link": "DataType@GPMC-cop1@COP1Status"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "getContext",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "cop1",
+                                "Type": "GetContextRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "cop1",
+                                "Type": "GetContextResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cop1Context",
+                                        "Module": "GPMC-cop1",
+                                        "Type": "COP1Context",
+                                        "Link": "DataType@GPMC-cop1@COP1Context"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "archiveContext",
+                        "OperationNumber": 3,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "cop1",
+                                "Type": "ArchiveContextSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "getStatus",
+                        "OperationNumber": 4,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "cop1",
+                                "Type": "GetStatusRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "cop1",
+                                "Type": "GetStatusResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cop1Status",
+                                        "Module": "GPMC-cop1",
+                                        "Type": "COP1Status",
+                                        "Link": "DataType@GPMC-cop1@COP1Status"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "loadContext",
+                        "OperationNumber": 5,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "cop1",
+                                "Type": "LoadContextSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cop1Context",
+                                        "Module": "GPMC-cop1",
+                                        "Type": "COP1Context",
+                                        "Link": "DataType@GPMC-cop1@COP1Context"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "getWaitQueue",
+                        "OperationNumber": 7,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "cop1",
+                                "Type": "GetWaitQueueRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "cop1",
+                                "Type": "GetWaitQueueResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cop1WaitQueue",
+                                        "Module": "GPMC-cop1",
+                                        "Type": "COP1WaitQueue",
+                                        "Link": "DataType@GPMC-cop1@COP1WaitQueue"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "resetContext",
+                        "OperationNumber": 8,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "cop1",
+                                "Type": "ArchiveContextSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "PusGroundModel",
+                "Oid": null,
+                "Uid": 4198,
+                "AreaNumber": 106,
+                "ServiceNumber": 4,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "resetGroundModel",
+                        "OperationNumber": 4,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "PusGroundModel",
+                                "Type": "ResetGroundModelSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "date",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "TIME",
+                                        "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                                    },
+                                    {
+                                        "Name": "initialisationMode",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    },
+                                    {
+                                        "Name": "apid",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    },
+                                    {
+                                        "Name": "resetType",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "compare",
+                        "OperationNumber": 5,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "PusGroundModel",
+                                "Type": "CompareInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "firstDate",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "TIME",
+                                        "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                                    },
+                                    {
+                                        "Name": "secondDate",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "TIME",
+                                        "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                                    },
+                                    {
+                                        "Name": "apid",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "PusGroundModel",
+                                "Type": "CompareResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "dump1Location",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "STRING",
+                                        "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                                    },
+                                    {
+                                        "Name": "dump2Location",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "STRING",
+                                        "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                                    },
+                                    {
+                                        "Name": "apid",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "monitorModel",
+                        "OperationNumber": 3,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "PusGroundModel",
+                                "Type": "GroundModelPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "polymorphicPart",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "source",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectId",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectId"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "synchronise",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "PusGroundModel",
+                                "Type": "SynchroniseSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "apid",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "checkModelElement",
+                        "OperationNumber": 6,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Response",
+                                "Module": "PusGroundModel",
+                                "Type": "CheckModelElementResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "result",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "BOOLEAN",
+                                        "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                                    },
+                                    {
+                                        "Name": "apid",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Request",
+                                "Module": "PusGroundModel",
+                                "Type": "CheckModelElementRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "dataIdentifierInteger",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "UINTEGER",
+                                        "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                                    },
+                                    {
+                                        "Name": "elementIdentifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "UINTEGER",
+                                        "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                                    },
+                                    {
+                                        "Name": "dataIdentifierString",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "STRING",
+                                        "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                                    },
+                                    {
+                                        "Name": "apid",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "USHORT",
+                                        "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "Encode",
+                "Oid": null,
+                "Uid": 4199,
+                "AreaNumber": 106,
+                "ServiceNumber": 2,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "encode",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "encode",
+                                "Type": "EncodeInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodeInvocation",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodeInvocation",
+                                        "Link": "DataType@GPMC-encode@EncodeInvocation"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "encode",
+                                "Type": "EncodeResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodeResponse",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodeResponse",
+                                        "Link": "DataType@GPMC-encode@EncodeResponse"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "encodeTimeTagged",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "encode",
+                                "Type": "EncodeTimeTaggedInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "timeTaggedValue",
+                                        "Module": "GPMC-encode",
+                                        "Type": "TimeTaggedTelecommand",
+                                        "Link": "DataType@GPMC-encode@TimeTaggedTelecommand"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "encode",
+                                "Type": "EncodeTimeTaggedResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodedValue",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodedValue",
+                                        "Link": "DataType@GPMC-encode@EncodedValue"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "encodeLargeTC",
+                        "OperationNumber": 4,
+                        "InteractionPattern": "PROGRESS",
+                        "Parameters": [
+                            {
+                                "Name": "Progress",
+                                "Module": "encode",
+                                "Type": "EncodeLargeTCProgressMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodeLargeTCInvocation",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodeLargeTCInvocation",
+                                        "Link": "DataType@GPMC-encode@EncodeLargeTCInvocation"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Update",
+                                "Module": "encode",
+                                "Type": "EncodeLargeTCUpdateMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodedValues",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodedValuesList",
+                                        "Link": "DataType@GPMC-encode@EncodedValuesList"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "encode",
+                                "Type": "EncodeLargeTCResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodedValues",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodedValuesList",
+                                        "Link": "DataType@GPMC-encode@EncodedValuesList"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "encodeFile",
+                        "OperationNumber": 3,
+                        "InteractionPattern": "PROGRESS",
+                        "Parameters": [
+                            {
+                                "Name": "Progress",
+                                "Module": "encode",
+                                "Type": "EncodeFileProgressMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "file",
+                                        "Module": "GPMC-encode",
+                                        "Type": "TCFile",
+                                        "Link": "DataType@GPMC-encode@TCFile"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Update",
+                                "Module": "encode",
+                                "Type": "EncodeFileUpdateMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodedValues",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodedValuesList",
+                                        "Link": "DataType@GPMC-encode@EncodedValuesList"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "encode",
+                                "Type": "EncodeFileResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodedValues",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodedValuesList",
+                                        "Link": "DataType@GPMC-encode@EncodedValuesList"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "encrypt",
+                        "OperationNumber": 5,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "encode",
+                                "Type": "EncryptInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "rawData",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "BLOB",
+                                        "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "encode",
+                                "Type": "EncryptResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encryptResponse",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncryptResponse",
+                                        "Link": "DataType@GPMC-encode@EncryptResponse"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "encodeArgument",
+                        "OperationNumber": 6,
+                        "InteractionPattern": "REQUEST",
+                        "Parameters": [
+                            {
+                                "Name": "Request",
+                                "Module": "encode",
+                                "Type": "EncodeArgumentRequestMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodeArgumentRequest",
+                                        "Module": "GPMC-encode",
+                                        "Type": "EncodeArgumentRequest",
+                                        "Link": "DataType@GPMC-encode@EncodeArgumentRequest"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "encode",
+                                "Type": "EncodeArgumentResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "encodedValue",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "BLOB",
+                                        "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "RawData",
+                "Oid": null,
+                "Uid": 4200,
+                "AreaNumber": 106,
+                "ServiceNumber": 5,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "monitorData",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "rawData",
+                                "Type": "MonitorDataPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "rawData",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "importFile",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "rawData",
+                                "Type": "ImportFileSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "file",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "URI",
+                                        "Link": "Scalar@GPCC-ccsds_mal@URI"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "Connection",
+                "Oid": null,
+                "Uid": 4202,
+                "AreaNumber": 106,
+                "ServiceNumber": 7,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "retrieveStations",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "connection",
+                                "Type": "RetrieveStationsInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "connection",
+                                "Type": "RetrieveStationsResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "stations",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "openConnectionStation",
+                        "OperationNumber": 3,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "OpenStationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "initStationConfiguration",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "retrieveApplicableFlows",
+                        "OperationNumber": 9,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "connection",
+                                "Type": "RetrieveApplicableFlowsInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "stationId",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "connection",
+                                "Type": "RetrieveApplicableFlowsResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "flows",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "initProcessStation",
+                        "OperationNumber": 2,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "InitProcessStationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "initStationConfiguration",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "terminateProcessStation",
+                        "OperationNumber": 8,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "TerminateStationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "stationIdentifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "initProcessFlow",
+                        "OperationNumber": 10,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "InitProcessFlowSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "initFlowConfiguration",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "openConnectionFlow",
+                        "OperationNumber": 11,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "OpenFlowSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "initFlowConfiguration",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "closeConnectionFlow",
+                        "OperationNumber": 14,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "CloseFlowSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "flowIdentifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "startOperation",
+                        "OperationNumber": 20,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "StartOperationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cuOperationDefinition",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "stopOperation",
+                        "OperationNumber": 21,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "StopOperationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cuOperationDefinition",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "monitorStatusFlow",
+                        "OperationNumber": 12,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "connection",
+                                "Type": "MonitorStatusFlowPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "flowFullStatus",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "retrieveStatusFlow",
+                        "OperationNumber": 13,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "connection",
+                                "Type": "RetrieveStatusFlowInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "identifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "connection",
+                                "Type": "RetrieveStatusFlowResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "status",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "monitorStatusCU",
+                        "OperationNumber": 17,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "connection",
+                                "Type": "MonitorStatusCUPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "cuFullStatus",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "retrieveStatusCU",
+                        "OperationNumber": 18,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "connection",
+                                "Type": "RetrieveStatusCUInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "identifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "connection",
+                                "Type": "RetrieveStatusCUResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "status",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "monitorStatusStation",
+                        "OperationNumber": 4,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "connection",
+                                "Type": "MonitorStatusStationPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "stationFullStatus",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "retrieveStatusStation",
+                        "OperationNumber": 5,
+                        "InteractionPattern": "INVOKE",
+                        "Parameters": [
+                            {
+                                "Name": "Invoke",
+                                "Module": "connection",
+                                "Type": "RetrieveStatusStationInvokeMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "identifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            },
+                            {
+                                "Name": "Response",
+                                "Module": "connection",
+                                "Type": "RetrieveStatusStationResponseMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "status",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "setNominalStation",
+                        "OperationNumber": 6,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "SetNominalStationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "nominalStation",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "openConnectionCU",
+                        "OperationNumber": 16,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "OpenCUSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "identifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "closeConnectionCU",
+                        "OperationNumber": 19,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "CloseCUSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "identifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "closeConnectionStation",
+                        "OperationNumber": 7,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "CloseStationSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "stationIdentifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "terminateProcessFlow",
+                        "OperationNumber": 15,
+                        "InteractionPattern": "SUBMIT",
+                        "Parameters": [
+                            {
+                                "Name": "Submit",
+                                "Module": "connection",
+                                "Type": "TerminateFlowSubmitMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "flowIdentifier",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "GroundAlarm",
+                "Oid": null,
+                "Uid": 4203,
+                "AreaNumber": 106,
+                "ServiceNumber": 8,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "monitorAlarm",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "groundAlarm",
+                                "Type": "MonitorAlarmPublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "source",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectId",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectId"
+                                    },
+                                    {
+                                        "Name": "groundAlarm",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC",
+                "Name": "DecommutedPacket",
+                "Oid": null,
+                "Uid": 4204,
+                "AreaNumber": 106,
+                "ServiceNumber": 9,
+                "ServiceVersion": 1,
+                "Operations": [
+                    {
+                        "Name": "monitorValue",
+                        "OperationNumber": 1,
+                        "InteractionPattern": "PUBLISH-SUBSCRIBE",
+                        "Parameters": [
+                            {
+                                "Name": "Publish",
+                                "Module": "decommutedPacket",
+                                "Type": "MonitorValuePublishMessage",
+                                "Attributes": [
+                                    {
+                                        "Name": "principal",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisMessageHeader",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "standard",
+                                        "Module": "GPCC-communicationLibrary",
+                                        "Type": "IsisSecondaryHeaderPubSubUpdate",
+                                        "Link": ""
+                                    },
+                                    {
+                                        "Name": "source",
+                                        "Module": "GPCC-ccsds_com",
+                                        "Type": "ObjectId",
+                                        "Link": "DataType@GPCC-ccsds_com@ObjectId"
+                                    },
+                                    {
+                                        "Name": "decommutedPacket",
+                                        "Module": "GPCC-ccsds_mal",
+                                        "Type": "PolymorphicPart",
+                                        "Link": "Scalar@GPCC-ccsds_mal@PolymorphicPart"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

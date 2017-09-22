@@ -13,7 +13,7 @@
     <relativePath/>
   </parent>
   <modules>
-    <module>GPCCHS_E_VIS/pom_stubs.xml</module>
+    <module>src/impl/catalogs_stub</module>
   </modules>
   <build>
     <plugins>

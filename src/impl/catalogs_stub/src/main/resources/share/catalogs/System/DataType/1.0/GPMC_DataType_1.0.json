@@ -1,0 +1,3070 @@
+{
+    "Catalog": {
+        "Name": "DataType",
+        "Version": "1.0",
+        "ObjectType": {
+            "Area": 2,
+            "Service": 2,
+            "Version": 1,
+            "Number": 31
+        },
+        "Items": [
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "UCPParameter",
+                "Oid": null,
+                "Uid": 4046,
+                "Attributes": [
+                    {
+                        "Name": "name",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "value",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "UCPReport",
+                "Oid": null,
+                "Uid": 4047,
+                "Attributes": [
+                    {
+                        "Name": "date",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "parameters",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "UCPParameter",
+                            "Link": "DataType@GPMC-connection@UCPParameter"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "CUFullStatus",
+                "Oid": null,
+                "Uid": 4048,
+                "Attributes": [
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "CUIdentifier",
+                            "Link": "DataType@GPMC-connection@CUIdentifier"
+                        }
+                    },
+                    {
+                        "Name": "status",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "CUStatus",
+                            "Link": "DataType@GPMC-connection@CUStatus"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "CUIdentifier",
+                "Oid": null,
+                "Uid": 4049,
+                "Attributes": [
+                    {
+                        "Name": "CUID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "LONG",
+                            "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                        }
+                    },
+                    {
+                        "Name": "channelName",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "spacecraftID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "stationID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "CUOperationDefinition",
+                "Oid": null,
+                "Uid": 4050,
+                "Attributes": [
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "CUIdentifier",
+                            "Link": "DataType@GPMC-connection@CUIdentifier"
+                        }
+                    },
+                    {
+                        "Name": "definition",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "OperationDefinition",
+                            "Link": "DataType@GPMC-connection@OperationDefinition"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "CUStatus",
+                "Oid": null,
+                "Uid": 4051,
+                "Attributes": [
+                    {
+                        "Name": "state",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "CUState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "sLEReport",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "UCPReport",
+                            "Link": "DataType@GPMC-connection@UCPReport"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "FlowConfiguration",
+                "Oid": null,
+                "Uid": 4052,
+                "Attributes": [
+                    {
+                        "Name": "configurationFiles",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "URI",
+                            "Link": "Scalar@GPCC-ccsds_mal@URI"
+                        }
+                    },
+                    {
+                        "Name": "reconnectionNumber",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "reconnectionDelay",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "FlowFullStatus",
+                "Oid": null,
+                "Uid": 4053,
+                "Attributes": [
+                    {
+                        "Name": "status",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowStatus",
+                            "Link": "DataType@GPMC-connection@FlowStatus"
+                        }
+                    },
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowIdentifier",
+                            "Link": "DataType@GPMC-connection@FlowIdentifier"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "FlowIdentifier",
+                "Oid": null,
+                "Uid": 4054,
+                "Attributes": [
+                    {
+                        "Name": "flowID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "LONG",
+                            "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                        }
+                    },
+                    {
+                        "Name": "spacecraftID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "stationID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "FlowList",
+                "Oid": null,
+                "Uid": 4055,
+                "Attributes": [
+                    {
+                        "Name": "flowIdentifiers",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowIdentifier",
+                            "Link": "DataType@GPMC-connection@FlowIdentifier"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "FlowSmallStatus",
+                "Oid": null,
+                "Uid": 4056,
+                "Attributes": [
+                    {
+                        "Name": "state",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "SynthesisState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "connectionStates",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "CUFullStatus",
+                            "Link": "DataType@GPMC-connection@CUFullStatus"
+                        }
+                    },
+                    {
+                        "Name": "processFullState",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "ProcessFullState",
+                            "Link": "DataType@GPMC-connection@ProcessFullState"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "FlowStatus",
+                "Oid": null,
+                "Uid": 4057,
+                "Attributes": [
+                    {
+                        "Name": "status",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowSmallStatus",
+                            "Link": "DataType@GPMC-connection@FlowSmallStatus"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "InitFlowConfiguration",
+                "Oid": null,
+                "Uid": 4058,
+                "Attributes": [
+                    {
+                        "Name": "configuration",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowConfiguration",
+                            "Link": "DataType@GPMC-connection@FlowConfiguration"
+                        }
+                    },
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowIdentifier",
+                            "Link": "DataType@GPMC-connection@FlowIdentifier"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "InitStationConfiguration",
+                "Oid": null,
+                "Uid": 4059,
+                "Attributes": [
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "StationIdentifier",
+                            "Link": "DataType@GPMC-connection@StationIdentifier"
+                        }
+                    },
+                    {
+                        "Name": "configuration",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowConfiguration",
+                            "Link": "DataType@GPMC-connection@FlowConfiguration"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "NominalStation",
+                "Oid": null,
+                "Uid": 4060,
+                "Attributes": [
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "StationIdentifier",
+                            "Link": "DataType@GPMC-connection@StationIdentifier"
+                        }
+                    },
+                    {
+                        "Name": "nominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "OperationDefinition",
+                "Oid": null,
+                "Uid": 4061,
+                "Attributes": [
+                    {
+                        "Name": "operationName",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "parameters",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "ProcessFullState",
+                "Oid": null,
+                "Uid": 4062,
+                "Attributes": [
+                    {
+                        "Name": "processState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ProcessState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "processId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "LONG",
+                            "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "StationFullStatus",
+                "Oid": null,
+                "Uid": 4063,
+                "Attributes": [
+                    {
+                        "Name": "identifier",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "StationIdentifier",
+                            "Link": "DataType@GPMC-connection@StationIdentifier"
+                        }
+                    },
+                    {
+                        "Name": "status",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "StationStatus",
+                            "Link": "DataType@GPMC-connection@StationStatus"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "StationIdentifier",
+                "Oid": null,
+                "Uid": 4064,
+                "Attributes": [
+                    {
+                        "Name": "spacecraftID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "stationID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "StationList",
+                "Oid": null,
+                "Uid": 4065,
+                "Attributes": [
+                    {
+                        "Name": "stationIds",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "StationStatus",
+                "Oid": null,
+                "Uid": 4066,
+                "Attributes": [
+                    {
+                        "Name": "state",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "SynthesisState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "flowStates",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlowFullStatus",
+                            "Link": "DataType@GPMC-connection@FlowFullStatus"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1Context",
+                "Oid": null,
+                "Uid": 4067,
+                "Attributes": [
+                    {
+                        "Name": "cop1Status",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "COP1Status",
+                            "Link": "DataType@GPMC-cop1@COP1Status"
+                        }
+                    },
+                    {
+                        "Name": "cop1IfAutoState",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "COP1IfAutoState",
+                            "Link": "DataType@GPMC-cop1@COP1IfAutoState"
+                        }
+                    },
+                    {
+                        "Name": "cop1SentQueue",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "COP1SentQueue",
+                            "Link": "DataType@GPMC-cop1@COP1SentQueue"
+                        }
+                    },
+                    {
+                        "Name": "cop1WaitQueue",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "COP1WaitQueue",
+                            "Link": "DataType@GPMC-cop1@COP1WaitQueue"
+                        }
+                    },
+                    {
+                        "Name": "gpmcc1State",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "GPMCC1State",
+                            "Link": "DataType@GPMC-cop1@GPMCC1State"
+                        }
+                    },
+                    {
+                        "Name": "cOP1InternalState",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "COP1InternalState",
+                            "Link": "DataType@GPMC-cop1@COP1InternalState"
+                        }
+                    },
+                    {
+                        "Name": "CLCW_decoder",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "DecoderType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "retrans_mode",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "initvr_mode",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1Directive",
+                "Oid": null,
+                "Uid": 4068,
+                "Attributes": [
+                    {
+                        "Name": "attribute",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "id",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "DirectiveIdentifier",
+                            "Link": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1IfAutoState",
+                "Oid": null,
+                "Uid": 4069,
+                "Attributes": [
+                    {
+                        "Name": "mode",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ModeType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "decoder",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "DecoderType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "controle_BD",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "N_R",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "initiate_type",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "N_R_other_VC",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "initiate_type_other",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "ifQueue",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "IfQueueElement",
+                            "Link": "DataType@GPMC-cop1@IfQueueElement"
+                        }
+                    },
+                    {
+                        "Name": "N_R_alert",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "nb_emission_try",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "operator_request",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "tm_hole_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "nb_perturbation",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "last_farm_B_counter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "satellite_indice",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "authentication_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "last_acknowledged_element",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "emission_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "nb_unit",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "action_type",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "previous_action",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "terminate_type",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "TerminateType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "clcw_mask",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "ClcwSegmentMask",
+                            "Link": "DataType@GPMC-cop1@ClcwSegmentMask"
+                        }
+                    },
+                    {
+                        "Name": "next_segment_index",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1InternalState",
+                "Oid": null,
+                "Uid": 4070,
+                "Attributes": [
+                    {
+                        "Name": "stored_lockout_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "stored_wait_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "stored_restransmit_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "AD_out_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "V_S_nbmod",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "BC_out_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "BD_out_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "NN_R_nbmod",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "transmission_limit",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "timeout_type",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "transmission_count",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "sliding_window_width",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "T1_initial",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "FLOAT",
+                            "Link": "Scalar@GPCC-ccsds_mal@FLOAT"
+                        }
+                    },
+                    {
+                        "Name": "regulation_tc_delay",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "FLOAT",
+                            "Link": "Scalar@GPCC-ccsds_mal@FLOAT"
+                        }
+                    },
+                    {
+                        "Name": "suspend_state",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "V_S",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "state",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "NN_R",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1SentQueue",
+                "Oid": null,
+                "Uid": 4071,
+                "Attributes": [
+                    {
+                        "Name": "sentQueueElements",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "SentQueueElement",
+                            "Link": "DataType@GPMC-cop1@SentQueueElement"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1Status",
+                "Oid": null,
+                "Uid": 4072,
+                "Attributes": [
+                    {
+                        "Name": "mode",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ModeType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "decoder",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "DecoderType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "state",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "lockout_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "wait_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "synchro_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "RF_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "retransmit_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "FarmB_counter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "event",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "CLCW",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "V_S",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "V_R",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "N_R",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "NN_R",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "num_frame",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "type_frame",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ModeType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "nb_accepted_frames",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "nb_confirmed_frames",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "nb_rejected_frames",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "variable_display",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "frame_display",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1WaitQueue",
+                "Oid": null,
+                "Uid": 4073,
+                "Attributes": [
+                    {
+                        "Name": "internal_id",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "frame_data",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "reemission_delay",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "FLOAT",
+                            "Link": "Scalar@GPCC-ccsds_mal@FLOAT"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "ClcwSegmentMask",
+                "Oid": null,
+                "Uid": 4074,
+                "Attributes": [
+                    {
+                        "Name": "sequence_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "sequence_type",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "SequenceType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "map",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "word_type",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "vc_id",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "farm_B_counter",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "RF_flag",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "synchro_flag",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "close_flag",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "wait_flag",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "retransmit_flag",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "report",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "version_name",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "state",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    },
+                    {
+                        "Name": "cop",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "FlagVal",
+                            "Link": "DataType@GPMC-cop1@FlagVal"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "FlagVal",
+                "Oid": null,
+                "Uid": 4075,
+                "Attributes": [
+                    {
+                        "Name": "val",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "GPMCC1State",
+                "Oid": null,
+                "Uid": 4076,
+                "Attributes": [
+                    {
+                        "Name": "proccessedTC",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "ProccessedTC",
+                            "Link": "DataType@GPMC-cop1@ProccessedTC"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "IfQueueElement",
+                "Oid": null,
+                "Uid": 4077,
+                "Attributes": [
+                    {
+                        "Name": "number",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "reemission_delay",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "FLOAT",
+                            "Link": "Scalar@GPCC-ccsds_mal@FLOAT"
+                        }
+                    },
+                    {
+                        "Name": "date",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "segment_data",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "index",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "priority",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "units",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "IfQueueUnit",
+                            "Link": "DataType@GPMC-cop1@IfQueueUnit"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "IfQueueUnit",
+                "Oid": null,
+                "Uid": 4078,
+                "Attributes": [
+                    {
+                        "Name": "nb_remaining_bytes",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    },
+                    {
+                        "Name": "last_state",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "mnemonic",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "nb_emitted_bytes",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "INTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@INTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "ProccessedTC",
+                "Oid": null,
+                "Uid": 4079,
+                "Attributes": [
+                    {
+                        "Name": "TCID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "IDENTIFIER",
+                            "Link": "Scalar@GPCC-ccsds_mal@IDENTIFIER"
+                        }
+                    },
+                    {
+                        "Name": "receivedDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "mnemo",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "segment_id",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "rawtc_data",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "APID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "definitionID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "sourceID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "delay",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "mapID",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "SentQueueElement",
+                "Oid": null,
+                "Uid": 4080,
+                "Attributes": [
+                    {
+                        "Name": "retransmit_flag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "internal_id",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "num_farm",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "date",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "STRING",
+                            "Link": "Scalar@GPCC-ccsds_mal@STRING"
+                        }
+                    },
+                    {
+                        "Name": "frame_data",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "reemission_delay",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "FLOAT",
+                            "Link": "Scalar@GPCC-ccsds_mal@FLOAT"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedPacket",
+                "Name": "DecommutedPacket",
+                "Oid": null,
+                "Uid": 4081,
+                "Attributes": [
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "decommutedValues",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "DecommutedValue",
+                            "Link": "DataType@GPMC-decommutedPacket@DecommutedValue"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "TelemetryPacket",
+                            "Link": "DataType@GPDS-rtdDataModel@TelemetryPacket"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "ClcwPacket",
+                            "Link": "DataType@GPMC-packet@ClcwPacket"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedPacket",
+                "Name": "DecommutedValue",
+                "Oid": null,
+                "Uid": 4082,
+                "Attributes": [
+                    {
+                        "Name": "name",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "IDENTIFIER",
+                            "Link": "Scalar@GPCC-ccsds_mal@IDENTIFIER"
+                        }
+                    },
+                    {
+                        "Name": "extractedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "convertedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "validityState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ValidityState",
+                            "Link": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedPacket",
+                "Name": "TransportedDecommutedPacket",
+                "Oid": null,
+                "Uid": 4083,
+                "Attributes": [
+                    {
+                        "Name": "decommutedValues",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "DecommutedValue",
+                            "Link": "DataType@GPMC-decommutedPacket@DecommutedValue"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedParameter",
+                "Name": "DecommutedParameter",
+                "Oid": null,
+                "Uid": 4084,
+                "Attributes": [
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "convertedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "extractedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "triggerOnCounter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "triggerOffCounter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "monitoringState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "MonitoringState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "validityState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ValidityState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "isObsolete",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedParameter",
+                "Name": "OperationParameter",
+                "Oid": null,
+                "Uid": 4085,
+                "Attributes": [
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "convertedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "extractedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "triggerOnCounter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "triggerOffCounter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "monitoringState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "MonitoringState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "validityState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ValidityState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "isObsolete",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "OperationParameter",
+                            "Link": "DataType@GPDS-rtdDataModel@OperationParameter"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "COMPOSITE",
+                            "Link": "Scalar@GPCC-ccsds_mal@COMPOSITE"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedParameter",
+                "Name": "ReportingParameter",
+                "Oid": null,
+                "Uid": 4086,
+                "Attributes": [
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "convertedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "extractedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "triggerOnCounter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "triggerOffCounter",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "monitoringState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "MonitoringState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "validityState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "ValidityState",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "isObsolete",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "Reporting",
+                            "Link": "DataType@GPDS-rtdDataModel@Reporting"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "COMPOSITE",
+                            "Link": "Scalar@GPCC-ccsds_mal@COMPOSITE"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodeInvocation",
+                "Oid": null,
+                "Uid": 4087,
+                "Attributes": [
+                    {
+                        "Name": "definitionId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "LONG",
+                            "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                        }
+                    },
+                    {
+                        "Name": "inputType",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "InputType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "encodingAction",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "EncodingAction",
+                            "Link": "DataType@GPMC-encode@EncodingAction"
+                        }
+                    },
+                    {
+                        "Name": "encodedType",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "EncodedType",
+                            "Link": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodeLargeTCInvocation",
+                "Oid": null,
+                "Uid": 4088,
+                "Attributes": [
+                    {
+                        "Name": "definitionId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "LONG",
+                            "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                        }
+                    },
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodeResponse",
+                "Oid": null,
+                "Uid": 4089,
+                "Attributes": [
+                    {
+                        "Name": "encodedType",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "EncodedType",
+                            "Link": ""
+                        }
+                    },
+                    {
+                        "Name": "encodedValues",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "EncodedValuesList",
+                            "Link": "DataType@GPMC-encode@EncodedValuesList"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodedValue",
+                "Oid": null,
+                "Uid": 4090,
+                "Attributes": [
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "sequenceCount",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodedValueRaw",
+                "Oid": null,
+                "Uid": 4091,
+                "Attributes": [
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "sequenceCount",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodedValuesList",
+                "Oid": null,
+                "Uid": 4092,
+                "Attributes": [
+                    {
+                        "Name": "encodedValues",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "EncodedValue",
+                            "Link": "DataType@GPMC-encode@EncodedValue"
+                        }
+                    },
+                    {
+                        "Name": "largeSequenceCount",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncodingAction",
+                "Oid": null,
+                "Uid": 4093,
+                "Attributes": [
+                    {
+                        "Name": "argumentValues",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "AttributeValue",
+                            "Link": "DataType@GPCC-ccsds_mc@AttributeValue"
+                        }
+                    },
+                    {
+                        "Name": "argumentDefinitions",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "IDENTIFIER",
+                            "Link": "Scalar@GPCC-ccsds_mal@IDENTIFIER"
+                        }
+                    },
+                    {
+                        "Name": "isConvertedValues",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "sourceId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "isForSending",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "countOverwriteFlag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "preencryptedFlag",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "ackField",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "EncryptResponse",
+                "Oid": null,
+                "Uid": 4094,
+                "Attributes": [
+                    {
+                        "Name": "rawData",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "status",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "TCFile",
+                "Oid": null,
+                "Uid": 4095,
+                "Attributes": [
+                    {
+                        "Name": "partition",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "fileIdentifier",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "ackField",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "sourceId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "fileType",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "fileChecksum",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "file",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "URI",
+                            "Link": "Scalar@GPCC-ccsds_mal@URI"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-encode",
+                "Name": "TimeTaggedTelecommand",
+                "Oid": null,
+                "Uid": 4096,
+                "Attributes": [
+                    {
+                        "Name": "ackField",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "sourceId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "subScheduledId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UINTEGER",
+                            "Link": "Scalar@GPCC-ccsds_mal@UINTEGER"
+                        }
+                    },
+                    {
+                        "Name": "definitionIds",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "IDENTIFIER",
+                            "Link": "Scalar@GPCC-ccsds_mal@IDENTIFIER"
+                        }
+                    },
+                    {
+                        "Name": "dates",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "rawValues",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-groundAlarm",
+                "Name": "GroundMonitoringAlarm",
+                "Oid": null,
+                "Uid": 4097,
+                "Attributes": [
+                    {
+                        "Name": "creationDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "updateDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "closingDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "hasAckRequest",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "alarmId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "LONG",
+                            "Link": "Scalar@GPCC-ccsds_mal@LONG"
+                        }
+                    },
+                    {
+                        "Name": "transitions",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "Transition",
+                            "Link": "DataType@GPMC-groundAlarm@Transition"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "Monitoring",
+                            "Link": "DataType@GPDS-rtdDataModel@Monitoring"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "DecommutedParameter",
+                            "Link": "DataType@GPMC-decommutedParameter@DecommutedParameter"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-groundAlarm",
+                "Name": "Transition",
+                "Oid": null,
+                "Uid": 4098,
+                "Attributes": [
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "convertedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "extractedValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "rawValue",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "ATTRIBUTE",
+                            "Link": "Scalar@GPCC-ccsds_mal@ATTRIBUTE"
+                        }
+                    },
+                    {
+                        "Name": "monitoringState",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "MonitoringState",
+                            "Link": ""
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-groundAlarm",
+                "Name": "TransportedGroundAlarm",
+                "Oid": null,
+                "Uid": 4099,
+                "Attributes": [
+                    {
+                        "Name": "transitions",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "Transition",
+                            "Link": "DataType@GPMC-groundAlarm@Transition"
+                        }
+                    },
+                    {
+                        "Name": "hasAckRequest",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "ClcwPacket",
+                "Oid": null,
+                "Uid": 4100,
+                "Attributes": [
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "apid",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "service",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "subService",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "destinationId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isDecommuted",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "primaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "secondaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "rawData",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "TelemetryPacket",
+                            "Link": "DataType@GPDS-rtdDataModel@TelemetryPacket"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "COMPOSITE",
+                            "Link": "Scalar@GPCC-ccsds_mal@COMPOSITE"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "Packet",
+                "Oid": null,
+                "Uid": 4101,
+                "Attributes": [
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "apid",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "service",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "subService",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "destinationId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isDecommuted",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "primaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "secondaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "rawData",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "RmPacket",
+                "Oid": null,
+                "Uid": 4102,
+                "Attributes": [
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "apid",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "service",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "subService",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "destinationId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isDecommuted",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "primaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "secondaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "rawData",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "TelemetryPacket",
+                            "Link": "DataType@GPDS-rtdDataModel@TelemetryPacket"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "COMPOSITE",
+                            "Link": "Scalar@GPCC-ccsds_mal@COMPOSITE"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "TmPacket",
+                "Oid": null,
+                "Uid": 4103,
+                "Attributes": [
+                    {
+                        "Name": "groundDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "onboardDate",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "TIME",
+                            "Link": "Scalar@GPCC-ccsds_mal@TIME"
+                        }
+                    },
+                    {
+                        "Name": "apid",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "USHORT",
+                            "Link": "Scalar@GPCC-ccsds_mal@USHORT"
+                        }
+                    },
+                    {
+                        "Name": "service",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "subService",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "destinationId",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isDecommuted",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "primaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "secondaryHeaderSize",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "UOCTET",
+                            "Link": "Scalar@GPCC-ccsds_mal@UOCTET"
+                        }
+                    },
+                    {
+                        "Name": "isNominal",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BOOLEAN",
+                            "Link": "Scalar@GPCC-ccsds_mal@BOOLEAN"
+                        }
+                    },
+                    {
+                        "Name": "rawData",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "related",
+                        "Type": {
+                            "Catalog": "DataType",
+                            "Name": "TelemetryPacket",
+                            "Link": "DataType@GPDS-rtdDataModel@TelemetryPacket"
+                        }
+                    },
+                    {
+                        "Name": "source",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "COMPOSITE",
+                            "Link": "Scalar@GPCC-ccsds_mal@COMPOSITE"
+                        }
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "GPMC-rawData",
+                "Name": "RawData",
+                "Oid": null,
+                "Uid": 4104,
+                "Attributes": [
+                    {
+                        "Name": "rawData",
+                        "Type": {
+                            "Catalog": "Scalar",
+                            "Name": "BLOB",
+                            "Link": "Scalar@GPCC-ccsds_mal@BLOB"
+                        }
+                    },
+                    {
+                        "Name": "securityStatus",
+                        "Type": {
+                            "Catalog": "",
+                            "Name": "SecurityStatus",
+                            "Link": ""
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

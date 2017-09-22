@@ -186,6 +186,10 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   // loop on EP name to add payload sorted by masterTime in EP table
   for (let iEp = 0; iEp < epNames.length; iEp += 1) {
     const epName = epNames[iEp];
+    // Does not consider cols as an entry point name
+    if (epName === 'cols') {
+      continue;
+    }
     if (!newState.data[epName]) {
       newState.data[epName] = {};
       newState.indexes[epName] = [];
@@ -199,28 +203,34 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
     for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
       // let indexInLines = -1;
       const time = timestamps[iTime];
+      let updLines = true;
       // Add payload in EP Table sorted by ascending time
       if (lastIndex === -1 && lastTime && lastTime < time) {
         newState.indexes[epName].push(time);
       } else {
         let index = -1;
         if (newState.indexes[epName].length) {
-          index = _findIndex(newState.indexes[epName], val => val > time);
+          index = _findIndex(newState.indexes[epName], val => val >= time);
         }
         lastIndex = index;
         if (index === -1) {
           newState.indexes[epName].push(time);
-        } else {
+        } else if (newState.indexes[epName][index] !== time) {
           newState.indexes[epName] = _concat(
             newState.indexes[epName].slice(0, index),
             time,
             newState.indexes[epName].slice(index));
+        } else {
+          // Data is already present in tables
+          updLines = false;
         }
       }
       lastTime = time;
 
-      // Sorting considering specified column
-      newState = updateLines(newState, epName, time, colToSort, direction);
+      if (updLines) {
+        // Sorting considering specified column
+        newState = updateLines(newState, epName, time, colToSort, direction);
+      }
     }
   }
   return newState;

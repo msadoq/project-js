@@ -51,7 +51,7 @@ deploy_cots() {
   npm run prepare:maven:build
 
   Log "deploy_cots" "installing NPM dependencies in client" ${INFO}
-  npm ${NPM_OPTS2} install
+  npm ${NPM_OPTS2} install --production
 
   Log "deploy_cots" "building main process package" ${INFO}
   npm run build:main

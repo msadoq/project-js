@@ -37,3 +37,11 @@
     max-width: 220px;
   }
 }
+
+.scrollbar {
+   background-color: grey;
+   position: absolute;
+   height: 20px;
+   width: 10px;
+   right: 0px;
+}

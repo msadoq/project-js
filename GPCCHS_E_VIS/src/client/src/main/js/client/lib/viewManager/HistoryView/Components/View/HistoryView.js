@@ -15,7 +15,9 @@ const getDataByLine = (lineId, allData) => {
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
-const Table = ({ lines, cols, position, displayedRows, rowHeight, current, data: allData }) => (
+const Table = ({
+  lines, cols, position, displayedRows, rowHeight, current, data: allData,
+}) => (
   <table>
     <thead>
       <tr
@@ -104,16 +106,22 @@ class HistoryView extends React.Component {
   }
 
   onScrollDown = () => {
-    if (this.batchedState.position <= this.getLastPosition()) {
+    if (this.batchedState.position < this.getLastPosition()) {
       this.setBatchedState(_.update('position', _.add(1)));
     }
   }
 
   getLastPosition = () => (
-    this.props.data.lines.length - this.getNbElems()
+    (this.props.data.lines.length - this.getNbElems()) + 1
   )
 
-  getNbElems = () => Math.floor(this.props.containerHeight / this.props.rowHeight)
+  getNbElems = () => Math.ceil(this.props.containerHeight / this.props.rowHeight)
+
+  getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
+
+  getScrollBarPosition = () => (
+    (this.state.position / this.getLastPosition()) * this.getScrollAreaHeight()
+  )
 
   render() {
     const style = {
@@ -126,7 +134,9 @@ class HistoryView extends React.Component {
         className={styles.container}
         style={style}
       >
+        <div style={{ top: `calc(${this.getScrollBarPosition()}px + 33px)` }} className={styles.scrollbar} />
         <Table
+          scrollBarPosition={this.getScrollBarPosition()}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbElems()}

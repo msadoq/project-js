@@ -14,6 +14,7 @@
   </parent>
   <modules>
     <module>GPCCHS_E_VIS</module>
+    <module>src/impl/catalogs_stub</module>
   </modules>
   <build>
     <plugins>

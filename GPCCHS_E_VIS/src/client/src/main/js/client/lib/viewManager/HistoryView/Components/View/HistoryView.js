@@ -37,7 +37,7 @@ const Table = ({ lines, cols, position, displayedRows, rowHeight, current, data:
           const lineId = position + i;
           const isCurrent = current === lineId;
           const isPrevCurrent = current - 1 === lineId;
-          const rowKey = data.epName + data.masterTime + i; // TODO do not use 'i'
+          const rowKey = data.epName + data.masterTime;
           return (
             <tr
               className={classnames({

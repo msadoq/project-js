@@ -30,6 +30,8 @@ deploy_cots() {
   sed -i "s@ISIS_PREFIX_ROOT@${find.dependencies.dir}@g" ${find.dependencies.dir}/lib/*.la
 
   Log "deploy_cots" "configuring NPM" ${INFO}
+  unset http_proxy
+  unset https_proxy
   NPM_PROJECT_CONFIG=${api.work.dir}/.npmrc
   NPM_CACHE_DURATION=${NPM_CACHE_DURATION:-400000000}
   NPM_USER_CONFIG=${NPM_USER_CONFIG:-${NPM_PROJECT_CONFIG}}

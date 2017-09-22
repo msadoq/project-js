@@ -15,7 +15,7 @@ const getDataByLine = (lineId, allData) => {
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
-const Table = ({ lines, cols, position, rowHeight, current, data: allData }) => (
+const Table = ({ lines, cols, position, displayedRows, rowHeight, current, data: allData }) => (
   <table>
     <thead>
       <tr
@@ -32,7 +32,7 @@ const Table = ({ lines, cols, position, rowHeight, current, data: allData }) => 
     </thead>
     <tbody>
       {
-        _.drop(position)(lines).map((line, i) => {
+        _.slice(position, displayedRows + position)(lines).map((line, i) => {
           const data = getDataByLine(line, allData);
           const lineId = position + i;
           const isCurrent = current === lineId;
@@ -71,6 +71,7 @@ Table.propTypes = {
   cols: PropTypes.arrayOf(PropTypes.string).isRequired,
   lines: PropTypes.arrayOf(PropTypes.string).isRequired,
   rowHeight: PropTypes.number.isRequired,
+  displayedRows: PropTypes.number.isRequired,
 };
 Table.defaultProps = {
   current: {},
@@ -109,8 +110,10 @@ class HistoryView extends React.Component {
   }
 
   getLastPosition = () => (
-    this.props.data.lines.length - Math.floor(this.props.containerHeight / this.props.rowHeight)
+    this.props.data.lines.length - this.getNbElems()
   )
+
+  getNbElems = () => Math.floor(this.props.containerHeight / this.props.rowHeight)
 
   render() {
     const style = {
@@ -126,6 +129,7 @@ class HistoryView extends React.Component {
         <Table
           rowHeight={this.props.rowHeight}
           position={this.state.position}
+          displayedRows={this.getNbElems()}
           {...this.props.data}
         />
       </div>

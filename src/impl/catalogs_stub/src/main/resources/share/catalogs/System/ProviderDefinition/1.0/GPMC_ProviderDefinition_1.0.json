@@ -1,0 +1,800 @@
+{
+    "Catalog": {
+        "Name": "ProviderDefinition",
+        "Version": "1.0",
+        "ObjectType": {
+            "Area": 2,
+            "Service": 2,
+            "Version": 1,
+            "Number": 192
+        },
+        "Items": [
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "rawdata@gpmcac_p_acq",
+                "Oid": null,
+                "Uid": 4148,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "RawData",
+                    "Link": "Service@GPMC@RawData"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "packet@gpmcac_p_acq",
+                "Oid": null,
+                "Uid": 4149,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Packet",
+                    "Link": "Service@GPMC@Packet"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "parameter@gpmcc1_p_mgt",
+                "Oid": null,
+                "Uid": 4150,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Parameter",
+                    "Link": "Service@MC@Parameter"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "cop1@gpmcc1_p_mgt",
+                "Oid": null,
+                "Uid": 4151,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Cop1",
+                    "Link": "Service@GPMC@Cop1"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    },
+                    {
+                        "Property": "FOPSTATE",
+                        "Comment": "Boolean value used to dispatch operation in the right provider of Cop1 service : FopStateProvider or COP1Provider"
+                    }
+
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "action@gpmcc1_p_mgt",
+                "Oid": null,
+                "Uid": 4152,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Action",
+                    "Link": "Service@MC@Action"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "connection@gpmcco_d_mgr",
+                "Oid": null,
+                "Uid": 4153,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Connection",
+                    "Link": "Service@GPMC@Connection"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "connection@gpmcco_p_ucp",
+                "Oid": null,
+                "Uid": 4154,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Connection",
+                    "Link": "Service@GPMC@Connection"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "UCID",
+                        "Comment": "Unitary connection identification (an integer)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "rawdata@gpmcco_p_ucp",
+                "Oid": null,
+                "Uid": 4155,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "RawData",
+                    "Link": "Service@GPMC@RawData"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "action@gpmcco_p_ucp",
+                "Oid": null,
+                "Uid": 4156,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Action",
+                    "Link": "Service@MC@Action"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "packet@gpmcde_p_dec",
+                "Oid": null,
+                "Uid": 4157,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Packet",
+                    "Link": "Service@GPMC@Packet"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    },
+                    {
+                        "Property": "PUSFLAG",
+                        "Comment": "Flag indicating if PUS daemons shall take into account the published date (true or false)."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "decommutedpacket@gpmcde_p_dec",
+                "Oid": null,
+                "Uid": 4158,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "DecommutedPacket",
+                    "Link": "Service@GPMC@DecommutedPacket"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    },
+                    {
+                        "Property": "PUSFLAG",
+                        "Comment": "Flag indicating if PUS daemons shall take into account the published date (true or false)."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "parameter@gpmcde_p_dec",
+                "Oid": null,
+                "Uid": 4159,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Parameter",
+                    "Link": "Service@MC@Parameter"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    },
+                    {
+                        "Property": "PUSFLAG",
+                        "Comment": "Flag indicating if PUS daemons shall take into account the published date (true or false)."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "groundalarm@gpmcde_p_dec",
+                "Oid": null,
+                "Uid": 4160,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "GroundAlarm",
+                    "Link": "Service@GPMC@GroundAlarm"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    },
+                    {
+                        "Property": "PUSFLAG",
+                        "Comment": "Flag indicating if PUS daemons shall take into account the published date (true or false)."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "encode@gpmcen_d_enc",
+                "Oid": null,
+                "Uid": 4170,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Encode",
+                    "Link": "Service@GPMC@Encode"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_001",
+                "Oid": null,
+                "Uid": 4171,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": []
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_003",
+                "Oid": null,
+                "Uid": 4172,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_005",
+                "Oid": null,
+                "Uid": 4173,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_011",
+                "Oid": null,
+                "Uid": 4174,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_012",
+                "Oid": null,
+                "Uid": 4175,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_013",
+                "Oid": null,
+                "Uid": 4176,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_014",
+                "Oid": null,
+                "Uid": 4177,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_015",
+                "Oid": null,
+                "Uid": 4178,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_018",
+                "Oid": null,
+                "Uid": 4179,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_019",
+                "Oid": null,
+                "Uid": 4180,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_140",
+                "Oid": null,
+                "Uid": 4181,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_142",
+                "Oid": null,
+                "Uid": 4182,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_144",
+                "Oid": null,
+                "Uid": 4183,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "APID",
+                        "Comment": ""
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "encode@gpmcpu_d_com",
+                "Oid": null,
+                "Uid": 4184,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Encode",
+                    "Link": "Service@GPMC@Encode"
+                },
+               "WhiteBoardProperty": [
+                    {
+                        "Property": "PUSxxx",
+                        "Comment": "Indicate if the PUS service xxx is supported"
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "pusgroundmodel@gpmcpu_d_com",
+                "Oid": null,
+                "Uid": 4185,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "PusGroundModel",
+                    "Link": "Service@GPMC@PusGroundModel"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "PUSxxx",
+                        "Comment": "Indicate if the PUs service xxx is supported"
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "actionCLTU@gpmcse_p_sen",
+                "Oid": null,
+                "Uid": 4187,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Action",
+                    "Link": "Service@MC@Action"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "actionRawTC@gpmcse_p_sen",
+                "Oid": null,
+                "Uid": 4188,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Action",
+                    "Link": "Service@MC@Action"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "actionAckRC@gpmcst_p_cmd",
+                "Oid": null,
+                "Uid": 4190,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Action",
+                    "Link": "Service@MC@Action"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "actionRC@gpmcst_p_cmd",
+                "Oid": null,
+                "Uid": 4191,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Action",
+                    "Link": "Service@MC@Action"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "aggregation@gpmcde_p_dec",
+                "Oid": null,
+                "Uid": 4192,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Aggregation",
+                    "Link": "Service@MC@Aggregation"
+                },
+                "WhiteBoardProperty": [
+                    {
+                        "Property": "SATELLITE",
+                        "Comment": "Name of the satellite"
+                    },
+                    {
+                        "Property": "STATION",
+                        "Comment": "Name of the station (KRN, AUS, ...)"
+                    },
+                    {
+                        "Property": "FLOWTYPE",
+                        "Comment": "Name of the flow (HKTMP, HKTMR, RM, CLCW, TC or RC)"
+                    },
+                    {
+                        "Property": "COLINK",
+                        "Comment": "Link value used to associate a consumer to a service provider. This key is set by the connection manager."
+                    },
+                    {
+                        "Property": "PUSFLAG",
+                        "Comment": "Flag indicating if PUS daemons shall take into account the published date (true or false)."
+                    }
+                ]
+            },
+            {
+                "ItemNamespace": "ProviderDefinition",
+                "Name": "connection@gpmcco_d_mgr",
+                "Oid": null,
+                "Uid": 4193,
+                "Service": {
+                    "Catalog": "Service",
+                    "Name": "Connection",
+                    "Link": "Service@GPMC@Connection"
+                },
+                "WhiteBoardProperty": []
+            }
+        ]
+    }
+}

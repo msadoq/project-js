@@ -1,0 +1,266 @@
+{
+    "Catalog": {
+        "Name": "ObjectType",
+        "Version": "1.0",
+        "ObjectType": {
+            "Area": 2,
+            "Service": 2,
+            "Version": 1,
+            "Number": 191
+        },
+        "Items": [
+            {
+                "ItemNamespace": "GPMC-connection",
+                "Name": "SLEReport",
+                "Oid": null,
+                "Uid": 4139,
+                "Area": 106,
+                "Service": 7,
+                "Version": 1,
+                "Number": 1,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "AccessPrivileges": ["GPCC-groundData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-groundData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "UCPReport",
+                    "Link": "DataType@GPMC-connection@UCPReport"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-cop1",
+                "Name": "COP1Context",
+                "Oid": null,
+                "Uid": 4140,
+                "Area": 106,
+                "Service": 3,
+                "Version": 1,
+                "Number": 1,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "AccessPrivileges": ["GPCC-groundData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-groundData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "COP1Context",
+                    "Link": "DataType@GPMC-cop1@COP1Context"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedPacket",
+                "Name": "DecommutedPacket",
+                "Oid": null,
+                "Uid": 4141,
+                "Area": 106,
+                "Service": 9,
+                "Version": 1,
+                "Number": 1,
+                "Source": {
+                    "Catalog": "ObjectType",
+                    "Name": "ClcwPacket",
+                    "Link": "ObjectType@GPMC-packet@ClcwPacket"
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "TelemetryPacket",
+                    "Link": "ObjectType@GPDS-rtdDataModel@TelemetryPacket"
+                },
+                "AccessPrivileges": ["GPCC-onboardData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-onboardData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "DecommutedPacket",
+                    "Link": "DataType@GPMC-decommutedPacket@DecommutedPacket"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedParameter",
+                "Name": "OperationParameter",
+                "Oid": null,
+                "Uid": 4142,
+                "Area": 4,
+                "Service": 2,
+                "Version": 1,
+                "Number": 0,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "OperationParameter",
+                    "Link": "ObjectType@GPDS-rtdDataModel@OperationParameter"
+                },
+                "AccessPrivileges": ["GPCC-groundData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-groundData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "OperationParameter",
+                    "Link": "DataType@GPMC-decommutedParameter@OperationParameter"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-decommutedParameter",
+                "Name": "ReportingParameter",
+                "Oid": null,
+                "Uid": 4143,
+                "Area": 4,
+                "Service": 2,
+                "Version": 1,
+                "Number": 1,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "Reporting",
+                    "Link": "ObjectType@GPDS-rtdDataModel@Reporting"
+                },
+                "AccessPrivileges": ["GPCC-onboardData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-onboardData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "ReportingParameter",
+                    "Link": "DataType@GPMC-decommutedParameter@ReportingParameter"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-groundAlarm",
+                "Name": "GroundMonitoringAlarm",
+                "Oid": null,
+                "Uid": 4144,
+                "Area": 106,
+                "Service": 8,
+                "Version": 1,
+                "Number": 1,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "Monitoring",
+                    "Link": "ObjectType@GPDS-rtdDataModel@Monitoring"
+                },
+                "AccessPrivileges": ["GPCC-groundData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-groundData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "GroundMonitoringAlarm",
+                    "Link": "DataType@GPMC-groundAlarm@GroundMonitoringAlarm"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "CLCW",
+                "Oid": null,
+                "Uid": 4145,
+                "Area": 106,
+                "Service": 1,
+                "Version": 1,
+                "Number": 3,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "TelemetryPacket",
+                    "Link": "ObjectType@GPDS-rtdDataModel@TelemetryPacket"
+                },
+                "AccessPrivileges": ["GPCC-onboardData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-onboardData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "ClcwPacket",
+                    "Link": "DataType@GPMC-packet@ClcwPacket"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "RM",
+                "Oid": null,
+                "Uid": 4146,
+                "Area": 106,
+                "Service": 1,
+                "Version": 1,
+                "Number": 2,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "TelemetryPacket",
+                    "Link": "ObjectType@GPDS-rtdDataModel@TelemetryPacket"
+                },
+                "AccessPrivileges": ["GPCC-groundData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-groundData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "RmPacket",
+                    "Link": "DataType@GPMC-packet@RmPacket"
+                }
+            },
+            {
+                "ItemNamespace": "GPMC-packet",
+                "Name": "TM",
+                "Oid": null,
+                "Uid": 4147,
+                "Area": 106,
+                "Service": 1,
+                "Version": 1,
+                "Number": 1,
+                "Source": {
+                    "Catalog": "",
+                    "Name": "",
+                    "Link": ""
+                },
+                "Related": {
+                    "Catalog": "ObjectType",
+                    "Name": "TelemetryPacket",
+                    "Link": "ObjectType@GPDS-rtdDataModel@TelemetryPacket"
+                },
+                "AccessPrivileges": ["GPCC-onboardData/defaultAccessPrivilege"],
+                "WritePrivileges": ["GPCC-onboardData/defaultWritePrivilege"],
+                "Confidentiality": ["Public"],
+                "DataType": {
+                    "Catalog": "DataType",
+                    "Name": "TmPacket",
+                    "Link": "DataType@GPMC-packet@TmPacket"
+                }
+            }
+        ]
+    }
+}

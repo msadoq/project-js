@@ -84,13 +84,15 @@
       }
       document.body.appendChild(bundle);
 
-      // load CSS bundle
+      // Load CSS bundle
       if (global.parameters.get('IS_BUNDLED')) {
+        const cssBundle = global.windowId === 'code' ? 'codeEditor' : 'renderer';
         const linkCss = document.createElement('link');
         linkCss.setAttribute('rel', 'stylesheet');
-        linkCss.setAttribute('href', './style.css');
+        linkCss.setAttribute('href', `./${cssBundle}.style.css`);
         document.body.appendChild(linkCss);
       }
+
     })();
   </script>
 </body>

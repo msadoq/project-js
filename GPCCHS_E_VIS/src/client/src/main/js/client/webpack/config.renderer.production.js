@@ -23,7 +23,7 @@ const config = merge(baseConfig, {
     ],
     codeEditor: [
       './lib/windowProcess/style/bootstrap',
-      '!style!css!postcss!./lib/windowProcess/style',
+      './lib/codeEditorProcess/Source.css',
       './lib/codeEditorProcess/index',
     ],
   },
@@ -62,7 +62,7 @@ const config = merge(baseConfig, {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
-    new ExtractTextPlugin('style.css'),
+    new ExtractTextPlugin('[name].style.css'),
     new webpack.DefinePlugin({
       'process.env.IS_BUNDLED': JSON.stringify('on'),
       'process.env.APP_ENV': JSON.stringify('renderer'),

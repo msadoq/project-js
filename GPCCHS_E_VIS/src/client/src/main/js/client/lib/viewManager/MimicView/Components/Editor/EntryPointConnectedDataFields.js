@@ -86,7 +86,6 @@ const EntryPointConnectedDataFields = (props) => {
           name="timeline"
           clearable={false}
           component={ReactSelectField}
-          free
           options={availableTimelines}
         />
         {

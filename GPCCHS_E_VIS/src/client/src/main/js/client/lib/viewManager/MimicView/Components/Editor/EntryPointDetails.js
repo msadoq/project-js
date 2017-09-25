@@ -66,6 +66,14 @@ export default class EntryPointDetails extends PureComponent {
     });
   }
 
+  handleSubmitConnectedData = (values) => {
+    const { entryPoint, updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
+      ...entryPoint,
+      connectedData: values,
+    });
+  }
+
   render() {
     const {
       entryPoint,
@@ -102,7 +110,7 @@ export default class EntryPointDetails extends PureComponent {
             domains={domains}
             timelines={timelines}
             form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
-            onSubmit={values => this.handleSubmit({ connectedData: values })}
+            onSubmit={this.handleSubmitConnectedData}
             initialValues={entryPoint.connectedData}
           />}
         </Panel>

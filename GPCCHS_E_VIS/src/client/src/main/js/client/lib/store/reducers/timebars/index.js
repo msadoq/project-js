@@ -54,7 +54,10 @@ export const getTimebarId = createSelector(
   _.get('id')
 );
 export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
-export const getTimebarMasterId = (state, { timebarUuid }) => _.get(['timebars', timebarUuid, 'masterId'], state);
+export const getTimebarMasterId = (state, { timebarUuid }) =>
+  _.get(['timebars', timebarUuid, 'masterId'], state);
+export const getTimebarVisuWindow = (state, { timebarUuid }) =>
+  _.get(['timebars', timebarUuid, 'visuWindow'], state);
 
 export const getTimebarVisuWindowDuration = (state, { timebarUuid }) => {
   const tb = state.timebars[timebarUuid];

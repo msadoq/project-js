@@ -105,6 +105,7 @@ export const getPageAbsolutePath = inPage('absolutePath', '');
 export const getPageIsModified = inPage('isModified');
 export const getPageDomainName = inPage('domainName');
 export const getPageSessionName = inPage('sessionName');
+export const getPageTimebarId = inPage('timebarUuid');
 
 export const isEditorOpened = (state, { pageId }) => _.get(['pages', pageId, 'panels', 'editorWidth']) > 0;
 

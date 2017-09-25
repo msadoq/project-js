@@ -3,6 +3,7 @@ import * as types from '../../types';
 import { injectDataRange, injectDataLast } from '../../actions/incomingData';
 import dataMapGenerator from '../../../dataManager/map';
 import executionMonitor from '../../../common/logManager/execution';
+import { getCurrentVisuWindow } from '../../../store/selectors/timebars';
 
 let dataMap = {};
 let previousDataMap = {};
@@ -32,7 +33,8 @@ const injectData = (timing) => {
       oldExpectedRangeIntervals,
       newExpectedRangeIntervals,
       dataToInject,
-      state.HistoryViewConfiguration
+      state.HistoryViewConfiguration,
+      getCurrentVisuWindow(state)
     );
 
     const updateLastData = injectDataLast(

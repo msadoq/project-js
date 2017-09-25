@@ -98,7 +98,8 @@ export default function historyViewData(state = {}, action) {
       };
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configuration } = action.payload;
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, configuration, visuWindow }
+        = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
@@ -109,14 +110,13 @@ export default function historyViewData(state = {}, action) {
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
         const viewId = viewIds[i];
-        const sorting = configuration[viewId].sorting; // colName, direction
         // Data Selection
         const epSubState =
-          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject, sorting);
+          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState =
-            viewRangeAdd(newState[viewId], viewId, epSubState, configuration[viewId]);
+            viewRangeAdd(newState[viewId], viewId, epSubState, configuration[viewId], visuWindow);
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
           }

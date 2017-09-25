@@ -1,5 +1,6 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _findIndex from 'lodash/findIndex';
+import _findLastIndex from 'lodash/findLastIndex';
 import _indexOf from 'lodash/indexOf';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
@@ -140,6 +141,28 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
 }
 
 /* ************************************
+ * Update state columns with columns read in payloads
+ * @param: current columns in state
+ * @param: columns read in payloads
+ * @param: hidden columns from configuration
+ * @return: updated state columns
+/* *********************************** */
+export function updateColToShow(stateCols, payloadCols, hiddenColumns) {
+  const newCols = stateCols;
+  for (let i = 0; i < payloadCols.length; i += 1) {
+    // look for col name in cols
+    if (_indexOf(stateCols, payloadCols[i]) === -1) {
+      // Checks if current name is hidden
+      if (_indexOf(hiddenColumns, payloadCols[i]) === -1) {
+        // Add column name in cols table
+        newCols.push(payloadCols[i]);
+      }
+    }
+  }
+  return newCols;
+}
+
+/* ************************************
  * Add payloads in plot view data state
  * @param: data state of current view
  * @param: current view ID
@@ -147,7 +170,7 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
  * @param: current view configuration
  * @return: updated state
 /* *********************************** */
-export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
+export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindow) {
   // get EP names
   const epNames = Object.keys(payloads || {});
   if (!epNames.length) {
@@ -171,17 +194,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   }
 
   // Update of columns to show
-  const payloadCols = Object.keys(payloads.cols);
-  for (let i = 0; i < payloadCols.length; i += 1) {
-    // look for col name in cols
-    if (_indexOf(newState.cols, payloadCols[i]) === -1) {
-      // Checks if current name is hidden
-      if (_indexOf(hiddenColumns, payloadCols[i]) === -1) {
-        // Add column name in cols table
-        newState.cols.push(payloadCols[i]);
-      }
-    }
-  }
+  newState.cols = updateColToShow(newState.cols, Object.keys(payloads.cols), hiddenColumns);
 
   // loop on EP name to add payload sorted by masterTime in EP table
   for (let iEp = 0; iEp < epNames.length; iEp += 1) {
@@ -233,9 +246,25 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
       }
     }
   }
+  newState = updateCurrent(newState, epNames, visuWindow);
   return newState;
 }
 
+function updateCurrent(state, epNames, visuWindow) {
+  const newState = state;
+  // Update current position
+  for (let i = 0; i < epNames.length; i += 1) {
+    const epName = epNames[i];
+    const current = _findLastIndex(newState.indexes[epName], t => t < visuWindow.current);
+    if (current !== -1) {
+      if (!newState.current) {
+        newState.current = {};
+      }
+      newState.current[epName] = epName.concat(' ').concat(newState.indexes[epName][current]);
+    }
+  }
+  return newState;
+}
 // function getIndex(state, epName, payload, colToSort, direction, iBegin) {
 //   return _findIndex(state.lines, val => compareValue(
 //     state[val.epName][val.index][colToSort], payload[colToSort], direction), iBegin);

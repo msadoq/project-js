@@ -3,7 +3,10 @@ import { createSelector } from 'reselect';
 import { getTimelines } from '../reducers/timelines';
 import { getTimebarTimelines as getTimebarTimelineIds } from '../reducers/timebarTimelines';
 
-import { getTimebarMasterId } from '../reducers/timebars';
+import { getTimebarMasterId, getTimebarVisuWindow } from '../reducers/timebars';
+import { getFocusedWindowId } from '../reducers/hsc';
+import { getWindowFocusedPageId } from '../reducers/windows';
+import { getPageTimebarId } from '../reducers/pages';
 
 const getTimebarTimelinesSelector = createSelector(
   [
@@ -27,6 +30,16 @@ const getTimebarTimelinesSelector = createSelector(
   }
 );
 
+const getCurrentVisuWindow = (state) => {
+  const windowId = getFocusedWindowId(state);
+  const pageId = getWindowFocusedPageId(state, { windowId });
+  const timebarUuid = getPageTimebarId(state, { pageId });
+  const visuWindow = getTimebarVisuWindow(state, { timebarUuid });
+
+  return visuWindow;
+};
+
 export default {
   getTimebarTimelinesSelector,
+  getCurrentVisuWindow,
 };

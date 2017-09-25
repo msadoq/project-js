@@ -21,7 +21,7 @@ const getCount = createSelector(
       let ptNb = 0;
       for (let j = 0; j < epNames.length; j += 1) {
         // Each line is an array
-        ptNb += viewState.lines[epNames[j]].length;
+        ptNb += viewState.indexes[epNames[j]].length;
       }
       count[viewId] = ptNb;
       countAll += ptNb;

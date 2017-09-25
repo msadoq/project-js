@@ -1,8 +1,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import _has from 'lodash/fp/has';
-import _get from 'lodash/fp/get';
-import _set from 'lodash/fp/set';
+import _get from 'lodash/get';
+import _set from 'lodash/set';
 import { getHealthMapForWindow } from '../../../store/reducers/health';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
 import { getWindowFocusedPageId } from '../../../store/reducers/windows';
@@ -21,17 +20,15 @@ const mapStateToProps = (state, { windowId }) => {
     [constants.VM_VIEW_TEXT]: {},
     [constants.VM_VIEW_PLOT]: {},
   };
+
   const viewCount = {
     [constants.VM_VIEW_PLOT]: plotData.getCount(state),
     [constants.VM_VIEW_TEXT]: textData.getCount(state),
   };
 
   views.forEach((v) => {
-    let nbPt = 1;
-    if (_has([v.viewData.type, v.viewId], viewCount)) {
-      nbPt = _get([v.viewData.type, v.viewId], viewCount);
-    }
-    _set([v.viewData.type, v.viewId], { title: v.viewData.title, nbPt }, viewInfo);
+    const nbPt = _get(viewCount, [v.viewData.type, v.viewId], 1);
+    _set(viewInfo, [v.viewData.type, v.viewId], { title: v.viewData.title, nbPt });
   });
   viewInfo[constants.VM_VIEW_PLOT].all = viewCount[constants.VM_VIEW_PLOT].all;
   viewInfo[constants.VM_VIEW_TEXT].all = viewCount[constants.VM_VIEW_TEXT].all;

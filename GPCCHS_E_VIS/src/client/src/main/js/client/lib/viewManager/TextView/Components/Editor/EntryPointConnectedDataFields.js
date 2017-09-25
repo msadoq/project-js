@@ -14,7 +14,27 @@ const EntryPointConnectedDataFields = (props) => {
   const {
     timelines,
     domains,
+    timeline,
   } = props;
+
+  let availableTimelines = [];
+  const noCorrespondingTimeline = !timelines.find(t => t.id === timeline) && timeline !== '*';
+  if (timelines) {
+    availableTimelines = timelines.map(t =>
+      ({
+        label: t.id,
+        value: t.id,
+      })
+    ).concat({
+      label: '*',
+      value: '*',
+    })
+    .concat(
+      noCorrespondingTimeline ?
+      { label: timeline, value: timeline, disabled: true } : []
+    );
+  }
+
   return (
     <div>
       <HorizontalFormGroup label="Formula">
@@ -66,16 +86,12 @@ const EntryPointConnectedDataFields = (props) => {
           name="timeline"
           clearable={false}
           component={ReactSelectField}
-          options={timelines.map(t =>
-            ({
-              label: t.id,
-              value: t.id,
-            })
-          ).concat({
-            label: '*',
-            value: '*',
-          })}
+          options={availableTimelines}
         />
+        {
+          noCorrespondingTimeline &&
+          <span className="text-danger">No corresponding timeline, create it or change it</span>
+        }
       </HorizontalFormGroup>
 
       <FieldArray
@@ -89,6 +105,11 @@ const EntryPointConnectedDataFields = (props) => {
 EntryPointConnectedDataFields.propTypes = {
   timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  timeline: PropTypes.string,
+};
+
+EntryPointConnectedDataFields.defaultProps = {
+  timeline: null,
 };
 
 export default EntryPointConnectedDataFields;

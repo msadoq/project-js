@@ -49,9 +49,10 @@ class EntryPointConnectedData extends Component {
       axisId,
       domains,
       parametric,
+      timeline,
     } = this.props;
 
-    let filteredAxes;
+    let filteredAxes = [];
     if (axes) {
       filteredAxes = Object.keys(axes)
       .map(key => ({
@@ -62,8 +63,78 @@ class EntryPointConnectedData extends Component {
         [unitX, unitY, unit].includes(axis.unit) ||
         axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
       );
-    } else {
-      filteredAxes = [];
+    }
+
+    // Determine elligible axes : must match the unit
+    let connectedDataUnitFilteredAxis = filteredAxes.filter(a => a.unit === unit);
+    const noCorrespondingAxis = !connectedDataUnitFilteredAxis.find(axis => axis.id === axisId);
+    connectedDataUnitFilteredAxis = connectedDataUnitFilteredAxis
+      .map(axis => ({
+        label: axis.label,
+        value: axis.axisId,
+      })).concat({
+        label: '-',
+        value: '-',
+      });
+    if (noCorrespondingAxis) {
+      connectedDataUnitFilteredAxis = connectedDataUnitFilteredAxis
+      .concat({ label: axisId, value: axisId, disabled: true });
+    }
+
+    // Determine elligible axes for X and Y : must match the unit
+    let connectedDataParametricFilteredAxisX = filteredAxes.filter(a => a.unit === unitX);
+    let connectedDataParametricFilteredAxisY = filteredAxes.filter(a => a.unit === unitY);
+    let noCorrespondingAxisX = false;
+    let noCorrespondingAxisY = false;
+    if (parametric) {
+      // X
+      noCorrespondingAxisX = !connectedDataParametricFilteredAxisX
+        .find(axis => axis.id === xAxisId);
+      connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
+        .map(axis => ({
+          label: axis.label,
+          value: axis.axisId,
+        })).concat({
+          label: '-',
+          value: '-',
+        });
+      if (noCorrespondingAxisX && xAxisId !== '-') {
+        connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
+        .concat({ label: xAxisId, value: xAxisId, disabled: true });
+      }
+      // Y
+      noCorrespondingAxisY = !connectedDataParametricFilteredAxisY
+        .find(axis => axis.id === yAxisId);
+      connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
+        .map(axis => ({
+          label: axis.label,
+          value: axis.axisId,
+        })).concat({
+          label: '-',
+          value: '-',
+        });
+      if (noCorrespondingAxisY && yAxisId !== '-') {
+        connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
+        .concat({ label: yAxisId, value: yAxisId, disabled: true });
+      }
+    }
+
+    let availableTimelines = [];
+    const noCorrespondingTimeline = !timelines.find(t => t.id === timeline) && timeline !== '*';
+    if (timelines) {
+      availableTimelines = timelines.map(t =>
+        ({
+          label: t.id,
+          value: t.id,
+        })
+      ).concat({
+        label: '*',
+        value: '*',
+      })
+      .concat(
+        noCorrespondingTimeline ?
+        { label: timeline, value: timeline, disabled: true } : []
+      );
     }
 
     return (
@@ -123,18 +194,12 @@ class EntryPointConnectedData extends Component {
                     name="connectedDataParametric.xAxisId"
                     clearable={false}
                     component={ReactSelectField}
-                    options={
-                      filteredAxes
-                      .filter(a => a.unit === unitX)
-                      .map(axis => ({
-                        label: axis.label,
-                        value: axis.axisId,
-                      })).concat({
-                        label: '-',
-                        value: '',
-                      })
-                    }
+                    options={connectedDataParametricFilteredAxisX}
                   />
+                  {
+                    noCorrespondingAxisX &&
+                    <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                  }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Domain X">
                   <Field
@@ -183,18 +248,12 @@ class EntryPointConnectedData extends Component {
                     name="connectedDataParametric.yAxisId"
                     clearable={false}
                     component={ReactSelectField}
-                    options={
-                      filteredAxes
-                      .filter(a => a.unit === unitY)
-                      .map(axis => ({
-                        label: axis.label,
-                        value: axis.axisId,
-                      })).concat({
-                        label: '-',
-                        value: '',
-                      })
-                    }
+                    options={connectedDataParametricFilteredAxisY}
                   />
+                  {
+                    noCorrespondingAxisY &&
+                    <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                  }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Domain Y">
                   <Field
@@ -256,18 +315,12 @@ class EntryPointConnectedData extends Component {
                   name="connectedData.axisId"
                   clearable={false}
                   component={ReactSelectField}
-                  options={
-                    filteredAxes
-                    .filter(a => a.unit === unit)
-                    .map(axis => ({
-                      label: axis.label,
-                      value: axis.axisId,
-                    })).concat({
-                      label: '-',
-                      value: '',
-                    })
-                  }
+                  options={connectedDataUnitFilteredAxis}
                 />
+                {
+                  noCorrespondingAxis &&
+                  <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                }
               </HorizontalFormGroup>
               <HorizontalFormGroup label="Domain">
                 <Field
@@ -294,16 +347,12 @@ class EntryPointConnectedData extends Component {
               name="connectedData.timeline"
               clearable={false}
               component={ReactSelectField}
-              options={timelines.map(t =>
-                ({
-                  label: t.id,
-                  value: t.id,
-                })
-              ).concat({
-                label: '*',
-                value: '*',
-              })}
+              options={availableTimelines}
             />
+            {
+              noCorrespondingTimeline &&
+              <span className="text-danger">No corresponding timeline, create it or change it</span>
+            }
           </HorizontalFormGroup>
           <FieldArray
             name="connectedData.filter"
@@ -345,6 +394,7 @@ EntryPointConnectedData.propTypes = {
   unitX: PropTypes.string,
   unitY: PropTypes.string,
   unit: PropTypes.string,
+  timeline: PropTypes.string,
   parametric: PropTypes.bool,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
@@ -358,6 +408,7 @@ EntryPointConnectedData.defaultProps = {
   unitX: null,
   unitY: null,
   unit: null,
+  timeline: null,
 };
 
 const requiredFields = [
@@ -387,6 +438,7 @@ export default reduxForm({
       return {
         parametric: selector(state, 'parametric'),
         axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
+        timeline: _get(props, 'initialValues.connectedData.timeline'),
         unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
         unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
         unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),

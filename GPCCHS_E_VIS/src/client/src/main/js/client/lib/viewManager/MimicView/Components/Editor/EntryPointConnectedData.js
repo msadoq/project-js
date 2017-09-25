@@ -3,7 +3,9 @@ import classnames from 'classnames';
 import {
   Form,
 } from 'react-bootstrap';
-import { reduxForm } from 'redux-form';
+import _get from 'lodash/get';
+import { connect } from 'react-redux';
+import { reduxForm, formValueSelector } from 'redux-form';
 import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
@@ -27,6 +29,8 @@ class EntryPointConnectedData extends Component {
       submitting,
       valid,
       timelines,
+      timeline,
+      domains,
     } = this.props;
 
     return (
@@ -46,7 +50,9 @@ class EntryPointConnectedData extends Component {
         />
         <br />
         <EntryPointConnectedDataFields
+          domains={domains}
           timelines={timelines}
+          timeline={timeline}
         />
       </Form>
     );
@@ -55,11 +61,17 @@ class EntryPointConnectedData extends Component {
 
 EntryPointConnectedData.propTypes = {
   timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
+  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
+  timeline: PropTypes.string,
+};
+
+EntryPointConnectedData.defaultProps = {
+  timeline: null,
 };
 
 const requiredFields = [/* 'formula', 'domain', 'timeline' */];
@@ -77,4 +89,13 @@ const validate = (values = {}) => {
 export default reduxForm({
   validate,
   enableReinitialize: true,
-})(EntryPointConnectedData);
+})(
+  connect(
+    (state, props) => {
+      const selector = formValueSelector(props.form);
+      return {
+        timeline: selector(state, 'timeline') || _get(props, 'initialValues.timeline'),
+      };
+    }
+  )(EntryPointConnectedData)
+);

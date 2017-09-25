@@ -40,6 +40,7 @@ export default class EntryPointDetails extends PureComponent {
         })),
       }),
     }).isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
     updateViewSubPanels: PropTypes.func.isRequired,
   }
@@ -71,6 +72,7 @@ export default class EntryPointDetails extends PureComponent {
       viewId,
       panels,
       timelines,
+      domains,
     } = this.props;
 
     return (
@@ -97,6 +99,7 @@ export default class EntryPointDetails extends PureComponent {
           header="Coordinates"
         >
           {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
+            domains={domains}
             timelines={timelines}
             form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}

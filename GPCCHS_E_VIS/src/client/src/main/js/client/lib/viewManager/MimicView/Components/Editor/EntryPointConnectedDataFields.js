@@ -13,7 +13,28 @@ import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSel
 const EntryPointConnectedDataFields = (props) => {
   const {
     timelines,
+    domains,
+    timeline,
   } = props;
+
+  let availableTimelines = [];
+  const noCorrespondingTimeline = !timelines.find(t => t.id === timeline) && timeline !== '*';
+  if (timelines) {
+    availableTimelines = timelines.map(t =>
+      ({
+        label: t.id,
+        value: t.id,
+      })
+    ).concat({
+      label: '*',
+      value: '*',
+    })
+    .concat(
+      noCorrespondingTimeline ?
+      { label: timeline, value: timeline, disabled: true } : []
+    );
+  }
+
   return (
     <div>
       <HorizontalFormGroup label="Formula">
@@ -46,9 +67,17 @@ const EntryPointConnectedDataFields = (props) => {
       <HorizontalFormGroup label="Domain">
         <Field
           name="domain"
-          component={InputField}
-          type="text"
-          className="form-control input-sm"
+          clearable={false}
+          component={ReactSelectField}
+          options={domains.map(d =>
+            ({
+              label: d.name,
+              value: d.name,
+            })
+          ).concat({
+            label: '*',
+            value: '*',
+          })}
         />
       </HorizontalFormGroup>
 
@@ -58,16 +87,12 @@ const EntryPointConnectedDataFields = (props) => {
           clearable={false}
           component={ReactSelectField}
           free
-          options={timelines.map(t =>
-            ({
-              label: t.id,
-              value: t.id,
-            })
-          ).concat({
-            label: '*',
-            value: '*',
-          })}
+          options={availableTimelines}
         />
+        {
+          noCorrespondingTimeline &&
+          <span className="text-danger">No corresponding timeline, create it or change it</span>
+        }
       </HorizontalFormGroup>
 
       <FieldArray
@@ -80,6 +105,12 @@ const EntryPointConnectedDataFields = (props) => {
 
 EntryPointConnectedDataFields.propTypes = {
   timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
+  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  timeline: PropTypes.string,
+};
+
+EntryPointConnectedDataFields.defaultProps = {
+  timeline: null,
 };
 
 export default EntryPointConnectedDataFields;

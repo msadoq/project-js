@@ -7,6 +7,7 @@ import {
   updateEntryPoint,
   removeEntryPoint,
 } from '../../../../store/actions/views';
+import { getDomains } from '../../../../store/reducers/domains';
 import { getViewEntryPointsSubPanels } from '../../../../store/reducers/ui/editor';
 import { updateViewSubPanels } from '../../../../store/actions/ui';
 
@@ -15,6 +16,7 @@ const mapStateToProps = (state, { windowId, viewId, entryPoint }) => {
   return {
     timelines: getTimebarTimelinesSelector(state, { timebarUuid }),
     panels: getViewEntryPointsSubPanels(state, { viewId, entryPoint }),
+    domains: getDomains(state),
   };
 };
 

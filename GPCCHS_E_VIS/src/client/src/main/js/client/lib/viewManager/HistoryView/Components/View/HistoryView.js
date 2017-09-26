@@ -131,7 +131,7 @@ class HistoryView extends React.Component {
     return (
       <div
         ref={(ref) => { this.historyViewRef = ref; }}
-        className={styles.container}
+        className={classnames('HistoryView', styles.container)}
         style={style}
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + 33px)` }} className={styles.scrollbar} />

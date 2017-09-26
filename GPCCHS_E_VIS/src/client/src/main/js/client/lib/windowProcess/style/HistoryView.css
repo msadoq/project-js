@@ -1,0 +1,9 @@
+@import './variables.css';
+
+.HistoryView {
+  background-color: var(--theme-light);
+}
+
+.HistoryView th {
+  background-color: var(--theme-main);
+}

@@ -1,11 +1,10 @@
 .container {
-  background-color: pink;
   overflow-x: auto;
   overflow-y: hidden;
 
-  th {
+  /*th {
     background: lightgrey;
-  }
+  }*/
 
   .prevCurrent td, .prevCurrent th {
     border-bottom: none;
@@ -20,6 +19,8 @@
   }
 
   table, th, td {
+    /*border-left: 1px solid black;*/
+    /*border-bottom: 1px solid black;*/
     border: 1px solid black;
     text-align: center;
   }

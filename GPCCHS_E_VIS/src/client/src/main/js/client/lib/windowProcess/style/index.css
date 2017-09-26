@@ -4,6 +4,7 @@
 @import './buttons.css';
 @import './components.css';
 @import './PlotView.css';
+@import './HistoryView';
 @import './Nav.css';
 @import './Timebar.css';
 @import './Editor.css';

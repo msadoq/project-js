@@ -601,7 +601,6 @@ export class GrizzlyPlotView extends PureComponent {
               autoLimits: false,
               autoTick: axis.autoTick === true,
               tickStep: axis.tickStep,
-              showPointLabels: false,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),

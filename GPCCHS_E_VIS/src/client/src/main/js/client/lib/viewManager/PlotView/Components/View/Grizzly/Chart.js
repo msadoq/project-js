@@ -55,7 +55,6 @@ export default class Chart extends Component {
         autoTick: PropTypes.bool,
         tickStep: PropTypes.number,
         showGrid: PropTypes.bool,
-        showPointLabels: PropTypes.bool,
         gridStyle: PropTypes.string,
         gridSize: PropTypes.number,
         unit: PropTypes.string,

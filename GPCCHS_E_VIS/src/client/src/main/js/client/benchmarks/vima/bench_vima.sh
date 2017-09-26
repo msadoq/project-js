@@ -19,9 +19,9 @@ function getRendererPID {
 }
 
 function getHssPID {
-  local PID="`pgrep gpcchs_hss | tr -d '\n'`"
+  local PID="`pgrep gpcchs_master | tr -d '\n'`"
   if [ -z $PID ]; then
-    echo "ERROR: Aucun process du nom de gpcchs_hss est en cours d'execution"
+    echo "ERROR: Aucun process du nom de gpcchs_master est en cours d'execution"
     exit 1
   else
     echo $PID
@@ -69,7 +69,7 @@ case $key in
   MAIN_ON=1
   shift
   ;;
-  --hss)
+  --master)
   HSS_ON=1
   shift
   ;;

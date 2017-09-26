@@ -26,7 +26,7 @@ const clientController = require('./controllers/client');
 const logger = getLogger('main');
 
 let monitoring = {};
-process.title = 'gpcchs_hss';
+process.title = 'gpcchs_master';
 
 const requestCatalogSessions = (store) => {
   // should have rte sessions in store at start

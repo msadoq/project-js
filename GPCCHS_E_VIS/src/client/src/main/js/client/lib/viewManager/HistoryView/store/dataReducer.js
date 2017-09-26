@@ -66,19 +66,21 @@ export default function historyViewData(state = {}, action) {
     case types.WS_VIEW_SHOW_COL: {
       const viewId = action.payload.viewId;
       // Add at the end if no index defined
-      const index = action.payload.index || state[viewId].cols.length;
+      let index = action.payload.index;
+      if (!index) {
+        index = -1;
+      }
       let newCols = [];
-      if (index > 0) {
+      if (index > 0 && index < state[viewId].cols.length) {
         newCols = _concat(
           state[viewId].cols.slice(0, index),
           action.payload.colName,
           state[viewId].cols.slice(index)
         );
+      } else if (index === 0) {
+        newCols = _concat(action.payload.colName, state[viewId].cols);
       } else {
-        newCols = _concat(
-          action.payload.colName,
-          state[viewId].cols
-        );
+        newCols = _concat(state[viewId].cols, action.payload.colName);
       }
 
       return { ...state,

@@ -99,23 +99,29 @@ class HistoryView extends React.Component {
 
   state = { position: 0 }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.position >= this.getLastPosition(nextProps)) {
+      this.setState(_.set('position', this.getLastPosition(nextProps)));
+    }
+  }
+
   onScrollUp = () => {
-    if (this.batchedState.position > 0) {
-      this.setBatchedState(_.update('position', _.add(-1)));
+    if (this.state.position > 0) {
+      this.setState(_.update('position', _.add(-1)));
     }
   }
 
   onScrollDown = () => {
-    if (this.batchedState.position < this.getLastPosition()) {
-      this.setBatchedState(_.update('position', _.add(1)));
+    if (this.state.position < this.getLastPosition()) {
+      this.setState(_.update('position', _.add(1)));
     }
   }
 
-  getLastPosition = () => (
-    (this.props.data.lines.length - this.getNbElems()) + 1
+  getLastPosition = (props = this.props) => (
+    Math.max(0, (props.data.lines.length - this.getNbElems(props)) + 1)
   )
 
-  getNbElems = () => Math.ceil(this.props.containerHeight / this.props.rowHeight)
+  getNbElems = (props = this.props) => Math.floor(props.containerHeight / props.rowHeight)
 
   getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
 

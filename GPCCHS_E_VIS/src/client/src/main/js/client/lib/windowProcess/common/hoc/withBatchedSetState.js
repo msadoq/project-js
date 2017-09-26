@@ -8,11 +8,10 @@ const withBatchedSetState = ({ delay = DEFAULT_DELAY } = {}) =>
     componentDidMount() {
       this.wrappedInstance = this.getWrappedInstance();
       const instance = this.wrappedInstance;
-      const throttledSetState = _.throttle(delay, (...args) => instance.setState(...args));
-      instance.batchedState = instance.state;
-      instance.setBatchedState = (updater) => {
-        instance.batchedState = updater(instance.batchedState, instance.props);
-        throttledSetState(instance.batchedState);
+      const throttledUpdate = _.throttle(delay, () => instance.forceUpdate());
+      instance.setState = (updater) => {
+        instance.state = updater(instance.state, instance.props);
+        throttledUpdate();
       };
     }
 

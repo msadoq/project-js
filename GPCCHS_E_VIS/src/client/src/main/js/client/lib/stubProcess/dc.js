@@ -1,3 +1,21 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
+// VERSION : 1.1.2 : FA : #6798 : 16/06/2017 : Several changes : - Lint pass - Modify stub to use encode/decode of adapters (row AND protobuf) - Add a new stubs.js file to load the stubs present in the adapters plugins
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Fix side effect due to stringify/parse parameters in forked process
+// VERSION : 1.1.2 : FA : #6993 : 21/06/2017 : Fix packaging : replace parameters.get('IS_BUNDLED') by process.env.IS_BUNDLED
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Merge branch 'dev' into dbrugne-lifecycle
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Fix DC stub last and range query responses (/!\ ProtobufJS return a default value for optionnal enum(), you should use .hasOwnProperty() on decoded payload to test the presence or not of a field)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Repair stubProcess dc in standalone mode (npm run start:dc:stub)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Remove forgotten console.log . .
+// END-HISTORY
+// ====================================================================
+
 const { resolve } = require('path');
 const adapter = require('../utils/adapters');
 const stubs = require('../utils/stubs');

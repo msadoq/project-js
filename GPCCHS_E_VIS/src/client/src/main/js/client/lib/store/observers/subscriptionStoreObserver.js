@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Clean console log . . .
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Update subscription store observer . .
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Rollback on subscription store observer
+// END-HISTORY
+// ====================================================================
+
 import _differenceWith from 'lodash/differenceWith';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
 import { getTbdIdsAndDataIdList } from '../reducers/knownRanges';

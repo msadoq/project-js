@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5822 : 21/03/2017 : add context menu on links in inspector
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Re add unicode triangles in TreeDecorators component
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { NODE_TYPE_ARRAY as ARRAY, NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM, NODE_TYPE_OBJECT as OBJECT, NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM, NODE_TYPE_ITEM as ITEM, NODE_TYPE_KEY as KEY, NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
 

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// END-HISTORY
+// ====================================================================
+
 const actionStub = require('./dataControllerUtils/action.stub');
 const booleanStub = require('./dataControllerUtils/boolean.stub');
 const dataIdStub = require('./dataControllerUtils/dataId.stub');

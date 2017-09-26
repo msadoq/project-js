@@ -1,0 +1,540 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6671.txt
+
+
+Reference changement : #6671
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/Session.proto
+	Change Session proto, adapter and stub
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/session.js (idem)
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/session.stub.js (idem)
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/sessions.stub.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/main.development.js
+	Merge branch 'dev' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+	Clean code ( lint pass )
+	Merge branch 'dev' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+	Merge branch 'test-perf-protobuff' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/dataControllerUtils/queryArguments.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/dataControllerUtils/queryArguments.spec.js
+	Clean console.log code . .
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/accessControlModel/userConnection.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_com/objectId.js
+	Clean code ( lint pass )
+	Small modification on perf test implementation
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_com/objectType.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_mc/statisticValue.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_mc_aggregation/isisAggregation.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+	Clean code ( lint pass )
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/computedEvent/computedEvent.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/connection/uCPReport.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1Context.js
+	Clean console.log code . .
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1Context.spec.js
+	Clean code ( lint pass )
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/ifQueueUnit.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/decommutedPacket/decommutedPacket.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/decommutedParameter/reportingParameter.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/execution/execution.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/file/docVersion.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/file/document.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/groundAlarm/groundMonitoringAlarm.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/lifeCycle/lifeCycle.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/logbookEvent/logbookEvent.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/opAlert/opAlert.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/operationParameter/operationParameter.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/packet/clcwPacket.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/packet/rmPacket.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/packet/tmPacket.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus003Model.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus011Command.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus011Command.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus012Model.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus013LdtPart.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus018Model.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus019EventAction.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus140Model.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus142Model.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tC11.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tCFile.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tCImmediate.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tCLong.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/timeTaggedTC.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/timeBasedDataType/timeBasedDataBlob.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/types.js
+	Clean code ( lint pass )
+	Merge branch 'dev' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/types.spec.js
+	Merge branch 'dev' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/stubs/data.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+	Clean code ( lint pass )
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/userEvent/externalEvent.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/userEvent/userEvent.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/perfsTests/index.js
+	Clean code : lint, test and coverage
+	Clean code ( lint pass )
+	Small modification on perf test implementation
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/perfsTests/perfsTest.spec.perf.js
+	Clean code : lint, test and coverage
+	Add call to register .proto in test performances
+	Clean code ( lint pass )
+	Small modification on perf test implementation
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/typesTests/typesTest.spec.js
+	Clean console.log code . .
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+	Clean code ( lint pass )
+	Merge branch 'dev' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+	Small modification on perf test implementation
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/dc/dataControllerUtils/FMDCreateDocument.proto
+	Changes : - Change path in .proto file - Change mechansim to read in buffer in the adapter
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/accessControlModel/UserConnection.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ackRequest/Ack.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ackRequest/AckRequest.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ackRequest/AckSMS.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/Provider.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/ProviderDefinition.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/ServiceAddress.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/UserContext.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_mc_aggregation/IsisAggregation.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/computedEvent/ComputedEvent.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/connection/UCPParameter.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/connection/UCPReport.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1Context.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1IfAutoState.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1InternalState.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1SentQueue.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1Status.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1WaitQueue.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/ClcwSegmentMask.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/FlagVal.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/GPMCC1State.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/IfQueueElement.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/IfQueueUnit.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/ProccessedTC.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/SentQueueElement.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/execution/Execution.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/execution/ExecutionStatus.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/Collection.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/CollectionDocument.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/CollectionVirtualFolder.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/DocVersion.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/Folder.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/ProfileRight.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/UserRight.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/groundAlarm/GroundMonitoringAlarm.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/groundAlarm/Transition.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/lifeCycle/LifeCycle.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/lifeCycle/LifeCycleStatus.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/logbookEvent/LogbookEvent.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/opAlert/OpAlert.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/opAlert/OpAlertConfiguration.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/operationParameter/OperationParameter.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/packet/ClcwPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/packet/RmPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/packet/TmPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003DiagnosticPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003HkPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003Packet.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus005Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus005OnBoardEvent.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011Command.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011CommandParameter.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011EncapsulatingTc.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011SubSchedule.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011SyncPoint.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011TimeShift.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus012Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus012MonitoringCheckProperties.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus012ParameterMonitoringDefinition.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013DownlinkLdt.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013Ldt.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013LdtPart.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013UplinkLdt.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014EventReportPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014ForwardedPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014HkOrDiagPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014TmPacket.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus015Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus015Packet.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus015PacketStore.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus018ConfiguredObcp.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus018Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus018Obcp.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus019EventAction.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus019Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus140Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus140Parameter.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus142FunctionalMonitoring.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus142Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus142ParameterMonitoringDefinition.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus144Model.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus144OnboardFiles.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/PusElement.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/PusParameter.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/ExpectedAck.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/PusHeader.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/SuccessiveAck.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TC11.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TC13.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCFile.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCHistory.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCImmediate.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCLong.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TimeTaggedTC.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataBlob.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataBoolean.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataByte.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataDouble.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataDuration.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataFinetime.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataFloat.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataIdentifier.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataInteger.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataLong.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataShort.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataString.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataTime.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataUByte.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataUInteger.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataULong.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataURI.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataUShort.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/userEvent/ExternalEvent.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/userEvent/UserEvent.proto (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/typesTest.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+	Clean code ( lint pass )
+	Merge branch 'dev' into pgaucher-upgrade-protobuff-6
+	
+	
+	Conflicts:
+		GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/data.spec.js
+	Modify unit tests : - 'double' type should return its decoded data in the "symbol" field ( not in the "value" field anymore, due to precision issues)
+	Clean code ( lint pass )
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dc/sendArchiveData.js
+	Clean code ( lint pass )
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/Session.proto
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/session.js
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/session.stub.js
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/sessions.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/main.development.js
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/dataControllerUtils/queryArguments.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/dataControllerUtils/queryArguments.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/accessControlModel/userConnection.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_com/objectId.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_com/objectType.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_mc/statisticValue.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/ccsds_mc_aggregation/isisAggregation.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/computedEvent/computedEvent.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/connection/uCPReport.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1Context.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1Context.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/ifQueueUnit.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/decommutedPacket/decommutedPacket.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/decommutedParameter/reportingParameter.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/execution/execution.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/file/docVersion.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/file/document.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/groundAlarm/groundMonitoringAlarm.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/lifeCycle/lifeCycle.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/logbookEvent/logbookEvent.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/opAlert/opAlert.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/operationParameter/operationParameter.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/packet/clcwPacket.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/packet/rmPacket.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/packet/tmPacket.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus003Model.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus011Command.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus011Command.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus012Model.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus013LdtPart.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus018Model.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus019EventAction.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus140Model.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus142Model.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tC11.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tCFile.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tCImmediate.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/tCLong.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/tcHistory/timeTaggedTC.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/timeBasedDataType/timeBasedDataBlob.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/types.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/types.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/userEvent/externalEvent.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/userEvent/userEvent.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/perfsTests/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/perfsTests/perfsTest.spec.perf.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/typesTests/typesTest.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/dc/dataControllerUtils/FMDCreateDocument.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/accessControlModel/UserConnection.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ackRequest/Ack.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ackRequest/AckRequest.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ackRequest/AckSMS.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/Provider.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/ProviderDefinition.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/ServiceAddress.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_cs/UserContext.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/ccsds_mc_aggregation/IsisAggregation.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/computedEvent/ComputedEvent.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/connection/UCPParameter.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/connection/UCPReport.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1Context.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1IfAutoState.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1InternalState.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1SentQueue.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1Status.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/COP1WaitQueue.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/ClcwSegmentMask.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/FlagVal.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/GPMCC1State.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/IfQueueElement.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/IfQueueUnit.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/ProccessedTC.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/cop1/SentQueueElement.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/execution/Execution.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/execution/ExecutionStatus.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/Collection.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/CollectionDocument.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/CollectionVirtualFolder.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/DocVersion.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/Folder.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/ProfileRight.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/file/UserRight.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/groundAlarm/GroundMonitoringAlarm.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/groundAlarm/Transition.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/lifeCycle/LifeCycle.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/lifeCycle/LifeCycleStatus.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/logbookEvent/LogbookEvent.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/opAlert/OpAlert.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/opAlert/OpAlertConfiguration.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/operationParameter/OperationParameter.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/packet/ClcwPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/packet/RmPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/packet/TmPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003DiagnosticPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003HkPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus003Packet.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus005Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus005OnBoardEvent.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011Command.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011CommandParameter.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011EncapsulatingTc.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011SubSchedule.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011SyncPoint.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus011TimeShift.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus012Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus012MonitoringCheckProperties.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus012ParameterMonitoringDefinition.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013DownlinkLdt.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013Ldt.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013LdtPart.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus013UplinkLdt.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014EventReportPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014ForwardedPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014HkOrDiagPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus014TmPacket.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus015Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus015Packet.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus015PacketStore.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus018ConfiguredObcp.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus018Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus018Obcp.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus019EventAction.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus019Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus140Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus140Parameter.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus142FunctionalMonitoring.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus142Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus142ParameterMonitoringDefinition.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus144Model.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/Pus144OnboardFiles.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/PusElement.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/pusGroundModel/PusParameter.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/ExpectedAck.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/PusHeader.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/SuccessiveAck.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TC11.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TC13.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCFile.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCHistory.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCImmediate.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TCLong.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/tcHistory/TimeTaggedTC.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataBlob.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataBoolean.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataByte.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataDouble.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataDuration.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataFinetime.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataFloat.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataIdentifier.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataInteger.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataLong.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataShort.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataString.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataTime.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataUByte.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataUInteger.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataULong.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataURI.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/timeBasedDataType/TimeBasedDataUShort.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/userEvent/ExternalEvent.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/proto/lpisis/userEvent/UserEvent.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/data.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dc/sendArchiveData.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/typesTest.spec.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

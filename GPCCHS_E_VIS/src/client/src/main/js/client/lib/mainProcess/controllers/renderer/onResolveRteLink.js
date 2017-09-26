@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// VERSION : 1.1.2 : FA : #7355 : 27/07/2017 : RTD is now optional on VIMA installation
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6700 : 09/08/2017 : Fix onResolveRteLink mainProcess controller crash
+// END-HISTORY
+// ====================================================================
+
 // import { parse as parseLink } from 'rtd/catalogs/utils/links';
 import getLogger from '../../../common/logManager';
 import { getStore } from '../../store';

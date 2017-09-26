@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import {
   Form,

@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : add tests for inspector reducers and selectors
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add buttons to collapse and expand inspector static data
+// VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
+// END-HISTORY
+// ====================================================================
+
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import u from 'updeep';

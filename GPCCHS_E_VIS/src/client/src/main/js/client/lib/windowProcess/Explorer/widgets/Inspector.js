@@ -1,3 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5822 : 21/03/2017 : change context menu of inspector and dynamic view from Buttons to MenuItems
+// VERSION : 1.1.2 : DM : #5822 : 21/03/2017 : add context menu on links in inspector
+// VERSION : 1.1.2 : DM : #5822 : 22/03/2017 : change context menus with native electron context menu
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
+// VERSION : 1.1.2 : DM : #5822 : 28/03/2017 : update inspector in case of no data
+// VERSION : 1.1.2 : DM : #5822 : 18/04/2017 : Inspector general data : add session and domain name
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add buttons to collapse and expand inspector static data
+// VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import getLogger from '../../../common/logManager';

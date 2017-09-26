@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Add archive controller and its test
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');

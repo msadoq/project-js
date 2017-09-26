@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Add cache and server info in explorer
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Add cache tab in explorers
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Complete performance tab in explorer
+// END-HISTORY
+// ====================================================================
+
 import { connect } from 'react-redux';
 import Cache from './Cache';
 import { updateCacheInvalidation } from '../../../store/actions/hsc';

@@ -1,3 +1,38 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/hsc . . .
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Create 2 news selectors in hsc reducer
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : Move isModified from state.windows to state.hsc
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : request modification to add forecast
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Window title edit : star appears on window, workspace is isModified: true.
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Creation of display queries to pull data from server and always add new data to queue
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Fix forecast when focused page changes and visuWindow goes backwards
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Merge branch 'dev' into simplify_datamap
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : split updateTimebarId in mountTimebar and unmountTimebar
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Save domainName and sessionName in file for view, page and workspace
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : split updateTimebarId in mountTimebar and unmountTimebar
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : FA : #5846 : 10/05/2017 : Add option to launch vima in realtime play mode
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 21/06/2017 : Fix opening a workspace from menu
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Move windows observer from main orchestration in a pure store observer
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Merge branch 'dev' into dbrugne-lifecycle
+// VERSION : 1.1.2 : DM : #6700 : 22/06/2017 : Remove forcast info from Redux store
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Remove forcast info from Redux store
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : SaveAgentModal component can be in a workspace mode
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Open or close a window now set workspace isModified to true
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Open a blank workspace, set isModified to true by default
+// VERSION : 1.1.2 : FA : #7145 : 27/07/2017 : Use withlistenAction middleware enhancer in onOpenWorkspace
+// VERSION : 1.1.2 : FA : #7328 : 02/08/2017 : Fix closing vima when default workspace is unknown or invalid
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : Add isWorkspaceOpened boolean in hsc state
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import * as types from '../../types';
 

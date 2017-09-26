@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove store observer
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Clean code . . .
+// VERSION : 1.1.2 : DM : #6700 : 28/08/2017 : Add some exectuion map + minor lint fix
+// END-HISTORY
+// ====================================================================
+
 import _cloneDeep from 'lodash/cloneDeep';
 import dataMapGenerator from '../../../dataManager/map';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../../store/reducers/hsc';

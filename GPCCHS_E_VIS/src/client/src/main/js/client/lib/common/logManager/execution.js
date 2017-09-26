@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 const _each = require('lodash/each');
 const _round = require('lodash/round');
 const _reduce = require('lodash/reduce');

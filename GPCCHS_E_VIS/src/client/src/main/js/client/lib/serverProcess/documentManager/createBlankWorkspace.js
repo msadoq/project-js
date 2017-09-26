@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : A blank workspace can be opened without pages
+// END-HISTORY
+// ====================================================================
+
 import { v4 } from 'uuid';
 
 const createBlankWorkspace = ({ noPage = false } = {}) => {

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Wrtie common/fp tests . .
+// END-HISTORY
+// ====================================================================
+
 import { copyProp, moveProp } from './fp';
 
 describe('common:fp', () => {

@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : contains and icontains filters accept regex
+// VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
+// VERSION : 1.1.2 : FA : ISIS-FT-1952 : 18/05/2017 : Add robustness in filters to avoid crash when operand is invalid
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Fix lint errors and warnings
+// END-HISTORY
+// ====================================================================
+
 import _isEmpty from 'lodash/isEmpty';
 import Long from 'long';
 import Decimal from 'decimal.js';

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// END-HISTORY
+// ====================================================================
+
 const diode = '<!-- DIODE -->\n' +
 '<g transform="translate(0,-852.36218)">\n\t' +
 '<path \n\t\t' +

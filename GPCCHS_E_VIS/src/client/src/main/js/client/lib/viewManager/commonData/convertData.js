@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to convertData
+// VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : move deprotobufferization in main process
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Creation of display queries to pull data from server and always add new data to queue
+// VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
+// VERSION : 1.1.2 : DM : #6700 : 12/07/2017 : Fix bug with blob payload fields
+// VERSION : 1.1.2 : DM : #6700 : 19/07/2017 : Fix bug with blob payload fields
+// END-HISTORY
+// ====================================================================
+
 import moment from 'moment';
 import _isBuffer from 'lodash/isBuffer';
 import _isObject from 'lodash/isObject';

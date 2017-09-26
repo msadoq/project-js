@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Update of history view data store
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';

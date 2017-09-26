@@ -1,0 +1,97 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7111.txt
+
+
+Reference changement : #7111
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.default.json
+	Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/displayQueries.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/expectedIntervalMap.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.spec.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/config.default.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/displayQueries.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/expectedIntervalMap.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.spec.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.css
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
+// END-HISTORY
+// ====================================================================
+
 import pipeMiddlewares from '../../helpers/pipeMiddlewares';
 import dumpBufferArchive from './dumpBufferArchive';
 import dumpBufferPubSub from './dumpBufferPubSub';

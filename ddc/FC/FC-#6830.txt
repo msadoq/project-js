@@ -1,0 +1,97 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6830.txt
+
+
+Reference changement : #6830
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+	Get the current cursor back on PlotView.
+	Fixed issue with Y logarithmic axis not updating when base changes.
+	PlotView -> logarithmic axis : base can be anything: 2, 10, 12....
+	Interactive logarithmic y axes on PlotView.
+	Grizzly/PlotView : having only one method on Chart to calculate position styles for ToolTip, LinesCanvas and Background divs.
+	Few changes to Grizzly/Chart to display a background-dedicated div.
+	Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+	Few changes to Grizzly/Chart to display a background-dedicated div.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+	Grizzly/PlotView : having only one method on Chart to calculate position styles for ToolTip, LinesCanvas and Background divs.
+	Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/XAxis.js
+	Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/YAxis.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+	Parametric PlotView : logarithmic axes available.
+	Reproducing styles memoization for Grizzly Parametric.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/GrizzlyChart.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+	Reproducing styles memoization for Grizzly Parametric.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Zones.js
+	Parametric PlotView : logarithmic axes available.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+	Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	PlotView -> logarithmic axis : base can be anything: 2, 10, 12....
+	Interactive logarithmic y axes on PlotView.
+	Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/PlotView.css
+	Few changes to Grizzly/Chart to display a background-dedicated div.
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/XAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/YAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Zones.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/PlotView.css
+
+FICHIERS AJOUTES
+================
+Pas de fichiers ajoutes.
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

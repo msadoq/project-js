@@ -1,3 +1,106 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Replace some console uses by new Console
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "Replace some console uses by new Console"
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Show / Hide Text Editor Window
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Deprecate internal monitoring code and parameter
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change configuration FMD_ROOT_DIR to ISIS_DOCUMENTS_ROOT
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Fix bug on closing main window
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Merge branch 'dev' into abesson-html-editor
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Improve and debug code editor
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Rename menu in menuManager and move menu.js into menuManager/index.js
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Merge branch 'dev' into abesson-html-editor
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Refactor window management in main process in a viewManager
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Pass all parameters to sub node processes
+// VERSION : 1.1.2 : DM : #3622 : 27/02/2017 : make tests on editor .
+// VERSION : 1.1.2 : DM : #3622 : 27/02/2017 : add rtd stub to the start sequence
+// VERSION : 1.1.2 : DM : #3622 : 27/02/2017 : merge dev into abesson-html-editor and resolve conflicts
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
+// VERSION : 1.1.2 : DM : #3622 : 08/03/2017 : update rtdManager tests and onOpenInspector controller
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Some documentManager fixes . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : documentManager API now exposes all open* functions
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove mainProcess/openWorkspace file . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Rename documentManager files . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Move all open* thunks in documentManager/actions
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Refacto openDefaultWorkspace in mainProcess .
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Add timeout on DC data fetching on application startup to help diagnosis of DC communication problem
+// VERSION : 1.1.2 : FA : #5846 : 17/03/2017 : Add REALTIME config parameter .
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/hsc . . .
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : add context in dynamic view for opening parameter in inspector
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Lint mainProcess/index . . .
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Remove messages when close a workspace
+// VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Remove visuWindow from document .
+// VERSION : 1.1.2 : DM : #5822 : 28/03/2017 : update the rtd stub launching
+// VERSION : 1.1.2 : DM : #5822 : 28/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Add no fmd support .
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Remove duplicate error message when loading default workspace
+// VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5822 : 04/04/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : When application error is raised, display full error with stack trace
+// VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Implement a new "isomorphic" createStore to centralize Redux configuration
+// VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Remove obsolete comments and shebang
+// VERSION : 1.1.2 : FA : #5846 : 10/05/2017 : Add option to launch vima in realtime play mode
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : Merge branch 'dev' into dbrugne-universal-store
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : remove use of sinon for rtd stub
+// VERSION : 1.1.2 : FA : #5846 : 12/05/2017 : Launch vima in real time play mode: create a unique action
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Cleanup server process fork configuration code
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Cleanup Redux store configuration and introduce three distinct store enhancers for future store synchronisation implementation.
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Merge branch 'dev' into dbrugne-universal-store
+// VERSION : 1.1.2 : DM : #5828 : 22/05/2017 : Move server from server/ sub-component to client/lib/serverProcess
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move common/callback and common/ipc modules in client sub-component
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Fix process.env definePlugin in webpack
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Fix bug about loading default workspace
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : RTD can now be disabled using RTD_ON in config
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Modify protobuf loading strategy : - Move adapters in another folder - New architecture generated for adapters folder - Add raw adapter mechanism
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : FA : #6798 : 16/06/2017 : Several changes : - Lint pass - Modify stub to use encode/decode of adapters (row AND protobuf) - Add a new stubs.js file to load the stubs present in the adapters plugins
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : FA : #5838 : 16/06/2017 : Add a third parameter to childProcess to allow args passing to child process
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Cleanup child process fork method options
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : FA : #6798 : 20/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Add timeout around server process launching
+// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Stringify parameters to forked process ( stub, server)
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Merge branch 'dev' into dbrugne-lifecycle
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Move windows observer from main orchestration in a pure store observer
+// VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Remove startInPlay feature . .
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : Remove unused registerGlobal in mainProcess/index
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Fix server process lauching timeout issue in development
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : FA : #6798 : 28/06/2017 : branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 05/07/2017 : Fix crash when rtd is off
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Implement dialogObserver in mainProcess .
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Small fix to access DEBUG value in conf, in forked process
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add health mechanism on each process
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Ask open workspace at start in mainProcess/index
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : serverProcess has now a APP_ENV='server' even in dev mode
+// VERSION : 1.1.2 : FA : #7355 : 27/07/2017 : RTD is now optional on VIMA installation
+// VERSION : 1.1.2 : FA : #7328 : 02/08/2017 : Fix closing vima when default workspace is unknown or invalid
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
+// VERSION : 1.1.2 : DM : #6700 : 23/08/2017 : Update cache clean mechanism in dev tools
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Add middleware to apply pause on master overload
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --PAGE
+// END-HISTORY
+// ====================================================================
+
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 

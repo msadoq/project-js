@@ -1,0 +1,185 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6686.txt
+
+
+Reference changement : #6686
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ATTRIBUTE/index.js
+	add tests for raw decoding/encoding for mal types
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BLOB/BLOB_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BLOB/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BOOLEAN/BOOLEAN_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BOOLEAN/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DOUBLE/DOUBLE_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DOUBLE/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DURATION/DURATION_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DURATION/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FINETIME/FINETIME_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FINETIME/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FLOAT/FLOAT_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FLOAT/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/IDENTIFIER/IDENTIFIER_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/IDENTIFIER/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/INTEGER/INTEGER_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/INTEGER/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/LONG/LONG_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/LONG/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/OCTET/OCTET_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/OCTET/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/SHORT/SHORT_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/SHORT/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/STRING/STRING_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/STRING/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/TIME/TIME_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/TIME/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UINTEGER/UINTEGER_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UINTEGER/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ULONG/ULONG_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ULONG/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UOCTET/UOCTET_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UOCTET/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/URI/URI_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/URI/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/USHORT/USHORT_RAW_0 (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/USHORT/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/ATTRIBUTE.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/BLOB.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/BOOLEAN.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/DOUBLE.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/DURATION.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/FINETIME.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/FLOAT.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/IDENTIFIER.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/INTEGER.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/LONG.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/OCTET.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/SHORT.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/STRING.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/TIME.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/UINTEGER.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/ULONG.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/UOCTET.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/URI.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/USHORT.proto (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/aTTRIBUTE.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/bLOB.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/bOOLEAN.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/dOUBLE.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/dURATION.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/fINETIME.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/fLOAT.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/iDENTIFIER.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/iNTEGER.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/lONG.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/oCTET.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/sHORT.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/sTRING.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/tIME.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uINTEGER.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uLONG.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uOCTET.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uRI.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uSHORT.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/typesTest.spec.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ATTRIBUTE/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BLOB/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BOOLEAN/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DOUBLE/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DURATION/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FINETIME/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FLOAT/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/IDENTIFIER/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/INTEGER/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/LONG/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/OCTET/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/SHORT/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/STRING/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/TIME/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UINTEGER/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ULONG/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UOCTET/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/URI/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/USHORT/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/typesTest.spec.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BLOB/BLOB_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/BOOLEAN/BOOLEAN_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DOUBLE/DOUBLE_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/DURATION/DURATION_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FINETIME/FINETIME_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/FLOAT/FLOAT_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/IDENTIFIER/IDENTIFIER_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/INTEGER/INTEGER_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/LONG/LONG_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/OCTET/OCTET_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/SHORT/SHORT_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/STRING/STRING_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/TIME/TIME_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UINTEGER/UINTEGER_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ULONG/ULONG_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/UOCTET/UOCTET_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/URI/URI_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/USHORT/USHORT_RAW_0
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/ATTRIBUTE.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/BLOB.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/BOOLEAN.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/DOUBLE.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/DURATION.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/FINETIME.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/FLOAT.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/IDENTIFIER.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/INTEGER.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/LONG.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/OCTET.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/SHORT.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/STRING.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/TIME.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/UINTEGER.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/ULONG.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/UOCTET.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/URI.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/USHORT.proto
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/aTTRIBUTE.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/bLOB.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/bOOLEAN.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/dOUBLE.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/dURATION.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/fINETIME.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/fLOAT.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/iDENTIFIER.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/iNTEGER.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/lONG.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/oCTET.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/sHORT.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/sTRING.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/tIME.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uINTEGER.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uLONG.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uOCTET.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uRI.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/tests/ccsds_mal/uSHORT.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

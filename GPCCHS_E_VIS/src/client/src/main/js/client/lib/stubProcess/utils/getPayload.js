@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move data stubs in common/protobuf
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
+// VERSION : 1.1.2 : FA : #6780 : 21/06/2017 : Apply default state colors in views
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// END-HISTORY
+// ====================================================================
+
 // const _concat = require('lodash/fp/concat');
 // const _times = require('lodash/fp/times');
 // const _prop = require('lodash/fp/prop');

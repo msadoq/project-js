@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
+// VERSION : 1.1.2 : DM : #6816 : 09/08/2017 : add textviews with 10, 1000 and >5000 EP
+// END-HISTORY
+// ====================================================================
+
 const supported = [
   'Pus003.parameter<Pus003Model>',
   'Pus005.parameter<Pus005Model>',

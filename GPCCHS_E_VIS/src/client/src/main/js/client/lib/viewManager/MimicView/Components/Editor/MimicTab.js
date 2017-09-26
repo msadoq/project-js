@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add Misc/links in view editor
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : MimicTab editor component uses rc-collapse instead of bootstrap collapse.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import Collapse from 'rc-collapse';
 import {

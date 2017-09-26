@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import forecastData from './forecastData';
 import * as types from '../../types';

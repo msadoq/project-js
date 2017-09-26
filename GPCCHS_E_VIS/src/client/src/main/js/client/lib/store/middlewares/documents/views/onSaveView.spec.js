@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Write documents/onSaveView middleware unit tests
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Add "make" prefix to each documents middleware
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Fix jest describe in onReloadView and onSaveView middlewares
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : Page / Views / Workspace are saved with extensions.
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import makeOnSaveView from './onSaveView';

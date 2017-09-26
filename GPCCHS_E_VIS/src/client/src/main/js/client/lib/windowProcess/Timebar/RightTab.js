@@ -1,3 +1,27 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 10/02/2017 : Timebar realtime mode disabled when user moving current and dragging.
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Creation of timebarTimelines reducer .
+// VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : Timebar components : timebar.masterId is not mandatory anymore.
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : In actions, reduers, views, timelineId -> timelineUuid to avoid confusion.
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Timebar refactoring: components more modular, less props passed.
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove react-dimensions from project, use custom HOC
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Removed timeline.timelineUuid, already has timeline.uuid .
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fixing css problem with formattedFullDate el. removed useless props.
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix timebar width and react dimensions
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Synchro between timelines left and timebar timelines.
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Remove unused parameter from timebar
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Handle panel collapse/expand buttons with css instead of JE and react refs.
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : No need for Dimensions in Timebar -> RightTab, using props from panels.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timesetter is displayed with GenericModal component.
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';

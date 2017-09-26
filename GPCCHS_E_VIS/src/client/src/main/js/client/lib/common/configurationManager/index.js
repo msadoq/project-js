@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix a configurationManager bug that ignore CLI parameters.
+// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Modify configuration parameter to parse conf in forked process
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Merge branch 'dev' into dbrugne-lifecycle
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix event loop blocking due to systematic JSON.parse in configurationManager
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix important performance leak due to systematic JSON.parse
+// VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// END-HISTORY
+// ====================================================================
+
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');

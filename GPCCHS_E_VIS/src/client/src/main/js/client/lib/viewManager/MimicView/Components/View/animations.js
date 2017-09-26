@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6816 : 25/08/2017 : Put MimicView animation methods appart, and test each one of them (rotate, scale...).
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : MimicView : adapted tests to handle dom element mocking, setAttribute and getAttribute mocked functions.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : Added default values to all MimicView's animations.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : imicView Fixed rotate animation error, set visibility to visible.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : Every MimicView attribute update or style update is performed only if it is necessary (if value changed)
+// VERSION : 1.1.2 : DM : #6816 : 31/08/2017 : MimicView : rotate property can go under 0, ex: -25,25. For rotate, translate and scale, isis_origin must be provided or is set to left top.
+// VERSION : 1.1.2 : DM : #6816 : 01/09/2017 : MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+// VERSION : 1.1.2 : DM : #6816 : 06/09/2017 : Test perfs on mimic, add new demo mimic
+// VERSION : 1.1.2 : DM : #6816 : 07/09/2017 : add plotviews with differents EP
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 export const setAttributeIfChanged = (element, attributeName, newValue, type) => {
   const value = element.getAttribute(attributeName);
   if (type === 'number') {

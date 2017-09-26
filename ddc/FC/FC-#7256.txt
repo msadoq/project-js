@@ -1,0 +1,201 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7256.txt
+
+
+Reference changement : #7256
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json
+	set default Plot axes title color to white. + PlotView has no background.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+	Added top title in editor with colored vignette.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+	set default Plot axes title color to white. + PlotView has no background.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+	Legend PlotView colors are editable in styles/PlotView.css
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+	Added top title in editor with colored vignette.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+	Working on cleaning style, added variables to edit style easily.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DummyDrag.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/Controls.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/Controls.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsLeft.js
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsRight.js
+	Added theme variables linked to main areas.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/LeftTab.js
+	Working on cleaning style, added variables to edit style easily.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTab.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Scale.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Scale.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/VisuWindow.css
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/VisuWindow.js
+	Added theme variables linked to main areas.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarWrapper.css
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Editor.css
+	Added top title in editor with colored vignette.
+	Redefine colors to prepare merge in dev branch.
+	Re defined bootstrap color variables primary, info, success.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Nav.css
+	Redefine colors to prepare merge in dev branch.
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/PlotView.css
+	Legend PlotView colors are editable in styles/PlotView.css
+	Redefine colors to prepare merge in dev branch.
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Timebar.css
+	Redefine colors to prepare merge in dev branch.
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/bootstrap/variables.less
+	Re defined bootstrap color variables primary, info, success.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/buttons.css
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/rc-collapse/index.css
+	Redefine colors to prepare merge in dev branch.
+	Re defined bootstrap color variables primary, info, success.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/react-panels/index.css
+	Added theme variables linked to main areas.
+	Working on cleaning style, added variables to edit style easily.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/variables.css
+	Redefine colors to prepare merge in dev branch.
+	Re defined bootstrap color variables primary, info, success.
+	Added theme variables linked to main areas.
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DummyDrag.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/Controls.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/Controls.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsLeft.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsRight.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/LeftTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTab.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Scale.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Scale.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/VisuWindow.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/VisuWindow.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarWrapper.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/bootstrap/variables.less
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/buttons.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/rc-collapse/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/react-panels/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/variables.css
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Editor.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Nav.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/PlotView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Timebar.css
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

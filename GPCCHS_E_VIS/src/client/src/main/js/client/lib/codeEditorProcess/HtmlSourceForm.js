@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : nodes processed by MimicView are not systematically transformed into <g>, node.name are preserved (except for textBox animation).
+// VERSION : 1.1.2 : FA : #7753 : 18/09/2017 : Fixed Save & close issue with svg and html code editor.
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : Upgraded react-codemirror to 1.0.0, problem cursor going up should not occur anymore.
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : Resolved millenary problem with text and values interpolation in TextView code editor.
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';

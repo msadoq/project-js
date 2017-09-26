@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add pipeMiddlewares in store/helpers .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Rename all 'returnedAction' by 'nextAction' in middlewares
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 
 import pipeMiddlewares from './pipeMiddlewares';

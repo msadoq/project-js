@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Update of history view data store
+// END-HISTORY
+// ====================================================================
+
 import _omit from 'lodash/omit';
 import _concat from 'lodash/concat';
 import _without from 'lodash/without';

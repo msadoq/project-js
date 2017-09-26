@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : update MoveViewToPage modal to the generic modal
+// END-HISTORY
+// ====================================================================
+
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import { FormGroup, Form } from 'react-bootstrap';

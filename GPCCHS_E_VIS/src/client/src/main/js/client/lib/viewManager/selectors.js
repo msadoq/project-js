@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Split viewManager/index.js in several files
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Remove useless comments . .
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Fix 2 selectors in viewManager
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Change prepareViewFor* behaviors . .
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove old configuration reducer .
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Fix memoization issues with getConfigurationByViewId selector
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 

@@ -1,3 +1,42 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Rename menu in menuManager and move menu.js into menuManager/index.js
+// VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : MenuManager use now viewManager to generate view menu
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix crash when add new window
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove add/_add/addAndMount thunks . .
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Control help, explorer and timebar from electron menu
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Fix electron menu items labels
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPanels selectors in reducers folder
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move all windows simple selectors in store/reducers/windows
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Add editor shortcut and menu entry in toolbar
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add editor shortcut and menu entry in toolbar
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Add a F1 button in VIMA to open the docu wiki helper
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : minimize and keep old size for explorer and editor
+// VERSION : 1.1.2 : DM : #5828 : 24/04/2017 : Edit window title available through upper menu Window -> Rename.
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Page title edition is accessible through the upper menu.
+// VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Implement a new "isomorphic" createStore to centralize Redux configuration
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add possibility to modify domainName and sessionName from GUI for view, page, window and workspace
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName from GUI for view, page, window and workspace
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Cleanup Redux store configuration and introduce three distinct store enhancers for future store synchronisation implementation.
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing view or page
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing a workspace
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add basic documents redux middleware, support page opening only
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Rewrite all saving page code
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Rename WS_ASK_PAGE in WS_ASK_OPEN_PAGE action
+// VERSION : 1.1.2 : FA : #7199 : 06/07/2017 : Fix timebar toggle bug (caused crash)
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Fix mechansim for open/save/close workspace
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Ask open workspace at start in mainProcess/index
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Add workspace middleware => TODO : onWsClose
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : On open view middleware .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Remove pageOpen and pageSave in menuManager, add pageAddBlank
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean menuManager . . .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store folder in mainProcess
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : A blank workspace can be opened without pages
+// END-HISTORY
+// ====================================================================
+
 import { v4 } from 'uuid';
 import { getStore } from '../store';
 import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';

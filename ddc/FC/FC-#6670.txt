@@ -1,0 +1,1524 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6670.txt
+
+
+Reference changement : #6670
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.babelrc
+	Fix indentations in .babelrc .
+	Restore commonEditor/Fields/FiltersFields tests + add test env in babelrc
+	Use babel-plugin-lodash in production only
+	
+	
+	
+	because istanbul does not like it
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintrc
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.gitignore
+	Move lint-reporter in scripts/ folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.default.json
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+	Add valid links in data/views/text.json document
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/bootTest.js
+	Add a jest assertion 'toBeFunction'
+	
+	
+	
+	+ toBeAFunction alias
+	Fix Timebar jest snapshots .
+	Fix jest tests in store/actions
+	Fix jest tests in serverProcess
+	Replace 'isV4' usage by 'toBeAnUuid' assertion
+	
+	
+	
+	in documentManager tests
+	Add toBeV4 jest assertion in common/bootTest
+	Add 'toHaveKeys' expect assertion to bootTest
+	Add setupTestFrameworkScriptFile to jest platform
+	
+	
+	
+	add ./lib/common/bootTest.js file
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fmd.spec.js
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fs.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Add jest assertion : toBeAnError
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/index.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/setup.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/operators.snapshot.js
+	Rename operators.snapshot.js in operators.spec.js .
+	
+	
+	
+	+ fix tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/operators.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/test.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Fix jest tests in store/reducers
+	Fix jest tests in store/actions
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Add setupTestFrameworkScriptFile to jest platform
+	
+	
+	
+	add ./lib/common/bootTest.js file
+	Fix jest tests in dataManager
+	
+	
+	
+	adding empty object DEFAULT_FIELD (parameters.get)
+	Add jest assertions . .
+	
+	
+	
+	using expect.extend, we add :
+	- toBeArray assertion
+	- toBeObject assertion
+	- toBeString assertion
+	- toBeOneOf assertion
+	
+	+ some aliases
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/wildcard.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/displayQueries.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/expectedIntervalMap.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+	Move a beforeEach into describe block
+	
+	
+	
+	in dataManager/map.spec.js
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRemoteIdData.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/request.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/actions.spec.js.snap
+	Write all documentManager/actions tests .
+	Write openPageOrView tests (documentManager/actions) .
+	Write reloadView, openPage and openBlankWorkspace tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/readView.spec.js.snap
+	documentManager/readView has now 100% coverage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveView.spec.js.snap
+	Rewrite saveView tests to target 100% coverage on documentManager
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveWorkspace.spec.js.snap
+	documentManager/saveWorkspace has now 100% coverage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+	Refacto openPageOrView thunk in documentManager/actions
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+	Write all documentManager/actions tests .
+	Write openPageOrView tests (documentManager/actions) .
+	Write reloadView, openPage and openBlankWorkspace tests
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/createBlankWorkspace.spec.js
+	Replace 'isV4' usage by 'toBeAnUuid' assertion
+	
+	
+	
+	in documentManager tests
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.js
+	Add readDocumentType function (will be used by openPageOrView function)
+	documentManager/io have now 100% coverage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.spec.js
+	Add readDocumentType function (will be used by openPageOrView function)
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	documentManager/io have now 100% coverage
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readPage.spec.js
+	Replace last 'it' by 'test' in tests
+	documentManager/readPage has now 100% coverage
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Replace 'isV4' usage by 'toBeAnUuid' assertion
+	
+	
+	
+	in documentManager tests
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readView.spec.js
+	documentManager/readView has now 100% coverage
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.js
+	Write all documentManager/actions tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.spec.js
+	documentManager/readWorkspace has now 100% coverage
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Replace 'isV4' usage by 'toBeAnUuid' assertion
+	
+	
+	
+	in documentManager tests
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.js
+	documentManager/savePage has now 100% coverage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	documentManager/savePage has now 100% coverage
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Rewrite saveView tests to target 100% coverage on documentManager
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.js
+	Fix bug in saveWorkspace .
+	documentManager/saveWorkspace has now 100% coverage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	documentManager/saveWorkspace has now 100% coverage
+	Remove sinon from common/test .
+	
+	
+	
+	prefer import directly sinon
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.spec.js
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/ipc.js
+	Fix lint error in mainProcess/ipc
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/selectors.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/orchestration.js
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/monitorings.spec.js
+	Migrate all rtdManager test for jest
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.spec.js
+	Migrate all rtdManager test for jest
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/reportings/reportings.spec.js
+	Migrate all rtdManager test for jest
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onCacheCleanup.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDataPull.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDomainsQuery.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdCreate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdGet.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetSessionTime.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onHealth.spec.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onPull.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onServerDebug.spec.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onSessionsQuery.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onTimebasedQuery.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onDcStatus.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onDomainsData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdCreateData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdGetData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionMasterData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionTimeData.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionsData.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionsData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedArchiveData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedPubSubData.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/connectedData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dataQueue.spec.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dcStatus.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/lastPubSubTimestamp.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/registeredQueries.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/timebasedDataFactory.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/queries.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Replace automatic registration in jest.js by a registerProtobuf function in common/test
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/subscriptions.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/test.js
+	Fix jest tests in serverProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.js
+	Automatically pause when open editor (player middleware)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.spec.js
+	Automatically pause when open editor (player middleware)
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/enhancers/enhancers.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/health.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.js
+	Fix bug in actions/pages#openEditor thunk
+	
+	
+	
+	+ simplify it
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+	Fix store coverage (actions/pages) .
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Migrate merged new tests in jest
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.spec.js
+	Fix store coverage (actions/timebars) .
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timelines.js
+	Improve store/actions/timelines robustness . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timelines.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/viewData.spec.js
+	Add tests for actions/viewData .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Migrate merged new tests in jest
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/windows.spec.js
+	Fix store coverage (actions/windows) .
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/actions
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/createReducerByViews.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player.js
+	Use types constants (player middleware)
+	Automatically pause when open editor (player middleware)
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/play.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/editor/index.spec.js
+	Automatically pause when open editor (player middleware)
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.spec.js
+	Add a basic test for rootReducer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/masterSession/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/modals/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/panels.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/sessions/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebarTimelines/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/timeline.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Migrate merged new tests in jest
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/pages.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timebars.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timelines.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in store/reducers
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/simpleActionCreator.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/hs.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/callbacks/callbacks.spec.js
+	Fix jest tests in utils
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/includesTimestamp.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/merge.spec.js
+	Fix jest tests in utils
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/missing.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/notIncluded.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/remove.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataSelector.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/axes.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in viewManager
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationSelectors.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in viewManager
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/applyFilters.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/convertData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/domains.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/formula.spec.js
+	Fix jest tests in viewManager
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sessions.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/stateColors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/timelines.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/__snapshots__/EntryPointMonitoringStateColors.snapshot.js.snap
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/FiltersFields.snapshot.js
+	Restore commonEditor/Fields/FiltersFields tests + add test env in babelrc
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/FiltersFields.spec.js
+	Restore commonEditor/Fields/FiltersFields tests + add test env in babelrc
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/StateColorsFields.snapshot.js
+	Restore some snapshots in viewManager and windowProcess
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/StateColorsFields.spec.js
+	Restore some snapshots in viewManager and windowProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/ColorPickerField.snapshot.js.snap
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/FiltersFields.snapshot.js.snap
+	Restore commonEditor/Fields/FiltersFields tests + add test env in babelrc
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/FiltersFields.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/InputField.snapshot.js.snap
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/SelectButtonField.snapshot.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/StateColorsFields.snapshot.js.snap
+	Restore some snapshots in viewManager and windowProcess
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/StateColorsFields.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionFontStyle.snapshot.js
+	Restore some snapshots in viewManager and windowProcess
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionFontStyle.spec.js
+	Restore some snapshots in viewManager and windowProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionLineStyle.snapshot.js
+	Restore some snapshots in viewManager and windowProcess
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionLineStyle.spec.js
+	Restore some snapshots in viewManager and windowProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionPointStyle.snapshot.js
+	Restore some snapshots in viewManager and windowProcess
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionPointStyle.spec.js
+	Restore some snapshots in viewManager and windowProcess
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionFontStyle.snapshot.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionFontStyle.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionLineStyle.snapshot.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionLineStyle.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionPointStyle.snapshot.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionPointStyle.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentSelectors.spec.js
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Fix jest tests in windowProcess
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsSelectors.spec.js
+	Apply jest-codemods for chai-should + repair lots of tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/OffsetFields.js
+	Fix last two tests AddTimeline EditTimeline.
+	Remove console warn in LeftTab/OffsetFields
+	Restore some snapshots in viewManager and windowProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTabContainer.js
+	Add basic player middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarCollapsedContainer.js
+	Add basic player middleware .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/AddTimeline.snapshot.js
+	Restore some snapshots in viewManager and windowProcess
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/AddTimeline.spec.js
+	Fix last two tests AddTimeline EditTimeline.
+	Restore some snapshots in viewManager and windowProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.spec.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsRight.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsRight.spec.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/EditTimeline.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/EditTimeline.spec.js
+	Fix last two tests AddTimeline EditTimeline.
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/LeftTab.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/LeftTab.spec.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetter.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetter.spec.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetterFields.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetterFields.spec.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/Timebar.snapshot.js
+	Fix Timebar jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/Timebar.spec.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/AddTimeline.snapshot.js.snap
+	Restore some snapshots in viewManager and windowProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/AddTimeline.spec.js.snap
+	Fix last two tests AddTimeline EditTimeline.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.snapshot.js.snap
+	Restore some snapshots in viewManager and windowProcess
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.spec.js.snap
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsRight.snapshot.js.snap
+	Fix Timebar jest snapshots .
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsRight.spec.js.snap
+	Fix Timebar jest snapshots .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/EditTimeline.snapshot.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/EditTimeline.spec.js.snap
+	Fix last two tests AddTimeline EditTimeline.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/LeftTab.snapshot.js.snap
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/LeftTab.spec.js.snap
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetter.snapshot.js.snap
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetter.spec.js.snap
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetterFields.snapshot.js.snap
+	Fix Timebar jest snapshots .
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetterFields.spec.js.snap
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/Timebar.snapshot.js.snap
+	Fix Timebar jest snapshots .
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/Timebar.spec.js.snap
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ClearSubmitButtons.snapshot.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ClearSubmitButtons.spec.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ColorPickerField.snapshot.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ColorPickerField.spec.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/HorizontalFormGroup.snapshot.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/HorizontalFormGroup.spec.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.snapshot.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.spec.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/SelectButtonField.snapshot.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Apply jest-codemods for mocha .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/SelectButtonField.spec.js
+	Fix windowProcess/commonReduxForm jest snapshots .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ClearSubmitButtons.snapshot.js.snap
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ClearSubmitButtons.spec.js.snap
+	Fix windowProcess/commonReduxForm jest snapshots .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ColorPickerField.snapshot.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ColorPickerField.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/HorizontalFormGroup.snapshot.js.snap
+	Fix windowProcess/commonReduxForm jest snapshots .
+	Update jest snapshots . .
+	
+	
+	
+	using jest -u
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/HorizontalFormGroup.spec.js.snap
+	Fix windowProcess/commonReduxForm jest snapshots .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/InputField.snapshot.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/InputField.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/SelectButtonField.snapshot.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/SelectButtonField.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lint-reporter/lint-reporter.js
+	Move lint-reporter in scripts/ folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	Change jest config : testPathIgnorePatterns
+	Update package.json clean script to remove csv lint reports
+	Move lint-reporter in scripts/ folder
+	Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+	Remove nyc . . .
+	Fix test:coverage script . .
+	Restore commonEditor/Fields/FiltersFields tests + add test env in babelrc
+	Remove chai and update package.json run scripts
+	Fix jest tests in documentManager
+	
+	
+	
+	- fix documentManager tests
+	- add 'jest' in .eslintrc globals
+	- use redux-mock-store
+	Add setupTestFrameworkScriptFile to jest platform
+	
+	
+	
+	add ./lib/common/bootTest.js file
+	Change jest coverage options .
+	Fix jest transform ignore patterns
+	
+	
+	
+	we need to transpile node_modules/common, but not node_modules/* and node_modules/common/node_modules/*
+	Update jest to v20 .
+	
+	
+	
+	+ update babel-jest
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/lint-reporter/lint-reporter.js
+	Move lint-reporter in scripts/ folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/start.sh
+	Fix packaging stubProcess . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/test/__mocks__/Timelines.js
+	Fix Timebar jest snapshots .
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+	Install jest 20 in common
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/.babelrc
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintrc
+GPCCHS_E_VIS/src/client/src/main/js/client/config.default.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fmd.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fs.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/wildcard.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/displayQueries.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/expectedIntervalMap.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRemoteIdData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/request.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/createBlankWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readPage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/selectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/orchestration.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/monitorings.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/reportings/reportings.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onCacheCleanup.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDataPull.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDomainsQuery.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdCreate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdGet.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetSessionTime.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onHealth.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onPull.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onServerDebug.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onSessionsQuery.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onTimebasedQuery.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onDcStatus.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onDomainsData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdCreateData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdGetData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionMasterData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionTimeData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionsData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onSessionsData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedArchiveData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedPubSubData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/connectedData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dataQueue.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dcStatus.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/lastPubSubTimestamp.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/registeredQueries.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/timebasedDataFactory.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/queries.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/subscriptions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/test.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/enhancers/enhancers.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/health.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timelines.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timelines.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/windows.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/createReducerByViews.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/play.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/editor/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/masterSession/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/modals/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/panels.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/sessions/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebarTimelines/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/timeline.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/pages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timebars.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timelines.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/simpleActionCreator.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/hs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/callbacks/callbacks.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/includesTimestamp.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/merge.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/missing.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/notIncluded.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/intervals/remove.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataSelector.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/axes.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/applyFilters.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/convertData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/domains.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/formula.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sessions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/stateColors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/timelines.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/OffsetFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarCollapsedContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/start.sh
+GPCCHS_E_VIS/src/client/src/main/js/client/test/__mocks__/Timelines.js
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/bootTest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/setup.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/operators.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/actions.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/readView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/viewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/FiltersFields.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/StateColorsFields.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/FiltersFields.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/StateColorsFields.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionFontStyle.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionLineStyle.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionPointStyle.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionFontStyle.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionLineStyle.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionPointStyle.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/AddTimeline.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsRight.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/EditTimeline.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/LeftTab.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetter.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetterFields.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/Timebar.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/AddTimeline.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsRight.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/EditTimeline.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/LeftTab.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetter.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetterFields.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/Timebar.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ClearSubmitButtons.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ColorPickerField.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/HorizontalFormGroup.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/SelectButtonField.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ClearSubmitButtons.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ColorPickerField.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/HorizontalFormGroup.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/InputField.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/SelectButtonField.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/lint-reporter/lint-reporter.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/operators.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/test.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/__snapshots__/EntryPointMonitoringStateColors.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/FiltersFields.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/StateColorsFields.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/ColorPickerField.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/FiltersFields.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/InputField.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/SelectButtonField.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/StateColorsFields.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionFontStyle.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionLineStyle.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionPointStyle.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionFontStyle.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionLineStyle.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/__snapshots__/FormSectionPointStyle.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/AddTimeline.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsRight.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/EditTimeline.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/LeftTab.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetter.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/TimeSetterFields.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/Timebar.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/AddTimeline.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsRight.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/EditTimeline.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/LeftTab.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetter.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/TimeSetterFields.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/Timebar.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ClearSubmitButtons.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ColorPickerField.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/HorizontalFormGroup.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/SelectButtonField.snapshot.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ClearSubmitButtons.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/ColorPickerField.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/HorizontalFormGroup.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/InputField.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/SelectButtonField.snapshot.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lint-reporter/lint-reporter.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

@@ -1,3 +1,46 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #6129 : 03/05/2017 : first functionnal mimic with animations
+// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
+// VERSION : 1.1.2 : DM : #6129 : 09/05/2017 : check and improve mimic perfs
+// VERSION : 1.1.2 : DM : #6129 : 12/05/2017 : Merge dev branch & gauge done
+// VERSION : 1.1.2 : DM : #6129 : 16/05/2017 : add rotate animation and knobe component in mimic
+// VERSION : 1.1.2 : DM : #6129 : 18/05/2017 : display strings animates values in mimic
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add possibility to show links in views
+// VERSION : 1.1.2 : DM : #6129 : 31/05/2017 : add digital display feature and fix lint warnings
+// VERSION : 1.1.2 : DM : #6785 : 06/06/2017 : Fix links in mimic view
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : Merge dev in abesson-mimic .
+// VERSION : 1.1.2 : DM : #6129 : 20/06/2017 : Fix bug in mimic render
+// VERSION : 1.1.2 : DM : #5822 : 21/06/2017 : add context menu in mimiv view to open entry points in inspector
+// VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : Add show / hide animation .
+// VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : prepare mimic for demo scenario
+// VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : merge dev on abesson-mimic branch .
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Remove forgotten console.log in MimicView
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : DM : #6785 : 21/07/2017 : Fix lint warning in MimicView
+// VERSION : 1.1.2 : DM : #6785 : 21/07/2017 : add links on mimicView if specify in svg editor
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6816 : 25/08/2017 : Put MimicView animation methods appart, and test each one of them (rotate, scale...).
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : Added default values to all MimicView's animations.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : imicView Fixed rotate animation error, set visibility to visible.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : MimicView : style attribute is the only attribute kept from svg nodes.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : nodes processed by MimicView are not systematically transformed into <g>, node.name are preserved (except for textBox animation).
+// VERSION : 1.1.2 : DM : #6816 : 31/08/2017 : MimicView : rotate property can go under 0, ex: -25,25. For rotate, translate and scale, isis_origin must be provided or is set to left top.
+// VERSION : 1.1.2 : DM : #6816 : 01/09/2017 : MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+// VERSION : 1.1.2 : DM : #6816 : 06/09/2017 : Test perfs on mimic, add new demo mimic
+// VERSION : 1.1.2 : DM : #6816 : 07/09/2017 : add plotviews with differents EP
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import {
   scaleAnimation,

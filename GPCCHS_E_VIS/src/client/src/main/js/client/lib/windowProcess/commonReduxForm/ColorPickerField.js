@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Removal of commonReduxForm/index.js , imports must be precise.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import ColorPicker from './ColorPicker';
 import { colors as initialColors } from '../common/colors';

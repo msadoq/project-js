@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : CReation of knownRanges reducer and actions
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : Update of knownRanges reducer and actions
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of preparePubSup middleware .
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : creatin of selectors on datamap
+// VERSION : 1.1.2 : DM : #6700 : 27/07/2017 : update preparePubSub and add unit tests for it
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// END-HISTORY
+// ====================================================================
+
 import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/knownRanges';
 import knownRangesReducer, {

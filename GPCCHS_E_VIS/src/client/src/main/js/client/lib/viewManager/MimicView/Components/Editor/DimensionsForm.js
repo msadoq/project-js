@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import classnames from 'classnames';

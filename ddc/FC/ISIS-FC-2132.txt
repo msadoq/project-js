@@ -1,0 +1,151 @@
+#GPCCHS 1.1.2 02/10/2017 ISIS-FC-2132.txt
+
+
+Reference changement : ISIS-FT-2132
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.js
+	Fix asking to save before closing view or page
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	Ask to save before closing view or page
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetSessionTime.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSavePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSaveView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onServerDebug.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+	Ask to save before closing a workspace
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageSave.js
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceClose.js
+	Ask to save before closing a workspace
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceOpen.js
+	Fix asking to save before closing view or page
+	Ask to save before closing a workspace
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceSave.js
+	Fix asking to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+	Fix opening a workspace from menu
+	ask to save before closing workspace with cross button
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+	Fix opening a workspace from menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+	Fix asking to save before closing view or page
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+	Fix view saving . .
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.js
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+	Fix view saving . .
+	Fix asking to save before closing view or page
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+	Ask to save before closing view or page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+	Fix asking to save before closing view or page
+	Ask to save before closing view or page
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosing.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosingContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedDocWarning.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedDocWarningContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarning.js
+	Fix asking to save before closing view or page
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarningContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+	Ask to save before closing view or page
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetSessionTime.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onServerDebug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageSave.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceOpen.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceSave.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceClose.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosing.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosingContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarning.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarningContainer.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

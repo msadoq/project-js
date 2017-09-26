@@ -1,16 +1,56 @@
-#GPCCHS 1.1.0 28/02/2017 etat-fa.txt
+#GPCCHS 1.1.2 02/10/2017 etat-fa.txt
 
 
 FT en cours de traitement :
 ===========================
 # ref_client | etat | date_emission | auteur | titre | gravite | contournement
-Sans objet.
+ISIS-FT-1477|En D?veloppement|2016-02-03 17:06:16|Claude BOITEAU|[FA SGC ASTEK][Contr?le SGC V 0.1.1][DT 20063]|N|None
+ISIS-FT-1503|En attente|2016-02-09 12:25:01|Claude BOITEAU|requete DAO parameter leve une exception|D|None
+ISIS-FT-1540|En attente|2016-03-08 14:53:19|Claude BOITEAU|Le chargement des fichiers xsd pour VIMA se fait correctement malgr? le mauvais positionnement de la variable ISIS_RESOURCES_DIR|N|None
+ISIS-FT-1542|En attente|2016-03-08 14:53:19|Claude BOITEAU|l'encodage d'arguments octetString n'est pas possible par la proc?dure technique|D|None
+ISIS-FT-1553|En attente|2016-03-22 09:36:40|Claude BOITEAU|le serveur session prend l'emplacement du dossier session dans un fichier de configuration|P|None
+ISIS-FT-1672|En attente|2016-05-11 08:25:41|Claude BOITEAU|le DAO ne g?re pas le changement d'Epoch|D|None
+ISIS-FT-1854|En attente|2017-03-16 17:31:00||Exceptions al?atoires ? l'execution de plusieurs GCP|None|None
+ISIS-FT-1866|Ouvert|2017-03-16 17:31:00||TL: utiliser @ClassName.setter pour acc?der changer les valeurs des attributs|None|None
+ISIS-FT-1990|Ouvert|2017-03-23 17:50:51||Les filtres appliqu?s ne sont pas visibles dans les tableaux des IHM PUS|None|None
+ISIS-FT-2033|Ouvert|2017-03-28 16:24:40||La taille des documents ? l'IHM est toujours 0 KB|None|None
+ISIS-FT-2041|Ouvert|2017-03-28 16:24:40||[GPINSE] Lors de l'arr?t d'une session, il faudrait d'abord v?rifier si elle est d?marr?e|None|None
+ISIS-FT-2075|Ouvert|2017-04-12 13:40:07||Valeurs non copiables dans les tableaux|None|None
+ISIS-FT-2124|En attente|2017-05-09 10:59:45||Pas de message d'erreur dans le cas d'un service manquant|D|None
 
 
 FT deja livre en attente de cloture :
 =====================================
 # ref_client | etat | date_emission | auteur | titre | gravite | version correction
-Sans objet.
+ISIS-FT-1468|Livr?|2016-01-26 09:23:59|Claude BOITEAU|Arr?t du scrip exif_import_sdb.py pendant l'import du catalogue Reporting|P|0.1.2
+ISIS-FT-1470|Livr?|2016-01-26 09:23:59|Claude BOITEAU|La fonction setFactoryIdTo appel?e dans la librairie technique GPMC n'est pas d?finie.|D|0.1.2
+ISIS-FT-1472|Livr?|2016-01-26 09:23:59|Claude BOITEAU|presence de variables d'environnement inutiles dans /etc/isis/default.cfg|N|R7S4-rc1
+ISIS-FT-1481|Livr?|2016-01-20 11:21:17|Claude BOITEAU|isisStatus non deploye sur le VM d'execution|D|0.1.2
+ISIS-FT-1485|Livr?|2016-02-02 08:36:31|Claude BOITEAU|Les schemas SDB pr?sent dans GPCCTL ne sont pas corrects|D|0.1.2
+ISIS-FT-1494|Livr?|2016-02-09 12:25:01|Claude BOITEAU|le DAO paquet plante avec une p?riode en date sol|P|0.1.2.2
+ISIS-FT-1555|Livr?|2016-03-22 09:36:40|Claude BOITEAU|la commande ibascule ne renvoie pas d'erreur si le r?pertoire renseign? dans l'argument "folder" n'existe pas|D|R7S4-rc1
+ISIS-FT-1556|Livr?|2016-03-22 09:36:40|Claude BOITEAU|les fichiers de configuration des GCP scripts ne sont pas au bon emplacement|P|1.1.0
+ISIS-FT-1585|Livr?|2016-03-31 14:09:15|Claude BOITEAU|il manque le secondary header dans vue paquet|P|0.1.2.4
+ISIS-FT-1632|Livr?|2016-04-13 14:23:05|Claude BOITEAU|Les param?tres TM de type Absolutetime sont affich? avec un d?calage de 30 ans par rapport ? la valeur attendue|D|0.1.2.6
+ISIS-FT-1646|Livr?|2016-04-14 11:28:06|Claude BOITEAU|La DAO TcHistory plante lors de la lecture des donn?es|P|0.1.2.5
+ISIS-FT-1647|Livr?|2016-04-14 11:28:06|Claude BOITEAU|La requ?te DAO packet ne retourne qu'un seul enregistrement|P|0.1.2.5
+ISIS-FT-1863|Livr?|2017-03-16 17:31:00||Documentation doxygen trop incompl?te|None|1.1.0.8
+ISIS-FT-1888|Livr?|2017-03-17 09:12:55||Cr?ation de filtre intempestive lors d'un tri|None|1.1.0.9
+ISIS-FT-1927|Livr?|2017-03-20 17:05:31||Probl?me d'epoch dans la date sol affich?e par VIMA|D|1.1.0.8
+ISIS-FT-1935|Livr?|2017-03-21 17:15:17||configuration de GPCCDC|None|1.1.0.8
+ISIS-FT-1942|Livr?|2017-03-21 17:15:17||TL - module gpcctl_l_api.gpcc.utils.logUtils n'existe pas|None|1.1.0.8
+ISIS-FT-1957|Livr?|2017-03-21 17:15:18||comportement par defaut drag&drop TBD VIMA JS|None|1.1.0.8
+ISIS-FT-1965|Livr?|2017-03-23 07:58:39||sauvegarde workspace VIMA JS|None|1.1.0.8
+ISIS-FT-1968|Livr?|2017-03-23 07:58:39||?diteur de vue VIMA JS|None|1.1.0.5
+ISIS-FT-1970|Livr?|2017-03-23 07:58:39||idSession dans le session time properties et idSession/Domain conf DC de la ligne d'essai VIMA|None|1.1.0.6
+ISIS-FT-1981|Livr?|2017-03-23 07:58:40||sauvegarde page VIMA JS|None|1.1.0.8
+ISIS-FT-1983|Livr?|2017-03-23 17:50:50||layout VIMA JS|None|1.1.0.8
+ISIS-FT-1997|Livr?|2017-03-23 17:50:51||Si plusieurs d?mons PUS sont d?marr?s dans la session op?rationnelle, les events (PUS1) ne sont pas re?us|None|1.1.0.6
+ISIS-FT-2043|Livr?|2017-03-30 07:08:01||dynamicView editeur VIMA JS|None|1.1.0.7
+ISIS-FT-2056|Livr?|2017-03-30 07:08:02||dynamicView VIMA JS|None|1.1.0.7
+ISIS-FT-2068|Livr?|2017-04-11 09:33:02||ajout TBD plotView VIMA JS|None|1.1.0.8
+ISIS-FT-2156|Livr?|2017-06-09 14:55:32||regression  VIMA JS sur donn?es TBD|D|1.1.0.10
+ISIS-FT-2180|Livr?|2017-08-21 11:11:29|Alexandre GAUDRY|regression  VIMA JS sur donn?es TBD|D|1.1.0.11
 
 
 #Generated by Framework DDC-ng (version 0.8a)

@@ -1,3 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fix merge issue after selector moving in reducer modules
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix page views layout display
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix merge issue after selector moving in reducer modules
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : minimize and keep old size for editor
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to convertData
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : update MoveViewToPage modal to the generic modal
+// END-HISTORY
+// ====================================================================
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getView } from '../../store/reducers/views';

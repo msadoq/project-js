@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
+// END-HISTORY
+// ====================================================================
+
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';

@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getTimebarMasterId simple selector in store/reducers/timebars
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getFirstTimebarId simple selectors in store/reducers/timebars
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getTimebar and getTimebars simple selectors in store/reducers/timebars
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add getTimebarId selector . .
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Fix or comment some coding standard warnings
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : change thunk pause into simple action
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : change thunk pause into simple action
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import u from 'updeep';
 import { createSelector } from 'reselect';

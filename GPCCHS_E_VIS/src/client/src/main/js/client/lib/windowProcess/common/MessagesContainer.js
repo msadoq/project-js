@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime type is not supported.
+// END-HISTORY
+// ====================================================================
+
 import { connect } from 'react-redux';
 import { remove, cancelRemove } from '../../store/actions/messages';
 import { getMessages } from '../../store/reducers/messages';

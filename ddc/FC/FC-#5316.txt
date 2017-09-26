@@ -1,0 +1,567 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#5316.txt
+
+
+Reference changement : #5316
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintignore
+	Add coverage folder in .eslintignore
+	Fix node_modules ignoring in common and server ESLint analysis
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/entryPoint.js
+	Remove all eslint-disable import/prefer-default-export .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fs.spec.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/createLoggingSelector.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/inject.js
+	Remove some eslint-disable in dataManager
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+	Remove eslint-disable-line space-in-parens in dataManager/map
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/last/extractValues.js
+	Remove some eslint-disable in dataManager
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/last/extractValues.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/range/extractValues.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/range/extractValues.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/range/viewDataUpdate.js
+	Refacto viewDataUpdate in structures/range (dataManager)
+	Remove some eslint-disable in dataManager range structure (viewDataUpdate function)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.js
+	Remove all eslint-disable no-unused-vars .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.js
+	Remove some eslint-disable in documentManager/saveView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onCreateModel.js
+	Remove some eslint-disable in onCreateModel controller
+	
+	
+	
+	in mainProcess controllers.
+	+ refacto
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menu/workspaceOpen.js
+	Remove all eslint-disable no-unused-vars .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windows.js
+	Remove an eslint-disable in mainProcess/windows
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/domains.js
+	Remove all eslint-disable import/prefer-default-export .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.js
+	Lint updateMasterSessionIfNeeded in lib/store/actions/masterSession .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/sessions.js
+	Remove all eslint-disable import/prefer-default-export .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+	Remove last eslint-disable default-case .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/axis.js
+	Remove unused function in reducers/views/axis
+	Remove all eslint-disable in views reducer
+	
+	
+	
+	+ refacto
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+	Remove all eslint-disable in views reducer
+	
+	
+	
+	+ refacto
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/views.spec.js
+	Remove unused function in reducers/views/axis
+	Remove all eslint-disable in views reducer
+	
+	
+	
+	+ refacto
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/domains.js
+	Remove all eslint-disable import/prefer-default-export .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/viewData.js
+	Add viewData points count in right bar explorer
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/viewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/ColorPicker.js
+	Lint debug warnings in vima console . . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/EntryPoint/EntryPointMonitoringStateColors.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/EntryPoint/EntryPointName.js
+	Lint eslint debug warning in vima & jsw no new object as prop
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/CodeMirrorField.js
+	Fix some react warns about proptypes
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/ColorPickerField.js
+	Lint debug warnings in vima console . . .
+	Fix some react warns about proptypes
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/InputField.js
+	Fix some react warns about proptypes
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/ReactSelectField.js
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/StateColorsFields.js
+	Lint Fields/StateColorsFields.js Plot/PlotEditorContainer.js . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/TextareaField.js
+	Lint debug warnings in vima console . . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Forms/ClearSubmitButtons.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Forms/HorizontalFormGroup.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointConnectedDataFields.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointConnectedDataXY.js
+	Lint Plot/EntryPointConnectedDataXY.js . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointDetails.js
+	Lint eslint debug warning in vima & jsw no new object as prop
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointParameters.js
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotAxes.js
+	Fix some react warns about proptypes
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotAxis.js
+	Lint debug warnings in vima console . . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotEditor.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotEditorContainer.js
+	Lint Fields/StateColorsFields.js Plot/PlotEditorContainer.js . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotGrids.js
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotMarkers.js
+	Lint debug Editor.js Components/Plot/PlotMarkers.js Components/ViewParams.js . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Text/TextEditorContainer.js
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/ViewParams.js
+	Lint debug warnings in vima console . . .
+	Lint debug Editor.js Components/Plot/PlotMarkers.js Components/ViewParams.js . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+	Lint debug Editor.js Components/Plot/PlotMarkers.js Components/ViewParams.js . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/PerView.js
+	Add viewData points count in right bar explorer
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/PerViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Debug.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Revert "[FT:#5316] Lint eslint disable no console . . ."
+	
+	
+	
+	This reverts commit 074cebab6a26f8bbd1d45744c81736a463ad298a.
+	Lint eslint disable no console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DummyDrag.js
+	Remove some eslint-disable relaxations in Navigation/DummyDrag component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Explorer.js
+	Lint Navigation/Explorer component . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Help.js
+	Lint Navigation/Help component . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContent.js
+	Lint Navigation/HelpContent component . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/MasterSessionContainer.js
+	Lint Navigation/MasterSessionContainer . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Messages.js
+	Lint Navigation/Messages component . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+	Lint Page Content in windowProcess folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Messages.js
+	Lint Page Messages in windowProcess folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/timeline/AddTimeline.js
+	Lint AddTimeline component in windowProcess/Timbar/timeline
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Alert.js
+	Lint eslint debug warning in vima & jsw no new object as prop
+	Lint Alert component in windowProcess/View
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+	Remove an useless eslint-disable noparam-reassign
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/PlotMenu.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/PlotView.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Revert "[FT:#5316] Lint eslint disable no console . . ."
+	
+	
+	
+	This reverts commit 074cebab6a26f8bbd1d45744c81736a463ad298a.
+	Lint eslint disable no console . . .
+	Remove some eslint-disable in PlotView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/PlotViewContainer.js
+	Remove some eslint-disable relaxations in PlotViewContainer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/helper.js
+	Remove some eslint-disable in PlotView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/TextView/TextView.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Revert "[FT:#5316] Lint eslint disable no console . . ."
+	
+	
+	
+	This reverts commit 074cebab6a26f8bbd1d45744c81736a463ad298a.
+	Lint eslint disable no console . . .
+	Remove some eslint-disable relaxations in TextView component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/DroppableContainer.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Revert "[FT:#5316] Lint eslint disable no console . . ."
+	
+	
+	
+	This reverts commit 074cebab6a26f8bbd1d45744c81736a463ad298a.
+	Lint eslint disable no console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/buttons.css
+	Lint debug warnings in vima console . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.base.js
+	Lint webpack/config.base.js (indentation) . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/server.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/stats.main.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/stats.renderer.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/.eslintignore
+	Add coverage folder in .eslintignore
+	Fix node_modules ignoring in common and server ESLint analysis
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/.eslintrc
+	Fix number of ESLint violation in common
+GPCCHS_E_VIS/src/common/src/main/js/common/ipc/handle.js (idem)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/log/node.js
+	Fix linting in some common sub-modules
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/log/renderer.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Fix linting in some common sub-modules
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/log/util.js
+	Fix linting in some common sub-modules
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+	Fix number of ESLint violation in common
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/parameters/index.js
+	Fix linting in some common sub-modules
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/index.js
+	Fix number of ESLint violation in common
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/typesTests/typesTest.spec.js
+	Last lint in common .
+	Fix linting in some common sub-modules
+	Fix number of ESLint violation in common
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dc.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dcTestReg.js
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Fix number of ESLint violation in common
+	Fix linting in common/dcTestReg file
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/console.js
+	Revert "Add Console.js in utils folder (common)"
+	
+	
+	
+	This reverts commit 0443ece311496505bb37e183f3ca16d0a32a6e29.
+	Revert "Replace some console uses by new Console"
+	
+	
+	
+	This reverts commit 362a554abfe598c560c461999d0c7340f229375b.
+	Replace some console uses by new Console
+	Add Console.js in utils folder (common)
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/test.js
+	Fix number of ESLint violation in common
+
+
+GPCCHS_E_VIS/src/server/src/main/js/server/.eslintignore
+	Add coverage folder in .eslintignore
+	Fix node_modules ignoring in common and server ESLint analysis
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintignore
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/entryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fs.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/createLoggingSelector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/inject.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/last/extractValues.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/last/extractValues.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/range/extractValues.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/range/extractValues.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/structures/range/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onCreateModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menu/workspaceOpen.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/domains.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/sessions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/axis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/domains.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/viewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/viewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/ColorPicker.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/EntryPoint/EntryPointMonitoringStateColors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/EntryPoint/EntryPointName.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/CodeMirrorField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/ColorPickerField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/InputField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/ReactSelectField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/StateColorsFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Fields/TextareaField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Forms/ClearSubmitButtons.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Forms/HorizontalFormGroup.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointConnectedDataXY.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/EntryPointParameters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotAxes.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotGrids.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Plot/PlotMarkers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/Text/TextEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Components/ViewParams.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/PerView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/PerViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Debug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DummyDrag.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Explorer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Help.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContent.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/MasterSessionContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/timeline/AddTimeline.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Alert.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/PlotMenu.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/PlotViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/PlotView/helper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/TextView/TextView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/DroppableContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/buttons.css
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.base.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/server.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/stats.main.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/stats.renderer.js
+GPCCHS_E_VIS/src/common/src/main/js/common/.eslintrc
+GPCCHS_E_VIS/src/common/src/main/js/common/ipc/handle.js
+GPCCHS_E_VIS/src/common/src/main/js/common/log/node.js
+GPCCHS_E_VIS/src/common/src/main/js/common/log/renderer.js
+GPCCHS_E_VIS/src/common/src/main/js/common/log/util.js
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+GPCCHS_E_VIS/src/common/src/main/js/common/parameters/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/typesTests/typesTest.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dc.js
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dcTestReg.js
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/test.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/common/src/main/js/common/.eslintignore
+GPCCHS_E_VIS/src/server/src/main/js/server/.eslintignore
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

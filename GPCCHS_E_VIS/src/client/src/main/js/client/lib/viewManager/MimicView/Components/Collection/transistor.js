@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 const transistor = '<!-- TRANSISTOR -->\n' +
 '<g>\n\t' +
  '<ellipse stroke="#000000" ry="150" rx="150" id="svg_1" cy="181" cx="183" stroke-width="6" fill="#ffffff"/>\n\t' +

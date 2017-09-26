@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// END-HISTORY
+// ====================================================================
+
 const hSlider = '<!-- HORIZONTAL SLIDER -->\n' +
 '<g transform="translate(300,160)">\n\t' +
 ' <path d="M10,10 l200,0 l0,6 l-200,0 z" style=" fill: #DDD; stroke: #BBB;" />\n\t' +

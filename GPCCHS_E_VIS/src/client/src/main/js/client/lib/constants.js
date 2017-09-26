@@ -1,3 +1,41 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing view or page
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Refactor "patch action" decoration (patch in .meta)
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Change windowProcess health management to dispatch a Redux action directly.
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Fix server process lauching timeout issue in development
+// VERSION : 1.1.2 : DM : #6785 : 29/06/2017 : Fix opening view link in a new page and read only path for link definition
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Refactor DC error handling (direct dispatch from server)
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing info to meta action's
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Remove SAVE_PAGE ipc method .
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Remove health management obsolete code
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux action
+// VERSION : 1.1.2 : DM : #6700 : 20/07/2017 : Remove obsolete onServerDebug interface, ipcs and model
+// VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Separate perTdbId by structure type in dataMap
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about openInspector .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about documents .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Remove serverDebug ipc . .
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : remove lastFrom0 from datamap add a test to keep the good interval in datamap
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : remove lower bound type from viewManager
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store folder in mainProcess
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 04/09/2017 : REVERT MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : Page / Views / Workspace are saved with extensions.
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data files, updated config.sample.json.
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// VERSION : 1.1.2 : FA : #7435 : 14/09/2017 : Change EXTENSIONS constants . .
+// END-HISTORY
+// ====================================================================
+
 module.exports = {
   // CHILD PROCESS ID
   CHILD_PROCESS_READY_MESSAGE_TYPE_KEY: 'CHILD_PROCESS_IS_READY',

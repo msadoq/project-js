@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6129 : 04/07/2017 : add multistate switch default component to mimic
+// END-HISTORY
+// ====================================================================
+
 const multistate = '<!-- Multistate switch -->\n' +
 '<g transform="translate(40,0)">\n\t' +
   '<g isis_animation="colour" isis_ep="AGA_AM_PRIORITY" isis_operators="<$118$#28f42b*>=$118$#EEE">\n\t\t' +

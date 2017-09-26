@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : fix unnecessary datamap generation .
+// END-HISTORY
+// ====================================================================
+
 import * as actions from '../../../store/actions/views';
 import configurationReducer from './configurationReducer';
 import { freezeArgs } from '../../../common/jest';

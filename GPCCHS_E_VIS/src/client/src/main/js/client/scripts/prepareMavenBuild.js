@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Add prepapreMavenBuild script . .
+// END-HISTORY
+// ====================================================================
+
 const { join } = require('path');
 const fs = require('fs');
 

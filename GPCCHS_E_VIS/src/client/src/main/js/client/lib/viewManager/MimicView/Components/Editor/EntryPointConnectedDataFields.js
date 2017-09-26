@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { Field, FieldArray } from 'redux-form';
 import FiltersFields from '../../../commonEditor/Fields/FiltersFields';

@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// END-HISTORY
+// ====================================================================
+
 import { connect } from 'react-redux';
 import AddPlotAxisWrapper from './AddPlotAxisWrapper';
 import { getConfigurationByViewId } from '../../../../viewManager';

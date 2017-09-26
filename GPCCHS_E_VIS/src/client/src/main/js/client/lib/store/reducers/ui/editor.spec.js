@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename ui/editor reducer test describe
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Split ui reducer + prepare ui/dialog reducer
+// END-HISTORY
+// ====================================================================
+
 import { freezeArgs } from '../../../common/jest';
 import * as actions from '../../actions/ui';
 import editorReducer from './editor';

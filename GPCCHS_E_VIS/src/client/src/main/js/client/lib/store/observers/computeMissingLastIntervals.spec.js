@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable camelcase */
 import _cloneDeep from 'lodash/cloneDeep';
 import computeMissingLastIntervals from './computeMissingLastIntervals';

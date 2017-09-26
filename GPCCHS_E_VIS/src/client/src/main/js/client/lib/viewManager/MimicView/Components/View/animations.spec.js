@@ -1,3 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6816 : 25/08/2017 : Put MimicView animation methods appart, and test each one of them (rotate, scale...).
+// VERSION : 1.1.2 : DM : #6816 : 25/08/2017 : renamed methods of the mimic view animation tests.
+// VERSION : 1.1.2 : DM : #6816 : 28/08/2017 : Added estlint-disable text justification for MimicView's animations tests.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : MimicView : adapted tests to handle dom element mocking, setAttribute and getAttribute mocked functions.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : Added default values to all MimicView's animations.
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : imicView Fixed rotate animation error, set visibility to visible.
+// VERSION : 1.1.2 : DM : #6816 : 01/09/2017 : MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 import {
   scaleAnimation,
   translateAnimation,

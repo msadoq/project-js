@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 08/02/2017 : Lint Navigation/HelpContent component . .
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Add a F1 button in VIMA to open the docu wiki helper
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Change WikiHelper <a> in <button>
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : Help panel : removing view shortcuts that are not present anymore.
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store folder in mainProcess
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import styles from './HelpContent.css';

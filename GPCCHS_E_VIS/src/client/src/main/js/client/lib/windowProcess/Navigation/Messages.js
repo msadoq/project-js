@@ -1,3 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 08/02/2017 : Lint Navigation/Messages component . .
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Message component shouldn't display anything if no message
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : remove forbidden attribute choice on div tag.
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Fix messages display, top right corner.
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Automatically remove messages after a while
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Add animation to messages removing
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Message removing can be cancel by passing the mouse over the message
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import classnames from 'classnames';

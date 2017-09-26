@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store folder in mainProcess
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Fix little bug in wikiHelper middleware
+// END-HISTORY
+// ====================================================================
+
 import _always from 'lodash/fp/always';
 import open from 'opn';
 import { createStore, applyMiddleware, compose } from 'redux';

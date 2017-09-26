@@ -1,3 +1,45 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Explorer Right panel refactoring .
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Ignore not loaded views in dataMap and data requesting
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Remove displayHelp state and replace with store
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Control help, explorer and timebar from electron menu
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Remove the explorer resizable behavior and use panels data to handle show/hide
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix linting rules on hsc hss and common
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add partial performance widget in explorer
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add dataMap and store explorer widgets
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix few broken unit tests
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix new window panels layout page views scrollability
+// VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : Timebar is collapsable. action reducer test.
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Add a F1 button in VIMA to open the docu wiki helper
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Window.js : new divs above panel dividers, auto-moving when panels move.
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : minimize and keep old size for explorer and editor
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Collapse / minimize buttons on panel dividers. New colors for dividers, darker.
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Window.js : rethinking panels behaviour, fix vima bottom invisible.
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Handle panel collapse/expand buttons with css instead of JE and react refs.
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : New GenericModal component displayed or not displayed at root (Window.js) AddTimeline and EditTimeline forms displayed through it.
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : Collapse/minimize Editor/Explorer : buttons are in Window.js
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Fix messages display, top right corner.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Panels are now sticky on left and right.
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : Cleaned adn moved shortcuts handling to windowWrapper.
+// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : React panel bars are lighter, added the NO PAGE sentence and not displaying panels when no page.
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : New D P I buttons in explorer vertical bar.
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : No vertical bar when editor minimized.
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : When clicking on explorer shortcuts, explorer auto-expands if it is not expanded.
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : Handle the case where there is no pageId in window, not rendering panels.
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Can now propagate choice and modal props via closeModal action
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store folder in mainProcess
+// VERSION : 1.1.2 : FA : #7114 : 22/08/2017 : catch auxclick event and stop propagation
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 import PanelGroup from 'react-panelgroup';

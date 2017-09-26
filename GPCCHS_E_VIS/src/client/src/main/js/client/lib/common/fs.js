@@ -1,3 +1,21 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change configuration FMD_ROOT_DIR to ISIS_DOCUMENTS_ROOT
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Move readJsonFromFmdPath function in documentManager/io
+// VERSION : 1.1.2 : DM : #3622 : 02/03/2017 : Fix bug about absolutePath resolution
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix linting rules on hsc hss and common
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Refacto common/fs, add common/pathResolver, impact documentManager/io
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Remove useless checkPath in common/fs
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Rewrite common/fs exports . .
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Remove unsafe getPath from common/fs
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Rewrite common/fs exports . .
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Refacto common/fs, add common/pathResolver, impact documentManager/io
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Remove useless checkPath in common/fs
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Remove unsafe getPath from common/fs
+// END-HISTORY
+// ====================================================================
+
 const fs = require('fs');
 const { join } = require('path');
 const mkdirp = require('mkdirp');

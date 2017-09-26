@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Fix 'npm run build' .
+// VERSION : 1.1.2 : DM : #6129 : 09/05/2017 : apply viewManager modifications to mimicView
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
 import * as constants from './constants';
 

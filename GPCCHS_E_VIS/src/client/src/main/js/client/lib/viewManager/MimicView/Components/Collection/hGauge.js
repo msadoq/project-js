@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// END-HISTORY
+// ====================================================================
+
 const hGauge = '<!-- HORIZONTAL GAUGE -->\n' +
 '<g transform="translate(120,50)">\n\t' +
   '<path d="M1,16 l200,0 l0,24 l-200,0 z" style=" fill:#DDD" />\n\t' +

@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add Misc/links in view editor
+// VERSION : 1.1.2 : DM : #6785 : 13/06/2017 : Fix path writing after choice
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import Collapse from 'rc-collapse';
 import { Button, Glyphicon } from 'react-bootstrap';

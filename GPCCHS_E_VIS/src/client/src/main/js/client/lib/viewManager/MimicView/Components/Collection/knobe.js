@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// END-HISTORY
+// ====================================================================
+
 const knobe = '<!-- KNOBE -->\n' +
 '<g transform="translate(220,240)">' +
   '<circle r="80" cx="100" cy="100" stroke="#FDE47F" transform="rotate(126, 100, 100)" stroke-width="10" fill="none" stroke-dasharray="402"></circle>' +

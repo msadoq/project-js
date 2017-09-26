@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add Misc/links in view editor
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : Fix path recovery on wrong field
+// VERSION : 1.1.2 : DM : #6785 : 13/06/2017 : Fix path writing after choice
+// VERSION : 1.1.2 : DM : #6785 : 29/06/2017 : Fix opening view link in a new page and read only path for link definition
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Alert, FormGroup, Col } from 'react-bootstrap';

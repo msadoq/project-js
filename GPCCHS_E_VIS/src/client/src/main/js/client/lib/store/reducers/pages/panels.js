@@ -1,3 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Implement a page panels reducer to allow panels configuration storage in page
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fix explorer opening with fresh state (no tabId is stored)
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix explorer opening with fresh state (no tabId is stored)
+// VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : Timebar is collapsable. action reducer test.
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : minimize and keep old size for explorer and editor
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Move panels loading in panels reducer
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Collapse / minimize buttons on panel dividers. New colors for dividers, darker.
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// END-HISTORY
+// ====================================================================
+
 import * as types from '../../types';
 
 const initialState = {

@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : Fixed color Accessor attribute modification .
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : Added bench for color changing only 3 times, + fixed webpack error.
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : First benchmark of Grizzly charting lib used in PlotView.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { createStore } from 'redux';
 import { render } from 'react-dom';

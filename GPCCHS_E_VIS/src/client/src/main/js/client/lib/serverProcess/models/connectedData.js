@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move serverProcess code one level upper
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// VERSION : 1.1.2 : DM : #6700 : 23/06/2017 : Fix pub/sub data time filtering issue due to bad set of connectedDataModel .intervals.all list
+// VERSION : 1.1.2 : DM : #6700 : 23/06/2017 : First draft implementation of dataRequesting management on server
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Fix pub/sub data time filtering issue due to bad set of connectedDataModel .intervals.all list
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : First draft implementation of dataRequesting management on server
+// VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
+// END-HISTORY
+// ====================================================================
+
 const _remove = require('lodash/remove');
 const _values = require('lodash/values');
 const _filter = require('lodash/filter');

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { getStressStatus } from '../../store/reducers/health';
 import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_CRITICAL, HEALTH_INTERVAL_DELAY, DEFAULT_HEALTH_CRITICAL_DELAY } from '../../constants';

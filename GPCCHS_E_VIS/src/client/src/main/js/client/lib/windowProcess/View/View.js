@@ -132,6 +132,7 @@ export default class View extends PureComponent {
       collapseView,
       askOpenInspector,
       collapsed,
+      save,
     } = this.props;
     const ContentComponent = getViewComponent(type);
     const mainMenu = this.getMainContextMenu();
@@ -147,6 +148,7 @@ export default class View extends PureComponent {
           viewId={viewId}
           pageId={pageId}
           collapseView={collapseView}
+          saveView={save}
           onContextMenu={() => this.onContextMenu(mainMenu)}
         />
         { !collapsed &&

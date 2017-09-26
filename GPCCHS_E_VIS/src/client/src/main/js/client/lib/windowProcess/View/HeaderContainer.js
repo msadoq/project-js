@@ -6,9 +6,8 @@ import { getPage, getPanels } from '../../store/reducers/pages';
 import Header from './Header';
 
 const makeMapStateToProps = () => (state, { pageId, viewId }) => {
-  const { type,
-    oId,
-    absolutePath,
+  const {
+    type,
     isModified,
     backgroundColor,
     titleStyle,
@@ -25,8 +24,6 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     titleStyle,
     isModified,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
-    oId,
-    absolutePath,
     collapsed:
       !!(page.layout.find(e => e.i === viewId && e.collapsed)), // TODO boxmodel factorize
   };

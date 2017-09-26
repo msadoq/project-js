@@ -1,9 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
-
 import styles from './Header.css';
-import { main } from '../ipc';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -19,14 +17,13 @@ export default class Header extends PureComponent {
       align: PropTypes.string,
       color: PropTypes.string,
     }),
-    viewId: PropTypes.string.isRequired,
     collapsed: PropTypes.bool.isRequired,
     isModified: PropTypes.bool.isRequired,
+    saveView: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     onContextMenu: PropTypes.func.isRequired,
-    absolutePath: PropTypes.string.isRequired,
-    oId: PropTypes.string.isRequired,
   };
+
   static defaultProps = {
     title: 'Untitled',
     titleStyle: {},
@@ -64,12 +61,7 @@ export default class Header extends PureComponent {
     const { collapseView, collapsed } = this.props;
     collapseView(!collapsed);
   }
-  save = (e) => {
-    if (e) e.preventDefault();
-    const { viewId, absolutePath, oId } = this.props;
-    const useSaveAs = (!absolutePath && !oId);
-    main.saveView({ viewId, saveAs: useSaveAs }, () => {});
-  }
+
   render() {
     const {
       isViewsEditorOpen,
@@ -123,7 +115,7 @@ export default class Header extends PureComponent {
             <button
               key={2}
               className={classnames(styles.expandButton, styles.saveButton)}
-              onClick={this.save}
+              onClick={this.props.saveView}
             >
               SAVE
             </button>

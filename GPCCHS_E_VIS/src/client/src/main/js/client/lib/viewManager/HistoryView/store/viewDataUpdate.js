@@ -251,6 +251,9 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
 }
 
 function updateCurrent(state, epNames, visuWindow) {
+  if (!visuWindow) {
+    return state;
+  }
   const newState = state;
   // Update current position
   for (let i = 0; i < epNames.length; i += 1) {

@@ -126,7 +126,8 @@ export default class Content extends PureComponent {
       );
     }
 
-    if (maximizedViewUuid) {
+    const indexMaximized = _.findIndex(i => i.i === maximizedViewUuid, layouts.lg);
+    if (maximizedViewUuid && !layouts.lg[indexMaximized].collapsed) {
       return (
         <ViewContainer
           timebarUuid={timebarUuid}

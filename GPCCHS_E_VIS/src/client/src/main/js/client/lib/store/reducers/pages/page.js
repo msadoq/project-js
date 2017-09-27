@@ -139,11 +139,16 @@ export default function pageReducer(statePage = initialState, action) {
           isModified: true,
         }
       );
-    case types.WS_VIEW_SETMAXIMISED:
-      return _.set(['layout', _.findIndex(i => i.i === action.payload.viewId, statePage.layout), 'maximized'],
-        action.payload.flag,
-        statePage
-      );
+    case types.WS_VIEW_SETMAXIMISED: {
+      const index = _.findIndex(i => i.i === action.payload.viewId, statePage.layout);
+      let newStatePage = { ...statePage };
+      // If view is collapsed and maximized, collapse wins
+      // if we want to maximize a collapsed view, we must set collapsed = false
+      if (action.payload.flag && newStatePage.layout[index].collapsed) {
+        newStatePage = _.set(['layout', index, 'collapsed'], false, newStatePage);
+      }
+      return _.set(['layout', index, 'maximized'], action.payload.flag, newStatePage);
+    }
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
       return { ...statePage, isModified: true };
     case types.WS_PAGE_UPDATE_DOMAINNAME:

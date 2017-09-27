@@ -17,6 +17,7 @@ class EditPage extends PureComponent {
 
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
     pages: PropTypes.shape().isRequired,
     initialValues: PropTypes.shape().isRequired,
@@ -36,15 +37,11 @@ class EditPage extends PureComponent {
   state = {
     domain: null,
     session: null,
-    delayedRender: true,
   }
 
   componentDidMount() {
-    // Only one ReactSelectField works without this delayed render
-    setTimeout(
-      () => this.setState({ delayedRender: false }),
-      200
-    );
+    // Only one ReactSelectField works without this re-render
+    setTimeout(this.props.reset, 0);
   }
 
   newDomain = (domain) => {
@@ -70,12 +67,7 @@ class EditPage extends PureComponent {
     const {
       domain,
       session,
-      delayedRender,
     } = this.state;
-
-    if (delayedRender) {
-      return <div />;
-    }
 
     return (
       <Form horizontal onSubmit={handleSubmit}>

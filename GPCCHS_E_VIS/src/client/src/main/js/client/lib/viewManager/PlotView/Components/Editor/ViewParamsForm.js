@@ -43,8 +43,22 @@ class ViewParamsForm extends React.Component {
     sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   }
 
+  state = {
+    domain: null,
+    session: null,
+  }
+
   componentDidMount() {
+    // Only one ReactSelectField works without this re-render
     setTimeout(this.props.reset, 0);
+  }
+
+  newDomain = (domain) => {
+    this.setState({ domain });
+  }
+
+  newSession = (session) => {
+    this.setState({ session });
   }
 
   handleTitle = ({ target: { value: title } }) => {
@@ -60,7 +74,12 @@ class ViewParamsForm extends React.Component {
       valid,
       domains,
       sessions,
+      initialValues: { domainName, sessionName },
     } = this.props;
+    const {
+      domain,
+      session,
+    } = this.state;
 
     return (
       <Form
@@ -130,35 +149,54 @@ class ViewParamsForm extends React.Component {
           <Field
             name="domainName"
             component={ReactSelectField}
-            free
+            onInputChange={this.newDomain}
             clearable
-            options={domains.map(domain =>
-              ({
-                label: domain.name,
-                value: domain.name,
-              })
-            )}
+            options={
+              domains.map(d =>
+                ({
+                  label: d.name,
+                  value: d.name,
+                })
+              )
+              .concat(
+                domain && !domains.find(s => s.name === domain) ?
+                { label: domain, value: domain } : []
+              )
+              .concat(
+                domainName && !domains.find(s => s.name === domainName) ?
+                { label: domainName, value: domainName } : []
+              )
+            }
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
           <Field
             name="sessionName"
             component={ReactSelectField}
-            free
+            onInputChange={this.newSession}
             clearable
-            options={sessions.map(session =>
-              ({
-                label: session.name,
-                value: session.name,
-              })
-            )}
+            options={
+              sessions.map(s =>
+                ({
+                  label: s.name,
+                  value: s.name,
+                })
+              )
+              .concat(
+                session && !sessions.find(s => s.name === session) ?
+                { label: session, value: session } : []
+              )
+              .concat(
+                sessionName && !sessions.find(s => s.name === sessionName) ?
+                { label: sessionName, value: sessionName } : []
+              )
+            }
           />
         </HorizontalFormGroup>
       </Form>
     );
   }
 }
-
 
 const requiredFields = ['title'];
 const validate = (values = {}) => {

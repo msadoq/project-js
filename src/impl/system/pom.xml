@@ -20,7 +20,7 @@
     <dependencies>
       <dependency>
         <groupId>fr.cnes.lpisis.cots</groupId>
-        <artifactId>npm_cache</artifactId>
+        <artifactId>gpcchs_npm_cache</artifactId>
         <version>${gpcchs.cache.version}</version>
         <type>isis-cots</type>
       </dependency>

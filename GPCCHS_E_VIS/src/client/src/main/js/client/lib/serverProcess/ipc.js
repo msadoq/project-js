@@ -6,6 +6,9 @@ import { encode } from '../utils/adapters';
 import constants from '../constants';
 import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
+import { operators } from '../common/operators';
+
+const _map = require('lodash/map');
 
 const logger = getLogger('server:ipc');
 
@@ -116,7 +119,15 @@ const commands = {
           startTime: { ms: interval[0] },
           endTime: { ms: interval[1] },
         }),
-        encode('dc.dataControllerUtils.QueryArguments', args),
+        encode('dc.dataControllerUtils.QueryArguments',
+          {
+            ...args,
+            filters: _map(args.filters, filter => ({
+              ...filter,
+              operator: operators[filter.operator],
+            })),
+          }
+        ),
       ],
       onDcResponseCallback
     ),

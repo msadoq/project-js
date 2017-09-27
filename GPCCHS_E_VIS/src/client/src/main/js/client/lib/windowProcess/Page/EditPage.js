@@ -19,6 +19,7 @@ class EditPage extends PureComponent {
     handleSubmit: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
     pages: PropTypes.shape().isRequired,
+    initialValues: PropTypes.shape().isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
@@ -28,6 +29,30 @@ class EditPage extends PureComponent {
 
   static defaultProps = {
     masterId: null,
+    domainName: null,
+    sessionName: null,
+  }
+
+  state = {
+    domain: null,
+    session: null,
+    delayedRender: true,
+  }
+
+  componentDidMount() {
+    // Only one ReactSelectField works without this delayed render
+    setTimeout(
+      () => this.setState({ delayedRender: false }),
+      200
+    );
+  }
+
+  newDomain = (domain) => {
+    this.setState({ domain });
+  }
+
+  newSession = (session) => {
+    this.setState({ session });
   }
 
   render() {
@@ -40,7 +65,17 @@ class EditPage extends PureComponent {
       handleSubmit,
       domains,
       sessions,
+      initialValues: { sessionName, domainName },
     } = this.props;
+    const {
+      domain,
+      session,
+      delayedRender,
+    } = this.state;
+
+    if (delayedRender) {
+      return <div />;
+    }
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
@@ -65,28 +100,48 @@ class EditPage extends PureComponent {
           <Field
             name="domainName"
             component={ReactSelectField}
-            free
+            onInputChange={this.newDomain}
             clearable
-            options={domains.map(domain =>
-              ({
-                label: domain.name,
-                value: domain.name,
-              })
-            )}
+            options={
+              domains.map(s =>
+                ({
+                  label: s.name,
+                  value: s.name,
+                })
+              )
+              .concat(
+                domain && !domains.find(s => s.name === domain) ?
+                { label: domain, value: domain } : []
+              )
+              .concat(
+                domainName && !domains.find(s => s.name === domainName) ?
+                { label: domainName, value: domainName } : []
+              )
+            }
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
           <Field
             name="sessionName"
             component={ReactSelectField}
-            free
+            onInputChange={this.newSession}
             clearable
-            options={sessions.map(session =>
-              ({
-                label: session.name,
-                value: session.name,
-              })
-            )}
+            options={
+              sessions.map(s =>
+                ({
+                  label: s.name,
+                  value: s.name,
+                })
+              )
+              .concat(
+                session && !sessions.find(s => s.name === session) ?
+                { label: session, value: session } : []
+              )
+              .concat(
+                sessionName && !sessions.find(s => s.name === sessionName) ?
+                { label: sessionName, value: sessionName } : []
+              )
+            }
           />
         </HorizontalFormGroup>
         <div className="text-right">
@@ -105,7 +160,7 @@ class EditPage extends PureComponent {
   }
 }
 
-const requiredFields = ['uuid'];
+const requiredFields = [];
 const validate = (values = {}) => {
   const errors = {};
   requiredFields.forEach((fieldPath) => {

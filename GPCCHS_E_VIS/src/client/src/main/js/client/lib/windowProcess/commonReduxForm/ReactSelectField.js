@@ -16,6 +16,7 @@ export default class ReactSelectField extends React.Component {
     placeholder: PropTypes.string,
     className: PropTypes.string,
     free: PropTypes.bool,
+    onInputChange: PropTypes.func,
     clearable: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
@@ -41,6 +42,18 @@ export default class ReactSelectField extends React.Component {
     className: '',
     free: false,
     clearable: false,
+    onInputChange: null,
+  }
+
+  onInputChange = (value) => {
+    const {
+      onInputChange,
+      input,
+    } = this.props;
+    if (value && onInputChange) {
+      input.onChange(value);
+      onInputChange(value);
+    }
   }
 
   onChange = (event) => {
@@ -50,12 +63,6 @@ export default class ReactSelectField extends React.Component {
       } else {
         this.props.input.onChange('');
       }
-    }
-  }
-
-  onInputChange = (val) => {
-    if (this.props.free) {
-      this.props.input.onChange(val);
     }
   }
 
@@ -70,8 +77,8 @@ export default class ReactSelectField extends React.Component {
       input,
       placeholder,
       className,
-      free,
       clearable,
+      options,
       meta: {
         touched,
         error,
@@ -79,15 +86,6 @@ export default class ReactSelectField extends React.Component {
       },
       ...rest
     } = this.props;
-    let { options } = this.props;
-
-    if (!options.find(e => e.value === input.value) && free) {
-      options = options.concat({
-        label: input.value,
-        value: input.value,
-        clearable,
-      });
-    }
 
     return (
       <div

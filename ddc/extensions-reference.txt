@@ -8,29 +8,20 @@ Suffixe|Type MIME|Cartouche
 .css | text/css | False
 .desktop | None | False
 .env | None | False
-.hashes | None | False
 .html | text/html | False
 .icns | None | False
-.init | None | False
 .js | application/javascript | False
 .json | application/json | False
 .led | None | False
 .less | None | False
-.marker | None | False
 .md | None | False
-.min | None | False
 .opts | None | False
-.params | None | False
-.patchlevel | None | False
 .png | image/png | False
 .proto | None | True
-.py | text/x-python | False
-.pyc | application/x-python-code | False
-.rpm | application/x-rpm | False
+.py | text/x-python | True
 .rules | None | False
 .sh | application/x-sh | False
 .snap | None | False
-.spec | None | False
 .svg | image/svg+xml | False
 .ttf | application/font-sfnt | False
 .vidv | None | False
@@ -43,7 +34,6 @@ Suffixe|Type MIME|Cartouche
 .xml | text/xml | False
 .xsd | text/xml | False
 .yml | None | False
-.zip | application/zip | False
 
 Fichiers non suffixes
 ---------------------
@@ -70,20 +60,8 @@ ULONG_RAW_0 | None | False
 UOCTET_RAW_0 | None | False
 URI_RAW_0 | None | False
 USHORT_RAW_0 | None | False
-build-filelist-filter | None | False
-createRpmModule | None | False
-createSpec | None | False
-createSpecModule | None | False
-createSpecSousComposant | None | False
-createSpecs | None | False
-defattr | None | False
-dirlist | None | False
-filelist | None | False
 gpcchs_e_clt_wrapper | None | True
-hashes | None | False
-listArtifacts | None | False
 monitor | None | False
-patchlevel | None | False
 vima | None | True
 
 

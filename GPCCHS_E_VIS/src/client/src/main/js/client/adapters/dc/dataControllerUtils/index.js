@@ -17,6 +17,8 @@ const Status = require('./status');
 const Str = require('./string');
 const TimeInterval = require('./timeInterval');
 const Timestamp = require('./timestamp');
+const AlarmType = require('./alarmType');
+const AlarmMode = require('./alarmMode');
 
 module.exports = { // TODO .proto should be collocated with adapters
     Action : {type:"protobuf", adapter: Action},
@@ -38,4 +40,6 @@ module.exports = { // TODO .proto should be collocated with adapters
     String : {type:"protobuf", adapter: Str},
     TimeInterval : {type:"protobuf", adapter: TimeInterval},
     Timestamp : {type:"protobuf", adapter: Timestamp},
+    AlarmType: {type:"protobuf", adapter: AlarmType},
+    AlarmMode: {type:"protobuf", adapter: AlarmMode},
   };

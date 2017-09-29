@@ -24,7 +24,9 @@ extensions 2 to 102;
         SESSION_MASTER_DATA = 19;
         DC_STATUS_QUERY = 20;
         DC_STATUS_DATA = 21;
+        ALARM_QUERY = 22;
+        ALARM_SUBSCRIPTION = 23;
     }
-    
+
     required MESSAGE_TYPE messageType = 1;
 }

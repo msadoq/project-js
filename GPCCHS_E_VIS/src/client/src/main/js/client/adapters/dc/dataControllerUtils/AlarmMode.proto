@@ -1,0 +1,13 @@
+package dataControllerUtils.protobuf;
+
+
+message AlarmMode {
+
+    enum ALARM_MODE {
+        ALL = 0;
+        NON_NOMINAL = 1;
+        TO_ACKNOWLEDGE = 2;
+    }
+
+    required ALARM_MODE mode = 1;
+}

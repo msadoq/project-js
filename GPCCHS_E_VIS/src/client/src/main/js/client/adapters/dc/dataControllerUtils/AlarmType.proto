@@ -1,0 +1,12 @@
+package dataControllerUtils.protobuf;
+
+
+message AlarmType {
+
+    enum ALARM_TYPE {
+        ONBOARD = 0;
+        GROUND = 1;
+    }
+
+    required ALARM_TYPE type = 1;
+}

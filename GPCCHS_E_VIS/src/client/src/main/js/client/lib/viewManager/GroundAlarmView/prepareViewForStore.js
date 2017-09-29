@@ -1,12 +1,13 @@
 import _ from 'lodash/fp';
 
 const getDefaultView = _.merge({
-  type: 'SkeletonView',
+  type: 'GroundAlarmView',
   defaultRatio: { length: 5, width: 5 },
   links: [],
-  title: 'New Skeleton View',
+  title: 'New Ground Alarm View',
   configuration: {
-    entryPoints: [],
+    domain: '',
+    timeline: '',
   },
 });
 

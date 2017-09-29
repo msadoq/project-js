@@ -25,6 +25,10 @@ export function convertLongData(data) {
 }
 
 export function convertData(data) {
+  if (!data) {
+    return data;
+  }
+
   if (isLongValue(data)) {
     return convertLongData(data);
   } else if (data.type === 'boolean') {
@@ -57,6 +61,13 @@ export function convertData(data) {
       hexVal = hexVal.concat(hVal).concat(' ');
     }
     return hexVal;
+  } else if (data.type === 'duration') {
+    const duration = moment.duration(data.value);
+    const hours = duration.get('h').toString().concat(':');
+    const minutes = duration.get('m').toString().concat(':');
+    const seconds = duration.get('s').toString().concat('.');
+    const milliseconds = duration.get('ms').toString();
+    return hours.concat(minutes).concat(seconds).concat(milliseconds);
   } else if (!data.type) {
     return updateObjectValues(data);
   }

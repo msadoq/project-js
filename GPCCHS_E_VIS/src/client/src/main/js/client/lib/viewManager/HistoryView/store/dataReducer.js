@@ -100,13 +100,15 @@ export default function historyViewData(state = {}, action) {
       };
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configuration, visuWindow }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
         return state;
       }
+      // Gets configurationfor history views
+      const configuration = configurations.HistoryViewConfiguration;
       // since now, state will changed
       let newState = state;
       const viewIds = Object.keys(state);

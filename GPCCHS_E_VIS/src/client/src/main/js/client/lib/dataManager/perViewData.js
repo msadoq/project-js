@@ -11,10 +11,7 @@ import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView } from '../store/reducers/views';
 import { getPageDomainName, getPageSessionName, getPageLayout } from '../store/reducers/pages';
 import { getDomainName, getSessionName } from '../store/reducers/hsc';
-import {
-  getStructureModule,
-  getConfigurationByViewId,
-} from '../viewManager';
+import { getStructureModule, getEntryPointsByViewId } from '../viewManager';
 
 // const logger = getLogger('data:perViewData');
 
@@ -35,15 +32,15 @@ export default function makeGetPerViewData() {
     (state, { timebarUuid }) => timebarUuid,
     getSessions,
     getView,
-    getConfigurationByViewId,
+    getEntryPointsByViewId,
     (state, { pageId }) => getPageDomainName(state, { pageId }),
     (state, { pageId }) => getPageSessionName(state, { pageId }),
     (state, { pageId }) => getPageLayout(state, { pageId }),
     getDomainName, // in HSC
     getSessionName, // in HSC
-    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, configuration,
+    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, entryPoints,
     pageDomain, pageSessionName, layout, workspaceDomain, workspaceSessionName) => {
-      if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, configuration])) {
+      if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, entryPoints])) {
         return {};
       }
       const { type, uuid } = view;
@@ -52,7 +49,6 @@ export default function makeGetPerViewData() {
       if (index !== -1 && layout[index].collapsed === true) {
         return {};
       }
-      const { entryPoints } = configuration;
       return {
         type,
         entryPoints: entryPoints.reduce((acc, ep) => {

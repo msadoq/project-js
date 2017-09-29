@@ -26,6 +26,16 @@ const list = {
     getViewComponent: () => require('./MimicView/Components/View/MimicViewContainer'),
     getEditorComponent: () => require('./MimicView/Components/Editor/MimicEditorContainer'),
   },
+  [constants.VM_VIEW_GROUNDALARM]: {
+    getViewComponent: () => require('./GroundAlarmView/Components/View/GroundAlarmViewContainer'),
+    getEditorComponent: () =>
+      require('./GroundAlarmView/Components/Editor/GroundAlarmEditorContainer'),
+  },
+  [constants.VM_VIEW_ONBOARDALARM]: {
+    getViewComponent: () => require('./OnboardAlarmView/Components/View/OnboardAlarmViewContainer'),
+    getEditorComponent: () =>
+      require('./OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer'),
+  },
 };
 
 export const getViewComponent = (type) => {

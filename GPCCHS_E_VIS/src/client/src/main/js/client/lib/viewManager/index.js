@@ -10,11 +10,15 @@ import dynamicViewData from './DynamicView/data';
 import mimicViewData from './MimicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
+import groundAlarmViewData from './GroundAlarmView/data';
+import onboardAlarmViewData from './OnboardAlarmView/data';
 
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
 import textViewDataSelectors from './TextView/store/dataSelectors';
 import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
 import mimicViewDataSelectors from './MimicView/store/dataSelector';
+import groundAlarmViewDataSelectors from './GroundAlarmView/store/dataSelectors';
+import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelectors';
 // import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 // import packetViewDataSelectors from './PacketView/store/dataSelectors';
 
@@ -24,6 +28,8 @@ import mimicViewSchema from './MimicView/MimicView.schema.json';
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import historyViewSchema from './HistoryView/HistoryView.schema.json';
 import packetViewSchema from './PacketView/PacketView.schema.json';
+// import groundAlarmViewSchema from './GroundAlarmView/GroundAlarm.schema.json';
+// import onboardAlarmViewSchema from './OnboardAlarmView/OnboardAlarm.schema.json';
 
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
@@ -31,6 +37,9 @@ import mimicViewModule from './MimicView';
 import dynamicViewModule from './DynamicView';
 import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
+import groundAlarmViewModule from './GroundAlarmView';
+import onboardAlarmViewModule from './OnboardAlarmView';
+
 
 import * as constants from './constants';
 
@@ -77,6 +86,21 @@ const list = {
     structureModule: mimicViewData,
     dataSelectors: mimicViewDataSelectors,
   },
+  [constants.VM_VIEW_GROUNDALARM]: {
+    // schema: groundAlarmViewSchema,
+    viewModule: groundAlarmViewModule,
+    structureType: DATASTRUCTURETYPE_RANGE,
+    structureModule: groundAlarmViewData,
+    dataSelectors: groundAlarmViewDataSelectors,
+  },
+  [constants.VM_VIEW_ONBOARDALARM]: {
+    // schema: groundAlarmViewSchema,
+    viewModule: onboardAlarmViewModule,
+    structureType: DATASTRUCTURETYPE_RANGE,
+    structureModule: onboardAlarmViewData,
+    dataSelectors: onboardAlarmViewDataSelectors,
+  },
+
 };
 
 export default list;

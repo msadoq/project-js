@@ -9,6 +9,8 @@ import plotViewConfigurationReducer from './PlotView/store/configurationReducer'
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
 import mimicViewConfigurationReducer from './MimicView/store/configurationReducer';
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
+import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
+import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
 import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
 
 import textViewDataReducer from './TextView/store/dataReducer';
@@ -16,6 +18,8 @@ import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
 import mimicViewDataReducer from './MimicView/store/dataReducer';
 import historyViewDataReducer from './HistoryView/store/dataReducer';
+import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
+import onboardAlarmViewDataReducer from './OnboardAlarmView/store/dataReducer';
 import packetViewDataReducer from './PacketView/store/dataReducer';
 
 import * as constants from './constants';
@@ -48,6 +52,8 @@ export const configurationReducers = createConfigurationReducers({
   [constants.VM_VIEW_MIMIC]: mimicViewConfigurationReducer,
   [constants.VM_VIEW_HISTORY]: historyViewConfigurationReducer,
   [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
+  [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewConfigurationReducer,
+  [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewConfigurationReducer,
 });
 
 export const dataReducers = createDataReducers({
@@ -57,4 +63,6 @@ export const dataReducers = createDataReducers({
   [constants.VM_VIEW_MIMIC]: mimicViewDataReducer,
   [constants.VM_VIEW_HISTORY]: historyViewDataReducer,
   [constants.VM_VIEW_PACKET]: packetViewDataReducer,
+  [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewDataReducer,
+  [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
 });

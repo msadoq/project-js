@@ -21,6 +21,7 @@
     <api.work.dir>${api.target.dir}/work</api.work.dir>
     <api.main.dir>${api.work.dir}/${project.artifactId}-${project.version}</api.main.dir>
     <isis.rpm.skip>true</isis.rpm.skip>
+    <isis.rpm.patchlevel>0001</isis.rpm.patchlevel>
   </properties>
   <dependencies>
     <dependency>

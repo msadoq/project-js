@@ -131,6 +131,19 @@ const commands = {
       ],
       onDcResponseCallback
     ),
+    requestAlarmQuery: (flatDataId, dataId, type, mode, interval) => commands.dc.rpc(
+      constants.MESSAGETYPE_ALARM_QUERY,
+      [
+        getDcDataId(flatDataId, dataId),
+        encode('dc.dataControllerUtils.AlarmType', type),
+        encode('dc.dataControllerUtils.AlarmMode', mode),
+        encode('dc.dataControllerUtils.TimeInterval', {
+          startTime: { ms: interval[0] },
+          endTime: { ms: interval[1] },
+        }),
+      ],
+      onDcResponseCallback
+    ),
     requestSubscriptionAdd: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
         getDcDataId(flatDataId, dataId),
@@ -143,6 +156,23 @@ const commands = {
         getStaticProtobuf('delete'),
       ], onDcResponseCallback);
     },
+    requestAlarmSubscriptionAdd: (flatDataId, dataId, type, mode) => {
+      commands.dc.rpc(constants.MESSAGETYPE_ALARM_SUBSCRIPTION, [
+        getDcDataId(flatDataId, dataId),
+        encode('dc.dataControllerUtils.AlarmType', type),
+        encode('dc.dataControllerUtils.AlarmMode', mode),
+        getStaticProtobuf('add'),
+      ], onDcResponseCallback);
+    },
+    requestAlarmSubscriptionDelete: (flatDataId, dataId, type, mode) => {
+      commands.dc.rpc(constants.MESSAGETYPE_ALARM_SUBSCRIPTION, [
+        getDcDataId(flatDataId, dataId),
+        encode('dc.dataControllerUtils.AlarmType', type),
+        encode('dc.dataControllerUtils.AlarmMode', mode),
+        getStaticProtobuf('delete'),
+      ], onDcResponseCallback);
+    },
+
   },
 };
 

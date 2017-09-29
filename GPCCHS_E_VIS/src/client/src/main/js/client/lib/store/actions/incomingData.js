@@ -11,6 +11,6 @@ export const newData = simple(types.NEW_DATA, 'data');
 
 export const injectDataRange = simple(types.INJECT_DATA_RANGE, 'oldViewMap', 'newViewMap',
   'oldExpectedRangeIntervals', 'newExpectedRangeIntervals', 'dataToInject',
-  'configuration', 'visuWindow'); // for historyView
+  'configurations', 'visuWindow'); // for historyView
 export const injectDataLast = simple(types.INJECT_DATA_LAST, 'oldViewMap', 'newViewMap',
   'oldExpectedLastIntervals', 'newExpectedLastIntervals', 'dataToInject');

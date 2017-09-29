@@ -4,7 +4,7 @@ import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _get from 'lodash/get';
-import { applyFilters } from '../../commonData/applyFilters';
+// import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
 import * as constants from '../../constants';
 
@@ -199,36 +199,55 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     if (timestamp < lower || timestamp > upper) {
       continue;
     }
-    // check value verify filters
-    if (!applyFilters(currentValue, ep.filters)) {
+    // TODO: needs to determine on which filters have top be applied
+    // // check value verify filters
+    // if (!applyFilters(currentValue, ep.filters)) {
+    //   continue;
+    // }
+    const masterTime = timestamp + ep.offset;
+    // Payload = {
+    // groundAlarm: {}
+    // ackRequest: {}
+    // parameterName: string
+    // parameterType: enum / string
+    // satellite: string
+    // telemetryType: string
+    // }
+    const groundAlarm = currentValue.groundAlarm;
+    if (!groundAlarm) {
       continue;
     }
-    const masterTime = timestamp + ep.offset;
+    // Compute acknowledgement State
+    let ackState = constants.ALARM_ACKSTATE_NOACK;
+    if (groundAlarm.hasAckRequest) {
+      ackState = constants.ALARM_ACKSTATE_REQUIREACK;
+      if (currentValue.ackRequest && currentValue.ackRequest.ack) {
+        ackState = constants.ALARM_ACKSTATE_ACQUITED;
+      }
+    }
     const valueToInsert = {
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),
-      satellite: '?',
-      telemetryType: '?',
-      acknowledgementState: currentValue.hasAckRequest
-        ? constants.ALARM_ACKSTATE_REQUIREACK /* TODO: ack exist ? ALARM_ACKSTATE_ACQUITED : ALARM_ACKSTATE_REQUIREACK */
-        : constants.ALARM_ACKSTATE_NOACK,
-      duration: currentValue.closingDate
+      satellite: convertData(currentValue.satellite),
+      telemetryType: convertData(currentValue.telemetryType),
+      acknowledgementState: ackState,
+      duration: groundAlarm.closingDate
         ? convertData({ type: 'duration',
-          value: currentValue.closingDate - currentValue.creationDate })
+          value: groundAlarm.closingDate - groundAlarm.creationDate })
         : '-',
     };
     // Data from transitions table
     if (currentValue.transitions.length) {
-      const lastTransition = _last(currentValue.transitions);
+      const lastTransition = _last(groundAlarm.transitions);
       Object.assign(valueToInsert, {
-        firstOccurence: convertData(currentValue.transitions[0].onboardDate),
+        firstOccurence: convertData(groundAlarm.transitions[0].onboardDate),
         alarmType: convertData(lastTransition.monitoringState),
         lastOccurence: convertData(lastTransition.onboardDate),
         rawValue: convertData(lastTransition.rawValue),
         physicalValue: convertData(lastTransition.extractedValue),
       });
       // Update of transitionNb
-      transitionNb += currentValue.transitions.length;
+      transitionNb += groundAlarm.transitions.length;
     }
 
     newState[epName][masterTime] = valueToInsert;

@@ -6,8 +6,9 @@ const getDefaultView = _.merge({
   links: [],
   title: 'New Ground Alarm View',
   configuration: {
-    domain: '',
-    timeline: '',
+    alarmDomain: '*',
+    alarmTimeline: '*',
+    alarmMode: 'ALL',
   },
 });
 

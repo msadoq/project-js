@@ -2,14 +2,14 @@ import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import OnboardAlarmView from './OnboardAlarmView';
-import { getDomainAlarm, getSessionAlarm } from '../../store/configurationSelectors';
+import { getAlarmDomain, getAlarmTimeline } from '../../store/configurationSelectors';
 import { getData } from '../../store/dataReducer';
 
 
 const mapStateToProps = createStructuredSelector({
   data: getData,
-  domainAlarm: getDomainAlarm,
-  sessionAlarm: getSessionAlarm,
+  alarmDomain: getAlarmDomain,
+  alarmTimeline: getAlarmTimeline,
 });
 
 const OnboardAlarmViewContainer = connect(mapStateToProps)(OnboardAlarmView);

@@ -222,60 +222,60 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
   let minTime;
   let maxTime;
 
+  const isParametric = ep.parametric;
   const timestamps = Object.keys(tbdIdPayload);
   for (let i = 0; i < timestamps.length; i += 1) {
     const value = tbdIdPayload[timestamps[i]];
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
-    if (typeof timestamp === 'undefined') {
-      logger.warn('get a payload without .referenceTimestamp key ggg', tbdIdPayload);
-      continue;
-    }
-    // check value is in interval
-    if (timestamp < lower || timestamp > upper) {
-      continue;
-    }
-    // check value verify filters
-    if (!applyFilters(value, ep.filters)) {
+    // Check timestamp validy and filters for this entry point
+    if (!isTimeValid(timestamp, lower, upper, value, ep.filters, tbdIdPayload)) {
       continue;
     }
     const masterTime = timestamp + ep.offset;
-
-    let valX;
-    if (ep.fieldX) {
-      valX = _get(value, [ep.fieldX, 'value']);
+    if (!newState[epName]) {
+      newState[epName] = {};
     }
-    let valY = _get(value, [ep.fieldY, 'value']);
-    if (!valY) {
-      const symbol = _get(value, [ep.fieldY, 'symbol']);
-      // Case of long values
-      if (symbol) {
-        valY = Number(symbol);
+    let valForMax;
+    if (!isParametric) {
+      let valX;
+      if (ep.fieldX) {
+        valX = _get(value, [ep.fieldX, 'value']);
+      }
+      const valY = getFieldValue(value, ep.fieldY);
+      if (valY !== undefined) {
+        valForMax = valY;
+        newState[epName][masterTime] = {
+          x: masterTime,
+          valX,
+          refTime: timestamp,
+          value: valY,
+          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
+          // Case of enum : add symbol to show it in tooltip
+          // Case of long : add string representation in tooltip to keep precision
+          // Case of double : add string representation in tooltip to keep precision
+          symbol: _get(value, [ep.fieldY, 'symbol']),
+        };
+      }
+    } else {
+      // Case of parametric
+      const val = getFieldValue(value, ep.dataId.field);
+      if (val !== undefined) {
+        valForMax = val;
+        // save ep data
+        newState[epName][masterTime] = {
+          val,
+          refTime: timestamp,
+        };
       }
     }
-    // if (valX !== undefined && valY !== undefined) {
-    if (valY !== undefined) {
-      const newMin = getMin(min, valY, minTime, masterTime);
+    if (valForMax) {
+      const newMin = getMin(min, valForMax, minTime, masterTime);
       min = newMin.min;
       minTime = newMin.minTime;
 
-      const newMax = getMax(max, valY, maxTime, masterTime);
+      const newMax = getMax(max, valForMax, maxTime, masterTime);
       max = newMax.max;
       maxTime = newMax.maxTime;
-
-      if (!newState[epName]) {
-        newState[epName] = {};
-      }
-      newState[epName][masterTime] = {
-        x: masterTime,
-        valX,
-        refTime: timestamp,
-        value: valY,
-        ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
-        // Case of enum : add symbol to show it in tooltip
-        // Case of long : add string representation in tooltip to keep precision
-        // Case of double : add string representation in tooltip to keep precision
-        symbol: _get(value, [ep.fieldY, 'symbol']),
-      };
     }
   }
   if (Object.keys(newState).length) {
@@ -294,12 +294,41 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
   return newState;
 }
 
+function getFieldValue(value, field) {
+  let val = _get(value, [field, 'value']);
+  if (!val) {
+    const symbol = _get(value, [field, 'symbol']);
+    // Case of long values
+    if (symbol) {
+      val = Number(symbol);
+    }
+  }
+  return val;
+}
+
+function isTimeValid(timestamp, lower, upper, value, filters, tbdIdPayload) {
+  if (typeof timestamp === 'undefined') {
+    logger.warn('get a payload without .referenceTimestamp key ggg', tbdIdPayload);
+    return false;
+  }
+  // check value is in interval
+  if (timestamp < lower || timestamp > upper) {
+    return false;
+  }
+  // check value verify filters
+  if (!applyFilters(value, filters)) {
+    return false;
+  }
+  return true;
+}
+
 function getMin(lastMin, valY, lastTime, masterTime) {
   if (!lastMin || valY <= lastMin) {
     return { min: valY, minTime: masterTime };
   }
   return { min: lastMin, minTime: lastTime };
 }
+
 function getMax(lastMax, valY, lastTime, masterTime) {
   if (!lastMax || valY >= lastMax) {
     return { max: valY, maxTime: masterTime };

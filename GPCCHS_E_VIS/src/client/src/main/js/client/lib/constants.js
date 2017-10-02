@@ -152,6 +152,8 @@ module.exports = {
     MimicView: 'MimicViewDoc',
     PacketView: 'PacketViewDoc',
     HistoryView: 'HistoryViewDoc',
+    GroundAlarmView: 'GroundAlarmDoc',
+    OnboardAlarmView: 'OnboardAlarmViewDoc',
   },
   EXTENSIONS: {
     WorkSpace: 'viws',
@@ -162,6 +164,8 @@ module.exports = {
     MimicView: 'vimv',
     PacketView: 'vikv',
     HistoryView: 'vihv',
+    GroundAlarmView: 'viga',
+    OnboardAlarmView: 'viba',
   },
   // REDUX SYNCHRONIZATION
   REDUX_SYNCHRONIZATION_PATCH_KEY: 'patch',

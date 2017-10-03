@@ -1,0 +1,13 @@
+{
+  "type": "GroundAlarmView",
+  "title": "New Ground Alarm View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "alarmDomain": "*",
+  "alarmTimeline": "*",
+  "alarmMode": "ALL",
+  "entryPoints": []
+}

@@ -5,6 +5,7 @@ import GroundAlarmView from './GroundAlarmView';
 import { getAlarmDomain, getAlarmTimeline } from '../../store/configurationSelectors';
 import { getData } from '../../store/dataReducer';
 
+import withStub from './withStub';
 
 const mapStateToProps = createStructuredSelector({
   data: getData,
@@ -17,4 +18,4 @@ const GroundAlarmViewContainer = connect(mapStateToProps)(GroundAlarmView);
 GroundAlarmViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
 };
-export default GroundAlarmViewContainer;
+export default withStub()(GroundAlarmViewContainer);

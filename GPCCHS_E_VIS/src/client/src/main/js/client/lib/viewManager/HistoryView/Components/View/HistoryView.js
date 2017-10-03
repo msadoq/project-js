@@ -136,7 +136,6 @@ class HistoryView extends React.Component {
     };
     return (
       <div
-        ref={(ref) => { this.historyViewRef = ref; }}
         className={classnames('HistoryView', styles.container)}
         style={style}
       >

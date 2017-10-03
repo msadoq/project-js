@@ -1,0 +1,9 @@
+@import './variables.css';
+
+.GroundAlarmView {
+  background-color: var(--theme-light);
+}
+
+.GroundAlarmView th {
+  background-color: var(--theme-main);
+}

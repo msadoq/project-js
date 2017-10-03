@@ -136,7 +136,6 @@ class GroundAlarmView extends React.Component {
     };
     return (
       <div
-        ref={(ref) => { this.historyViewRef = ref; }}
         className={classnames('GroundAlarmView', styles.container)}
         style={style}
       >

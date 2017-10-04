@@ -10,28 +10,41 @@ import withStub from '../../../../windowProcess/common/hoc/withStub';
 
 const append = _.curry((val, t) => _.concat(t, val));
 
-const connectStub = withStub({
+const stub = withStub({
   frequency: 1000,
   updater: _.pipe(
-    _.update('data.tick', _.add(1)),
-    state => _.update('data.lines', append(`ep1 ${state.data.tick}`), state),
-    state => _.set(['data', 'data', 'ep1', state.data.tick], {
-      name: state.data.tick,
-      timestamp: state.data.tick,
-      epName: state.data.tick,
-      masterTime: state.data.tick,
-    }, state)
+    _.update('tick', _.add(1)),
+    state => _.set(['data', 'data', state.tick], {
+      name: state.tick,
+      timestamp: state.tick,
+      epName: state.tick,
+      masterTime: state.tick,
+      transitions: [
+        { a: 'aaa', b: 'bbb', groundDate: state.tick },
+        { b: 'bbb', c: 'ccc', groundDate: state.tick + 1 },
+        { c: 'ccc', d: 'ddd', groundDate: state.tick + 2 },
+      ],
+    }, state),
+    state => _.update('data.lines', append([
+      { type: 'alarm', data: state.data.data[state.tick] },
+      { type: 'transition_header' },
+      { type: 'transition', data: state.data.data[state.tick].transitions[0] },
+      { type: 'transition', data: state.data.data[state.tick].transitions[1] },
+      { type: 'transition', data: state.data.data[state.tick].transitions[1] },
+    ]), state)
   ),
   initialState: {
+    tick: 0,
     data: {
       cols: ['name', 'timestamp', 'epName', 'masterTime'],
+      transitionsCols: ['a', 'b', 'c', 'd', 'groundDate'],
       lines: [],
-      data: { ep1: {} },
+      data: {},
     },
   },
 });
 
-const GroundAlarmViewStubbed = connectStub(GroundAlarmView);
+const GroundAlarmViewStubbed = stub(GroundAlarmView);
 
 const mapStateToProps = createStructuredSelector({
   data: getData,

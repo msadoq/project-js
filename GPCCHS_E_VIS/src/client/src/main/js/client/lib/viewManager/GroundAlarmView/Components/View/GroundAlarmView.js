@@ -4,25 +4,17 @@ import _ from 'lodash/fp';
 import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
-import { HISTORYVIEW_SEPARATOR } from '../../../../constants';
 
 import styles from './GroundAlarmView.css';
-
-const getDataByLine = (lineId, allData) => {
-  const [ep, timestamp] = lineId.split(HISTORYVIEW_SEPARATOR);
-  return allData[ep][timestamp];
-};
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
 const Table = ({
-  lines, cols, position, displayedRows, rowHeight, current, data: allData,
+  lines, cols, transitionsCols, position, displayedRows, rowHeight,
 }) => (
   <table>
     <thead>
-      <tr
-        className={classnames({ [styles.prevCurrent]: current === position })}
-      >
+      <tr>
         {
           cols.map(col => (
             <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
@@ -35,27 +27,33 @@ const Table = ({
     <tbody>
       {
         _.slice(position, displayedRows + position)(lines).map((line, i) => {
-          const data = getDataByLine(line, allData);
-          const lineId = position + i;
-          const isCurrent = current === lineId;
-          const isPrevCurrent = current - 1 === lineId;
-          const rowKey = data.epName + data.masterTime;
+          const data = line.data;
+          const key = i;
+          const columns = line.type === 'alarm' ? cols : transitionsCols;
+          if (line.type === 'alarm' || line.type === 'transition') {
+            return (
+              <tr key={key}>
+                {
+                  columns.map(col => (
+                    <td
+                      style={{
+                        height: `${rowHeight}px`,
+                        backgroundColor: line.type === 'transition' ? 'red' : '',
+                      }}
+                      key={col}
+                    >
+                      {data[col]}
+                    </td>
+                  ))
+                }
+              </tr>
+            );
+          }
           return (
-            <tr
-              className={classnames({
-                [styles.current]: isCurrent,
-                [styles.prevCurrent]: isPrevCurrent,
-              })}
-              key={rowKey}
-            >
+            <tr key={key}>
               {
-                cols.map(col => (
-                  <td
-                    style={{ height: `${rowHeight}px` }}
-                    key={col + rowKey}
-                  >
-                    {data[col]}
-                  </td>
+                transitionsCols.map(col => (
+                  <th key={col}>{col}</th>
                 ))
               }
             </tr>
@@ -68,25 +66,27 @@ const Table = ({
 
 Table.propTypes = {
   position: PropTypes.number,
-  current: PropTypes.shape({}),
-  data: PropTypes.shape({}).isRequired,
   cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-  lines: PropTypes.arrayOf(PropTypes.string).isRequired,
+  lines: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  })).isRequired,
+  transitionsCols: PropTypes.arrayOf(PropTypes.string).isRequired,
   rowHeight: PropTypes.number.isRequired,
   displayedRows: PropTypes.number.isRequired,
 };
 Table.defaultProps = {
-  current: {},
   position: 0,
 };
 
 class GroundAlarmView extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
-      current: PropTypes.shape({}),
       data: PropTypes.shape({}).isRequired,
       cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-      lines: PropTypes.arrayOf(PropTypes.string).isRequired,
+      transitionsCols: PropTypes.arrayOf(PropTypes.string).isRequired,
+      lines: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string.isRequired,
+      })).isRequired,
     }).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -118,10 +118,10 @@ class GroundAlarmView extends React.Component {
   }
 
   getLastPosition = (props = this.props) => (
-    Math.max(0, (props.data.lines.length - this.getNbElems(props)) + 1)
+    Math.max(0, (this.props.data.lines.length - this.getNbDisplayedElems(props)) + 1)
   )
 
-  getNbElems = (props = this.props) => Math.floor(props.containerHeight / props.rowHeight)
+  getNbDisplayedElems = (props = this.props) => Math.floor(props.containerHeight / props.rowHeight)
 
   getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
 
@@ -141,10 +141,11 @@ class GroundAlarmView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + 33px)` }} className={styles.scrollbar} />
         <Table
+          transitionsCols={this.props.data.transitionsCols}
           scrollBarPosition={this.getScrollBarPosition()}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
-          displayedRows={this.getNbElems()}
+          displayedRows={this.getNbDisplayedElems()}
           {...this.props.data}
         />
       </div>

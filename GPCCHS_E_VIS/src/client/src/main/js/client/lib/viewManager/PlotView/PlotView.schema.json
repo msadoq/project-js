@@ -260,6 +260,9 @@
         "axis": {
             "type": "object",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "label": {
                     "type": "string"
                 },
@@ -306,7 +309,9 @@
                 }
             },
             "required": [
-                "unit"
+                "unit",
+                "id",
+                "label",
             ]
         },
         "curveType": {

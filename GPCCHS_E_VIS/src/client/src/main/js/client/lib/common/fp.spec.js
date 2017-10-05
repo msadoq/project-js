@@ -1,4 +1,5 @@
-import { copyProp, moveProp } from './fp';
+import _ from 'lodash/fp';
+import { copyProp, moveProp, reduce } from './fp';
 
 describe('common:fp', () => {
   describe('copyProp', () => {
@@ -52,6 +53,38 @@ describe('common:fp', () => {
     });
     test('erase dest prop if src prop exist', () => {
       expect(moveProp('a', 'b', { a: 1, b: 2 })).toEqual({ b: 1 });
+    });
+  });
+
+  describe('reduce', () => {
+    const t = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    test('reduce is a function', () => {
+      expect(reduce).toBeAFunction();
+    });
+
+    test('reduce.done is a function', () => {
+      expect(reduce.done).toBeAFunction();
+    });
+
+    test('normal reduce on array', () => {
+      expect(reduce(_.add, 0, t)).toEqual(_.reduce(_.add, 0, t));
+    });
+
+    test('reduce an array, then stop reducing using reduce.done', () => {
+      const mockReducer = jest.fn((acc, val) => {
+        if (acc === 6) {
+          return reduce.done(42);
+        }
+        return acc + val;
+      });
+      expect(reduce(mockReducer, 0, t)).toBe(42);
+      expect(mockReducer.mock.calls.length).toBe(4);
+    });
+    test('reduce function in curry', () => {
+      expect(reduce(_.noop)).toBeAFunction();
+      expect(reduce(_.noop)(null)).toBeAFunction();
+      expect(reduce(_.noop), null).toBeAFunction();
     });
   });
 });

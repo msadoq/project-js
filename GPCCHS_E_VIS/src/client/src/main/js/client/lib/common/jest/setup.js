@@ -70,6 +70,7 @@ const v4Length = v4().length;
 const extendedAssertions = {
   toBeArray: toBe(Array.isArray, () => 'an array'),
   toBeObject: toBe(x => typeof x === 'object', () => 'an object'),
+  toBeNumber: toBe(x => typeof x === 'number', () => 'a number'),
   toBeString: toBe(x => typeof x === 'string', () => 'a string'),
   toBeFunction: toBe(x => typeof x === 'function', () => 'a function'),
   toBeOneOf: toBe((val, arg = []) => arg.includes(val), arg => `one of ${arg}`),
@@ -85,6 +86,7 @@ const extendedAssertions = {
 const aliases = {
   toBeAnArray: extendedAssertions.toBeArray,
   toBeAnObject: extendedAssertions.toBeObject,
+  toBeANumber: extendedAssertions.toBeNumber,
   toBeAString: extendedAssertions.toBeString,
   toBeAFunction: extendedAssertions.toBeFunction,
   toBeAnUuid: extendedAssertions.toBeV4,

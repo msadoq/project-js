@@ -4,6 +4,7 @@ import { getWrappedInstance } from '../utils';
 
 const identity = x => x;
 
+// tool for developments
 export default ({
   frequency = 1000,
   updater = identity,

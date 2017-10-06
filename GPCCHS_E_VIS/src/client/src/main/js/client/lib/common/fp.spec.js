@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { when, copyProp, moveProp, reduce } from './fp';
+import { when, ifElse, copyProp, moveProp, reduce } from './fp';
 
 describe('common:fp', () => {
   describe('when', () => {
@@ -16,6 +16,23 @@ describe('common:fp', () => {
     });
     test('do not transform data when predicate fail', () => {
       expect(when(_.always(false), _.always(42), 0)).toBe(0);
+    });
+  });
+  describe('ifElse', () => {
+    test('ifElse is a function', () => {
+      expect(ifElse).toBeAFunction();
+    });
+    test('partial application', () => {
+      expect(ifElse(null)).toBeAFunction();
+      expect(ifElse(null, null)).toBeAFunction();
+      expect(ifElse(null, null, null)).toBeAFunction();
+      expect(ifElse(null)(null)(null)).toBeAFunction();
+    });
+    test('transform data when predicate success', () => {
+      expect(ifElse(_.always(true), _.always(42), _.always(0), 0)).toBe(42);
+    });
+    test('transform data when predicate fail', () => {
+      expect(ifElse(_.always(false), _.always(42), _.always(0), 0)).toBe(0);
     });
   });
   describe('copyProp', () => {

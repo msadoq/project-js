@@ -2,10 +2,17 @@ import _ from 'lodash/fp';
 
 /*
  * conditional transformer
+*/
+export const ifElse = _.curry((predicate, _then, _else, data) => (
+  predicate(data) ? _then(data) : _else(data)
+));
+
+/*
+ * conditional transformer
  * example: when(_.equals(-0), _.always(0))
 */
 export const when = _.curry((predicate, morphism, data) => (
-  predicate(data) ? morphism(data) : data
+  ifElse(predicate, morphism, _.identity, data)
 ));
 
 /*

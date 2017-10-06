@@ -1,6 +1,7 @@
 import * as types from '../../types';
 import { getRangesRecords } from '../../../serverProcess/models/lokiKnownRangesData';
 import { newData } from '../../actions/incomingData';
+import constants from '../../../constants';
 
 import { getMissingIntervals } from '../../reducers/knownRanges';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
@@ -13,10 +14,12 @@ const type = 'RANGE';
 const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveRange');
   const nextAction = next(action);
+
   if (action.type === types.VIEWS_NEED_RANGE) {
     execution.start('global');
     const neededRange = action.payload.neededRangeData;
     const tbdIds = Object.keys(neededRange);
+
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, filters, intervals } = neededRange[tbdIds[i]];
@@ -33,13 +36,29 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
             queryInterval: intervals[k],
           });
         execution.stop('get missing intervals');
+
         for (let j = 0; j < missingIntervals.length; j += 1) {
-          const queryId = ipc.dc.requestTimebasedQuery(tbdId,
-                                                       dataId,
-                                                       missingIntervals[j],
-                                                       { filters });
+          let queryId;
+          if (dataId.comObject === 'groundMonitoringAlarm') {
+            queryId = ipc.dc.requestAlarmQuery(
+              tbdId,
+              dataId,
+              constants.GROUND_TYPE,
+              constants.ALARM_MODE_ALL,
+              missingIntervals[j]
+            );
+          } else {
+            queryId = ipc.dc.requestTimebasedQuery(
+              tbdId,
+              dataId,
+              missingIntervals[j],
+              { filters }
+            );
+          }
+
           add(queryId, tbdId, type, dataId);
         }
+
         execution.start('merge interval');
         mergedInterval = mergeIntervals(mergedInterval, missingIntervals);
         execution.stop('merge interval');

@@ -1,7 +1,23 @@
 import _ from 'lodash/fp';
-import { copyProp, moveProp, reduce } from './fp';
+import { when, copyProp, moveProp, reduce } from './fp';
 
 describe('common:fp', () => {
+  describe('when', () => {
+    test('when is a function', () => {
+      expect(when).toBeAFunction();
+    });
+    test('partial application', () => {
+      expect(when(null)).toBeAFunction();
+      expect(when(null, null)).toBeAFunction();
+      expect(when(null)(null)).toBeAFunction();
+    });
+    test('transform data when predicate success', () => {
+      expect(when(_.always(true), _.always(42), 0)).toBe(42);
+    });
+    test('do not transform data when predicate fail', () => {
+      expect(when(_.always(false), _.always(42), 0)).toBe(0);
+    });
+  });
   describe('copyProp', () => {
     test('copy a simple prop', () => {
       expect(copyProp('a', 'b', { a: true })).toEqual({ a: true, b: true });

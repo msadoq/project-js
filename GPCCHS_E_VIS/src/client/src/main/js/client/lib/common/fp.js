@@ -1,6 +1,14 @@
 import _ from 'lodash/fp';
 
 /*
+ * conditional transformer
+ * example: when(_.equals(-0), _.always(0))
+*/
+export const when = _.curry((predicate, morphism, data) => (
+  predicate(data) ? morphism(data) : data
+));
+
+/*
  * copy a prop to another
  * example: copyProp('a', 'b.c', { a: true }); // => { a: true, b: { c: true } }
 */

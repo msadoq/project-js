@@ -147,7 +147,7 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
-    const epNames = currentViewMap.entryPoints;
+    const epNames = Object.keys(currentViewMap.entryPoints);
     // Only one entry point per ground alarm view
     if (epNames.length !== 1) {
       return {};

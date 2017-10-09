@@ -5,8 +5,6 @@ export default class LinesCanvas extends Component {
 
   static propTypes = {
     updateLabelPosition: PropTypes.func.isRequired,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yScale: PropTypes.func.isRequired,
     showLabelsX: PropTypes.bool,
@@ -14,6 +12,7 @@ export default class LinesCanvas extends Component {
     perfOutput: PropTypes.bool,
     data: PropTypes.objectOf(PropTypes.shape).isRequired,
     indexes: PropTypes.objectOf(PropTypes.shape).isRequired,
+    current: PropTypes.number.isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -24,12 +23,13 @@ export default class LinesCanvas extends Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        xAccessor: PropTypes.func,
-        yAccessor: PropTypes.func,
-        colorAccessor: PropTypes.func,
+        xAccessor: PropTypes.string,
+        yAccessor: PropTypes.string,
+        colorAccessor: PropTypes.string,
       })
     ).isRequired,
     divStyle: PropTypes.shape().isRequired,
+    parametric: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -45,8 +45,8 @@ export default class LinesCanvas extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
 
-    const attrs = ['yAxesAt', 'top', 'height', 'margin', 'width', 'perfOutput',
-      'xScale', 'showLabelsX', 'showLabelsY', 'yScale', 'indexes', 'data', 'divStyle'];
+    const attrs = ['yAxesAt', 'perfOutput', 'xScale', 'yScale', 'showLabelsX', 'showLabelsY',
+      'yScale', 'indexes', 'data', 'divStyle', 'parametric', 'current'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
@@ -85,8 +85,6 @@ export default class LinesCanvas extends Component {
   draw = () => {
     const {
       perfOutput,
-      height,
-      width,
       lines,
       updateLabelPosition,
       showLabelsX,
@@ -95,11 +93,14 @@ export default class LinesCanvas extends Component {
       xScale,
       data,
       indexes,
+      current,
+      parametric,
+      divStyle,
     } = this.props;
 
     const ctx = this.el.getContext('2d');
 
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, divStyle.width, divStyle.height);
 
     let totalPoints = 0;
     // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
@@ -157,11 +158,13 @@ export default class LinesCanvas extends Component {
       for (let i = 0; i < lineIndexesLength; i += 1) {
         const index = lineIndexes[i];
         const packet = lineData[index];
+        const previousPacket = lineData[lineIndexes[i - 1]];
+        const nextPacket = lineData[lineIndexes[i + 1]];
         if (!packet) {
           return;
         }
         if (line.colorAccessor) {
-          const color = line.colorAccessor(packet) || fill;
+          const color = lineData[index][line.colorAccessor] || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;
@@ -172,8 +175,35 @@ export default class LinesCanvas extends Component {
           }
         }
 
-        const x = line.xAccessor ? line.xAccessor(packet) : packet.x;
-        const y = line.yAccessor ? line.yAccessor(packet) : packet.y;
+        const x = line.xAccessor ? packet[line.xAccessor] : packet.x;
+        const y = line.yAccessor ? packet[line.yAccessor] : packet.value;
+
+        // Current cursor drawing
+        if (
+          parametric &&
+          current &&
+          previousPacket &&
+          (
+            // current is between two packets (past)
+            (previousPacket.masterTime < current && packet.masterTime > current) ||
+            // current is above the last known packet (often real time)
+            (!nextPacket && packet.masterTime < current)
+          )
+        ) {
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.font = `${fontSize * 2}px Arial`;
+          ctx.fillStyle = '#1E2';
+          ctx.strokeStyle = '#1E2';
+          ctx.fillText('O', lastX - (pointOffset * 1.5), lastY + (fontSize / 1.5));
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.font = `${fontSize}px Arial`;
+          ctx.strokeStyle = lastColor;
+          ctx.fillStyle = lastColor;
+          ctx.moveTo(lastX, lastY);
+        }
+
         lastY = yScale(y);
         lastX = xScale(x);
 
@@ -202,8 +232,8 @@ export default class LinesCanvas extends Component {
 
       // Horizontal line
       const lastPacket = lineData[lineIndexes[lineIndexesLength - 1]];
-      const lastXPosition = xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x);
-      const lastYPosition = yScale(line.yAccessor ? line.yAccessor(lastPacket) : lastPacket.y);
+      const lastXPosition = xScale(line.xAccessor ? lastPacket[line.xAccessor] : lastPacket.x);
+      const lastYPosition = yScale(line.yAccessor ? lastPacket[line.yAccessor] : lastPacket.value);
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
@@ -212,14 +242,19 @@ export default class LinesCanvas extends Component {
         0,
         lastYPosition
       );
+      ctx.moveTo(lastXPosition, lastYPosition);
+      ctx.lineTo(
+        lastXPosition,
+        divStyle.height
+      );
 
       updateLabelPosition(
         line.xAxisId,
         line.yAxisId,
         line.id,
         {
-          x: (lastXPosition < 0 || lastXPosition > width) ? null : lastXPosition,
-          y: (lastYPosition < 0 || lastYPosition > height) ? null : lastYPosition,
+          x: (lastXPosition < 0 || lastXPosition > divStyle.width) ? null : lastXPosition,
+          y: (lastYPosition < 0 || lastYPosition > divStyle.height) ? null : lastYPosition,
         }
       );
 
@@ -246,16 +281,14 @@ export default class LinesCanvas extends Component {
 
   render() {
     const {
-      height,
-      width,
       divStyle,
     } = this.props;
 
     return (
       <canvas
         ref={this.assignEl}
-        height={height}
-        width={width}
+        height={divStyle.height}
+        width={divStyle.width}
         className={styles.canvas}
         style={divStyle}
       />

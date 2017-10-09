@@ -11,7 +11,7 @@ import moment from 'moment';
 import getLogger from '../../../../common/logManager';
 import { get } from '../../../../common/configurationManager';
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import GrizzlyChart from './Grizzly/Chart';
+import GrizzlyChart from './GrizzlyParametric/Chart';
 import Legend from './Legend';
 
 import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
@@ -418,16 +418,6 @@ export class GrizzlyPlotView extends PureComponent {
     this.setState(newState);
   }
 
-  memoizeXAxisProps = _memoize(
-    (xExtents, tickStep, autoTick, showTicks, format) => ({
-      xExtents,
-      tickStep,
-      autoTick,
-      showTicks,
-      format,
-    }),
-    (a, b, c, d, e) => `${a[0]}-${a[1]}-${b}-${c}-${d}-${e}`
-  )
 
   memoizeMainStyle = _memoize(
     legendLocation => ({
@@ -516,7 +506,7 @@ export class GrizzlyPlotView extends PureComponent {
     });
 
     const linksHeight = links.length ? 23 + (links.length * 29) : 0;
-    const xExtents = [visuWindow.lower, visuWindow.upper];
+
     let plotHeight = containerHeight - securityTopPadding -
       (plotPadding * 4) - (showLinks ? linksHeight : 0);
     if (showLegend && (legend.location === 'top' || legend.location === 'bottom')) {
@@ -543,6 +533,28 @@ export class GrizzlyPlotView extends PureComponent {
         removeEntryPoint={this.removeEntryPoint}
       />);
 
+    const xAxes = [
+      {
+        id: 'time',
+        orient: 'top',
+        extents: [visuWindow.lower, visuWindow.upper],
+        autoLimits: false,
+        showAxis: true,
+        showLabels: true,
+        showTicks: true,
+        autoTick: true,
+        tickStep: 20000,
+        showGrid: true,
+        gridStyle: 'Continuous',
+        gridSize: 1,
+        unit: 'V',
+        label: 'time',
+        format: '.2f',
+        formatAsDate: true,
+        labelStyle: {},
+      },
+    ];
+
     return (
       <DroppableContainer
         onContextMenu={this.onContextMenu}
@@ -566,14 +578,9 @@ export class GrizzlyPlotView extends PureComponent {
           perfOutput={false}
           current={visuWindow.current}
           yAxesAt={showYAxes}
-          xAxisAt="bottom"
-          xAxis={this.memoizeXAxisProps(
-            xExtents,
-            _get(axes, ['time', 'tickStep']),
-            _get(axes, ['time', 'autoTick']),
-            _get(axes, ['time', 'showTicks']),
-            '.2f'
-          )}
+          xAxesAt="bottom"
+          parametric={false}
+          xAxes={xAxes}
           additionalStyle={this.memoizeMainStyle(legend.location)}
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id);
@@ -583,7 +590,7 @@ export class GrizzlyPlotView extends PureComponent {
             const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
             return {
               id: axis.id,
-              yExtents:
+              extents:
                 axis.autoLimits === true ?
                 [min, max]
                 :
@@ -591,8 +598,6 @@ export class GrizzlyPlotView extends PureComponent {
                   min < axis.min ? min : axis.min,
                   max > axis.max ? max : axis.max,
                 ],
-              indexes,
-              data: lines,
               orient: 'top',
               format: '.3f',
               showAxis: axis.showAxis === true,
@@ -614,17 +619,19 @@ export class GrizzlyPlotView extends PureComponent {
           lines={
             entryPoints.map(ep =>
               ({
-                data: null, // data is accessed through axis.data
+                data: lines[ep.name],
+                indexes: indexes[ep.name],
                 id: ep.name,
-                yAxis: _get(ep, ['connectedData', 'axisId']),
+                xAxisId: 'time',
+                yAxisId: _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
                 lineSize: _get(ep, ['objectStyle', 'line', 'size']),
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
-                xAccessor: null, // default .x
-                yAccessor: null, // default .value
+                xAccessor: 'x', // default .x
+                yAccessor: 'value', // default .value
                 colorAccessor: 'color',
                 tooltipFormatter,
               })

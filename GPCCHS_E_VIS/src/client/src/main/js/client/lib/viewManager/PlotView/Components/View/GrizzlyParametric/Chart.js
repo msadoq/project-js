@@ -10,7 +10,7 @@ import _throttle from 'lodash/throttle';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';
-// import CurrentCursorCanvas from './CurrentCursorCanvas';
+import CurrentCursorCanvas from './CurrentCursorCanvas';
 
 import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
@@ -25,6 +25,7 @@ export default class Chart extends React.Component {
     xAxisAt: PropTypes.string,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
     enableTooltip: PropTypes.bool,
     tooltipColor: PropTypes.string,
     allowXZoom: PropTypes.bool,
@@ -33,6 +34,7 @@ export default class Chart extends React.Component {
     allowXPan: PropTypes.bool,
     allowLasso: PropTypes.bool,
     perfOutput: PropTypes.bool,
+    parametric: PropTypes.bool,
     additionalStyle: PropTypes.shape({}).isRequired,
     xAxes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -52,6 +54,7 @@ export default class Chart extends React.Component {
         label: PropTypes.string.isRequired,
         format: PropTypes.string,
         labelStyle: PropTypes.shape,
+        formatAsDate: PropTypes.bool,
       })
     ).isRequired,
     yAxes: PropTypes.arrayOf(
@@ -72,6 +75,7 @@ export default class Chart extends React.Component {
         label: PropTypes.string.isRequired,
         format: PropTypes.string,
         labelStyle: PropTypes.shape,
+        formatAsDate: PropTypes.bool,
       })
     ).isRequired,
     lines: PropTypes.arrayOf(
@@ -86,9 +90,9 @@ export default class Chart extends React.Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        yAccessor: PropTypes.func,
-        xAccessor: PropTypes.func,
-        colorAccessor: PropTypes.func,
+        yAccessor: PropTypes.string,
+        xAccessor: PropTypes.string,
+        colorAccessor: PropTypes.string,
         tooltipFormatter: PropTypes.func,
       })
     ).isRequired,
@@ -105,6 +109,7 @@ export default class Chart extends React.Component {
     allowLasso: true,
     tooltipColor: 'white',
     perfOutput: false,
+    parametric: false,
   }
 
   state = {
@@ -112,6 +117,7 @@ export default class Chart extends React.Component {
     pans: {},
     ctrlPressed: false,
     shiftPressed: false,
+    lassoing: false,
   }
 
   componentDidMount() {
@@ -137,6 +143,8 @@ export default class Chart extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
     document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('keydown', this.onKeyDown);
+    document.removeEventListener('keyup', this.onKeyUp);
   }
 
   onKeyDown = (e) => {
@@ -355,7 +363,6 @@ export default class Chart extends React.Component {
         linesWithValidAxes.push(line);
       }
     }
-
     const yAxesUniq = [];
     const linesUniq = [];
     const xAxesUniq = [];
@@ -689,6 +696,8 @@ export default class Chart extends React.Component {
       additionalStyle,
       enableTooltip,
       tooltipColor,
+      current,
+      parametric,
     } = this.props;
 
     const {
@@ -822,6 +831,7 @@ export default class Chart extends React.Component {
               extents={yAxis.extents}
               label={yAxis.label}
               labelStyle={yAxis.labelStyle}
+              formatAsDate={yAxis.formatAsDate}
               getLabelPosition={this.getLabelPosition}
             />
           )
@@ -856,6 +866,7 @@ export default class Chart extends React.Component {
               extents={xAxis.extents}
               label={xAxis.label}
               labelStyle={xAxis.labelStyle}
+              formatAsDate={xAxis.formatAsDate}
               getLabelPosition={this.getLabelPosition}
             />
           )
@@ -879,9 +890,21 @@ export default class Chart extends React.Component {
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
                 divStyle={this.divStyle}
+                current={current}
+                parametric={parametric}
               />
             );
           })
+        }
+        {
+          !parametric && this.xAxesUniq[0] &&
+          <CurrentCursorCanvas
+            current={current}
+            width={this.chartWidth}
+            height={this.chartHeight}
+            divStyle={this.divStyle}
+            xScale={this.xAxesUniq[0].scale}
+          />
         }
         {
           enableTooltip &&

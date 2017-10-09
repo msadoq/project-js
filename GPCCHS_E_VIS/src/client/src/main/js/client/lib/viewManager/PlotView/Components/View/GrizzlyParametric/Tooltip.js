@@ -2,8 +2,10 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
+import _throttle from 'lodash/throttle';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
+import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class Tooltip extends React.Component {
@@ -53,7 +55,9 @@ export default class Tooltip extends React.Component {
   );
 
   mouseMove = (e) => {
-    this.fillAndDisplayTooltip(e, true);
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    this.throttleFillAndDisplayTooltip(clientX, clientY, true);
   }
 
   mouseLeave = () => {
@@ -61,15 +65,17 @@ export default class Tooltip extends React.Component {
     this.forceUpdate();
   }
 
-  fillAndDisplayTooltip = (e, forceRender = false) => {
+  throttleFillAndDisplayTooltip = _throttle((a, b, c) => this.fillAndDisplayTooltip(a, b, c), 20);
+
+  fillAndDisplayTooltip = (clientX, clientY, forceRender = false) => {
     const {
       pairs,
     } = this.props;
 
-    const y = e ? e.clientY : this.pseudoState.clientY;
-    const yInRange = y - this.el.getBoundingClientRect().top;
-    const x = e ? e.clientX : this.pseudoState.clientX;
+    const x = clientX === null ? this.pseudoState.clientX : clientX;
     const xInRange = x - this.el.getBoundingClientRect().left;
+    const y = clientY === null ? this.pseudoState.clientY : clientY;
+    const yInRange = y - this.el.getBoundingClientRect().top;
     const linesList = {};
     const pairKeys = Object.keys(pairs);
     pairKeys.forEach((key) => {
@@ -82,22 +88,27 @@ export default class Tooltip extends React.Component {
       for (let i = 0; i < pair.lines.length; i += 1) {
         const line = pair.lines[i];
         const distances = [];
-        for (let j = 0; j < line.data.length; j += 1) {
-          const distanceX = line.data[j].x - xInDomain;
-          const distanceY = line.data[j].y - yInDomain;
-          distances.push(Math.sqrt((distanceX ** 2) + (distanceY ** 2)));
+        for (let j = 0; j < line.indexes.length; j += 1) {
+          const distanceX = line.data[line.indexes[j]].x - xInDomain;
+          const distanceY = line.data[line.indexes[j]].value - yInDomain;
+          const distance = Math.sqrt((distanceX ** 2) + (distanceY ** 2));
+          distances.push(distance);
         }
         const minIndex = distances.reduce(
           (iMin, dist, k, arr) => (dist < arr[iMin] ? k : iMin),
           0
         );
+        const lineDataAtIndex = line.data[line.indexes[minIndex]];
+        const xAtIndex = line.xAccessor ? lineDataAtIndex[line.xAccessor] : lineDataAtIndex.x;
+        const yAtIndex = line.yAccessor ? lineDataAtIndex[line.yAccessor] : lineDataAtIndex.value;
+
         linesList[key][line.id] = {
           ...line.data[minIndex],
-          x: xFormat(line.data[minIndex].x),
-          y: yFormat(line.data[minIndex].y),
-          xInRange: pair.xAxis.scale(line.data[minIndex].x),
-          yInRange: pair.yAxis.scale(line.data[minIndex].y),
-          foundColor: line.colorAccessor ? line.colorAccessor(line.data[minIndex]) : null,
+          x: xFormat(xAtIndex),
+          y: yFormat(yAtIndex),
+          xInRange: pair.xAxis.scale(xAtIndex),
+          yInRange: pair.yAxis.scale(yAtIndex),
+          foundColor: line.colorAccessor ? lineDataAtIndex[line.colorAccessor] : null,
           lineColor: line.fill || '#222222',
           id: line.id,
         };
@@ -112,8 +123,8 @@ export default class Tooltip extends React.Component {
       yInRange,
       tooltipOnRight: xInRange > (this.el.clientWidth / 2),
       tooltipOnBottom: yInRange > (this.el.clientHeight / 2),
-      clientX: e ? e.clientX : this.pseudoState.clientX,
-      clientY: e ? e.clientY : this.pseudoState.clientY,
+      clientX: x,
+      clientY: y,
     };
 
     this.pseudoState = futureState;
@@ -123,9 +134,14 @@ export default class Tooltip extends React.Component {
     }
   }
 
-  memoizeFormatter = _memoize(f =>
-    d => d3Format(f)(d)
-  );
+  memoizeFormatter = _memoize((ms, formatAsDate, format) => {
+    if (formatAsDate) {
+      const zoomLevel = getZoomLevel(ms);
+      const levelRule = levelsRules[zoomLevel];
+      return timeFormat(levelRule.formatD3);
+    }
+    return d => d3Format(format)(d);
+  });
 
   timeFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L')
 
@@ -133,7 +149,7 @@ export default class Tooltip extends React.Component {
 
   render() {
     if (this.pseudoState.showTooltip) {
-      this.fillAndDisplayTooltip(null, false);
+      this.fillAndDisplayTooltip(null, null, false);
     }
     const {
       height,
@@ -155,6 +171,10 @@ export default class Tooltip extends React.Component {
       yInRange,
       tooltipOnRight,
     } = this.pseudoState;
+
+    if (!this.axesFormatters) {
+      this.axesFormatters = {};
+    }
 
     const tooltiLinesToDisplay = linesList && Object.values(linesList).length;
     const tooltipStyle = { width: this.tooltipWidth };
@@ -196,8 +216,37 @@ export default class Tooltip extends React.Component {
           />
         }
         {
+          tooltiLinesToDisplay &&
+          <span
+            className={styles.tooltipHorizontalCursor}
+            style={{
+              opacity: showTooltip ? 1 : 0,
+              width,
+              top: yInRange,
+            }}
+          />
+        }
+        {
+          tooltiLinesToDisplay &&
+          <span
+            className={styles.tooltipCircle}
+            style={{
+              opacity: showTooltip ? 1 : 0,
+              left: xInRange,
+              top: yInRange,
+            }}
+          />
+        }
+        {
           ['left', 'right'].includes(yAxesAt) && yAxesUniq.map((axis, index) => {
             const yLabelStyle = {};
+            if (!this.axesFormatters[axis.id]) {
+              this.axesFormatters[`${axis.id}-y`] = this.memoizeFormatter(
+                axis.extents[1] - axis.extents[0],
+                axis.formatAsDate,
+                axis.format || '.2f'
+              );
+            }
             if (yAxesAt === 'left') {
               yLabelStyle.left = ((index * yAxisWidth) * -1) - 8;
               yLabelStyle.transform = 'translate(-100%, -50%)';
@@ -215,26 +264,20 @@ export default class Tooltip extends React.Component {
                   top: yInRange,
                 }}
               >
-                {this.memoizeFormatter(axis.format || '.2f')(
-                  axis.scale.invert(yInRange)
-                )}
+                {this.axesFormatters[`${axis.id}-y`](axis.scale.invert(yInRange))}
               </span>
             );
           })
         }
         {
-          tooltiLinesToDisplay &&
-          <span
-            className={styles.tooltipHorizontalCursor}
-            style={{
-              opacity: showTooltip ? 1 : 0,
-              width,
-              top: yInRange,
-            }}
-          />
-        }
-        {
           ['top', 'bottom'].includes(xAxesAt) && xAxesUniq.map((axis, index) => {
+            if (!this.axesFormatters[axis.id]) {
+              this.axesFormatters[`${axis.id}-x`] = this.memoizeFormatter(
+                axis.extents[1] - axis.extents[0],
+                axis.formatAsDate,
+                axis.format || '.2f'
+              );
+            }
             const xLabelStyle = {};
             if (xAxesAt === 'top') {
               xLabelStyle.top = (index * xAxisHeight * -1) - 8;
@@ -253,9 +296,7 @@ export default class Tooltip extends React.Component {
                   left: xInRange,
                 }}
               >
-                {this.memoizeFormatter(axis.format || '.2f')(
-                  axis.scale.invert(xInRange)
-                )}
+                {this.axesFormatters[`${axis.id}-x`](axis.scale.invert(xInRange))}
               </span>
             );
           })

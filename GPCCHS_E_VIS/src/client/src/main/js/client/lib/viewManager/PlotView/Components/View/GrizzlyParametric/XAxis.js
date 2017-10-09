@@ -4,7 +4,9 @@ import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
 import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
+import { timeFormat } from 'd3-time-format';
 import { axisTop, axisBottom } from 'd3-axis';
+import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class XAxis extends Component {
@@ -32,7 +34,6 @@ export default class XAxis extends Component {
         yAxis: PropTypes.shape().isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
-        yAccessor: PropTypes.func,
       })
     ).isRequired,
     showLabels: PropTypes.bool,
@@ -44,6 +45,7 @@ export default class XAxis extends Component {
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
     format: PropTypes.string,
+    formatAsDate: PropTypes.bool,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
       color: PropTypes.string,
@@ -79,6 +81,7 @@ export default class XAxis extends Component {
       underline: false,
       size: 11,
     },
+    formatAsDate: false,
   }
 
   componentDidMount() {
@@ -118,6 +121,14 @@ export default class XAxis extends Component {
   }
 
   ticksXOffset = 8;
+
+  memoizeTickFormat= _memoize(
+    (ms) => {
+      const zoomLevel = getZoomLevel(ms);
+      const levelRule = levelsRules[zoomLevel];
+      return timeFormat(levelRule.formatD3);
+    }
+  )
 
   axisDidDraw = () => {
     const {
@@ -208,10 +219,17 @@ export default class XAxis extends Component {
       xAxesAt,
       logarithmic,
       extents,
+      formatAsDate,
     } = this.props;
 
-    const tickFormat = showTicks ?
-      this.memoizeFormatter(format) : () => null;
+    let tickFormat = () => null;
+    if (showTicks) {
+      if (formatAsDate) {
+        tickFormat = this.memoizeTickFormat(extents[1] - extents[0]);
+      } else {
+        tickFormat = this.memoizeFormatter(format);
+      }
+    }
 
     // if showGrid & master axis, axis must be wider
     const tickSize = index === 0 && showGrid ?

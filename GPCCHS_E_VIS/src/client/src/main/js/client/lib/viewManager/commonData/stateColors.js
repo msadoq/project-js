@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { compile } from '../../common/operators';
+import { applyFilter } from './applyFilters';
 import { getStateColors } from '../../windowProcess/common/colors';
 
 const getStateColorObj = (payload = {}, customColors = [], monitoringState) => {
@@ -10,8 +10,14 @@ const getStateColorObj = (payload = {}, customColors = [], monitoringState) => {
     };
   }
 
-  const customColor = _.find(customColors, c =>
-    compile(c.condition)(_.get(payload, [c.condition.field, 'value'])));
+  if (!customColors) {
+    return null;
+  }
+
+  const customColor = _.find(
+    customColors,
+    c => (applyFilter(payload, c.condition) ? c.color : false)
+  );
 
   if (customColor) {
     return {

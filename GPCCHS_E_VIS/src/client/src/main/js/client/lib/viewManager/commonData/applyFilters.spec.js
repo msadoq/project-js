@@ -1,9 +1,17 @@
 import _omit from 'lodash/omit';
 import _assign from 'lodash/assign';
 
-import { applyFilters } from './applyFilters';
+import { applyFilters, applyFilter } from './applyFilters';
 
 describe('utils/filters', () => {
+  describe('applyFilter', () => {
+    test('is exported', () => {
+      expect(applyFilter(
+        { dataValue: { type: 'integer', value: 42 } },
+        { field: 'dataValue', operator: '=', operand: '42' }
+      )).toBe(true);
+    });
+  });
   describe('applyFilters', () => {
     test('=', () => {
       const filter = [

@@ -1,0 +1,31 @@
+import * as types from '../../types';
+import executionMonitor from '../../../common/logManager/execution';
+import { updateLastPubSubTimestamp } from '../../actions/health';
+
+const pubSubMonitor = (timing) => {
+  let timeoutPubSub;
+
+  const resetTimeout = (dispatch) => {
+    clearTimeout(timeoutPubSub);
+    timeoutPubSub = setTimeout(() => {
+      dispatch(updateLastPubSubTimestamp(undefined));
+    }, timing);
+  };
+
+  return ({ dispatch }) => next => (action) => {
+    const nextAction = next(action);
+    if (action.type !== types.INCOMING_PUBSUB_DATA) {
+      return nextAction;
+    }
+
+    const execution = executionMonitor('middleware:pubSubMonitor');
+    execution.start('global');
+    resetTimeout(dispatch);
+    dispatch(updateLastPubSubTimestamp(Date.now()));
+    execution.stop('global');
+    execution.print();
+    return nextAction;
+  };
+};
+
+export default pubSubMonitor;

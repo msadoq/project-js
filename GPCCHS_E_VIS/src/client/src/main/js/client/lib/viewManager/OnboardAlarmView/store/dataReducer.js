@@ -64,7 +64,34 @@ export default function onboardViewData(state = {}, action) {
       return newState;
     }
     case types.INJECT_DATA_RANGE: {
-      // const { dataToInject, newViewMap, newExpectedRangeIntervals } = action.payload;
+      /* const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
+        = action.payload;
+      const dataKeys = Object.keys(dataToInject);
+      // If nothing changed and no data to import, return state
+      if (!dataKeys.length) {
+        return state;
+      }
+      // Gets configurationfor history views
+      const configuration = configurations.GroundAlarmConfiguration;
+
+      // since now, state will changed
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+        // Data Selection
+        const epSubState =
+          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
+        if (Object.keys(epSubState).length !== 0) {
+          // Data injection
+          const viewState = viewRangeAdd(newState[viewId], viewId, epSubState,
+            configuration[viewId], visuWindow);
+          if (viewState !== newState[viewId]) {
+            newState = { ...newState, [viewId]: viewState };
+          }
+        }
+      }
+      return newState || {}; */
       return state;
     }
     case types.WS_VIEWDATA_CLEAN: {

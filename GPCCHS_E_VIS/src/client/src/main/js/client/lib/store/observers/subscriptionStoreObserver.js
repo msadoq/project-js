@@ -49,7 +49,7 @@ export default function makeSubscriptionStoreObserver(store) {
       // Sends a different request in case of alarm
       if (dataId.comObject === 'GroundMonitoringAlarm') {
         requestAlarmSubscriptionDelete(tbdId, dataId, constants.GROUND_TYPE,
-          constants.ALARM_MODE_ALL);
+         constants.ALARM_MODE_ALL);
       } else if (dataId.comObject === 'onboardAlarm') {
         requestAlarmSubscriptionDelete(tbdId, dataId, constants.ONBOARD_TYPE,
           constants.ALARM_MODE_ALL);

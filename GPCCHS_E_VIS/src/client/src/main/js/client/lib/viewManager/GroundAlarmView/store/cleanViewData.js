@@ -32,7 +32,12 @@ export default function cleanCurrentViewData(
   }
   // invisible view
   if (!newViewFromMap) {
-    return { lines: [], data: {}, transitionNb: 0 };
+    return {
+      cols: [],
+      lines: [],
+      indexes: [],
+      data: {},
+      transitionNb: 0 };
   }
   // entry point updates
   const oldEntryPoints = oldViewFromMap.entryPoints;
@@ -49,7 +54,12 @@ export default function cleanCurrentViewData(
   // removed entry point if invalid
   // EP definition modified: remove entry point from viewData
   if (isInvalidEntryPoint(oldEp, newEp)) {
-    return { lines: [], data: {}, transitionNb: 0 };
+    return {
+      cols: [],
+      lines: [],
+      indexes: [],
+      data: {},
+      transitionNb: 0 };
   }
   // Case of point already in error
   if (newEp.error) {
@@ -84,7 +94,12 @@ function isInvalidEntryPoint(oldEp, newEp) {
 export function removeViewDataByEp(viewData, epName, lower, upper) {
   if (lower > upper) {
     // unpredictable usage
-    return { lines: [], data: {}, transitionNb: 0 };
+    return {
+      cols: [],
+      lines: [],
+      indexes: [],
+      data: {},
+      transitionNb: 0 };
   }
   // keep everything
   if (!viewData || !viewData.lines || !viewData.lines.length) {
@@ -97,7 +112,13 @@ export function removeViewDataByEp(viewData, epName, lower, upper) {
   }
   // drop everything
   if (viewData.lines[0] > upper || _last(viewData.lines) < lower) {
-    return { lines: [], data: {}, transitionNb: 0 };
+     // console.log('viewData.lines[0] > upper || _last(viewData.lines) < lower');
+    return {
+      cols: [],
+      lines: [],
+      indexes: [],
+      data: {},
+      transitionNb: 0 };
   }
   // keep some
   // cut: keep inside min and max

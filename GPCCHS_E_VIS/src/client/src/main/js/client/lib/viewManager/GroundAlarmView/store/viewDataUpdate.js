@@ -147,7 +147,7 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
-    const epNames = currentViewMap.entryPoints;
+    const epNames = Object.keys(currentViewMap.entryPoints);
     // Only one entry point per ground alarm view
     if (epNames.length !== 1) {
       return {};
@@ -187,7 +187,8 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   let transitionNb = 0;
   // Loop on payload timestamps
   for (let i = 0; i < timestamps.length; i += 1) {
-    const currentValue = tbdIdPayload[timestamps[i]];
+    // TODO pgaucher remove this when stub are operational
+    const currentValue = { groundAlarm: tbdIdPayload[timestamps[i]] };
     const timestamp = timestamps[i];
     // TODO do we have to check creation date to validate timestamp ?
     // const timestamp = _get(currentValue, ['creationDate', 'value']);
@@ -233,11 +234,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       acknowledgementState: ackState,
       duration: groundAlarm.closingDate
         ? convertData({ type: 'duration',
-          value: groundAlarm.closingDate - groundAlarm.creationDate })
+          value: groundAlarm.closingDate.value - groundAlarm.creationDate.value })
         : '-',
     };
     // Data from transitions table
-    if (currentValue.transitions.length) {
+    if (groundAlarm.transitions.length) {
       const lastTransition = _last(groundAlarm.transitions);
       Object.assign(valueToInsert, {
         firstOccurence: convertData(groundAlarm.transitions[0].onboardDate),

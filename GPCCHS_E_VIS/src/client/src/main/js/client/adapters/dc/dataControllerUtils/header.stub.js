@@ -27,6 +27,8 @@ const MESSAGETYPE_DC_STATUS_QUERY = 20;
 const MESSAGETYPE_DC_STATUS_DATA = 21;
 const MESSAGETYPE_ALARM_QUERY = 22;
 const MESSAGETYPE_ALARM_SUBSCRIPTION = 23;
+const MESSAGETYPE_ALARM_ARCHIVE_DATA = 24;
+const MESSAGETYPE_ALARM_PUBSUB_DATA = 25;
 
 const getDcStatusQueryHeader = () => ({
   messageType: MESSAGETYPE_DC_STATUS_QUERY,
@@ -97,12 +99,11 @@ const getAlarmQueryHeader = () => ({
 const getAlarmSubscriptionHeader = () => ({
   messageType: MESSAGETYPE_ALARM_SUBSCRIPTION,
 });
-
 const getAlarmArchiveDataHeader = () => ({
-  messageType: MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
+  messageType: MESSAGETYPE_ALARM_ARCHIVE_DATA,
 });
 const getAlarmPubSubDataHeader = () => ({
-  messageType: MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
+  messageType: MESSAGETYPE_ALARM_PUBSUB_DATA,
 });
 
 const getDcStatusQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusQueryHeader())).finish();

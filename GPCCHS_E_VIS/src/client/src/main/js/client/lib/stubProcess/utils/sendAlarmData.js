@@ -1,5 +1,4 @@
-import { encode } from '../../utils/adapters';
-
+const encode = require('../../utils/adapters').encode;
 const _each = require('lodash/each');
 const _random = require('lodash/random');
 const constants = require('../../constants');

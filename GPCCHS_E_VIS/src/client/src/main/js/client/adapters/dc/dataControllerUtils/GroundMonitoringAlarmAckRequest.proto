@@ -1,0 +1,15 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/GroundMonitoringAlarm.proto";
+import "ackRequest/AckRequest.proto";
+
+message GroundMonitoringAlarmAckRequest {
+    extensions 8 to 108;
+    optional string                         oid = 1;
+    optional GroundMonitoringAlarm          groundAlarm = 2;
+    optional ackRequest.protobuf.AckRequest ackRequest = 3;
+    optional string                         parameterName = 4;
+    optional string                         parameterType = 5;
+    optional string                         satellite = 6;
+    optional string                         telemetryType = 7;
+}

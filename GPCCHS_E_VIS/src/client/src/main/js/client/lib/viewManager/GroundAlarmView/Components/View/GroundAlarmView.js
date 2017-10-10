@@ -32,14 +32,15 @@ const Table = ({
           const columns = line.type === 'alarm' ? cols : transitionsCols;
           if (line.type === 'alarm' || line.type === 'transition') {
             return (
-              <tr key={key}>
+              <tr
+                key={key}
+                className={line.type === 'transition' ? 'transition' : 'alarm'}
+                style={{ width: '100%' }}
+              >
                 {
                   columns.map(col => (
                     <td
-                      style={{
-                        height: `${rowHeight}px`,
-                        backgroundColor: line.type === 'transition' ? 'red' : '',
-                      }}
+                      style={{ height: `${rowHeight}px` }}
                       key={col}
                     >
                       {data[col]}
@@ -50,7 +51,7 @@ const Table = ({
             );
           }
           return (
-            <tr key={key}>
+            <tr className="transition" key={key}>
               {
                 transitionsCols.map(col => (
                   <th key={col}>{col}</th>
@@ -126,7 +127,7 @@ class GroundAlarmView extends React.Component {
   getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
 
   getScrollBarPosition = () => (
-    (this.state.position / this.getLastPosition()) * this.getScrollAreaHeight()
+    Math.ceil((this.state.position / this.getLastPosition()) * this.getScrollAreaHeight())
   )
 
   render() {

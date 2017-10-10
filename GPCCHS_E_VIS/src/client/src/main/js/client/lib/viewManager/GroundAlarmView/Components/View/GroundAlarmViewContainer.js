@@ -20,9 +20,9 @@ const stub = withStub({
       epName: state.tick,
       masterTime: state.tick,
       transitions: [
-        { a: 'aaa', b: 'bbb', groundDate: state.tick },
-        { b: 'bbb', c: 'ccc', groundDate: state.tick + 1 },
-        { c: 'ccc', d: 'ddd', groundDate: state.tick + 2 },
+        { a: '111', b: '222', groundDate: state.tick },
+        { a: '333', b: '444', groundDate: state.tick + 1 },
+        { a: '555', b: '666', groundDate: state.tick + 2 },
       ],
     }, state),
     state => _.update('data.lines', append([
@@ -37,7 +37,7 @@ const stub = withStub({
     tick: 0,
     data: {
       cols: ['name', 'timestamp', 'epName', 'masterTime'],
-      transitionsCols: ['a', 'b', 'c', 'd', 'groundDate'],
+      transitionsCols: ['a', 'b', 'groundDate'],
       lines: [],
       data: {},
     },

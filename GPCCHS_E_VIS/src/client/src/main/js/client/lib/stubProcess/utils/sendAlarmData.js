@@ -6,7 +6,8 @@ const stubs = require('../../utils/stubs');
 const getPayload = require('./getPayload');
 
 const stubData = stubs.getStubData();
-const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
+const headerPub = stubData.getAlarmPubSubDataHeaderProtobuf();
+const headerArchive = stubData.getAlarmArchiveDataHeaderProtobuf();
 
 function getPayloads(comObject, parameterName) {
   const payloads = [];
@@ -21,7 +22,7 @@ module.exports = {
   subscription: (queryId, dataId, alarmType, zmq) => {
     const buffer = [
       null,
-      header,
+      headerPub,
       stubData.getStringProtobuf(queryId),
       stubData.getDataIdProtobuf(dataId),
       encode('dc.dataControllerUtils.AlarmType', alarmType),
@@ -39,7 +40,7 @@ module.exports = {
   query: (queryId, dataId, alarmType, alarmMode, interval, zmq) => {
     const buffer = [
       null,
-      header,
+      headerArchive,
       stubData.getStringProtobuf(queryId),
       stubData.getDataIdProtobuf(dataId),
       encode('dc.dataControllerUtils.AlarmType', alarmType),

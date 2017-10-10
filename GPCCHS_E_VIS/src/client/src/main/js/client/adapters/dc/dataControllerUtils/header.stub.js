@@ -99,10 +99,10 @@ const getAlarmSubscriptionHeader = () => ({
 });
 
 const getAlarmArchiveDataHeader = () => ({
-  messageType: MESSAGETYPE_ALARM_ARCHIVE_DATA,
+  messageType: MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
 });
 const getAlarmPubSubDataHeader = () => ({
-  messageType: MESSAGETYPE_ALARM_PUBSUB_DATA,
+  messageType: MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
 });
 
 const getDcStatusQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusQueryHeader())).finish();
@@ -178,4 +178,6 @@ module.exports = {
   getAlarmQueryHeaderProtobuf,
   getAlarmSubscriptionHeader,
   getAlarmSubscriptionHeaderProtobuf,
+  getAlarmArchiveDataHeaderProtobuf,
+  getAlarmPubSubDataHeaderProtobuf,
 };

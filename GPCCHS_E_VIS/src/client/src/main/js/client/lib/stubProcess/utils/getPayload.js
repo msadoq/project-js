@@ -46,24 +46,40 @@ const getComObject = (comObject, timestamp, epName) => {
     case 'GroundMonitoringAlarm': {
       const value = getSinValue(timestamp, epName);
 
-      return stubData.getGroundMonitoringAlarmProtobuf({
-        creationDate: timestamp - 100,
-        // paramUid: null,
-        updateDate: timestamp - 50,
-        // closingDate: null,
-        hasAckRequest: false,
-        // alarmId: null,
-        transitions: [
-          stubData.getTransitionProtobuf({
-            onboardDate: timestamp,
-            groundDate: timestamp + 20,
-            convertedValue: value,
-            extractedValue: value,
-            rawValue: value,
-            monitoringState: getMonitoringState(timestamp),
+      return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
+        oid: `osef${Math.random() * 10000000}`,
+        groundAlarm: stubData.getGroundMonitoringAlarmProtobuf({
+          creationDate: timestamp - 100,
+          // paramUid: null,
+          updateDate: timestamp - 50,
+          // closingDate: null,
+          hasAckRequest: false,
+          // alarmId: null,
+          transitions: [
+            stubData.getTransitionProtobuf({
+              onboardDate: timestamp,
+              groundDate: timestamp + 20,
+              convertedValue: value * 2,
+              extractedValue: value * 3,
+              rawValue: value,
+              monitoringState: getMonitoringState(timestamp),
+            }),
+          ],
+          // isNominal: false
+        }),
+        ackRequest: stubData.getAckRequestProtobuf({
+          ackRequestDate: timestamp,
+          systemDate: timestamp,
+          ack: stubData.getAckProtobuf({
+            ackDate: timestamp,
+            acknowledger: 'BLOB',
           }),
-        ],
-        // isNominal: false
+          comment: 'J\'aime les guimauves au miel',
+        }),
+        parameterName: 'MyParameterStubName',
+        parameterType: 'MyParameterStubType',
+        satellite: 'MyStubSatelliteUnicorn',
+        telemetryType: 'MyTelemetryStubType',
       });
     }
     case 'ReportingParameter': {

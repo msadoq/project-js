@@ -6,8 +6,8 @@ const stubs = require('../../utils/stubs');
 const getPayload = require('./getPayload');
 
 const stubData = stubs.getStubData();
-const headerPub = stubData.getAlarmPubSubDataHeaderProtobuf();
-const headerArchive = stubData.getAlarmArchiveDataHeaderProtobuf();
+const headerPub = stubData.getAlarmSubscriptionHeaderProtobuf();
+const headerArchive = stubData.getAlarmQueryHeaderProtobuf();
 
 function getPayloads(comObject, parameterName) {
   const payloads = [];

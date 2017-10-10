@@ -128,8 +128,6 @@ const getSessionMasterQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(
 const getSessionMasterDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionMasterDataHeader())).finish();
 const getAlarmQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmQueryHeader())).finish();
 const getAlarmSubscriptionHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmSubscriptionHeader())).finish();
-const getAlarmArchiveDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmArchiveDataHeader())).finish();
-const getAlarmPubSubDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmPubSubDataHeader())).finish();
 
 module.exports = {
   getDcStatusQueryHeader,
@@ -178,6 +176,4 @@ module.exports = {
   getAlarmQueryHeaderProtobuf,
   getAlarmSubscriptionHeader,
   getAlarmSubscriptionHeaderProtobuf,
-  getAlarmArchiveDataHeaderProtobuf,
-  getAlarmPubSubDataHeaderProtobuf,
 };

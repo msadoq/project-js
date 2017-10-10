@@ -2,7 +2,7 @@
 
 ## prepare-commit-msg
 
-It's may be useful to have some additional git local hooks.
+It may be useful to have some additional git local hooks.
 
 here is a little script to add automatically prefix in the commit message :
 
@@ -18,11 +18,11 @@ const hasBracketPrefix = () => /^\[.*\]/.test(firstLine.trim());
 const isHL = () => !!process.env['HL'];
 
 if (process.env['BYPASS_HOOKS']) {
-  return;
+  process.exit(0);
 }
 
 if (hasBracketPrefix()) {
-  return;
+  process.exit(0);
 }
 
 if (!isHL() && !process.env['TICKET']) {

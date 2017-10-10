@@ -1,16 +1,16 @@
 const ProtoBuf = require('protobufjs');
 const applyOverride = require('../applyOverride');
-const Adapter = require('./alarmType');
+const Adapter = require('./alarmMode');
 
-const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/alarmType.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.alarmType');
+const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/alarmMode.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.alarmMode');
 
-const getAlarmType = override => applyOverride({
+const getAlarmMode = override => applyOverride({
   type: 0,
 }, override);
 
-const getAlarmTypeProtobuf = override => Builder.encode(Adapter.encode(getAlarmType(override))).finish();
+const getAlarmModeProtobuf = override => Builder.encode(Adapter.encode(getAlarmMode(override))).finish();
 
 module.exports = {
-  getAlarmType,
-  getAlarmTypeProtobuf,
+  getAlarmMode,
+  getAlarmModeProtobuf,
 };

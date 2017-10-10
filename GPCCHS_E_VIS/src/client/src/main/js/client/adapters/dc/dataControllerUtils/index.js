@@ -19,27 +19,33 @@ const TimeInterval = require('./timeInterval');
 const Timestamp = require('./timestamp');
 const AlarmType = require('./alarmType');
 const AlarmMode = require('./alarmMode');
+const GroundMonitoringAlarmAckRequest = require('./groundMonitoringAlarmAckRequest');
+const OnBoardAlarmAckRequest = require('./onBoardAlarmAckRequest');
+const OnBoardAlarm = require('./onBoardAlarm');
 
 module.exports = { // TODO .proto should be collocated with adapters
-    Action : {type:"protobuf", adapter: Action},
-    Boolean : {type:"protobuf", adapter: Bool},
-    DataId  : {type:"protobuf", adapter: DataId},
-    DcStatus : {type:"protobuf", adapter: DcStatus},
-    Domains : {type:"protobuf", adapter: Domains},
-    FMDCreateDocument : {type:"protobuf", adapter: FMDCreateDocument},
-    FMDDocumentProperty : {type:"protobuf", adapter: FMDDocumentProperty},
-    FMDFileInfo : {type:"protobuf", adapter: FMDFileInfo},
-    FMDFileType : {type:"protobuf", adapter: FMDFileType},
-    FMDGet : {type:"protobuf", adapter: FMDGet},
-    Header : {type:"protobuf", adapter: Header},
-    QueryArguments : {type:"protobuf", adapter: QueryArguments},
-    SendLog : {type:"protobuf", adapter: SendLog},
-    SessionGetTime : {type:"protobuf", adapter: SessionGetTime},
-    Sessions : {type:"protobuf", adapter: Sessions},
-    Status : {type:"protobuf", adapter: Status},
-    String : {type:"protobuf", adapter: Str},
-    TimeInterval : {type:"protobuf", adapter: TimeInterval},
-    Timestamp : {type:"protobuf", adapter: Timestamp},
-    AlarmType: {type:"protobuf", adapter: AlarmType},
-    AlarmMode: {type:"protobuf", adapter: AlarmMode},
-  };
+  Action: { type: 'protobuf', adapter: Action },
+  Boolean: { type: 'protobuf', adapter: Bool },
+  DataId: { type: 'protobuf', adapter: DataId },
+  DcStatus: { type: 'protobuf', adapter: DcStatus },
+  Domains: { type: 'protobuf', adapter: Domains },
+  FMDCreateDocument: { type: 'protobuf', adapter: FMDCreateDocument },
+  FMDDocumentProperty: { type: 'protobuf', adapter: FMDDocumentProperty },
+  FMDFileInfo: { type: 'protobuf', adapter: FMDFileInfo },
+  FMDFileType: { type: 'protobuf', adapter: FMDFileType },
+  FMDGet: { type: 'protobuf', adapter: FMDGet },
+  Header: { type: 'protobuf', adapter: Header },
+  QueryArguments: { type: 'protobuf', adapter: QueryArguments },
+  SendLog: { type: 'protobuf', adapter: SendLog },
+  SessionGetTime: { type: 'protobuf', adapter: SessionGetTime },
+  Sessions: { type: 'protobuf', adapter: Sessions },
+  Status: { type: 'protobuf', adapter: Status },
+  String: { type: 'protobuf', adapter: Str },
+  TimeInterval: { type: 'protobuf', adapter: TimeInterval },
+  Timestamp: { type: 'protobuf', adapter: Timestamp },
+  AlarmType: { type: 'protobuf', adapter: AlarmType },
+  AlarmMode: { type: 'protobuf', adapter: AlarmMode },
+  GroundMonitoringAlarmAckRequest: { type: 'protobuf', adapter: GroundMonitoringAlarmAckRequest },
+  OnBoardAlarmAckRequest: { type: 'protobuf', adapter: OnBoardAlarmAckRequest },
+  OnBoardAlarm: { type: 'protobuf', adapter: OnBoardAlarm },
+};

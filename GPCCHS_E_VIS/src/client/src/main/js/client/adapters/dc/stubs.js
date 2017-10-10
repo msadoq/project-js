@@ -19,6 +19,9 @@ const dcStatusStub = require('./dataControllerUtils/dcStatus.stub');
 const stringStub = require('./dataControllerUtils/string.stub');
 const timeIntervalStub = require('./dataControllerUtils/timeInterval.stub');
 const timestampStub = require('./dataControllerUtils/timestamp.stub');
+const groundMonitoringAlarmAckRequest = require('./dataControllerUtils/groundMonitoringAlarmAckRequest.stub');
+const onBoardAlarmAckRequest = require('./dataControllerUtils/onBoardAlarmAckRequest.stub');
+const onBoardAlarm = require('./dataControllerUtils/onBoardAlarm.stub');
 
 
 module.exports = Object.assign(
@@ -43,5 +46,8 @@ module.exports = Object.assign(
   dcStatusStub,
   stringStub,
   timeIntervalStub,
-  timestampStub
+  timestampStub,
+  groundMonitoringAlarmAckRequest,
+  onBoardAlarmAckRequest,
+  onBoardAlarm
 );

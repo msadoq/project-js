@@ -43,7 +43,7 @@ function getMonitoringState() {
 
 const getComObject = (comObject, timestamp, epName) => {
   switch (comObject) {
-    case 'groundMonitoringAlarm': {
+    case 'GroundMonitoringAlarm': {
       const value = getSinValue(timestamp, epName);
 
       return stubData.getGroundMonitoringAlarmProtobuf({

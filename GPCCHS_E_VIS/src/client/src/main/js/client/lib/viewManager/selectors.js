@@ -26,7 +26,7 @@ export function getEntryPointsByViewId(state, { viewId }) {
     if (!configuration) {
       return [];
     }
-    let formula = 'groundMonitoringAlarm';
+    let formula = 'GroundMonitoringAlarm';
     let epName = 'groundAlarmEP';
     if (type === constants.VM_VIEW_ONBOARDALARM) {
       formula = 'logbookEvent'; // event type for onboard alarm

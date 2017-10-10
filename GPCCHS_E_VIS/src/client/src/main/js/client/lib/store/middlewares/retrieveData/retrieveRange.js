@@ -39,7 +39,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
 
         for (let j = 0; j < missingIntervals.length; j += 1) {
           let queryId;
-          if (dataId.comObject === 'groundMonitoringAlarm') {
+          if (dataId.comObject === 'GroundMonitoringAlarm') {
             queryId = ipc.dc.requestAlarmQuery(
               tbdId,
               dataId,

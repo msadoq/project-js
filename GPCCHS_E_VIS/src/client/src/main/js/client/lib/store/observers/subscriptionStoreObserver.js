@@ -33,7 +33,7 @@ export default function makeSubscriptionStoreObserver(store) {
     for (let i = 0; i < toSubscribe.length; i += 1) {
       const { tbdId, dataId } = toSubscribe[i];
       // Sends a different request in case of alarm
-      if (dataId.comObject === 'groundMonitoringAlarm') {
+      if (dataId.comObject === 'GroundMonitoringAlarm') {
         requestAlarmSubscriptionAdd(tbdId, dataId, constants.GROUND_TYPE,
           constants.ALARM_MODE_ALL);
       } else if (dataId.comObject === 'onboardAlarm') {
@@ -47,7 +47,7 @@ export default function makeSubscriptionStoreObserver(store) {
     for (let j = 0; j < toUnsubscribe.length; j += 1) {
       const { tbdId, dataId } = toUnsubscribe[j];
       // Sends a different request in case of alarm
-      if (dataId.comObject === 'groundMonitoringAlarm') {
+      if (dataId.comObject === 'GroundMonitoringAlarm') {
         requestAlarmSubscriptionDelete(tbdId, dataId, constants.GROUND_TYPE,
           constants.ALARM_MODE_ALL);
       } else if (dataId.comObject === 'onboardAlarm') {

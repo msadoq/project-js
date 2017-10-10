@@ -199,7 +199,7 @@ function dcCall() {
   _each(subscriptions, (subscription) => {
     logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
 
-    if (subscription.dataId.comObject === 'GroundMonitoringAlarm') {
+    if (subscription.dataId.comObject === 'GroundMonitoringAlarmAckRequest') {
       sendAlarmData.pubsub(
         subscription.queryId,
         subscription.dataId,
@@ -215,7 +215,7 @@ function dcCall() {
   _each(queries, (query) => {
     logger.debug(`push archive data for ${query.dataId.parameterName}`);
 
-    if (query.dataId.comObject === 'GroundMonitoringAlarm') {
+    if (query.dataId.comObject === 'GroundMonitoringAlarmAckRequest') {
       sendAlarmData.archive(
         query.queryId,
         query.dataId,

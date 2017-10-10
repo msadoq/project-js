@@ -43,7 +43,7 @@ function getMonitoringState() {
 
 const getComObject = (comObject, timestamp, epName) => {
   switch (comObject) {
-    case 'GroundMonitoringAlarm': {
+    case 'GroundMonitoringAlarmAckRequest': {
       const value = getSinValue(timestamp, epName);
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
@@ -67,7 +67,7 @@ const getComObject = (comObject, timestamp, epName) => {
           ],
           // isNominal: false
         }),
-        ackRequest: stubData.getAckRequestProtobuf({
+        /* ackRequest: stubData.getAckRequestProtobuf({
           ackRequestDate: timestamp,
           systemDate: timestamp,
           ack: stubData.getAckProtobuf({
@@ -75,7 +75,8 @@ const getComObject = (comObject, timestamp, epName) => {
             acknowledger: 'BLOB',
           }),
           comment: 'J\'aime les guimauves au miel',
-        }),
+        }), */
+        ackRequest: 'toreplace',
         parameterName: 'MyParameterStubName',
         parameterType: 'MyParameterStubType',
         satellite: 'MyStubSatelliteUnicorn',

@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 import _omit from 'lodash/omit';
 
 import cleanCurrentViewData from './cleanViewData';
@@ -134,4 +136,22 @@ export default function groundAlarmViewData(state = {}, action) {
 
 export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
-export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
+export const getViewData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
+
+export const getData = createSelector(
+  getViewData,
+  data => _.flatMap((lineId) => {
+    const alarm = data.data[lineId];
+    const transitions = _.isEmpty(alarm.transitions) ? [] : [
+      { type: 'transition_header' },
+      ...alarm.transitions.map(transition => ({
+        type: 'transition',
+        data: transition,
+      })),
+    ];
+    return [
+      { type: 'alarm', data: _.omit('transitions', alarm) },
+      ...transitions,
+    ];
+  }, data.lines)
+);

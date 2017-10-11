@@ -28,7 +28,7 @@ import mimicViewSchema from './MimicView/MimicView.schema.json';
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import historyViewSchema from './HistoryView/HistoryView.schema.json';
 import packetViewSchema from './PacketView/PacketView.schema.json';
-// import groundAlarmViewSchema from './GroundAlarmView/GroundAlarm.schema.json';
+import groundAlarmViewSchema from './GroundAlarmView/GroundAlarmView.schema.json';
 // import onboardAlarmViewSchema from './OnboardAlarmView/OnboardAlarm.schema.json';
 
 import plotViewModule from './PlotView';
@@ -87,7 +87,7 @@ const list = {
     dataSelectors: mimicViewDataSelectors,
   },
   [constants.VM_VIEW_GROUNDALARM]: {
-    // schema: groundAlarmViewSchema,
+    schema: groundAlarmViewSchema,
     viewModule: groundAlarmViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: groundAlarmViewData,

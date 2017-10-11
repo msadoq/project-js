@@ -187,4 +187,5 @@ function icontains(value, expected) {
 
 module.exports = {
   applyFilters: (data, filters = []) => !filters.find(f => !applyFilter(data, f)),
+  applyFilter,
 };

@@ -32,7 +32,6 @@ export default class YAxis extends Component {
         yAxis: PropTypes.shape().isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
-        yAccessor: PropTypes.func,
       })
     ).isRequired,
     showLabels: PropTypes.bool,
@@ -54,6 +53,7 @@ export default class YAxis extends Component {
       underline: PropTypes.bool,
       size: PropTypes.number,
     }),
+    formatAsDate: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -79,6 +79,7 @@ export default class YAxis extends Component {
       underline: false,
       size: 11,
     },
+    formatAsDate: false,
   }
 
   componentDidMount() {
@@ -216,10 +217,17 @@ export default class YAxis extends Component {
       xAxesAt,
       logarithmic,
       extents,
+      formatAsDate,
     } = this.props;
 
-    const tickFormat = showTicks ?
-      this.memoizeFormatter(format) : () => null;
+    let tickFormat = () => null;
+    if (showTicks) {
+      if (formatAsDate) {
+        tickFormat = this.memoizeTickFormat(extents[1] - extents[0]);
+      } else {
+        tickFormat = this.memoizeFormatter(format);
+      }
+    }
 
     // if showGrid & master axis, axis must be wider
     const tickSize = index === 0 && showGrid ?

@@ -4,13 +4,9 @@ import styles from './GrizzlyChart.css';
 export default class CurrentCursorCanvas extends PureComponent {
 
   static propTypes = {
-    yAxesAt: PropTypes.string.isRequired,
-    margin: PropTypes.number.isRequired,
-    top: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    // current: PropTypes.number.isRequired,
-    // xScale: PropTypes.func.isRequired,
+    divStyle: PropTypes.shape().isRequired,
+    current: PropTypes.number.isRequired,
+    xScale: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -22,46 +18,38 @@ export default class CurrentCursorCanvas extends PureComponent {
   }
 
   draw = () => {
-    /*
     const {
       current,
       xScale,
-      height,
-      width,
+      divStyle,
     } = this.props;
-    */
-    // draw current point
+
+    const x = xScale(current);
+    const ctx = this.el.getContext('2d');
+    ctx.strokeStyle = '#1E2';
+    ctx.fillStyle = '#1E2';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.clearRect(0, 0, divStyle.width, divStyle.height);
+    ctx.moveTo(x, divStyle.height);
+    ctx.lineTo(x, 0);
+    ctx.stroke();
   }
 
   assignEl = (el) => { this.el = el; }
 
   render() {
     const {
-      height,
-      width,
-      yAxesAt,
-      top,
-      margin,
+      divStyle,
     } = this.props;
-
-    const style = {};
-    // horizontal position
-    if (yAxesAt === 'left') {
-      style.left = margin;
-    } else if (yAxesAt === 'right') {
-      style.right = margin;
-    }
-
-    // vertical position
-    style.top = top;
 
     return (
       <canvas
         ref={this.assignEl}
-        height={height}
-        width={width}
+        height={divStyle.height}
+        width={divStyle.width}
         className={styles.canvas}
-        style={style}
+        style={divStyle}
       />
     );
   }

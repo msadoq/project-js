@@ -77,12 +77,9 @@ export default class Content extends PureComponent {
       addMessage,
       pageId,
     } = this.props;
-    const data = e.dataTransfer.getData('text/plain');
+    const data = e.dataTransfer.getData('application/json');
     const content = JSON.parse(data);
-    const filePath = path.join(
-      global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-      _get(content, 'filepath', '') || _get(content, 'filePath', '')
-    );
+    const filePath = _get(content, 'filepath', '') || _get(content, 'filePath', '');
 
     const type = getDropItemType(content.mimeType);
     _.cond([
@@ -122,7 +119,12 @@ export default class Content extends PureComponent {
 
     if (!views.length) {
       return (
-        <div className={classnames('w100', styles.noPage)}><br /><br />No view yet ...</div> // TODO boxmodel in Window.js
+        <DroppableContainer onDrop={this.onDrop} style={droppableContainerStyle}>
+          <MessagesContainer
+            containerId={pageId}
+          />
+          <div className={classnames('w100', styles.noPage)}><br /><br />No view yet ...</div> { /* TODO boxmodel in Window.js */ }
+        </DroppableContainer>
       );
     }
 

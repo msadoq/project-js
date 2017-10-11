@@ -72,7 +72,7 @@ const getComObject = (comObject, timestamp, epName) => {
           systemDate: timestamp,
           ack: stubData.getAckProtobuf({
             ackDate: timestamp,
-            acknowledger: 'BLOB',
+            // acknowledger: bLOB.encode(user.encodeRaw(data.acknowledger)),
           }),
           comment: 'J\'aime les guimauves au miel',
         }), */

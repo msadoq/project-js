@@ -3,8 +3,10 @@ import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import GroundAlarmView from './GroundAlarmView';
-import { getAlarmDomain, getAlarmTimeline } from '../../store/configurationSelectors';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../store/configurationSelectors';
 import { getData } from '../../store/dataReducer';
+
+import * as actions from '../../store/actions';
 
 import withStub from '../../../../windowProcess/common/hoc/withStub';
 
@@ -50,9 +52,20 @@ const mapStateToProps = createStructuredSelector({
   data: getData,
   alarmDomain: getAlarmDomain,
   alarmTimeline: getAlarmTimeline,
+  alarmMode: getAlarmMode,
 });
 
-const GroundAlarmViewContainer = connect(mapStateToProps)(GroundAlarmViewStubbed);
+const mapDispatchToProps = {
+  updateMode: actions.updateAlarmMode,
+  updateTimeline: actions.updateAlarmTimeline,
+  updateDomain: actions.updateAlarmDomain,
+};
+
+
+const GroundAlarmViewContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GroundAlarmViewStubbed);
 
 GroundAlarmViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

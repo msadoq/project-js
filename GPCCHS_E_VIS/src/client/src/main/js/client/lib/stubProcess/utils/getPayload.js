@@ -67,7 +67,7 @@ const getComObject = (comObject, timestamp, epName) => {
           ],
           // isNominal: false
         }),
-        /* ackRequest: stubData.getAckRequestProtobuf({
+        ackRequest: stubData.getAckRequestProtobuf({
           ackRequestDate: timestamp,
           systemDate: timestamp,
           ack: stubData.getAckProtobuf({
@@ -75,8 +75,7 @@ const getComObject = (comObject, timestamp, epName) => {
             // acknowledger: bLOB.encode(user.encodeRaw(data.acknowledger)),
           }),
           comment: 'J\'aime les guimauves au miel',
-        }), */
-        ackRequest: 'toreplace',
+        }),
         parameterName: 'MyParameterStubName',
         parameterType: 'MyParameterStubType',
         satellite: 'MyStubSatelliteUnicorn',

@@ -11,7 +11,10 @@ const getGroundMonitoringAlarmAckRequest = override => applyOverride({
 const getGroundMonitoringAlarmAckRequestProtobuf = override =>
   Builder.encode(Adapter.encode(getGroundMonitoringAlarmAckRequest(override))).finish();
 
+const getGroundMonitoringAlarmAckRequestDeProtobuf = proto => Adapter.decode(Builder.decode(proto));
+
 module.exports = {
   getGroundMonitoringAlarmAckRequest,
   getGroundMonitoringAlarmAckRequestProtobuf,
+  getGroundMonitoringAlarmAckRequestDeProtobuf,
 };

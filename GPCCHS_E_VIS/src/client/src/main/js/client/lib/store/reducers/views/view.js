@@ -52,6 +52,9 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_TOGGLE_LEGEND,
     types.WS_VIEW_UPDATE_DIMENSIONS,
     types.WS_VIEW_REMOVE_ENTRYPOINT,
+    types.WS_VIEW_UPDATE_ALARMDOMAIN,
+    types.WS_VIEW_UPDATE_ALARMTIMELINE,
+    types.WS_VIEW_UPDATE_ALARMMODE,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     if (!stateView.isModified) {

@@ -3,7 +3,7 @@ import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import GroundAlarmView from './GroundAlarmView';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../store/configurationSelectors';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../store/configurationReducer';
 import { getData } from '../../store/dataReducer';
 
 import * as actions from '../../store/actions';
@@ -50,16 +50,16 @@ const GroundAlarmViewStubbed = stub(GroundAlarmView);
 
 const mapStateToProps = createStructuredSelector({
   data: getData,
-  alarmDomain: getAlarmDomain,
-  alarmTimeline: getAlarmTimeline,
-  alarmMode: getAlarmMode,
+  domain: getAlarmDomain,
+  timeline: getAlarmTimeline,
+  mode: getAlarmMode,
 });
 
-const mapDispatchToProps = {
-  updateMode: actions.updateAlarmMode,
-  updateTimeline: actions.updateAlarmTimeline,
-  updateDomain: actions.updateAlarmDomain,
-};
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  updateMode: mode => dispatch(actions.updateAlarmMode(viewId, mode)),
+  updateTimeline: timeline => dispatch(actions.updateAlarmTimeline(viewId, timeline)),
+  updateDomain: domain => dispatch(actions.updateAlarmDomain(viewId, domain)),
+});
 
 
 const GroundAlarmViewContainer = connect(

@@ -324,7 +324,8 @@ class GPCCHS_launcher(object):
                 xmlErr, dcConfFileContent = self.setXmlConfValueInFileContent(dcConfFileContent,searchedBalise,searchedBaliseContent)
                 if xmlErr == None: 
                     searchedBalise = ['CONFIG','DataControllerConfig','debugMode']
-                    searchedBaliseContent = repr(self._debug)
+                    # 'True' is not taken into account by GPCCDC, it needs to be lowercase
+                    searchedBaliseContent = repr(self._debug).lower()
                     xmlErr, dcConfFileContent = self.setXmlConfValueInFileContent(dcConfFileContent,searchedBalise,searchedBaliseContent)
                     if xmlErr == None:
                         # Look for the balise insertion point to put the launcher one right after

@@ -17,7 +17,7 @@ const archiveController = require('./archiveController');
 const makePubSubController = require('./pubSubController');
 
 const alarmArchiveController = require('./alarmArchiveController');
-// const alarmPubSubController = require('./alarmPubSubController');
+const makeAlarmPubSubController = require('./alarmPubSubController');
 
 const { add: addMessage } = require('../../../store/actions/messages');
 
@@ -25,6 +25,7 @@ const { get, remove } = require('../../models/registeredArchiveQueriesSingleton'
 const { getStore } = require('../../store');
 
 const pubSubController = makePubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
+const alarmPubSubController = makeAlarmPubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
 
 const controllers = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,
@@ -44,8 +45,8 @@ const controllers = {
   [constants.MESSAGETYPE_ALARM_ARCHIVE_DATA]: (args) => {
     alarmArchiveController(args, getStore, { get });
   },
-  [constants.MESSAGETYPE_ALARM_PUBSUB_DATA]: (/* args */) => {
-    // alarmPubSubController(args, getStore, { get });
+  [constants.MESSAGETYPE_ALARM_PUBSUB_DATA]: (args) => {
+    alarmPubSubController(args, getStore);
   },
 };
 
@@ -70,7 +71,7 @@ module.exports = function dcController() {
     }
     const fn = controllers[messageType];
     if (!fn) {
-      return logger.silly(`invalid message received (unknown messageType) '${messageType}'`);
+      return logger.warning(`invalid message received (unknown messageType) '${messageType}'`);
     }
 
     logger.silly(`running '${messageType}'`);

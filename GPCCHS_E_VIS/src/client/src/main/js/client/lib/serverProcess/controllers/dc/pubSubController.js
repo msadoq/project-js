@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import flattenDataId from '../../../common/flattenDataId';
 
 const { incomingPubSub } = require('../../../store/actions/incomingData');
-const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
+const logger = require('../../../common/logManager')('controllers:onTimebasedPubSubData');
 const { decode } = require('../../../utils/adapters');
 const { add: addMessage } = require('../../../store/actions/messages');
 

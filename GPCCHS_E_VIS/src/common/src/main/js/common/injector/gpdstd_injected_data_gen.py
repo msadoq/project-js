@@ -757,6 +757,27 @@ def int_to_raw(i):
     '''
     return unpack('<I', pack('<i', i))[0]
 
+
+def monitoringStateGenerator(t):
+    '''
+    Generate the monitoring state with the right type
+    '''
+    ret_val = "informational"
+    nb_states = 10
+    if (t%nb_states) == 1:
+        ret_val = "alarm"
+    if (t%nb_states) == 2:
+        ret_val = "critical"
+    if (t%nb_states) == 3:
+        ret_val = "out of range"
+    if (t%nb_states) == 4:
+        ret_val = "severe"
+    if (t%nb_states) == 5:
+        ret_val = "danger"
+    if (t%nb_states) == 6:
+        ret_val = "warning"
+    return ret_val
+
    
 if __name__ == '__main__':    
 

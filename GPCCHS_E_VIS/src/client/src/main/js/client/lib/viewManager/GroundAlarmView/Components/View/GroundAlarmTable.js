@@ -5,7 +5,7 @@ import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouse
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
 
-import styles from './Table.css';
+import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 

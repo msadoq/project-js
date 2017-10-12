@@ -8,6 +8,7 @@ import { getData } from '../../store/dataReducer';
 
 import * as actions from '../../store/actions';
 
+import { getDomains } from '../../../../store/reducers/domains';
 import withStub from '../../../../windowProcess/common/hoc/withStub';
 
 const append = _.curry((val, t) => _.concat(t, val));
@@ -51,7 +52,9 @@ const GroundAlarmViewStubbed = stub(GroundAlarmView);
 const mapStateToProps = createStructuredSelector({
   data: getData,
   domain: getAlarmDomain,
+  availableDomains: getDomains,
   timeline: getAlarmTimeline,
+  // availableTimelines: getTimelines,
   mode: getAlarmMode,
 });
 

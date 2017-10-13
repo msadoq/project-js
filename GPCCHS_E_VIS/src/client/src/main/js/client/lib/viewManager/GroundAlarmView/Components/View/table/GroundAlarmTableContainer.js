@@ -2,13 +2,10 @@ import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import GroundAlarmView from './GroundAlarmView';
-import { getAlarmTimeline } from '../../store/configurationReducer';
-import { getData } from '../../store/dataReducer';
+import GroundAlarmTable from './GroundAlarmTable';
+import { getData } from '../../../store/dataReducer';
 
-import * as actions from '../../store/actions';
-
-import withStub from '../../../../windowProcess/common/hoc/withStub';
+import withStub from '../../../../../windowProcess/common/hoc/withStub';
 
 const append = _.curry((val, t) => _.concat(t, val));
 
@@ -46,25 +43,16 @@ const stub = withStub({
   },
 });
 
-const GroundAlarmViewStubbed = stub(GroundAlarmView);
+const GroundAlarmTableStubbed = stub(GroundAlarmTable);
 
 const mapStateToProps = createStructuredSelector({
   data: getData,
-  timeline: getAlarmTimeline,
-  // availableTimelines: getTimelines,
 });
 
-const mapDispatchToProps = (dispatch, { viewId }) => ({
-  updateTimeline: timeline => dispatch(actions.updateAlarmTimeline(viewId, timeline)),
-});
+const GroundAlarmTableContainer = connect(mapStateToProps)(GroundAlarmTableStubbed);
 
-const GroundAlarmViewContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GroundAlarmViewStubbed);
-
-GroundAlarmViewContainer.propTypes = {
+GroundAlarmTableContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
 };
 
-export default GroundAlarmViewContainer;
+export default GroundAlarmTableContainer;

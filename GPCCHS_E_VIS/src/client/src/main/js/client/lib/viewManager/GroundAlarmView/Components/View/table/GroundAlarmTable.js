@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
-import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
+import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
+import withDimensions from '../../../../../windowProcess/common/hoc/withDimensions';
+import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
 
 import styles from './GroundAlarmTable.css';
 
@@ -28,7 +28,7 @@ const Table = ({
       {
         _.slice(position, displayedRows + position)(lines).map((line, i) => {
           const data = line.data;
-          const key = i;
+          const key = i; // TODO replace 'i' by a better key
           const columns = line.type === 'alarm' ? cols : transitionsCols;
           if (line.type === 'alarm' || line.type === 'transition') {
             return (

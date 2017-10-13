@@ -61,6 +61,9 @@ GPDSTD_ArgsParser.add_argument("--valueformula","-f",default=None,nargs=2,action
 GPDSTD_ArgsParser.add_argument("--stateformula","-s",default=None,nargs=2,action='append',
                               help="Define a formula to compute parameter monitoringState, and the numbers of parameters for which it shall be used. The number of times a forumla is used is computed accroding to the content of tmpacket file content or --agg options values if used.")
 
+# Create a global variable with the number of iteration (number of times the whole set of aggregations is written in the output file)
+GPDSTD_NbIterations = 1
+
 
 def uidToOid(uid):
     '''
@@ -760,22 +763,16 @@ def int_to_raw(i):
 
 def monitoringStateGenerator(t):
     '''
-    Generate the monitoring state with the right type
+    Generate the monitoring state
     '''
-    ret_val = "informational"
-    nb_states = 10
+    ret_val = "nominal"
+    nb_states = GPDSTD_NbIterations
+    if (t%nb_states) == 0:
+        ret_val = "warning"
     if (t%nb_states) == 1:
-        ret_val = "alarm"
+        ret_val = "danger"
     if (t%nb_states) == 2:
         ret_val = "critical"
-    if (t%nb_states) == 3:
-        ret_val = "out of range"
-    if (t%nb_states) == 4:
-        ret_val = "severe"
-    if (t%nb_states) == 5:
-        ret_val = "danger"
-    if (t%nb_states) == 6:
-        ret_val = "warning"
     return ret_val
 
    
@@ -783,6 +780,9 @@ if __name__ == '__main__':
 
     #Parse arguments of the command line
     args, unknown = GPDSTD_ArgsParser.parse_known_args()
+    
+    # Set the number of iterations in the global variable
+    GPDSTD_NbIterations = args.niter
     
     # Read the Reporting and Telemetry packet catalogs
     #print "Args.agg: "  + repr(args.agg)

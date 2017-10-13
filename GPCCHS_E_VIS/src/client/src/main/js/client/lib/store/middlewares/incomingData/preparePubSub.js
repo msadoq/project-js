@@ -21,7 +21,9 @@ const logger = require('../../../common/logManager')('middleware:preparePubSub')
 
 const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
-  if (action.type !== types.INCOMING_PUBSUB_DATA) {
+  if (action.type !== types.INCOMING_PUBSUB_DATA
+    && action.type !== types.INCOMING_PUBSUBALARM_DATA
+  ) {
     return nextAction;
   }
 

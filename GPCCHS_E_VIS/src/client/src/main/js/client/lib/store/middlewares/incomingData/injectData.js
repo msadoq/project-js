@@ -34,8 +34,8 @@ const injectData = (timing) => {
       newExpectedRangeIntervals,
       dataToInject,
       { HistoryViewConfiguration: state.HistoryViewConfiguration,
-        GroundAlarmConfiguration: state.GroundAlarmViewConfiguration,
-        OnboardAlarmConfiguration: state.OnboardAlarmViewConfiguration },
+        GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
+        OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
       getCurrentVisuWindow(state)
     );
 

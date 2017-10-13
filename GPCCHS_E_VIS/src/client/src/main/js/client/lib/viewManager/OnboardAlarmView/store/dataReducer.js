@@ -72,7 +72,7 @@ export default function onboardViewData(state = {}, action) {
         return state;
       }
       // Gets configurationfor history views
-      const configuration = configurations.GroundAlarmConfiguration;
+      const configuration = configurations.GroundAlarmViewConfiguration;
 
       // since now, state will changed
       let newState = state;

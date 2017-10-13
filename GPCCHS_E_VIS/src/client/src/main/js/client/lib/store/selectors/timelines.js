@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { getPage } from '../reducers/pages';
+import { getPage, getPageIdByViewId } from '../reducers/pages';
 import { getTimebarMasterId } from '../reducers/timebars';
 import { getFocusedPage } from './pages';
 import { getTimebarTimelinesSelector } from './timebars';
@@ -18,6 +18,12 @@ export const getPageTimelines = createSelector(
   getState,
   getPage,
   (state, page = {}) => getTimebarTimelinesSelector(state, { timebarUuid: page.timebarUuid })
+);
+
+export const getTimelinesByViewId = createSelector(
+  getState,
+  getPageIdByViewId,
+  (state, pageId) => getPageTimelines(state, { pageId })
 );
 
 export const getMasterTimelineById = createSelector(

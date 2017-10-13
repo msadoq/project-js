@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
-import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
+import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
+import withDimensions from '../../../../../windowProcess/common/hoc/withDimensions';
+import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
 
-import styles from './Table.css';
+import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
@@ -28,19 +28,19 @@ const Table = ({
       {
         _.slice(position, displayedRows + position)(lines).map((line, i) => {
           const data = line.data;
-          const key = i;
+          const key = i; // TODO replace 'i' by a better key
           const columns = line.type === 'alarm' ? cols : transitionsCols;
           if (line.type === 'alarm' || line.type === 'transition') {
             return (
               <tr
                 key={key}
                 className={line.type === 'transition' ? 'transition' : 'alarm'}
-                style={{ width: '100%' }}
+                style={{ width: '100%', height: `${rowHeight}px` }}
               >
                 {
                   columns.map(col => (
                     <td
-                      style={{ height: `${rowHeight}px` }}
+                      style={{ }}
                       key={col}
                     >
                       {data[col]}
@@ -51,7 +51,7 @@ const Table = ({
             );
           }
           return (
-            <tr className="transition" key={key}>
+            <tr style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} className="transition" key={key}>
               {
                 transitionsCols.map(col => (
                   <th key={col}>{col}</th>
@@ -122,7 +122,9 @@ class TableView extends React.Component {
     Math.max(0, (this.props.data.lines.length - this.getNbDisplayedElems(props)) + 1)
   )
 
-  getNbDisplayedElems = (props = this.props) => Math.floor(props.containerHeight / props.rowHeight)
+  getNbDisplayedElems = (props = this.props) => (
+    Math.floor(props.containerHeight / props.rowHeight) - 1
+  )
 
   getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
 
@@ -140,7 +142,7 @@ class TableView extends React.Component {
         className={classnames('GroundAlarmView', styles.container)}
         style={style}
       >
-        <div style={{ top: `calc(${this.getScrollBarPosition()}px + 33px)` }} className={styles.scrollbar} />
+        <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
           transitionsCols={this.props.data.transitionsCols}
           scrollBarPosition={this.getScrollBarPosition()}

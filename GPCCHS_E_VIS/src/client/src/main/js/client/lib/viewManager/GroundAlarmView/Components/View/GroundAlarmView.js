@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import GroundAlarmFilters from './GroundAlarmFilters';
+import GroundAlarmTable from './table/GroundAlarmTableContainer';
 
-import Table from './Table';
-
-/* eslint-disable react/prefer-stateless-function */
-class GroundAlarmView extends React.Component {
-  render() {
-    return (
-      <div style={{ height: '100%', width: '100%' }}>
-        <Table {...this.props} />
-      </div>
-    );
-  }
-}
+const GroundAlarmView = props => (
+  <div style={{ height: '100%', width: '100%' }}>
+    <GroundAlarmFilters viewId={props.viewId} />
+    <GroundAlarmTable viewId={props.viewId} />
+  </div>
+);
+GroundAlarmView.propTypes = {
+  viewId: PropTypes.string.isRequired,
+};
 
 export default GroundAlarmView;

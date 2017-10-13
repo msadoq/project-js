@@ -1,4 +1,4 @@
-import { getPageTimelines, getFocusedPageTimelines, getMasterTimelineById } from './timelines';
+import { getPageTimelines, getFocusedPageTimelines, getMasterTimelineById, getTimelinesByViewId } from './timelines';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {
   const state = {
@@ -7,6 +7,8 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
     },
     pages: {
       p1: {
+        uuid: 'p1',
+        views: ['v1'],
         timebarUuid: '__tb1',
       },
     },
@@ -32,6 +34,14 @@ describe('viewManager/PlotView/store/configurationSelectors', () => {
     });
     test('returns nothing when pageId is unknown', () => {
       expect(getPageTimelines(state, { pageId: 'unknownPageId' })).toEqual([]);
+    });
+  });
+  describe('getTimelinesByViewId', () => {
+    test('returns view timelines', () => {
+      expect(getTimelinesByViewId(state, { viewId: 'v1' })).toEqual([2, 1]);
+    });
+    test('return nothing when viewId is unknown', () => {
+      expect(getTimelinesByViewId(state, { viewId: 'unknown' })).toEqual([]);
     });
   });
   describe('getFocusedPageTimelines', () => {

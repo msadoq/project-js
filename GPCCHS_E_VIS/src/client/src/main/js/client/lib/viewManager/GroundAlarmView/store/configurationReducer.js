@@ -1,4 +1,8 @@
+import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
+
 import * as types from '../../../store/types';
+import { getConfigurationByViewId } from '../../../viewManager';
 
 // domainAlarm: '*', sessionAlarm: '*'
 export default (stateConf = {}, action) => {
@@ -15,15 +19,25 @@ export default (stateConf = {}, action) => {
       return { ...stateConf, alarmDomain: action.payload.domainName };
     case types.WS_VIEW_UPDATE_ALARMTIMELINE:
       return { ...stateConf, alarmTimeline: action.payload.timelineName };
-    case types.WS_VIEW_UPDATE_ALARMMODE:
+    case types.WS_VIEW_UPDATE_ALARMMODE: {
       return { ...stateConf, alarmMode: action.payload.mode };
+    }
     default:
       return stateConf;
   }
 };
 
-export const getAlarmDomain = (state, { viewId }) =>
-  state.GroundAlarmViewConfiguration[viewId].alarmDomain;
+export const getAlarmMode = createSelector(
+  getConfigurationByViewId,
+  _.get('alarmMode')
+);
 
-export const getAlarmTimeline = (state, { viewId }) =>
-  state.GroundAlarmViewConfiguration[viewId].alarmTimeline;
+export const getAlarmDomain = createSelector(
+  getConfigurationByViewId,
+  _.get('alarmDomain')
+);
+
+export const getAlarmTimeline = createSelector(
+  getConfigurationByViewId,
+  _.get('alarmTimeline')
+);

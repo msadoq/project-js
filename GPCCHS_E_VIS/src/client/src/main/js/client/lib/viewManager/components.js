@@ -27,7 +27,7 @@ const list = {
     getEditorComponent: () => require('./MimicView/Components/Editor/MimicEditorContainer'),
   },
   [constants.VM_VIEW_GROUNDALARM]: {
-    getViewComponent: () => require('./GroundAlarmView/Components/View/GroundAlarmViewContainer'),
+    getViewComponent: () => require('./GroundAlarmView/Components/View/GroundAlarmView'),
     getEditorComponent: () =>
       require('./GroundAlarmView/Components/Editor/GroundAlarmEditorContainer'),
   },

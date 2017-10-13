@@ -1,0 +1,13 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/OnBoardAlarm.proto";
+import "ackRequest/AckRequest.proto";
+
+message OnBoardAlarmAckRequest {
+    extensions 6 to 106;
+    optional string                         oid = 1;
+    optional OnBoardAlarm                   onboardAlarm = 2;
+    optional ackRequest.protobuf.AckRequest ackRequest = 3;
+    optional string                         satellite = 4;
+    optional string                         telemetryType = 5;
+}

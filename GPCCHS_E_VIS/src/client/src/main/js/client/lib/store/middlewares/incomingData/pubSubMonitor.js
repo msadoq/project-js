@@ -14,7 +14,9 @@ const pubSubMonitor = (timing) => {
 
   return ({ dispatch }) => next => (action) => {
     const nextAction = next(action);
-    if (action.type !== types.INCOMING_PUBSUB_DATA) {
+    if (action.type !== types.INCOMING_PUBSUB_DATA
+      && action.type !== types.INCOMING_PUBSUBALARM_DATA
+    ) {
       return nextAction;
     }
 

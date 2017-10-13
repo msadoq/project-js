@@ -7,7 +7,9 @@ import executionMonitor from '../../../common/logManager/execution';
 
 const dumpBufferPubSub = () => () => next => (action) => {
   const nextAction = next(action);
-  if (action.type !== types.INCOMING_PUBSUB_DATA) {
+  if (action.type !== types.INCOMING_PUBSUB_DATA
+    && action.type !== types.INCOMING_PUBSUBALARM_DATA
+  ) {
     return nextAction;
   }
   const execution = executionMonitor('middleware:dumpBufferPubSub');

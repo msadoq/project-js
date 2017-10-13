@@ -1,0 +1,14 @@
+import "ccsds_mal/types.proto";
+
+package dataControllerUtils.protobuf;
+
+message OnBoardAlarm {
+    extensions 8 to 108;
+    optional ccsds_mal.protobuf.TIME    creationDate = 1;
+    optional ccsds_mal.protobuf.LONG    paramUid = 2;
+    optional ccsds_mal.protobuf.TIME    updateDate = 3;
+    optional ccsds_mal.protobuf.TIME    closingDate = 4;
+    optional ccsds_mal.protobuf.BOOLEAN hasAckRequest = 5;
+    optional ccsds_mal.protobuf.LONG    alarmId = 6;
+    optional ccsds_mal.protobuf.BOOLEAN isNominal = 7;
+}

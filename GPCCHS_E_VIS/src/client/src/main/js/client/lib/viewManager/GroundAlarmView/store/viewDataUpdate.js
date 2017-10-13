@@ -187,6 +187,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   let transitionNb = 0;
   // Loop on payload timestamps
   for (let i = 0; i < timestamps.length; i += 1) {
+    // TODO pgaucher remove this when stub are operational
     const currentValue = tbdIdPayload[timestamps[i]];
     const timestamp = timestamps[i];
     // TODO do we have to check creation date to validate timestamp ?
@@ -225,6 +226,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
         ackState = constants.ALARM_ACKSTATE_ACQUITED;
       }
     }
+
     const valueToInsert = {
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),
@@ -233,11 +235,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       acknowledgementState: ackState,
       duration: groundAlarm.closingDate
         ? convertData({ type: 'duration',
-          value: groundAlarm.closingDate - groundAlarm.creationDate })
+          value: groundAlarm.closingDate.value - groundAlarm.creationDate.value })
         : '-',
     };
     // Data from transitions table
-    if (currentValue.transitions.length) {
+    if (groundAlarm.transitions && groundAlarm.transitions.length) {
       const lastTransition = _last(groundAlarm.transitions);
       Object.assign(valueToInsert, {
         firstOccurence: convertData(groundAlarm.transitions[0].onboardDate),

@@ -1,3 +1,4 @@
+/* eslint-disable complexity, "DV6 TBC_CNES This function act as a switch case controller" */
 const { resolve } = require('path');
 const adapter = require('../utils/adapters');
 const stubs = require('../utils/stubs');
@@ -21,6 +22,7 @@ const isParameterSupported = require('./utils/isParameterSupported');
 const sendDomainData = require('./utils/sendDomainData');
 const sendPubSubData = require('./utils/sendPubSubData');
 const sendArchiveData = require('./utils/sendArchiveData');
+const sendAlarmData = require('./utils/sendAlarmData');
 const sendSessionData = require('./utils/sendSessionData');
 const sendFmdGet = require('./utils/sendFmdGet');
 const sendFmdCreate = require('./utils/sendFmdCreate');
@@ -148,6 +150,41 @@ const onHssMessage = (...args) => {
       }
       return pushSuccess(queryId);
     }
+    case constants.MESSAGETYPE_ALARM_QUERY: {
+      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      const alarmType = protobuf.decode('dc.dataControllerUtils.AlarmType', args[3]);
+      const alarmMode = protobuf.decode('dc.dataControllerUtils.AlarmMode', args[4]);
+      const interval = adapter.decode('dc.dataControllerUtils.TimeInterval', args[5]);
+      const queryKey = JSON.stringify({ dataId, alarmMode });
+
+      queries.push({ queryKey, queryId, dataId, alarmType, alarmMode, interval });
+      logger.silly('alarm query registered', dataId.parameterName, interval);
+
+      return pushSuccess(queryId);
+    }
+    case constants.MESSAGETYPE_ALARM_SUBSCRIPTION: {
+      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      const alarmType = protobuf.decode('dc.dataControllerUtils.AlarmType', args[3]).type;
+      const action = protobuf.decode('dc.dataControllerUtils.Action', args[4]).action;
+      const queryKey = JSON.stringify({ dataId, alarmType });
+
+      if (action === constants.SUBSCRIPTIONACTION_ADD) {
+        subscriptions[queryKey] = {
+          queryId,
+          dataId,
+          alarmType,
+        };
+        logger.debug('subscription added', queryKey);
+      }
+
+      if (action === constants.SUBSCRIPTIONACTION_DELETE) {
+        subscriptions = _omit(subscriptions, queryKey);
+        logger.debug('subscription removed', queryKey);
+      }
+
+      return pushSuccess(queryId);
+    }
+
     default:
       return pushError(queryId, `Unknown message type ${header.messageType}`);
   }
@@ -159,22 +196,44 @@ function dcCall() {
   // sendDcStatus(zmq); // TODO : replace with action to trigger from client GUI
 
   // pub/sub
-  _each(subscriptions, ({ queryId, dataId }) => {
-    logger.debug(`push pub/sub data for ${dataId.parameterName}`);
-    sendPubSubData(queryId, dataId, zmq);
+  _each(subscriptions, (subscription) => {
+    logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
+
+    if (subscription.dataId.catalog === 'alarm') {
+      sendAlarmData.pubsub(
+        subscription.queryId,
+        subscription.dataId,
+        subscription.alarmType,
+        zmq
+      );
+    } else {
+      sendPubSubData(subscription.queryId, subscription.dataId, zmq);
+    }
   });
 
   // queries
   _each(queries, (query) => {
     logger.debug(`push archive data for ${query.dataId.parameterName}`);
-    sendArchiveData(
-      query.queryKey,
-      query.queryId,
-      query.dataId,
-      query.interval,
-      query.queryArguments,
-      zmq
-    );
+
+    if (query.dataId.catalog === 'alarm') {
+      sendAlarmData.archive(
+        query.queryId,
+        query.dataId,
+        query.alarmType,
+        query.alarmMode,
+        query.interval,
+        zmq
+      );
+    } else {
+      sendArchiveData(
+        query.queryKey,
+        query.queryId,
+        query.dataId,
+        query.interval,
+        query.queryArguments,
+        zmq
+      );
+    }
   });
   queries = [];
 

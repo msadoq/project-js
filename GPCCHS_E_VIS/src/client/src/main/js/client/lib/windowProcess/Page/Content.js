@@ -77,7 +77,7 @@ export default class Content extends PureComponent {
       addMessage,
       pageId,
     } = this.props;
-    const data = e.dataTransfer.getData('application/json');
+    const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
     const filePath = _get(content, 'filepath', '') || _get(content, 'filePath', '');
 

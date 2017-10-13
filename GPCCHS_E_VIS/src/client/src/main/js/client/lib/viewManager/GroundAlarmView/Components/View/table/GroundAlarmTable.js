@@ -9,14 +9,17 @@ import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
+const COLS = ['parameterName', 'parameterType', 'satellite', 'duration'];
+const TRANSITION_COLS = ['onboardDate', 'groundDate', 'extractedValue', 'rawValue', 'monitoringState'];
+
 const Table = ({
-  lines, cols, transitionsCols, position, displayedRows, rowHeight,
+  lines, position, displayedRows, rowHeight,
 }) => (
   <table>
     <thead>
       <tr>
         {
-          cols.map(col => (
+          COLS.map(col => (
             <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
               {col}
             </th>
@@ -29,7 +32,7 @@ const Table = ({
         _.slice(position, displayedRows + position)(lines).map((line, i) => {
           const data = line.data;
           const key = i; // TODO replace 'i' by a better key
-          const columns = line.type === 'alarm' ? cols : transitionsCols;
+          const columns = line.type === 'alarm' ? COLS : TRANSITION_COLS;
           if (line.type === 'alarm' || line.type === 'transition') {
             return (
               <tr
@@ -53,7 +56,7 @@ const Table = ({
           return (
             <tr style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} className="transition" key={key}>
               {
-                transitionsCols.map(col => (
+                TRANSITION_COLS.map(col => (
                   <th key={col}>{col}</th>
                 ))
               }
@@ -67,11 +70,9 @@ const Table = ({
 
 Table.propTypes = {
   position: PropTypes.number,
-  cols: PropTypes.arrayOf(PropTypes.string).isRequired,
   lines: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
   })).isRequired,
-  transitionsCols: PropTypes.arrayOf(PropTypes.string).isRequired,
   rowHeight: PropTypes.number.isRequired,
   displayedRows: PropTypes.number.isRequired,
 };
@@ -81,14 +82,9 @@ Table.defaultProps = {
 
 class TableView extends React.Component {
   static propTypes = {
-    data: PropTypes.shape({
-      data: PropTypes.shape({}).isRequired,
-      cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-      transitionsCols: PropTypes.arrayOf(PropTypes.string).isRequired,
-      lines: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string.isRequired,
-      })).isRequired,
-    }).isRequired,
+    lines: PropTypes.arrayOf(PropTypes.shape({
+      type: PropTypes.string.isRequired,
+    })).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
     rowHeight: PropTypes.number,
@@ -119,7 +115,7 @@ class TableView extends React.Component {
   }
 
   getLastPosition = (props = this.props) => (
-    Math.max(0, (this.props.data.lines.length - this.getNbDisplayedElems(props)) + 1)
+    Math.max(0, (this.props.lines.length - this.getNbDisplayedElems(props)) + 1)
   )
 
   getNbDisplayedElems = (props = this.props) => (
@@ -144,12 +140,10 @@ class TableView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
-          transitionsCols={this.props.data.transitionsCols}
-          scrollBarPosition={this.getScrollBarPosition()}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}
-          {...this.props.data}
+          lines={this.props.lines}
         />
       </div>
     );

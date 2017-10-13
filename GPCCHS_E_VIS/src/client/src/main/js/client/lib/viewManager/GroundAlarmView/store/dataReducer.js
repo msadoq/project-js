@@ -138,7 +138,7 @@ export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
 export const getViewData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
 
-export const getData = createSelector(
+export const getDataLines = createSelector(
   getViewData,
   data => _.flatMap((lineId) => {
     const alarm = data.data[lineId];

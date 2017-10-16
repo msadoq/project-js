@@ -3,6 +3,8 @@ import _findIndex from 'lodash/findIndex';
 import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
+import _map from 'lodash/map';
+import _mapValues from 'lodash/mapValues';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
@@ -206,14 +208,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     //   continue;
     // }
     const masterTime = timestamp + ep.offset;
-    // Payload = {
-    // groundAlarm: {}
-    // ackRequest: {}
-    // parameterName: string
-    // parameterType: enum / string
-    // satellite: string
-    // telemetryType: string
-    // }
     const groundAlarm = currentValue.groundAlarm;
     if (!groundAlarm) {
       continue;
@@ -247,6 +241,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
         lastOccurence: convertData(lastTransition.onboardDate),
         rawValue: convertData(lastTransition.rawValue),
         physicalValue: convertData(lastTransition.extractedValue),
+        transitions: _map(groundAlarm.transitions, transition => (
+          _mapValues(transition, transitionProperty => (
+            convertData(transitionProperty)
+          ))
+        )),
       });
       // Update of transitionNb
       transitionNb += groundAlarm.transitions.length;

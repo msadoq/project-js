@@ -8,8 +8,8 @@ import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
-const COLS = ['parameterName', 'parameterType', 'satellite', 'duration'];
-const TRANSITION_COLS = ['onboardDate', 'groundDate', 'extractedValue', 'rawValue', 'monitoringState'];
+const COLS = ['parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
+const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
 const Table = ({
   lines, position, displayedRows, rowHeight,

@@ -8,7 +8,7 @@ import _mapValues from 'lodash/mapValues';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
-import * as constants from '../../constants';
+import * as constants from '../../../constants';
 
 /* ************************************
  * Add payloads in plot view data state
@@ -121,8 +121,8 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
     }
   } else if (alarmMode === constants.ALARM_MODE_TOACKNOWLEDGE) {
     // No addition in lines
-    if (value.acknowledgementState === constants.ALARM_ACKSTATE_NOACK
-    || value.acknowledgementState === constants.ALARM_ACKSTATE_ACQUITED) {
+    if (value.ackState === constants.ALARM_ACKSTATE_NOACK
+    || value.ackState === constants.ALARM_ACKSTATE_ACQUITED) {
       return state;
     }
   }
@@ -226,7 +226,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       parameterType: convertData(currentValue.parameterType),
       satellite: convertData(currentValue.satellite),
       telemetryType: convertData(currentValue.telemetryType),
-      acknowledgementState: ackState,
+      ackState,
       duration: groundAlarm.closingDate
         ? convertData({ type: 'duration',
           value: groundAlarm.closingDate.value - groundAlarm.creationDate.value })

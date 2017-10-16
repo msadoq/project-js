@@ -71,6 +71,7 @@ const Table = ({
 Table.propTypes = {
   position: PropTypes.number,
   lines: PropTypes.arrayOf(PropTypes.shape({
+    data: PropTypes.shape({}).isRequired,
     type: PropTypes.string.isRequired,
   })).isRequired,
   rowHeight: PropTypes.number.isRequired,
@@ -83,6 +84,7 @@ Table.defaultProps = {
 class TableView extends React.Component {
   static propTypes = {
     lines: PropTypes.arrayOf(PropTypes.shape({
+      data: PropTypes.shape({}).isRequired,
       type: PropTypes.string.isRequired,
     })).isRequired,
     containerWidth: PropTypes.number.isRequired,

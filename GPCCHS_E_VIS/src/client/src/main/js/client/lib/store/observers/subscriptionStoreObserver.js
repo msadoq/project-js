@@ -33,10 +33,10 @@ export default function makeSubscriptionStoreObserver(store) {
     for (let i = 0; i < toSubscribe.length; i += 1) {
       const { tbdId, dataId } = toSubscribe[i];
       // Sends a different request in case of alarm
-      if (dataId.comObject === 'GroundMonitoringAlarm') {
+      if (dataId.comObject === 'GroundMonitoringAlarmAckRequest') {
         requestAlarmSubscriptionAdd(tbdId, dataId, constants.GROUND_TYPE,
           constants.ALARM_MODE_ALL);
-      } else if (dataId.comObject === 'onboardAlarm') {
+      } else if (dataId.comObject === 'OnboardAlarmAckRequest') {
         requestAlarmSubscriptionAdd(tbdId, dataId, constants.ONBOARD_TYPE,
           constants.ALARM_MODE_ALL);
       } else {
@@ -47,10 +47,10 @@ export default function makeSubscriptionStoreObserver(store) {
     for (let j = 0; j < toUnsubscribe.length; j += 1) {
       const { tbdId, dataId } = toUnsubscribe[j];
       // Sends a different request in case of alarm
-      if (dataId.comObject === 'GroundMonitoringAlarm') {
+      if (dataId.comObject === 'GroundMonitoringAlarmAckRequest') {
         requestAlarmSubscriptionDelete(tbdId, dataId, constants.GROUND_TYPE,
          constants.ALARM_MODE_ALL);
-      } else if (dataId.comObject === 'onboardAlarm') {
+      } else if (dataId.comObject === 'OnboardAlarmAckRequest') {
         requestAlarmSubscriptionDelete(tbdId, dataId, constants.ONBOARD_TYPE,
           constants.ALARM_MODE_ALL);
       } else {

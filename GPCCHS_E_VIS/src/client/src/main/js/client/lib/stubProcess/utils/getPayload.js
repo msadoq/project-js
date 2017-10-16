@@ -48,7 +48,7 @@ const getComObject = (comObject, timestamp, epName) => {
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
         oid: `osef${Math.random() * 10000000}`,
-        groundAlarm: stubData.getGroundMonitoringAlarmProtobuf({
+        groundAlarm: {
           creationDate: timestamp - 100,
           // paramUid: null,
           updateDate: timestamp - 50,
@@ -64,14 +64,14 @@ const getComObject = (comObject, timestamp, epName) => {
             monitoringState: getMonitoringState(timestamp),
           }],
           // isNominal: false
-        }),
+        },
         ackRequest: {
           ackRequestDate: timestamp,
           systemDate: timestamp,
-          ack: stubData.getAckProtobuf({
+          ack: {
             ackDate: timestamp,
             // acknowledger: bLOB.encode(user.encodeRaw(data.acknowledger)),
-          }),
+          },
           comment: 'J\'aime les guimauves au miel',
         },
         parameterName: 'MyParameterStubName',

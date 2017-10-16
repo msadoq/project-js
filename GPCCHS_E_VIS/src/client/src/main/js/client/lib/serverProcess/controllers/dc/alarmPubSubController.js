@@ -54,7 +54,7 @@ const makeOnPubSubAlarmData = (timing) => {
       return;
     }
 
-    const payloadBuffers = Array.prototype.slice.call(args, 2);
+    const payloadBuffers = Array.prototype.slice.call(args, 4);
     // check payloads parity
     if (payloadBuffers.length % 2 !== 0) {
       logger.warn('payloads should be sent by (timestamp, payloads) peers');

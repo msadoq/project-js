@@ -2,12 +2,11 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
 import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
-import withDimensions from '../../../../../windowProcess/common/hoc/withDimensions';
 import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
 
 import styles from './GroundAlarmTable.css';
 
-const THEAD_DEFAULT_HEIGHT = 33; // in pixel
+const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
 const COLS = ['parameterName', 'parameterType', 'satellite', 'duration'];
 const TRANSITION_COLS = ['onboardDate', 'groundDate', 'extractedValue', 'rawValue', 'monitoringState'];
@@ -17,10 +16,10 @@ const Table = ({
 }) => (
   <table>
     <thead>
-      <tr>
+      <tr style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}>
         {
           COLS.map(col => (
-            <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
+            <th key={col}>
               {col}
             </th>
           ))
@@ -71,8 +70,8 @@ const Table = ({
 Table.propTypes = {
   position: PropTypes.number,
   lines: PropTypes.arrayOf(PropTypes.shape({
-    data: PropTypes.shape({}).isRequired,
-    type: PropTypes.string.isRequired,
+    data: PropTypes.shape({}),
+    type: PropTypes.string,
   })).isRequired,
   rowHeight: PropTypes.number.isRequired,
   displayedRows: PropTypes.number.isRequired,
@@ -84,8 +83,8 @@ Table.defaultProps = {
 class TableView extends React.Component {
   static propTypes = {
     lines: PropTypes.arrayOf(PropTypes.shape({
-      data: PropTypes.shape({}).isRequired,
-      type: PropTypes.string.isRequired,
+      data: PropTypes.shape({}),
+      type: PropTypes.string,
     })).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -153,7 +152,6 @@ class TableView extends React.Component {
 }
 
 export default _.compose(
-  withDimensions({ elementResize: true }),
   withBatchedSetState({ delay: 60 }), // throttled every 60ms
   withMouseWheelEvents()
 )(TableView);

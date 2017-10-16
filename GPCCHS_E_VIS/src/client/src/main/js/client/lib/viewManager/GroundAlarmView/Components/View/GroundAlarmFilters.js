@@ -5,8 +5,8 @@ import TimelineFilter from './filters/TimelineFilterContainer';
 import DomainFilter from './filters/DomainFilterContainer';
 import ModeFilter from './filters/ModeFilterContainer';
 
-const GroundAlarmFilters = ({ viewId }) => (
-  <div>
+const GroundAlarmFilters = ({ viewId, height }) => (
+  <div style={{ height: `${height}px` }} >
     <Col xs={4}>
       <TimelineFilter viewId={viewId} />
     </Col>
@@ -20,6 +20,7 @@ const GroundAlarmFilters = ({ viewId }) => (
 );
 GroundAlarmFilters.propTypes = {
   viewId: PropTypes.string.isRequired,
+  height: PropTypes.number.isRequired,
 };
 
 export default GroundAlarmFilters;

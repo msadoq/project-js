@@ -2,7 +2,13 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
+import _ from 'lodash/fp';
+
 import { getMimicViewData, getData } from './dataReducer';
+
+const getEntryPointsByViewId = (state, { viewId }) => (
+  _.get(`MimicViewConfiguration.${viewId}.entryPoints`, state)
+);
 
 const getCount = createSelector(
   getMimicViewData,
@@ -43,4 +49,5 @@ const getLastValue = createSelector(
 export default {
   getCount,
   getLastValue,
+  getEntryPointsByViewId,
 };

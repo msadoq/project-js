@@ -16,16 +16,12 @@ const onDcStatus = require('./onDcStatus');
 const archiveController = require('./archiveController');
 const makePubSubController = require('./pubSubController');
 
-const alarmArchiveController = require('./alarmArchiveController');
-const makeAlarmPubSubController = require('./alarmPubSubController');
-
 const { add: addMessage } = require('../../../store/actions/messages');
 
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
 
 const pubSubController = makePubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
-const alarmPubSubController = makeAlarmPubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
 
 const controllers = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,
@@ -42,12 +38,6 @@ const controllers = {
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,
   [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeData,
   [constants.MESSAGETYPE_DC_STATUS]: onDcStatus,
-  [constants.MESSAGETYPE_ALARM_ARCHIVE_DATA]: (args) => {
-    alarmArchiveController(args, getStore, { get });
-  },
-  [constants.MESSAGETYPE_ALARM_PUBSUB_DATA]: (args) => {
-    alarmPubSubController(args, getStore);
-  },
 };
 
 module.exports = function dcController() {

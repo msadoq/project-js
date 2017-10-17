@@ -8,6 +8,5 @@
   },
   "alarmDomain": "*",
   "alarmTimeline": "*",
-  "alarmMode": "ALL",
-  "entryPoints": []
+  "alarmMode": "ALL"
 }

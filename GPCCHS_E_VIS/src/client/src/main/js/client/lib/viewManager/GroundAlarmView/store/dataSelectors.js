@@ -2,7 +2,32 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
+
 import { getGroundAlarmViewData, getData } from './dataReducer';
+
+const getEntryPointsByViewId = (state, { viewId }) => {
+  // get configuration for session and domain
+  const configuration = state.GroundAlarmViewConfiguration[viewId];
+  if (!configuration) {
+    return [];
+  }
+
+  // if ('GroundAlarmViewConfiguration' === constants.VM_VIEW_ONBOARDALARM) {
+  //   formula = 'logbookEvent'; // event 'GroundAlarmViewConfiguration' for onboard alarm
+  //   epName = 'onboardAlarmEP';
+  // }
+
+  return [{
+    connectedData: {
+      domain: configuration.alarmDomain,
+      timeline: configuration.alarmTimeline,
+      formula: 'GroundMonitoringAlarmAckRequest',
+      // formula: 'alarm.alarm<GroundMonitoringAlarmAckRequest>',
+      // filter: configuration.filter,
+    },
+    name: 'groundAlarmEP',
+  }];
+};
 
 const getCount = createSelector(
   getGroundAlarmViewData,
@@ -48,8 +73,8 @@ const getLastValue = createSelector(
   }
 );
 
-
 export default {
+  getEntryPointsByViewId,
   getCount,
   getLastValue,
 };

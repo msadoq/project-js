@@ -2,7 +2,13 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
+import _ from 'lodash/fp';
+
 import { getTextViewData, getData } from './dataReducer';
+
+const getEntryPointsByViewId = (state, { viewId }) => (
+  _.get(`TextViewConfiguration.${viewId}.entryPoints`, state)
+);
 
 const getCount = createSelector(
   getTextViewData,
@@ -43,4 +49,5 @@ const getLastValue = createSelector(
 export default {
   getCount,
   getLastValue,
+  getEntryPointsByViewId,
 };

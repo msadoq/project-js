@@ -11,8 +11,9 @@ import expectedRangeIntervalMap from './expectedRangeIntervalMap';
 import expectedLastIntervalMap from './expectedLastIntervalMap';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
-import { getEntryPointsByViewId } from '../viewManager';
+import { getDataSelectors } from '../viewManager';
 import { get } from '../common/configurationManager';
+import { getViewType } from '../store/reducers/views';
 
 const perViewDataSelectors = {};
 export const getPerViewMap = createDeepEqualSelectorPerViewData(
@@ -23,7 +24,8 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
     _reduce(
       views,
       (map, { viewId, timebarUuid }) => {
-        const ep = getEntryPointsByViewId(state, { viewId });
+        const type = getViewType(state, { viewId });
+        const ep = getDataSelectors(type).getEntryPointsByViewId(state, { viewId });
         if (!ep || !ep.length) {
           return map;
         }

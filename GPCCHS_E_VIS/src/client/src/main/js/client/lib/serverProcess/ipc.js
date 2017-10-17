@@ -8,6 +8,9 @@ import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
 import { operators } from '../common/operators';
 
+import { add as addMessage } from '../store/actions/messages';
+import { getStore } from './store';
+
 const _map = require('lodash/map');
 
 const logger = getLogger('server:ipc');
@@ -40,6 +43,7 @@ function getStaticProtobuf(type) {
 function onDcResponseCallback(err) {
   if (err) {
     logger.error(`Error from Data Consumer: ${err}`);
+    getStore().dispatch(addMessage('global', 'danger', err));
   }
 }
 

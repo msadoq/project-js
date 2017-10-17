@@ -52,7 +52,7 @@ const getComObject = (comObject, timestamp, epName) => {
           creationDate: timestamp - 100,
           // paramUid: null,
           updateDate: timestamp - 50,
-          // closingDate: null,
+          closingDate: timestamp - 10,
           hasAckRequest: false,
           // alarmId: null,
           transitions: [{

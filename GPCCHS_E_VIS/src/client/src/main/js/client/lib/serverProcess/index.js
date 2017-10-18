@@ -1,10 +1,11 @@
 import exit from 'exit';
 import { series } from 'async';
 import { setRtd, getRtd } from '../rtdManager';
+import { read } from '../common/fs';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
-import { get } from '../common/configurationManager';
+import { get, setFmdConfiguration } from '../common/configurationManager';
 import makeCreateStore from './store';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
@@ -19,7 +20,6 @@ import { setRteSessions } from '../store/actions/rte';
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
-const HEALTH_CRITICAL_DELAY = get('SERVER_HEALTH_CRITICAL_DELAY');
 adapter.registerGlobal();
 const clientController = require('./controllers/client');
 
@@ -43,8 +43,20 @@ const requestCatalogSessions = (store) => {
   }
 };
 
+function loadFmdConfigurationFile(absolutePath, callback) {
+  read(absolutePath, (error, content) => {
+    callback(error, content);
+    setFmdConfiguration(JSON.parse(content));
+  });
+}
+
+const loadMissionsAdapters = (missionsAdapters) => {
+  adapter.registerGlobal(missionsAdapters);
+};
+
 series({
   // ZeroMQ sockets
+  loadFileConfig: callback => loadFmdConfigurationFile(callback),
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
   // TODO : Send logBook to LPISIS (after store init to allow dispatch)
   logBook: (callback) => {
@@ -72,11 +84,12 @@ series({
     }
   },
   // Initial data for store (domains, sessions, master session ID)
-  initialData: callback => fetchInitialData(callback),
+  initialData: callback => fetchInitialData(get('CONFIGURATION'), callback),
 }, (err, { initialData }) => {
   if (err) {
     throw err;
   }
+  loadMissionsAdapters(get('MISSIONS_ADAPTERS'));
 
   // ipc with main
   process.on('message', clientController);
@@ -109,7 +122,7 @@ series({
   */
   if (isDebugEnabled) {
     monitoring = eventLoopMonitoring({
-      criticalDelay: HEALTH_CRITICAL_DELAY,
+      criticalDelay: get('SERVER_HEALTH_CRITICAL_DELAY'),
       onStatusChange: status => store.dispatch(updateHssStatus(status)),
       id: 'server',
     }, store);

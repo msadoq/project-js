@@ -1,3 +1,5 @@
+const getLogger = require('../../common/logManager');
+
 const { resolve } = require('path');
 const _each = require('lodash/each');
 const _get = require('lodash/get');
@@ -13,41 +15,49 @@ const TYPE_RAW = 'raw';
 const comObjectTypes = {};
 const types = {};
 
+const logger = getLogger('AdaptersManager');
+let currentNamespace = '';
+
 const registerGlobal = (override) => {
-  const MESSAGES_NAMESPACES = override || parameters.get('MESSAGES_NAMESPACES');
-  _each(MESSAGES_NAMESPACES, (msgNasmespaces) => {
+  const ADAPTERS = override || parameters.get('CLIENT_ADAPTERS');
+  _each(ADAPTERS, (msgNasmespaces) => {
+    currentNamespace = msgNasmespaces.ns;
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
     }
     const adapterPath = resolve(rootVimaFolder, msgNasmespaces.path, msgNasmespaces.ns);
-    const namespaces = dynamicRequire(adapterPath);
-    const namespacesKeys = Object.keys(namespaces);
-    _each(namespacesKeys, (adapters) => {
-      if (!types[msgNasmespaces.ns][adapters]) {
-        types[msgNasmespaces.ns][adapters] = {};
-      }
-      const adaptersKeys = Object.keys(namespaces[adapters]);
-      _each(adaptersKeys, (adapter) => {
-        let registeredAdapter;
-        comObjectTypes[adapter] = `${msgNasmespaces.ns}.${adapters}.${adapter}`;
-        switch (namespaces[adapters][adapter].type) {
-          case TYPE_PROTO:
-            registeredAdapter = registerProto(adapterPath,
-                                              adapters,
-                                              adapter,
-                                              namespaces[adapters][adapter].adapter);
-            registeredAdapter.type = TYPE_PROTO;
-            break;
-          case TYPE_RAW:
-            registeredAdapter = registerRaw(namespaces[adapters][adapter].adapter);
-            registeredAdapter.type = TYPE_RAW;
-            break;
-          default :
-            throw new Error(`Unknown type '${adapter}' for registration`);
+    try {
+      const namespaces = dynamicRequire(adapterPath);
+      const namespacesKeys = Object.keys(namespaces);
+      _each(namespacesKeys, (adapters) => {
+        if (!types[msgNasmespaces.ns][adapters]) {
+          types[msgNasmespaces.ns][adapters] = {};
         }
-        types[msgNasmespaces.ns][adapters][adapter] = registeredAdapter;
+        const adaptersKeys = Object.keys(namespaces[adapters]);
+        _each(adaptersKeys, (adapter) => {
+          let registeredAdapter;
+          comObjectTypes[adapter] = `${msgNasmespaces.ns}.${adapters}.${adapter}`;
+          switch (namespaces[adapters][adapter].type) {
+            case TYPE_PROTO:
+              registeredAdapter = registerProto(adapterPath,
+                                                adapters,
+                                                adapter,
+                                                namespaces[adapters][adapter].adapter);
+              registeredAdapter.type = TYPE_PROTO;
+              break;
+            case TYPE_RAW:
+              registeredAdapter = registerRaw(namespaces[adapters][adapter].adapter);
+              registeredAdapter.type = TYPE_RAW;
+              break;
+            default :
+              throw new Error(`Unknown type '${adapter}' for registration`);
+          }
+          types[msgNasmespaces.ns][adapters][adapter] = registeredAdapter;
+        });
       });
-    });
+    } catch (e) {
+      logger.error(`An error occured during the loading of adapters '${currentNamespace}'`);
+    }
   });
 };
 

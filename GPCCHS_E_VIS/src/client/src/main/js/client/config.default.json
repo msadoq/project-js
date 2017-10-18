@@ -167,7 +167,7 @@
       "parsec.s-1"
     ]
   },
-  "MESSAGES_NAMESPACES" : [
+  "CLIENT_ADAPTERS" : [
     {
       "path" : "./adapters/",
       "ns" :"isis"

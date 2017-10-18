@@ -6,7 +6,7 @@ const STUB_INDEX = 'stubs.js';
 const stubData = {};
 
 const loadStubs = (override) => {
-  const MESSAGES_NAMESPACES = override || parameters.get('MESSAGES_NAMESPACES');
+  const MESSAGES_NAMESPACES = override || parameters.get('CLIENT_ADAPTERS');
   _each(MESSAGES_NAMESPACES, (msgNasmespaces) => {
     const adapterPath = resolve(msgNasmespaces.path, msgNasmespaces.ns);
     const stubIndex = require(join(adapterPath, STUB_INDEX)); // eslint-disable-line

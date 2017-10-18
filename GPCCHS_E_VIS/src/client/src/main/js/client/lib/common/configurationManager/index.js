@@ -9,10 +9,19 @@ const REQUIRED = 'config.required.json'; // required
 const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
 
+let fmdConfig = {};
 let argv;
 let defaultConfig;
 let localConfig;
 let appRoot;
+
+function setFmdConfiguration(config) {
+  fmdConfig = config;
+}
+
+function getFmdConfiguration(name) {
+  return fmdConfig[name];
+}
 
 function getAllArgv() {
   if (!argv) {
@@ -62,6 +71,11 @@ function getDefault(name) {
 function get(name) {
   let value;
   const hasValue = () => typeof value !== 'undefined';
+
+  value = getFmdConfiguration(name);
+  if (hasValue()) {
+    return value;
+  }
 
   value = getArgv(name);
   if (hasValue()) {
@@ -146,4 +160,4 @@ function universalGet(name) {
   return _get(global, ['parameters', 'get'], get)(name);
 }
 
-module.exports = { init, get: universalGet, getAll };
+module.exports = { init, get: universalGet, getAll, setFmdConfiguration };

@@ -48,34 +48,32 @@ const getComObject = (comObject, timestamp, epName) => {
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
         oid: `osef${Math.random() * 10000000}`,
-        groundAlarm: stubData.getGroundMonitoringAlarmProtobuf({
+        groundAlarm: {
           creationDate: timestamp - 100,
           // paramUid: null,
           updateDate: timestamp - 50,
-          // closingDate: null,
+          closingDate: timestamp - 10,
           hasAckRequest: false,
           // alarmId: null,
-          transitions: [
-            stubData.getTransitionProtobuf({
-              onboardDate: timestamp,
-              groundDate: timestamp + 20,
-              convertedValue: value * 2,
-              extractedValue: value * 3,
-              rawValue: value,
-              monitoringState: getMonitoringState(timestamp),
-            }),
-          ],
+          transitions: [{
+            onboardDate: timestamp,
+            groundDate: timestamp + 20,
+            convertedValue: value * 2,
+            extractedValue: value * 3,
+            rawValue: value,
+            monitoringState: getMonitoringState(timestamp),
+          }],
           // isNominal: false
-        }),
-        ackRequest: stubData.getAckRequestProtobuf({
+        },
+        ackRequest: {
           ackRequestDate: timestamp,
           systemDate: timestamp,
-          ack: stubData.getAckProtobuf({
+          ack: {
             ackDate: timestamp,
             // acknowledger: bLOB.encode(user.encodeRaw(data.acknowledger)),
-          }),
+          },
           comment: 'J\'aime les guimauves au miel',
-        }),
+        },
         parameterName: 'MyParameterStubName',
         parameterType: 'MyParameterStubType',
         satellite: 'MyStubSatelliteUnicorn',

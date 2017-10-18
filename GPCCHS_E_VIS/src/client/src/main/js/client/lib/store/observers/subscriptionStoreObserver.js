@@ -6,12 +6,10 @@ import _findIndex from 'lodash/findIndex';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
 import { getTbdIdsAndDataIdList } from '../reducers/knownRanges';
 import { dc } from '../../serverProcess/ipc';
-import constants from '../../constants';
 
 import { getPerLastTbdIdMap } from '../../dataManager/map';
 
-const { requestSubscriptionAdd, requestSubscriptionDelete,
-        requestAlarmSubscriptionAdd, requestAlarmSubscriptionDelete } = dc;
+const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;
 
 /**
  * Store observer that reacts on store updates to dispatch needed data.
@@ -34,7 +32,6 @@ export default function makeSubscriptionStoreObserver(store) {
     }
     // List of knowns ranges
     const allKnownRanges = getTbdIdsAndDataIdList(state);
-
     // List of last in views ( extract from dataMap )
     const lastTbdId = getPerLastTbdIdMap(state);
 
@@ -72,30 +69,14 @@ export default function makeSubscriptionStoreObserver(store) {
     for (let i = 0; i < toSubscribeRange.length; i += 1) {
       const { tbdId, dataId } = toSubscribeRange[i];
       // Sends a different request in case of alarm
-      if (dataId.comObject === 'GroundMonitoringAlarm') {
-        requestAlarmSubscriptionAdd(tbdId, dataId, constants.GROUND_TYPE,
-          constants.ALARM_MODE_ALL);
-      } else if (dataId.comObject === 'onboardAlarm') {
-        requestAlarmSubscriptionAdd(tbdId, dataId, constants.ONBOARD_TYPE,
-          constants.ALARM_MODE_ALL);
-      } else {
-        requestSubscriptionAdd(tbdId, dataId);
-      }
+      requestSubscriptionAdd(tbdId, dataId);
       subscriptionRange.push(tbdId);
     }
 
     for (let j = 0; j < toUnsubscribeRange.length; j += 1) {
       const { tbdId, dataId } = toUnsubscribeRange[j];
       // Sends a different request in case of alarm
-      if (dataId.comObject === 'GroundMonitoringAlarm') {
-        requestAlarmSubscriptionDelete(tbdId, dataId, constants.GROUND_TYPE,
-         constants.ALARM_MODE_ALL);
-      } else if (dataId.comObject === 'onboardAlarm') {
-        requestAlarmSubscriptionDelete(tbdId, dataId, constants.ONBOARD_TYPE,
-          constants.ALARM_MODE_ALL);
-      } else {
-        requestSubscriptionDelete(tbdId, dataId);
-      }
+      requestSubscriptionDelete(tbdId, dataId);
       const index = _findIndex(subscriptionRange, tbdId);
       subscriptionRange.splice(index, 1);
     }

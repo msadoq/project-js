@@ -3,10 +3,12 @@ import _findIndex from 'lodash/findIndex';
 import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
+import _map from 'lodash/map';
+import _mapValues from 'lodash/mapValues';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
-import * as constants from '../../constants';
+import * as constants from '../../../constants';
 
 /* ************************************
  * Add payloads in plot view data state
@@ -119,8 +121,8 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
     }
   } else if (alarmMode === constants.ALARM_MODE_TOACKNOWLEDGE) {
     // No addition in lines
-    if (value.acknowledgementState === constants.ALARM_ACKSTATE_NOACK
-    || value.acknowledgementState === constants.ALARM_ACKSTATE_ACQUITED) {
+    if (value.ackState === constants.ALARM_ACKSTATE_NOACK
+    || value.ackState === constants.ALARM_ACKSTATE_ACQUITED) {
       return state;
     }
   }
@@ -206,14 +208,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     //   continue;
     // }
     const masterTime = timestamp + ep.offset;
-    // Payload = {
-    // groundAlarm: {}
-    // ackRequest: {}
-    // parameterName: string
-    // parameterType: enum / string
-    // satellite: string
-    // telemetryType: string
-    // }
     const groundAlarm = currentValue.groundAlarm;
     if (!groundAlarm) {
       continue;
@@ -232,7 +226,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       parameterType: convertData(currentValue.parameterType),
       satellite: convertData(currentValue.satellite),
       telemetryType: convertData(currentValue.telemetryType),
-      acknowledgementState: ackState,
+      ackState,
       duration: groundAlarm.closingDate
         ? convertData({ type: 'duration',
           value: groundAlarm.closingDate.value - groundAlarm.creationDate.value })
@@ -247,6 +241,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
         lastOccurence: convertData(lastTransition.onboardDate),
         rawValue: convertData(lastTransition.rawValue),
         physicalValue: convertData(lastTransition.extractedValue),
+        transitions: _map(groundAlarm.transitions, transition => (
+          _mapValues(transition, transitionProperty => (
+            convertData(transitionProperty)
+          ))
+        )),
       });
       // Update of transitionNb
       transitionNb += groundAlarm.transitions.length;

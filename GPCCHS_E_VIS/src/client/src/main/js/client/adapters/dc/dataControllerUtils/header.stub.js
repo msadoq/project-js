@@ -1,5 +1,4 @@
 const ProtoBuf = require('protobufjs');
-const applyOverride = require('../applyOverride');
 const Adapter = require('./header');
 
 const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/Header.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.Header');
@@ -25,10 +24,6 @@ const MESSAGETYPE_SESSION_MASTER_QUERY = 18;
 const MESSAGETYPE_SESSION_MASTER_DATA = 19;
 const MESSAGETYPE_DC_STATUS_QUERY = 20;
 const MESSAGETYPE_DC_STATUS_DATA = 21;
-const MESSAGETYPE_ALARM_QUERY = 22;
-const MESSAGETYPE_ALARM_SUBSCRIPTION = 23;
-const MESSAGETYPE_ALARM_ARCHIVE_DATA = 24;
-const MESSAGETYPE_ALARM_PUBSUB_DATA = 25;
 
 const getDcStatusQueryHeader = () => ({
   messageType: MESSAGETYPE_DC_STATUS_QUERY,
@@ -93,18 +88,6 @@ const getSessionMasterQueryHeader = () => ({
 const getSessionMasterDataHeader = () => ({
   messageType: MESSAGETYPE_SESSION_MASTER_DATA,
 });
-const getAlarmQueryHeader = () => ({
-  messageType: MESSAGETYPE_ALARM_QUERY,
-});
-const getAlarmSubscriptionHeader = () => ({
-  messageType: MESSAGETYPE_ALARM_SUBSCRIPTION,
-});
-const getAlarmArchiveDataHeader = () => ({
-  messageType: MESSAGETYPE_ALARM_ARCHIVE_DATA,
-});
-const getAlarmPubSubDataHeader = () => ({
-  messageType: MESSAGETYPE_ALARM_PUBSUB_DATA,
-});
 
 const getDcStatusQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusQueryHeader())).finish();
 const getDcStatusHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusHeader())).finish();
@@ -127,10 +110,6 @@ const getFmdCreateDocumentQueryHeaderProtobuf = () => Builder.encode(Adapter.enc
 const getFmdCreateDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getFmdCreateDataHeader())).finish();
 const getSessionMasterQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionMasterQueryHeader())).finish();
 const getSessionMasterDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getSessionMasterDataHeader())).finish();
-const getAlarmQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmQueryHeader())).finish();
-const getAlarmSubscriptionHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmSubscriptionHeader())).finish();
-const getAlarmArchiveDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmArchiveDataHeader())).finish();
-const getAlarmPubSubDataHeaderProtobuf = () => Builder.encode(Adapter.encode(getAlarmPubSubDataHeader())).finish();
 
 module.exports = {
   getDcStatusQueryHeader,
@@ -175,10 +154,4 @@ module.exports = {
   getSessionMasterQueryHeaderProtobuf,
   getSessionMasterDataHeader,
   getSessionMasterDataHeaderProtobuf,
-  getAlarmQueryHeader,
-  getAlarmQueryHeaderProtobuf,
-  getAlarmSubscriptionHeader,
-  getAlarmSubscriptionHeaderProtobuf,
-  getAlarmArchiveDataHeaderProtobuf,
-  getAlarmPubSubDataHeaderProtobuf
 };

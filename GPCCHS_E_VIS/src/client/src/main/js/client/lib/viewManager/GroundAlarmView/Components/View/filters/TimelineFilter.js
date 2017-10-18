@@ -24,7 +24,7 @@ class TimelineFilter extends React.Component {
     ]);
     return (
       <span>
-        Domain
+        Timeline
         <Select.Creatable
           clearable={timeline !== wildcard}
           options={options}

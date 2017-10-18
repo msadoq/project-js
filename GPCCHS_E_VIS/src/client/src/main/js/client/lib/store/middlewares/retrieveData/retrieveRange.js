@@ -1,8 +1,6 @@
 import * as types from '../../types';
 import { getRangesRecords } from '../../../serverProcess/models/lokiKnownRangesData';
 import { newData } from '../../actions/incomingData';
-import constants from '../../../constants';
-
 import { getMissingIntervals } from '../../reducers/knownRanges';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import { sendArchiveQuery } from '../../actions/knownRanges';
@@ -38,23 +36,12 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
         execution.stop('get missing intervals');
 
         for (let j = 0; j < missingIntervals.length; j += 1) {
-          let queryId;
-          if (dataId.comObject === 'GroundMonitoringAlarm') {
-            queryId = ipc.dc.requestAlarmQuery(
-              tbdId,
-              dataId,
-              constants.GROUND_TYPE,
-              constants.ALARM_MODE_ALL,
-              missingIntervals[j]
-            );
-          } else {
-            queryId = ipc.dc.requestTimebasedQuery(
-              tbdId,
-              dataId,
-              missingIntervals[j],
-              { filters }
-            );
-          }
+          const queryId = ipc.dc.requestTimebasedQuery(
+            tbdId,
+            dataId,
+            missingIntervals[j],
+            { filters }
+          );
 
           add(queryId, tbdId, type, dataId);
         }

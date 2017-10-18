@@ -19,8 +19,8 @@ import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
 import mimicViewDataSelectors from './MimicView/store/dataSelector';
 import groundAlarmViewDataSelectors from './GroundAlarmView/store/dataSelectors';
 import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelectors';
-// import historyViewDataSelectors from './HistoryView/store/dataSelectors';
-// import packetViewDataSelectors from './PacketView/store/dataSelectors';
+import historyViewDataSelectors from './HistoryView/store/dataSelectors';
+import packetViewDataSelectors from './PacketView/store/dataSelectors';
 
 import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewSchema from './TextView/TextView.schema.json';
@@ -70,14 +70,14 @@ const list = {
     viewModule: historyViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: historyViewData,
-    // dataSelectors: historyViewDataSelectors,
+    dataSelectors: historyViewDataSelectors,
   },
   [constants.VM_VIEW_PACKET]: {
     schema: packetViewSchema,
     viewModule: packetViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: packetViewData,
-    // dataSelectors: packetViewDataSelectors,
+    dataSelectors: packetViewDataSelectors,
   },
   [constants.VM_VIEW_MIMIC]: {
     schema: mimicViewSchema,

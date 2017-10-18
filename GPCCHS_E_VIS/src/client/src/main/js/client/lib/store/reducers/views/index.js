@@ -20,11 +20,6 @@ export const getModifiedViewsIds = state =>
     .keys(getViews(state))
     .filter(vId => state.views[vId].isModified);
 
-export const getViewConfiguration = createSelector(
-  getView,
-  _.get('configuration')
-);
-
 export const getViewTitle = createSelector(
   getView,
   _.prop('title')

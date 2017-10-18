@@ -22,10 +22,15 @@ export default class EditWorkspaceWrapper extends PureComponent {
       updateDomainName,
       updateSessionName,
       closeModal,
+      domainName,
+      sessionName,
     } = this.props;
-
-    updateDomainName(values.domainName);
-    updateSessionName(values.sessionName);
+    if (values.domainName !== domainName) {
+      updateDomainName(values.domainName);
+    }
+    if (values.sessionName !== sessionName) {
+      updateSessionName(values.sessionName);
+    }
     closeModal();
   }
 
@@ -42,7 +47,10 @@ export default class EditWorkspaceWrapper extends PureComponent {
         form={'edit-workspace'}
         onSubmit={this.willEditWorkspace}
         // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
-        initialValues={{ domainName, sessionName }}
+        initialValues={{
+          domainName: domainName || '',
+          sessionName: sessionName || '',
+        }}
         domains={domains}
         sessions={sessions}
       />

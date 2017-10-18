@@ -18,6 +18,8 @@ import * as rtdManager from '../rtdManager';
 import makeProductLogMiddleware from '../store/middlewares/productLog';
 import makePatchGenerator from '../store/middlewares/patch/patchGenerator';
 import makeViewNeededData from '../store/middlewares/viewNeededData/viewNeededData';
+import pageSessionOrDomainUpdated from '../store/middlewares/pages/pageSessionOrDomainUpdated';
+import windowSessionOrDomainUpdated from '../store/middlewares/windows/windowSessionOrDomainUpdated';
 import getLogger from '../common/logManager';
 import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
 
@@ -39,6 +41,8 @@ const createMiddlewares = (identity, isDebugOn) => {
     makeInspectorMiddleware(rtdManager),
     makeProductLogMiddleware(ipc.dc.sendProductLog),
     makeViewNeededData(),
+    pageSessionOrDomainUpdated,
+    windowSessionOrDomainUpdated,
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
   if (isDumpActivated()) {

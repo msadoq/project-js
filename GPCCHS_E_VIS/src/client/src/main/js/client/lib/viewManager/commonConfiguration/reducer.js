@@ -7,6 +7,8 @@ const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), st
 export default (stateConf, action) => {
   switch (action.type) {
     // loading view configuration
+    case types.WS_VIEW_TOUCH:
+      return { ...stateConf };
     case types.WS_VIEW_OPENED:
     case types.WS_PAGE_OPENED:
     case types.WS_WORKSPACE_OPENED:

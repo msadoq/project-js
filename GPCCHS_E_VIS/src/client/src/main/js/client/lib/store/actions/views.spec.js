@@ -72,6 +72,18 @@ describe('store:actions:views', () => {
     store.clearActions();
   });
 
+  describe('touchViewConfiguration', () => {
+    test('should dispatch', () => {
+      store.dispatch(actions.touchViewConfiguration('textview'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_VIEW_TOUCH',
+          payload: { viewId: 'textview' },
+        },
+      ]);
+    });
+  });
+
   describe('update path', () => {
     describe('updatePath', () => {
       test('should dispatch', () => {

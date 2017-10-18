@@ -31,6 +31,7 @@ export const updateSessionName = simple(types.WS_VIEW_UPDATE_SESSIONNAME, 'viewI
 /* ------------------------ */
 
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
+export const touchViewConfiguration = simple(types.WS_VIEW_TOUCH, 'viewId');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 export const toggleLegend = simple(types.WS_VIEW_TOGGLE_LEGEND, 'viewId', 'flag');

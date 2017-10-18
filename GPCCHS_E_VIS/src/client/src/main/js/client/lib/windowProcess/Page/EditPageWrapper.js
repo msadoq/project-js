@@ -23,8 +23,12 @@ export default class EditPageWrapper extends PureComponent {
     } = this.props;
 
     updateTitle(page.uuid, values.title);
-    updateDomainName(page.uuid, values.domainName);
-    updateSessionName(page.uuid, values.sessionName);
+    if (values.domainName !== page.domainName) {
+      updateDomainName(page.uuid, values.domainName);
+    }
+    if (values.sessionName !== page.sessionName) {
+      updateSessionName(page.uuid, values.sessionName);
+    }
     closeModal();
   }
 
@@ -45,8 +49,8 @@ export default class EditPageWrapper extends PureComponent {
         // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
         initialValues={{
           title: page.title,
-          domainName: page.domainName,
-          sessionName: page.sessionName,
+          domainName: page.domainName || '',
+          sessionName: page.sessionName || '',
         }}
         domains={domains}
         sessions={sessions}

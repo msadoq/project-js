@@ -29,13 +29,16 @@ export function find(
   workspaceSessionName
 ) {
   let sessionName = search;
-  if (search === get('WILDCARD_CHARACTER')) {
+  const wildcardCharacter = get('WILDCARD_CHARACTER');
+
+  if (search === wildcardCharacter) {
     // Look to sessionNames defined on
-    if (viewSessionName) {
+    // undefined or '*' have the same effect, they are ignored
+    if (viewSessionName && viewSessionName !== wildcardCharacter) {
       sessionName = viewSessionName;
-    } else if (pageSessionName) {
+    } else if (pageSessionName && pageSessionName !== wildcardCharacter) {
       sessionName = pageSessionName;
-    } else if (workspaceSessionName) {
+    } else if (workspaceSessionName && workspaceSessionName !== wildcardCharacter) {
       sessionName = workspaceSessionName;
     } else {
       return { id: masterSessionId, name: '*' };

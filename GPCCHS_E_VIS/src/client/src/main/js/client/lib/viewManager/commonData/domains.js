@@ -28,14 +28,15 @@ export function find(search, domains, viewDomain, pageDomain, workspaceDomain) {
   if (search === '' || _isNull(search) || _isUndefined(search)) {
     return { error: 'invalid entry point, invalid domain field' };
   }
+  const wildcardCharacter = get('WILDCARD_CHARACTER');
   let domainName = search;
-  if (search === get('WILDCARD_CHARACTER')) {
+  if (search === wildcardCharacter) {
     // Look to domainNames defined on
-    if (viewDomain) { // 1. view
+    if (viewDomain && viewDomain !== wildcardCharacter) { // 1. view
       domainName = viewDomain;
-    } else if (pageDomain) {  // 2. page
+    } else if (pageDomain && pageDomain !== wildcardCharacter) {  // 2. page
       domainName = pageDomain;
-    } else if (workspaceDomain) { // 3. workspace
+    } else if (workspaceDomain && workspaceDomain !== wildcardCharacter) { // 3. workspace
       domainName = workspaceDomain;
     } else {
       return { error: 'invalid entry point, domain not defined on entities' };

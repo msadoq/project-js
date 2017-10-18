@@ -32,6 +32,7 @@ export const WS_ASK_RELOAD_VIEW = 'WS_ASK_RELOAD_VIEW';
 export const WS_ASK_SAVE_VIEW_AS_MODEL = 'WS_ASK_SAVE_VIEW_AS_MODEL';
 export const WS_ASK_OPEN_LINK = 'WS_ASK_OPEN_LINK';
 export const WS_VIEW_OPENED = 'WS_VIEW_OPENED';
+export const WS_VIEW_TOUCH = 'WS_VIEW_TOUCH';
 
 export const WS_ASK_OPEN_PAGE = 'WS_ASK_OPEN_PAGE';
 export const WS_ASK_SAVE_PAGE = 'WS_ASK_SAVE_PAGE';

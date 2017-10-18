@@ -4,7 +4,6 @@ import viewsReducer, {
   getView,
   getViews,
   getModifiedViewsIds,
-  getViewConfiguration,
   getViewAbsolutePath,
   getViewType,
   getViewTitle,
@@ -62,20 +61,6 @@ describe('store:views:selectors', () => {
       },
     });
     expect(getModifiedViewsIds(state)).toEqual(['view1', 'view3']);
-  });
-  test('getViewConfiguration', () => {
-    const state = freezeMe({
-      views: {
-        myViewId: {
-          configuration: {
-            title: 'Title 1',
-          },
-        },
-      },
-    });
-    expect(getViewConfiguration(state, { viewId: 'myViewId' })).toEqual({
-      title: 'Title 1',
-    });
   });
   test('getViewAbsolutePath', () => {
     const state = freezeMe({

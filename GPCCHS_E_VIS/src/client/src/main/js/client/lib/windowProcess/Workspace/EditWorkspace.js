@@ -13,15 +13,35 @@ class EditWorkspace extends PureComponent {
 
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    initialValues: PropTypes.shape().isRequired,
   }
 
   static defaultProps = {
     masterId: null,
+  }
+
+  state = {
+    domain: null,
+    session: null,
+  }
+
+  componentDidMount() {
+    // Only one ReactSelectField works without this re-render
+    setTimeout(this.props.reset, 0);
+  }
+
+  newDomain = (domain) => {
+    this.setState({ domain });
+  }
+
+  newSession = (session) => {
+    this.setState({ session });
   }
 
   render() {
@@ -32,7 +52,12 @@ class EditWorkspace extends PureComponent {
       handleSubmit,
       domains,
       sessions,
+      initialValues: { sessionName, domainName },
     } = this.props;
+    const {
+      domain,
+      session,
+    } = this.state;
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
@@ -41,27 +66,47 @@ class EditWorkspace extends PureComponent {
             name="domainName"
             component={ReactSelectField}
             clearable
-            free
-            options={domains.map(domain =>
-              ({
-                label: domain.name,
-                value: domain.name,
-              })
-            )}
+            onInputChange={this.newDomain}
+            options={
+              domains.map(s =>
+                ({
+                  label: s.name,
+                  value: s.name,
+                })
+              )
+              .concat(
+                domain && !domains.find(s => s.name === domain) ?
+                { label: domain, value: domain } : []
+              )
+              .concat(
+                domainName && !domains.find(s => s.name === domainName) ?
+                { label: domainName, value: domainName } : []
+              )
+            }
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
           <Field
             name="sessionName"
             component={ReactSelectField}
-            free
+            onInputChange={this.newSession}
             clearable
-            options={sessions.map(session =>
-              ({
-                label: session.name,
-                value: session.name,
-              })
-            )}
+            options={
+              sessions.map(s =>
+                ({
+                  label: s.name,
+                  value: s.name,
+                })
+              )
+              .concat(
+                session && !sessions.find(s => s.name === session) ?
+                { label: session, value: session } : []
+              )
+              .concat(
+                sessionName && !sessions.find(s => s.name === sessionName) ?
+                { label: sessionName, value: sessionName } : []
+              )
+            }
           />
         </HorizontalFormGroup>
         <div className="text-right">

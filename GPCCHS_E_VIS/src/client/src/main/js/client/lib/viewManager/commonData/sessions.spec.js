@@ -11,17 +11,17 @@ describe('viewManager:commonData:sessions', () => {
     expect(filter(list, 'Master', 10)).toEqual({ name: 'Master', id: 0 });
     expect(filter(list, 'Session#181', 10)).toEqual({ name: 'Session#181', id: 181 });
   });
-  test('should return masterSessionId while receiving wildcard', () => {
-    expect(filter(list, '*', 10)).toEqual({ id: 10, name: '*' });
-  });
-  test('should return viewSession while receiving wildcard', () => {
+  test('should return viewSession while receiving wildcard or undefined', () => {
     expect(filter(list, '*', 10, 'Session#181', 'Master')).toEqual({ name: 'Session#181', id: 181 });
   });
-  test('should return pageSession while receiving wildcard', () => {
+  test('should return pageSession while receiving wildcard or undefined', () => {
     expect(filter(list, '*', 10, undefined, 'Session#181', 'Master')).toEqual({ name: 'Session#181', id: 181 });
   });
-  test('should return workspace while receiving wildcard', () => {
-    expect(filter(list, '*', 10, undefined, undefined, 'Session#181')).toEqual({ name: 'Session#181', id: 181 });
+  test('should return workspace while receiving wildcard or undefined', () => {
+    expect(filter(list, '*', 10, '*', undefined, 'Session#181')).toEqual({ name: 'Session#181', id: 181 });
+  });
+  test('should return masterSessionId while receiving wildcard or undefined', () => {
+    expect(filter(list, '*', 10, '*', '*', '*')).toEqual({ id: 10, name: '*' });
   });
   test('should support no domain', () => {
     expect(filter(undefined, 'Master', 10)).toEqual({ error: 'invalid entry point, no session available' });

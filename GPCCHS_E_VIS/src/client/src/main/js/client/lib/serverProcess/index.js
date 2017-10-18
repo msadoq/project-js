@@ -43,11 +43,16 @@ const requestCatalogSessions = (store) => {
   }
 };
 
-function loadFmdConfigurationFile(absolutePath, callback) {
-  read(absolutePath, (error, content) => {
-    callback(error, content);
-    setFmdConfiguration(JSON.parse(content));
-  });
+function loadFmdConfigurationFile(callback) {
+  const confPath = get('CONFIGURATION');
+  if (confPath) {
+    read(confPath, (error, content) => {
+      callback(error, content);
+      setFmdConfiguration(JSON.parse(content));
+    });
+  } else {
+    callback(null);
+  }
 }
 
 const loadMissionsAdapters = (missionsAdapters) => {
@@ -84,12 +89,14 @@ series({
     }
   },
   // Initial data for store (domains, sessions, master session ID)
-  initialData: callback => fetchInitialData(get('CONFIGURATION'), callback),
-}, (err, { initialData }) => {
+  initialData: callback => fetchInitialData(callback),
+}, (err, { initialData, loadFileConfig }) => {
   if (err) {
     throw err;
   }
-  loadMissionsAdapters(get('MISSIONS_ADAPTERS'));
+  if (loadFileConfig) {
+    loadMissionsAdapters(get('MISSIONS_ADAPTERS'));
+  }
 
   // ipc with main
   process.on('message', clientController);

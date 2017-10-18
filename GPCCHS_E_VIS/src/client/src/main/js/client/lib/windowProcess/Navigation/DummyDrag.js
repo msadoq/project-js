@@ -22,19 +22,19 @@ const items = [
     name: 'Text view',
     mimeType: 'ViewDoc',
     filePath: '/views/text.vitv',
-    mime: 'application/json',
+    mime: 'text/plain',
   },
   {
     name: 'page',
     mimeType: 'PageDoc',
     filePath: '/pages/dev.page1.vipg',
-    mime: 'application/json',
+    mime: 'text/plain',
   },
   {
     name: 'workspace',
     mimeType: 'WorkspaceDoc',
     filePath: '/dev.workspace.viws',
-    mime: 'application/json',
+    mime: 'text/plain',
   },
   {
     name: 'EntryPoint',
@@ -43,7 +43,7 @@ const items = [
     nameSpace: '',
     item: 'ATT_BC_REVTCOUNT1',
     comObjects: ['ReportingParameter'],
-    mime: 'application/json',
+    mime: 'text/plain',
   },
 ];
 

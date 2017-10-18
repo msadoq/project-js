@@ -79,7 +79,10 @@ export default class Content extends PureComponent {
     } = this.props;
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-    const filePath = _get(content, 'filepath', '') || _get(content, 'filePath', '');
+    const filePath = path.join(
+      global.parameters.get('ISIS_DOCUMENTS_ROOT'),
+      _get(content, 'filepath', '') || _get(content, 'filePath', '')
+    );
 
     const type = getDropItemType(content.mimeType);
     _.cond([

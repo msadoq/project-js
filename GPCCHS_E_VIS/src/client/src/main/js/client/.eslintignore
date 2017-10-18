@@ -4,3 +4,4 @@ benchmarks
 adapters
 dist
 docs
+!lib/utils/adapters

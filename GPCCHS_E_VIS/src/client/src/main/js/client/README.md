@@ -107,6 +107,9 @@ npm run stats:renderer
 ```
 Then run your usual firefox on corresponding port.
 
+# Lodash FP documentation
+You can find a lodash fp documentation here : https://gist.github.com/jfmengels/6b973b69c491375117dc
+
 # Troubleshoot
 
 In case of error "Error: Module version mismatch expected 50, got 48." on launch, run following command in client folder:

@@ -40,6 +40,7 @@
     "lint": "eslint --max-warnings 0 . --cache",
     "lint:isis": "eslint --max-warnings 0 -c .eslintrc_isis.yml .",
     "lint:report": "node -r babel-register scripts/lint-reporter/lint-reporter.js",
+    "zip:lint:report": "(cd scripts/lint-reporter && zip ./lint-report.zip *.csv)",
     "sh": "npm run start-hot",
     "start": "./scripts/start.sh",
     "start-hot": "APP_ENV=main HOT=1 electron -r babel-register -r babel-polyfill ./main.development",

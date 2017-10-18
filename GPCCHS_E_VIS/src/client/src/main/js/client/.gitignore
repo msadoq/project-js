@@ -38,6 +38,7 @@ config.local.json.bak
 
 # lint
 **/lint-reporter/*.csv
+**/lint-reporter/*.zip
 .eslintcache
 
 # IDE

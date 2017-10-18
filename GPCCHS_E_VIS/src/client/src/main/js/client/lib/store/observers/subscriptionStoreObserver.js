@@ -6,7 +6,6 @@ import _findIndex from 'lodash/findIndex';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
 import { getTbdIdsAndDataIdList } from '../reducers/knownRanges';
 import { dc } from '../../serverProcess/ipc';
-
 import { getPerLastTbdIdMap } from '../../dataManager/map';
 
 const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;
@@ -68,14 +67,12 @@ export default function makeSubscriptionStoreObserver(store) {
     // DO the subscription/ unsubscprition
     for (let i = 0; i < toSubscribeRange.length; i += 1) {
       const { tbdId, dataId } = toSubscribeRange[i];
-      // Sends a different request in case of alarm
       requestSubscriptionAdd(tbdId, dataId);
       subscriptionRange.push(tbdId);
     }
 
     for (let j = 0; j < toUnsubscribeRange.length; j += 1) {
       const { tbdId, dataId } = toUnsubscribeRange[j];
-      // Sends a different request in case of alarm
       requestSubscriptionDelete(tbdId, dataId);
       const index = _findIndex(subscriptionRange, tbdId);
       subscriptionRange.splice(index, 1);

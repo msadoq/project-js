@@ -136,10 +136,10 @@ export default function groundAlarmViewData(state = {}, action) {
 
 export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
-export const getViewData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
+export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
 
 export const getDataLines = createSelector(
-  getViewData,
+  getData,
   data => _.flatMap((lineId) => {
     const alarm = data.data[lineId];
     const transitions = _.isEmpty(alarm.transitions) ? [] : [

@@ -10,6 +10,8 @@ Array [
       "vimv",
       "vikv",
       "vihv",
+      "viga",
+      "viba",
     ],
     "name": "Any VIMA views",
   },
@@ -48,6 +50,18 @@ Array [
       "vihv",
     ],
     "name": "HistoryView",
+  },
+  Object {
+    "extensions": Array [
+      "viga",
+    ],
+    "name": "GroundAlarmView",
+  },
+  Object {
+    "extensions": Array [
+      "viba",
+    ],
+    "name": "OnboardAlarmView",
   },
 ]
 `;
@@ -100,6 +114,22 @@ Array [
         "vimv",
       ],
       "name": "MimicView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "viga",
+      ],
+      "name": "GroundAlarmView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "viba",
+      ],
+      "name": "OnboardAlarmView",
     },
   ],
 ]

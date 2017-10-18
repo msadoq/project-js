@@ -222,6 +222,7 @@ Object {
           "x": 100000,
         },
         "100120": Object {
+          "color": "#000000",
           "masterTime": 100120,
           "refTime": 100120,
           "symbol": undefined,
@@ -230,6 +231,7 @@ Object {
           "x": 100120,
         },
         "100220": Object {
+          "color": "#000000",
           "masterTime": 100220,
           "refTime": 100220,
           "symbol": undefined,
@@ -238,6 +240,7 @@ Object {
           "x": 100220,
         },
         "100320": Object {
+          "color": "#000000",
           "masterTime": 100320,
           "refTime": 100320,
           "symbol": undefined,
@@ -246,6 +249,7 @@ Object {
           "x": 100320,
         },
         "100420": Object {
+          "color": "#000000",
           "masterTime": 100420,
           "refTime": 100420,
           "symbol": undefined,
@@ -254,6 +258,7 @@ Object {
           "x": 100420,
         },
         "100520": Object {
+          "color": "#000000",
           "masterTime": 100520,
           "refTime": 100520,
           "symbol": undefined,
@@ -262,6 +267,7 @@ Object {
           "x": 100520,
         },
         "100620": Object {
+          "color": "#000000",
           "masterTime": 100620,
           "refTime": 100620,
           "symbol": undefined,
@@ -270,6 +276,7 @@ Object {
           "x": 100620,
         },
         "100720": Object {
+          "color": "#000000",
           "masterTime": 100720,
           "refTime": 100720,
           "symbol": undefined,
@@ -278,6 +285,7 @@ Object {
           "x": 100720,
         },
         "100820": Object {
+          "color": "#000000",
           "masterTime": 100820,
           "refTime": 100820,
           "symbol": undefined,

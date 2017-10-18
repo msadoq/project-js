@@ -208,13 +208,13 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     //   continue;
     // }
     const masterTime = timestamp + ep.offset;
-    const groundAlarm = currentValue.groundAlarm;
-    if (!groundAlarm) {
+    const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
+    if (!groundMonitoringAlarm) {
       continue;
     }
     // Compute acknowledgement State
     let ackState = constants.ALARM_ACKSTATE_NOACK;
-    if (groundAlarm.hasAckRequest) {
+    if (groundMonitoringAlarm.hasAckRequest) {
       ackState = constants.ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.ALARM_ACKSTATE_ACQUITED;
@@ -227,28 +227,30 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       satellite: convertData(currentValue.satellite),
       telemetryType: convertData(currentValue.telemetryType),
       ackState,
-      duration: groundAlarm.closingDate
+      duration: groundMonitoringAlarm.closingDate
         ? convertData({ type: 'duration',
-          value: groundAlarm.closingDate.value - groundAlarm.creationDate.value })
+          value: (
+            groundMonitoringAlarm.closingDate.value - groundMonitoringAlarm.creationDate.value
+          ) })
         : '-',
     };
     // Data from transitions table
-    if (groundAlarm.transitions && groundAlarm.transitions.length) {
-      const lastTransition = _last(groundAlarm.transitions);
+    if (groundMonitoringAlarm.transitions && groundMonitoringAlarm.transitions.length) {
+      const lastTransition = _last(groundMonitoringAlarm.transitions);
       Object.assign(valueToInsert, {
-        firstOccurence: convertData(groundAlarm.transitions[0].onboardDate),
+        firstOccurence: convertData(groundMonitoringAlarm.transitions[0].onboardDate),
         alarmType: convertData(lastTransition.monitoringState),
         lastOccurence: convertData(lastTransition.onboardDate),
         rawValue: convertData(lastTransition.rawValue),
         physicalValue: convertData(lastTransition.extractedValue),
-        transitions: _map(groundAlarm.transitions, transition => (
+        transitions: _map(groundMonitoringAlarm.transitions, transition => (
           _mapValues(transition, transitionProperty => (
             convertData(transitionProperty)
           ))
         )),
       });
       // Update of transitionNb
-      transitionNb += groundAlarm.transitions.length;
+      transitionNb += groundMonitoringAlarm.transitions.length;
     }
 
     newState[epName][masterTime] = valueToInsert;

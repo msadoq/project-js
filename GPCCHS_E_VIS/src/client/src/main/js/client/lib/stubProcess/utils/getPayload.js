@@ -48,7 +48,7 @@ const getComObject = (comObject, timestamp, epName) => {
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
         oid: `osef${Math.random() * 10000000}`,
-        groundAlarm: {
+        groundMonitoringAlarm: {
           creationDate: timestamp - 100,
           // paramUid: null,
           updateDate: timestamp - 50,

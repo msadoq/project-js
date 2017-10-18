@@ -1,6 +1,7 @@
-import "ccsds_mal/types.proto";
-
 package dataControllerUtils.protobuf;
+
+import "../../isis/ccsds_mal/TIME.proto";
+import "../../isis/ccsds_mal/NamedValue.proto";
 
 message OnBoardAlarm {
     extensions 9 to 109;

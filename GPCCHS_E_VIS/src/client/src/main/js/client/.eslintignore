@@ -1,7 +1,5 @@
 node_modules
 coverage
 benchmarks
-adapters
 dist
 docs
-!lib/utils/adapters

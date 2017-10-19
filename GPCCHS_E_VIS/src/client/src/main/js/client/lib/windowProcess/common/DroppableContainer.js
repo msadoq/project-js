@@ -6,6 +6,9 @@ import getLogger from '../../common/logManager';
 const logger = getLogger('drag and drop');
 
 const s = {
+  displayNone: {
+    display: 'none',
+  },
   overlay: {
     height: '100%',
     width: '100%',
@@ -95,11 +98,7 @@ export default class DroppableContainer extends PureComponent {
 
     return (
       <div
-        style={{
-          height: '100%',
-          position: 'relative',
-          width: '100%',
-        }}
+        className="h100 w100 posRelative"
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}
         onDrop={this.onDrop}
@@ -107,7 +106,7 @@ export default class DroppableContainer extends PureComponent {
       >
         {this.props.children}
         <div
-          style={this.state.over ? s.overlay : { display: 'none' }}
+          style={this.state.over ? s.overlay : s.displayNone}
         >
           <div style={s.text}>{this.props.text}</div>
         </div>

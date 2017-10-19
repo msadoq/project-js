@@ -18,6 +18,7 @@ import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import TimebarCollapsedContainer from '../Timebar/TimebarCollapsedContainer';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
 import ModalGeneric from '../common/ModalGeneric';
+import NoPageContainer from './NoPageContainer';
 
 import styles from './Window.css';
 
@@ -422,7 +423,9 @@ class Window extends PureComponent {
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
         { !pageId &&
-          <div className={classnames('w100', styles.noPage)}><br /><br />No page ...</div> // TODO boxmodel in Window.js
+          <NoPageContainer
+            windowId={windowId}
+          />
         }
         { pageId &&
           <div

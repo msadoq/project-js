@@ -142,15 +142,24 @@ export const getDataLines = createSelector(
   getData,
   data => _.flatMap((lineId) => {
     const alarm = data.data[lineId];
+    const alarmWithoutTransitions = _.omit('transitions', alarm);
     const transitions = _.isEmpty(alarm.transitions) ? [] : [
-      { type: 'transition_header' },
+      {
+        type: 'transition_header',
+        alarm: alarmWithoutTransitions,
+      },
       ...alarm.transitions.map(transition => ({
         type: 'transition',
         data: transition,
+        alarm: alarmWithoutTransitions,
       })),
     ];
     return [
-      { type: 'alarm', data: _.omit('transitions', alarm) },
+      {
+        type: 'alarm',
+        data: alarmWithoutTransitions,
+        alarm: alarmWithoutTransitions,
+      },
       ...transitions,
     ];
   }, data.lines)

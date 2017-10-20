@@ -1,12 +1,17 @@
+import _ from 'lodash/fp';
 import electron from 'electron';
-import _isArray from 'lodash/isArray';
 
-export default function handleContextMenu(menuItems) {
-  if (_isArray(menuItems)) {
-    const menu = electron.remote.Menu.buildFromTemplate(menuItems);
-    menu.popup(electron.remote.getCurrentWindow());
-    return;
-  }
-  const menu = electron.remote.Menu.buildFromTemplate([menuItems]);
-  menu.popup(electron.remote.getCurrentWindow());
+export default function handleContextMenu(menuItems, cb = _.noop) {
+  const hasCallback = cb !== _.noop;
+  const items = _.isArray(menuItems) ? menuItems : [menuItems];
+  const options = { async: !hasCallback };
+  const wait = f => (hasCallback ? setTimeout(f, 50) : f());
+  const menu = electron.remote.Menu.buildFromTemplate(items);
+
+  wait(() => {
+    menu.popup(electron.remote.getCurrentWindow(), options);
+    if (cb) {
+      cb();
+    }
+  });
 }

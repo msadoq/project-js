@@ -6,24 +6,9 @@
 // const _head = require('lodash/fp/head');
 
 const stubs = require('../../utils/stubs');
+const predictibleRand = require('./PredictibleRand');
 
 const stubData = stubs.getStubData();
-
-/**
- * Generate sinusoidal value within [offset, offset+2] range,
- * offset is a unique float value computed from epName.
- *
- * @param  {int} timestamp
- * @return {float}
- */
-function getSinValue(timestamp, epName) {
-  let offset = 0;
-  Buffer.from(epName).forEach((val) => {
-    offset += val;
-  });
-
-  return (1 + Math.sin(timestamp / 6000)) + (offset / 10);
-}
 
 // function getMonitoringState(timestamp) {
 //   const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete'];
@@ -44,44 +29,56 @@ function getMonitoringState() {
 const getComObject = (comObject, timestamp, epName) => {
   switch (comObject) {
     case 'GroundMonitoringAlarmAckRequest': {
-      const value = getSinValue(timestamp, epName);
+      const value = predictibleRand.getSinValue(timestamp, epName);
+      const groundMonitoringAlarm = {
+        creationDate: timestamp - 100,
+        paramUid: predictibleRand.getInt([0, 100000]),
+        updateDate: timestamp - 50,
+        closingDate: predictibleRand.getBool() ? timestamp - 10 : undefined,
+        hasAckRequest: predictibleRand.getBool(0.25),
+        alarmId: predictibleRand.getInt([0, 100000]),
+        transitions: [],
+        isNominal: predictibleRand.getBool(0.25),
+      };
+
+      const transitionNumber = predictibleRand.getInt([0, 6]);
+      for (let i = 0; i < transitionNumber; i += 1) {
+        groundMonitoringAlarm.transitions.push({
+          onboardDate: timestamp,
+          groundDate: timestamp + 20,
+          convertedValue: value * 2,
+          extractedValue: value * 3,
+          rawValue: value,
+          monitoringState: getMonitoringState(timestamp),
+        });
+      }
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
         oid: `osef${Math.random() * 10000000}`,
-        groundMonitoringAlarm: {
-          creationDate: timestamp - 100,
-          // paramUid: null,
-          updateDate: timestamp - 50,
-          closingDate: timestamp - 10,
-          hasAckRequest: false,
-          // alarmId: null,
-          transitions: [{
-            onboardDate: timestamp,
-            groundDate: timestamp + 20,
-            convertedValue: value * 2,
-            extractedValue: value * 3,
-            rawValue: value,
-            monitoringState: getMonitoringState(timestamp),
-          }],
-          // isNominal: false
-        },
+        groundMonitoringAlarm,
         ackRequest: {
-          ackRequestDate: timestamp,
+          ackRequestDate: timestamp - 10,
           systemDate: timestamp,
-          ack: {
-            ackDate: timestamp,
-            // acknowledger: bLOB.encode(user.encodeRaw(data.acknowledger)),
-          },
-          comment: 'J\'aime les guimauves au miel',
+          ack: predictibleRand.getBool(0.25) ? {
+            ackDate: timestamp - 10,
+            acknowledger: {
+              login: predictibleRand.getString('login', 16),
+              password: predictibleRand.getString('password', 64),
+              profile: predictibleRand.getString('profile', 256),
+              userTime: timestamp - 50000,
+            },
+          } : undefined,
+          comment: predictibleRand.getString('comment', -1, 10),
         },
-        parameterName: 'MyParameterStubName',
-        parameterType: 'MyParameterStubType',
-        satellite: 'MyStubSatelliteUnicorn',
-        telemetryType: 'MyTelemetryStubType',
+        parameterName: predictibleRand.getString('parameterName'),
+        parameterType: predictibleRand.getString('parameterType'),
+        satellite: predictibleRand.getString('satellite'),
+        telemetryType: predictibleRand.getString('telemetryType'),
       });
     }
+
     case 'ReportingParameter': {
-      const value = getSinValue(timestamp, epName);
+      const value = predictibleRand.getSinValue(timestamp, epName);
 
       return stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
@@ -92,6 +89,7 @@ const getComObject = (comObject, timestamp, epName) => {
         monitoringState: getMonitoringState(timestamp),
       });
     }
+
     case 'DecommutedPacket': {
       return stubData.getDecommutedPacketProtobuf({
         groundDate: timestamp + 20,
@@ -112,18 +110,22 @@ const getComObject = (comObject, timestamp, epName) => {
         ],
       });
     }
+
     case 'Pus003Model':
       return stubData.getPus003ModelProtobuf({
         groundDate: timestamp,
       });
+
     case 'Pus005Model':
       return stubData.getPus005ModelProtobuf({
         groundDate: timestamp,
       });
+
     case 'Pus012Model':
       return stubData.getPus012ModelProtobuf({
         groundDate: timestamp,
       });
+
     default: {
       return undefined;
     }

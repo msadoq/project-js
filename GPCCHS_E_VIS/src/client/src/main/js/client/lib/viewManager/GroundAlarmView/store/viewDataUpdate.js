@@ -121,8 +121,7 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
     }
   } else if (alarmMode === constants.ALARM_MODE_TOACKNOWLEDGE) {
     // No addition in lines
-    if (value.ackState === constants.ALARM_ACKSTATE_NOACK
-    || value.ackState === constants.ALARM_ACKSTATE_ACQUITED) {
+    if (value.ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
       return state;
     }
   }
@@ -214,7 +213,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
     // Compute acknowledgement State
     let ackState = constants.ALARM_ACKSTATE_NOACK;
-    if (groundMonitoringAlarm.hasAckRequest) {
+    if (convertData(groundMonitoringAlarm.hasAckRequest) === 'true') {
       ackState = constants.ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.ALARM_ACKSTATE_ACQUITED;
@@ -222,6 +221,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
 
     const valueToInsert = {
+      timestamp,
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),
       satellite: convertData(currentValue.satellite),

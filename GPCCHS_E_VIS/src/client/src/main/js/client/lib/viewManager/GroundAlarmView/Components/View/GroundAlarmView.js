@@ -8,18 +8,12 @@ const HEADER_HEIGHT = 50; // in pixel
 
 const GroundAlarmView = props => (
   <div className="h100 w100 posRelative">
-    <GroundAlarmFilters height={HEADER_HEIGHT} viewId={props.viewId} />
-    <GroundAlarmTable
-      containerWidth={props.containerWidth}
-      containerHeight={props.containerHeight - HEADER_HEIGHT}
-      viewId={props.viewId}
-    />
+    <GroundAlarmFilters {...props} height={HEADER_HEIGHT} />
+    <GroundAlarmTable {...props} containerHeight={props.containerHeight - HEADER_HEIGHT} />
   </div>
 );
 GroundAlarmView.propTypes = {
-  containerWidth: PropTypes.number.isRequired,
   containerHeight: PropTypes.number.isRequired,
-  viewId: PropTypes.string.isRequired,
 };
 
 export default withDimensions({ elementResize: true })(GroundAlarmView);

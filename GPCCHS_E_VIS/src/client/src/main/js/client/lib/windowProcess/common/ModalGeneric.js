@@ -6,6 +6,7 @@ import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/A
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
 import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
 import MimicAddEntryPointContainer from '../../viewManager/MimicView/Components/Editor/AddEntryPointContainer';
+import AlarmAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModal';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
@@ -37,6 +38,18 @@ const ModalGeneric = (props) => {
       }
       child = (
         <SaveWizardModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'alarmAck':
+      title = 'Acknowledgement';
+      if (props.props.title) {
+        title = `${title} - ${props.props.title}`;
+      }
+      child = (
+        <AlarmAckModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

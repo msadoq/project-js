@@ -141,7 +141,13 @@ class IhmLauncherActor (IsisActor) :
         dcPushUri = self.getProperty(PropertyType.USER_CONFIGURATION, "IhmLauncherConfig-dcPushUri")
         dcPullUri = self.getProperty(PropertyType.USER_CONFIGURATION, "IhmLauncherConfig-dcPullUri")
         dcConfFile = self.getProperty(PropertyType.USER_CONFIGURATION, "IhmLauncherConfig-dcConfFile")
-        if fmdRoot and nodePath and dcPushUri and dcPullUri and dcConfFile:
+        sessionID = str(ThreadContext.getSessionID_static())
+        hsConfKey = 'SESSION.'+ sessionID + '.VIMA_JS_CONFIGURATION_FILE_PATH'
+        hsConfFile = self.getProperty(PropertyType.PROPERTY, hsConfKey)
+        if not hsConfFile:
+            IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor : no Js VIMA configuration file defined in default session {}. Check if a default session is selected, and if VIMA_JS_CONFIGURATION_FILE_PATH is defined in session number {} configuration file".format(sessionID,sessionID) )
+            okStatus = False
+        if fmdRoot and nodePath and dcPushUri and dcPullUri and dcConfFile and hsConfFile:
             fmdRoot = STRING(None, fmdRoot.getRaw()).getValue()
             nodePath = STRING(None, nodePath.getRaw()).getValue()
             dcPushUri = STRING(None, dcPushUri.getRaw()).getValue()

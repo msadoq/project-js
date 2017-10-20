@@ -400,7 +400,7 @@ class GPCCHS_launcher(object):
             if rc == 0:
                 rc = self._run_iedit()
         if rc == 0:
-            print("Visualization main application start requested to desktop")
+            print("Visualization main application start requested to desktop\n(If it doesn't start, check that the default session selected in session widget contains a Js VIMA configuration)")
         return rc
 
 if __name__ == '__main__':

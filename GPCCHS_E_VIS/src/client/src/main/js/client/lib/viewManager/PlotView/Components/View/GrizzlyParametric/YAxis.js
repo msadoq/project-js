@@ -68,7 +68,6 @@ export default class YAxis extends Component {
     gridSize: 1,
     tickStep: 8,
     autoTick: false,
-    showPointLabels: false,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -91,7 +90,7 @@ export default class YAxis extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
-      'scale', 'autoTick', 'tickStep', 'showPointLabels', 'format'];
+      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;

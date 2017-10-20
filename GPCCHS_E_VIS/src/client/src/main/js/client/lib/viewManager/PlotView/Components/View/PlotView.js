@@ -154,14 +154,17 @@ export class GrizzlyPlotView extends PureComponent {
         shouldRender = true;
       }
     }
+    if (shouldRender) {
+      return true;
+    }
     if (nextProps.showLinks !== this.props.showLinks) {
-      shouldRender = true;
+      return true;
     }
     if (nextState.showEpNames !== this.state.showEpNames) {
-      shouldRender = true;
+      return true;
     }
     if (nextState.hideEpNames !== this.state.hideEpNames) {
-      shouldRender = true;
+      return true;
     }
     return shouldRender;
   }
@@ -545,8 +548,8 @@ export class GrizzlyPlotView extends PureComponent {
         autoTick: true,
         tickStep: 20000,
         showGrid: true,
-        gridStyle: 'Continuous',
-        gridSize: 1,
+        gridStyle: _get(grids, [0, 'line', 'style'], 'Continuous'),
+        gridSize: _get(grids, [0, 'line', 'size'], 1),
         unit: 'V',
         label: 'time',
         format: '.2f',

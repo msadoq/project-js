@@ -34,6 +34,8 @@ from collections import OrderedDict
 from GPCC.core.propertyType import PropertyType
 from GPCC.ccsds_mal.bOOLEAN import BOOLEAN
 from GPCC.ccsds_mal.sTRING import STRING
+from GPCC.container.threadContext import ThreadContext
+from GPCC.core.isisTrace import IsisTrace
 from GPCCTC_L_CNT.isisContainerCommon.internalFeatureMuxer import InternalFeatureMuxer
 from GPCCHS_E_VIS.ihmLauncher.IhmLauncherActor.dcFeature import DcFeature
 from GPCCHS_E_VIS.ihmLauncher.IhmLauncherActor.hsFeature import HsFeature
@@ -45,7 +47,7 @@ class IhmLauncherActor (IsisActor) :
     """
 
     # Start of user code ProtectedAttrZone
-    
+
     # End of user code
 
     def __init__(self,nodeType, parentPipe):
@@ -153,9 +155,10 @@ class IhmLauncherActor (IsisActor) :
             dcPushUri = STRING(None, dcPushUri.getRaw()).getValue()
             dcPullUri = STRING(None, dcPullUri.getRaw()).getValue()
             dcConfFile = STRING(None, dcConfFile.getRaw()).getValue()
+            hsConfFile = STRING(None, hsConfFile.getRaw()).getValue()
         else:
             okStatus = False
-            print("GPCCHS_E_VIS.IhmLauncherActor error, some required configuration arguments has not been received. fmdRoot: {}, nodePath: {}, dcPushUri: {}, dcPullUri: {}, dcConfFile: {}".format(fmdRoot,nodePath,dcPushUri,dcPullUri,dcConfFile) )
+            IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, some required configuration arguments has not been received. fmdRoot: {}, nodePath: {}, dcPushUri: {}, dcPullUri: {}, dcConfFile: {}, hsConfFile: {}".format(fmdRoot,nodePath,dcPushUri,dcPullUri,dcConfFile, hsConfFile) )
             
         # Optional configuration parameters
         debug = self.getProperty(PropertyType.USER_CONFIGURATION, "IhmLauncherConfig-debug")
@@ -176,15 +179,15 @@ class IhmLauncherActor (IsisActor) :
             ret = self._gpccdcFeat.setConfiguration(dcConfFile)
         else:
             okStatus = False
-            print("GPCCHS_E_VIS.IhmLauncherActor error, GPCCDC feature creation failed")
+            IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, GPCCDC feature creation failed")
         if ret == True:
             self._dcRunning = self._gpccdcFeat.autoStart()
         else:
             okStatus = False
-            print("GPCCHS_E_VIS.IhmLauncherActor error, GPCCDC configuration failed")
+            IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, GPCCDC configuration failed")
         if not self._dcRunning:
             okStatus = False
-            print("GPCCHS_E_VIS.IhmLauncherActor error, GPCCDC feature start failed")        
+            IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, GPCCDC feature start failed")        
             
         # Create and start GPCCHS feature
         if okStatus:
@@ -195,7 +198,8 @@ class IhmLauncherActor (IsisActor) :
             parameterDict["arg3"] = "--NODE_PATH=" + nodePath
             parameterDict["arg4"] = "--ZMQ_GPCCDC_PUSH=" + dcPushUri
             parameterDict["arg5"] = "--ZMQ_GPCCDC_PULL=" + dcPullUri
-            argNb = 6
+            parameterDict["arg6"] = "--CONFIGURATION=" + hsConfFile
+            argNb = 7
             for arg in additionalArgs:
                 parameterDict["arg"+str(argNb)] = arg
                 argNb = argNb + 1
@@ -205,24 +209,24 @@ class IhmLauncherActor (IsisActor) :
                 ret = self._gpcchsFeat.addParameter("command","/usr/share/isis/bin/gpcchs_e_clt_wrapper")
                 if ret is not True:
                     okStatus = False
-                    print("GPCCHS_E_VIS.IhmLauncherActor error, cannot add the command parameter to GPCCHS feature")
+                    IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, cannot add the command parameter to GPCCHS feature")
                 ret = self._gpcchsFeat.addParameter("argc",str(argNb))
                 if ret is not True:
                     okStatus = False
-                    print("GPCCHS_E_VIS.IhmLauncherActor error, cannot add the argc parameter to GPCCHS feature")
+                    IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, cannot add the argc parameter to GPCCHS feature")
                 for key,val in parameterDict.items():
                     ret = self._gpcchsFeat.addParameter(key,val)
                     if ret is not True:
                         okStatus = False
-                        print("GPCCHS_E_VIS.IhmLauncherActor error, cannot add the following additional parameter to GPCCHS feature : ",repr(key)," ",repr(val))
+                        IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, cannot add the following additional parameter to GPCCHS feature : ",repr(key)," ",repr(val))
                 if okStatus:
                     self._hsRunning = self._gpcchsFeat.autoStart()
                 if not self._hsRunning:
                     okStatus = False
-                    print("GPCCHS_E_VIS.IhmLauncherActor error, GPCCHS feature start failed")
+                    IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, GPCCHS feature start failed")
             else:
                 okStatus = False
-                print("GPCCHS_E_VIS.IhmLauncherActor error, GPCCHS feature creation failed")
+                IsisTrace.error("GPCCHS_E_VIS.IhmLauncherActor error, GPCCHS feature creation failed")
 
         # End of user code
     

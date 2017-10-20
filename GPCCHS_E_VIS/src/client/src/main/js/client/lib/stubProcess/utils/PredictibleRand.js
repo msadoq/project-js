@@ -81,6 +81,15 @@ function PredictibleRand() {
   );
 
   /**
+   * Get randomly one of the list
+   * @param  {array}  list
+   * @return {any}  item from the list
+   */
+  this.getFrom = list => (
+    list[this.getInt([0, list.length])]
+  );
+
+  /**
    * Generate a predictible pseudo-random integer
    * If range is precised, it will generate range[0] <= number < range[1]
    *

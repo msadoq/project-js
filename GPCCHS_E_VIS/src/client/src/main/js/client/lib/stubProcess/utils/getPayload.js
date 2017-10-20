@@ -7,6 +7,7 @@
 
 const stubs = require('../../utils/stubs');
 const predictibleRand = require('./PredictibleRand');
+const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 
@@ -29,13 +30,17 @@ function getMonitoringState() {
 const getComObject = (comObject, timestamp, epName) => {
   switch (comObject) {
     case 'GroundMonitoringAlarmAckRequest': {
+      if (predictibleRand.getBool(1 - (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP))) {
+        return null;
+      }
+
       const value = predictibleRand.getSinValue(timestamp, epName);
       const groundMonitoringAlarm = {
         creationDate: timestamp - 100,
         paramUid: predictibleRand.getInt([0, 100000]),
         updateDate: timestamp - 50,
         closingDate: predictibleRand.getBool() ? timestamp - 10 : undefined,
-        hasAckRequest: predictibleRand.getBool(0.25),
+        hasAckRequest: predictibleRand.getBool(0.75),
         alarmId: predictibleRand.getInt([0, 100000]),
         transitions: [],
         isNominal: predictibleRand.getBool(0.25),
@@ -136,8 +141,14 @@ const getComObject = (comObject, timestamp, epName) => {
  * @param  {String} epName    entry Point Name
  */
 module.exports = function getPayload(timestamp, comObject, epName = 'todo') {
+  const payload = getComObject(comObject, timestamp, epName);
+
+  if (payload === null) {
+    return null;
+  }
+
   return {
     timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),
-    payload: getComObject(comObject, timestamp, epName),
+    payload,
   };
 };

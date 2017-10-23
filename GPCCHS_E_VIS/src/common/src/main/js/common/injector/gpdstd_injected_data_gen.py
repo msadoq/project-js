@@ -576,7 +576,7 @@ class GPDSTD_InjectedDataFileGenerator(object):
                 paramValue = eval(params['element'])
             except Exception,e:
                 # If the string evaluation fails, put the string as it is in the output stream
-                #print "Evaluation failed for param value:" + params['element'] + " error:" + str(e)
+                #print "Evaluation failed for param value:" + params['element'] + " value of t is:" + repr(t) + " error:" + str(e)
                 paramValue = params['element']
                 pass
             # Manage the addition of quotes in case the evaluated paramValue is a number and quote addition is activated
@@ -761,20 +761,18 @@ def int_to_raw(i):
     return unpack('<I', pack('<i', i))[0]
 
 
-def monitoringStateGenerator(t):
+def monitoringStateGenerator(t,states=['nominal','warning','danger','critical']):
     '''
     Generate the monitoring state
+    t is the iteration index, from 0 to the value of --niter, -n argument of the script
+    states list of strings to use as return value, default list is ['nominal','warning','danger','critical']
     '''
     ret_val = "nominal"
-    nb_states = GPDSTD_NbIterations
-    if (t%nb_states) == 0:
-        ret_val = "warning"
-    if (t%nb_states) == 1:
-        ret_val = "danger"
-    if (t%nb_states) == 2:
-        ret_val = "critical"
+    nb_states = GPDSTD_NbIterations # Value of --niter, -n argument of the script
+    for i in range(nb_states):
+        if len(states) > i and (t%nb_states) == i:
+            ret_val = states[i]
     return ret_val
-
    
 if __name__ == '__main__':    
 

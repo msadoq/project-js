@@ -28,7 +28,7 @@ function getMonitoringState() {
 }
 
 function getAckRequest(timestamp, options) {
-  return (!options.allToAck || predictibleRand.getBool(0.25)) ? {
+  return (!options.allToAck && predictibleRand.getBool(0.25)) ? {
     ackDate: timestamp - 10,
     acknowledger: {
       login: predictibleRand.getString('login', 16),

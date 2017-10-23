@@ -60,6 +60,10 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         execution.stop('addRecord');
 
         execution.start('persist');
+        /**
+         * isIn {bool}: We required an interval
+         * isTimestampInLastInterval(...): specific treatment for forecast & last data
+         */
         if (isIn || isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
           payloadsJson[tbdId][timestamp] = payload;
         }

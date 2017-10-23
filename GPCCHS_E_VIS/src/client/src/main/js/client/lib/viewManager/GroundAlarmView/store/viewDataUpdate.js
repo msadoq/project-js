@@ -197,10 +197,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     //   logger.warn('get an alarm without .creationDate key ', tbdIdPayload);
     //   continue;
     // }
-    // check value is in interval
-    if (timestamp < lower || timestamp > upper) {
-      continue;
-    }
     // TODO: needs to determine on which filters have top be applied
     // // check value verify filters
     // if (!applyFilters(currentValue, ep.filters)) {
@@ -218,6 +214,12 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.ALARM_ACKSTATE_ACQUITED;
       }
+    }
+
+    // Filter values out of interval but keep "REQUIREACK" Alarms
+    const isOutOfTimeRange = timestamp < lower || timestamp > upper;
+    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
+      continue;
     }
 
     const valueToInsert = {

@@ -7,7 +7,6 @@
 
 const stubs = require('../../utils/stubs');
 const predictibleRand = require('./PredictibleRand');
-const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 
@@ -29,13 +28,18 @@ function getMonitoringState() {
 
 function getAckRequest(timestamp, options) {
   return (!options.allToAck && predictibleRand.getBool(0.25)) ? {
-    ackDate: timestamp - 10,
-    acknowledger: {
-      login: predictibleRand.getString('login', 16),
-      password: predictibleRand.getString('password', 64),
-      profile: predictibleRand.getString('profile', 256),
-      userTime: timestamp - 50000,
+    ackRequestDate: timestamp - 10,
+    systemDate: timestamp,
+    ack: {
+      ackDate: timestamp - 10,
+      acknowledger: {
+        login: predictibleRand.getString('login', 16),
+        password: predictibleRand.getString('password', 64),
+        profile: predictibleRand.getString('profile', 256),
+        userTime: timestamp - 50000,
+      },
     },
+    comment: predictibleRand.getString('comment', -1, 10),
   } : undefined;
 }
 
@@ -54,7 +58,7 @@ function getNamedValue() {
 const getComObject = (comObject, timestamp, epName, options) => {
   switch (comObject) {
     case 'OnBoardAlarmAckRequest': {
-      if (predictibleRand.getBool(1 - (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP))) {
+      if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
         return null;
       }
 
@@ -77,7 +81,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
     }
 
     case 'GroundMonitoringAlarmAckRequest': {
-      if (predictibleRand.getBool(1 - (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP))) {
+      if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
         return null;
       }
 
@@ -108,12 +112,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
         oid: `oid${Math.random() * 10000000}`,
         groundMonitoringAlarm,
-        ackRequest: {
-          ackRequestDate: timestamp - 10,
-          systemDate: timestamp,
-          ack: getAckRequest(timestamp, options),
-          comment: predictibleRand.getString('comment', -1, 10),
-        },
+        ackRequest: getAckRequest(timestamp, options),
         parameterName: predictibleRand.getString('pName'),
         parameterType: predictibleRand.getString('pType'),
         satellite: predictibleRand.getString('satellite'),

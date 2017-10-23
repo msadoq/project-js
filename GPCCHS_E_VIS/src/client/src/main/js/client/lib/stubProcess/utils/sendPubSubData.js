@@ -11,7 +11,9 @@ const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
 function getPayloads(comObject, parameterName) {
   const payloads = [];
   for (let i = 0; i < _random(1, constants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
-    const payload = getPayload(Date.now(), comObject, parameterName);
+    const payload = getPayload(Date.now(), comObject, parameterName, {
+      alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
+    });
     if (payload !== null) {
       payloads.push(payload);
     }

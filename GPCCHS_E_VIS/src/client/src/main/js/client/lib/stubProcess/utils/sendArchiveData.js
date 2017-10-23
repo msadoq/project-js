@@ -6,8 +6,6 @@ const getPayload = require('./getPayload');
 const stubs = require('../../utils/stubs');
 
 const stubData = stubs.getStubData();
-
-
 const header = stubData.getTimebasedArchiveDataHeaderProtobuf();
 const thisIsTheEnd = stubData.getBooleanProtobuf(true);
 
@@ -56,18 +54,30 @@ module.exports = function sendArchiveData(
     // compute number of steps from lower time to current
     const n = Math.floor((to - from) / constants.DC_STUB_VALUE_TIMESTEP);
     let timestamp = from + (n * constants.DC_STUB_VALUE_TIMESTEP);
-    if (timestamp > Date.now()) {
+    if (timestamp > now) {
       // stub never send value in the future
-      timestamp = Date.now() - constants.DC_STUB_VALUE_TIMESTEP;
+      timestamp = now - constants.DC_STUB_VALUE_TIMESTEP;
     }
     const payload = getPayload(timestamp, dataId.comObject, dataId.parameterName);
     if (payload !== null) {
       payloads.push(payload);
     }
   } else {
+    // All toAck alarms are pushed by DC whatever the given alarm
+    if (dataId.catalog === 'alarm') {
+      for (let i = now - 10000020000; i < (now - 10000010000); i += 2000) {
+        const payload = getPayload(i, dataId.comObject, dataId.parameterName, { allToAck: true });
+        if (payload !== null) {
+          payloads.push(payload);
+        }
+      }
+    }
+
     for (let i = from; i <= to && i < now; i += constants.DC_STUB_VALUE_TIMESTEP) {
       if (shouldPushANewValue(queryKey, i)) {
-        const payload = getPayload(i, dataId.comObject, dataId.parameterName);
+        const payload = getPayload(i, dataId.comObject, dataId.parameterName, {
+          alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
+        });
         if (payload !== null) {
           payloads.push(payload);
         }

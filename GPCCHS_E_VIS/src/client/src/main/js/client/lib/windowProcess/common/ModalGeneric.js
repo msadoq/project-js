@@ -6,7 +6,7 @@ import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/A
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
 import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
 import MimicAddEntryPointContainer from '../../viewManager/MimicView/Components/Editor/AddEntryPointContainer';
-import AlarmAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModal';
+import AlarmAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModalContainer';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';

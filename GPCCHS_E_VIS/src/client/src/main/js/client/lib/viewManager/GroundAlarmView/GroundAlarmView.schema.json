@@ -28,9 +28,6 @@
         "connectedData": {
             "type": "object",
             "properties": {
-                "formula": {
-                    "type": "string"
-                },
                 "filter": {
                     "type": "array",
                     "items": {
@@ -42,10 +39,13 @@
                 },
                 "timeline": {
                     "type": "string"
+                },
+                "mode": {
+                  "type": "string"
                 }
             },
             "required": [
-                "formula",
+                "mode",
                 "domain",
                 "timeline"
             ]

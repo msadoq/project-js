@@ -12,7 +12,6 @@
       "domain": "*",
       "timeline": "*",
       "mode": "ALL",
-      "formula": "GroundMonitoringAlarmAckRequest"
     }
   }
 }

@@ -18,7 +18,6 @@ const getDefaultView = view => _.merge({
         domain: get('WILDCARD_CHARACTER'),
         timeline: get('WILDCARD_CHARACTER'),
         mode: constants.ALARM_MODE_ALL,
-        formula: 'GroundMonitoringAlarmAckRequest',
       },
     },
   },

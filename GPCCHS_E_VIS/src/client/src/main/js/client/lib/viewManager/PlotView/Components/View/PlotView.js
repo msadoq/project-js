@@ -6,6 +6,7 @@ import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
+import _uniq from 'lodash/uniq';
 import classnames from 'classnames';
 import moment from 'moment';
 import getLogger from '../../../../common/logManager';
@@ -25,6 +26,132 @@ const logger = getLogger('view:plot');
 
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
+
+const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
+  let xAxesIds = [];
+  const xAxes = [];
+  let yAxesIds = [];
+  const yAxes = [];
+  entryPoints.forEach((ep) => {
+    if (ep.parametric) {
+      xAxesIds.push(_get(ep, ['connectedDataParametric', 'xAxisId']));
+      yAxesIds.push(_get(ep, ['connectedDataParametric', 'yAxisId']));
+    } else {
+      xAxesIds.push('time');
+      yAxesIds.push(_get(ep, ['connectedData', 'axisId']));
+    }
+  });
+
+  xAxesIds = _uniq(xAxesIds);
+  yAxesIds = _uniq(yAxesIds);
+
+  yAxesIds.forEach((axisId) => {
+    const axis = axes[axisId];
+    const grid = grids.find(g => g.yAxisId === axis.id);
+    const axisEntryPoints = entryPoints
+      .filter(ep =>
+        (
+          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
+          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+        )
+      );
+    const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    return yAxes.push({
+      id: axis.id,
+      extents:
+        axis.autoLimits === true ?
+        [min, max]
+        :
+        [
+          min < axis.min ? min : axis.min,
+          max > axis.max ? max : axis.max,
+        ],
+      orient: 'top',
+      format: '.3f',
+      showAxis: axis.showAxis === true,
+      showLabels: axis.showLabels === true,
+      showTicks: axis.showTicks === true,
+      autoLimits: false,
+      autoTick: axis.autoTick === true,
+      tickStep: axis.tickStep,
+      showGrid: _get(grid, 'showGrid', false),
+      gridStyle: _get(grid, ['line', 'style']),
+      gridSize: _get(grid, ['line', 'size']),
+      unit: axis.unit,
+      label: axis.label,
+      labelStyle: axis.style,
+      logarithmic: axis.logarithmic,
+      logSettings: axis.logSettings,
+      formatAsDate: false,
+    });
+  });
+
+  xAxesIds.forEach((axisId) => {
+    if (axisId === 'time') {
+      return xAxes.push({
+        id: 'time',
+        orient: 'top',
+        extents: [visuWindow.lower, visuWindow.upper],
+        autoLimits: false,
+        showAxis: true,
+        showLabels: true,
+        showTicks: true,
+        autoTick: true,
+        tickStep: 20000,
+        showGrid: true,
+        gridStyle: _get(grids, [0, 'line', 'style'], 'Continuous'),
+        gridSize: _get(grids, [0, 'line', 'size'], 1),
+        unit: 'V',
+        label: 'time',
+        format: '.2f',
+        formatAsDate: true,
+        labelStyle: {},
+      });
+    }
+    const axis = axes[axisId];
+    const grid = grids.find(g => g.yAxisId === axis.id);
+    const axisEntryPoints = entryPoints
+      .filter(ep =>
+        (
+          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
+          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+        )
+      );
+    const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    return yAxes.push({
+      id: axis.id,
+      extents:
+        axis.autoLimits === true ?
+        [min, max]
+        :
+        [
+          min < axis.min ? min : axis.min,
+          max > axis.max ? max : axis.max,
+        ],
+      orient: 'top',
+      format: '.3f',
+      showAxis: axis.showAxis === true,
+      showLabels: axis.showLabels === true,
+      showTicks: axis.showTicks === true,
+      autoLimits: false,
+      autoTick: axis.autoTick === true,
+      tickStep: axis.tickStep,
+      showGrid: _get(grid, 'showGrid', false),
+      gridStyle: _get(grid, ['line', 'style']),
+      gridSize: _get(grid, ['line', 'size']),
+      unit: axis.unit,
+      label: axis.label,
+      labelStyle: axis.style,
+      logarithmic: axis.logarithmic,
+      logSettings: axis.logSettings,
+      formatAsDate: false,
+    });
+  });
+
+  return { xAxes, yAxes };
+};
 
 const getUniqueEpId = (id, entryPoints) => {
   let i = 2;
@@ -153,6 +280,23 @@ export class GrizzlyPlotView extends PureComponent {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
       }
+    }
+    if (
+      nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
+      nextProps.configuration.axes !== this.props.configuration.axes ||
+      nextProps.configuration.grids !== this.props.configuration.grids ||
+      nextProps.visuWindow !== this.props.visuWindow ||
+      nextProps.data !== this.props.data
+    ) {
+      const processedAxes = getUniqAxes(
+        nextProps.configuration.entryPoints,
+        nextProps.configuration.axes,
+        nextProps.configuration.grids,
+        nextProps.data,
+        nextProps.visuWindow
+      );
+      this.xAxes = processedAxes.xAxes;
+      this.yAxes = processedAxes.yAxes;
     }
     if (shouldRender) {
       return true;
@@ -494,16 +638,31 @@ export class GrizzlyPlotView extends PureComponent {
       hideEpNames,
     } = this.state;
 
+    // On first render only
+    if (!this.xAxes || !this.yAxes) {
+      const processedAxes = getUniqAxes(
+        this.props.configuration.entryPoints,
+        axes,
+        grids,
+        data,
+        visuWindow
+      );
+      this.xAxes = processedAxes.xAxes;
+      this.yAxes = processedAxes.yAxes;
+    }
+
     if (showEpNames.length) {
       entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
     } else if (hideEpNames.length) {
       entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
     }
 
-    const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
-    const yAxesLegendHeight = yAxes.map((a) => {
+    const yAxesLegendHeight = this.yAxes.map((a) => {
       const eps = this.props.configuration.entryPoints.filter(ep =>
-        _get(ep, ['connectedData', 'axisId']) === a.id
+        (
+          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === a.id) ||
+          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === a.id)
+        )
       ).length;
       return eps > 0 ? 84 : 0;
     });
@@ -536,28 +695,6 @@ export class GrizzlyPlotView extends PureComponent {
         removeEntryPoint={this.removeEntryPoint}
       />);
 
-    const xAxes = [
-      {
-        id: 'time',
-        orient: 'top',
-        extents: [visuWindow.lower, visuWindow.upper],
-        autoLimits: false,
-        showAxis: true,
-        showLabels: true,
-        showTicks: true,
-        autoTick: true,
-        tickStep: 20000,
-        showGrid: true,
-        gridStyle: _get(grids, [0, 'line', 'style'], 'Continuous'),
-        gridSize: _get(grids, [0, 'line', 'size'], 1),
-        unit: 'V',
-        label: 'time',
-        format: '.2f',
-        formatAsDate: true,
-        labelStyle: {},
-      },
-    ];
-
     return (
       <DroppableContainer
         onContextMenu={this.onContextMenu}
@@ -583,42 +720,9 @@ export class GrizzlyPlotView extends PureComponent {
           yAxesAt={showYAxes}
           xAxesAt="bottom"
           parametric={false}
-          xAxes={xAxes}
           additionalStyle={this.memoizeMainStyle(legend.location)}
-          yAxes={yAxes.map((axis) => {
-            const grid = grids.find(g => g.yAxisId === axis.id);
-            const axisEntryPoints = entryPoints
-              .filter(ep => _get(ep, ['connectedData', 'axisId']) === axis.id);
-            const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-            const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
-            return {
-              id: axis.id,
-              extents:
-                axis.autoLimits === true ?
-                [min, max]
-                :
-                [
-                  min < axis.min ? min : axis.min,
-                  max > axis.max ? max : axis.max,
-                ],
-              orient: 'top',
-              format: '.3f',
-              showAxis: axis.showAxis === true,
-              showLabels: axis.showLabels === true,
-              showTicks: axis.showTicks === true,
-              autoLimits: false,
-              autoTick: axis.autoTick === true,
-              tickStep: axis.tickStep,
-              showGrid: _get(grid, 'showGrid', false),
-              gridStyle: _get(grid, ['line', 'style']),
-              gridSize: _get(grid, ['line', 'size']),
-              unit: axis.unit,
-              label: axis.label,
-              labelStyle: axis.style,
-              logarithmic: axis.logarithmic,
-              logSettings: axis.logSettings,
-            };
-          })}
+          yAxes={this.yAxes}
+          xAxes={this.xAxes}
           lines={
             entryPoints.map(ep =>
               ({

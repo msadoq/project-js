@@ -108,6 +108,7 @@ class TableView extends React.Component {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
+    mode: PropTypes.string.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
     lines: PropTypes.arrayOf(PropTypes.shape({
@@ -130,7 +131,11 @@ class TableView extends React.Component {
     if (this.state.position >= this.getLastPosition(nextProps)) {
       this.setState(_.set('position', this.getLastPosition(nextProps)));
     }
-    if (this.props.domain !== nextProps.domain || this.props.timeline !== nextProps.timeline) {
+    if (
+      this.props.domain !== nextProps.domain
+      || this.props.timeline !== nextProps.timeline
+      || this.props.mode !== nextProps.mode
+    ) {
       this.resetState();
     }
   }

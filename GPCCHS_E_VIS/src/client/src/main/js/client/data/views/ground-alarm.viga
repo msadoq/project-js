@@ -11,7 +11,7 @@
     "connectedData": {
       "domain": "*",
       "timeline": "*",
-      "mode": "ALL",
+      "mode": "ALL"
     }
   }
 }

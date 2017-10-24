@@ -80,6 +80,9 @@ export default class Tooltip extends React.Component {
     const pairKeys = Object.keys(pairs);
     pairKeys.forEach((key) => {
       const pair = pairs[key];
+      if (!pair.lines) {
+        return;
+      }
       const xInDomain = pair.xAxis.scale.invert(xInRange);
       const yInDomain = pair.yAxis.scale.invert(yInRange);
       const xFormat = d3Format(pair.xAxis.format || '.2f');

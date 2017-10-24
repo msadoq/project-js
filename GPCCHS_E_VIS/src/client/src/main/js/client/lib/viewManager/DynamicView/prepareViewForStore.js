@@ -11,7 +11,7 @@ const getDefaultView = _.merge({
   links: [],
   defaultRatio: { length: 5, width: 5 },
   configuration: {
-    entryPoint: { connectedData: {} },
+    entryPoint: {},
   },
 });
 

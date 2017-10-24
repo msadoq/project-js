@@ -113,10 +113,7 @@ const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     const grid = grids.find(g => g.yAxisId === axis.id);
     const axisEntryPoints = entryPoints
       .filter(ep =>
-        (
-          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
-          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
-        )
+        (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
       );
     const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
     const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));

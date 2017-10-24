@@ -15,7 +15,7 @@ export default function parseConnectedData(
   pageSessionName,
   workspaceSessionName
 ) {
-  const { formula, domain, timeline, filter } = connectedData;
+  const { formula, domain, timeline, filter, mode } = connectedData;
   // formula
   const comObject = formula;
 
@@ -55,6 +55,7 @@ export default function parseConnectedData(
     field: 'nofield',
     filters: filter,
     offset,
+    mode,
   };
 }
 

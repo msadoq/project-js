@@ -6,7 +6,13 @@
     "length": 5,
     "width": 5
   },
-  "alarmDomain": "*",
-  "alarmTimeline": "*",
-  "alarmMode": "ALL"
+  "entryPoint": {
+    "name": "groundAlarmEP",
+    "connectedData": {
+      "domain": "*",
+      "timeline": "*",
+      "mode": "ALL",
+      "formula": "GroundMonitoringAlarmAckRequest"
+    }
+  }
 }

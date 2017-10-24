@@ -2,7 +2,7 @@
  * Generate a predictable flat dataId for a given dataId Object
  * @param dataId {catalog, parameterName, comObject, sessionId, domainId }
  */
-module.exports = (dataId, filters = []) => {
+module.exports = (dataId, filters = [], mode) => {
   const {
     catalog,
     parameterName,
@@ -10,7 +10,8 @@ module.exports = (dataId, filters = []) => {
     sessionId,
     domainId,
   } = dataId;
-  return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}${flattenFilters(filters)}`;
+  const _mode = mode ? `:${mode}` : '';
+  return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}${flattenFilters(filters)}${_mode}`;
 };
 
 function flattenFilters(filters = []) {

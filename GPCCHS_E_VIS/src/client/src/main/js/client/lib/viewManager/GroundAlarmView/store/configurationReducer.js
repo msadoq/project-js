@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import * as types from '../../../store/types';
 import { getConfigurationByViewId } from '../../../viewManager';
 
-// domainAlarm: '*', sessionAlarm: '*'
 export default (stateConf = {}, action) => {
   switch (action.type) {
     case types.WS_VIEW_RELOAD:
@@ -12,15 +11,14 @@ export default (stateConf = {}, action) => {
     case types.WS_PAGE_OPENED:
     case types.WS_WORKSPACE_OPENED:
     case types.WS_VIEW_ADD_BLANK: {
-      const config = action.payload.view.configuration;
-      return config;
+      return action.payload.view.configuration;
     }
     case types.WS_VIEW_UPDATE_ALARMDOMAIN:
-      return { ...stateConf, alarmDomain: action.payload.domainName };
+      return _.set('entryPoints[0].connectedData.domain', action.payload.domainName, stateConf);
     case types.WS_VIEW_UPDATE_ALARMTIMELINE:
-      return { ...stateConf, alarmTimeline: action.payload.timelineName };
+      return _.set('entryPoints[0].connectedData.timeline', action.payload.timelineName, stateConf);
     case types.WS_VIEW_UPDATE_ALARMMODE: {
-      return { ...stateConf, alarmMode: action.payload.mode };
+      return _.set('entryPoints[0].connectedData.mode', action.payload.mode, stateConf);
     }
     default:
       return stateConf;
@@ -29,15 +27,15 @@ export default (stateConf = {}, action) => {
 
 export const getAlarmMode = createSelector(
   getConfigurationByViewId,
-  _.get('alarmMode')
+  _.get('entryPoints[0].connectedData.mode')
 );
 
 export const getAlarmDomain = createSelector(
   getConfigurationByViewId,
-  _.get('alarmDomain')
+  _.get('entryPoints[0].connectedData.domain')
 );
 
 export const getAlarmTimeline = createSelector(
   getConfigurationByViewId,
-  _.get('alarmTimeline')
+  _.get('entryPoints[0].connectedData.timeline')
 );

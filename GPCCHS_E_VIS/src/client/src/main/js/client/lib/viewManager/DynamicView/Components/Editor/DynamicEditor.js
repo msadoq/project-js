@@ -66,8 +66,7 @@ export default class DynamicEditor extends Component {
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
     const entryPoint = _get(configuration, ['entryPoints', 0]);
-
-    updateEntryPoint(viewId, 0, {
+    updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
     });

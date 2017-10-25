@@ -19,7 +19,7 @@ import * as constants from '../../../constants';
  * @param: visuWindow to have current time
  * @return: updated state
 /* *********************************** */
-export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindow) {
+export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
   // get EP names
   const epNames = Object.keys(payloads || {});
   // Only one entry point per ground alarm view + transitionNb
@@ -82,7 +82,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
       if (updLines) {
         // Sorting considering specified column
         newState =
-          updateLines(newState, time, lastIndex, viewConfig.alarmMode, visuWindow);
+          updateLines(newState, time, lastIndex, mode, visuWindow);
       }
     }
   }
@@ -116,7 +116,13 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
     return newState;
   } else if (alarmMode === constants.ALARM_MODE_NONNOMINAL) {
     // Just adds the alarms not closed at current time
-    if (state.data[time].closingDate && state.data[time].closingDate <= visuWindow.current) {
+    const { creationDate, closingDate } = state.data[time];
+    const isNonNominal = (
+      creationDate < visuWindow.current
+      && (closingDate > visuWindow.current || !closingDate)
+    );
+    const isNominal = !isNonNominal;
+    if (isNominal) {
       return state;
     }
   } else if (alarmMode === constants.ALARM_MODE_TOACKNOWLEDGE) {
@@ -228,6 +234,8 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       parameterType: convertData(currentValue.parameterType),
       satellite: convertData(currentValue.satellite),
       telemetryType: convertData(currentValue.telemetryType),
+      creationDate: convertData(groundMonitoringAlarm.creationDate),
+      closingDate: convertData(groundMonitoringAlarm.closingDate),
       ackState,
       duration: groundMonitoringAlarm.closingDate
         ? convertData({ type: 'duration',

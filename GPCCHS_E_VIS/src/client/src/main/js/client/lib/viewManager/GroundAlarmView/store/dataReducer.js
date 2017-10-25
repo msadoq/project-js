@@ -86,8 +86,13 @@ export default function groundAlarmViewData(state = {}, action) {
           selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
-          const viewState = viewRangeAdd(newState[viewId], viewId, epSubState,
-            configuration[viewId], visuWindow);
+          const viewState = viewRangeAdd(
+            newState[viewId],
+            viewId,
+            epSubState,
+            _.get([viewId, 'entryPoints', 0, 'connectedData', 'mode'], configuration),
+            visuWindow
+          );
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
           }
@@ -119,15 +124,16 @@ export default function groundAlarmViewData(state = {}, action) {
       return newState;
     }
     case types.WS_VIEW_UPDATE_ALARMMODE: {
-      if (!state.indexes) {
+      const { mode, visuWindow, viewId } = action.payload;
+      const alarms = state[viewId];
+      if (!alarms || !alarms.indexes) {
         return state;
       }
-      const { mode, visuWindow } = action.payload;
-      let newState = { ...state, lines: [] };
-      for (let i = 0; i < state.indexes.length; i += 1) {
-        newState = updateLines(newState, state.indexes[i], i, mode, visuWindow);
+      let newAlarms = _.set('lines', [], alarms);
+      for (let i = 0; i < newAlarms.indexes.length; i += 1) {
+        newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
       }
-      return newState;
+      return _.set(viewId, newAlarms, state);
     }
     default:
       return state;

@@ -29,7 +29,7 @@ import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
 import historyViewSchema from './HistoryView/HistoryView.schema.json';
 import packetViewSchema from './PacketView/PacketView.schema.json';
 import groundAlarmViewSchema from './GroundAlarmView/GroundAlarmView.schema.json';
-// import onboardAlarmViewSchema from './OnboardAlarmView/OnboardAlarm.schema.json';
+import onboardAlarmViewSchema from './OnboardAlarmView/OnboardAlarmView.schema.json';
 
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
@@ -94,7 +94,7 @@ const list = {
     dataSelectors: groundAlarmViewDataSelectors,
   },
   [constants.VM_VIEW_ONBOARDALARM]: {
-    // schema: groundAlarmViewSchema,
+    schema: onboardAlarmViewSchema,
     viewModule: onboardAlarmViewModule,
     structureType: DATASTRUCTURETYPE_RANGE,
     structureModule: onboardAlarmViewData,

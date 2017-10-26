@@ -12,11 +12,11 @@ export const updateAlarmMode = (viewId, mode) => (dispatch, getState) => {
 };
 
 export const openAckModal = alarms => (
-  openModalInCurrentWindow({ type: 'gmaAck', title: 'Ground Monitoring Alarm', alarms })
+  openModalInCurrentWindow({ type: 'obaAck', title: 'On Board Alarm', alarms })
 );
 
 export const sendAlarmAck = (alarms, reason) => ({
-  type: types.WS_VIEW_GMA_ALARM_ACK,
+  type: types.WS_VIEW_OBA_ALARM_ACK,
   payload: {
     alarms: _.isArray(alarms) ? alarms : [alarms],
     reason,

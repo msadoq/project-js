@@ -48,7 +48,7 @@ export default function parseEntryPoint(
   // field = undefined
   const { dataId, field, offset } = cd;
   // compute tbdId = flat DataId + filters
-  const tbdId = flattenDataId(dataId, cd.filters);
+  const tbdId = flattenDataId(dataId, cd.filters, cd.mode);
 
   const ep = {
     [name]: {

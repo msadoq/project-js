@@ -9,7 +9,18 @@
         "x": 0,
         "y": 0,
         "w": 9,
-        "h": 19
+        "h": 11
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "oId": "oid:/views/onboard-alarm.viba",
+      "geometry": {
+        "x": 0,
+        "y": 11,
+        "w": 9,
+        "h": 8
       },
       "hideBorders": false,
       "windowState": "Normalized"

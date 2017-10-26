@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
+import _ from 'lodash/fp';
 import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
-import _ from 'lodash/fp';
 
 import { getOnboardAlarmViewData, getData } from './dataReducer';
 
 const getEntryPointsByViewId = (state, { viewId }) => (
-  _.get(`OnboardViewConfiguration.${viewId}.entryPoints`, state)
+  _.get(['OnboardAlarmViewConfiguration', viewId, 'entryPoints'], state)
 );
 
 const getCount = createSelector(
@@ -54,9 +54,8 @@ const getLastValue = createSelector(
   }
 );
 
-
 export default {
+  getEntryPointsByViewId,
   getCount,
   getLastValue,
-  getEntryPointsByViewId,
 };

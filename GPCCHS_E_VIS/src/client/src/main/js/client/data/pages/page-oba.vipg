@@ -1,0 +1,19 @@
+{
+  "type": "Page",
+  "title": "OBA Page",
+  "sessionName": "Master",
+  "domainName": "fr.cnes.isis",
+  "views": [
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 17
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

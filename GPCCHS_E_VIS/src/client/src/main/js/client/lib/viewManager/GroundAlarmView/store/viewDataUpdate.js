@@ -104,7 +104,7 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
   const value = newState.data[time];
 
   // If mode = ALL, index in lines is the same as in indexes
-  if (alarmMode === constants.ALARM_MODE_ALL) {
+  if (alarmMode === constants.GMA_ALARM_MODE_ALL) {
     if (index === -1) {
       newState.lines.push(time);
     } else {
@@ -114,7 +114,7 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
         newState.lines.slice(index));
     }
     return newState;
-  } else if (alarmMode === constants.ALARM_MODE_NONNOMINAL) {
+  } else if (alarmMode === constants.GMA_ALARM_MODE_NONNOMINAL) {
     // Just adds the alarms not closed at current time
     const { creationDate, closingDate } = state.data[time];
     const isNonNominal = (
@@ -125,9 +125,9 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
     if (isNominal) {
       return state;
     }
-  } else if (alarmMode === constants.ALARM_MODE_TOACKNOWLEDGE) {
+  } else if (alarmMode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
     // No addition in lines
-    if (value.ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
+    if (value.ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
       return state;
     }
   }
@@ -214,17 +214,17 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       continue;
     }
     // Compute acknowledgement State
-    let ackState = constants.ALARM_ACKSTATE_NOACK;
+    let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
     if (convertData(groundMonitoringAlarm.hasAckRequest) === 'true') {
-      ackState = constants.ALARM_ACKSTATE_REQUIREACK;
+      ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
-        ackState = constants.ALARM_ACKSTATE_ACQUITED;
+        ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
       }
     }
 
     // Filter values out of interval but keep "REQUIREACK" Alarms
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
+    if (isOutOfTimeRange && ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
       continue;
     }
 

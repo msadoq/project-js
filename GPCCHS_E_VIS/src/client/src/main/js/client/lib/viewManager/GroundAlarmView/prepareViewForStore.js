@@ -17,7 +17,7 @@ const getDefaultView = view => _.merge({
       connectedData: {
         domain: get('WILDCARD_CHARACTER'),
         timeline: get('WILDCARD_CHARACTER'),
-        mode: constants.ALARM_MODE_ALL,
+        mode: constants.GMA_ALARM_MODE_ALL,
       },
     },
   },

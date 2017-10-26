@@ -185,7 +185,7 @@ class TableView extends React.Component {
 
   toggleAlarmSelection = (alarm) => {
     const { timestamp, ackState } = alarm;
-    if (ackState === constants.ALARM_ACKSTATE_REQUIREACK) {
+    if (ackState === constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
       const selectedAlarmsPath = ['selectedAlarms', timestamp];
       if (this.state.selectedAlarms[timestamp]) {
         this.setState(_.unset(selectedAlarmsPath));

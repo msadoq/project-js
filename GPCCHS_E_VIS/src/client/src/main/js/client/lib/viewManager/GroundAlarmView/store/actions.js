@@ -16,7 +16,7 @@ export const openAckModal = alarms => (
 );
 
 export const sendAlarmAck = (alarms, reason) => ({
-  type: types.WS_VIEW_ALARM_ACK,
+  type: types.WS_VIEW_GMA_ALARM_ACK,
   payload: {
     alarms: _.isArray(alarms) ? alarms : [alarms],
     reason,

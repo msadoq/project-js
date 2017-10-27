@@ -30,7 +30,7 @@ function getAckRequest(timestamp, options) {
   return (!options.allToAck && predictibleRand.getBool(0.25)) ? {
     ackRequestDate: timestamp - 10,
     systemDate: timestamp,
-    ack: {
+    ack: predictibleRand.getBool() ? {
       ackDate: timestamp - 10,
       acknowledger: {
         login: predictibleRand.getString('login', 16),
@@ -38,7 +38,7 @@ function getAckRequest(timestamp, options) {
         profile: predictibleRand.getString('profile', 256),
         userTime: timestamp - 50000,
       },
-    },
+    } : undefined,
     comment: predictibleRand.getString('comment', -1, 10),
   } : undefined;
 }

@@ -1,28 +1,31 @@
 @import './variables.css';
 
-.GroundAlarmView {
+.AlarmView {
   background-color: var(--theme-light);
 }
 
-.GroundAlarmView th {
+.AlarmView th {
   background-color: #666;
   color: var(--theme-light);
 }
 
-.GroundAlarmView .alarm td {
+.AlarmView .alarm td {
   background-color: #777;
   color: var(--theme-light);
 }
 
-.GroundAlarmView .alarm.selected td {
+.AlarmView .alarm.selected td {
   background-color: #63708C;
 }
-.GroundAlarmView .transition.selected td {
+
+/* alarmChildren can be either transitions (GMA) or parameters (OBA) */
+
+.AlarmView .alarmChildren.selected td {
   background-color: #63708C;
   color: var(--theme-light);
 }
 
-.GroundAlarmView .transition th {
+.AlarmView .alarmChildren th {
   border-color: #777777;
   background-color: #999999;
   border-left: 0;
@@ -31,11 +34,11 @@
   color: var(--gray-darker);
 }
 
-.GroundAlarmView .transition.selected th {
+.AlarmView .alarmChildren.selected th {
   background-color: #63708C;
 }
 
-.GroundAlarmView .transition td {
+.AlarmView .alarmChildren td {
   border: 0;
   background-color: var(--gray-lighter);
   color: var(--gray-darker);

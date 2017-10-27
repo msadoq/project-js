@@ -9,11 +9,9 @@ import * as types from '../../../store/types';
 import * as constants from '../../constants';
 
 const initialState = {
-  cols: [],
   lines: [],
   indexes: [],
   data: {},
-  transitionNb: 0,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -66,11 +64,14 @@ export default function groundAlarmViewData(state = {}, action) {
       return newState;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
-        = action.payload;
-      const dataKeys = Object.keys(dataToInject);
-      // If nothing changed and no data to import, return state
-      if (!dataKeys.length) {
+      const {
+        dataToInject,
+        newViewMap,
+        newExpectedRangeIntervals,
+        configurations,
+        visuWindow,
+      } = action.payload;
+      if (_.isEmpty(dataToInject)) {
         return state;
       }
       // Gets configurationfor history views
@@ -148,25 +149,25 @@ export const getDataLines = createSelector(
   getData,
   data => _.flatMap((lineId) => {
     const alarm = data.data[lineId];
-    const alarmWithoutTransitions = _.omit('transitions', alarm);
-    const transitions = _.isEmpty(alarm.transitions) ? [] : [
+    const alarmWithoutParameters = _.omit('parameters', alarm);
+    const parameters = _.isEmpty(alarm.parameters) ? [] : [
       {
-        type: 'transition_header',
-        alarm: alarmWithoutTransitions,
+        type: 'parameter_header',
+        alarm: alarmWithoutParameters,
       },
-      ...alarm.transitions.map(transition => ({
-        type: 'transition',
-        data: transition,
-        alarm: alarmWithoutTransitions,
+      ...alarm.parameters.map(parameter => ({
+        type: 'parameter',
+        data: parameter,
+        alarm: alarmWithoutParameters,
       })),
     ];
     return [
       {
         type: 'alarm',
-        data: alarmWithoutTransitions,
-        alarm: alarmWithoutTransitions,
+        data: alarmWithoutParameters,
+        alarm: alarmWithoutParameters,
       },
-      ...transitions,
+      ...parameters,
     ];
   }, data.lines)
 );

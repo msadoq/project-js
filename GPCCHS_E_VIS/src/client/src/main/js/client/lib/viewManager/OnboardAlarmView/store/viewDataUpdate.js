@@ -1,10 +1,8 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
+import _ from 'lodash/fp';
 import _findIndex from 'lodash/findIndex';
-import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
-import _map from 'lodash/map';
-import _mapValues from 'lodash/mapValues';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
@@ -22,8 +20,7 @@ import * as constants from '../../../constants';
 export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
   // get EP names
   const epNames = Object.keys(payloads || {});
-  // Only one entry point per ground alarm view + transitionNb
-  if (epNames.length !== 2) {
+  if (epNames.length !== 1) {
     // no data
     return state;
   }
@@ -31,59 +28,49 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
   // Loop on payloads to update state
   // data: contains all fields filtered by time { [timestamp]: { values }}
   // lines: contains ordered timestamps [t1, t2, ...]
-  // transitionNb: Nb of transitions present in data (for table display only)
   let newState = _cloneDeep(state);
   if (!newState.data) {
-    newState = { lines: [], indexes: [], data: {}, transitionNb: 0 };
+    newState = { lines: [], indexes: [], data: {} };
   }
 
   // loop on EP name to add payload sorted by masterTime in EP table
-  for (let i = 0; i < epNames.length; i += 1) {
-    const epName = epNames[i];
-    // Does not consider transitionNb as an entry point name
-    if (epName === 'transitionNb') {
-      // update of transition number
-      newState.transitionNb += payloads.transitionNb;
-      continue;
-    }
-
-    // Update of EP data
-    newState.data = Object.assign({}, newState.data, payloads[epName]);
-    const timestamps = Object.keys(payloads[epName]);
-    let lastIndex = -1;
-    let lastTime;
-    // loop on payload timestamps
-    for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
-      // let indexInLines = -1;
-      const time = timestamps[iTime];
-      let updLines = true;
-      // Add payload in EP Table sorted by ascending time
-      if (lastIndex === -1 && lastTime && lastTime < time) {
+  const epName = epNames[0];
+  // Update of EP data
+  newState.data = Object.assign({}, newState.data, payloads[epName]);
+  const timestamps = Object.keys(payloads[epName]);
+  let lastIndex = -1;
+  let lastTime;
+  // loop on payload timestamps
+  for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
+    // let indexInLines = -1;
+    const time = timestamps[iTime];
+    let updLines = true;
+    // Add payload in EP Table sorted by ascending time
+    if (lastIndex === -1 && lastTime && lastTime < time) {
+      newState.indexes.push(time);
+    } else {
+      let index = -1;
+      if (newState.indexes.length) {
+        index = _findIndex(newState.indexes, val => val >= time);
+      }
+      lastIndex = index;
+      if (index === -1) {
         newState.indexes.push(time);
+      } else if (newState.indexes[index] !== time) {
+        newState.indexes = _concat(
+          newState.indexes.slice(0, index),
+          time,
+          newState.indexes.slice(index));
       } else {
-        let index = -1;
-        if (newState.indexes.length) {
-          index = _findIndex(newState.indexes, val => val >= time);
-        }
-        lastIndex = index;
-        if (index === -1) {
-          newState.indexes.push(time);
-        } else if (newState.indexes[index] !== time) {
-          newState.indexes = _concat(
-            newState.indexes.slice(0, index),
-            time,
-            newState.indexes.slice(index));
-        } else {
-          // Data is already present in table lines, no need to add it
-          updLines = false;
-        }
+        // Data is already present in table lines, no need to add it
+        updLines = false;
       }
-      lastTime = time;
-      if (updLines) {
-        // Sorting considering specified column
-        newState =
-          updateLines(newState, time, lastIndex, mode, visuWindow);
-      }
+    }
+    lastTime = time;
+    if (updLines) {
+      // Sorting considering specified column
+      newState =
+        updateLines(newState, time, lastIndex, mode, visuWindow);
     }
   }
 
@@ -165,7 +152,6 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
     if (!payload[ep.tbdId]) {
       return {};
     }
-    // get useful data in payload : { epName: {timestamp: data, ...}, transitionNb: int }
     epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
   }
   return epSubState;
@@ -189,33 +175,28 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   const upper = expectedInterval[1];
 
   const timestamps = Object.keys(tbdIdPayload);
-  const newState = { [epName]: {}, transitionNb: 0 };
+  const newState = { [epName]: {} };
 
-  let transitionNb = 0;
   // Loop on payload timestamps
   for (let i = 0; i < timestamps.length; i += 1) {
     // TODO pgaucher remove this when stub are operational
+    // const timestamp = timestamps[i];
     const currentValue = tbdIdPayload[timestamps[i]];
-    const timestamp = timestamps[i];
-    // TODO do we have to check creation date to validate timestamp ?
-    // const timestamp = _get(currentValue, ['creationDate', 'value']);
-    // if (typeof timestamp === 'undefined') {
-    //   logger.warn('get an alarm without .creationDate key ', tbdIdPayload);
-    //   continue;
-    // }
+    const onBoardAlarm = currentValue.onBoardAlarm;
+    const offset = ep.offset || 0;
+    const timestamp = _get(onBoardAlarm, 'onBoardDate.value') + offset;
     // TODO: needs to determine on which filters have top be applied
     // // check value verify filters
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
     const masterTime = timestamp + ep.offset;
-    const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
-    if (!groundMonitoringAlarm) {
+    if (!onBoardAlarm) {
       continue;
     }
     // Compute acknowledgement State
     let ackState = constants.OBA_ALARM_ACKSTATE_NOACK;
-    if (convertData(groundMonitoringAlarm.hasAckRequest) === 'true') {
+    if (currentValue.ackRequest) {
       ackState = constants.OBA_ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.OBA_ALARM_ACKSTATE_ACQUITED;
@@ -228,48 +209,24 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       continue;
     }
 
+    const parameters = onBoardAlarm.parameter || [];
     const valueToInsert = {
       timestamp,
-      parameterName: convertData(currentValue.parameterName),
-      parameterType: convertData(currentValue.parameterType),
+      ackState,
       satellite: convertData(currentValue.satellite),
       telemetryType: convertData(currentValue.telemetryType),
-      creationDate: convertData(groundMonitoringAlarm.creationDate),
-      closingDate: convertData(groundMonitoringAlarm.closingDate),
-      ackState,
-      duration: groundMonitoringAlarm.closingDate
-        ? convertData({ type: 'duration',
-          value: (
-            groundMonitoringAlarm.closingDate.value - groundMonitoringAlarm.creationDate.value
-          ) })
-        : '-',
+      onBoardDate: convertData(onBoardAlarm.onBoardDate),
+      alarmType: convertData(onBoardAlarm.alarmLevel),
+      RIDId: convertData(onBoardAlarm.reportId),
+      RIDName: convertData(onBoardAlarm.reportName),
+      reportType: convertData(onBoardAlarm.eventType),
+      parameters: _.map(_.mapValues(convertData), parameters),
     };
-    // Data from transitions table
-    if (groundMonitoringAlarm.transitions && groundMonitoringAlarm.transitions.length) {
-      const lastTransition = _last(groundMonitoringAlarm.transitions);
-      Object.assign(valueToInsert, {
-        firstOccurence: convertData(groundMonitoringAlarm.transitions[0].onboardDate),
-        alarmType: convertData(lastTransition.monitoringState),
-        lastOccurence: convertData(lastTransition.onboardDate),
-        rawValue: convertData(lastTransition.rawValue),
-        physicalValue: convertData(lastTransition.extractedValue),
-        transitions: _map(groundMonitoringAlarm.transitions, transition => (
-          _mapValues(transition, transitionProperty => (
-            convertData(transitionProperty)
-          ))
-        )),
-      });
-      // Update of transitionNb
-      transitionNb += groundMonitoringAlarm.transitions.length;
-    }
-
     newState[epName][masterTime] = valueToInsert;
   }
   // if no data, return empty state
   if (!Object.keys(newState[epName]).length) {
     return {};
   }
-  // Save transitionNb
-  newState.transitionNb = transitionNb;
   return newState;
 }

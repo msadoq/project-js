@@ -5,7 +5,7 @@
 @import './components.css';
 @import './PlotView.css';
 @import './HistoryView';
-@import './GroundAlarmView';
+@import './AlarmView';
 @import './Nav.css';
 @import './Timebar.css';
 @import './Editor.css';

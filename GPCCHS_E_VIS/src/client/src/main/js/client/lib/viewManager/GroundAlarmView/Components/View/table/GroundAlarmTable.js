@@ -41,7 +41,7 @@ const Table = ({
                 onClick={() => onClickAlarm(line.alarm)}
                 key={key}
                 className={classnames({
-                  transition: line.type === 'transition',
+                  alarmChildren: line.type === 'transition',
                   alarm: line.type === 'alarm',
                   selected: Boolean(selectedAlarms[line.alarm.timestamp]),
                 })}
@@ -65,7 +65,7 @@ const Table = ({
               onClick={() => onClickAlarm(line.alarm)}
               style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
               className={classnames({
-                transition: true,
+                alarmChildren: true,
                 selected: Boolean(selectedAlarms[line.alarm.timestamp]),
               })}
               key={key}
@@ -206,7 +206,7 @@ class TableView extends React.Component {
     };
     return (
       <div
-        className={classnames('GroundAlarmView', styles.container)}
+        className={classnames('AlarmView', styles.container)}
         onContextMenu={this.onAlarmContextMenu}
         style={style}
       >

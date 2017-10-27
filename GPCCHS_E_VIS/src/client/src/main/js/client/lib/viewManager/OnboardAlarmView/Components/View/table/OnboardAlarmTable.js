@@ -11,8 +11,8 @@ import styles from './OnboardAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
-const COLS = ['parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
-const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
+const COLS = ['onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
+const PARAMETERS_COLS = ['name', 'value'];
 
 const Table = ({
   lines, position, displayedRows, rowHeight, onClickAlarm, selectedAlarms,
@@ -34,14 +34,14 @@ const Table = ({
         _.slice(position, displayedRows + position)(lines).map((line, i) => {
           const data = line.data;
           const key = i; // TODO replace 'i' by a better key
-          const columns = line.type === 'alarm' ? COLS : TRANSITION_COLS;
-          if (line.type === 'alarm' || line.type === 'transition') {
+          const columns = line.type === 'alarm' ? COLS : PARAMETERS_COLS;
+          if (line.type === 'alarm' || line.type === 'parameter') {
             return (
               <tr
                 onClick={() => onClickAlarm(line.alarm)}
                 key={key}
                 className={classnames({
-                  transition: line.type === 'transition',
+                  alarmChildren: line.type === 'parameter',
                   alarm: line.type === 'alarm',
                   selected: Boolean(selectedAlarms[line.alarm.timestamp]),
                 })}
@@ -65,13 +65,13 @@ const Table = ({
               onClick={() => onClickAlarm(line.alarm)}
               style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
               className={classnames({
-                transition: true,
+                alarmChildren: true,
                 selected: Boolean(selectedAlarms[line.alarm.timestamp]),
               })}
               key={key}
             >
               {
-                TRANSITION_COLS.map(col => (
+                PARAMETERS_COLS.map(col => (
                   <th key={col}>{col}</th>
                 ))
               }
@@ -206,7 +206,7 @@ class TableView extends React.Component {
     };
     return (
       <div
-        className={classnames('GroundAlarmView', styles.container)}
+        className={classnames('AlarmView', styles.container)}
         onContextMenu={this.onAlarmContextMenu}
         style={style}
       >

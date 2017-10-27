@@ -16,7 +16,7 @@ export default function parseConnectedData(
   workspaceSessionName
 ) {
   const { domain, timeline, filter, mode } = connectedData;
-  const comObject = 'GroundMonitoringAlarmAckRequest';
+  const comObject = 'OnBoardAlarmAckRequest';
 
   const domainSearch = domainsFilter(domains, domain, viewDomain, pageDomain, workspaceDomain);
   if (domainSearch.error) {

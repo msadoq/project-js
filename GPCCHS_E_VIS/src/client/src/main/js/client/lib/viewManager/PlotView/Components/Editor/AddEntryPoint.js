@@ -9,7 +9,7 @@ import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearS
 import InputField from '../../../../windowProcess/commonReduxForm/InputField';
 import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
 
-class EntryPointName extends Component {
+class AddEntryPoint extends Component {
 
   componentDidMount() {
     setTimeout(this.props.reset, 0);
@@ -105,7 +105,7 @@ const validate = (values = {}) => {
   return errors;
 };
 
-EntryPointName.propTypes = {
+AddEntryPoint.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
   initialValues: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -117,11 +117,11 @@ EntryPointName.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
-  axisId: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
+  axisId: PropTypes.string,
+  unit: PropTypes.string,
 };
 
-EntryPointName.defaultProps = {
+AddEntryPoint.defaultProps = {
   initialValues: { name: '' },
 };
 
@@ -137,5 +137,5 @@ export default reduxForm({
         unit: selector(state, 'connectedData.unit'),
       };
     }
-  )(EntryPointName)
+  )(AddEntryPoint)
 );

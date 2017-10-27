@@ -106,30 +106,33 @@ export default class Tooltip extends React.Component {
       for (let i = 0; i < pair.lines.length; i += 1) {
         const line = pair.lines[i];
         const distances = [];
-        for (let j = 0; j < line.indexes.length; j += 1) {
-          const distanceX = line.data[line.indexes[j]].x - xInDomain;
-          const distanceY = line.data[line.indexes[j]].value - yInDomain;
-          const distance = Math.sqrt((distanceX ** 2) + (distanceY ** 2));
-          distances.push(distance);
-        }
-        const minIndex = distances.reduce(
-          (iMin, dist, k, arr) => (dist < arr[iMin] ? k : iMin),
-          0
-        );
-        const lineDataAtIndex = line.data[line.indexes[minIndex]];
-        const xAtIndex = line.xAccessor ? lineDataAtIndex[line.xAccessor] : lineDataAtIndex.x;
-        const yAtIndex = line.yAccessor ? lineDataAtIndex[line.yAccessor] : lineDataAtIndex.value;
+        if (line && line.indexes) {
+          for (let j = 0; j < line.indexes.length; j += 1) {
+            const distanceX = line.data[line.indexes[j]].x - xInDomain;
+            const distanceY = line.data[line.indexes[j]].value - yInDomain;
+            const distance = Math.sqrt((distanceX ** 2) + (distanceY ** 2));
+            distances.push(distance);
+          }
 
-        linesList[key][line.id] = {
-          ...line.data[minIndex],
-          x: xFormat(xAtIndex),
-          y: yFormat(yAtIndex),
-          xInRange: pair.xAxis.scale(xAtIndex),
-          yInRange: pair.yAxis.scale(yAtIndex),
-          foundColor: line.colorAccessor ? lineDataAtIndex[line.colorAccessor] : null,
-          lineColor: line.fill || '#222222',
-          id: line.id,
-        };
+          const minIndex = distances.reduce(
+            (iMin, dist, k, arr) => (dist < arr[iMin] ? k : iMin),
+            0
+          );
+          const lineDataAtIndex = line.data[line.indexes[minIndex]];
+          const xAtIndex = line.xAccessor ? lineDataAtIndex[line.xAccessor] : lineDataAtIndex.x;
+          const yAtIndex = line.yAccessor ? lineDataAtIndex[line.yAccessor] : lineDataAtIndex.value;
+
+          linesList[key][line.id] = {
+            ...line.data[minIndex],
+            x: xFormat(xAtIndex),
+            y: yFormat(yAtIndex),
+            xInRange: pair.xAxis.scale(xAtIndex),
+            yInRange: pair.yAxis.scale(yAtIndex),
+            foundColor: line.colorAccessor ? lineDataAtIndex[line.colorAccessor] : null,
+            lineColor: line.fill || '#222222',
+            id: line.id,
+          };
+        }
       }
     });
 

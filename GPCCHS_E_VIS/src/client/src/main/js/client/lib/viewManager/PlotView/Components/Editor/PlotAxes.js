@@ -18,6 +18,7 @@ const alignButtons = [
   { label: 'left', icon: 'alignLeft' },
   { label: 'right', icon: 'alignRight' },
 ];
+const emptyArray = [];
 
 export default class PlotAxes extends Component {
   static propTypes = {
@@ -110,7 +111,7 @@ export default class PlotAxes extends Component {
         <Collapse
           accordion={false}
           onChange={this.onChange}
-          defaultActiveKey={panels}
+          defaultActiveKey={panels === true ? emptyArray : panels}
         >
           {Object.keys(axes).map((axisId) => {
             const axis = axes[axisId];

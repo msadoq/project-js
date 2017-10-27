@@ -15,9 +15,8 @@ export default function parseConnectedData(
   pageSessionName,
   workspaceSessionName
 ) {
-  const { formula, domain, timeline, filter } = connectedData;
-  // formula
-  const comObject = formula;
+  const { domain, timeline, filter, mode } = connectedData;
+  const comObject = 'OnBoardAlarmAckRequest';
 
   const domainSearch = domainsFilter(domains, domain, viewDomain, pageDomain, workspaceDomain);
   if (domainSearch.error) {
@@ -42,6 +41,8 @@ export default function parseConnectedData(
     return session;
   }
   const dataId = {
+    parameterName: 'alarm',
+    catalog: 'alarm',
     comObject,
     domainId,
     domain: domainSearch.domainName,
@@ -50,8 +51,10 @@ export default function parseConnectedData(
 
   return {
     dataId,
+    field: 'nofield',
     filters: filter,
     offset,
+    mode,
   };
 }
 

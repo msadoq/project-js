@@ -6,7 +6,8 @@ import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/A
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
 import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
 import MimicAddEntryPointContainer from '../../viewManager/MimicView/Components/Editor/AddEntryPointContainer';
-import AlarmAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModal';
+import GmaAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModalContainer';
+import ObaAckModalContainer from '../../viewManager/OnboardAlarmView/Components/View/AckModalContainer';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
@@ -43,13 +44,25 @@ const ModalGeneric = (props) => {
         />
       );
       break;
-    case 'alarmAck':
+    case 'gmaAck':
       title = 'Acknowledgement';
       if (props.props.title) {
         title = `${title} - ${props.props.title}`;
       }
       child = (
-        <AlarmAckModalContainer
+        <GmaAckModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'obaAck':
+      title = 'Acknowledgement';
+      if (props.props.title) {
+        title = `${title} - ${props.props.title}`;
+      }
+      child = (
+        <ObaAckModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

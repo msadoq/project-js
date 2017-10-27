@@ -7,7 +7,9 @@ export default function (entryPoint) {
 
 const getNewDynamicEntryPoint = () => ({
   name: 'dynamicEP',
-  domain: get('WILDCARD_CHARACTER'),
-  timeline: get('WILDCARD_CHARACTER'),
-  formula: '',
+  connectedData: {
+    domain: get('WILDCARD_CHARACTER'),
+    timeline: get('WILDCARD_CHARACTER'),
+    formula: '',
+  },
 });

@@ -1,4 +1,5 @@
-let _seed = 1;
+const _internalSeed = 1234;
+let _seed = _internalSeed;
 
 /**
  * Generate a pseudo random float
@@ -45,6 +46,15 @@ function PredictibleRand() {
   };
 
   /**
+   * Set the seed used to generate every random numbers
+   *
+   * @param  {int} seed
+   */
+  this.setSeed = (seed) => {
+    _seed = seed + _internalSeed;
+  };
+
+  /**
    * Build a pseudo random phrase using lorem ipsum words
    *
    * @param  {String} clue    Optional. First characters to generated. To give indications on what string is
@@ -78,6 +88,15 @@ function PredictibleRand() {
    */
   this.getFloat = (range = null) => (
     _pseudoRand(range)
+  );
+
+  /**
+   * Get randomly one of the list
+   * @param  {array}  list
+   * @return {any}  item from the list
+   */
+  this.getFrom = list => (
+    list[this.getInt([0, list.length])]
   );
 
   /**

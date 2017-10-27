@@ -6,7 +6,7 @@
 // const _head = require('lodash/fp/head');
 
 const stubs = require('../../utils/stubs');
-const predictibleRand = require('./PredictibleRand');
+const predictibleRand = require('./predictibleRand');
 
 const stubData = stubs.getStubData();
 
@@ -21,27 +21,83 @@ const stubData = stubs.getStubData();
 //   return states[timestamp % states.length];
 // }
 function getMonitoringState() {
-  const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger'];
-  const n = Math.round(Math.random() * 7);
-  return arr[n];
+  return predictibleRand.getFrom([
+    'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
+  ]);
 }
 
-const getComObject = (comObject, timestamp, epName) => {
+function getAckRequest(timestamp, options) {
+  return (!options.allToAck && predictibleRand.getBool(0.25)) ? {
+    ackRequestDate: timestamp - 10,
+    systemDate: timestamp,
+    ack: {
+      ackDate: timestamp - 10,
+      acknowledger: {
+        login: predictibleRand.getString('login', 16),
+        password: predictibleRand.getString('password', 64),
+        profile: predictibleRand.getString('profile', 256),
+        userTime: timestamp - 50000,
+      },
+    },
+    comment: predictibleRand.getString('comment', -1, 10),
+  } : undefined;
+}
+
+function getNamedValue() {
+  return {
+    name: predictibleRand.getString('pName'),
+    value: predictibleRand.getFrom([
+      predictibleRand.getBool(),
+      predictibleRand.getString('value'),
+      predictibleRand.getInt([0, 100000]),
+      predictibleRand.getFloat([0, 100000]),
+    ]),
+  };
+}
+
+const getComObject = (comObject, timestamp, epName, options) => {
   switch (comObject) {
+    case 'OnBoardAlarmAckRequest': {
+      if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
+        return null;
+      }
+
+      return stubData.getOnBoardAlarmAckRequestProtobuf({
+        oid: `oid${Math.random() * 10000000}`,
+        onBoardAlarm: {
+          apid: predictibleRand.getInt([0, 100000]),
+          reportId: predictibleRand.getInt([0, 100000]),
+          reportName: predictibleRand.getString('reportName'),
+          eventType: predictibleRand.getInt([0, 100000]),
+          alarmLevel: getMonitoringState(),
+          onBoardDate: timestamp - 20,
+          groundDate: timestamp,
+          parameter: [getNamedValue(), getNamedValue()],
+        },
+        ackRequest: getAckRequest(timestamp, options),
+        satellite: predictibleRand.getString('satellite'),
+        telemetryType: predictibleRand.getString('telemetryType'),
+      });
+    }
+
     case 'GroundMonitoringAlarmAckRequest': {
+      if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
+        return null;
+      }
+
       const value = predictibleRand.getSinValue(timestamp, epName);
       const groundMonitoringAlarm = {
         creationDate: timestamp - 100,
         paramUid: predictibleRand.getInt([0, 100000]),
         updateDate: timestamp - 50,
         closingDate: predictibleRand.getBool() ? timestamp - 10 : undefined,
-        hasAckRequest: predictibleRand.getBool(0.25),
+        hasAckRequest: options.allToAck || predictibleRand.getBool(0.75),
         alarmId: predictibleRand.getInt([0, 100000]),
         transitions: [],
         isNominal: predictibleRand.getBool(0.25),
       };
 
-      const transitionNumber = predictibleRand.getInt([0, 6]);
+      const transitionNumber = predictibleRand.getInt([1, 6]);
       for (let i = 0; i < transitionNumber; i += 1) {
         groundMonitoringAlarm.transitions.push({
           onboardDate: timestamp,
@@ -54,24 +110,11 @@ const getComObject = (comObject, timestamp, epName) => {
       }
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
-        oid: `osef${Math.random() * 10000000}`,
+        oid: `oid${Math.random() * 10000000}`,
         groundMonitoringAlarm,
-        ackRequest: {
-          ackRequestDate: timestamp - 10,
-          systemDate: timestamp,
-          ack: predictibleRand.getBool(0.25) ? {
-            ackDate: timestamp - 10,
-            acknowledger: {
-              login: predictibleRand.getString('login', 16),
-              password: predictibleRand.getString('password', 64),
-              profile: predictibleRand.getString('profile', 256),
-              userTime: timestamp - 50000,
-            },
-          } : undefined,
-          comment: predictibleRand.getString('comment', -1, 10),
-        },
-        parameterName: predictibleRand.getString('parameterName'),
-        parameterType: predictibleRand.getString('parameterType'),
+        ackRequest: getAckRequest(timestamp, options),
+        parameterName: predictibleRand.getString('pName'),
+        parameterType: predictibleRand.getString('pType'),
         satellite: predictibleRand.getString('satellite'),
         telemetryType: predictibleRand.getString('telemetryType'),
       });
@@ -135,9 +178,15 @@ const getComObject = (comObject, timestamp, epName) => {
 /**
  * @param  {String} epName    entry Point Name
  */
-module.exports = function getPayload(timestamp, comObject, epName = 'todo') {
+module.exports = function getPayload(timestamp, comObject, epName = 'todo', options = {}) {
+  const payload = getComObject(comObject, timestamp, epName, options);
+
+  if (payload === null) {
+    return null;
+  }
+
   return {
     timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),
-    payload: getComObject(comObject, timestamp, epName),
+    payload,
   };
 };

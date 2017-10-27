@@ -32,7 +32,7 @@ const list = {
       require('./GroundAlarmView/Components/Editor/GroundAlarmEditorContainer'),
   },
   [constants.VM_VIEW_ONBOARDALARM]: {
-    getViewComponent: () => require('./OnboardAlarmView/Components/View/OnboardAlarmViewContainer'),
+    getViewComponent: () => require('./OnboardAlarmView/Components/View/OnboardAlarmView'),
     getEditorComponent: () =>
       require('./OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer'),
   },

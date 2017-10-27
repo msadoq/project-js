@@ -1,25 +1,26 @@
 {
   "type": "Page",
   "title": "history page",
+  "domainName": "fr.cnes.isis",
   "views": [
     {
-      "oId": "oid:/views/historyView.vihv",
+      "oId": "oid:/views/ground-alarm.viga",
       "geometry": {
         "x": 0,
         "y": 0,
-        "w": 7,
-        "h": 8
+        "w": 9,
+        "h": 11
       },
       "hideBorders": false,
       "windowState": "Normalized"
     },
     {
-      "oId": "oid:/views/ground-alarm.viga",
+      "oId": "oid:/views/onboard-alarm.viba",
       "geometry": {
         "x": 0,
-        "y": 8,
-        "w": 7,
-        "h": 9
+        "y": 11,
+        "w": 9,
+        "h": 8
       },
       "hideBorders": false,
       "windowState": "Normalized"

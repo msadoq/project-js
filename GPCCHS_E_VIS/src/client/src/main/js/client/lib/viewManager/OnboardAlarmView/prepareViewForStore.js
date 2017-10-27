@@ -1,15 +1,33 @@
 import _ from 'lodash/fp';
+import { v4 } from 'uuid';
+import { get } from '../../common/configurationManager';
+import * as constants from '../../constants';
+import { moveProp } from '../../common/fp';
 
-const getDefaultView = _.merge({
-  type: 'SkeletonView',
+const singleton = x => [x];
+
+const getDefaultView = view => _.merge({
+  type: 'OnboardAlarmView',
   defaultRatio: { length: 5, width: 5 },
   links: [],
-  title: 'New Skeleton View',
+  title: 'New Onboard Alarm View',
   configuration: {
-    entryPoints: [],
+    entryPoint: {
+      name: 'onboardAlarmEP',
+      connectedData: {
+        domain: get('WILDCARD_CHARACTER'),
+        timeline: get('WILDCARD_CHARACTER'),
+        mode: constants.OBA_ALARM_MODE_ALL,
+      },
+    },
   },
-});
+}, view);
 
 export default _.pipe(
-    getDefaultView
+  getDefaultView,
+  _.update('configuration', _.pipe(
+    _.update('entryPoint.id', v4),
+    moveProp('entryPoint', 'entryPoints'),
+    _.update('entryPoints', singleton)
+  ))
 );

@@ -15,7 +15,7 @@ const COLS = ['parameterName', 'parameterType', 'firstOccurence', 'lastOccurence
 const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
 const Table = ({
-  lines, position, displayedRows, rowHeight, onClickAlarm, onContextMenu, selectedAlarms,
+  lines, position, displayedRows, rowHeight, onClickAlarm, selectedAlarms,
 }) => (
   <table>
     <thead>
@@ -38,13 +38,12 @@ const Table = ({
           if (line.type === 'alarm' || line.type === 'transition') {
             return (
               <tr
-                onClick={() => onClickAlarm(line.alarm.timestamp)}
-                onContextMenu={e => onContextMenu(e, line.alarm)}
+                onClick={() => onClickAlarm(line.alarm)}
                 key={key}
                 className={classnames({
-                  transition: line.type === 'transition',
+                  alarmChildren: line.type === 'transition',
                   alarm: line.type === 'alarm',
-                  selected: selectedAlarms[line.alarm.timestamp],
+                  selected: Boolean(selectedAlarms[line.alarm.timestamp]),
                 })}
                 style={{ width: '100%', height: `${rowHeight}px` }}
               >
@@ -63,12 +62,11 @@ const Table = ({
           }
           return (
             <tr
-              onClick={() => onClickAlarm(line.alarm.timestamp)}
-              onContextMenu={e => onContextMenu(e, line.alarm)}
+              onClick={() => onClickAlarm(line.alarm)}
               style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
               className={classnames({
-                transition: true,
-                selected: selectedAlarms[line.alarm.timestamp],
+                alarmChildren: true,
+                selected: Boolean(selectedAlarms[line.alarm.timestamp]),
               })}
               key={key}
             >
@@ -87,7 +85,6 @@ const Table = ({
 
 Table.propTypes = {
   onClickAlarm: PropTypes.func.isRequired,
-  onContextMenu: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
   position: PropTypes.number,
   lines: PropTypes.arrayOf(PropTypes.shape({
@@ -111,6 +108,7 @@ class TableView extends React.Component {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
+    mode: PropTypes.string.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
     lines: PropTypes.arrayOf(PropTypes.shape({
@@ -133,7 +131,11 @@ class TableView extends React.Component {
     if (this.state.position >= this.getLastPosition(nextProps)) {
       this.setState(_.set('position', this.getLastPosition(nextProps)));
     }
-    if (this.props.domain !== nextProps.domain || this.props.timeline !== nextProps.timeline) {
+    if (
+      this.props.domain !== nextProps.domain
+      || this.props.timeline !== nextProps.timeline
+      || this.props.mode !== nextProps.mode
+    ) {
       this.resetState();
     }
   }
@@ -150,20 +152,20 @@ class TableView extends React.Component {
     }
   }
 
-  onAlarmContextMenu = (e, alarm) => {
-    const enabled = alarm.ackState === constants.ALARM_ACKSTATE_REQUIREACK;
+  onAlarmContextMenu = (e) => {
+    e.stopPropagation();
+    const n = this.getNbSelectedAlarms();
     const menu = [
-      { label: 'Acknowledge', click: () => this.props.openAckModal(alarm), enabled },
+      {
+        label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
+        click: () => this.props.openAckModal(_.values(this.state.selectedAlarms)),
+        enabled: n > 0,
+      },
       { type: 'separator' },
       ...this.props.mainMenu,
     ];
-    e.stopPropagation();
-    this.toggleAlarmSelection(alarm.timestamp);
-    handleContextMenu(menu, () => {
-      this.toggleAlarmSelection(alarm.timestamp);
-    });
+    handleContextMenu(menu);
   }
-
 
   getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
 
@@ -179,8 +181,18 @@ class TableView extends React.Component {
     Math.ceil((this.state.position / this.getLastPosition()) * this.getScrollAreaHeight())
   )
 
-  toggleAlarmSelection = (timestamp) => {
-    this.setState(_.update(['selectedAlarms', timestamp], _.negate(_.identity)));
+  getNbSelectedAlarms = () => _.size(this.state.selectedAlarms)
+
+  toggleAlarmSelection = (alarm) => {
+    const { timestamp, ackState } = alarm;
+    if (ackState === constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+      const selectedAlarmsPath = ['selectedAlarms', timestamp];
+      if (this.state.selectedAlarms[timestamp]) {
+        this.setState(_.unset(selectedAlarmsPath));
+      } else {
+        this.setState(_.set(selectedAlarmsPath, alarm));
+      }
+    }
   }
 
   resetState = () => {
@@ -194,13 +206,13 @@ class TableView extends React.Component {
     };
     return (
       <div
-        className={classnames('GroundAlarmView', styles.container)}
+        className={classnames('AlarmView', styles.container)}
+        onContextMenu={this.onAlarmContextMenu}
         style={style}
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
-          onClickAlarm={_.noop}
-          onContextMenu={this.onAlarmContextMenu}
+          onClickAlarm={this.toggleAlarmSelection}
           selectedAlarms={this.state.selectedAlarms}
           rowHeight={this.props.rowHeight}
           position={this.state.position}

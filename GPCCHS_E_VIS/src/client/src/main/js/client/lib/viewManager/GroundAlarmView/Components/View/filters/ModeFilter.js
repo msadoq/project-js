@@ -4,9 +4,9 @@ import Select from 'react-select';
 import * as constants from '../../../../../constants';
 
 const MODES = [
-  { value: constants.ALARM_MODE_ALL, label: 'All' },
-  { value: constants.ALARM_MODE_NONNOMINAL, label: 'Non nominal' },
-  { value: constants.ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
+  { value: constants.GMA_ALARM_MODE_ALL, label: 'All' },
+  { value: constants.GMA_ALARM_MODE_NONNOMINAL, label: 'Non nominal' },
+  { value: constants.GMA_ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
 ];
 
 const ModeFilter = ({ mode, updateMode }) => (

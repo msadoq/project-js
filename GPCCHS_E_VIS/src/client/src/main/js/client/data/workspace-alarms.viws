@@ -1,0 +1,46 @@
+{
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "documentWindow",
+      "title": "Development workspace",
+      "geometry": {
+        "w": 1916,
+        "h": 1000,
+        "x": 902,
+        "y": 51,
+        "kind": "Absolute"
+      },
+      "pages": [
+        {
+          "oId": "oid:/pages/page-gma.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "oId": "oid:/pages/page-oba.vipg",
+          "timebarId": "TB1"
+        }
+      ]
+    }
+  ],
+  "timebars": [
+    {
+      "id": "TB1",
+      "type": "timeBarConfiguration",
+      "rulerResolution": 1500,
+      "speed": 1,
+      "masterId": "Session 1",
+      "mode": "Normal",
+      "timelines": [
+        {
+          "id": "Session 1",
+          "offset": 0,
+          "kind": "Session",
+          "sessionName": "Master",
+          "color": null
+        }
+      ]
+    }
+  ],
+  "domainName": "fr.cnes.isis"
+}

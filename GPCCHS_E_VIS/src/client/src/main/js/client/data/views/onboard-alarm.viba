@@ -1,0 +1,17 @@
+{
+  "type": "OnboardAlarmView",
+  "title": "New Onboard Alarm View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "entryPoint": {
+    "name": "onboardAlarmEP",
+    "connectedData": {
+      "domain": "*",
+      "timeline": "*",
+      "mode": "OBA_ALARM_MODE_ALL"
+    }
+  }
+}

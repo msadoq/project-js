@@ -55,9 +55,24 @@ export default class Tooltip extends React.Component {
   );
 
   mouseMove = (e) => {
+    const {
+      divStyle,
+    } = this.props;
     const clientX = e.clientX;
     const clientY = e.clientY;
-    this.throttleFillAndDisplayTooltip(clientX, clientY, true);
+    const x = clientX === null ? this.pseudoState.clientX : clientX;
+    const xInRange = x - this.el.getBoundingClientRect().left;
+    const y = clientY === null ? this.pseudoState.clientY : clientY;
+    const yInRange = y - this.el.getBoundingClientRect().top;
+    if (
+      yInRange < 0 || yInRange > divStyle.height ||
+      xInRange < 0 || xInRange > divStyle.width
+    ) {
+      this.pseudoState = { showTooltip: false };
+      this.forceUpdate();
+      return;
+    }
+    this.throttleFillAndDisplayTooltip(xInRange, yInRange, x, y, true);
   }
 
   mouseLeave = () => {
@@ -65,17 +80,17 @@ export default class Tooltip extends React.Component {
     this.forceUpdate();
   }
 
-  throttleFillAndDisplayTooltip = _throttle((a, b, c) => this.fillAndDisplayTooltip(a, b, c), 20);
+  throttleFillAndDisplayTooltip = _throttle(
+    (a, b, c, d, e) => this.fillAndDisplayTooltip(a, b, c, d, e),
+    40,
+    { leading: true, trailing: true }
+  );
 
-  fillAndDisplayTooltip = (clientX, clientY, forceRender = false) => {
+  fillAndDisplayTooltip = (xInRange, yInRange, x, y, forceRender = false) => {
     const {
       pairs,
     } = this.props;
 
-    const x = clientX === null ? this.pseudoState.clientX : clientX;
-    const xInRange = x - this.el.getBoundingClientRect().left;
-    const y = clientY === null ? this.pseudoState.clientY : clientY;
-    const yInRange = y - this.el.getBoundingClientRect().top;
     const linesList = {};
     const pairKeys = Object.keys(pairs);
     pairKeys.forEach((key) => {
@@ -151,9 +166,6 @@ export default class Tooltip extends React.Component {
   tooltipWidth = 350;
 
   render() {
-    if (this.pseudoState.showTooltip) {
-      this.fillAndDisplayTooltip(null, null, false);
-    }
     const {
       height,
       width,
@@ -175,6 +187,9 @@ export default class Tooltip extends React.Component {
       tooltipOnRight,
     } = this.pseudoState;
 
+    if (this.pseudoState.showTooltip) {
+      this.fillAndDisplayTooltip(null, null, null, null, false);
+    }
     if (!this.axesFormatters) {
       this.axesFormatters = {};
     }

@@ -1,4 +1,5 @@
-let _seed = 1;
+const _internalSeed = 1234;
+let _seed = _internalSeed;
 
 /**
  * Generate a pseudo random float
@@ -42,6 +43,15 @@ function PredictibleRand() {
     });
 
     return (1 + Math.sin(timestamp / 6000)) + (offset / 10);
+  };
+
+  /**
+   * Set the seed used to generate every random numbers
+   *
+   * @param  {int} seed
+   */
+  this.setSeed = (seed) => {
+    _seed = seed + _internalSeed;
   };
 
   /**

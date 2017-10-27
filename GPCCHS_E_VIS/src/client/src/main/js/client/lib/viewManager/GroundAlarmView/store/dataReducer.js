@@ -9,11 +9,8 @@ import * as types from '../../../store/types';
 import * as constants from '../../constants';
 
 const initialState = {
-  cols: [],
-  lines: [],
+  lines: {},
   indexes: [],
-  data: {},
-  transitionNb: 0,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -129,7 +126,7 @@ export default function groundAlarmViewData(state = {}, action) {
       if (!alarms || !alarms.indexes) {
         return state;
       }
-      let newAlarms = _.set('lines', [], alarms);
+      let newAlarms = _.set('lines', {}, alarms);
       for (let i = 0; i < newAlarms.indexes.length; i += 1) {
         newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
       }
@@ -147,7 +144,7 @@ export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
 export const getDataLines = createSelector(
   getData,
   data => _.flatMap((lineId) => {
-    const alarm = data.data[lineId];
+    const alarm = data.lines[lineId];
     const alarmWithoutTransitions = _.omit('transitions', alarm);
     const transitions = _.isEmpty(alarm.transitions) ? [] : [
       {
@@ -168,5 +165,5 @@ export const getDataLines = createSelector(
       },
       ...transitions,
     ];
-  }, data.lines)
+  }, data.indexes)
 );

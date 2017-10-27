@@ -3,7 +3,7 @@ import applyPatch from 'json-touch-patch';
 import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
 import getLogger from '../../common/logManager';
 
-const logger = getLogger('common:registeredCallbacks');
+const logger = getLogger('common:patchReducer');
 /**
  * A proxy reducer for main and renderer processes store that handle "patch" actions by applying
  * patch to state with the help of json-touch-patch module.

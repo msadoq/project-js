@@ -6,7 +6,7 @@
 // const _head = require('lodash/fp/head');
 
 const stubs = require('../../utils/stubs');
-const predictibleRand = require('./PredictibleRand');
+const predictibleRand = require('./predictibleRand');
 
 const stubData = stubs.getStubData();
 

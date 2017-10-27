@@ -1,6 +1,6 @@
 import _always from 'lodash/fp/always';
 // import _set from 'lodash/fp/set';
-import _flow from 'lodash/fp/flow';
+import _pipe from 'lodash/fp/pipe';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -36,7 +36,7 @@ function prepareEnhancers(isDebugOn) {
     level,
     collapsed: true,
     // actionTransformer: isDebugOn ? decorateActionWithTiming : action => action,
-    actionTransformer: _flow(logBatchedActions, decorateActionWithTiming),
+    actionTransformer: _pipe(logBatchedActions, decorateActionWithTiming),
     logger,
   });
 

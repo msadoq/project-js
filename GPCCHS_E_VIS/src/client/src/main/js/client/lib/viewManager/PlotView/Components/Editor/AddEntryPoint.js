@@ -117,8 +117,8 @@ AddEntryPoint.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
-  axisId: PropTypes.string,
-  unit: PropTypes.string,
+  axisId: PropTypes.string.isRequired,
+  unit: PropTypes.string.isRequired,
 };
 
 AddEntryPoint.defaultProps = {

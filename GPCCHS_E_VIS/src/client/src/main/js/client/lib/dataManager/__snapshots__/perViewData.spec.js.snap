@@ -98,7 +98,7 @@ Object {
           "condition": Object {
             "field": "monitoringState",
             "operand": "waiting",
-            "operator": "==",
+            "operator": "=",
           },
         },
       ],

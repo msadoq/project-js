@@ -42,7 +42,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -77,7 +77,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -112,7 +112,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }

@@ -21,9 +21,9 @@ const stubData = stubs.getStubData();
 //   return states[timestamp % states.length];
 // }
 function getMonitoringState() {
-  return predictibleRand.getFrom([
+  return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
     'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
-  ]);
+  ]) : undefined;
 }
 
 function getAckRequest(timestamp, options) {

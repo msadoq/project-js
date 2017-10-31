@@ -323,7 +323,7 @@
           "condition": {
             "field": "monitoringState",
             "operand": "waiting",
-            "operator": "=="
+            "operator": "="
           }
         }
       ],
@@ -368,7 +368,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -414,7 +414,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -459,7 +459,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -505,7 +505,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -551,7 +551,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -597,7 +597,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -643,7 +643,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -689,7 +689,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }
@@ -741,7 +741,7 @@
           "color": "#000000",
           "condition": {
             "field": "monitoringState",
-            "operator": "==",
+            "operator": "=",
             "operand": "waiting"
           }
         }

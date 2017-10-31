@@ -2,6 +2,7 @@ import getLogger from '../../../common/logManager';
 import flattenDataId from '../../../common/flattenDataId';
 import parseConnectedData from '../../commonData/parseConnectedData';
 import parseConnectedDataParametric from '../../commonData/parseConnectedDataParametric';
+import flattenStateColors from '../../commonData/flattenStateColors';
 
 const logger = getLogger('data:PLotView:parseEntryPoint');
 
@@ -124,7 +125,7 @@ export default function parseEntryPoint(
     [name]: {
       tbdId,
       dataId: cd.dataId,
-      localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}`,
+      localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}${flattenStateColors(entryPoint.stateColors)}`,
       fieldX: connectedData.fieldX,
       fieldY: cd.field,
       offset: cd.offset,

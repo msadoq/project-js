@@ -128,7 +128,7 @@
           "condition": {
             "field": "monitoringState",
             "operand": "waiting",
-            "operator": "=="
+            "operator": "="
           }
         }
       ],

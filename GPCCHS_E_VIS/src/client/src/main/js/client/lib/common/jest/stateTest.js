@@ -339,7 +339,7 @@ export default {
           condition: {
             field: 'monitoringState',
             operand: 'waiting',
-            operator: '==',
+            operator: '=',
           },
         }],
         timeBasedData: true,
@@ -1080,7 +1080,7 @@ export default {
         condition: {
           field: 'monitoringState',
           operand: 'waiting',
-          operator: '==',
+          operator: '=',
         },
       }],
     },

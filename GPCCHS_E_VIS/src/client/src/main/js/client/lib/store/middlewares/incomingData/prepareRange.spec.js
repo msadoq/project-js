@@ -170,7 +170,7 @@ describe('store:middlewares:prepareRange', () => {
           //       color: '#000000',
           //       condition: {
           //         field: 'monitoringState',
-          //         operator: '==',
+          //         operator: '=',
           //         operand: 'waiting',
           //       },
           //     },
@@ -196,7 +196,7 @@ describe('store:middlewares:prepareRange', () => {
             color: '#000000',
             condition: {
               field: 'monitoringState',
-              operator: '==',
+              operator: '=',
               operand: 'waiting',
             },
           }],

@@ -53,7 +53,7 @@ describe('viewManager/DynamicView/store/cleanViewData', () => {
               color: '#000000',
               condition: {
                 field: 'monitoringState',
-                operator: '==',
+                operator: '=',
                 operand: 'waiting',
               },
             }],

@@ -57,7 +57,7 @@ Object {
       },
     ],
     "localIds": Object {
-      "groundDate/extractedValue.tb1:0": Object {
+      "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting": Object {
         "fieldX": "groundDate",
         "fieldY": "extractedValue",
         "offset": 0,

@@ -74,7 +74,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
               color: '#000000',
               condition: {
                 field: 'monitoringState',
-                operator: '==',
+                operator: '=',
                 operand: 'waiting',
               },
             }],
@@ -105,7 +105,7 @@ describe('viewManager/TextView/store/cleanViewData', () => {
               color: '#000000',
               condition: {
                 field: 'monitoringState',
-                operator: '==',
+                operator: '=',
                 operand: 'waiting',
               },
             }],

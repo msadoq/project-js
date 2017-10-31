@@ -70,7 +70,7 @@ Object {
       },
     },
     "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
-      "groundDate/extractedValue.tb1:0": Object {
+      "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting": Object {
         "expectedInterval": Array [
           100000,
           500000,
@@ -136,7 +136,7 @@ Object {
       },
     },
     "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
-      "groundDate/extractedValue.tb1:0": Object {
+      "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting": Object {
         "expectedInterval": Array [
           500000,
           505000,
@@ -337,7 +337,7 @@ Object {
         },
       ],
       "localIds": Object {
-        "groundDate/extractedValue.tb1:0": Object {
+        "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting": Object {
           "fieldX": "groundDate",
           "fieldY": "extractedValue",
           "offset": 0,
@@ -582,7 +582,7 @@ Object {
             },
           ],
           "id": "plot1ep1",
-          "localId": "groundDate/extractedValue.tb1:0",
+          "localId": "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting",
           "offset": 0,
           "stateColors": Array [
             Object {

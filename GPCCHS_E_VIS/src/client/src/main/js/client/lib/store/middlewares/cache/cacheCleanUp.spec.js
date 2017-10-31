@@ -167,7 +167,7 @@ const store1 = {
         //       color: '#000000',
         //       condition: {
         //         field: 'monitoringState',
-        //         operator: '==',
+        //         operator: '=',
         //         operand: 'waiting',
         //       },
         //     },
@@ -193,7 +193,7 @@ const store1 = {
           color: '#000000',
           condition: {
             field: 'monitoringState',
-            operator: '==',
+            operator: '=',
             operand: 'waiting',
           },
         }],

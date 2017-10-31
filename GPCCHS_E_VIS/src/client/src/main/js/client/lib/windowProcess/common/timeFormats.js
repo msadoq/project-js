@@ -17,13 +17,15 @@ export function formatDuration(duration) {
   let ms = duration;
   const neg = ms < 0;
   if (neg) ms = Math.abs(ms);
+  const d = Math.floor(ms / 86400000);
+  ms -= d * 86400000;
   const h = Math.floor(ms / 3600000);
   ms -= h * 3600000;
   const m = Math.floor(ms / 60000);
   ms -= m * 60000;
   const s = Math.floor(ms / 1000);
   ms -= s * 1000;
-  return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fims(ms)}`;
+  return `${neg ? '- ' : '+ '}${d !== 0 ? `${d}d ` : ''}${fi(h)}:${fi(m)}:${fi(s)}.${fims(ms)}`;
 }
 
 export function getZoomLevel(msWidth) {

@@ -46,7 +46,7 @@ export default class OffsetFields extends PureComponent {
   sendChange = () => {
     const { input } = this.props;
     const duration = moment.duration();
-    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
+    ['days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       const val = parseInt(this[`${x}El`].value, 10) || 0;
       duration.add(val, x);
     });
@@ -61,7 +61,7 @@ export default class OffsetFields extends PureComponent {
     }
     const { input } = this.props;
     const duration = moment.duration(input.value);
-    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
+    ['days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       this[`${x}El`].value = duration.get(x);
     });
   }
@@ -70,7 +70,7 @@ export default class OffsetFields extends PureComponent {
     return (
       <div>
         {
-          ['hours', 'minutes', 'seconds', 'milliseconds'].map(x =>
+          ['days', 'hours', 'minutes', 'seconds', 'milliseconds'].map(x =>
             <input
               key={x}
               type="number"

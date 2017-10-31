@@ -129,12 +129,19 @@ exports[`AddTimeline component AddTimeline (redux-form) renders correctly 1`] = 
         className="col-xs-4 control-label"
         htmlFor="formHorizontalName"
       >
-        Offset (h-m-s-ms)
+        Offset (d-h-m-s-ms)
       </label>
       <div
         className="col-xs-8"
       >
         <div>
+          <input
+            className="input input_days form-control"
+            defaultValue="0"
+            onChange={[Function]}
+            placeholder="days"
+            type="number"
+          />
           <input
             className="input input_hours form-control"
             defaultValue="0"

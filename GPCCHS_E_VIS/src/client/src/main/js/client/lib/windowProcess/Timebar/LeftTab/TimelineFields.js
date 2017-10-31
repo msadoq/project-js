@@ -111,7 +111,7 @@ export default class TimelineFields extends PureComponent {
 
         <hr />
 
-        <HorizontalFormGroup label="Offset (h-m-s-ms)">
+        <HorizontalFormGroup label="Offset (d-h-m-s-ms)">
           <Field
             name="offset"
             disableSubmit={disableSubmit}

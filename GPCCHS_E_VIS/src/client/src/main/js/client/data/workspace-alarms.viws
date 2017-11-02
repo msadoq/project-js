@@ -13,11 +13,7 @@
       },
       "pages": [
         {
-          "oId": "oid:/pages/page-gma.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "oId": "oid:/pages/page-oba.vipg",
+          "oId": "oid:/pages/alarms.page.vipg",
           "timebarId": "TB1"
         }
       ]

@@ -68,7 +68,6 @@ export default function onBoardAlarmViewData(state = {}, action) {
         newViewMap,
         newExpectedRangeIntervals,
         configurations,
-        visuWindow,
       } = action.payload;
       if (_.isEmpty(dataToInject)) {
         return state;
@@ -90,8 +89,7 @@ export default function onBoardAlarmViewData(state = {}, action) {
             newState[viewId],
             viewId,
             epSubState,
-            _.get([viewId, 'entryPoints', 0, 'connectedData', 'mode'], configuration),
-            visuWindow
+            _.get([viewId, 'entryPoints', 0, 'connectedData', 'mode'], configuration)
           );
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
@@ -124,7 +122,7 @@ export default function onBoardAlarmViewData(state = {}, action) {
       return newState;
     }
     case types.WS_VIEW_UPDATE_ALARMMODE: {
-      const { mode, visuWindow, viewId } = action.payload;
+      const { mode, viewId } = action.payload;
       const alarms = state[viewId];
       if (!alarms || !alarms.indexes) {
         return state;
@@ -132,7 +130,7 @@ export default function onBoardAlarmViewData(state = {}, action) {
       let newAlarms = _.set('indexes', [], alarms);
       const nbAlarms = alarms.indexes.length;
       for (let i = 0; i < nbAlarms; i += 1) {
-        newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
+        newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode);
       }
       return _.set(viewId, newAlarms, state);
     }

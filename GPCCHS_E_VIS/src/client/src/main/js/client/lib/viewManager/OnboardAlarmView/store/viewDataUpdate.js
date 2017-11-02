@@ -14,10 +14,9 @@ import * as constants from '../../../constants';
  * @param: current view ID
  * @param: data to add in state per EP name
  * @param: current view configuration
- * @param: visuWindow to have current time
  * @return: updated state
 /* *********************************** */
-export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
+export function viewRangeAdd(state = {}, viewId, payloads, mode) {
   // get EP names
   const epNames = Object.keys(payloads || {});
   if (epNames.length !== 1) {
@@ -71,7 +70,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
     if (updLines) {
       // Sorting considering specified column
       newState =
-        updateLines(newState, time, lastIndex, mode, visuWindow);
+        updateLines(newState, time, lastIndex, mode);
     }
   }
 
@@ -87,7 +86,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
  * @param: direction for sorting
  * @return: updated state
 /* *********************************** */
-export function updateLines(state, time, index, alarmMode, visuWindow) {
+export function updateLines(state, time, index, alarmMode) {
   const newState = state;
   const value = newState.lines[time];
 
@@ -102,17 +101,6 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
         newState.indexes.slice(index));
     }
     return newState;
-  } else if (alarmMode === constants.OBA_ALARM_MODE_NONNOMINAL) {
-    // Just adds the alarms not closed at current time
-    const { creationDate, closingDate } = state.lines[time];
-    const isNonNominal = (
-      creationDate < visuWindow.current
-      && (closingDate > visuWindow.current || !closingDate)
-    );
-    const isNominal = !isNonNominal;
-    if (isNominal) {
-      return state;
-    }
   } else if (alarmMode === constants.OBA_ALARM_MODE_TOACKNOWLEDGE) {
     // No addition in lines
     if (value.ackState !== constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
@@ -168,7 +156,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
 export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   // get expected interval
   const expectedInterval = _get(intervalMap, [ep.tbdId, ep.localId, 'expectedInterval']);
-  // case of error when visuWindow duration is too long
+  // case of error when isuWindow duration is too long
   if (!expectedInterval) {
     return {};
   }

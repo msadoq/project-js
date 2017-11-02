@@ -26,6 +26,7 @@ extensions 2 to 102;
         DC_STATUS_DATA = 21;
         ALARM_QUERY = 22;
         ALARM_SUBSCRIPTION = 23;
+        ALARM_ACK = 26;
     }
 
     required MESSAGE_TYPE messageType = 1;

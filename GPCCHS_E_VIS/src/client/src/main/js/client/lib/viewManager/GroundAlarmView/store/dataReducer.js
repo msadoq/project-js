@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import _omit from 'lodash/omit';
 
 import cleanCurrentViewData from './cleanViewData';
-import { viewRangeAdd, selectDataPerView, updateLines } from './viewDataUpdate';
+import { viewRangeAdd, selectDataPerView, updateIndexes } from './viewDataUpdate';
 
 import * as types from '../../../store/types';
 import * as constants from '../../constants';
@@ -129,7 +129,7 @@ export default function groundAlarmViewData(state = {}, action) {
       let newAlarms = _.set('indexes', [], alarms);
       const nbAlarms = alarms.indexes.length;
       for (let i = 0; i < nbAlarms; i += 1) {
-        newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
+        newAlarms = updateIndexes(newAlarms, alarms.indexes[i], i, mode, visuWindow);
       }
       return _.set(viewId, newAlarms, state);
     }

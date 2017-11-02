@@ -76,7 +76,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
       if (updLines) {
         // Sorting considering specified column
         newState =
-          updateLines(newState, time, lastIndex, mode, visuWindow);
+          updateIndexes(newState, time, lastIndex, mode, visuWindow);
       }
     }
   }
@@ -85,7 +85,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
 }
 
 /* ************************************
- * Update 'lines' table with payload considering sorting parameters
+ * Update 'indexes' table with payload considering sorting parameters
  * @param: data state of current view
  * @param: EP Name
  * @param: current timestamp
@@ -93,7 +93,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
  * @param: direction for sorting
  * @return: updated state
 /* *********************************** */
-export function updateLines(state, time, index, alarmMode, visuWindow) {
+export function updateIndexes(state, time, index, alarmMode, visuWindow) {
   const newState = state;
   const value = newState.lines[time];
   if (!value) {

@@ -211,6 +211,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
 
     const parameters = onBoardAlarm.parameter || [];
     const valueToInsert = {
+      oid: currentValue.oid,
       timestamp,
       ackState,
       satellite: convertData(currentValue.satellite),

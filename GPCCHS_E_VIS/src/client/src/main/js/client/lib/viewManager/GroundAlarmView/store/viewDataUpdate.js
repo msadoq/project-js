@@ -226,6 +226,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
 
     const valueToInsert = {
+      oid: currentValue.oid,
       timestamp,
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),

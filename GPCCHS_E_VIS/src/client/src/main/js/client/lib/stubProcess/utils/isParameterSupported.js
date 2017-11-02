@@ -1,6 +1,6 @@
 const supported = [
-  'alarm.alarm<GroundMonitoringAlarmAckRequest>',
-  'alarm.alarm<OnBoardAlarmAckRequest>',
+  '.<GroundMonitoringAlarmAckRequest>',
+  '.<OnBoardAlarmAckRequest>',
   'Pus003.parameter<Pus003Model>',
   'Pus005.parameter<Pus005Model>',
   'Pus012.parameter<Pus012Model>',

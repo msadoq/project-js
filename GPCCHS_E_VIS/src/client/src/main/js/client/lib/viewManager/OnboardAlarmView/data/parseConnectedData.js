@@ -41,8 +41,8 @@ export default function parseConnectedData(
     return session;
   }
   const dataId = {
-    parameterName: 'alarm',
-    catalog: 'alarm',
+    parameterName: '',
+    catalog: '',
     comObject,
     domainId,
     domain: domainSearch.domainName,

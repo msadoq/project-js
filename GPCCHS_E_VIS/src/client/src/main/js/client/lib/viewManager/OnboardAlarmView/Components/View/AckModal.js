@@ -8,9 +8,9 @@ class AckModal extends React.Component {
     sendAck: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
     alarms: PropTypes.arrayOf(PropTypes.shape({
-      timestamp: PropTypes.string.isRequired,
-      parameterName: PropTypes.string.isRequired,
-      lastOccurence: PropTypes.string.isRequired,
+      timestamp: PropTypes.number.isRequired,
+      RIDName: PropTypes.string.isRequired,
+      onBoardDate: PropTypes.string.isRequired,
     })).isRequired,
   }
 

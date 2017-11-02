@@ -31,7 +31,7 @@ class AckModal extends React.Component {
           {
             alarms.map(alarm => (
               <ListGroupItem key={alarm.timestamp}>
-                {`${alarm.parameterName} - ${alarm.lastOccurence}`}
+                {`${alarm.RIDName} - ${alarm.onBoardDate}`}
               </ListGroupItem>
             ))
           }

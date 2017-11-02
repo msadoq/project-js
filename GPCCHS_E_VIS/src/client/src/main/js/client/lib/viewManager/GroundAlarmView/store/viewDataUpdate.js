@@ -32,7 +32,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
   // lines: contains all fields filtered by time { [timestamp]: { values }}
   // indexes: contains ordered timestamps [t1, t2, ...]
   let newState = _cloneDeep(state);
-  if (!newState.data) {
+  if (!newState.indexes) {
     newState = { lines: {}, indexes: [] };
   }
 

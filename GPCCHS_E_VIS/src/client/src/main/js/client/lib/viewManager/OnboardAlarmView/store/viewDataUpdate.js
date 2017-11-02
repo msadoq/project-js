@@ -26,18 +26,19 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
   }
 
   // Loop on payloads to update state
-  // data: contains all fields filtered by time { [timestamp]: { values }}
-  // lines: contains ordered timestamps [t1, t2, ...]
+  // lines: contains all fields filtered by time { [timestamp]: { values }}
+  // indexes: contains ordered timestamps [t1, t2, ...]
   let newState = _cloneDeep(state);
-  if (!newState.data) {
-    newState = { lines: [], indexes: [], data: {} };
+  if (!newState.indexes) {
+    newState = { lines: {}, indexes: [] };
   }
 
   // loop on EP name to add payload sorted by masterTime in EP table
   const epName = epNames[0];
   // Update of EP data
-  newState.data = Object.assign({}, newState.data, payloads[epName]);
-  const timestamps = Object.keys(payloads[epName]);
+  newState.lines = Object.assign({}, newState.lines, payloads[epName]);
+  const timestamps = Object.keys(payloads[epName]).map(Number);
+  // const timestamps = Object.keys(payloads[epName]);
   let lastIndex = -1;
   let lastTime;
   // loop on payload timestamps
@@ -88,22 +89,22 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
 /* *********************************** */
 export function updateLines(state, time, index, alarmMode, visuWindow) {
   const newState = state;
-  const value = newState.data[time];
+  const value = newState.lines[time];
 
   // If mode = ALL, index in lines is the same as in indexes
   if (alarmMode === constants.OBA_ALARM_MODE_ALL) {
     if (index === -1) {
-      newState.lines.push(time);
+      newState.indexes.push(time);
     } else {
-      newState.lines = _concat(
-        newState.lines.slice(0, index),
+      newState.indexes = _concat(
+        newState.indexes.slice(0, index),
         time,
-        newState.lines.slice(index));
+        newState.indexes.slice(index));
     }
     return newState;
   } else if (alarmMode === constants.OBA_ALARM_MODE_NONNOMINAL) {
     // Just adds the alarms not closed at current time
-    const { creationDate, closingDate } = state.data[time];
+    const { creationDate, closingDate } = state.lines[time];
     const isNonNominal = (
       creationDate < visuWindow.current
       && (closingDate > visuWindow.current || !closingDate)
@@ -118,15 +119,15 @@ export function updateLines(state, time, index, alarmMode, visuWindow) {
       return state;
     }
   }
-  //  find index to insert in lines
-  const indexInLines = _findIndex(newState.lines, val => val >= time);
+  // Find index to insert in lines
+  const indexInLines = _findIndex(newState.indexes, val => val >= time);
   if (indexInLines === -1) {
-    newState.lines.push(time);
-  } else if (newState.lines[indexInLines] !== time) {
-    newState.lines = _concat(
-      newState.lines.slice(0, indexInLines),
+    newState.indexes.push(time);
+  } else if (newState.indexes[indexInLines] !== time) {
+    newState.indexes = _concat(
+      newState.indexes.slice(0, indexInLines),
       time,
-      newState.lines.slice(indexInLines));
+      newState.indexes.slice(indexInLines));
   }
   return newState;
 }
@@ -142,7 +143,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
     const epNames = Object.keys(currentViewMap.entryPoints);
-    // Only one entry point per ground alarm view
+    // Only one entry point per onBoard alarm view
     if (epNames.length !== 1) {
       return {};
     }
@@ -174,7 +175,8 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   const lower = expectedInterval[0];
   const upper = expectedInterval[1];
 
-  const timestamps = Object.keys(tbdIdPayload);
+  // const timestamps = Object.keys(tbdIdPayload);
+  const timestamps = Object.keys(tbdIdPayload).map(Number);
   const newState = { [epName]: {} };
 
   // Loop on payload timestamps

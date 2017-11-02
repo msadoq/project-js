@@ -9,13 +9,12 @@ import * as types from '../../../store/types';
 import * as constants from '../../constants';
 
 const initialState = {
-  lines: [],
+  lines: {},
   indexes: [],
-  data: {},
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function groundAlarmViewData(state = {}, action) {
+export default function onBoardAlarmViewData(state = {}, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
@@ -130,7 +129,7 @@ export default function groundAlarmViewData(state = {}, action) {
       if (!alarms || !alarms.indexes) {
         return state;
       }
-      let newAlarms = _.set('lines', [], alarms);
+      let newAlarms = _.set('lines', {}, alarms);
       for (let i = 0; i < newAlarms.indexes.length; i += 1) {
         newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
       }
@@ -148,7 +147,7 @@ export const getData = (state, { viewId }) => state.OnboardAlarmViewData[viewId]
 export const getDataLines = createSelector(
   getData,
   data => _.flatMap((lineId) => {
-    const alarm = data.data[lineId];
+    const alarm = data.lines[lineId];
     const alarmWithoutParameters = _.omit('parameters', alarm);
     const parameters = _.isEmpty(alarm.parameters) ? [] : [
       {
@@ -169,5 +168,5 @@ export const getDataLines = createSelector(
       },
       ...parameters,
     ];
-  }, data.lines)
+  }, data.indexes)
 );

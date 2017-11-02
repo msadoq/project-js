@@ -2,9 +2,12 @@
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _last from 'lodash/last';
+import _pick from 'lodash/pick';
 import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
-import _pick from 'lodash/pick';
+import getLogger from '../../../common/logManager';
+
+const logger = getLogger('view:OnBoardAlarmView:cleanViewData');
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -33,17 +36,15 @@ export default function cleanCurrentViewData(
   // invisible view
   if (!newViewFromMap) {
     return {
-      cols: [],
-      lines: [],
+      lines: {},
       indexes: [],
-      data: {},
-      transitionNb: 0 };
+    };
   }
   // entry point updates
   const oldEntryPoints = oldViewFromMap.entryPoints;
   const newEntryPoints = newViewFromMap.entryPoints;
   const epNames = Object.keys(oldEntryPoints);
-  // only one entry point is displayed in a ground alarm view
+  // only one entry point is displayed in a OnBoard alarm view
   if (epNames.length !== 1) {
     return currentState;
   }
@@ -55,11 +56,9 @@ export default function cleanCurrentViewData(
   // EP definition modified: remove entry point from viewData
   if (isInvalidEntryPoint(oldEp, newEp)) {
     return {
-      cols: [],
-      lines: [],
+      lines: {},
       indexes: [],
-      data: {},
-      transitionNb: 0 };
+    };
   }
   // Case of point already in error
   if (newEp.error) {
@@ -72,12 +71,15 @@ export default function cleanCurrentViewData(
   const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
   const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
   if (!newInterval || oldEp.localId !== newEp.localId) {
-    return { lines: [], data: {}, transitionNb: 0 };
+    return {
+      lines: {},
+      indexes: [],
+    };
   } else if (oldInterval &&
     (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
     const lower = newInterval[0] + newEp.offset;
     const upper = newInterval[1] + newEp.offset;
-    newState = removeViewDataByEp(newState, epName, lower, upper);
+    newState = removeViewDataOutOfBounds(newState, epName, lower, upper);
   }
   return newState;
 }
@@ -91,63 +93,47 @@ function isInvalidEntryPoint(oldEp, newEp) {
 }
 
 
-export function removeViewDataByEp(viewData, epName, lower, upper) {
+export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   if (lower > upper) {
-    // unpredictable usage
+    logger.warn('Received invalid bounds');
     return {
-      cols: [],
       lines: [],
       indexes: [],
-      data: {},
-      transitionNb: 0 };
+    };
   }
-  // keep everything
-  if (!viewData || !viewData.lines || !viewData.lines.length) {
-    // state contains no data
+
+  // --- Keep everything --- //
+
+  // state contains no data
+  if (!viewData || !viewData.indexes || !viewData.indexes.length) {
     return viewData;
   }
-  // all points of entryPoint are in visuWindow
-  if (viewData.lines[0] >= lower && _last(viewData.lines) <= upper) {
+
+  // All points of entryPoint are in visuWindow
+  if (viewData.indexes[0] >= lower && _last(viewData.indexes) <= upper) {
     return viewData;
   }
-  // drop everything
-  if (viewData.lines[0] > upper || _last(viewData.lines) < lower) {
-     // console.log('viewData.lines[0] > upper || _last(viewData.lines) < lower');
+
+  // --- Drop everything --- //
+
+  if (viewData.indexes[0] > upper || _last(viewData.indexes) < lower) {
     return {
-      cols: [],
       lines: [],
       indexes: [],
-      data: {},
-      transitionNb: 0 };
+    };
   }
-  // keep some
-  // cut: keep inside min and max
-  const iLower = _findIndex(viewData.lines, val => val >= lower);
-  let iUpper = _findLastIndex(viewData.lines, val => val <= upper);
+
+  // --- Keep some --- //
+
+  const iLower = _findIndex(viewData.indexes, val => val >= lower);
+  let iUpper = _findLastIndex(viewData.indexes, val => val <= upper);
   iUpper = (iUpper === -1) ? viewData.lines.length - 1 : iUpper;
 
-  const newLines = viewData.lines.slice(iLower, iUpper + 1);
-  const newData = _pick(viewData.data[epName], newLines);
-  // Compute transitionNb by removing erased data
-  let removedTransitions = 0;
-  // lower
-  for (let i = 0; i < iLower; i += 1) {
-    const timestamp = viewData.lines[i];
-    if (viewData.data[timestamp].transitions) {
-      removedTransitions += viewData.data[timestamp].transitions.length;
-    }
-  }
-  // upper
-  for (let i = iUpper + 1; i < viewData.lines.length; i += 1) {
-    const timestamp = viewData.lines[i];
-    if (viewData.data[timestamp].transitions) {
-      removedTransitions += viewData.data[timestamp].transitions.length;
-    }
-  }
+  const newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
+  const newLines = _pick(viewData.lines, newIndexes);
 
   return {
-    data: newData,
     lines: newLines,
-    transitionNb: viewData.transitionNb - removedTransitions,
+    indexes: newIndexes,
   };
 }

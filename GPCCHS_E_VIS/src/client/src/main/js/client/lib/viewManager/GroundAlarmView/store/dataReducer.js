@@ -126,8 +126,9 @@ export default function groundAlarmViewData(state = {}, action) {
       if (!alarms || !alarms.indexes) {
         return state;
       }
-      let newAlarms = _.set('lines', {}, alarms);
-      for (let i = 0; i < newAlarms.indexes.length; i += 1) {
+      let newAlarms = _.set('indexes', [], alarms);
+      const nbAlarms = alarms.indexes.length;
+      for (let i = 0; i < nbAlarms; i += 1) {
         newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
       }
       return _.set(viewId, newAlarms, state);

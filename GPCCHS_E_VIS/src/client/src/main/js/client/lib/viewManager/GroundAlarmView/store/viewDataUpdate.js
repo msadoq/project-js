@@ -96,9 +96,6 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
 export function updateIndexes(state, time, index, alarmMode, visuWindow) {
   const newState = state;
   const value = newState.lines[time];
-  if (!value) {
-    return state;
-  }
 
   // If mode = ALL, index in lines is the same as in indexes
   if (alarmMode === constants.GMA_ALARM_MODE_ALL) {

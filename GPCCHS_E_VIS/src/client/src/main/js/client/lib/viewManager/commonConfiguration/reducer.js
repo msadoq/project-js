@@ -21,8 +21,10 @@ export default (stateConf, action) => {
       const index = _.findIndex({ id: action.payload.entryPointId }, stateConf.entryPoints);
       return _.set(`entryPoints[${index}]`, action.payload.entryPoint, stateConf);
     }
-    case types.WS_VIEW_REMOVE_ENTRYPOINT:
-      return removeElementIn('entryPoints', action.payload.index, stateConf);
+    case types.WS_VIEW_REMOVE_ENTRYPOINT: {
+      const index = _.findIndex({ id: action.payload.entryPointId }, stateConf.entryPoints);
+      return removeElementIn('entryPoints', index, stateConf);
+    }
     default:
       return stateConf;
   }

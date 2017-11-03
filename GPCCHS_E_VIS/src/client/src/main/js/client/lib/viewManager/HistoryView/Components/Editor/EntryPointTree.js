@@ -58,10 +58,10 @@ export default class EntryPointTree extends Component {
     updateViewPanels(viewId, 'entryPoints', openPanels);
   }
 
-  handleRemove = (e, key) => {
+  handleRemove = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.remove(key);
+    this.props.remove(id);
   }
 
   render() {
@@ -88,7 +88,7 @@ export default class EntryPointTree extends Component {
         onChange={this.onChange}
         defaultActiveKey={entryPointsPanels === true ? emptyArray : Object.keys(entryPointsPanels)}
       >
-        {list.map((entryPoint, key) => {
+        {list.map((entryPoint) => {
           const isOpen = entryPointsPanels[entryPoint.id];
           return (
             <Panel
@@ -108,7 +108,7 @@ export default class EntryPointTree extends Component {
                     <Button
                       bsSize="xsmall"
                       className={classnames('btn-link', styles.removeButton)}
-                      onClick={e => this.handleRemove(e, key)}
+                      onClick={e => this.handleRemove(e, entryPoint.id)}
                     >
                       <Glyphicon
                         className="text-danger"

@@ -14,4 +14,27 @@ describe('store:reducer:viewConfiguration', () => {
       expect(myView).not.toBe(stateConf);
     });
   });
+  describe('remove EntryPoint', () => {
+    const stateConf = {
+      entryPoints: [
+        { id: 'ep01' },
+        { id: 'ep02' },
+      ],
+    };
+    test('should be removed', () => {
+      const myView = reducer(stateConf, actions.removeEntryPoint('myView', 'ep01'));
+      expect(myView).toEqual({ entryPoints: [{ id: 'ep02' }] });
+    });
+  });
+  describe('update EntryPoint', () => {
+    const stateConf = {
+      entryPoints: [
+        { id: 'ep01' },
+      ],
+    };
+    test('should be updated', () => {
+      const myView = reducer(stateConf, actions.updateEntryPoint('myView', 'ep01', { id: 'ep01', connectedData: {} }));
+      expect(myView.entryPoints[0]).toEqual({ id: 'ep01', connectedData: {} });
+    });
+  });
 });

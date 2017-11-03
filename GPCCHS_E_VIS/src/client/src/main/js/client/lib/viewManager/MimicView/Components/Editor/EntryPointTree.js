@@ -81,7 +81,7 @@ export default class EntryPointTree extends React.Component {
         onChange={this.onChange}
         defaultActiveKey={entryPointsPanels === true ? emptyArray : Object.keys(entryPointsPanels)}
       >
-        {list.map((entryPoint, key) => {
+        {list.map((entryPoint) => {
           const isOpen = entryPointsPanels[entryPoint.id];
           return (
             <Panel
@@ -93,7 +93,7 @@ export default class EntryPointTree extends React.Component {
                     <Button
                       bsSize="xsmall"
                       className={classnames('btn-link', styles.removeButton)}
-                      onClick={e => this.handleRemove(e, key)}
+                      onClick={e => this.handleRemove(e, entryPoint.id)}
                     >
                       <Glyphicon
                         className="text-danger"

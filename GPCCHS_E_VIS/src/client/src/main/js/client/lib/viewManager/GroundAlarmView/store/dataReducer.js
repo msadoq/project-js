@@ -71,6 +71,7 @@ export default function groundAlarmViewData(state = initialSubState, action) {
           alarmsTimestamps: alarmsTimestamps.map(ts => ({
             timestamp: ts,
             acknowledged: false,
+            ackError: null,
           })),
         }, state);
       }

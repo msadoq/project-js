@@ -115,6 +115,18 @@ const commands = {
         encode('dc.dataControllerUtils.FMDCreateDocument', { name, path, mimeType }),
       ], callback);
     },
+    requestAck: (flatDataId, dataId, alarmAckRequests, callback) => {
+      const payloads = alarmAckRequests.map(alarmAckRequest => (
+        encode(`dc.dataControllerUtils.${dataId.comObject}`, alarmAckRequest)
+      ));
+
+      const trames = [
+        getDcDataId(flatDataId, dataId),
+        ...payloads,
+      ];
+
+      commands.dc.rpc(constants.MESSAGETYPE_ALARM_ACK, trames, callback);
+    },
     requestTimebasedQuery: (flatDataId, dataId, interval, args) => commands.dc.rpc(
       constants.MESSAGETYPE_TIMEBASED_QUERY,
       [

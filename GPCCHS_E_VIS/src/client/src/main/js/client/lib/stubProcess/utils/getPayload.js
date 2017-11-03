@@ -39,7 +39,7 @@ function getAckRequest(timestamp, options) {
         userTime: timestamp - 50000,
       },
     } : undefined,
-    comment: predictibleRand.getString('comment', -1, 10),
+    comment: options.setComment || predictibleRand.getString('comment', -1, 10),
   } : undefined;
 }
 
@@ -55,6 +55,7 @@ function getNamedValue() {
   };
 }
 
+/* eslint-disable complexity, switch case function */
 const getComObject = (comObject, timestamp, epName, options) => {
   switch (comObject) {
     case 'OnBoardAlarmAckRequest': {
@@ -63,7 +64,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
       }
 
       return stubData.getOnBoardAlarmAckRequestProtobuf({
-        oid: `oid${Math.random() * 10000000}`,
+        oid: options.setOid || `oid${Math.random() * 10000000}`,
         onBoardAlarm: {
           apid: predictibleRand.getInt([0, 100000]),
           reportId: predictibleRand.getInt([0, 100000]),
@@ -110,7 +111,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
       }
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
-        oid: `oid${Math.random() * 10000000}`,
+        oid: options.setOid || `oid${Math.random() * 10000000}`,
         groundMonitoringAlarm,
         ackRequest: getAckRequest(timestamp, options),
         parameterName: predictibleRand.getString('pName'),

@@ -1,8 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
-import {
-  Parser,
-  ProcessNodeDefinitions,
-} from 'html-to-react';
+import React, { PropTypes, PureComponent } from 'react';
+import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import { html as beautifyHtml } from 'js-beautify';
 
 const isValueNode = /{{\s*([^}]+)\s*}}/g;
@@ -43,6 +40,54 @@ const getEpSpan = (target) => {
     return null;
   }
   return getEpSpan(parent);
+};
+
+/**
+ * Updates a single Span value, title or color
+ * @param val
+ * @param id
+ * @param sv
+ * @param ep
+ */
+const updateSpanValue = (val = {}, id, sv, ep) => {
+  if (!ep) {
+    return;
+  }
+
+  const v = val.value === undefined ? '' : val.value;
+  const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#41a62a');
+  const shouldUpdateValue = (v !== sv.val);
+  const shouldUpdateColor = (s.color !== sv.color);
+  const shouldUpdateTitle = (ep.error && ep.error !== sv.title);
+  if (!shouldUpdateValue && !shouldUpdateColor && !shouldUpdateTitle) {
+    return;
+  }
+
+  // Must mutate sv value, title, el, thus disable es-lint for the whole function
+  /* eslint-disable no-param-reassign */
+  if (!sv.el) {
+    sv.el = document.getElementById(id);
+  }
+
+  // update val attribute
+  if (shouldUpdateValue) {
+    sv.val = v;
+    sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
+  }
+
+  // update title attribute
+  if (shouldUpdateTitle) {
+    sv.title = ep.error;
+    sv.el.setAttribute('title', ep.error);
+  }
+
+  // update color attribute
+  if (shouldUpdateColor) {
+    sv.color = s.color;
+    sv.el.style.color = s.color;
+    sv.el.style.textShadow = s.textShadow;
+  }
+  /* eslint-enable no-param-reassign */
 };
 
 export default class TextView extends PureComponent {
@@ -115,8 +160,8 @@ export default class TextView extends PureComponent {
           });
           tagProps.style = { cursor: 'pointer' };
           tagProps.title = `open ${node.attribs.isis_link}`;
-          const reactElement = React.createElement(node.name, tagProps, children);
-          return reactElement;
+
+          return React.createElement(node.name, tagProps, children);
         },
       },
       {
@@ -191,31 +236,7 @@ export default class TextView extends PureComponent {
         const id = spanIds[i];
         const sv = this.spanValues[id];
         const ep = this.props.entryPoints[sv.ep];
-        if (ep) {
-          const val = data.values[sv.ep] || {};
-          if (!sv.el) {
-            sv.el = document.getElementById(id);
-          }
-          let v = val.value;
-          if (v === undefined) {
-            v = '';
-          }
-          if (v !== sv.val) {
-            sv.val = v;
-            sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
-          }
-          if (ep.error && ep.error !== sv.title) {
-            sv.title = ep.error;
-            sv.el.setAttribute('title', ep.error);
-          }
-
-          const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#41a62a');
-          if (s.color !== sv.color) {
-            sv.color = s.color;
-            sv.el.style.color = s.color;
-            sv.el.style.textShadow = s.textShadow;
-          }
-        }
+        updateSpanValue(data.values[sv.ep], id, sv, ep);
       }
       if (perfOutput) {
         // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
@@ -232,7 +253,6 @@ export default class TextView extends PureComponent {
       copySpanValues(this.spanValues);
     }
   }
-
   handleClicked = (e) => {
     if (e.target.getAttribute('data-isis-link')) {
       this.props.openLink(e.target.getAttribute('data-isis-link'));

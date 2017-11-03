@@ -16,6 +16,8 @@ module.exports = function sendAlarmAckData(alarmAck, zmq) {
     const payload = getPayload(Date.now(), alarmAck.dataId.comObject, {
       setOid: alarm.oid,
       setComment: alarm.ackRequest.comment,
+      withAckRequest: true,
+      withAck: true,
     });
 
     buffer.push(payload.timestamp);

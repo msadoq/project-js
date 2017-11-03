@@ -27,10 +27,20 @@ function getMonitoringState() {
 }
 
 function getAckRequest(timestamp, options) {
-  return (!options.allToAck && predictibleRand.getBool(0.25)) ? {
+  const withAckRequest = (options.withAckRequest !== undefined ?
+    options.withAckRequest
+    : predictibleRand.getBool(0.5)
+  );
+
+  const withAck = (options.withAck !== undefined ?
+    options.withAck
+    : predictibleRand.getBool(0.25)
+  );
+
+  return withAckRequest ? {
     ackRequestDate: timestamp - 10,
     systemDate: timestamp,
-    ack: predictibleRand.getBool() ? {
+    ack: withAck ? {
       ackDate: timestamp - 10,
       acknowledger: {
         login: predictibleRand.getString('login', 16),
@@ -86,13 +96,18 @@ const getComObject = (comObject, timestamp, epName, options) => {
         return null;
       }
 
+      const withAckRequest = (options.withAckRequest !== undefined ?
+        options.withAckRequest
+        : predictibleRand.getBool(0.75)
+      );
+
       const value = predictibleRand.getSinValue(timestamp, epName);
       const groundMonitoringAlarm = {
         creationDate: timestamp - 100,
         paramUid: predictibleRand.getInt([0, 100000]),
         updateDate: timestamp - 50,
         closingDate: predictibleRand.getBool() ? timestamp - 10 : undefined,
-        hasAckRequest: options.allToAck || predictibleRand.getBool(0.75),
+        hasAckRequest: withAckRequest,
         alarmId: predictibleRand.getInt([0, 100000]),
         transitions: [],
         isNominal: predictibleRand.getBool(0.25),

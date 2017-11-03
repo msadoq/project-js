@@ -66,7 +66,10 @@ module.exports = function sendArchiveData(
     // All toAck alarms are pushed by DC whatever the given alarm
     if (dataId.catalog === 'alarm') {
       for (let i = now - 10000020000; i < (now - 10000010000); i += 2000) {
-        const payload = getPayload(i, dataId.comObject, dataId.parameterName, { allToAck: true });
+        const payload = getPayload(i, dataId.comObject, dataId.parameterName, {
+          withAckRequest: true,
+          withAck: false,
+        });
         if (payload !== null) {
           payloads.push(payload);
         }

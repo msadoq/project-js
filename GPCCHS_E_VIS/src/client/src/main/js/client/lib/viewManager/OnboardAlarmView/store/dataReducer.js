@@ -8,14 +8,14 @@ import { viewRangeAdd, selectDataPerView, updateIndexes } from './viewDataUpdate
 import * as types from '../../../store/types';
 import * as constants from '../../constants';
 
-const initialState = {
+const initialSubState = {
   lines: {},
   indexes: [],
   ackStatus: {},
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function onBoardAlarmViewData(state = initialState, action) {
+export default function onBoardAlarmViewData(state = initialSubState, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
@@ -26,7 +26,7 @@ export default function onBoardAlarmViewData(state = initialState, action) {
       if (action.payload.view.type !== constants.VM_VIEW_ONBOARDALARM) {
         return state;
       }
-      return { ...state, [action.payload.view.uuid]: initialState };
+      return { ...state, [action.payload.view.uuid]: initialSubState };
     case types.WS_PAGE_OPENED:
     case types.WS_WORKSPACE_OPENED:
       {
@@ -39,7 +39,7 @@ export default function onBoardAlarmViewData(state = initialState, action) {
           if (view.type !== constants.VM_VIEW_ONBOARDALARM) {
             return;
           }
-          newState[view.uuid] = initialState;
+          newState[view.uuid] = initialSubState;
         });
         return { ...state, ...newState };
       }
@@ -137,7 +137,7 @@ export default function onBoardAlarmViewData(state = initialState, action) {
           dataMap.expectedRangeIntervals
         );
         if (subState !== viewData) {
-          newState = { ...newState, [viewId]: subState };
+          newState = { ...newState, [viewId]: subState || initialSubState };
         }
       }
       return newState;

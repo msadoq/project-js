@@ -35,10 +35,7 @@ export default function cleanCurrentViewData(
   }
   // invisible view
   if (!newViewFromMap) {
-    return {
-      lines: {},
-      indexes: [],
-    };
+    return null;
   }
   // entry point updates
   const oldEntryPoints = oldViewFromMap.entryPoints;
@@ -55,10 +52,7 @@ export default function cleanCurrentViewData(
   // removed entry point if invalid
   // EP definition modified: remove entry point from viewData
   if (isInvalidEntryPoint(oldEp, newEp)) {
-    return {
-      lines: {},
-      indexes: [],
-    };
+    return null;
   }
   // Case of point already in error
   if (newEp.error) {
@@ -71,10 +65,7 @@ export default function cleanCurrentViewData(
   const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
   const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
   if (!newInterval || oldEp.localId !== newEp.localId) {
-    return {
-      lines: {},
-      indexes: [],
-    };
+    return null;
   } else if (oldInterval &&
     (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
     const lower = newInterval[0] + newEp.offset;
@@ -96,10 +87,7 @@ function isInvalidEntryPoint(oldEp, newEp) {
 export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   if (lower > upper) {
     logger.warn('Received invalid bounds');
-    return {
-      lines: [],
-      indexes: [],
-    };
+    return null;
   }
 
   // --- Keep everything --- //
@@ -117,10 +105,7 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   // --- Drop everything --- //
 
   if (viewData.indexes[0] > upper || _last(viewData.indexes) < lower) {
-    return {
-      lines: [],
-      indexes: [],
-    };
+    return null;
   }
 
   // --- Keep some --- //

@@ -15,10 +15,10 @@ export const openAckModal = alarms => (
   openModalInCurrentWindow({ type: 'obaAck', title: 'On Board Alarm', alarms })
 );
 
-export const sendAlarmAck = (alarms, reason) => ({
+export const sendAlarmAck = (alarms, comment) => ({
   type: types.WS_VIEW_OBA_ALARM_ACK,
   payload: {
     alarms: _.isArray(alarms) ? alarms : [alarms],
-    reason,
+    comment,
   },
 });

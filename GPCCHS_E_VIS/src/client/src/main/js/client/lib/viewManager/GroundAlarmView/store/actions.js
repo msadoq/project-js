@@ -15,10 +15,10 @@ export const openAckModal = alarms => (
   openModalInCurrentWindow({ type: 'gmaAck', title: 'Ground Monitoring Alarm', alarms })
 );
 
-export const sendAlarmAck = (alarms, reason) => ({
+export const sendAlarmAck = (alarms, comment) => ({
   type: types.WS_VIEW_GMA_ALARM_ACK,
   payload: {
     alarms: _.isArray(alarms) ? alarms : [alarms],
-    reason,
+    comment,
   },
 });

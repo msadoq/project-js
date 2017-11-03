@@ -14,12 +14,12 @@ class AckModal extends React.Component {
     })).isRequired,
   }
 
-  state = { reason: '' }
+  state = { comment: '' }
 
-  onReasonChange = e => this.setState(_.set('reason', e.target.value))
+  onCommentChange = e => this.setState(_.set('comment', e.target.value))
 
   onAckClick = () => {
-    this.props.sendAck(this.props.alarms, this.state.reason);
+    this.props.sendAck(this.props.alarms, this.state.comment);
     this.props.closeModal();
   }
 
@@ -36,7 +36,7 @@ class AckModal extends React.Component {
             ))
           }
         </ListGroup>
-        <FormControl onChange={this.onReasonChange} componentClass="textarea" />
+        <FormControl onChange={this.onCommentChange} componentClass="textarea" />
         <Button onClick={this.onAckClick} bsStyle="primary" bsSize="small">
           Acknowledge
         </Button>

@@ -11,14 +11,14 @@ export const updateAlarmMode = (viewId, mode) => (dispatch, getState) => {
   dispatch({ type: types.WS_VIEW_UPDATE_ALARMMODE, payload: { viewId, mode, visuWindow } });
 };
 
-export const openAckModal = alarms => (
-  openModalInCurrentWindow({ type: 'obaAck', title: 'On Board Alarm', alarms })
+export const openAckModal = (viewId, alarmsTimestamps) => (
+  openModalInCurrentWindow({ type: 'obaAck', title: 'On Board Alarm', viewId, alarmsTimestamps })
 );
 
 export const sendAlarmAck = (alarms, comment) => ({
   type: types.WS_VIEW_OBA_ALARM_ACK,
   payload: {
-    alarms: _.isArray(alarms) ? alarms : [alarms],
+    alarmsTimestamps: _.isArray(alarms) ? alarms : [alarms],
     comment,
   },
 });

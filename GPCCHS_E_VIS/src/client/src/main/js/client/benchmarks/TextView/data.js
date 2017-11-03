@@ -1,3 +1,5 @@
+import _memoize from 'lodash/memoize';
+
 const epIds = [
   'aaaaa', 'aaaab', 'aaaac', 'aaaad', 'aaaae', 'aaaaf', 'aaaag', 'aaaah', 'aaaai', 'aaaaj', 'aaaak', 'aaaal', 'aaaam',
   'abbba', 'abbbb', 'abbbc', 'abbbd', 'abbbe', 'abbbf', 'abbbg', 'abbbh', 'abbbi', 'abbbj', 'abbbk', 'abbbl', 'abbbm',
@@ -28,101 +30,100 @@ const epIds = [
 const hexa = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 const style = '<style>.eps{ max-width: 850px; padding: 5px; } .ep { margin: 2px; display: inline-block; padding: 3px 10px; text-align: center; width: 60px; height: 28px; border: 1px solid #33B; background: #336; }</style>';
 
-export const data20Eps = () => {
-  const data = {};
+const memoizeData = _memoize(count => {
+    let data = {};
+    let eps = epIds.filter((v, i) => i < count);
+    for (let i = 0; i < count; i += 1) {
+      data[eps[i]] = { value: i, color: '#FFF' };
+    }
+    return data;
+  }
+);
+
+const memoizeEP = _memoize(count => {
   const entryPoints = {};
-  const eps = epIds.filter((v, i) => i < 20);
-  for (let i = 0; i < 20; i += 1) {
-    data[eps[i]] = { value: i, color: '#FFF' };
+  const eps = epIds.filter((v, i) => i < count);
+  for (let i = 0; i < count; i += 1) {
     entryPoints[eps[i]] = {};
   }
+  return entryPoints;
+});
+
+export const data20Eps = () => {
+  const eps = epIds.filter((v, i) => i < 20);
   const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
-    data,
+    data: memoizeData(20),
     content: `${style}<div class="eps">${epSpans}</div>`,
-    entryPoints,
+    entryPoints: memoizeEP(20),
   };
 };
 
 export const data40Eps = () => {
-  const data = {};
-  const entryPoints = {};
   const eps = epIds.filter((v, i) => i < 40);
-  for (let i = 0; i < 40; i += 1) {
-    data[eps[i]] = { value: i, color: '#FFF' };
-    entryPoints[eps[i]] = {};
-  }
   const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
-    data,
+    data: memoizeData(40),
     content: `${style}<div class="eps">${epSpans}</div>`,
-    entryPoints,
+    entryPoints: memoizeEP(40),
   };
 };
 
 export const data40EpsRandom = () => {
   const data = {};
-  const entryPoints = {};
   const eps = epIds.filter((v, i) => i < 40);
   for (let i = 0; i < 40; i += 1) {
     data[eps[i]] = { value: Math.round(Math.random() * 1000), color: '#FFF' };
-    entryPoints[eps[i]] = {};
   }
   const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
-    entryPoints,
+    entryPoints: memoizeEP(40),
   };
 };
 
 export const data100EpsRandom = () => {
   const data = {};
-  const entryPoints = {};
   const eps = epIds.filter((v, i) => i < 100);
   for (let i = 0; i < 100; i += 1) {
     data[eps[i]] = { value: Math.round(Math.random() * 1000), color: '#FFF' };
-    entryPoints[eps[i]] = {};
   }
   const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
-    entryPoints,
+    entryPoints: memoizeEP(100),
   };
 };
 
 export const data200EpsRandom = () => {
   const data = {};
-  const entryPoints = {};
   const eps = epIds.filter((v, i) => i < 200);
   for (let i = 0; i < 200; i += 1) {
     data[eps[i]] = { value: Math.round(Math.random() * 1000), color: '#FFF' };
-    entryPoints[eps[i]] = {};
   }
   const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
-    entryPoints,
+    entryPoints: memoizeEP(200),
   };
 };
 
 export const data200EpsRandomColors = () => {
   const data = {};
-  const entryPoints = {};
   const eps = epIds.filter((v, i) => i < 200);
   for (let i = 0; i < 200; i += 1) {
     data[eps[i]] = {
       value: Math.round(Math.random() * 1000),
       color: `#F${hexa[Math.floor(Math.random() * 16)]}${hexa[Math.floor(Math.random() * 16)]}`,
     };
-    entryPoints[eps[i]] = {};
   }
   const epSpans = eps.map(v => `<span>{{${v}}}</span>`).join('');
   return {
     data,
     content: `${style}<div class="eps">${epSpans}</div>`,
-    entryPoints,
+    entryPoints: memoizeEP(200),
   };
 };

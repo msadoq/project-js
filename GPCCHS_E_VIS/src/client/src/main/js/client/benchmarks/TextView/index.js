@@ -1,11 +1,15 @@
-import React, { PropTypes } from 'react';
-import { createStore } from 'redux';
-import { render } from 'react-dom';
-import { Provider, connect } from 'react-redux';
+import React, {PropTypes} from 'react';
+import {createStore} from 'redux';
+import {render} from 'react-dom';
+import {connect, Provider} from 'react-redux';
 import TextView from '../../lib/viewManager/TextView/Components/View/TextView';
 import {
-  data20Eps, data40Eps, data40EpsRandom, data100EpsRandom, data200EpsRandom,
+  data100EpsRandom,
+  data200EpsRandom,
   data200EpsRandomColors,
+  data20Eps,
+  data40Eps,
+  data40EpsRandom,
 } from './data';
 
 process.title = 'TextView benchmark';
@@ -17,6 +21,7 @@ const propsTextView = {
   addEntryPoint: () => null,
   updateContent: () => null,
   perfOutput: true,
+  openLink: () => null
 };
 
 const reducer = (state = {}, action) => {

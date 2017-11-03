@@ -165,6 +165,12 @@ export const getOnboardAlarmViewData = state => state.OnboardAlarmViewData;
 
 export const getData = (state, { viewId }) => state.OnboardAlarmViewData[viewId];
 
+export const getAckStatus = createSelector(
+  getData,
+  (state, { ackId }) => ackId,
+  (data, ackId) => _.get(['ackStatus', ackId], data)
+);
+
 export const getDataLines = createSelector(
   getData,
   data => _.flatMap((lineId) => {

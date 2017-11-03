@@ -164,6 +164,12 @@ export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
 export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
 
+export const getAckStatus = createSelector(
+  getData,
+  (state, { ackId }) => ackId,
+  (data, ackId) => _.get(['ackStatus', ackId], data)
+);
+
 export const getDataLines = createSelector(
   getData,
   data => _.flatMap((lineId) => {

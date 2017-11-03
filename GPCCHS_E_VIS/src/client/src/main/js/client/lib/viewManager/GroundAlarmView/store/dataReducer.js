@@ -11,10 +11,11 @@ import * as constants from '../../constants';
 const initialState = {
   lines: {},
   indexes: [],
+  ackStatus: {},
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function groundAlarmViewData(state = {}, action) {
+export default function groundAlarmViewData(state = initialState, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
@@ -61,6 +62,26 @@ export default function groundAlarmViewData(state = {}, action) {
         }
       });
       return newState;
+    }
+    case types.WS_MODAL_OPEN: {
+      const { type, viewId, ackId, alarmsTimestamps } = action.payload.props;
+      if (type === 'gmaAck') {
+        return _.set([viewId, 'ackStatus', ackId], {
+          acknowledging: false,
+          alarmsTimestamps: alarmsTimestamps.map(ts => ({
+            timestamp: ts,
+            acknowledged: false,
+          })),
+        }, state);
+      }
+      return state;
+    }
+    case types.WS_MODAL_CLOSE: {
+      const { type, viewId, ackId } = action.payload.props;
+      if (type === 'gmaAck') {
+        return _.unset([viewId, 'ackStatus', ackId], state);
+      }
+      return state;
     }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }

@@ -1,31 +1,9 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import { html as beautifyHtml } from 'js-beautify';
+import updateSpanValues from './TextViewFunctions';
 
 const isValueNode = /{{\s*([^}]+)\s*}}/g;
-
-const getTextStyle = color => ({
-  // textShadow: `
-  //   0 0 5px rgba(255, 255, 255, 0.1),
-  //   0 0 10px rgba(255, 255, 255, 0.1),
-  //   0 0 20px ${color},
-  //   0 0 30px ${color},
-  //   0 0 40px ${color},
-  //   0 0 55px ${color},
-  //   0 0 75px ${color}
-  // `,
-  color,
-});
-
-const memoizedGetTextStyles = (() => {
-  const style = [];
-  return (color) => {
-    if (!style[color]) {
-      style[color] = getTextStyle(color);
-    }
-    return style[color];
-  };
-})();
 
 const getEpSpan = (target) => {
   const spans = target.querySelectorAll('.ep');
@@ -40,54 +18,6 @@ const getEpSpan = (target) => {
     return null;
   }
   return getEpSpan(parent);
-};
-
-/**
- * Updates a single Span value, title or color
- * @param val
- * @param id
- * @param sv
- * @param ep
- */
-const updateSpanValue = (val = {}, id, sv, ep) => {
-  if (!ep) {
-    return;
-  }
-
-  const v = val.value === undefined ? '' : val.value;
-  const s = memoizedGetTextStyles(ep.error ? '#FF0000' : val.color || '#41a62a');
-  const shouldUpdateValue = (v !== sv.val);
-  const shouldUpdateColor = (s.color !== sv.color);
-  const shouldUpdateTitle = (ep.error && ep.error !== sv.title);
-  if (!shouldUpdateValue && !shouldUpdateColor && !shouldUpdateTitle) {
-    return;
-  }
-
-  // Must mutate sv value, title, el, thus disable es-lint for the whole function
-  /* eslint-disable no-param-reassign */
-  if (!sv.el) {
-    sv.el = document.getElementById(id);
-  }
-
-  // update val attribute
-  if (shouldUpdateValue) {
-    sv.val = v;
-    sv.el.innerHTML = ep.error ? 'Invalid entry point' : v;
-  }
-
-  // update title attribute
-  if (shouldUpdateTitle) {
-    sv.title = ep.error;
-    sv.el.setAttribute('title', ep.error);
-  }
-
-  // update color attribute
-  if (shouldUpdateColor) {
-    sv.color = s.color;
-    sv.el.style.color = s.color;
-    sv.el.style.textShadow = s.textShadow;
-  }
-  /* eslint-enable no-param-reassign */
 };
 
 export default class TextView extends PureComponent {
@@ -120,7 +50,14 @@ export default class TextView extends PureComponent {
   }
 
   componentDidMount() {
-    this.updateSpanValues(this.props.data);
+    // updateSpanValues(this.props.data);
+    updateSpanValues(this.props.data,
+      this.spanValues,
+      this.props.entryPoints,
+      this.props.perfOutput);
+    if (this.props.copySpanValues) {
+      this.props.copySpanValues(this.spanValues);
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -134,16 +71,31 @@ export default class TextView extends PureComponent {
       this.content = this.getContentComponent();
     }
     if (!shouldRender) {
-      this.updateSpanValues(nextProps.data);
+      // updateSpanValues(nextProps.data);
+      updateSpanValues(nextProps.data,
+        this.spanValues,
+        this.props.entryPoints,
+        this.props.perfOutput);
+      if (this.props.copySpanValues) {
+        this.props.copySpanValues(this.spanValues);
+      }
     }
     return shouldRender;
   }
 
   componentDidUpdate() {
-    this.updateSpanValues(this.props.data);
+    // updateSpanValues(this.props.data);
+    updateSpanValues(this.props.data,
+      this.spanValues,
+      this.props.entryPoints,
+      this.props.perfOutput);
+    if (this.props.copySpanValues) {
+      this.props.copySpanValues(this.spanValues);
+    }
   }
 
   getContentComponent() {
+    this.spanValues = {};
     const processingInstructions = [
       {
         shouldProcessNode: (node => node.attribs && node.attribs.isis_link),
@@ -160,7 +112,6 @@ export default class TextView extends PureComponent {
           });
           tagProps.style = { cursor: 'pointer' };
           tagProps.title = `open ${node.attribs.isis_link}`;
-
           return React.createElement(node.name, tagProps, children);
         },
       },
@@ -218,49 +169,14 @@ export default class TextView extends PureComponent {
     );
     return () => comp;
   }
-
-  spanValues = {};
-
-  updateSpanValues(data) {
-    if (!data.values) {
-      return;
-    }
-    const { perfOutput, copySpanValues } = this.props;
-    if (perfOutput) {
-      // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-      console.time();
-    }
-    requestAnimationFrame(() => {
-      const spanIds = Object.keys(this.spanValues);
-      for (let i = 0; i < spanIds.length; i += 1) {
-        const id = spanIds[i];
-        const sv = this.spanValues[id];
-        const ep = this.props.entryPoints[sv.ep];
-        updateSpanValue(data.values[sv.ep], id, sv, ep);
-      }
-      if (perfOutput) {
-        // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-        console.log(
-          'Looped on',
-          spanIds.length,
-          'eps'
-        );
-        // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-        console.timeEnd();
-      }
-    });
-    if (copySpanValues) {
-      copySpanValues(this.spanValues);
-    }
-  }
-  handleClicked = (e) => {
+  handleClicked(e) {
     if (e.target.getAttribute('data-isis-link')) {
       this.props.openLink(e.target.getAttribute('data-isis-link'));
     }
   }
+  spanValues = {};
   htmlToReactParser = new Parser();
   processNodeDefinitions = new ProcessNodeDefinitions(React);
-
   render() {
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions, "DV6 TBC_CNES Links handler"

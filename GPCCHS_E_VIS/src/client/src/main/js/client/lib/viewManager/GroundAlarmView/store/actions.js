@@ -32,3 +32,21 @@ export const sendAlarmAck = (viewId, ackId, alarms, comment) => ({
     comment,
   },
 });
+
+export const ackSuccess = (viewId, ackId, timestamp) => ({
+  type: types.WS_VIEW_GMA_ALARM_ACK_SUCCESS,
+  payload: {
+    viewId,
+    ackId,
+    timestamp,
+  },
+});
+
+export const ackFailure = (viewId, ackId, timestamp) => ({
+  type: types.WS_VIEW_GMA_ALARM_ACK_FAILURE,
+  payload: {
+    viewId,
+    ackId,
+    timestamp,
+  },
+});

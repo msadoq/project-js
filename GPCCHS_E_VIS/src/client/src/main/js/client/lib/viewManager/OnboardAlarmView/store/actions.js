@@ -28,7 +28,7 @@ export const sendAlarmAck = (viewId, ackId, alarms, comment) => ({
   payload: {
     viewId,
     ackId,
-    alarmsTimestamps: _.isArray(alarms) ? alarms : [alarms],
+    alarms: _.isArray(alarms) ? alarms : [alarms],
     comment,
   },
 });

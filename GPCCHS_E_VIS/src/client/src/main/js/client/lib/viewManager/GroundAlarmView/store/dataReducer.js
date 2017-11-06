@@ -88,6 +88,18 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       const { viewId, ackId } = action.payload;
       return _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
     }
+    case types.WS_VIEW_GMA_ALARM_ACK_SUCCESS: {
+      const { viewId, ackId, timestamp } = action.payload;
+      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
+      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
+    }
+    case types.WS_VIEW_GMA_ALARM_ACK_FAILURE: {
+      const { viewId, ackId, timestamp } = action.payload;
+      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
+      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], true, state);
+    }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals }
         = action.payload;

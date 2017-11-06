@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
 import _ from 'lodash/fp';
 
+
 class AckModal extends React.Component {
   static propTypes = {
     ackStatus: PropTypes.shape({
@@ -14,7 +15,7 @@ class AckModal extends React.Component {
       }).isRequired).isRequired,
     }),
     sendAck: PropTypes.func.isRequired,
-    // closeModal: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
     alarms: PropTypes.arrayOf(PropTypes.shape({
       timestamp: PropTypes.number.isRequired,
       parameterName: PropTypes.string.isRequired,
@@ -31,11 +32,17 @@ class AckModal extends React.Component {
 
   state = { comment: '' }
 
+  componentWillReceiveProps(nextProps) {
+    const isCompleted = ({ acknowledged, ackError }) => Boolean(ackError) || acknowledged;
+    if (_.every(isCompleted, nextProps.ackStatus.alarmsTimestamps)) {
+      setTimeout(this.props.closeModal, 120); // UX : let the user to apprehend the behavior
+    }
+  }
+
   onCommentChange = e => this.setState(_.set('comment', e.target.value))
 
   onAckClick = () => {
     this.props.sendAck(this.state.comment);
-    // this.props.closeModal();
   }
 
   render() {

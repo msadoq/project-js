@@ -84,6 +84,11 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
+    case types.WS_VIEW_OBA_ALARM_ACK: {
+      const { viewId, ackId } = action.payload;
+      const newState = _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
+      return newState;
+    }
     case types.INJECT_DATA_RANGE: {
       const {
         dataToInject,

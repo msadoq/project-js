@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AckModal from './AckModal';
 
 import { sendAlarmAck } from '../../store/actions';
-import { getData } from '../../store/dataReducer';
+import { getData, getAckStatus } from '../../store/dataReducer';
 
 const getAlarmsByTimestamps = createSelector(
   getData,
@@ -16,10 +16,13 @@ const getAlarmsByTimestamps = createSelector(
 
 const mapStateToProps = createStructuredSelector({
   alarms: getAlarmsByTimestamps,
+  ackStatus: getAckStatus,
 });
 
-const mapDispatchToProps = {
-  sendAck: sendAlarmAck,
-};
+const mapDispatchToProps = (dispatch, { viewId, ackId, alarmsTimestamps }) => ({
+  sendAck: comment => (
+    dispatch(sendAlarmAck(viewId, ackId, alarmsTimestamps, comment))
+  ),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AckModal);

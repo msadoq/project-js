@@ -8,7 +8,7 @@ class AckModal extends React.Component {
     ackStatus: PropTypes.shape({
       acknowledging: PropTypes.bool.isRequired,
       alarmsTimestamps: PropTypes.arrayOf(PropTypes.shape({
-        timestamp: PropTypes.string.isRequired,
+        timestamp: PropTypes.number.isRequired,
         ackError: PropTypes.string,
         acknowledged: PropTypes.bool.isRequired,
       }).isRequired).isRequired,

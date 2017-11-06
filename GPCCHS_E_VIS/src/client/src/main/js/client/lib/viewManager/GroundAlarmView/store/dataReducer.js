@@ -84,6 +84,10 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
+    case types.WS_VIEW_GMA_ALARM_ACK: {
+      const { viewId, ackId } = action.payload;
+      return _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
+    }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals }
         = action.payload;

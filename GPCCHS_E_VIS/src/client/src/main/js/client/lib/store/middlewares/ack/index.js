@@ -8,10 +8,10 @@ import {
   ackFailure as gmaFailure,
 } from '../../../viewManager/GroundAlarmView/store/actions';
 
-// import {
-//   ackSuccess as obaSuccess,
-//   ackFailure as obaFailure,
-// } from '../../../viewManager/OnboardAlarmView/store/actions';
+import {
+  ackSuccess as obaSuccess,
+  ackFailure as obaFailure,
+} from '../../../viewManager/OnboardAlarmView/store/actions';
 
 const ackAction = {
   gma: types.WS_VIEW_GMA_ALARM_ACK,
@@ -25,12 +25,12 @@ const epName = {
 
 const ackSuccess = {
   gma: gmaSuccess,
-  oba: () => ({ type: 'UNKNOWN' }),
+  oba: obaSuccess,
 };
 
 const ackFailure = {
   gma: gmaFailure,
-  oba: () => ({ type: 'UNKNOWN' }),
+  oba: obaFailure,
 };
 
 const getNbSuccess = _.compose(_.size, _.filter(_.equals(true)));

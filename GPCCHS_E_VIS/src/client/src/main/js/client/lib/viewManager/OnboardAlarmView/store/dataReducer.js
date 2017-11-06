@@ -89,6 +89,18 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       const newState = _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
       return newState;
     }
+    case types.WS_VIEW_OBA_ALARM_ACK_SUCCESS: {
+      const { viewId, ackId, timestamp } = action.payload;
+      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
+      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
+    }
+    case types.WS_VIEW_OBA_ALARM_ACK_FAILURE: {
+      const { viewId, ackId, timestamp } = action.payload;
+      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
+      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], true, state);
+    }
     case types.INJECT_DATA_RANGE: {
       const {
         dataToInject,

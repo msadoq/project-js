@@ -156,10 +156,13 @@ class TableView extends React.Component {
   onAlarmContextMenu = (e) => {
     e.stopPropagation();
     const n = this.getNbSelectedAlarms();
+    const getTimestamps = _.compose(_.map(Number), _.keys);
     const menu = [
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
-        click: () => this.props.openAckModal(this.props.viewId, _.keys(this.state.selectedAlarms)),
+        click: () => (
+          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms))
+        ),
         enabled: n > 0,
       },
       { type: 'separator' },

@@ -5,7 +5,11 @@ import _last from 'lodash/last';
 import _pick from 'lodash/pick';
 import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
+import _pickBy from 'lodash/pickBy';
+import _union from 'lodash/union';
+import _map from 'lodash/map';
 import getLogger from '../../../common/logManager';
+import * as constants from '../../../constants';
 
 const logger = getLogger('view:GroundAlarmView:cleanViewData');
 
@@ -72,6 +76,7 @@ export default function cleanCurrentViewData(
     const upper = newInterval[1] + newEp.offset;
     newState = removeViewDataOutOfBounds(newState, epName, lower, upper);
   }
+
   return newState;
 }
 
@@ -83,6 +88,18 @@ function isInvalidEntryPoint(oldEp, newEp) {
   return false;
 }
 
+/**
+ * Get all alarms requiring an ack
+ * @param  {object} viewData
+ * @return {array}  array of filtered indexes
+ */
+function getRequireAckIndexes(viewData) {
+  const requireAckAlarms = _pickBy(viewData.lines, alarm => (
+    alarm.ackState === constants.GMA_ALARM_ACKSTATE_REQUIREACK
+  ));
+
+  return _map(requireAckAlarms, viewDataAlarm => viewDataAlarm.timestamp);
+}
 
 export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   if (lower > upper) {
@@ -102,10 +119,16 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
     return viewData;
   }
 
-  // --- Drop everything --- //
+  // --- Drop everything but alarms requiring ack --- //
 
   if (viewData.indexes[0] > upper || _last(viewData.indexes) < lower) {
-    return null;
+    const newIndexes = getRequireAckIndexes(viewData);
+    const newLines = _pick(viewData.lines, newIndexes);
+
+    return {
+      lines: newLines,
+      indexes: newIndexes,
+    };
   }
 
   // --- Keep some --- //
@@ -114,7 +137,8 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   let iUpper = _findLastIndex(viewData.indexes, val => val <= upper);
   iUpper = (iUpper === -1) ? viewData.lines.length - 1 : iUpper;
 
-  const newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
+  let newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
+  newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort();
   const newLines = _pick(viewData.lines, newIndexes);
 
   return {

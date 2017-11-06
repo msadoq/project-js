@@ -29,12 +29,12 @@ function getMonitoringState() {
 function getAckRequest(timestamp, options) {
   const withAckRequest = (options.withAckRequest !== undefined ?
     options.withAckRequest
-    : predictibleRand.getBool(0.5)
+    : predictibleRand.getBool(0.25)
   );
 
   const withAck = (options.withAck !== undefined ?
     options.withAck
-    : predictibleRand.getBool(0.25)
+    : predictibleRand.getBool(0.75)
   );
 
   return withAckRequest ? {

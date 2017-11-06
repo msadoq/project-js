@@ -85,15 +85,13 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       return state;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
         return state;
       }
-      // Gets configurationfor history views
-      const configuration = configurations.GroundAlarmViewConfiguration;
 
       // since now, state will changed
       let newState = state;
@@ -108,9 +106,7 @@ export default function groundAlarmViewData(state = initialSubState, action) {
           const viewState = viewRangeAdd(
             newState[viewId],
             viewId,
-            epSubState,
-            _.get([viewId, 'entryPoints', 0, 'connectedData', 'mode'], configuration),
-            visuWindow
+            epSubState
           );
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };

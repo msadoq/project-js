@@ -102,6 +102,8 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
   }
   return epSubState;
 }
+
+
 /* ************************************
  * Select payload to add for current entry Point
  * @param: payload of current entry point
@@ -124,7 +126,10 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
 
   // Loop on payload
   _each(tbdIdPayload, (currentValue, i) => {
-    const timestamp = currentValue.groundMonitoringAlarm.referenceTimestamp.value || Number(i);
+    const offset = ep.offset || 0;
+    const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
+    const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
+    const masterTime = timestamp + offset;
     // TODO do we have to check creation date to validate timestamp ?
     // const timestamp = _get(currentValue, ['creationDate', 'value']);
     // if (typeof timestamp === 'undefined') {
@@ -136,8 +141,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-    const masterTime = timestamp + ep.offset;
-    const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
     if (!groundMonitoringAlarm) {
       return;
     }

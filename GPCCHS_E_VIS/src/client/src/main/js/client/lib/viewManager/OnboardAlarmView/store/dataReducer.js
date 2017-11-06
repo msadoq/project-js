@@ -89,13 +89,10 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
         dataToInject,
         newViewMap,
         newExpectedRangeIntervals,
-        configurations,
       } = action.payload;
       if (_.isEmpty(dataToInject)) {
         return state;
       }
-      // Gets configurationfor history views
-      const configuration = configurations.OnboardAlarmViewConfiguration;
 
       // since now, state will changed
       let newState = state;
@@ -110,8 +107,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
           const viewState = viewRangeAdd(
             newState[viewId],
             viewId,
-            epSubState,
-            _.get([viewId, 'entryPoints', 0, 'connectedData', 'mode'], configuration)
+            epSubState
           );
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };

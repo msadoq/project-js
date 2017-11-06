@@ -19,10 +19,17 @@ const mapStateToProps = createStructuredSelector({
   ackStatus: getAckStatus,
 });
 
-const mapDispatchToProps = (dispatch, { viewId, ackId, alarmsTimestamps }) => ({
-  sendAck: comment => (
-    dispatch(sendAlarmAck(viewId, ackId, alarmsTimestamps, comment))
+const mapDispatchToProps = (dispatch, { viewId, ackId }) => ({
+  sendAck: (alarms, comment) => (
+    dispatch(sendAlarmAck(viewId, ackId, alarms, comment))
   ),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AckModal);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  sendAck: comment => dispatchProps.sendAck(stateProps.alarms, comment),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AckModal);

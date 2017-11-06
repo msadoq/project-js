@@ -13,7 +13,7 @@ module.exports = function sendAlarmAckData(alarmAck, zmq) {
   ];
 
   alarmAck.alarms.forEach((alarm) => {
-    const payload = getPayload(Date.now(), alarmAck.dataId.comObject, {
+    const payload = getPayload(Date.now(), alarmAck.dataId.comObject, undefined, {
       setOid: alarm.oid,
       setComment: alarm.ackRequest.comment,
       withAckRequest: true,

@@ -18,6 +18,8 @@ const getNewPlotEntryPoint = () => ({
     digits: 5,
     format: 'decimal',
     filter: [],
+    stringParameter: false,
+    defaultY: 1,
   },
   connectedDataParametric: {
     formulaX: '',

@@ -45,7 +45,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -90,7 +92,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -135,7 +139,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -180,7 +186,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {

@@ -109,6 +109,19 @@
         "xAxisId": "",
         "yAxisId": ""
       },
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
+      },
       "name": "GENE_AM_FRVERSION",
       "objectStyle": {
         "curveColor": "#4caf50",

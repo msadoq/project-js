@@ -55,8 +55,23 @@ const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
           (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
         )
       );
-    const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-    const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    const mins = [];
+    const maxs = [];
+    axisEntryPoints.forEach((ep) => {
+      if (!ep.parametric && _get(ep, ['connectedData', 'stringParameter'])) {
+        mins.push(ep.connectedData.defaultY);
+        maxs.push(ep.connectedData.defaultY);
+      } else {
+        if (typeof data.min[ep.name] === 'number') {
+          mins.push(data.min[ep.name]);
+        }
+        if (typeof data.min[ep.name] === 'number') {
+          maxs.push(data.max[ep.name]);
+        }
+      }
+    });
+    const min = _min(mins);
+    const max = _max(maxs);
     return yAxes.push({
       id: axis.id,
       extents:
@@ -115,8 +130,18 @@ const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       .filter(ep =>
         (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
       );
-    const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-    const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    const mins = [];
+    const maxs = [];
+    axisEntryPoints.forEach((ep) => {
+      if (typeof data.min[ep.name] === 'number') {
+        mins.push(data.min[ep.name]);
+      }
+      if (typeof data.min[ep.name] === 'number') {
+        maxs.push(data.max[ep.name]);
+      }
+    });
+    const min = _min(mins);
+    const max = _max(maxs);
     return yAxes.push({
       id: axis.id,
       extents:
@@ -721,8 +746,10 @@ export class GrizzlyPlotView extends PureComponent {
           yAxes={this.yAxes}
           xAxes={this.xAxes}
           lines={
-            entryPoints.map(ep =>
-              ({
+            entryPoints.map((ep) => {
+              const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
+              const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
+              return {
                 data: lines[ep.name],
                 indexes: indexes[ep.name],
                 id: ep.name,
@@ -734,12 +761,14 @@ export class GrizzlyPlotView extends PureComponent {
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
-                xAccessor: 'x', // default .x
-                yAccessor: 'value', // default .value
+                xAccessor: null, // default packet => packet.x
+                yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
+                xTooltipAccessor: null, // default packet => packet.x
+                yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
-              })
-            )
+              };
+            })
           }
         />
         { (legend.location === 'bottom' || legend.location === 'right') &&

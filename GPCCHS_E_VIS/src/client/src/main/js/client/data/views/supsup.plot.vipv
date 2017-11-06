@@ -34,7 +34,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "STAT_SU_UTIME"
+        "axisId": "STAT_SU_UTIME",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -80,7 +82,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "vbat"
+        "axisId": "vbat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -126,7 +130,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "vbat"
+        "axisId": "vbat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {

@@ -302,7 +302,9 @@
         "format": "decimal",
         "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "GENE_AM_FRVERSION",
       "objectStyle": {
@@ -344,12 +346,16 @@
       "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
-        "unit": "V",
+        "unit":"V",
+        "stringParameter": false,
+        "defaultY": 1,
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -395,7 +401,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -441,7 +449,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -486,7 +496,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -532,7 +544,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -578,7 +592,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -624,7 +640,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -670,7 +688,9 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -723,7 +743,9 @@
         ],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "objectStyle": {
         "line": {
@@ -769,7 +791,9 @@
         "format": "decimal",
         "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.extractedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "AGA_AM_OWNERID",
       "objectStyle": {
@@ -807,7 +831,9 @@
         "format": "decimal",
         "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "AGA_AM_QP2",
       "objectStyle": {
@@ -845,7 +871,9 @@
         "format": "decimal",
         "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "AGA_AM_STATIONID",
       "objectStyle": {
@@ -883,7 +911,9 @@
         "format": "decimal",
         "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.extractedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "AGA_AM_VALMASK",
       "objectStyle": {
@@ -921,7 +951,9 @@
         "format": "decimal",
         "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "ATT_BC_QUATSATREF",
       "objectStyle": {
@@ -959,7 +991,9 @@
         "format": "decimal",
         "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "GENE_AM_144PARINT",
       "objectStyle": {
@@ -997,7 +1031,9 @@
         "format": "decimal",
         "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.extractedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "GENE_AM_144PARUSHT",
       "objectStyle": {
@@ -1035,7 +1071,9 @@
         "format": "decimal",
         "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "GENE_AM_FILEDATA",
       "objectStyle": {
@@ -1073,7 +1111,9 @@
         "format": "decimal",
         "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "GENE_AM_I146SPARE",
       "objectStyle": {
@@ -1111,7 +1151,9 @@
         "format": "decimal",
         "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "name": "POW_BC_SARPOWPROV",
       "objectStyle": {

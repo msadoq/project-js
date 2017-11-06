@@ -23,8 +23,8 @@ export default class LinesCanvas extends Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        xAccessor: PropTypes.string,
-        yAccessor: PropTypes.string,
+        xAccessor: PropTypes.func,
+        yAccessor: PropTypes.func,
         colorAccessor: PropTypes.string,
       })
     ).isRequired,
@@ -175,8 +175,8 @@ export default class LinesCanvas extends Component {
           }
         }
 
-        const x = line.xAccessor ? packet[line.xAccessor] : packet.x;
-        const y = line.yAccessor ? packet[line.yAccessor] : packet.value;
+        const x = line.xAccessor ? line.xAccessor(packet) : packet.x;
+        const y = line.yAccessor ? line.yAccessor(packet) : packet.value;
 
         // Current cursor drawing
         if (
@@ -232,8 +232,8 @@ export default class LinesCanvas extends Component {
 
       // Horizontal line
       const lastPacket = lineData[lineIndexes[lineIndexesLength - 1]];
-      const lastXPosition = xScale(line.xAccessor ? lastPacket[line.xAccessor] : lastPacket.x);
-      const lastYPosition = yScale(line.yAccessor ? lastPacket[line.yAccessor] : lastPacket.value);
+      const lastXPosition = xScale(line.xAccessor ? line.xAccessor(lastPacket) : lastPacket.x);
+      const lastYPosition = yScale(line.yAccessor ? line.yAccessor(lastPacket) : lastPacket.value);
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);

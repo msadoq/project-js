@@ -140,6 +140,12 @@
                 },
                 "timeline": {
                     "type": "string"
+                },
+                "stringParameter": {
+                    "type": "boolean"
+                },
+                "defaultY": {
+                    "type": "number"
                 }
             },
             "required": [
@@ -149,7 +155,9 @@
                 "digits",
                 "format",
                 "domain",
-                "timeline"
+                "timeline",
+                "stringParameter",
+                "defaultY"
             ]
         },
         "viewEntryPoint": {

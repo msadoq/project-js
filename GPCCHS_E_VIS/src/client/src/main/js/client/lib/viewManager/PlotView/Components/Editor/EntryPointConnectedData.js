@@ -50,6 +50,7 @@ class EntryPointConnectedData extends Component {
       domains,
       parametric,
       timeline,
+      stringParameter,
     } = this.props;
 
     let filteredAxes = [];
@@ -295,6 +296,27 @@ class EntryPointConnectedData extends Component {
                 />
               </HorizontalFormGroup>
 
+              <HorizontalFormGroup label="String parameter">
+                <Field
+                  name="connectedData.stringParameter"
+                  component={ButtonToggleField}
+                  textOn="YES"
+                  textOff="NO"
+                  styleOff="warning"
+                />
+              </HorizontalFormGroup>
+              {
+                stringParameter &&
+                <HorizontalFormGroup label="Y value">
+                  <Field
+                    name="connectedData.defaultY"
+                    component={InputField}
+                    normalize={val => parseInt(val, 10)}
+                    type="text"
+                    className="form-control input-sm"
+                  />
+                </HorizontalFormGroup>
+              }
               <HorizontalFormGroup label="Unit">
                 <Field
                   name="connectedData.unit"
@@ -366,21 +388,7 @@ class EntryPointConnectedData extends Component {
 
 EntryPointConnectedData.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
-  initialValues: PropTypes.shape({
-    axisId: PropTypes.string,
-    digit: PropTypes.number,
-    domain: PropTypes.string,
-    filter: PropTypes.arrayOf(PropTypes.shape({
-      field: PropTypes.string,
-      operand: PropTypes.string,
-      operator: PropTypes.string,
-    })),
-    format: PropTypes.string,
-    formula: PropTypes.string,
-    fieldX: PropTypes.string,
-    timeline: PropTypes.string,
-    unit: PropTypes.string,
-  }).isRequired,
+  initialValues: PropTypes.shape().isRequired,
   axes: PropTypes.shape({}).isRequired,
   timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -396,6 +404,7 @@ EntryPointConnectedData.propTypes = {
   unit: PropTypes.string,
   timeline: PropTypes.string,
   parametric: PropTypes.bool,
+  stringParameter: PropTypes.bool,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
@@ -409,6 +418,7 @@ EntryPointConnectedData.defaultProps = {
   unitY: null,
   unit: null,
   timeline: null,
+  stringParameter: false,
 };
 
 const requiredFields = [
@@ -439,6 +449,7 @@ export default reduxForm({
         parametric: selector(state, 'parametric'),
         axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
         timeline: _get(props, 'initialValues.connectedData.timeline'),
+        stringParameter: selector(state, 'connectedData.stringParameter'),
         unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
         unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
         unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),

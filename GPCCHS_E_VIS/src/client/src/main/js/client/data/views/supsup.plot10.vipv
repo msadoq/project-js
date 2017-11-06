@@ -151,7 +151,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -197,7 +199,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -243,7 +247,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -289,7 +295,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -335,7 +343,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -381,7 +391,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -427,7 +439,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -473,7 +487,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -519,7 +535,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
@@ -565,7 +583,9 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",

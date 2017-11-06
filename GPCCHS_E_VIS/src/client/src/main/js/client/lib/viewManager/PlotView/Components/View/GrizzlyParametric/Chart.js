@@ -90,8 +90,10 @@ export default class Chart extends React.Component {
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
-        yAccessor: PropTypes.string,
-        xAccessor: PropTypes.string,
+        xAccessor: PropTypes.func,
+        yAccessor: PropTypes.func,
+        xTooltipAccessor: PropTypes.func,
+        yTooltipAccessor: PropTypes.func,
         colorAccessor: PropTypes.string,
         tooltipFormatter: PropTypes.func,
       })
@@ -388,7 +390,9 @@ export default class Chart extends React.Component {
                 for (let k = 0; k < liness.length; k += 1) {
                   for (let l = 0; l < data.length; l += 1) {
                     if (data[l].x >= extentsLower && data[l].x <= extentsUpper) {
-                      values.push(liness[k].yAccessor(data[l]));
+                      values.push(
+                        liness[k].yAccessor ? liness[k].yAccessor(data[l]) : data[l].value
+                      );
                     }
                   }
                 }

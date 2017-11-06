@@ -119,13 +119,13 @@ export default class Tooltip extends React.Component {
             0
           );
           const lineDataAtIndex = line.data[line.indexes[minIndex]];
-          const xAtIndex = line.xAccessor ? lineDataAtIndex[line.xAccessor] : lineDataAtIndex.x;
-          const yAtIndex = line.yAccessor ? lineDataAtIndex[line.yAccessor] : lineDataAtIndex.value;
+          const xAtIndex = line.xAccessor ? line.xAccessor(lineDataAtIndex) : lineDataAtIndex.x;
+          const yAtIndex = line.yAccessor ? line.yAccessor(lineDataAtIndex) : lineDataAtIndex.value;
 
           linesList[key][line.id] = {
             ...line.data[minIndex],
-            x: xFormat(xAtIndex),
-            y: yFormat(yAtIndex),
+            x: line.xTooltipAccessor ? line.xTooltipAccessor(lineDataAtIndex) : xFormat(xAtIndex),
+            y: line.yTooltipAccessor ? line.yTooltipAccessor(lineDataAtIndex) : yFormat(yAtIndex),
             xInRange: pair.xAxis.scale(xAtIndex),
             yInRange: pair.yAxis.scale(yAtIndex),
             foundColor: line.colorAccessor ? lineDataAtIndex[line.colorAccessor] : null,

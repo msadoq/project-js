@@ -5,7 +5,7 @@ import _ from 'lodash/fp';
 import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
 import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
-import * as constants from '../../../../../constants';
+import { OBA_ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
 
 import styles from './OnboardAlarmTable.css';
 
@@ -41,6 +41,7 @@ const Table = ({
                 onClick={() => onClickAlarm(line.alarm)}
                 key={key}
                 className={classnames({
+                  [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
                   alarmChildren: line.type === 'parameter',
                   alarm: line.type === 'alarm',
                   selected: Boolean(selectedAlarms[line.alarm.timestamp]),
@@ -65,6 +66,7 @@ const Table = ({
               onClick={() => onClickAlarm(line.alarm)}
               style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
               className={classnames({
+                [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
                 alarmChildren: true,
                 selected: Boolean(selectedAlarms[line.alarm.timestamp]),
               })}
@@ -189,7 +191,7 @@ class TableView extends React.Component {
 
   toggleAlarmSelection = (alarm) => {
     const { timestamp, ackState } = alarm;
-    if (ackState === constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
+    if (ackState === REQUIRE_ACK) {
       const selectedAlarmsPath = ['selectedAlarms', timestamp];
       if (this.state.selectedAlarms[timestamp]) {
         this.setState(_.unset(selectedAlarmsPath));

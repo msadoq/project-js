@@ -15,7 +15,7 @@ import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
-import DialogModal from './DialogModal'; // electron dialogbox
+import DialogModal from './DialogModal'; // replacement for electron dialogbox
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 

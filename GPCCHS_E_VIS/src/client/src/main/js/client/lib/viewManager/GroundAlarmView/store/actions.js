@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { v4 } from 'uuid';
 import simple from '../../../store/helpers/simpleActionCreator';
 import * as types from '../../../store/types';
 import { getCurrentVisuWindow } from '../../../store/selectors/timebars';
@@ -11,14 +12,42 @@ export const updateAlarmMode = (viewId, mode) => (dispatch, getState) => {
   dispatch({ type: types.WS_VIEW_UPDATE_ALARMMODE, payload: { viewId, mode, visuWindow } });
 };
 
-export const openAckModal = alarms => (
-  openModalInCurrentWindow({ type: 'gmaAck', title: 'Ground Monitoring Alarm', alarms })
-);
+export const openAckModal = (viewId, alarmsTimestamps) => {
+  const ackId = v4();
+  return openModalInCurrentWindow({
+    type: 'gmaAck',
+    title: 'Ground Monitoring Alarm',
+    ackId,
+    viewId,
+    alarmsTimestamps,
+  });
+};
 
-export const sendAlarmAck = (alarms, reason) => ({
+export const sendAlarmAck = (viewId, ackId, alarms, comment) => ({
   type: types.WS_VIEW_GMA_ALARM_ACK,
   payload: {
+    viewId,
+    ackId,
     alarms: _.isArray(alarms) ? alarms : [alarms],
-    reason,
+    comment,
+  },
+});
+
+export const ackSuccess = (viewId, ackId, timestamp) => ({
+  type: types.WS_VIEW_GMA_ALARM_ACK_SUCCESS,
+  payload: {
+    viewId,
+    ackId,
+    timestamp,
+  },
+});
+
+export const ackFailure = (viewId, ackId, timestamp, error = '') => ({
+  type: types.WS_VIEW_GMA_ALARM_ACK_FAILURE,
+  payload: {
+    viewId,
+    ackId,
+    timestamp,
+    error,
   },
 });

@@ -24,7 +24,11 @@ const MESSAGETYPE_SESSION_MASTER_QUERY = 18;
 const MESSAGETYPE_SESSION_MASTER_DATA = 19;
 const MESSAGETYPE_DC_STATUS_QUERY = 20;
 const MESSAGETYPE_DC_STATUS_DATA = 21;
+const MESSAGETYPE_ALARM_ACK = 26;
 
+const getDcAlarmAckHeader = () => ({
+  messageType: MESSAGETYPE_ALARM_ACK,
+});
 const getDcStatusQueryHeader = () => ({
   messageType: MESSAGETYPE_DC_STATUS_QUERY,
 });
@@ -89,6 +93,8 @@ const getSessionMasterDataHeader = () => ({
   messageType: MESSAGETYPE_SESSION_MASTER_DATA,
 });
 
+/* eslint-disable max-len, "Long lines are more readable here" */
+const getDcAlarmAckHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcAlarmAckHeader())).finish();
 const getDcStatusQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusQueryHeader())).finish();
 const getDcStatusHeaderProtobuf = () => Builder.encode(Adapter.encode(getDcStatusHeader())).finish();
 const getDomainQueryHeaderProtobuf = () => Builder.encode(Adapter.encode(getDomainQueryHeader())).finish();
@@ -154,4 +160,5 @@ module.exports = {
   getSessionMasterQueryHeaderProtobuf,
   getSessionMasterDataHeader,
   getSessionMasterDataHeaderProtobuf,
+  getDcAlarmAckHeaderProtobuf,
 };

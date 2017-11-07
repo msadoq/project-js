@@ -5,21 +5,22 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _map from 'lodash/map';
 import _mapValues from 'lodash/mapValues';
+import _each from 'lodash/each';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
 import * as constants from '../../../constants';
 
-/* ************************************
+/**
  * Add payloads in plot view data state
- * @param: data state of current view
- * @param: current view ID
- * @param: data to add in state per EP name
- * @param: current view configuration
- * @param: visuWindow to have current time
- * @return: updated state
-/* *********************************** */
-export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
+ *
+ * @param  {Object} state    data state of current view
+ * @param  {string} viewId   current view ID
+ * @param  {Object} payloads data to add in state per EP name
+ *
+ * @return {Object}          updated state
+ */
+export function viewRangeAdd(state = {}, viewId, payloads) {
   // get EP names
   const epNames = Object.keys(payloads || {});
   // Only one entry point per ground alarm view
@@ -32,7 +33,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
   // lines: contains all fields filtered by time { [timestamp]: { values }}
   // indexes: contains ordered timestamps [t1, t2, ...]
   let newState = _cloneDeep(state);
-  if (!newState.data) {
+  if (!newState.indexes) {
     newState = { lines: {}, indexes: [] };
   }
 
@@ -42,16 +43,14 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
 
     // Update of EP data
     newState.lines = Object.assign({}, newState.lines, payloads[epName]);
-    const timestamps = Object.keys(payloads[epName]).map(Number);
-    // const timestamps = Object.keys(payloads[epName]);
+    const timestamps = _map(payloads[epName], viewData => viewData.timestamp);
     let lastIndex = -1;
     let lastTime;
     // loop on payload timestamps
     for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
       // let indexInLines = -1;
       const time = timestamps[iTime];
-      let updLines = true;
-      // Add payload in EP Table sorted by ascending time
+      // Optimisation when payload is sorted by ascending time
       if (lastIndex === -1 && lastTime && lastTime < time) {
         newState.indexes.push(time);
       } else {
@@ -67,79 +66,15 @@ export function viewRangeAdd(state = {}, viewId, payloads, mode, visuWindow) {
             newState.indexes.slice(0, index),
             time,
             newState.indexes.slice(index));
-        } else {
-          // Data is already present in table lines, no need to add it
-          updLines = false;
         }
       }
       lastTime = time;
-      if (updLines) {
-        // Sorting considering specified column
-        newState =
-          updateLines(newState, time, lastIndex, mode, visuWindow);
-      }
     }
   }
 
   return newState;
 }
 
-/* ************************************
- * Update 'lines' table with payload considering sorting parameters
- * @param: data state of current view
- * @param: EP Name
- * @param: current timestamp
- * @param: alarm mode: ALL | NONNOMINAL | TOACKNOWLEDGE
- * @param: direction for sorting
- * @return: updated state
-/* *********************************** */
-export function updateLines(state, time, index, alarmMode, visuWindow) {
-  const newState = state;
-  const value = newState.lines[time];
-  if (!value) {
-    return state;
-  }
-
-  // If mode = ALL, index in lines is the same as in indexes
-  if (alarmMode === constants.GMA_ALARM_MODE_ALL) {
-    if (index === -1) {
-      newState.indexes.push(time);
-    } else {
-      newState.indexes = _concat(
-        newState.indexes.slice(0, index),
-        time,
-        newState.indexes.slice(index));
-    }
-    return newState;
-  } else if (alarmMode === constants.GMA_ALARM_MODE_NONNOMINAL) {
-    // Just adds the alarms not closed at current time
-    const { creationDate, closingDate } = state.lines[time];
-    const isNonNominal = (
-      creationDate < visuWindow.current
-      && (closingDate > visuWindow.current || !closingDate)
-    );
-    const isNominal = !isNonNominal;
-    if (isNominal) {
-      return state;
-    }
-  } else if (alarmMode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
-    // No addition in lines
-    if (value.ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
-      return state;
-    }
-  }
-  // Find index to insert in lines
-  const indexInLines = _findIndex(newState.indexes, val => val >= time);
-  if (indexInLines === -1) {
-    newState.indexes.push(time);
-  } else if (newState.indexes[indexInLines] !== time) {
-    newState.indexes = _concat(
-      newState.indexes.slice(0, indexInLines),
-      time,
-      newState.indexes.slice(indexInLines));
-  }
-  return newState;
-}
 
 /* ************************************
  * Select payload to add for current view
@@ -167,6 +102,8 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
   }
   return epSubState;
 }
+
+
 /* ************************************
  * Select payload to add for current entry Point
  * @param: payload of current entry point
@@ -185,15 +122,14 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   const lower = expectedInterval[0];
   const upper = expectedInterval[1];
 
-  // const timestamps = Object.keys(tbdIdPayload);
-  const timestamps = Object.keys(tbdIdPayload).map(Number);
   const newState = { [epName]: {} };
 
-  // Loop on payload timestamps
-  for (let i = 0; i < timestamps.length; i += 1) {
-    // TODO pgaucher remove this when stub are operational
-    const currentValue = tbdIdPayload[timestamps[i]];
-    const timestamp = timestamps[i];
+  // Loop on payload
+  _each(tbdIdPayload, (currentValue, i) => {
+    const offset = ep.offset || 0;
+    const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
+    const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
+    const masterTime = timestamp + offset;
     // TODO do we have to check creation date to validate timestamp ?
     // const timestamp = _get(currentValue, ['creationDate', 'value']);
     // if (typeof timestamp === 'undefined') {
@@ -205,10 +141,8 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-    const masterTime = timestamp + ep.offset;
-    const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
     if (!groundMonitoringAlarm) {
-      continue;
+      return;
     }
     // Compute acknowledgement State
     let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
@@ -222,10 +156,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // Filter values out of interval but keep "REQUIREACK" Alarms
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
     if (isOutOfTimeRange && ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
-      continue;
+      return;
     }
 
     const valueToInsert = {
+      oid: currentValue.oid,
       timestamp,
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),
@@ -259,7 +194,8 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
 
     newState[epName][masterTime] = valueToInsert;
-  }
+  });
+
   // if no data, return empty state
   if (!Object.keys(newState[epName]).length) {
     return {};

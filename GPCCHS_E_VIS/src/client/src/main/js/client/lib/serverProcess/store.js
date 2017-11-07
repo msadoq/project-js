@@ -9,6 +9,7 @@ import reducer from '../store/reducers';
 import ipc from './ipc';
 import documentManager from './documentManager';
 import lokiManager from './models/lokiKnownRangesData';
+import makeAckMiddleware from '../store/middlewares/ack';
 import makeMessagesMiddleware from '../store/middlewares/messages';
 import makePlayerMiddleware from '../store/middlewares/player';
 import makeOnProcessOverload from '../store/middlewares/player/processOverload';
@@ -34,6 +35,8 @@ const createMiddlewares = (identity, isDebugOn) => {
     createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),
+    makeAckMiddleware(ipc.dc.requestAck, 'gma'),
+    makeAckMiddleware(ipc.dc.requestAck, 'oba'),
     makeMessagesMiddleware(),
     makeOnProcessOverload(),
     makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),

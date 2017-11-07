@@ -22,6 +22,7 @@ const isParameterSupported = require('./utils/isParameterSupported');
 const sendDomainData = require('./utils/sendDomainData');
 const sendPubSubData = require('./utils/sendPubSubData');
 const sendArchiveData = require('./utils/sendArchiveData');
+const sendAlarmAckData = require('./utils/sendAlarmAckData');
 const sendSessionData = require('./utils/sendSessionData');
 const sendFmdGet = require('./utils/sendFmdGet');
 const sendFmdCreate = require('./utils/sendFmdCreate');
@@ -32,6 +33,7 @@ process.title = 'gpcchs_dc_stub';
 
 let subscriptions = {};
 let queries = [];
+let alarmAcks = [];
 
 // Push Helpers
 const pushSuccess = (queryId) => {
@@ -68,6 +70,7 @@ const onHssMessage = (...args) => {
         zmq
       );
     }
+
     case constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY: {
       logger.info('handle create document');
       return sendFmdCreate(
@@ -76,12 +79,14 @@ const onHssMessage = (...args) => {
         zmq
       );
     }
+
     case constants.MESSAGETYPE_LOG_SEND: {
       logger.info('handle log');
       const { uid, arguments: a } = adapter.decode('dc.dataControllerUtils.SendLog', args[2]);
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Stub file, output on console"
       return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
     }
+
     case constants.MESSAGETYPE_SESSION_TIME_QUERY: {
       logger.info('push session time');
       return sendSessionTime(
@@ -90,18 +95,22 @@ const onHssMessage = (...args) => {
         zmq
       );
     }
+
     case constants.MESSAGETYPE_SESSION_MASTER_QUERY: {
       logger.info('push master session');
       return sendMasterSession(queryId, zmq);
     }
+
     case constants.MESSAGETYPE_DOMAIN_QUERY: {
       logger.info('push domains data');
       return sendDomainData(queryId, zmq);
     }
+
     case constants.MESSAGETYPE_SESSION_QUERY: {
       logger.info('push sessions data');
       return sendSessionData(queryId, zmq);
     }
+
     case constants.MESSAGETYPE_TIMEBASED_QUERY: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       if (!isParameterSupported(dataId)) {
@@ -120,6 +129,7 @@ const onHssMessage = (...args) => {
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
+
     case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
@@ -149,6 +159,22 @@ const onHssMessage = (...args) => {
       }
       return pushSuccess(queryId);
     }
+
+    case constants.MESSAGETYPE_ALARM_ACK: {
+      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      const comObject = dataId.comObject;
+      const alarms = args.slice(3).map(rawAlarm => (
+        adapter.decode(
+          `dc.dataControllerUtils.${comObject}`, rawAlarm
+        )
+      ));
+
+      alarmAcks.push({ dataId, queryId, alarms });
+      logger.silly('alarmAck registered', comObject, '(', alarms.length, ')');
+
+      return pushSuccess(queryId);
+    }
+
     default:
       return pushError(queryId, `Unknown message type ${header.messageType}`);
   }
@@ -178,6 +204,13 @@ function dcCall() {
     );
   });
   queries = [];
+
+  // alarmAcks
+  _each(alarmAcks, (alarmAck) => {
+    logger.debug(`push alarmAck data for ${alarmAck.alarms.length} alarms`);
+    sendAlarmAckData(alarmAck, zmq);
+  });
+  alarmAcks = [];
 
   return nextDcCall(); // eslint-disable-line no-use-before-define
 }

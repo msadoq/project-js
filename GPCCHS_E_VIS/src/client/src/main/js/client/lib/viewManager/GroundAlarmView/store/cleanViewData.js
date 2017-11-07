@@ -5,7 +5,11 @@ import _last from 'lodash/last';
 import _pick from 'lodash/pick';
 import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
+import _pickBy from 'lodash/pickBy';
+import _union from 'lodash/union';
+import _map from 'lodash/map';
 import getLogger from '../../../common/logManager';
+import * as constants from '../../../constants';
 
 const logger = getLogger('view:GroundAlarmView:cleanViewData');
 
@@ -35,10 +39,7 @@ export default function cleanCurrentViewData(
   }
   // invisible view
   if (!newViewFromMap) {
-    return {
-      lines: {},
-      indexes: [],
-    };
+    return null;
   }
   // entry point updates
   const oldEntryPoints = oldViewFromMap.entryPoints;
@@ -55,10 +56,7 @@ export default function cleanCurrentViewData(
   // removed entry point if invalid
   // EP definition modified: remove entry point from viewData
   if (isInvalidEntryPoint(oldEp, newEp)) {
-    return {
-      lines: {},
-      indexes: [],
-    };
+    return null;
   }
   // Case of point already in error
   if (newEp.error) {
@@ -71,16 +69,14 @@ export default function cleanCurrentViewData(
   const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
   const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
   if (!newInterval || oldEp.localId !== newEp.localId) {
-    return {
-      lines: {},
-      indexes: [],
-    };
+    return null;
   } else if (oldInterval &&
     (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
     const lower = newInterval[0] + newEp.offset;
     const upper = newInterval[1] + newEp.offset;
     newState = removeViewDataOutOfBounds(newState, epName, lower, upper);
   }
+
   return newState;
 }
 
@@ -92,14 +88,23 @@ function isInvalidEntryPoint(oldEp, newEp) {
   return false;
 }
 
+/**
+ * Get all alarms requiring an ack
+ * @param  {object} viewData
+ * @return {array}  array of filtered indexes
+ */
+function getRequireAckIndexes(viewData) {
+  const requireAckAlarms = _pickBy(viewData.lines, alarm => (
+    alarm.ackState === constants.GMA_ALARM_ACKSTATE_REQUIREACK
+  ));
+
+  return _map(requireAckAlarms, viewDataAlarm => viewDataAlarm.timestamp);
+}
 
 export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   if (lower > upper) {
     logger.warn('Received invalid bounds');
-    return {
-      lines: [],
-      indexes: [],
-    };
+    return null;
   }
 
   // --- Keep everything --- //
@@ -114,12 +119,15 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
     return viewData;
   }
 
-  // --- Drop everything --- //
+  // --- Drop everything but alarms requiring ack --- //
 
   if (viewData.indexes[0] > upper || _last(viewData.indexes) < lower) {
+    const newIndexes = getRequireAckIndexes(viewData);
+    const newLines = _pick(viewData.lines, newIndexes);
+
     return {
-      lines: [],
-      indexes: [],
+      lines: newLines,
+      indexes: newIndexes,
     };
   }
 
@@ -129,7 +137,8 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   let iUpper = _findLastIndex(viewData.indexes, val => val <= upper);
   iUpper = (iUpper === -1) ? viewData.lines.length - 1 : iUpper;
 
-  const newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
+  let newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
+  newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort((a, b) => (a - b));
   const newLines = _pick(viewData.lines, newIndexes);
 
   return {

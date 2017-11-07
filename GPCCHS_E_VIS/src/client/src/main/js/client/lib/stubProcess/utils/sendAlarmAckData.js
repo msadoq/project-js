@@ -1,5 +1,6 @@
 const stubs = require('../../utils/stubs');
 const getPayload = require('./getPayload');
+const logger = require('../../common/logManager')('stubs:alarmAck');
 
 const stubData = stubs.getStubData();
 const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
@@ -19,6 +20,8 @@ module.exports = function sendAlarmAckData(alarmAck, zmq) {
       withAckRequest: true,
       withAck: true,
     });
+
+    logger.info(`Push acked alarm ${alarm.oid} with comment '${alarm.ackRequest.comment.value}'`);
 
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);

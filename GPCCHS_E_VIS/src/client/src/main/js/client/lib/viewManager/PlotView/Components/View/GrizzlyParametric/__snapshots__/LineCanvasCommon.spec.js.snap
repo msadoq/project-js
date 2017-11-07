@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LineCanvasCommon :: drawLinesCanvas LineCanvasCommon :: drawLinesCanvas :: nominal case 1`] = `
+Array [
+  Array [
+    "clearRect",
+    "[0,0,1000,500]",
+  ],
+  Array [
+    "strokeStyle",
+    "#FFBF00",
+  ],
+  Array [
+    "fillStyle",
+    "#FFBF00",
+  ],
+  Array [
+    "lineWidth",
+    2,
+  ],
+  Array [
+    "font",
+    "0px Arial",
+  ],
+  Array [
+    "setLinedash",
+    "[[2,0]]",
+  ],
+  Array [
+    "beginPath",
+    "[]",
+  ],
+  Array [
+    "stroke",
+    "[]",
+  ],
+  Array [
+    "strokeStyle",
+    "#FF0000",
+  ],
+  Array [
+    "fillStyle",
+    "#FF0000",
+  ],
+  Array [
+    "beginPath",
+    "[]",
+  ],
+  Array [
+    "moveTo",
+    "[null,null]",
+  ],
+  Array [
+    "lineTo",
+    "[178.97276606639053,428.42107896819624]",
+  ],
+  Array [
+    "lineTo",
+    "[178.97276635400559,428.6329683531203]",
+  ],
+  Array [
+    "stroke",
+    "[]",
+  ],
+  Array [
+    "strokeStyle",
+    "#FF00FF",
+  ],
+  Array [
+    "fillStyle",
+    "#FF00FF",
+  ],
+  Array [
+    "beginPath",
+    "[]",
+  ],
+  Array [
+    "moveTo",
+    "[178.97276635400559,428.6329683531203]",
+  ],
+  Array [
+    "lineTo",
+    "[178.97276664162058,428.6329683531203]",
+  ],
+  Array [
+    "stroke",
+    "[]",
+  ],
+]
+`;

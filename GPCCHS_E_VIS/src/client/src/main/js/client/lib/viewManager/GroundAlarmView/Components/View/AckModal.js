@@ -3,6 +3,24 @@ import React, { PropTypes } from 'react';
 import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
 import _ from 'lodash/fp';
 
+const TextArea = ({ onChange, maxLength }) => (
+  <div>
+    <textarea
+      style={{ maxWidth: '100%', width: '100%', height: '44px' }}
+      maxLength={maxLength}
+      onChange={onChange}
+    />
+  </div>
+);
+TextArea.propTypes = {
+  maxLength: PropTypes.number,
+  onChange: PropTypes.func,
+};
+TextArea.defaultProps = {
+  maxLength: 100,
+  onChange: _.noop,
+};
+
 
 class AckModal extends React.Component {
   static propTypes = {
@@ -58,7 +76,8 @@ class AckModal extends React.Component {
             ))
           }
         </ListGroup>
-        <FormControl onChange={this.onCommentChange} componentClass="textarea" />
+        <FormControl onChange={this.onCommentChange} componentClass={TextArea} />
+        <hr />
         <Button
           disabled={this.props.ackStatus.acknowledging}
           onClick={this.onAckClick}

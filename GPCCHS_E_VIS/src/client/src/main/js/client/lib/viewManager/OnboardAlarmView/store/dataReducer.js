@@ -91,12 +91,18 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
     }
     case types.WS_VIEW_OBA_ALARM_ACK_SUCCESS: {
       const { viewId, ackId, timestamp } = action.payload;
+      if (!state[viewId].ackStatus[ackId]) {
+        return state;
+      }
       const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
       const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
       return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
     }
     case types.WS_VIEW_OBA_ALARM_ACK_FAILURE: {
       const { viewId, ackId, timestamp } = action.payload;
+      if (!state[viewId].ackStatus[ackId]) {
+        return state;
+      }
       const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
       const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
       return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], true, state);

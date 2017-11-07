@@ -66,7 +66,7 @@ function getNamedValue() {
 }
 
 /* eslint-disable complexity, switch case function */
-const getComObject = (comObject, timestamp, epName, options) => {
+const getComObject = (comObject, timestamp, options) => {
   switch (comObject) {
     case 'OnBoardAlarmAckRequest': {
       if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
@@ -101,7 +101,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
         : predictibleRand.getBool(0.75)
       );
 
-      const value = predictibleRand.getSinValue(timestamp, epName);
+      const value = predictibleRand.getSinValue(timestamp, options.epName);
       const groundMonitoringAlarm = {
         creationDate: timestamp - 100,
         paramUid: predictibleRand.getInt([0, 100000]),
@@ -137,7 +137,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
     }
 
     case 'ReportingParameter': {
-      const value = predictibleRand.getSinValue(timestamp, epName);
+      const value = predictibleRand.getSinValue(timestamp, options.epName);
 
       return stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
@@ -192,10 +192,18 @@ const getComObject = (comObject, timestamp, epName, options) => {
 };
 
 /**
- * @param  {String} epName    entry Point Name
+ * Generate payload for stubs
+ * @param  {number} timestamp Timestamp for the generated payload
+ * @param  {string} comObject Type of the geneerated patyload
+ * @param  {Object} options   Options for generation
+ * @return {Object}           Generated payload
  */
-module.exports = function getPayload(timestamp, comObject, epName = 'todo', options = {}) {
-  const payload = getComObject(comObject, timestamp, epName, options);
+module.exports = function getPayload(timestamp, comObject, options = {}) {
+  const _options = options;
+  _options.epName = (options.epName === undefined ? 'todo' : options.epName);
+  predictibleRand.setSeed(timestamp);
+
+  const payload = getComObject(comObject, timestamp, _options);
 
   if (payload === null) {
     return null;

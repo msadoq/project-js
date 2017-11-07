@@ -58,15 +58,16 @@ module.exports = function sendArchiveData(
       // stub never send value in the future
       timestamp = now - constants.DC_STUB_VALUE_TIMESTEP;
     }
-    const payload = getPayload(timestamp, dataId.comObject, dataId.parameterName);
+    const payload = getPayload(timestamp, dataId.comObject, { epName: dataId.parameterName });
     if (payload !== null) {
       payloads.push(payload);
     }
   } else {
     // All toAck alarms are pushed by DC whatever the given alarm
     if (dataId.comObject.indexOf('Alarm') !== -1) {
-      for (let timestamp = 1e4; timestamp < 2e4; timestamp += constants.DC_STUB_VALUE_TIMESTEP) {
-        const payload = getPayload(timestamp, dataId.comObject, dataId.parameterName, {
+      for (let timestamp = 1e4; timestamp < 12e3; timestamp += constants.DC_STUB_VALUE_TIMESTEP) {
+        const payload = getPayload(timestamp, dataId.comObject, {
+          epName: dataId.parameterName,
           withAckRequest: true,
           withAck: false,
         });
@@ -81,7 +82,8 @@ module.exports = function sendArchiveData(
       timestamp += constants.DC_STUB_VALUE_TIMESTEP
     ) {
       if (shouldPushANewValue(queryKey, timestamp)) {
-        const payload = getPayload(timestamp, dataId.comObject, dataId.parameterName, {
+        const payload = getPayload(timestamp, dataId.comObject, {
+          epName: dataId.parameterName,
           alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
         });
         if (payload !== null) {

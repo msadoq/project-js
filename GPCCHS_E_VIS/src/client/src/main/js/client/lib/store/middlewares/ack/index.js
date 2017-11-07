@@ -33,6 +33,8 @@ const ackFailure = {
   oba: obaFailure,
 };
 
+const ACK_TIMEOUT = 1000 * 10;
+
 const getNbSuccess = _.compose(_.size, _.filter(_.equals(true)));
 
 const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState }) => next => (action) => {
@@ -41,23 +43,29 @@ const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState
     const { viewId, ackId, alarms, comment } = action.payload;
     const dataMap = dataMapGenerator(getState());
     const { dataId, tbdId } = dataMap.perView[viewId].entryPoints[epName[ackType]];
-    const requests = alarms.map(({ oid, timestamp }) => (
-      (cb) => {
+    const requests = alarms.map(({ oid, timestamp }) => {
+      const failure = (err, cb) => {
+        dispatch(ackFailure[ackType](viewId, ackId, timestamp));
+        dispatch(addMessage('global', 'danger', `Acknowledging error : ${err}`));
+        cb(null, false);
+      };
+      return (cb) => {
+        const timeoutId = setTimeout(() => failure('Timeout', cb), ACK_TIMEOUT);
         requestAck(tbdId, dataId, [{ oid, ackRequest: { comment } }], (err) => {
+          clearTimeout(timeoutId);
           if (err) {
-            dispatch(ackFailure[ackType](viewId, ackId, timestamp));
-            dispatch(addMessage('global', 'danger', `Acknowledging error : ${err}`));
-            cb(null, false);
-            return;
+            return failure(err, cb);
           }
           dispatch(ackSuccess[ackType](viewId, ackId, timestamp));
-          cb(null, true);
+          return cb(null, true);
         });
-      }
-    ));
+      };
+    });
     async.parallel(requests, (err, results) => {
       const nbSuccess = getNbSuccess(results);
-      dispatch(addMessage('global', 'success', `${nbSuccess} alarms successfully acknowledged`));
+      if (nbSuccess > 0) {
+        dispatch(addMessage('global', 'success', `${nbSuccess} alarm${nbSuccess === 1 ? '' : 's'} successfully acknowledged`));
+      }
     });
   }
   return nextAction;

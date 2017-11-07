@@ -138,7 +138,7 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   iUpper = (iUpper === -1) ? viewData.lines.length - 1 : iUpper;
 
   let newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
-  newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort();
+  newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort((a, b) => (a - b));
   const newLines = _pick(viewData.lines, newIndexes);
 
   return {

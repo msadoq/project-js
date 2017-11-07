@@ -50,7 +50,7 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
     for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
       // let indexInLines = -1;
       const time = timestamps[iTime];
-      // Add payload in EP Table sorted by ascending time
+      // Optimisation when payload is sorted by ascending time
       if (lastIndex === -1 && lastTime && lastTime < time) {
         newState.indexes.push(time);
       } else {

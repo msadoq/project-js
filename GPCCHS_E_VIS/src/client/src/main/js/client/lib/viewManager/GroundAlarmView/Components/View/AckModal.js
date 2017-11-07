@@ -3,9 +3,10 @@ import React, { PropTypes } from 'react';
 import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
 import _ from 'lodash/fp';
 
-const TextArea = ({ onChange, maxLength }) => (
+const TextArea = ({ onChange, maxLength, disabled }) => (
   <div>
     <textarea
+      disabled={disabled}
       style={{ maxWidth: '100%', width: '100%', height: '44px' }}
       maxLength={maxLength}
       onChange={onChange}
@@ -13,10 +14,12 @@ const TextArea = ({ onChange, maxLength }) => (
   </div>
 );
 TextArea.propTypes = {
+  disabled: PropTypes.bool,
   maxLength: PropTypes.number,
   onChange: PropTypes.func,
 };
 TextArea.defaultProps = {
+  disabled: false,
   maxLength: 100,
   onChange: _.noop,
 };
@@ -51,9 +54,9 @@ class AckModal extends React.Component {
   state = { comment: '' }
 
   componentWillReceiveProps(nextProps) {
-    const isCompleted = ({ acknowledged, ackError }) => Boolean(ackError) || acknowledged;
+    const isCompleted = ({ acknowledged }) => acknowledged;
     if (_.every(isCompleted, nextProps.ackStatus.alarmsTimestamps)) {
-      setTimeout(this.props.closeModal, 120); // UX : let the user to apprehend the behavior
+      setTimeout(this.props.closeModal, 220); // UX : let the user to apprehend the behavior
     }
   }
 
@@ -63,6 +66,35 @@ class AckModal extends React.Component {
     this.props.sendAck(this.state.comment);
   }
 
+  getStatusByTimestamp = (timestamp) => {
+    const alarmsTimestamps = this.props.ackStatus.alarmsTimestamps;
+    const alarmStatus = _.find(_.propEq('timestamp', timestamp), alarmsTimestamps);
+    if (!alarmStatus) {
+      return undefined;
+    }
+    if (alarmStatus.acknowledged) {
+      return 'success';
+    } else if (alarmStatus.ackError) {
+      return 'danger';
+    }
+    return undefined;
+  }
+
+  getButtonTitle = () => {
+    if (this.hasAckError()) {
+      return 'There are some acknowledge errors';
+    }
+    if (this.props.ackStatus.acknowledging) {
+      return 'Acknowledging...';
+    }
+    return 'Acknowledge';
+  }
+
+  hasAckError = () => {
+    const hasError = ({ ackError }) => Boolean(ackError);
+    return _.some(hasError, this.props.ackStatus.alarmsTimestamps);
+  }
+
   render() {
     const { alarms } = this.props;
     return (
@@ -70,21 +102,28 @@ class AckModal extends React.Component {
         <ListGroup>
           {
             alarms.map(alarm => (
-              <ListGroupItem key={alarm.timestamp}>
+              <ListGroupItem
+                bsStyle={this.getStatusByTimestamp(alarm.timestamp)}
+                key={alarm.timestamp}
+              >
                 {`${alarm.parameterName} - ${alarm.lastOccurence}`}
               </ListGroupItem>
             ))
           }
         </ListGroup>
-        <FormControl onChange={this.onCommentChange} componentClass={TextArea} />
+        <FormControl
+          disabled={this.props.ackStatus.acknowledging}
+          onChange={this.onCommentChange}
+          componentClass={TextArea}
+        />
         <hr />
         <Button
           disabled={this.props.ackStatus.acknowledging}
           onClick={this.onAckClick}
-          bsStyle="primary"
+          bsStyle={this.hasAckError() ? 'danger' : 'primary'}
           bsSize="small"
         >
-          {this.props.ackStatus.acknowledging ? 'Acknowledging...' : 'Acknowledge'}
+          {this.getButtonTitle()}
         </Button>
       </div>
     );

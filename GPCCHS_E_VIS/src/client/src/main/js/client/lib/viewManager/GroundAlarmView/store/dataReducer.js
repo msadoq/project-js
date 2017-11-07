@@ -77,13 +77,13 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
-    case types.WS_MODAL_CLOSE: {
-      const { type, viewId, ackId } = action.payload.props;
-      if (type === 'gmaAck') {
-        return _.unset([viewId, 'ackStatus', ackId], state);
-      }
-      return state;
-    }
+    // case types.WS_MODAL_CLOSE: {
+    //   const { type, viewId, ackId } = action.payload.props;
+    //   if (type === 'gmaAck') {
+    //     return _.unset([viewId, 'ackStatus', ackId], state);
+    //   }
+    //   return state;
+    // }
     case types.WS_VIEW_GMA_ALARM_ACK: {
       const { viewId, ackId } = action.payload;
       return _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
@@ -98,13 +98,13 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
     }
     case types.WS_VIEW_GMA_ALARM_ACK_FAILURE: {
-      const { viewId, ackId, timestamp } = action.payload;
+      const { viewId, ackId, timestamp, error } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
       const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
       const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], true, state);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], String(error), state);
     }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals }

@@ -45,7 +45,7 @@ const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState
     const { dataId, tbdId } = dataMap.perView[viewId].entryPoints[epName[ackType]];
     const requests = alarms.map(({ oid, timestamp }) => {
       const failure = (err, cb) => {
-        dispatch(ackFailure[ackType](viewId, ackId, timestamp));
+        dispatch(ackFailure[ackType](viewId, ackId, timestamp, err));
         dispatch(addMessage('global', 'danger', `Acknowledging error : ${err}`));
         cb(null, false);
       };

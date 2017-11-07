@@ -42,11 +42,12 @@ export const ackSuccess = (viewId, ackId, timestamp) => ({
   },
 });
 
-export const ackFailure = (viewId, ackId, timestamp) => ({
+export const ackFailure = (viewId, ackId, timestamp, error = '') => ({
   type: types.WS_VIEW_OBA_ALARM_ACK_FAILURE,
   payload: {
     viewId,
     ackId,
     timestamp,
+    error,
   },
 });

@@ -30,6 +30,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   sendAck: comment => dispatchProps.sendAck(stateProps.alarms, comment),
+  ackType: 'gma',
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AckModal);

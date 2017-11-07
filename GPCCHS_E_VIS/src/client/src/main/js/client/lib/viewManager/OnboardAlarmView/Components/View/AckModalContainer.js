@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import AckModal from './AckModal';
+import AckModal from '../../../GroundAlarmView/Components/View/AckModal';
 
 import { sendAlarmAck } from '../../store/actions';
 import { getData, getAckStatus } from '../../store/dataReducer';
@@ -30,6 +30,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   sendAck: comment => dispatchProps.sendAck(stateProps.alarms, comment),
+  ackType: 'oba',
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AckModal);

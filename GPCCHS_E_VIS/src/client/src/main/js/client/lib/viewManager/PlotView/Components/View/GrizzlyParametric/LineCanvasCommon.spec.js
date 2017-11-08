@@ -1,6 +1,8 @@
 import { scaleLog } from 'd3-scale';
 import { drawLinesCanvas } from './LineCanvasCommon';
 
+const _ = require('lodash');
+
 describe('LineCanvasCommon :: drawLinesCanvas', () => {
   const propsStub = {
     current: 1509986030848,
@@ -123,27 +125,17 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
   //     ],
   //   }
   // }
-  test('LineCanvasCommon :: drawLinesCanvas :: nominal case', () => {
-    const operations = [];
-    /* eslint-disable max-statements-per-line */
-    // eslint-disable-next-line func-names, "DV6 TBC_CNES Function to mock canvas contrext
-    const Ctx = function () {
-      this.setLineDash = (...args) => { operations.push(['setLinedash', JSON.stringify(args)]); };
-      this.clearRect = (...args) => { operations.push(['clearRect', JSON.stringify(args)]); };
-      this.beginPath = (...args) => { operations.push(['beginPath', JSON.stringify(args)]); };
-      this.stroke = (...args) => { operations.push(['stroke', JSON.stringify(args)]); };
-      this.moveTo = (...args) => { operations.push(['moveTo', JSON.stringify(args)]); };
-      this.lineTo = (...args) => { operations.push(['lineTo', JSON.stringify(args)]); };
-      this.fillRect = (...args) => { operations.push(['fillRect', JSON.stringify(args)]); };
-      this.fillText = (...args) => { operations.push(['fillText', JSON.stringify(args)]); };
+  const operations = [];
+  const getContext = () => {
+    const handler = {
+      get: (target, property) => (...args) => operations.push(_.padEnd(property, 20) + args.join('|')),
+      set: (target, property, value) => operations.push(_.padEnd(property, 20) + value),
     };
-    const ctx = new Ctx();
-    Object.defineProperty(ctx, 'strokeStyle', { set: (x) => { operations.push(['strokeStyle', x]); } });
-    Object.defineProperty(ctx, 'font', { set: (x) => { operations.push(['font', x]); } });
-    Object.defineProperty(ctx, 'fillStyle', { set: (x) => { operations.push(['fillStyle', x]); } });
-    Object.defineProperty(ctx, 'lineWidth', { set: (x) => { operations.push(['lineWidth', x]); } });
-    /* eslint-enable max-statements-per-line */
+    return new Proxy({}, handler);
+  };
 
+  test('LineCanvasCommon :: drawLinesCanvas :: nominal case', () => {
+    const ctx = getContext();
     drawLinesCanvas(
       propsStub.perfOutput,
       propsStub.lines,

@@ -7,7 +7,7 @@ import { getCurrentVisuWindow } from '../../../store/selectors/timebars';
 
 let dataMap = {};
 let previousDataMap = {};
-let queue = [];
+let buffer = {};
 const injectData = (timing) => {
     /**
    * A throttled function that pass action to reducer
@@ -26,7 +26,7 @@ const injectData = (timing) => {
     const oldExpectedLastIntervals = _.getOr({}, 'expectedLastIntervals', previousDataMap);
     const newExpectedLastIntervals = _.getOr({}, 'expectedLastIntervals', dataMap);
 
-    const dataToInject = popQueue();
+    const dataToInject = cleanBuffer();
     const updateRangeData = injectDataRange(
       oldViewMap,
       newViewMap,
@@ -53,27 +53,27 @@ const injectData = (timing) => {
   });
 
   /**
-   * Adds a payload to queue queue
+   * Adds a payload to buffer
    *
    * @param {Object} data { [tbdId]: { [timestamp]: payload } }
    */
-  function addToQueue(data) {
+  function addToBuffer(data) {
     const tbdIds = Object.keys(data);
     for (let i = 0; i < tbdIds.length; i += 1) {
-      if (typeof queue[tbdIds[i]] === 'undefined') {
-        queue[tbdIds[i]] = {};
+      if (typeof buffer[tbdIds[i]] === 'undefined') {
+        buffer[tbdIds[i]] = {};
       }
-      queue[tbdIds[i]] = Object.assign(queue[tbdIds[i]], data[tbdIds[i]]);
+      buffer[tbdIds[i]] = Object.assign(buffer[tbdIds[i]], data[tbdIds[i]]);
     }
   }
 
   /**
-   * Returns and reset current queue
+   * Returns and reset current buffer
    * @returns {{}}
    */
-  function popQueue() {
-    const data = queue;
-    queue = {};
+  function cleanBuffer() {
+    const data = buffer;
+    buffer = {};
     return data;
   }
 
@@ -85,9 +85,8 @@ const injectData = (timing) => {
 
     const execution = executionMonitor('middleware:injectData');
     execution.start('global');
-
     const dataToInject = action.payload.data;
-    addToQueue(dataToInject);
+    addToBuffer(dataToInject);
     throttledDispatch(dispatch, getState());
 
     execution.stop('global');

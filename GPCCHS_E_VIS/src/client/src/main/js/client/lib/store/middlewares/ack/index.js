@@ -42,9 +42,9 @@ const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState
     const { viewId, ackId, alarms, comment } = action.payload;
     const dataMap = dataMapGenerator(getState());
     const { dataId, tbdId } = dataMap.perView[viewId].entryPoints[epName[ackType]];
-    const requests = alarms.map(({ oid, timestamp }) => {
+    const requests = alarms.map(({ oid }) => {
       const failure = (err, cb) => {
-        dispatch(ackFailure[ackType](viewId, ackId, timestamp, err));
+        dispatch(ackFailure[ackType](viewId, ackId, oid, err));
         dispatch(addMessage('global', 'danger', `Acknowledging error : ${err}`));
         cb(null, false);
       };
@@ -55,7 +55,7 @@ const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState
           if (err) {
             return failure(err, cb);
           }
-          dispatch(ackSuccess[ackType](viewId, ackId, timestamp));
+          dispatch(ackSuccess[ackType](viewId, ackId, oid));
           return cb(null, true);
         });
       };

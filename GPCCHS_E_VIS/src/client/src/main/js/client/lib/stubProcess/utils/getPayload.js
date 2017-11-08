@@ -74,7 +74,7 @@ const getComObject = (comObject, timestamp, options) => {
       }
 
       return stubData.getOnBoardAlarmAckRequestProtobuf({
-        oid: options.setOid || `oid${Math.random() * 10000000}`,
+        oid: options.setOid || `oid${predictibleRand.getFloat([0, 10000000])}`,
         onBoardAlarm: {
           apid: predictibleRand.getInt([0, 100000]),
           reportId: predictibleRand.getInt([0, 100000]),
@@ -126,7 +126,7 @@ const getComObject = (comObject, timestamp, options) => {
       }
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
-        oid: options.setOid || `oid${Math.random() * 10000000}`,
+        oid: options.setOid || `oid${predictibleRand.getFloat([0, 10000000])}`,
         groundMonitoringAlarm,
         ackRequest: getAckRequest(timestamp, options),
         parameterName: predictibleRand.getString('pName'),
@@ -201,6 +201,7 @@ const getComObject = (comObject, timestamp, options) => {
 module.exports = function getPayload(timestamp, comObject, options = {}) {
   const _options = options;
   _options.epName = (options.epName === undefined ? 'todo' : options.epName);
+
   predictibleRand.setSeed(timestamp);
 
   const payload = getComObject(comObject, timestamp, _options);

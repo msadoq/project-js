@@ -61,6 +61,7 @@ class Window extends PureComponent {
     focusTabInExplorer: PropTypes.func.isRequired,
     modal: PropTypes.objectOf(PropTypes.shape),
     closeModal: PropTypes.func.isRequired,
+    modalClosed: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -236,6 +237,11 @@ class Window extends PureComponent {
     closeModal(windowId, { ...modal, opened: false }, choice);
   }
 
+  modalClosed = () => {
+    const { windowId, modalClosed, modal } = this.props;
+    modalClosed(windowId, modal);
+  }
+
   handleAuxClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -404,6 +410,7 @@ class Window extends PureComponent {
         <ModalGeneric
           isOpened={modal.opened}
           onClose={this.closeModal}
+          onExited={this.modalClosed}
           props={modal}
         />
       )

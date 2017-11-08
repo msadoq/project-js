@@ -7,7 +7,7 @@ import {
 import { getPanels } from '../../store/reducers/pages';
 import { getModal } from '../../store/reducers/modals';
 import { setIsLoaded, displayHelp } from '../../store/actions/windows';
-import { close as closeModal } from '../../store/actions/modals';
+import { close as closeModal, modalClosed } from '../../store/actions/modals';
 import {
   resizeEditor,
   resizeTimebar,
@@ -56,5 +56,6 @@ export default connect(mapStateToProps, {
   minimizeExplorer,
   minimizeTimebar,
   closeModal,
+  modalClosed,
   focusTabInExplorer,
 })(WindowWrapper);

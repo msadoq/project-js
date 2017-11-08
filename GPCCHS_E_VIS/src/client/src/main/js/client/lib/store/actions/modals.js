@@ -15,6 +15,12 @@ export const close = simple(
   'choice'
 );
 
+export const modalClosed = simple(
+  types.WS_MODAL_CLOSED,
+  'windowId',
+  'props'
+);
+
 export const openInCurrentWindow = props => (dispatch, getState) => {
   const windowId = getFocusedWindowId(getState());
   return dispatch(open(windowId, props));

@@ -178,7 +178,11 @@ const ModalGeneric = (props) => {
 
   return (
     <div className="modal-container">
-      <Modal show={props.isOpened} onHide={props.onClose}>
+      <Modal
+        show={props.isOpened}
+        onHide={props.onClose}
+        onExited={props.onExited}
+      >
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
           <button
@@ -198,6 +202,7 @@ const ModalGeneric = (props) => {
 
 ModalGeneric.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onExited: PropTypes.func.isRequired,
   isOpened: PropTypes.bool,
   props: PropTypes.shape().isRequired,
 };

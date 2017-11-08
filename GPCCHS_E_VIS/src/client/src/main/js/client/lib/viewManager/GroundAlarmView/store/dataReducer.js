@@ -77,13 +77,13 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
-    // case types.WS_MODAL_CLOSE: {
-    //   const { type, viewId, ackId } = action.payload.props;
-    //   if (type === 'gmaAck') {
-    //     return _.unset([viewId, 'ackStatus', ackId], state);
-    //   }
-    //   return state;
-    // }
+    case types.WS_MODAL_CLOSED: {
+      const { type, viewId, ackId } = action.payload.props;
+      if (type === 'gmaAck') {
+        return _.unset([viewId, 'ackStatus', ackId], state);
+      }
+      return state;
+    }
     case types.WS_VIEW_GMA_ALARM_ACK: {
       const { viewId, ackId } = action.payload;
       return _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);

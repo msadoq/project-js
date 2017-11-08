@@ -77,7 +77,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
-    case types.WS_MODAL_CLOSE: {
+    case types.WS_MODAL_CLOSED: {
       const { type, viewId, ackId } = action.payload.props;
       if (type === 'obaAck') {
         return _.unset([viewId, 'ackStatus', ackId], state);

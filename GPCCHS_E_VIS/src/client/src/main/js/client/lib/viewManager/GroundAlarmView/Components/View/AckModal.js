@@ -112,7 +112,7 @@ class AckModal extends React.Component {
           {
             alarms.map(alarm => (
               <ListGroupItem
-                bsStyle={this.getStatusByTimestamp(alarm.timestamp)}
+                bsStyle={this.getStatusByTimestamp(alarm.oid)}
                 key={alarm.timestamp}
               >
                 {this.getAlarmLabel(alarm)}

@@ -1,4 +1,4 @@
-import { scaleLog } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { drawLinesCanvas } from './LineCanvasCommon';
 
 const _ = require('lodash');
@@ -8,85 +8,103 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
     current: 1509986030848,
     data: {
       TMMGT_BC_VIRTCHAN3: {
-        1509985462348: {
-          color: '#FF0000',
-          masterTime: 1509985462348,
-          refTime: 1509985462348,
-          symbol: '139.04578940573927',
-          valX: 1509985462368,
-          value: 139.04578940573927,
-          x: 1509985462348,
+        1509985461000: {
+          color: '#000000',
+          masterTime: 1509985461000,
+          refTime: 1509985461000,
+          symbol: '131',
+          valX: 1509985461000,
+          value: 10,
+          x: 10,
         },
-        1509985463348: {
-          color: '#FF0000',
-          masterTime: 1509985463348,
-          refTime: 1509985463348,
-          symbol: '138.91017655214853',
-          valX: 1509985463368,
-          value: 138.91017655214853,
-          x: 1509985463348,
+        1509985462000: {
+          color: '#F00000',
+          masterTime: 1509985462000,
+          refTime: 1509985462000,
+          symbol: '132',
+          valX: 1509985462000,
+          value: 20,
+          x: 20,
         },
-        1509985464348: {
-          color: '#FF00FF',
-          masterTime: 1509985464348,
-          refTime: 1509985464348,
-          symbol: '138.91017655214853',
-          valX: 1509985464348,
-          value: 138.91017655214853,
-          x: 1509985464348,
+        1509985463000: {
+          color: '#FF0000',
+          masterTime: 1509985463000,
+          refTime: 1509985463000,
+          symbol: '133',
+          valX: 1509985463000,
+          value: 30,
+          x: 30,
+        },
+        1509985464000: {
+          color: '#FFF000',
+          masterTime: 1509985464000,
+          refTime: 1509985464000,
+          symbol: '134',
+          valX: 1509985464000,
+          value: 40,
+          x: 40,
         },
       },
     },
     divStyle: {
-      height: 500,
+      height: 1000,
       left: 0,
       top: 0,
       width: 1000,
     },
-    height: 455,
+    height: 1000,
     indexes: {
-      TMMGT_BC_VIRTCHAN3: [1509985462348, 1509985463348, 1509985464348],
+      TMMGT_BC_VIRTCHAN3: [1509985461000, 1509985462000, 1509985463000, 1509985464000],
     },
     lines: [
       {
         colorAccessor: 'color',
         data: {
-          1509985462348: {
-            color: '#FF0000',
-            masterTime: 1509985462348,
-            refTime: 1509985462348,
-            symbol: '139.04578940573927',
-            valX: 1509985462368,
-            value: 139.04578940573927,
-            x: 1509985462348,
+          1509985461000: {
+            color: '#000000',
+            masterTime: 1509985461000,
+            refTime: 1509985461000,
+            symbol: '131',
+            valX: 1509985461000,
+            value: 10,
+            x: 10,
           },
-          1509985463348: {
-            color: '#FF0000',
-            masterTime: 1509985463348,
-            refTime: 1509985463348,
-            symbol: '138.91017655214853',
-            valX: 1509985463368,
-            value: 138.91017655214853,
-            x: 1509985463348,
+          1509985462000: {
+            color: '#F00000',
+            masterTime: 1509985462000,
+            refTime: 1509985462000,
+            symbol: '132',
+            valX: 1509985462000,
+            value: 20,
+            x: 20,
           },
-          1509985464348: {
-            color: '#FF00FF',
-            masterTime: 1509985464348,
-            refTime: 1509985464348,
-            symbol: '138.91017655214853',
-            valX: 1509985464348,
-            value: 138.91017655214853,
-            x: 1509985464348,
+          1509985463000: {
+            color: '#FF0000',
+            masterTime: 1509985463000,
+            refTime: 1509985463000,
+            symbol: '133',
+            valX: 1509985463000,
+            value: 30,
+            x: 30,
+          },
+          1509985464000: {
+            color: '#FFF000',
+            masterTime: 1509985464000,
+            refTime: 1509985464000,
+            symbol: '134',
+            valX: 1509985464000,
+            value: 40,
+            x: 40,
           },
         },
         dataAccessor: 'TMMGT_BC_VIRTCHAN3',
-        fill: '#FFBF00',
+        fill: '#000000',
         id: 'TMMGT_BC_VIRTCHAN3',
-        indexes: [1509985462348, 1509985463348, 1509985464348],
+        // indexes: [1509985461000, 1509985462000, 1509985463000, 1509985464000],
         lineSize: 2,
         lineStyle: 'Continuous',
-        pointSize: 0,
-        pointStyle: 'None',
+        pointSize: 10,
+        pointStyle: 'Dot',
         tooltipFormatter: () => {},
         xAccessor: null,
         xAxisId: 'time',
@@ -97,23 +115,19 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
         yTooltipAccessor: null,
       },
     ],
-    parametric: false,
+    parametric: true,
     perfOutput: false,
     showLabelsX: true,
     showLabelsY: true,
     updateLabelPosition: () => null,
-    width: 1120,
+    width: 1000,
     xAxesAt: 'bottom',
-    xScale: scaleLog()
-      .domain([1509985452348, 1509985473348])
-      .range([0, 1000])
-      .base(10)
-      .nice(),
-    yScale: scaleLog()
-      .domain([120, 150])
-      .range([500, 0])
-      .base(10)
-      .nice(),
+    xScale: scaleLinear()
+      .domain([0, 100])
+      .range([0, 1000]),
+    yScale: scaleLinear()
+      .domain([0, 100])
+      .range([1000, 0]),
   };
   // const propsStub = {
   //   ...propsStub,
@@ -144,7 +158,6 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
       false,
       propsStub.yScale,
       propsStub.xScale,
-      propsStub.data,
       propsStub.indexes,
       propsStub.current,
       propsStub.parametric,

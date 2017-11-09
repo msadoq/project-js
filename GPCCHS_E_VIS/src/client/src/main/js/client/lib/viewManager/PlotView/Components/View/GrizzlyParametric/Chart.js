@@ -890,7 +890,6 @@ export default class Chart extends React.Component {
                 showLabelsY={pair.yAxis.showLabels}
                 lines={pair.lines}
                 indexes={pair.indexes}
-                data={pair.data}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
                 divStyle={this.divStyle}

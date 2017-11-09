@@ -11,7 +11,6 @@ export default class LinesCanvas extends Component {
     showLabelsX: PropTypes.bool,
     showLabelsY: PropTypes.bool,
     perfOutput: PropTypes.bool,
-    data: PropTypes.objectOf(PropTypes.shape).isRequired,
     indexes: PropTypes.objectOf(PropTypes.shape).isRequired,
     current: PropTypes.number.isRequired,
     lines: PropTypes.arrayOf(
@@ -45,7 +44,7 @@ export default class LinesCanvas extends Component {
 
   shouldComponentUpdate(nextProps) {
     const attrs = ['yAxesAt', 'perfOutput', 'xScale', 'yScale', 'showLabelsX', 'showLabelsY',
-      'yScale', 'indexes', 'data', 'divStyle', 'parametric', 'current'];
+      'yScale', 'indexes', 'divStyle', 'parametric', 'current'];
 
     const { shouldRender, linesObject } = shouldRenderComponent(
       attrs,
@@ -70,7 +69,6 @@ export default class LinesCanvas extends Component {
       showLabelsY,
       yScale,
       xScale,
-      data,
       indexes,
       current,
       parametric,
@@ -87,7 +85,6 @@ export default class LinesCanvas extends Component {
       showLabelsY,
       yScale,
       xScale,
-      data,
       indexes,
       current,
       parametric,

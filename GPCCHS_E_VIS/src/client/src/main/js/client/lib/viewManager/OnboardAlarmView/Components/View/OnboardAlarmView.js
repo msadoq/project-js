@@ -3,11 +3,9 @@ import OnboardAlarmTable from './table/OnboardAlarmTableContainer';
 
 import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
 
-const HEADER_HEIGHT = 50; // in pixel
-
 const OnboardAlarmView = props => (
   <div className="h100 w100 posRelative">
-    <OnboardAlarmTable {...props} containerHeight={props.containerHeight - HEADER_HEIGHT} />
+    <OnboardAlarmTable {...props} containerHeight={props.containerHeight} />
   </div>
 );
 OnboardAlarmView.propTypes = {

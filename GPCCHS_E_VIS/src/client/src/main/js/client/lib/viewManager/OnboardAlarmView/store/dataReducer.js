@@ -117,7 +117,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
         return state;
       }
 
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
@@ -141,7 +141,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
     }
     case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {

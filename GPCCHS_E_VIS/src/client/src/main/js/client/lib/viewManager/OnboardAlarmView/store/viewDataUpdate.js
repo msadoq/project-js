@@ -4,11 +4,20 @@ import _findIndex from 'lodash/findIndex';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _get from 'lodash/get';
-import _map from 'lodash/map';
 import _each from 'lodash/each';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
 import * as constants from '../../../constants';
+
+
+/**
+ * Debuging function. To check if the indexes are well sorted.
+ */
+// function logTheTimestamps(viewData) {
+//   console.log(viewData.indexes.map(oid => (
+//     viewData.lines[oid].timestamp
+//   )));
+// }
 
 /**
  * Add payloads in plot view data state
@@ -35,34 +44,40 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
     newState = { lines: {}, indexes: [] };
   }
 
-  // loop on EP name to add payload sorted by masterTime in EP table
+  // loop on EP name to add payload sorted by timestamp in EP table
   const epName = epNames[0];
 
   // Update of EP data
   newState.lines = Object.assign({}, newState.lines, payloads[epName]);
-  const timestamps = _map(payloads[epName], viewData => viewData.timestamp);
+  // const timestamps = _map(payloads[epName], viewData => viewData.timestamp);
+  const oids = Object.keys(payloads[epName]);
+
   let lastIndex = -1;
   let lastTime;
-  // loop on payload timestamps
-  for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
-    // let indexInLines = -1;
-    const time = timestamps[iTime];
+  // loop on payload oids
+  for (let oidIndex = 0; oidIndex < oids.length; oidIndex += 1) {
+    const insertOid = oids[oidIndex];
+    const payload = payloads[epName][insertOid];
+    const time = payload.timestamp;
     // Optimisation when payload is sorted by ascending time
-    if (lastIndex === -1 && lastTime && lastTime < time) {
-      newState.indexes.push(time);
+    if (lastIndex === -1 && lastTime && lastTime <= time) {
+      newState.indexes.push(insertOid);
     } else {
-      let index = -1;
+      // search where to insert payload
+      let insertIndex = -1;
       if (newState.indexes.length) {
-        index = _findIndex(newState.indexes, val => val >= time);
+        insertIndex = _findIndex(newState.indexes, searchOid => (
+          newState.lines[searchOid].timestamp >= time
+        ));
       }
-      lastIndex = index;
-      if (index === -1) {
-        newState.indexes.push(time);
-      } else if (newState.indexes[index] !== time) {
+      lastIndex = insertIndex;
+      if (insertIndex === -1) {
+        newState.indexes.push(insertOid);
+      } else if (newState.indexes[insertIndex] !== insertOid) {
         newState.indexes = _concat(
-          newState.indexes.slice(0, index),
-          time,
-          newState.indexes.slice(index));
+          newState.indexes.slice(0, insertIndex),
+          insertOid,
+          newState.indexes.slice(insertIndex));
       } else {
         // Data is already present in table lines, no need to add it
       }
@@ -70,6 +85,7 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
     lastTime = time;
   }
 
+  // logTheTimestamps(newState);
   return newState;
 }
 
@@ -117,20 +133,20 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   }
   const lower = expectedInterval[0];
   const upper = expectedInterval[1];
-  const newState = { [epName]: {} };
+  const epSubState = { [epName]: {} };
 
   // Loop on payload timestamps
   _each(tbdIdPayload, (currentValue, i) => {
     const onBoardAlarm = currentValue.onBoardAlarm;
     const offset = ep.offset || 0;
     const timestamp = (onBoardAlarm.onBoardDate.value || Number(i)) + offset;
+    const oid = currentValue.oid;
     // TODO: needs to determine on which filters have top be applied
     // // check value verify filters
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-    const masterTime = timestamp + ep.offset;
-    if (!onBoardAlarm) {
+    if (!oid || !onBoardAlarm) {
       return;
     }
     // Compute acknowledgement State
@@ -150,7 +166,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
 
     const parameters = onBoardAlarm.parameter || [];
     const valueToInsert = {
-      oid: currentValue.oid,
+      oid,
       timestamp,
       ackState,
       satellite: convertData(currentValue.satellite),
@@ -162,12 +178,12 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       reportType: convertData(onBoardAlarm.eventType),
       parameters: _.map(_.mapValues(convertData), parameters),
     };
-    newState[epName][masterTime] = valueToInsert;
+    epSubState[epName][oid] = valueToInsert;
   });
 
   // if no data, return empty state
-  if (!Object.keys(newState[epName]).length) {
+  if (!Object.keys(epSubState[epName]).length) {
     return {};
   }
-  return newState;
+  return epSubState;
 }

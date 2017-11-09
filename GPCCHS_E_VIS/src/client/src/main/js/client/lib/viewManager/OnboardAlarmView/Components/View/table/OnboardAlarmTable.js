@@ -44,7 +44,7 @@ const Table = ({
                   [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
                   alarmChildren: line.type === 'parameter',
                   alarm: line.type === 'alarm',
-                  selected: Boolean(selectedAlarms[line.alarm.timestamp]),
+                  selected: Boolean(selectedAlarms[line.alarm.oid]),
                 })}
                 style={{ width: '100%', height: `${rowHeight}px` }}
               >
@@ -68,7 +68,7 @@ const Table = ({
               className={classnames({
                 [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
                 alarmChildren: true,
-                selected: Boolean(selectedAlarms[line.alarm.timestamp]),
+                selected: Boolean(selectedAlarms[line.alarm.oid]),
               })}
               key={key}
             >
@@ -158,13 +158,13 @@ class TableView extends React.Component {
   onAlarmContextMenu = (e) => {
     e.stopPropagation();
     const n = this.getNbSelectedAlarms();
-    const getTimestamps = _.compose(_.map(Number), _.keys);
+    const getTimestamps = _.keys;
     const menu = [
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
-        click: () => (
-          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms))
-        ),
+        click: () => {
+          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms));
+        },
         enabled: n > 0,
       },
       { type: 'separator' },
@@ -190,10 +190,10 @@ class TableView extends React.Component {
   getNbSelectedAlarms = () => _.size(this.state.selectedAlarms)
 
   toggleAlarmSelection = (alarm) => {
-    const { timestamp, ackState } = alarm;
+    const { oid, ackState } = alarm;
     if (ackState === REQUIRE_ACK) {
-      const selectedAlarmsPath = ['selectedAlarms', timestamp];
-      if (this.state.selectedAlarms[timestamp]) {
+      const selectedAlarmsPath = ['selectedAlarms', oid];
+      if (this.state.selectedAlarms[oid]) {
         this.setState(_.unset(selectedAlarmsPath));
       } else {
         this.setState(_.set(selectedAlarmsPath, alarm));

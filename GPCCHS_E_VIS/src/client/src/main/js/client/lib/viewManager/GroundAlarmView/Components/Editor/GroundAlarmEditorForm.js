@@ -5,6 +5,13 @@ import { Field, reduxForm } from 'redux-form';
 import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
+import * as constants from '../../../../constants';
+
+const MODES = [
+  { value: constants.GMA_ALARM_MODE_ALL, label: 'All' },
+  { value: constants.GMA_ALARM_MODE_NONNOMINAL, label: 'Non nominal' },
+  { value: constants.GMA_ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
+];
 
 class EntryPointConnectedData extends Component {
   componentDidMount() {
@@ -69,6 +76,15 @@ class EntryPointConnectedData extends Component {
               label: '*',
               value: '*',
             })}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Mode">
+          <Field
+            name="mode"
+            clearable={false}
+            component={ReactSelectField}
+            options={MODES}
           />
         </HorizontalFormGroup>
       </Form>

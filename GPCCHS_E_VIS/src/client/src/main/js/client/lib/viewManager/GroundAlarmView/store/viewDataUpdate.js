@@ -1,4 +1,5 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
+/* eslint-disable complexity, "DV6 TBC_CNES Perf. switch case" */
 import _findIndex from 'lodash/findIndex';
 import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -100,7 +101,7 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
  * @param: received data
  * @return: payloads to use per EP (unique)
 /* *********************************** */
-export function selectDataPerView(currentViewMap, intervalMap, payload) {
+export function selectDataPerView(currentViewMap, intervalMap, payload, visuWindow) {
   let epSubState = {};
   if (currentViewMap) {
     const epNames = Object.keys(currentViewMap.entryPoints);
@@ -115,7 +116,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
       return {};
     }
     // get useful data in payload : { epName: {timestamp: data, ...}}
-    epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
+    epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap, visuWindow);
   }
   return epSubState;
 }
@@ -129,7 +130,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
  * @param: intervals for all entry Points
  * @return: ep payload to be used
 /* *********************************** */
-export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
+export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) {
   // get expected interval
   const expectedInterval = _get(intervalMap, [ep.tbdId, ep.localId, 'expectedInterval']);
   // case of error when visuWindow duration is too long
@@ -167,6 +168,24 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
+      }
+    }
+
+    if (ep.mode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
+      if (ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+        return;
+      }
+    }
+
+    if (ep.mode === constants.GMA_ALARM_MODE_NONNOMINAL) {
+      const { creationDate, closingDate } = groundMonitoringAlarm;
+      const isNonNominal = (
+        creationDate < visuWindow.current
+        && (closingDate > visuWindow.current || !closingDate)
+      );
+      const isNominal = !isNonNominal;
+      if (isNominal) {
+        return;
       }
     }
 
@@ -209,7 +228,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
         )),
       });
     }
-
     epSubState[epName][oid] = valueToInsert;
   });
 

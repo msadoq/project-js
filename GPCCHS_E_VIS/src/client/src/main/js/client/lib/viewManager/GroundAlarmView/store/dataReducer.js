@@ -107,7 +107,7 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], String(error), state);
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, visuWindow }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
@@ -121,8 +121,12 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       for (let i = 0; i < viewIds.length; i += 1) {
         const viewId = viewIds[i];
         // Data Selection
-        const epSubState =
-          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
+        const epSubState = selectDataPerView(
+          newViewMap[viewId],
+          newExpectedRangeIntervals,
+          dataToInject,
+          visuWindow
+        );
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState = viewRangeAdd(

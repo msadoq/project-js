@@ -58,6 +58,7 @@ export default function parseEntryPoint(
       offset,
       timebarUuid,
       filters: cd.filters,
+      mode: cd.mode,
       type: viewType,
     },
   };

@@ -96,7 +96,7 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
  * @param: received data
  * @return: payloads to use per EP (unique)
 /* *********************************** */
-export function selectDataPerView(currentViewMap, intervalMap, payload) {
+export function selectDataPerView(currentViewMap, intervalMap, payload, visuWindow) {
   let epSubState = {};
   if (currentViewMap) {
     const epNames = Object.keys(currentViewMap.entryPoints);
@@ -110,7 +110,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
     if (!payload[ep.tbdId]) {
       return {};
     }
-    epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
+    epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap, visuWindow);
   }
   return epSubState;
 }
@@ -155,6 +155,12 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       ackState = constants.OBA_ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.OBA_ALARM_ACKSTATE_ACQUITED;
+      }
+    }
+
+    if (ep.mode === constants.OBA_ALARM_MODE_TOACKNOWLEDGE) {
+      if (ackState !== constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
+        return;
       }
     }
 

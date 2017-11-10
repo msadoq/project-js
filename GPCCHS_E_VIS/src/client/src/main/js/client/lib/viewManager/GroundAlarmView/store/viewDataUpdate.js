@@ -198,6 +198,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     const valueToInsert = {
       oid,
       timestamp,
+      collapsed: true,
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),
       satellite: convertData(currentValue.satellite),

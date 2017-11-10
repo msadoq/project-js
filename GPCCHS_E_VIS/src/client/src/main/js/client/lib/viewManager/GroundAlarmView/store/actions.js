@@ -51,3 +51,13 @@ export const ackFailure = (viewId, ackId, timestamp, error = '') => ({
     error,
   },
 });
+
+export const collapseAlarm = (viewId, oid) => ({
+  type: types.WS_VIEW_ALARM_COLLAPSE,
+  payload: { viewId, oid },
+});
+
+export const uncollapseAlarm = (viewId, oid) => ({
+  type: types.WS_VIEW_ALARM_UNCOLLAPSE,
+  payload: { viewId, oid },
+});

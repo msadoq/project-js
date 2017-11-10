@@ -4,13 +4,26 @@ import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 
+import * as constants from '../../../constants';
 import { getGroundAlarmViewData, getData } from './dataReducer';
 import { getViewTitle } from '../../../store/reducers/views';
 
-const getFullTitle = getViewTitle;
+const MODES_WORDING = {
+  [constants.GMA_ALARM_MODE_ALL]: 'All',
+  [constants.GMA_ALARM_MODE_NONNOMINAL]: 'Non Nominal',
+  [constants.GMA_ALARM_MODE_TOACKNOWLEDGE]: 'To Acknowledge',
+};
 
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(['GroundAlarmViewConfiguration', viewId, 'entryPoints'], state)
+);
+
+const getFullTitle = createSelector(
+  getViewTitle,
+  getEntryPointsByViewId,
+  (title, [entryPoint]) => (
+    `${title} (${MODES_WORDING[entryPoint.connectedData.mode]})`
+  )
 );
 
 const getCount = createSelector(

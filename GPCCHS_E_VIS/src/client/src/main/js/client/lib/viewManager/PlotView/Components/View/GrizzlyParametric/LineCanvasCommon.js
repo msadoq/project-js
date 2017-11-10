@@ -17,7 +17,7 @@ export function drawTriangle(ctx, lastX, lastY, pointOffset) {
 /**
  * @param ctx
  * @param line
- * @returns {{fill: string, lineSize: number, pointSize: number, fontSize: number}}
+ * @returns {{lineSize: number, pointSize: number, fontSize: number}}
  */
 export function getDefaultValues(ctx, line) {
   // Default values

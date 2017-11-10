@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Axis :: render Axis :: render :: nominal case horizontal 1`] = `
+<div
+  className="xAxisDiv"
+  style={
+    Object {
+      "height": 1040,
+      "left": 90,
+      "top": 0,
+      "width": 1000,
+    }
+  }
+>
+  <span
+    className="label xAxisLabel"
+  >
+    VBat
+  </span>
+  <span
+    className="label xAxisLineLabel"
+  >
+    TMMGT_BC_VIRTCHAN3
+  </span>
+  <svg
+    className="xAxis"
+    style={
+      Object {
+        "height": 40,
+        "width": 1000,
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Axis :: render Axis :: render :: nominal case vertical 1`] = `
+<div
+  className="yAxisDiv"
+  style={
+    Object {
+      "height": 1000,
+      "left": 0,
+      "width": 1090,
+    }
+  }
+>
+  <span
+    className="label yAxisLabel"
+  >
+    VBat
+  </span>
+  <span
+    className="label yAxisLineLabel"
+  >
+    TMMGT_BC_VIRTCHAN3
+  </span>
+  <svg
+    className="yAxis"
+    style={
+      Object {
+        "height": 1000,
+        "width": 1090,
+      }
+    }
+  />
+</div>
+`;

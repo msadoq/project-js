@@ -5,6 +5,9 @@ import _last from 'lodash/last';
 import _get from 'lodash/get';
 
 import { getGroundAlarmViewData, getData } from './dataReducer';
+import { getViewTitle } from '../../../store/reducers/views';
+
+const getFullTitle = getViewTitle;
 
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(['GroundAlarmViewConfiguration', viewId, 'entryPoints'], state)
@@ -58,4 +61,5 @@ export default {
   getEntryPointsByViewId,
   getCount,
   getLastValue,
+  getFullTitle,
 };

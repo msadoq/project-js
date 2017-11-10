@@ -5,6 +5,9 @@ import _last from 'lodash/last';
 import _get from 'lodash/get';
 
 import { getOnboardAlarmViewData, getData } from './dataReducer';
+import { getViewTitle } from '../../../store/reducers/views';
+
+const getFullTitle = getViewTitle;
 
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(['OnboardAlarmViewConfiguration', viewId, 'entryPoints'], state)
@@ -55,6 +58,7 @@ const getLastValue = createSelector(
 );
 
 export default {
+  getFullTitle,
   getEntryPointsByViewId,
   getCount,
   getLastValue,

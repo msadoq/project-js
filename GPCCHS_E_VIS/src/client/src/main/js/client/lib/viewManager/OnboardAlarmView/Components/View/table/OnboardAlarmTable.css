@@ -10,6 +10,10 @@
     border: 1px solid green;
   }
 
+  .selectable {
+    cursor: pointer;
+  }
+
   table {
     border-collapse: collapse;
   }

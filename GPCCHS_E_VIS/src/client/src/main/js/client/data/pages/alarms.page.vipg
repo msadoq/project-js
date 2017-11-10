@@ -1,0 +1,30 @@
+{
+  "type": "Page",
+  "title": "Alarms Page",
+  "sessionName": "Master",
+  "domainName": "fr.cnes.isis",
+  "views": [
+    {
+      "oId": "oid:/views/ground-alarm.viga",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 10
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba",
+      "geometry": {
+        "x": 0,
+        "y": 10,
+        "w": 8,
+        "h": 8
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

@@ -27,10 +27,20 @@ function getMonitoringState() {
 }
 
 function getAckRequest(timestamp, options) {
-  return (!options.allToAck && predictibleRand.getBool(0.25)) ? {
+  const withAckRequest = (options.withAckRequest !== undefined ?
+    options.withAckRequest
+    : predictibleRand.getBool(0.25)
+  );
+
+  const withAck = (options.withAck !== undefined ?
+    options.withAck
+    : predictibleRand.getBool(0.75)
+  );
+
+  return withAckRequest ? {
     ackRequestDate: timestamp - 10,
     systemDate: timestamp,
-    ack: predictibleRand.getBool() ? {
+    ack: withAck ? {
       ackDate: timestamp - 10,
       acknowledger: {
         login: predictibleRand.getString('login', 16),
@@ -39,7 +49,7 @@ function getAckRequest(timestamp, options) {
         userTime: timestamp - 50000,
       },
     } : undefined,
-    comment: predictibleRand.getString('comment', -1, 10),
+    comment: options.setComment || predictibleRand.getString('comment', -1, 10),
   } : undefined;
 }
 
@@ -55,7 +65,8 @@ function getNamedValue() {
   };
 }
 
-const getComObject = (comObject, timestamp, epName, options) => {
+/* eslint-disable complexity, switch case function */
+const getComObject = (comObject, timestamp, options) => {
   switch (comObject) {
     case 'OnBoardAlarmAckRequest': {
       if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
@@ -63,7 +74,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
       }
 
       return stubData.getOnBoardAlarmAckRequestProtobuf({
-        oid: `oid${Math.random() * 10000000}`,
+        oid: options.setOid || `oid${Math.random() * 10000000}`,
         onBoardAlarm: {
           apid: predictibleRand.getInt([0, 100000]),
           reportId: predictibleRand.getInt([0, 100000]),
@@ -85,13 +96,18 @@ const getComObject = (comObject, timestamp, epName, options) => {
         return null;
       }
 
-      const value = predictibleRand.getSinValue(timestamp, epName);
+      const withAckRequest = (options.withAckRequest !== undefined ?
+        options.withAckRequest
+        : predictibleRand.getBool(0.75)
+      );
+
+      const value = predictibleRand.getSinValue(timestamp, options.epName);
       const groundMonitoringAlarm = {
         creationDate: timestamp - 100,
         paramUid: predictibleRand.getInt([0, 100000]),
         updateDate: timestamp - 50,
         closingDate: predictibleRand.getBool() ? timestamp - 10 : undefined,
-        hasAckRequest: options.allToAck || predictibleRand.getBool(0.75),
+        hasAckRequest: withAckRequest,
         alarmId: predictibleRand.getInt([0, 100000]),
         transitions: [],
         isNominal: predictibleRand.getBool(0.25),
@@ -110,7 +126,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
       }
 
       return stubData.getGroundMonitoringAlarmAckRequestProtobuf({
-        oid: `oid${Math.random() * 10000000}`,
+        oid: options.setOid || `oid${Math.random() * 10000000}`,
         groundMonitoringAlarm,
         ackRequest: getAckRequest(timestamp, options),
         parameterName: predictibleRand.getString('pName'),
@@ -121,7 +137,7 @@ const getComObject = (comObject, timestamp, epName, options) => {
     }
 
     case 'ReportingParameter': {
-      const value = predictibleRand.getSinValue(timestamp, epName);
+      const value = predictibleRand.getSinValue(timestamp, options.epName);
 
       return stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
@@ -176,10 +192,18 @@ const getComObject = (comObject, timestamp, epName, options) => {
 };
 
 /**
- * @param  {String} epName    entry Point Name
+ * Generate payload for stubs
+ * @param  {number} timestamp Timestamp for the generated payload
+ * @param  {string} comObject Type of the geneerated patyload
+ * @param  {Object} options   Options for generation
+ * @return {Object}           Generated payload
  */
-module.exports = function getPayload(timestamp, comObject, epName = 'todo', options = {}) {
-  const payload = getComObject(comObject, timestamp, epName, options);
+module.exports = function getPayload(timestamp, comObject, options = {}) {
+  const _options = options;
+  _options.epName = (options.epName === undefined ? 'todo' : options.epName);
+  predictibleRand.setSeed(timestamp);
+
+  const payload = getComObject(comObject, timestamp, _options);
 
   if (payload === null) {
     return null;

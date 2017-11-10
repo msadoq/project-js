@@ -3,18 +3,19 @@ import { createSelector } from 'reselect';
 import _omit from 'lodash/omit';
 
 import cleanCurrentViewData from './cleanViewData';
-import { viewRangeAdd, selectDataPerView, updateLines } from './viewDataUpdate';
+import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 
 import * as types from '../../../store/types';
 import * as constants from '../../constants';
 
-const initialState = {
+const initialSubState = {
   lines: {},
   indexes: [],
+  ackStatus: {},
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function groundAlarmViewData(state = {}, action) {
+export default function groundAlarmViewData(state = initialSubState, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
@@ -25,7 +26,7 @@ export default function groundAlarmViewData(state = {}, action) {
       if (action.payload.view.type !== constants.VM_VIEW_GROUNDALARM) {
         return state;
       }
-      return { ...state, [action.payload.view.uuid]: initialState };
+      return { ...state, [action.payload.view.uuid]: initialSubState };
     case types.WS_PAGE_OPENED:
     case types.WS_WORKSPACE_OPENED:
       {
@@ -38,7 +39,7 @@ export default function groundAlarmViewData(state = {}, action) {
           if (view.type !== constants.VM_VIEW_GROUNDALARM) {
             return;
           }
-          newState[view.uuid] = initialState;
+          newState[view.uuid] = initialSubState;
         });
         return { ...state, ...newState };
       }
@@ -62,16 +63,57 @@ export default function groundAlarmViewData(state = {}, action) {
       });
       return newState;
     }
+    case types.WS_MODAL_OPEN: {
+      const { type, viewId, ackId, alarmsTimestamps } = action.payload.props;
+      if (type === 'gmaAck') {
+        return _.set([viewId, 'ackStatus', ackId], {
+          acknowledging: false,
+          alarmsTimestamps: alarmsTimestamps.map(ts => ({
+            timestamp: ts,
+            acknowledged: false,
+            ackError: null,
+          })),
+        }, state);
+      }
+      return state;
+    }
+    // case types.WS_MODAL_CLOSE: {
+    //   const { type, viewId, ackId } = action.payload.props;
+    //   if (type === 'gmaAck') {
+    //     return _.unset([viewId, 'ackStatus', ackId], state);
+    //   }
+    //   return state;
+    // }
+    case types.WS_VIEW_GMA_ALARM_ACK: {
+      const { viewId, ackId } = action.payload;
+      return _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
+    }
+    case types.WS_VIEW_GMA_ALARM_ACK_SUCCESS: {
+      const { viewId, ackId, timestamp } = action.payload;
+      if (!state[viewId].ackStatus[ackId]) {
+        return state;
+      }
+      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
+      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
+    }
+    case types.WS_VIEW_GMA_ALARM_ACK_FAILURE: {
+      const { viewId, ackId, timestamp, error } = action.payload;
+      if (!state[viewId].ackStatus[ackId]) {
+        return state;
+      }
+      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
+      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], String(error), state);
+    }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
         return state;
       }
-      // Gets configurationfor history views
-      const configuration = configurations.GroundAlarmViewConfiguration;
 
       // since now, state will changed
       let newState = state;
@@ -86,9 +128,7 @@ export default function groundAlarmViewData(state = {}, action) {
           const viewState = viewRangeAdd(
             newState[viewId],
             viewId,
-            epSubState,
-            _.get([viewId, 'entryPoints', 0, 'connectedData', 'mode'], configuration),
-            visuWindow
+            epSubState
           );
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
@@ -115,23 +155,12 @@ export default function groundAlarmViewData(state = {}, action) {
           dataMap.expectedRangeIntervals
         );
         if (subState !== viewData) {
-          newState = { ...newState, [viewId]: subState };
+          newState = { ...newState, [viewId]: subState || initialSubState };
         }
       }
       return newState;
     }
-    case types.WS_VIEW_UPDATE_ALARMMODE: {
-      const { mode, visuWindow, viewId } = action.payload;
-      const alarms = state[viewId];
-      if (!alarms || !alarms.indexes) {
-        return state;
-      }
-      let newAlarms = _.set('lines', {}, alarms);
-      for (let i = 0; i < newAlarms.indexes.length; i += 1) {
-        newAlarms = updateLines(newAlarms, alarms.indexes[i], i, mode, visuWindow);
-      }
-      return _.set(viewId, newAlarms, state);
-    }
+
     default:
       return state;
   }
@@ -140,6 +169,12 @@ export default function groundAlarmViewData(state = {}, action) {
 export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
 export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
+
+export const getAckStatus = createSelector(
+  getData,
+  (state, { ackId }) => ackId,
+  (data, ackId) => _.get(['ackStatus', ackId], data)
+);
 
 export const getDataLines = createSelector(
   getData,

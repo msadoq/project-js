@@ -1,13 +1,36 @@
-import _ from 'lodash/fp';
+import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
+import AckModal from '../../../GroundAlarmView/Components/View/AckModal';
+
 import { sendAlarmAck } from '../../store/actions';
-import AckModal from './AckModal';
+import { getData, getAckStatus } from '../../store/dataReducer';
 
-const mapStateToProps = _.always({});
+const getAlarmsByTimestamps = createSelector(
+  getData,
+  (state, { alarmsTimestamps }) => alarmsTimestamps,
+  (data, alarmsTimestamps) => (
+    alarmsTimestamps.map(ts => data.lines[ts])
+  )
+);
 
-const mapDispatchToProps = {
-  sendAck: sendAlarmAck,
-};
+const mapStateToProps = createStructuredSelector({
+  alarms: getAlarmsByTimestamps,
+  ackStatus: getAckStatus,
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(AckModal);
+const mapDispatchToProps = (dispatch, { viewId, ackId }) => ({
+  sendAck: (alarms, comment) => (
+    dispatch(sendAlarmAck(viewId, ackId, alarms, comment))
+  ),
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  sendAck: comment => dispatchProps.sendAck(stateProps.alarms, comment),
+  ackType: 'oba',
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AckModal);

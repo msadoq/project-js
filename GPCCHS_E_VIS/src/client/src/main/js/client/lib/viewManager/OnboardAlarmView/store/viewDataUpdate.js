@@ -138,17 +138,19 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   // Loop on payload timestamps
   _each(tbdIdPayload, (currentValue, i) => {
     const onBoardAlarm = currentValue.onBoardAlarm;
+    const oid = currentValue.oid;
+    if (!oid || !onBoardAlarm) {
+      return;
+    }
+
     const offset = ep.offset || 0;
     const timestamp = (onBoardAlarm.onBoardDate.value || Number(i)) + offset;
-    const oid = currentValue.oid;
     // TODO: needs to determine on which filters have top be applied
     // // check value verify filters
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-    if (!oid || !onBoardAlarm) {
-      return;
-    }
+
     // Compute acknowledgement State
     let ackState = constants.OBA_ALARM_ACKSTATE_NOACK;
     if (currentValue.ackRequest) {

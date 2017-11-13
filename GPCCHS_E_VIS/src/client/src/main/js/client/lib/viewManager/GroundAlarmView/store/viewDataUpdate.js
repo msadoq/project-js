@@ -144,10 +144,14 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
 
   // Loop on payload
   _each(tbdIdPayload, (currentValue, i) => {
-    const offset = ep.offset || 0;
     const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
-    const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
     const oid = currentValue.oid;
+    if (!oid || !groundMonitoringAlarm) {
+      return;
+    }
+
+    const offset = ep.offset || 0;
+    const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
     // TODO do we have to check creation date to validate timestamp ?
     // const timestamp = _get(currentValue, ['creationDate', 'value']);
     // if (typeof timestamp === 'undefined') {
@@ -159,9 +163,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-    if (!oid || !groundMonitoringAlarm) {
-      return;
-    }
+
     // Compute acknowledgement State
     let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
     if (convertData(groundMonitoringAlarm.hasAckRequest) === 'true') {

@@ -155,6 +155,7 @@ class TableView extends React.Component {
     containerHeight: PropTypes.number.isRequired,
     rowHeight: PropTypes.number,
     openAckModal: PropTypes.func.isRequired,
+    openInspector: PropTypes.func.isRequired,
     collapse: PropTypes.func.isRequired,
     uncollapse: PropTypes.func.isRequired,
   }
@@ -201,6 +202,11 @@ class TableView extends React.Component {
           this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms));
         },
         enabled: n > 0,
+      },
+      { type: 'separator' },
+      {
+        label: 'Open Inspector',
+        click: this.props.openInspector,
       },
       { type: 'separator' },
       ...this.props.mainMenu,

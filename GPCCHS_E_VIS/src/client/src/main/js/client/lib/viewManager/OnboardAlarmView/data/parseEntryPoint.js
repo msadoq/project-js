@@ -25,7 +25,7 @@ export default function parseEntryPoint(
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
 
-  const { connectedData, name, stateColors } = entryPoint;
+  const { connectedData, name, stateColors, id } = entryPoint;
 
   const cd = parseConnectedData(
     domains,
@@ -52,6 +52,7 @@ export default function parseEntryPoint(
 
   const ep = {
     [name]: {
+      id,
       tbdId,
       dataId,
       localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,

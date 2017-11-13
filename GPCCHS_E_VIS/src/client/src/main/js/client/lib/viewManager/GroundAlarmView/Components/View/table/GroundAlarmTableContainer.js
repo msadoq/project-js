@@ -6,12 +6,14 @@ import GroundAlarmTable from './GroundAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getDataLines } from '../../../store/dataReducer';
 import { openAckModal, collapseAlarm, uncollapseAlarm } from '../../../store/actions';
+import { getInspectorOptions } from '../../../store/selectors';
 
 const mapStateToProps = createStructuredSelector({
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
   lines: getDataLines,
+  inspectorOptions: getInspectorOptions,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
@@ -20,7 +22,18 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
 });
 
-const GroundAlarmTableContainer = connect(mapStateToProps, mapDispatchToProps)(GroundAlarmTable);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  openInspector: () => ownProps.openInspector(stateProps.inspectorOptions),
+});
+
+const GroundAlarmTableContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(GroundAlarmTable);
 
 GroundAlarmTableContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

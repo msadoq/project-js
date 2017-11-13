@@ -5,14 +5,16 @@ import { connect } from 'react-redux';
 import OnboardAlarmTable from './OnboardAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getDataLines } from '../../../store/dataReducer';
+import { openAckModal } from '../../../store/actions';
 import { collapseAlarm, uncollapseAlarm } from '../../../../GroundAlarmView/store/actions';
-import { openAckModal } from '../../..//store/actions';
+import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
 
 const mapStateToProps = createStructuredSelector({
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
   lines: getDataLines,
+  inspectorOptions: getInspectorOptions,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
@@ -21,7 +23,18 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
 });
 
-const OnboardAlarmTableContainer = connect(mapStateToProps, mapDispatchToProps)(OnboardAlarmTable);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  openInspector: () => ownProps.openInspector(stateProps.inspectorOptions),
+});
+
+const OnboardAlarmTableContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(OnboardAlarmTable);
 
 OnboardAlarmTableContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

@@ -144,7 +144,7 @@ class TableView extends React.Component {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
-    mode: PropTypes.string.isRequired,
+    mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
     lines: PropTypes.arrayOf(PropTypes.shape({

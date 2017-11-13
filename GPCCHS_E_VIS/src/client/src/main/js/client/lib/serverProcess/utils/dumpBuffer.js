@@ -80,7 +80,7 @@ const dumpLog = () => {
  * @param timestamp: buffer corresponding timestamp in ms
  * @param buffer: the buffer to save in file
  * */
-const dumpBuffer = (dataId, timestamp, buffer) => {
+const dumpBuffer = (dataId, timestamp, buffer, extension) => {
   // check dump activation
   if (get('DUMP') === 'on') {
     // Create dump folder if it doesn't exist
@@ -89,7 +89,7 @@ const dumpBuffer = (dataId, timestamp, buffer) => {
     const dumpPath = dataFolder[join(dataId.catalog, dataId.comObject, dataId.parameterName)];
     if (dumpPath) {
       // save a file per timestamp with binary payload
-      writeFile(join(dumpPath, timestamp.toString()), buffer, (err) => {
+      writeFile(join(dumpPath, `${timestamp.toString()}.${extension}`), buffer, (err) => {
         if (err) {
           logger.warn(`Error writing dump file ${timestamp}`);
         }

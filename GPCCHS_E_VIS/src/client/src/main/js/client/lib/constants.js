@@ -165,6 +165,10 @@ module.exports = {
     GroundAlarmView: 'viga',
     OnboardAlarmView: 'viba',
   },
+  DUMP_EXTENSIONS: {
+    ARCHIVE: 'arc',
+    PUB_SUB: 'pub',
+  },
   // REDUX SYNCHRONIZATION
   REDUX_SYNCHRONIZATION_PATCH_KEY: 'patch',
   TIMING_DATA: 'timing',

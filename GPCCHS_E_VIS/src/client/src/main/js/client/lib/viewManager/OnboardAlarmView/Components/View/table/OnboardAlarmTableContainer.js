@@ -1,10 +1,12 @@
+import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import OnboardAlarmTable from './OnboardAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getDataLines } from '../../../store/dataReducer';
-import { openAckModal } from '../../../store/actions';
+import { collapseAlarm, uncollapseAlarm } from '../../../../GroundAlarmView/store/actions';
+import { openAckModal } from '../../..//store/actions';
 
 const mapStateToProps = createStructuredSelector({
   mode: getAlarmMode,
@@ -13,9 +15,11 @@ const mapStateToProps = createStructuredSelector({
   lines: getDataLines,
 });
 
-const mapDispatchToProps = {
-  openAckModal,
-};
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  openAckModal: _.compose(dispatch, openAckModal),
+  collapse: oid => dispatch(collapseAlarm(viewId, oid)),
+  uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
+});
 
 const OnboardAlarmTableContainer = connect(mapStateToProps, mapDispatchToProps)(OnboardAlarmTable);
 

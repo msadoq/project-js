@@ -177,6 +177,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       oid,
       timestamp,
       ackState,
+      collapsed: true,
       satellite: convertData(currentValue.satellite),
       telemetryType: convertData(currentValue.telemetryType),
       onBoardDate: convertData(onBoardAlarm.onBoardDate),

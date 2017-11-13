@@ -1,91 +1,67 @@
+export const data = (length, value) => {
+  const points = {};
+  for (let i = 0; i < length; i += 1) {
+    let x = 10 + i;
+    let val = value + ((15 * i) % 1000);
+    points[x] = {
+      x,
+      value: val,
+      masterTime: x,
+      refTime: x,
+      symbol: val.toString(),
+      valX: x,
+    };
+  }
+  return points;
+};
+
+export const dataColorRandom = (length, value, colors) => {
+  const points = {};
+  for (let i = 0; i < length; i += 1) {
+    let x = 10 + i;
+    let val = value + ((15 * i) % 1000);
+    points[x] = {
+      x,
+      value: val,
+      masterTime: x,
+      refTime: x,
+      symbol: val.toString(),
+      valX: x,
+      color: `#AA${colors[Math.round(Math.random() * 14)]}`,
+    };
+  }
+  return points;
+};
 
 
 export const data1000Points = () => {
-  const points = [];
-  for (let i = 0; i < 1000; i += 1) {
-    points.push({
-      x: 100000 + i,
-      value: 500 + ((15 * i) % 500),
-    });
-  }
-  return points;
+  return data(1000, 500);
 };
 
 export const data1000Points2 = () => {
-  const points = [];
-  for (let i = 0; i < 1000; i += 1) {
-    points.push({
-      x: 100000 + i,
-      value: 1100 + ((15 * i) % 500),
-    });
-  }
-  return points;
+  return data(1000, 1100);
 };
 
 export const data10000Points = () => {
-  const points = [];
-  for (let i = 0; i < 10000; i += 1) {
-    points.push({
-      x: 100000 + (i / 10),
-      value: 500 + ((15 * i) % 500),
-    });
-  }
-  return points;
+  return data(10000, 500);
 };
 
 export const data10000Points2 = () => {
-  const points = [];
-  for (let i = 0; i < 10000; i += 1) {
-    points.push({
-      x: 100000 + (i / 10),
-      value: 1100 + ((15 * i) % 500),
-    });
-  }
-  return points;
+  return data(10000, 1100);
 };
 
 export const data25000Points = () => {
-  const points = [];
-  for (let i = 0; i < 25000; i += 1) {
-    points.push({
-      x: 100000 + (i / 25),
-      value: 600 + ((15 * i) % 500),
-    });
-  }
-  return points;
+  return data(25000, 600);
 };
 
 export const data25000Points2 = () => {
-  const points = [];
-  for (let i = 0; i < 25000; i += 1) {
-    points.push({
-      x: 100000 + (i / 25),
-      value: 1200 + ((15 * i) % 500),
-    });
-  }
-  return points;
+  return data(25000, 600);
 };
 
 export const data10000PointsColorChanging = () => {
-  const points = [];
-  for (let i = 0; i < 10000; i += 1) {
-    points.push({
-      x: 100000 + (i / 10),
-      value: 500 + ((15 * i) % 500),
-      color: `#AA${['0', '1', '2', '3', '4', '5', '6', '7', '9', 'A', 'C', 'D', 'E', 'F'][Math.round(Math.random() * 14)]}`,
-    });
-  }
-  return points;
+  return dataColorRandom(10000, 500, ['0', '1', '2', '3', '4', '5', '6', '7', '9', 'A', 'C', 'D', 'E', 'F']);
 };
 
 export const data10000Points4Colors = () => {
-  const points = [];
-  for (let i = 0; i < 10000; i += 1) {
-    points.push({
-      x: 100000 + (i / 10),
-      value: 500 + ((15 * i) % 500),
-      color: `#AA${['0', '6', 'A', 'F'][Math.round(i / 2500)]}`,
-    });
-  }
-  return points;
+  return dataColorRandom(10000, 500, ['0', '6', 'A', 'F']);
 };

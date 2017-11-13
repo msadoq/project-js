@@ -6,46 +6,6 @@ const _ = require('lodash');
 describe('LineCanvasCommon :: drawLinesCanvas', () => {
   const propsStub = {
     current: 1509986030848,
-    data: {
-      TMMGT_BC_VIRTCHAN3: {
-        1509985461000: {
-          color: '#000000',
-          masterTime: 1509985461000,
-          refTime: 1509985461000,
-          symbol: '131',
-          valX: 1509985461000,
-          value: 10,
-          x: 10,
-        },
-        1509985462000: {
-          color: '#F00000',
-          masterTime: 1509985462000,
-          refTime: 1509985462000,
-          symbol: '132',
-          valX: 1509985462000,
-          value: 20,
-          x: 20,
-        },
-        1509985463000: {
-          color: '#FF0000',
-          masterTime: 1509985463000,
-          refTime: 1509985463000,
-          symbol: '133',
-          valX: 1509985463000,
-          value: 30,
-          x: 30,
-        },
-        1509985464000: {
-          color: '#FFF000',
-          masterTime: 1509985464000,
-          refTime: 1509985464000,
-          symbol: '134',
-          valX: 1509985464000,
-          value: 40,
-          x: 40,
-        },
-      },
-    },
     divStyle: {
       height: 1000,
       left: 0,
@@ -100,7 +60,7 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
         dataAccessor: 'TMMGT_BC_VIRTCHAN3',
         fill: '#000000',
         id: 'TMMGT_BC_VIRTCHAN3',
-        // indexes: [1509985461000, 1509985462000, 1509985463000, 1509985464000],
+        indexes: [1509985461000, 1509985462000, 1509985463000, 1509985464000],
         lineSize: 2,
         lineStyle: 'Continuous',
         pointSize: 10,
@@ -129,16 +89,6 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
       .domain([0, 100])
       .range([1000, 0]),
   };
-  // const propsStub = {
-  //   ...propsStub,
-  //   {
-  //     lines: [
-  //       {
-  //
-  //       }
-  //     ],
-  //   }
-  // }
   const operations = [];
   const getContext = () => {
     const handler = {

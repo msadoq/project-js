@@ -17,11 +17,12 @@ const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extract
 
 const CollapseButton = ({ onClick, collapsed }) => (
   <span
+    title={collapsed ? 'Uncollapse' : 'Collapse'}
     onClick={(e) => {
       e.stopPropagation();
       onClick(e);
     }}
-    style={{ cursor: 'default' }}
+    style={{ cursor: 'pointer' }}
   >
     <Label><Glyphicon glyph={collapsed ? 'plus' : 'minus'} /></Label>
   </span>

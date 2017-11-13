@@ -12,7 +12,13 @@ const dataFolder = {};
 
 const createDumpFolder = (dataId) => {
   // check validity of dataId
-  if (!dataId || !dataId.parameterName) {
+  if (!dataId) {
+    logger.error('Cannot create/get dump folder, dataId is undefined');
+    return;
+  }
+
+  if (!dataId.parameterName) {
+    logger.error('Cannot create/get dump folder, dataId has no property "parameterName"');
     return;
   }
   // Check if folder already exists
@@ -94,6 +100,9 @@ const dumpBuffer = (dataId, timestamp, buffer, extension) => {
           logger.warn(`Error writing dump file ${timestamp}`);
         }
       });
+    } else {
+      logger.error('Could not get path of dump folder, dataId may be in cause');
+      logger.error(`dataId : ${dataId}`);
     }
   }
 };

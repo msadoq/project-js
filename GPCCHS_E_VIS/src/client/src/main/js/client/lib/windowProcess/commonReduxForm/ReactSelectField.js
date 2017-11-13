@@ -9,7 +9,10 @@ export default class ReactSelectField extends React.Component {
   static propTypes = {
     input: PropTypes.shape({
       name: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
       onChange: PropTypes.func,
       onBlur: PropTypes.func,
     }).isRequired,
@@ -20,7 +23,10 @@ export default class ReactSelectField extends React.Component {
     clearable: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
     })).isRequired,
     meta: PropTypes.shape({
       active: PropTypes.bool,

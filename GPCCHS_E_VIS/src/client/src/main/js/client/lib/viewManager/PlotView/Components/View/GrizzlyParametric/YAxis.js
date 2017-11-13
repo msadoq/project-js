@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
@@ -6,6 +6,7 @@ import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
 import styles from './GrizzlyChart.css';
+import Axis from './Axis';
 
 export default class YAxis extends Component {
 
@@ -20,7 +21,6 @@ export default class YAxis extends Component {
     extents: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
-    top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     yAxisWidth: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
@@ -43,6 +43,7 @@ export default class YAxis extends Component {
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
     format: PropTypes.string,
+    formatAsDate: PropTypes.bool,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
       color: PropTypes.string,
@@ -53,8 +54,9 @@ export default class YAxis extends Component {
       underline: PropTypes.bool,
       size: PropTypes.number,
     }),
-    formatAsDate: PropTypes.bool,
-  }
+    xAxisHeight: PropTypes.number.isRequired,
+    side: PropTypes.number.isRequired,
+  };
 
   static defaultProps = {
     logarithmic: false,
@@ -79,7 +81,7 @@ export default class YAxis extends Component {
       size: 11,
     },
     formatAsDate: false,
-  }
+  };
 
   componentDidMount() {
     this.draw();
@@ -124,16 +126,14 @@ export default class YAxis extends Component {
       gridSize,
     } = this.props;
     select(this.svgAxisEl).selectAll('line').attr('stroke-width', gridSize);
-  }
+  };
 
   drawLinesLabel = () => {
     const {
       lines,
       axisId,
       getLabelPosition,
-      yAxisWidth,
       showLabels,
-      yAxesAt,
     } = this.props;
     if (!showLabels || !lines) {
       return;
@@ -142,21 +142,35 @@ export default class YAxis extends Component {
     const positions = getLabelPosition(axisId);
     lines.forEach((line) => {
       const el = this[`label-${line.id}-el`];
-      let linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined');
-      linePosition = linePosition ? linePosition[line.id] : null;
-      if (!linePosition || (linePosition.y === null && el)) {
-        el.setAttribute('style', 'display:none;');
-      } else if (el) {
-        let style = `background:${line.fill || '#222222'};top:${linePosition.y}px;`;
-        if (yAxesAt === 'left') {
-          style += `transform: translate(-102%, -50%);left: ${yAxisWidth - 8}px;`;
-        } else {
-          style += `transform: translate(102%, -50%);right: ${yAxisWidth - 8}px;`;
-        }
-        el.setAttribute('style', style);
-      }
+      this.drawLineLabel(line, positions, el);
     });
-  }
+  };
+
+  /**
+   * @param line
+   * @param positions
+   * @param el
+   */
+  drawLineLabel = (line, positions, el) => {
+    const {
+      yAxisWidth,
+      yAxesAt,
+    } = this.props;
+
+    let linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined');
+    linePosition = linePosition ? linePosition[line.id] : null;
+    if (!linePosition || (linePosition.y === null && el)) {
+      el.setAttribute('style', 'display:none;');
+    } else if (el) {
+      let style = `background:${line.fill || '#222222'};top:${linePosition.y}px;`;
+      if (yAxesAt === 'left') {
+        style += `transform: translate(-102%, -50%);left: ${yAxisWidth - 8}px;`;
+      } else {
+        style += `transform: translate(102%, -50%);right: ${yAxisWidth - 8}px;`;
+      }
+      el.setAttribute('style', style);
+    }
+  };
 
   drawLabel = () => {
     const {
@@ -198,7 +212,7 @@ export default class YAxis extends Component {
     }
     transform += ';';
     this.labelEl.setAttribute('style', `${style};${transform}`);
-  }
+  };
 
   draw = () => {
     const {
@@ -292,10 +306,10 @@ export default class YAxis extends Component {
 
     yAxisFunction(svgGroup);
     this.axisDidDraw();
-  }
+  };
 
-  assignEl = (el) => { this.svgAxisEl = el; }
-  assignLabelEl = (el) => { this.labelEl = el; }
+  assignEl = (el) => { this.svgAxisEl = el; };
+  assignLabelEl = (el) => { this.labelEl = el; };
 
   memoizeFormatter = _memoize(f =>
     d => d3Format(f)(d)
@@ -307,86 +321,47 @@ export default class YAxis extends Component {
 
   memoizeAssignRef = _memoize(lineId =>
     (el) => { this[`label-${lineId}-el`] = el; }
-  )
+  );
 
   render() {
     const {
+      lines,
+      showLabels,
+      label,
       height,
-      yAxisWidth,
+      xAxisHeight,
+      index,
+      showGrid,
       chartWidth,
+      yAxisWidth,
+      labelStyle,
       margin,
       yAxesAt,
-      showLabels,
-      index,
-      top,
-      showGrid,
-      label,
-      labelStyle,
-      lines,
-      // format,
+      xAxesAt,
+      side,
     } = this.props;
 
-    const axisWidth = index === 0 && showGrid ? chartWidth + yAxisWidth : yAxisWidth;
-
-    const divStyle = {};
-    divStyle.height = height;
-    divStyle.width = axisWidth;
-    divStyle.top = top;
-    if (yAxesAt === 'left') {
-      divStyle.left = margin;
-    } else if (yAxesAt === 'right' && index === 0) {
-      divStyle.left = 0;
-    } else if (yAxesAt === 'right') {
-      divStyle.right = margin;
-    } else {
-      divStyle.left = 0;
-    }
-
-    const style = {};
-    // vertical position
-    style.width = axisWidth;
-    style.height = height;
-
     return (
-      <div
-        style={divStyle}
-        className={styles.yAxisDiv}
-      >
-        <span
-          ref={this.assignLabelEl}
-          className={classnames(
-            'label',
-            styles.yAxisLabel,
-            {
-              [styles.labelUnderline]: labelStyle.underline,
-              [styles.labelBold]: labelStyle.bold,
-              [styles.labelItalic]: labelStyle.italic,
-            }
-          )}
-        >
-          { label }
-        </span>
-        {
-          lines.map(line =>
-            <span
-              key={line.id}
-              className={classnames(
-                'label',
-                styles.yAxisLineLabel,
-                { hidden: !showLabels }
-              )}
-              ref={this.memoizeAssignRef(line.id)}
-            >
-              {line.id}
-            </span>
-          )
-        }
-        <svg
-          style={style}
-          ref={this.assignEl}
-          className={styles.yAxis}
-        />
-      </div>
+      <Axis
+        direction="vertical"
+        lines={lines}
+        showLabels={showLabels}
+        label={label}
+        height={height}
+        xAxisHeight={xAxisHeight}
+        index={index}
+        showGrid={showGrid}
+        chartWidth={chartWidth}
+        yAxisWidth={yAxisWidth}
+        labelStyle={labelStyle}
+        margin={margin}
+        yAxesAt={yAxesAt}
+        xAxesAt={xAxesAt}
+        side={side}
+        assignLabelEl={this.assignLabelEl}
+        assignEl={this.assignEl}
+        memoizeAssignRef={this.memoizeAssignRef}
+      />
     );
   }
 }

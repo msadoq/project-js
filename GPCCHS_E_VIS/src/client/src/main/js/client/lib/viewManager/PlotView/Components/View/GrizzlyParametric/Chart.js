@@ -837,6 +837,7 @@ export default class Chart extends React.Component {
               labelStyle={yAxis.labelStyle}
               formatAsDate={yAxis.formatAsDate}
               getLabelPosition={this.getLabelPosition}
+              side={this.yAxesUniq.length * this.yAxisWidth}
             />
           )
         }
@@ -872,6 +873,7 @@ export default class Chart extends React.Component {
               labelStyle={xAxis.labelStyle}
               formatAsDate={xAxis.formatAsDate}
               getLabelPosition={this.getLabelPosition}
+              yAxisWidth={this.yAxisWidth}
             />
           )
         }
@@ -890,7 +892,6 @@ export default class Chart extends React.Component {
                 showLabelsY={pair.yAxis.showLabels}
                 lines={pair.lines}
                 indexes={pair.indexes}
-                data={pair.data}
                 updateLabelPosition={this.updateLabelPosition}
                 perfOutput={perfOutput}
                 divStyle={this.divStyle}

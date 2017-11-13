@@ -1,13 +1,14 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
 import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
-import { axisTop, axisBottom } from 'd3-axis';
-import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
+import { axisBottom, axisTop } from 'd3-axis';
+import { getZoomLevel, levelsRules } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
+import Axis from './Axis';
 
 export default class XAxis extends Component {
 
@@ -56,7 +57,8 @@ export default class XAxis extends Component {
       underline: PropTypes.bool,
       size: PropTypes.number,
     }),
-  }
+    yAxisWidth: PropTypes.number.isRequired,
+  };
 
   static defaultProps = {
     logarithmic: false,
@@ -81,7 +83,7 @@ export default class XAxis extends Component {
       size: 11,
     },
     formatAsDate: false,
-  }
+  };
 
   componentDidMount() {
     this.draw();
@@ -127,25 +129,21 @@ export default class XAxis extends Component {
       const levelRule = levelsRules[zoomLevel];
       return timeFormat(levelRule.formatD3);
     }
-  )
+  );
 
   axisDidDraw = () => {
     const {
       gridSize,
     } = this.props;
     select(this.svgAxisEl).selectAll('line').attr('stroke-width', gridSize);
-  }
+  };
 
   drawLinesLabel = () => {
     const {
       lines,
       axisId,
       getLabelPosition,
-      // margin,
-      height,
       showLabels,
-      index,
-      xAxesAt,
     } = this.props;
     if (!showLabels || !lines) {
       return;
@@ -154,21 +152,36 @@ export default class XAxis extends Component {
     const positions = getLabelPosition(axisId);
     lines.forEach((line) => {
       const el = this[`label-${line.id}-el`];
-      let linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined');
-      linePosition = linePosition ? linePosition[line.id] : null;
-      if (!linePosition || (linePosition.x === null && el)) {
-        el.setAttribute('style', 'display:none;');
-      } else if (el) {
-        let style = `background:${line.fill || '#222222'};left:${linePosition.x}px;`;
-        if (xAxesAt === 'top') {
-          style += `transform: translate(-50%, 0%);top: ${8}px;`;
-        } else {
-          style += `transform: translate(-50%, 0%);top: ${index === 0 ? height : 0}px;`;
-        }
-        el.setAttribute('style', style);
-      }
+      this.drawLineLabel(line, positions, el);
     });
-  }
+  };
+
+  /**
+   * @param line
+   * @param positions
+   * @param el
+   */
+  drawLineLabel = (line, positions, el) => {
+    const {
+      height,
+      index,
+      xAxesAt,
+    } = this.props;
+
+    let linePosition = positions.find(pos => typeof pos[line.id] !== 'undefined');
+    linePosition = linePosition ? linePosition[line.id] : null;
+    if (!linePosition || (linePosition.x === null && el)) {
+      el.setAttribute('style', 'display:none;');
+    } else if (el) {
+      let style = `background:${line.fill || '#222222'};left:${linePosition.x}px;`;
+      if (xAxesAt === 'top') {
+        style += `transform: translate(-50%, 0%);top: ${8}px;`;
+      } else {
+        style += `transform: translate(-50%, 0%);top: ${index === 0 ? height : 0}px;`;
+      }
+      el.setAttribute('style', style);
+    }
+  };
 
   drawLabel = () => {
     const {
@@ -201,7 +214,7 @@ export default class XAxis extends Component {
     }
     transform += ';';
     this.labelEl.setAttribute('style', `${style};${transform}`);
-  }
+  };
 
   draw = () => {
     const {
@@ -292,10 +305,10 @@ export default class XAxis extends Component {
 
     yAxisFunction(svgGroup);
     this.axisDidDraw();
-  }
+  };
 
-  assignEl = (el) => { this.svgAxisEl = el; }
-  assignLabelEl = (el) => { this.labelEl = el; }
+  assignEl = (el) => { this.svgAxisEl = el; };
+  assignLabelEl = (el) => { this.labelEl = el; };
 
   memoizeFormatter = _memoize(f =>
     d => d3Format(f)(d)
@@ -307,88 +320,47 @@ export default class XAxis extends Component {
 
   memoizeAssignRef = _memoize(lineId =>
     (el) => { this[`label-${lineId}-el`] = el; }
-  )
+  );
 
   render() {
     const {
+      lines,
+      showLabels,
+      label,
       height,
       xAxisHeight,
+      index,
+      showGrid,
       chartWidth,
+      yAxisWidth,
+      labelStyle,
+      margin,
       yAxesAt,
       xAxesAt,
-      margin,
-      showLabels,
-      index,
-      label,
-      labelStyle,
-      lines,
       side,
-      // format,
     } = this.props;
-    const axisHeight = index === 0 ? height + xAxisHeight : xAxisHeight;
-
-    const divStyle = {};
-    divStyle.height = axisHeight;
-    divStyle.width = chartWidth;
-    if (xAxesAt === 'top') {
-      divStyle.top = margin;
-    } else {
-      divStyle.top = index === 0 ? 0 : height + margin;
-    }
-
-    if (yAxesAt === 'left') {
-      divStyle.left = side;
-    } else if (yAxesAt === 'right') {
-      divStyle.right = side;
-    } else {
-      divStyle.left = 0;
-    }
-
-    const style = {};
-    // vertical position
-    style.width = chartWidth;
-    style.height = xAxisHeight;
 
     return (
-      <div
-        style={divStyle}
-        className={styles.xAxisDiv}
-      >
-        <span
-          ref={this.assignLabelEl}
-          className={classnames(
-            'label',
-            styles.xAxisLabel,
-            {
-              [styles.labelUnderline]: labelStyle.underline,
-              [styles.labelBold]: labelStyle.bold,
-              [styles.labelItalic]: labelStyle.italic,
-            }
-          )}
-        >
-          { label }
-        </span>
-        {
-          lines.map(line =>
-            <span
-              key={line.id}
-              className={classnames(
-                'label',
-                styles.xAxisLineLabel,
-                { hidden: !showLabels }
-              )}
-              ref={this.memoizeAssignRef(line.id)}
-            >
-              {line.id}
-            </span>
-          )
-        }
-        <svg
-          style={style}
-          ref={this.assignEl}
-          className={styles.xAxis}
-        />
-      </div>
+      <Axis
+        direction="horizontal"
+        lines={lines}
+        showLabels={showLabels}
+        label={label}
+        height={height}
+        xAxisHeight={xAxisHeight}
+        index={index}
+        showGrid={showGrid}
+        chartWidth={chartWidth}
+        yAxisWidth={yAxisWidth}
+        labelStyle={labelStyle}
+        margin={margin}
+        yAxesAt={yAxesAt}
+        xAxesAt={xAxesAt}
+        side={side}
+        assignLabelEl={this.assignLabelEl}
+        assignEl={this.assignEl}
+        memoizeAssignRef={this.memoizeAssignRef}
+      />
     );
   }
 }

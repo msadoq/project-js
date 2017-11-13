@@ -2,210 +2,222 @@ import React, { PropTypes } from 'react';
 import { createStore } from 'redux';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import GrizzlyChart from '../../lib/viewManager/PlotView/Components/View/Grizzly/Chart';
+import GrizzlyChart from '../../lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart';
 import {
   data1000Points, data1000Points2, data10000Points,
   data10000Points2, data25000Points, data25000Points2,
   data10000PointsColorChanging, data10000Points4Colors,
 } from './data';
+import { scaleLinear } from 'd3-scale';
+import _ from 'lodash/fp';
 
 process.title = 'gpcchs_grizzly_dev';
 
 const SET_GRIZZLY_PROPS = 'SET_GRIZZLY_PROPS';
 
-const propsGrizzly = {
-  height: 600,
-  width: 1000,
-  additionalStyle: {},
-  tooltipColor: 'white',
-  enableTooltip: true,
-  allowYZoom: true,
-  allowYPan: true,
-  allowZoom: true,
-  allowPan: true,
-  perfOutput: true,
-  current: 10000,
-  yAxesAt: 'left',
-  xAxisAt: 'bottom',
-  xAxis: {
-    xExtents: [100000, 101000],
-    tickStep: 10,
-    autoTick: true,
-    showTicks: true,
+const propsStub = {
+  additionalStyle: {
+    display:"block"
   },
-  yAxes: [
-    {
-      id: 'axis-y-1',
-      yExtents: [0, 2000],
-      data: null,
-      orient: 'top',
-      format: '.3f',
-      showAxis: true,
-      showLabels: true,
-      showTicks: true,
-      autoLimits: false,
-      autoTick: true,
-      tickStep: 40,
-      showPointLabels: false,
-      showGrid: true,
-      gridStyle: 'Continuous',
-      gridSize: 2,
-      unit: 'l',
-      label: 'Axis Y One',
-      labelStyle: { color: '#008' },
-      logarithmic: false,
-    },
-    {
-      id: 'axis-y-2',
-      yExtents: [0, 2000],
-      data: null,
-      orient: 'top',
-      format: '.3f',
-      showAxis: true,
-      showLabels: true,
-      showTicks: true,
-      autoLimits: false,
-      autoTick: true,
-      tickStep: 40,
-      showPointLabels: false,
-      showGrid: false,
-      gridStyle: 'Continuous',
-      gridSize: 2,
-      unit: 'l',
-      label: 'Axis Y Two',
-      labelStyle: {},
-      logarithmic: false,
-    },
-  ],
+  allowLasso: true,
+  allowPan: true,
+  allowXPan: true,
+  allowXZoom: true,
+  allowYPan: true,
+  allowYZoom: true,
+  allowZoom: true,
+  current: 10000,
+  enableTooltip: true,
+  height: 500,
+  lines:[],
+  parametric: false,
+  perfOutput: true,
+  tooltipColor: 'white',
+  width: 1000,
+  xAxes: [],
+  xAxesAt: 'bottom',
+  xAxisAt: 'bottom',
+  yAxes: [],
+  yAxesAt: 'left',
 };
 
-const line1000Points = {
-  data: data1000Points(), // data is accessed through axis.data
-  id: 'line-1-1000-points',
-  yAxis: 'axis-y-1',
-  fill: '#F23',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
+const xAxis = {
+  autoLimits:false,
+  autoTick:true,
+  format:".2f",
+  formatAsDate:true,
+  gridSize:1,
+  gridStyle:"Continuous",
+  labelStyle: {
+    color: '#333333',
+    bgColor: '#FFFFFF',
+    align: 'center',
+    font: 'Arial',
+    italic: false,
+    bold: false,
+    underline: false,
+    size: 11,
+  },
+  orient:"top",
+  rank:100,
+  scale:scaleLinear()
+    .domain([0, 100])
+    .range([0, 1000]),
+  showAxis:true,
+  showGrid:true,
+  showLabels:true,
+  showTicks:true,
+  tickStep:20000,
+  unit:"V",
+};
+
+const yAxis = {
+  orient: 'top',
+  format: '.3f',
+  showAxis: true,
+  showLabels: true,
+  showTicks: true,
+  autoLimits: false,
+  autoTick: true,
+  tickStep: 40,
+  showPointLabels: false,
+  showGrid: true,
+  gridStyle: 'Continuous',
+  gridSize: 2,
+  unit: 'l',
+  labelStyle: { color: '#008' },
+  logarithmic: false,
+  scale:scaleLinear()
+  .domain([0, 100])
+  .range([500, 0]),
+};
+
+const line = {
   colorAccessor: 'color',
-};
-
-const line1000Points2 = {
-  data: data1000Points2(), // data is accessed through axis.data
-  id: 'line-2-1000-points',
-  yAxis: 'axis-y-1',
-  fill: '#F46',
-  lineSize: 1,
+  fill: '#FFBF00',
+  lineSize: 2,
   lineStyle: 'Continuous',
-  pointStyle: 'Square',
   pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
+  pointStyle: 'Square',
+  tooltipFormatter: () => {},
+  xAccessor: null,
+  xTooltipAccessor: null,
+  yAccessor: null,
+  yTooltipAccessor: null,
 };
 
-const line1000PointsColorChanging = {
-  data: data10000PointsColorChanging(), // data is accessed through axis.data
-  id: 'line-2-1000-points',
-  yAxis: 'axis-y-1',
-  fill: '#F46',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
-};
-
-const line1000Points4Colors = {
-  data: data10000Points4Colors(), // data is accessed through axis.data
-  id: 'line-2-1000-points',
-  yAxis: 'axis-y-1',
-  fill: '#F46',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
-};
-
-const line10000Points = {
-  data: data10000Points(), // data is accessed through axis.data
-  id: 'line-1-10000-points',
-  yAxis: 'axis-y-1',
-  fill: '#24F',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
-};
-
-const line10000Points2 = {
-  data: data10000Points2(), // data is accessed through axis.data
-  id: 'line-2-10000-points',
-  yAxis: 'axis-y-1',
-  fill: '#46B',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
-};
-
-const line25000Points = {
-  data: data25000Points(), // data is accessed through axis.data
-  id: 'line-1-25000-points',
-  yAxis: 'axis-y-1',
-  fill: '#FA8',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
-};
-
-const line25000Points2 = {
-  data: data25000Points2(), // data is accessed through axis.data
-  id: 'line-2-25000-points',
-  yAxis: 'axis-y-1',
-  fill: '#DA1',
-  lineSize: 1,
-  lineStyle: 'Continuous',
-  pointStyle: 'Square',
-  pointSize: 2,
-  dataAccessor: null,
-  xAccessor: null, // default .x
-  yAccessor: null, // default .value
-  colorAccessor: 'color',
-};
-
-const axisLines2lines1000points = [line1000Points, line1000Points2];
-const axisLines1line10000points = [line10000Points];
-const axisLines1line10000pointsColorChanging = [line1000PointsColorChanging];
-const axisLines1line1000Points4Colors = [line1000Points4Colors];
-const axisLines2lines10000points = [line10000Points, line10000Points2];
-const axisLines1line25000points = [line25000Points];
-const axisLines2lines25000points = [line25000Points, line25000Points2];
+//
+// const line1000Points2 = {
+//   data: data1000Points2(), // data is accessed through axis.data
+//   id: 'line-2-1000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#F46',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const line1000PointsColorChanging = {
+//   data: data10000PointsColorChanging(), // data is accessed through axis.data
+//   id: 'line-2-1000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#F46',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const line1000Points4Colors = {
+//   data: data10000Points4Colors(), // data is accessed through axis.data
+//   id: 'line-2-1000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#F46',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const line10000Points = {
+//   data: data10000Points(), // data is accessed through axis.data
+//   id: 'line-1-10000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#24F',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const line10000Points2 = {
+//   data: data10000Points2(), // data is accessed through axis.data
+//   id: 'line-2-10000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#46B',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const line25000Points = {
+//   data: data25000Points(), // data is accessed through axis.data
+//   id: 'line-1-25000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#FA8',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const line25000Points2 = {
+//   data: data25000Points2(), // data is accessed through axis.data
+//   id: 'line-2-25000-points',
+//   yAxis: 'axis-y-1',
+//   fill: '#DA1',
+//   lineSize: 1,
+//   lineStyle: 'Continuous',
+//   pointStyle: 'Square',
+//   pointSize: 2,
+//   dataAccessor: null,
+//   xAccessor: null, // default .x
+//   yAccessor: null, // default .value
+//   colorAccessor: 'color',
+// };
+//
+// const axisLines1line10000points = [line10000Points];
+// const axisLines1line10000pointsColorChanging = [line1000PointsColorChanging];
+// const axisLines1line1000Points4Colors = [line1000Points4Colors];
+// const axisLines2lines10000points = [line10000Points, line10000Points2];
+// const axisLines1line25000points = [line25000Points];
+// const axisLines2lines25000points = [line25000Points, line25000Points2];
 
 const reducer = (state = {}, action) => {
   switch (action.type) {
@@ -214,12 +226,6 @@ const reducer = (state = {}, action) => {
         ...state,
         grizzlyProps: {
           ...action.payload,
-          lines: action.payload.lines.map(line =>
-            ({
-              ...line,
-              data: [].concat(line.data), // new ref each time
-            })
-          ),
         },
       };
     default:
@@ -232,7 +238,6 @@ const reducer = (state = {}, action) => {
  */
 const store = createStore(reducer, {});
 const dispatch = store.dispatch;
-// const getState = store.dispatch;
 
 const GrizzlyWrapper = props =>
   (props.grizzlyProps ? <GrizzlyChart {...props.grizzlyProps} /> : <h4>No props</h4>);
@@ -267,107 +272,193 @@ render(
               dispatch(
                 {
                   type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines2lines1000points,
-                  },
+                  payload: getPayload([
+                    {
+                      xId: 'time',
+                      yId: 'vBat',
+                      tdbid: 'TMMGT_BC_VIRTCHAN3',
+                      dots: data1000Points()
+                    }
+                  ]),
                 }
               );
             }}
-          >Render with 2000 points</button>
-          <br />
+          >Render with a single line of 1000 points</button>
           <button
             className="btn btn-primary"
             onClick={() => {
               dispatch(
                 {
                   type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines1line10000points,
-                  },
+                  payload: getPayload([
+                    {
+                      xId: 'time',
+                      yId: 'vBat',
+                      tdbid: 'TMMGT_BC_VIRTCHAN3',
+                      dots: data10000PointsColorChanging()
+                    }
+                  ]),
                 }
               );
             }}
-          >Render with 10 000 points</button>
-          <br />
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              dispatch(
-                {
-                  type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines1line10000pointsColorChanging,
-                  },
-                }
-              );
-            }}
-          >Render with 10 000 points and dynamic color</button>
-          <br />
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              dispatch(
-                {
-                  type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines1line1000Points4Colors,
-                  },
-                }
-              );
-            }}
-          >Render with 10 000 points and color changing 3 times</button>
-          <br />
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              dispatch(
-                {
-                  type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines2lines10000points,
-                  },
-                }
-              );
-            }}
-          >Render with 20 000 points</button>
-          <br />
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              dispatch(
-                {
-                  type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines1line25000points,
-                  },
-                }
-              );
-            }}
-          >Render with 25 000 points</button>
-          <br />
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              dispatch(
-                {
-                  type: SET_GRIZZLY_PROPS,
-                  payload: {
-                    ...propsGrizzly,
-                    lines: axisLines2lines25000points,
-                  },
-                }
-              );
-            }}
-          >Render with 50 000 points</button>
+          >Render with a single line of 1000 points</button>
         </div>
       </div>
     </div>
   </Provider>,
   document.getElementById('root')
 );
+
+function getPayload(data) {
+  let payload = {...propsStub};
+
+  _.forEach((d) => {
+    const dots = d.dots;
+    const first = dots[Object.keys(dots)[0]];
+    const indexes = Object.keys(dots).map(Number);
+    const minIndexes = {
+      min: (_.min(indexes)),
+      max: (_.max(indexes)),
+    };
+    const indexesY = Object.values(_.mapValues('value', dots));
+    const minIndexesY = {
+      min: (_.min(indexesY) - 100),
+      max: (_.max(indexesY) + 100),
+    };
+
+    let obj = {};
+    _.forEach((o) => {
+      obj[o.x] = o;
+    }, dots);
+
+    payload = {
+      ...payload,
+      current: first.x,
+      lines: [...payload.lines, {
+        ...line,
+        data: obj,
+        dataAccessor: d.tdbid,
+        id: d.tdbid,
+        indexes: indexes,
+        xAxis: {
+          ...xAxis,
+          id: d.xId,
+          label: d.xId,
+          calculatedExtents: [ minIndexes.min, minIndexes.max ],
+          extents: [ minIndexes.min, minIndexes.max ],
+        },
+        xAxisId: d.xId,
+        yAxis: {
+          ...yAxis,
+          id: d.yId,
+          label: d.yId,
+          extents: [ minIndexesY.min, minIndexesY.max ],
+          calculatedExtents: [ minIndexesY.min, minIndexesY.max ],
+        },
+        yAxisId: d.yId,
+      }],
+      xAxes: [...payload.xAxes, {
+        ...xAxis,
+        extents: [ minIndexes.min, minIndexes.max ],
+        calculatedExtents: [ minIndexes.min, minIndexes.max ],
+        id: d.xId,
+        label: d.xId,
+      }],
+      yAxes: [...payload.yAxes, {
+        ...yAxis,
+        extents: [ minIndexesY.min, minIndexesY.max ],
+        calculatedExtents: [ minIndexesY.min, minIndexesY.max ],
+        id: d.yId,
+        label: d.yId,
+      }],
+    }
+  }, data);
+
+  return payload;
+}
+
+
+//          <br />
+//          <button
+//            className="btn btn-primary"
+//            onClick={() => {
+//              dispatch(
+//                {
+//                  type: SET_GRIZZLY_PROPS,
+//                  payload: getPayload(line10000Points)
+//                }
+//              );
+//            }}
+//          >Render with one line of 10 000 points</button>
+//          <br />
+//          <button
+//            className="btn btn-primary"
+//            onClick={() => {
+//              dispatch(
+//                {
+//                  type: SET_GRIZZLY_PROPS,
+//                  payload: {
+//                    ...propsGrizzly,
+//                    lines: axisLines1line10000pointsColorChanging,
+//                  },
+//                }
+//              );
+//            }}
+//          >Render with one line of 10 000 points and dynamic color</button>
+//          <br />
+//          <button
+//            className="btn btn-primary"
+//            onClick={() => {
+//              dispatch(
+//                {
+//                  type: SET_GRIZZLY_PROPS,
+//                  payload: getPayload(line10000Points)
+//                }
+//              );
+//            }}
+//          >Render with one line of 10 000 points and color changing 3 times</button>
+//          <br />
+//          <button
+//            className="btn btn-primary"
+//            onClick={() => {
+//              dispatch(
+//                {
+//                  type: SET_GRIZZLY_PROPS,
+//                  payload: {
+//                    ...propsGrizzly,
+//                    lines: axisLines2lines10000points,
+//                  },
+//                }
+//              );
+//            }}
+//          >Render with two lines of 10 000 points</button>
+//          <br />
+//          <button
+//            className="btn btn-primary"
+//            onClick={() => {
+//              dispatch(
+//                {
+//                  type: SET_GRIZZLY_PROPS,
+//                  payload: {
+//                    ...propsGrizzly,
+//                    lines: axisLines1line25000points,
+//                  },
+//                }
+//              );
+//            }}
+//          >Render with one line of 25 000 points</button>
+//          <br />
+//          <button
+//            className="btn btn-primary"
+//            onClick={() => {
+//              dispatch(
+//                {
+//                  type: SET_GRIZZLY_PROPS,
+//                  payload: {
+//                    ...propsGrizzly,
+//                    lines: axisLines2lines25000points,
+//                  },
+//                }
+//              );
+//            }}
+//          >Render with two lines of 25 000 points</button>

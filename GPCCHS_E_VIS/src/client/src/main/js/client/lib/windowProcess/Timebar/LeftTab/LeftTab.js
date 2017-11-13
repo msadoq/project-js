@@ -22,7 +22,7 @@ export default class LeftTab extends PureComponent {
     sessions: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        delta: PropTypes.number.isRequired,
+        // delta: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,
         missionEpoch: PropTypes.number.isRequired,
         timestamp: PropTypes.shape({

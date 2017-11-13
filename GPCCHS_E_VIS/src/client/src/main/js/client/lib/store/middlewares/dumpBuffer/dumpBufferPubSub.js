@@ -3,7 +3,7 @@ import { dumpBuffer } from '../../../serverProcess/utils/dumpBuffer';
 import * as types from '../../types';
 import { decode } from '../../../utils/adapters';
 import executionMonitor from '../../../common/logManager/execution';
-
+import { DUMP_EXTENSIONS } from '../../../constants';
 
 const dumpBufferPubSub = () => () => next => (action) => {
   const nextAction = next(action);
@@ -37,7 +37,7 @@ const dumpBufferPubSub = () => () => next => (action) => {
 
         // save a file per timestamp with binary payload
         execution.start('dump buffer');
-        dumpBuffer(dataId, timestamp.ms, dataBuffer);
+        dumpBuffer(dataId, timestamp.ms, dataBuffer, DUMP_EXTENSIONS.PUB_SUB);
         execution.stop('dump buffer');
       }
     }

@@ -34,6 +34,7 @@ Object {
         "viewType": "HistoryView",
       },
     },
+    "mode": undefined,
     "views": Array [
       "plot1",
       "hist1",
@@ -65,6 +66,7 @@ Object {
         "viewType": "PlotView",
       },
     },
+    "mode": undefined,
     "views": Array [
       "plot1",
     ],
@@ -93,6 +95,7 @@ Object {
         "viewType": "HistoryView",
       },
     },
+    "mode": undefined,
     "views": Array [
       "hist1",
     ],

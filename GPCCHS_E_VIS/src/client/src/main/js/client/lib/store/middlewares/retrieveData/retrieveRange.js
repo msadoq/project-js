@@ -20,7 +20,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
 
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
-      const { dataId, filters, intervals } = neededRange[tbdIds[i]];
+      const { dataId, filters, intervals, mode } = neededRange[tbdIds[i]];
       const rangesRecords = getRangesRecords(tbdId, intervals);
       if (Object.keys(rangesRecords[tbdId]).length !== 0) {
         dispatch(newData(rangesRecords));
@@ -40,7 +40,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
             tbdId,
             dataId,
             missingIntervals[j],
-            { filters }
+            { filters, alarmMode: { mode } }
           );
 
           add(queryId, tbdId, type, dataId);

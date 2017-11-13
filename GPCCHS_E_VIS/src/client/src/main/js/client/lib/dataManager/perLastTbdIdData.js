@@ -13,8 +13,9 @@ export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
   }
   const newMap = lastTbdIdMap || {};
   if (!newMap[tbdId]) {
-    const { dataId, filters } = ep;
+    const { dataId, filters, mode } = ep;
     newMap[tbdId] = {
+      mode,
       dataId,
       localIds: {},
       views: [viewId],

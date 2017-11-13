@@ -2,9 +2,10 @@ package dataControllerUtils.protobuf;
 
 import "./Timestamp.proto";
 import "./Filter.proto";
+import "./AlarmMode.proto";
 
 message QueryArguments {
-extensions 9 to 109;
+extensions 10 to 109;
     optional string sortFieldName = 1;
       enum SORT_ORDER {
           ASC = 0;
@@ -21,4 +22,5 @@ extensions 9 to 109;
     optional Timestamp getLastFromTime = 6;
     optional uint32 getLastNumber = 7;
     repeated Filter filters = 8;
+    optional AlarmMode alarmMode = 9;
 }

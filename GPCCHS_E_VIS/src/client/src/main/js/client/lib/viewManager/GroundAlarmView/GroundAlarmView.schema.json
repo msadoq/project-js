@@ -41,7 +41,7 @@
                     "type": "string"
                 },
                 "mode": {
-                  "type": "string"
+                  "type": "number"
                 }
             },
             "required": [

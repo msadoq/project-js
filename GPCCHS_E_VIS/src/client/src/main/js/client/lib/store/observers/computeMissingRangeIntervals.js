@@ -36,7 +36,7 @@ import mergeInterval from '../../common/intervals/merge';
  */
 export default function computeMissingRangeIntervals(dataMap, lastMap) {
   const queries = {};
-  _each(dataMap.perRangeTbdId, ({ dataId, localIds, views, filters }, tbdId) => {
+  _each(dataMap.perRangeTbdId, ({ dataId, localIds, views, filters, mode }, tbdId) => {
     _each(localIds, (value, localId) => {
       let needed = [];
       const knownInterval =
@@ -64,6 +64,7 @@ export default function computeMissingRangeIntervals(dataMap, lastMap) {
         // save filters if they are stored in remoteId
         const elements = tbdId.split(':');
         queries[tbdId] = {
+          mode,
           dataId,
           filters: elements.length === 4 ? filters : undefined,
           intervals: [],

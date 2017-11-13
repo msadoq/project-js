@@ -13,11 +13,12 @@ export function addEpInRangeTbdIdMap(rangeTbdIdMap, ep, viewId) {
   }
   const newMap = rangeTbdIdMap || {};
   if (!newMap[tbdId]) {
-    const { dataId, filters } = ep;
+    const { dataId, filters, mode } = ep;
     newMap[tbdId] = {
       dataId,
       localIds: {},
       views: [viewId],
+      mode,
       filters,
     };
   } else {

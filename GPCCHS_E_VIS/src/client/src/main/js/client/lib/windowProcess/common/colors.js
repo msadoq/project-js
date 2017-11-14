@@ -1,3 +1,4 @@
+import _map from 'lodash/map';
 import { get } from '../../common/configurationManager';
 
 const colors = [
@@ -10,6 +11,18 @@ const colors = [
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
 const getStateColors = () => get('STATE_COLORS');
+
+const getStateColorFilters = () => (
+  _map(getStateColors(), (color, monitoringState) => (
+    {
+      color,
+      condition: {
+        field: 'monitoringState',
+        operator: '=',
+        operand: monitoringState,
+      },
+    }
+)));
 
 const getStateColorsCSSVars =
   () => Object.keys(getStateColors()).map(k => ({
@@ -24,5 +37,6 @@ export default {
   colors,
   getRandomColor,
   getStateColors,
+  getStateColorFilters,
   getStateColorsCSSVars,
 };

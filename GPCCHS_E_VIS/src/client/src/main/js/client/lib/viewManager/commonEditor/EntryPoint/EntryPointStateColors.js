@@ -6,7 +6,6 @@ import {
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import StateColorsFields from '../Fields/StateColorsFields';
-import EntryPointMonitoringStateColors from './EntryPointMonitoringStateColors';
 import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 
 /*
@@ -29,8 +28,6 @@ const EntryPointStateColors = (props) => {
 
   return (
     <div>
-      <EntryPointMonitoringStateColors />
-      <h4>Custom colors</h4>
       <Form
         horizontal
         onSubmit={handleSubmit}

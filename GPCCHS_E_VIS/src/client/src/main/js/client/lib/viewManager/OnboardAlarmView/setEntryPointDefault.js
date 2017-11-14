@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { get } from '../../common/configurationManager';
 import { getStateColorFilters } from '../../windowProcess/common/colors';
 import constants from '../../constants';
@@ -7,6 +8,7 @@ export default function (entryPoint) {
 }
 
 const getNewOnboardAlarmEntryPoint = () => ({
+  id: v4(),
   name: 'NewEntryPoint',
   connectedData: {
     mode: constants.OBA_ALARM_MODE_ALL,

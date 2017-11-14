@@ -8,19 +8,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": 1,
-          "timestamp": 1111,
         },
         Object {
           "oid": 2,
-          "timestamp": 2222,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 3333,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -31,7 +27,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 1111,
+      "oid": 1,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -39,7 +35,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 2222,
+      "oid": 2,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -48,7 +44,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 4444,
+      "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -72,7 +68,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 3333,
+      "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -118,19 +114,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": "ERROR",
-          "timestamp": 1111,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 2222,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 3333,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -142,7 +134,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 1111,
+      "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -166,7 +158,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 2222,
+      "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -190,7 +182,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 3333,
+      "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -214,7 +206,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 4444,
+      "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -245,19 +237,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": 1,
-          "timestamp": 1111,
         },
         Object {
           "oid": 2,
-          "timestamp": 2222,
         },
         Object {
           "oid": 3,
-          "timestamp": 3333,
         },
         Object {
           "oid": 4,
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -268,7 +256,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 1111,
+      "oid": 1,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -276,7 +264,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 2222,
+      "oid": 2,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -284,7 +272,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 3333,
+      "oid": 3,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -292,7 +280,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 4444,
+      "oid": 4,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -323,19 +311,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 1111,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 2222,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 3333,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -347,7 +331,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 1111,
+      "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -371,7 +355,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 2222,
+      "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -395,7 +379,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 3333,
+      "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -419,7 +403,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 4444,
+      "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
@@ -450,7 +434,6 @@ Array [
       "alarms": Array [
         Object {
           "oid": 1,
-          "timestamp": 1111,
         },
       ],
       "comment": "COMMENT",
@@ -461,7 +444,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 1111,
+      "oid": 1,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
     "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
@@ -492,19 +475,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": 1,
-          "timestamp": 1111,
         },
         Object {
           "oid": 2,
-          "timestamp": 2222,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 3333,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -515,7 +494,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 1111,
+      "oid": 1,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
@@ -523,7 +502,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 2222,
+      "oid": 2,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
@@ -532,7 +511,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 4444,
+      "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -556,7 +535,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 3333,
+      "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -602,19 +581,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": "ERROR",
-          "timestamp": 1111,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 2222,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 3333,
         },
         Object {
           "oid": "ERROR",
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -626,7 +601,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 1111,
+      "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -650,7 +625,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 2222,
+      "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -674,7 +649,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 3333,
+      "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -698,7 +673,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "ERROR",
-      "timestamp": 4444,
+      "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -729,19 +704,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": 1,
-          "timestamp": 1111,
         },
         Object {
           "oid": 2,
-          "timestamp": 2222,
         },
         Object {
           "oid": 3,
-          "timestamp": 3333,
         },
         Object {
           "oid": 4,
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -752,7 +723,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 1111,
+      "oid": 1,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
@@ -760,7 +731,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 2222,
+      "oid": 2,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
@@ -768,7 +739,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 3333,
+      "oid": 3,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
@@ -776,7 +747,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 4444,
+      "oid": 4,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
@@ -807,19 +778,15 @@ Array [
       "alarms": Array [
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 1111,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 2222,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 3333,
         },
         Object {
           "oid": "TIMEOUT",
-          "timestamp": 4444,
         },
       ],
       "comment": "COMMENT",
@@ -831,7 +798,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 1111,
+      "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -855,7 +822,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 2222,
+      "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -879,7 +846,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 3333,
+      "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -903,7 +870,7 @@ Array [
     "payload": Object {
       "ackId": "ACKID",
       "error": "Timeout",
-      "timestamp": 4444,
+      "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
@@ -934,7 +901,6 @@ Array [
       "alarms": Array [
         Object {
           "oid": 1,
-          "timestamp": 1111,
         },
       ],
       "comment": "COMMENT",
@@ -945,7 +911,7 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "timestamp": 1111,
+      "oid": 1,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
     "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",

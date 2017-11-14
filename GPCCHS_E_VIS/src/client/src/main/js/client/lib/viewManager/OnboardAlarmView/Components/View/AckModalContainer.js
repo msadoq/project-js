@@ -6,16 +6,16 @@ import AckModal from '../../../GroundAlarmView/Components/View/AckModal';
 import { sendAlarmAck } from '../../store/actions';
 import { getData, getAckStatus } from '../../store/dataReducer';
 
-const getAlarmsByTimestamps = createSelector(
+const getAlarmsByOids = createSelector(
   getData,
-  (state, { alarmsTimestamps }) => alarmsTimestamps,
-  (data, alarmsTimestamps) => (
-    alarmsTimestamps.map(ts => data.lines[ts])
+  (state, { alarmsOids }) => alarmsOids,
+  (data, alarmsOids) => (
+    alarmsOids.map(ts => data.lines[ts])
   )
 );
 
 const mapStateToProps = createStructuredSelector({
-  alarms: getAlarmsByTimestamps,
+  alarms: getAlarmsByOids,
   ackStatus: getAckStatus,
 });
 

@@ -40,17 +40,17 @@ describe('ack:middleware', () => {
       const viewId = ackType === 'gma' ? Object.keys(state.GroundAlarmViewData)[0] : Object.keys(state.OnboardAlarmViewData)[0];
       test('simple ack success', () => {
         const store = mockStore(state);
-        const alarms = [{ oid: 1, timestamp: 1111 }];
+        const alarms = [{ oid: 1 }];
         store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
         expect(store.getActions()).toMatchSnapshot();
       });
       test('several ack success', () => {
         const store = mockStore(state);
         const alarms = [
-          { oid: 1, timestamp: 1111 },
-          { oid: 2, timestamp: 2222 },
-          { oid: 3, timestamp: 3333 },
-          { oid: 4, timestamp: 4444 },
+          { oid: 1 },
+          { oid: 2 },
+          { oid: 3 },
+          { oid: 4 },
         ];
         store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
         expect(store.getActions()).toMatchSnapshot();
@@ -58,10 +58,10 @@ describe('ack:middleware', () => {
       test('several ack failure', () => {
         const store = mockStore(state);
         const alarms = [
-          { oid: 'ERROR', timestamp: 1111 },
-          { oid: 'ERROR', timestamp: 2222 },
-          { oid: 'ERROR', timestamp: 3333 },
-          { oid: 'ERROR', timestamp: 4444 },
+          { oid: 'ERROR' },
+          { oid: 'ERROR' },
+          { oid: 'ERROR' },
+          { oid: 'ERROR' },
         ];
         store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
         expect(store.getActions()).toMatchSnapshot();
@@ -69,10 +69,10 @@ describe('ack:middleware', () => {
       test('several ack timeout', () => {
         const store = mockStore(state);
         const alarms = [
-          { oid: 'TIMEOUT', timestamp: 1111 },
-          { oid: 'TIMEOUT', timestamp: 2222 },
-          { oid: 'TIMEOUT', timestamp: 3333 },
-          { oid: 'TIMEOUT', timestamp: 4444 },
+          { oid: 'TIMEOUT' },
+          { oid: 'TIMEOUT' },
+          { oid: 'TIMEOUT' },
+          { oid: 'TIMEOUT' },
         ];
         store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
         jest.runAllTimers();
@@ -81,10 +81,10 @@ describe('ack:middleware', () => {
       test('mixed several success, failure and timeout', () => {
         const store = mockStore(state);
         const alarms = [
-          { oid: 1, timestamp: 1111 },
-          { oid: 2, timestamp: 2222 },
-          { oid: 'TIMEOUT', timestamp: 3333 },
-          { oid: 'ERROR', timestamp: 4444 },
+          { oid: 1 },
+          { oid: 2 },
+          { oid: 'TIMEOUT' },
+          { oid: 'ERROR' },
         ];
         store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
         jest.runAllTimers();

@@ -29,8 +29,8 @@ class AckModal extends React.Component {
     ackType: PropTypes.string.isRequired,
     ackStatus: PropTypes.shape({
       acknowledging: PropTypes.bool.isRequired,
-      alarmsTimestamps: PropTypes.arrayOf(PropTypes.shape({
-        timestamp: PropTypes.string.isRequired,
+      alarmsOids: PropTypes.arrayOf(PropTypes.shape({
+        oid: PropTypes.string.isRequired,
         ackError: PropTypes.string,
         acknowledged: PropTypes.bool.isRequired,
       }).isRequired).isRequired,
@@ -48,7 +48,7 @@ class AckModal extends React.Component {
   static defaultProps = {
     ackStatus: {
       acknowledging: false,
-      alarmsTimestamps: [],
+      alarmsOids: [],
     },
   }
 
@@ -56,7 +56,7 @@ class AckModal extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const isCompleted = ({ acknowledged }) => acknowledged;
-    if (_.every(isCompleted, nextProps.ackStatus.alarmsTimestamps)) {
+    if (_.every(isCompleted, nextProps.ackStatus.alarmsOids)) {
       setTimeout(this.props.closeModal, 220); // UX : let the user to apprehend the behavior
     }
   }
@@ -74,9 +74,9 @@ class AckModal extends React.Component {
     return `${alarm.RIDName} - ${alarm.onBoardDate}`;
   }
 
-  getStatusByTimestamp = (timestamp) => {
-    const alarmsTimestamps = this.props.ackStatus.alarmsTimestamps;
-    const alarmStatus = _.find(_.propEq('timestamp', timestamp), alarmsTimestamps);
+  getStatusByOid = (oid) => {
+    const alarmsOids = this.props.ackStatus.alarmsOids;
+    const alarmStatus = _.find(_.propEq('oid', oid), alarmsOids);
     if (!alarmStatus) {
       return undefined;
     }
@@ -100,7 +100,7 @@ class AckModal extends React.Component {
 
   hasAckError = () => {
     const hasError = ({ ackError }) => Boolean(ackError);
-    return _.some(hasError, this.props.ackStatus.alarmsTimestamps);
+    return _.some(hasError, this.props.ackStatus.alarmsOids);
   }
 
   render() {
@@ -111,8 +111,8 @@ class AckModal extends React.Component {
           {
             alarms.map(alarm => (
               <ListGroupItem
-                bsStyle={this.getStatusByTimestamp(alarm.oid)}
-                key={alarm.timestamp}
+                bsStyle={this.getStatusByOid(alarm.oid)}
+                key={alarm.oid}
               >
                 {this.getAlarmLabel(alarm)}
               </ListGroupItem>

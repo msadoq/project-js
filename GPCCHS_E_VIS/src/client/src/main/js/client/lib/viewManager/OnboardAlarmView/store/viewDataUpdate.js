@@ -37,19 +37,18 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
   }
 
   // Loop on payloads to update state
-  // lines: contains all fields filtered by time { [timestamp]: { values }}
-  // indexes: contains ordered timestamps [t1, t2, ...]
+  // lines: contains all fields indexed by oid { [oid]: { values }}
+  // indexes: contains ordered oids [oid1, oid2, ...]
   let newState = _cloneDeep(state);
   if (!newState.indexes) {
     newState = { lines: {}, indexes: [] };
   }
 
-  // loop on EP name to add payload sorted by timestamp in EP table
+  // loop on EP name to add payload sorted by oid in EP table
   const epName = epNames[0];
 
   // Update of EP data
   newState.lines = Object.assign({}, newState.lines, payloads[epName]);
-  // const timestamps = _map(payloads[epName], viewData => viewData.timestamp);
   const oids = Object.keys(payloads[epName]);
 
   let lastIndex = -1;

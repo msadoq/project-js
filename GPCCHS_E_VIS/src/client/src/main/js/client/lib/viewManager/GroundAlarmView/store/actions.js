@@ -12,14 +12,14 @@ export const updateAlarmMode = (viewId, mode) => (dispatch, getState) => {
   dispatch({ type: types.WS_VIEW_UPDATE_ALARMMODE, payload: { viewId, mode, visuWindow } });
 };
 
-export const openAckModal = (viewId, alarmsTimestamps) => {
+export const openAckModal = (viewId, alarmsOids) => {
   const ackId = v4();
   return openModalInCurrentWindow({
     type: 'gmaAck',
     title: 'Ground Monitoring Alarm',
     ackId,
     viewId,
-    alarmsTimestamps,
+    alarmsOids,
   });
 };
 
@@ -33,21 +33,21 @@ export const sendAlarmAck = (viewId, ackId, alarms, comment) => ({
   },
 });
 
-export const ackSuccess = (viewId, ackId, timestamp) => ({
+export const ackSuccess = (viewId, ackId, oid) => ({
   type: types.WS_VIEW_GMA_ALARM_ACK_SUCCESS,
   payload: {
     viewId,
     ackId,
-    timestamp,
+    oid,
   },
 });
 
-export const ackFailure = (viewId, ackId, timestamp, error = '') => ({
+export const ackFailure = (viewId, ackId, oid, error = '') => ({
   type: types.WS_VIEW_GMA_ALARM_ACK_FAILURE,
   payload: {
     viewId,
     ackId,
-    timestamp,
+    oid,
     error,
   },
 });

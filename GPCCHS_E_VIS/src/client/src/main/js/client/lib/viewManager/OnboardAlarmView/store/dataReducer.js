@@ -64,12 +64,12 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       return newState;
     }
     case types.WS_MODAL_OPEN: {
-      const { type, viewId, ackId, alarmsTimestamps } = action.payload.props;
+      const { type, viewId, ackId, alarmsOids } = action.payload.props;
       if (type === 'obaAck') {
         return _.set([viewId, 'ackStatus', ackId], {
           acknowledging: false,
-          alarmsTimestamps: alarmsTimestamps.map(ts => ({
-            timestamp: ts,
+          alarmsOids: alarmsOids.map(oid => ({
+            oid,
             acknowledged: false,
             ackError: null,
           })),
@@ -90,22 +90,22 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       return newState;
     }
     case types.WS_VIEW_OBA_ALARM_ACK_SUCCESS: {
-      const { viewId, ackId, timestamp } = action.payload;
+      const { viewId, ackId, oid } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
-      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
-      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'acknowledged'], true, state);
     }
     case types.WS_VIEW_OBA_ALARM_ACK_FAILURE: {
-      const { viewId, ackId, timestamp, error } = action.payload;
+      const { viewId, ackId, oid, error } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
-      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
-      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], String(error), state);
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
     }
     case types.WS_VIEW_ALARM_COLLAPSE: {
       const { viewId, oid } = action.payload;

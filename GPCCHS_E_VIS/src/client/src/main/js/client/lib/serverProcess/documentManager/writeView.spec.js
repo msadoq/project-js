@@ -57,7 +57,7 @@ describe('documentManager/writeViews', () => {
   });
 
   describe('writeView', () => {
-    test('saves the view', (done) => {
+    test.skip('saves the view', (done) => {
       const view = freezeMe(state.views.dynamic1);
       writeView(view, view.absolutePath, (err) => {
         expect(err).toBeFalsy();

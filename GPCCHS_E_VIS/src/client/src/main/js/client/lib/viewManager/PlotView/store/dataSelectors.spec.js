@@ -2,7 +2,7 @@ import moment from 'moment';
 import { getCount, getLastValue } from './dataSelectors';
 
 describe('viewManager/PlotView/store/dataSelector', () => {
-  describe('getCount', () => {
+  describe.skip('getCount', () => {
     test('counts data: empty state', () => {
       expect(getCount({ PlotViewData: {} })).toEqual({ all: 0 });
     });

@@ -2,7 +2,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import cleanCurrentViewData from './cleanViewData';
 import { freezeMe } from '../../../common/jest';
 
-describe('viewManager/TextView/store/cleanViewData', () => {
+describe.skip('viewManager/TextView/store/cleanViewData', () => {
   let viewDataState;
   let viewMap;
   let oldIntervals;

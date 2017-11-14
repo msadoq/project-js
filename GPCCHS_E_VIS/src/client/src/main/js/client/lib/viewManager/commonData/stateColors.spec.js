@@ -1,4 +1,3 @@
-import { get } from '../../common/configurationManager';
 import { getStateColorObj } from './stateColors';
 
 describe('data/common/stateColors', () => {
@@ -6,8 +5,8 @@ describe('data/common/stateColors', () => {
     const payload = {};
     const stateColors = [];
 
-    expect(getStateColorObj(payload, stateColors, 'severe'))
-      .toEqual({ color: get('STATE_COLORS').severe });
+    expect(getStateColorObj(payload, stateColors))
+      .toEqual(null);
   });
   test('apply custom state color', () => {
     const payload = {

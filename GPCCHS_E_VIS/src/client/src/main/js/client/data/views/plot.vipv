@@ -132,16 +132,6 @@
     {
       "name": "TMMGT_BC_VIRTCHAN3",
       "parametric": false,
-      "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
-        "domainX": "",
-        "domainY": "",
-        "unitX": "",
-        "unitY": "",
-        "xAxisId": "",
-        "yAxisId": ""
-      },
       "connectedData": {
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -154,6 +144,16 @@
         "axisId": "VBat",
         "stringParameter": false,
         "defaultY": 1
+      },
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
       },
       "objectStyle": {
         "line": {
@@ -174,22 +174,60 @@
             "operator": "=",
             "operand": "waiting"
           }
+        },
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "alarm"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "critical"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "outOfRange"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "severe"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "danger"
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "warning"
+          }
         }
       ]
     },
     {
       "name": "ATT_BC_REVTCOUNT1",
       "parametric": false,
-      "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
-        "domainX": "",
-        "domainY": "",
-        "unitX": "",
-        "unitY": "",
-        "xAxisId": "",
-        "yAxisId": ""
-      },
       "connectedData": {
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
         "fieldX": "groundDate",
@@ -203,6 +241,16 @@
         "stringParameter": false,
         "defaultY": 1
       },
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
       "objectStyle": {
         "line": {
           "style": "Continuous",
@@ -214,7 +262,56 @@
         },
         "curveColor": "#ff9800"
       },
-      "stateColors": []
+      "stateColors": [
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "alarm"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "critical"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "outOfRange"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "severe"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "danger"
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "warning"
+          }
+        }
+      ]
     }
   ],
   "showYAxes": "left",

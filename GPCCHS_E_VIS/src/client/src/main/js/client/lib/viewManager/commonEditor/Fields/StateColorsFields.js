@@ -188,7 +188,7 @@ export default class StateColorsFields extends React.Component {
                     <td className="col-xs-1">
                       <Glyphicon
                         glyph="trash"
-                        onClick={() => this.removeStateColor(null, index)}
+                        onClick={() => this.removeStateColor(index)}
                         title="remove state color"
                         style={glyphTrashStyle}
                       />

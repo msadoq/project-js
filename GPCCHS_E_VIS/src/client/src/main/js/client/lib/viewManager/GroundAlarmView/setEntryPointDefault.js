@@ -1,3 +1,19 @@
-import _ from 'lodash/fp';
+import { v4 } from 'uuid';
+import { get } from '../../common/configurationManager';
+import { getStateColorFilters } from '../../windowProcess/common/colors';
+import constants from '../../constants';
 
-export default _.identity;
+export default function (entryPoint) {
+  return Object.assign({}, getNewGroundAlarmEntryPoint(), entryPoint);
+}
+
+const getNewGroundAlarmEntryPoint = () => ({
+  name: 'NewEntryPoint',
+  id: v4(),
+  connectedData: {
+    mode: constants.GMA_ALARM_MODE_ALL,
+    domain: get('WILDCARD_CHARACTER'),
+    timeline: get('WILDCARD_CHARACTER'),
+  },
+  stateColors: getStateColorFilters(),
+});

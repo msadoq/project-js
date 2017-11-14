@@ -5,9 +5,24 @@ import _last from 'lodash/last';
 import _get from 'lodash/get';
 
 import { getOnboardAlarmViewData, getData } from './dataReducer';
+import * as constants from '../../../constants';
+import { getViewTitle } from '../../../store/reducers/views';
+
+const MODES_WORDING = {
+  [constants.OBA_ALARM_MODE_ALL]: 'All',
+  [constants.OBA_ALARM_MODE_TOACKNOWLEDGE]: 'To Acknowledge',
+};
 
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(['OnboardAlarmViewConfiguration', viewId, 'entryPoints'], state)
+);
+
+const getFullTitle = createSelector(
+  getViewTitle,
+  getEntryPointsByViewId,
+  (title, [entryPoint]) => (
+    `${title} (${MODES_WORDING[entryPoint.connectedData.mode]})`
+  )
 );
 
 const getCount = createSelector(
@@ -55,6 +70,7 @@ const getLastValue = createSelector(
 );
 
 export default {
+  getFullTitle,
   getEntryPointsByViewId,
   getCount,
   getLastValue,

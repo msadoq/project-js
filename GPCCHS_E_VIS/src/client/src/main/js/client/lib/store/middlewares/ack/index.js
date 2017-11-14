@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import async from 'async';
 import * as types from '../../types';
+import { ALARM_ACK_TIMEOUT } from '../../../constants';
 import dataMapGenerator from '../../../dataManager/map';
 import { add as addMessage } from '../../actions/messages';
 import {
@@ -33,8 +34,6 @@ const ackFailure = {
   oba: obaFailure,
 };
 
-const ACK_TIMEOUT = 1000 * 10;
-
 const getNbSuccess = _.compose(_.size, _.filter(_.equals(true)));
 
 const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState }) => next => (action) => {
@@ -43,20 +42,20 @@ const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState
     const { viewId, ackId, alarms, comment } = action.payload;
     const dataMap = dataMapGenerator(getState());
     const { dataId, tbdId } = dataMap.perView[viewId].entryPoints[epName[ackType]];
-    const requests = alarms.map(({ oid, timestamp }) => {
+    const requests = alarms.map(({ oid }) => {
       const failure = (err, cb) => {
-        dispatch(ackFailure[ackType](viewId, ackId, timestamp, err));
+        dispatch(ackFailure[ackType](viewId, ackId, oid, err));
         dispatch(addMessage('global', 'danger', `Acknowledging error : ${err}`));
         cb(null, false);
       };
       return (cb) => {
-        const timeoutId = setTimeout(() => failure('Timeout', cb), ACK_TIMEOUT);
+        const timeoutId = setTimeout(() => failure('Timeout', cb), ALARM_ACK_TIMEOUT * 1000);
         requestAck(tbdId, dataId, [{ oid, ackRequest: { comment } }], (err) => {
           clearTimeout(timeoutId);
           if (err) {
             return failure(err, cb);
           }
-          dispatch(ackSuccess[ackType](viewId, ackId, timestamp));
+          dispatch(ackSuccess[ackType](viewId, ackId, oid));
           return cb(null, true);
         });
       };

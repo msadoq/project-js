@@ -16,9 +16,7 @@ exports[`documentManager/writeViews writeView saves the view 1`] = `
       \\"domain\\": \\"fr.cnes.isis.simupus\\",
       \\"timeline\\": \\"Session 1\\"
     },
-    \\"name\\": \\"dynamicEP\\",
-    \\"id\\": \\"2d20116c-1c13-4c37-ad90-f15d38ce17ca\\"
-  },
-  \\"entryPoints\\": []
+    \\"name\\": \\"dynamicEP\\"
+  }
 }"
 `;

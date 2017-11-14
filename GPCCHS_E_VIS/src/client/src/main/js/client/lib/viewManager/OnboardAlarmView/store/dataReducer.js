@@ -64,12 +64,12 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       return newState;
     }
     case types.WS_MODAL_OPEN: {
-      const { type, viewId, ackId, alarmsTimestamps } = action.payload.props;
+      const { type, viewId, ackId, alarmsOids } = action.payload.props;
       if (type === 'obaAck') {
         return _.set([viewId, 'ackStatus', ackId], {
           acknowledging: false,
-          alarmsTimestamps: alarmsTimestamps.map(ts => ({
-            timestamp: ts,
+          alarmsOids: alarmsOids.map(oid => ({
+            oid,
             acknowledged: false,
             ackError: null,
           })),
@@ -77,7 +77,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
-    case types.WS_MODAL_CLOSE: {
+    case types.WS_MODAL_CLOSED: {
       const { type, viewId, ackId } = action.payload.props;
       if (type === 'obaAck') {
         return _.unset([viewId, 'ackStatus', ackId], state);
@@ -90,22 +90,32 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
       return newState;
     }
     case types.WS_VIEW_OBA_ALARM_ACK_SUCCESS: {
-      const { viewId, ackId, timestamp } = action.payload;
+      const { viewId, ackId, oid } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
-      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
-      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'acknowledged'], true, state);
     }
     case types.WS_VIEW_OBA_ALARM_ACK_FAILURE: {
-      const { viewId, ackId, timestamp, error } = action.payload;
+      const { viewId, ackId, oid, error } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
-      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
-      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], String(error), state);
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
+    }
+    case types.WS_VIEW_ALARM_COLLAPSE: {
+      const { viewId, oid } = action.payload;
+      const collapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], true);
+      return collapseAlarm(state);
+    }
+    case types.WS_VIEW_ALARM_UNCOLLAPSE: {
+      const { viewId, oid } = action.payload;
+      const uncollapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], false);
+      return uncollapseAlarm(state);
     }
     case types.INJECT_DATA_RANGE: {
       const {
@@ -117,7 +127,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
         return state;
       }
 
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
@@ -141,7 +151,7 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
     }
     case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
@@ -182,7 +192,7 @@ export const getDataLines = createSelector(
   data => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];
     const alarmWithoutParameters = _.omit('parameters', alarm);
-    const parameters = _.isEmpty(alarm.parameters) ? [] : [
+    const parameters = _.isEmpty(alarm.parameters) || alarm.collapsed ? [] : [
       {
         type: 'parameter_header',
         alarm: alarmWithoutParameters,

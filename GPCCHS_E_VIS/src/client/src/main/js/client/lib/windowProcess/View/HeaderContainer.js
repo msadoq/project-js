@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getView } from '../../store/reducers/views';
 import { getPage, getPanels } from '../../store/reducers/pages';
+import { getDataSelectors } from '../../viewManager';
 
 import Header from './Header';
 
@@ -11,9 +12,10 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     isModified,
     backgroundColor,
     titleStyle,
-    title,
   } = getView(state, { viewId });
 
+  const { getFullTitle } = getDataSelectors(type);
+  const title = getFullTitle(state, { viewId });
   const page = getPage(state, { pageId });
   const { editorIsMinimized, editorViewId } = getPanels(state, { pageId });
 

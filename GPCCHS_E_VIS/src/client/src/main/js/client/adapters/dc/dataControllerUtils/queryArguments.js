@@ -2,6 +2,7 @@ const _map = require('lodash/map');
 
 const timestamp = require('./timestamp');
 const filter = require('./filter');
+const alarmMode = require('./alarmMode');
 
 module.exports = {
   encode: data => ({
@@ -15,6 +16,7 @@ module.exports = {
       : undefined,
     getLastNumber: data.getLastNumber,
     filters: _map(data.filters, f => filter.encode(f)),
+    alarmMode: (typeof data.alarmMode !== 'undefined') ? alarmMode.encode(data.alarmMode) : undefined
   }),
   decode: data => ({
     sortFieldName: data.sortFieldName ? data.sortFieldName : null,
@@ -27,5 +29,6 @@ module.exports = {
       : data.getLastFromTime,
     getLastNumber: data.getLastNumber ? data.getLastNumber : null,
     filters: _map(data.filters, f => filter.decode(f)),
+    alarmMode: (data.alarmMode !== null) ? alarmMode.decode(data.alarmMode) : null
   }),
 };

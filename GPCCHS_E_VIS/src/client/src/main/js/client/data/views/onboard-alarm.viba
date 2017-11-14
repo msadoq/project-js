@@ -11,7 +11,7 @@
     "connectedData": {
       "domain": "*",
       "timeline": "*",
-      "mode": "OBA_ALARM_MODE_ALL"
+      "mode": 0
     }
   }
 }

@@ -15,7 +15,7 @@ import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
-import DialogModal from './DialogModal'; // electron dialogbox
+import DialogModal from './DialogModal'; // replacement for electron dialogbox
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 
@@ -178,7 +178,11 @@ const ModalGeneric = (props) => {
 
   return (
     <div className="modal-container">
-      <Modal show={props.isOpened} onHide={props.onClose}>
+      <Modal
+        show={props.isOpened}
+        onHide={props.onClose}
+        onExited={props.onExited}
+      >
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
           <button
@@ -198,6 +202,7 @@ const ModalGeneric = (props) => {
 
 ModalGeneric.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onExited: PropTypes.func.isRequired,
   isOpened: PropTypes.bool,
   props: PropTypes.shape().isRequired,
 };

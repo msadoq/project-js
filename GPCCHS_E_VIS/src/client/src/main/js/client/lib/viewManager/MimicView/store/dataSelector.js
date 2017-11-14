@@ -6,6 +6,10 @@ import _ from 'lodash/fp';
 
 import { getMimicViewData, getData } from './dataReducer';
 
+import { getViewTitle } from '../../../store/reducers/views';
+
+const getFullTitle = getViewTitle;
+
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(`MimicViewConfiguration.${viewId}.entryPoints`, state)
 );
@@ -47,6 +51,7 @@ const getLastValue = createSelector(
 );
 
 export default {
+  getFullTitle,
   getCount,
   getLastValue,
   getEntryPointsByViewId,

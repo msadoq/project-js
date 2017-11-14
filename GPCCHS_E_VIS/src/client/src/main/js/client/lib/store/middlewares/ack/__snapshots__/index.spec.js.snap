@@ -1,0 +1,935 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ack:middleware GroundMonitoringAlarm mixed several success, failure and timeout 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": 1,
+        },
+        Object {
+          "oid": 2,
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 1,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 2,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "2 alarms successfully acknowledged",
+        },
+      ],
+      "type": "success",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware GroundMonitoringAlarm several ack failure 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": "ERROR",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware GroundMonitoringAlarm several ack success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": 1,
+        },
+        Object {
+          "oid": 2,
+        },
+        Object {
+          "oid": 3,
+        },
+        Object {
+          "oid": 4,
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 1,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 2,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 3,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 4,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "4 alarms successfully acknowledged",
+        },
+      ],
+      "type": "success",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware GroundMonitoringAlarm several ack timeout 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware GroundMonitoringAlarm simple ack success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": 1,
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 1,
+      "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
+    },
+    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "1 alarm successfully acknowledged",
+        },
+      ],
+      "type": "success",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware OnBoardAlarm mixed several success, failure and timeout 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": 1,
+        },
+        Object {
+          "oid": 2,
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 1,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 2,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "2 alarms successfully acknowledged",
+        },
+      ],
+      "type": "success",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware OnBoardAlarm several ack failure 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": "ERROR",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+        Object {
+          "oid": "ERROR",
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "ERROR",
+      "oid": "ERROR",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : ERROR",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware OnBoardAlarm several ack success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": 1,
+        },
+        Object {
+          "oid": 2,
+        },
+        Object {
+          "oid": 3,
+        },
+        Object {
+          "oid": 4,
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 1,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 2,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 3,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 4,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "4 alarms successfully acknowledged",
+        },
+      ],
+      "type": "success",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware OnBoardAlarm several ack timeout 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+        Object {
+          "oid": "TIMEOUT",
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "error": "Timeout",
+      "oid": "TIMEOUT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "Acknowledging error : Timeout",
+        },
+      ],
+      "type": "danger",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`ack:middleware OnBoardAlarm simple ack success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "alarms": Array [
+        Object {
+          "oid": 1,
+        },
+      ],
+      "comment": "COMMENT",
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK",
+  },
+  Object {
+    "payload": Object {
+      "ackId": "ACKID",
+      "oid": 1,
+      "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
+    },
+    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "containerId": "global",
+      "messages": Array [
+        Object {
+          "content": "1 alarm successfully acknowledged",
+        },
+      ],
+      "type": "success",
+    },
+    "type": "WS_MESSAGE_ADD",
+  },
+]
+`;

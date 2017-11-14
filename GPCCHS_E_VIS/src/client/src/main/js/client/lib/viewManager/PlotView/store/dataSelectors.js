@@ -5,6 +5,9 @@ import _get from 'lodash/get';
 import _ from 'lodash/fp';
 
 import { getPlotViewData, getData } from './dataReducer';
+import { getViewTitle } from '../../../store/reducers/views';
+
+const getFullTitle = getViewTitle;
 
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(`PlotViewConfiguration.${viewId}.entryPoints`, state)
@@ -60,6 +63,7 @@ const getLastValue = createSelector(
 
 
 export default {
+  getFullTitle,
   getCount,
   getLastValue,
   getEntryPointsByViewId,

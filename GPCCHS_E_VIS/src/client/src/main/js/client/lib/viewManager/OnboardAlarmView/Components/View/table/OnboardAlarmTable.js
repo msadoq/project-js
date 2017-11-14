@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { PropTypes } from 'react';
+import { Label, Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
 import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
@@ -14,8 +15,30 @@ const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 const COLS = ['onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
 const PARAMETERS_COLS = ['name', 'value'];
 
+const CollapseButton = ({ onClick, collapsed }) => (
+  <span
+    title={collapsed ? 'Uncollapse' : 'Collapse'}
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick(e);
+    }}
+    style={{ cursor: 'pointer' }}
+  >
+    <Label><Glyphicon glyph={collapsed ? 'plus' : 'minus'} /></Label>
+  </span>
+);
+CollapseButton.propTypes = {
+  onClick: PropTypes.func,
+  collapsed: PropTypes.bool,
+};
+CollapseButton.defaultProps = {
+  onClick: _.noop,
+  collapsed: false,
+};
+
 const Table = ({
-  lines, position, displayedRows, rowHeight, onClickAlarm, selectedAlarms,
+  lines, position, displayedRows, rowHeight, selectedAlarms,
+  onCollapse, onUncollapse, onClickAlarm,
 }) => (
   <table>
     <thead>
@@ -44,16 +67,24 @@ const Table = ({
                   [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
                   alarmChildren: line.type === 'parameter',
                   alarm: line.type === 'alarm',
-                  selected: Boolean(selectedAlarms[line.alarm.timestamp]),
+                  selected: Boolean(selectedAlarms[line.alarm.oid]),
                 })}
                 style={{ width: '100%', height: `${rowHeight}px` }}
               >
                 {
-                  columns.map(col => (
+                  columns.map((col, index) => (
                     <td
                       style={{ }}
                       key={col}
                     >
+                      {
+                        index === 0 && line.type === 'alarm'
+                        && (data.collapsed ? (
+                          <CollapseButton collapsed onClick={() => onUncollapse(data.oid)} />
+                        ) : (
+                          <CollapseButton onClick={() => onCollapse(data.oid)} />
+                        ))
+                      }
                       {data[col]}
                     </td>
                   ))
@@ -68,7 +99,7 @@ const Table = ({
               className={classnames({
                 [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
                 alarmChildren: true,
-                selected: Boolean(selectedAlarms[line.alarm.timestamp]),
+                selected: Boolean(selectedAlarms[line.alarm.oid]),
               })}
               key={key}
             >
@@ -86,6 +117,8 @@ const Table = ({
 );
 
 Table.propTypes = {
+  onCollapse: PropTypes.func.isRequired,
+  onUncollapse: PropTypes.func.isRequired,
   onClickAlarm: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
   position: PropTypes.number,
@@ -111,7 +144,7 @@ class TableView extends React.Component {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
-    mode: PropTypes.string.isRequired,
+    mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
     lines: PropTypes.arrayOf(PropTypes.shape({
@@ -122,6 +155,9 @@ class TableView extends React.Component {
     containerHeight: PropTypes.number.isRequired,
     rowHeight: PropTypes.number,
     openAckModal: PropTypes.func.isRequired,
+    openInspector: PropTypes.func.isRequired,
+    collapse: PropTypes.func.isRequired,
+    uncollapse: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -158,14 +194,19 @@ class TableView extends React.Component {
   onAlarmContextMenu = (e) => {
     e.stopPropagation();
     const n = this.getNbSelectedAlarms();
-    const getTimestamps = _.compose(_.map(Number), _.keys);
+    const getTimestamps = _.keys;
     const menu = [
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
-        click: () => (
-          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms))
-        ),
+        click: () => {
+          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms));
+        },
         enabled: n > 0,
+      },
+      { type: 'separator' },
+      {
+        label: 'Open Inspector',
+        click: this.props.openInspector,
       },
       { type: 'separator' },
       ...this.props.mainMenu,
@@ -190,10 +231,10 @@ class TableView extends React.Component {
   getNbSelectedAlarms = () => _.size(this.state.selectedAlarms)
 
   toggleAlarmSelection = (alarm) => {
-    const { timestamp, ackState } = alarm;
+    const { oid, ackState } = alarm;
     if (ackState === REQUIRE_ACK) {
-      const selectedAlarmsPath = ['selectedAlarms', timestamp];
-      if (this.state.selectedAlarms[timestamp]) {
+      const selectedAlarmsPath = ['selectedAlarms', oid];
+      if (this.state.selectedAlarms[oid]) {
         this.setState(_.unset(selectedAlarmsPath));
       } else {
         this.setState(_.set(selectedAlarmsPath, alarm));
@@ -218,6 +259,8 @@ class TableView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
+          onCollapse={this.props.collapse}
+          onUncollapse={this.props.uncollapse}
           onClickAlarm={this.toggleAlarmSelection}
           selectedAlarms={this.state.selectedAlarms}
           rowHeight={this.props.rowHeight}

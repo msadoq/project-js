@@ -1,8 +1,8 @@
 module.exports = {
-  encode: mode => ({
-    type: mode,
+  encode: data => ({
+    mode: data.mode,
   }),
-  decode: mode => ({
-    type: mode,
+  decode: data => ({
+    mode: data.mode,
   }),
 };

@@ -1,0 +1,753 @@
+{
+  "DynamicViewConfiguration": {},
+  "DynamicViewData": {},
+  "GroundAlarmViewConfiguration": {
+    "c691a648-36c3-4c5a-b131-07aa86977437": {
+      "entryPoints": [
+        {
+          "connectedData": {
+            "domain": "*",
+            "mode": "GMA_ALARM_MODE_ALL",
+            "timeline": "*"
+          },
+          "id": "f585810c-8463-408c-93ec-c904a7eb44f9",
+          "name": "groundAlarmEP"
+        }
+      ]
+    }
+  },
+  "GroundAlarmViewData": {
+    "c691a648-36c3-4c5a-b131-07aa86977437": {
+      "ackStatus": {},
+      "indexes": [
+        9900,
+        10900,
+        1510074097956,
+        1510074160956,
+        1510074196956,
+        1510074258956
+      ],
+      "lines": {
+        "9900": {
+          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "info",
+          "closingDate": "1970-01-01T00:00:09.990Z",
+          "creationDate": "1970-01-01T00:00:09.900Z",
+          "duration": "0:0:0.90",
+          "firstOccurence": "1970-01-01T00:00:10.000Z",
+          "lastOccurence": "1970-01-01T00:00:10.000Z",
+          "oid": "oid2957800.2850572728",
+          "parameterName": "pNameipsum",
+          "parameterType": "pTypeadipiscing",
+          "physicalValue": "5.986223873255295",
+          "rawValue": "1.995407957751765",
+          "satellite": "satellitedolor",
+          "telemetryType": "telemetryTypefugiat",
+          "timestamp": 9900,
+          "transitions": [
+            {
+              "convertedValue": "3.99081591550353",
+              "extractedValue": "5.986223873255295",
+              "groundDate": "1970-01-01T00:00:10.020Z",
+              "monitoringState": "danger",
+              "onboardDate": "1970-01-01T00:00:10.000Z",
+              "rawValue": "1.995407957751765"
+            },
+            {
+              "convertedValue": "3.99081591550353",
+              "extractedValue": "5.986223873255295",
+              "groundDate": "1970-01-01T00:00:10.020Z",
+              "monitoringState": "outOfRange",
+              "onboardDate": "1970-01-01T00:00:10.000Z",
+              "rawValue": "1.995407957751765"
+            },
+            {
+              "convertedValue": "3.99081591550353",
+              "extractedValue": "5.986223873255295",
+              "groundDate": "1970-01-01T00:00:10.020Z",
+              "monitoringState": "danger",
+              "onboardDate": "1970-01-01T00:00:10.000Z",
+              "rawValue": "1.995407957751765"
+            },
+            {
+              "convertedValue": "3.99081591550353",
+              "extractedValue": "5.986223873255295",
+              "groundDate": "1970-01-01T00:00:10.020Z",
+              "monitoringState": "info",
+              "onboardDate": "1970-01-01T00:00:10.000Z",
+              "rawValue": "1.995407957751765"
+            }
+          ]
+        },
+        "10900": {
+          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "info",
+          "closingDate": "1970-01-01T00:00:10.990Z",
+          "creationDate": "1970-01-01T00:00:10.900Z",
+          "duration": "0:0:0.90",
+          "firstOccurence": "1970-01-01T00:00:11.000Z",
+          "lastOccurence": "1970-01-01T00:00:11.000Z",
+          "oid": "oid7080311.025587991",
+          "parameterName": "pNamelabore",
+          "parameterType": "pTypedolor",
+          "physicalValue": "5.897203961272499",
+          "rawValue": "1.9657346537574998",
+          "satellite": "satellitevoluptate",
+          "telemetryType": "telemetryTypereprehenderit",
+          "timestamp": 10900,
+          "transitions": [
+            {
+              "convertedValue": "3.9314693075149996",
+              "extractedValue": "5.897203961272499",
+              "groundDate": "1970-01-01T00:00:11.020Z",
+              "monitoringState": "info",
+              "onboardDate": "1970-01-01T00:00:11.000Z",
+              "rawValue": "1.9657346537574998"
+            }
+          ]
+        },
+        "1510074097956": {
+          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "info",
+          "closingDate": "2017-11-07T17:01:38.046Z",
+          "creationDate": "2017-11-07T17:01:37.956Z",
+          "duration": "0:0:0.90",
+          "firstOccurence": "2017-11-07T17:01:38.056Z",
+          "lastOccurence": "2017-11-07T17:01:38.056Z",
+          "oid": "oid2604896.909527019",
+          "parameterName": "pNamedolor",
+          "parameterType": "pTypeet",
+          "physicalValue": "2.5597375786295644",
+          "rawValue": "0.8532458595431881",
+          "satellite": "satelliteeu",
+          "telemetryType": "telemetryTypeid",
+          "timestamp": 1510074097956,
+          "transitions": [
+            {
+              "convertedValue": "1.7064917190863762",
+              "extractedValue": "2.5597375786295644",
+              "groundDate": "2017-11-07T17:01:38.076Z",
+              "monitoringState": "critical",
+              "onboardDate": "2017-11-07T17:01:38.056Z",
+              "rawValue": "0.8532458595431881"
+            },
+            {
+              "convertedValue": "1.7064917190863762",
+              "extractedValue": "2.5597375786295644",
+              "groundDate": "2017-11-07T17:01:38.076Z",
+              "monitoringState": "info",
+              "onboardDate": "2017-11-07T17:01:38.056Z",
+              "rawValue": "0.8532458595431881"
+            }
+          ]
+        },
+        "1510074160956": {
+          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "warning",
+          "creationDate": "2017-11-07T17:02:40.956Z",
+          "duration": "-",
+          "firstOccurence": "2017-11-07T17:02:41.056Z",
+          "lastOccurence": "2017-11-07T17:02:41.056Z",
+          "oid": "oid1621309.5737984595",
+          "parameterName": "pNameenim",
+          "parameterType": "pTypemollit",
+          "physicalValue": "5.819874919077897",
+          "rawValue": "1.939958306359299",
+          "satellite": "satelliteirure",
+          "telemetryType": "telemetryTypeullamco",
+          "timestamp": 1510074160956,
+          "transitions": [
+            {
+              "convertedValue": "3.879916612718598",
+              "extractedValue": "5.819874919077897",
+              "groundDate": "2017-11-07T17:02:41.076Z",
+              "monitoringState": "warning",
+              "onboardDate": "2017-11-07T17:02:41.056Z",
+              "rawValue": "1.939958306359299"
+            }
+          ]
+        },
+        "1510074196956": {
+          "ackState": "GMA_ALARM_ACKSTATE_NOACK",
+          "alarmType": "outOfRange",
+          "closingDate": "2017-11-07T17:03:17.046Z",
+          "creationDate": "2017-11-07T17:03:16.956Z",
+          "duration": "0:0:0.90",
+          "firstOccurence": "2017-11-07T17:03:17.056Z",
+          "lastOccurence": "2017-11-07T17:03:17.056Z",
+          "oid": "oid6764815.358597553",
+          "parameterName": "pNamesed",
+          "parameterType": "pTypelabore",
+          "physicalValue": "5.421475554898718",
+          "rawValue": "1.8071585182995729",
+          "satellite": "satelliteirure",
+          "telemetryType": "telemetryTypeenim",
+          "timestamp": 1510074196956,
+          "transitions": [
+            {
+              "convertedValue": "3.6143170365991457",
+              "extractedValue": "5.421475554898718",
+              "groundDate": "2017-11-07T17:03:17.076Z",
+              "monitoringState": "critical",
+              "onboardDate": "2017-11-07T17:03:17.056Z",
+              "rawValue": "1.8071585182995729"
+            },
+            {
+              "convertedValue": "3.6143170365991457",
+              "extractedValue": "5.421475554898718",
+              "groundDate": "2017-11-07T17:03:17.076Z",
+              "monitoringState": "outOfRange",
+              "onboardDate": "2017-11-07T17:03:17.056Z",
+              "rawValue": "1.8071585182995729"
+            },
+            {
+              "convertedValue": "3.6143170365991457",
+              "extractedValue": "5.421475554898718",
+              "groundDate": "2017-11-07T17:03:17.076Z",
+              "monitoringState": "info",
+              "onboardDate": "2017-11-07T17:03:17.056Z",
+              "rawValue": "1.8071585182995729"
+            },
+            {
+              "convertedValue": "3.6143170365991457",
+              "extractedValue": "5.421475554898718",
+              "groundDate": "2017-11-07T17:03:17.076Z",
+              "monitoringState": "outOfRange",
+              "onboardDate": "2017-11-07T17:03:17.056Z",
+              "rawValue": "1.8071585182995729"
+            }
+          ]
+        },
+        "1510074258956": {
+          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "warning",
+          "closingDate": "2017-11-07T17:04:19.046Z",
+          "creationDate": "2017-11-07T17:04:18.956Z",
+          "duration": "0:0:0.90",
+          "firstOccurence": "2017-11-07T17:04:19.056Z",
+          "lastOccurence": "2017-11-07T17:04:19.056Z",
+          "oid": "oid5790631.383128841",
+          "parameterName": "pNamemollit",
+          "parameterType": "pTypeaute",
+          "physicalValue": "0.11442663781877183",
+          "rawValue": "0.038142212606257275",
+          "satellite": "satellitedeserunt",
+          "telemetryType": "telemetryTypecillum",
+          "timestamp": 1510074258956,
+          "transitions": [
+            {
+              "convertedValue": "0.07628442521251455",
+              "extractedValue": "0.11442663781877183",
+              "groundDate": "2017-11-07T17:04:19.076Z",
+              "monitoringState": "warning",
+              "onboardDate": "2017-11-07T17:04:19.056Z",
+              "rawValue": "0.038142212606257275"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "HistoryViewConfiguration": {},
+  "HistoryViewData": {},
+  "MimicViewConfiguration": {},
+  "MimicViewData": {},
+  "OnboardAlarmViewConfiguration": {
+    "225cce85-7d35-456c-97e9-be47a977e373": {
+      "entryPoints": [
+        {
+          "connectedData": {
+            "domain": "*",
+            "mode": "OBA_ALARM_MODE_ALL",
+            "timeline": "*"
+          },
+          "id": "3c3e6032-a68f-4cfa-a700-ace33f228f57",
+          "name": "onboardAlarmEP"
+        }
+      ]
+    }
+  },
+  "OnboardAlarmViewData": {
+    "225cce85-7d35-456c-97e9-be47a977e373": {
+      "ackStatus": {},
+      "indexes": [
+        9980,
+        10980,
+        1510074098036,
+        1510074161036,
+        1510074197036,
+        1510074259036,
+        1510074582401
+      ],
+      "lines": {
+        "9980": {
+          "RIDId": 46724,
+          "RIDName": "reportNameconsequat.",
+          "ackState": "OBA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "nonsignificant",
+          "oid": "oid1918290.5182010578",
+          "onBoardDate": "1970-01-01T00:00:09.980Z",
+          "parameters": [
+            {
+              "name": "pNamelaborum.",
+              "value": "true"
+            },
+            {
+              "name": "pNamelaboris",
+              "value": "valueesse"
+            }
+          ],
+          "reportType": 38298,
+          "satellite": "satelliteLorem",
+          "telemetryType": "telemetryTypeexercitation",
+          "timestamp": 9980
+        },
+        "10980": {
+          "RIDId": 48463,
+          "RIDName": "reportNamecommodo",
+          "ackState": "OBA_ALARM_ACKSTATE_REQUIREACK",
+          "alarmType": "info",
+          "oid": "oid9180301.030026043",
+          "onBoardDate": "1970-01-01T00:00:10.980Z",
+          "parameters": [
+            {
+              "name": "pNameelit,",
+              "value": 79011
+            },
+            {
+              "name": "pNamecupidatat",
+              "value": "false"
+            }
+          ],
+          "reportType": 18833,
+          "satellite": "satelliteminim",
+          "telemetryType": "telemetryTypeut",
+          "timestamp": 10980
+        },
+        "1510074098036": {
+          "RIDId": 63850,
+          "RIDName": "reportNameexercitation",
+          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "alarmType": "alarm",
+          "oid": "oid1284103.3582562478",
+          "onBoardDate": "2017-11-07T17:01:38.036Z",
+          "parameters": [
+            {
+              "name": "pNamemagna",
+              "value": "true"
+            },
+            {
+              "name": "pNameet",
+              "value": 49965
+            }
+          ],
+          "reportType": 83251,
+          "satellite": "satelliteDuis",
+          "telemetryType": "telemetryTypesint",
+          "timestamp": 1510074098036
+        },
+        "1510074161036": {
+          "RIDId": 52661,
+          "RIDName": "reportNameid",
+          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "alarmType": "warning",
+          "oid": "oid7991083.340701617",
+          "onBoardDate": "2017-11-07T17:02:41.036Z",
+          "parameters": [
+            {
+              "name": "pNamesed",
+              "value": "30080.830630731725"
+            },
+            {
+              "name": "pNameirure",
+              "value": "true"
+            }
+          ],
+          "reportType": 54942,
+          "satellite": "satelliteproident,",
+          "telemetryType": "telemetryTypeid",
+          "timestamp": 1510074161036
+        },
+        "1510074197036": {
+          "RIDId": 1468,
+          "RIDName": "reportNamead",
+          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "alarmType": "info",
+          "oid": "oid6216387.261019089",
+          "onBoardDate": "2017-11-07T17:03:17.036Z",
+          "parameters": [
+            {
+              "name": "pNamesint",
+              "value": "valueullamco"
+            },
+            {
+              "name": "pNameamet,",
+              "value": "29098.347322542395"
+            }
+          ],
+          "reportType": 55179,
+          "satellite": "satelliteincididunt",
+          "telemetryType": "telemetryTypetempor",
+          "timestamp": 1510074197036
+        },
+        "1510074259036": {
+          "RIDId": 96266,
+          "RIDName": "reportNameelit,",
+          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "alarmType": "outOfRange",
+          "oid": "oid141393.34275592663",
+          "onBoardDate": "2017-11-07T17:04:19.036Z",
+          "parameters": [
+            {
+              "name": "pNamedolor",
+              "value": 46526
+            },
+            {
+              "name": "pNamedeserunt",
+              "value": "9094.37944083038"
+            }
+          ],
+          "reportType": 24977,
+          "satellite": "satellitesit",
+          "telemetryType": "telemetryTypeullamco",
+          "timestamp": 1510074259036
+        },
+        "1510074582401": {
+          "RIDId": 13605,
+          "RIDName": "reportNameaute",
+          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "alarmType": "info",
+          "oid": "oid5585692.098358502",
+          "onBoardDate": "2017-11-07T17:09:42.401Z",
+          "parameters": [
+            {
+              "name": "pNamepariatur.",
+              "value": 93710
+            },
+            {
+              "name": "pNamevoluptate",
+              "value": "false"
+            }
+          ],
+          "reportType": 26758,
+          "satellite": "satelliteut",
+          "telemetryType": "telemetryTypein",
+          "timestamp": 1510074582401
+        }
+      }
+    }
+  },
+  "PacketViewConfiguration": {},
+  "PacketViewData": {},
+  "PlotViewConfiguration": {},
+  "PlotViewData": {},
+  "TextViewConfiguration": {},
+  "TextViewData": {},
+  "codeEditor": {
+    "viewId": null
+  },
+  "domains": [
+    {
+      "domainId": 1,
+      "itemNamespace": "Domains",
+      "name": "fr.cnes.isis",
+      "oid": "0051525005151000565215465660515",
+      "parentDomainId": 0
+    },
+    {
+      "domainId": 4,
+      "itemNamespace": "Domains",
+      "name": "fr.cnes.isis.simupus",
+      "oid": "0051525005151000565215465660515",
+      "parentDomainId": 1
+    }
+  ],
+  "form": {},
+  "health": {
+    "dcStatus": "HEALTHY",
+    "hssStatus": "HEALTHY",
+    "mainStatus": "HEALTHY",
+    "stress": {
+      "main": false,
+      "server": false,
+      "window": false
+    },
+    "windowsStatus": {
+      "66434f31-4e96-41c5-af70-51a98a00401b": "HEALTHY"
+    }
+  },
+  "hsc": {
+    "domainName": "fr.cnes.isis",
+    "file": "workspace-alarms.viws",
+    "focusWindow": "66434f31-4e96-41c5-af70-51a98a00401b",
+    "folder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
+    "forecast": {},
+    "isModified": false,
+    "isWorkspaceOpened": true,
+    "isWorkspaceOpening": false,
+    "lastCacheInvalidation": 1510074565113,
+    "playingTimebarId": null,
+    "windowsOpened": true
+  },
+  "inspector": {
+    "generalData": {
+      "dataId": null,
+      "displayingTM": false,
+      "epId": null,
+      "epName": null,
+      "field": null,
+      "viewId": null,
+      "viewType": null
+    },
+    "staticData": null
+  },
+  "knownRanges": {
+    ".<GroundMonitoringAlarmAckRequest>:0:1:GMA_ALARM_MODE_ALL": {
+      "dataId": {
+        "catalog": "",
+        "comObject": "GroundMonitoringAlarmAckRequest",
+        "domain": "fr.cnes.isis",
+        "domainId": 1,
+        "parameterName": "",
+        "sessionId": 0,
+        "sessionName": "Master"
+      },
+      "filters": [],
+      "flatDataId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+      "intervals": [
+        [
+          1510073967056,
+          1510074597056
+        ]
+      ]
+    },
+    ".<OnBoardAlarmAckRequest>:0:1:OBA_ALARM_MODE_ALL": {
+      "dataId": {
+        "catalog": "",
+        "comObject": "OnBoardAlarmAckRequest",
+        "domain": "fr.cnes.isis",
+        "domainId": 1,
+        "parameterName": "",
+        "sessionId": 0,
+        "sessionName": "Master"
+      },
+      "filters": [],
+      "flatDataId": ".<OnBoardAlarmAckRequest>:0:1",
+      "intervals": [
+        [
+          1510073967056,
+          1510074597056
+        ]
+      ]
+    }
+  },
+  "masterSession": {
+    "sessionId": 42
+  },
+  "messages": {},
+  "modals": {},
+  "pages": {
+    "eeefef1f-5133-42eb-8324-f13793b125ab": {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/alarms.page.vipg",
+      "domainName": "fr.cnes.isis",
+      "isModified": false,
+      "layout": [
+        {
+          "h": 10,
+          "i": "c691a648-36c3-4c5a-b131-07aa86977437",
+          "w": 8,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "h": 8,
+          "i": "225cce85-7d35-456c-97e9-be47a977e373",
+          "w": 8,
+          "x": 0,
+          "y": 10
+        }
+      ],
+      "oId": "oid:/pages/alarms.page.vipg",
+      "panels": {
+        "editorIsMinimized": true,
+        "editorWidth": 250,
+        "explorerIsMinimized": false,
+        "explorerWidth": 250,
+        "timebarHeight": 130,
+        "timebarIsMinimized": false,
+        "explorerTab": "store"
+      },
+      "properties": [
+        {
+          "name": {
+            "type": "identifier",
+            "value": "myIDENTIFIER"
+          },
+          "value": {
+            "symbol": "14.089161002010895",
+            "type": "double"
+          }
+        },
+        {
+          "name": {
+            "type": "identifier",
+            "value": "myIDENTIFIER"
+          },
+          "value": {
+            "symbol": "14.089161002010895",
+            "type": "double"
+          }
+        }
+      ],
+      "sessionName": "Master",
+      "timebarUuid": "1a9c6bc4-cb0e-4866-bb30-f9b02a8bae8b",
+      "title": "Alarms Page",
+      "type": "Page",
+      "uuid": "eeefef1f-5133-42eb-8324-f13793b125ab",
+      "views": [
+        "c691a648-36c3-4c5a-b131-07aa86977437",
+        "225cce85-7d35-456c-97e9-be47a977e373"
+      ]
+    }
+  },
+  "rte": {
+    "catalogs": {},
+    "domains": [],
+    "focusedInfo": {
+      "catalog": "",
+      "domain": "",
+      "name": "",
+      "namespace": "",
+      "session": "",
+      "version": ""
+    },
+    "focusedItem": null,
+    "itemNames": {},
+    "openedItems": {},
+    "sessions": [
+      "0",
+      "1",
+      "2"
+    ]
+  },
+  "sessions": [
+    {
+      "id": 0,
+      "name": "Master",
+      "timestamp": {
+        "ms": 1510074567056,
+        "ps": 0
+      }
+    },
+    {
+      "id": 42,
+      "name": "Session#42",
+      "timestamp": {
+        "ms": 1510074567056,
+        "ps": 0
+      }
+    },
+    {
+      "id": 181,
+      "name": "Session#181",
+      "timestamp": {
+        "ms": 1510074567056,
+        "ps": 0
+      }
+    }
+  ],
+  "timebarTimelines": {
+    "1a9c6bc4-cb0e-4866-bb30-f9b02a8bae8b": [
+      "4bef9dc9-f33a-4667-820b-0946150c41d3"
+    ]
+  },
+  "timebars": {
+    "1a9c6bc4-cb0e-4866-bb30-f9b02a8bae8b": {
+      "id": "TB1",
+      "masterId": "Session 1",
+      "mode": "Normal",
+      "realTime": false,
+      "rulerResolution": 1500,
+      "rulerStart": 1510073667056,
+      "slideWindow": {
+        "lower": 1510073967056,
+        "upper": 1510074597056
+      },
+      "speed": 1,
+      "uuid": "1a9c6bc4-cb0e-4866-bb30-f9b02a8bae8b",
+      "visuWindow": {
+        "current": 1510074567056,
+        "defaultWidth": 900000,
+        "lower": 1510073967056,
+        "upper": 1510074597056
+      }
+    }
+  },
+  "timelines": {
+    "4bef9dc9-f33a-4667-820b-0946150c41d3": {
+      "color": null,
+      "id": "Session 1",
+      "kind": "Session",
+      "offset": 0,
+      "sessionName": "Master",
+      "uuid": "4bef9dc9-f33a-4667-820b-0946150c41d3"
+    }
+  },
+  "ui": {
+    "dialog": {},
+    "editor": {}
+  },
+  "views": {
+    "225cce85-7d35-456c-97e9-be47a977e373": {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba",
+      "defaultRatio": {
+        "length": 5,
+        "width": 5
+      },
+      "isModified": false,
+      "links": [],
+      "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba",
+      "showLinks": false,
+      "title": "New Onboard Alarm View",
+      "type": "OnboardAlarmView",
+      "uuid": "225cce85-7d35-456c-97e9-be47a977e373"
+    },
+    "c691a648-36c3-4c5a-b131-07aa86977437": {
+      "absolutePath": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga",
+      "defaultRatio": {
+        "length": 5,
+        "width": 5
+      },
+      "isModified": false,
+      "links": [],
+      "oId": "oid:/views/ground-alarm.viga",
+      "pageFolder": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages",
+      "showLinks": false,
+      "title": "New Ground Alarm View",
+      "type": "GroundAlarmView",
+      "uuid": "c691a648-36c3-4c5a-b131-07aa86977437"
+    }
+  },
+  "windows": {
+    "66434f31-4e96-41c5-af70-51a98a00401b": {
+      "displayHelp": false,
+      "focusedPage": "eeefef1f-5133-42eb-8324-f13793b125ab",
+      "geometry": {
+        "h": 1000,
+        "kind": "Absolute",
+        "w": 1916,
+        "x": 902,
+        "y": 51
+      },
+      "isLoaded": true,
+      "minimized": false,
+      "pages": [
+        "eeefef1f-5133-42eb-8324-f13793b125ab"
+      ],
+      "title": "Development workspace",
+      "type": "documentWindow",
+      "uuid": "66434f31-4e96-41c5-af70-51a98a00401b"
+    }
+  }
+}

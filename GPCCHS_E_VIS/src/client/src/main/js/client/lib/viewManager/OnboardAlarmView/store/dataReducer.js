@@ -109,13 +109,19 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
     }
     case types.WS_VIEW_ALARM_COLLAPSE: {
       const { viewId, oid } = action.payload;
-      const collapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], true);
-      return collapseAlarm(state);
+      if (_.get([viewId, 'lines', oid], state)) {
+        const collapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], true);
+        return collapseAlarm(state);
+      }
+      return state;
     }
     case types.WS_VIEW_ALARM_UNCOLLAPSE: {
       const { viewId, oid } = action.payload;
-      const uncollapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], false);
-      return uncollapseAlarm(state);
+      if (_.get([viewId, 'lines', oid], state)) {
+        const uncollapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], false);
+        return uncollapseAlarm(state);
+      }
+      return state;
     }
     case types.INJECT_DATA_RANGE: {
       const {
@@ -197,10 +203,11 @@ export const getDataLines = createSelector(
         type: 'parameter_header',
         alarm: alarmWithoutParameters,
       },
-      ...alarm.parameters.map(parameter => ({
+      ...alarm.parameters.map((parameter, index) => ({
         type: 'parameter',
         data: parameter,
         alarm: alarmWithoutParameters,
+        parameterIndex: index,
       })),
     ];
     return [

@@ -52,6 +52,14 @@ export const ackFailure = (viewId, ackId, oid, error = '') => ({
   },
 });
 
+export const toggleSelection = (viewId, oid) => ({
+  type: types.WS_VIEW_ALARM_TOGGLE_SELECTION,
+  payload: {
+    viewId,
+    oid,
+  },
+});
+
 export const collapseAlarm = (viewId, oid) => ({
   type: types.WS_VIEW_ALARM_COLLAPSE,
   payload: { viewId, oid },

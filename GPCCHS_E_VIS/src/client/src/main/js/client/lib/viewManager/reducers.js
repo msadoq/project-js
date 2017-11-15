@@ -22,6 +22,8 @@ import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
 import onboardAlarmViewDataReducer from './OnboardAlarmView/store/dataReducer';
 import packetViewDataReducer from './PacketView/store/dataReducer';
 
+import alarmViewUiReducer from './GroundAlarmView/store/uiReducer';
+
 import * as constants from './constants';
 
 /* --- Utils ---------------------------------------------------------------- */
@@ -66,3 +68,7 @@ export const dataReducers = createDataReducers({
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewDataReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
 });
+
+export const uiReducers = {
+  AlarmViewUi: alarmViewUiReducer,
+};

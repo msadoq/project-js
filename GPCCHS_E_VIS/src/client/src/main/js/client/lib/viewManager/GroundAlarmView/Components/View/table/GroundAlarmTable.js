@@ -12,6 +12,7 @@ import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
+const MESSAGE_IS_PLAYING_TIMEBAR = 'You cannot select an alarm when timebar is playing';
 const COLS = ['parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
 const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
@@ -37,8 +38,8 @@ CollapseButton.defaultProps = {
 };
 
 const Table = ({
-  lines, position, displayedRows, rowHeight, selectedAlarms,
-  onCollapse, onUncollapse, onClickAlarm,
+  lines, position, displayedRows, rowHeight, selectedAlarms, hoveredAlarm,
+  onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, isPlayingTimebar,
 }) => (
   <table>
     <thead>
@@ -61,10 +62,15 @@ const Table = ({
           if (line.type === 'alarm' || line.type === 'transition') {
             return (
               <tr
+                title={isPlayingTimebar ? MESSAGE_IS_PLAYING_TIMEBAR : ''}
+                onMouseEnter={() => onMouseEnter(line.alarm)}
+                onMouseLeave={() => onMouseLeave(line.alarm)}
                 onClick={() => onClickAlarm(line.alarm)}
                 key={key}
                 className={classnames({
-                  [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
+                  [styles.notAllowed]: isPlayingTimebar,
+                  [styles.selectable]: line.alarm.ackState === REQUIRE_ACK && !isPlayingTimebar,
+                  [styles.hover]: hoveredAlarm === line.alarm.oid,
                   alarmChildren: line.type === 'transition',
                   alarm: line.type === 'alarm',
                   selected: Boolean(selectedAlarms[line.alarm.oid]),
@@ -94,10 +100,15 @@ const Table = ({
           }
           return (
             <tr
+              title={isPlayingTimebar ? MESSAGE_IS_PLAYING_TIMEBAR : ''}
+              onMouseEnter={() => onMouseEnter(line.alarm)}
+              onMouseLeave={() => onMouseLeave(line.alarm)}
               onClick={() => onClickAlarm(line.alarm)}
               style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
               className={classnames({
-                [styles.selectable]: line.alarm.ackState === REQUIRE_ACK,
+                [styles.notAllowed]: isPlayingTimebar,
+                [styles.selectable]: line.alarm.ackState === REQUIRE_ACK && !isPlayingTimebar,
+                [styles.hover]: hoveredAlarm === line.alarm.oid,
                 alarmChildren: true,
                 selected: Boolean(selectedAlarms[line.alarm.oid]),
               })}
@@ -120,7 +131,10 @@ Table.propTypes = {
   onCollapse: PropTypes.func.isRequired,
   onUncollapse: PropTypes.func.isRequired,
   onClickAlarm: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
+  hoveredAlarm: PropTypes.string,
   position: PropTypes.number,
   lines: PropTypes.arrayOf(PropTypes.shape({
     data: PropTypes.shape({}),
@@ -128,14 +142,16 @@ Table.propTypes = {
   })).isRequired,
   rowHeight: PropTypes.number.isRequired,
   displayedRows: PropTypes.number.isRequired,
+  isPlayingTimebar: PropTypes.bool.isRequired,
 };
 Table.defaultProps = {
+  hoveredAlarm: '',
   position: 0,
 };
 
 const initialState = {
   position: 0,
-  selectedAlarms: {},
+  hoveredAlarm: undefined,
 };
 
 class TableView extends React.Component {
@@ -144,6 +160,8 @@ class TableView extends React.Component {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
+    toggleSelection: PropTypes.func.isRequired,
+    selectedAlarms: PropTypes.shape({}).isRequired,
     mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
@@ -151,6 +169,7 @@ class TableView extends React.Component {
       data: PropTypes.shape({}),
       type: PropTypes.string,
     })).isRequired,
+    indexedLines: PropTypes.shape({}).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
     rowHeight: PropTypes.number,
@@ -158,6 +177,7 @@ class TableView extends React.Component {
     openInspector: PropTypes.func.isRequired,
     collapse: PropTypes.func.isRequired,
     uncollapse: PropTypes.func.isRequired,
+    isPlayingTimebar: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -181,12 +201,14 @@ class TableView extends React.Component {
 
   onScrollUp = () => {
     if (this.state.position > 0) {
+      this.unhoverAlarm();
       this.setState(_.update('position', _.add(-1)));
     }
   }
 
   onScrollDown = () => {
     if (this.state.position < this.getLastPosition()) {
+      this.unhoverAlarm();
       this.setState(_.update('position', _.add(1)));
     }
   }
@@ -194,21 +216,26 @@ class TableView extends React.Component {
   onAlarmContextMenu = (e) => {
     e.stopPropagation();
     const n = this.getNbSelectedAlarms();
-    const getTimestamps = _.keys;
+    const getOids = _.keys;
+    const parameterName = _.get([this.state.hoveredAlarm, 'parameterName'], this.props.indexedLines);
+    const openInspectorMenu = parameterName ? [
+      {
+        label: `Open '${parameterName}' parameter in inspector`,
+        click: () => this.props.openInspector(parameterName),
+        enabled: Boolean(this.state.hoveredAlarm),
+      },
+      { type: 'separator' },
+    ] : [];
     const menu = [
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
         click: () => {
-          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms));
+          this.props.openAckModal(this.props.viewId, getOids(this.props.selectedAlarms));
         },
         enabled: n > 0,
       },
       { type: 'separator' },
-      {
-        label: 'Open inspector',
-        click: this.props.openInspector,
-      },
-      { type: 'separator' },
+      ...openInspectorMenu,
       ...this.props.mainMenu,
     ];
     handleContextMenu(menu);
@@ -228,18 +255,21 @@ class TableView extends React.Component {
     Math.ceil((this.state.position / this.getLastPosition()) * this.getScrollAreaHeight())
   )
 
-  getNbSelectedAlarms = () => _.size(this.state.selectedAlarms)
+  getNbSelectedAlarms = () => _.size(this.props.selectedAlarms)
 
   toggleAlarmSelection = (alarm) => {
     const { oid, ackState } = alarm;
-    if (ackState === REQUIRE_ACK) {
-      const selectedAlarmsPath = ['selectedAlarms', oid];
-      if (this.state.selectedAlarms[oid]) {
-        this.setState(_.unset(selectedAlarmsPath));
-      } else {
-        this.setState(_.set(selectedAlarmsPath, alarm));
-      }
+    if (ackState === REQUIRE_ACK && !this.props.isPlayingTimebar) {
+      this.props.toggleSelection(oid);
     }
+  }
+
+  hoverAlarm = ({ oid }) => {
+    this.setState(_.set('hoveredAlarm', oid));
+  }
+
+  unhoverAlarm = () => {
+    this.setState(_.unset('hoveredAlarm'));
   }
 
   resetState = () => {
@@ -259,10 +289,14 @@ class TableView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
+          isPlayingTimebar={this.props.isPlayingTimebar}
+          onMouseEnter={this.hoverAlarm}
+          onMouseLeave={this.unhoverAlarm}
+          hoveredAlarm={this.state.hoveredAlarm}
           onCollapse={this.props.collapse}
           onUncollapse={this.props.uncollapse}
           onClickAlarm={this.toggleAlarmSelection}
-          selectedAlarms={this.state.selectedAlarms}
+          selectedAlarms={this.props.selectedAlarms}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}

@@ -8,6 +8,7 @@ import { getData, getDataLines } from '../../../store/dataReducer';
 import { getSelectedAlarms } from '../../../store/uiReducer';
 import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection } from '../../../store/actions';
 import { getInspectorOptions } from '../../../store/selectors';
+import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
   mode: getAlarmMode,
@@ -17,6 +18,7 @@ const mapStateToProps = createStructuredSelector({
   selectedAlarms: getSelectedAlarms,
   indexedLines: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
+  isPlayingTimebar: getIsPlaying,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({

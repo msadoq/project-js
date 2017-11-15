@@ -210,7 +210,7 @@ class TableView extends React.Component {
   onAlarmContextMenu = (e) => {
     e.stopPropagation();
     const n = this.getNbSelectedAlarms();
-    const getTimestamps = _.keys;
+    const getOids = _.keys;
     const { hoveredParameter = {} } = this.state;
     const path = [hoveredParameter.alarmOid, 'parameters', hoveredParameter.parameterIndex, 'name'];
     const parameterName = _.get(path, this.props.indexedLines);
@@ -226,7 +226,7 @@ class TableView extends React.Component {
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
         click: () => {
-          this.props.openAckModal(this.props.viewId, getTimestamps(this.state.selectedAlarms));
+          this.props.openAckModal(this.props.viewId, getOids(this.state.selectedAlarms));
         },
         enabled: n > 0,
       },

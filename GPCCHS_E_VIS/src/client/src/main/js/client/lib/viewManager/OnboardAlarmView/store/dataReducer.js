@@ -197,10 +197,11 @@ export const getDataLines = createSelector(
         type: 'parameter_header',
         alarm: alarmWithoutParameters,
       },
-      ...alarm.parameters.map(parameter => ({
+      ...alarm.parameters.map((parameter, index) => ({
         type: 'parameter',
         data: parameter,
         alarm: alarmWithoutParameters,
+        parameterIndex: index,
       })),
     ];
     return [

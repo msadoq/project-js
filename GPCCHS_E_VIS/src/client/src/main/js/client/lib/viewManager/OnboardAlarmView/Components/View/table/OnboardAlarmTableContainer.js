@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import OnboardAlarmTable from './OnboardAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
-import { getDataLines } from '../../../store/dataReducer';
+import { getData, getDataLines } from '../../../store/dataReducer';
 import { openAckModal } from '../../../store/actions';
 import { collapseAlarm, uncollapseAlarm } from '../../../../GroundAlarmView/store/actions';
 import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
@@ -14,6 +14,7 @@ const mapStateToProps = createStructuredSelector({
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
   lines: getDataLines,
+  indexedLines: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
 });
 
@@ -27,7 +28,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  openInspector: () => ownProps.openInspector(stateProps.inspectorOptions),
+  openInspector: (parameterName) => {
+    const inspectorOptions = _.set(['dataId', 'parameterName'], parameterName, stateProps.inspectorOptions);
+    return ownProps.openInspector(inspectorOptions);
+  },
 });
 
 const OnboardAlarmTableContainer = connect(

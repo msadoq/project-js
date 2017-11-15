@@ -145,7 +145,6 @@ Table.defaultProps = {
 
 const initialState = {
   position: 0,
-  selectedAlarms: {},
   hoveredAlarm: undefined,
 };
 
@@ -155,6 +154,8 @@ class TableView extends React.Component {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
+    toggleSelection: PropTypes.func.isRequired,
+    selectedAlarms: PropTypes.shape({}).isRequired,
     mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
@@ -222,7 +223,7 @@ class TableView extends React.Component {
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
         click: () => {
-          this.props.openAckModal(this.props.viewId, getOids(this.state.selectedAlarms));
+          this.props.openAckModal(this.props.viewId, getOids(this.props.selectedAlarms));
         },
         enabled: n > 0,
       },
@@ -247,17 +248,12 @@ class TableView extends React.Component {
     Math.ceil((this.state.position / this.getLastPosition()) * this.getScrollAreaHeight())
   )
 
-  getNbSelectedAlarms = () => _.size(this.state.selectedAlarms)
+  getNbSelectedAlarms = () => _.size(this.props.selectedAlarms)
 
   toggleAlarmSelection = (alarm) => {
     const { oid, ackState } = alarm;
     if (ackState === REQUIRE_ACK) {
-      const selectedAlarmsPath = ['selectedAlarms', oid];
-      if (this.state.selectedAlarms[oid]) {
-        this.setState(_.unset(selectedAlarmsPath));
-      } else {
-        this.setState(_.set(selectedAlarmsPath, alarm));
-      }
+      this.props.toggleSelection(oid);
     }
   }
 
@@ -292,7 +288,7 @@ class TableView extends React.Component {
           onCollapse={this.props.collapse}
           onUncollapse={this.props.uncollapse}
           onClickAlarm={this.toggleAlarmSelection}
-          selectedAlarms={this.state.selectedAlarms}
+          selectedAlarms={this.props.selectedAlarms}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}

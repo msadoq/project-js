@@ -1,0 +1,3121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|none|none 1`] = `null`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|false|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|none|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+/>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|bottom|true|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|none|none 1`] = `null`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|false|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|none|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+/>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: left|top|true|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|none|none 1`] = `null`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|false|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|none|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+/>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|bottom|true|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|none|none 1`] = `null`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|false|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Reset all
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|none|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+/>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|none|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|none|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|none|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time,vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time,vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time,vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time,vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|time|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time panned 57.37px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|vBat|none 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|vBat|time 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|vBat|time,vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    X axis time zoomed 1.46px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;
+
+exports[`GrizzlyParametric :: Reset GrizzlyParametric :: Reset :: right|top|true|vBat|vBat 1`] = `
+<div
+  className="zoomAndPanLabels"
+  style={
+    Object {
+      "left": 5,
+      "top": 5,
+    }
+  }
+>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat zoomed 1.61px
+  </button>
+  <button
+    className="btn btn-xs btn-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Y axis vBat panned 50.29px
+  </button>
+</div>
+`;

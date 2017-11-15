@@ -8,7 +8,6 @@ import _get from 'lodash/get';
 import _uniq from 'lodash/uniq';
 import _throttle from 'lodash/throttle';
 import { scaleLinear, scaleLog } from 'd3-scale';
-import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
 
@@ -17,9 +16,10 @@ import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 import Zones from './Zones';
+import keyCodes from '../../../../../common/utils/keymap';
+import Reset from './Reset';
 
 export default class Chart extends React.Component {
-
   static propTypes = {
     yAxesAt: PropTypes.string,
     xAxisAt: PropTypes.string,
@@ -98,7 +98,8 @@ export default class Chart extends React.Component {
         tooltipFormatter: PropTypes.func,
       })
     ).isRequired,
-  }
+    // linesListener: PropTypes.func,
+  };
 
   static defaultProps = {
     yAxesAt: 'left',
@@ -112,14 +113,21 @@ export default class Chart extends React.Component {
     tooltipColor: 'white',
     perfOutput: false,
     parametric: false,
-  }
+  };
 
-  state = {
-    zoomLevels: {},
-    pans: {},
-    ctrlPressed: false,
-    shiftPressed: false,
-    lassoing: false,
+  constructor(props) {
+    super(props);
+    this.resetPan = this.resetPan.bind(this);
+    this.resetZoomLevel = this.resetZoomLevel.bind(this);
+    this.resetPanAndZoom = this.resetPanAndZoom.bind(this);
+
+    this.state = {
+      zoomLevels: {},
+      pans: {},
+      ctrlPressed: false,
+      shiftPressed: false,
+      lassoing: false,
+    };
   }
 
   componentDidMount() {
@@ -149,32 +157,49 @@ export default class Chart extends React.Component {
     document.removeEventListener('keyup', this.onKeyUp);
   }
 
+  // extentsAndDimensions = () => {
+  //   const {
+  //     pans,
+  //     zoomLevels,
+  //     linesListener,
+  //   } = this.props;
+  //
+  //   linesListener({
+  //     line01: {
+  //       width: 800,
+  //       height: 600,
+  //       xExtents: [156156, 156189],
+  //       yExtents: [20, 120],
+  //     },
+  //   });
+  // };
+
   onKeyDown = (e) => {
     if (this.el && this.el.parentElement.querySelector(':hover')) {
-      if (e.keyCode === 17) {
+      if (e.keyCode === keyCodes.ctrl) {
         this.setState({
           ctrlPressed: true,
         });
-      } else if (e.keyCode === 16) {
+      } else if (e.keyCode === keyCodes.shift) {
         this.setState({
           shiftPressed: true,
         });
       }
     }
-  }
+  };
 
   onKeyUp = (e) => {
     const { ctrlPressed, shiftPressed } = this.state;
-    if (ctrlPressed && e.keyCode === 17) {
+    if (ctrlPressed && e.keyCode === keyCodes.ctrl) {
       this.setState({
         ctrlPressed: false,
       });
-    } else if (shiftPressed && e.keyCode === 16) {
+    } else if (shiftPressed && e.keyCode === keyCodes.shift) {
       this.setState({
         shiftPressed: false,
       });
     }
-  }
+  };
 
   onWheel = (e) => {
     e.preventDefault();
@@ -195,7 +220,7 @@ export default class Chart extends React.Component {
         });
       }
     }
-  }
+  };
 
   onMouseDown = (e) => {
     e.preventDefault();
@@ -229,7 +254,7 @@ export default class Chart extends React.Component {
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
     }
-  }
+  };
 
   onMouseMove = (e) => {
     e.preventDefault();
@@ -260,7 +285,7 @@ export default class Chart extends React.Component {
         lassoY: e.pageY - mouseMoveCursorOriginY,
       });
     }
-  }
+  };
 
   onMouseUp = (e) => {
     e.preventDefault();
@@ -295,14 +320,12 @@ export default class Chart extends React.Component {
 
       // Zoom on all Y axes
       this.yAxesUniq.forEach((axis) => {
-        const zoomLevelY = zoomY * _get(zoomLevels, axis.id, 1);
-        newZoomLevels[axis.id] = zoomLevelY;
+        newZoomLevels[axis.id] = (zoomY * _get(zoomLevels, axis.id, 1));
       });
 
       // Zoom on all X axes
       this.xAxesUniq.forEach((axis) => {
-        const zoomLevelX = zoomX * _get(zoomLevels, axis.id, 1);
-        newZoomLevels[axis.id] = zoomLevelX;
+        newZoomLevels[axis.id] = (zoomX * _get(zoomLevels, axis.id, 1));
       });
 
       // Pan on all X axes
@@ -341,7 +364,7 @@ export default class Chart extends React.Component {
     }
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
     document.addEventListener('mouseup', this.onMouseUp);
-  }
+  };
 
   // eslint-disable-next-line complexity, "DV6 TBC_CNES axes sorting, must not be split"
   getSortedAndValidPairs = () => {
@@ -350,21 +373,7 @@ export default class Chart extends React.Component {
       xAxes,
       lines,
     } = this.props;
-    const {
-      zoomLevels,
-      pans,
-    } = this.state;
-    const linesWithValidAxes = [];
-    for (let i = 0; i < lines.length; i += 1) {
-      const line = lines[i];
-      const xAxis = xAxes.find(axis => axis.id === line.xAxisId);
-      const yAxis = yAxes.find(axis => axis.id === line.yAxisId);
-      if (xAxis && xAxis.showAxis && yAxis && yAxis.showAxis) {
-        line.xAxis = xAxis;
-        line.yAxis = yAxis;
-        linesWithValidAxes.push(line);
-      }
-    }
+    const linesWithValidAxes = getLinesWithValidAxes(yAxes, xAxes, lines);
     const yAxesUniq = [];
     const linesUniq = [];
     const xAxesUniq = [];
@@ -380,100 +389,21 @@ export default class Chart extends React.Component {
         const axis = [line.xAxis, line.yAxis][j];
         const logBase = _get(axis, ['logSettings', 'base'], 10);
         const isXAxis = j === 0;
-        const zoomLevel = _get(zoomLevels, axis.id, 1);
-        const pan = _get(pans, axis.id, 0);
-        if (axis.autoLimits) {
-          if (!this.extentsAutoLimits[axis.id]) {
-            this.extentsAutoLimits[axis.id] = _memoize(
-              (hash, extentsLower, extentsUpper, orient, liness, data) => {
-                const values = [];
-                for (let k = 0; k < liness.length; k += 1) {
-                  for (let l = 0; l < data.length; l += 1) {
-                    if (data[l].x >= extentsLower && data[l].x <= extentsUpper) {
-                      values.push(
-                        liness[k].yAccessor ? liness[k].yAccessor(data[l]) : data[l].value
-                      );
-                    }
-                  }
-                }
 
-                const lowerR = _min(values);
-                const upperR = _max(values);
+        // compute axis.calculatedExtents
+        this.calculateExtents(axis, pairLines, line, logBase, j === 0);
 
-                return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
-              }
-            );
-          }
-          axis.calculatedExtents = this.extentsAutoLimits[axis.id](
-            `${axis.extents[0]}-${axis.extents[1]}-${axis.orient}`,
-            axis.extents[0],
-            axis.extents[1],
-            axis.orient,
-            pairLines,
-            line.data
-          );
-        } else if (axis.logarithmic) {
-          const factor = logBase ** Math.floor(Math.log10(zoomLevel ** 5));
-          const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40);
-          const extendsLower = (logBase ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
-          const extendsUpper = (logBase ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
-          if (!this.extents[axis.id]) {
-            this.extents[axis.id] = _memoize(
-              (hash, orient, lower, upper) =>
-                (orient === 'top' ? [lower, upper] : [upper, lower])
-            );
-          }
-          axis.calculatedExtents = this.extents[axis.id](
-            `${axis.orient}-${extendsLower}-${extendsUpper}`,
-            axis.orient,
-            extendsLower,
-            extendsUpper
-          );
-        } else {
-          // First render, instanciate one memoize method per Y axis
-          if (!this.extents[axis.id]) {
-            this.extents[axis.id] = _memoize(
-              (hash, orient, lower, upper) =>
-                (orient === 'top' ? [lower, upper] : [upper, lower])
-            );
-          }
-          const center = (axis.extents[0] + axis.extents[1]) / 2;
-          const range = axis.extents[1] - axis.extents[0];
-          const zoomedRange = range / zoomLevel;
-          const scaledPan = (pan / (isXAxis ? this.chartWidth : this.chartHeight)) * range * -1;
-          const pannedCenter = center + scaledPan;
-          const extentsLower = pannedCenter - (zoomedRange / 2);
-          const extentsUpper = pannedCenter + (zoomedRange / 2);
-
-          axis.calculatedExtents = this.extents[axis.id](
-            `${axis.id}-${axis.orient}-${extentsLower}-${extentsUpper}`,
-            axis.orient,
-            extentsLower,
-            extentsUpper
-          );
-        }
-
+        // memoize linear or logarithmic call
         if (!this.scales[axis.id]) {
-          this.scales[axis.id] = _memoize(
-            (hash, extentsLower, extentsUpper, height, logarithmic, base) => {
-              if (logarithmic) {
-                return scaleLog()
-                  .domain([extentsLower, extentsUpper])
-                  .range([height, 0])
-                  .base(base)
-                  .nice();
-              }
-              return scaleLinear()
-                // Invert for Y axis because it goes by default from top to bottom
-                .domain(isXAxis ? [extentsLower, extentsUpper] : [extentsUpper, extentsLower])
-                .range([0, height]);
-            }
-          );
+          this.scales[axis.id] = memoizeScales();
         }
+
+        // eslint-disable-next-line no-param-reassign
         axis.scale = this.scales[axis.id](
-          `${axis.calculatedExtents[0]}-${axis.calculatedExtents[1]}-${this.chartHeight}-${axis.logarithmic}`,
+          `${axis.calculatedExtents[0]}-${axis.calculatedExtents[1]}-${isXAxis ? this.chartWidth : this.chartHeight}-${axis.logarithmic}`,
           axis.calculatedExtents[0],
           axis.calculatedExtents[1],
+          isXAxis,
           isXAxis ? this.chartWidth : this.chartHeight,
           axis.logarithmic,
           logBase
@@ -503,13 +433,81 @@ export default class Chart extends React.Component {
     this.xAxesUniq = _uniq(xAxesUniq).sort(a => a.rank);
     this.linesUniq = _uniq(linesUniq);
     return pairs;
-  }
+  };
 
-  getLabelPosition = (axisId) => {
-    const labelsPositionConcerned =
-      Object.values(this.labelsPosition || {}).filter(lp => lp.concernedAxes.includes(axisId));
-    return labelsPositionConcerned;
-  }
+  /**
+   * @param axisId
+   * @returns {any[]}
+   */
+  getLabelPosition = axisId => Object.values(this.labelsPosition || {})
+    .filter(lp => lp.concernedAxes.includes(axisId));
+  /**
+   * @param axis
+   * @param pairLines
+   * @param line
+   * @param logBase
+   * @param isXAxis
+   */
+  calculateExtents = (axis, pairLines, line, logBase, isXAxis) => {
+    const {
+      zoomLevels,
+      pans,
+    } = this.state;
+
+    const pan = _get(pans, axis.id, 0);
+    const zoomLevel = _get(zoomLevels, axis.id, 1);
+
+    /* eslint-disable no-param-reassign */
+    if (axis.autoLimits) {
+      if (!this.extentsAutoLimits[axis.id]) {
+        this.extentsAutoLimits[axis.id] = memoizeExtentsAutolimit();
+      }
+      axis.calculatedExtents = this.extentsAutoLimits[axis.id](
+        `${axis.extents[0]}-${axis.extents[1]}-${axis.orient}`,
+        axis.extents[0],
+        axis.extents[1],
+        axis.orient,
+        pairLines,
+        line.data
+      );
+    } else if (axis.logarithmic) {
+      const factor = logBase ** Math.floor(Math.log10(zoomLevel ** 5));
+      const panPower = pan < 0 ? -Math.floor(Math.abs(pan) / 40) : Math.floor(pan / 40);
+      const extendsLower = (logBase ** panPower) * (_get(axis, ['logSettings', 'min'], 1) / factor);
+      const extendsUpper = (logBase ** panPower) * (_get(axis, ['logSettings', 'max'], 10000000) * factor);
+      if (!this.extents[axis.id]) {
+        this.extents[axis.id] = memoizeExtents();
+      }
+      axis.calculatedExtents = this.extents[axis.id](
+        `${axis.orient}-${extendsLower}-${extendsUpper}`,
+        axis.orient,
+        extendsLower,
+        extendsUpper
+      );
+    } else {
+      // First render, instanciate one memoize method per Y axis
+      if (!this.extents[axis.id]) {
+        this.extents[axis.id] = memoizeExtents();
+      }
+      const { extentsUpper, extentsLower } = getExtentsEdgesForAxis(
+        axis.extents[0],
+        axis.extents[1],
+        zoomLevel,
+        pan,
+        isXAxis,
+        this.chartWidth,
+        this.chartHeight
+      );
+
+      axis.calculatedExtents = this.extents[axis.id](
+        `${axis.id}-${axis.orient}-${extentsLower}-${extentsUpper}`,
+        axis.orient,
+        extentsLower,
+        extentsUpper
+      );
+    }
+    /* eslint-enable no-param-reassign */
+  };
 
   extents = {};
   extentsAutoLimits = {};
@@ -598,16 +596,10 @@ export default class Chart extends React.Component {
       }
     }
 
-    const foundAxis = axisBounds
+    return axisBounds
       .filter(ab => ab[1] > 0)
       .sort(ab => ab[1])[0];
-    return foundAxis;
-  }
-
-  resetZoomLevel = (e) => {
-    e.preventDefault();
-    this.setState({ zoomLevel: 1 });
-  }
+  };
 
   updateLabelPosition = (xAxisId, yAxisId, lineId, positions) => {
     if (!this.labelsPosition) {
@@ -623,66 +615,48 @@ export default class Chart extends React.Component {
       [`${xAxisId}-${yAxisId}`, lineId],
       positions
     );
-  }
+  };
 
   updatePointLabelsPosition = (yAxisId, points) => {
     if (!this.pointLabels) {
       this.pointLabels = {};
     }
     _set(this.pointLabels, yAxisId, points);
-  }
+  };
 
   yAxisWidth = 90;
   xAxisHeight = 40;
 
-  assignEl = (el) => { this.el = el; }
+  assignEl = (el) => { this.el = el; };
 
   resetPan = (e, axisId) => {
     e.preventDefault();
     const { pans } = this.state;
+    delete pans[axisId];
     this.setState({
       pans: {
         ...pans,
-        [axisId]: 0,
       },
     });
-  }
+  };
 
   resetZoomLevel = (e, axisId) => {
     e.preventDefault();
     const { zoomLevels } = this.state;
+    delete zoomLevels[axisId];
     this.setState({
       zoomLevels: {
         ...zoomLevels,
-        [axisId]: 1,
       },
     });
-  }
+  };
 
-  memoizeResetPan = _memoize(axisId =>
-    e => this.resetPan(e, axisId)
-  )
-
-  memoizeResetZoomLevel= _memoize(axisId =>
-    e => this.resetZoomLevel(e, axisId)
-  )
-
-  memoizeBackgroundDivStyle = _memoize(
-    (hash, marginTop, marginSide, yAxesAt, width, height) => {
-      const style = {};
-      if (yAxesAt === 'left') {
-        style.left = marginSide;
-      } else if (yAxesAt === 'right') {
-        style.right = marginSide;
-      }
-      return {
-        ...style,
-        top: marginTop,
-        width,
-        height,
-      };
-    }
-  );
+  resetPanAndZoom = () => {
+    this.setState({
+      zoomLevels: {},
+      pans: {},
+    });
+  };
 
   render() {
     const {
@@ -705,8 +679,6 @@ export default class Chart extends React.Component {
     } = this.props;
 
     const {
-      zoomLevels,
-      pans,
       ctrlPressed,
       lassoX,
       lassoY,
@@ -715,7 +687,6 @@ export default class Chart extends React.Component {
       lassoOriginX,
       lassoOriginY,
     } = this.state;
-
     // This is an estimation on first render since this.getSortedAndValidPairs needs this.chartHeight
     // to calculate y scales
     if (!this.chartHeight) {
@@ -727,22 +698,22 @@ export default class Chart extends React.Component {
     this.pairs = this.getSortedAndValidPairs();
 
     // Set chartHeight depending on xAxisAt (top/bottom/other)
-    this.chartHeight = ['top', 'bottom'].includes(xAxisAt) ?
-      height - (this.xAxesUniq.length * this.xAxisHeight)
-      :
-      height;
+    this.chartHeight = ['top', 'bottom'].includes(xAxisAt)
+      ? height - (this.xAxesUniq.length * this.xAxisHeight)
+      : height
+    ;
 
     // Set chartWidth depending on yAxesAt (left/right/other)
     // and number of yAxes
-    this.chartWidth = ['left', 'right'].includes(yAxesAt) ?
-      width - (this.yAxesUniq.length * this.yAxisWidth)
-      :
-      width;
+    this.chartWidth = ['left', 'right'].includes(yAxesAt)
+      ? width - (this.yAxesUniq.length * this.yAxisWidth)
+      : width
+    ;
 
     const marginTop = xAxisAt === 'top' ? (this.xAxesUniq.length * this.xAxisHeight) : 0;
     const marginSide = this.yAxesUniq.length * this.yAxisWidth;
 
-    this.divStyle = this.memoizeBackgroundDivStyle(
+    this.divStyle = memoizeBackgroundDivStyle(
       `${marginTop}-${marginSide}-${yAxesAt}-${this.chartWidth}-${this.chartHeight}`,
       marginTop,
       marginSide,
@@ -750,7 +721,6 @@ export default class Chart extends React.Component {
       this.chartWidth,
       this.chartHeight
     );
-
     return (
       <div
         className={styles.container}
@@ -763,44 +733,18 @@ export default class Chart extends React.Component {
         }}
         ref={this.assignEl}
       >
-        <div
-          className={styles.zoomAndPanLabels}
-          style={{
-            left: yAxesAt === 'left' ? marginSide + 5 : 5,
-            top: xAxisAt === 'top' ? (this.xAxesUniq.length * this.xAxisHeight) + 5 : 5,
-          }}
-        >
-          {
-            Object.keys(pans).map((key) => {
-              const yAxis = this.yAxesUniq.find(a => a.id === key);
-              const xAxis = this.xAxesUniq.find(a => a.id === key);
-              if (!xAxis && !yAxis) return null;
-              const axis = yAxis || xAxis;
-              return (pans[key] !== 0 &&
-              <Button
-                key={key}
-                bsStyle="danger"
-                bsSize="xs"
-                onClick={this.memoizeResetPan(key)}
-              >{`${xAxis ? 'X' : 'Y'} axis ${axis.label} panned ${pans[key].toFixed(2)}px`}</Button>);
-            })
-          }
-          {
-            Object.keys(zoomLevels).map((key) => {
-              const yAxis = this.yAxesUniq.find(a => a.id === key);
-              const xAxis = this.xAxesUniq.find(a => a.id === key);
-              if (!xAxis && !yAxis) return null;
-              const axis = yAxis || xAxis;
-              return (zoomLevels[key] !== 1 &&
-              <Button
-                key={key}
-                bsStyle="danger"
-                bsSize="xs"
-                onClick={this.memoizeResetZoomLevel(key)}
-              >{`${xAxis ? 'X' : 'Y'} axis ${axis.label} zoomed ${(zoomLevels[key]).toFixed(2)}x`}</Button>);
-            })
-          }
-        </div>
+        <Reset
+          yAxesAt={yAxesAt}
+          xAxisAt={xAxisAt}
+          yAxesUniq={this.yAxesUniq}
+          xAxesUniq={this.xAxesUniq}
+          resetPan={this.resetPan}
+          resetZoomLevel={this.resetZoomLevel}
+          resetPanAndZoom={this.resetPanAndZoom}
+          zoomLevels={this.state.zoomLevels}
+          pans={this.state.pans}
+          divStyle={this.divStyle}
+        />
         <div
           className={classnames('Background', styles.Background)}
           style={this.divStyle}
@@ -953,3 +897,124 @@ export default class Chart extends React.Component {
     );
   }
 }
+/**
+ * @param lower
+ * @param upper
+ * @param zoomLevel
+ * @param pan
+ * @param isXAxis
+ * @param chartWidth
+ * @param chartHeight
+ * @returns {{extentsUpper: number, extentsLower: number}}
+ * @pure
+ */
+export const getExtentsEdgesForAxis = (
+  lower,
+  upper,
+  zoomLevel,
+  pan,
+  isXAxis,
+  chartWidth,
+  chartHeight) => {
+  const center = (lower + upper) / 2;
+  const range = upper - lower;
+  const zoomedRange = range / zoomLevel;
+  const scaledPan = (pan / (isXAxis ? chartWidth : chartHeight)) * range * -1;
+  const pannedCenter = center + scaledPan;
+  const extentsLower = pannedCenter - (zoomedRange / 2);
+  const extentsUpper = pannedCenter + (zoomedRange / 2);
+
+  return {
+    extentsUpper,
+    extentsLower,
+  };
+};
+/**
+ * @returns {Function}
+ * @pure
+ */
+export const memoizeExtentsAutolimit = () => _memoize(
+  (hash, extentsLower, extentsUpper, orient, liness, data) => {
+    const values = [];
+    for (let k = 0; k < liness.length; k += 1) {
+      for (let l = 0; l < data.length; l += 1) {
+        if (data[l].x >= extentsLower && data[l].x <= extentsUpper) {
+          values.push(
+            liness[k].yAccessor ? liness[k].yAccessor(data[l]) : data[l].value
+          );
+        }
+      }
+    }
+
+    const lowerR = _min(values);
+    const upperR = _max(values);
+
+    return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
+  }
+);
+/**
+ * @returns {Function}
+ * @pure
+ */
+export const memoizeExtents = () => _memoize(
+  (hash, orient, lower, upper) =>
+    (orient === 'top' ? [lower, upper] : [upper, lower])
+);
+/**
+ * @type {Function}
+ * @pure
+ */
+export const memoizeBackgroundDivStyle = _memoize(
+  (hash, marginTop, marginSide, yAxesAt, width, height) => {
+    const style = {};
+    if (yAxesAt === 'left') {
+      style.left = marginSide;
+    } else if (yAxesAt === 'right') {
+      style.right = marginSide;
+    }
+    return {
+      ...style,
+      top: marginTop,
+      width,
+      height,
+    };
+  }
+);
+/**
+ * @returns {Function}
+ * @pure
+ */
+export const memoizeScales = () => _memoize(
+  (hash, extentsLower, extentsUpper, isXAxis, size, logarithmic, base) => {
+    if (logarithmic) {
+      return scaleLog()
+        .domain([extentsLower, extentsUpper])
+        .range([size, 0])
+        .base(base)
+        .nice();
+    }
+    return scaleLinear()
+    // Invert for Y axis because it goes by default from top to bottom
+      .domain(isXAxis ? [extentsLower, extentsUpper] : [extentsUpper, extentsLower])
+      .range([0, size]);
+  }
+);
+/**
+ * @returns {Array}
+ * @pure
+ */
+export const getLinesWithValidAxes = (yAxes, xAxes, lines) => {
+  const linesWithValidAxes = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    const xAxis = xAxes.find(axis => axis.id === line.xAxisId);
+    const yAxis = yAxes.find(axis => axis.id === line.yAxisId);
+    if (xAxis && xAxis.showAxis && yAxis && yAxis.showAxis) {
+      line.xAxis = xAxis;
+      line.yAxis = yAxis;
+      linesWithValidAxes.push(line);
+    }
+  }
+
+  return linesWithValidAxes;
+};

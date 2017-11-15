@@ -738,6 +738,7 @@ export class GrizzlyPlotView extends PureComponent {
           allowZoom
           allowPan
           perfOutput={false}
+          // linesListener={console.log}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxesAt="bottom"

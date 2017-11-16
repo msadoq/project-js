@@ -26,7 +26,9 @@ global.testConfig = {
     nonsignificant: 'lightgrey',
     obsolete: 'tan',
   },
-  DEFAULT_FIELD: {},
+  DEFAULT_FIELD: {
+    ReportingParameter: 'extractedValue',
+  },
 };
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));

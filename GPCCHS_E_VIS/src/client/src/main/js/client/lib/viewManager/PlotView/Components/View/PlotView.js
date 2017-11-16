@@ -1,5 +1,4 @@
 import React, { PureComponent, PropTypes } from 'react';
-import _ from 'lodash/fp';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _max from 'lodash/max';
@@ -7,6 +6,7 @@ import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
+import _result from 'lodash/result';
 import classnames from 'classnames';
 import moment from 'moment';
 import getLogger from '../../../../common/logManager';
@@ -24,10 +24,16 @@ import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const logger = getLogger('view:plot');
 
-const getComObject =
-  _.propOr('UNKNOWN_COM_OBJECT', 0);
-
-const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
+/**
+ * @param entryPoints
+ * @param axes
+ * @param grids
+ * @param data
+ * @param visuWindow
+ * @returns {{xAxes: Array, yAxes: Array}}
+ * @pure
+ */
+export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
   let xAxesIds = [];
   const xAxes = [];
   let yAxesIds = [];
@@ -175,9 +181,16 @@ const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
   return { xAxes, yAxes };
 };
 
-const getUniqueEpId = (id, entryPoints) => {
+/**
+ * @param id
+ * @param entryPoints
+ * @returns {*}
+ * @pure
+ */
+export const getUniqueEpId = (id, entryPoints) => {
   let i = 2;
   let newId = id;
+
   // eslint-disable-next-line no-loop-func, "DV6 TBC_CNES Check if name is taken"
   while (Object.keys(entryPoints).find(k => entryPoints[k].name === newId)) {
     newId = `${id}_${i}`;
@@ -209,17 +222,24 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
     </div>
   );
 
-// parse clipboard data to create partial entry point
-function parseDragData(data, id, defaultTimelineId) {
+/**
+ * @param data
+ * @param id
+ * @param defaultTimelineId
+ * @returns {{name: *, connectedData: {formula: string, fieldX: string, timeline: *}}}
+ * @pure
+ */
+export const parseDragData = (data, id, defaultTimelineId) => {
+  const val = _result(data, 'comObjects[0]', 'UNKNOWN_COM_OBJECT');
   return {
     name: id,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
+      formula: `${data.catalogName}.${data.item}<${val}>.${get('DEFAULT_FIELD')[val]}`,
       fieldX: 'onboardDate',
       timeline: defaultTimelineId,
     },
   };
-}
+};
 
 const plotPadding = 15;
 const securityTopPadding = 5;

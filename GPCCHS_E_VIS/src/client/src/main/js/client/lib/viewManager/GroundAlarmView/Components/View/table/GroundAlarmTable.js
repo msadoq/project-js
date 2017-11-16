@@ -18,7 +18,7 @@ const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extract
 
 const CollapseButton = ({ onClick, collapsed }) => (
   <span
-    title={collapsed ? 'Uncollapse' : 'Collapse'}
+    title={collapsed ? 'Expand' : 'Collapse'}
     onClick={(e) => {
       e.stopPropagation();
       onClick(e);

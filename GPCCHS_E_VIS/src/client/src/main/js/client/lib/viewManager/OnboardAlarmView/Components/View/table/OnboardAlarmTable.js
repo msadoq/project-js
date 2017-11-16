@@ -18,7 +18,7 @@ const PARAMETERS_COLS = ['name', 'value'];
 
 const CollapseButton = ({ onClick, collapsed }) => (
   <span
-    title={collapsed ? 'Uncollapse' : 'Collapse'}
+    title={collapsed ? 'Expand' : 'Collapse'}
     onClick={(e) => {
       e.stopPropagation();
       onClick(e);

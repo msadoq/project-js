@@ -13,8 +13,8 @@ import styles from './GroundAlarmTable.css';
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
 const MESSAGE_IS_PLAYING_TIMEBAR = 'You cannot select an alarm when timebar is playing';
-const COLS = ['parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
-const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
+const COLS = ['', 'parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
+const TRANSITION_COLS = ['', 'onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
 const CollapseButton = ({ onClick, collapsed }) => (
   <span
@@ -80,7 +80,9 @@ const Table = ({
                 {
                   columns.map((col, index) => (
                     <td
-                      style={{ }}
+                      className={classnames({
+                        [styles.collapseButton]: index === 0,
+                      })}
                       key={col}
                     >
                       {
@@ -115,8 +117,15 @@ const Table = ({
               key={key}
             >
               {
-                TRANSITION_COLS.map(col => (
-                  <th key={col}>{col}</th>
+                TRANSITION_COLS.map((col, index) => (
+                  <th
+                    className={classnames({
+                      [styles.collapseButton]: index === 0,
+                    })}
+                    key={col}
+                  >
+                    {col}
+                  </th>
                 ))
               }
             </tr>

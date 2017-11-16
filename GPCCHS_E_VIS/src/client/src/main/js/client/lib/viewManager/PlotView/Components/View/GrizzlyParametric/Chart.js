@@ -7,6 +7,8 @@ import _set from 'lodash/set';
 import _get from 'lodash/get';
 import _uniq from 'lodash/uniq';
 import _throttle from 'lodash/throttle';
+import _debounce from 'lodash/debounce';
+import _each from 'lodash/fp/each';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
@@ -18,89 +20,32 @@ import XAxis from './XAxis';
 import Zones from './Zones';
 import keyCodes from '../../../../../common/utils/keymap';
 import Reset from './Reset';
+import { axisType, lineType } from './types';
+
+const { shape, string, func, bool, arrayOf, number } = PropTypes;
 
 export default class Chart extends React.Component {
   static propTypes = {
-    yAxesAt: PropTypes.string,
-    xAxisAt: PropTypes.string,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    current: PropTypes.number.isRequired,
-    enableTooltip: PropTypes.bool,
-    tooltipColor: PropTypes.string,
-    allowXZoom: PropTypes.bool,
-    allowYZoom: PropTypes.bool,
-    allowYPan: PropTypes.bool,
-    allowXPan: PropTypes.bool,
-    allowLasso: PropTypes.bool,
-    perfOutput: PropTypes.bool,
-    parametric: PropTypes.bool,
-    additionalStyle: PropTypes.shape({}).isRequired,
-    xAxes: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        orient: PropTypes.string.isRequired,
-        extents: PropTypes.array.isRequired,
-        autoLimits: PropTypes.bool.isRequired,
-        showAxis: PropTypes.bool.isRequired,
-        showLabels: PropTypes.bool,
-        showTicks: PropTypes.bool,
-        autoTick: PropTypes.bool,
-        tickStep: PropTypes.number,
-        showGrid: PropTypes.bool,
-        gridStyle: PropTypes.string,
-        gridSize: PropTypes.number,
-        unit: PropTypes.string,
-        label: PropTypes.string.isRequired,
-        format: PropTypes.string,
-        labelStyle: PropTypes.shape,
-        formatAsDate: PropTypes.bool,
-      })
-    ).isRequired,
-    yAxes: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        orient: PropTypes.string.isRequired,
-        extents: PropTypes.array.isRequired,
-        autoLimits: PropTypes.bool.isRequired,
-        showAxis: PropTypes.bool.isRequired,
-        showLabels: PropTypes.bool,
-        showTicks: PropTypes.bool,
-        autoTick: PropTypes.bool,
-        tickStep: PropTypes.number,
-        showGrid: PropTypes.bool,
-        gridStyle: PropTypes.string,
-        gridSize: PropTypes.number,
-        unit: PropTypes.string,
-        label: PropTypes.string.isRequired,
-        format: PropTypes.string,
-        labelStyle: PropTypes.shape,
-        formatAsDate: PropTypes.bool,
-      })
-    ).isRequired,
-    lines: PropTypes.arrayOf(
-      PropTypes.shape({
-        data: PropTypes.objectOf(PropTypes.shape),
-        indexes: PropTypes.arrayOf(PropTypes.number),
-        id: PropTypes.string.isRequired,
-        yAxisId: PropTypes.string.isRequired,
-        xAxisId: PropTypes.string.isRequired,
-        fill: PropTypes.string,
-        lineStyle: PropTypes.string,
-        lineSize: PropTypes.number,
-        pointSize: PropTypes.number,
-        pointStyle: PropTypes.string,
-        xAccessor: PropTypes.func,
-        yAccessor: PropTypes.func,
-        xTooltipAccessor: PropTypes.func,
-        yTooltipAccessor: PropTypes.func,
-        colorAccessor: PropTypes.string,
-        tooltipFormatter: PropTypes.func,
-      })
-    ).isRequired,
-    // linesListener: PropTypes.func,
+    yAxesAt: string,
+    xAxisAt: string,
+    height: number.isRequired,
+    width: number.isRequired,
+    current: number.isRequired,
+    enableTooltip: bool,
+    tooltipColor: string,
+    allowXZoom: bool,
+    allowYZoom: bool,
+    allowYPan: bool,
+    allowXPan: bool,
+    allowLasso: bool,
+    perfOutput: bool,
+    parametric: bool,
+    additionalStyle: shape({}).isRequired,
+    xAxes: arrayOf(axisType.isRequired).isRequired,
+    yAxes: arrayOf(axisType.isRequired).isRequired,
+    lines: arrayOf(lineType.isRequired).isRequired,
+    linesListener: func.isRequired,
   };
-
   static defaultProps = {
     yAxesAt: 'left',
     xAxisAt: 'bottom',
@@ -114,21 +59,15 @@ export default class Chart extends React.Component {
     perfOutput: false,
     parametric: false,
   };
+  static DEBOUNCE_DELAY = 200;
 
-  constructor(props) {
-    super(props);
-    this.resetPan = this.resetPan.bind(this);
-    this.resetZoomLevel = this.resetZoomLevel.bind(this);
-    this.resetPanAndZoom = this.resetPanAndZoom.bind(this);
-
-    this.state = {
-      zoomLevels: {},
-      pans: {},
-      ctrlPressed: false,
-      shiftPressed: false,
-      lassoing: false,
-    };
-  }
+  state = {
+    zoomLevels: {},
+    pans: {},
+    ctrlPressed: false,
+    shiftPressed: false,
+    lassoing: false,
+  };
 
   componentDidMount() {
     document.addEventListener('keydown', this.onKeyDown);
@@ -156,24 +95,9 @@ export default class Chart extends React.Component {
     document.removeEventListener('keydown', this.onKeyDown);
     document.removeEventListener('keyup', this.onKeyUp);
   }
-
-  // extentsAndDimensions = () => {
-  //   const {
-  //     pans,
-  //     zoomLevels,
-  //     linesListener,
-  //   } = this.props;
-  //
-  //   linesListener({
-  //     line01: {
-  //       width: 800,
-  //       height: 600,
-  //       xExtents: [156156, 156189],
-  //       yExtents: [20, 120],
-  //     },
-  //   });
-  // };
-
+  /**
+   * @param e
+   */
   onKeyDown = (e) => {
     if (this.el && this.el.parentElement.querySelector(':hover')) {
       if (e.keyCode === keyCodes.ctrl) {
@@ -187,7 +111,9 @@ export default class Chart extends React.Component {
       }
     }
   };
-
+  /**
+   * @param e
+   */
   onKeyUp = (e) => {
     const { ctrlPressed, shiftPressed } = this.state;
     if (ctrlPressed && e.keyCode === keyCodes.ctrl) {
@@ -200,7 +126,9 @@ export default class Chart extends React.Component {
       });
     }
   };
-
+  /**
+   * @param e
+   */
   onWheel = (e) => {
     e.preventDefault();
     const { allowXZoom, allowYZoom } = this.props;
@@ -218,6 +146,7 @@ export default class Chart extends React.Component {
         this.setState({
           zoomLevels: newZoomLevels,
         });
+        this.dispatchOnZoomOrPan();
       }
     }
   };
@@ -354,6 +283,7 @@ export default class Chart extends React.Component {
         lassoX: 0,
         lassoY: 0,
       });
+      this.dispatchOnZoomOrPan();
     } else {
       this.setState({
         panAxisId: null,
@@ -361,12 +291,14 @@ export default class Chart extends React.Component {
         mouseMoveCursorOriginX: null,
         mouseMoveCursorOriginY: null,
       });
+      this.dispatchOnZoomOrPan();
     }
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
     document.addEventListener('mouseup', this.onMouseUp);
   };
-
-  // eslint-disable-next-line complexity, "DV6 TBC_CNES axes sorting, must not be split"
+  /**
+   * @returns {{}}
+   */
   getSortedAndValidPairs = () => {
     const {
       yAxes,
@@ -441,6 +373,19 @@ export default class Chart extends React.Component {
    */
   getLabelPosition = axisId => Object.values(this.labelsPosition || {})
     .filter(lp => lp.concernedAxes.includes(axisId));
+  dispatchOnZoomOrPan = _debounce(() => {
+    const event = {};
+    _each((line) => {
+      event[line.id] = {
+        width: this.chartWidth,
+        height: this.chartHeight,
+        xExtents: line.xAxis.calculatedExtents,
+        yExtents: line.yAxis.calculatedExtents,
+      };
+    }, this.linesUniq);
+
+    this.props.linesListener(event);
+  }, Chart.DEBOUNCE_DELAY);
   /**
    * @param axis
    * @param pairLines
@@ -638,6 +583,7 @@ export default class Chart extends React.Component {
         ...pans,
       },
     });
+    this.dispatchOnZoomOrPan();
   };
 
   resetZoomLevel = (e, axisId) => {
@@ -649,6 +595,7 @@ export default class Chart extends React.Component {
         ...zoomLevels,
       },
     });
+    this.dispatchOnZoomOrPan();
   };
 
   resetPanAndZoom = () => {
@@ -656,6 +603,8 @@ export default class Chart extends React.Component {
       zoomLevels: {},
       pans: {},
     });
+    this.dispatchOnZoomOrPan();
+    this.dispatchOnZoomOrPan();
   };
 
   render() {

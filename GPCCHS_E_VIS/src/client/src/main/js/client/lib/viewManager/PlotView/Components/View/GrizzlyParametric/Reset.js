@@ -2,60 +2,23 @@ import React, { PropTypes } from 'react';
 import _memoize from 'lodash/memoize';
 import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';
+import { axisType } from './types';
+
+const { shape, string, func, bool, arrayOf } = PropTypes;
 
 export default class Reset extends React.Component {
   static propTypes = {
-    divStyle: PropTypes.shape().isRequired,
-    multiple: PropTypes.bool,
-    yAxesAt: PropTypes.string,
-    xAxisAt: PropTypes.string,
-    yAxesUniq: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        orient: PropTypes.string.isRequired,
-        extents: PropTypes.array.isRequired,
-        autoLimits: PropTypes.bool.isRequired,
-        showAxis: PropTypes.bool.isRequired,
-        showLabels: PropTypes.bool,
-        showTicks: PropTypes.bool,
-        autoTick: PropTypes.bool,
-        tickStep: PropTypes.number,
-        showGrid: PropTypes.bool,
-        gridStyle: PropTypes.string,
-        gridSize: PropTypes.number,
-        unit: PropTypes.string,
-        label: PropTypes.string.isRequired,
-        format: PropTypes.string,
-        labelStyle: PropTypes.shape,
-        formatAsDate: PropTypes.bool,
-      })
-    ).isRequired,
-    xAxesUniq: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        orient: PropTypes.string.isRequired,
-        extents: PropTypes.array.isRequired,
-        autoLimits: PropTypes.bool.isRequired,
-        showAxis: PropTypes.bool.isRequired,
-        showLabels: PropTypes.bool,
-        showTicks: PropTypes.bool,
-        autoTick: PropTypes.bool,
-        tickStep: PropTypes.number,
-        showGrid: PropTypes.bool,
-        gridStyle: PropTypes.string,
-        gridSize: PropTypes.number,
-        unit: PropTypes.string,
-        label: PropTypes.string.isRequired,
-        format: PropTypes.string,
-        labelStyle: PropTypes.shape,
-        formatAsDate: PropTypes.bool,
-      })
-    ).isRequired,
-    resetPan: PropTypes.func.isRequired,
-    resetZoomLevel: PropTypes.func.isRequired,
-    resetPanAndZoom: PropTypes.func.isRequired,
-    zoomLevels: PropTypes.shape().isRequired,
-    pans: PropTypes.shape().isRequired,
+    divStyle: shape().isRequired,
+    multiple: bool,
+    yAxesAt: string,
+    xAxisAt: string,
+    yAxesUniq: arrayOf(axisType.isRequired).isRequired,
+    xAxesUniq: arrayOf(axisType.isRequired).isRequired,
+    resetPan: func.isRequired,
+    resetZoomLevel: func.isRequired,
+    resetPanAndZoom: func.isRequired,
+    zoomLevels: shape().isRequired,
+    pans: shape().isRequired,
   };
 
   static defaultProps = {

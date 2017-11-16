@@ -224,52 +224,53 @@ function parseDragData(data, id, defaultTimelineId) {
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
+const { shape, string, arrayOf, number, func, object, objectOf, array, bool } = PropTypes;
 
 export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
-    containerWidth: PropTypes.number.isRequired,
-    containerHeight: PropTypes.number.isRequired,
-    updateDimensions: PropTypes.func.isRequired,
-    data: PropTypes.shape({
-      lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
+    containerWidth: number.isRequired,
+    containerHeight: number.isRequired,
+    updateDimensions: func.isRequired,
+    data: shape({
+      lines: object, // eslint-disable-line react/no-unused-prop-types
     }),
-    visuWindow: PropTypes.shape({
-      lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+    visuWindow: shape({
+      lower: number, // eslint-disable-line react/no-unused-prop-types
+      current: number, // eslint-disable-line react/no-unused-prop-types
+      upper: number, // eslint-disable-line react/no-unused-prop-types
     }),
-    viewId: PropTypes.string.isRequired,
-    addEntryPoint: PropTypes.func.isRequired,
-    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
-    configuration: PropTypes.shape({
-      procedures: PropTypes.array,
-      entryPoints: PropTypes.array,
-      axes: PropTypes.object,
-      showYAxes: PropTypes.string,
-      showLegend: PropTypes.bool.isRequired,
-      grids: PropTypes.array,
-      legend: PropTypes.object,
-      markers: PropTypes.array,
+    viewId: string.isRequired,
+    addEntryPoint: func.isRequired,
+    entryPoints: objectOf(object).isRequired,
+    configuration: shape({
+      procedures: array,
+      entryPoints: array,
+      axes: object,
+      showYAxes: string,
+      showLegend: bool.isRequired,
+      grids: array,
+      legend: object,
+      markers: array,
     }).isRequired,
-    toggleLegend: PropTypes.func.isRequired,
-    openInspector: PropTypes.func.isRequired,
-    isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorEpId: PropTypes.string,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    removeEntryPoint: PropTypes.func.isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
-    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    defaultTimelineId: PropTypes.string.isRequired,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
+    toggleLegend: func.isRequired,
+    openInspector: func.isRequired,
+    isInspectorOpened: bool.isRequired,
+    inspectorEpId: string,
+    openEditor: func.isRequired,
+    closeEditor: func.isRequired,
+    removeEntryPoint: func.isRequired,
+    isViewsEditorOpen: bool.isRequired,
+    mainMenu: arrayOf(object).isRequired,
+    defaultTimelineId: string.isRequired,
+    links: arrayOf(shape({
+      name: string.isRequired,
+      path: string.isRequired,
     })),
-    removeLink: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
-    showLinks: PropTypes.bool,
-    updateShowLinks: PropTypes.func.isRequired,
-    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
+    removeLink: func.isRequired,
+    pageId: string.isRequired,
+    showLinks: bool,
+    updateShowLinks: func.isRequired,
+    isMaxVisuDurationExceeded: bool.isRequired,
   };
 
   static defaultProps = {
@@ -286,7 +287,7 @@ export class GrizzlyPlotView extends PureComponent {
   state = {
     showEpNames: [],
     hideEpNames: [],
-  }
+  };
 
   componentDidMount() {
     setTimeout(() => {
@@ -386,7 +387,7 @@ export class GrizzlyPlotView extends PureComponent {
       checked: opened,
     };
     handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
-  }
+  };
 
   onContextMenu = (e) => {
     e.stopPropagation();
@@ -435,7 +436,7 @@ export class GrizzlyPlotView extends PureComponent {
       },
     };
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
-  }
+  };
 
   onDrop = this.drop.bind(this);
 
@@ -529,13 +530,13 @@ export class GrizzlyPlotView extends PureComponent {
       viewId,
     } = this.props;
     toggleLegend(viewId, !configuration.showLegend);
-  }
+  };
 
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
-  }
+  };
 
   showEp = (e, lineId) => {
     e.preventDefault();
@@ -560,7 +561,7 @@ export class GrizzlyPlotView extends PureComponent {
     }
 
     this.setState(newState);
-  }
+  };
 
   hideEp = (e, lineId) => {
     e.preventDefault();
@@ -585,14 +586,13 @@ export class GrizzlyPlotView extends PureComponent {
     }
 
     this.setState(newState);
-  }
-
+  };
 
   memoizeMainStyle = _memoize(
     legendLocation => ({
       display: legendLocation === 'left' || legendLocation === 'right' ? 'table-cell' : 'block',
     })
-  )
+  );
 
   removeEntryPoint = (e, id) => {
     e.preventDefault();
@@ -603,13 +603,13 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     const index = entryPoints.findIndex(a => a.id === id);
     removeEntryPoint(viewId, index);
-  }
+  };
 
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
-  }
+  };
 
   render() {
     logger.debug('render');
@@ -738,7 +738,8 @@ export class GrizzlyPlotView extends PureComponent {
           allowZoom
           allowPan
           perfOutput={false}
-          // linesListener={console.log}
+// eslint-disable-next-line no-console
+          linesListener={console.log}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxesAt="bottom"

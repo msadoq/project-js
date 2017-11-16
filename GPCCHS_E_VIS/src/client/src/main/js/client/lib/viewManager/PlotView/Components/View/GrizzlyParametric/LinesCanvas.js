@@ -1,35 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './GrizzlyChart.css';
 import { drawLinesCanvas, shouldRenderComponent } from './LineCanvasCommon';
+import { lineType, divStyleType } from './types';
+
+const { shape, func, bool, arrayOf, objectOf, number } = PropTypes;
 
 export default class LinesCanvas extends Component {
 
   static propTypes = {
-    updateLabelPosition: PropTypes.func.isRequired,
-    xScale: PropTypes.func.isRequired,
-    yScale: PropTypes.func.isRequired,
-    showLabelsX: PropTypes.bool,
-    showLabelsY: PropTypes.bool,
-    perfOutput: PropTypes.bool,
-    indexes: PropTypes.objectOf(PropTypes.shape).isRequired,
-    current: PropTypes.number.isRequired,
-    lines: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        xAxisId: PropTypes.string.isRequired,
-        yAxisId: PropTypes.string.isRequired,
-        fill: PropTypes.string,
-        lineStyle: PropTypes.string,
-        lineSize: PropTypes.number,
-        pointSize: PropTypes.number,
-        pointStyle: PropTypes.string,
-        xAccessor: PropTypes.func,
-        yAccessor: PropTypes.func,
-        colorAccessor: PropTypes.string,
-      })
-    ).isRequired,
-    divStyle: PropTypes.shape().isRequired,
-    parametric: PropTypes.bool.isRequired,
+    updateLabelPosition: func.isRequired,
+    xScale: func.isRequired,
+    yScale: func.isRequired,
+    showLabelsX: bool,
+    showLabelsY: bool,
+    perfOutput: bool,
+    indexes: objectOf(shape).isRequired,
+    current: number.isRequired,
+    lines: arrayOf(lineType.isRequired).isRequired,
+    divStyle: divStyleType.isRequired,
+    parametric: bool.isRequired,
   };
 
   static defaultProps = {

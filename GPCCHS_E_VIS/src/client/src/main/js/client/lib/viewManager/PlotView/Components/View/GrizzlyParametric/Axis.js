@@ -1,44 +1,30 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './GrizzlyChart.css';
+import { lineType, labelStyleType } from './types';
+
+const { shape, string, func, bool, arrayOf, oneOf, number } = PropTypes;
 
 export default class Axis extends Component {
   static propTypes = {
-    direction: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
-    lines: PropTypes.arrayOf(
-      PropTypes.shape({
-        lineStyle: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        yAxis: PropTypes.shape().isRequired,
-        fill: PropTypes.string,
-        strokeWidth: PropTypes.number,
-      })
-    ).isRequired,
-    showLabels: PropTypes.bool,
-    label: PropTypes.string.isRequired,
-    height: PropTypes.number.isRequired,
-    xAxisHeight: PropTypes.number.isRequired,
-    index: PropTypes.number.isRequired,
-    showGrid: PropTypes.bool,
-    chartWidth: PropTypes.number.isRequired,
-    yAxisWidth: PropTypes.number.isRequired,
-    labelStyle: PropTypes.shape({
-      bgColor: PropTypes.string,
-      color: PropTypes.string,
-      align: PropTypes.string,
-      font: PropTypes.string,
-      italic: PropTypes.bool,
-      bold: PropTypes.bool,
-      underline: PropTypes.bool,
-      size: PropTypes.number,
-    }),
-    margin: PropTypes.number.isRequired,
-    yAxesAt: PropTypes.string,
-    xAxesAt: PropTypes.string,
-    assignLabelEl: PropTypes.func.isRequired,
-    assignEl: PropTypes.func.isRequired,
-    memoizeAssignRef: PropTypes.func.isRequired,
-    side: PropTypes.number.isRequired,
+    direction: oneOf(['horizontal', 'vertical']).isRequired,
+    lines: arrayOf(lineType.isRequired).isRequired,
+    showLabels: bool,
+    label: string.isRequired,
+    height: number.isRequired,
+    xAxisHeight: number.isRequired,
+    index: number.isRequired,
+    showGrid: bool,
+    chartWidth: number.isRequired,
+    yAxisWidth: number.isRequired,
+    labelStyle: shape(labelStyleType.isRequired),
+    margin: number.isRequired,
+    yAxesAt: string,
+    xAxesAt: string,
+    assignLabelEl: func.isRequired,
+    assignEl: func.isRequired,
+    memoizeAssignRef: func.isRequired,
+    side: number.isRequired,
   };
 
   static defaultProps = {

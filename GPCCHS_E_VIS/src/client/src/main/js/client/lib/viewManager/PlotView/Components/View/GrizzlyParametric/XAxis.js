@@ -9,55 +9,38 @@ import { axisBottom, axisTop } from 'd3-axis';
 import { getZoomLevel, levelsRules } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 import Axis from './Axis';
+import { lineType, labelStyleType } from './types';
+
+const { string, func, bool, arrayOf, number } = PropTypes;
 
 export default class XAxis extends Component {
-
   static propTypes = {
-    getLabelPosition: PropTypes.func.isRequired,
-    axisId: PropTypes.string.isRequired,
-    xAxesAt: PropTypes.string,
-    yAxesAt: PropTypes.string,
-    logarithmic: PropTypes.bool,
-    index: PropTypes.number.isRequired,
-    scale: PropTypes.func.isRequired,
-    extents: PropTypes.arrayOf(
-      PropTypes.number
-    ).isRequired,
-    side: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    xAxisHeight: PropTypes.number.isRequired,
-    margin: PropTypes.number.isRequired,
-    chartWidth: PropTypes.number.isRequired,
-    lines: PropTypes.arrayOf(
-      PropTypes.shape({
-        lineStyle: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        yAxis: PropTypes.shape().isRequired,
-        fill: PropTypes.string,
-        strokeWidth: PropTypes.number,
-      })
-    ).isRequired,
-    showLabels: PropTypes.bool,
-    showTicks: PropTypes.bool,
-    autoTick: PropTypes.bool,
-    tickStep: PropTypes.number,
-    showGrid: PropTypes.bool,
-    gridStyle: PropTypes.string,
-    gridSize: PropTypes.number,
-    label: PropTypes.string.isRequired,
-    format: PropTypes.string,
-    formatAsDate: PropTypes.bool,
-    labelStyle: PropTypes.shape({
-      bgColor: PropTypes.string,
-      color: PropTypes.string,
-      align: PropTypes.string,
-      font: PropTypes.string,
-      italic: PropTypes.bool,
-      bold: PropTypes.bool,
-      underline: PropTypes.bool,
-      size: PropTypes.number,
-    }),
-    yAxisWidth: PropTypes.number.isRequired,
+    getLabelPosition: func.isRequired,
+    axisId: string.isRequired,
+    xAxesAt: string,
+    yAxesAt: string,
+    logarithmic: bool,
+    index: number.isRequired,
+    scale: func.isRequired,
+    extents: arrayOf(number).isRequired,
+    side: number.isRequired,
+    height: number.isRequired,
+    xAxisHeight: number.isRequired,
+    margin: number.isRequired,
+    chartWidth: number.isRequired,
+    lines: arrayOf(lineType.isRequired).isRequired,
+    showLabels: bool,
+    showTicks: bool,
+    autoTick: bool,
+    tickStep: number,
+    showGrid: bool,
+    gridStyle: string,
+    gridSize: number,
+    label: string.isRequired,
+    format: string,
+    formatAsDate: bool,
+    labelStyle: labelStyleType.isRequired,
+    yAxisWidth: number.isRequired,
   };
 
   static defaultProps = {

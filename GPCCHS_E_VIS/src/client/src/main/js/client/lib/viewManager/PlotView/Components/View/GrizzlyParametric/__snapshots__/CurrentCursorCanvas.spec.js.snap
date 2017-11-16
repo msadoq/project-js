@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrentCursorCanvas :: draw CurrentCursorCanvas :: draw :: nominal case 1`] = `
+Array [
+  "strokeStyle         #1E2",
+  "fillStyle           #1E2",
+  "lineWidth           2",
+  "beginPath           ",
+  "clearRect           0|0|1000|1000",
+  "moveTo              15099860308480|1000",
+  "lineTo              15099860308480|0",
+  "stroke              ",
+]
+`;

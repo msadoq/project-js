@@ -7,26 +7,27 @@ import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
 import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
+import { divStyleType } from './types';
 
+const { shape, string, arrayOf, number } = PropTypes;
 export default class Tooltip extends React.Component {
-
   static propTypes = {
-    yAxesUniq: PropTypes.arrayOf(
-      PropTypes.shape
+    yAxesUniq: arrayOf(
+      shape
     ).isRequired,
-    xAxesUniq: PropTypes.arrayOf(
-      PropTypes.shape
+    xAxesUniq: arrayOf(
+      shape
     ).isRequired,
-    pairs: PropTypes.shape().isRequired,
-    tooltipColor: PropTypes.string.isRequired,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    yAxisWidth: PropTypes.number.isRequired,
-    xAxisHeight: PropTypes.number.isRequired,
-    yAxesAt: PropTypes.string.isRequired,
-    xAxesAt: PropTypes.string.isRequired,
-    divStyle: PropTypes.shape().isRequired,
-  }
+    pairs: shape().isRequired,
+    tooltipColor: string.isRequired,
+    height: number.isRequired,
+    width: number.isRequired,
+    yAxisWidth: number.isRequired,
+    xAxisHeight: number.isRequired,
+    yAxesAt: string.isRequired,
+    xAxesAt: string.isRequired,
+    divStyle: divStyleType.isRequired,
+  };
 
   shouldComponentUpdate(nextProps) {
     if (!this.pseudoState.showTooltip) {

@@ -1,40 +1,42 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import styles from './GrizzlyChart.css';
+import { divStyleType } from './types';
+
+const { number, shape, bool, string, arrayOf } = PropTypes;
 
 export default class Zones extends Component {
-
   static propTypes = {
-    yAxes: PropTypes.arrayOf(
-      PropTypes.shape
+    yAxes: arrayOf(
+      shape
     ).isRequired,
-    xAxes: PropTypes.arrayOf(
-      PropTypes.shape
+    xAxes: arrayOf(
+      shape
     ).isRequired,
-    yAxisWidth: PropTypes.number.isRequired,
-    xAxisHeight: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    yAxesInteractive: PropTypes.bool.isRequired,
-    xAxesInteractive: PropTypes.bool.isRequired,
-    ctrlPressed: PropTypes.bool.isRequired,
-    shiftPressed: PropTypes.bool.isRequired,
-    lassoing: PropTypes.bool.isRequired,
-    lassoX: PropTypes.number,
-    lassoY: PropTypes.number,
-    lassoOriginX: PropTypes.number,
-    lassoOriginY: PropTypes.number,
-    yAxesAt: PropTypes.string.isRequired,
-    xAxesAt: PropTypes.string.isRequired,
-    divStyle: PropTypes.shape().isRequired,
-  }
+    yAxisWidth: number.isRequired,
+    xAxisHeight: number.isRequired,
+    height: number.isRequired,
+    width: number.isRequired,
+    yAxesInteractive: bool.isRequired,
+    xAxesInteractive: bool.isRequired,
+    ctrlPressed: bool.isRequired,
+    shiftPressed: bool.isRequired,
+    lassoing: bool.isRequired,
+    lassoX: number,
+    lassoY: number,
+    lassoOriginX: number,
+    lassoOriginY: number,
+    yAxesAt: string.isRequired,
+    xAxesAt: string.isRequired,
+    divStyle: divStyleType.isRequired,
+  };
 
   static defaultProps = {
     lassoOriginX: 0,
     lassoOriginY: 0,
     lassoX: 0,
     lassoY: 0,
-  }
+  };
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;

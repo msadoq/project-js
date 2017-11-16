@@ -31,6 +31,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -42,6 +43,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -53,6 +55,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -64,6 +67,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -75,6 +79,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -86,6 +91,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -97,20 +103,80 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
     {
-      "name": "AGA_AM_ENABLED",
       "connectedData": {
-        "formula": "Reporting.AGA_AM_ENABLED<ReportingParameter>.convertedValue",
-        "unit": "V",
         "digits": 8,
-        "format": "",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
-      }
+        "filter": [],
+        "format": "",
+        "formula": "Reporting.AGA_AM_ENABLED<ReportingParameter>.convertedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "AGA_AM_ENABLED",
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "waiting"
+          }
+        },
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "alarm"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "critical"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "outOfRange"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "severe"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "danger"
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "warning"
+          }
+        }
+      ]
     },
     {
       "name": "AGA_AM_FID",
@@ -119,6 +185,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -130,6 +197,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }

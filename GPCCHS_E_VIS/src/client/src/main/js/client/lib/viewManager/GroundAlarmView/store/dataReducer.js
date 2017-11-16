@@ -64,12 +64,12 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       return newState;
     }
     case types.WS_MODAL_OPEN: {
-      const { type, viewId, ackId, alarmsTimestamps } = action.payload.props;
+      const { type, viewId, ackId, alarmsOids } = action.payload.props;
       if (type === 'gmaAck') {
         return _.set([viewId, 'ackStatus', ackId], {
           acknowledging: false,
-          alarmsTimestamps: alarmsTimestamps.map(ts => ({
-            timestamp: ts,
+          alarmsOids: alarmsOids.map(oid => ({
+            oid,
             acknowledged: false,
             ackError: null,
           })),
@@ -77,37 +77,53 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       }
       return state;
     }
-    // case types.WS_MODAL_CLOSE: {
-    //   const { type, viewId, ackId } = action.payload.props;
-    //   if (type === 'gmaAck') {
-    //     return _.unset([viewId, 'ackStatus', ackId], state);
-    //   }
-    //   return state;
-    // }
+    case types.WS_MODAL_CLOSED: {
+      const { type, viewId, ackId } = action.payload.props;
+      if (type === 'gmaAck') {
+        return _.unset([viewId, 'ackStatus', ackId], state);
+      }
+      return state;
+    }
     case types.WS_VIEW_GMA_ALARM_ACK: {
       const { viewId, ackId } = action.payload;
       return _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
     }
     case types.WS_VIEW_GMA_ALARM_ACK_SUCCESS: {
-      const { viewId, ackId, timestamp } = action.payload;
+      const { viewId, ackId, oid } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
-      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
-      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'acknowledged'], true, state);
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'acknowledged'], true, state);
     }
     case types.WS_VIEW_GMA_ALARM_ACK_FAILURE: {
-      const { viewId, ackId, timestamp, error } = action.payload;
+      const { viewId, ackId, oid, error } = action.payload;
       if (!state[viewId].ackStatus[ackId]) {
         return state;
       }
-      const { alarmsTimestamps } = state[viewId].ackStatus[ackId];
-      const iTimestamp = _.findIndex(_.propEq('timestamp', timestamp), alarmsTimestamps);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsTimestamps', iTimestamp, 'ackError'], String(error), state);
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
+    }
+    case types.WS_VIEW_ALARM_COLLAPSE: {
+      const { viewId, oid } = action.payload;
+      if (_.get([viewId, 'lines', oid], state)) {
+        const collapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], true);
+        return collapseAlarm(state);
+      }
+      return state;
+    }
+    case types.WS_VIEW_ALARM_UNCOLLAPSE: {
+      const { viewId, oid } = action.payload;
+      if (_.get([viewId, 'lines', oid], state)) {
+        const uncollapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], false);
+        return uncollapseAlarm(state);
+      }
+      return state;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, visuWindow }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
@@ -115,14 +131,18 @@ export default function groundAlarmViewData(state = initialSubState, action) {
         return state;
       }
 
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
         const viewId = viewIds[i];
         // Data Selection
-        const epSubState =
-          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
+        const epSubState = selectDataPerView(
+          newViewMap[viewId],
+          newExpectedRangeIntervals,
+          dataToInject,
+          visuWindow
+        );
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState = viewRangeAdd(
@@ -139,7 +159,7 @@ export default function groundAlarmViewData(state = initialSubState, action) {
     }
     case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
@@ -181,7 +201,7 @@ export const getDataLines = createSelector(
   data => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];
     const alarmWithoutTransitions = _.omit('transitions', alarm);
-    const transitions = _.isEmpty(alarm.transitions) ? [] : [
+    const transitions = _.isEmpty(alarm.transitions) || alarm.collapsed ? [] : [
       {
         type: 'transition_header',
         alarm: alarmWithoutTransitions,

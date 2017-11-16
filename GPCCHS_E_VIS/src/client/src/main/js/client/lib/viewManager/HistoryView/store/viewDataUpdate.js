@@ -338,8 +338,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     const valueToInsert = {
       masterTime,
       epName,
-      ...getStateColorObj(currentValue, ep.stateColors,
-        _get(currentValue, ['monitoringState', 'value'])),
+      ...getStateColorObj(currentValue, ep.stateColors),
     };
     const fields = Object.keys(currentValue);
     for (let iField = 0; iField < fields.length; iField += 1) {

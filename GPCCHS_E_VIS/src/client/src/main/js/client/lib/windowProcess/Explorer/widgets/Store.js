@@ -34,7 +34,7 @@ export default class Store extends PureComponent {
     } else {
       objToCopy = state;
     }
-    clipboard.writeText(JSON.stringify(objToCopy));
+    clipboard.writeText(JSON.stringify(objToCopy, null, 2));
     return console.log('state exported to clipboard', objToCopy); // eslint-disable-line no-console
   }
 

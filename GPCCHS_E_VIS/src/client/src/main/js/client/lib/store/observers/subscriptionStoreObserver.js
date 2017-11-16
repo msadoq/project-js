@@ -7,7 +7,9 @@ import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hs
 import { getTbdIdsAndDataIdList } from '../reducers/knownRanges';
 import { dc } from '../../serverProcess/ipc';
 import { getPerLastTbdIdMap } from '../../dataManager/map';
+import getLogger from '../../common/logManager';
 
+const log = getLogger('server:storeObserver:subscription');
 const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;
 
 /**
@@ -59,8 +61,12 @@ export default function makeSubscriptionStoreObserver(store) {
     // Find the data to removes in knownRanges/last :
     // - (sub) If is in removedRange and is not present in sub last
     // - (unsub) If is in removesLast and is not present in sub range
-    const toUnsubscribeRange = _difference(removedRanges, subscriptionLast, compareRangeWithLast);
-    const toUnsubscribeLast = _difference(removedLast, subscriptionRange, compareLastWithRange);
+    const toUnsubscribeRange = _differenceWith(
+      removedRanges,
+      subscriptionLast,
+      compareRangeWithLast
+    );
+    const toUnsubscribeLast = _differenceWith(removedLast, subscriptionRange, compareLastWithRange);
 
     const moveSubFromRangeToLast = _intersection(removedRanges, subscriptionLast);
 
@@ -68,12 +74,14 @@ export default function makeSubscriptionStoreObserver(store) {
     for (let i = 0; i < toSubscribeRange.length; i += 1) {
       const { tbdId, dataId } = toSubscribeRange[i];
       requestSubscriptionAdd(tbdId, dataId);
+      log.info(`Subscribe range ${tbdId}`);
       subscriptionRange.push(tbdId);
     }
 
     for (let j = 0; j < toUnsubscribeRange.length; j += 1) {
       const { tbdId, dataId } = toUnsubscribeRange[j];
       requestSubscriptionDelete(tbdId, dataId);
+      log.info(`Unsubscribe range ${tbdId}`);
       const index = _findIndex(subscriptionRange, tbdId);
       subscriptionRange.splice(index, 1);
     }
@@ -82,6 +90,7 @@ export default function makeSubscriptionStoreObserver(store) {
       const tbdId = toSubscribeLast[k];
       const { dataId } = lastTbdId[tbdId];
       requestSubscriptionAdd(tbdId, dataId);
+      log.info(`Subscribe last ${tbdId}`);
       subscriptionLast.push(tbdId);
     }
 
@@ -90,6 +99,7 @@ export default function makeSubscriptionStoreObserver(store) {
       const tbdIdObject = previousLastTbdId[tbdId];
       const { dataId } = tbdIdObject;
       requestSubscriptionDelete(tbdId, dataId);
+      log.info(`Unsubscribe last ${tbdId}`);
       const index = _findIndex(subscriptionLast, tbdId);
       subscriptionLast.splice(index, 1);
     }

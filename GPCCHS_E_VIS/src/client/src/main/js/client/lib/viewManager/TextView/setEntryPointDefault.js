@@ -1,8 +1,8 @@
-import _ from 'lodash/fp';
 import { get } from '../../common/configurationManager';
+import { getStateColorFilters } from '../../windowProcess/common/colors';
 
 export default function (entryPoint) {
-  return _.merge(getNewTextEntryPoint(), entryPoint);
+  return Object.assign({}, getNewTextEntryPoint(), entryPoint);
 }
 
 const getNewTextEntryPoint = () => ({
@@ -16,4 +16,5 @@ const getNewTextEntryPoint = () => ({
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
   },
+  stateColors: getStateColorFilters(),
 });

@@ -74,7 +74,7 @@ export default function cleanCurrentViewData(
     (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
     const lower = newInterval[0] + newEp.offset;
     const upper = newInterval[1] + newEp.offset;
-    newState = removeViewDataOutOfBounds(newState, epName, lower, upper);
+    newState = removeViewDataOutOfBounds(newState, lower, upper);
   }
 
   return newState;
@@ -98,10 +98,19 @@ function getRequireAckIndexes(viewData) {
     alarm.ackState === constants.OBA_ALARM_ACKSTATE_REQUIREACK
   ));
 
-  return _map(requireAckAlarms, viewDataAlarm => viewDataAlarm.timestamp);
+  return _map(requireAckAlarms, viewDataAlarm => viewDataAlarm.oid);
 }
 
-export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
+/**
+ * (Immutable) remove data out of [lower, upper] time range from viewData
+ *
+ * @param  {Object} viewData
+ * @param  {number} lower    lower timestamp
+ * @param  {number} upper    upper timestamp
+ *
+ * @return {Object}          The computed viewdata
+ */
+function removeViewDataOutOfBounds(viewData, lower, upper) {
   if (lower > upper) {
     logger.warn('Received invalid bounds');
     return null;
@@ -115,13 +124,15 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   }
 
   // All points of entryPoint are in visuWindow
-  if (viewData.indexes[0] >= lower && _last(viewData.indexes) <= upper) {
+  const firstTimestamp = viewData.lines[viewData.indexes[0]].timestamp;
+  const lastTimestamp = viewData.lines[_last(viewData.indexes)].timestamp;
+  if (firstTimestamp >= lower && lastTimestamp <= upper) {
     return viewData;
   }
 
   // --- Drop everything but alarms requiring ack --- //
 
-  if (viewData.indexes[0] > upper || _last(viewData.indexes) < lower) {
+  if (firstTimestamp > upper || lastTimestamp < lower) {
     const newIndexes = getRequireAckIndexes(viewData);
     const newLines = _pick(viewData.lines, newIndexes);
 
@@ -132,13 +143,18 @@ export function removeViewDataOutOfBounds(viewData, epName, lower, upper) {
   }
 
   // --- Keep some --- //
-
-  const iLower = _findIndex(viewData.indexes, val => val >= lower);
-  let iUpper = _findLastIndex(viewData.indexes, val => val <= upper);
+  const iLower = _findIndex(viewData.indexes, searchOid => (
+    viewData.lines[searchOid].timestamp >= lower
+  ));
+  let iUpper = _findLastIndex(viewData.indexes, searchOid => (
+    viewData.lines[searchOid].timestamp <= upper
+  ));
   iUpper = (iUpper === -1) ? viewData.lines.length - 1 : iUpper;
 
   let newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
-  newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort((a, b) => (a - b));
+  newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort((a, b) => (
+    viewData.lines[a].timestamp - viewData.lines[b].timestamp
+  ));
   const newLines = _pick(viewData.lines, newIndexes);
 
   return {

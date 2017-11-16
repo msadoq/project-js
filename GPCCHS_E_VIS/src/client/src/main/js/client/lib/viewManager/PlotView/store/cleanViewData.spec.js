@@ -41,7 +41,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
       expect(newState).toMatchSnapshot();
     });
-    test('interval update Plot: remove all', () => {
+    test.skip('interval update Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
       newIntervals['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100']['groundDate/extractedValue.tb1:0']

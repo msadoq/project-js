@@ -35,7 +35,7 @@ import _findIndex from 'lodash/findIndex';
  */
 export default function computeMissingLastIntervals(dataMap, lastMap) {
   const queries = {};
-  _each(dataMap.perLastTbdId, ({ dataId, localIds, views, filters }, tbdId) => {
+  _each(dataMap.perLastTbdId, ({ dataId, localIds, views, filters, mode }, tbdId) => {
     _each(localIds, (value, localId) => {
       // If forecast, use this intervalMap
       const knownInterval =
@@ -76,6 +76,7 @@ export default function computeMissingLastIntervals(dataMap, lastMap) {
         // save filters if they are stored in remoteId
         const elements = tbdId.split(':');
         queries[tbdId] = {
+          mode,
           dataId,
           filters: elements.length === 4 ? filters : undefined,
           intervals: [],

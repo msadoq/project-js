@@ -3,7 +3,7 @@ import rimraf from 'rimraf';
 import { createDumpFolder, dumpBuffer } from './dumpBuffer';
 import fs from '../../common/fs';
 
-describe('serverProcess/utils/dumpBuffer', () => {
+describe.skip('serverProcess/utils/dumpBuffer', () => {
   global.testConfig.DUMP_DIR = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/dump';
   test('createDumpFolder in DUMP_DIR', (done) => {
     global.testConfig.DUMP = 'on';

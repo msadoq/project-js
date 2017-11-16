@@ -1,9 +1,8 @@
-import _ from 'lodash/fp';
 import { get } from '../../common/configurationManager';
-import { getRandomColor } from '../../windowProcess/common/colors';
+import { getRandomColor, getStateColorFilters } from '../../windowProcess/common/colors';
 
 export default function (entryPoint) {
-  return _.merge(getNewPlotEntryPoint(), entryPoint);
+  return Object.assign({}, getNewPlotEntryPoint(), entryPoint);
 }
 
 const getNewPlotEntryPoint = () => ({
@@ -42,5 +41,5 @@ const getNewPlotEntryPoint = () => ({
     },
     curveColor: getRandomColor(),
   },
-  stateColors: [],
+  stateColors: getStateColorFilters(),
 });

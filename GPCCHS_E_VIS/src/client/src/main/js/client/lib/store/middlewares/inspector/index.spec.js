@@ -49,11 +49,6 @@ describe('store:serverProcess:middlewares:inspector', () => {
     expect(store.getActions()).toMatchSnapshot();
   });
 
-  test('open inspector and just set inspector genetal data if catalog is not "Reporting"', () => {
-    store.dispatch(askOpenInspector(undefined, 'noReporting'));
-    expect(store.getActions()).toMatchSnapshot();
-  });
-
   test('open inspector and get telemetry static elements', () => {
     store.dispatch(askOpenInspector());
     expect(store.getActions()).toMatchSnapshot();

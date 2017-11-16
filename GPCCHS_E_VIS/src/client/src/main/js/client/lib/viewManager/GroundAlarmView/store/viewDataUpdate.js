@@ -1,4 +1,5 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
+/* eslint-disable complexity, "DV6 TBC_CNES Perf. switch case" */
 import _findIndex from 'lodash/findIndex';
 import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -10,6 +11,16 @@ import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from '../../commonData/convertData';
 import * as constants from '../../../constants';
+
+
+/**
+ * Debuging function. To check if the indexes are well sorted.
+ */
+// function logTheTimestamps(viewData) {
+//   console.log(viewData.indexes.map(oid => (
+//     viewData.lines[oid].timestamp
+//   )));
+// }
 
 /**
  * Add payloads in plot view data state
@@ -30,48 +41,54 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
   }
 
   // Loop on payloads to update state
-  // lines: contains all fields filtered by time { [timestamp]: { values }}
-  // indexes: contains ordered timestamps [t1, t2, ...]
+  // lines: contains all fields indexed by oid { [oid]: { values }}
+  // indexes: contains ordered oids [oid1, oid2, ...]
   let newState = _cloneDeep(state);
   if (!newState.indexes) {
     newState = { lines: {}, indexes: [] };
   }
 
-  // loop on EP name to add payload sorted by masterTime in EP table
+  // loop on EP name to add payload sorted by oid in EP table
   for (let i = 0; i < epNames.length; i += 1) {
     const epName = epNames[i];
 
     // Update of EP data
     newState.lines = Object.assign({}, newState.lines, payloads[epName]);
-    const timestamps = _map(payloads[epName], viewData => viewData.timestamp);
+    const oids = Object.keys(payloads[epName]);
+
     let lastIndex = -1;
     let lastTime;
-    // loop on payload timestamps
-    for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
-      // let indexInLines = -1;
-      const time = timestamps[iTime];
-      // Optimisation when payload is sorted by ascending time
-      if (lastIndex === -1 && lastTime && lastTime < time) {
-        newState.indexes.push(time);
+    // loop on payload oids
+    for (let oidIndex = 0; oidIndex < oids.length; oidIndex += 1) {
+      const insertOid = oids[oidIndex];
+      const payload = payloads[epName][insertOid];
+      const time = payload.timestamp;
+      // Optimisation when payloads are sorted by ascending time
+      if (lastIndex === -1 && lastTime && lastTime <= time) {
+        newState.indexes.push(insertOid);
       } else {
-        let index = -1;
+        // search where to insert payload
+        let insertIndex = -1;
         if (newState.indexes.length) {
-          index = _findIndex(newState.indexes, val => val >= time);
+          insertIndex = _findIndex(newState.indexes, searchOid => (
+            newState.lines[searchOid].timestamp >= time
+          ));
         }
-        lastIndex = index;
-        if (index === -1) {
-          newState.indexes.push(time);
-        } else if (newState.indexes[index] !== time) {
+        lastIndex = insertIndex;
+        if (insertIndex === -1) {
+          newState.indexes.push(insertOid);
+        } else if (newState.indexes[insertIndex] !== insertOid) {
           newState.indexes = _concat(
-            newState.indexes.slice(0, index),
-            time,
-            newState.indexes.slice(index));
+            newState.indexes.slice(0, insertIndex),
+            insertOid,
+            newState.indexes.slice(insertIndex));
         }
       }
       lastTime = time;
     }
   }
 
+  // logTheTimestamps(newState);
   return newState;
 }
 
@@ -83,7 +100,7 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
  * @param: received data
  * @return: payloads to use per EP (unique)
 /* *********************************** */
-export function selectDataPerView(currentViewMap, intervalMap, payload) {
+export function selectDataPerView(currentViewMap, intervalMap, payload, visuWindow) {
   let epSubState = {};
   if (currentViewMap) {
     const epNames = Object.keys(currentViewMap.entryPoints);
@@ -98,7 +115,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
       return {};
     }
     // get useful data in payload : { epName: {timestamp: data, ...}}
-    epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
+    epSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap, visuWindow);
   }
   return epSubState;
 }
@@ -112,7 +129,7 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
  * @param: intervals for all entry Points
  * @return: ep payload to be used
 /* *********************************** */
-export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
+export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) {
   // get expected interval
   const expectedInterval = _get(intervalMap, [ep.tbdId, ep.localId, 'expectedInterval']);
   // case of error when visuWindow duration is too long
@@ -122,14 +139,18 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   const lower = expectedInterval[0];
   const upper = expectedInterval[1];
 
-  const newState = { [epName]: {} };
+  const epSubState = { [epName]: {} };
 
   // Loop on payload
   _each(tbdIdPayload, (currentValue, i) => {
-    const offset = ep.offset || 0;
     const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
+    const oid = currentValue.oid;
+    if (!oid || !groundMonitoringAlarm) {
+      return;
+    }
+
+    const offset = ep.offset || 0;
     const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
-    const masterTime = timestamp + offset;
     // TODO do we have to check creation date to validate timestamp ?
     // const timestamp = _get(currentValue, ['creationDate', 'value']);
     // if (typeof timestamp === 'undefined') {
@@ -141,15 +162,31 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-    if (!groundMonitoringAlarm) {
-      return;
-    }
+
     // Compute acknowledgement State
     let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
     if (convertData(groundMonitoringAlarm.hasAckRequest) === 'true') {
       ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
+      }
+    }
+
+    if (ep.mode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
+      if (ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+        return;
+      }
+    }
+
+    if (ep.mode === constants.GMA_ALARM_MODE_NONNOMINAL) {
+      const { creationDate, closingDate } = groundMonitoringAlarm;
+      const isNonNominal = (
+        creationDate < visuWindow.current
+        && (closingDate > visuWindow.current || !closingDate)
+      );
+      const isNominal = !isNonNominal;
+      if (isNominal) {
+        return;
       }
     }
 
@@ -160,8 +197,9 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     }
 
     const valueToInsert = {
-      oid: currentValue.oid,
+      oid,
       timestamp,
+      collapsed: true,
       parameterName: convertData(currentValue.parameterName),
       parameterType: convertData(currentValue.parameterType),
       satellite: convertData(currentValue.satellite),
@@ -192,14 +230,13 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
         )),
       });
     }
-
-    newState[epName][masterTime] = valueToInsert;
+    epSubState[epName][oid] = valueToInsert;
   });
 
   // if no data, return empty state
-  if (!Object.keys(newState[epName]).length) {
+  if (!Object.keys(epSubState[epName]).length) {
     return {};
   }
 
-  return newState;
+  return epSubState;
 }

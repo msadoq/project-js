@@ -249,7 +249,7 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
           valX,
           refTime: timestamp,
           value: valY,
-          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
+          ...getStateColorObj(value, ep.stateColors),
           // Case of enum : add symbol to show it in tooltip
           // Case of long : add string representation in tooltip to keep precision
           // Case of double : add string representation in tooltip to keep precision

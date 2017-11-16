@@ -5,7 +5,7 @@ import * as types from '../../../store/types';
 
 const initialState = {};
 
-const reducer = (state = initialState, action) => {
+const uiReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.WS_VIEW_ALARM_TOGGLE_SELECTION: {
       const { viewId, oid } = action.payload;
@@ -20,10 +20,13 @@ const reducer = (state = initialState, action) => {
     case types.WS_TIMEBAR_UPDATE_CURSORS: {
       return initialState;
     }
-    case types.WS_VIEW_CLOSE:
     case types.WS_VIEW_GMA_ALARM_ACK:
     case types.WS_VIEW_OBA_ALARM_ACK:
     case types.WS_VIEW_UPDATE_ENTRYPOINT: {
+      const { viewId } = action.payload;
+      return _.unset([viewId, 'selected'], state);
+    }
+    case types.WS_VIEW_CLOSE: {
       const { viewId } = action.payload;
       return _.unset(viewId, state);
     }
@@ -35,7 +38,7 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default uiReducer;
 
 const getUi = (state, { viewId }) => (
   _.get(['AlarmViewUi', viewId], state)

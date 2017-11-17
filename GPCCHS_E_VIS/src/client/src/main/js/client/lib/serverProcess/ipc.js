@@ -40,9 +40,9 @@ function getStaticProtobuf(type) {
   return staticDcProtobufs[type];
 }
 
-function onDcResponseCallback(err) {
+function onDcResponseCallback(err, flatDataId = '') {
   if (err) {
-    logger.error(`Error from Data Consumer: ${err}`);
+    logger.error(`Error from Data Consumer (${flatDataId}): ${err}`);
     getStore().dispatch(addMessage('global', 'danger', err));
   }
 }
@@ -145,19 +145,19 @@ const commands = {
           }
         ),
       ],
-      onDcResponseCallback
+      err => (onDcResponseCallback(err, flatDataId))
     ),
     requestSubscriptionAdd: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
         getDcDataId(flatDataId, dataId),
         getStaticProtobuf('add'),
-      ], onDcResponseCallback);
+      ], err => (onDcResponseCallback(err, flatDataId)));
     },
     requestSubscriptionDelete: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
         getDcDataId(flatDataId, dataId),
         getStaticProtobuf('delete'),
-      ], onDcResponseCallback);
+      ], err => (onDcResponseCallback(err, flatDataId)));
     },
   },
 };

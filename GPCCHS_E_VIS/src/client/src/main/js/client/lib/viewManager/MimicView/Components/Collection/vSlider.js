@@ -1,8 +1,8 @@
 const vSlider = '<!-- VERTICAL SLIDER -->\n' +
 '<g transform="translate(140,120)">\n\t' +
 ' <path d="M28,10 l6,0 l0,200, l-6,0 z" style=" fill: #DDD; stroke: #BBB;" />\n\t' +
-' <g isis_animation="translateY" isis_ep="AGA_AM_PRIORITY" isis_domain="117,120" isis_width="200" isis_direction="top">\n\t\t' +
-'   <g isis_animation="colour" isis_ep="AGA_AM_PRIORITY" isis_operators="<=$118$#EEE*>$118$#F70*>$119$#F11">\n\t\t\t' +
+' <g isis_animation="translateY" isis_ep="AGA_AM_PRIORITY" isis_domain="117,120" isis_distance="200" isis_direction="top">\n\t\t' +
+'   <g isis_animation="colour" isis_ep="AGA_AM_PRIORITY"  isis_color_operators="<=$118$#EEE*>$118$#F70*>$119$#F11">\n\t\t\t' +
 '     <ellipse cx="31" cy="210" rx="8" ry="8" style="fill: #EEE; stroke: #BBB;" />\n\t\t' +
 '   </g>\n\t' +
 ' </g>\n\t' +

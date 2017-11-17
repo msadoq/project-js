@@ -1,4 +1,3 @@
-const rotate = '<g isis_animation="rotate" isis_ep="" isis_domain="," isis_angle="" isis_center=",">\n' +
-'</g>';
+const rotate = '<g isis_animation="rotate" isis_ep="__ENTRY_POINT__" isis_domain="0,100" isis_angle="" isis_origin="left,top"></g>';
 
 export default rotate;

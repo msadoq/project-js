@@ -1,5 +1,7 @@
-const scaleY = '<g isis_animation="scaleY" isis_ep="" isis_domain="," isis_fixed="bottom">\n\t' +
-'<!-- PLACE HERE ELEMENTS TO ANIMATE-->\n' +
-'</g>';
+const scaleY = `
+<g isis_animation="scaleY" isis_ep="__ENTRY_POINT__" isis_domain="0,100" isis_fixed="bottom">
+<!-- PLACE HERE ELEMENTS TO ANIMATE--> 
+</g>
+`;
 
 export default scaleY;

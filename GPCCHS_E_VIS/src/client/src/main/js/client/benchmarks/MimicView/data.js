@@ -1,5 +1,8 @@
 import vGauge from '../../lib/viewManager/MimicView/Components/Collection/vGauge';
+import hGauge from '../../lib/viewManager/MimicView/Components/Collection/hGauge';
 import digital from '../../lib/viewManager/MimicView/Components/Animation/digital';
+import vSlider from '../../lib/viewManager/MimicView/Components/Collection/vSlider';
+import hSlider from '../../lib/viewManager/MimicView/Components/Collection/hSlider';
 
 const epIds = [
   'aaaaa', 'aaaab', 'aaaac', 'aaaad', 'aaaae', 'aaaaf', 'aaaag', 'aaaah', 'aaaai', 'aaaaj', 'aaaak', 'aaaal', 'aaaam',
@@ -28,7 +31,7 @@ const epIds = [
   'chhha', 'chhhb', 'chhhc', 'chhhd', 'chhhe', 'chhhf', 'chhhg', 'chhhh', 'chhhi', 'chhhj', 'chhhk', 'chhhl', 'chhhm',
 ];
 
-export const gauge = (n) => {
+export const vgauge = (n) => {
   const data = {};
   const entryPoints = {};
   const eps = epIds.filter((v, i) => i < n);
@@ -38,11 +41,80 @@ export const gauge = (n) => {
   }
 
   const epSvg = eps.map((v, i) => vGauge
-    .replace(/isis_ep="[^\"]*"/g, 'isis_ep="'+v+'"')
-    .replace('AGA_AM_PRIORITY', v)
-    .replace('translate(40,10)', 'translate('+(100 + ((i % 10) * 100))+', '+(100 + (Math.floor(i / 10) * 200))+')')
-    .replace('isis_domain="117,120" ', 'isis_domain="0,100" ')
+    .replace(/__ENTRY_POINT__/g, v)
+    .replace('__TRANSLATE_FROM__', (100 + ((i % 10) * 100)))
+    .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
   ).join('');
+
+  return {
+    data,
+    content: `<g>${epSvg}</g>`,
+    entryPoints,
+  };
+};
+
+export const hgauge = (n) => {
+  const data = {};
+  const entryPoints = {};
+  const eps = epIds.filter((v, i) => i < n);
+  for (let i = 0; i < n; i += 1) {
+    data[eps[i]] = { value: Math.round(Math.random() * 100), color: '#FFF' };
+    entryPoints[eps[i]] = {};
+  }
+
+  const epSvg = eps.map((v, i) => hGauge
+    .replace(/__ENTRY_POINT__/g, v)
+    .replace('__TRANSLATE_FROM__', (100 + ((i % 10) * 100)))
+    .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
+  ).join('');
+
+  console.log(epSvg);
+
+  return {
+    data,
+    content: `<g>${epSvg}</g>`,
+    entryPoints,
+  };
+};
+
+export const vslider = (n) => {
+  const data = {};
+  const entryPoints = {};
+  const eps = epIds.filter((v, i) => i < n);
+  for (let i = 0; i < n; i += 1) {
+    data[eps[i]] = { value: Math.round(Math.random() * 100), color: '#FFF' };
+    entryPoints[eps[i]] = {};
+  }
+
+  const epSvg = eps.map((v, i) => vSlider
+    .replace(/__ENTRY_POINT__/g, v)
+    .replace('__TRANSLATE_FROM__', (100 + ((i % 10) * 100)))
+    .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
+  ).join('');
+
+  return {
+    data,
+    content: `<g>${epSvg}</g>`,
+    entryPoints,
+  };
+};
+
+export const hslider = (n) => {
+  const data = {};
+  const entryPoints = {};
+  const eps = epIds.filter((v, i) => i < n);
+  for (let i = 0; i < n; i += 1) {
+    data[eps[i]] = { value: Math.round(Math.random() * 100), color: '#FFF' };
+    entryPoints[eps[i]] = {};
+  }
+
+  const epSvg = eps.map((v, i) => hSlider
+    .replace(/__ENTRY_POINT__/g, v)
+    .replace('__TRANSLATE_FROM__', (100 + ((i % 10) * 100)))
+    .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
+  ).join('');
+
+  console.log(epSvg);
 
   return {
     data,
@@ -61,9 +133,9 @@ export const digitalDisplay = (n) => {
   }
 
   const epSvg = eps.map((v, i) => digital
-    .replace(/isis_ep="[^\"]*"/g, 'isis_ep="'+v+'"')
-    .replace(/isis_textcolor="[^\"]*"/g, 'isis_textcolor="-1|#0C0;24|#E00;49|#595fed;74|#e5bd2d"')
-    .replace('translate(0,100)', 'translate('+(100 + ((i % 10) * 100))+', '+(100 + (Math.floor(i / 10) * 200))+')')
+    .replace(/__ENTRY_POINT__/g, v)
+    .replace('__TRANSLATE_FROM__', (100 + ((i % 10) * 100)))
+    .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
   ).join('');
 
   return {

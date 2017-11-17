@@ -3,7 +3,7 @@ import { createStore } from 'redux';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import MimicView from '../../lib/viewManager/MimicView/Components/View/MimicView';
-import { digitalDisplay, gauge } from './data';
+import { digitalDisplay, vgauge, hgauge, vslider, hslider } from './data';
 
 process.title = 'MimicView benchmark';
 
@@ -15,6 +15,7 @@ const propsMimicView = {
   width: 1000,
   height: 1000,
 };
+
 
 const reducer = (state = {}, action) => {
   switch (action.type) {
@@ -100,28 +101,72 @@ render(
           >100 EP</button> &nbsp;
           <br />
           <hr style={{ borderTop: '1px solid #666' }} />
-          <h4><strong>Gauge</strong></h4>
+          <h4><strong>VGauge</strong></h4>
           <button
             className="btn btn-primary btn-sm"
             onClick={() => {
-              const data = gauge(1);
+              const data = vgauge(1);
               dispatchNewData(data);
             }}
           >1 EP</button> &nbsp;
           <button
             className="btn btn-primary"
             onClick={() => {
-              const data = gauge(10);
+              const data = vgauge(10);
               dispatchNewData(data);
             }}
           >10 EP</button> &nbsp;
           <button
             className="btn btn-primary"
             onClick={() => {
-              const data = gauge(100);
+              const data = vgauge(100);
               dispatchNewData(data);
             }}
           >100 EP</button> &nbsp;
+          <br />
+          <hr style={{ borderTop: '1px solid #666' }} />
+          <h4><strong>HGauge</strong></h4>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => {
+              const data = hgauge(1);
+              dispatchNewData(data);
+            }}
+          >1 EP</button> &nbsp;
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              const data = hgauge(10);
+              dispatchNewData(data);
+            }}
+          >10 EP</button> &nbsp;
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              const data = hgauge(100);
+              dispatchNewData(data);
+            }}
+          >100 EP</button> &nbsp;
+          <br />
+          <hr style={{ borderTop: '1px solid #666' }} />
+          <h4><strong>VSlider</strong></h4>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => {
+              const data = vslider(1);
+              dispatchNewData(data);
+            }}
+          >1 EP</button>
+          <br />
+          <hr style={{ borderTop: '1px solid #666' }} />
+          <h4><strong>HSlider</strong></h4>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => {
+              const data = hslider(1);
+              dispatchNewData(data);
+            }}
+          >1 EP</button>
           <br />
           <hr style={{ borderTop: '1px solid #666' }} />
         </div>

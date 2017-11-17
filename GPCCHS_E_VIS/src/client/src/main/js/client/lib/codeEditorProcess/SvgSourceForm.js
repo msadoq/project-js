@@ -133,6 +133,15 @@ class SvgSourceForm extends PureComponent {
           },
         ],
       },
+      // {
+      //   label: 'Add Entry point',
+      //   submenu: [
+      //     {
+      //       label: 'Scale X',
+      //       code: scaleX,
+      //     },
+      //   ],
+      // },
     ];
   resetAndClose = () => {
     this.props.reset();

@@ -1,3 +1,6 @@
+import vGauge from '../../lib/viewManager/MimicView/Components/Collection/vGauge';
+import digital from '../../lib/viewManager/MimicView/Components/Animation/digital';
+
 const epIds = [
   'aaaaa', 'aaaab', 'aaaac', 'aaaad', 'aaaae', 'aaaaf', 'aaaag', 'aaaah', 'aaaai', 'aaaaj', 'aaaak', 'aaaal', 'aaaam',
   'abbba', 'abbbb', 'abbbc', 'abbbd', 'abbbe', 'abbbf', 'abbbg', 'abbbh', 'abbbi', 'abbbj', 'abbbk', 'abbbl', 'abbbm',
@@ -33,25 +36,20 @@ export const gauge = (n) => {
     data[eps[i]] = { value: Math.round(Math.random() * 100), color: '#FFF' };
     entryPoints[eps[i]] = {};
   }
-  const epSvg = eps.map((v, i) => `<g transform="translate(${100 + ((i % 10) * 100)},${100 + (Math.floor(i / 10) * 200)})">
-  <path d="M26,1 l24,0 l0,200 l-24,0 z" style=" fill:#DDD" />
-  <g isis_animation="scaleY" isis_ep="${v}" isis_domain="0,100" isis_fixed="bottom">
-    <path d="M26,1 l24,0 l0,200 l-24,0 z" style=" fill:#96ceaa" />
-  </g>
-  <g isis_animation="translateY" isis_ep="${v}" isis_domain="0,100" isis_width="200" isis_direction="top">
-    <path d="M23,198 l0,3 l30,0 l0,-3 z" style=" fill: #666" />
-  </g>
-  <text x="0" y="200" fill="#666" style="font-size:10px">117</text>
-  <text x="0" y="6" fill="#666" style="font-size:10px">120</text>
-  <text x="12" y="150" fill="#666" style="font-weight:bold;font-size:11px;" transform="rotate(-90, 12, 150)">${v}</text>
-</g>`).join('');
+
+  const epSvg = eps.map((v, i) => vGauge
+    .replace(/isis_ep="[^\"]*"/g, 'isis_ep="'+v+'"')
+    .replace('AGA_AM_PRIORITY', v)
+    .replace('translate(40,10)', 'translate('+(100 + ((i % 10) * 100))+', '+(100 + (Math.floor(i / 10) * 200))+')')
+    .replace('isis_domain="117,120" ', 'isis_domain="0,100" ')
+  ).join('');
+
   return {
     data,
     content: `<g>${epSvg}</g>`,
     entryPoints,
   };
 };
-
 
 export const digitalDisplay = (n) => {
   const data = {};
@@ -61,10 +59,13 @@ export const digitalDisplay = (n) => {
     data[eps[i]] = { value: Math.round(Math.random() * 100), color: '#FFF' };
     entryPoints[eps[i]] = {};
   }
-  const epSvg = eps.map((v, i) => `<g transform="translate(${100 + ((i % 10) * 100)},${100 + (Math.floor(i / 10) * 100)})">
-  <g isis_x="0" isis_y="0" isis_animation="textBox" isis_ep="${v}" isis_textcolor_thresholds="-1|#0C0;24|#E00;49|#595fed;74|#e5bd2d" isis_font="Digital" isis_size="64px">-</g>
-</g>
-`).join('');
+
+  const epSvg = eps.map((v, i) => digital
+    .replace(/isis_ep="[^\"]*"/g, 'isis_ep="'+v+'"')
+    .replace(/isis_textcolor="[^\"]*"/g, 'isis_textcolor="-1|#0C0;24|#E00;49|#595fed;74|#e5bd2d"')
+    .replace('translate(0,100)', 'translate('+(100 + ((i % 10) * 100))+', '+(100 + (Math.floor(i / 10) * 200))+')')
+  ).join('');
+
   return {
     data,
     content: `<g>${epSvg}</g>`,

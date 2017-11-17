@@ -10,17 +10,10 @@ process.title = 'MimicView benchmark';
 const SET_MIMICVIEW_PROPS = 'SET_MIMICVIEW_PROPS';
 
 const propsMimicView = {
-  viewId: 'aaaa-aaaa',
-  addEntryPoint: () => null,
-  updateContent: () => null,
-  openInspector: () => null,
-  openEditor: () => null,
-  closeEditor: () => null,
-  isInspectorOpened: false,
   inspectorEpId: 'bbbb-bbbb',
-  isViewsEditorOpen: false,
-  mainMenu: [],
   perfOutput: true,
+  width: 1000,
+  height: 1000,
 };
 
 const reducer = (state = {}, action) => {
@@ -42,7 +35,6 @@ const reducer = (state = {}, action) => {
  */
 const store = createStore(reducer, {});
 const dispatch = store.dispatch;
-// const getState = store.dispatch;
 
 const MimicViewWrapper = props =>
   (props.mimicViewProps ? <MimicView {...props.mimicViewProps} /> : <h4>No props</h4>);

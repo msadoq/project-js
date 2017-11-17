@@ -23,25 +23,23 @@ import textBox from '../viewManager/MimicView/Components/Animation/textBox';
 import translateX from '../viewManager/MimicView/Components/Animation/translateX';
 import translateY from '../viewManager/MimicView/Components/Animation/translateY';
 
+const { string, func, arrayOf, bool } = PropTypes;
 
 class SvgSourceForm extends PureComponent {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    reset: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    valid: PropTypes.bool.isRequired,
-    closeCodeEditor: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.string),
-    viewType: PropTypes.string.isRequired,
-  }
+    handleSubmit: func.isRequired,
+    pristine: bool.isRequired,
+    reset: func.isRequired,
+    submitting: bool.isRequired,
+    valid: bool.isRequired,
+    closeCodeEditor: func.isRequired,
+    entryPoints: arrayOf(string),
+    viewType: string.isRequired,
+  };
   static defaultProps = {
     entryPoints: [],
-  }
-
+  };
   onChange = editorState => this.setState({ editorState });
-
-
   getMainContextMenu = () =>
     [
       {
@@ -136,16 +134,14 @@ class SvgSourceForm extends PureComponent {
         ],
       },
     ];
-
   resetAndClose = () => {
     this.props.reset();
     this.props.closeCodeEditor();
-  }
+  };
   saveAndClose = () => {
     this.props.handleSubmit();
     this.props.closeCodeEditor();
-  }
-
+  };
   render() {
     const {
       handleSubmit,

@@ -15,25 +15,24 @@ const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
 const htmlToReactParser = new HtmlToReactParser();
 const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const isValidNode = () => true;
-// const isValueNode = /{{\s*([^}]+)\s*}}/g;
 
 const validOrigin = values =>
-  ['center', 'right', 'left'].includes(values[0])
-    && ['center', 'top', 'bottom'].includes(values[1]);
+  ['center', 'right', 'left'].includes(values[0]) &&
+  ['center', 'top', 'bottom'].includes(values[1]);
+
+const { shape, string, number, object, objectOf, bool } = PropTypes;
 
 export default class MimicView extends Component {
-
   static propTypes = {
-    content: PropTypes.string.isRequired,
-    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
-    data: PropTypes.shape({
-      values: PropTypes.object,
+    content: string.isRequired,
+    entryPoints: objectOf(object).isRequired,
+    data: shape({
+      values: object,
     }).isRequired,
-    perfOutput: PropTypes.bool,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-  }
-
+    perfOutput: bool,
+    width: number.isRequired,
+    height: number.isRequired,
+  };
   static defaultProps = {
     data: {
       values: {},
@@ -44,7 +43,6 @@ export default class MimicView extends Component {
     showLinks: false,
     perfOutput: false,
   };
-
   componentWillMount() {
     this.svgEls = [];
     this.content = this.getContentComponent();
@@ -67,14 +65,11 @@ export default class MimicView extends Component {
     }
     return shouldRender;
   }
-
   componentWillUpdate(nextProps) {
     this.svgEls = [];
     this.content = this.getContentComponent(nextProps);
   }
-
   componentDidUpdate() {
-    // console.log('micmic did upadate');
     this.updateSvgsValues(this.props.data);
   }
   getContentComponent(props = this.props) {
@@ -335,7 +330,6 @@ export default class MimicView extends Component {
       processingInstructions
     );
   }
-
   updateSvgsValues = (data) => {
     if (!data || !data.values) {
       return;
@@ -376,10 +370,8 @@ export default class MimicView extends Component {
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
       console.timeEnd();
     }
-  }
-
+  };
   svgEls = [];
-
   render() {
     return (
       <svg width={`${this.props.width}px`} height={`${this.props.height}px`}>{this.content}</svg>

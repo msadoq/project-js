@@ -140,16 +140,32 @@ const Table = ({
               key={key}
             >
               {
-                TRANSITION_COLS.map((col, index) => (
+                line.type === 'transition_header' ? (
+                  TRANSITION_COLS.map((col, index) => (
+                    <th
+                      className={classnames({
+                        [styles.collapseColumn]: index === 0,
+                      })}
+                      key={col}
+                    >
+                      {col}
+                    </th>
+                  ))
+                ) : [
                   <th
                     className={classnames({
-                      [styles.collapseColumn]: index === 0,
+                      [styles.collapseColumn]: true,
                     })}
-                    key={col}
+                    key="1"
+                  />,
+                  <th
+                    style={{ fontStyle: 'italic' }}
+                    key="2"
+                    colSpan={TRANSITION_COLS.length - 1}
                   >
-                    {col}
-                  </th>
-                ))
+                    TRANSITIONS
+                  </th>,
+                ]
               }
             </tr>
           );

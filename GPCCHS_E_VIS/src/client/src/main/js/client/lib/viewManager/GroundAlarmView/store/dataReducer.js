@@ -203,6 +203,10 @@ export const getDataLines = createSelector(
     const alarmWithoutTransitions = _.omit('transitions', alarm);
     const transitions = _.isEmpty(alarm.transitions) || alarm.collapsed ? [] : [
       {
+        type: 'transition_header_title',
+        alarm: alarmWithoutTransitions,
+      },
+      {
         type: 'transition_header',
         alarm: alarmWithoutTransitions,
       },

@@ -141,16 +141,32 @@ const Table = ({
               key={key}
             >
               {
-                PARAMETERS_COLS.map((col, index) => (
+                line.type === 'parameter_header_title' ? (
+                  PARAMETERS_COLS.map((col, index) => (
+                    <th
+                      className={classnames({
+                        [styles.collapseColumn]: index === 0,
+                      })}
+                      key={col}
+                    >
+                      {col}
+                    </th>
+                  ))
+                ) : [
                   <th
+                    key="1"
                     className={classnames({
-                      [styles.collapseColumn]: index === 0,
+                      [styles.collapseColumn]: true,
                     })}
-                    key={col}
+                  />,
+                  <th
+                    key="2"
+                    style={{ fontStyle: 'italic' }}
+                    colSpan={PARAMETERS_COLS.length - 1}
                   >
-                    {col}
-                  </th>
-                ))
+                    PARAMETERS
+                  </th>,
+                ]
               }
             </tr>
           );

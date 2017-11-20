@@ -14,6 +14,11 @@ Object {
     },
     "filters": Array [],
     "localIds": Object {
+      "extractedValue.tb1:0": Object {
+        "offset": 0,
+        "timebarUuid": "tb1",
+        "viewType": "HistoryView",
+      },
       "groundDate/extractedValue.tb1:0": Object {
         "fieldX": "groundDate",
         "fieldY": "extractedValue",
@@ -27,11 +32,6 @@ Object {
         "offset": 10000,
         "timebarUuid": "tb1",
         "viewType": "PlotView",
-      },
-      "undefined.tb1:0": Object {
-        "offset": 0,
-        "timebarUuid": "tb1",
-        "viewType": "HistoryView",
       },
     },
     "mode": undefined,
@@ -89,7 +89,7 @@ Object {
       },
     ],
     "localIds": Object {
-      "undefined.tb1:0": Object {
+      "extractedValue.tb1:0": Object {
         "offset": 0,
         "timebarUuid": "tb1",
         "viewType": "HistoryView",

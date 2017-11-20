@@ -76,6 +76,13 @@ Object {
   ],
   "data": Object {
     "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
+        "extractedValue": 149.30028143545633,
+        "masterTime": 100020,
+        "monitoringState": "valid",
+        "rawValue": 149.30028143545633,
+        "referenceTimestamp": 100000,
+      },
       "200020": Object {
         "extractedValue": 154.3002814355,
         "masterTime": 200020,
@@ -108,6 +115,7 @@ Object {
   },
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
+      "100020",
       "200020",
       "300020",
       "400020",
@@ -115,6 +123,7 @@ Object {
     ],
   },
   "lines": Array [
+    "ATT_BC_REVTCOUNT1 100020",
     "ATT_BC_REVTCOUNT1 200020",
     "ATT_BC_REVTCOUNT1 300020",
     "ATT_BC_REVTCOUNT1 400020",

@@ -1,4 +1,3 @@
-// import _ from 'lodash/fp';
 import * as actions from '../../../store/actions/views';
 import * as types from '../../../store/types';
 import configurationReducer from './configurationReducer';
@@ -127,6 +126,51 @@ describe('store:reducer:PlotViewConfiguration', () => {
       const state = reducer(stateConf, actions.removeAxis('plot1', 'axis2'));
       expect(state.axes).toEqual({ time: { label: 'Time', unit: 's', id: 'time' },
         axis3: { label: '3', unit: 'p', id: 'axis3' } });
+    });
+  });
+  describe('liveExtents', () => {
+    test('save liveExtents from empty', () => {
+      const liveExtents = {
+        32132132132: {
+          width: 100,
+          height: 100,
+          xExtents: [],
+          yExtents: [],
+        },
+      };
+      const state = reducer(stateConf, actions.saveLiveExtents('plot1', liveExtents));
+      expect(state).toEqual({
+        ...state,
+        liveExtents,
+      });
+    });
+    test('save liveExtents from filled', () => {
+      const liveExtents = {
+        32132132132: {
+          width: 100,
+          height: 100,
+          xExtents: [],
+          yExtents: [],
+        },
+      };
+      const state1 = reducer(stateConf, actions.saveLiveExtents('plot1', liveExtents));
+      const state2 = reducer(state1, actions.saveLiveExtents('plot1', {
+        ...liveExtents,
+        32132132132: {
+          width: 200,
+          height: 200,
+        },
+      }));
+      expect(state2).toEqual({
+        ...state2,
+        liveExtents: {
+          ...liveExtents,
+          32132132132: {
+            width: 200,
+            height: 200,
+          },
+        },
+      });
     });
   });
 });

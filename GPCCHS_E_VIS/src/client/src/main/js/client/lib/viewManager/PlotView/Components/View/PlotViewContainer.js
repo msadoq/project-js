@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SizablePlotView from './PlotView';
-import { addEntryPoint, removeEntryPoint, removeLink, updateShowLinks, toggleLegend }
-  from '../../../../store/actions/views';
+import { addEntryPoint, removeEntryPoint, saveLiveExtents,
+  removeLink, updateShowLinks, toggleLegend } from '../../../../store/actions/views';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getData } from '../../store/dataReducer';
 import { getTimebar, isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
@@ -37,6 +37,7 @@ const mapStateToProps = (state, { viewId }) => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  saveLiveExtents,
   addEntryPoint,
   removeEntryPoint,
   removeLink,

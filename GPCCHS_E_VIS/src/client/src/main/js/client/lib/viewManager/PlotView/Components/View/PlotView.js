@@ -244,13 +244,14 @@ export const parseDragData = (data, id, defaultTimelineId) => {
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
-const { shape, string, arrayOf, number, func, object, objectOf, array, bool } = PropTypes;
+const { shape, string, arrayOf, number, func, object, array, bool } = PropTypes;
 
 export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: number.isRequired,
     containerHeight: number.isRequired,
     updateDimensions: func.isRequired,
+    saveLiveExtents: func.isRequired,
     data: shape({
       lines: object, // eslint-disable-line react/no-unused-prop-types
     }),
@@ -261,7 +262,21 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: string.isRequired,
     addEntryPoint: func.isRequired,
-    entryPoints: objectOf(object).isRequired,
+    entryPoints: shape({
+      name: string.isRequired,
+      connectedData: shape({
+        axisId: string,
+        stringParameter: string,
+        defaultY: string,
+      }),
+      connectedDataParametric: shape({
+        xAxisId: string,
+        YAxisId: string,
+      }),
+      stateColors: object.isRequired,
+      obsolete: bool,
+      nonsignificant: bool,
+    }).isRequired,
     configuration: shape({
       procedures: array,
       entryPoints: array,
@@ -608,12 +623,6 @@ export class GrizzlyPlotView extends PureComponent {
     this.setState(newState);
   };
 
-  memoizeMainStyle = _memoize(
-    legendLocation => ({
-      display: legendLocation === 'left' || legendLocation === 'right' ? 'table-cell' : 'block',
-    })
-  );
-
   removeEntryPoint = (e, id) => {
     e.preventDefault();
     const {
@@ -671,6 +680,7 @@ export class GrizzlyPlotView extends PureComponent {
       pageId,
       viewId,
       showLinks,
+      saveLiveExtents,
     } = this.props;
     let {
       configuration: { entryPoints },
@@ -758,13 +768,12 @@ export class GrizzlyPlotView extends PureComponent {
           allowZoom
           allowPan
           perfOutput={false}
-// eslint-disable-next-line no-console
-          linesListener={console.log}
+          linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxesAt="bottom"
           parametric={false}
-          additionalStyle={this.memoizeMainStyle(legend.location)}
+          additionalStyle={memoizeMainStyle(legend.location)}
           yAxes={this.yAxes}
           xAxes={this.xAxes}
           lines={
@@ -811,5 +820,24 @@ export class GrizzlyPlotView extends PureComponent {
 }
 
 const SizeablePlotView = withDimensions({ elementResize: true })(GrizzlyPlotView);
+
+/**
+ * @param saveLiveExtents
+ * @param viewId
+ * @returns {Function}
+ */
+const memoizeLiveExtents = (saveLiveExtents, viewId) => _memoize(
+  liveExtents => saveLiveExtents(viewId, liveExtents)
+);
+
+/**
+ * @type {Function}
+ * @returns {Object}
+ */
+const memoizeMainStyle = _memoize(
+  legendLocation => ({
+    display: legendLocation === 'left' || legendLocation === 'right' ? 'table-cell' : 'block',
+  })
+);
 
 export default SizeablePlotView;

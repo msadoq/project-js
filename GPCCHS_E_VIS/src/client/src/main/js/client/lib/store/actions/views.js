@@ -61,6 +61,8 @@ export const addGrid = simple(types.WS_VIEW_ADD_GRID, 'viewId', 'grid');
 export const removeGrid = simple(types.WS_VIEW_REMOVE_GRID, 'viewId', 'index');
 export const updateGrid = simple(types.WS_VIEW_UPDATE_GRID, 'viewId', 'index', 'grid');
 
+// ************ Live extents
+export const saveLiveExtents = simple(types.WS_VIEW_SAVE_LIVE_EXTENTS, 'viewId', 'liveExtents');
 
 export const addLink = simple(types.WS_VIEW_ADD_LINK, 'viewId', 'link');
 export const removeLink = simple(types.WS_VIEW_REMOVE_LINK, 'viewId', 'index');

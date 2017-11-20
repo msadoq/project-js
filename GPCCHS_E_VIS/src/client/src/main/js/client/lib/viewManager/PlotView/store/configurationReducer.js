@@ -18,6 +18,8 @@ export default (stateConf = { search: '', showLegend: true }, action) => {
       return _.set(`grids[${action.payload.index}]`, action.payload.grid, stateConf);
     case types.WS_VIEW_TOGGLE_LEGEND:
       return _.set('showLegend', action.payload.flag, stateConf);
+    case types.WS_VIEW_SAVE_LIVE_EXTENTS:
+      return _.set('liveExtents', action.payload.liveExtents, stateConf);
     case types.WS_VIEW_ADD_GRID:
       return addElementIn('grids', action.payload.grid, stateConf);
     case types.WS_VIEW_REMOVE_GRID:

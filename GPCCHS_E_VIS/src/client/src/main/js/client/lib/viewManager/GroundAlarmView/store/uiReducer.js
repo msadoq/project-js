@@ -1,12 +1,48 @@
+/* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
 import * as types from '../../../store/types';
+import * as constants from '../../constants';
 
 const initialState = {};
+const initialViewState = {
+  selected: {},
+  sort: {
+    mode: 'ASC',
+    column: 'timestamp',
+  },
+};
+
+const isAlarm = view => (
+  view.type === constants.VM_VIEW_GROUNDALARM
+  || view.type === constants.VM_VIEW_ONBOARDALARM
+);
 
 const uiReducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.WS_VIEW_RELOAD:
+    case types.WS_VIEW_OPENED:
+    case types.WS_VIEW_ADD_BLANK: {
+      if (isAlarm(action.payload.view)) {
+        return { ...state, [action.payload.view.uuid]: initialViewState };
+      }
+      return state;
+    }
+    case types.WS_PAGE_OPENED:
+    case types.WS_WORKSPACE_OPENED: {
+      const { views } = action.payload;
+      if (!views) {
+        return state;
+      }
+      const newState = {};
+      views.forEach((view) => {
+        if (isAlarm(view)) {
+          newState[view.uuid] = initialViewState;
+        }
+      });
+      return { ...state, ...newState };
+    }
     case types.WS_VIEW_ALARM_TOGGLE_SELECTION: {
       const { viewId, oid } = action.payload;
       const path = [viewId, 'selected', oid];
@@ -47,4 +83,9 @@ const getUi = (state, { viewId }) => (
 export const getSelectedAlarms = createSelector(
   getUi,
   _.getOr({}, 'selected')
+);
+
+export const getSort = createSelector(
+  getUi,
+  _.get('sort')
 );

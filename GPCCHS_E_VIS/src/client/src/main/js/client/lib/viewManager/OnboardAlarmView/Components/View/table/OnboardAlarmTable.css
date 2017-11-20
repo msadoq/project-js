@@ -14,12 +14,28 @@
     cursor: pointer;
   }
 
-  .collapseButton {
+  .collapseColumn {
     max-width: 25px;
   }
 
-  th.collapseButton, td.collapseButton {
+  span.collapseButton {
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .sortArrow {
+    background-color: transparent;
+  }
+
+  th.collapseColumn, td.collapseColumn {
     border-right: 1px solid black;
+  }
+
+  th.header {
+    cursor: pointer;
+    &:active {
+      filter: brightness(115%);
+    }
   }
 
   .notAllowed {
@@ -28,7 +44,7 @@
 
   .hover td, .hover th {
     filter: brightness(115%);
-    &.collapseButton {
+    &.collapseColumn {
       border-right: 1px solid black;
     }
   }

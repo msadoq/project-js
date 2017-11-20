@@ -13,20 +13,22 @@ import styles from './GroundAlarmTable.css';
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
 const MESSAGE_IS_PLAYING_TIMEBAR = 'You cannot select an alarm when timebar is playing';
-const COLS = ['', 'parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
+const COLS = ['', 'timestamp', 'parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
 const TRANSITION_COLS = ['', 'onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
 const CollapseButton = ({ onClick, collapsed }) => (
-  <span
+  <Label
     title={collapsed ? 'Expand' : 'Collapse'}
     onClick={(e) => {
       e.stopPropagation();
       onClick(e);
     }}
-    style={{ cursor: 'pointer' }}
+    className={classnames({
+      [styles.collapseButton]: true,
+    })}
   >
-    <Label><Glyphicon glyph={collapsed ? 'plus' : 'minus'} /></Label>
-  </span>
+    <Glyphicon glyph={collapsed ? 'plus' : 'minus'} />
+  </Label>
 );
 CollapseButton.propTypes = {
   onClick: PropTypes.func,
@@ -37,16 +39,37 @@ CollapseButton.defaultProps = {
   collapsed: false,
 };
 
+const Arrow = ({ mode }) => (
+  <Label
+    className={classnames({
+      [styles.sortArrow]: true,
+    })}
+  >
+    <Glyphicon glyph={mode === 'ASC' ? 'chevron-up' : 'chevron-down'} />
+  </Label>
+);
+Arrow.propTypes = {
+  mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+};
+
 const Table = ({
-  lines, position, displayedRows, rowHeight, selectedAlarms, hoveredAlarm,
+  lines, position, displayedRows, rowHeight, selectedAlarms, hoveredAlarm, sort,
   onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, isPlayingTimebar,
 }) => (
   <table>
     <thead>
-      <tr style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}>
+      <tr
+        style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
+      >
         {
           COLS.map(col => (
-            <th key={col}>
+            <th
+              className={classnames({
+                [styles.header]: col !== '',
+              })}
+              key={col}
+            >
+              { sort.column === col && <Arrow mode={sort.mode} /> }
               {col}
             </th>
           ))
@@ -81,7 +104,7 @@ const Table = ({
                   columns.map((col, index) => (
                     <td
                       className={classnames({
-                        [styles.collapseButton]: index === 0,
+                        [styles.collapseColumn]: index === 0,
                       })}
                       key={col}
                     >
@@ -120,7 +143,7 @@ const Table = ({
                 TRANSITION_COLS.map((col, index) => (
                   <th
                     className={classnames({
-                      [styles.collapseButton]: index === 0,
+                      [styles.collapseColumn]: index === 0,
                     })}
                     key={col}
                   >
@@ -149,6 +172,10 @@ Table.propTypes = {
     data: PropTypes.shape({}),
     type: PropTypes.string,
   })).isRequired,
+  sort: PropTypes.shape({
+    column: PropTypes.string.isRequired,
+    mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+  }).isRequired,
   rowHeight: PropTypes.number.isRequired,
   displayedRows: PropTypes.number.isRequired,
   isPlayingTimebar: PropTypes.bool.isRequired,
@@ -171,6 +198,10 @@ class TableView extends React.Component {
     ).isRequired,
     toggleSelection: PropTypes.func.isRequired,
     selectedAlarms: PropTypes.shape({}).isRequired,
+    sort: PropTypes.shape({
+      column: PropTypes.string.isRequired,
+      mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+    }).isRequired,
     mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
@@ -298,6 +329,7 @@ class TableView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
+          sort={this.props.sort}
           isPlayingTimebar={this.props.isPlayingTimebar}
           onMouseEnter={this.hoverAlarm}
           onMouseLeave={this.unhoverAlarm}

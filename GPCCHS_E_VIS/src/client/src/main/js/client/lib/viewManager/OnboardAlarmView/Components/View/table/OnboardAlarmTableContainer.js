@@ -6,12 +6,13 @@ import OnboardAlarmTable from './OnboardAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getData, getDataLines } from '../../../store/dataReducer';
 import { openAckModal } from '../../../store/actions';
-import { getSelectedAlarms } from '../../../../GroundAlarmView/store/uiReducer';
+import { getSelectedAlarms, getSort } from '../../../../GroundAlarmView/store/uiReducer';
 import { collapseAlarm, uncollapseAlarm, toggleSelection } from '../../../../GroundAlarmView/store/actions';
 import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
 import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
+  sort: getSort,
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,

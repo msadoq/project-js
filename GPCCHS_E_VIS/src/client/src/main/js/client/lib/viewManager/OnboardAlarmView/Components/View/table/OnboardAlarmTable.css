@@ -14,12 +14,23 @@
     cursor: pointer;
   }
 
+  .collapseButton {
+    max-width: 25px;
+  }
+
+  th.collapseButton, td.collapseButton {
+    border-right: 1px solid black;
+  }
+
   .notAllowed {
     cursor: not-allowed;
   }
 
-  .hover {
+  .hover td, .hover th {
     filter: brightness(115%);
+    &.collapseButton {
+      border-right: 1px solid black;
+    }
   }
 
   table {

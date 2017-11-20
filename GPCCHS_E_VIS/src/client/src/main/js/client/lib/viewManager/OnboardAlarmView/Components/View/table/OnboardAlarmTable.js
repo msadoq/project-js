@@ -13,8 +13,8 @@ import styles from './OnboardAlarmTable.css';
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
 const MESSAGE_IS_PLAYING_TIMEBAR = 'You cannot select an alarm when timebar is playing';
-const COLS = ['onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
-const PARAMETERS_COLS = ['name', 'value'];
+const COLS = ['', 'onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
+const PARAMETERS_COLS = ['', 'name', 'value'];
 
 const CollapseButton = ({ onClick, collapsed }) => (
   <span
@@ -82,7 +82,9 @@ const Table = ({
                 {
                   columns.map((col, index) => (
                     <td
-                      style={{ }}
+                      className={classnames({
+                        [styles.collapseButton]: index === 0,
+                      })}
                       key={col}
                     >
                       {
@@ -116,8 +118,15 @@ const Table = ({
               key={key}
             >
               {
-                PARAMETERS_COLS.map(col => (
-                  <th key={col}>{col}</th>
+                PARAMETERS_COLS.map((col, index) => (
+                  <th
+                    className={classnames({
+                      [styles.collapseButton]: index === 0,
+                    })}
+                    key={col}
+                  >
+                    {col}
+                  </th>
                 ))
               }
             </tr>

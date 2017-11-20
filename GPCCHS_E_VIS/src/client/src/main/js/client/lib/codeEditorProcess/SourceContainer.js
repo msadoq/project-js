@@ -12,6 +12,7 @@ const mapStateToProps = (state, { viewId }) => {
   const entryPointsName = getViewEntryPointsName(state, { viewId });
   return {
     content: configuration.content,
+    entryPoints: configuration.entryPoints,
     entryPointsName,
     type,
   };

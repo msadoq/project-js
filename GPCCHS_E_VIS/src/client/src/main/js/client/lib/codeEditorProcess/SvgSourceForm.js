@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';
+import _map from 'lodash/map';
 import { lint } from '../common/htmllint';
 import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
@@ -22,6 +23,7 @@ import show from '../viewManager/MimicView/Components/Animation/show';
 import textBox from '../viewManager/MimicView/Components/Animation/textBox';
 import translateX from '../viewManager/MimicView/Components/Animation/translateX';
 import translateY from '../viewManager/MimicView/Components/Animation/translateY';
+import ep from '../viewManager/MimicView/Components/Collection/ep';
 
 const { string, func, arrayOf, bool } = PropTypes;
 
@@ -40,109 +42,6 @@ class SvgSourceForm extends PureComponent {
     entryPoints: [],
   };
   onChange = editorState => this.setState({ editorState });
-  getMainContextMenu = () =>
-    [
-      {
-        label: 'Add component',
-        submenu: [
-          {
-            label: 'Verical gauge',
-            code: vGauge,
-          },
-          {
-            label: 'Horizontal gauge',
-            code: hGauge,
-          },
-          { type: 'separator' },
-          {
-            label: 'Vertical slider',
-            code: vSlider,
-          },
-          {
-            label: 'Horizontal slider',
-            code: hSlider,
-          },
-          { type: 'separator' },
-          {
-            label: 'Knobe',
-            code: knobe,
-          },
-          { type: 'separator' },
-          {
-            label: 'Circuit breaker',
-            code: circuitBreaker,
-          },
-          {
-            label: 'Diode',
-            code: diode,
-          },
-          {
-            label: 'Transistor',
-            code: transistor,
-          },
-          { type: 'separator' },
-          {
-            label: 'Multistate switch',
-            code: multiState,
-          },
-        ],
-      },
-      {
-        label: 'Add animation',
-        submenu: [
-          {
-            label: 'Scale X',
-            code: scaleX,
-          },
-          {
-            label: 'Scale Y',
-            code: scaleY,
-          },
-          { type: 'separator' },
-          {
-            label: 'Translate X',
-            code: translateX,
-          },
-          {
-            label: 'Translate Y',
-            code: translateY,
-          },
-          { type: 'separator' },
-          {
-            label: 'Text box',
-            code: textBox,
-          },
-          {
-            label: 'Digital display',
-            code: digital,
-          },
-          { type: 'separator' },
-          {
-            label: 'Rotation',
-            code: rotate,
-          },
-          { type: 'separator' },
-          {
-            label: 'Show / hide',
-            code: show,
-          },
-          { type: 'separator' },
-          {
-            label: 'Colour',
-            code: colour,
-          },
-        ],
-      },
-      // {
-      //   label: 'Add Entry point',
-      //   submenu: [
-      //     {
-      //       label: 'Scale X',
-      //       code: scaleX,
-      //     },
-      //   ],
-      // },
-    ];
   resetAndClose = () => {
     this.props.reset();
     this.props.closeCodeEditor();
@@ -161,6 +60,7 @@ class SvgSourceForm extends PureComponent {
       entryPoints,
       viewType,
     } = this.props;
+
     const options = [{ name: 'contextmenu', func: (a, b) => this.onContextMenu(a, b) }];
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -184,7 +84,7 @@ class SvgSourceForm extends PureComponent {
           className={styles.CodeMirrorField}
           component={CodeMirrorField}
           autocompleteList={entryPoints}
-          collection={this.getMainContextMenu()}
+          collection={getMainContextMenu(entryPoints)}
           cmOptions={options}
         />
         <div className={styles.footer}>
@@ -247,6 +147,121 @@ const validate = (values = {}, props) => {
     errors.html = `You have ${htmlErrors.length} errors`;
   }
   return errors;
+};
+
+/**
+ * @param entryPoints
+ * @returns {*[]}
+ * @pure
+ */
+export const getMainContextMenu = (entryPoints) => {
+  const menu = [
+    {
+      label: 'Add component',
+      submenu: [
+        {
+          label: 'Verical gauge',
+          code: vGauge,
+        },
+        {
+          label: 'Horizontal gauge',
+          code: hGauge,
+        },
+        { type: 'separator' },
+        {
+          label: 'Vertical slider',
+          code: vSlider,
+        },
+        {
+          label: 'Horizontal slider',
+          code: hSlider,
+        },
+        { type: 'separator' },
+        {
+          label: 'Knobe',
+          code: knobe,
+        },
+        { type: 'separator' },
+        {
+          label: 'Circuit breaker',
+          code: circuitBreaker,
+        },
+        {
+          label: 'Diode',
+          code: diode,
+        },
+        {
+          label: 'Transistor',
+          code: transistor,
+        },
+        { type: 'separator' },
+        {
+          label: 'Multistate switch',
+          code: multiState,
+        },
+      ],
+    },
+    {
+      label: 'Add animation',
+      submenu: [
+        {
+          label: 'Scale X',
+          code: scaleX,
+        },
+        {
+          label: 'Scale Y',
+          code: scaleY,
+        },
+        { type: 'separator' },
+        {
+          label: 'Translate X',
+          code: translateX,
+        },
+        {
+          label: 'Translate Y',
+          code: translateY,
+        },
+        { type: 'separator' },
+        {
+          label: 'Text box',
+          code: textBox,
+        },
+        {
+          label: 'Digital display',
+          code: digital,
+        },
+        { type: 'separator' },
+        {
+          label: 'Rotation',
+          code: rotate,
+        },
+        { type: 'separator' },
+        {
+          label: 'Show / hide',
+          code: show,
+        },
+        { type: 'separator' },
+        {
+          label: 'Colour',
+          code: colour,
+        },
+      ],
+    },
+  ];
+
+  if (entryPoints.length > 0) {
+    menu.push({
+      label: 'Add Entry point',
+      submenu: _map(entryPoints, entryPoint => (
+        {
+          label: entryPoint.name,
+          code: ep.replace('__ENTRY_POINT__', entryPoint.name),
+        }
+      )),
+    });
+  }
+
+  return menu;
 };
 
 export default reduxForm({

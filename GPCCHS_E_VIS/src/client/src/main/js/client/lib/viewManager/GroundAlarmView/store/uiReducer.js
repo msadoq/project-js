@@ -54,7 +54,7 @@ const uiReducer = (state = initialState, action) => {
     case types.HSC_CLOSE_WORKSPACE:
     case types.HSC_PLAY:
     case types.WS_TIMEBAR_UPDATE_CURSORS: {
-      return initialState;
+      return _.mapValues(_.always(initialViewState), state);
     }
     case types.WS_VIEW_GMA_ALARM_ACK:
     case types.WS_VIEW_OBA_ALARM_ACK:

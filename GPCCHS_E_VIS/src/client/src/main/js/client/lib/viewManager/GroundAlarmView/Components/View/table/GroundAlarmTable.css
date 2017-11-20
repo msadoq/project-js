@@ -18,11 +18,7 @@
     max-width: 25px;
   }
 
-  th.collapseButton {
-    border-right: 1px solid black;
-  }
-
-  td.collapseButton {
+  th.collapseButton, td.collapseButton {
     border-right: 1px solid black;
   }
 

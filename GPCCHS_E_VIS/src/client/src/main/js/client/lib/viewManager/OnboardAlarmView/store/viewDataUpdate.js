@@ -173,6 +173,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
 
     const parameters = onBoardAlarm.parameter || [];
     const valueToInsert = {
+      rawAlarm: currentValue,
       oid,
       timestamp,
       ackState,

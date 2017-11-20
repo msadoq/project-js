@@ -197,6 +197,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     }
 
     const valueToInsert = {
+      rawAlarm: currentValue,
       oid,
       timestamp,
       collapsed: true,

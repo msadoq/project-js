@@ -51,6 +51,15 @@ const uiReducer = (state = initialState, action) => {
       }
       return _.set(path, true, state);
     }
+    case types.WS_VIEW_ALARM_TOGGLE_SORT: {
+      const { viewId, column } = action.payload;
+      const toggleMode = mode => (mode === 'ASC' ? 'DESC' : 'ASC');
+      const currentSortColumn = _.get([viewId, 'sort', 'column'], state);
+      if (currentSortColumn === column) {
+        return _.update([viewId, 'sort', 'mode'], toggleMode, state);
+      }
+      return _.set([viewId, 'sort'], { column, mode: 'ASC' }, state);
+    }
     case types.HSC_CLOSE_WORKSPACE:
     case types.HSC_PLAY:
     case types.WS_TIMEBAR_UPDATE_CURSORS: {

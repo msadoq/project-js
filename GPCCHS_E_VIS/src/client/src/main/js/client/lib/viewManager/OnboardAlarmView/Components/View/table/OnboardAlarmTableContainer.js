@@ -7,7 +7,7 @@ import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/c
 import { getData, getDataLines } from '../../../store/dataReducer';
 import { openAckModal } from '../../../store/actions';
 import { getSelectedAlarms, getSort } from '../../../../GroundAlarmView/store/uiReducer';
-import { collapseAlarm, uncollapseAlarm, toggleSelection } from '../../../../GroundAlarmView/store/actions';
+import { collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../../GroundAlarmView/store/actions';
 import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
 import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
@@ -28,6 +28,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   collapse: oid => dispatch(collapseAlarm(viewId, oid)),
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
   toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
+  toggleSort: column => dispatch(toggleSort(viewId, column)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

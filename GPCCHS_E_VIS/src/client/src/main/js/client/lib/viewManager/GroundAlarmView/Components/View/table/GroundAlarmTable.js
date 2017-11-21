@@ -53,8 +53,8 @@ Arrow.propTypes = {
 };
 
 const Table = ({
-  lines, position, displayedRows, rowHeight, selectedAlarms, hoveredAlarm, sort,
-  onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, isPlayingTimebar,
+  lines, position, displayedRows, rowHeight, selectedAlarms, hoveredAlarm, sort, isPlayingTimebar,
+  onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
 }) => (
   <table>
     <thead>
@@ -64,6 +64,9 @@ const Table = ({
         {
           COLS.map(col => (
             <th
+              onClick={() => (
+                col !== '' && toggleSort(col)
+              )}
               className={classnames({
                 [styles.header]: col !== '',
               })}
@@ -181,6 +184,7 @@ Table.propTypes = {
   onClickAlarm: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
+  toggleSort: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
   hoveredAlarm: PropTypes.string,
   position: PropTypes.number,
@@ -213,6 +217,7 @@ class TableView extends React.Component {
       PropTypes.shape({}).isRequired
     ).isRequired,
     toggleSelection: PropTypes.func.isRequired,
+    toggleSort: PropTypes.func.isRequired,
     selectedAlarms: PropTypes.shape({}).isRequired,
     sort: PropTypes.shape({
       column: PropTypes.string.isRequired,
@@ -346,6 +351,7 @@ class TableView extends React.Component {
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
           sort={this.props.sort}
+          toggleSort={this.props.toggleSort}
           isPlayingTimebar={this.props.isPlayingTimebar}
           onMouseEnter={this.hoverAlarm}
           onMouseLeave={this.unhoverAlarm}

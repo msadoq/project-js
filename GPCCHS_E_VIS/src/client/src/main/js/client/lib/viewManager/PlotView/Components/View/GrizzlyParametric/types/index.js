@@ -33,6 +33,8 @@ export const lineType = shape({
   lineSize: number,
   pointSize: number,
   pointStyle: string,
+  dataAccessor: string,
+  stopInstruction: func,
   xAccessor: func,
   yAccessor: func,
   xTooltipAccessor: func,

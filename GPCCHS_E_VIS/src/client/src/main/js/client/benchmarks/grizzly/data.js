@@ -10,6 +10,7 @@ export const data = (length, value) => {
       refTime: x,
       symbol: val.toString(),
       valX: x,
+      isObsolete: (i % 5 === 0),
     };
   }
   return points;
@@ -28,6 +29,7 @@ export const dataColorRandom = (length, value, colors) => {
       symbol: val.toString(),
       valX: x,
       color: `#AA${colors[Math.round(Math.random() * 14)]}`,
+      isObsolete: (i % 100 === 0),
     };
   }
   return points;

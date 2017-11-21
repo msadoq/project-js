@@ -185,20 +185,47 @@ export const drawLine = (perfOutput,
 
   let currentX;
   let currentY;
-  let lastX;
-  let lastY;
+  let drawPoint;
+  let stoppedCurrent;
+  let stoppedPrevious = false;
+  const shouldDrawPoint = pointOffset && ['Square', 'Dot', 'Triangle'].indexOf(line.pointStyle) !== -1;
+  switch (line.pointStyle) {
+    case 'Square':
+      drawPoint = (c, x, y) => {
+        c.fillRect(x - pointOffset, y - pointOffset, pointSize, pointSize);
+      };
+      break;
+    case 'Dot':
+      drawPoint = (c, x, y) => {
+        c.fillText('•', x - pointOffset, y + (fontSize / 3));
+      };
+      break;
+    case 'Triangle':
+      drawPoint = (c, x, y) => {
+        c.stroke();
+        drawTriangle(c, x, y, pointOffset);
+        c.beginPath();
+        c.moveTo(x, y);
+      };
+      break;
+    default:
+      drawPoint = () => null;
+      break;
+  }
 
   const lineIndexesLength = lineIndexes.length;
   for (let i = 0; i < lineIndexesLength; i += 1) {
     const index = lineIndexes[i];
+    const previousIndex = lineIndexes[i - 1];
     const packet = lineData[index];
-    const previousPacket = lineData[lineIndexes[i - 1]];
+    const previousPacket = lineData[previousIndex];
     const nextPacket = lineData[lineIndexes[i + 1]];
 
     if (!packet) {
       return;
     }
 
+    stoppedCurrent = line.stopInstruction(packet) || false;
     currentY = yScale(line.yAccessor ? line.yAccessor(packet) : packet.value);
     currentX = xScale(line.xAccessor ? line.xAccessor(packet) : packet.x);
 
@@ -227,36 +254,33 @@ export const drawLine = (perfOutput,
       : fill
     ;
 
-    // draw a line with the previous color
-    // first loop, only one point, no lines to draw
-    if (lineSize && lastX && lastY) {
-      // draw a line no mater what
-      ctx.lineTo(currentX, currentY);
-      // if the color has changed
-      if (color !== fill) {
+    if (lineSize && i > 0) {
+      // if current or next data is in stopDrawing state, do not draw a line
+      if (stoppedCurrent || stoppedPrevious) {
         ctx.stroke();
         ctx.beginPath();
         ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
-        ctx.strokeStyle = fill;
-        ctx.fillStyle = fill;
-        fill = color; // set new color for further use
+      } else {
+        // draw a line no mater what
+        ctx.lineTo(currentX, currentY);
+        // if the color has changed
+        if (color !== fill) {
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
+          ctx.strokeStyle = fill;
+          ctx.fillStyle = fill;
+          fill = color; // set new color for further use
+        }
       }
     }
 
-    // Draw the defined point with the new color if defined
-    if (pointOffset && line.pointStyle === 'Square') {
-      ctx.fillRect(currentX - pointOffset, currentY - pointOffset, pointSize, pointSize);
-    } else if (pointOffset && line.pointStyle === 'Dot') {
-      ctx.fillText('•', currentX - pointOffset, currentY + (fontSize / 3));
-    } else if (pointOffset && line.pointStyle === 'Triangle') {
-      ctx.stroke();
-      drawTriangle(ctx, currentX, currentY, pointOffset);
-      ctx.beginPath();
-      ctx.moveTo(currentX, currentY);
+    // should we draw the current point
+    if (!stoppedCurrent && shouldDrawPoint) {
+      drawPoint(ctx, currentX, currentY);
     }
 
-    lastY = currentY;
-    lastX = currentX;
+    stoppedPrevious = stoppedCurrent;
   }
 
   ctx.stroke(); // final stroke to draw all remaining lines

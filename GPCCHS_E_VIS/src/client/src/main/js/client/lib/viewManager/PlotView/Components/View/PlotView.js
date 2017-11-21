@@ -792,6 +792,7 @@ export class GrizzlyPlotView extends PureComponent {
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
+                stopInstruction: packet => (packet.isObsolete || false),
                 xAccessor: null, // default packet => packet.x
                 yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
                 xTooltipAccessor: null, // default packet => packet.x

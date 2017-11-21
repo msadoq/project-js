@@ -66,6 +66,7 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
         pointSize: 10,
         pointStyle: 'Dot',
         tooltipFormatter: () => {},
+        stopInstruction: packet => (packet.isObsolete || false),
         xAccessor: null,
         xAxisId: 'time',
         xTooltipAccessor: null,
@@ -103,6 +104,46 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
     drawLinesCanvas(
       propsStub.perfOutput,
       propsStub.lines,
+      propsStub.updateLabelPosition,
+      false,
+      false,
+      propsStub.yScale,
+      propsStub.xScale,
+      propsStub.indexes,
+      propsStub.current,
+      propsStub.parametric,
+      propsStub.divStyle,
+      ctx
+    );
+    expect(operations).toMatchSnapshot();
+  });
+  test('LineCanvasCommon :: drawLinesCanvas :: obsolete data 1', () => {
+    const ctx = getContext();
+    const lines = propsStub.lines;
+    lines[0].data[1509985461000].isObsolete = true;
+    drawLinesCanvas(
+      propsStub.perfOutput,
+      lines,
+      propsStub.updateLabelPosition,
+      false,
+      false,
+      propsStub.yScale,
+      propsStub.xScale,
+      propsStub.indexes,
+      propsStub.current,
+      propsStub.parametric,
+      propsStub.divStyle,
+      ctx
+    );
+    expect(operations).toMatchSnapshot();
+  });
+  test('LineCanvasCommon :: drawLinesCanvas :: obsolete data 2', () => {
+    const ctx = getContext();
+    const lines = propsStub.lines;
+    lines[0].data[1509985462000].isObsolete = true;
+    drawLinesCanvas(
+      propsStub.perfOutput,
+      lines,
       propsStub.updateLabelPosition,
       false,
       false,

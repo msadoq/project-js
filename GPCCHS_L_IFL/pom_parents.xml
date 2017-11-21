@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.cnes.lpisis.gpcc</groupId>
-  <artifactId>gpcchs_parents_builder</artifactId>
+  <artifactId>gpcchs_l_ifl_parent_builder</artifactId>
   <packaging>pom</packaging>
   <version>1.1.2-R8S4-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
@@ -13,11 +13,7 @@
     <relativePath/>
   </parent>
   <modules>
-    <module>src/impl/system</module>
-    <module>src/impl/resources</module>
     <module>src/impl/parent</module>
-    <module>GPCCHS_E_VIS/pom_parents.xml</module>
-    <module>GPCCHS_L_IFL/pom_parents.xml</module>
   </modules>
   <build>
     <plugins>

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Produced by Acceleo Python Generator 1.1.2-R8 -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.cnes.lpisis.gpcc.python</groupId>
+    <artifactId>gpcchs_l_ifl_converter</artifactId>
+    <packaging>isis-python-module-dependency</packaging>
+    <version>1.1.2-R8S4-SNAPSHOT</version>
+
+    <parent>
+        <groupId>fr.cnes.lpisis.gpcc</groupId>
+        <artifactId>gpcchs_l_ifl-parent</artifactId>
+        <version>1.1.2-R8S4-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
+    </properties>
+    <dependencies>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpin.python</groupId>
+        <artifactId>gpinuc_l_ucl_unitConverterLibrary</artifactId>
+        <type>isis-python-module-dependency</type>
+        <classifier>unix_dev</classifier>
+      </dependency>
+    </dependencies>
+</project>

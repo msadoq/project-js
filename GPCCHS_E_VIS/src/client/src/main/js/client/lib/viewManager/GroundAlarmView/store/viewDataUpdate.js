@@ -165,7 +165,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
 
     // Compute acknowledgement State
     let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
-    if (convertData(groundMonitoringAlarm.hasAckRequest) === 'true') {
+    if (currentValue.ackRequest) {
       ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
       if (currentValue.ackRequest && currentValue.ackRequest.ack) {
         ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;

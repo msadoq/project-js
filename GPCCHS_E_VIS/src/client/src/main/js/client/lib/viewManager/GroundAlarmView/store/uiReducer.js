@@ -98,3 +98,13 @@ export const getSort = createSelector(
   getUi,
   _.get('sort')
 );
+
+export const getSortColumn = createSelector(
+  getSort,
+  _.get('column')
+);
+
+export const getSortMode = createSelector(
+  getSort,
+  _.get('mode')
+);

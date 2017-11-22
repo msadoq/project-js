@@ -8,7 +8,7 @@ export default function (entryPoint) {
 }
 
 const getNewGroundAlarmEntryPoint = () => ({
-  name: 'NewEntryPoint',
+  name: 'groundAlarmEP',
   id: v4(),
   connectedData: {
     mode: constants.GMA_ALARM_MODE_ALL,

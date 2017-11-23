@@ -1,4 +1,3 @@
-// import sinon from 'sinon';
 import { freezeMe, mockStore } from '../../common/jest';
 import * as actions from './pages';
 
@@ -40,7 +39,7 @@ describe('store:actions:pages', () => {
           type: 'WS_PAGE_ADD_BLANK',
           payload: {
             windowId: 'myWindow1',
-            page: { uuid: 'myPage1', timebarUuid: 'tb1' },
+            page: { uuid: 'myPage1' },
           },
         },
       ]);
@@ -52,7 +51,7 @@ describe('store:actions:pages', () => {
           type: 'WS_PAGE_ADD_BLANK',
           payload: {
             windowId: 'w1',
-            page: { uuid: 'myPage1', timebarUuid: 'tb1' },
+            page: { uuid: 'myPage1' },
           },
         },
       ]);
@@ -64,9 +63,6 @@ describe('store:actions:pages', () => {
           type: 'WS_PAGE_ADD_BLANK',
           payload: {
             windowId: 'myWindow1',
-            page: {
-              timebarUuid: 'tb1',
-            },
           },
         },
       ]);
@@ -79,9 +75,6 @@ describe('store:actions:pages', () => {
           type: 'WS_PAGE_ADD_BLANK',
           payload: {
             windowId: 'w1',
-            page: {
-              timebarUuid: 'tb1',
-            },
           },
         },
       ]);
@@ -109,9 +102,6 @@ describe('store:actions:pages', () => {
           type: 'WS_PAGE_ADD_BLANK',
           payload: {
             windowId: 'w1',
-            page: {
-              timebarUuid: 'tb1',
-            },
           },
         },
         {

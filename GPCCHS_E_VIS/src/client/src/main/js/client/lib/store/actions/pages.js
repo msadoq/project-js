@@ -3,7 +3,6 @@ import { v4 } from 'uuid';
 import simple from '../helpers/simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
-import { getFirstTimebarId } from '../reducers/timebars';
 import { getFocusedWindowId } from '../reducers/hsc';
 import { getPanels } from '../reducers/pages';
 import { getWindowIdByPageId } from '../reducers/windows';
@@ -57,7 +56,6 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
       windowId: wId,
       page: {
         uuid: newPageId,
-        timebarUuid: getFirstTimebarId(state),
       },
     },
   });

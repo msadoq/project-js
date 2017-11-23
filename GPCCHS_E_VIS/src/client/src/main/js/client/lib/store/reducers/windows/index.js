@@ -20,6 +20,36 @@ const loadWindows = (stateWindows, action) => {
   )(action.payload.windows);
 };
 
+/**
+ * @param stateWindows
+ * @param action
+ * @returns {*}
+ */
+const movePageToWindow = (stateWindows, action) => {
+  const { fromWindowId, toWindowId, pageId } = action.payload;
+  if (fromWindowId === toWindowId) {
+    return stateWindows;
+  }
+
+  if (_.indexOf(pageId, _.getOr([], `${fromWindowId}.pages`, stateWindows)) === -1) {
+    return stateWindows;
+  }
+
+  return _.flow(
+    _.set(
+      `${fromWindowId}.pages`,
+      _.remove(page => page === pageId, stateWindows[fromWindowId].pages)
+    ),
+    _.set(
+      `${toWindowId}.pages`,
+      _.concat(
+        [pageId],
+        _.getOr([], `${toWindowId}.pages`, stateWindows)
+      )
+    )
+  )(stateWindows);
+};
+
 export default function windows(stateWindows = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
@@ -43,6 +73,9 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_PAGE_TIMEBAR_MOUNT:
     case types.WS_PAGE_TIMEBAR_UNMOUNT: {
       return _.mapValues(_.set('isModified', true), stateWindows);
+    }
+    case types.WS_PAGE_MOVE_TO_WINDOW: {
+      return movePageToWindow(stateWindows, action);
     }
     default: {
       if (

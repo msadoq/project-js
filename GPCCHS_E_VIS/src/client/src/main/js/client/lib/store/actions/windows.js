@@ -1,10 +1,11 @@
 import _ from 'lodash/fp';
+import { v4 } from 'uuid';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { getPage } from '../reducers/pages';
 import { getWindowPages } from '../selectors/windows';
 import { getWindowAllViewsIds } from '../selectors/views';
-import { getWindowPageIds } from '../reducers/windows';
+import { getWindowPageIds, getWindowFocusedPageId } from '../reducers/windows';
 
 
 /**
@@ -13,6 +14,7 @@ import { getWindowPageIds } from '../reducers/windows';
 export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'focusedPage');
 
 export const askCloseWindow = simple(types.WS_ASK_CLOSE_WINDOW, 'windowId');
+const pageMoveToWindow = simple(types.WS_PAGE_MOVE_TO_WINDOW, 'fromWindowId', 'toWindowId', 'pageId');
 
 export const closeWindow = windowId => (dispatch, getState) => {
   const state = getState();
@@ -65,5 +67,37 @@ export function focusPage(windowId, pageId) {
         pageId: focusedPage.pageId,
       },
     });
+  };
+}
+
+/**
+ * @param pageId
+ * @param fromWindowId
+ * @param toWindowId
+ * @returns {function(*)}
+ */
+export function movePageToWindow(pageId, fromWindowId, toWindowId) {
+  return (dispatch, getState) => {
+    let windowId = toWindowId;
+    if (!toWindowId) {
+      const newWindowId = v4();
+      dispatch(addWindow(newWindowId, 'new Window'));
+      windowId = newWindowId;
+    }
+    // move selected page to selected or new window
+    dispatch(pageMoveToWindow(fromWindowId, windowId, pageId));
+    // focus this page on the new window
+    dispatch(focusPage(windowId, pageId));
+    // if moved view was focused, select another one in the previous window
+    const state = getState();
+    const focusedPageId = getWindowFocusedPageId(state, { windowId: fromWindowId });
+    if (focusedPageId === pageId) {
+      const pageIds = _.difference(getWindowPageIds(state, { windowId: fromWindowId }), [pageId]);
+      // at least one page remaining in the previous window
+      if (pageIds.length > 0) {
+        // focus that page in the previous window
+        dispatch(focusPage(fromWindowId, pageIds[0]));
+      }
+    }
   };
 }

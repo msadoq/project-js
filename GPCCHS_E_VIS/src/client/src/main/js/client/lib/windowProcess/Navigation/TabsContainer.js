@@ -2,11 +2,10 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getWindowPages } from '../../store/selectors/windows';
-import { focusPage, moveTabOrder } from '../../store/actions/windows';
+import { focusPage, moveTabOrder, movePageToWindow } from '../../store/actions/windows';
 import { askClosePage } from '../../store/actions/pages';
 import Tabs from './Tabs';
 import { close as closeModal } from '../../store/actions/modals';
-
 
 const mapStateToProps = (state, { windowId }) => ({
   pages: getWindowPages(state, { windowId }),
@@ -15,6 +14,7 @@ const mapStateToProps = (state, { windowId }) => ({
 function mapDispatchToProps(dispatch, { windowId }) {
   return bindActionCreators({
     askClosePage,
+    movePageToWindow: pageId => movePageToWindow(pageId, windowId),
     focusPage: pageId => focusPage(windowId, pageId),
     moveTabOrder: (keyFrom, keyTarget) => moveTabOrder(windowId, keyFrom, keyTarget),
     closeModal: () => closeModal(windowId),
@@ -22,9 +22,10 @@ function mapDispatchToProps(dispatch, { windowId }) {
 }
 
 const TabsContainer = connect(mapStateToProps, mapDispatchToProps)(Tabs);
+const { string } = PropTypes;
 
 TabsContainer.propTypes = {
-  windowId: PropTypes.string.isRequired,
+  windowId: string.isRequired,
 };
 
 export default TabsContainer;

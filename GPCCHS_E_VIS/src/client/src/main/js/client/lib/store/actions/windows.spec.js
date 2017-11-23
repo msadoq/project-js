@@ -10,7 +10,7 @@ describe('store:actions:windows', () => {
       },
       w2: {
         focusedPage: null,
-        pages: ['p1', 'p2', 'p3', 'p4'],
+        pages: ['p2', 'p3', 'p4'],
       },
     },
     pages: {
@@ -59,9 +59,24 @@ describe('store:actions:windows', () => {
           type: 'WS_WINDOW_CLOSE',
           payload: {
             windowId: 'w2',
-            views: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-            pages: ['p1', 'p2', 'p3', 'p4'],
+            views: [4, 5, 6, 7, 8, 9],
+            pages: ['p2', 'p3', 'p4'],
           },
+        },
+      ]);
+    });
+  });
+  describe('movePageToWindow', () => {
+    test('check dispatched action, single case', () => {
+      store.dispatch(actions.movePageToWindow('p1', 'w1', 'w2'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_PAGE_MOVE_TO_WINDOW',
+          payload: { pageId: 'p1', fromWindowId: 'w1', toWindowId: 'w2' },
+        },
+        {
+          type: 'WS_WINDOW_PAGE_FOCUS',
+          payload: { pageId: 'p1', windowId: 'w2' },
         },
       ]);
     });

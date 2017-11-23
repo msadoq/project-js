@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { freezeArgs, freezeMe } from '../../../common/jest';
 import * as actions from '../../actions/windows';
 import windowsReducer, {
@@ -22,6 +23,128 @@ describe('store:windows:reducer', () => {
     expect(
       reducer({ myWindowId: { title: 'Title' } }, { payload: { windowId: 'myWindowId' } })
     ).toEqual({ myWindowId: { title: 'Title' } });
+  });
+  describe('WS_PAGE_MOVE_TO_WINDOW', () => {
+    test('same windows, nothing to do', () => {
+      const pageId = v4();
+      const pageId2 = v4();
+      const pageId3 = v4();
+      const state = freezeMe({
+        foo: { pages: [pageId] },
+        bar: { pages: [pageId2] },
+        baz: { pages: [pageId3] },
+      });
+      const newState = reducer(state, { type: 'WS_PAGE_MOVE_TO_WINDOW',
+        payload: {
+          fromWindowId: 'foo',
+          toWindowId: 'foo',
+          pageId,
+        },
+      });
+      expect(newState).toEqual({
+        foo: { pages: [pageId] },
+        bar: { pages: [pageId2] },
+        baz: { pages: [pageId3] },
+      });
+    });
+    test('undefined pageId, nothing to do', () => {
+      const pageId = v4();
+      const pageId2 = v4();
+      const state = freezeMe({
+        foo: { pages: [pageId] },
+        bar: { pages: [pageId2] },
+      });
+      const newState = reducer(state, { type: 'WS_PAGE_MOVE_TO_WINDOW',
+        payload: {
+          fromWindowId: 'foo',
+          toWindowId: 'bar',
+          pageId: v4(),
+        },
+      });
+      expect(newState).toEqual({
+        foo: { pages: [pageId] },
+        bar: { pages: [pageId2] },
+      });
+    });
+    test('only one window', () => {
+      const pageId = v4();
+      const pageId2 = v4();
+      const state = freezeMe({
+        foo: { pages: [pageId, pageId2] },
+      });
+      const newState = reducer(state, { type: 'WS_PAGE_MOVE_TO_WINDOW',
+        payload: {
+          fromWindowId: 'foo',
+          toWindowId: 'bar',
+          pageId,
+        },
+      });
+      expect(newState).toEqual({
+        foo: { pages: [pageId2] },
+        bar: { pages: [pageId] },
+      });
+    });
+    test('two windows, page key undefined', () => {
+      const pageId = v4();
+      const pageId2 = v4();
+      const state = freezeMe({
+        foo: { pages: [pageId, pageId2] },
+        bar: { },
+      });
+      const newState = reducer(state, { type: 'WS_PAGE_MOVE_TO_WINDOW',
+        payload: {
+          fromWindowId: 'foo',
+          toWindowId: 'bar',
+          pageId,
+        },
+      });
+      expect(newState).toEqual({
+        foo: { pages: [pageId2] },
+        bar: { pages: [pageId] },
+      });
+    });
+    test('two windows, move a single page', () => {
+      const pageId = v4();
+      const pageId2 = v4();
+      const pageId3 = v4();
+      const state = freezeMe({
+        foo: { pages: [pageId, pageId2] },
+        bar: { pages: [pageId3] },
+      });
+      const newState = reducer(state, { type: 'WS_PAGE_MOVE_TO_WINDOW',
+        payload: {
+          fromWindowId: 'foo',
+          toWindowId: 'bar',
+          pageId,
+        },
+      });
+      expect(newState).toEqual({
+        foo: { pages: [pageId2] },
+        bar: { pages: [pageId, pageId3] },
+      });
+    });
+    test('three windows, move a single page', () => {
+      const pageId = v4();
+      const pageId2 = v4();
+      const pageId3 = v4();
+      const state = freezeMe({
+        foo: { pages: [pageId] },
+        bar: { pages: [pageId2] },
+        baz: { pages: [pageId3] },
+      });
+      const newState = reducer(state, { type: 'WS_PAGE_MOVE_TO_WINDOW',
+        payload: {
+          fromWindowId: 'foo',
+          toWindowId: 'bar',
+          pageId,
+        },
+      });
+      expect(newState).toEqual({
+        foo: { pages: [] },
+        bar: { pages: [pageId, pageId2] },
+        baz: { pages: [pageId3] },
+      });
+    });
   });
   describe('add', () => {
     test('should add in store', () => {

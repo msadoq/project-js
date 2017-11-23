@@ -37,35 +37,43 @@ function popoverHoverDragging(page) {
   );
 }
 
+const { string, func, object, arrayOf } = PropTypes;
+
 export default class Tabs extends PureComponent {
   static propTypes = {
-    pages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    focusedPageId: PropTypes.string,
-    focusPage: PropTypes.func.isRequired,
-    askClosePage: PropTypes.func.isRequired,
-    moveTabOrder: PropTypes.func.isRequired,
+    pages: arrayOf(object).isRequired,
+    focusedPageId: string,
+    focusPage: func.isRequired,
+    askClosePage: func.isRequired,
+    movePageToWindow: func.isRequired,
+    moveTabOrder: func.isRequired,
   };
 
   handleSelect = (eventKey) => {
     if (eventKey) {
       this.props.focusPage(eventKey);
     }
-  }
+  };
+
+  handleMoveOut = (e, pageId) => {
+    e.stopPropagation();
+    this.props.movePageToWindow(pageId);
+  };
 
   handleClose = (e, pageId) => {
     e.stopPropagation();
     this.props.askClosePage(pageId);
-  }
+  };
 
   handleDragStart = (ev, pageId, key) => {
     this.setState({ dragging: pageId });
     ev.dataTransfer.setData('pageId', pageId);
     ev.dataTransfer.setData('position', key);
-  }
+  };
 
   handleDragStop = () => {
     this.setState({ dragging: null });
-  }
+  };
 
   handleDragOver = (e) => {
     e.preventDefault();
@@ -82,13 +90,13 @@ export default class Tabs extends PureComponent {
         ev.style.borderLeft = '2px solid rgb(51,122,183)';
       }
     }
-  }
+  };
 
   handleDragLeave = (e) => {
     const ev = e.currentTarget.parentNode;
     ev.style.borderLeft = 'none';
     ev.style.borderRight = 'none';
-  }
+  };
 
   handleDrop = (e, pageId, key) => {
     const ev = e.currentTarget.parentNode;
@@ -102,11 +110,10 @@ export default class Tabs extends PureComponent {
       newKey = key + 1;
     }
     this.props.moveTabOrder(parseInt(e.dataTransfer.getData('position'), 10), newKey);
-  }
+  };
 
   render() {
     const { pages, focusedPageId } = this.props;
-
     return (
       <Nav
         bsStyle="tabs"
@@ -142,6 +149,16 @@ export default class Tabs extends PureComponent {
                   }
                 >
                   <div>
+                    <Button
+                      bsStyle="link"
+                      onClick={e => this.handleMoveOut(e, page.pageId)}
+                      className={styles.button}
+                    >
+                      <Glyphicon
+                        glyph="new-window"
+                        className="text-warning"
+                      />
+                    </Button>
                     <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
                     <Button
                       bsStyle="link"

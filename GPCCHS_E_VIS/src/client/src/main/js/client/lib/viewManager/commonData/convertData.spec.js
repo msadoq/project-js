@@ -1,6 +1,6 @@
 import { isLongValue, convertData, convertLongData, updateObjectValues } from './convertData';
 
-describe.skip('viewManager:commonData:convertData', () => {
+describe('viewManager:commonData:convertData', () => {
   describe('isLongValue', () => {
     test('should returns true if a longValue', () => {
       const data = { type: 'long' };
@@ -96,7 +96,7 @@ describe.skip('viewManager:commonData:convertData', () => {
         { myString: { type: 'string', value: 'myStr' },
           myTime: { type: 'long', value: 1485648450000, symbol: '1485648450000' } }] });
     });
-    test.skip('complex object', () => {
+    test('complex object', () => {
       const data = { pus003DiagPacket: [{
         pus003Packet: {
           sid: { type: 'uinteger', value: 100 },
@@ -152,7 +152,7 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
-            collectionInterval: { type: 'duration', value: 4242 },
+            collectionInterval: { type: 'duration', value: '0:0:4.242' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
@@ -171,7 +171,7 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
-            collectionInterval: { type: 'duration', value: 4242 },
+            collectionInterval: { type: 'duration', value: '0:0:4.242' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
@@ -186,7 +186,7 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
-            collectionInterval: { type: 'duration', value: 4242 },
+            collectionInterval: { type: 'duration', value: '0:0:4.242' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },

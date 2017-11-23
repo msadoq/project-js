@@ -9,7 +9,7 @@ export default function (entryPoint) {
 
 const getNewOnboardAlarmEntryPoint = () => ({
   id: v4(),
-  name: 'NewEntryPoint',
+  name: 'onboardAlarmEP',
   connectedData: {
     mode: constants.OBA_ALARM_MODE_ALL,
     domain: get('WILDCARD_CHARACTER'),

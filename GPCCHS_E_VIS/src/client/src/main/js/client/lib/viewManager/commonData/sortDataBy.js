@@ -27,7 +27,7 @@ const comparators = {
 /*
   iteratee : The iteratees to sort by
   sortMode : enum('ASC' | 'DESC')
-  t : Array
+  array : Array
 
   Take an array of raw data (not converted by convertData)
   and sort it using iteratee and sortMode.

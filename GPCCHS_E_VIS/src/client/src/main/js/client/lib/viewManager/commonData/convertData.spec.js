@@ -122,6 +122,7 @@ describe('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue: { type: 'double', symbol: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
+            miscInterval: { type: 'duration', value: Infinity },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
@@ -172,6 +173,7 @@ describe('viewManager:commonData:convertData', () => {
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: '0:0:4.242' },
+            miscInterval: { type: 'duration', value: '-' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },

@@ -62,6 +62,9 @@ export function convertData(data) {
     }
     return hexVal;
   } else if (data.type === 'duration') {
+    if (data.value === Infinity) {
+      return '-';
+    }
     const duration = moment.duration(data.value);
     const hours = duration.get('h').toString().concat(':');
     const minutes = duration.get('m').toString().concat(':');

@@ -198,24 +198,24 @@ describe('viewManager:commonData:sortDataBy', () => {
   describe('sort double', () => {
     test('ascending double sort', () => {
       const array = [
-        { type: 'double', value: '50.000000005' },
-        { type: 'double', value: '50.000000004' },
-        { type: 'double', value: '50.000000003' },
-        { type: 'double', value: '50.000000002' },
-        { type: 'double', value: '50.000000001' },
-        { type: 'double', value: '50.000000005' },
+        { type: 'double', symbol: '50.000000005' },
+        { type: 'double', symbol: '50.000000004' },
+        { type: 'double', symbol: '50.000000003' },
+        { type: 'double', symbol: '50.000000002' },
+        { type: 'double', symbol: '50.000000001' },
+        { type: 'double', symbol: '50.000000005' },
       ];
       const sorted = sortDataBy(_.identity, 'ASC', array);
       expect(sorted).toMatchSnapshot();
     });
     test('descending double sort', () => {
       const array = [
-        { type: 'double', value: '50.000000005' },
-        { type: 'double', value: '50.000000001' },
-        { type: 'double', value: '50.000000002' },
-        { type: 'double', value: '50.000000003' },
-        { type: 'double', value: '50.000000004' },
-        { type: 'double', value: '50.000000005' },
+        { type: 'double', symbol: '50.000000005' },
+        { type: 'double', symbol: '50.000000001' },
+        { type: 'double', symbol: '50.000000002' },
+        { type: 'double', symbol: '50.000000003' },
+        { type: 'double', symbol: '50.000000004' },
+        { type: 'double', symbol: '50.000000005' },
       ];
       const sorted = sortDataBy(_.identity, 'DESC', array);
       expect(sorted).toMatchSnapshot();
@@ -224,24 +224,24 @@ describe('viewManager:commonData:sortDataBy', () => {
   describe('sort long', () => {
     test('ascending long sort', () => {
       const array = [
-        { type: 'long', value: '50000000005' },
-        { type: 'long', value: '50000000004' },
-        { type: 'long', value: '50000000003' },
-        { type: 'long', value: '50000000002' },
-        { type: 'long', value: '50000000001' },
-        { type: 'long', value: '50000000005' },
+        { type: 'long', symbol: '50000000005' },
+        { type: 'long', symbol: '50000000004' },
+        { type: 'long', symbol: '50000000003' },
+        { type: 'long', symbol: '50000000002' },
+        { type: 'long', symbol: '50000000001' },
+        { type: 'long', symbol: '50000000005' },
       ];
       const sorted = sortDataBy(_.identity, 'ASC', array);
       expect(sorted).toMatchSnapshot();
     });
     test('descending long sort', () => {
       const array = [
-        { type: 'long', value: '50000000005' },
-        { type: 'long', value: '50000000001' },
-        { type: 'long', value: '50000000002' },
-        { type: 'long', value: '50000000003' },
-        { type: 'long', value: '50000000004' },
-        { type: 'long', value: '50000000005' },
+        { type: 'long', symbol: '50000000005' },
+        { type: 'long', symbol: '50000000001' },
+        { type: 'long', symbol: '50000000002' },
+        { type: 'long', symbol: '50000000003' },
+        { type: 'long', symbol: '50000000004' },
+        { type: 'long', symbol: '50000000005' },
       ];
       const sorted = sortDataBy(_.identity, 'DESC', array);
       expect(sorted).toMatchSnapshot();

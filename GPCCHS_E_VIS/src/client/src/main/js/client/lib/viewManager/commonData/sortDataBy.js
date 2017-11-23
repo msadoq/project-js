@@ -57,7 +57,8 @@ const sortDataBy = _.curry((iteratee, sortMode, array) => {
     if (!comparators[dataA.type]) {
       throw new TypeError(`Unknown comparator for specified type '${dataA.type}'`);
     }
-    return comparators[dataA.type][sortMode](dataA.value, dataB.value);
+    const getValue = dataA.type === 'double' || dataA.type === 'long' ? _.get('symbol') : _.get('value');
+    return comparators[dataA.type][sortMode](getValue(dataA), getValue(dataB));
   }, array);
 });
 

@@ -61,28 +61,28 @@ Array [
 exports[`viewManager:commonData:sortDataBy sort double ascending double sort 1`] = `
 Array [
   Object {
+    "symbol": "50.000000001",
     "type": "double",
-    "value": "50.000000001",
   },
   Object {
+    "symbol": "50.000000002",
     "type": "double",
-    "value": "50.000000002",
   },
   Object {
+    "symbol": "50.000000003",
     "type": "double",
-    "value": "50.000000003",
   },
   Object {
+    "symbol": "50.000000004",
     "type": "double",
-    "value": "50.000000004",
   },
   Object {
+    "symbol": "50.000000005",
     "type": "double",
-    "value": "50.000000005",
   },
   Object {
+    "symbol": "50.000000005",
     "type": "double",
-    "value": "50.000000005",
   },
 ]
 `;
@@ -90,28 +90,28 @@ Array [
 exports[`viewManager:commonData:sortDataBy sort double descending double sort 1`] = `
 Array [
   Object {
+    "symbol": "50.000000005",
     "type": "double",
-    "value": "50.000000005",
   },
   Object {
+    "symbol": "50.000000005",
     "type": "double",
-    "value": "50.000000005",
   },
   Object {
+    "symbol": "50.000000004",
     "type": "double",
-    "value": "50.000000004",
   },
   Object {
+    "symbol": "50.000000003",
     "type": "double",
-    "value": "50.000000003",
   },
   Object {
+    "symbol": "50.000000002",
     "type": "double",
-    "value": "50.000000002",
   },
   Object {
+    "symbol": "50.000000001",
     "type": "double",
-    "value": "50.000000001",
   },
 ]
 `;
@@ -177,28 +177,28 @@ Array [
 exports[`viewManager:commonData:sortDataBy sort long ascending long sort 1`] = `
 Array [
   Object {
+    "symbol": "50000000001",
     "type": "long",
-    "value": "50000000001",
   },
   Object {
+    "symbol": "50000000002",
     "type": "long",
-    "value": "50000000002",
   },
   Object {
+    "symbol": "50000000003",
     "type": "long",
-    "value": "50000000003",
   },
   Object {
+    "symbol": "50000000004",
     "type": "long",
-    "value": "50000000004",
   },
   Object {
+    "symbol": "50000000005",
     "type": "long",
-    "value": "50000000005",
   },
   Object {
+    "symbol": "50000000005",
     "type": "long",
-    "value": "50000000005",
   },
 ]
 `;
@@ -206,28 +206,28 @@ Array [
 exports[`viewManager:commonData:sortDataBy sort long descending long sort 1`] = `
 Array [
   Object {
+    "symbol": "50000000005",
     "type": "long",
-    "value": "50000000005",
   },
   Object {
+    "symbol": "50000000005",
     "type": "long",
-    "value": "50000000005",
   },
   Object {
+    "symbol": "50000000004",
     "type": "long",
-    "value": "50000000004",
   },
   Object {
+    "symbol": "50000000003",
     "type": "long",
-    "value": "50000000003",
   },
   Object {
+    "symbol": "50000000002",
     "type": "long",
-    "value": "50000000002",
   },
   Object {
+    "symbol": "50000000001",
     "type": "long",
-    "value": "50000000001",
   },
 ]
 `;

@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { getViewEntryPoints } from '../../../store/selectors/views';
 import { getData } from './dataReducer';
 import { getSortMode, getSortColumn } from './uiReducer';
+import sortDataBy from '../../commonData/sortDataBy';
 
 export const getInspectorOptions = createSelector(
   getViewEntryPoints,
@@ -22,14 +23,9 @@ export const getSortedIndexes = createSelector(
   getData,
   getSortMode,
   getSortColumn,
-  ({ lines, indexes }, mode, column) => {
-    const comparator = mode === 'ASC' ? _.gt : _.lt;
-    return indexes.slice().sort((keyA, keyB) => {
-      const valueA = lines[keyA][column];
-      const valueB = lines[keyB][column];
-      return comparator(valueA, valueB);
-    });
-  }
+  ({ lines, indexes }, sortMode, column) => (
+    sortDataBy(oid => lines[oid].rawAlarm[column], sortMode, indexes)
+  )
 );
 
 export const getDataRows = createSelector(

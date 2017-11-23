@@ -1,11 +1,9 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 /* eslint-disable complexity, "DV6 TBC_CNES Perf. switch case" */
+import _ from 'lodash/fp';
 import _findIndex from 'lodash/findIndex';
-import _last from 'lodash/last';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
-import _map from 'lodash/map';
-import _mapValues from 'lodash/mapValues';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
@@ -120,6 +118,63 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, visuWind
   return epSubState;
 }
 
+const getAckState = (alarm) => {
+  let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
+  if (alarm.ackRequest) {
+    ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
+    if (alarm.ackRequest && alarm.ackRequest.ack) {
+      ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
+    }
+  }
+  return ackState;
+};
+
+const createAlarm = (alarm, converter) => {
+  const getOid = _.get('oid');
+  const getParameterName = _.get('parameterName');
+  const getParameterType = _.get('parameterType');
+  const getSatellite = _.get('satellite');
+  const getTelemetryType = _.get('telemetryType');
+  const getTimestamp = _.get('groundMonitoringAlarm.referenceTimestamp');
+  const getCreationDate = _.get('groundMonitoringAlarm.creationDate');
+  const getClosingDate = _.get('groundMonitoringAlarm.closingDate');
+  const getTransitions = _.getOr([], 'groundMonitoringAlarm.transitions');
+  const getFirstTransition = _.compose(_.first, getTransitions);
+  const getLastTransition = _.compose(_.last, getTransitions);
+  const getFirstOccurence = _.compose(_.prop('onboardDate'), getFirstTransition);
+  const getLastOccurence = _.compose(_.prop('onboardDate'), getLastTransition);
+  const getAlarmType = _.compose(_.prop('monitoringState'), getLastTransition);
+  const getRawValue = _.compose(_.prop('rawValue'), getLastTransition);
+  const getPhysicalValue = _.compose(_.prop('extractedValue'), getLastTransition);
+  return {
+    rawAlarm: alarm,
+    collapsed: true,
+    ackState: getAckState(alarm),
+    timestamp: converter(getTimestamp(alarm)),
+    oid: converter(getOid(alarm)),
+    parameterName: converter(getParameterName(alarm)),
+    parameterType: converter(getParameterType(alarm)),
+    satellite: converter(getSatellite(alarm)),
+    telemetryType: converter(getTelemetryType(alarm)),
+    creationDate: converter(getCreationDate(alarm)),
+    closingDate: converter(getClosingDate(alarm)),
+    duration: getClosingDate(alarm)
+      ? converter({
+        type: 'duration',
+        value: getClosingDate(alarm).value - getCreationDate(alarm).value,
+      })
+      : converter({
+        type: 'duration',
+        value: Infinity,
+      }),
+    transitions: _.map(_.mapValues(converter), getTransitions(alarm)),
+    firstOccurence: converter(getFirstOccurence(alarm)),
+    lastOccurence: converter(getLastOccurence(alarm)),
+    alarmType: converter(getAlarmType(alarm)),
+    rawValue: converter(getRawValue(alarm)),
+    physicalValue: converter(getPhysicalValue(alarm)),
+  };
+};
 
 /* ************************************
  * Select payload to add for current entry Point
@@ -164,13 +219,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     // }
 
     // Compute acknowledgement State
-    let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
-    if (currentValue.ackRequest) {
-      ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
-      if (currentValue.ackRequest && currentValue.ackRequest.ack) {
-        ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
-      }
-    }
+    const ackState = getAckState(currentValue);
 
     if (ep.mode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
       if (ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
@@ -196,42 +245,10 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
       return;
     }
 
-    const valueToInsert = {
-      rawAlarm: currentValue,
-      oid,
-      timestamp,
-      collapsed: true,
-      parameterName: convertData(currentValue.parameterName),
-      parameterType: convertData(currentValue.parameterType),
-      satellite: convertData(currentValue.satellite),
-      telemetryType: convertData(currentValue.telemetryType),
-      creationDate: convertData(groundMonitoringAlarm.creationDate),
-      closingDate: convertData(groundMonitoringAlarm.closingDate),
-      ackState,
-      duration: groundMonitoringAlarm.closingDate
-        ? convertData({ type: 'duration',
-          value: (
-            groundMonitoringAlarm.closingDate.value - groundMonitoringAlarm.creationDate.value
-          ) })
-        : '-',
+    epSubState[epName][oid] = {
+      ...createAlarm(currentValue, convertData),
+      rawAlarm: createAlarm(currentValue, _.identity),
     };
-    // Data from transitions table
-    if (groundMonitoringAlarm.transitions && groundMonitoringAlarm.transitions.length) {
-      const lastTransition = _last(groundMonitoringAlarm.transitions);
-      Object.assign(valueToInsert, {
-        firstOccurence: convertData(groundMonitoringAlarm.transitions[0].onboardDate),
-        alarmType: convertData(lastTransition.monitoringState),
-        lastOccurence: convertData(lastTransition.onboardDate),
-        rawValue: convertData(lastTransition.rawValue),
-        physicalValue: convertData(lastTransition.extractedValue),
-        transitions: _map(groundMonitoringAlarm.transitions, transition => (
-          _mapValues(transition, transitionProperty => (
-            convertData(transitionProperty)
-          ))
-        )),
-      });
-    }
-    epSubState[epName][oid] = valueToInsert;
   });
 
   // if no data, return empty state

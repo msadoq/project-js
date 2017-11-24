@@ -4,12 +4,12 @@
   <groupId>fr.cnes.lpisis.gpcc</groupId>
   <artifactId>gpcchs_l_ifl-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.2-R8S4-SNAPSHOT</version>
+  <version>2.0.0-R10S1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs-parent</artifactId>
-    <version>1.1.2-R8S4-SNAPSHOT</version>
+    <version>2.0.0-R10S1-SNAPSHOT</version>
     <relativePath>../../../../src/impl/parent</relativePath>
   </parent>
   <dependencyManagement>
@@ -27,6 +27,13 @@
         <type>isis-python-module-dependency</type>
         <classifier>unix_dev</classifier>
         <version>${gpin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcctc_l_cnt_isisStartContainer</artifactId>
+        <type>isis-container-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcctc.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

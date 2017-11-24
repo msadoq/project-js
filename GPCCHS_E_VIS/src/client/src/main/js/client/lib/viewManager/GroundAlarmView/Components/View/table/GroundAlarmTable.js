@@ -53,7 +53,8 @@ Arrow.propTypes = {
 };
 
 const Table = ({
-  rows, position, displayedRows, rowHeight, selectedAlarms, hoveredAlarm, sort, isPlayingTimebar,
+  rows, position, displayedRows, rowHeight, selectedAlarms, expandedAlarms,
+  hoveredAlarm, sort, isPlayingTimebar,
   onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
 }) => (
   <table>
@@ -113,10 +114,10 @@ const Table = ({
                     >
                       {
                         index === 0 && line.type === 'alarm'
-                        && (data.collapsed ? (
-                          <CollapseButton collapsed onClick={() => onUncollapse(data.oid)} />
-                        ) : (
+                        && (expandedAlarms[line.alarm.oid] ? (
                           <CollapseButton onClick={() => onCollapse(data.oid)} />
+                        ) : (
+                          <CollapseButton collapsed onClick={() => onUncollapse(data.oid)} />
                         ))
                       }
                       {data[col]}
@@ -186,6 +187,7 @@ Table.propTypes = {
   onMouseLeave: PropTypes.func.isRequired,
   toggleSort: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
+  expandedAlarms: PropTypes.shape({}).isRequired,
   hoveredAlarm: PropTypes.string,
   position: PropTypes.number,
   rows: PropTypes.arrayOf(PropTypes.shape({
@@ -218,6 +220,7 @@ class TableView extends React.Component {
     toggleSelection: PropTypes.func.isRequired,
     toggleSort: PropTypes.func.isRequired,
     selectedAlarms: PropTypes.shape({}).isRequired,
+    expandedAlarms: PropTypes.shape({}).isRequired,
     sort: PropTypes.shape({
       column: PropTypes.string.isRequired,
       mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
@@ -359,6 +362,7 @@ class TableView extends React.Component {
           onUncollapse={this.props.uncollapse}
           onClickAlarm={this.toggleAlarmSelection}
           selectedAlarms={this.props.selectedAlarms}
+          expandedAlarms={this.props.expandedAlarms}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}

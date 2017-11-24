@@ -147,7 +147,6 @@ const createAlarm = (alarm, converter) => {
   const getRawValue = _.compose(_.prop('rawValue'), getLastTransition);
   const getPhysicalValue = _.compose(_.prop('extractedValue'), getLastTransition);
   return {
-    collapsed: true,
     ackState: getAckState(alarm),
     timestamp: converter(getTimestamp(alarm)),
     oid: converter(getOid(alarm)),

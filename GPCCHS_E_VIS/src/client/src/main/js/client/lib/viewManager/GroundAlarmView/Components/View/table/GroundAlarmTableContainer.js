@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import GroundAlarmTable from './GroundAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getData } from '../../../store/dataReducer';
-import { getSelectedAlarms, getSort } from '../../../store/uiReducer';
+import { getSelectedAlarms, getExpandedAlarms, getSort } from '../../../store/uiReducer';
 import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../store/actions';
 import { getInspectorOptions, getDataRows } from '../../../store/selectors';
 import { getIsPlaying } from '../../../../../store/reducers/hsc';
@@ -16,6 +16,7 @@ const mapStateToProps = createStructuredSelector({
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
   rows: getDataRows,
+  expandedAlarms: getExpandedAlarms,
   selectedAlarms: getSelectedAlarms,
   indexedRows: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,

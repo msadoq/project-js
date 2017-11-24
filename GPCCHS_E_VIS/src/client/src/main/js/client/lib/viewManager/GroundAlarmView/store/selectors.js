@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import { getViewEntryPoints } from '../../../store/selectors/views';
 import { getData } from './dataReducer';
-import { getSortMode, getSortColumn } from './uiReducer';
+import { getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
 import sortDataBy from '../../commonData/sortDataBy';
 
 export const getInspectorOptions = createSelector(
@@ -31,10 +31,11 @@ export const getSortedIndexes = createSelector(
 export const getDataRows = createSelector(
   getData,
   getSortedIndexes,
-  (data, sortedIndexes) => _.flatMap((lineId) => {
+  getExpandedAlarms,
+  (data, sortedIndexes, expandedAlarms) => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];
     const alarmWithoutTransitions = _.omit('transitions', alarm);
-    const transitions = _.isEmpty(alarm.transitions) || alarm.collapsed ? [] : [
+    const transitions = _.isEmpty(alarm.transitions) || !expandedAlarms[alarm.oid] ? [] : [
       {
         type: 'transition_header_title',
         alarm: alarmWithoutTransitions,

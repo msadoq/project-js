@@ -8,6 +8,7 @@ import * as constants from '../../constants';
 const initialState = {};
 const initialViewState = {
   selected: {},
+  expanded: {},
   sort: {
     mode: 'ASC',
     column: 'timestamp',
@@ -60,9 +61,15 @@ const uiReducer = (state = initialState, action) => {
       }
       return _.set([viewId, 'sort'], { column, mode: 'ASC' }, state);
     }
-    case types.HSC_CLOSE_WORKSPACE:
-    case types.HSC_PLAY:
-    case types.WS_TIMEBAR_UPDATE_CURSORS: {
+    case types.WS_VIEW_ALARM_COLLAPSE: {
+      const { viewId, oid } = action.payload;
+      return _.unset([viewId, 'expanded', oid], state);
+    }
+    case types.WS_VIEW_ALARM_UNCOLLAPSE: {
+      const { viewId, oid } = action.payload;
+      return _.set([viewId, 'expanded', oid], true, state);
+    }
+    case types.HSC_CLOSE_WORKSPACE: {
       return _.mapValues(_.always(initialViewState), state);
     }
     case types.WS_VIEW_GMA_ALARM_ACK:
@@ -92,6 +99,11 @@ const getUi = (state, { viewId }) => (
 export const getSelectedAlarms = createSelector(
   getUi,
   _.getOr({}, 'selected')
+);
+
+export const getExpandedAlarms = createSelector(
+  getUi,
+  _.getOr({}, 'expanded')
 );
 
 export const getSort = createSelector(

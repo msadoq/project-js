@@ -63,6 +63,7 @@
     "benchmark:grizzly": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/grizzly.benchmark.js",
     "benchmark:textview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/textview.benchmark.js",
     "benchmark:mimicview": "HOT=1 electron -r babel-register -r babel-polyfill benchmarks/mimicview.benchmark.js",
+    "prepush": "npm run test && echo Lint all files... && npm run lint",
     "precommit": "lint-staged",
     "staged-precommit-hook": "unset GIT_DIR; ./scripts/staged-precommit-hook.sh"
   },
@@ -102,6 +103,7 @@
     "babel-preset-react-optimize": "~1.0.1",
     "babel-preset-stage-0": "~6.22.0",
     "babel-register": "~6.24.0",
+    "bignumber.js": "^4.1.0",
     "bootstrap": "~3.3.7",
     "classnames": "~2.2.5",
     "codemirror": "~5.25.0",

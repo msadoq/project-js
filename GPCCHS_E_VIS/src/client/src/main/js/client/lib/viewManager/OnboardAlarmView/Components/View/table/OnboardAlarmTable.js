@@ -13,20 +13,22 @@ import styles from './OnboardAlarmTable.css';
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
 const MESSAGE_IS_PLAYING_TIMEBAR = 'You cannot select an alarm when timebar is playing';
-const COLS = ['onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
-const PARAMETERS_COLS = ['name', 'value'];
+const COLS = ['', 'timestamp', 'onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
+const PARAMETERS_COLS = ['', 'name', 'value'];
 
 const CollapseButton = ({ onClick, collapsed }) => (
-  <span
-    title={collapsed ? 'Uncollapse' : 'Collapse'}
+  <Label
+    title={collapsed ? 'Expand' : 'Collapse'}
     onClick={(e) => {
       e.stopPropagation();
       onClick(e);
     }}
-    style={{ cursor: 'pointer' }}
+    className={classnames({
+      [styles.collapseButton]: true,
+    })}
   >
-    <Label><Glyphicon glyph={collapsed ? 'plus' : 'minus'} /></Label>
-  </span>
+    <Glyphicon glyph={collapsed ? 'plus' : 'minus'} />
+  </Label>
 );
 CollapseButton.propTypes = {
   onClick: PropTypes.func,
@@ -37,16 +39,41 @@ CollapseButton.defaultProps = {
   collapsed: false,
 };
 
+const Arrow = ({ mode }) => (
+  <Label
+    className={classnames({
+      [styles.sortArrow]: true,
+    })}
+  >
+    <Glyphicon glyph={mode === 'ASC' ? 'chevron-up' : 'chevron-down'} />
+  </Label>
+);
+Arrow.propTypes = {
+  mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+};
+
 const Table = ({
-  lines, position, displayedRows, rowHeight, selectedAlarms, hoveredParameter,
-  onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, isPlayingTimebar,
+  rows, position, displayedRows, rowHeight,
+  selectedAlarms, hoveredParameter, isPlayingTimebar, sort,
+  onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
 }) => (
   <table>
     <thead>
-      <tr style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}>
+      <tr
+        style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
+      >
         {
           COLS.map(col => (
-            <th key={col}>
+            <th
+              onClick={() => (
+                col !== '' && toggleSort(col)
+              )}
+              className={classnames({
+                [styles.header]: col !== '',
+              })}
+              key={col}
+            >
+              { sort.column === col && <Arrow mode={sort.mode} /> }
               {col}
             </th>
           ))
@@ -55,7 +82,7 @@ const Table = ({
     </thead>
     <tbody>
       {
-        _.slice(position, displayedRows + position)(lines).map((line, i) => {
+        _.slice(position, displayedRows + position)(rows).map((line, i) => {
           const data = line.data;
           const key = i; // TODO replace 'i' by a better key
           const columns = line.type === 'alarm' ? COLS : PARAMETERS_COLS;
@@ -82,7 +109,9 @@ const Table = ({
                 {
                   columns.map((col, index) => (
                     <td
-                      style={{ }}
+                      className={classnames({
+                        [styles.collapseColumn]: index === 0,
+                      })}
                       key={col}
                     >
                       {
@@ -116,9 +145,32 @@ const Table = ({
               key={key}
             >
               {
-                PARAMETERS_COLS.map(col => (
-                  <th key={col}>{col}</th>
-                ))
+                line.type === 'parameter_header_title' ? (
+                  PARAMETERS_COLS.map((col, index) => (
+                    <th
+                      className={classnames({
+                        [styles.collapseColumn]: index === 0,
+                      })}
+                      key={col}
+                    >
+                      {col}
+                    </th>
+                  ))
+                ) : [
+                  <th
+                    key="1"
+                    className={classnames({
+                      [styles.collapseColumn]: true,
+                    })}
+                  />,
+                  <th
+                    key="2"
+                    style={{ fontStyle: 'italic' }}
+                    colSpan={PARAMETERS_COLS.length - 1}
+                  >
+                    PARAMETERS
+                  </th>,
+                ]
               }
             </tr>
           );
@@ -138,12 +190,17 @@ Table.propTypes = {
   onCollapse: PropTypes.func.isRequired,
   onUncollapse: PropTypes.func.isRequired,
   onClickAlarm: PropTypes.func.isRequired,
+  toggleSort: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
   position: PropTypes.number,
-  lines: PropTypes.arrayOf(PropTypes.shape({
+  rows: PropTypes.arrayOf(PropTypes.shape({
     data: PropTypes.shape({}),
     type: PropTypes.string,
   })).isRequired,
+  sort: PropTypes.shape({
+    column: PropTypes.string.isRequired,
+    mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+  }).isRequired,
   rowHeight: PropTypes.number.isRequired,
   displayedRows: PropTypes.number.isRequired,
   isPlayingTimebar: PropTypes.bool.isRequired,
@@ -165,12 +222,17 @@ class TableView extends React.Component {
       PropTypes.shape({}).isRequired
     ).isRequired,
     toggleSelection: PropTypes.func.isRequired,
+    toggleSort: PropTypes.func.isRequired,
     selectedAlarms: PropTypes.shape({}).isRequired,
+    sort: PropTypes.shape({
+      column: PropTypes.string.isRequired,
+      mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
+    }).isRequired,
     mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
     indexedLines: PropTypes.shape({}).isRequired,
-    lines: PropTypes.arrayOf(PropTypes.shape({
+    rows: PropTypes.arrayOf(PropTypes.shape({
       data: PropTypes.shape({}),
       type: PropTypes.string,
     })).isRequired,
@@ -252,7 +314,7 @@ class TableView extends React.Component {
   )
 
   getLastPosition = (props = this.props) => (
-    Math.max(0, (this.props.lines.length - this.getNbDisplayedElems(props)) + 1)
+    Math.max(0, (this.props.rows.length - this.getNbDisplayedElems(props)) + 1)
   )
 
   getScrollBarPosition = () => (
@@ -300,6 +362,8 @@ class TableView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
+          toggleSort={this.props.toggleSort}
+          sort={this.props.sort}
           isPlayingTimebar={this.props.isPlayingTimebar}
           hoveredParameter={this.state.hoveredParameter}
           onMouseEnter={this.hoverParameter}
@@ -311,7 +375,7 @@ class TableView extends React.Component {
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}
-          lines={this.props.lines}
+          rows={this.props.rows}
         />
       </div>
     );

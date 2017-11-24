@@ -4,19 +4,20 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import GroundAlarmTable from './GroundAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
-import { getData, getDataLines } from '../../../store/dataReducer';
-import { getSelectedAlarms } from '../../../store/uiReducer';
-import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection } from '../../../store/actions';
-import { getInspectorOptions } from '../../../store/selectors';
+import { getData } from '../../../store/dataReducer';
+import { getSelectedAlarms, getSort } from '../../../store/uiReducer';
+import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../store/actions';
+import { getInspectorOptions, getDataRows } from '../../../store/selectors';
 import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
+  sort: getSort,
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
-  lines: getDataLines,
+  rows: getDataRows,
   selectedAlarms: getSelectedAlarms,
-  indexedLines: _.compose(_.prop('lines'), getData),
+  indexedRows: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
 });
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   collapse: oid => dispatch(collapseAlarm(viewId, oid)),
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
   toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
+  toggleSort: column => dispatch(toggleSort(viewId, column)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

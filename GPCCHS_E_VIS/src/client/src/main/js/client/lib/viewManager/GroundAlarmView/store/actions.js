@@ -60,6 +60,14 @@ export const toggleSelection = (viewId, oid) => ({
   },
 });
 
+export const toggleSort = (viewId, column) => ({
+  type: types.WS_VIEW_ALARM_TOGGLE_SORT,
+  payload: {
+    viewId,
+    column,
+  },
+});
+
 export const collapseAlarm = (viewId, oid) => ({
   type: types.WS_VIEW_ALARM_COLLAPSE,
   payload: { viewId, oid },

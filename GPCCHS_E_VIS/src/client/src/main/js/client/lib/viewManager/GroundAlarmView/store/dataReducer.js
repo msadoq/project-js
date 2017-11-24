@@ -195,30 +195,3 @@ export const getAckStatus = createSelector(
   (state, { ackId }) => ackId,
   (data, ackId) => _.get(['ackStatus', ackId], data)
 );
-
-export const getDataLines = createSelector(
-  getData,
-  data => _.flatMap((lineId) => {
-    const alarm = data.lines[lineId];
-    const alarmWithoutTransitions = _.omit('transitions', alarm);
-    const transitions = _.isEmpty(alarm.transitions) || alarm.collapsed ? [] : [
-      {
-        type: 'transition_header',
-        alarm: alarmWithoutTransitions,
-      },
-      ...alarm.transitions.map(transition => ({
-        type: 'transition',
-        data: transition,
-        alarm: alarmWithoutTransitions,
-      })),
-    ];
-    return [
-      {
-        type: 'alarm',
-        data: alarmWithoutTransitions,
-        alarm: alarmWithoutTransitions,
-      },
-      ...transitions,
-    ];
-  }, data.indexes)
-);

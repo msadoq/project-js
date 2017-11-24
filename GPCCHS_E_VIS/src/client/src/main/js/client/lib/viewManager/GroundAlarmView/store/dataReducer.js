@@ -106,22 +106,6 @@ export default function groundAlarmViewData(state = initialSubState, action) {
       const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
       return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
     }
-    case types.WS_VIEW_ALARM_COLLAPSE: {
-      const { viewId, oid } = action.payload;
-      if (_.get([viewId, 'lines', oid], state)) {
-        const collapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], true);
-        return collapseAlarm(state);
-      }
-      return state;
-    }
-    case types.WS_VIEW_ALARM_UNCOLLAPSE: {
-      const { viewId, oid } = action.payload;
-      if (_.get([viewId, 'lines', oid], state)) {
-        const uncollapseAlarm = _.set([viewId, 'lines', oid, 'collapsed'], false);
-        return uncollapseAlarm(state);
-      }
-      return state;
-    }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, visuWindow }
         = action.payload;

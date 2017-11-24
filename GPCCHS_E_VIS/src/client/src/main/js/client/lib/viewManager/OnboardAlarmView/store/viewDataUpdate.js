@@ -139,7 +139,6 @@ const createAlarm = (alarm, converter) => {
 
   const timestamp = converter(getTimestamp(alarm));
   return {
-    collapsed: true,
     ackState: getAckState(alarm),
     timestamp,
     oid: converter(getOid(alarm)),

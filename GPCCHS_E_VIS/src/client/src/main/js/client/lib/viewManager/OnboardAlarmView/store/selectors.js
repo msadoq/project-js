@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import { getData } from './dataReducer';
-import { getSortMode, getSortColumn } from '../../GroundAlarmView/store/uiReducer';
+import { getSortMode, getSortColumn, getExpandedAlarms } from '../../GroundAlarmView/store/uiReducer';
 import sortDataBy from '../../commonData/sortDataBy';
 
 export const getSortedIndexes = createSelector(
@@ -16,10 +16,11 @@ export const getSortedIndexes = createSelector(
 export const getDataRows = createSelector(
   getData,
   getSortedIndexes,
-  (data, sortedIndexes) => _.flatMap((lineId) => {
+  getExpandedAlarms,
+  (data, sortedIndexes, expandedAlarms) => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];
     const alarmWithoutParameters = _.omit('parameters', alarm);
-    const parameters = _.isEmpty(alarm.parameters) || alarm.collapsed ? [] : [
+    const parameters = _.isEmpty(alarm.parameters) || !expandedAlarms[alarm.oid] ? [] : [
       {
         type: 'parameter_header',
         alarm: alarmWithoutParameters,

@@ -7,7 +7,7 @@ import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/c
 import { getData } from '../../../store/dataReducer';
 import { getDataRows } from '../../../store/selectors';
 import { openAckModal } from '../../../store/actions';
-import { getSelectedAlarms, getSort } from '../../../../GroundAlarmView/store/uiReducer';
+import { getSelectedAlarms, getSort, getExpandedAlarms } from '../../../../GroundAlarmView/store/uiReducer';
 import { collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../../GroundAlarmView/store/actions';
 import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
 import { getIsPlaying } from '../../../../../store/reducers/hsc';
@@ -19,6 +19,7 @@ const mapStateToProps = createStructuredSelector({
   timeline: getAlarmTimeline,
   rows: getDataRows,
   selectedAlarms: getSelectedAlarms,
+  expandedAlarms: getExpandedAlarms,
   indexedLines: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,

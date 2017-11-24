@@ -1,28 +1,45 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, Alert } from 'react-bootstrap';
+import _difference from 'lodash/difference';
+
+const { func, shape, string } = PropTypes;
 
 export default class SelectTimebar extends PureComponent {
 
   static propTypes = {
-    mountPageTimebar: PropTypes.func.isRequired,
-    createNewTimebar: PropTypes.func.isRequired,
-    timebars: PropTypes.shape().isRequired,
-    pageId: PropTypes.string.isRequired,
-  }
-
+    mountPageTimebar: func.isRequired,
+    createNewTimebar: func.isRequired,
+    timebars: shape().isRequired,
+    pageId: string.isRequired,
+  };
   state = {
     form: 'select',
     error: null,
+  };
+  /**
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    // timebars has changed
+    if (nextProps.timebars !== this.props.timebars) {
+      const diff = _difference(Object.keys(nextProps.timebars), Object.keys(this.props.timebars));
+      // only one more, and this one is the new created one
+      if (diff.length === 1 && nextProps.timebars[diff[0]].id === this.timebarId.value) {
+        // just mount it
+        this.props.mountPageTimebar(
+          this.props.pageId,
+          diff[0]
+        );
+      }
+    }
   }
-
   onSelect = (e) => {
     e.preventDefault();
     this.props.mountPageTimebar(
       this.props.pageId,
       this.timebarsSelect.value
     );
-  }
-
+  };
   onChange = (e) => {
     const { timebars } = this.props;
     if (Object.keys(timebars).find(k => timebars[k].id === e.currentTarget.value)) {
@@ -34,20 +51,17 @@ export default class SelectTimebar extends PureComponent {
         error: null,
       });
     }
-  }
-
+  };
   onCreate = (e) => {
     e.preventDefault();
     this.props.createNewTimebar(this.timebarId.value);
-    this.switchForm();
-  }
-
+  };
   switchForm = (e) => {
     if (e) e.preventDefault();
     this.setState({
       form: this.state.form === 'select' ? 'create' : 'select',
     });
-  }
+  };
 
   render() {
     const {

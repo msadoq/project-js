@@ -1,11 +1,10 @@
 target
 __pycache__
-.settings
-.project
-.pydevproject
-.classpath
+*.settings
+*.project
+*.pydevproject
+*.classpath
 *~
 node_modules
-.idea
-.idea
-.pyc
+*.idea
+*.pyc

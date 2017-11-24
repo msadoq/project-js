@@ -53,7 +53,7 @@ Arrow.propTypes = {
 };
 
 const Table = ({
-  lines, position, displayedRows, rowHeight,
+  rows, position, displayedRows, rowHeight,
   selectedAlarms, hoveredParameter, isPlayingTimebar, sort,
   onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
 }) => (
@@ -82,7 +82,7 @@ const Table = ({
     </thead>
     <tbody>
       {
-        _.slice(position, displayedRows + position)(lines).map((line, i) => {
+        _.slice(position, displayedRows + position)(rows).map((line, i) => {
           const data = line.data;
           const key = i; // TODO replace 'i' by a better key
           const columns = line.type === 'alarm' ? COLS : PARAMETERS_COLS;
@@ -193,7 +193,7 @@ Table.propTypes = {
   toggleSort: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
   position: PropTypes.number,
-  lines: PropTypes.arrayOf(PropTypes.shape({
+  rows: PropTypes.arrayOf(PropTypes.shape({
     data: PropTypes.shape({}),
     type: PropTypes.string,
   })).isRequired,
@@ -232,7 +232,7 @@ class TableView extends React.Component {
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
     indexedLines: PropTypes.shape({}).isRequired,
-    lines: PropTypes.arrayOf(PropTypes.shape({
+    rows: PropTypes.arrayOf(PropTypes.shape({
       data: PropTypes.shape({}),
       type: PropTypes.string,
     })).isRequired,
@@ -314,7 +314,7 @@ class TableView extends React.Component {
   )
 
   getLastPosition = (props = this.props) => (
-    Math.max(0, (this.props.lines.length - this.getNbDisplayedElems(props)) + 1)
+    Math.max(0, (this.props.rows.length - this.getNbDisplayedElems(props)) + 1)
   )
 
   getScrollBarPosition = () => (
@@ -375,7 +375,7 @@ class TableView extends React.Component {
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}
-          lines={this.props.lines}
+          rows={this.props.rows}
         />
       </div>
     );

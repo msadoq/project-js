@@ -13,7 +13,7 @@ export const getSortedIndexes = createSelector(
   )
 );
 
-export const getDataLines = createSelector(
+export const getDataRows = createSelector(
   getData,
   getSortedIndexes,
   (data, sortedIndexes) => _.flatMap((lineId) => {

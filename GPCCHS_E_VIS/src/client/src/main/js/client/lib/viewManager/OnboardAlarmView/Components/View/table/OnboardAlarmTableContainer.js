@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import OnboardAlarmTable from './OnboardAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getData } from '../../../store/dataReducer';
-import { getDataLines } from '../../../store/selectors';
+import { getDataRows } from '../../../store/selectors';
 import { openAckModal } from '../../../store/actions';
 import { getSelectedAlarms, getSort } from '../../../../GroundAlarmView/store/uiReducer';
 import { collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../../GroundAlarmView/store/actions';
@@ -17,7 +17,7 @@ const mapStateToProps = createStructuredSelector({
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
-  lines: getDataLines,
+  rows: getDataRows,
   selectedAlarms: getSelectedAlarms,
   indexedLines: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,

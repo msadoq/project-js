@@ -119,10 +119,14 @@ describe('mainProcess/play', () => {
         currentUpperMargin
       );
 
-      expect(res.visuWindow).toHaveProperty('lower', vw.lower + ((offset + secondOffset) - 500));
-      expect(res.visuWindow).toHaveProperty('upper', vw.upper + ((offset + secondOffset) - 500));
-      expect(res.slideWindow).toHaveProperty('lower', sw.lower + ((offset + secondOffset) - 500));
-      expect(res.slideWindow).toHaveProperty('upper', sw.upper + ((offset + secondOffset) - 500));
+      const offsetMs = newCurrent - sw.lower;
+      const newLower = vw.lower + offsetMs;
+      const newUpper = vw.upper + offsetMs;
+
+      expect(res.visuWindow).toHaveProperty('lower', newLower);
+      expect(res.visuWindow).toHaveProperty('upper', newUpper);
+      expect(res.slideWindow).toHaveProperty('lower', sw.lower + offsetMs);
+      expect(res.slideWindow).toHaveProperty('upper', sw.upper + offsetMs);
     });
     test('(Fixed mode) - should only move visuWindow', () => {
       const offset = 377;

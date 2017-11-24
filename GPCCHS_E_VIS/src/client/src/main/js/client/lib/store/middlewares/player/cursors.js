@@ -25,10 +25,9 @@ export function computeCursors(
     }
   } else if (mode === 'Fixed') {
     if (current > slideUpper) {
-      offsetMs = current - slideUpper;
+      offsetMs = current - slideLower;
     }
   }
-
   const newLower = lower + offsetMs;
   const newUpper = upper + offsetMs;
 

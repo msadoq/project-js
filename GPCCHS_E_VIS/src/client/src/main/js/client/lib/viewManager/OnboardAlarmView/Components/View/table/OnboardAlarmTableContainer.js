@@ -25,7 +25,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
-  openAckModal: _.compose(dispatch, openAckModal),
+  openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
   collapse: oid => dispatch(collapseAlarm(viewId, oid)),
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
   toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),

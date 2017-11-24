@@ -217,7 +217,6 @@ const initialState = {
 
 class TableView extends React.Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
@@ -296,7 +295,7 @@ class TableView extends React.Component {
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
         click: () => {
-          this.props.openAckModal(this.props.viewId, getOids(this.props.selectedAlarms));
+          this.props.openAckModal(getOids(this.props.selectedAlarms));
         },
         enabled: n > 0,
       },

@@ -114,6 +114,45 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, visuWind
   return epSubState;
 }
 
+const getAckState = (alarm) => {
+  let ackState = constants.OBA_ALARM_ACKSTATE_NOACK;
+  if (alarm.ackRequest) {
+    ackState = constants.OBA_ALARM_ACKSTATE_REQUIREACK;
+    if (alarm.ackRequest && alarm.ackRequest.ack) {
+      ackState = constants.OBA_ALARM_ACKSTATE_ACQUITED;
+    }
+  }
+  return ackState;
+};
+
+
+const createAlarm = (alarm, converter) => {
+  const getOid = _.get('oid');
+  const getSatellite = _.get('satellite');
+  const getTelemetryType = _.get('telemetryType');
+  const getTimestamp = _.get('onBoardAlarm.onBoardDate');
+  const getAlarmType = _.get('onBoardAlarm.alarmLevel');
+  const getRIDId = _.get('onBoardAlarm.reportId');
+  const getRIDName = _.get('onBoardAlarm.reportName');
+  const getReportType = _.get('onBoardAlarm.eventType');
+  const getParameters = _.getOr([], 'onBoardAlarm.parameter');
+
+  const timestamp = converter(getTimestamp(alarm));
+  return {
+    collapsed: true,
+    ackState: getAckState(alarm),
+    timestamp,
+    oid: converter(getOid(alarm)),
+    satellite: converter(getSatellite(alarm)),
+    telemetryType: converter(getTelemetryType(alarm)),
+    onBoardDate: timestamp,
+    alarmType: converter(getAlarmType(alarm)),
+    RIDId: converter(getRIDId(alarm)),
+    RIDName: converter(getRIDName(alarm)),
+    reportType: converter(getReportType(alarm)),
+    parameters: _.map(_.mapValues(converter), getParameters(alarm)),
+  };
+};
 
 /* ************************************
  * Select payload to add for current entry Point
@@ -151,13 +190,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // }
 
     // Compute acknowledgement State
-    let ackState = constants.OBA_ALARM_ACKSTATE_NOACK;
-    if (currentValue.ackRequest) {
-      ackState = constants.OBA_ALARM_ACKSTATE_REQUIREACK;
-      if (currentValue.ackRequest && currentValue.ackRequest.ack) {
-        ackState = constants.OBA_ALARM_ACKSTATE_ACQUITED;
-      }
-    }
+    const ackState = getAckState(currentValue);
 
     if (ep.mode === constants.OBA_ALARM_MODE_TOACKNOWLEDGE) {
       if (ackState !== constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
@@ -171,23 +204,10 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       return;
     }
 
-    const parameters = onBoardAlarm.parameter || [];
-    const valueToInsert = {
-      rawAlarm: currentValue,
-      oid,
-      timestamp,
-      ackState,
-      collapsed: true,
-      satellite: convertData(currentValue.satellite),
-      telemetryType: convertData(currentValue.telemetryType),
-      onBoardDate: convertData(onBoardAlarm.onBoardDate),
-      alarmType: convertData(onBoardAlarm.alarmLevel),
-      RIDId: convertData(onBoardAlarm.reportId),
-      RIDName: convertData(onBoardAlarm.reportName),
-      reportType: convertData(onBoardAlarm.eventType),
-      parameters: _.map(_.mapValues(convertData), parameters),
+    epSubState[epName][oid] = {
+      ...createAlarm(currentValue, convertData),
+      rawAlarm: createAlarm(currentValue, _.identity),
     };
-    epSubState[epName][oid] = valueToInsert;
   });
 
   // if no data, return empty state

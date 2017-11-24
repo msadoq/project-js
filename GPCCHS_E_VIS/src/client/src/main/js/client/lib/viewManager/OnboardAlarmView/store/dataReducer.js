@@ -192,35 +192,3 @@ export const getAckStatus = createSelector(
   (state, { ackId }) => ackId,
   (data, ackId) => _.get(['ackStatus', ackId], data)
 );
-
-export const getDataLines = createSelector(
-  getData,
-  data => _.flatMap((lineId) => {
-    const alarm = data.lines[lineId];
-    const alarmWithoutParameters = _.omit('parameters', alarm);
-    const parameters = _.isEmpty(alarm.parameters) || alarm.collapsed ? [] : [
-      {
-        type: 'parameter_header',
-        alarm: alarmWithoutParameters,
-      },
-      {
-        type: 'parameter_header_title',
-        alarm: alarmWithoutParameters,
-      },
-      ...alarm.parameters.map((parameter, index) => ({
-        type: 'parameter',
-        data: parameter,
-        alarm: alarmWithoutParameters,
-        parameterIndex: index,
-      })),
-    ];
-    return [
-      {
-        type: 'alarm',
-        data: alarmWithoutParameters,
-        alarm: alarmWithoutParameters,
-      },
-      ...parameters,
-    ];
-  }, data.indexes)
-);

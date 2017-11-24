@@ -45,6 +45,7 @@ export default class Chart extends React.Component {
     yAxes: arrayOf(axisType.isRequired).isRequired,
     lines: arrayOf(lineType.isRequired).isRequired,
     linesListener: func.isRequired,
+    zoomPanListener: func.isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -373,19 +374,22 @@ export default class Chart extends React.Component {
    */
   getLabelPosition = axisId => Object.values(this.labelsPosition || {})
     .filter(lp => lp.concernedAxes.includes(axisId));
-  dispatchOnZoomOrPan = _debounce(() => {
-    const event = {};
-    _each((line) => {
-      event[line.id] = {
-        width: this.chartWidth,
-        height: this.chartHeight,
-        xExtents: line.xAxis.calculatedExtents,
-        yExtents: line.yAxis.calculatedExtents,
-      };
-    }, this.linesUniq);
+  dispatchOnZoomOrPan = () => {
+    this.props.zoomPanListener();
+    _debounce(() => {
+      const event = {};
+      _each((line) => {
+        event[line.id] = {
+          width: this.chartWidth,
+          height: this.chartHeight,
+          xExtents: line.xAxis.calculatedExtents,
+          yExtents: line.yAxis.calculatedExtents,
+        };
+      }, this.linesUniq);
 
-    this.props.linesListener(event);
-  }, Chart.DEBOUNCE_DELAY);
+      this.props.linesListener(event);
+    }, Chart.DEBOUNCE_DELAY);
+  };
   /**
    * @param axis
    * @param pairLines
@@ -603,7 +607,6 @@ export default class Chart extends React.Component {
       zoomLevels: {},
       pans: {},
     });
-    this.dispatchOnZoomOrPan();
     this.dispatchOnZoomOrPan();
   };
 

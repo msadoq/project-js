@@ -252,6 +252,7 @@ export class GrizzlyPlotView extends PureComponent {
     containerHeight: number.isRequired,
     updateDimensions: func.isRequired,
     saveLiveExtents: func.isRequired,
+    pause: func.isRequired,
     data: shape({
       lines: object, // eslint-disable-line react/no-unused-prop-types
     }),
@@ -681,6 +682,7 @@ export class GrizzlyPlotView extends PureComponent {
       viewId,
       showLinks,
       saveLiveExtents,
+      pause,
     } = this.props;
     let {
       configuration: { entryPoints },
@@ -769,6 +771,7 @@ export class GrizzlyPlotView extends PureComponent {
           allowPan
           perfOutput={false}
           linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
+          zoomPanListener={memoizeZoomOrPan(pause, viewId)}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxesAt="bottom"
@@ -829,6 +832,15 @@ const SizeablePlotView = withDimensions({ elementResize: true })(GrizzlyPlotView
  */
 const memoizeLiveExtents = (saveLiveExtents, viewId) => _memoize(
   liveExtents => saveLiveExtents(viewId, liveExtents)
+);
+
+/**
+ * @param pause
+ * @param viewId
+ * @returns {Function}
+ */
+const memoizeZoomOrPan = (pause, viewId) => _memoize(
+  e => pause(viewId, e)
 );
 
 /**

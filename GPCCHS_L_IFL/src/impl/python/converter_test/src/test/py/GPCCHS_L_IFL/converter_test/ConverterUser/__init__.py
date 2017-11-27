@@ -4,11 +4,11 @@
 """!
 Project   : ISIS
 Component : GPCCHS_L_IFL
-@file     : __init__.py
+@file     : ConverterUser.py
 @author   : isis
 @date     : 
-@brief    : /
-@type     : Package
+@brief    : TODO Enter documentation in RSA model
+@type     : __init__
 """
 
 

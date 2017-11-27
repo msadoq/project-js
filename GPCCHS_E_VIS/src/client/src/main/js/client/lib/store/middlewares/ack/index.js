@@ -6,19 +6,19 @@ import dataMapGenerator from '../../../dataManager/map';
 import { add as addMessage } from '../../actions/messages';
 import { ackSuccess, ackFailure } from '../../../viewManager/GroundAlarmView/store/actions';
 
-const epName = {
-  gma: 'groundAlarmEP',
-  oba: 'onboardAlarmEP',
-};
+const getAlarmEntryPoint = entryPoints => (
+  entryPoints.groundAlarmEP || entryPoints.onboardAlarmEP
+);
 
 const getNbSuccess = _.compose(_.size, _.filter(_.equals(true)));
 
-const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState }) => next => (action) => {
+const makeAckMiddleware = requestAck => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
-  if (action.type === types.WS_VIEW_ALARM_ACK && action.payload.ackType === ackType) {
+  if (action.type === types.WS_VIEW_ALARM_ACK) {
     const { viewId, ackId, alarms, comment } = action.payload;
     const dataMap = dataMapGenerator(getState());
-    const { dataId, tbdId } = dataMap.perView[viewId].entryPoints[epName[ackType]];
+    const { entryPoints } = dataMap.perView[viewId];
+    const { dataId, tbdId } = getAlarmEntryPoint(entryPoints);
     const requests = alarms.map(({ oid }) => {
       const failure = (err, cb) => {
         dispatch(ackFailure(viewId, ackId, oid, err));

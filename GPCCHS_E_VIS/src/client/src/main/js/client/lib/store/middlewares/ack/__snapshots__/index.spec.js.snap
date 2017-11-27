@@ -5,7 +5,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "gma",
       "alarms": Array [
         Object {
           "oid": 1,
@@ -112,7 +111,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "gma",
       "alarms": Array [
         Object {
           "oid": "ERROR",
@@ -236,7 +234,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "gma",
       "alarms": Array [
         Object {
           "oid": 1,
@@ -311,7 +308,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "gma",
       "alarms": Array [
         Object {
           "oid": "TIMEOUT",
@@ -435,7 +431,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "gma",
       "alarms": Array [
         Object {
           "oid": 1,
@@ -477,7 +472,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "oba",
       "alarms": Array [
         Object {
           "oid": 1,
@@ -584,7 +578,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "oba",
       "alarms": Array [
         Object {
           "oid": "ERROR",
@@ -708,7 +701,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "oba",
       "alarms": Array [
         Object {
           "oid": 1,
@@ -783,7 +775,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "oba",
       "alarms": Array [
         Object {
           "oid": "TIMEOUT",
@@ -907,7 +898,6 @@ Array [
   Object {
     "payload": Object {
       "ackId": "ACKID",
-      "ackType": "oba",
       "alarms": Array [
         Object {
           "oid": 1,

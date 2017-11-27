@@ -27,7 +27,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch, { viewId, ackId }) => ({
   sendAck: (alarms, comment) => (
-    dispatch(sendAlarmAck(viewId, ackId, alarms, comment, 'oba'))
+    dispatch(sendAlarmAck(viewId, ackId, alarms, comment))
   ),
 });
 

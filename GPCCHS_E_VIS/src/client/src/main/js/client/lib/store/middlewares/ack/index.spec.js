@@ -16,8 +16,7 @@ const fakeRequestAck = (tbdId, dataId, alarms, cb) => {
 };
 
 const mockStore = configureMockStore([
-  makeAckMiddleware(fakeRequestAck, 'gma'),
-  makeAckMiddleware(fakeRequestAck, 'oba'),
+  makeAckMiddleware(fakeRequestAck),
 ]);
 
 describe('ack:middleware', () => {

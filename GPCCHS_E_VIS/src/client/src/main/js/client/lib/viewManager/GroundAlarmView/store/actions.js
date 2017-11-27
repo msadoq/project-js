@@ -14,10 +14,9 @@ export const openAckModal = (viewId, alarmsOids) => {
   });
 };
 
-export const sendAlarmAck = (viewId, ackId, alarms, comment, ackType) => ({
+export const sendAlarmAck = (viewId, ackId, alarms, comment) => ({
   type: types.WS_VIEW_ALARM_ACK,
   payload: {
-    ackType,
     viewId,
     ackId,
     alarms: _.isArray(alarms) ? alarms : [alarms],

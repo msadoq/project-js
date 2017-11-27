@@ -11,7 +11,7 @@ const getNewGroundAlarmEntryPoint = () => ({
   name: 'groundAlarmEP',
   id: v4(),
   connectedData: {
-    mode: constants.GMA_ALARM_MODE_ALL,
+    mode: constants.ALARM_MODE_ALL,
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
   },

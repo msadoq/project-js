@@ -7,7 +7,7 @@
         {
           "connectedData": {
             "domain": "*",
-            "mode": "GMA_ALARM_MODE_ALL",
+            "mode": "ALARM_MODE_ALL",
             "timeline": "*"
           },
           "id": "f585810c-8463-408c-93ec-c904a7eb44f9",
@@ -258,7 +258,7 @@
         {
           "connectedData": {
             "domain": "*",
-            "mode": "OBA_ALARM_MODE_ALL",
+            "mode": "ALARM_MODE_ALL",
             "timeline": "*"
           },
           "id": "3c3e6032-a68f-4cfa-a700-ace33f228f57",
@@ -502,7 +502,7 @@
     "staticData": null
   },
   "knownRanges": {
-    ".<GroundMonitoringAlarmAckRequest>:0:1:GMA_ALARM_MODE_ALL": {
+    ".<GroundMonitoringAlarmAckRequest>:0:1:ALARM_MODE_ALL": {
       "dataId": {
         "catalog": "",
         "comObject": "GroundMonitoringAlarmAckRequest",
@@ -521,7 +521,7 @@
         ]
       ]
     },
-    ".<OnBoardAlarmAckRequest>:0:1:OBA_ALARM_MODE_ALL": {
+    ".<OnBoardAlarmAckRequest>:0:1:ALARM_MODE_ALL": {
       "dataId": {
         "catalog": "",
         "comObject": "OnBoardAlarmAckRequest",

@@ -219,13 +219,13 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     // Compute acknowledgement State
     const ackState = getAckState(currentValue);
 
-    if (ep.mode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
+    if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
       if (ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
         return;
       }
     }
 
-    if (ep.mode === constants.GMA_ALARM_MODE_NONNOMINAL) {
+    if (ep.mode === constants.ALARM_MODE_NONNOMINAL) {
       const { creationDate, closingDate } = groundMonitoringAlarm;
       const isNonNominal = (
         creationDate < visuWindow.current

@@ -191,7 +191,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // Compute acknowledgement State
     const ackState = getAckState(currentValue);
 
-    if (ep.mode === constants.OBA_ALARM_MODE_TOACKNOWLEDGE) {
+    if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
       if (ackState !== constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
         return;
       }

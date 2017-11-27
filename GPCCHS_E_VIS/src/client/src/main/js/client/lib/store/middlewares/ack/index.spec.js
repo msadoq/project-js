@@ -1,15 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import makeAckMiddleware from './index';
 import state from '../../../common/jest/mocks/stateAlarms.json';
-import { sendAlarmAck as gmaSendAck } from '../../../viewManager/GroundAlarmView/store/actions';
-import { sendAlarmAck as obaSendAck } from '../../../viewManager/OnboardAlarmView/store/actions';
+import { sendAlarmAck } from '../../../viewManager/GroundAlarmView/store/actions';
 
 const unknownAction = { type: 'UNKNOWN' };
-
-const sendAck = {
-  gma: gmaSendAck,
-  oba: obaSendAck,
-};
 
 const fakeRequestAck = (tbdId, dataId, alarms, cb) => {
   if (alarms[0].oid === 'ERROR') {
@@ -22,8 +16,7 @@ const fakeRequestAck = (tbdId, dataId, alarms, cb) => {
 };
 
 const mockStore = configureMockStore([
-  makeAckMiddleware(fakeRequestAck, 'gma'),
-  makeAckMiddleware(fakeRequestAck, 'oba'),
+  makeAckMiddleware(fakeRequestAck),
 ]);
 
 describe('ack:middleware', () => {
@@ -41,7 +34,7 @@ describe('ack:middleware', () => {
       test('simple ack success', () => {
         const store = mockStore(state);
         const alarms = [{ oid: 1 }];
-        store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
+        store.dispatch(sendAlarmAck(viewId, 'ACKID', alarms, 'COMMENT', ackType));
         expect(store.getActions()).toMatchSnapshot();
       });
       test('several ack success', () => {
@@ -52,7 +45,7 @@ describe('ack:middleware', () => {
           { oid: 3 },
           { oid: 4 },
         ];
-        store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
+        store.dispatch(sendAlarmAck(viewId, 'ACKID', alarms, 'COMMENT', ackType));
         expect(store.getActions()).toMatchSnapshot();
       });
       test('several ack failure', () => {
@@ -63,7 +56,7 @@ describe('ack:middleware', () => {
           { oid: 'ERROR' },
           { oid: 'ERROR' },
         ];
-        store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
+        store.dispatch(sendAlarmAck(viewId, 'ACKID', alarms, 'COMMENT', ackType));
         expect(store.getActions()).toMatchSnapshot();
       });
       test('several ack timeout', () => {
@@ -74,7 +67,7 @@ describe('ack:middleware', () => {
           { oid: 'TIMEOUT' },
           { oid: 'TIMEOUT' },
         ];
-        store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
+        store.dispatch(sendAlarmAck(viewId, 'ACKID', alarms, 'COMMENT', ackType));
         jest.runAllTimers();
         expect(store.getActions()).toMatchSnapshot();
       });
@@ -86,7 +79,7 @@ describe('ack:middleware', () => {
           { oid: 'TIMEOUT' },
           { oid: 'ERROR' },
         ];
-        store.dispatch(sendAck[ackType](viewId, 'ACKID', alarms, 'COMMENT'));
+        store.dispatch(sendAlarmAck(viewId, 'ACKID', alarms, 'COMMENT', ackType));
         jest.runAllTimers();
         expect(store.getActions()).toMatchSnapshot();
       });

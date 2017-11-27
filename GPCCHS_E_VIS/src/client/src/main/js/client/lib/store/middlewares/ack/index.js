@@ -4,47 +4,24 @@ import * as types from '../../types';
 import { ALARM_ACK_TIMEOUT } from '../../../constants';
 import dataMapGenerator from '../../../dataManager/map';
 import { add as addMessage } from '../../actions/messages';
-import {
-  ackSuccess as gmaSuccess,
-  ackFailure as gmaFailure,
-} from '../../../viewManager/GroundAlarmView/store/actions';
+import { ackSuccess, ackFailure } from '../../../viewManager/GroundAlarmView/store/actions';
 
-import {
-  ackSuccess as obaSuccess,
-  ackFailure as obaFailure,
-} from '../../../viewManager/OnboardAlarmView/store/actions';
-
-const ackAction = {
-  gma: types.WS_VIEW_GMA_ALARM_ACK,
-  oba: types.WS_VIEW_OBA_ALARM_ACK,
-};
-
-const epName = {
-  gma: 'groundAlarmEP',
-  oba: 'onboardAlarmEP',
-};
-
-const ackSuccess = {
-  gma: gmaSuccess,
-  oba: obaSuccess,
-};
-
-const ackFailure = {
-  gma: gmaFailure,
-  oba: obaFailure,
-};
+const getAlarmEntryPoint = entryPoints => (
+  entryPoints.groundAlarmEP || entryPoints.onboardAlarmEP
+);
 
 const getNbSuccess = _.compose(_.size, _.filter(_.equals(true)));
 
-const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState }) => next => (action) => {
+const makeAckMiddleware = requestAck => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
-  if (action.type === ackAction[ackType]) {
+  if (action.type === types.WS_VIEW_ALARM_ACK) {
     const { viewId, ackId, alarms, comment } = action.payload;
     const dataMap = dataMapGenerator(getState());
-    const { dataId, tbdId } = dataMap.perView[viewId].entryPoints[epName[ackType]];
+    const { entryPoints } = dataMap.perView[viewId];
+    const { dataId, tbdId } = getAlarmEntryPoint(entryPoints);
     const requests = alarms.map(({ oid }) => {
       const failure = (err, cb) => {
-        dispatch(ackFailure[ackType](viewId, ackId, oid, err));
+        dispatch(ackFailure(viewId, ackId, oid, err));
         dispatch(addMessage('global', 'danger', `Acknowledging error : ${err}`));
         cb(null, false);
       };
@@ -55,7 +32,7 @@ const makeAckMiddleware = (requestAck, ackType = 'gma') => ({ dispatch, getState
           if (err) {
             return failure(err, cb);
           }
-          dispatch(ackSuccess[ackType](viewId, ackId, oid));
+          dispatch(ackSuccess(viewId, ackId, oid));
           return cb(null, true);
         });
       };

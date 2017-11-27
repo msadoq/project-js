@@ -115,11 +115,11 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, visuWind
 }
 
 const getAckState = (alarm) => {
-  let ackState = constants.OBA_ALARM_ACKSTATE_NOACK;
+  let ackState = constants.ALARM_ACKSTATE_NOACK;
   if (alarm.ackRequest) {
-    ackState = constants.OBA_ALARM_ACKSTATE_REQUIREACK;
+    ackState = constants.ALARM_ACKSTATE_REQUIREACK;
     if (alarm.ackRequest && alarm.ackRequest.ack) {
-      ackState = constants.OBA_ALARM_ACKSTATE_ACQUITED;
+      ackState = constants.ALARM_ACKSTATE_ACQUITED;
     }
   }
   return ackState;
@@ -139,7 +139,6 @@ const createAlarm = (alarm, converter) => {
 
   const timestamp = converter(getTimestamp(alarm));
   return {
-    collapsed: true,
     ackState: getAckState(alarm),
     timestamp,
     oid: converter(getOid(alarm)),
@@ -192,15 +191,15 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // Compute acknowledgement State
     const ackState = getAckState(currentValue);
 
-    if (ep.mode === constants.OBA_ALARM_MODE_TOACKNOWLEDGE) {
-      if (ackState !== constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
+    if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
+      if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
         return;
       }
     }
 
     // Filter values out of interval but keep "REQUIREACK" Alarms
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (isOutOfTimeRange && ackState !== constants.OBA_ALARM_ACKSTATE_REQUIREACK) {
+    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
       return;
     }
 

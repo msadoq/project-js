@@ -7,7 +7,9 @@ import * as constants from '../../constants';
 
 const initialState = {};
 const initialViewState = {
+  ackStatus: {},
   selected: {},
+  expanded: {},
   sort: {
     mode: 'ASC',
     column: 'timestamp',
@@ -60,13 +62,17 @@ const uiReducer = (state = initialState, action) => {
       }
       return _.set([viewId, 'sort'], { column, mode: 'ASC' }, state);
     }
-    case types.HSC_CLOSE_WORKSPACE:
-    case types.HSC_PLAY:
-    case types.WS_TIMEBAR_UPDATE_CURSORS: {
+    case types.WS_VIEW_ALARM_COLLAPSE: {
+      const { viewId, oid } = action.payload;
+      return _.unset([viewId, 'expanded', oid], state);
+    }
+    case types.WS_VIEW_ALARM_UNCOLLAPSE: {
+      const { viewId, oid } = action.payload;
+      return _.set([viewId, 'expanded', oid], true, state);
+    }
+    case types.HSC_CLOSE_WORKSPACE: {
       return _.mapValues(_.always(initialViewState), state);
     }
-    case types.WS_VIEW_GMA_ALARM_ACK:
-    case types.WS_VIEW_OBA_ALARM_ACK:
     case types.WS_VIEW_UPDATE_ENTRYPOINT: {
       const { viewId } = action.payload;
       return _.unset([viewId, 'selected'], state);
@@ -77,6 +83,52 @@ const uiReducer = (state = initialState, action) => {
     }
     case types.WS_PAGE_CLOSE: {
       return _.unset(action.payload.viewIds, state);
+    }
+    case types.WS_MODAL_OPEN: {
+      const { type, viewId, ackId, alarmsOids } = action.payload.props;
+      if (type === 'gmaAck' || type === 'obaAck') {
+        return _.set([viewId, 'ackStatus', ackId], {
+          acknowledging: false,
+          alarmsOids: alarmsOids.map(oid => ({
+            oid,
+            acknowledged: false,
+            ackError: null,
+          })),
+        }, state);
+      }
+      return state;
+    }
+    case types.WS_MODAL_CLOSED: {
+      const { type, viewId, ackId } = action.payload.props;
+      if (type === 'gmaAck' || type === 'obaAck') {
+        return _.unset([viewId, 'ackStatus', ackId], state);
+      }
+      return state;
+    }
+    case types.WS_VIEW_ALARM_ACK: {
+      const { viewId, ackId } = action.payload;
+      return _.pipe(
+        _.unset([viewId, 'selected']),
+        _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true)
+      )(state);
+    }
+    case types.WS_VIEW_ALARM_ACK_SUCCESS: {
+      const { viewId, ackId, oid } = action.payload;
+      if (!state[viewId].ackStatus[ackId]) {
+        return state;
+      }
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'acknowledged'], true, state);
+    }
+    case types.WS_VIEW_ALARM_ACK_FAILURE: {
+      const { viewId, ackId, oid, error } = action.payload;
+      if (!state[viewId].ackStatus[ackId]) {
+        return state;
+      }
+      const { alarmsOids } = state[viewId].ackStatus[ackId];
+      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
+      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
     }
     default:
       return state;
@@ -94,6 +146,11 @@ export const getSelectedAlarms = createSelector(
   _.getOr({}, 'selected')
 );
 
+export const getExpandedAlarms = createSelector(
+  getUi,
+  _.getOr({}, 'expanded')
+);
+
 export const getSort = createSelector(
   getUi,
   _.get('sort')
@@ -107,4 +164,10 @@ export const getSortColumn = createSelector(
 export const getSortMode = createSelector(
   getSort,
   _.get('mode')
+);
+
+export const getAckStatus = createSelector(
+  getUi,
+  (state, { ackId }) => ackId,
+  (ui, ackId) => _.get(['ackStatus', ackId], ui)
 );

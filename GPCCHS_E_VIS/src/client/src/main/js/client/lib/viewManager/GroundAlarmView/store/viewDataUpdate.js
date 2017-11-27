@@ -119,11 +119,11 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, visuWind
 }
 
 const getAckState = (alarm) => {
-  let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
+  let ackState = constants.ALARM_ACKSTATE_NOACK;
   if (alarm.ackRequest) {
-    ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
+    ackState = constants.ALARM_ACKSTATE_REQUIREACK;
     if (alarm.ackRequest && alarm.ackRequest.ack) {
-      ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
+      ackState = constants.ALARM_ACKSTATE_ACQUITED;
     }
   }
   return ackState;
@@ -147,7 +147,6 @@ const createAlarm = (alarm, converter) => {
   const getRawValue = _.compose(_.prop('rawValue'), getLastTransition);
   const getPhysicalValue = _.compose(_.prop('extractedValue'), getLastTransition);
   return {
-    collapsed: true,
     ackState: getAckState(alarm),
     timestamp: converter(getTimestamp(alarm)),
     oid: converter(getOid(alarm)),
@@ -220,13 +219,13 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     // Compute acknowledgement State
     const ackState = getAckState(currentValue);
 
-    if (ep.mode === constants.GMA_ALARM_MODE_TOACKNOWLEDGE) {
-      if (ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+    if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
+      if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
         return;
       }
     }
 
-    if (ep.mode === constants.GMA_ALARM_MODE_NONNOMINAL) {
+    if (ep.mode === constants.ALARM_MODE_NONNOMINAL) {
       const { creationDate, closingDate } = groundMonitoringAlarm;
       const isNonNominal = (
         creationDate < visuWindow.current
@@ -240,7 +239,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
 
     // Filter values out of interval but keep "REQUIREACK" Alarms
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (isOutOfTimeRange && ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
       return;
     }
 

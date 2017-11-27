@@ -6,7 +6,7 @@ import _ from 'lodash/fp';
 import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
 import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
-import { OBA_ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
+import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
 
 import styles from './OnboardAlarmTable.css';
 
@@ -54,7 +54,7 @@ Arrow.propTypes = {
 
 const Table = ({
   rows, position, displayedRows, rowHeight,
-  selectedAlarms, hoveredParameter, isPlayingTimebar, sort,
+  selectedAlarms, expandedAlarms, hoveredParameter, isPlayingTimebar, sort,
   onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
 }) => (
   <table>
@@ -116,10 +116,10 @@ const Table = ({
                     >
                       {
                         index === 0 && line.type === 'alarm'
-                        && (data.collapsed ? (
-                          <CollapseButton collapsed onClick={() => onUncollapse(data.oid)} />
-                        ) : (
+                        && (expandedAlarms[line.alarm.oid] ? (
                           <CollapseButton onClick={() => onCollapse(data.oid)} />
+                        ) : (
+                          <CollapseButton collapsed onClick={() => onUncollapse(data.oid)} />
                         ))
                       }
                       {data[col]}
@@ -192,6 +192,7 @@ Table.propTypes = {
   onClickAlarm: PropTypes.func.isRequired,
   toggleSort: PropTypes.func.isRequired,
   selectedAlarms: PropTypes.shape({}).isRequired,
+  expandedAlarms: PropTypes.shape({}).isRequired,
   position: PropTypes.number,
   rows: PropTypes.arrayOf(PropTypes.shape({
     data: PropTypes.shape({}),
@@ -217,13 +218,13 @@ const initialState = {
 
 class TableView extends React.Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
     ).isRequired,
     toggleSelection: PropTypes.func.isRequired,
     toggleSort: PropTypes.func.isRequired,
     selectedAlarms: PropTypes.shape({}).isRequired,
+    expandedAlarms: PropTypes.shape({}).isRequired,
     sort: PropTypes.shape({
       column: PropTypes.string.isRequired,
       mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
@@ -296,7 +297,7 @@ class TableView extends React.Component {
       {
         label: `Acknowledge ${n} alarm${n === 1 ? '' : 's'}`,
         click: () => {
-          this.props.openAckModal(this.props.viewId, getOids(this.props.selectedAlarms));
+          this.props.openAckModal(getOids(this.props.selectedAlarms));
         },
         enabled: n > 0,
       },
@@ -372,6 +373,7 @@ class TableView extends React.Component {
           onUncollapse={this.props.uncollapse}
           onClickAlarm={this.toggleAlarmSelection}
           selectedAlarms={this.props.selectedAlarms}
+          expandedAlarms={this.props.expandedAlarms}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
           displayedRows={this.getNbDisplayedElems()}

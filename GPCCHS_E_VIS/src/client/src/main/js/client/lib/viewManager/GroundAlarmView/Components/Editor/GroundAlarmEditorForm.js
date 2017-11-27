@@ -8,9 +8,9 @@ import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSel
 import * as constants from '../../../../constants';
 
 const MODES = [
-  { value: constants.GMA_ALARM_MODE_ALL, label: 'All' },
-  { value: constants.GMA_ALARM_MODE_NONNOMINAL, label: 'Non nominal' },
-  { value: constants.GMA_ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
+  { value: constants.ALARM_MODE_ALL, label: 'All' },
+  { value: constants.ALARM_MODE_NONNOMINAL, label: 'Non nominal' },
+  { value: constants.ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
 ];
 
 class EntryPointConnectedData extends Component {

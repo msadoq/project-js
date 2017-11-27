@@ -6,9 +6,9 @@ import OnboardAlarmTable from './OnboardAlarmTable';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
 import { getData } from '../../../store/dataReducer';
 import { getDataRows } from '../../../store/selectors';
-import { openAckModal } from '../../../store/actions';
-import { getSelectedAlarms, getSort } from '../../../../GroundAlarmView/store/uiReducer';
+import { getSelectedAlarms, getSort, getExpandedAlarms } from '../../../../GroundAlarmView/store/uiReducer';
 import { collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../../GroundAlarmView/store/actions';
+import { openAckModal } from '../../../store/actions';
 import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
 import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
@@ -19,13 +19,14 @@ const mapStateToProps = createStructuredSelector({
   timeline: getAlarmTimeline,
   rows: getDataRows,
   selectedAlarms: getSelectedAlarms,
+  expandedAlarms: getExpandedAlarms,
   indexedLines: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
-  openAckModal: _.compose(dispatch, openAckModal),
+  openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
   collapse: oid => dispatch(collapseAlarm(viewId, oid)),
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
   toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),

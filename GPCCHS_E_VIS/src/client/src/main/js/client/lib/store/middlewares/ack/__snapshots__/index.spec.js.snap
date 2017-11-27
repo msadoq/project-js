@@ -22,7 +22,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -30,7 +30,7 @@ Array [
       "oid": 1,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -38,7 +38,7 @@ Array [
       "oid": 2,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -47,7 +47,7 @@ Array [
       "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -71,7 +71,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -128,7 +128,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -137,7 +137,7 @@ Array [
       "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -161,7 +161,7 @@ Array [
       "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -185,7 +185,7 @@ Array [
       "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -209,7 +209,7 @@ Array [
       "oid": "ERROR",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -251,7 +251,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -259,7 +259,7 @@ Array [
       "oid": 1,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -267,7 +267,7 @@ Array [
       "oid": 2,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -275,7 +275,7 @@ Array [
       "oid": 3,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -283,7 +283,7 @@ Array [
       "oid": 4,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "meta": Object {
@@ -325,7 +325,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -334,7 +334,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -358,7 +358,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -382,7 +382,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -406,7 +406,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -439,7 +439,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -447,7 +447,7 @@ Array [
       "oid": 1,
       "viewId": "c691a648-36c3-4c5a-b131-07aa86977437",
     },
-    "type": "WS_VIEW_GMA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "meta": Object {
@@ -489,7 +489,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -497,7 +497,7 @@ Array [
       "oid": 1,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -505,7 +505,7 @@ Array [
       "oid": 2,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -514,7 +514,7 @@ Array [
       "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -538,7 +538,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -595,7 +595,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -604,7 +604,7 @@ Array [
       "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -628,7 +628,7 @@ Array [
       "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -652,7 +652,7 @@ Array [
       "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -676,7 +676,7 @@ Array [
       "oid": "ERROR",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -718,7 +718,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -726,7 +726,7 @@ Array [
       "oid": 1,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -734,7 +734,7 @@ Array [
       "oid": 2,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -742,7 +742,7 @@ Array [
       "oid": 3,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "payload": Object {
@@ -750,7 +750,7 @@ Array [
       "oid": 4,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "meta": Object {
@@ -792,7 +792,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -801,7 +801,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -825,7 +825,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -849,7 +849,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -873,7 +873,7 @@ Array [
       "oid": "TIMEOUT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_FAILURE",
+    "type": "WS_VIEW_ALARM_ACK_FAILURE",
   },
   Object {
     "meta": Object {
@@ -906,7 +906,7 @@ Array [
       "comment": "COMMENT",
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK",
+    "type": "WS_VIEW_ALARM_ACK",
   },
   Object {
     "payload": Object {
@@ -914,7 +914,7 @@ Array [
       "oid": 1,
       "viewId": "225cce85-7d35-456c-97e9-be47a977e373",
     },
-    "type": "WS_VIEW_OBA_ALARM_ACK_SUCCESS",
+    "type": "WS_VIEW_ALARM_ACK_SUCCESS",
   },
   Object {
     "meta": Object {

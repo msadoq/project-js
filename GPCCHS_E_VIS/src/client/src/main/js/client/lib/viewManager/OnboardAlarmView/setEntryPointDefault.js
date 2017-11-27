@@ -11,7 +11,7 @@ const getNewOnboardAlarmEntryPoint = () => ({
   id: v4(),
   name: 'onboardAlarmEP',
   connectedData: {
-    mode: constants.OBA_ALARM_MODE_ALL,
+    mode: constants.ALARM_MODE_ALL,
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
   },

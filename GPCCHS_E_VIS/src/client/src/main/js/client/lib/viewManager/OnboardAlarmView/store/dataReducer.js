@@ -1,6 +1,4 @@
 import _ from 'lodash/fp';
-import { createSelector } from 'reselect';
-import _omit from 'lodash/omit';
 
 import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
@@ -11,7 +9,6 @@ import * as constants from '../../constants';
 const initialSubState = {
   lines: {},
   indexes: [],
-  ackStatus: {},
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -46,66 +43,16 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
     case types.WS_VIEW_CLOSE: {
       const { viewId } = action.payload;
       if (state[viewId]) {
-        return _omit(state, viewId);
+        return _.omit(viewId, state);
       }
       return state;
     }
     case types.WS_PAGE_CLOSE: {
       const { viewIds } = action.payload;
-      if (!viewIds.length) {
-        return state;
-      }
-      let newState = state;
-      viewIds.forEach((viewId) => {
-        if (state[viewId]) {
-          newState = _omit(newState, viewId);
-        }
-      });
-      return newState;
-    }
-    case types.WS_MODAL_OPEN: {
-      const { type, viewId, ackId, alarmsOids } = action.payload.props;
-      if (type === 'obaAck') {
-        return _.set([viewId, 'ackStatus', ackId], {
-          acknowledging: false,
-          alarmsOids: alarmsOids.map(oid => ({
-            oid,
-            acknowledged: false,
-            ackError: null,
-          })),
-        }, state);
+      if (viewIds.length) {
+        return _.omit(viewIds, state);
       }
       return state;
-    }
-    case types.WS_MODAL_CLOSED: {
-      const { type, viewId, ackId } = action.payload.props;
-      if (type === 'obaAck') {
-        return _.unset([viewId, 'ackStatus', ackId], state);
-      }
-      return state;
-    }
-    case types.WS_VIEW_OBA_ALARM_ACK: {
-      const { viewId, ackId } = action.payload;
-      const newState = _.set([viewId, 'ackStatus', ackId, 'acknowledging'], true, state);
-      return newState;
-    }
-    case types.WS_VIEW_OBA_ALARM_ACK_SUCCESS: {
-      const { viewId, ackId, oid } = action.payload;
-      if (!state[viewId].ackStatus[ackId]) {
-        return state;
-      }
-      const { alarmsOids } = state[viewId].ackStatus[ackId];
-      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'acknowledged'], true, state);
-    }
-    case types.WS_VIEW_OBA_ALARM_ACK_FAILURE: {
-      const { viewId, ackId, oid, error } = action.payload;
-      if (!state[viewId].ackStatus[ackId]) {
-        return state;
-      }
-      const { alarmsOids } = state[viewId].ackStatus[ackId];
-      const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
-      return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
     }
     case types.INJECT_DATA_RANGE: {
       const {
@@ -170,9 +117,3 @@ export default function onBoardAlarmViewData(state = initialSubState, action) {
 export const getOnboardAlarmViewData = state => state.OnboardAlarmViewData;
 
 export const getData = (state, { viewId }) => state.OnboardAlarmViewData[viewId];
-
-export const getAckStatus = createSelector(
-  getData,
-  (state, { ackId }) => ackId,
-  (data, ackId) => _.get(['ackStatus', ackId], data)
-);

@@ -2,9 +2,10 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
 import AckModal from '../../../GroundAlarmView/Components/View/AckModal';
+import { sendAlarmAck } from '../../../GroundAlarmView/store/actions';
+import { getAckStatus } from '../../../GroundAlarmView/store/uiReducer';
 
-import { sendAlarmAck } from '../../store/actions';
-import { getData, getAckStatus } from '../../store/dataReducer';
+import { getData } from '../../store/dataReducer';
 
 const getAlarmsByOids = createSelector(
   getData,
@@ -21,7 +22,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch, { viewId, ackId }) => ({
   sendAck: (alarms, comment) => (
-    dispatch(sendAlarmAck(viewId, ackId, alarms, comment))
+    dispatch(sendAlarmAck(viewId, ackId, alarms, comment, 'oba'))
   ),
 });
 

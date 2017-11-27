@@ -29,7 +29,7 @@
       ],
       "lines": {
         "9900": {
-          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "info",
           "closingDate": "1970-01-01T00:00:09.990Z",
           "creationDate": "1970-01-01T00:00:09.900Z",
@@ -80,7 +80,7 @@
           ]
         },
         "10900": {
-          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "info",
           "closingDate": "1970-01-01T00:00:10.990Z",
           "creationDate": "1970-01-01T00:00:10.900Z",
@@ -107,7 +107,7 @@
           ]
         },
         "1510074097956": {
-          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "info",
           "closingDate": "2017-11-07T17:01:38.046Z",
           "creationDate": "2017-11-07T17:01:37.956Z",
@@ -142,7 +142,7 @@
           ]
         },
         "1510074160956": {
-          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "warning",
           "creationDate": "2017-11-07T17:02:40.956Z",
           "duration": "-",
@@ -168,7 +168,7 @@
           ]
         },
         "1510074196956": {
-          "ackState": "GMA_ALARM_ACKSTATE_NOACK",
+          "ackState": "ALARM_ACKSTATE_NOACK",
           "alarmType": "outOfRange",
           "closingDate": "2017-11-07T17:03:17.046Z",
           "creationDate": "2017-11-07T17:03:16.956Z",
@@ -219,7 +219,7 @@
           ]
         },
         "1510074258956": {
-          "ackState": "GMA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "warning",
           "closingDate": "2017-11-07T17:04:19.046Z",
           "creationDate": "2017-11-07T17:04:18.956Z",
@@ -283,7 +283,7 @@
         "9980": {
           "RIDId": 46724,
           "RIDName": "reportNameconsequat.",
-          "ackState": "OBA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "nonsignificant",
           "oid": "oid1918290.5182010578",
           "onBoardDate": "1970-01-01T00:00:09.980Z",
@@ -305,7 +305,7 @@
         "10980": {
           "RIDId": 48463,
           "RIDName": "reportNamecommodo",
-          "ackState": "OBA_ALARM_ACKSTATE_REQUIREACK",
+          "ackState": "ALARM_ACKSTATE_REQUIREACK",
           "alarmType": "info",
           "oid": "oid9180301.030026043",
           "onBoardDate": "1970-01-01T00:00:10.980Z",
@@ -327,7 +327,7 @@
         "1510074098036": {
           "RIDId": 63850,
           "RIDName": "reportNameexercitation",
-          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "ackState": "ALARM_ACKSTATE_NOACK",
           "alarmType": "alarm",
           "oid": "oid1284103.3582562478",
           "onBoardDate": "2017-11-07T17:01:38.036Z",
@@ -349,7 +349,7 @@
         "1510074161036": {
           "RIDId": 52661,
           "RIDName": "reportNameid",
-          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "ackState": "ALARM_ACKSTATE_NOACK",
           "alarmType": "warning",
           "oid": "oid7991083.340701617",
           "onBoardDate": "2017-11-07T17:02:41.036Z",
@@ -371,7 +371,7 @@
         "1510074197036": {
           "RIDId": 1468,
           "RIDName": "reportNamead",
-          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "ackState": "ALARM_ACKSTATE_NOACK",
           "alarmType": "info",
           "oid": "oid6216387.261019089",
           "onBoardDate": "2017-11-07T17:03:17.036Z",
@@ -393,7 +393,7 @@
         "1510074259036": {
           "RIDId": 96266,
           "RIDName": "reportNameelit,",
-          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "ackState": "ALARM_ACKSTATE_NOACK",
           "alarmType": "outOfRange",
           "oid": "oid141393.34275592663",
           "onBoardDate": "2017-11-07T17:04:19.036Z",
@@ -415,7 +415,7 @@
         "1510074582401": {
           "RIDId": 13605,
           "RIDName": "reportNameaute",
-          "ackState": "OBA_ALARM_ACKSTATE_NOACK",
+          "ackState": "ALARM_ACKSTATE_NOACK",
           "alarmType": "info",
           "oid": "oid5585692.098358502",
           "onBoardDate": "2017-11-07T17:09:42.401Z",

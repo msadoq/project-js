@@ -119,11 +119,11 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, visuWind
 }
 
 const getAckState = (alarm) => {
-  let ackState = constants.GMA_ALARM_ACKSTATE_NOACK;
+  let ackState = constants.ALARM_ACKSTATE_NOACK;
   if (alarm.ackRequest) {
-    ackState = constants.GMA_ALARM_ACKSTATE_REQUIREACK;
+    ackState = constants.ALARM_ACKSTATE_REQUIREACK;
     if (alarm.ackRequest && alarm.ackRequest.ack) {
-      ackState = constants.GMA_ALARM_ACKSTATE_ACQUITED;
+      ackState = constants.ALARM_ACKSTATE_ACQUITED;
     }
   }
   return ackState;
@@ -220,7 +220,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     const ackState = getAckState(currentValue);
 
     if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
-      if (ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+      if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
         return;
       }
     }
@@ -239,7 +239,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
 
     // Filter values out of interval but keep "REQUIREACK" Alarms
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (isOutOfTimeRange && ackState !== constants.GMA_ALARM_ACKSTATE_REQUIREACK) {
+    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
       return;
     }
 

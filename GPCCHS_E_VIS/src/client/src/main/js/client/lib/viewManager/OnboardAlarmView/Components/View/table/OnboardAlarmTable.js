@@ -6,7 +6,7 @@ import _ from 'lodash/fp';
 import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
 import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
-import { OBA_ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
+import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
 
 import styles from './OnboardAlarmTable.css';
 

@@ -95,7 +95,7 @@ function isInvalidEntryPoint(oldEp, newEp) {
  */
 function getRequireAckIndexes(viewData) {
   const requireAckAlarms = _pickBy(viewData.lines, alarm => (
-    alarm.ackState === constants.GMA_ALARM_ACKSTATE_REQUIREACK
+    alarm.ackState === constants.ALARM_ACKSTATE_REQUIREACK
   ));
 
   return _map(requireAckAlarms, viewDataAlarm => viewDataAlarm.oid);

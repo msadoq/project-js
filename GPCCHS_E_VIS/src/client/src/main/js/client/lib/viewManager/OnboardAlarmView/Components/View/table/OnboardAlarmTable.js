@@ -232,7 +232,7 @@ class TableView extends React.Component {
     mode: PropTypes.number.isRequired,
     domain: PropTypes.string.isRequired,
     timeline: PropTypes.string.isRequired,
-    indexedLines: PropTypes.shape({}).isRequired,
+    indexedRows: PropTypes.shape({}).isRequired,
     rows: PropTypes.arrayOf(PropTypes.shape({
       data: PropTypes.shape({}),
       type: PropTypes.string,
@@ -268,12 +268,14 @@ class TableView extends React.Component {
 
   onScrollUp = () => {
     if (this.state.position > 0) {
+      this.unhoverParameter();
       this.setState(_.update('position', _.add(-1)));
     }
   }
 
   onScrollDown = () => {
     if (this.state.position < this.getLastPosition()) {
+      this.unhoverParameter();
       this.setState(_.update('position', _.add(1)));
     }
   }
@@ -284,7 +286,7 @@ class TableView extends React.Component {
     const getOids = _.keys;
     const { hoveredParameter = {} } = this.state;
     const path = [hoveredParameter.alarmOid, 'parameters', hoveredParameter.parameterIndex, 'name'];
-    const parameterName = _.get(path, this.props.indexedLines);
+    const parameterName = _.get(path, this.props.indexedRows);
     const openInspectorMenu = parameterName ? [
       {
         label: `Open '${parameterName}' parameter in inspector`,
@@ -333,10 +335,8 @@ class TableView extends React.Component {
     }
   }
 
-  unhoverParameter = (line) => {
-    if (line.type === 'parameter') {
-      this.setState(_.unset('hoveredParameter'));
-    }
+  unhoverParameter = () => {
+    this.setState(_.unset('hoveredParameter'));
   }
 
   toggleAlarmSelection = (alarm) => {
@@ -363,12 +363,12 @@ class TableView extends React.Component {
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
         <Table
-          toggleSort={this.props.toggleSort}
           sort={this.props.sort}
+          toggleSort={this.props.toggleSort}
           isPlayingTimebar={this.props.isPlayingTimebar}
-          hoveredParameter={this.state.hoveredParameter}
           onMouseEnter={this.hoverParameter}
           onMouseLeave={this.unhoverParameter}
+          hoveredParameter={this.state.hoveredParameter}
           onCollapse={this.props.collapse}
           onUncollapse={this.props.uncollapse}
           onClickAlarm={this.toggleAlarmSelection}

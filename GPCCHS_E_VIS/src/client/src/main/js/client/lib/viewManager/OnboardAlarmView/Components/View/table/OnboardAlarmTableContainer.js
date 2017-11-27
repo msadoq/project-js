@@ -18,9 +18,9 @@ const mapStateToProps = createStructuredSelector({
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
   rows: getDataRows,
-  selectedAlarms: getSelectedAlarms,
   expandedAlarms: getExpandedAlarms,
-  indexedLines: _.compose(_.prop('lines'), getData),
+  selectedAlarms: getSelectedAlarms,
+  indexedRows: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
 });

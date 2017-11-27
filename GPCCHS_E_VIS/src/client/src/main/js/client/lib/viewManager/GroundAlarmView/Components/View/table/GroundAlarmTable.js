@@ -53,8 +53,8 @@ Arrow.propTypes = {
 };
 
 const Table = ({
-  rows, position, displayedRows, rowHeight, selectedAlarms, expandedAlarms,
-  hoveredAlarm, sort, isPlayingTimebar,
+  rows, position, displayedRows, rowHeight,
+  selectedAlarms, expandedAlarms, hoveredAlarm, isPlayingTimebar, sort,
   onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
 }) => (
   <table>

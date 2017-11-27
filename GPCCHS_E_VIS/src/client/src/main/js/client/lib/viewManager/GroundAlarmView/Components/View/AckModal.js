@@ -26,7 +26,6 @@ TextArea.defaultProps = {
 
 class AckModal extends React.Component {
   static propTypes = {
-    ackType: PropTypes.string.isRequired,
     ackStatus: PropTypes.shape({
       acknowledging: PropTypes.bool.isRequired,
       alarmsOids: PropTypes.arrayOf(PropTypes.shape({
@@ -38,10 +37,7 @@ class AckModal extends React.Component {
     sendAck: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
     alarms: PropTypes.arrayOf(PropTypes.shape({
-      parameterName: PropTypes.string,
-      lastOccurence: PropTypes.string,
-      onBoardDate: PropTypes.string,
-      RIDName: PropTypes.string,
+      label: PropTypes.string,
     })).isRequired,
   }
 
@@ -65,13 +61,6 @@ class AckModal extends React.Component {
 
   onAckClick = () => {
     this.props.sendAck(this.state.comment);
-  }
-
-  getAlarmLabel = (alarm) => {
-    if (this.props.ackType === 'gma') {
-      return `${alarm.parameterName} - ${alarm.lastOccurence}`;
-    }
-    return `${alarm.RIDName} - ${alarm.onBoardDate}`;
   }
 
   getStatusByOid = (oid) => {
@@ -114,7 +103,7 @@ class AckModal extends React.Component {
                 bsStyle={this.getStatusByOid(alarm.oid)}
                 key={alarm.oid}
               >
-                {this.getAlarmLabel(alarm)}
+                {alarm.label}
               </ListGroupItem>
             ))
           }

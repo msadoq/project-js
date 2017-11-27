@@ -7,11 +7,16 @@ import { getAckStatus } from '../../../GroundAlarmView/store/uiReducer';
 
 import { getData } from '../../store/dataReducer';
 
+const getAlarmLabel = ({ RIDName, onBoardDate }) => `${RIDName} - ${onBoardDate}`;
+
 const getAlarmsByOids = createSelector(
   getData,
   (state, { alarmsOids }) => alarmsOids,
   (data, alarmsOids) => (
-    alarmsOids.map(ts => data.lines[ts])
+    alarmsOids.map(oid => ({
+      ...data.lines[oid],
+      label: getAlarmLabel(data.lines[oid]),
+    }))
   )
 );
 
@@ -31,7 +36,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   sendAck: comment => dispatchProps.sendAck(stateProps.alarms, comment),
-  ackType: 'oba',
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AckModal);

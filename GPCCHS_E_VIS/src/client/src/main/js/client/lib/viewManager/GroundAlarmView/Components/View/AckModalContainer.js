@@ -2,15 +2,21 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
 import AckModal from './AckModal';
-
 import { sendAlarmAck } from '../../store/actions';
-import { getData, getAckStatus } from '../../store/dataReducer';
+import { getAckStatus } from '../../store/uiReducer';
+
+import { getData } from '../../store/dataReducer';
+
+const getAlarmLabel = ({ parameterName, lastOccurence }) => `${parameterName} - ${lastOccurence}`;
 
 const getAlarmsByOids = createSelector(
   getData,
   (state, { alarmsOids }) => alarmsOids,
   (data, alarmsOids) => (
-    alarmsOids.map(oid => data.lines[oid])
+    alarmsOids.map(oid => ({
+      ...data.lines[oid],
+      label: getAlarmLabel(data.lines[oid]),
+    }))
   )
 );
 
@@ -30,7 +36,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   sendAck: comment => dispatchProps.sendAck(stateProps.alarms, comment),
-  ackType: 'gma',
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AckModal);

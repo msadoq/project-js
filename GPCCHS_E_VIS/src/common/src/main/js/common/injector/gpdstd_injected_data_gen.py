@@ -218,6 +218,11 @@ class GPDSTD_AggregationsGenerator(object):
                         if "Components" in aggregation:
                             parameters =  aggregation["Components"]
                             paramsList = []
+                            # Initialize the flag to decide if the aggregation shall be ignored
+                            isAggSupported = True
+                            # Robustness in case there is no parameter
+                            if not len(parameters):
+                                isAggSupported = False
                             for parameter in parameters:
                                 #print "Parameters: " + repr(parameter)
                                 if "TelemetryPacketEntry" in parameter and \
@@ -225,8 +230,7 @@ class GPDSTD_AggregationsGenerator(object):
                                    "TargetItem" in parameter["TelemetryPacketEntry"]["ts180.referenceRecord"] and \
                                    "string" in parameter["TelemetryPacketEntry"]["ts180.referenceRecord"]["TargetItem"]:
                                     paramName = parameter["TelemetryPacketEntry"]["ts180.referenceRecord"]["TargetItem"]["string"]
-                                    paramsList.append(paramName)
-                                    # Update the list of existing parameters in aggregations
+                                    # Update the list of existing parameters in aggregations (doesn't depends on isAggSupported value)
                                     if paramName not in self._namesOfParamsInExistingTmPacketFile:
                                         self._namesOfParamsInExistingTmPacketFile.append(paramName)
                                     # Update the dictionnary of parameters Oid and Oids of aggregations in which they are
@@ -235,10 +239,20 @@ class GPDSTD_AggregationsGenerator(object):
                                             self._aggsOidListByParamOid[self._reportingParameters[paramName]] = []
                                         if oid not in self._aggsOidListByParamOid[self._reportingParameters[paramName]]:
                                             self._aggsOidListByParamOid[self._reportingParameters[paramName]].append(oid)
+                                        # Append the parameter as a member of this aggregation
+                                        paramsList.append(paramName)
+                                    else:
+                                        # If this aggregation contains a parameter which is not in Reporting catalog, this means that it may comes from TelemetryStructureContainer, but
+                                        # this kind of structure composed of a group of Reporting parameters is not supported by this script
+                                        isAggSupported = False
                                     #print "Parameter : name : " + repr(parameter["TelemetryPacketEntry"]["ts180.referenceRecord"]["TargetItem"]["string"]) + " in aggregation : " + repr(name)
-                        # Save the data related to the aggregation
-                        self._aggregations[name] = { "oid" : oid, "parameters" : paramsList }
-                        self._aggUidInExistingFile[name] = uid
+                                else:
+                                    # Robustness in case aggregation structure is not supported
+                                    isAggSupported = False
+                            # Save the data related to the aggregation in case all its parameters exists in Reporting catalog
+                            if isAggSupported == True:
+                                self._aggregations[name] = { "oid" : oid, "parameters" : paramsList }
+                                self._aggUidInExistingFile[name] = uid
             else:
                 raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') doesn\'t contain expected element "Items"')
         else:
@@ -252,10 +266,8 @@ class GPDSTD_AggregationsGenerator(object):
             for aggName in self._aggregations.keys():
                 paramsOid = []
                 for paramName in self._aggregations[aggName]['parameters']:
-                    if paramName in self._reportingParameters:
-                        paramsOid.append(self._reportingParameters[paramName])
-                    else:
-                        raise GPDSTD_ScriptError('Telemetry packet file (' + self._existingTmPacketJsonFile + ') is not consistent with Reporting parameter catalog (' + self._reportingParamsCatalogJsonFile + ') : the parameter ' + paramName +  ' is mentionned in Telemetry packet file but doesn\'t exist in Reporting parameter catalog')
+                    # paramName is for sure in self._reportingParameters because this has been tested prior to insertion in self._aggregations
+                    paramsOid.append(self._reportingParameters[paramName])
                 self._injectionData[aggName] = {'uid' : self._aggUidInExistingFile[aggName], 'paramsOids' : paramsOid }
         #print "nbParamPerAggInExistingFile : " +  repr(self._nbParamPerAggInExistingFile)
         return self._aggregations
@@ -295,15 +307,16 @@ class GPDSTD_AggregationsGenerator(object):
                 raise GPDSTD_ScriptError("Given telemetry packet json file (" + self._existingTmPacketJsonFile + ") doesn't contains any aggregation which can be used as template to create the request ones")
             for aggregation in items:
                 name = aggregation["Name"]
-                # Check if this aggregation meet the requirements
-                if self._nbParamPerAggInExistingFile[name] in nbParamsPerAgg:
-                    # Remove it from the required aggregations, as it is fullfilled by an existing one
-                    nbParamsPerAgg.remove(self._nbParamPerAggInExistingFile[name])
-                else:
-                    # Save the name of this aggregation because it doesn't fit requirement and can be replaced
-                    uselessAggs.append(aggregation)
-                    # Remove the useless aggregation from injected data
-                    del self._injectionData[name]
+                # Check if this aggregation meet the requirements (first check that this aggregation hasn't been ignore due to parameters not in Reporting catalog)
+                if name in self._aggregations.keys():
+                    if self._nbParamPerAggInExistingFile[name] in nbParamsPerAgg:
+                        # Remove it from the required aggregations, as it is fullfilled by an existing one
+                        nbParamsPerAgg.remove(self._nbParamPerAggInExistingFile[name])
+                    else:
+                        # Save the name of this aggregation because it doesn't fit requirement and can be replaced
+                        uselessAggs.append(aggregation)
+                        # Remove the useless aggregation from injected data
+                        del self._injectionData[name]
             # Check if required aggregations remains, which means they shall be added
             createdAggCounter = 0
             # Initialize the parameter index counter to use as many parameters of the catalog as possible in the aggregations

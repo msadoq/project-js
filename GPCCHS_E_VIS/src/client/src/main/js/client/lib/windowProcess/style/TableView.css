@@ -1,0 +1,41 @@
+@import './variables.css';
+
+.TableView {
+  background-color: var(--theme-light);
+}
+
+.TableView th {
+  background-color: #666;
+  color: var(--theme-light);
+}
+
+.TableView .tableRow > td {
+  background-color: #777;
+  color: var(--theme-light);
+}
+
+.TableView .tableRow.selected > td {
+  background-color: #63708C;
+}
+
+.TableView .tableSubRow.selected > td {
+  background-color: #63708C;
+  color: var(--theme-light);
+}
+
+.TableView .tableSubRow > th {
+  border-color: #777777;
+  background-color: #999999;
+  border: 0;
+  color: var(--gray-darker);
+}
+
+.TableView .tableSubRow.selected > th {
+  background-color: #63708C;
+}
+
+.TableView .tableSubRow > td {
+  border: 0;
+  background-color: var(--gray-lighter);
+  color: var(--gray-darker);
+}

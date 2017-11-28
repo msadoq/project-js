@@ -19,28 +19,31 @@ export const getDataRows = createSelector(
   getExpandedAlarms,
   (data, sortedIndexes, expandedAlarms) => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];
-    const alarmWithoutParameters = _.omit('parameters', alarm);
+    const mainRow = {
+      type: 'row',
+      data: alarm,
+    };
     const parameters = _.isEmpty(alarm.parameters) || !expandedAlarms[alarm.oid] ? [] : [
       {
-        type: 'parameter_header',
-        alarm: alarmWithoutParameters,
+        type: 'subrow_header_title',
+        data: 'PARAMETERS',
+        mainRow,
       },
       {
-        type: 'parameter_header_title',
-        alarm: alarmWithoutParameters,
+        type: 'subrow_header',
+        mainRow,
       },
       ...alarm.parameters.map((parameter, index) => ({
-        type: 'parameter',
+        type: 'subrow',
         data: parameter,
-        alarm: alarmWithoutParameters,
-        parameterIndex: index,
+        mainRow,
+        subRowIndex: index,
       })),
     ];
     return [
       {
-        type: 'alarm',
-        data: alarmWithoutParameters,
-        alarm: alarmWithoutParameters,
+        ...mainRow,
+        mainRow,
       },
       ...parameters,
     ];

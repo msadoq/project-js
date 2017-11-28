@@ -8,7 +8,7 @@ import { updateCursors, switchToRealtimeMode, moveTo } from '../../actions/timeb
 import { pause } from '../../actions/hsc';
 
 import { add as addMessage } from '../../actions/messages';
-import { isAnyEditorOpened } from '../../selectors/pages';
+import { isAnyEditorOpenedInWindow } from '../../selectors/pages';
 import { getCurrentSessionId } from '../../selectors/sessions';
 
 import createInterval from '../../../common/utils/interval';
@@ -54,7 +54,7 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
   const health = getHealthMap(state);
   if (
     getIsCodeEditorOpened(state)
-    || isAnyEditorOpened(state)
+    || isAnyEditorOpenedInWindow(state)
   ) {
     dispatch(addMessage(
       'global',
@@ -76,7 +76,7 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
     dispatch(addMessage(
       'global',
       'warning',
-      'One process of the application is oveloaded, cannot switch to play'
+      'One process of the application is overloaded, cannot switch to play'
       )
     );
   }

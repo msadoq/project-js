@@ -20,6 +20,9 @@ export const createDeepEqualSelector = createSelectorCreator(
 );
 
 // composed
+/**
+ * Retrieve The current focused window
+ */
 export const getFocusedWindow = createSelector(
   getWindows,
   getFocusedWindowId,
@@ -58,10 +61,25 @@ const getWindowsFocusedPageIds = createSelector(
       .map(w => w.focusedPage)
 );
 
-const getWindowsFocusedPage = createSelector(
+/**
+ * Retrieve all the focused pages, for each opened window
+ */
+export const getWindowsFocusedPage = createSelector(
   createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
   getPages,
   (pageIds, pages) => pageIds.filter(id => id in pages).map(id => pages[id])
+);
+
+/**
+ * Retrieve all the focused pages in the current focused window
+ */
+export const getFocusedWindowPages = createSelector(
+  getFocusedWindow,
+  getPages,
+  // for each page index, build a new object that will contains all the corresponding pages
+  (window, pages) => window.pages.reduce(
+    (o, key) => ({ ...o, [key]: pages[key] }), {}
+  )
 );
 
 const getWindowsVisibleViewIds = createSelector(

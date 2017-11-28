@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import { getPage, getPages, getPageViewsIds } from '../reducers/pages';
+import { getFocusedWindowPages } from '../selectors/windows';
 import { getViews } from '../reducers/views';
 import { getWindowFocusedPageId } from '../reducers/windows';
 
@@ -31,6 +32,11 @@ export const getPageHasUnsavedViews = createSelector(
 
 export const isAnyEditorOpened = createSelector(
   getPages,
+  pages => _.reduce((checksum, page) => checksum || (!page.panels.editorIsMinimized), false, pages)
+);
+
+export const isAnyEditorOpenedInWindow = createSelector(
+  getFocusedWindowPages,
   pages => _.reduce((checksum, page) => checksum || (!page.panels.editorIsMinimized), false, pages)
 );
 

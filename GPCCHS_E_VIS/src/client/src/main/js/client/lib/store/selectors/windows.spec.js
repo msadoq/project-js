@@ -6,6 +6,7 @@ import {
   getWindowPages,
   getWindowFocusedPageSelector,
   getWindowsVisibleViews,
+  getFocusedWindowPages,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -36,7 +37,6 @@ describe('store:window:selectors', () => {
       expect(getFocusedWindow(emptyState)).toBeUndefined();
     });
   });
-
   test('getWindowPages', () => {
     const state = {
       windows: {
@@ -59,7 +59,6 @@ describe('store:window:selectors', () => {
     ]);
     expect(getWindowPages(state, { windowId: 'unknownWindow' })).toEqual([]);
   });
-
   test('getWindowFocusedPageSelector', () => {
     const state = {
       windows: {
@@ -117,6 +116,28 @@ describe('store:window:selectors', () => {
         },
         views: {},
       })).toEqual([]);
+    });
+  });
+  describe('getFocusedWindowPages', () => {
+    const state = {
+      hsc: {
+        focusWindow: 'window1',
+      },
+      pages: {
+        10: { title: 'Page 10', views: [100, 200, 300], timebarUuid: 1000 },
+        20: { title: 'Page 20', views: [500], timebarUuid: 2000 },
+        30: { title: 'Page 30', views: [600] },
+      },
+      windows: {
+        window1: { title: 'foo', pages: ['10', '20'] },
+        window2: { title: 'bar', pages: ['30'] },
+      },
+    };
+    test('should returns focused views', () => {
+      expect(getFocusedWindowPages(state)).toEqual({
+        10: { title: 'Page 10', views: [100, 200, 300], timebarUuid: 1000 },
+        20: { title: 'Page 20', views: [500], timebarUuid: 2000 },
+      });
     });
   });
 });

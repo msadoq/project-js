@@ -1,219 +1,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { PropTypes } from 'react';
-import { Label, Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
+import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
 import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
 import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
 import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
-import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
+import TableGeneric from '../../../../../windowProcess/common/TableView';
 
 import styles from './OnboardAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
-
-const MESSAGE_IS_PLAYING_TIMEBAR = 'You cannot select an alarm when timebar is playing';
-const COLS = ['', 'timestamp', 'onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
-const PARAMETERS_COLS = ['', 'name', 'value'];
-
-const CollapseButton = ({ onClick, collapsed }) => (
-  <Label
-    title={collapsed ? 'Expand' : 'Collapse'}
-    onClick={(e) => {
-      e.stopPropagation();
-      onClick(e);
-    }}
-    className={classnames({
-      [styles.collapseButton]: true,
-    })}
-  >
-    <Glyphicon glyph={collapsed ? 'plus' : 'minus'} />
-  </Label>
-);
-CollapseButton.propTypes = {
-  onClick: PropTypes.func,
-  collapsed: PropTypes.bool,
-};
-CollapseButton.defaultProps = {
-  onClick: _.noop,
-  collapsed: false,
-};
-
-const Arrow = ({ mode }) => (
-  <Label
-    className={classnames({
-      [styles.sortArrow]: true,
-    })}
-  >
-    <Glyphicon glyph={mode === 'ASC' ? 'chevron-up' : 'chevron-down'} />
-  </Label>
-);
-Arrow.propTypes = {
-  mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
-};
-
-const Table = ({
-  rows, position, displayedRows, rowHeight,
-  selectedAlarms, expandedAlarms, hoveredParameter, isPlayingTimebar, sort,
-  onCollapse, onUncollapse, onClickAlarm, onMouseEnter, onMouseLeave, toggleSort,
-}) => (
-  <table>
-    <thead>
-      <tr
-        style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
-      >
-        {
-          COLS.map(col => (
-            <th
-              onClick={() => (
-                col !== '' && toggleSort(col)
-              )}
-              className={classnames({
-                [styles.header]: col !== '',
-              })}
-              key={col}
-            >
-              { sort.column === col && <Arrow mode={sort.mode} /> }
-              {col}
-            </th>
-          ))
-        }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        _.slice(position, displayedRows + position)(rows).map((line, i) => {
-          const data = line.data;
-          const key = i; // TODO replace 'i' by a better key
-          const columns = line.type === 'alarm' ? COLS : PARAMETERS_COLS;
-          if (line.type === 'alarm' || line.type === 'parameter') {
-            const isHovered = hoveredParameter.alarmOid === line.alarm.oid
-                           && hoveredParameter.parameterIndex === line.parameterIndex;
-            return (
-              <tr
-                title={isPlayingTimebar ? MESSAGE_IS_PLAYING_TIMEBAR : ''}
-                onClick={() => onClickAlarm(line.alarm)}
-                onMouseEnter={() => onMouseEnter(line)}
-                onMouseLeave={() => onMouseLeave(line)}
-                key={key}
-                className={classnames({
-                  [styles.notAllowed]: isPlayingTimebar,
-                  [styles.selectable]: line.alarm.ackState === REQUIRE_ACK && !isPlayingTimebar,
-                  [styles.hover]: isHovered,
-                  alarmChildren: line.type === 'parameter',
-                  alarm: line.type === 'alarm',
-                  selected: Boolean(selectedAlarms[line.alarm.oid]),
-                })}
-                style={{ width: '100%', height: `${rowHeight}px` }}
-              >
-                {
-                  columns.map((col, index) => (
-                    <td
-                      className={classnames({
-                        [styles.collapseColumn]: index === 0,
-                      })}
-                      key={col}
-                    >
-                      {
-                        index === 0 && line.type === 'alarm'
-                        && (expandedAlarms[line.alarm.oid] ? (
-                          <CollapseButton onClick={() => onCollapse(data.oid)} />
-                        ) : (
-                          <CollapseButton collapsed onClick={() => onUncollapse(data.oid)} />
-                        ))
-                      }
-                      {data[col]}
-                    </td>
-                  ))
-                }
-              </tr>
-            );
-          }
-          return (
-            <tr
-              title={isPlayingTimebar ? MESSAGE_IS_PLAYING_TIMEBAR : ''}
-              onClick={() => onClickAlarm(line.alarm)}
-              onMouseEnter={() => onMouseEnter(line)}
-              onMouseLeave={() => onMouseLeave(line)}
-              style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }}
-              className={classnames({
-                [styles.notAllowed]: isPlayingTimebar,
-                [styles.selectable]: line.alarm.ackState === REQUIRE_ACK && !isPlayingTimebar,
-                alarmChildren: true,
-                selected: Boolean(selectedAlarms[line.alarm.oid]),
-              })}
-              key={key}
-            >
-              {
-                line.type === 'parameter_header_title' ? (
-                  PARAMETERS_COLS.map((col, index) => (
-                    <th
-                      className={classnames({
-                        [styles.collapseColumn]: index === 0,
-                      })}
-                      key={col}
-                    >
-                      {col}
-                    </th>
-                  ))
-                ) : [
-                  <th
-                    key="1"
-                    className={classnames({
-                      [styles.collapseColumn]: true,
-                    })}
-                  />,
-                  <th
-                    key="2"
-                    style={{ fontStyle: 'italic' }}
-                    colSpan={PARAMETERS_COLS.length - 1}
-                  >
-                    PARAMETERS
-                  </th>,
-                ]
-              }
-            </tr>
-          );
-        })
-      }
-    </tbody>
-  </table>
-);
-
-Table.propTypes = {
-  hoveredParameter: PropTypes.shape({
-    alarmOid: PropTypes.string,
-    parametedIndex: PropTypes.number,
-  }),
-  onMouseEnter: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
-  onCollapse: PropTypes.func.isRequired,
-  onUncollapse: PropTypes.func.isRequired,
-  onClickAlarm: PropTypes.func.isRequired,
-  toggleSort: PropTypes.func.isRequired,
-  selectedAlarms: PropTypes.shape({}).isRequired,
-  expandedAlarms: PropTypes.shape({}).isRequired,
-  position: PropTypes.number,
-  rows: PropTypes.arrayOf(PropTypes.shape({
-    data: PropTypes.shape({}),
-    type: PropTypes.string,
-  })).isRequired,
-  sort: PropTypes.shape({
-    column: PropTypes.string.isRequired,
-    mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
-  }).isRequired,
-  rowHeight: PropTypes.number.isRequired,
-  displayedRows: PropTypes.number.isRequired,
-  isPlayingTimebar: PropTypes.bool.isRequired,
-};
-Table.defaultProps = {
-  position: 0,
-  hoveredParameter: {},
-};
+const COLS = ['timestamp', 'onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
+const PARAMETERS_COLS = ['name', 'value'];
 
 const initialState = {
   position: 0,
-  hoveredParameter: undefined,
+  hoveredParameter: {},
 };
 
 class TableView extends React.Component {
@@ -234,7 +37,7 @@ class TableView extends React.Component {
     timeline: PropTypes.string.isRequired,
     indexedRows: PropTypes.shape({}).isRequired,
     rows: PropTypes.arrayOf(PropTypes.shape({
-      data: PropTypes.shape({}),
+      data: PropTypes.any,
       type: PropTypes.string,
     })).isRequired,
     containerWidth: PropTypes.number.isRequired,
@@ -326,21 +129,21 @@ class TableView extends React.Component {
 
   getNbSelectedAlarms = () => _.size(this.props.selectedAlarms)
 
-  hoverParameter = (line) => {
-    if (line.type === 'parameter') {
+  hoverParameter = (row) => {
+    if (row.type === 'subrow') {
       this.setState(_.set('hoveredParameter', {
-        alarmOid: line.alarm.oid,
-        parameterIndex: line.parameterIndex,
+        alarmOid: row.mainRow.data.oid,
+        parameterIndex: row.subRowIndex,
       }));
     }
   }
 
   unhoverParameter = () => {
-    this.setState(_.unset('hoveredParameter'));
+    this.setState(_.set('hoveredParameter', {}));
   }
 
-  toggleAlarmSelection = (alarm) => {
-    const { oid, ackState } = alarm;
+  toggleAlarmSelection = (row) => {
+    const { oid, ackState } = row.mainRow.data;
     if (ackState === REQUIRE_ACK && !this.props.isPlayingTimebar) {
       this.props.toggleSelection(oid);
     }
@@ -351,32 +154,40 @@ class TableView extends React.Component {
   }
 
   render() {
+    const { selectedAlarms, expandedAlarms } = this.props;
     const style = {
       height: this.props.containerHeight,
       width: this.props.containerWidth,
     };
     return (
       <div
-        className={classnames('AlarmView', styles.container)}
+        className={classnames('TableView', styles.container)}
         onContextMenu={this.onAlarmContextMenu}
         style={style}
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
-        <Table
+        <TableGeneric
+          cols={COLS}
+          subCols={PARAMETERS_COLS}
           sort={this.props.sort}
           toggleSort={this.props.toggleSort}
-          isPlayingTimebar={this.props.isPlayingTimebar}
+          disableSelection={this.props.isPlayingTimebar}
           onMouseEnter={this.hoverParameter}
           onMouseLeave={this.unhoverParameter}
-          hoveredParameter={this.state.hoveredParameter}
-          onCollapse={this.props.collapse}
-          onUncollapse={this.props.uncollapse}
-          onClickAlarm={this.toggleAlarmSelection}
-          selectedAlarms={this.props.selectedAlarms}
-          expandedAlarms={this.props.expandedAlarms}
+          onCollapse={row => this.props.collapse(row.mainRow.data.oid)}
+          onUncollapse={row => this.props.uncollapse(row.mainRow.data.oid)}
+          onClickRow={this.toggleAlarmSelection}
+          getIsSelectable={row => row.mainRow.data.ackState === REQUIRE_ACK}
+          getIsSelected={row => Boolean(selectedAlarms[row.mainRow.data.oid])}
+          // getIsHovered={row => row.mainRow.data.oid === this.state.hoveredAlarm}
+          getIsHovered={row => (
+            this.state.hoveredParameter.alarmOid === row.mainRow.data.oid
+            && this.state.hoveredParameter.parameterIndex === row.subRowIndex
+          )}
+          getIsExpanded={row => Boolean(expandedAlarms[row.mainRow.data.oid])}
           rowHeight={this.props.rowHeight}
           position={this.state.position}
-          displayedRows={this.getNbDisplayedElems()}
+          nbDisplayedRows={this.getNbDisplayedElems()}
           rows={this.props.rows}
         />
       </div>

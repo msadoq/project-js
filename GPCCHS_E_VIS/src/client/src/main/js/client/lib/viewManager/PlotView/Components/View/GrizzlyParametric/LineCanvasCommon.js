@@ -225,7 +225,7 @@ export const drawLine = (perfOutput,
       return;
     }
 
-    stoppedCurrent = line.stopInstruction(packet) || false;
+    stoppedCurrent = line.stopInstruction ? (line.stopInstruction(packet) || false) : false;
     currentY = yScale(line.yAccessor ? line.yAccessor(packet) : packet.value);
     currentX = xScale(line.xAccessor ? line.xAccessor(packet) : packet.x);
 

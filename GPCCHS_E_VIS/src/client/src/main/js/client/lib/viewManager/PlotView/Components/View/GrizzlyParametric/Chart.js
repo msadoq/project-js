@@ -133,47 +133,34 @@ export default class Chart extends React.Component {
   onWheel = (e) => {
     e.preventDefault();
     const { allowXZoom, allowYZoom } = this.props;
-    const { zoomLevels, ctrlPressed } = this.state;
+    const { zoomLevels } = this.state;
 
-    if (ctrlPressed) {
-      const hoveredAxis = this.wichAxisIsHovered(e);
-      const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
-      if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
-        const zoomLevel = _get(zoomLevels, hoveredAxisId, 1);
-        const newZoomLevels = {
-          ...zoomLevels,
-          [hoveredAxisId]: zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1),
-        };
-        this.setState({
-          zoomLevels: newZoomLevels,
-        });
-        this.dispatchOnZoomOrPan();
-      }
+    const hoveredAxis = this.wichAxisIsHovered(e);
+    const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
+    if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
+      const zoomLevel = _get(zoomLevels, hoveredAxisId, 1);
+      const newZoomLevels = {
+        ...zoomLevels,
+        [hoveredAxisId]: zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1),
+      };
+      this.setState({
+        zoomLevels: newZoomLevels,
+      });
+      this.dispatchOnZoomOrPan();
     }
   };
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowXZoom, allowYZoom, allowLasso } = this.props;
-    const { pans, ctrlPressed, shiftPressed } = this.state;
+    const { allowLasso } = this.props;
+    const { shiftPressed } = this.state;
     if (!this.onMouseMoveThrottle) {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
     const hoveredAxis = this.wichAxisIsHovered(e);
     const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
-    const hoveredAxisType = hoveredAxis ? hoveredAxis[2] : null;
-    if (ctrlPressed && hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
-      const pan = _get(pans, hoveredAxisId, 0);
-      this.setState({
-        mouseMoveCursorOriginY: e.pageY,
-        mouseMoveCursorOriginX: e.pageX,
-        panAxisId: hoveredAxisId,
-        panAxisType: hoveredAxisType,
-        panOrigin: pan,
-      });
-      document.addEventListener('mousemove', this.onMouseMoveThrottle);
-      document.addEventListener('mouseup', this.onMouseUp);
-    } else if (shiftPressed && allowLasso && !hoveredAxisId) {
+
+    if (shiftPressed && allowLasso && !hoveredAxisId) {
       this.setState({
         mouseMoveCursorOriginX: e.pageX,
         mouseMoveCursorOriginY: e.pageY,
@@ -191,25 +178,10 @@ export default class Chart extends React.Component {
     const {
       mouseMoveCursorOriginX,
       mouseMoveCursorOriginY,
-      panAxisId,
-      panAxisType,
-      pans,
-      panOrigin,
-      zoomLevels,
       lassoing,
     } = this.state;
-    if (panAxisId) {
-      const axisZoomLevel = _get(zoomLevels, panAxisId, 1);
-      const newPans = {
-        ...pans,
-        [panAxisId]: panAxisType === 'X' ?
-          panOrigin + ((e.pageX - mouseMoveCursorOriginX) / axisZoomLevel) :
-          panOrigin + ((mouseMoveCursorOriginY - e.pageY) / axisZoomLevel),
-      };
-      this.setState({
-        pans: newPans,
-      });
-    } else if (lassoing) {
+
+    if (lassoing) {
       this.setState({
         lassoX: e.pageX - mouseMoveCursorOriginX,
         lassoY: e.pageY - mouseMoveCursorOriginY,
@@ -283,14 +255,6 @@ export default class Chart extends React.Component {
         panning: false,
         lassoX: 0,
         lassoY: 0,
-      });
-      this.dispatchOnZoomOrPan();
-    } else {
-      this.setState({
-        panAxisId: null,
-        panOrigin: null,
-        mouseMoveCursorOriginX: null,
-        mouseMoveCursorOriginY: null,
       });
       this.dispatchOnZoomOrPan();
     }
@@ -374,22 +338,17 @@ export default class Chart extends React.Component {
    */
   getLabelPosition = axisId => Object.values(this.labelsPosition || {})
     .filter(lp => lp.concernedAxes.includes(axisId));
-  dispatchOnZoomOrPan = () => {
-    this.props.zoomPanListener();
-    _debounce(() => {
-      const event = {};
-      _each((line) => {
-        event[line.id] = {
-          width: this.chartWidth,
-          height: this.chartHeight,
-          xExtents: line.xAxis.calculatedExtents,
-          yExtents: line.yAxis.calculatedExtents,
-        };
-      }, this.linesUniq);
 
-      this.props.linesListener(event);
-    }, Chart.DEBOUNCE_DELAY);
-  };
+  setPan = (axisId, pan) => {
+    this.setState({
+      pans: {
+        ...this.state.pans,
+        [axisId]: pan,
+      },
+    });
+    this.dispatchOnZoomOrPan();
+  }
+
   /**
    * @param axis
    * @param pairLines
@@ -610,6 +569,23 @@ export default class Chart extends React.Component {
     this.dispatchOnZoomOrPan();
   };
 
+  dispatchOnZoomOrPan = () => {
+    this.props.zoomPanListener();
+    _debounce(() => {
+      const event = {};
+      _each((line) => {
+        event[line.id] = {
+          width: this.chartWidth,
+          height: this.chartHeight,
+          xExtents: line.xAxis.calculatedExtents,
+          yExtents: line.yAxis.calculatedExtents,
+        };
+      }, this.linesUniq);
+
+      this.props.linesListener(event);
+    }, Chart.DEBOUNCE_DELAY);
+  };
+
   render() {
     const {
       height,
@@ -631,7 +607,6 @@ export default class Chart extends React.Component {
     } = this.props;
 
     const {
-      ctrlPressed,
       lassoX,
       lassoY,
       shiftPressed,
@@ -825,7 +800,8 @@ export default class Chart extends React.Component {
         }
         {
           <Zones
-            ctrlPressed={ctrlPressed}
+            allowXPan={allowXPan}
+            allowYPan={allowYPan}
             shiftPressed={shiftPressed}
             lassoX={lassoX}
             lassoY={lassoY}
@@ -843,6 +819,9 @@ export default class Chart extends React.Component {
             height={height}
             width={width}
             divStyle={this.divStyle}
+            setPan={this.setPan}
+            pans={this.state.pans}
+            zoomLevels={this.state.zoomLevels}
           />
         }
       </div>

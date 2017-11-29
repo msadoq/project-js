@@ -41,6 +41,9 @@ jest.mock('../../../serverProcess/ipc', () => ({
   },
 }));
 
+
+let state = { hsc: { focusWindow: 'w1' }, windows: { w1: { pages: ['p1'] } }, health: {}, pages: { p1: { panels: { editorIsMinimized: false } } } };
+
 describe('store:middlewares:player', () => {
   jest.useFakeTimers();
   const middlewares = [thunk, makePlayerMiddleware()];
@@ -53,7 +56,12 @@ describe('store:middlewares:player', () => {
       expect(store.getActions()).toMatchSnapshot();
     });
     test('cannot play if an editor is opened', () => {
-      const state = { health: {}, pages: { p1: { panels: { editorIsMinimized: false } } } };
+      const store = mockStore(state);
+      store.dispatch(play());
+      expect(store.getActions()).toMatchSnapshot();
+    });
+    test('cannot play if no page has a focus', () => {
+      state = { ...state, hsc: {} };
       const store = mockStore(state);
       store.dispatch(play());
       expect(store.getActions()).toMatchSnapshot();
@@ -110,17 +118,17 @@ describe('store:middlewares:player', () => {
   });
 
   describe('when focus a page', () => {
-    const state = {
+    const state2 = {
       hsc: { playingTimebarId: 'tb1' },
       pages: { p1: { timebarUuid: 'tb1' }, p2: { timebarUuid: 'tb2' } },
     };
     test('dispatch a HSC_PAUSE action if new page has another timebar', () => {
-      const store = mockStore(state);
+      const store = mockStore(state2);
       store.dispatch(focusPage('p2'));
       expect(store.getActions()).toMatchSnapshot();
     });
     test('do nothing if new page has same timebar', () => {
-      const store = mockStore(state);
+      const store = mockStore(state2);
       store.dispatch(focusPage('p1'));
       expect(store.getActions()).toMatchSnapshot();
     });

@@ -30,7 +30,7 @@ Array [
       "containerId": "global",
       "messages": Array [
         Object {
-          "content": "One process of the application is oveloaded, cannot switch to play",
+          "content": "One process of the application is overloaded, cannot switch to play",
         },
       ],
       "type": "warning",
@@ -56,6 +56,14 @@ Array [
       "type": "warning",
     },
     "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause cannot play if no page has a focus 1`] = `
+Array [
+  Object {
+    "type": "HSC_PLAY",
   },
 ]
 `;

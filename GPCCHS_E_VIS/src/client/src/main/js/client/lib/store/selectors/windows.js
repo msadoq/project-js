@@ -77,7 +77,7 @@ export const getFocusedWindowPages = createSelector(
   getFocusedWindow,
   getPages,
   // for each page index, build a new object that will contains all the corresponding pages
-  (window, pages) => window.pages.reduce(
+  (window, pages) => _get(window, 'pages', []).reduce(
     (o, key) => ({ ...o, [key]: pages[key] }), {}
   )
 );

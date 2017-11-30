@@ -4,6 +4,7 @@ import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
+const { string, arrayOf, oneOfType, shape, func, bool, number } = PropTypes;
 const emptyArray = [];
 
 /*
@@ -12,36 +13,27 @@ const emptyArray = [];
 */
 export default class EntryPointDetails extends React.Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({
-      color: PropTypes.string,
-      id: PropTypes.string,
-      kind: PropTypes.string,
-      offset: PropTypes.number,
-      sessionId: PropTypes.number,
-      timelineUuid: PropTypes.string,
-    })).isRequired,
-    entryPoint: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      connectedData: PropTypes.shape({
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
+    viewId: string.isRequired,
+    entryPoint: shape({
+      id: string,
+      name: string,
+      connectedData: shape({
+        digits: number,
+        domain: string,
+        filter: arrayOf(shape({
+          field: string,
+          operand: string,
+          operator: string,
         })),
       }),
     }).isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
-    panels: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.bool,
+    updateEntryPoint: func.isRequired,
+    panels: oneOfType([
+      arrayOf(string),
+      bool,
     ]).isRequired,
-    updateViewSubPanels: PropTypes.func.isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  }
+    updateViewSubPanels: func.isRequired,
+  };
 
   static defaultProps = {
     panels: [],
@@ -68,9 +60,7 @@ export default class EntryPointDetails extends React.Component {
     const {
       entryPoint,
       viewId,
-      timelines,
       panels,
-      domains,
     } = this.props;
 
     return (
@@ -97,8 +87,6 @@ export default class EntryPointDetails extends React.Component {
           header="Connected data"
         >
           {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedData
-            timelines={timelines}
-            domains={domains}
             form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}

@@ -9,6 +9,8 @@ import { reduxForm, formValueSelector } from 'redux-form';
 import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
+const { string, func, bool } = PropTypes;
+
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
   Dans le cas de l'éditeur de la Plot, il y en a 2 (en X et Y).
@@ -17,6 +19,21 @@ import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
   https://github.com/JedWatson/react-select
 */
 class EntryPointConnectedData extends Component {
+  propTypes = {
+    handleSubmit: func.isRequired,
+    pristine: bool.isRequired,
+    reset: func.isRequired,
+    submitting: bool.isRequired,
+    valid: bool.isRequired,
+    timeline: string,
+    domain: string,
+  };
+
+  defaultProps = {
+    timeline: null,
+    domain: null,
+  };
+
   componentDidMount() {
     setTimeout(this.props.reset, 0);
   }
@@ -27,9 +44,8 @@ class EntryPointConnectedData extends Component {
       reset,
       submitting,
       valid,
-      timelines,
-      domains,
       timeline,
+      domain,
     } = this.props;
 
     return (
@@ -49,31 +65,15 @@ class EntryPointConnectedData extends Component {
         />
         <br />
         <EntryPointConnectedDataFields
-          timelines={timelines}
-          domains={domains}
           timeline={timeline}
+          domain={domain}
         />
       </Form>
     );
   }
 }
 
-EntryPointConnectedData.propTypes = {
-  timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
-  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  valid: PropTypes.bool.isRequired,
-  timeline: PropTypes.string,
-};
-
-EntryPointConnectedData.defaultProps = {
-  timeline: null,
-};
-
-const requiredFields = [/* 'formula', 'domain', 'timeline' */];
+const requiredFields = [];
 const validate = (values = {}) => {
   const errors = {};
 
@@ -94,6 +94,7 @@ export default reduxForm({
       const selector = formValueSelector(props.form);
       return {
         timeline: selector(state, 'timeline') || _get(props, 'initialValues.timeline'),
+        domain: selector(state, 'domain') || _get(props, 'initialValues.domain'),
       };
     }
   )(EntryPointConnectedData)

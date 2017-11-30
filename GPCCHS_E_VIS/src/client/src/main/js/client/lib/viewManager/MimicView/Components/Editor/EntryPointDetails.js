@@ -6,6 +6,7 @@ import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 const { Panel } = Collapse;
+const { string, arrayOf, oneOfType, shape, func, bool, number } = PropTypes;
 const emptyArray = [];
 
 /*
@@ -14,40 +15,31 @@ const emptyArray = [];
 */
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({
-      color: PropTypes.string,
-      id: PropTypes.string,
-      kind: PropTypes.string,
-      offset: PropTypes.number,
-      sessionId: PropTypes.number,
-      timelineUuid: PropTypes.string,
-    })).isRequired,
-    panels: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.bool,
-    ]).isRequired,
-    entryPoint: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      connectedData: PropTypes.shape({
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
+    viewId: string.isRequired,
+    entryPoint: shape({
+      id: string,
+      name: string,
+      connectedData: shape({
+        digits: number,
+        domain: string,
+        filter: arrayOf(shape({
+          field: string,
+          operand: string,
+          operator: string,
         })),
       }),
     }).isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
-    updateViewSubPanels: PropTypes.func.isRequired,
-  }
+    updateEntryPoint: func.isRequired,
+    panels: oneOfType([
+      arrayOf(string),
+      bool,
+    ]).isRequired,
+    updateViewSubPanels: func.isRequired,
+  };
 
   static defaultProps = {
     panels: [],
-  }
+  };
 
   onChange = (openPanels) => {
     const {
@@ -56,7 +48,7 @@ export default class EntryPointDetails extends PureComponent {
       entryPoint,
     } = this.props;
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
-  }
+  };
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
@@ -64,23 +56,13 @@ export default class EntryPointDetails extends PureComponent {
       ...entryPoint,
       ...values,
     });
-  }
-
-  handleSubmitConnectedData = (values) => {
-    const { entryPoint, updateEntryPoint, viewId } = this.props;
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      connectedData: values,
-    });
-  }
+  };
 
   render() {
     const {
       entryPoint,
       viewId,
       panels,
-      timelines,
-      domains,
     } = this.props;
 
     return (
@@ -107,10 +89,8 @@ export default class EntryPointDetails extends PureComponent {
           header="Coordinates"
         >
           {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
-            domains={domains}
-            timelines={timelines}
             form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
-            onSubmit={this.handleSubmitConnectedData}
+            onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}
           />}
         </Panel>

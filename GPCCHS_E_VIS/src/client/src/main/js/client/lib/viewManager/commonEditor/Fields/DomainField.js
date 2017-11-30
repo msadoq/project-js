@@ -9,10 +9,12 @@ export default class DomainField extends PureComponent {
   static propTypes = {
     domains: domainsType.isRequired,
     domainName: string,
+    name: string,
   };
 
   static defaultProps = {
     domainName: null,
+    name: 'domain',
   };
 
   state = {
@@ -24,12 +26,12 @@ export default class DomainField extends PureComponent {
   };
 
   render() {
-    const { domains, domainName } = this.props;
+    const { domains, domainName, name } = this.props;
     const { domain } = this.state;
 
     return (
       <Field
-        name="domain"
+        name={name}
         component={ReactSelectField}
         onInputChange={this.newDomain}
         clearable

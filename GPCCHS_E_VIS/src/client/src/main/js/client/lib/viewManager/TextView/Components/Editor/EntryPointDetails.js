@@ -1,9 +1,11 @@
-import React, { PropTypes } from 'react';
-import Collapse, { Panel } from 'rc-collapse';
+import React, { PropTypes, PureComponent } from 'react';
+import Collapse from 'rc-collapse';
+
 import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
+const { Panel } = Collapse;
 const { string, arrayOf, oneOfType, shape, func, bool, number } = PropTypes;
 const emptyArray = [];
 
@@ -11,7 +13,7 @@ const emptyArray = [];
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
 */
-export default class EntryPointDetails extends React.Component {
+export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
     entryPoint: shape({

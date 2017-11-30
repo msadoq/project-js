@@ -1,9 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
-import _get from 'lodash/get';
 import {
   Form,
 } from 'react-bootstrap';
+import _get from 'lodash/get';
 import { connect } from 'react-redux';
 import { reduxForm, formValueSelector } from 'redux-form';
 import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
@@ -19,24 +19,10 @@ const { string, func, bool } = PropTypes;
   https://github.com/JedWatson/react-select
 */
 class EntryPointConnectedData extends Component {
-  propTypes = {
-    handleSubmit: func.isRequired,
-    pristine: bool.isRequired,
-    reset: func.isRequired,
-    submitting: bool.isRequired,
-    valid: bool.isRequired,
-    timeline: string,
-    domain: string,
-  };
-
-  defaultProps = {
-    timeline: null,
-    domain: null,
-  };
-
   componentDidMount() {
     setTimeout(this.props.reset, 0);
   }
+
   render() {
     const {
       handleSubmit,
@@ -72,6 +58,21 @@ class EntryPointConnectedData extends Component {
     );
   }
 }
+
+EntryPointConnectedData.propTypes = {
+  handleSubmit: func.isRequired,
+  pristine: bool.isRequired,
+  reset: func.isRequired,
+  submitting: bool.isRequired,
+  valid: bool.isRequired,
+  timeline: string,
+  domain: string,
+};
+
+EntryPointConnectedData.defaultProps = {
+  timeline: null,
+  domain: null,
+};
 
 const requiredFields = [];
 const validate = (values = {}) => {

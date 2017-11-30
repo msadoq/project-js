@@ -29,7 +29,6 @@ export default class EntryPointConnectedDataFields extends PureComponent {
   };
 
   render() {
-    // const EntryPointConnectedDataFields = (props) => {
     const { timeline, domain } = this.props;
     const { windowId } = this.context;
 

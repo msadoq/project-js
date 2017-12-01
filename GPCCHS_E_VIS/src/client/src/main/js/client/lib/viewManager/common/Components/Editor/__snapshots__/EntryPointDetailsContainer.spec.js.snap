@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: render 1`] = `
+<div
+  className="rc-collapse"
+  style={undefined}
+>
+  <div
+    className="rc-collapse-item"
+    id={undefined}
+    style={undefined}
+  >
+    <div
+      aria-expanded={false}
+      className="rc-collapse-header"
+      onClick={[Function]}
+      role="tab"
+    >
+      <i
+        className="arrow"
+      />
+      Name
+    </div>
+  </div>
+  <div
+    className="rc-collapse-item"
+    id={undefined}
+    style={undefined}
+  >
+    <div
+      aria-expanded={false}
+      className="rc-collapse-header"
+      onClick={[Function]}
+      role="tab"
+    >
+      <i
+        className="arrow"
+      />
+      Connected data
+    </div>
+  </div>
+  <div
+    className="rc-collapse-item"
+    id={undefined}
+    style={undefined}
+  >
+    <div
+      aria-expanded={false}
+      className="rc-collapse-header"
+      onClick={[Function]}
+      role="tab"
+    >
+      <i
+        className="arrow"
+      />
+      State colors
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddEntryPointWrapper :: render AddEntryPointWrapper :: render 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
+      Label
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <div
+        className=""
+      >
+        <input
+          className="form-control input-sm"
+          defaultValue=""
+          onChange={[Function]}
+          placeholder=""
+          type="text"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="ClearSubmitButtons root"
+  >
+    <div
+      className="btn-group"
+    >
+      <button
+        className="btn btn-success"
+        disabled={true}
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</form>
+`;

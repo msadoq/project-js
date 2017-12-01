@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EntryPointTree :: render EntryPointTree :: render 1`] = `
+<div
+  className="m0 alert alert-info"
+  role="alert"
+>
+  Nothing to display.
+</div>
+`;

@@ -2,13 +2,13 @@ import React, { PropTypes, Component } from 'react';
 import AddEntryPoint from './AddEntryPoint';
 
 const initialValues = { name: '' };
+const { string, func } = PropTypes;
 
 export default class AddEntryPointWrapper extends Component {
-
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    addEntryPoint: PropTypes.func.isRequired,
+    viewId: string.isRequired,
+    closeModal: func.isRequired,
+    addEntryPoint: func.isRequired,
   };
 
   willAddEntryPoint = (values) => {
@@ -19,7 +19,7 @@ export default class AddEntryPointWrapper extends Component {
     } = this.props;
     addEntryPoint(viewId, values);
     closeModal();
-  }
+  };
 
   render() {
     return (

@@ -264,7 +264,6 @@ export class GrizzlyPlotView extends PureComponent {
     viewId: string.isRequired,
     addEntryPoint: func.isRequired,
     entryPoints: shape({
-      name: string.isRequired,
       connectedData: shape({
         axisId: string,
         stringParameter: string,
@@ -274,7 +273,9 @@ export class GrizzlyPlotView extends PureComponent {
         xAxisId: string,
         YAxisId: string,
       }),
+      objectStyle: shape(),
       stateColors: object.isRequired,
+      parametric: bool.isRequired,
       obsolete: bool,
       nonsignificant: bool,
     }).isRequired,

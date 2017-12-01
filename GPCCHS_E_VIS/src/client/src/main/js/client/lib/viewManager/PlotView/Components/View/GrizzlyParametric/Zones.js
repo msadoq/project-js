@@ -1,9 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
+import _memoize from 'lodash/memoize';
+import _throttle from 'lodash/throttle';
+import _get from 'lodash/get';
 import styles from './GrizzlyChart.css';
 import { divStyleType } from './types';
 
-const { number, shape, bool, string, arrayOf } = PropTypes;
+const { number, shape, bool, string, arrayOf, func } = PropTypes;
 
 export default class Zones extends Component {
   static propTypes = {
@@ -19,7 +22,6 @@ export default class Zones extends Component {
     width: number.isRequired,
     yAxesInteractive: bool.isRequired,
     xAxesInteractive: bool.isRequired,
-    ctrlPressed: bool.isRequired,
     shiftPressed: bool.isRequired,
     lassoing: bool.isRequired,
     lassoX: number,
@@ -29,6 +31,11 @@ export default class Zones extends Component {
     yAxesAt: string.isRequired,
     xAxesAt: string.isRequired,
     divStyle: divStyleType.isRequired,
+    setPan: func.isRequired,
+    pans: shape().isRequired,
+    zoomLevels: shape().isRequired,
+    allowYPan: bool.isRequired,
+    allowXPan: bool.isRequired,
   };
 
   static defaultProps = {
@@ -37,6 +44,16 @@ export default class Zones extends Component {
     lassoX: 0,
     lassoY: 0,
   };
+
+  componentDidMount() {
+    this.addedListennersForAxes = [];
+    Object.keys(this.memoizedAxesRefs).forEach((key) => {
+      this.memoizedAxesRefs[key].addEventListener('touchstart', e => this.onTouchStart(e, key));
+      this.memoizedAxesRefs[key].addEventListener('touchend', this.onTouchEnd);
+      this.memoizedAxesRefs[key].addEventListener('mousedown', e => this.onMouseDown(e, key));
+      this.addedListennersForAxes.push(key);
+    });
+  }
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
@@ -57,6 +74,117 @@ export default class Zones extends Component {
     return shouldRender;
   }
 
+  componentDidUpdate() {
+    Object.keys(this.memoizedAxesRefs).forEach((key) => {
+      if (!this.addedListennersForAxes.find(axisId => axisId === key)) {
+        this.memoizedAxesRefs[key].addEventListener('touchstart', e => this.onTouchStart(e, key));
+        this.memoizedAxesRefs[key].addEventListener('touchend', this.onTouchEnd);
+        this.memoizedAxesRefs[key].addEventListener('mousedown', e => this.onMouseDown(e, key));
+        this.addedListennersForAxes.push(key);
+      }
+    });
+  }
+
+  onMouseDown = (e, axisId) => {
+    const { pans } = this.props;
+    this.setState({
+      mouseMoveCursorOriginY: e.clientY,
+      mouseMoveCursorOriginX: e.clientX,
+      startPan: pans[axisId] || 0,
+      panAxisId: axisId,
+    });
+    e.target.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseMove = (e) => {
+    const {
+      xAxes,
+      yAxes,
+      setPan,
+      zoomLevels,
+      allowYPan,
+      allowXPan,
+    } = this.props;
+    const { panAxisId } = this.state;
+    const axisZoomLevel = _get(zoomLevels, panAxisId, 1);
+
+    if (allowXPan && xAxes.find(axis => axis.id === panAxisId)) {
+      setPan(
+        panAxisId,
+        this.state.startPan + ((e.clientX - this.state.mouseMoveCursorOriginX) / axisZoomLevel)
+      );
+    } else if (allowYPan && yAxes.find(axis => axis.id === panAxisId)) {
+      setPan(
+        panAxisId,
+        this.state.startPan + ((this.state.mouseMoveCursorOriginY - e.clientY) / axisZoomLevel)
+      );
+    }
+  }
+
+  onMouseUp = (e) => {
+    this.setState({
+      mouseMoveCursorOriginY: null,
+      mouseMoveCursorOriginX: null,
+      startPan: null,
+      panAxisId: null,
+    });
+    e.target.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  onTouchStart = (e, axisId) => {
+    const { pans } = this.props;
+    this.setState({
+      mouseMoveCursorOriginY: e.touches[0].clientY,
+      mouseMoveCursorOriginX: e.touches[0].clientX,
+      startPan: pans[axisId] || 0,
+      panAxisId: axisId,
+    });
+    e.target.addEventListener('touchmove', this.onTouchMove);
+  }
+
+  onTouchMove = (e) => {
+    const {
+      xAxes,
+      yAxes,
+      setPan,
+      zoomLevels,
+      allowYPan,
+      allowXPan,
+    } = this.props;
+    const { panAxisId } = this.state;
+    const axisZoomLevel = _get(zoomLevels, panAxisId, 1);
+
+    if (allowXPan && xAxes.find(axis => axis.id === panAxisId)) {
+      setPan(
+        panAxisId,
+        this.state.startPan +
+          ((e.touches[0].clientX - this.state.mouseMoveCursorOriginX) / axisZoomLevel)
+      );
+    } else if (allowYPan && yAxes.find(axis => axis.id === panAxisId)) {
+      setPan(
+        panAxisId,
+        this.state.startPan +
+          ((this.state.mouseMoveCursorOriginY - e.touches[0].clientY) / axisZoomLevel)
+      );
+    }
+  }
+
+  onTouchEnd = (e) => {
+    this.setState({
+      mouseMoveCursorOriginY: null,
+      mouseMoveCursorOriginX: null,
+      startPan: 0,
+      panAxisId: null,
+    });
+    e.target.removeEventListener('touchmove', this.onTouchMove);
+  }
+
+  assignMemoizedAxisRef = _memoize(id =>
+    (el) => { this.memoizedAxesRefs[id] = el; }
+  )
+
   render() {
     const {
       width,
@@ -67,7 +195,6 @@ export default class Zones extends Component {
       xAxesAt,
       yAxisWidth,
       xAxisHeight,
-      ctrlPressed,
       shiftPressed,
       yAxesInteractive,
       xAxesInteractive,
@@ -78,14 +205,30 @@ export default class Zones extends Component {
       lassoOriginX,
       lassoOriginY,
     } = this.props;
+
+    if (!this.setPanThrottle) {
+      this.setPanThrottle = _throttle(this.props.setPan, 100);
+    }
+
+    if (!this.memoizedAxesRefs) {
+      this.memoizedAxesRefs = {};
+    }
+
+    yAxes.forEach((axis) => {
+      if (!this.memoizedAxesRefs[axis.id]) {
+        this.memoizedAxesRefs[axis.id] = this.assignMemoizedAxisRef(axis.id);
+      }
+    });
+
+    xAxes.forEach((axis) => {
+      if (!this.memoizedAxesRefs[axis.id]) {
+        this.memoizedAxesRefs[axis.id] = this.assignMemoizedAxisRef(axis.id);
+      }
+    });
+
     return (
       <div
-        className={classnames(
-          styles.Zones,
-          {
-            hidden: !ctrlPressed && !shiftPressed,
-          }
-        )}
+        className={styles.Zones}
         style={{
           width,
           height,
@@ -98,6 +241,7 @@ export default class Zones extends Component {
         {yAxesInteractive && !shiftPressed && yAxesAt === 'left' && yAxes.map((axis, index) =>
           <div
             className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
+            ref={this.memoizedAxesRefs[axis.id]}
             key={axis.id}
             style={{
               width: yAxisWidth,
@@ -111,6 +255,7 @@ export default class Zones extends Component {
           <div
             className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
             key={axis.id}
+            ref={this.memoizedAxesRefs[axis.id]}
             style={{
               width: yAxisWidth,
               height: height - (xAxes.length * xAxisHeight),
@@ -123,6 +268,7 @@ export default class Zones extends Component {
           <div
             className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
             key={axis.id}
+            ref={this.memoizedAxesRefs[axis.id]}
             style={{
               height: xAxisHeight,
               width: width - ((xAxes.length - 1) * yAxisWidth),
@@ -135,6 +281,7 @@ export default class Zones extends Component {
           <div
             className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
             key={axis.id}
+            ref={this.memoizedAxesRefs[axis.id]}
             style={{
               height: xAxisHeight,
               width: width - ((xAxes.length - 1) * yAxisWidth),

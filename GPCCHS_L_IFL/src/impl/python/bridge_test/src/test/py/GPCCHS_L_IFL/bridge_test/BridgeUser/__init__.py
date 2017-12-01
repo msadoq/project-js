@@ -4,7 +4,7 @@
 """!
 Project   : ISIS
 Component : GPCCHS_L_IFL
-@file     : ConverterUser.py
+@file     : BridgeUser.py
 @author   : isis
 @date     : 
 @brief    : TODO Enter documentation in RSA model

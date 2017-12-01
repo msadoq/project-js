@@ -21,7 +21,7 @@ Component : GPCCHS_L_IFL
 # ====================================================================
 
 
-from GPCCHS_L_IFL.converter_test.ConverterUser.converterUser import ConverterUser
+from GPCCHS_L_IFL.bridge_test.BridgeUser.bridgeUser import BridgeUser
 from GPCC.ccsds_mal.interactorFactory import InteractorFactory
 from GPCC.ccsds_mal.serviceDefinition import ServiceDefinition
 from GPCC.container.isisModuleActor import IsisModuleActor
@@ -30,12 +30,7 @@ from GPCC.ccsds_mal.uOCTET import UOCTET
 from GPCC.ccsds_mal.uSHORT import USHORT
 from GPCC.ccsds_mal.uLONG import ULONG
 # Start of user code ImportsZone
-from GPCC.ccsds_mal.sTRING import STRING
-from GPCC.ccsds_mal.uINTEGER import UINTEGER
-from GPCC.container.pipeNodeCmd import PipeNodeCmd
-from GPCC.container.pipeMessage import PipeMessage
-from GPCC.container.interPipeProtocolManager import InterPipeProtocolManager
-from GPCC.ccsds_mal.attributeType import AttributeType
+
 # End of user code
 
 class TestActivator(IsisModuleActor):
@@ -57,7 +52,7 @@ class TestActivator(IsisModuleActor):
         IsisModuleActor.__init__(self, context, parentPipe)
         
         
-        self._converterUser = None
+        self._bridgeUser = None
         
 
         
@@ -70,7 +65,7 @@ class TestActivator(IsisModuleActor):
         @brief : Destructor of TestActivator
         """
         # generated
-        del self._converterUser
+        del self._bridgeUser
         
         # Start of user code Destructor
 
@@ -141,7 +136,8 @@ class TestActivator(IsisModuleActor):
 
 
         # Start of user code onActivate
-        self.createConverterUser()
+        # Create the main actor of the test, which will also activate it
+        self.createBridgeUser()
         # End of user code
 
     def onPropertyUpdate(self, propertyType, propertyName, propertyValue):
@@ -156,7 +152,7 @@ class TestActivator(IsisModuleActor):
         IsisModuleActor.onPropertyUpdate(self, propertyType, propertyName, propertyValue)
 
         # Start of user code onPropertyUpdate
-        
+
         # End of user code
 
     def postInit(self):
@@ -170,26 +166,26 @@ class TestActivator(IsisModuleActor):
         # End of user code
 
 
-    def createConverterUser(self):
+    def createBridgeUser(self):
         """!
-        @brief : createConverterUser : Used to create every instance of ConverterUser managed by this BundleActivator
+        @brief : createBridgeUser : Used to create every instance of BridgeUser managed by this BundleActivator
         """
         # generated
         args = None
         actorID = ULONG(0)
-        # Start of user code argsCreateConverterUser
+        # Start of user code argsCreateBridgeUser
             
         # End of user code
-        self.createActor( ConverterUser.launchActor, args, "ConverterUser", actorID )
+        self.createActor( BridgeUser.launchActor, args, "BridgeUser", actorID )
 
-        # Start of user code createConverterUser
-
+        # Start of user code createBridgeUser
+            
         # End of user code
     
 
     
     
     # Start of user code ProtectedOperZone
-
+    
     # End of user code
 

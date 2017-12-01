@@ -3,6 +3,6 @@
     <feature name="TEST">
 <!-- Start of user code feature -->
 <!-- End of user code -->    
-        <bundle>fr.cnes.lpisis.gpcc.python/gpcchs_l_ifl_converter_test/gpcchs_l_ifl_converter_test-${gpcchs.version}</bundle> 
+        <bundle>fr.cnes.lpisis.gpcc.python/gpcchs_l_ifl_bridge_test/gpcchs_l_ifl_bridge_test-${gpcchs.version}</bundle> 
     </feature>
 </features>

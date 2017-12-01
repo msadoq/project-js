@@ -4,7 +4,7 @@
 """!
 Project   : ISIS
 Component : GPCCHS_L_IFL
-@file     : ConverterUser.py
+@file     : BridgeUser.py
 @author   : isis
 @date     : 
 @brief    : TODO Enter documentation in RSA model
@@ -28,7 +28,7 @@ from GPCC.ccsds_mal.interactorFactory import InteractorFactory
 from GPCC.container.isisActor import IsisActor
 from GPCC.container.pipeNodeType import PipeNodeType
 # Start of user code ImportsZone
-from GPCCHS_L_IFL.converter.converter import Converter
+from GPCCHS_L_IFL.bridge_test.BridgeUser.bridgeServer import BridgeServer
 from GPCC.core.zmq import ZMQ
 from GPCC.communicationLibrary.isisSocket import IsisSocket
 from GPCC.core.messageFrame import MessageFrame
@@ -38,9 +38,9 @@ from GPCC.ccsds_mal.uINTEGER import UINTEGER
 from GPCC.core.propertyType import PropertyType
 # End of user code
 
-class ConverterUser (IsisActor) :
+class BridgeUser (IsisActor) :
     """!
-    @brief: GPCCHS_L_IFL.ConverterUser : TODO Enter documentation in RSA model
+    @brief: GPCCHS_L_IFL.BridgeUser : TODO Enter documentation in RSA model
     """
 
     # Start of user code ProtectedAttrZone
@@ -49,7 +49,7 @@ class ConverterUser (IsisActor) :
 
     def __init__(self,nodeType, parentPipe):
         """!
-        @brief : Constructor of ConverterUser
+        @brief : Constructor of BridgeUser
         @param : nodeType (container::PipeNodeType) The node type 
         @param : parentPipe (container::IsisPipe) The parent pipe 
         """
@@ -57,12 +57,12 @@ class ConverterUser (IsisActor) :
         IsisActor.__init__(self,nodeType = nodeType, parentPipe = parentPipe)
         self._interactorFactory = MALInteractorFactory()
         # Start of user code Constructor
-        self._converter = None
+        self._bridge = None
         # End of user code
 
     def __del__(self):
         """!
-        @brief : Destructor of ConverterUser
+        @brief : Destructor of BridgeUser
         """
         # generated
         
@@ -81,7 +81,7 @@ class ConverterUser (IsisActor) :
         """
 
         # Create the actor instance
-        actor = ConverterUser(PipeNodeType.NORMAL_NODE, parentPipe)
+        actor = BridgeUser(PipeNodeType.NORMAL_NODE, parentPipe)
         
         # Start of user code launchActor
 
@@ -93,7 +93,7 @@ class ConverterUser (IsisActor) :
 
     def doInit(self):
         """!
-        @brief : ConverterUser initialization
+        @brief : BridgeUser initialization
         """
         # generated
 
@@ -103,19 +103,18 @@ class ConverterUser (IsisActor) :
 
     def onStop(self, stopCause):
         """!
-        @brief ConverterUser.onStop
+        @brief BridgeUser.onStop
                Method called on stop
         @param ActorStopCause : stopCause, Stop cause
         """
         # Start of user code onStop
         # optional injection point, empty by default
-        print("DEBUG ConverterUser onStop")
         return
         # End of user code
     
     def onExit(self) :
         """!
-        @brief : ConverterUser initialization
+        @brief : BridgeUser initialization
         """
         # generated
         # Start of user code onExit
@@ -124,15 +123,16 @@ class ConverterUser (IsisActor) :
     
     def onActivate(self) :
         """!
-        @brief : ConverterUser initialisation
+        @brief : BridgeUser initialisation
         """
+        print("DEBUG BridgeUser : onActivate start")
         # Start of user code onActivate
         actorContext = self.getContext()
         
         # Initialize the time properties of this actor
         sessionId = self.setTimeProperties()
         
-        # Create and initialize the converter thread
+        # Define the URL for 0MQ communications
         userRespUrl = "ipc://response.ipc"
         userReqUrl = "ipc://request.ipc"
        
@@ -142,18 +142,18 @@ class ConverterUser (IsisActor) :
         reqChannel.bind(userReqUrl)
         respChannel.bind(userRespUrl)
 
-        # Create converter and invert push/pull url to make the communication work
-        self._converter = Converter(pullUrl=userReqUrl,actorContext=actorContext)
-
-        # Start the converter thread
-        self._converter.start()
+        # Create and start the server thread
+        server = BridgeServer(actorContext,userReqUrl,userRespUrl)
+        server.start()
+        
+        # Send a conversion request
         
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimestampFromMissionToPosix".encode()))
-        # Add the second frame : the conversion publication result URL 
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = userRespUrl.encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF001".encode()))
         # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
         msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
         # Add the fourth frame : the list of conversions to do
@@ -161,24 +161,28 @@ class ConverterUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("DEBUG ConverterUser : Message sent, wait response")
+        print("DEBUG BridgeUser : Message sent, wait response")
         response = respChannel.receiveMessage(0)
-        print("DEBUG ConverterUser : Response received, frame count is: ", repr(response.getFrameCount()))
+        print("DEBUG BridgeUser : Response received, frame count is: ", repr(response.getFrameCount()))
         
         # Drop the two first frames of the response, because they are useless
         response.popFrame(1,1)
         response.popFrame(1,1)
-        # Read the result in the third one
+        # Read the result from the third frame
         frame = response.popFrame(1,1)
-        print("DEBUG ConverterUser : Received result are: ", repr(frame.getRaw().decode()))
+        print("DEBUG BridgeUser : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("DEBUG BridgeUser : Received result are: ", repr(frame.getRaw().decode()))
         
         # Create the STOP message
         msgToSend = IsisMessage(1, 1)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "STOP".encode()))
-        print("DEBUG ConverterUser : Sent stop message")
+        print("DEBUG BridgeUser : Sent stop message")
         reqChannel.sendMessage(msgToSend, 0)
-        print("DEBUG ConverterUser : Stop message sent")
+        print("DEBUG BridgeUser : Stop message sent")
+        
+        print("DEBUG BridgeUser : onActivate ends")
         # End of user code
     
 
@@ -195,7 +199,7 @@ class ConverterUser (IsisActor) :
 
     def postInit(self):
         """!
-        @brief : ConverterUser postinitialization
+        @brief : BridgeUser postinitialization
         """
         # generated
 
@@ -230,6 +234,5 @@ class ConverterUser (IsisActor) :
 
         # Return the configured session ID
         return sessionId
-
     # End of user code
 

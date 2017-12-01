@@ -13,7 +13,7 @@
     <relativePath/>
   </parent>
   <modules>
-    <module>converter_test</module>
+    <module>bridge_test</module>
   </modules>
   <build>
     <plugins>

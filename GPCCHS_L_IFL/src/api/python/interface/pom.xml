@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.cnes.lpisis.gpcc.python</groupId>
-            <artifactId>gpcchs_l_ifl_converter</artifactId>
+            <artifactId>gpcchs_l_ifl_bridge</artifactId>
             <type>isis-python-module-dependency</type>
             <classifier>unix_dev</classifier>
         </dependency>

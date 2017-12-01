@@ -13,7 +13,7 @@
     <relativePath/>
   </parent>
   <modules>
-    <module>converter</module>
+    <module>bridge</module>
     <module>interface</module>
   </modules>
   <build>

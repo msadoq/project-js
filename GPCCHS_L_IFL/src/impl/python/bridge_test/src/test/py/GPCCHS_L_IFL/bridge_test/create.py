@@ -21,7 +21,7 @@ Component : GPCCHS_L_IFL
 # ====================================================================
 
 
-from GPCCHS_L_IFL.converter_test.TestActivator.testActivator import TestActivator
+from GPCCHS_L_IFL.bridge_test.TestActivator.testActivator import TestActivator
 
 def create(ctx, parentPipe, args=None):
     """!

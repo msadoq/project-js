@@ -2,7 +2,7 @@
     <!-- Produced by Acceleo Python Generator 1.1.2-R8 -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.cnes.lpisis.gpcc.python</groupId>
-    <artifactId>gpcchs_l_ifl_converter_test</artifactId>
+    <artifactId>gpcchs_l_ifl_bridge_test</artifactId>
     <packaging>isis-python-bundle</packaging>
     <version>2.0.0-R10S1-SNAPSHOT</version>
 
@@ -20,7 +20,7 @@
     <dependencies>
       <dependency>
         <groupId>fr.cnes.lpisis.gpcc.python</groupId>
-        <artifactId>gpcchs_l_ifl_converter</artifactId>
+        <artifactId>gpcchs_l_ifl_bridge</artifactId>
         <type>isis-python-module-dependency</type>
         <classifier>unix_dev</classifier>
       </dependency>

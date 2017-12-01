@@ -4,8 +4,7 @@ import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
-import TextAddEntryPointContainer from '../../viewManager/common/Components/Editor/AddEntryPointContainer';
-import MimicAddEntryPointContainer from '../../viewManager/MimicView/Components/Editor/AddEntryPointContainer';
+import AddEntryPointContainer from '../../viewManager/common/Components/Editor/AddEntryPointContainer';
 import GmaAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModalContainer';
 import ObaAckModalContainer from '../../viewManager/OnboardAlarmView/Components/View/AckModalContainer';
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
@@ -99,7 +98,7 @@ const ModalGeneric = (props) => {
         case 'TextView':
         case 'HistoryView':
           child = (
-            <TextAddEntryPointContainer
+            <AddEntryPointContainer
               {...props.props}
               closeModal={props.onClose}
             />);
@@ -113,7 +112,7 @@ const ModalGeneric = (props) => {
           break;
         case 'MimicView':
           child = (
-            <MimicAddEntryPointContainer
+            <AddEntryPointContainer
               {...props.props}
               closeModal={props.onClose}
             />);

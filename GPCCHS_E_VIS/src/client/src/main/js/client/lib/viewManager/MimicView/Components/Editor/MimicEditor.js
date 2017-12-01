@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import styles from '../../../commonEditor/Editor.css';
 import Navbar from '../../../commonEditor/Navbar/Navbar';
-import EntryPointTree from './EntryPointTree';
+import EntryPointTree from '../../../common/Components/Editor/EntryPointTree';
 import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
 import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 import MimicTabContainer from './MimicTabContainer';

@@ -279,11 +279,14 @@
 .Zones{
   z-index: 8;
   position: absolute;
+  pointer-events: none;
   & > .ZonesYAxis{
     cursor: row-resize;
+    pointer-events: auto;
   }
   & > .ZonesXAxis{
     cursor: col-resize;
+    pointer-events: auto;
   }
   & > .ZonesAxis{
     position: absolute;

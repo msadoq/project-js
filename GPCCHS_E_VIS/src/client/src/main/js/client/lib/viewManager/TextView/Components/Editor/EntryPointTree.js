@@ -16,56 +16,53 @@ const emptyArray = [];
   Permet également d'appliquer un filtre sur le nom
 */
 
+const { arrayOf, string, number, shape, func } = PropTypes;
+
 export default class EntryPointTree extends Component {
   static propTypes = {
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      connectedData: PropTypes.shape({
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
+    entryPoints: arrayOf(shape({
+      id: string,
+      name: string,
+      connectedData: shape({
+        digits: number,
+        domain: string,
+        filter: arrayOf(shape({
+          field: string,
+          operand: string,
+          operator: string,
         })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
+        format: string,
+        formula: string,
+        timeline: string,
+        unit: string,
       }),
     })),
-    search: PropTypes.string,
-    remove: PropTypes.func.isRequired,
-    viewId: PropTypes.string.isRequired,
-    updateViewPanels: PropTypes.func.isRequired,
-    entryPointsPanels: PropTypes.shape({}).isRequired,
-  }
+    search: string,
+    remove: func.isRequired,
+    viewId: string.isRequired,
+    updateViewPanels: func.isRequired,
+    entryPointsPanels: shape({}).isRequired,
+  };
 
   static defaultProps = {
     entryPoints: [],
     search: '',
   };
 
-  static contextTypes = {
-    windowId: React.PropTypes.string,
-  }
-
   state = { openPanels: [] };
 
   onChange = (openPanels) => {
     const { updateViewPanels, viewId } = this.props;
     updateViewPanels(viewId, 'entryPoints', openPanels);
-  }
+  };
 
   handleRemove = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
     this.props.remove(key);
-  }
+  };
 
   render() {
-    const { windowId } = this.context;
     const {
       entryPoints,
       viewId,
@@ -94,7 +91,7 @@ export default class EntryPointTree extends Component {
             <Panel
               key={entryPoint.id}
               header={
-                <div className="rc-collapse-header-inner">
+                <div className={classnames('rc-collapse-header-inner', styles.collapseHeader)}>
                   {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
                     <div
                       className={styles.colorSquare}
@@ -123,7 +120,6 @@ export default class EntryPointTree extends Component {
               {isOpen && <EntryPointDetailsContainer
                 key={`${entryPoint.id}#detailsContainer`}
                 viewId={viewId}
-                windowId={windowId}
                 entryPoint={entryPoint}
               />}
             </Panel>

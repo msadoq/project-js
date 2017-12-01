@@ -16,7 +16,7 @@ export default class TimelineField extends PureComponent {
   };
 
   state = {
-    domain: null,
+    timeline: null,
   };
 
   newTimeline = (timeline) => {

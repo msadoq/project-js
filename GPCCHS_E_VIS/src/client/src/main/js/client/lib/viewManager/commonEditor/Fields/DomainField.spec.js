@@ -1,9 +1,4 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import { Provider } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { createStore } from 'redux';
-import DomainField from './DomainField';
+import { computeDomainFieldOptions } from './DomainField';
 
 const propsStub = {
   domains: [
@@ -25,16 +20,56 @@ const propsStub = {
   domainName: 'fr.cnes.test',
 };
 describe('DomainField :: render', () => {
-  test.skip('DomainField :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(DomainField);
-    const store = createStore(state => state, {});
-    const tree = renderer.create(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
+  test('DomainField :: computeDomainFieldOptions :: empty domain', () => {
+    const options = computeDomainFieldOptions(
+      propsStub.domains,
+      propsStub.domain,
+      propsStub.domainName
+    );
+    expect(options).toEqual([
+      { label: 'fr.cnes.isis', value: 'fr.cnes.isis' },
+      { label: 'fr.cnes.isis.simupus', value: 'fr.cnes.isis.simupus' },
+      { label: 'fr.cnes.test', value: 'fr.cnes.test' },
+      { label: '*', value: '*' },
+    ]);
+  });
+  test('DomainField :: computeDomainFieldOptions :: non empty domain', () => {
+    const options = computeDomainFieldOptions(
+      propsStub.domains,
+      'domain',
+      propsStub.domainName
+    );
+    expect(options).toEqual([
+      { label: 'fr.cnes.isis', value: 'fr.cnes.isis' },
+      { label: 'fr.cnes.isis.simupus', value: 'fr.cnes.isis.simupus' },
+      { label: 'domain', value: 'domain' },
+      { label: 'fr.cnes.test', value: 'fr.cnes.test' },
+      { label: '*', value: '*' },
+    ]);
+  });
+  test('DomainField :: computeDomainFieldOptions :: same domain', () => {
+    const options = computeDomainFieldOptions(
+      propsStub.domains,
+      propsStub.domainName,
+      propsStub.domainName
+    );
+    expect(options).toEqual([
+      { label: 'fr.cnes.isis', value: 'fr.cnes.isis' },
+      { label: 'fr.cnes.isis.simupus', value: 'fr.cnes.isis.simupus' },
+      { label: 'fr.cnes.test', value: 'fr.cnes.test' },
+      { label: '*', value: '*' },
+    ]);
+  });
+  test('DomainField :: computeDomainFieldOptions :: same domain & domainName as defined domains', () => {
+    const options = computeDomainFieldOptions(
+      propsStub.domains,
+      propsStub.domains[0].name,
+      propsStub.domains[0].name
+    );
+    expect(options).toEqual([
+      { label: 'fr.cnes.isis', value: 'fr.cnes.isis' },
+      { label: 'fr.cnes.isis.simupus', value: 'fr.cnes.isis.simupus' },
+      { label: '*', value: '*' },
+    ]);
   });
 });

@@ -4,7 +4,7 @@ import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
 import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
-import TextAddEntryPointContainer from '../../viewManager/TextView/Components/Editor/AddEntryPointContainer';
+import TextAddEntryPointContainer from '../../viewManager/common/Components/Editor/AddEntryPointContainer';
 import MimicAddEntryPointContainer from '../../viewManager/MimicView/Components/Editor/AddEntryPointContainer';
 import GmaAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModalContainer';
 import ObaAckModalContainer from '../../viewManager/OnboardAlarmView/Components/View/AckModalContainer';

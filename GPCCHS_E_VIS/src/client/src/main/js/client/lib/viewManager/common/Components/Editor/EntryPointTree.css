@@ -10,3 +10,7 @@
     top: 8px;
     right: 8px;
 }
+.collapseHeader{
+  left: 10px;
+  width: calc(100% - 10px);
+}

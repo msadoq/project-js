@@ -5,7 +5,8 @@ import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
 import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
-import TableGeneric from 'windowProcess/common/TableView';
+import TableView from 'windowProcess/common/TableView';
+
 
 import styles from './GroundAlarmTable.css';
 
@@ -18,7 +19,7 @@ const initialState = {
   hoveredAlarm: undefined,
 };
 
-class TableView extends React.Component {
+class GroundAlarmTable extends React.Component {
   static propTypes = {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
@@ -160,7 +161,7 @@ class TableView extends React.Component {
         style={style}
       >
         <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
-        <TableGeneric
+        <TableView
           cols={COLS}
           subCols={TRANSITION_COLS}
           sort={this.props.sort}
@@ -188,4 +189,4 @@ class TableView extends React.Component {
 export default _.compose(
   withBatchedSetState({ delay: 60 }), // throttled every 60ms
   withMouseWheelEvents()
-)(TableView);
+)(GroundAlarmTable);

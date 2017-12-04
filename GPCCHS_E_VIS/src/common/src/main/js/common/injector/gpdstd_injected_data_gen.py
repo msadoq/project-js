@@ -89,6 +89,194 @@ def oidToUid(oid):
         uid -= 0x10000000000000000
     return uid
 
+def toNatualNumberNotation(num):
+    '''
+    Convert a long or float number into a string with natual notation:
+    ex : 1.0000000000000003e+128 wourld return 100000000000000026756709529735062665617767955333489749609882350892732973358369159258310443848648172397448790271910467870279073792
+         1000000000000000000000000L would return 999999999999999983222784
+         The numbers are not exactly the same due to computation artefact of python
+    '''
+    ret_val = '{0:.73f}'.format(num)
+    # Remove all trailing "0"
+    while ret_val[-1:] == "0":
+        ret_val = ret_val[:-1]
+    # If the last character on the right after trailing "0" removal is decimal ".", remove it also        
+    if ret_val[-1:] == ".":
+        ret_val = ret_val[:-1]
+    # Return the converted number in string format
+    return ret_val
+
+def resolveValue(formula, t):
+    '''
+    Resolve a value from a formula which car represent a number of a function of 't' variable
+    Manage numerical (int, float, long) or string datatypes as input
+    Return value is always a string with a flag telling if it represent a numerical value or not
+    '''
+    ret_val = None
+    isNumerical = False
+    typeFound = False
+    # By default, computed value is the input formula
+    computedValue = formula
+    
+    # If formula is a string, try to evaluate it
+    if isinstance(formula,str):
+        # Try to evaluate the formula (not always possible depending on the content)
+        try:
+            # If the string evaluation succeed, put the evaluation result in the output stream
+            computedValue = eval(formula)
+        except Exception,e:
+            # If the string evaluation fails, computedValue stay the same as formua (init value)
+            # Is is not possible to use an exception name because the potential exception upon formula evaluation depends on formula content (as it may include a function call)
+            pass
+        # Manage the result of the evaluation, depending on its type
+        if isinstance(computedValue,str):
+            # If evaluated paramValue is not numerical ("e" and "+" are for exponential and "L" for long notation)
+            if False in [computedValue[i] in "0123456789.-+eL" for i in range(len(computedValue))]:
+                # If string represent a non numerical value, use it as it is
+                ret_val  = computedValue
+                typeFound = True
+            else:
+                # If the evaluated paramValue is a string that seems to represent a number, try to convert it
+                isConversionToNumOk = False
+                try:
+                    # Into long (fixed point)
+                    computedValueNumVal = long(computedValue)
+                    isConversionToNumOk = True
+                except ValueError:
+                    # Conversion failed, leave isConversionToNumOk = False
+                    pass
+                if not isConversionToNumOk == True:
+                    try:
+                        # Into float (floating point)
+                        computedValueNumVal = float(computedValue)
+                        isConversionToNumOk = True
+                    except ValueError:
+                        # Conversion failed, leave isConversionToNumOk = False
+                        pass
+                if isConversionToNumOk == True:
+                    # If a conversion to number succeeded, convert back to natual representation
+                    ret_val  = toNatualNumberNotation(computedValueNumVal)
+                    isNumerical = True
+                    typeFound = True
+                else:
+                    # If all conversion to a number fails, use the string as it is
+                    ret_val  = computedValue
+                    typeFound = True
+    # Further processing in case string processing is not sufficient
+    if typeFound == False:
+        # If the type of the formula is not yet found, try to process it as a numerical type
+        try:
+            # In case the evaluated paramValue is not a string, convert it to avoid exponential ('1.0e+128') or long (e.g. 1000000L) notations 
+            ret_val  = toNatualNumberNotation(computedValue)
+            # Set the computed value as numerical (here because this mean that no exception occurred)
+            isNumerical = True
+            typeFound = True
+        except ValueError:
+            # In case paramValue is not a numerical type (int, float, long...), use it as a string with quotes (added by repr() function)
+            ret_val  = repr(computedValue)
+            pass
+    # return result
+    return ret_val, isNumerical
+    
+
+class GPDSTD_ReportingParameterValue(object):
+    '''
+    Class representing the computed value of a parameter from Reporting catalog with all the necessary information for injected data generation
+    '''
+    def __init__(self, paramType, formula, datatype=None, rawValueDatatype=None, paramName=None):
+        '''
+        Initialize the parameter properties
+        '''
+        self._paramType = paramType               # String representing the field of the Reporting parameter value : convertedValue, extractedValue or rawValue
+        self._formula = formula                   # str, int, float or bool representing the value of the parameter. It may be a formula using a variable named "t".
+        self._datatype = datatype                 # String representing the "DataType" of the parameter from the Reporting catalog, only relevant for convertedValue type
+                                                  # Possible datatype : "AbsoluteTime",  "Enumerated", "Integer", "LongInteger", "LongReal", "LongUnsignedInteger", "OctetString", "Real", "Record", "RelativeTime", "String", "UnsignedInteger"
+        self._rawValueDatatype = rawValueDatatype # String representing the "RawValueDataType" of the parameter from the Reporting catalog, only relevant for rawValue type
+                                                  # Possible rawValueDatatype are : "Absolutetime", "Bitstring", "Boolean", "Characterstring", "Deduced", "Octetstring", "PacketData", "Real", "Relativetime", "Signedinteger", "TCpacket", "Unsignedinteger"
+        self._name = paramName                    # For debug trace purpose
+    
+    def getValue(self,t=0):
+        '''
+        Return the value of the parameter according to its type and potential computation using "t"
+        '''
+        ret_val = None
+        # Compute parameter value
+        computedVal, isNumerical = resolveValue(self._formula, t)
+        # Manage parameter type
+        if self._paramType == "convertedValue":
+            # If datatype is numerical
+            if self._datatype  in ["AbsoluteTime",  "Enumerated", "Integer", "LongInteger", "LongReal", "LongUnsignedInteger", "Real", "RelativeTime", "UnsignedInteger"]:
+                if not isNumerical:
+                    print "WARNING: Generated value for " + self._name + " parameter is not numerical when its type in Reporting catalog is " + self._datatype 
+            # else : No problem to generate a numerical value in a non numerical type
+            # Add quotes if the type is not numerical
+            if isNumerical:
+                ret_val = computedVal
+            else:
+                ret_val = str('"' + computedVal + '"')
+        elif self._paramType == "extractedValue":
+            # extractedValue always coded as a string, add quotes any times
+            ret_val = str('"' + computedVal + '"')
+        elif self._paramType == "rawValue":
+            # If datatype is numerical
+            if self._rawValueDatatype  in ["Absolutetime", "Real", "Relativetime", "Signedinteger", "Unsignedinteger"]:
+                if not isNumerical:
+                    print "WARNING: Generated value for " + self._name + " parameter is not numerical when its type in Reporting catalog is " + self._datatype
+            # else : No problem to generate a numerical value in a non numerical type
+            # Add quotes if the type is not numerical
+            if isNumerical:
+                ret_val = computedVal
+            else:
+                ret_val = str('"' + computedVal + '"')
+        # return computed parameter value
+        return ret_val
+    
+    def getCCDDS_mal_type(self):
+        '''
+        Return the ccsds_mal.type_pb2 depending on datatype used at object creation 
+        '''
+        # Default type is BLOB
+        retType = 'BLOB'
+        if self._paramType == "extractedValue":
+            # Extracted value is always a BLOD
+            retType = 'BLOB'
+        elif self._paramType == "rawValue":
+            if self._rawValueDatatype in ["Absolutetime","Relativetime"]:
+                reType = 'TIME'
+            elif self._rawValueDatatype == "Real":
+                retType = 'FLOAT'
+            elif self._rawValueDatatype == "Signedinteger":
+                retType = 'INTEGER'
+            elif self._rawValueDatatype == "Unsignedinteger":
+                retType = 'UINTEGER'
+            elif self._rawValueDatatype in ["Bitstring","Octetstring", "Deduced",  "PacketData",  "TCpacket"]:
+                retType = 'BLOB'
+            elif self._rawValueDatatype == "Boolean":
+                retType = 'BOOLEAN'
+            elif self._RawValueDataType in ["Characterstring"]:
+                retType = 'STRING'
+        elif self._paramType == "convertedValue":
+            if self._datatype in ["Absolutetime","Relativetime"]:
+                reType = 'TIME'
+            elif self._datatype == "Real":
+                retType = 'FLOAT'
+            elif self._datatype == "LongReal":
+                retType = 'DOUBLE'
+            elif self._datatype == "Integer":
+                retType = 'INTEGER'
+            elif self._datatype == "LongInteger":
+                retType = 'LONG'
+            elif self._datatype == "LongUnsignedInteger":
+                retType = 'ULONG'
+            elif self._datatype in ["Unsignedinteger","Enumerated"]:
+                retType = 'UINTEGER'
+            elif self._datatype in ["Octetstring","Record"]:
+                retType = 'BLOB'
+            elif self._datatype in ["String"]:
+                retType = 'STRING'
+        # Return type
+        return retType
+ 
 class GPDSTD_AggregationsGenerator(object):
     '''
     Generator of aggragation structure data by using catalogs files
@@ -107,9 +295,11 @@ class GPDSTD_AggregationsGenerator(object):
         self._existingTmPacketJsonFile = None             # Path of tm packet json file
         self._reportingParamsCatalogJsonFile = None       # Path of the reporting parameter catalog
         self._namesOfParamsInExistingTmPacketFile = []    # List of the names of the parameters in all aggregations
-        self._aggsOidListByParamOid = dict()              # Dictionnary of the list of the aggregations oid for each parameter with parameter oid ad key
+        self._aggsOidListByParamOid = dict()              # Dictionnary of the list of the aggregations oid for each parameter with parameter oid as key
         self._injectionData = dict()                      # Dictionnary of the list of parameters in each aggregation and aggregation uid with aggregation name as key
         self._asvnReportingCatalog = OrderedDict()        # Area, service, version and number of the read Reporting Catalog
+        self._reportingParamsDatatype = dict()            # Dictionnary of "Datatype" field from Reporting catalog with parameter Oid as key
+        self._reportingParamsRawValueDatatype = dict()    # Dictionnary of "RawValueDataType" field from Reporting catalog with parameter Oid as key
 
     def getParametersFromReportingCatalogFile(self,filePath):
         '''
@@ -157,9 +347,14 @@ class GPDSTD_AggregationsGenerator(object):
                                 domain = int(self._defaultDomain)
                             else:
                                 domain = int(domain)
-                            self._reportingParameters[name] = '{0:04x}'.format(area) + '{0:04x}'.format(service) + '{0:02x}'.format(version) + '{0:04x}'.format(number) + \
+                            oid = '{0:04x}'.format(area) + '{0:04x}'.format(service) + '{0:02x}'.format(version) + '{0:04x}'.format(number) + \
                                                               '{0:04x}'.format(domain) + uidToOid(uid)
+                            self._reportingParameters[name] = oid
                             #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: " + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(self._reportingParameters[name])
+                            if "Datatype" in parameter and "ts180.simpleEngineeringDataTypeEnumOrRecord" in parameter["Datatype"]:
+                                self._reportingParamsDatatype[oid] = parameter["Datatype"]["ts180.simpleEngineeringDataTypeEnumOrRecord"]
+                            if "TelemetryParameter" in parameter and parameter["TelemetryParameter"] and "ts180.telemetryParameterRecord" in parameter["TelemetryParameter"] and "RawValueDataType" in parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"] and "ts180.rawDataTypeEnum" in parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]:
+                                self._reportingParamsRawValueDatatype[oid] = parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]["ts180.rawDataTypeEnum"]
             else:
                 raise GPDSTD_ScriptError('Catalog file (' + self._reportingParamsCatalogJsonFile + ') doesn\'t contain expected element "Items"')
         else:
@@ -288,7 +483,25 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         Return an oid dictionnary with the lists of oid of all aggregations in which each parameter appear
         '''
-        return  self._aggsOidListByParamOid
+        return self._aggsOidListByParamOid
+    
+    def getConvertedValueDatatypeByParamOid(self, oid):
+        '''
+        Return the datatype of the converted value of a parameter with given oid
+        '''
+        ret_val = None
+        if oid in self._reportingParamsDatatype.keys():
+            ret_val = self._reportingParamsDatatype[oid]
+        return ret_val
+    
+    def getRawValueDatatypeByParamOid(self, oid):
+        '''
+        Return the datatype of the raw value value of a parameter with given oid
+        '''
+        ret_val = None
+        if oid in self._reportingParamsRawValueDatatype.keys():
+            ret_val = self._reportingParamsRawValueDatatype[oid]
+        return ret_val
     
     def generateTelemetryPacketFile(self,filePath,nbParamsPerAgg):
         '''
@@ -510,13 +723,12 @@ class GPDSTD_InjectedDataFileGenerator(object):
     '''
     Generator of data file for the GPDSTD data injector
     '''
-    def __init__(self, NbAggGrpToGenerate, AggregationsList, GenFilePath, PutNumbersWithinQuotes=False, Overwrite=False):
+    def __init__(self, NbAggGrpToGenerate, AggregationsList, GenFilePath, Overwrite=False):
         '''
         Initialize and configure the generator
         NbAggGrpToGenerate : Number of groups of aggregations to generate in the output file
         AggregationsList : Group of aggregations as a list of dictionaries to create the output file
         GenFilePath : Full path of the output file
-        PutNumbersWithinQuotes : Set to True to write numerical values within quotes, otherwise they will be written as they are
         
         Each time the group of aggregation is written in the output file, a variable named t is incremented (from 0 to NbAggGrpToGenerate-1)
         Moreover, the values of the parameters, if they are strings, are evaluated with eval() function
@@ -534,7 +746,6 @@ class GPDSTD_InjectedDataFileGenerator(object):
         self.genFilePath = GenFilePath
         self.singleIndentBlk = "  "
         self.carriageRtn ='\n'
-        self.numbersWithinQuotes = PutNumbersWithinQuotes
         self.overwrite = Overwrite
 
     def genElement(self, params):
@@ -548,7 +759,9 @@ class GPDSTD_InjectedDataFileGenerator(object):
         '''
         # Process the element to generate depending on its type
         typeFound = False
+        t = params['t']
 
+        # Manage the cases when element generation requires recursive call
         if not typeFound and isinstance(params['element'],list):
             typeFound = True
             self.genList(params)
@@ -556,60 +769,25 @@ class GPDSTD_InjectedDataFileGenerator(object):
         if not typeFound and isinstance(params['element'],dict):
             typeFound = True
             self.genDict(params)
-
-        # In case of a simple type (no recursivity), generate it in the output stream
-        if not typeFound and isinstance(params['element'],int):
+            
+        # Manage the case when element is a reporting parameter value
+        if not typeFound and isinstance(params['element'],GPDSTD_ReportingParameterValue):
             typeFound = True
-            if self.numbersWithinQuotes == False:
-                params['output'] = params['output'] + repr(params['element'])
-            else:
-                params['output'] = params['output'] + '"' + repr(params['element']) + '"'
-        
-        if not typeFound and isinstance(params['element'],long):
-            typeFound = True
-            if self.numbersWithinQuotes == False:
-                params['output'] = params['output'] + repr(params['element'])
-            else:
-                params['output'] = params['output'] + '"' + repr(params['element']) + '"'
-        
-        if not typeFound and isinstance(params['element'],float):
-            typeFound = True
-            if self.numbersWithinQuotes == False:
-                params['output'] = params['output'] + repr(params['element'])
-            else:
-                params['output'] = params['output'] + '"' + repr(params['element']) + '"'
-        
+            params['output'] = params['output'] + params['element'].getValue(t)
+       
         # In case of string type, assume that the element can be evaluated
-        if not typeFound and isinstance(params['element'],str):
-            typeFound = True
-            t = params['t']
-            # Try to evaluate the element value (not always possible depending on the content)
-            try:
-                # If the string evaluation succeed, put the evaluation result in the output stream
-                paramValue = eval(params['element'])
-            except Exception,e:
-                # If the string evaluation fails, put the string as it is in the output stream
-                #print "Evaluation failed for param value:" + params['element'] + " value of t is:" + repr(t) + " error:" + str(e)
-                paramValue = params['element']
-                pass
-            # Manage the addition of quotes in case the evaluated paramValue is a number and quote addition is activated
-            if isinstance(paramValue,str):
-                # If evaluated paramValue is not numerical
-                if False in [paramValue[i] in "0123456789.-" for i in range(len(paramValue))]:
-                    params['output'] = params['output'] + '"' + paramValue + '"'
-                else:
-                # If evaluated paramValue is numerical
-                    if self.numbersWithinQuotes == False:
-                        params['output'] = params['output'] + paramValue
-                    else:
-                        params['output'] = params['output'] + '"' + paramValue + '"'
+        if not typeFound:
+            paramValue, isNumerical = resolveValue(params['element'],t)
+            if isNumerical == True:
+                # In case of numerical value, no need to put quotes
+                params['output'] = params['output'] + paramValue
+                typeFound = True
             else:
-                # In case the evaluated paramValue is not a string (robusteness only)
-                if self.numbersWithinQuotes == False:
-                    params['output'] = params['output'] + repr(paramValue)
-                else:
-                    params['output'] = params['output'] + '"' + repr(paramValue) + '"'
-                
+                # Put quotes for non numerical values
+                params['output'] = params['output'] + '"' + paramValue + '"'
+                typeFound = True
+               
+        # Robustness in case of problem after code update 
         if not typeFound:
             raise GPDSTD_ScriptError("A parameter with not supported type (list, dict, int, long, float, string) has been found in : " + " ".join(params['backtrace'])) 
         
@@ -857,7 +1035,7 @@ if __name__ == '__main__':
     
     # Loops for injected data generation
     
-    # Build the list of aggregations names to put in injection data in order to repect the requested order
+    # Build the list of aggregations names to put in injection data in order to respect the requested order
     OrderedAggrListNames = []
     AggrListNames = injectedData.keys()
     # Check if the number of parameters per aggregation has been specified
@@ -919,13 +1097,7 @@ if __name__ == '__main__':
         
             #print "Using formula " + paramFormula + " for value of parameter of oid: " + ,oid
             #print "Using formula " + monitoringStateFormula + " for monitoring state of parameter of oid: " + oid
-            
-            # Manage the verbose generation
-            if args.verbose:
-                # Create a list of the names of all parameter with the seek oid (sname for seek name and soid for seek oid)
-                parameterNames = [sname for sname, soid in allParamsNamesOids.items() if soid == oid]
-                print "Create an aggregation named: ",aggrName," with a parameter named: " + parameterNames[0] + " with a value equal to formula ",paramFormula
-        
+       
             # Create the data structure of a parameter
             objType = {
                     "area" : int(oid[:4],16),
@@ -943,11 +1115,31 @@ if __name__ == '__main__':
                     "objectType" : objType,
                     "objectKey" : objKey
                     }
+ 
+             # Retrieve parameter name from oid for verbose mode
+            if args.verbose:
+                # Create a list of the names of all parameter with the seek oid (sname for seek name and soid for seek oid)
+                parameterNames = [sname for sname, soid in allParamsNamesOids.items() if soid == oid]
+                parameterName = parameterNames[0]
+            else:
+                parameterName = None
             
+            dataType = aggGen.getConvertedValueDatatypeByParamOid(oid)
+            rawvalueDatatype = aggGen.getRawValueDatatypeByParamOid(oid)
+            rawValue = GPDSTD_ReportingParameterValue("rawValue",paramFormula,rawValueDatatype=rawvalueDatatype,paramName=parameterName)
+            extractedValue = GPDSTD_ReportingParameterValue("extractedValue",paramFormula,paramName=parameterName)
+            convertedValue = GPDSTD_ReportingParameterValue("convertedValue",paramFormula,datatype=dataType,paramName=parameterName)
+
+            # Manage the verbose generation
+            if args.verbose:
+                print "Create an aggregation named:", aggrName, "with a parameter named:", parameterName, "with a value equal to formula", paramFormula, "convertedValue type to", convertedValue.getCCDDS_mal_type(), "and rawValue type to", rawValue.getCCDDS_mal_type()  
+           
             paramValue = {
-                    "extractedValue" : paramFormula,
-                    "rawValue" : "int_to_raw(eval(" + paramFormula + "))",
-                    "convertedValue" : paramFormula,
+                    "extractedValue" : extractedValue,
+                    "rawValueType" : rawValue.getCCDDS_mal_type(),
+                    "rawValue" : rawValue,
+                    "convertedValueType" : convertedValue.getCCDDS_mal_type(),
+                    "convertedValue" : convertedValue,
                     "triggerCount" : 1,
                     "monitoringState" : monitoringStateFormula,
                     "validityState" : 2,
@@ -981,6 +1173,6 @@ if __name__ == '__main__':
   
     # Create the generator instance
     print "Writing the injection data file " + expanduser(args.output) + " with " + str(args.niter) + " times " + str(len(AggrList)) + " aggregation(s) containing the following number of parameters: " + " ".join(map(str,[len(a["values"]) for a in AggrList]))
-    injDataGen = GPDSTD_InjectedDataFileGenerator(args.niter,AggrList,expanduser(args.output),False,args.overwrite)
+    injDataGen = GPDSTD_InjectedDataFileGenerator(args.niter,AggrList,expanduser(args.output),args.overwrite)
     # Generate the output file
     injDataGen.generate()

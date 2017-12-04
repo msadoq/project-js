@@ -106,7 +106,7 @@ def toNatualNumberNotation(num):
     # Return the converted number in string format
     return ret_val
 
-def resolveValue(formula, t):
+def resolveValue(formula, t, forceToPositive=False, forceToInteger=False):
     '''
     Resolve a value from a formula which car represent a number of a function of 't' variable
     Manage numerical (int, float, long) or string datatypes as input
@@ -154,27 +154,48 @@ def resolveValue(formula, t):
                         # Conversion failed, leave isConversionToNumOk = False
                         pass
                 if isConversionToNumOk == True:
-                    # If a conversion to number succeeded, convert back to natual representation
-                    ret_val  = toNatualNumberNotation(computedValueNumVal)
-                    isNumerical = True
-                    typeFound = True
+                    # If a conversion to number succeeded, let the process below perform the formating from numeric type to string
+                    computedValue = computedValueNumVal
                 else:
                     # If all conversion to a number fails, use the string as it is
                     ret_val  = computedValue
                     typeFound = True
-    # Further processing in case string processing is not sufficient
-    if typeFound == False:
-        # If the type of the formula is not yet found, try to process it as a numerical type
-        try:
-            # In case the evaluated paramValue is not a string, convert it to avoid exponential ('1.0e+128') or long (e.g. 1000000L) notations 
-            ret_val  = toNatualNumberNotation(computedValue)
-            # Set the computed value as numerical (here because this mean that no exception occurred)
-            isNumerical = True
-            typeFound = True
-        except ValueError:
-            # In case paramValue is not a numerical type (int, float, long...), use it as a string with quotes (added by repr() function)
+                    
+    # After string evaluation, process the value (result from eval or initial input)
+    
+    # Check for int of long types
+    if isinstance(computedValue,int) or isinstance(computedValue,long):
+        typeFound = True
+        isNumerical = True
+        # Check if force to positive value is required
+        if forceToPositive == True and computedValue<0:
+            computedValue = -computedValue 
+        # Convert to avoid exponential ('1.0e+128') or long (e.g. 1000000L) notations
+        ret_val  = toNatualNumberNotation(computedValue)
+    # Check for float type
+    elif isinstance(computedValue,float):
+        typeFound = True
+        isNumerical = True
+        # Check if force to positive value is required
+        if forceToPositive == True and computedValue<0:
+            computedValue = -computedValue
+        # Check if force to integer value is required
+        if forceToInteger == True:
+            fracPart, iPart = math.modf(computedValue)
+            if fracPart != 0:
+                computedValue = iPart
+        # Convert to avoid exponential ('1.0e+128') or long (e.g. 1000000L) notations
+        ret_val  = toNatualNumberNotation(computedValue)
+    # Check for boolean type
+    elif isinstance(computedValue,bool):
+        typeFound = True
+        # In case of boolean, only convert into string
+        ret_val = str(computedValue)
+    # Check that after all conversion tries, we get a usable type
+    elif typeFound == False:
+        # If the type of the formula is not yet found, use it as a string with quotes (added by repr() function)
             ret_val  = repr(computedValue)
-            pass
+
     # return result
     return ret_val, isNumerical
     
@@ -200,14 +221,22 @@ class GPDSTD_ReportingParameterValue(object):
         Return the value of the parameter according to its type and potential computation using "t"
         '''
         ret_val = None
-        # Compute parameter value
-        computedVal, isNumerical = resolveValue(self._formula, t)
+        isPositive = False
+        isInteger = False
+
         # Manage parameter type
         if self._paramType == "convertedValue":
+            # Manage to forcing to positive or integer in case the datatype requires it
+            if self._datatype  in ["LongUnsignedInteger", "UnsignedInteger"]:
+                isPositive = True
+            if self._datatype  in ["AbsoluteTime",  "Enumerated", "Integer", "LongInteger", "LongUnsignedInteger", "RelativeTime", "UnsignedInteger"]:
+                isInteger = True
+            # Compute parameter value
+            computedVal, isNumerical = resolveValue(self._formula, t, forceToPositive=isPositive, forceToInteger=isInteger)            
             # If datatype is numerical
             if self._datatype  in ["AbsoluteTime",  "Enumerated", "Integer", "LongInteger", "LongReal", "LongUnsignedInteger", "Real", "RelativeTime", "UnsignedInteger"]:
                 if not isNumerical:
-                    print "WARNING: Generated value for " + self._name + " parameter is not numerical when its type in Reporting catalog is " + self._datatype 
+                    print "WARNING: Generated value for " + self._name + " parameter is not numerical when its type in Reporting catalog is " + self._datatype
             # else : No problem to generate a numerical value in a non numerical type
             # Add quotes if the type is not numerical
             if isNumerical:
@@ -215,9 +244,17 @@ class GPDSTD_ReportingParameterValue(object):
             else:
                 ret_val = str('"' + computedVal + '"')
         elif self._paramType == "extractedValue":
+            # Compute parameter value
+            computedVal, isNumerical = resolveValue(self._formula, t)
             # extractedValue always coded as a string, add quotes any times
             ret_val = str('"' + computedVal + '"')
         elif self._paramType == "rawValue":
+            if self._rawValueDatatype  in ["Unsignedinteger"]:
+                isPositive = True
+            if self._rawValueDatatype  in ["Absolutetime", "Relativetime", "Signedinteger", "Unsignedinteger"]:
+                isInteger = True
+            # Compute parameter value
+            computedVal, isNumerical = resolveValue(self._formula, t, forceToPositive=isPositive, forceToInteger=isInteger)
             # If datatype is numerical
             if self._rawValueDatatype  in ["Absolutetime", "Real", "Relativetime", "Signedinteger", "Unsignedinteger"]:
                 if not isNumerical:
@@ -303,7 +340,7 @@ class GPDSTD_AggregationsGenerator(object):
 
     def getParametersFromReportingCatalogFile(self,filePath):
         '''
-        Read a reporting catalog json file and get all the parameters defined in it with their names and Oid in a dictionnary like this:
+        Read a reporting catalog json file and get all the "SimpleParameter" defined in it with their names and Oid in a dictionnary like this:
         {'STAT_SU_CSTIME': '000200020100c400010000000000000017','STAT_SU_SIGCATCH': '000200020100c400010000000000000034','STAT_SU_SIGIGNORE_2': '000200020100c400010000000000000137'}
         '''
         area = None
@@ -339,8 +376,10 @@ class GPDSTD_AggregationsGenerator(object):
                     if "Uid" in parameter:
                         uid = int(parameter["Uid"])
                         name = parameter["Name"]
-                        #print 'Uid of current parameter is : ' + repr(uid) + " and value in dict is: " + repr(parameter["Uid"])
-                        if "IsisCommon" in parameter and "ts180.isisCommonRecord" in parameter["IsisCommon"] and "Domain" in parameter["IsisCommon"]["ts180.isisCommonRecord"]:
+                        # Only take into account SimpleParameter with a Domain ID field 
+                        if "IsisCommon" in parameter and "ts180.isisCommonRecord" in parameter["IsisCommon"] and \
+                        "Domain" in parameter["IsisCommon"]["ts180.isisCommonRecord"] and "ParameterType" in parameter and \
+                        "ts180.parameterTypeEnum" in parameter["ParameterType"] and parameter["ParameterType"]["ts180.parameterTypeEnum"] == "SimpleParameter":
                             #print '"IsisCommon" found in parameter and "Domain" found in "IsisCommon"'
                             domain = parameter["IsisCommon"]["ts180.isisCommonRecord"]["Domain"]
                             if not domain:
@@ -351,8 +390,8 @@ class GPDSTD_AggregationsGenerator(object):
                                                               '{0:04x}'.format(domain) + uidToOid(uid)
                             self._reportingParameters[name] = oid
                             #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: " + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(self._reportingParameters[name])
-                            if "Datatype" in parameter and "ts180.simpleEngineeringDataTypeEnumOrRecord" in parameter["Datatype"]:
-                                self._reportingParamsDatatype[oid] = parameter["Datatype"]["ts180.simpleEngineeringDataTypeEnumOrRecord"]
+                            if "DataType" in parameter and "ts180.simpleEngineeringDataTypeEnumOrRecord" in parameter["DataType"]:
+                                self._reportingParamsDatatype[oid] = parameter["DataType"]["ts180.simpleEngineeringDataTypeEnumOrRecord"]
                             if "TelemetryParameter" in parameter and parameter["TelemetryParameter"] and "ts180.telemetryParameterRecord" in parameter["TelemetryParameter"] and "RawValueDataType" in parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"] and "ts180.rawDataTypeEnum" in parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]:
                                 self._reportingParamsRawValueDatatype[oid] = parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]["ts180.rawDataTypeEnum"]
             else:
@@ -1124,8 +1163,11 @@ if __name__ == '__main__':
             else:
                 parameterName = None
             
+            # Get parameter convertedValue and rawValue types from Reporting catalog
             dataType = aggGen.getConvertedValueDatatypeByParamOid(oid)
             rawvalueDatatype = aggGen.getRawValueDatatypeByParamOid(oid)
+ 
+            # Create parameter raw, extracted and converted values
             rawValue = GPDSTD_ReportingParameterValue("rawValue",paramFormula,rawValueDatatype=rawvalueDatatype,paramName=parameterName)
             extractedValue = GPDSTD_ReportingParameterValue("extractedValue",paramFormula,paramName=parameterName)
             convertedValue = GPDSTD_ReportingParameterValue("convertedValue",paramFormula,datatype=dataType,paramName=parameterName)
@@ -1145,7 +1187,7 @@ if __name__ == '__main__':
                     "validityState" : 2,
                     "definition" : objDef
                     }
-         
+            
             # Add the created paramater in the aggregation (deepcopy is mandatory to copy the root data strcture and all the referenced ones)
             paramValues.append(deepcopy(paramValue))
     

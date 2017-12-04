@@ -156,6 +156,8 @@ class OnboardAlarmTable extends React.Component {
           )}
           getIsExpanded={row => Boolean(expandedAlarms[row.mainRow.data.oid])}
           rowHeight={this.props.rowHeight}
+          onScrollUp={() => this.unhoverParameter()}
+          onScrollDown={() => this.unhoverParameter()}
           containerHeight={this.props.containerHeight}
           nbDisplayedRows={this.getNbDisplayedElems()}
           rows={this.props.rows}

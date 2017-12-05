@@ -25,6 +25,23 @@ import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 const logger = getLogger('view:plot');
 
 /**
+ * @param master
+ * @returns {function(*, *=)}
+ */
+export const sortAxes = master => (
+  (a, b) => {
+    if (a === master) {
+      return 1;
+    }
+    if (b === master) {
+      return -1;
+    }
+
+    return a.localeCompare(b);
+  }
+);
+
+/**
  * @param entryPoints
  * @param axes
  * @param grids
@@ -50,6 +67,8 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
 
   xAxesIds = _uniq(xAxesIds);
   yAxesIds = _uniq(yAxesIds);
+  xAxesIds = xAxesIds.sort(sortAxes(_get(grids, [0, 'xAxisId'])));
+  yAxesIds = yAxesIds.sort(sortAxes(_get(grids, [0, 'yAxisId'])));
 
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];

@@ -1,4 +1,4 @@
-import { getUniqAxes, getUniqueEpId, parseDragData } from './PlotView';
+import { getUniqAxes, getUniqueEpId, parseDragData, sortAxes } from './PlotView';
 
 describe('PlotView :: getUniqAxes', () => {
   const propsStub = {
@@ -261,5 +261,14 @@ describe('PlotView :: parseDragData', () => {
         timeline: 'entryPoint',
       },
     });
+  });
+});
+describe('PlotView :: sortAxes', () => {
+  test('PlotView :: sortAxes', () => {
+    const axes = ['e', 'b', 'c', 'd', 'a'];
+    expect(axes.sort(sortAxes('c'))).toEqual(['a', 'b', 'd', 'e', 'c']);
+    expect(axes.sort(sortAxes('e'))).toEqual(['a', 'b', 'c', 'd', 'e']);
+    expect(axes.sort(sortAxes('a'))).toEqual(['b', 'c', 'd', 'e', 'a']);
+    expect(axes.sort(sortAxes('g'))).toEqual(['a', 'b', 'c', 'd', 'e']);
   });
 });

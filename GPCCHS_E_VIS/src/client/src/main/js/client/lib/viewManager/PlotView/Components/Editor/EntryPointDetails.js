@@ -1,11 +1,16 @@
 import React, { PropTypes, PureComponent } from 'react';
 import Collapse from 'rc-collapse';
+import _get from 'lodash/get';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
 
+import { entryPointType } from '../../../common/Components/types';
+
 const { Panel } = Collapse;
 const emptyArray = [];
+
+const { string, shape, arrayOf, bool, func, oneOfType } = PropTypes;
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -13,36 +18,17 @@ const emptyArray = [];
 */
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    axes: PropTypes.shape({}).isRequired,
-    entryPoint: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      parametric: PropTypes.bool.isRequired,
-      connectedData: PropTypes.shape({
-        axisId: PropTypes.string,
-        digit: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        fieldX: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-    }).isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
-    panels: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.bool,
+    viewId: string.isRequired,
+    timelines: arrayOf(shape({})).isRequired,
+    axes: shape({}).isRequired,
+    entryPoint: entryPointType.isRequired,
+    updateEntryPoint: func.isRequired,
+    panels: oneOfType([
+      arrayOf(string),
+      bool,
     ]).isRequired,
-    updateViewSubPanels: PropTypes.func.isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    updateViewSubPanels: func.isRequired,
+    domains: arrayOf(shape({})).isRequired,
   };
 
   static defaultProps = {
@@ -56,7 +42,7 @@ export default class EntryPointDetails extends PureComponent {
       entryPoint,
     } = this.props;
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
-  }
+  };
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
@@ -64,7 +50,7 @@ export default class EntryPointDetails extends PureComponent {
       ...entryPoint,
       ...values,
     });
-  }
+  };
 
   handleObjectParametersSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
@@ -72,8 +58,10 @@ export default class EntryPointDetails extends PureComponent {
       ...entryPoint,
       objectStyle: values,
       name: values.name,
+      displayLine: values.displayLine,
+      displayPoints: values.displayPoints,
     });
-  }
+  };
 
   handleConnectedDataSubmit = (values) => {
     const {
@@ -91,7 +79,7 @@ export default class EntryPointDetails extends PureComponent {
         connectedDataParametric: values.connectedDataParametric,
       }
     );
-  }
+  };
 
   render() {
     const {
@@ -104,7 +92,16 @@ export default class EntryPointDetails extends PureComponent {
     } = this.props;
 
     // TODO Rerender (new ref)
-    const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
+    const initialValuesParameters = {
+      ...entryPoint.objectStyle,
+      name: entryPoint.name,
+      displayLine: _get(
+        entryPoint, 'displayLine', _get(
+          entryPoint, ['objectStyle', 'line', 'size'], 0) > 0),
+      displayPoints: _get(
+        entryPoint, 'displayPoints', _get(
+          entryPoint, ['objectStyle', 'points', 'size'], 0) > 0),
+    };
     // TODO Rerender (new ref)
     const initialValuesConnectedData = {
       connectedData: entryPoint.connectedData,

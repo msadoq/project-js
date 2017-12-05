@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 /**
  * @param ctx
  * @param lastX
@@ -19,14 +17,12 @@ export function drawTriangle(ctx, lastX, lastY, pointOffset) {
 /**
  * @param ctx
  * @param line
- * @returns {{lineSize: number, pointSize: number, fontSize: number, pointOffset: *, displayLine, displayPoints}}
+ * @returns {{lineSize: number, pointSize: number, fontSize: number}}
  */
 export function getDefaultValues(ctx, line) {
   // Default values
   const lineSize = typeof line.lineSize !== 'number' ? 1 : line.lineSize;
   const pointSize = typeof line.pointSize !== 'number' ? 0 : line.pointSize;
-  const displayLine = _.get(line, 'displayLine', lineSize > 0);
-  const displayPoints = _.get(line, 'displayPoints', pointSize > 0);
   let pointOffset;
 
   // Only used for Dot points
@@ -44,7 +40,7 @@ export function getDefaultValues(ctx, line) {
     pointOffset = pointSize / 2;
   }
 
-  return { lineSize, pointSize, fontSize, pointOffset, displayLine, displayPoints };
+  return { lineSize, pointSize, fontSize, pointOffset };
 }
 
 /**
@@ -168,8 +164,7 @@ export const drawLine = (perfOutput,
                          ctx,
                          line) => {
 // Default values
-  const { lineSize, pointSize, fontSize, pointOffset, displayLine, displayPoints }
-    = getDefaultValues(ctx, line);
+  const { lineSize, pointSize, fontSize, pointOffset } = getDefaultValues(ctx, line);
   let fill = line.fill || '#222222';
   const lineIndexes = indexes[line.id];
   const lineData = line.data;
@@ -178,11 +173,6 @@ export const drawLine = (perfOutput,
   ctx.fillStyle = fill;
   ctx.lineWidth = lineSize;
   ctx.font = `${fontSize}px Arial`;
-
-  // Do not draw
-  if (!displayLine && !displayPoints) {
-    return;
-  }
 
   // Do not draw
   if (!lineSize && (!pointSize || !line.pointStyle)) {
@@ -198,7 +188,7 @@ export const drawLine = (perfOutput,
   let drawPoint;
   let stoppedCurrent;
   let stoppedPrevious = false;
-  const shouldDrawPoint = displayPoints && pointOffset && ['Square', 'Dot', 'Triangle'].indexOf(line.pointStyle) !== -1;
+  const shouldDrawPoint = pointOffset && ['Square', 'Dot', 'Triangle'].indexOf(line.pointStyle) !== -1;
   switch (line.pointStyle) {
     case 'Square':
       drawPoint = (c, x, y) => {
@@ -269,7 +259,7 @@ export const drawLine = (perfOutput,
       : fill
     ;
 
-    if (displayLine && lineSize && i > 0) {
+    if (lineSize && i > 0) {
       // if current or next data is in stopDrawing state, do not draw a line
       if (stoppedCurrent || stoppedPrevious) {
         ctx.stroke();

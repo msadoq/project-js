@@ -22,6 +22,8 @@ import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 
+import { entryPointType } from '../../../common/Components/types';
+
 const logger = getLogger('view:plot');
 
 /**
@@ -282,22 +284,7 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: string.isRequired,
     addEntryPoint: func.isRequired,
-    entryPoints: shape({
-      connectedData: shape({
-        axisId: string,
-        stringParameter: string,
-        defaultY: string,
-      }),
-      connectedDataParametric: shape({
-        xAxisId: string,
-        YAxisId: string,
-      }),
-      objectStyle: shape(),
-      stateColors: object.isRequired,
-      parametric: bool.isRequired,
-      obsolete: bool,
-      nonsignificant: bool,
-    }).isRequired,
+    entryPoints: entryPointType.isRequired,
     configuration: shape({
       procedures: array,
       entryPoints: array,
@@ -814,6 +801,8 @@ export class GrizzlyPlotView extends PureComponent {
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
+                displayLine: _get(ep, ['objectStyle', 'displayLine']),
+                displayPoints: _get(ep, ['objectStyle', 'displayPoints']),
                 dataAccessor: ep.name,
                 stopInstruction: packet => (packet.isObsolete || false),
                 xAccessor: null, // default packet => packet.x

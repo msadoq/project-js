@@ -3,9 +3,7 @@ import _ from 'lodash/fp';
 import classnames from 'classnames';
 import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
-import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
-import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
-import TableGeneric from 'windowProcess/common/TableView';
+import TableView from 'windowProcess/common/TableView';
 
 import styles from './GroundAlarmTable.css';
 
@@ -14,11 +12,10 @@ const COLS = ['timestamp', 'parameterName', 'parameterType', 'firstOccurence', '
 const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
 const initialState = {
-  position: 0,
   hoveredAlarm: undefined,
 };
 
-class TableView extends React.Component {
+class GroundAlarmTable extends React.Component {
   static propTypes = {
     mainMenu: PropTypes.arrayOf(
       PropTypes.shape({}).isRequired
@@ -56,29 +53,12 @@ class TableView extends React.Component {
   state = initialState
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.position >= this.getLastPosition(nextProps)) {
-      this.setState(_.set('position', this.getLastPosition(nextProps)));
-    }
     if (
       this.props.domain !== nextProps.domain
       || this.props.timeline !== nextProps.timeline
       || this.props.mode !== nextProps.mode
     ) {
       this.resetState();
-    }
-  }
-
-  onScrollUp = () => {
-    if (this.state.position > 0) {
-      this.unhoverAlarm();
-      this.setState(_.update('position', _.add(-1)));
-    }
-  }
-
-  onScrollDown = () => {
-    if (this.state.position < this.getLastPosition()) {
-      this.unhoverAlarm();
-      this.setState(_.update('position', _.add(1)));
     }
   }
 
@@ -116,14 +96,6 @@ class TableView extends React.Component {
     Math.floor(props.containerHeight / props.rowHeight) - 1
   )
 
-  getLastPosition = (props = this.props) => (
-    Math.max(0, (this.props.rows.length - this.getNbDisplayedElems(props)) + 1)
-  )
-
-  getScrollBarPosition = () => (
-    Math.ceil((this.state.position / this.getLastPosition()) * this.getScrollAreaHeight())
-  )
-
   getNbSelectedAlarms = () => _.size(this.props.selectedAlarms)
 
   toggleAlarmSelection = (row) => {
@@ -140,7 +112,7 @@ class TableView extends React.Component {
   }
 
   unhoverAlarm = () => {
-    this.setState(_.unset('hoveredAlarm'));
+    this.setState(_.set('hoveredAlarm', undefined));
   }
 
   resetState = () => {
@@ -159,8 +131,7 @@ class TableView extends React.Component {
         onContextMenu={this.onAlarmContextMenu}
         style={style}
       >
-        <div style={{ top: `calc(${this.getScrollBarPosition()}px + ${THEAD_DEFAULT_HEIGHT}px)` }} className={styles.scrollbar} />
-        <TableGeneric
+        <TableView
           cols={COLS}
           subCols={TRANSITION_COLS}
           sort={this.props.sort}
@@ -176,7 +147,9 @@ class TableView extends React.Component {
           getIsHovered={row => row.mainRow.data.oid === this.state.hoveredAlarm}
           getIsExpanded={row => Boolean(expandedAlarms[row.mainRow.data.oid])}
           rowHeight={this.props.rowHeight}
-          position={this.state.position}
+          onScrollUp={() => this.unhoverAlarm()}
+          onScrollDown={() => this.unhoverAlarm()}
+          containerHeight={this.props.containerHeight}
           nbDisplayedRows={this.getNbDisplayedElems()}
           rows={this.props.rows}
         />
@@ -185,7 +158,4 @@ class TableView extends React.Component {
   }
 }
 
-export default _.compose(
-  withBatchedSetState({ delay: 60 }), // throttled every 60ms
-  withMouseWheelEvents()
-)(TableView);
+export default GroundAlarmTable;

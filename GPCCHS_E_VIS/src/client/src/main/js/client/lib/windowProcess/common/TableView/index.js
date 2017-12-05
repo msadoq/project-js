@@ -4,6 +4,7 @@ import { Label, Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
 
+import withScroll from './withScroll';
 import styles from './TableView.css';
 
 const CollapseButton = ({ onClick, collapsed }) => (
@@ -211,4 +212,4 @@ Table.defaultProps = {
   disableSelectionReason: 'You cannot select a row',
 };
 
-export default Table;
+export default withScroll(Table);

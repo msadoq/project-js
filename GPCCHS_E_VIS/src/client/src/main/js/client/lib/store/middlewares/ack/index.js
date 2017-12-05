@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 import async from 'async';
-import * as types from '../../types';
-import { ALARM_ACK_TIMEOUT } from '../../../constants';
-import dataMapGenerator from '../../../dataManager/map';
-import { add as addMessage } from '../../actions/messages';
-import { ackSuccess, ackFailure } from '../../../viewManager/GroundAlarmView/store/actions';
+import { ALARM_ACK_TIMEOUT } from 'constants';
+import { ackSuccess, ackFailure } from 'viewManager/GroundAlarmView/store/actions';
+import * as types from 'store/types';
+import dataMapGenerator from 'dataManager/map';
+import { add as addMessage } from 'store/actions/messages';
 
 const getAlarmEntryPoint = entryPoints => (
   entryPoints.groundAlarmEP || entryPoints.onboardAlarmEP

@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
-import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
-import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
-import withMouseWheelEvents from '../../../../../windowProcess/common/hoc/withMouseWheelEvents';
-import withBatchedSetState from '../../../../../windowProcess/common/hoc/withBatchedSetState';
-import TableGeneric from '../../../../../windowProcess/common/TableView';
+import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
+import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
+import TableGeneric from 'windowProcess/common/TableView';
 
 import styles from './GroundAlarmTable.css';
 

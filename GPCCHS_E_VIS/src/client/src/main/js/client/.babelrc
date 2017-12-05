@@ -5,7 +5,10 @@
     "react"
   ],
   "plugins": [
-  	"babel-plugin-add-module-exports"
+  	"babel-plugin-add-module-exports",
+    ["module-resolver", {
+      "root": ["./lib"]
+    }]
   ],
   "env": {
     "test": {},
@@ -14,7 +17,7 @@
         "react-optimize"
       ],
       "plugins": [
-		 "babel-plugin-lodash"
+  		  "babel-plugin-lodash"
       ]
     },
     "development": {

@@ -7,11 +7,12 @@ import {
   askSaveView,
 } from 'store/actions/views';
 
-import { getViewIsModified } from 'store/reducers/views';
+import { getViewIsModified, getViewIsSaved } from 'store/reducers/views';
 import ReloadAndSaveViewButtons from './ReloadAndSaveViewButtons';
 
 const mapStateToProps = createStructuredSelector({
   isModified: getViewIsModified,
+  isSaved: getViewIsSaved,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

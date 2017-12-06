@@ -70,3 +70,8 @@ export const getProcedures = createSelector(
   getView,
   _.get('procedures')
 );
+
+export const getViewIsSaved = createSelector(
+  getView,
+  _.anyPass([_.has('oId'), _.has('absolutePath')])
+);

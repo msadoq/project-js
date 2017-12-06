@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import HistoryEditor from './HistoryEditor';
+import { getViewPanels, getViewEntryPointsPanels, getViewTab } from 'store/reducers/ui/editor';
+import { getConfigurationByViewId } from 'viewManager';
+import {
+  open as openModal,
+} from 'store/actions/modals';
+import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab }
+  from 'store/actions/ui';
+import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
 import {
   removeEntryPoint,
   updateEditorSearch,
-} from '../../../../store/actions/views';
-import {
-  open as openModal,
-} from '../../../../store/actions/modals';
-import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab }
-  from '../../../../store/actions/ui';
-import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
-import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui/editor';
-import { getConfigurationByViewId } from '../../../../viewManager';
+} from 'store/actions/views';
+import HistoryEditor from './HistoryEditor';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,

@@ -236,9 +236,14 @@ export const drawLine = (perfOutput,
       previousPacket &&
       (
         // current is between two packets (past)
-        (previousPacket.masterTime < current && packet.masterTime > current) ||
         // current is above the last known packet (often real time)
-        (!nextPacket && packet.masterTime < current)
+        (
+          previousPacket.masterTime < current
+          && packet.masterTime > current
+        )
+        // current is above the last known packet (often real time)
+        || (!nextPacket && packet.masterTime < current)
+
       )
     ) {
       drawCurrentCursor(ctx,

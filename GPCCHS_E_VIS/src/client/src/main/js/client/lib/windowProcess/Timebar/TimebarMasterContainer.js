@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import { getPage } from '../../store/reducers/pages';
-import { getTimebar, getTimebars } from '../../store/reducers/timebars';
+import { getPage } from 'store/reducers/pages';
+import { getTimebar, getTimebars } from 'store/reducers/timebars';
 import TimebarContainer from './TimebarContainer';
 import SelectTimebarContainer from './SelectTimebarContainer';
 

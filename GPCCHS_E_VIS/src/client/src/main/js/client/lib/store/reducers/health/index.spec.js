@@ -1,7 +1,7 @@
-import globalConstants from '../../../constants';
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/health';
-import * as types from '../../types';
+import globalConstants from 'constants';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/health';
+import * as types from 'store/types';
 import healthReducer, {
   getHealth,
   getDcStatus,

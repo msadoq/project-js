@@ -1,7 +1,7 @@
-import * as actions from '../../../store/actions/views';
-import * as types from '../../../store/types';
+import * as actions from 'store/actions/views';
+import * as types from 'store/types';
+import { freezeArgs } from 'common/jest';
 import configurationReducer from './configurationReducer';
-import { freezeArgs } from '../../../common/jest';
 
 const reducer = freezeArgs(configurationReducer);
 

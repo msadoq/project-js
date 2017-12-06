@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { PropTypes } from 'react';
+import { getPages } from 'store/reducers/pages';
+import { getViews } from 'store/reducers/views';
+import { focusPage } from 'store/actions/pages';
+import { focusView } from 'store/actions/views';
+import { askOpenLink } from 'store/actions/links';
+import { getWindowIdByPageId } from 'store/reducers/windows';
 import Links from './Links';
-import { getPages } from '../../store/reducers/pages';
-import { getViews } from '../../store/reducers/views';
-import { focusPage } from '../../store/actions/pages';
-import { focusView } from '../../store/actions/views';
-import { askOpenLink } from '../../store/actions/links';
-import { getWindowIdByPageId } from '../../store/reducers/windows';
 
 const mapStateToProps = (state, { pageId }) => ({
   pages: getPages(state),

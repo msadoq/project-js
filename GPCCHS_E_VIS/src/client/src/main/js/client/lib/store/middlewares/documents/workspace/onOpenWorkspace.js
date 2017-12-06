@@ -1,16 +1,16 @@
 import _ from 'lodash/fp';
 import { join } from 'path';
 
-import * as types from '../../../types';
-import { get } from '../../../../common/configurationManager';
-import { getWorkspaceIsModified } from '../../../reducers/hsc';
-import { getModifiedPagesIds } from '../../../reducers/pages';
-import { getModifiedViewsIds } from '../../../reducers/views';
-import { closeWorkspace, isWorkspaceOpening } from '../../../actions/hsc';
+import * as types from 'store/types';
+import { get } from 'common/configurationManager';
+import { getWorkspaceIsModified } from 'store/reducers/hsc';
+import { getModifiedPagesIds } from 'store/reducers/pages';
+import { getModifiedViewsIds } from 'store/reducers/views';
+import { closeWorkspace, isWorkspaceOpening } from 'store/actions/hsc';
 
-import { openDialog } from '../../../actions/ui';
-import { open as openModal } from '../../../actions/modals';
-import withListenAction from '../../../helpers/withListenAction';
+import { openDialog } from 'store/actions/ui';
+import { open as openModal } from 'store/actions/modals';
+import withListenAction from 'store/helpers/withListenAction';
 
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import Navbar from '../../../commonEditor/Navbar/Navbar';
+import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
+import { Misc } from 'viewManager/commonEditor/Misc';
+import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
+import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import PlotTab from './PlotTab';
-import { Misc } from '../../../commonEditor/Misc';
 import EntryPointTree from './EntryPointTree';
-import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
-import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 import styles from '../../../commonEditor/Editor.css';
 
 const navbarItems = ['Entry Points', 'Plot', 'Misc'];

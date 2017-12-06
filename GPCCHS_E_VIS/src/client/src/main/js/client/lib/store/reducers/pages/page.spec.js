@@ -1,7 +1,7 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/pages';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/pages';
+import * as types from 'store/types';
 import pagesReducer from '../pages';
-import * as types from '../../types';
 
 const reducer = freezeArgs(pagesReducer);
 

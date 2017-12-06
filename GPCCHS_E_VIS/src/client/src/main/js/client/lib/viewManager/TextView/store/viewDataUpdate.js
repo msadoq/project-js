@@ -1,9 +1,9 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _get from 'lodash/get';
-import getLogger from '../../../common/logManager';
-import { getStateColorObj } from '../../commonData/stateColors';
-import { convertData } from '../../commonData/convertData';
-import { applyFilters } from '../../commonData/applyFilters';
+import getLogger from 'common/logManager';
+import { getStateColorObj } from 'viewManager/commonData/stateColors';
+import { convertData } from 'viewManager/commonData/convertData';
+import { applyFilters } from 'viewManager/commonData/applyFilters';
 
 const logger = getLogger('data:lastValue');
 

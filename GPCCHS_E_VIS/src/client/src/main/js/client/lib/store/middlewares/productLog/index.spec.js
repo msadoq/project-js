@@ -1,5 +1,5 @@
 import configureMockStore from 'redux-mock-store';
-import { sendProductLog } from '../../actions/hsc';
+import { sendProductLog } from 'store/actions/hsc';
 import makeProductLogMiddleware from './';
 
 const fakeSendProductLog = x => x;

@@ -1,4 +1,4 @@
-import { freezeMe, testMemoization } from '../../common/jest';
+import { freezeMe, testMemoization } from 'common/jest';
 
 import {
   getPageLayoutWithCollapsed,

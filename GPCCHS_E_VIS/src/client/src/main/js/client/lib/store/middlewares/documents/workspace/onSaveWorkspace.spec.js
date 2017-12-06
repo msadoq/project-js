@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 
+import * as types from 'store/types';
 import makeOnSaveWorkspace from './onSaveWorkspace';
-import * as types from '../../../types';
 
 const documentManager = {
   saveWorkspace: absolutePath => ({

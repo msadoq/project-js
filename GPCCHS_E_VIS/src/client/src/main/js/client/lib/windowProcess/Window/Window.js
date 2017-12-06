@@ -1,4 +1,3 @@
-import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 import PanelGroup from 'react-panelgroup';
 import classnames from 'classnames';
@@ -6,21 +5,22 @@ import _ from 'lodash/fp';
 import _memoize from 'lodash/memoize';
 import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
+import React, { PureComponent, PropTypes } from 'react';
 import withDimensions from '../common/hoc/withDimensions';
-import HelpContentContainer from '../Navigation/HelpContentContainer';
 import MessagesContainer from '../Navigation/MessagesContainer';
+import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import EditorContainer from '../Editor/EditorContainer';
 // import Page from '../Page/Page';
 import ContentContainer from '../Page/ContentContainer';
-import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
+import styles from './Window.css';
 import TimebarCollapsedContainer from '../Timebar/TimebarCollapsedContainer';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
 import ModalGeneric from '../common/ModalGeneric';
 import NoPageContainer from './NoPageContainer';
 
-import styles from './Window.css';
+import HelpContentContainer from '../Navigation/HelpContentContainer';
 
 const logger = getLogger('Window');
 

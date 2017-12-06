@@ -3,7 +3,7 @@ import Collapse from 'rc-collapse';
 import {
   Button,
 } from 'react-bootstrap';
-import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
+import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 import DimensionsContainer from './DimensionsContainer';
 
 const { Panel } = Collapse;

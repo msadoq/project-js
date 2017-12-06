@@ -1,9 +1,9 @@
-import { getStore } from '../../store';
-import { add } from '../../../store/actions/messages';
-import { getRtd } from '../../../rtdManager';
+import { getStore } from 'mainProcess/store';
+import { add } from 'store/actions/messages';
+import { getRtd } from 'rtdManager';
 import {
   setRteDomains,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
 
 
 export default function ({ sessionId }) {

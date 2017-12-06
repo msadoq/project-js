@@ -1,6 +1,8 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/hsc';
-import { HSC_PAUSE } from '../../types';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/hsc';
+import { HSC_PAUSE } from 'store/types';
+
+import { setIsLoaded } from 'store/actions/windows';
 
 import hscReducer, {
   getWindowsOpened,
@@ -13,8 +15,6 @@ import hscReducer, {
   getDomainName,
   getSessionName,
 } from './index';
-
-import { setIsLoaded } from '../../actions/windows';
 
 const reducer = freezeArgs(hscReducer);
 

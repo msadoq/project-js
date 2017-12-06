@@ -1,14 +1,14 @@
 import _ from 'lodash/fp';
-import _isArray from 'lodash/isArray';
+import mergeIntervals from 'common/intervals/merge';
 import _isEmpty from 'lodash/isEmpty';
 import _filter from 'lodash/filter';
-import * as types from '../../types';
-import mergeIntervals from '../../../common/intervals/merge';
-import removeIntervals from '../../../common/intervals/remove';
-import missingIntervals from '../../../common/intervals/missing';
-import includesTimestamp from '../../../common/intervals/includesTimestamp';
-import getIncludesTimestamp from '../../../common/intervals/getIncludesTimestamp';
-import flattenDataId from '../../../common/flattenDataId';
+import * as types from 'store/types';
+import flattenDataId from 'common/flattenDataId';
+import removeIntervals from 'common/intervals/remove';
+import missingIntervals from 'common/intervals/missing';
+import includesTimestamp from 'common/intervals/includesTimestamp';
+import getIncludesTimestamp from 'common/intervals/getIncludesTimestamp';
+import _isArray from 'lodash/isArray';
 
 /* --- Reducer -------------------------------------------------------------- */
 

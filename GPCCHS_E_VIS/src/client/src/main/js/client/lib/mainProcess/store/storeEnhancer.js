@@ -1,6 +1,6 @@
-import getLogger from '../../common/logManager';
-import patchReducer from '../../store/helpers/patchReducer';
-import makeSlaveDispatcher from '../../store/helpers/makeSlaveDispatcher';
+import getLogger from 'common/logManager';
+import patchReducer from 'store/helpers/patchReducer';
+import makeSlaveDispatcher from 'store/helpers/makeSlaveDispatcher';
 
 const log = getLogger('main:store:enhancer');
 

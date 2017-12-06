@@ -2,13 +2,13 @@ import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { getInspectorOptions, getDataRows } from 'viewManager/GroundAlarmView/store/selectors';
+import { getIsPlaying } from 'store/reducers/hsc';
+import { getData } from 'viewManager/GroundAlarmView/store/dataReducer';
+import { getSelectedAlarms, getExpandedAlarms, getSort } from 'viewManager/GroundAlarmView/store/uiReducer';
+import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from 'viewManager/GroundAlarmView/store/actions';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from 'viewManager/GroundAlarmView/store/configurationReducer';
 import GroundAlarmTable from './GroundAlarmTable';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
-import { getData } from '../../../store/dataReducer';
-import { getSelectedAlarms, getExpandedAlarms, getSort } from '../../../store/uiReducer';
-import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../store/actions';
-import { getInspectorOptions, getDataRows } from '../../../store/selectors';
-import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
   sort: getSort,

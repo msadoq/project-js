@@ -4,8 +4,8 @@ import u from 'updeep';
 import _find from 'lodash/find';
 import _findKey from 'lodash/findKey';
 
+import * as types from 'store/types';
 import window from './window';
-import * as types from '../../types';
 
 /* --- Reducer -------------------------------------------------------------- */
 const loadWindows = (stateWindows, action) => {

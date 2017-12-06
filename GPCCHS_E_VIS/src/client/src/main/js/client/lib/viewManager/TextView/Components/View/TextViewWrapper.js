@@ -4,12 +4,12 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
 import classnames from 'classnames';
-import getLogger from '../../../../common/logManager';
-import { get } from '../../../../common/configurationManager';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
+import getLogger from 'common/logManager';
+import { get } from 'common/configurationManager';
+import LinksContainer from 'windowProcess/View/LinksContainer';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import TextView from './TextView';
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 import styles from './TextView.css';
 
 const logger = getLogger('view:text');

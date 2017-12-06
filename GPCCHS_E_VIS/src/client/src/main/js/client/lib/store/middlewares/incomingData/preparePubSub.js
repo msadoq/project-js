@@ -1,21 +1,21 @@
 import _isBuffer from 'lodash/isBuffer';
-import * as types from '../../types';
+import { applyFilters } from 'viewManager/commonData/applyFilters';
 import {
   isDataIdInCache,
   isTimestampInKnownRanges,
   getKnownRanges,
-} from '../../reducers/knownRanges';
+} from 'store/reducers/knownRanges';
 import {
   isDataIdInDatamapLast,
   isTimestampInLastDatamapInterval,
-} from '../../../dataManager/mapSelector';
-import { decode, getType } from '../../../utils/adapters';
-import { applyFilters } from '../../../viewManager/commonData/applyFilters';
-import { set as setLastPubSubTimestamp } from '../../../serverProcess/models/lastPubSubTimestamp';
-import executionMonitor from '../../../common/logManager/execution';
-import dataMapGenerator from '../../../dataManager/map';
-import { newData } from '../../../store/actions/incomingData';
-import { add as addMessage } from '../../../store/actions/messages';
+} from 'dataManager/mapSelector';
+import { decode, getType } from 'utils/adapters';
+import { add as addMessage } from 'store/actions/messages';
+import { set as setLastPubSubTimestamp } from 'serverProcess/models/lastPubSubTimestamp';
+import executionMonitor from 'common/logManager/execution';
+import dataMapGenerator from 'dataManager/map';
+import { newData } from 'store/actions/incomingData';
+import * as types from 'store/types';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
 

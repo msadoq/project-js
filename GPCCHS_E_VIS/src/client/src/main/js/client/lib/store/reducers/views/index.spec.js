@@ -1,5 +1,6 @@
 /* eslint no-unused-expressions: "off" */
-import * as types from '../../types';
+import * as types from 'store/types';
+import { freezeArgs, freezeMe } from 'common/jest';
 import viewsReducer, {
   getView,
   getViews,
@@ -12,7 +13,6 @@ import viewsReducer, {
   getViewSessionName,
   areLinksShown,
 } from '.';
-import { freezeArgs, freezeMe } from '../../../common/jest';
 
 const reducer = freezeArgs(viewsReducer);
 

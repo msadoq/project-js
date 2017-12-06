@@ -9,18 +9,18 @@ import _uniq from 'lodash/uniq';
 import _result from 'lodash/result';
 import classnames from 'classnames';
 import moment from 'moment';
-import getLogger from '../../../../common/logManager';
-import { get } from '../../../../common/configurationManager';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import GrizzlyChart from './GrizzlyParametric/Chart';
-import Legend from './Legend';
+import LinksContainer from 'windowProcess/View/LinksContainer';
+import { get } from 'common/configurationManager';
+import withDimensions from 'windowProcess/common/hoc/withDimensions';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import getLogger from 'common/logManager';
+import Legend from './Legend';
+import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const logger = getLogger('view:plot');
 

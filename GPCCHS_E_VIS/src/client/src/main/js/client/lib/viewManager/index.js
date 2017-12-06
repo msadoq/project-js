@@ -4,7 +4,7 @@ import {
   DATASTRUCTURETYPE_RANGE,
 } from '../constants';
 
-import plotViewData from './PlotView/data';
+import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
 import mimicViewData from './MimicView/data';
@@ -22,7 +22,7 @@ import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelector
 import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
 
-import plotViewSchema from './PlotView/PlotView.schema.json';
+import * as constants from './constants';
 import textViewSchema from './TextView/TextView.schema.json';
 import mimicViewSchema from './MimicView/MimicView.schema.json';
 import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
@@ -41,7 +41,7 @@ import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
 
 
-import * as constants from './constants';
+import plotViewData from './PlotView/data';
 
 const list = {
   [constants.VM_VIEW_PLOT]: {

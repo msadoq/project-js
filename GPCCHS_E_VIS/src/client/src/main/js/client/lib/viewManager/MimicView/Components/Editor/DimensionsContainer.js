@@ -1,10 +1,10 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Dimensions from './Dimensions';
-import { getViewDimensions } from '../../store/configurationSelectors';
+import { getViewDimensions } from 'viewManager/MimicView/store/configurationSelectors';
 import {
 updateDimensions,
-} from '../../../../store/actions/views';
+} from 'store/actions/views';
+import Dimensions from './Dimensions';
 
 const mapStateToProps = (state, { viewId }) => {
   const dimensions = getViewDimensions(state, { viewId });

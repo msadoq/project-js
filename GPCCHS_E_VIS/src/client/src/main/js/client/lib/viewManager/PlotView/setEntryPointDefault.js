@@ -1,5 +1,5 @@
-import { get } from '../../common/configurationManager';
-import { getRandomColor, getStateColorFilters } from '../../windowProcess/common/colors';
+import { get } from 'common/configurationManager';
+import { getRandomColor, getStateColorFilters } from 'windowProcess/common/colors';
 
 export default function (entryPoint) {
   return Object.assign({}, getNewPlotEntryPoint(), entryPoint);

@@ -4,12 +4,12 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import HealthMonitor from './Window/HealthMonitor';
 import WindowContainer from './Window/WindowContainer';
-import makeCreateStore from './store';
+import { get } from '../common/configurationManager';
 import mainController from './controllers/main';
 import { main } from './ipc';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateWindowStatus } from '../store/actions/health';
-import { get } from '../common/configurationManager';
+import makeCreateStore from './store';
 
 const windowId = global.windowId; // see index.html
 const HEALTH_CRITICAL_DELAY = get('RENDERER_HEALTH_CRITICAL_DELAY');

@@ -6,9 +6,9 @@ import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_CRITICAL,
   HEALTH_STATUS_WARNING,
-} from '../../../constants';
+} from 'constants';
 
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 

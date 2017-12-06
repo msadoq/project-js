@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import _cloneDeep from 'lodash/cloneDeep';
+import state from 'common/jest/stateTest';
+import dataMapGenerator from 'dataManager/map';
 import computeMissingRangeIntervals from './computeMissingRangeIntervals';
-import state from '../../common/jest/stateTest';
-import dataMapGenerator from '../../dataManager/map';
 
 
 describe('store/observers/computeMissingRangeIntervals', () => {

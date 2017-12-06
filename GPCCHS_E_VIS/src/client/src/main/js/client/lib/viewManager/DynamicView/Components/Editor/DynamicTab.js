@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Panel,
 } from 'react-bootstrap';
-import ViewParamsContainer from '../../../commonEditor/ViewParamsContainer';
+import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 
 export default class DynamicTab extends React.Component {
   static contextTypes = {

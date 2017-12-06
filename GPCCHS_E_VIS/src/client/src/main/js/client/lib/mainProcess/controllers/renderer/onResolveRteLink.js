@@ -1,13 +1,13 @@
 // import { parse as parseLink } from 'rtd/catalogs/utils/links';
-import getLogger from '../../../common/logManager';
-import { getStore } from '../../store';
-import { getRtd } from '../../../rtdManager';
-import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
-import createItemKey from '../../../rtdManager/createItemKey';
-import { add } from '../../../store/actions/messages';
+import getLogger from 'common/logManager';
+import { getStore } from 'mainProcess/store';
+import { getRtd } from 'rtdManager';
+import prepareDataToTree from 'rtdManager/prepareDataToTree';
+import createItemKey from 'rtdManager/createItemKey';
+import { add } from 'store/actions/messages';
 import {
   openRteItem,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 

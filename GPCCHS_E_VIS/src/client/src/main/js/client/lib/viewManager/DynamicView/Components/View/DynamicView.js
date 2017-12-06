@@ -5,9 +5,9 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './DynamicView.css';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 function dataToShow(data) {
   if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {

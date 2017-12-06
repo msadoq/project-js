@@ -1,5 +1,5 @@
 import { compare } from 'fast-json-patch';
-import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY } from 'constants';
 import patchReducer from './patchReducer';
 
 describe('patchReducer', () => {

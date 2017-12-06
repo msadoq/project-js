@@ -1,5 +1,5 @@
-import constants from '../../../constants';
-import handle from '../../../common/ipc/handle';
+import constants from 'constants';
+import handle from 'common/ipc/handle';
 
 import onReduxPatch from './onReduxPatch';
 

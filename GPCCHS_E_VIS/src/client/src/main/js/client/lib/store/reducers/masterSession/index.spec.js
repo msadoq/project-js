@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/masterSession';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/masterSession';
 import masterSessionReducer, { getMasterSessionId } from '.';
 
 const reducer = freezeArgs(masterSessionReducer);

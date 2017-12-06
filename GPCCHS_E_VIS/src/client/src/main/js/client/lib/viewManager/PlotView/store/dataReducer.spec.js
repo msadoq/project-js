@@ -1,8 +1,8 @@
-import { freezeMe } from '../../../common/jest';
+import { freezeMe } from 'common/jest';
+import * as types from 'store/types';
+import state from 'common/jest/stateTest';
+import dataMapGenerator from 'dataManager/map';
 import plotViewData from './dataReducer';
-import * as types from '../../../store/types';
-import state from '../../../common/jest/stateTest';
-import dataMapGenerator from '../../../dataManager/map';
 
 describe('viewManager/PlotView/store/dataReducer', () => {
   test('DATA_REMOVE_ALL_VIEWDATA', () => {

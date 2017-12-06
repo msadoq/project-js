@@ -4,11 +4,11 @@ import {
   InputGroup,
   Col,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ButtonToggleField from '../../../windowProcess/commonReduxForm/ButtonToggleField';
-import ColorPickerField from '../../../windowProcess/commonReduxForm/ColorPickerField';
-import InputField from '../../../windowProcess/commonReduxForm/InputField';
-import SelectButtonField from '../../../windowProcess/commonReduxForm/SelectButtonField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
+import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
 import SelectFontField from '../Fields/SelectFontField';
 
 const { Addon } = InputGroup;

@@ -1,11 +1,11 @@
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getWindowPages } from '../../store/selectors/windows';
-import { focusPage, moveTabOrder, movePageToWindow } from '../../store/actions/windows';
-import { askClosePage } from '../../store/actions/pages';
+import { getWindowPages } from 'store/selectors/windows';
+import { focusPage, moveTabOrder, movePageToWindow } from 'store/actions/windows';
+import { askClosePage } from 'store/actions/pages';
+import { close as closeModal } from 'store/actions/modals';
 import Tabs from './Tabs';
-import { close as closeModal } from '../../store/actions/modals';
 
 const mapStateToProps = (state, { windowId }) => ({
   pages: getWindowPages(state, { windowId }),

@@ -1,6 +1,6 @@
 import _get from 'lodash/fp/get';
 import _set from 'lodash/fp/set';
-import { REDUX_SYNCHRONIZATION_PATCH_KEY, TIMING_DATA, TIMING_MILESTONES } from '../../constants';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY, TIMING_DATA, TIMING_MILESTONES } from 'constants';
 
 /**
  * Returns a slave dispatcher function for main and renderer processes that:

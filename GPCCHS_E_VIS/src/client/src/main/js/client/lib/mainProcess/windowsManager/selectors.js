@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getWindows } from '../../store/reducers/windows';
-import { getView } from '../../store/reducers/views';
-import { getWorkspaceIsModified } from '../../store/reducers/hsc';
+import { getWindows } from 'store/reducers/windows';
+import { getView } from 'store/reducers/views';
+import { getWorkspaceIsModified } from 'store/reducers/hsc';
 
 export const getEditorWindowTitle = (state, { viewId }) => {
   if (!viewId) {

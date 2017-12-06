@@ -1,7 +1,7 @@
-import getLogger from '../../../common/logManager';
-import flattenDataId from '../../../common/flattenDataId';
+import getLogger from 'common/logManager';
+import flattenDataId from 'common/flattenDataId';
+import flattenStateColors from 'viewManager/commonData/flattenStateColors';
 import parseConnectedData from './parseConnectedData';
-import flattenStateColors from '../../commonData/flattenStateColors';
 
 const logger = getLogger('data:PLotView:parseEntryPoint');
 

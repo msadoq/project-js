@@ -6,13 +6,13 @@ import {
 } from 'react-bootstrap';
 import DataMapContainer from './widgets/DataMapContainer';
 import StoreContainer from './widgets/StoreContainer';
-import PerformanceContainer from './widgets/PerformanceContainer';
+import styles from './Explorer.css';
 import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
 import CacheContainer from './widgets/CacheContainer';
 import CatalogExplorerContainer from './widgets/CatalogExplorerContainer';
 
-import styles from './Explorer.css';
+import PerformanceContainer from './widgets/PerformanceContainer';
 
 const NotAlreadyImplemented = () => <div>Not already implemented</div>;
 

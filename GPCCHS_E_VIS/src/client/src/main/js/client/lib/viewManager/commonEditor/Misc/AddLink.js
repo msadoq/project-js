@@ -3,10 +3,10 @@ import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import InputField from '../../../windowProcess/commonReduxForm/InputField';
-import FileInputField from '../../../windowProcess/commonReduxForm/FileInputField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import FileInputField from 'windowProcess/commonReduxForm/FileInputField';
 
 
 class AddLink extends Component {

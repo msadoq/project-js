@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/domains';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/domains';
 import domainsReducer, { getDomains } from '.';
 
 const reducer = freezeArgs(domainsReducer);

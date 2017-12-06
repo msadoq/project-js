@@ -1,11 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import AckModal from '../../../GroundAlarmView/Components/View/AckModal';
-import { sendAlarmAck } from '../../../GroundAlarmView/store/actions';
-import { getAckStatus } from '../../../GroundAlarmView/store/uiReducer';
+import AckModal from 'viewManager/GroundAlarmView/Components/View/AckModal';
+import { sendAlarmAck } from 'viewManager/GroundAlarmView/store/actions';
+import { getAckStatus } from 'viewManager/GroundAlarmView/store/uiReducer';
 
-import { getData } from '../../store/dataReducer';
+import { getData } from 'viewManager/OnboardAlarmView/store/dataReducer';
 
 const getAlarmLabel = ({ RIDName, onBoardDate }) => `${RIDName} - ${onBoardDate}`;
 

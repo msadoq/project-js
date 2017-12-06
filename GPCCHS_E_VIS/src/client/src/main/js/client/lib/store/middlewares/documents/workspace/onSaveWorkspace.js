@@ -1,12 +1,12 @@
 import { join } from 'path';
-import * as types from '../../../types';
+import * as types from 'store/types';
 
+import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from 'store/reducers/hsc';
+import { openDialog } from 'store/actions/ui';
+
+import { open as openModal } from 'store/actions/modals';
+import withListenAction from 'store/helpers/withListenAction';
 import { getWorkspaceNewPagesIds, getWorkspaceHasNewPages, getNewViewIds } from '../selectors';
-import { getWorkspaceFile, getWorkspaceFolder, getFocusedWindowId } from '../../../reducers/hsc';
-
-import { openDialog } from '../../../actions/ui';
-import { open as openModal } from '../../../actions/modals';
-import withListenAction from '../../../helpers/withListenAction';
 
 import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 

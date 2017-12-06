@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
-import { freezeArgs, freezeMe } from '../../../common/jest';
-import * as actions from '../../actions/windows';
+import { freezeArgs, freezeMe } from 'common/jest';
+import * as actions from 'store/actions/windows';
 import windowsReducer, {
   getWindow,
   getWindows,

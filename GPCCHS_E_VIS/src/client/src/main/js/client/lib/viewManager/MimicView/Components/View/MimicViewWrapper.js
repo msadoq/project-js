@@ -1,9 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import _each from 'lodash/each';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
-import getLogger from '../../../../common/logManager';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import getLogger from 'common/logManager';
+import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './MimicView.css';
 import MimicView from './MimicView';
 

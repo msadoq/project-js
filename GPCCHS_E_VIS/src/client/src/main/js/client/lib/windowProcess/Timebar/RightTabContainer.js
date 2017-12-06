@@ -4,11 +4,11 @@ import {
   setRealTime,
   updateCursors,
   jump,
-} from '../../store/actions/timebars';
-import { play, pause } from '../../store/actions/hsc';
+} from 'store/actions/timebars';
+import { play, pause } from 'store/actions/hsc';
 import {
   open as openModal,
-} from '../../store/actions/modals';
+} from 'store/actions/modals';
 import RightTab from './RightTab';
 
 export default connect(

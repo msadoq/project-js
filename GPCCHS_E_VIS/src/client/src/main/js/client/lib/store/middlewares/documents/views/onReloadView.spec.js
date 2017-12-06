@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
 import makeOnReloadView from './onReloadView';
-import * as types from '../../../types';
 
 const documentManager = {
   reloadView: viewId => ({

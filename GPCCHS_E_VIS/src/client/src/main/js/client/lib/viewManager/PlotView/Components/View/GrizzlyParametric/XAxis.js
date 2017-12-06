@@ -6,7 +6,7 @@ import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { axisBottom, axisTop } from 'd3-axis';
-import { getZoomLevel, levelsRules } from '../../../../../windowProcess/common/timeFormats';
+import { getZoomLevel, levelsRules } from 'windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 import Axis from './Axis';
 import { lineType, labelStyleType } from './types';

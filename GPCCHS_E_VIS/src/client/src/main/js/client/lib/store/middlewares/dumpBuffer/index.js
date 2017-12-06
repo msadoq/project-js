@@ -1,4 +1,4 @@
-import pipeMiddlewares from '../../helpers/pipeMiddlewares';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import dumpBufferArchive from './dumpBufferArchive';
 import dumpBufferPubSub from './dumpBufferPubSub';
 

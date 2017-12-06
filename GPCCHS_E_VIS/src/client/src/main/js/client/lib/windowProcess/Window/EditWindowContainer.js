@@ -1,8 +1,8 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getWindow, getWindows } from '../../store/reducers/windows';
-import { updateTitle } from '../../store/actions/windows';
+import { getWindow, getWindows } from 'store/reducers/windows';
+import { updateTitle } from 'store/actions/windows';
 import EditWindowWrapper from './EditWindowWrapper';
 
 const mapStateToProps = (state, { windowId }) => {

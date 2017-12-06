@@ -1,5 +1,5 @@
 import _clone from 'lodash/clone';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 

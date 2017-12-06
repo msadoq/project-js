@@ -2,16 +2,16 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import PlotAxes from './PlotAxes';
-import { getAxes, getShowYAxes, getEntryPoints } from '../../store/configurationSelectors';
-import { getViewSubPanels } from '../../../../store/reducers/ui/editor';
-import { updateViewSubPanels } from '../../../../store/actions/ui';
+import { getAxes, getShowYAxes, getEntryPoints } from 'viewManager/PlotView/store/configurationSelectors';
+import { getViewSubPanels } from 'store/reducers/ui/editor';
+import { updateViewSubPanels } from 'store/actions/ui';
 import {
   removeAxis,
   updateAxis,
   addAxis,
   updateShowYAxes,
-} from '../../../../store/actions/views';
+} from 'store/actions/views';
+import PlotAxes from './PlotAxes';
 
 const mapStateToProps = createStructuredSelector({
   axes: getAxes,

@@ -1,22 +1,22 @@
-import { getPage } from '../../reducers/pages';
-import { getTimebar } from '../../reducers/timebars';
-import { getPlayingTimebarId } from '../../reducers/hsc';
-import { getHealthMap } from '../../reducers/health';
-import { getIsCodeEditorOpened } from '../../reducers/codeEditor';
+import { getPage } from 'store/reducers/pages';
+import { getTimebar } from 'store/reducers/timebars';
+import { getPlayingTimebarId } from 'store/reducers/hsc';
+import { getHealthMap } from 'store/reducers/health';
+import { getIsCodeEditorOpened } from 'store/reducers/codeEditor';
 
-import { updateCursors, switchToRealtimeMode, moveTo } from '../../actions/timebars';
-import { pause } from '../../actions/hsc';
+import { updateCursors, switchToRealtimeMode, moveTo } from 'store/actions/timebars';
+import { pause } from 'store/actions/hsc';
 
-import { add as addMessage } from '../../actions/messages';
-import { isAnyEditorOpenedInWindow } from '../../selectors/pages';
-import { getCurrentSessionId } from '../../selectors/sessions';
+import ipc from 'serverProcess/ipc';
+import { isAnyEditorOpenedInWindow } from 'store/selectors/pages';
+import { getCurrentSessionId } from 'store/selectors/sessions';
 
-import createInterval from '../../../common/utils/interval';
-import { HEALTH_STATUS_CRITICAL } from '../../../constants';
+import createInterval from 'common/utils/interval';
+import { HEALTH_STATUS_CRITICAL } from 'constants';
+import * as types from 'store/types';
+import { add as addMessage } from 'store/actions/messages';
+
 import { nextCurrent, computeCursors } from './cursors';
-import * as types from '../../types';
-
-import ipc from '../../../serverProcess/ipc';
 
 const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   const state = getState();

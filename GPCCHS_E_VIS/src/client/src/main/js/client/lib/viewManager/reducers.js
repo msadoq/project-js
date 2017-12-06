@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import composeReducers from '../store/helpers/composeReducers';
+import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
 import createReducerByViews from '../store/helpers/createReducerByViews';
 import commonConfigurationReducer from './commonConfiguration/reducer';
 
@@ -11,7 +11,7 @@ import mimicViewConfigurationReducer from './MimicView/store/configurationReduce
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
 import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
-import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
+import * as constants from './constants';
 
 import textViewDataReducer from './TextView/store/dataReducer';
 import plotViewDataReducer from './PlotView/store/dataReducer';
@@ -24,7 +24,7 @@ import packetViewDataReducer from './PacketView/store/dataReducer';
 
 import alarmViewUiReducer from './GroundAlarmView/store/uiReducer';
 
-import * as constants from './constants';
+import composeReducers from '../store/helpers/composeReducers';
 
 /* --- Utils ---------------------------------------------------------------- */
 const appendString = _.curry((x, str) => str.concat(x));

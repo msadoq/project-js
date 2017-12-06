@@ -1,8 +1,8 @@
-import pipeMiddlewares from '../../helpers/pipeMiddlewares';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
+import { get } from 'common/configurationManager';
 import retrieveLast from './retrieveLast';
 import retrieveRange from './retrieveRange';
 import forecastData from './forecastData';
-import { get } from '../../../common/configurationManager';
 
 const forecastTime = get('FORECAST');
 const forecastTrigger = get('FORECAST_TRIGGER');

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-import * as types from '../../../store/types';
-import { openInCurrentWindow as openModalInCurrentWindow } from '../../../store/actions/modals';
+import * as types from 'store/types';
+import { openInCurrentWindow as openModalInCurrentWindow } from 'store/actions/modals';
 
 export const openAckModal = (viewId, alarmsOids) => {
   const ackId = v4();

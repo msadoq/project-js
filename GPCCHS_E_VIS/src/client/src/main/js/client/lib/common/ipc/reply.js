@@ -1,5 +1,5 @@
-import getLogger from '../../common/logManager';
-import { IPC_RPC_RESPONSE } from '../../constants';
+import getLogger from 'common/logManager';
+import { IPC_RPC_RESPONSE } from 'constants';
 import { pop } from '../callbacks';
 
 const logger = getLogger('ipc:reply');

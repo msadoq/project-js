@@ -1,13 +1,13 @@
 import _ from 'lodash/fp';
 import { join } from 'path';
 
-import { askOpenWorkspace } from '../../../actions/hsc';
-import { getIsWorkspaceOpened } from '../../../reducers/hsc';
-import { get } from '../../../../common/configurationManager';
-import * as types from '../../../types';
-import { getFocusedWindow } from '../../../selectors/windows';
-import { openDialog } from '../../../actions/ui';
-import withListenAction from '../../../helpers/withListenAction';
+import { askOpenWorkspace } from 'store/actions/hsc';
+import { getIsWorkspaceOpened } from 'store/reducers/hsc';
+import { get } from 'common/configurationManager';
+import * as types from 'store/types';
+import { getFocusedWindow } from 'store/selectors/windows';
+import { openDialog } from 'store/actions/ui';
+import withListenAction from 'store/helpers/withListenAction';
 
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 import { getUniqueWindow } from '../selectors';

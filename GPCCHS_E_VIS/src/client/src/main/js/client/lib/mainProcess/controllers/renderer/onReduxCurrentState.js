@@ -1,4 +1,4 @@
-import { getStore } from '../../store';
+import { getStore } from 'mainProcess/store';
 
 /**
  * Triggered when renderer process startup and request initialState

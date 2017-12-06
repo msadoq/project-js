@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SizablePlotView from './PlotView';
+import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { addEntryPoint, removeEntryPoint, saveLiveExtents,
-  removeLink, updateShowLinks, toggleLegend } from '../../../../store/actions/views';
-import { pause } from '../../../../store/actions/hsc';
-import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getData } from '../../store/dataReducer';
-import { getTimebar, isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
-import { getInspectorEpId } from '../../../../store/reducers/inspector';
-import { getPage, getPageIdByViewId } from '../../../../store/reducers/pages';
-import { getTimebarTimelines } from '../../../../store/reducers/timebarTimelines';
-import { getTimeline } from '../../../../store/reducers/timelines';
-import { getConfigurationByViewId } from '../../../../viewManager';
-import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
-import { getLinks, areLinksShown } from '../../../../store/reducers/views';
+  removeLink, updateShowLinks, toggleLegend } from 'store/actions/views';
+import { pause } from 'store/actions/hsc';
+import { getViewEntryPoints } from 'store/selectors/views';
+import { getData } from 'viewManager/PlotView/store/dataReducer';
+import { getLinks, areLinksShown } from 'store/reducers/views';
+import { getInspectorEpId } from 'store/reducers/inspector';
+import { getPage, getPageIdByViewId } from 'store/reducers/pages';
+import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
+import { getTimeline } from 'store/reducers/timelines';
+import { getConfigurationByViewId } from 'viewManager';
+import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
+import SizablePlotView from './PlotView';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });

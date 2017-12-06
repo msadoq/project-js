@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
-import * as types from '../../types';
-import { removeWithAnimation } from '../../actions/messages';
+import * as types from 'store/types';
+import { removeWithAnimation } from 'store/actions/messages';
 
 const MESSAGE_LIFE_DELAY = 10000;
 const MESSAGE_TRANSITION_OUT_DELAY = 2500;

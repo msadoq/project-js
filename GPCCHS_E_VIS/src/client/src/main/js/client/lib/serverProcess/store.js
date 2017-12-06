@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { get } from '../common/configurationManager';
-import createIncomingDataMiddleware from '../store/middlewares/incomingData';
+import makeMessagesMiddleware from '../store/middlewares/messages';
 import createDumpBufferMiddleware from '../store/middlewares/dumpBuffer';
 import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
 import createCacheMiddleware from '../store/middlewares/cache';
@@ -10,8 +10,8 @@ import ipc from './ipc';
 import documentManager from './documentManager';
 import lokiManager from './models/lokiKnownRangesData';
 import makeAckMiddleware from '../store/middlewares/ack';
-import makeMessagesMiddleware from '../store/middlewares/messages';
-import makePlayerMiddleware from '../store/middlewares/player';
+import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
+import createIncomingDataMiddleware from '../store/middlewares/incomingData';
 import makeOnProcessOverload from '../store/middlewares/player/processOverload';
 import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
@@ -22,7 +22,7 @@ import makeViewNeededData from '../store/middlewares/viewNeededData/viewNeededDa
 import pageSessionOrDomainUpdated from '../store/middlewares/pages/pageSessionOrDomainUpdated';
 import windowSessionOrDomainUpdated from '../store/middlewares/windows/windowSessionOrDomainUpdated';
 import getLogger from '../common/logManager';
-import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
+import makePlayerMiddleware from '../store/middlewares/player';
 
 const log = getLogger('server:store:enhancer');
 

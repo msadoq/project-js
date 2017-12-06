@@ -1,24 +1,24 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import MimicEditor from './MimicEditor';
 import {
   addEntryPoint,
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
-} from '../../../../store/actions/views';
-import { getConfigurationByViewId } from '../../../../viewManager';
+} from 'store/actions/views';
+import { getConfigurationByViewId } from 'viewManager';
 import {
   open as openModal,
-} from '../../../../store/actions/modals';
+} from 'store/actions/modals';
 import {
   updateViewPanels,
   updateViewEntryPointsPanels,
   updateViewTab,
-} from '../../../../store/actions/ui';
-import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
-import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui/editor';
+} from 'store/actions/ui';
+import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
+import { getViewPanels, getViewEntryPointsPanels, getViewTab } from 'store/reducers/ui/editor';
+import MimicEditor from './MimicEditor';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,

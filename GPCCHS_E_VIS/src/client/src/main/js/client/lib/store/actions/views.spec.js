@@ -1,5 +1,5 @@
+import { mockStore, freezeMe } from 'common/jest';
 import * as actions from './views';
-import { mockStore, freezeMe } from '../../common/jest';
 
 const defaultStateColor = [
   {

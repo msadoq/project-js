@@ -1,14 +1,14 @@
 import _ from 'lodash/fp';
-import { join, dirname } from 'path';
+import { addBlankPage, focusPage } from 'store/actions/pages';
 import { v4 } from 'uuid';
-import * as types from '../../../types';
-import { focusView } from '../../../actions/views';
-import { addBlankPage, focusPage } from '../../../actions/pages';
-import { getLink, getView, getViews } from '../../../reducers/views';
-import { getPages } from '../../../reducers/pages';
-import { getFocusedWindowId } from '../../../reducers/hsc';
-import { add as addMessage } from '../../../actions/messages';
-import { get } from '../../../../common/configurationManager';
+import * as types from 'store/types';
+import { focusView } from 'store/actions/views';
+import { get } from 'common/configurationManager';
+import { getLink, getView, getViews } from 'store/reducers/views';
+import { getPages } from 'store/reducers/pages';
+import { getFocusedWindowId } from 'store/reducers/hsc';
+import { add as addMessage } from 'store/actions/messages';
+import { join, dirname } from 'path';
 
 const isAbsolutePath = path => /^\//.test(path);
 

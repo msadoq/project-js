@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import * as types from '../../../store/types';
+import * as types from 'store/types';
 
 export default (stateConf = { content: '', search: '' }, action) => {
   switch (action.type) {

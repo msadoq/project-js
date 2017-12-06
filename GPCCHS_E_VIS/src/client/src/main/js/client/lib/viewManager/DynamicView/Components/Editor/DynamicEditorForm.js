@@ -2,10 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
-import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 
 class EntryPointConnectedData extends Component {
   componentDidMount() {

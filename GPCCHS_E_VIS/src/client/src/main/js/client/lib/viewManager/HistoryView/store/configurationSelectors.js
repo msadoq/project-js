@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { getConfigurationByViewId } from '../../../viewManager';
+import { getConfigurationByViewId } from 'viewManager';
 
 export const getAllCols = createSelector(
   getConfigurationByViewId,

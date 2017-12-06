@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
 import makeOnSaveViewAsModel from './onSaveViewAsModel';
-import * as types from '../../../types';
 
 const documentManager = {
   saveViewAsModel: (viewId, absolutePath) => ({

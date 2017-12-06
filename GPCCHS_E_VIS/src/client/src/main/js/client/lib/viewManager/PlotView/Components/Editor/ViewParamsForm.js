@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react';
-import classnames from 'classnames';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import { Field, reduxForm } from 'redux-form';
 import {
   Form,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
-import ColorPickerField from '../../../../windowProcess/commonReduxForm/ColorPickerField';
-import FormSectionFontStyle from '../../../commonEditor/FormSections/FormSectionFontStyle';
-import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
+import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
+import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
+import classnames from 'classnames';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {

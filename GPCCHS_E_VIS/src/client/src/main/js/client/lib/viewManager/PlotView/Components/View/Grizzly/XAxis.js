@@ -5,7 +5,7 @@ import { select } from 'd3-selection';
 import { scaleTime } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { axisBottom, axisTop } from 'd3-axis';
-import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
+import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class XAxis extends Component {

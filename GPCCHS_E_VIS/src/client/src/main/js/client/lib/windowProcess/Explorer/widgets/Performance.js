@@ -4,16 +4,16 @@ import _reduce from 'lodash/reduce';
 import _get from 'lodash/get';
 import _isObject from 'lodash/isObject';
 import classnames from 'classnames';
+import * as constants from 'viewManager/constants';
+import Perf from 'react-dom/lib/ReactPerf';
+import { get } from 'common/configurationManager';
+import getLogger from 'common/logManager';
+import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL } from 'constants';
 import {
   Panel,
   Button,
 } from 'react-bootstrap';
-import Perf from 'react-dom/lib/ReactPerf';
-import { get } from '../../../common/configurationManager';
-import getLogger from '../../../common/logManager';
-import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL } from '../../../constants';
 import styles from './Performance.css';
-import * as constants from '../../../viewManager/constants';
 
 const logger = getLogger('Performance');
 

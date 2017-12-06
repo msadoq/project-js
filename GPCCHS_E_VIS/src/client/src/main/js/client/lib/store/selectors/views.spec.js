@@ -1,5 +1,5 @@
+import state from 'common/jest/stateTest';
 import { getViewEntryPoint, getWindowAllViewsIds } from './views';
-import state from '../../common/jest/stateTest';
 
 describe('store:views:selectors', () => {
   test('getViewEntryPoint', () => {

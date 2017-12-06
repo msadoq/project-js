@@ -7,8 +7,8 @@ import _concat from 'lodash/concat';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
-import { convertData } from '../../commonData/convertData';
-import * as constants from '../../../constants';
+import { convertData } from 'viewManager/commonData/convertData';
+import * as constants from 'constants';
 
 
 /**

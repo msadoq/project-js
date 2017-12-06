@@ -1,9 +1,9 @@
 import _isBuffer from 'lodash/isBuffer';
-import { dumpBuffer } from '../../../serverProcess/utils/dumpBuffer';
-import * as types from '../../types';
-import { decode } from '../../../utils/adapters';
-import executionMonitor from '../../../common/logManager/execution';
-import { DUMP_EXTENSIONS } from '../../../constants';
+import { dumpBuffer } from 'serverProcess/utils/dumpBuffer';
+import * as types from 'store/types';
+import { decode } from 'utils/adapters';
+import executionMonitor from 'common/logManager/execution';
+import { DUMP_EXTENSIONS } from 'constants';
 
 const dumpBufferPubSub = () => () => next => (action) => {
   const nextAction = next(action);

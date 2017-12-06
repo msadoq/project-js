@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 
-import hsc from './hsc';
+import { configurationReducers, dataReducers, uiReducers } from 'viewManager';
+import sessions from './sessions';
 import timebars from './timebars';
-import timebarTimelines from './timebarTimelines';
+import views from './views';
 import messages from './messages';
 import modals from './modals';
 import timelines from './timelines';
 import windows from './windows';
 import pages from './pages';
-import views from './views';
 import domains from './domains';
-import sessions from './sessions';
+import timebarTimelines from './timebarTimelines';
 import masterSession from './masterSession';
 import health from './health';
 import codeEditor from './codeEditor';
@@ -20,7 +20,7 @@ import knownRanges from './knownRanges';
 import ui from './ui';
 import rte from './rte';
 
-import { configurationReducers, dataReducers, uiReducers } from '../../viewManager';
+import hsc from './hsc';
 
 const rootReducer = combineReducers({
   form,

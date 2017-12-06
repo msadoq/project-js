@@ -1,5 +1,5 @@
 import { parallel } from 'async';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
 import { dc } from '../ipc';
 
 const TIMEOUT = 2500;

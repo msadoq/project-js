@@ -4,9 +4,9 @@ import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _ from 'lodash/fp';
 
-import { getMimicViewData, getData } from './dataReducer';
+import { getViewTitle } from 'store/reducers/views';
 
-import { getViewTitle } from '../../../store/reducers/views';
+import { getMimicViewData, getData } from './dataReducer';
 
 const getFullTitle = getViewTitle;
 

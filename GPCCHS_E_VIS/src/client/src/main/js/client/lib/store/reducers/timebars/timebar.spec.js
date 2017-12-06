@@ -1,9 +1,9 @@
 /* eslint no-unused-expressions: 0 */
 import __ from 'lodash/fp';
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/timebars';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/timebars';
+import * as types from 'store/types';
 import timebarsReducer from '../timebars';
-import * as types from '../../types';
 
 const reducer = freezeArgs(timebarsReducer);
 

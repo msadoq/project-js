@@ -1,10 +1,10 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import getLogger from '../../../../common/logManager';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import GrizzlyChart from './GrizzlyParametric/Chart';
+import getLogger from 'common/logManager';
+import withDimensions from 'windowProcess/common/hoc/withDimensions';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
+import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 

@@ -1,4 +1,4 @@
-import pipeMiddlewares from '../../helpers/pipeMiddlewares';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import makeViewsMiddleware from './views';
 import makePagesMiddleware from './pages';
 import makeWorkspacesMiddleware from './workspace';

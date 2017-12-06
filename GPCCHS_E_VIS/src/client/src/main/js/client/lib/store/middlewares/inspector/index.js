@@ -1,14 +1,14 @@
-import getLogger from '../../../common/logManager';
-import * as types from '../../types';
-import { add } from '../../actions/messages';
-import { minimizeExplorer, focusTabInExplorer } from '../../actions/pages';
+import getLogger from 'common/logManager';
+import * as types from 'store/types';
+import { add } from 'store/actions/messages';
+import { minimizeExplorer, focusTabInExplorer } from 'store/actions/pages';
 import {
   setInspectorGeneralData,
   deleteInspectorGeneralData,
   isInspectorDisplayingTM,
   setInspectorStaticData,
   isInspectorStaticDataLoading,
-} from '../../actions/inspector';
+} from 'store/actions/inspector';
 
 const logger = getLogger('server:store:middlewares:inspector');
 

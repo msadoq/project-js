@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { askSavePage } from '../../../actions/pages';
-import { dialogClosed } from '../../../actions/ui';
+import { askSavePage } from 'store/actions/pages';
+import { dialogClosed } from 'store/actions/ui';
 import makeOnSavePage from './onSavePage';
 
 const documentManager = {

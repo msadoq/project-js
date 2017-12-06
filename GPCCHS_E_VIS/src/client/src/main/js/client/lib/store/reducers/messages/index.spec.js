@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/messages';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/messages';
 import messagesReducer, { getGlobalMessages, getMessages, getTimeSetterMessages } from '.';
 
 const reducer = freezeArgs(messagesReducer);

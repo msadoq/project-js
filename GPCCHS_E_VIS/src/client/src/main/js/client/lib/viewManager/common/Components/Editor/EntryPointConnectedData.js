@@ -6,7 +6,7 @@ import {
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
 import { reduxForm, formValueSelector } from 'redux-form';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 const { string, func, bool } = PropTypes;

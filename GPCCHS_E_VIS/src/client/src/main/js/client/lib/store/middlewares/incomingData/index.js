@@ -1,4 +1,4 @@
-import pipeMiddlewares from '../../helpers/pipeMiddlewares';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import prepareRange from './prepareRange';
 import prepareLast from './prepareLast';
 import preparePubSub from './preparePubSub';

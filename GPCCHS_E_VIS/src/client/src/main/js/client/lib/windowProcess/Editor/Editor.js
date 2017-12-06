@@ -1,8 +1,8 @@
 // import _ from 'lodash/fp';
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import getLogger from '../../common/logManager';
-import { getEditorComponent } from '../../viewManager/components';
+import getLogger from 'common/logManager';
+import { getEditorComponent } from 'viewManager/components';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');

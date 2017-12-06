@@ -1,10 +1,10 @@
 import _omit from 'lodash/omit';
 
+import * as types from 'store/types';
+import * as constants from 'viewManager/constants';
+
 import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
-
-import * as types from '../../../store/types';
-import * as constants from '../../constants';
 
 const initialState = {
   indexes: {},

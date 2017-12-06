@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import CatalogExplorer from './CatalogExplorer';
 import {
   getRteSessions,
   getRteDomains,
@@ -8,7 +7,7 @@ import {
   getRteOpenedItems,
   getRteFocusedItem,
   getRteFocusedInfo,
-} from '../../../store/reducers/rte';
+} from 'store/reducers/rte';
 import {
   isRteCatalogNodeToggled as toggleCatalogNode,
   isRteItemNameNodeToggled as toggleItemNameNode,
@@ -18,7 +17,8 @@ import {
   deleteRteItemNames as deleteItemNames,
   closeRteItem as closeItem,
   setRteFocusedItem as setFocusedItem,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
+import CatalogExplorer from './CatalogExplorer';
 
 const mapStateToProps = (state) => {
   const sessions = getRteSessions(state);

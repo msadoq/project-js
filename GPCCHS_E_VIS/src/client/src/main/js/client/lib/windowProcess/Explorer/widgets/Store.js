@@ -3,8 +3,8 @@ import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';
 import { clipboard } from 'electron';
 import _lowerFirst from 'lodash/lowerFirst';
+import { getAvailableViews } from 'viewManager';
 import styles from '../Explorer.css';
-import { getAvailableViews } from '../../../viewManager';
 
 export default class Store extends PureComponent {
   static propTypes = {

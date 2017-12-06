@@ -1,11 +1,11 @@
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import PlotMarkers from './PlotMarkers';
-import { getMarkers, getAxes } from '../../store/configurationSelectors';
+import { getMarkers, getAxes } from 'viewManager/PlotView/store/configurationSelectors';
 import {
   updateMarker,
-} from '../../../../store/actions/views';
+} from 'store/actions/views';
+import PlotMarkers from './PlotMarkers';
 
 const mapStateToProps = createStructuredSelector({
   markers: getMarkers,

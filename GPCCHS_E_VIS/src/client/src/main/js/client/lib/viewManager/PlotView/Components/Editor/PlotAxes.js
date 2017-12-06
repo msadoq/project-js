@@ -7,8 +7,8 @@ import {
 import classnames from 'classnames';
 import Collapse from 'rc-collapse';
 import _memoize from 'lodash/memoize';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import SelectButton from '../../../../windowProcess/commonReduxForm/SelectButton';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import SelectButton from 'windowProcess/commonReduxForm/SelectButton';
 import AddPlotAxis from './AddPlotAxis';
 import styles from './EntryPointTree.css';
 

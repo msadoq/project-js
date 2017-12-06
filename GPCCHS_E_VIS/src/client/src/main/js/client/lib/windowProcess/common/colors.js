@@ -1,5 +1,5 @@
 import _map from 'lodash/map';
-import { get } from '../../common/configurationManager';
+import { get } from 'common/configurationManager';
 
 const colors = [
   '#FFFFFF', '#000000', '#f44336', '#e91e63', '#9c27b0',

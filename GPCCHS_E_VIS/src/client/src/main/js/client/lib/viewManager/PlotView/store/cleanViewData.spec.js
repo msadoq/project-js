@@ -1,12 +1,12 @@
 import _cloneDeep from 'lodash/cloneDeep';
 import _omit from 'lodash/omit';
+import { freezeMe } from 'common/jest';
+import state from 'common/jest/stateTest';
+import dataMapGenerator from 'dataManager/map';
 import cleanCurrentViewData,
   { updateEpLabel,
     scanForMinAndMax,
     removeViewDataByEp } from './cleanViewData';
-import { freezeMe } from '../../../common/jest';
-import state from '../../../common/jest/stateTest';
-import dataMapGenerator from '../../../dataManager/map';
 
 
 describe('viewManager/PlotView/store/cleanViewData', () => {

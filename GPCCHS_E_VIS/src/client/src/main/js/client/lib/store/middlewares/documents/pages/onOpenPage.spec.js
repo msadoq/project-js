@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
-import * as types from '../../../types';
+import * as types from 'store/types';
 import makeOnOpenPage from './onOpenPage';
 
 const documentManager = {

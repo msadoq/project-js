@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
+import dataMapGenerator from 'dataManager/map';
 import injectData from './injectData';
-import * as types from '../../types';
-import dataMapGenerator from '../../../dataManager/map';
 
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');

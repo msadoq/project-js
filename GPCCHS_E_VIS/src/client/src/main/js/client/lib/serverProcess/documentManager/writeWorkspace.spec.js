@@ -4,12 +4,12 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 import { readFile } from 'fs';
 
-import { MIME_TYPES } from '../../constants';
-import { getTmpPath, freezeMe } from '../../common/jest';
+import { MIME_TYPES } from 'constants';
+import { getTmpPath, freezeMe } from 'common/jest';
 
+import fs from 'common/fs';
 import { writeWorkspace, writeWorkspaceAs } from './writeWorkspace';
 import * as fmdApi from './fmd';
-import fs from '../../common/fs';
 
 jest.mock('../ipc');
 

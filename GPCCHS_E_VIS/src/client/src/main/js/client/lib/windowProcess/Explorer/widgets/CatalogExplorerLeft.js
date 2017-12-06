@@ -6,10 +6,10 @@ import {
   FormControl,
 } from 'react-bootstrap';
 import _map from 'lodash/map';
-import getLogger from '../../../common/logManager';
-import createItemKey from '../../../rtdManager/createItemKey';
+import getLogger from 'common/logManager';
+import createItemKey from 'rtdManager/createItemKey';
+import { main } from 'windowProcess/ipc';
 import Tree from './Tree';
-import { main } from '../../ipc';
 import styles from './CatalogExplorer.css';
 // import handleContextMenu from '../../common/handleContextMenu';
 

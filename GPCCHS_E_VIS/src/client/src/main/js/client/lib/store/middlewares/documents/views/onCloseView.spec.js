@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
 import makeOnCloseView from './onCloseView';
-import * as types from '../../../types';
 
 let saveViewError = false;
 const documentManager = {

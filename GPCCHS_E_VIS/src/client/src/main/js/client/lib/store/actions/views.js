@@ -1,15 +1,15 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 
-import simple from '../helpers/simpleActionCreator';
+import { getViewModule } from 'viewManager';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
-import { openEditor } from './pages';
+import { focusPage } from '../actions/windows';
 import { getView } from '../reducers/views';
 import { getPageIdByViewId } from '../reducers/pages';
 import { getWindowIdByPageId } from '../reducers/windows';
-import { getViewModule } from '../../viewManager';
-import { focusPage } from '../actions/windows';
+import simple from '../helpers/simpleActionCreator';
+import { openEditor } from './pages';
 
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'view', 'pageId');
 

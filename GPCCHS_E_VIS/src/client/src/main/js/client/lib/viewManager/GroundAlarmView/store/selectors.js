@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getViewEntryPoints } from '../../../store/selectors/views';
+import { getViewEntryPoints } from 'store/selectors/views';
+import sortDataBy from 'viewManager/commonData/sortDataBy';
 import { getData } from './dataReducer';
 import { getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
-import sortDataBy from '../../commonData/sortDataBy';
 
 export const getInspectorOptions = createSelector(
   getViewEntryPoints,

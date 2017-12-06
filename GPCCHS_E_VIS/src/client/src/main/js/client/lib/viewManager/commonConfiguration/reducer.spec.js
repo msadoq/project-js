@@ -1,6 +1,6 @@
-import * as actions from '../../store/actions/views';
+import * as actions from 'store/actions/views';
+import { freezeArgs } from 'common/jest';
 import viewConfigurationReducer from './reducer';
-import { freezeArgs } from '../../common/jest';
 
 const reducer = freezeArgs(viewConfigurationReducer);
 

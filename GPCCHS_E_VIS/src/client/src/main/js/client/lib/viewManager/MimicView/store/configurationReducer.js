@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
-import { getNewTextEntryPoint } from '../../../common/entryPoint';
-import * as types from '../../../store/types';
+import { getNewTextEntryPoint } from 'common/entryPoint';
+import * as types from 'store/types';
 
 export default (stateConf = { content: '' }, action) => {
   switch (action.type) {

@@ -3,8 +3,8 @@ import path from 'path';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
+import * as types from 'store/types';
 import makeOnOpenWorkspace from './onOpenWorkspace';
-import * as types from '../../../types';
 
 const documentManager = {
   createBlankWorkspace: () => ({ workspace: true }),

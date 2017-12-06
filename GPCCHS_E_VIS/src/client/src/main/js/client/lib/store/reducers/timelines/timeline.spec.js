@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/timelines';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/timelines';
 import timelinesReducer from './index';
 
 const reducer = freezeArgs(timelinesReducer);

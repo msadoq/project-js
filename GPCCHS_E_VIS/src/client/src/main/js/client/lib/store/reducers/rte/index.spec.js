@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/rte';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/rte';
 
 import hscReducer, {
   getRteSessions,

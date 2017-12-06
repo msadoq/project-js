@@ -3,11 +3,11 @@ import {
   getWindow,
   getWindowFocusedPageId,
   getDisplayHelp,
-} from '../../store/reducers/windows';
-import { getPanels } from '../../store/reducers/pages';
-import { getModal } from '../../store/reducers/modals';
-import { setIsLoaded, displayHelp } from '../../store/actions/windows';
-import { close as closeModal, modalClosed } from '../../store/actions/modals';
+} from 'store/reducers/windows';
+import { getPanels } from 'store/reducers/pages';
+import { getModal } from 'store/reducers/modals';
+import { setIsLoaded, displayHelp } from 'store/actions/windows';
+import { close as closeModal, modalClosed } from 'store/actions/modals';
 import {
   resizeEditor,
   resizeTimebar,
@@ -16,7 +16,7 @@ import {
   minimizeEditor,
   minimizeTimebar,
   focusTabInExplorer,
-} from '../../store/actions/pages';
+} from 'store/actions/pages';
 
 import WindowWrapper from './WindowWrapper';
 

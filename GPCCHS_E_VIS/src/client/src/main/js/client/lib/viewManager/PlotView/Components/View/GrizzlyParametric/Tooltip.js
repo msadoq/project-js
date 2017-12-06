@@ -5,7 +5,7 @@ import _memoize from 'lodash/memoize';
 import _throttle from 'lodash/throttle';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
-import { levelsRules, getZoomLevel } from '../../../../../windowProcess/common/timeFormats';
+import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 import { divStyleType } from './types';
 

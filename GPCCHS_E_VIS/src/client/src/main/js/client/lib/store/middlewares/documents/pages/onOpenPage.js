@@ -1,9 +1,9 @@
-import * as types from '../../../types';
+import * as types from 'store/types';
 
-import { askOpenWorkspace } from '../../../actions/hsc';
-import { openDialog } from '../../../actions/ui';
-import withListenAction from '../../../helpers/withListenAction';
-import { getFocusedWindowId, getIsWorkspaceOpened, getWorkspaceFolder } from '../../../reducers/hsc';
+import { askOpenWorkspace } from 'store/actions/hsc';
+import { openDialog } from 'store/actions/ui';
+import withListenAction from 'store/helpers/withListenAction';
+import { getFocusedWindowId, getIsWorkspaceOpened, getWorkspaceFolder } from 'store/reducers/hsc';
 
 import { getUniqueWindowId } from '../selectors';
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';

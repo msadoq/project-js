@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
+import * as types from 'store/types';
 import makeOnClosePage from './onClosePage';
-import * as types from '../../../types';
 
 const mockStore = configureMockStore([thunk, makeOnClosePage()]);
 

@@ -1,17 +1,17 @@
-import constants from '../../../constants';
+import constants from 'constants';
 
-import handle from '../../../common/ipc/handle';
-import reply from '../../../common/ipc/reply';
+import handle from 'common/ipc/handle';
+import reply from 'common/ipc/reply';
 
 import onReduxCurrentState from './onReduxCurrentState';
 import onReduxDispatch from './onReduxDispatch';
 import onResolveLink from './onResolveLink';
-import onGetRteDomains from './onGetRteDomains';
+import onResolveRteLink from './onResolveRteLink';
 import onGetRteCatalogs from './onGetRteCatalogs';
 import onGetRteItemNames from './onGetRteItemNames';
 import onOpenRteItem from './onOpenRteItem';
 import onFocusRteItem from './onFocusRteItem';
-import onResolveRteLink from './onResolveRteLink';
+import onGetRteDomains from './onGetRteDomains';
 
 const controller = {
   [constants.IPC_METHOD_REDUX_CURRENT_STATE]: (...args) => onReduxCurrentState(reply, ...args),

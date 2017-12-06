@@ -6,12 +6,12 @@ import { createSelector } from 'reselect';
 
 import { getDomains } from '../store/reducers/domains';
 import { getMasterSessionId } from '../store/reducers/masterSession';
-import { getSessions } from '../store/reducers/sessions';
+import { getStructureModule, getDataSelectors } from '../viewManager';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView, getViewType } from '../store/reducers/views';
 import { getPageDomainName, getPageSessionName, getPageLayout } from '../store/reducers/pages';
 import { getDomainName, getSessionName } from '../store/reducers/hsc';
-import { getStructureModule, getDataSelectors } from '../viewManager';
+import { getSessions } from '../store/reducers/sessions';
 
 // const logger = getLogger('data:perViewData');
 

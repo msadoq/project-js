@@ -4,11 +4,11 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Form,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
-import SelectButtonField from '../../../../windowProcess/commonReduxForm/SelectButtonField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
+import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
 
 const lineStyleButtons = [
   { label: 'Continuous', icon: 'continuous' },

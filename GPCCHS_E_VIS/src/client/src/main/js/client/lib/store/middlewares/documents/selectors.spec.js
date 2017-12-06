@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { freezeMe } from '../../../common/jest';
+import { freezeMe } from 'common/jest';
 
 import {
   getModifiedPageIdsByWindowIds,

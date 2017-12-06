@@ -1,9 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { getWindowPages } from 'store/selectors/windows';
+import { getPanels } from 'store/reducers/pages';
+import { moveViewToPage, minimizeEditor } from 'store/actions/pages';
 import ChoosePage from './ChoosePage';
-import { getWindowPages } from '../../store/selectors/windows';
-import { getPanels } from '../../store/reducers/pages';
-import { moveViewToPage, minimizeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { windowId, pageId, viewId }) => {
   const windowPages = getWindowPages(state, { windowId });

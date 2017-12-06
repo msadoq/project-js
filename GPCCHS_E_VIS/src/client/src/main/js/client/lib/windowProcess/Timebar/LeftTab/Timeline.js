@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
-import { formatDuration } from '../../common/timeFormats';
+import { formatDuration } from 'windowProcess/common/timeFormats';
 import styles from './LeftTab.css';
 
 export default class Timeline extends PureComponent {

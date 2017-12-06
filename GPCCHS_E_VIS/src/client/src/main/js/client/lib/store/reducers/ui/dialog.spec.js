@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import { openDialog, dialogClosed } from '../../actions/ui';
+import { freezeArgs } from 'common/jest';
+import { openDialog, dialogClosed } from 'store/actions/ui';
 import dialogReducer, { getAllDialogs, getDialog } from './dialog';
 
 const reducer = freezeArgs(dialogReducer);

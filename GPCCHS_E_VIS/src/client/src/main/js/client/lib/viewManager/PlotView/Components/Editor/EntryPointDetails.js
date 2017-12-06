@@ -1,8 +1,8 @@
 import React, { PropTypes, PureComponent } from 'react';
 import Collapse from 'rc-collapse';
+import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
-import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 const { Panel } = Collapse;
 const emptyArray = [];

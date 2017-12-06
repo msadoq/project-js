@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
-import composeReducers from '../../helpers/composeReducers';
-import * as types from '../../types';
+import composeReducers from 'store/helpers/composeReducers';
+import * as types from 'store/types';
 
 const setIsModified = _.set('isModified');
 const getIsModified = (action) => {

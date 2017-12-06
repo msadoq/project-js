@@ -1,10 +1,10 @@
-import * as types from '../../../types';
+import * as types from 'store/types';
 
-import { getView } from '../../../reducers/views';
-import { getWindowIdByViewId } from '../../../selectors/windows';
+import { getView } from 'store/reducers/views';
+import { getWindowIdByViewId } from 'store/selectors/windows';
 
-import { openDialog } from '../../../actions/ui';
-import withListenAction from '../../../helpers/withListenAction';
+import { openDialog } from 'store/actions/ui';
+import withListenAction from 'store/helpers/withListenAction';
 
 import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 

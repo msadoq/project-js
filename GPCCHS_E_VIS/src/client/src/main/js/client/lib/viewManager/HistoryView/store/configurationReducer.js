@@ -1,7 +1,7 @@
 // import _ from 'lodash/fp';
 import _without from 'lodash/without';
-import * as types from '../../../store/types';
-import { SORTING_ASC } from '../../../constants';
+import * as types from 'store/types';
+import { SORTING_ASC } from 'constants';
 
 const initialState = {
   allColumns: {},

@@ -1,6 +1,6 @@
+import * as actions from 'store/actions/editor';
+import * as types from 'store/types';
 import reducer, { getIsCodeEditorOpened } from '.';
-import * as actions from '../../actions/editor';
-import * as types from '../../types';
 
 const state = {
   viewId: 'test',

@@ -5,11 +5,11 @@ import {
   Form,
   InputGroup,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import FormSectionFontStyle from '../../../commonEditor/FormSections/FormSectionFontStyle';
-import FormSectionLineStyle from '../../../commonEditor/FormSections/FormSectionLineStyle';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
+import FormSectionLineStyle from 'viewManager/commonEditor/FormSections/FormSectionLineStyle';
 
 const { Addon } = InputGroup;
 

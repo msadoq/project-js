@@ -1,6 +1,6 @@
 import _get from 'lodash/get';
 import _ from 'lodash/fp';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 export default function editorReducer(state = {}, action) {

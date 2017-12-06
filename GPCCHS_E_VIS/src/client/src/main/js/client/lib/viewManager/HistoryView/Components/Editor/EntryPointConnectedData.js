@@ -4,7 +4,7 @@ import {
   Form,
 } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 /*

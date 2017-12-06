@@ -1,15 +1,15 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _get from 'lodash/get';
-import _isEqual from 'lodash/isEqual';
+import _findLastIndex from 'lodash/findLastIndex';
 import _last from 'lodash/last';
 import _pick from 'lodash/pick';
 import _findIndex from 'lodash/findIndex';
-import _findLastIndex from 'lodash/findLastIndex';
+import * as constants from 'constants';
 import _pickBy from 'lodash/pickBy';
 import _union from 'lodash/union';
 import _map from 'lodash/map';
-import getLogger from '../../../common/logManager';
-import * as constants from '../../../constants';
+import getLogger from 'common/logManager';
+import _isEqual from 'lodash/isEqual';
 
 const logger = getLogger('view:GroundAlarmView:cleanViewData');
 

@@ -1,9 +1,9 @@
-import { freezeMe } from '../../../common/jest';
+import { freezeMe } from 'common/jest';
+import dataMapGenerator from 'dataManager/map';
+import state from 'common/jest/stateTest';
+import { SORTING_DESC, SORTING_ASC } from 'constants';
 import { compareValue, viewRangeAdd, selectEpData, addDataInEpTable, updateLines }
   from './viewDataUpdate';
-import dataMapGenerator from '../../../dataManager/map';
-import state from '../../../common/jest/stateTest';
-import { SORTING_DESC, SORTING_ASC } from '../../../constants';
 
 describe('viewManager/HistoryView/store/viewDataUpdate', () => {
   const dataMap = dataMapGenerator(state);

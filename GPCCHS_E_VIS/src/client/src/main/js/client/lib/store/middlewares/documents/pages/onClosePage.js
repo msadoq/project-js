@@ -1,12 +1,12 @@
-import * as types from '../../../types';
+import * as types from 'store/types';
 
-import { closePage } from '../../../actions/pages';
-import { getPage } from '../../../reducers/pages';
-import { getWindowIdByPageId } from '../../../reducers/windows';
+import { closePage } from 'store/actions/pages';
+import { getPage } from 'store/reducers/pages';
+import { getWindowIdByPageId } from 'store/reducers/windows';
+import { open as openModal } from 'store/actions/modals';
+
+import withListenAction from 'store/helpers/withListenAction';
 import { getPageUnsavedViewIds, getPageHasUnsavedViews } from '../selectors';
-
-import { open as openModal } from '../../../actions/modals';
-import withListenAction from '../../../helpers/withListenAction';
 
 const makeOnClosePage = () => withListenAction(
   ({ getState, dispatch, listenAction }) => next => (action) => {

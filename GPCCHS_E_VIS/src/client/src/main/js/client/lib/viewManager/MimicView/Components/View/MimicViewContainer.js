@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash/fp';
 
-import { askOpenLink } from '../../../../store/actions/links';
-import { getConfigurationByViewId } from '../../../../viewManager';
-import { getViewContent, getViewDimensions } from '../../store/configurationSelectors';
+import { askOpenLink } from 'store/actions/links';
+import { getConfigurationByViewId } from 'viewManager';
+import { getViewContent, getViewDimensions } from 'viewManager/MimicView/store/configurationSelectors';
+import { getPageIdByViewId, getPage } from 'store/reducers/pages';
+import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
+import { isAnyInspectorOpened } from 'store/selectors/pages';
+import { getInspectorEpId } from 'store/reducers/inspector';
+import { getData } from 'viewManager/MimicView/store/dataReducer';
+import { getLinks, areLinksShown } from 'store/reducers/views';
+import { removeLink, updateShowLinks } from 'store/actions/views';
+import { getViewEntryPoints } from 'store/selectors/views';
 import MimicViewWrapper from './MimicViewWrapper';
-import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
-import { getInspectorEpId } from '../../../../store/reducers/inspector';
-import { getData } from '../../store/dataReducer';
-import { getLinks, areLinksShown } from '../../../../store/reducers/views';
-import { removeLink, updateShowLinks } from '../../../../store/actions/views';
-import { getPageIdByViewId, getPage } from '../../../../store/reducers/pages';
-import { isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });

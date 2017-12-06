@@ -2,10 +2,10 @@ import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
+import { getViewComponent } from 'viewManager/components';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from '../common/MessagesContainer';
-import { getViewComponent } from '../../viewManager/components';
 import handleContextMenu from '../common/handleContextMenu';
 
 import styles from './View.css';

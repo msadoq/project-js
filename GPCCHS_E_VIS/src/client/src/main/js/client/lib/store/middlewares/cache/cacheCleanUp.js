@@ -1,7 +1,7 @@
-import dataMapGenerator from '../../../dataManager/map';
-import mergeIntervals from '../../../common/intervals/merge';
-import { resetKnownRange } from '../../actions/knownRanges';
-import * as types from '../../types';
+import dataMapGenerator from 'dataManager/map';
+import mergeIntervals from 'common/intervals/merge';
+import { resetKnownRange } from 'store/actions/knownRanges';
+import * as types from 'store/types';
 
 let lastCleanTimestamp = new Date();
 

@@ -1,13 +1,13 @@
-import * as types from '../../types';
-import { getMissingIntervals } from '../../reducers/knownRanges';
-import { getPlayingTimebarId } from '../../reducers/hsc';
-import { getTimebar } from '../../reducers/timebars';
-import dataMapGenerator from '../../../dataManager/map';
-import mergeIntervals from '../../../common/intervals/merge';
-import { sendArchiveQuery } from '../../actions/knownRanges';
-import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
-import { get, getFilters } from '../../../serverProcess/models/tbdIdDataIdMap';
-import executionMonitor from '../../../common/logManager/execution';
+import * as types from 'store/types';
+import { getMissingIntervals } from 'store/reducers/knownRanges';
+import { getPlayingTimebarId } from 'store/reducers/hsc';
+import { getTimebar } from 'store/reducers/timebars';
+import dataMapGenerator from 'dataManager/map';
+import mergeIntervals from 'common/intervals/merge';
+import { sendArchiveQuery } from 'store/actions/knownRanges';
+import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
+import { get, getFilters } from 'serverProcess/models/tbdIdDataIdMap';
+import executionMonitor from 'common/logManager/execution';
 
 const type = 'RANGE';
 let previousForecast;

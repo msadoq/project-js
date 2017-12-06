@@ -4,9 +4,9 @@ import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
 import sinon from 'sinon';
 
-import { MIME_TYPES } from '../../constants';
+import { MIME_TYPES } from 'constants';
 
-import { getTmpPath } from '../../common/jest';
+import { getTmpPath } from 'common/jest';
 import * as fmdApi from './fmd';
 import * as io from './io';
 

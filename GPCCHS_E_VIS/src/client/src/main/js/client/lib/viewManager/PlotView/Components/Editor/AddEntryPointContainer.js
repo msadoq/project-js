@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import {
   addEntryPoint,
-} from '../../../../store/actions/views';
-import { getConfigurationByViewId } from '../../../../viewManager';
+} from 'store/actions/views';
+import { getConfigurationByViewId } from 'viewManager';
 import AddEntryPointWrapper from './AddEntryPointWrapper';
 
 export default connect(

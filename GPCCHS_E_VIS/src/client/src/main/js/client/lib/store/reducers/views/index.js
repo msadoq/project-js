@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
+import createReducerByViews from 'store/helpers/createReducerByViews';
 import view from './view';
-import createReducerByViews from '../../helpers/createReducerByViews';
 
 /* --- Reducer -------------------------------------------------------------- */
 export default createReducerByViews(view);

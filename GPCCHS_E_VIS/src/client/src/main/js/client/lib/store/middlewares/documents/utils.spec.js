@@ -1,6 +1,6 @@
+import parameters from 'common/configurationManager';
+import views from 'viewManager';
 import { getDefaultFolder, isView, getOpenExtensionsFilters, getSaveExtensionsFilters } from './utils';
-import parameters from '../../../common/configurationManager';
-import views from '../../../viewManager';
 
 describe('store:middlewares:documents:utils', () => {
   describe('isView', () => {

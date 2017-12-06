@@ -1,7 +1,7 @@
 import _getOr from 'lodash/fp/getOr';
 import applyPatch from 'json-touch-patch';
-import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
-import getLogger from '../../common/logManager';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY } from 'constants';
+import getLogger from 'common/logManager';
 
 const logger = getLogger('common:patchReducer');
 /**

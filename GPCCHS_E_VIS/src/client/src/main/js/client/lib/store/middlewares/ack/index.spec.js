@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
+import { sendAlarmAck } from 'viewManager/GroundAlarmView/store/actions';
 import makeAckMiddleware from './index';
 import state from '../../../common/jest/mocks/stateAlarms.json';
-import { sendAlarmAck } from '../../../viewManager/GroundAlarmView/store/actions';
 
 const unknownAction = { type: 'UNKNOWN' };
 

@@ -1,7 +1,7 @@
 import __ from 'lodash/fp';
+import { freezeArgs } from 'common/jest';
 import addUuidsToEntryPoints from './addUuidsToEntryPoints';
 import ifPathChanged from './ifPathChanged';
-import { freezeArgs } from '../../../common/jest';
 
 const createDummyAction = freezeArgs((payload = {}) => ({
   type: 'DUMMY_ACTION',

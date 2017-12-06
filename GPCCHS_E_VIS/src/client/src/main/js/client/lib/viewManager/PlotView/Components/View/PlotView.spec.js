@@ -1,4 +1,4 @@
-import { getUniqAxes, getUniqueEpId, parseDragData, sortAxes } from './PlotView';
+import { getUniqAxes, getUniqueEpId, parseDragData, sortAxes, computeMinMaxForAxis, defaultAxisConfig } from './PlotView';
 
 describe('PlotView :: getUniqAxes', () => {
   const propsStub = {
@@ -270,5 +270,232 @@ describe('PlotView :: sortAxes', () => {
     expect(axes.sort(sortAxes('e'))).toEqual(['a', 'b', 'c', 'd', 'e']);
     expect(axes.sort(sortAxes('a'))).toEqual(['b', 'c', 'd', 'e', 'a']);
     expect(axes.sort(sortAxes('g'))).toEqual(['a', 'b', 'c', 'd', 'e']);
+  });
+});
+describe('PlotView :: computeMinMaxForAxis', () => {
+  const propsStub = {
+    entryPoints: [
+      {
+        parametric: false,
+        connectedData: {
+          axisId: 'VBat',
+          stringParameter: false,
+          defaultY: 1,
+        },
+        name: 'TMMGT_BC_VIRTCHAN3',
+      }, {
+        parametric: false,
+        connectedData: {
+          axisId: 'VBat',
+          stringParameter: false,
+          defaultY: 1,
+        },
+        name: 'ATT_BC_REVTCOUNT1',
+      },
+    ],
+    axes: {
+      VBat: {
+        id: 'VBat',
+        autoLimits: false,
+        min: 130,
+        max: 140,
+        showAxis: true,
+        showLabels: true,
+        showTicks: true,
+        autoTick: true,
+        tickStep: 50,
+        unit: 'V',
+        label: 'VBat',
+        style: {
+          align: 'left',
+          bold: false,
+          color: '#FFF',
+          font: 'Arial',
+          italic: false,
+          size: 12,
+          strikeOut: false,
+          underline: false,
+        },
+        logarithmic: false,
+        logSettings: {
+          base: 10,
+          max: 1000000000,
+          min: 0.1,
+        },
+      },
+      time: {
+        id: 'time',
+        autoLimits: false,
+        min: 10,
+        max: 0,
+        showAxis: true,
+        showLabels: true,
+        showTicks: true,
+        autoTick: true,
+        tickStep: 0.5,
+        unit: 's',
+        label: 'Time',
+        style: {
+          align: 'left',
+          bold: false,
+          color: '#FFF',
+          font: 'Arial',
+          italic: false,
+          size: 12,
+          strikeOut: false,
+          underline: false,
+        },
+        logarithmic: false,
+        logSettings: {
+          base: 10,
+          max: 1000000000,
+          min: 0.1,
+        },
+      },
+    },
+    data: {
+      min: {
+        ATT_BC_REVTCOUNT1: 131.90000080478322,
+        TMMGT_BC_VIRTCHAN3: 137.40000128324328,
+      },
+      max: {
+        ATT_BC_REVTCOUNT1: 131.90000080478322,
+        TMMGT_BC_VIRTCHAN3: 137.40000128324328,
+      },
+    },
+  };
+  // @todo test parametric
+  test('PlotView :: computeMinMaxForAxis', () => {
+    expect(computeMinMaxForAxis(
+      propsStub.entryPoints,
+      propsStub.axes.VBat,
+      propsStub.data,
+      true)).toEqual({
+        max: 137.40000128324328,
+        min: 131.90000080478322,
+      });
+    expect(computeMinMaxForAxis(
+      propsStub.entryPoints,
+      propsStub.axes.VBat,
+      propsStub.data,
+      false)).toEqual({
+        max: undefined,
+        min: undefined,
+      });
+  });
+});
+describe('PlotView :: defaultAxisConfig', () => {
+  const propsStub = {
+    axes: {
+      VBat: {
+        id: 'VBat',
+        autoLimits: false,
+        min: 130,
+        max: 140,
+        showAxis: true,
+        showLabels: true,
+        showTicks: true,
+        autoTick: true,
+        tickStep: 50,
+        unit: 'V',
+        label: 'VBat',
+        style: {
+          align: 'left',
+          bold: false,
+          color: '#FFF',
+          font: 'Arial',
+          italic: false,
+          size: 12,
+          strikeOut: false,
+          underline: false,
+        },
+        logarithmic: false,
+        logSettings: {
+          base: 10,
+          max: 1000000000,
+          min: 0.1,
+        },
+      },
+      time: {
+        id: 'time',
+        autoLimits: false,
+        min: 10,
+        max: 0,
+        showAxis: true,
+        showLabels: true,
+        showTicks: true,
+        autoTick: true,
+        tickStep: 0.5,
+        unit: 's',
+        label: 'Time',
+        style: {
+          align: 'left',
+          bold: false,
+          color: '#FFF',
+          font: 'Arial',
+          italic: false,
+          size: 12,
+          strikeOut: false,
+          underline: false,
+        },
+        logarithmic: false,
+        logSettings: {
+          base: 10,
+          max: 1000000000,
+          min: 0.1,
+        },
+      },
+    },
+    grid: {
+      line: {
+        size: 1,
+        style: 'Continuous',
+      },
+      showGrid: true,
+      xAxisId: 'time',
+      yAxisId: 'VBat',
+    },
+  };
+  // @todo test parametric
+  test('PlotView :: defaultAxisConfig', () => {
+    expect(defaultAxisConfig(
+      propsStub.axes.VBat,
+      propsStub.axes.grid,
+      131.90000080478322,
+      137.40000128324328
+    )).toEqual({
+      autoLimits: false,
+      autoTick: true,
+      extents: [130, 140],
+      format: '.3f',
+      formatAsDate: false,
+      gridSize: undefined,
+      gridStyle: undefined,
+      id: 'VBat',
+      label: 'VBat',
+      labelStyle: {
+        align: 'left',
+        bold: false,
+        color: '#FFF',
+        font: 'Arial',
+        italic: false,
+        size: 12,
+        strikeOut: false,
+        underline: false,
+      },
+      logSettings: {
+        base: 10,
+        max: 1000000000,
+        min: 0.1,
+      },
+      logarithmic: false,
+      orient: 'top',
+      showAxis: true,
+      showGrid: false,
+      showLabels: true,
+      showTicks: true,
+      tickStep: 50,
+      unit: 'V',
+    });
   });
 });

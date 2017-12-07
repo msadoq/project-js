@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`GroundAlarmView:dataReducer getData getData should flatten alarms and transitions (in "lines" field) 1`] = `
-Object {
-  "stuff": true,
-}
-`;

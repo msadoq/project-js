@@ -120,4 +120,4 @@ export default function groundAlarmViewData(state = initialSubState, action) {
 
 export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
-export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
+export const getData = (state, { viewId }) => getGroundAlarmViewData(state)[viewId];

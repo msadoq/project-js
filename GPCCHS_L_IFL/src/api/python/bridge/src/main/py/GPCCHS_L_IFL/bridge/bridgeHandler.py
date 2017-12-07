@@ -19,7 +19,6 @@ from GPCC.core.zmq import ZMQ
 from GPCC.core.messageFrame import MessageFrame
 from GPCC.communicationLibrary.isisMessage import IsisMessage
 from importlib import import_module
-from GPCC.core.isisTrace import IsisTrace
 
 class BridgeHandler(Thread):
     '''
@@ -49,17 +48,25 @@ class BridgeHandler(Thread):
         '''
         @brief : Handler thread
         '''
+        # Initialize error status
+        errorMsg = None
         # Compute the module name
         handlerModuleName = "GPCCHS_L_IFL.bridge." + self._handlerClassName[:1].lower() + self._handlerClassName[1:]
         try:
             # Put in lower case the first letter, because python module names always start with lower case letter
             module = import_module(handlerModuleName)
         except ImportError as err: 
-            IsisTrace.error("GPCCHS_L_IFL.bridge : Handler name error {0}, during import of handler : {1}"\
-                            .format(err,handlerModuleName))
+            errorMsg = "GPCCHS_L_IFL.bridgeHandler : Handler import error : {0}".format(err)
         
-        # If import has been successful, perform the conversion
-        results = module.perform(self._ucLib,self._msg)
+        # If module import has been successful
+        if errorMsg == None:
+            # If import has been successful, perform the conversion
+            results = module.perform(self._ucLib,self._msg)
+            # Module import has been successful so create an empty import error message
+            errorMsg = ""
+        else:
+            # Otherwise create empty result
+            results = ""
         
         # Initialize the socket to send the results
         responseChannel = IsisSocket(self._actorContext, ZMQ.PUSH)
@@ -67,10 +74,12 @@ class BridgeHandler(Thread):
         responseChannel.connect(self._responseUrl)
        
         # Create the results message
-        msgToSend = IsisMessage(1, 2)
+        msgToSend = IsisMessage(1, 3)
         # Add the request ID  in response message
         
         msgToSend.addFrame(1, MessageFrame(frame = None, data = self._requestID.encode()))
+        # Add the error message in response message
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = errorMsg.encode()))        
         # Add the results in response message
         msgToSend.addFrame(1, MessageFrame(frame = None, data = results))
         # Send the results

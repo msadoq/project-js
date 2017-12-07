@@ -18,7 +18,6 @@ from GPCC.communicationLibrary.isisSocket import IsisSocket
 from GPINUC_L_UCL.unitConverterLibrary.unitConverter import  UnitConverter
 from GPCCHS_L_IFL.bridge.bridgeHandler import BridgeHandler
 
-
 class Bridge():
     '''
     @brief : Bridge used by GPCCHS to process data
@@ -76,8 +75,8 @@ class Bridge():
                     requestID = msg.popFrame(1, 1).getRaw().decode()
 
                     # Then create and start the processing thread
-                    newHander = BridgeHandler(self._actorContext,self._responseUrl,requestID,ucLib,handlerClassName,msg)
-                    newHander.start()
+                    newHandler = BridgeHandler(self._actorContext,self._responseUrl,requestID,ucLib,handlerClassName,msg)
+                    newHandler.start()
                     
         # Close the listening socket
         #pullChannel.close() #(deactivated due to bug in IsisSocket)

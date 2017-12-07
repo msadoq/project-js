@@ -1,11 +1,11 @@
 # coding: utf-8
 """!
 Project   : ISIS
-Component : GPCCHS_L_IFL.bridge.timestampFromMissionToPosixHandler
-@file     : timestampFromMissionToPosixHandler.py
+Component : GPCCHS_L_IFL.bridge.clockUtcToTaiHandler
+@file     : clockUtcToTaiHandler.py
 @author   : ohuyard
-@date     : 24/11/2017 
-@brief    : Handler used to perform time conversion from Mission to Posix
+@date     : 07/12/2017 
+@brief    : Handler used to perform time conversion from UTC clock to TAI
 @type     : Python module with a single perform() function
 """
 # ====================================================================
@@ -28,4 +28,4 @@ def perform(unitConverterLib=None, msg=None):
     valuesToConvert = STRING(msg.popFrame(1, 1).getRaw().decode())
     
     # Perform the conversion and convert the results in unicode
-    return unitConverterLib.shiftTimestampFromMissionToPosixBatch(valuesToConvert,sessionId).getValue().encode()
+    return unitConverterLib.clockUTCtoTAIBatch(valuesToConvert, sessionId).getValue().encode()

@@ -22,9 +22,6 @@ Component : GPCCHS_L_IFL
 
 
 from GPCC.communicationLibrary.mALInteractorFactory import MALInteractorFactory
-from GPCC.ccsds_mal.uOCTET import UOCTET
-from GPCC.ccsds_mal.uSHORT import USHORT
-from GPCC.ccsds_mal.interactorFactory import InteractorFactory
 from GPCC.container.isisActor import IsisActor
 from GPCC.container.pipeNodeType import PipeNodeType
 # Start of user code ImportsZone
@@ -34,7 +31,6 @@ from GPCC.communicationLibrary.isisSocket import IsisSocket
 from GPCC.core.messageFrame import MessageFrame
 from GPCC.communicationLibrary.isisMessage import IsisMessage
 from GPCC.ccsds_mal.sTRING import STRING
-from GPCC.ccsds_mal.uINTEGER import UINTEGER
 from GPCC.core.propertyType import PropertyType
 # End of user code
 
@@ -125,7 +121,6 @@ class BridgeUser (IsisActor) :
         """!
         @brief : BridgeUser initialisation
         """
-        print("DEBUG BridgeUser : onActivate start")
         # Start of user code onActivate
         actorContext = self.getContext()
         
@@ -146,7 +141,9 @@ class BridgeUser (IsisActor) :
         server = BridgeServer(actorContext,userReqUrl,userRespUrl)
         server.start()
         
-        # Send a conversion request
+        ##################################
+        print("Test : /////////////// Time conversion from Mission to Posix test ///////////////")
+        ##################################
         
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
@@ -161,28 +158,256 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("DEBUG BridgeUser : Message sent, wait response")
+        print("Test : Message sent, wait response")
         response = respChannel.receiveMessage(0)
-        print("DEBUG BridgeUser : Response received, frame count is: ", repr(response.getFrameCount()))
         
         # Drop the two first frames of the response, because they are useless
         response.popFrame(1,1)
         response.popFrame(1,1)
         # Read the result from the third frame
         frame = response.popFrame(1,1)
-        print("DEBUG BridgeUser : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("DEBUG BridgeUser : Received result are: ", repr(frame.getRaw().decode()))
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
         
-        # Create the STOP message
+        ##################################
+        print("Test : /////////////// Time conversion from Posix to Mission test ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 4)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimestampFromPosixToMission".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF002".encode()))
+        # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
+        # Add the fourth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "454000000001,0;454000000002,0".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        ##################################
+        print("Test : /////////////// Time conversion from base to TAI ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 4)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimeToTai".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF003".encode()))
+        # Add the third frame : the reference of the time to convert
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "GPS".encode()))
+        # Add the fourth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "2,3600,500000;3,3600,500000".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        ##################################
+        print("Test : /////////////// Time conversion from base to TAI in milliseconds ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 5)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimeToMsTai".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF004".encode()))
+        # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
+        # Add the fourth frame : the reference of the time to convert
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "J2000".encode()))
+        # Add the fifth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "366.25;367.25".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+                
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        ##################################
+        print("Test : /////////////// Time conversion UTC to TAI ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 4)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ClockUtcToTai".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF005".encode()))
+        # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
+        # Add the fourth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "946684800000,123456789;996684800000,123456789".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        ##################################
+        print("Test : /////////////// Time conversion TAI to UTC ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 4)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ClockTaiToUtc".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF006".encode()))
+        # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
+        # Add the fourth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "946684832000,123456789;996684832000,123456789".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        ##################################
+        print("Test : /////////////// Unit conversion ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 5)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ConvertUnit".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF007".encode()))
+        # Add the third frame : the unit of the input values
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "km".encode()))
+        # Add the fourth frame : the unit for the output values
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "m".encode()))
+        # Add the fifth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "3.5;2.5;1.5".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        
+        ##################################
+        print("Test : /////////////// Handler import error ///////////////")
+        ##################################
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 5)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "empty".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF008".encode()))
+        # Add the third frame : the unit of the input values
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "km".encode()))
+        # Add the fourth frame : the unit for the output values
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "m".encode()))
+        # Add the fifth frame : the list of conversions to do
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "3.5;2.5;1.5".encode()))
+        
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent, wait response")
+        response = respChannel.receiveMessage(0)
+        print("Test : Response received, frame count is: ", repr(response.getFrameCount()))
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        
+        ################################
+        print("Test : /////////////// End of test, send STOP message  ///////////////")
+        ################################
+        
         msgToSend = IsisMessage(1, 1)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "STOP".encode()))
-        print("DEBUG BridgeUser : Sent stop message")
+        print("Test : Sent stop message")
         reqChannel.sendMessage(msgToSend, 0)
-        print("DEBUG BridgeUser : Stop message sent")
+        print("Test : Stop message sent")
         
-        print("DEBUG BridgeUser : onActivate ends")
         # End of user code
     
 

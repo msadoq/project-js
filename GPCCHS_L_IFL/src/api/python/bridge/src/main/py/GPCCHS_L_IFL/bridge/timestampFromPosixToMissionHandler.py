@@ -1,11 +1,11 @@
 # coding: utf-8
 """!
 Project   : ISIS
-Component : GPCCHS_L_IFL.bridge.timestampFromMissionToPosixHandler
-@file     : timestampFromMissionToPosixHandler.py
+Component : GPCCHS_L_IFL.bridge.timestampFromPosixToMissionHandler
+@file     : timestampFromPosixToMissionHandler.py
 @author   : ohuyard
-@date     : 24/11/2017 
-@brief    : Handler used to perform time conversion from Mission to Posix
+@date     : 07/12/2017 
+@brief    : Handler used to perform time conversion from Posix to Mission
 @type     : Python module with a single perform() function
 """
 # ====================================================================

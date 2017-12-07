@@ -43,3 +43,4 @@ class BridgeServer(Thread):
         
         # Perform the blocking call to Bridge Api
         bridgeLib.perform()
+        

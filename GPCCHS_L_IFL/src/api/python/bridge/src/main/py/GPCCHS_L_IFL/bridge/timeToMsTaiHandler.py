@@ -1,11 +1,11 @@
 # coding: utf-8
 """!
 Project   : ISIS
-Component : GPCCHS_L_IFL.bridge.timestampFromMissionToPosixHandler
-@file     : timestampFromMissionToPosixHandler.py
+Component : GPCCHS_L_IFL.bridge.timeToMsTaiHandler
+@file     : timeToMsTaiHandler.py
 @author   : ohuyard
-@date     : 24/11/2017 
-@brief    : Handler used to perform time conversion from Mission to Posix
+@date     : 07/12/2017 
+@brief    : Handler used to perform time conversion from time base to TAI in milliseconds
 @type     : Python module with a single perform() function
 """
 # ====================================================================
@@ -24,8 +24,10 @@ def perform(unitConverterLib=None, msg=None):
     '''
     # Retrieve the reference session ID from message and convert into SHORT for GPINUC
     sessionId = SHORT(msg.popFrame(1, 1).getRaw().decode())
+    # Retrieve the base of the input values from message and convert into STRING for GPINUC
+    fromBase = STRING(msg.popFrame(1, 1).getRaw().decode())
     # Retrieve the list of values to convert from message and convert into STRING for GPINUC
     valuesToConvert = STRING(msg.popFrame(1, 1).getRaw().decode())
     
     # Perform the conversion and convert the results in unicode
-    return unitConverterLib.shiftTimestampFromMissionToPosixBatch(valuesToConvert,sessionId).getValue().encode()
+    return unitConverterLib.shiftTimeToMsBatch(valuesToConvert,fromBase, sessionId).getValue().encode()

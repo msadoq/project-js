@@ -86,7 +86,7 @@ class BridgeHandler(Thread):
         responseChannel.sendMessage(msgToSend, 0)
        
         # Close the socket
-        #_responseChannel.close() #(deactivated due to bug in IsisSocket)
+        #_responseChannel.close() #(deactivated due to FA9685 in IsisSocket)
         
         # End of work, the thread can end
         

@@ -79,7 +79,7 @@ class Bridge():
                     newHandler.start()
                     
         # Close the listening socket
-        #pullChannel.close() #(deactivated due to bug in IsisSocket)
+        #pullChannel.close() #(deactivated due to FA9685 in IsisSocket)
         # Close unit converter library
         ucLib.close(self._actorContext)
                     

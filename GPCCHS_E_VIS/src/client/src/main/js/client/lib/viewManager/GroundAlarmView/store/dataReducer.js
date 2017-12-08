@@ -12,7 +12,7 @@ const initialSubState = {
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function groundAlarmViewData(state = initialSubState, action) {
+export default function groundAlarmViewData(state = {}, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
@@ -57,6 +57,7 @@ export default function groundAlarmViewData(state = initialSubState, action) {
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, visuWindow }
         = action.payload;
+
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
@@ -91,6 +92,8 @@ export default function groundAlarmViewData(state = initialSubState, action) {
     }
     case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
+      // console.warn('=======================');
+      // console.log(JSON.stringify(action, null, 2));
       // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
@@ -120,4 +123,4 @@ export default function groundAlarmViewData(state = initialSubState, action) {
 
 export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
-export const getData = (state, { viewId }) => state.GroundAlarmViewData[viewId];
+export const getData = (state, { viewId }) => getGroundAlarmViewData(state)[viewId];

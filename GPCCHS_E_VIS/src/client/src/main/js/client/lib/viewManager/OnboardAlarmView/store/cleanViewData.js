@@ -124,8 +124,8 @@ function removeViewDataOutOfBounds(viewData, lower, upper) {
   }
 
   // All points of entryPoint are in visuWindow
-  const firstTimestamp = viewData.lines[viewData.indexes[0]].timestamp;
-  const lastTimestamp = viewData.lines[_last(viewData.indexes)].timestamp;
+  const firstTimestamp = viewData.lines[viewData.indexes[0]].rawAlarm.timestamp.value;
+  const lastTimestamp = viewData.lines[_last(viewData.indexes)].rawAlarm.timestamp.value;
   if (firstTimestamp >= lower && lastTimestamp <= upper) {
     return viewData;
   }
@@ -144,16 +144,16 @@ function removeViewDataOutOfBounds(viewData, lower, upper) {
 
   // --- Keep some --- //
   const iLower = _findIndex(viewData.indexes, searchOid => (
-    viewData.lines[searchOid].timestamp >= lower
+    viewData.lines[searchOid].rawAlarm.timestamp.value >= lower
   ));
   let iUpper = _findLastIndex(viewData.indexes, searchOid => (
-    viewData.lines[searchOid].timestamp <= upper
+    viewData.lines[searchOid].rawAlarm.timestamp.value <= upper
   ));
   iUpper = (iUpper === -1) ? viewData.lines.length - 1 : iUpper;
 
   let newIndexes = viewData.indexes.slice(iLower, iUpper + 1);
   newIndexes = _union(newIndexes, getRequireAckIndexes(viewData)).sort((a, b) => (
-    viewData.lines[a].timestamp - viewData.lines[b].timestamp
+    viewData.lines[a].rawAlarm.timestamp.value - viewData.lines[b].rawAlarm.timestamp.value
   ));
   const newLines = _pick(viewData.lines, newIndexes);
 

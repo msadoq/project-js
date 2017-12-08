@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import _getOr from 'lodash/fp/getOr';
 import { dirname, basename } from 'path';
 
 import { LOG_DOCUMENT_OPEN } from 'constants';
@@ -146,7 +147,11 @@ const prepareTimebar = (timelines, state) => (timebar) => {
       current,
       lower,
       upper,
-      defaultWidth: parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
+      defaultWidth: _getOr(
+        parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
+        'visuWindow.defaultWidth',
+        timebar
+      ),
     },
     slideWindow: { lower, upper },
     rulerStart: Number(lower) - (5 * 60000),

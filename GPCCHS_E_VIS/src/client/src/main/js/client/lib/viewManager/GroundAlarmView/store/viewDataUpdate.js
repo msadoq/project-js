@@ -30,6 +30,7 @@ import * as constants from 'constants';
  * @return {Object}          updated state
  */
 export function viewRangeAdd(state = {}, viewId, payloads) {
+  // console.warn(viewId);
   // get EP names
   const epNames = Object.keys(payloads || {});
   // Only one entry point per ground alarm view

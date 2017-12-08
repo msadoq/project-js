@@ -1,0 +1,390 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroundAlarmView:dataReducer reducer data consumption inject groundAlarm data 1`] = `
+Object {
+  "v1": Object {
+    "indexes": Array [
+      "oid123456",
+      "oid6656565.101702654",
+    ],
+    "lines": Object {
+      "oid123456": Object {
+        "ackState": "NO ACKNOWLEDGE",
+        "alarmType": undefined,
+        "closingDate": "2017-12-08T13:23:47.824Z",
+        "creationDate": "2017-12-08T13:23:47.734Z",
+        "duration": "0:0:0.90",
+        "firstOccurence": "2017-12-08T13:23:47.834Z",
+        "lastOccurence": "2017-12-08T13:23:47.834Z",
+        "oid": "oid123456",
+        "parameterName": "pNameid",
+        "parameterType": "pTypealiquip",
+        "physicalValue": "1.3666452221793115",
+        "rawAlarm": Object {
+          "ackState": "NO ACKNOWLEDGE",
+          "alarmType": undefined,
+          "closingDate": Object {
+            "type": "time",
+            "value": 1512739427824,
+          },
+          "creationDate": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "duration": Object {
+            "type": "duration",
+            "value": 90,
+          },
+          "firstOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "lastOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "oid": "oid123456",
+          "parameterName": "pNameid",
+          "parameterType": "pTypealiquip",
+          "physicalValue": Object {
+            "symbol": "1.3666452221793115",
+            "type": "double",
+          },
+          "rawValue": Object {
+            "symbol": "0.45554840739310387",
+            "type": "double",
+          },
+          "satellite": "satellitelaboris",
+          "telemetryType": "telemetryTypeea",
+          "timestamp": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "transitions": Array [
+            Object {
+              "convertedValue": Object {
+                "symbol": "0.9110968147862077",
+                "type": "double",
+              },
+              "extractedValue": Object {
+                "symbol": "1.3666452221793115",
+                "type": "double",
+              },
+              "groundDate": Object {
+                "type": "time",
+                "value": 1512739427854,
+              },
+              "onboardDate": Object {
+                "type": "time",
+                "value": 1512739427834,
+              },
+              "rawValue": Object {
+                "symbol": "0.45554840739310387",
+                "type": "double",
+              },
+            },
+          ],
+        },
+        "rawValue": "0.45554840739310387",
+        "satellite": "satellitelaboris",
+        "telemetryType": "telemetryTypeea",
+        "timestamp": "2017-12-08T13:23:47.734Z",
+        "transitions": Array [
+          Object {
+            "convertedValue": "0.9110968147862077",
+            "extractedValue": "1.3666452221793115",
+            "groundDate": "2017-12-08T13:23:47.854Z",
+            "onboardDate": "2017-12-08T13:23:47.834Z",
+            "rawValue": "0.45554840739310387",
+          },
+        ],
+      },
+      "oid6656565.101702654": Object {
+        "ackState": "NO ACKNOWLEDGE",
+        "alarmType": undefined,
+        "closingDate": "2017-12-08T13:23:47.824Z",
+        "creationDate": "2017-12-08T13:23:47.734Z",
+        "duration": "0:0:0.90",
+        "firstOccurence": "2017-12-08T13:23:47.834Z",
+        "lastOccurence": "2017-12-08T13:23:47.834Z",
+        "oid": "oid6656565.101702654",
+        "parameterName": "pNameid",
+        "parameterType": "pTypealiquip",
+        "physicalValue": "1.3666452221793115",
+        "rawAlarm": Object {
+          "ackState": "NO ACKNOWLEDGE",
+          "alarmType": undefined,
+          "closingDate": Object {
+            "type": "time",
+            "value": 1512739427824,
+          },
+          "creationDate": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "duration": Object {
+            "type": "duration",
+            "value": 90,
+          },
+          "firstOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "lastOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "oid": "oid6656565.101702654",
+          "parameterName": "pNameid",
+          "parameterType": "pTypealiquip",
+          "physicalValue": Object {
+            "symbol": "1.3666452221793115",
+            "type": "double",
+          },
+          "rawValue": Object {
+            "symbol": "0.45554840739310387",
+            "type": "double",
+          },
+          "satellite": "satellitelaboris",
+          "telemetryType": "telemetryTypeea",
+          "timestamp": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "transitions": Array [
+            Object {
+              "convertedValue": Object {
+                "symbol": "0.9110968147862077",
+                "type": "double",
+              },
+              "extractedValue": Object {
+                "symbol": "1.3666452221793115",
+                "type": "double",
+              },
+              "groundDate": Object {
+                "type": "time",
+                "value": 1512739427854,
+              },
+              "onboardDate": Object {
+                "type": "time",
+                "value": 1512739427834,
+              },
+              "rawValue": Object {
+                "symbol": "0.45554840739310387",
+                "type": "double",
+              },
+            },
+          ],
+        },
+        "rawValue": "0.45554840739310387",
+        "satellite": "satellitelaboris",
+        "telemetryType": "telemetryTypeea",
+        "timestamp": "2017-12-08T13:23:47.734Z",
+        "transitions": Array [
+          Object {
+            "convertedValue": "0.9110968147862077",
+            "extractedValue": "1.3666452221793115",
+            "groundDate": "2017-12-08T13:23:47.854Z",
+            "onboardDate": "2017-12-08T13:23:47.834Z",
+            "rawValue": "0.45554840739310387",
+          },
+        ],
+      },
+    },
+  },
+  "v2": Object {
+    "indexes": Array [
+      "oid123456",
+      "oid6656565.101702654",
+    ],
+    "lines": Object {
+      "oid123456": Object {
+        "ackState": "NO ACKNOWLEDGE",
+        "alarmType": undefined,
+        "closingDate": "2017-12-08T13:23:47.824Z",
+        "creationDate": "2017-12-08T13:23:47.734Z",
+        "duration": "0:0:0.90",
+        "firstOccurence": "2017-12-08T13:23:47.834Z",
+        "lastOccurence": "2017-12-08T13:23:47.834Z",
+        "oid": "oid123456",
+        "parameterName": "pNameid",
+        "parameterType": "pTypealiquip",
+        "physicalValue": "1.3666452221793115",
+        "rawAlarm": Object {
+          "ackState": "NO ACKNOWLEDGE",
+          "alarmType": undefined,
+          "closingDate": Object {
+            "type": "time",
+            "value": 1512739427824,
+          },
+          "creationDate": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "duration": Object {
+            "type": "duration",
+            "value": 90,
+          },
+          "firstOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "lastOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "oid": "oid123456",
+          "parameterName": "pNameid",
+          "parameterType": "pTypealiquip",
+          "physicalValue": Object {
+            "symbol": "1.3666452221793115",
+            "type": "double",
+          },
+          "rawValue": Object {
+            "symbol": "0.45554840739310387",
+            "type": "double",
+          },
+          "satellite": "satellitelaboris",
+          "telemetryType": "telemetryTypeea",
+          "timestamp": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "transitions": Array [
+            Object {
+              "convertedValue": Object {
+                "symbol": "0.9110968147862077",
+                "type": "double",
+              },
+              "extractedValue": Object {
+                "symbol": "1.3666452221793115",
+                "type": "double",
+              },
+              "groundDate": Object {
+                "type": "time",
+                "value": 1512739427854,
+              },
+              "onboardDate": Object {
+                "type": "time",
+                "value": 1512739427834,
+              },
+              "rawValue": Object {
+                "symbol": "0.45554840739310387",
+                "type": "double",
+              },
+            },
+          ],
+        },
+        "rawValue": "0.45554840739310387",
+        "satellite": "satellitelaboris",
+        "telemetryType": "telemetryTypeea",
+        "timestamp": "2017-12-08T13:23:47.734Z",
+        "transitions": Array [
+          Object {
+            "convertedValue": "0.9110968147862077",
+            "extractedValue": "1.3666452221793115",
+            "groundDate": "2017-12-08T13:23:47.854Z",
+            "onboardDate": "2017-12-08T13:23:47.834Z",
+            "rawValue": "0.45554840739310387",
+          },
+        ],
+      },
+      "oid6656565.101702654": Object {
+        "ackState": "NO ACKNOWLEDGE",
+        "alarmType": undefined,
+        "closingDate": "2017-12-08T13:23:47.824Z",
+        "creationDate": "2017-12-08T13:23:47.734Z",
+        "duration": "0:0:0.90",
+        "firstOccurence": "2017-12-08T13:23:47.834Z",
+        "lastOccurence": "2017-12-08T13:23:47.834Z",
+        "oid": "oid6656565.101702654",
+        "parameterName": "pNameid",
+        "parameterType": "pTypealiquip",
+        "physicalValue": "1.3666452221793115",
+        "rawAlarm": Object {
+          "ackState": "NO ACKNOWLEDGE",
+          "alarmType": undefined,
+          "closingDate": Object {
+            "type": "time",
+            "value": 1512739427824,
+          },
+          "creationDate": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "duration": Object {
+            "type": "duration",
+            "value": 90,
+          },
+          "firstOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "lastOccurence": Object {
+            "type": "time",
+            "value": 1512739427834,
+          },
+          "oid": "oid6656565.101702654",
+          "parameterName": "pNameid",
+          "parameterType": "pTypealiquip",
+          "physicalValue": Object {
+            "symbol": "1.3666452221793115",
+            "type": "double",
+          },
+          "rawValue": Object {
+            "symbol": "0.45554840739310387",
+            "type": "double",
+          },
+          "satellite": "satellitelaboris",
+          "telemetryType": "telemetryTypeea",
+          "timestamp": Object {
+            "type": "time",
+            "value": 1512739427734,
+          },
+          "transitions": Array [
+            Object {
+              "convertedValue": Object {
+                "symbol": "0.9110968147862077",
+                "type": "double",
+              },
+              "extractedValue": Object {
+                "symbol": "1.3666452221793115",
+                "type": "double",
+              },
+              "groundDate": Object {
+                "type": "time",
+                "value": 1512739427854,
+              },
+              "onboardDate": Object {
+                "type": "time",
+                "value": 1512739427834,
+              },
+              "rawValue": Object {
+                "symbol": "0.45554840739310387",
+                "type": "double",
+              },
+            },
+          ],
+        },
+        "rawValue": "0.45554840739310387",
+        "satellite": "satellitelaboris",
+        "telemetryType": "telemetryTypeea",
+        "timestamp": "2017-12-08T13:23:47.734Z",
+        "transitions": Array [
+          Object {
+            "convertedValue": "0.9110968147862077",
+            "extractedValue": "1.3666452221793115",
+            "groundDate": "2017-12-08T13:23:47.854Z",
+            "onboardDate": "2017-12-08T13:23:47.834Z",
+            "rawValue": "0.45554840739310387",
+          },
+        ],
+      },
+    },
+  },
+  "v3": Object {
+    "indexes": Array [],
+    "lines": Object {},
+  },
+}
+`;

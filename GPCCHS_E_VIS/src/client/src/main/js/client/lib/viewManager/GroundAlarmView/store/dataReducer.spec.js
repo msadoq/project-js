@@ -3,6 +3,9 @@ import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 import dataReducer, { getData } from './dataReducer';
 
+import injectDataRangeAction from './mocks/injectDataRangeAction.json';
+import cleanViewDataAction from './mocks/cleanViewDataAction.json';
+
 const GMA = constants.VM_VIEW_GROUNDALARM;
 const PLOT = constants.VM_VIEW_PLOT;
 
@@ -72,11 +75,24 @@ describe('GroundAlarmView:dataReducer', () => {
     });
 
     describe('data consumption', () => {
-      describe('inject data range', () => {
-        test('coming soon');
+      const initialState = {
+        v1: { lines: {}, indexes: [] },
+        v2: { lines: {}, indexes: [] },
+        v3: { lines: {}, indexes: [] },
+      };
+      const action = injectDataRangeAction;
+      const state = reducer(initialState, action);
+      test('inject groundAlarm data', () => {
+        expect(state).toMatchSnapshot();
       });
-      describe('clean view data', () => {
-        test('coming soon');
+      test('clean view data', () => {
+        const cleanAction = cleanViewDataAction;
+        expect(reducer(state, cleanAction)).toEqual({
+          v1: { lines: {}, indexes: [] },
+          v2: { lines: {}, indexes: [] },
+          v3: { lines: {}, indexes: [] },
+        });
+        // expect(reducer(state, cleanAction)).not.toThrow();
       });
     });
   });

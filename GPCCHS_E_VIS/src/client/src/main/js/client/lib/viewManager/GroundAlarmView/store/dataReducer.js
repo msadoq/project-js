@@ -57,6 +57,7 @@ export default function groundAlarmViewData(state = {}, action) {
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, visuWindow }
         = action.payload;
+
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
@@ -91,6 +92,8 @@ export default function groundAlarmViewData(state = {}, action) {
     }
     case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
+      // console.warn('=======================');
+      // console.log(JSON.stringify(action, null, 2));
       // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);

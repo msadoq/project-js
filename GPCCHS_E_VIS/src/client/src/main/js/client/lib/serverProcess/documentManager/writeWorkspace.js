@@ -48,6 +48,9 @@ const prepareTimebars = state => _.map(timebar => ({
   speed: timebar.speed,
   masterId: timebar.masterId,
   mode: timebar.mode,
+  visuWindow: {
+    defaultWidth: timebar.visuWindow.defaultWidth,
+  },
   timelines: _.map((timelineUuid) => {
     const timeline = getTimeline(state, { timelineUuid });
     return _.omit('uuid', timeline);

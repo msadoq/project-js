@@ -54,6 +54,7 @@ export default function hsc(state = initialState, action) {
     case types.WS_TIMELINE_REMOVE:
     case types.WS_PAGE_TIMEBAR_MOUNT:
     case types.WS_PAGE_TIMEBAR_UNMOUNT:
+    case types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE:
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_MOVE_TAB_ORDER:
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH:

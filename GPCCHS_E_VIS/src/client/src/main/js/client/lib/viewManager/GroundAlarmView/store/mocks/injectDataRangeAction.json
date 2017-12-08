@@ -550,7 +550,7 @@
             "alarmLevel": "",
             "onBoardDate": {
               "type": "time",
-              "value": 9980
+              "value": 1512738808620
             },
             "groundDate": {
               "type": "time",
@@ -592,7 +592,7 @@
             "alarmLevel": "outOfRange",
             "onBoardDate": {
               "type": "time",
-              "value": 10980
+              "value": 1512738808621
             },
             "groundDate": {
               "type": "time",

@@ -92,7 +92,6 @@ describe('GroundAlarmView:dataReducer', () => {
           v2: { lines: {}, indexes: [] },
           v3: { lines: {}, indexes: [] },
         });
-        // expect(reducer(state, cleanAction)).not.toThrow();
       });
     });
   });

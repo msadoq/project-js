@@ -76,7 +76,7 @@
             }
           }
         },
-        "66fe1799-516d-46e2-b9e6-d9aace363bbd": {
+        "v3": {
           "type": "OnboardAlarmView",
           "entryPoints": {
             "onboardAlarmEP": {
@@ -191,7 +191,7 @@
             }
           },
           "views": [
-            "66fe1799-516d-46e2-b9e6-d9aace363bbd"
+            "v3"
           ],
           "mode": 0
         }
@@ -383,7 +383,7 @@
             }
           }
         },
-        "66fe1799-516d-46e2-b9e6-d9aace363bbd": {
+        "v3": {
           "type": "OnboardAlarmView",
           "entryPoints": {
             "onboardAlarmEP": {
@@ -498,7 +498,7 @@
             }
           },
           "views": [
-            "66fe1799-516d-46e2-b9e6-d9aace363bbd"
+            "v3"
           ],
           "mode": 0
         }

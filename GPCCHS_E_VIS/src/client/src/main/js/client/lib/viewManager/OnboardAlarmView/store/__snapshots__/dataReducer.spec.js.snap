@@ -1,7 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OnboardAlarmView:dataReducer getData getData should flatten alarms and transitions (in "lines" field) 1`] = `
+exports[`OnboardAlarmView:dataReducer reducer data consumption inject onboardAlarm data 1`] = `
 Object {
-  "stuff": true,
+  "v1": Object {
+    "indexes": Array [],
+    "lines": Object {},
+  },
+  "v2": Object {
+    "indexes": Array [],
+    "lines": Object {},
+  },
+  "v3": Object {
+    "indexes": Array [
+      "oid9702994.625313295",
+      "oid9404463.599430528",
+    ],
+    "lines": Object {
+      "oid9404463.599430528": Object {
+        "RIDId": 50227,
+        "RIDName": "reportNameincididunt",
+        "ackState": "NO ACKNOWLEDGE",
+        "alarmType": "outOfRange",
+        "oid": "oid9404463.599430528",
+        "onBoardDate": "2017-12-08T13:13:28.621Z",
+        "parameters": Array [
+          Object {
+            "name": "pNameculpa",
+            "value": "80680.28520556254",
+          },
+          Object {
+            "name": "pNamelaborum.",
+            "value": 20926,
+          },
+        ],
+        "rawAlarm": Object {
+          "RIDId": 50227,
+          "RIDName": "reportNameincididunt",
+          "ackState": "NO ACKNOWLEDGE",
+          "alarmType": "outOfRange",
+          "oid": "oid9404463.599430528",
+          "onBoardDate": Object {
+            "type": "time",
+            "value": 1512738808621,
+          },
+          "parameters": Array [
+            Object {
+              "name": Object {
+                "type": "identifier",
+                "value": "pNameculpa",
+              },
+              "value": Object {
+                "symbol": "80680.28520556254",
+                "type": "double",
+              },
+            },
+            Object {
+              "name": Object {
+                "type": "identifier",
+                "value": "pNamelaborum.",
+              },
+              "value": Object {
+                "symbol": "20926",
+                "type": "ulong",
+              },
+            },
+          ],
+          "reportType": 10631,
+          "satellite": "satelliteaute",
+          "telemetryType": "telemetryTypecupidatat",
+          "timestamp": Object {
+            "type": "time",
+            "value": 1512738808621,
+          },
+        },
+        "reportType": 10631,
+        "satellite": "satelliteaute",
+        "telemetryType": "telemetryTypecupidatat",
+        "timestamp": "2017-12-08T13:13:28.621Z",
+      },
+      "oid9702994.625313295": Object {
+        "RIDId": 50977,
+        "RIDName": "reportNameexercitation",
+        "ackState": "NO ACKNOWLEDGE",
+        "alarmType": "",
+        "oid": "oid9702994.625313295",
+        "onBoardDate": "2017-12-08T13:13:28.620Z",
+        "parameters": Array [
+          Object {
+            "name": "pNameveniam,",
+            "value": "valueipsum",
+          },
+          Object {
+            "name": "pNamequis",
+            "value": 1185,
+          },
+        ],
+        "rawAlarm": Object {
+          "RIDId": 50977,
+          "RIDName": "reportNameexercitation",
+          "ackState": "NO ACKNOWLEDGE",
+          "alarmType": "",
+          "oid": "oid9702994.625313295",
+          "onBoardDate": Object {
+            "type": "time",
+            "value": 1512738808620,
+          },
+          "parameters": Array [
+            Object {
+              "name": Object {
+                "type": "identifier",
+                "value": "pNameveniam,",
+              },
+              "value": Object {
+                "type": "string",
+                "value": "valueipsum",
+              },
+            },
+            Object {
+              "name": Object {
+                "type": "identifier",
+                "value": "pNamequis",
+              },
+              "value": Object {
+                "symbol": "1185",
+                "type": "ulong",
+              },
+            },
+          ],
+          "reportType": 74460,
+          "satellite": "satelliteexercitation",
+          "telemetryType": "telemetryTypenisi",
+          "timestamp": Object {
+            "type": "time",
+            "value": 1512738808620,
+          },
+        },
+        "reportType": 74460,
+        "satellite": "satelliteexercitation",
+        "telemetryType": "telemetryTypenisi",
+        "timestamp": "2017-12-08T13:13:28.620Z",
+      },
+    },
+  },
 }
 `;

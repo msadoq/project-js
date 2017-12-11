@@ -27,12 +27,9 @@ export default class MimicViewWrapper extends PureComponent {
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
     openInspector: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
     width: PropTypes.number.isRequired,
@@ -50,24 +47,11 @@ export default class MimicViewWrapper extends PureComponent {
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
       mainMenu,
       isInspectorOpened,
       inspectorEpId,
     } = this.props;
     const separator = { type: 'separator' };
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
     const inspectorMenu = {
       label: 'Open in Inspector',
       submenu: [],
@@ -92,7 +76,7 @@ export default class MimicViewWrapper extends PureComponent {
         checked: opened,
       });
     });
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
   toggleShowLinks = (e) => {

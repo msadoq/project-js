@@ -430,9 +430,6 @@ export class GrizzlyPlotView extends PureComponent {
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      closeEditor,
-      openEditor,
       mainMenu,
       inspectorEpId,
       isInspectorOpened,
@@ -461,17 +458,7 @@ export class GrizzlyPlotView extends PureComponent {
         checked: opened,
       });
     });
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
   onDrop = this.drop.bind(this);
   getEntryPointErrors(supClass = '') {

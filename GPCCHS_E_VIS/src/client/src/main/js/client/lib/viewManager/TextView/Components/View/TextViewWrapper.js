@@ -50,8 +50,6 @@ export default class TextViewWrapper extends PureComponent {
     entryPoints: PropTypes.objectOf(PropTypes.object),
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
@@ -85,9 +83,6 @@ export default class TextViewWrapper extends PureComponent {
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
       mainMenu,
       isInspectorOpened,
       inspectorEpId,
@@ -99,25 +94,13 @@ export default class TextViewWrapper extends PureComponent {
     const separator = { type: 'separator' };
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
-      const editorMenu = [{
-        label: `Open ${epName} in Editor`,
-        click: () => {
-          openEditor(epName);
-        },
-      }];
-      if (isViewsEditorOpen) {
-        editorMenu.push({
-          label: 'Close Editor',
-          click: () => closeEditor(),
-        });
-      }
       const inspectorLabel = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
         const inspectorMenu = {
           label: inspectorLabel,
           enabled: false,
         };
-        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+        handleContextMenu([inspectorMenu, separator, ...mainMenu]);
         return;
       }
       const { id, dataId, field } = entryPoints[epName];
@@ -133,19 +116,9 @@ export default class TextViewWrapper extends PureComponent {
         }),
         checked: opened,
       };
-      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+      handleContextMenu([inspectorMenu, separator, ...mainMenu]);
       return;
     }
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
     const inspectorMenu = {
       label: 'Open in Inspector',
       submenu: [],
@@ -170,7 +143,7 @@ export default class TextViewWrapper extends PureComponent {
         checked: opened,
       });
     });
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
 

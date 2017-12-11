@@ -13,6 +13,7 @@ const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extract
 
 const initialState = {
   hoveredAlarm: undefined,
+  enableSearchFilters: true,
 };
 
 class GroundAlarmTable extends React.Component {
@@ -58,7 +59,7 @@ class GroundAlarmTable extends React.Component {
       || this.props.timeline !== nextProps.timeline
       || this.props.mode !== nextProps.mode
     ) {
-      this.resetState();
+      this.cunhoverAlarm();
     }
   }
 
@@ -106,6 +107,10 @@ class GroundAlarmTable extends React.Component {
     }
   }
 
+  toggleSearchFilters = () => {
+    this.setState(_.update('enableSearchFilters', _.negate(_.identity)));
+  }
+
   hoverAlarm = (row) => {
     const { oid } = row.mainRow.data;
     this.setState(_.set('hoveredAlarm', oid));
@@ -113,10 +118,6 @@ class GroundAlarmTable extends React.Component {
 
   unhoverAlarm = () => {
     this.setState(_.set('hoveredAlarm', undefined));
-  }
-
-  resetState = () => {
-    this.setState(_.always(initialState));
   }
 
   render() {
@@ -132,6 +133,8 @@ class GroundAlarmTable extends React.Component {
         style={style}
       >
         <TableView
+          enableSearch={this.state.enableSearchFilters}
+          onClickFilterIcon={this.toggleSearchFilters}
           cols={COLS}
           subCols={TRANSITION_COLS}
           sort={this.props.sort}

@@ -14,7 +14,7 @@ const FilterIcon = ({ onClick }) => (
       [styles.clickableMargin]: true,
     })}
   >
-    <Glyphicon onClick={() => onClick()} glyph="filter" />
+    <Glyphicon onClick={() => onClick()} glyph="search" />
   </Label>
 );
 FilterIcon.propTypes = {

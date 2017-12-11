@@ -56,9 +56,10 @@ const withScroll = _.compose(
 
       getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
 
-      getNbDisplayedElems = (props = this.props) => (
-        Math.floor(props.containerHeight / props.rowHeight) - 1
-      )
+      getNbDisplayedElems = (props = this.props) => {
+        const n = props.enableSearch ? 2 : 1;
+        return Math.floor(props.containerHeight / props.rowHeight) - n;
+      }
 
       getLastPosition = (props = this.props) => (
         Math.max(0, (this.props.rows.length - this.getNbDisplayedElems(props)) + 1)

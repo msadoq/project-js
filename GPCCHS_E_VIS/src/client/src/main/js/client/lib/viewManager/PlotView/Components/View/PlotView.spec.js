@@ -259,6 +259,8 @@ describe('PlotView :: parseDragData', () => {
         formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
         fieldX: 'onboardDate',
         timeline: 'entryPoint',
+        unit: 'V',
+        domain: '*',
       },
     });
   });

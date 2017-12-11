@@ -251,6 +251,8 @@ export const parseDragData = (data, id, defaultTimelineId) => {
     connectedData: {
       formula: `${data.catalogName}.${data.item}<${val}>.${get('DEFAULT_FIELD')[val]}`,
       fieldX: 'onboardDate',
+      unit: 'V',
+      domain: '*',
       timeline: defaultTimelineId,
     },
   };

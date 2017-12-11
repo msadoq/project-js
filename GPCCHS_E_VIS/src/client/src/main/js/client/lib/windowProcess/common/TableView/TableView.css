@@ -38,7 +38,7 @@
     }
   }
 
-  th.filters {
+  th.search {
     & input {
       height: 100%;
       text-align: center;

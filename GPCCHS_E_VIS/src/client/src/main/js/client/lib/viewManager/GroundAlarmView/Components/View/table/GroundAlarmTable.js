@@ -13,7 +13,7 @@ const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extract
 
 const initialState = {
   hoveredAlarm: undefined,
-  enableSearchFilters: true,
+  enableSearch: true,
 };
 
 class GroundAlarmTable extends React.Component {
@@ -107,8 +107,8 @@ class GroundAlarmTable extends React.Component {
     }
   }
 
-  toggleSearchFilters = () => {
-    this.setState(_.update('enableSearchFilters', _.negate(_.identity)));
+  toggleSearch = () => {
+    this.setState(_.update('enableSearch', _.negate(_.identity)));
   }
 
   hoverAlarm = (row) => {
@@ -133,8 +133,8 @@ class GroundAlarmTable extends React.Component {
         style={style}
       >
         <TableView
-          enableSearch={this.state.enableSearchFilters}
-          onClickFilterIcon={this.toggleSearchFilters}
+          enableSearch={this.state.enableSearch}
+          onClickSearchIcon={this.toggleSearch}
           cols={COLS}
           subCols={TRANSITION_COLS}
           sort={this.props.sort}

@@ -7,36 +7,38 @@ import _ from 'lodash/fp';
 import withScroll from './withScroll';
 import styles from './TableView.css';
 
-const FilterIcon = ({ onClick }) => (
+const SearchIcon = ({ onClick, enabled }) => (
   <Label
-    title="Filter by column"
+    onClick={() => onClick()}
+    title={enabled ? 'Collapse search by column' : 'Expand search by column'}
     className={classnames({
       [styles.clickableMargin]: true,
     })}
   >
-    <Glyphicon onClick={() => onClick()} glyph="search" />
+    <Glyphicon glyph="search" />
   </Label>
 );
-FilterIcon.propTypes = {
+SearchIcon.propTypes = {
   onClick: PropTypes.func,
+  enabled: PropTypes.bool.isRequired,
 };
-FilterIcon.defaultProps = {
+SearchIcon.defaultProps = {
   onClick: _.noop,
 };
 
-const FilterInput = ({ onInput, column, value }) => (
+const SearchInput = ({ onInput, column, value }) => (
   <input
     type="text"
     value={value}
     onInput={e => onInput(column, e.target.value)}
   />
 );
-FilterInput.propTypes = {
+SearchInput.propTypes = {
   value: PropTypes.string,
   column: PropTypes.string.isRequired,
   onInput: PropTypes.func.isRequired,
 };
-FilterInput.defaultProps = {
+SearchInput.defaultProps = {
   value: '',
 };
 
@@ -80,10 +82,10 @@ Arrow.propTypes = {
 const getColumns = cols => ['', ...cols];
 
 const Table = ({
-  rows, position, nbDisplayedRows, rowHeight, filters,
+  rows, position, nbDisplayedRows, rowHeight, search,
   cols, subCols, getIsHovered, getIsSelected, getIsExpanded, getIsSelectable,
   disableSelection, disableSelectionReason, sort, enableSearch,
-  onCollapse, onUncollapse, onClickRow, onClickFilterIcon,
+  onCollapse, onUncollapse, onClickRow, onClickSearchIcon,
   onMouseEnter, onMouseLeave, toggleSort, onSearch,
 }) => (
   <table className={classnames('TableView', styles.container)}>
@@ -95,12 +97,12 @@ const Table = ({
           getColumns(cols).map(col => (
             <th
               key={col}
-              className={col !== '' && styles.filters}
+              className={col !== '' && styles.search}
             >
               {
                 col !== ''
-                ? <FilterInput value={filters[col]} column={col} onInput={onSearch} />
-                : <FilterIcon onClick={onClickFilterIcon} />
+                ? <SearchInput value={search[col]} column={col} onInput={onSearch} />
+                : <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} />
               }
             </th>
           ))
@@ -120,7 +122,7 @@ const Table = ({
               })}
               key={col}
             >
-              { col === '' && !enableSearch && <FilterIcon onClick={onClickFilterIcon} /> }
+              { col === '' && !enableSearch && <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} /> }
               { sort.column === col && <Arrow mode={sort.mode} /> }
               {col}
             </th>
@@ -234,7 +236,7 @@ Table.propTypes = {
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
   toggleSort: PropTypes.func.isRequired,
-  onClickFilterIcon: PropTypes.func,
+  onClickSearchIcon: PropTypes.func,
   onSearch: PropTypes.func,
   enableSearch: PropTypes.bool,
   getIsSelectable: PropTypes.func,
@@ -251,7 +253,7 @@ Table.propTypes = {
     column: PropTypes.string.isRequired,
     mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
   }).isRequired,
-  filters: PropTypes.shape({}),
+  search: PropTypes.shape({}),
   rowHeight: PropTypes.number.isRequired,
   nbDisplayedRows: PropTypes.number.isRequired,
   disableSelection: PropTypes.bool.isRequired,
@@ -264,9 +266,9 @@ Table.defaultProps = {
   getIsSelected: _.always(false),
   getIsExpanded: _.always(false),
   getIsHovered: _.always(false),
-  onClickFilterIcon: _.noop,
+  onClickSearchIcon: _.noop,
   onSearch: _.noop,
-  filters: {},
+  search: {},
   enableSearch: false,
   position: 0,
   subColsTitle: '',

@@ -20,6 +20,13 @@ export default (stateConf = {}, action) => {
     case types.WS_VIEW_UPDATE_ALARMMODE: {
       return _.set('entryPoints[0].connectedData.mode', action.payload.mode, stateConf);
     }
+    case types.WS_VIEW_ALARM_INPUT_SEARCH: {
+      const { column, value } = action.payload;
+      return _.set(['search', column], value, stateConf);
+    }
+    case types.WS_VIEW_ALARM_INPUT_RESET: {
+      return _.set(['search'], {}, stateConf);
+    }
     default:
       return stateConf;
   }
@@ -38,4 +45,12 @@ export const getAlarmDomain = createSelector(
 export const getAlarmTimeline = createSelector(
   getConfigurationByViewId,
   _.get('entryPoints[0].connectedData.timeline')
+);
+
+export const getSearch = createSelector(
+  getConfigurationByViewId,
+  _.pipe(
+    _.getOr({}, 'search'),
+    _.pickBy(_.identity) // reject falsy values
+  )
 );

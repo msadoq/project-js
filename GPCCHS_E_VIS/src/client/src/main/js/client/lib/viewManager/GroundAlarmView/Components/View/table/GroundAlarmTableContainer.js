@@ -5,15 +5,16 @@ import { connect } from 'react-redux';
 import { getInspectorOptions, getDataRows } from 'viewManager/GroundAlarmView/store/selectors';
 import { getIsPlaying } from 'store/reducers/hsc';
 import { getData } from 'viewManager/GroundAlarmView/store/dataReducer';
-import { getSelectedAlarms, getExpandedAlarms, getSort, getSearch } from 'viewManager/GroundAlarmView/store/uiReducer';
+import { getSelectedAlarms, getExpandedAlarms, getSort } from 'viewManager/GroundAlarmView/store/uiReducer';
 import {
   openAckModal,
   collapseAlarm, uncollapseAlarm,
   toggleSelection,
   toggleSort,
   inputSearch,
+  inputResetAll,
 } from 'viewManager/GroundAlarmView/store/actions';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from 'viewManager/GroundAlarmView/store/configurationReducer';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch } from 'viewManager/GroundAlarmView/store/configurationReducer';
 import GroundAlarmTable from './GroundAlarmTable';
 
 const mapStateToProps = createStructuredSelector({
@@ -39,6 +40,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => {
     toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
     toggleSort: column => dispatch(toggleSort(viewId, column)),
     inputSearch: (column, value) => throttledDispatch(inputSearch(viewId, column, value)),
+    inputResetAll: () => dispatch(inputResetAll(viewId)),
   });
 };
 

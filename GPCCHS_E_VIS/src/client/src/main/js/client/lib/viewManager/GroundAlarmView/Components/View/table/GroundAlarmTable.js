@@ -38,6 +38,7 @@ class GroundAlarmTable extends React.Component {
     })).isRequired,
     search: PropTypes.shape({}).isRequired,
     inputSearch: PropTypes.func.isRequired,
+    inputResetAll: PropTypes.func.isRequired,
     indexedRows: PropTypes.shape({}).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -85,6 +86,11 @@ class GroundAlarmTable extends React.Component {
           this.props.openAckModal(getOids(this.props.selectedAlarms));
         },
         enabled: n > 0,
+      },
+      {
+        label: 'Reset search filters',
+        click: this.props.inputResetAll,
+        enabled: !_.isEmpty(this.props.search),
       },
       { type: 'separator' },
       ...openInspectorMenu,

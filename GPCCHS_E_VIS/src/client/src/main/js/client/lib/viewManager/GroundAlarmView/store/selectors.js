@@ -3,7 +3,8 @@ import { createSelector } from 'reselect';
 import { getViewEntryPoints } from 'store/selectors/views';
 import sortDataBy from 'viewManager/commonData/sortDataBy';
 import { getData } from './dataReducer';
-import { getSearch, getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
+import { getSearch } from './configurationReducer';
+import { getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
 
 export const getInspectorOptions = createSelector(
   getViewEntryPoints,

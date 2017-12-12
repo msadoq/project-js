@@ -15,6 +15,7 @@ Component : GPCCHS_L_IFL.bridge.timestampFromPosixToMissionHandler
 
 from GPCC.ccsds_mal.sTRING import STRING
 from GPCC.ccsds_mal.sHORT import SHORT
+from GPINUC_L_UCL.unitConverterLibrary.unitConverterException import UnitConverterException
       
 def perform(unitConverterLib=None, msg=None):
     '''
@@ -28,4 +29,17 @@ def perform(unitConverterLib=None, msg=None):
     valuesToConvert = STRING(msg.popFrame(1, 1).getRaw().decode())
     
     # Perform the conversion and convert the results in unicode
-    return unitConverterLib.shiftTimestampFromMissionToPosixBatch(valuesToConvert,sessionId).getValue().encode()
+    resultsStr = None
+    try:
+        resultsStr = unitConverterLib.shiftTimestampFromMissionToPosixBatch(valuesToConvert,sessionId).getValue()
+        raiseErr = None
+    except UnitConverterException as e:
+        raiseErr = e.getType()
+     
+    # Build the results list from the string
+    if resultsStr:
+        results = resultsStr.split(";")
+    else:
+        results = []
+        
+    return results, raiseErr

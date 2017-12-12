@@ -19,6 +19,11 @@
     </properties>
     <dependencies>
       <dependency>
+        <groupId>fr.cnes.lpisis.cots</groupId>
+        <artifactId>protobuf-python</artifactId>
+        <type>isis-cots</type>
+      </dependency>
+      <dependency>
         <groupId>fr.cnes.lpisis.gpin.python</groupId>
         <artifactId>gpinuc_l_ucl_unitConverterLibrary</artifactId>
         <type>isis-python-module-dependency</type>

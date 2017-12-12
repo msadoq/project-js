@@ -26,6 +26,9 @@ from GPCC.container.isisActor import IsisActor
 from GPCC.container.pipeNodeType import PipeNodeType
 # Start of user code ImportsZone
 from GPCCHS_L_IFL.bridge_test.BridgeUser.bridgeServer import BridgeServer
+from bridge.ConvertUnitValues_pb2 import ConvertUnitValues
+from bridge.ResultValues_pb2 import ResultValues
+from GPCC.ccsds_mal.cOMPOSITE import COMPOSITE
 from GPCC.core.zmq import ZMQ
 from GPCC.communicationLibrary.isisSocket import IsisSocket
 from GPCC.core.messageFrame import MessageFrame
@@ -141,16 +144,21 @@ class BridgeUser (IsisActor) :
         server = BridgeServer(actorContext,userReqUrl,userRespUrl)
         server.start()
         
+        # Initialize request id
+        requestID = 0
+        
         ##################################
         print("Test : /////////////// Time conversion from Mission to Posix test ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimestampFromMissionToPosix".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF001".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
         msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
         # Add the fourth frame : the list of conversions to do
@@ -158,7 +166,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         
         # Drop the two first frames of the response, because they are useless
@@ -170,18 +178,25 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Time conversion from Posix to Mission test ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimestampFromPosixToMission".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF002".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
         msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
         # Add the fourth frame : the list of conversions to do
@@ -189,7 +204,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         
         # Drop the two first frames of the response, because they are useless
@@ -201,18 +216,25 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Time conversion from base to TAI ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimeToTai".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF003".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the reference of the time to convert
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "GPS".encode()))
         # Add the fourth frame : the list of conversions to do
@@ -220,7 +242,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         
         # Drop the two first frames of the response, because they are useless
@@ -232,18 +254,25 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Time conversion from base to TAI in milliseconds ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 5)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "TimeToMsTai".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF004".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
         msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
         # Add the fourth frame : the reference of the time to convert
@@ -253,7 +282,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
                 
         # Drop the two first frames of the response, because they are useless
@@ -265,18 +294,25 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Time conversion UTC to TAI ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "ClockUtcToTai".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF005".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
         msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
         # Add the fourth frame : the list of conversions to do
@@ -284,7 +320,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         
         # Drop the two first frames of the response, because they are useless
@@ -296,18 +332,25 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Time conversion TAI to UTC ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 4)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "ClockTaiToUtc".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF006".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the reference session for the time conversion, the one configured in the test configuration
         msgToSend.addFrame(1, MessageFrame(frame = None, data = sessionId.encode()))
         # Add the fourth frame : the list of conversions to do
@@ -315,7 +358,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         
         # Drop the two first frames of the response, because they are useless
@@ -327,28 +370,45 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Unit conversion ///////////////")
         ##################################
+        
+        # Update request id
+        requestID = requestID + 1
+        # Create input values protobuf
+        unitConv = ConvertUnitValues()
+        unitConv.fromUnit = "km"
+        unitConv.toUnit = "m"
+        value = unitConv.values.add()
+        value._string.value = "3.5".encode()
+        value = unitConv.values.add()
+        value._string.value = "2.5".encode()
+        value = unitConv.values.add()
+        value._string.value = "1.5".encode()
         
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 5)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "ConvertUnit".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF007".encode()))
-        # Add the third frame : the unit of the input values
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "km".encode()))
-        # Add the fourth frame : the unit for the output values
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "m".encode()))
-        # Add the fifth frame : the list of conversions to do
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "3.5;2.5;1.5".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         
+        # Add the third frame : the necessary data for conversion
+        # This frame will contain a list of ccsds_mal.types_pb2.ATTRIBUTE
+        handlerFrame = COMPOSITE(data = unitConv.SerializeToString(), size = unitConv.ByteSize() )
+        msgToSend.addFrame(1 ,handlerFrame)
+       
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         
         # Drop the two first frames of the response, because they are useless
@@ -360,19 +420,70 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
+        ##################################
+        print("Test : /////////////// Unit conversion error (no input values) ///////////////")
+        ##################################
+        
+        # Update request id
+        requestID = requestID + 1
+        # Create input values protobuf
+        unitConv = ConvertUnitValues()
+        unitConv.fromUnit = "m"
+        unitConv.toUnit = "mm"
+        # Do not add values to create conversion error
+        
+        # Create the message to send with only one column
+        msgToSend = IsisMessage(1, 5)
+        # Add the first frame : type of conversion
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ConvertUnit".encode()))
+        # Add the second frame : the request ID to be able to link the response to the request
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
+        
+        # Add the third frame : the necessary data for conversion
+        # This frame will contain a list of ccsds_mal.types_pb2.ATTRIBUTE
+        handlerFrame = COMPOSITE(data = unitConv.SerializeToString(), size = unitConv.ByteSize() )
+        msgToSend.addFrame(1 ,handlerFrame)
+       
+        # Send the message
+        reqChannel.sendMessage(msgToSend, 0)
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
+        response = respChannel.receiveMessage(0)
+        
+        # Drop the two first frames of the response, because they are useless
+        response.popFrame(1,1)
+        response.popFrame(1,1)
+        # Read the result from the third frame
+        frame = response.popFrame(1,1)
+        print("Test : Received response for request of ID: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        print("Test : Error message is: ", repr(frame.getRaw().decode()))
+        frame = response.popFrame(1,1)
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ##################################
         print("Test : /////////////// Handler import error ///////////////")
         ##################################
         
+        # Update request id
+        requestID = requestID + 1
         # Create the message to send with only one column
         msgToSend = IsisMessage(1, 5)
         # Add the first frame : type of conversion
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "empty".encode()))
         # Add the second frame : the request ID to be able to link the response to the request
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF008".encode()))
+        msgToSend.addFrame(1, MessageFrame(frame = None, data = "ABCDEF{0:03d}".format(requestID).encode()))
         # Add the third frame : the unit of the input values
         msgToSend.addFrame(1, MessageFrame(frame = None, data = "km".encode()))
         # Add the fourth frame : the unit for the output values
@@ -382,7 +493,7 @@ class BridgeUser (IsisActor) :
         
         # Send the message
         reqChannel.sendMessage(msgToSend, 0)
-        print("Test : Message sent, wait response")
+        print("Test : Message sent for conversion ", repr(requestID), ", wait response")
         response = respChannel.receiveMessage(0)
         print("Test : Response received, frame count is: ", repr(response.getFrameCount()))
         
@@ -395,7 +506,12 @@ class BridgeUser (IsisActor) :
         frame = response.popFrame(1,1)
         print("Test : Error message is: ", repr(frame.getRaw().decode()))
         frame = response.popFrame(1,1)
-        print("Test : Received result are: ", repr(frame.getRaw().decode()))
+        results = ResultValues()
+        results.ParseFromString(bytes(frame.getRaw()))
+        valuesList = []
+        for value in results.values:
+            valuesList.append(value._string.value)
+        print("Test : Received result are: ", repr(valuesList))
         
         ################################
         print("Test : /////////////// End of test, send STOP message  ///////////////")

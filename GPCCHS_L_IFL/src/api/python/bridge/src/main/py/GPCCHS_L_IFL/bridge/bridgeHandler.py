@@ -19,6 +19,9 @@ from GPCC.core.zmq import ZMQ
 from GPCC.core.messageFrame import MessageFrame
 from GPCC.communicationLibrary.isisMessage import IsisMessage
 from importlib import import_module
+from GPINUC_L_UCL.unitConverterLibrary.unitConverterExceptionType import UnitConverterExceptionType
+from bridge.ResultValues_pb2 import ResultValues
+from GPCC.ccsds_mal.cOMPOSITE import COMPOSITE
 
 class BridgeHandler(Thread):
     '''
@@ -61,12 +64,19 @@ class BridgeHandler(Thread):
         # If module import has been successful
         if errorMsg == None:
             # If import has been successful, perform the conversion
-            results = module.perform(self._ucLib,self._msg)
-            # Module import has been successful so create an empty import error message
-            errorMsg = ""
+            results, ucErr = module.perform(self._ucLib,self._msg)
+            # Module import has been successful so manage the error returned by UnitConverter library
+            if ucErr == UnitConverterExceptionType.INPUT_PARAMETER_INVALID:
+                errorMsg = "Invalid input parameters"
+            elif ucErr == UnitConverterExceptionType.OUTPUT_PARAMETER_NOT_ALLOCATED:
+                errorMsg = "Output parameter destination not allocated"
+            elif ucErr != None:
+                errorMsg = "Unknown unit converter library error"
+            else:
+                errorMsg = ""
         else:
             # Otherwise create empty result
-            results = ""
+            results = []
         
         # Initialize the socket to send the results
         responseChannel = IsisSocket(self._actorContext, ZMQ.PUSH)
@@ -75,13 +85,25 @@ class BridgeHandler(Thread):
        
         # Create the results message
         msgToSend = IsisMessage(1, 3)
+
         # Add the request ID  in response message
-        
         msgToSend.addFrame(1, MessageFrame(frame = None, data = self._requestID.encode()))
         # Add the error message in response message
         msgToSend.addFrame(1, MessageFrame(frame = None, data = errorMsg.encode()))        
-        # Add the results in response message
-        msgToSend.addFrame(1, MessageFrame(frame = None, data = results))
+
+        
+        # Create the result protobuf
+        resultsProto = ResultValues()
+        # Add each value in protobuf
+        for resultVal in results:
+            # Create the value in protobuf
+            value = resultsProto.values.add()
+            # Encode from str type to bytes in order to be able to put it in protobuf
+            value._string.value = resultVal.encode()
+        # Put the protobuf in message frame
+        handlerFrame = COMPOSITE(data = resultsProto.SerializeToString(), size = resultsProto.ByteSize() )
+        msgToSend.addFrame(1 ,handlerFrame)
+
         # Send the results
         responseChannel.sendMessage(msgToSend, 0)
        

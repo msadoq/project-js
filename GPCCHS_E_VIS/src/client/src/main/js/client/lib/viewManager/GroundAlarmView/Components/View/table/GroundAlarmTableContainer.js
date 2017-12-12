@@ -31,18 +31,15 @@ const mapStateToProps = createStructuredSelector({
   search: getSearch,
 });
 
-const mapDispatchToProps = (dispatch, { viewId }) => {
-  const throttledDispatch = _.throttle(100, dispatch);
-  return ({
-    openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
-    collapse: oid => dispatch(collapseAlarm(viewId, oid)),
-    uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
-    toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
-    toggleSort: column => dispatch(toggleSort(viewId, column)),
-    inputSearch: (column, value) => throttledDispatch(inputSearch(viewId, column, value)),
-    inputResetAll: () => dispatch(inputResetAll(viewId)),
-  });
-};
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
+  collapse: oid => dispatch(collapseAlarm(viewId, oid)),
+  uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
+  toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
+  toggleSort: column => dispatch(toggleSort(viewId, column)),
+  inputSearch: (column, value) => dispatch(inputSearch(viewId, column, value)),
+  inputResetAll: () => dispatch(inputResetAll(viewId)),
+});
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,

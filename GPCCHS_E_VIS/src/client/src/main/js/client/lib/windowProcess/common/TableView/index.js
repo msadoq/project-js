@@ -7,6 +7,44 @@ import _ from 'lodash/fp';
 import withScroll from './withScroll';
 import styles from './TableView.css';
 
+class SearchInput extends React.Component {
+  static propTypes = {
+    value: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+    onInput: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    value: '',
+  }
+
+  state = { value: '' }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.value === ''
+      && nextProps.value !== this.props.value
+      && nextProps.value !== this.state.value
+    ) {
+      this.setState(_.set('value', ''));
+    }
+  }
+
+  onInput = (e) => {
+    const value = e.target.value;
+    this.setState(_.set('value', value));
+    this.props.onInput(value);
+  }
+
+  render() {
+    return (
+      <input
+        type="text"
+        value={this.state.value}
+        onInput={this.onInput}
+      />
+    );
+  }
+}
+
 const SearchIcon = ({ onClick, enabled }) => (
   <Label
     onClick={() => onClick()}
@@ -24,22 +62,6 @@ SearchIcon.propTypes = {
 };
 SearchIcon.defaultProps = {
   onClick: _.noop,
-};
-
-const SearchInput = ({ onInput, column, value }) => (
-  <input
-    type="text"
-    defaultValue={value}
-    onInput={e => onInput(column, e.target.value)}
-  />
-);
-SearchInput.propTypes = {
-  value: PropTypes.string,
-  column: PropTypes.string.isRequired,
-  onInput: PropTypes.func.isRequired,
-};
-SearchInput.defaultProps = {
-  value: '',
 };
 
 const CollapseButton = ({ onClick, collapsed }) => (
@@ -101,7 +123,7 @@ const Table = ({
             >
               {
                 col !== ''
-                ? <SearchInput value={search[col]} column={col} onInput={onSearch} />
+                ? <SearchInput value={search[col]} onInput={value => onSearch(col, value)} />
                 : <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} />
               }
             </th>

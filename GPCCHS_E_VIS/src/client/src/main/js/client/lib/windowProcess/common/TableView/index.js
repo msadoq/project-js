@@ -29,7 +29,7 @@ SearchIcon.defaultProps = {
 const SearchInput = ({ onInput, column, value }) => (
   <input
     type="text"
-    value={value}
+    defaultValue={value}
     onInput={e => onInput(column, e.target.value)}
   />
 );

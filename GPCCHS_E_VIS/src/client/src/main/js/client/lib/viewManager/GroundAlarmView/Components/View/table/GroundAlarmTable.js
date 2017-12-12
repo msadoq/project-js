@@ -36,6 +36,8 @@ class GroundAlarmTable extends React.Component {
       data: PropTypes.any,
       type: PropTypes.string,
     })).isRequired,
+    search: PropTypes.shape({}).isRequired,
+    inputSearch: PropTypes.func.isRequired,
     indexedRows: PropTypes.shape({}).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -133,6 +135,8 @@ class GroundAlarmTable extends React.Component {
         style={style}
       >
         <TableView
+          search={this.props.search}
+          onSearch={this.props.inputSearch}
           enableSearch={this.state.enableSearch}
           onClickSearchIcon={this.toggleSearch}
           cols={COLS}

@@ -68,3 +68,13 @@ export const uncollapseAlarm = (viewId, oid) => ({
   type: types.WS_VIEW_ALARM_UNCOLLAPSE,
   payload: { viewId, oid },
 });
+
+export const inputSearch = (viewId, column, value) => ({
+  type: types.WS_VIEW_ALARM_INPUT_SEARCH,
+  payload: { viewId, column, value },
+});
+
+export const inputResetAll = viewId => ({
+  type: types.WS_VIEW_ALARM_INPUT_RESET,
+  payload: { viewId },
+});

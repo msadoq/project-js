@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { getViewEntryPoints } from 'store/selectors/views';
 import sortDataBy from 'viewManager/commonData/sortDataBy';
 import { getData } from './dataReducer';
-import { getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
+import { getSearch, getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
 
 export const getInspectorOptions = createSelector(
   getViewEntryPoints,
@@ -19,18 +19,34 @@ export const getInspectorOptions = createSelector(
   }
 );
 
-export const getSortedIndexes = createSelector(
+const isFiltered = (alarm, search) => _.pipe(
+  _.entries,
+  _.reduce(
+    (acc, [k, v]) => acc && alarm[k].indexOf(v) !== -1
+  )(true)
+)(search);
+
+export const getFilteredIndexes = createSelector(
   getData,
+  getSearch,
+  ({ lines, indexes }, search) => _.filter((oid => (
+    isFiltered(lines[oid], search)
+  )), indexes)
+);
+
+export const getFilteredSortedIndexes = createSelector(
+  getData,
+  getFilteredIndexes,
   getSortMode,
   getSortColumn,
-  ({ lines, indexes }, sortMode, column) => (
+  ({ lines }, indexes, sortMode, column) => (
     sortDataBy(oid => lines[oid].rawAlarm[column], sortMode, indexes)
   )
 );
 
 export const getDataRows = createSelector(
   getData,
-  getSortedIndexes,
+  getFilteredSortedIndexes,
   getExpandedAlarms,
   (data, sortedIndexes, expandedAlarms) => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];

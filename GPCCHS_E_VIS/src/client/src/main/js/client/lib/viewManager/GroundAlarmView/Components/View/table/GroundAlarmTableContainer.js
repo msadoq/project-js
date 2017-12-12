@@ -5,8 +5,14 @@ import { connect } from 'react-redux';
 import { getInspectorOptions, getDataRows } from 'viewManager/GroundAlarmView/store/selectors';
 import { getIsPlaying } from 'store/reducers/hsc';
 import { getData } from 'viewManager/GroundAlarmView/store/dataReducer';
-import { getSelectedAlarms, getExpandedAlarms, getSort } from 'viewManager/GroundAlarmView/store/uiReducer';
-import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from 'viewManager/GroundAlarmView/store/actions';
+import { getSelectedAlarms, getExpandedAlarms, getSort, getSearch } from 'viewManager/GroundAlarmView/store/uiReducer';
+import {
+  openAckModal,
+  collapseAlarm, uncollapseAlarm,
+  toggleSelection,
+  toggleSort,
+  inputSearch,
+} from 'viewManager/GroundAlarmView/store/actions';
 import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from 'viewManager/GroundAlarmView/store/configurationReducer';
 import GroundAlarmTable from './GroundAlarmTable';
 
@@ -21,15 +27,20 @@ const mapStateToProps = createStructuredSelector({
   indexedRows: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
+  search: getSearch,
 });
 
-const mapDispatchToProps = (dispatch, { viewId }) => ({
-  openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
-  collapse: oid => dispatch(collapseAlarm(viewId, oid)),
-  uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
-  toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
-  toggleSort: column => dispatch(toggleSort(viewId, column)),
-});
+const mapDispatchToProps = (dispatch, { viewId }) => {
+  const throttledDispatch = _.throttle(100, dispatch);
+  return ({
+    openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
+    collapse: oid => dispatch(collapseAlarm(viewId, oid)),
+    uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
+    toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
+    toggleSort: column => dispatch(toggleSort(viewId, column)),
+    inputSearch: (column, value) => throttledDispatch(inputSearch(viewId, column, value)),
+  });
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,

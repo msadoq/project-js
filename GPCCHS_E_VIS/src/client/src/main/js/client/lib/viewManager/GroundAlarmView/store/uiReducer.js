@@ -10,6 +10,7 @@ const initialViewState = {
   ackStatus: {},
   selected: {},
   expanded: {},
+  search: {},
   sort: {
     mode: 'ASC',
     column: 'timestamp',
@@ -130,6 +131,14 @@ const uiReducer = (state = initialState, action) => {
       const iOid = _.findIndex(_.propEq('oid', oid), alarmsOids);
       return _.set([viewId, 'ackStatus', ackId, 'alarmsOids', iOid, 'ackError'], String(error), state);
     }
+    case types.WS_VIEW_ALARM_INPUT_SEARCH: {
+      const { viewId, column, value } = action.payload;
+      return _.set([viewId, 'search', column], value, state);
+    }
+    case types.WS_VIEW_ALARM_INPUT_RESET: {
+      const { viewId } = action.payload;
+      return _.set([viewId, 'search'], {}, state);
+    }
     default:
       return state;
   }
@@ -170,4 +179,9 @@ export const getAckStatus = createSelector(
   getUi,
   (state, { ackId }) => ackId,
   (ui, ackId) => _.get(['ackStatus', ackId], ui)
+);
+
+export const getSearch = createSelector(
+  getUi,
+  _.get('search')
 );

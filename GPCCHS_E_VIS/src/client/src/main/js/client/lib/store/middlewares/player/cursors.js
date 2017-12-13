@@ -10,6 +10,7 @@ export function nextCurrent(current, speed, elapsed) {
 
 export function computeCursors(
   current,
+  previousCurrent,
   lower,
   upper,
   slideLower,
@@ -28,6 +29,8 @@ export function computeCursors(
   if (mode === 'Normal' || mode === 'Extensible') {
     if (current + mandatoryMarginMs > upper) {
       offsetMs = (current + mandatoryMarginMs) - upper;
+    } else {
+      offsetMs = current - previousCurrent;
     }
   } else if (mode === 'Fixed') {
     if (current > slideUpper) {
@@ -40,7 +43,6 @@ export function computeCursors(
   /*
   * @return { lower, upper, slideLower, slideUpper }
   */
-
   const r = {
     visuWindow: { current },
     slideWindow: {},

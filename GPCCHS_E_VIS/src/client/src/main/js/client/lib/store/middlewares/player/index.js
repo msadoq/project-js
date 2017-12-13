@@ -48,6 +48,7 @@ const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   );
   const nextCursors = computeCursors(
     newCurrent,
+    playingTimebar.visuWindow.current,
     playingTimebar.visuWindow.lower,
     playingTimebar.visuWindow.upper,
     playingTimebar.slideWindow.lower,

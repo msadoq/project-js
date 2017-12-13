@@ -37,19 +37,21 @@ describe('mainProcess/play', () => {
     test('(Normal mode) -     should move 377ms', () => {
       const offset = 377;
       const newCurrent = timebarData.visuWindow.current + offset;
-      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
-      expect(res.visuWindow).toHaveProperty('lower', vw.lower);
-      expect(res.visuWindow).toHaveProperty('upper', vw.upper);
-      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + newCurrent) / 2);
-      expect(res.slideWindow).toHaveProperty('upper', (vw.current + vw.upper + offset) / 2);
+      expect(res.visuWindow).toHaveProperty('lower', vw.lower + offset);
+      expect(res.visuWindow).toHaveProperty('upper', vw.upper + offset);
+      expect(res.slideWindow).toHaveProperty('lower', (vw.lower + offset + newCurrent) / 2);
+      expect(res.slideWindow).toHaveProperty('upper', (vw.upper + offset + newCurrent) / 2);
     });
 
     test('(Normal mode) -     should move 377ms and move slideWindow', () => {
       const offset = 377;
       const newCurrent = vw.upper + offset;
-      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
       expect(res.visuWindow).toHaveProperty('lower', vw.lower + offset);
@@ -61,7 +63,8 @@ describe('mainProcess/play', () => {
     test('(Normal mode) -     should move 106,100,000ms and move slideWindow', () => {
       const offset = 106100000;
       const newCurrent = vw.upper + offset;
-      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
       expect(res.visuWindow).toHaveProperty('lower', vw.lower + offset);
@@ -74,7 +77,8 @@ describe('mainProcess/play', () => {
       const offset = 377;
       const secondOffset = 380;
       let newCurrent = vw.upper + offset;
-      let res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      let res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'Extensible', currentUpperMargin);
 
       expect(res.visuWindow).toHaveProperty('lower', vw.lower);
@@ -85,6 +89,7 @@ describe('mainProcess/play', () => {
       newCurrent += secondOffset;
       res = computeCursors(
         newCurrent,
+        timebarData.visuWindow.current,
         res.visuWindow.lower,
         res.visuWindow.upper,
         res.slideWindow.lower,
@@ -106,7 +111,8 @@ describe('mainProcess/play', () => {
         upper: vw.current + 500,
       };
       let newCurrent = vw.current + offset;
-      let res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      let res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'Fixed', currentUpperMargin);
 
       expect(res.visuWindow).toHaveProperty('lower', vw.lower);
@@ -117,6 +123,7 @@ describe('mainProcess/play', () => {
       newCurrent += secondOffset;
       res = computeCursors(
         newCurrent,
+        timebarData.visuWindow.current,
         res.visuWindow.lower,
         res.visuWindow.upper,
         res.slideWindow.lower,
@@ -141,7 +148,8 @@ describe('mainProcess/play', () => {
         upper: vw.upper + 500,
       };
       const newCurrent = vw.current + offset;
-      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'Fixed', currentUpperMargin);
 
       expect(res).toEqual({
@@ -160,7 +168,8 @@ describe('mainProcess/play', () => {
         upper: vw.upper + 500,
       };
       const newCurrent = vw.current + offset;
-      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, timebarData.visuWindow.current,
+        vw.lower, vw.upper, sw.lower, sw.upper,
         'UnknownMode', currentUpperMargin);
 
       expect(res).toEqual({

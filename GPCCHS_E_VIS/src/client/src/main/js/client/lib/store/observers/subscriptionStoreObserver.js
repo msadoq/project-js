@@ -1,6 +1,7 @@
 import _differenceWith from 'lodash/differenceWith';
 import _difference from 'lodash/difference';
 import _differenceBy from 'lodash/differenceBy';
+import _uniq from 'lodash/uniq';
 import _intersection from 'lodash/intersection';
 import _findIndex from 'lodash/findIndex';
 import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
@@ -126,3 +127,30 @@ export default function makeSubscriptionStoreObserver(store) {
   };
 }
 
+/**
+   * Function that computes the difference of the first array and the second array, and also computes the intersection of the two arrays.
+   * @param {array} firstArray - The first array.
+   * @param {array} secondArray - The second array.
+   * @param {function} comparator - The comparator used to compare the two arrays.
+   * @return {function} The new state.
+   */
+export const differenceIntersection = (firstArray, secondArray, comparator) => {
+  const intersectionArray = [];
+  const differenceArray = [];
+  for (let i = 0; i < firstArray.length; i += 1) {
+    const elementToCompare = firstArray[i];
+    for (let j = 0; j < secondArray.length; j += 1) {
+      const elementCompared = secondArray[j];
+      const comparison = comparator(elementToCompare, elementCompared);
+      if (comparison) {
+        intersectionArray.push(elementToCompare);
+      } else {
+        differenceArray.push(elementToCompare);
+      }
+    }
+  }
+  return {
+    intersectionArray: _uniq(intersectionArray),
+    differenceArray: _uniq(differenceArray),
+  };
+};

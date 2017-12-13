@@ -98,14 +98,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "lower": 1498643008147,
+        "upper": 1498643173147,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": NaN,
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "current": 1498643156647,
+        "lower": 1498642859647,
+        "upper": 1498643189647,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",
@@ -113,14 +113,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "lower": 1498643008147,
+        "upper": 1498643173147,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": NaN,
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "current": 1498643156647,
+        "lower": 1498642859647,
+        "upper": 1498643189647,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",
@@ -128,14 +128,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "lower": 1498643008147,
+        "upper": 1498643173147,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": NaN,
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "current": 1498643156647,
+        "lower": 1498642859647,
+        "upper": 1498643189647,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",

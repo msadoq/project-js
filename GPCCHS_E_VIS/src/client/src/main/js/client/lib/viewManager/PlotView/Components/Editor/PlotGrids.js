@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import PlotGrid from './PlotGrid';
 

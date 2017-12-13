@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : fix reselect signature linting errors
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : In actions, reduers, views, timelineId -> timelineUuid to avoid confusion.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move all timelines simple selectors in store/reducers/timelines
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add configuration selectors in ViewManager
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Move getFocusedPageTimelines in global store/selectors .
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Remove Timebar/Controls/ControlsSelectors + tests .
+// END-HISTORY
+// ====================================================================
+
 import { getPageTimelines, getFocusedPageTimelines, getMasterTimelineById, getTimelinesByViewId } from './timelines';
 
 describe('viewManager/PlotView/store/configurationSelectors', () => {

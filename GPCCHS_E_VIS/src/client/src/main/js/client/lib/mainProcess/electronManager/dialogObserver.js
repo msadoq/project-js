@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Rewrite all saving page code
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Implement dialogObserver in mainProcess .
+// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Change openModal action, it now have a default dialogId
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { each } from 'lodash';
 import electron from 'electron';

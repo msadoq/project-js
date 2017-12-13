@@ -1,0 +1,235 @@
+#GPCCHS 1.1.2 02/10/2017 ISIS-FC-2138.txt
+
+
+Reference changement : ISIS-FT-2138
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.sample.json
+	New extensions. Updated extensions of data files, updated config.sample.json.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/large.workspace.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/large.workspace.viws (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page2.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page2.vipg (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/maximized.page.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/maximized.page.vipg (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.json
+	Updated extensions of historyview page and view documents.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.vipg (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pageLarge1.json
+	New extensions. Updated extensions of data files, updated config.sample.json.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pageLarge1.vipg (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.vipg (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/supsup.page.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/supsup.page.vipg (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pbf.workspace.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pbf.workspace.viws (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/supsup.workspace.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/supsup.workspace.viws (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.vitv (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.json
+	Updated extensions of historyview page and view documents.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.vihv (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json
+	New extensions. Updated extensions of data files, updated config.sample.json.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.vimv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.text.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.text.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text100.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text100.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text1000.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text1000.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text30.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text30.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text5408.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text5408.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	New extensions. Updated extensions of data files, updated config.sample.json.
+	Page / Views / Workspace are saved with extensions.
+	REVERT MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
+	
+	
+	
+	This reverts commit 2c10e24216f77e9e51d68b795147837e46c521c0.
+	MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/workspace.schema.json
+	timebar jsonSchema : masterId is not mandatory and can be null.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+	Page / Views / Workspace are saved with extensions.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveView.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveViewAsModel.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onSaveWorkspace.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DummyDrag.js
+	New extensions. Updated extensions of data files, updated config.sample.json.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+	Fixed drag and drop error : when dropped item doesn't have filePath property, error message is correctly displayed.
+	Added error message when dropped item's mime type is not supported.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentContainer.js
+	Added error message when dropped item's mime type is not supported.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Messages.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/MessagesContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Messages.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/MessagesContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	New extensions. Updated extensions of data files, updated config.sample.json.
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/config.sample.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/workspace.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveViewAsModel.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onSaveWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DummyDrag.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/large.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page2.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/maximized.page.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pageLarge1.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/supsup.page.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pbf.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/supsup.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.vihv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.vimv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.text.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text100.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text1000.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text30.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text5408.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/MessagesContainer.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/large.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page2.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/maximized.page.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pageLarge1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/pbf.page.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/supsup.page.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pbf.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/supsup.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/empty.text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text100.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text1000.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text30.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text5408.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/MessagesContainer.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

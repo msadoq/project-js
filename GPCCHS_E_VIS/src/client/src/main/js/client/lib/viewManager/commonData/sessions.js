@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 import _has from 'lodash/has';
 import _get from 'lodash/get';
 import _set from 'lodash/set';

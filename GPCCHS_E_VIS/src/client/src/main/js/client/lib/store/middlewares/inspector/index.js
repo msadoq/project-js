@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Move inspector middleware in a folder
+// END-HISTORY
+// ====================================================================
+
 import getLogger from 'common/logManager';
 import * as types from 'store/types';
 import { add } from 'store/actions/messages';

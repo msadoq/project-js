@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Move openLink middleware in documents middleware
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rewrite openLink middleware unit tests
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
+// VERSION : 1.1.2 : FA : #7145 : 25/07/2017 : Use askOpenLink action creator in openLink unit tests
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 

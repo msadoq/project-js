@@ -1,0 +1,148 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6688.txt
+
+
+Reference changement : #6688
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	catalog explorer : open, close and browse items
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+	catalog explorer : open, close and browse items
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	catalog explorer : open, close and browse items
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onFocusRteItem.js
+	catalog explorer : open, close and browse items
+	update catalog explorer controllers with new rtd connection
+	First draft on catalog explorer
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteCatalogs.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteDomains.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteItemNames.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenRteItem.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveRteLink.js
+	catalog explorer : open, close and browse items
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	catalog explorer : open, close and browse items
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/createItemKey.js
+	catalog explorer : open, close and browse items
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.js
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/rte.js
+	catalog explorer : open, close and browse items
+	First draft on catalog explorer
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/Explorer.js
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorer.css
+	update catalog explorer display styles
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorer.js
+	catalog explorer : open, close and browse items
+	update catalog explorer display styles
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerContainer.js
+	catalog explorer : open, close and browse items
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerLeft.js
+	catalog explorer : open, close and browse items
+	update catalog explorer display styles
+	First draft on catalog explorer
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerRight.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeDecorators.js
+	First draft on catalog explorer
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeTheme.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+	catalog explorer : open, close and browse items
+	First draft on catalog explorer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/manageRTD.sh
+	First draft on catalog explorer
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/Explorer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeDecorators.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeTheme.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/manageRTD.sh
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onFocusRteItem.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteCatalogs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteDomains.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteItemNames.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenRteItem.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveRteLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/createItemKey.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/rte.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorer.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerLeft.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerRight.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

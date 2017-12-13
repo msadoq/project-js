@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Move openLink middleware in documents middleware
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Links can now be relative path or absolute fmd path
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rewrite openLink middleware unit tests
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Refacto openLink documents middleware (serverProcess)
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { addBlankPage, focusPage } from 'store/actions/pages';
 import { v4 } from 'uuid';

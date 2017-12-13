@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Refacto player middleware + move store/play.js
+// END-HISTORY
+// ====================================================================
+
 export function nextCurrent(current, speed, elapsed) {
   return current + (elapsed * speed);
 }

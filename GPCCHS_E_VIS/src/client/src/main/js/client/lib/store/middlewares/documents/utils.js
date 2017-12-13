@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7435 : 14/09/2017 : Add getDefaultFolder in documents utils
+// VERSION : 1.1.2 : FA : #7435 : 14/09/2017 : Rename documents/doctypes in documents/utils .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import parameters from 'common/configurationManager';
 import { getWorkspaceFolder } from 'store/reducers/hsc';

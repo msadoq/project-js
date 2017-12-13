@@ -1,0 +1,438 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6129.txt
+
+
+Reference changement : #6129
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.json
+	add digital display feature and fix lint warnings
+	display strings animates values in mimic
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.json
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	Merge dev branch & gauge done
+	merge dev on mimic branch
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json
+	add multistate switch default component to mimic
+	merge dev on abesson-mimic branch .
+	prepare mimic for demo scenario
+	Add show / hide animation .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	add digital display feature and fix lint warnings
+	display strings animates values in mimic
+	Fix EP names in mimic view
+	add rotate animation and knobe component in mimic
+	prepare mimic to merge in dev
+	Merge dev branch & gauge done
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+	merge dev on abesson-mimic branch .
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/CodeEditor.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/CodeEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/HtmlSourceForm.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/Source.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SourceContainer.js
+	merge dev on mimic branch
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SourceForm.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SvgSourceForm.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/htmllint.js
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/codeEditor.js
+	merge dev on abesson-mimic branch .
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/observer.js
+	merge dev on abesson-mimic branch .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.js
+	merge dev on abesson-mimic branch .
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.js
+	merge dev on abesson-mimic branch .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.spec.js
+	merge dev on abesson-mimic branch .
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/editor/index.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/editor/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/configuration.js
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+	Merge branch 'dev' into abesson-mimic
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	merge dev on abesson-mimic branch .
+	[FT:#6129] [FT:#6129] [FT:#6129] [FT:#6129] Merge remote-tracking branch 'origin/dev' into abesson-mimic
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/Scale.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/colour.js
+	add multistate switch default component to mimic
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/digital.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/rotate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/scaleX.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/scaleY.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/show.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/textBox.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/translateX.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/translateY.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/circuitBreaker.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/diode.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/hGauge.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/hGauge.svg
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/hSlider.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/knobe.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/multiState.js
+	add multistate switch default component to mimic
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/transistor.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/vGauge.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/vSlider.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPoint.js
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointContainer.js
+	Fix Add new EP in mimicview
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetails.js
+	MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetailsContainer.js
+	MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.js
+	MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+	MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+	add digital display feature and fix lint warnings
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js
+	MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTabContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+	merge dev on abesson-mimic branch .
+	prepare mimic for demo scenario
+	Add show / hide animation .
+	Fix bug in mimic render
+	Merge dev in abesson-mimic .
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+	add digital display feature and fix lint warnings
+	display strings animates values in mimic
+	add rotate animation and knobe component in mimic
+	Merge dev branch & gauge done
+	check and improve mimic perfs
+	merge dev on mimic branch
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+	merge dev on mimic branch
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/index.js
+	first functionnal mimic with animations
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareConfigurationForFile.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareConfigurationForModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareConfigurationForStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForFile.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForStore.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/setEntryPointDefault.js
+	Fix Add new EP in mimicview
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationReducer.js
+	merge dev on mimic branch
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js
+	first functionnal mimic with animations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js
+	MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointTree.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetails.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointTree.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTab.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTabContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/components.js
+	apply viewManager modifications to mimicView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/constants.js
+	Merge dev branch & gauge done
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+	apply viewManager modifications to mimicView
+	Merge branch 'dev' into abesson-mimic
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/reducers.js
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+	Merge branch 'dev' into abesson-mimic
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/EditorContainer.js
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+	Fix saving view . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+	Fix saving view . .
+	Merge dev branch & gauge done
+	Merge branch 'dev' into abesson-mimic
+	merge dev on mimic branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+	Merge branch 'dev' into abesson-mimic
+	Fix Add new EP in mimicview
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/CodeMirrorField.js
+	moved components/animations in separate files. Possibility to add it in editor using context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/fonts/digital.ttf
+	add digital display feature and fix lint warnings
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/CodeEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/CodeEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/Source.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SourceContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/htmllint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/codeEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/configuration.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/components.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/reducers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/EditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/CodeMirrorField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/HtmlSourceForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SvgSourceForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/observer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/colour.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/digital.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/rotate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/scaleX.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/scaleY.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/show.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/textBox.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/translateX.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Animation/translateY.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/circuitBreaker.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/diode.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/hGauge.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/hSlider.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/knobe.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/multiState.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/transistor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/vGauge.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/vSlider.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/fonts/digital.ttf
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SourceForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/editor/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/editor/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareConfigurationForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareConfigurationForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareConfigurationForStore.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

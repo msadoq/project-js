@@ -1,3 +1,38 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Refactoring view reducer (configuration) .
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : This is views reducer that will catch WD_VIEW_ADD action
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Split views reducer in several files
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Rename some points in views reducer + change getAxes parameters
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Refactoring + tests about views reducer
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Add some comments about views reducer
+// VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : Fix bug about isModified in a single view reducer
+// VERSION : 1.1.2 : DM : #3622 : 02/03/2017 : Add min and max in plot viewData
+// VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse views
+// VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_OPEN action and remove WS_LOAD_DOCUMENTS
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_OPEN action . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Refacto loadDocumentsInStore from documentManager .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_VIEW_ADD by WS_VIEW_ADD_BLANK .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix view reloading . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : When move a view to a page, change pageUuid
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_VIEW_OPEN action . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Filter unused value in view state
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove old configuration reducer .
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : showLegend information stored in file.
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : fix unnecessary datamap generation .
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 
 import composeReducers from 'store/helpers/composeReducers';

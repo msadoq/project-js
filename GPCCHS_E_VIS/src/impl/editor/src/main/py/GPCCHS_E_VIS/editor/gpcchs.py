@@ -14,6 +14,9 @@ Component : GPCCHS_E_VIS
 #
 # VERSION  : 1.0  : Creation
 #
+# VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+# VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update launcher options list to have -d for debug traces
+# VERSION : 1.1.2 : FA : #8019 : 23/09/2017 : Correct debugMode tag for GPCCDC configuration
 # END-HISTORY
 # ====================================================================
 

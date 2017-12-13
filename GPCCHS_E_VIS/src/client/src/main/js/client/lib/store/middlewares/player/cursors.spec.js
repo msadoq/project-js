@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Refacto player middleware + move store/play.js
+// END-HISTORY
+// ====================================================================
+
 /* eslint no-underscore-dangle: 0 */
 
 import { computeCursors, nextCurrent } from './cursors';

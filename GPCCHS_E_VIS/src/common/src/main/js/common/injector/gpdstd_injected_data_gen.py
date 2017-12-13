@@ -1,3 +1,19 @@
+# ====================================================================
+# HISTORY
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction after test with VIMA Js
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Create a script to automatically generate all files necessary to let GPDSTD_P_INJ send required aggregations for GPCCHS validation
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction of a aggregation generation problem with large number of aggregations
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction of error in case of use with minimal options set
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 21/08/2017 : Addition of a feature to also generate the ParameterAggregation file for the SDB
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 22/08/2017 : Correction of oid value to use lower case for hexadecimal (tests show it doesn't work otherwise)
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 22/08/2017 : Addition of the generation of Order field in telemetry packet file
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 24/08/2017 : Update the script to be able to manage big catalogs like the simuPUS
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 25/08/2017 : Update ParameterAggregation generation to fix oid and uid computation problems
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 04/09/2017 : Correction of a bug with Uid to Oid conversion for negative Uid values
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 05/09/2017 : Correct a bug when the requested aggreations are only a part of the given TelemetryPacket file
+# END-HISTORY
+# ====================================================================
+
 # -*- coding: latin-1 -*-
 '''
 This code has been created to run on Python 2.6.6

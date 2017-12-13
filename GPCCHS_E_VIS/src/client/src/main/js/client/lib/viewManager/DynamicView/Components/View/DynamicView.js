@@ -1,3 +1,32 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix viewData update by removing updeep
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5822 : 21/03/2017 : change context menu of inspector and dynamic view from Buttons to MenuItems
+// VERSION : 1.1.2 : DM : #5822 : 22/03/2017 : change context menus with native electron context menu
+// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure + cleaning
+// VERSION : 1.1.2 : DM : #5822 : 23/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add number of points per view in explorer panel
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : converts long to string to ensure precision
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
+// VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add blob data type treatment for display
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Fix runtime error in DynamicView
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : mark parameter as checked in context menu when opened in inspector
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add context menu on views
+// VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add possibility to show links in views
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6127 : 04/09/2017 : View component now do not automatically set overflow to auto
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
 import classnames from 'classnames';

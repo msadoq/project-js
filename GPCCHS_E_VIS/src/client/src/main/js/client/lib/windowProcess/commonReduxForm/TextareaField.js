@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #6829 : 07/07/2017 : ReduxForm fix - TextAreaField value is not set upon props.input.value.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import {

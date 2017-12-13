@@ -1,3 +1,29 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Refacto some selectors . .
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPageLayout simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPanels selectors in reducers folder
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPage and getPages selectors
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPageViewsIds simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getModifiedPagesIds simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getEditor simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getPageIdByViewId simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : set page modified when one of its views is saved as
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Prevent renderer crash when close all pages
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Refacto opening a view .
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : SaveAs at a different path should set workspace isModified
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Change addBlankView action creator signature
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Remove correspondingh views and pages when close a window
+// VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : Check if editors are closed in smartPlay action creator
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add getPageIsModified selectors . .
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Create getPageAbsolutePath selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// END-HISTORY
+// ====================================================================
+
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 

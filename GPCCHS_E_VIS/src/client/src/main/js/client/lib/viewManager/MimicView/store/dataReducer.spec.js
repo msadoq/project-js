@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix tests on mimic view
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for mocha .
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Plug mimic view to data consumption
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// END-HISTORY
+// ====================================================================
+
 import moment from 'moment';
 import * as types from 'store/types';
 import { freezeMe } from 'common/jest';

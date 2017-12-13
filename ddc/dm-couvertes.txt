@@ -1,7 +1,89 @@
-#GPCCHS 1.1.0 28/02/2017 dm-couvertes.txt
+#GPCCHS 1.1.2 02/10/2017 dm-couvertes.txt
 
 
 # ref_OGM_cnes | ref_emetteur | pere_OGM | pere_FT | titre | impact::= LOG/DOC/AUTRE | tracabilite::= CODE/DOC/NON_TRACE
-Sans objet.
+#2136|2136|||[SECURITE] There is no command to activate core files|None|None
+#2903|2903|||[CERES] TBD DAO: Add methods findLast and findNLast|None|None
+#3198|3198|||[LOG MANAGMENT] Absence de bandeau d'information dans l'en-t?te des fichiers de logs locaux|None|NON_TRACE
+#3589|3589|||[SPEC] Emission of logs by Container|Log|None
+#3622|3622|||JS VIMA developments|Log|None
+#3680|3680|||[GPINSE][GPINDE] Contr?le des droits d'acc?s dans les composants session et desktop|Log|None
+#3743|3743|||DomainID is missing in all RTD|Log|None
+#4190|4190|||isis-services script shall trace the output in a file|Log|None
+#5017|5017|||XSD validation at command line using GPOSIM_L_IFL library|Log|None
+#5049|5049|||Modify the service pusGroundModel to allow checking element via specific request|Log|None
+#5074|5074|||[GPINSU] Rpms of GPINSU component and its dependencies|Log|None
+#5075|5075|||[GPINSU] Starting supervision on vm start|Log|None
+#5088|5088|||Implement OperationParameter Service|Log|None
+#5357|5357|||[PA-SYS-15.2] Increment 1, initial step : create the catalog of privileges|Log|None
+#5412|5412|||[PA-SYS-07.2] Autorisation sur les documents (?tape 1)|Log|None
+#5430|5430|||[PA-SYS-07.2] Autorisation sur les documents (?tape 2)|Log|None
+#5431|5431|||[PA-SYS-07.2] Autorisation sur les documents (?tape 3)|Log|None
+#5463|5463|||[PA-SYS-09.2] Performances du lof (incr?ment 1)|Log|None
+#5464|5464|||[PA-SYS-09.2] Performances de l'event proxy (incr?ment 1)|Log|None
+#5511|5511|||Implement property definition for folder in FMD|Log|None
+#5535|5535|||[GPDSRT] Manage new catalog "PrivilegeDefinition"|Log|None
+#5557|5557|||Need of mechanism to observe actors|Log|None
+#5622|5622|||[GPCCDC] Improve DC health status|Log|None
+#5642|5642|||Whiteboard properties not displayed when a provider name is not found|Log|None
+#5645|5645|||Add a howto for application icons in Icons doxygen|Log|None
+#5719|5719|||[GPCCTC_L_CNT] Add the list of pid in the Execution object of the feature|Log|None
+#5783|5783|||[PA-SYS-23.1.1] Collections migration|Log|None
+#5810|5810|||Ajout d'une balise "code g?n?r?" dans le code g?n?r? JavaScript|Log|None
+#5822|5822|||[GPVI] : Inspector view|Log|None
+#5828|5828|||Prepare project for v2.0 view types implementation|Log|None
+#6127|6127|||[VIMAJS] GPVIVL-L-HVL-UC-01 : Edit history views|Log|None
+#6129|6129|||[VIMAJS] GPVIVL-L-MVL-UC-01 : Edit mimic views|Log|None
+#6189|6189|||[PA-SYS-15.2] Increment 1, step 1 : add privileges on system session service operations|Log|None
+#6213|6213|||Test data GPMC - CSV files|Log|None
+#6302|6302|||[VIMAJS] Comment VIMA coding convention relaxation rules|Log|None
+#6325|6325|||[INTEG] json compare is not enough for validation|Log|None
+#6340|6340|||SCP commands shall use quiet mode in libs|Log|None
+#6398|6398|||[GPINSE] Session shall detect a session name that differs from session filename|Log|None
+#6429|6429|||Suppression de la d?pendance des IHM QT vers WebKit|Log|None
+#6509|6509|||[GPAUMC] the tcHistory doesn't have debug mode|Log|None
+#6578|6578|||[GPINAC][PA-SYS-15.2] Etape 3 : gestion des droits unix par privil?ges|Log|None
+#6686|6686|||[VIMA-JS] change proto/adapters generation to collocate them in the same folder|Log|None
+#6688|6688|||[VIMA-JS] lite catalog explorer to help for diagnosis|Log|None
+#6700|6700|||[VIMAJS] Improve performances and reliability by synchronizing store to server sub-processes|Log|None
+#6709|6709|||[PA-SYS-15.2] Increment 2, step 2 : Privilege configurations for GPAU subset|Log|None
+#6777|6777|||Add default rights to FMD|Log|None
+#6785|6785|||[VIMAJS] GPVIMA-E-APP-UC-03 : Edit views|Log|None
+#6805|6805|||Modification of variable ORDERED_ARGS_FILE|Log|None
+#6816|6816|||[VIMAJS] Perfo Mimic|Log|None
+#6829|6829|||[VIMAJS] GPVIVL-L-PVL-UC-01 : Edit plot views|Log|None
+#6830|6830|||[VIMAJS] GPVIVL-L-PVL-UC-02 : Display data on plot view|Log|None
+#6834|6834|||[GPCCDC] Vima must be plug to more than one archive service|Log|None
+#6835|6835|||[VIMAJS] - Parametric PlotView|Log|None
+#6848|6848|||[PA-SYS-15.2] ?tape 4 : Privil?ges sur les proc?dures|Log|None
+#6851|6851|||[PA-SYS-7.1/7.3] Timebased data access right and confidentiality|Log|None
+#6854|6854|||[CERES] New system catalog nammed Satellite shall be added|Log|None
+#6867|6867|||[GPINSE] Complements and enhancements of the session XSD document|Log|None
+#6967|6967|||Need of raw TCP socket over ZMQ|Log|None
+#6970|6970|||[PA-SYS 24] Add getRunningProcedures on GPCCTL|Log|None
+#6983|6983|||[CERES] Add ability to set UID with DAO|Log|None
+#7034|7034|||Need of a new variable in default.cfg file|Log|None
+#7054|7054|||Generate pusGround model dao and tbd plugin|Log|None
+#7111|7111|||[VIMAJS] GPVIVL-L-HVL-UC-02 : Display data on history views|Log|None
+#7141|7141|||It shall be possible to get an authId by script|Log|None
+#7190|7190|||Added gpinac_d_asv to the bootstrap system session.|Log|None
+#7191|7191|||Regenaration DAO+plugin pour COP1Context sur R8-RC2|Log|None
+#7206|7206|||[GPINSE] Advancement management of session documents templates|Log|None
+#7234|7234|||Provide a mechanism for traces that can replace standard output|Log|None
+#7242|7242|||[GPCCDC] Take into account access and privileges on PubSub received data|Log|None
+#7281|7281|||D?veloppement d'un benchmark pour les PlotView/TextView/MimicView|Log|None
+#7303|7303|||[PA-SYS-16.2] Implement data scheduler|Log|None
+#7335|7335|||[GPINSU] Delete TBD aggregations every 10 days|Log|None
+#7440|7440|||[SECURITY] security logs must be send on syslog canal authpriv and not local0|Log|None
+#7476|7476|||[GPINSE] Divergence between CLT and SVR when searching for the jinja folder|Log|None
+#7484|7484|||[PA-SYS-7.2] Confidentiality on documents : add 2 catalogs for confidentiality levels and nationalities|Log|None
+#7498|7498|||Do not get a new authId if one already exists locally|Log|None
+#7547|7547|||Complements for IsisTrace mechanism|Log|None
+#7560|7560|||TL have to search for processed session documents instead of templates|Log|None
+#7679|7679|||GenericLauncher: need for environment overload|Log|None
+#7733|7733|||[GPIN] Use .feat files for all framework features in session documents|Log|None
+#7766|7766|||Implement a new daemon realizing extraction of aggregations|Log|None
+#7855|7855|||Do the pre-integration of the dataScheduler|Log|None
+ISIS-FT-340|3894||None|DM340 - Write procedures - Fill progParam interface XML file (partial)|Log|None
 
 #Generated by Framework DDC-ng (version 0.8a)

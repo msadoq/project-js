@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Add middleware to apply pause on master overload
+// VERSION : 1.1.2 : DM : #6127 : 14/09/2017 : Add warning message when autopause the timebar because process is overloaded
+// END-HISTORY
+// ====================================================================
+
 import * as types from 'store/types';
 import { pause } from 'store/actions/hsc';
 import { getIsPlaying } from 'store/reducers/hsc';

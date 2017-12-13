@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
+// VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import styles from './GrizzlyChart.css';
 import { divStyleType } from './types';

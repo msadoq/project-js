@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Write first configurationReducer (TextView) .
+// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : EntryPoint addition now uses GenericModal. General refacto of default EntryPoints props, set in viewManager's setDefaultEntryPoint for text, plot and Dynamic.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
+// VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : fix unnecessary datamap generation .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import * as types from 'store/types';
 

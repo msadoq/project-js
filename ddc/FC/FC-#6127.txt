@@ -1,0 +1,253 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6127.txt
+
+
+Reference changement : #6127
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintrc_isis.yml
+	Add isis eslintrc + lint:isis npm script
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.json
+	Add historyView documents . .
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-historyView.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-historyView.viws
+	Simplify historyView workspace . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Creation of history view data store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/processOverload.js
+	Add warning message when autopause the timebar because process is overloaded
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Creation of history view data store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.css
+	View component now do not automatically set overflow to auto
+	
+	
+	
+	Each View need to set his overflow if needed
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditor.js
+	Prepare minimalistic HistoryView . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/index.js
+	Creation of history view data store
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/intervalManagement.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/index.js
+	Prepare minimalistic HistoryView . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/prepareViewForFile.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/prepareViewForModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/prepareViewForStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/setEntryPointDefault.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.js
+	Update of history view data store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationReducer.js
+	Creation of history view data store
+	Prepare minimalistic HistoryView . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationSelectors.js
+	Creation of history view data store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/dataReducer.js
+	Update of history view data store
+	Creation of history view data store
+	Prepare minimalistic HistoryView . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/viewDataUpdate.js
+	Creation of history view data store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.css
+	View component now do not automatically set overflow to auto
+	
+	
+	
+	Each View need to set his overflow if needed
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/Editor/PacketEditor.js
+	Prepare minimalistic HistoryView using SkeletonView
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/Editor/PacketEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/View/PacketView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/View/PacketViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/PacketView.schema.json
+	Fix PacketView and SkeletonView schemas
+	Prepare minimalistic HistoryView using SkeletonView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/index.js
+	Prepare minimalistic HistoryView using SkeletonView
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/prepareViewForFile.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/prepareViewForModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/prepareViewForStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/setEntryPointDefault.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/store/dataReducer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+	Creation of history view data store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/Editor/SkeletonEditor.js
+	Add basic SkeletonView . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/Editor/SkeletonEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/View/SkeletonView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/View/SkeletonViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/SkeletonView.schema.json
+	Fix PacketView and SkeletonView schemas
+	Add basic SkeletonView . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/data/index.js
+	Add basic SkeletonView . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/prepareViewForFile.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/prepareViewForModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/prepareViewForStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/setEntryPointDefault.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/store/dataReducer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.css
+	View component now do not automatically set overflow to auto
+	
+	
+	
+	Each View need to set his overflow if needed
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+	Prepare minimalistic HistoryView using SkeletonView
+	Prepare minimalistic HistoryView . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/reducers.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.css
+	View component now do not automatically set overflow to auto
+	
+	
+	
+	Each View need to set his overflow if needed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	Add isis eslintrc + lint:isis npm script
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-historyView.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/processOverload.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/View/PacketView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/View/PacketViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/PacketView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/reducers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.css
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintrc_isis.yml
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-historyView.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/intervalManagement.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/prepareViewForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/Editor/PacketEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/Components/Editor/PacketEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/prepareViewForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/Editor/SkeletonEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/Editor/SkeletonEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/View/SkeletonView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/Components/View/SkeletonViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/SkeletonView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/data/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/prepareViewForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/store/dataReducer.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

@@ -1,3 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Creation of data store for plotView
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix crash vima when load a blank workspace
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : update viewData when closing a page
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Implement automation for data reducers in viewManager
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
+// VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : split of viewData cleaning in dataReducer for plot
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _omit from 'lodash/omit';
 
 import * as types from 'store/types';

@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
+// VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag. #2
+// VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
 import _memoize from 'lodash/memoize';
 
 const epIds = [

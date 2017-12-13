@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : axis edition: tickStep property cannot be float, always int.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Plot axis edition general revision. Fields min, max and tickStep are stored in store as float, float, int, but handled in ReduxForm as strings.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 20/06/2017 : Axis validation: max cannot be inferior to min.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 20/06/2017 : Resolving minus issue on PlotView axis editor using inputs type="text" and not input type="number"
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Plot axes log settings stored in store and documents.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 19/07/2017 : Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+// VERSION : 1.1.2 : FA : #7377 : 01/08/2017 : Fix plot axes in editor
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';

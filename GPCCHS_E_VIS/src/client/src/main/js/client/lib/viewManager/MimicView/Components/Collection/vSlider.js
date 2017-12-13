@@ -13,5 +13,4 @@ const vSlider = `
 </g>
 `;
 
-
 export default vSlider;

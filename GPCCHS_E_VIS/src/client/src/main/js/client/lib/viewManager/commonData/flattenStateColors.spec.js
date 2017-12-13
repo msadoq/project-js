@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
+// END-HISTORY
+// ====================================================================
+
 import flattenStateColors from './flattenStateColors';
 
 describe('viewManager/commonData/flattenStateColors', () => {

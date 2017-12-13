@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 18/05/2017 : Fix Add new EP in mimicview
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import AddEntryPoint from './AddEntryPoint';
 

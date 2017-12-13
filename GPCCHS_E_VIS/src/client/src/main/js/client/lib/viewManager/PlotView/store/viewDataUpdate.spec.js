@@ -1,3 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Creation of data store for plotView
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : Fix long data recovery for plot view
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Merge branch 'dev' into simplify_datamap
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in viewManager
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// END-HISTORY
+// ====================================================================
+
 import { freezeMe } from 'common/jest';
 import dataMapGenerator from 'dataManager/map';
 import state from 'common/jest/stateTest';

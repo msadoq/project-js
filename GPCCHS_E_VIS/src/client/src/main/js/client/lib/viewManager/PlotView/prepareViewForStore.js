@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Rename all prepareConfiguration* in prepareView* in viewManager
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Clean configuration (viewManager) . .
+// VERSION : 1.1.2 : FA : ISIS-FT-2134 : 18/05/2017 : Porting #6660 patch 9 to version 1.2. Changing default PlotView props (axis, grid).
+// VERSION : 1.1.2 : DM : #6829 : 11/07/2017 : PlotView legend and legend location : defaultValues.
+// VERSION : 1.1.2 : DM : #6829 : 13/07/2017 : Fixing incorrect hexadecimal value, 3FFFFFF -> #FFFFFF .
+// VERSION : 1.1.2 : FA : #7377 : 01/08/2017 : Fix plot axes in editor
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import { v4 } from 'uuid';
 import _ from 'lodash/fp';
 

@@ -1,3 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Timebar : VisuWindow and SlideWindow as function components.
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Synchro between timelines left and timebar timelines.
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Mini syntax - improvements on timebar.
+// VERSION : 1.1.2 : DM : #6302 : 04/04/2017 : Addedn relaxation rules for timebar complexity eslint errors, must not split.
+// VERSION : 1.1.2 : DM : #6302 : 06/04/2017 : Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timesetter is displayed with GenericModal component.
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : drag cursor states are reset when timebar receiving props. Avoiding delay between react render propagation and end of drag.
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import moment from 'moment';
 import _debounce from 'lodash/debounce';
 import _throttle from 'lodash/throttle';

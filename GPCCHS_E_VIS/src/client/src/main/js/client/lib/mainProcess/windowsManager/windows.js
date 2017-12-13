@@ -1,3 +1,34 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Merge branch 'dev' into abesson-html-editor
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Refactor window management in main process in a viewManager
+// VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : Add react_perf query param to better diag react perfs problems
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Rename WS_WINDOW_REMOVE in WS_WINDOW_CLOSE .
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Fix production webpack build errors
+// VERSION : 1.1.2 : FA : #5846 : 17/03/2017 : Add REALTIME config parameter .
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/hsc . . .
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move all windows simple selectors in store/reducers/windows
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Move getWindowsTitle in windowsManager/selectors .
+// VERSION : 1.1.2 : DM : #5828 : 25/04/2017 : Cleanup windows HTML and loading scripts
+// VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Implement a new "isomorphic" createStore to centralize Redux configuration
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Cleanup Redux store configuration and introduce three distinct store enhancers for future store synchronisation implementation.
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 20/06/2017 : ask to save before closing workspace with cross button
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 21/06/2017 : Fix opening a workspace from menu
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Move windows observer from main orchestration in a pure store observer
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Merge branch 'dev' into dbrugne-lifecycle
+// VERSION : 1.1.2 : DM : #6700 : 22/06/2017 : Fix previous merge broken call
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Fix previous merge broken call
+// VERSION : 1.1.2 : FA : #7081 : 27/06/2017 : Fix crash while closing application with document to save (a merge was probably deleted some code)
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Implement dialogObserver in mainProcess .
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Lint fix . . . .
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Clean old code in menuManager/IPC controller
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix store broken test due to selectors/hsc export
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Closing window now display a save wizard (documents middleware)
+// END-HISTORY
+// ====================================================================
+
 import _omit from 'lodash/omit';
 import _debounce from 'lodash/debounce';
 import { BrowserWindow } from 'electron';

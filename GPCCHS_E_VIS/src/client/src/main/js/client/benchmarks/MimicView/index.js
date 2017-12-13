@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { createStore } from 'redux';
 import { render } from 'react-dom';

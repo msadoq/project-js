@@ -14,6 +14,7 @@ Component : GPCCHS_E_VIS
 # ====================================================================
 # HISTORY
 # VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+# VERSION : 1.1.2 : FA : #4574 : 01/09/2017 : Create an editor to integrate javascript VIMA into desktop
 # END-HISTORY
 # ====================================================================
 # Start of user code init

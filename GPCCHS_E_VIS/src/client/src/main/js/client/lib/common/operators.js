@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : StateColors serialized in localid and present in viewData
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : contains and icontains filters accept regex
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// END-HISTORY
+// ====================================================================
+
 import globalConstants from '../constants';
 
 export const operators = {

@@ -1,7 +1,259 @@
-#GPCCHS 1.1.0 28/02/2017 fa-couvertes.txt
+#GPCCHS 1.1.2 02/10/2017 fa-couvertes.txt
 
 
 # ref_OGM_cnes or provider id | ref_emetteur | pere_OGM | pere_FT | titre | FC_id | impact::= LOG/DOC/AUTRE | tracabilite::= CODE/DOC/NON_TRACE
-Sans objet.
+#2445|2445|||Memory leak on lookup|FC-#2445|None|NON_TRACE
+#2657|2657|||Lifecycle service for gpcctc_l_cnt contains upper case|FC-#2657|None|None
+#2767|2767|||[EI03-01] Crash of event proxy with no configuration|FC-#2767|None|None
+#2843|2843|||Unrelevant coverage link between documents from gpcc sdd to gpin srs|FC-#2843|Doc|None
+#3301|3301|||GPCC : problem StartRedis with KEEP_REDIS_DUMP variable|FC-#3301|None|None
+#3374|3374|||GPCCTC_L_CNT : Error while executing isis-services stop|FC-#3374|None|NON_TRACE
+#3596|3596|||GPINSI : Features must be installed using rpm|FC-#3596|Log|None
+#3690|3690|||Change ActorIDGenerator life cycle|FC-#3690|Log|None
+#3767|3767|||GPCCTC_L_LOF : Tests do not generate test report.|FC-#3767|Log|None
+#3833|3833|||[SECURITE] List services that required SUID/SGID rights - GPCC|FC-#3833|Doc|None
+#4042|4042|||Unable to send logbookEvent from GPCCTL, no generic logbookEvent available|FC-#4042|Log|NON_TRACE
+#4069|4069|||[INTEG] GPCCTL doesn't give function to rename or move a document|FC-#4069|Log|None
+#4191|4191|||[INTEG] Bad DURATION type in protobuf|FC-#4191|Log|None
+#4199|4199|||[SECURITE] Editable files on /usr/share/isis/|FC-#4199|Log|None
+#4293|4293|||AuthId not fill to be retrieved by a function to authorize or not a service call by a user|FC-#4293|Log|None
+#4456|4456|||[SECURITE] Directory with write rights for all|FC-#4456|Log|None
+#4574|4574|||[VIMA-js] Update GPCCHS launcher to close all launched processes when one terminate|FC-#4574|Log|None
+#4838|4838|||Qualit? du code non conforme sur le p?rim?tre lot 1 PAQ 2016|FC-#4838|Log|None
+#5136|5136|||RTD Error Message need improvement - add the OID|FC-#5136|Log|None
+#5142|5142|||[GPCCTL] Several errors with the storing and retrieving in the TBD of TBD Basic Types elements by the GPCCTL|FC-#5142|Log|None
+#5144|5144|||[PA-SYS-23] missing a function in TL gpcctl_l_api/gpds/fd/collection to copy a FMD subtree in a virtual folder |FC-#5144|Log|None
+#5173|5173|||session-system restart with stop failed|FC-#5173|Log|None
+#5195|5195|||[PERFO] Session system timeout at stop|FC-#5195|Log|None
+#5220|5220|||Non-conformity of the JavavaScript code with respect to coding rules|FC-#5220|Log|None
+#5257|5257|||Remove toString deprecated functions.|FC-#5257|Log|None
+#5276|5276|||[INTEG] confusing vima launcher (vima js)|FC-#5276|Log|None
+#5282|5282|||[PA-SYS-9.2] LOF - Does not handle heavy load.|FC-#5282|Log|None
+#5296|5296|||[AIV] Double parameters do not have the correct precission |FC-#5296|Log|None
+#5297|5297|||[SECURITE]?Lock engine configuration file shall be created in GPCCDO|FC-#5297|Log|None
+#5316|5316|||Fix VIMA coding convention warnings and errors|FC-#5316|Log|None
+#5317|5317|||Improve VIMA performance by optimizing some processes code|FC-#5317|Log|None
+#5321|5321|||Exception occurred in the fonction archiveServiceClient.store|FC-#5321|Log|None
+#5334|5334|||Stability of GPCCTC tests|FC-#5334|Log|None
+#5353|5353|||Lack of robustness in PubSub broker component|FC-#5353|Log|None
+#5400|5400|||VIMA JS auto-protection mechanism correctly switch to pause on TBD congestion but never get back to healthy state|FC-#5400|Log|None
+#5429|5429|||Bad path for the catalogs for GPVI (LogbookEventDefinition)|FC-#5429|Log|None
+#5443|5443|||Drag 'n drop between DSEX QT and VIMA-JS doesn't work|FC-#5443|Log|None
+#5444|5444|||the visualisation of status during session-system start/stop change stty configuration|FC-#5444|Log|None
+#5475|5475|||[VIMA-js] It is not possible to save a new created page|FC-#5475|Log|None
+#5481|5481|||[GPAUPX] the requirement ISIS-GPAUPX-REQ-0480 is not respected|FC-#5481|Log|None
+#5493|5493|||[QU GPMCPU] Impossible to move the columns in tables|FC-#5493|Log|NON_TRACE
+#5500|5500|||[VIMAJS] Text view : It is not possible to insert entry point in a text without carriage return before and after|FC-#5500|Log|None
+#5512|5512|||[VIMAJS] Legend fonctionality is not implemented|FC-#5512|Log|None
+#5547|5547|||[Bridge] [sendEvent] Forcing EventDate does not work|FC-#5547|Log|None
+#5552|5552|||TC History : For tc long and tc file, the generated procedure name is not displayed|FC-#5552|Log|None
+#5564|5564|||The alias of collection or the alias of a virtual folder is not understood|FC-#5564|Log|None
+#5600|5600|||[sendEvent] Two primitives with the same name sendEvent.py exist in GPCCTL|FC-#5600|Log|None
+#5702|5702|||[PA-SYS-15.1] Nominative Users|FC-#5702|Log|None
+#5721|5721|||[GCP][GPINTL] Status should be displayed as strings, not number|FC-#5721|Log|None
+#5748|5748|||[PA-SYS-08.1] Delete detection of duplicated OID.|FC-#5748|Log|None
+#5751|5751|||[GPCC][GPIN] Fix violations of rules virtdestr and E061 in GPCC/GPIN|FC-#5751|Log|None
+#5819|5819|||Improve IsisRawSocket robustness|FC-#5819|Log|None
+#5827|5827|||[AIV] debug mode not available on LP ISIS|FC-#5827|Log|NON_TRACE
+#5837|5837|||Update iimport to help importing from an archive|FC-#5837|Log|None
+#5838|5838|||"boolean" field with "BOOLEAN" type in GPCC- OperationParameter SetRequestMessage and COM-archive StoreRequestMessage|FC-#5838|Log|None
+#5844|5844|||Exception not caught on the TL|FC-#5844|Log|None
+#5846|5846|||Allow launching VIMA with realtime mode on|FC-#5846|Log|None
+#5972|5972|||session system shall not use procedured|FC-#5972|Log|None
+#5976|5976|||Provider actor created x times|FC-#5976|Log|None
+#5983|5983|||File gpcctl_l_api/gpcc/base/constants.py contain old constants|FC-#5983|Log|None
+#6027|6027|||Exceptions lors de l'utilisation de cOP1ContextDAO.py : AttributeError: 'ClcwSegmentMask' object has no attribute 'rF_flag'|FC-#6027|Log|None
+#6085|6085|||Minor tu or code quality  updates|FC-#6085|Log|None
+#6130|6130|||[VIMAJS] Plot View|FC-#6130|Log|None
+#6172|6172|||Repair GPDSFD_TEST|FC-#6172|Log|None
+#6214|6214|||The content of /usr/share/isis/lib/py/GPCCTC_L_CNT/isisProcess/__init__.py should be treated outside the installation process|FC-#6214|Log|None
+#6216|6216|||TCDetails : TC 11.4 and TC 19.6|FC-#6216|Log|None
+#6217|6217|||Add history user code tag on the framework|FC-#6217|Log|None
+#6315|6315|||session-system does not restore correct stty state after ctrl-c|FC-#6315|Log|None
+#6319|6319|||Configure system domain ID.|FC-#6319|Log|None
+#6327|6327|||Redis database are not dumped at stop anymore|FC-#6327|Log|None
+#6333|6333|||[INTEG] missing tgz format in mapping.json|FC-#6333|Log|None
+#6337|6337|||Session-sytem start randomly fails|FC-#6337|Log|None
+#6356|6356|||[INTEG] PUS011 Cannot retrieve aggregations used for a parameter|FC-#6356|Log|None
+#6359|6359|||[GPINSE] Remove GUI-commands from BIN|FC-#6359|Log|None
+#6361|6361|||[GPINSU_D_AGT] Setup system session configuration file according to topology|FC-#6361|Log|None
+#6364|6364|||Delete GPCCDC config from /tmp|FC-#6364|Log|None
+#6388|6388|||Add generated tag on generated files|FC-#6388|Log|None
+#6399|6399|||Time out in wait event during stop session in nonRegFwk|FC-#6399|Log|None
+#6400|6400|||[GPCCTC_A_XML] : Update documentation templates on velocity generators|FC-#6400|Log|None
+#6422|6422|||[GPCCTC_A_XML] : Update  __init__.py on velocity generators|FC-#6422|Log|None
+#6424|6424|||[GPCCTC_A_XML] : Generators shall be modified to not overwrite the history of the generated files|FC-#6424|Log|None
+#6431|6431|||[GPCCDC] Update namespace of TCDetails from GPMC-telecommand to GPCC-tcHistory|FC-#6431|Log|None
+#6433|6433|||[GPCCTC_A_XML] Correct coding rules on xml generator|FC-#6433|Log|None
+#6438|6438|||Unused files in GPCCTL|FC-#6438|Log|None
+#6474|6474|||Regenerate the PUS TBD plugin and DAO TL|FC-#6474|Log|None
+#6487|6487|||[PA-SYS-15.1] FMD file default.ini should use ISIS_WORK_DIR variable instead of /data/isis/work/|FC-#6487|Log|None
+#6490|6490|||[PA-SYS-15.1] /data/isis/work is hardcoded in file editor.py|FC-#6490|Log|None
+#6494|6494|||[PA-SYS-15.1] configuration files are using /data/isis/work and/or /var/log/isis instead of ISIS_WORK_DIR or LOGDIR|FC-#6494|Log|None
+#6551|6551|||Wrong pythonpath in json files used by no regression process|FC-#6551|Log|None
+#6566|6566|||Dokuwiki for conteneur miss example|FC-#6566|Doc|None
+#6608|6608|||[GPCCDC] VIMA is not conforme to requierement ISIS-GPVIMA-REQ-0550|FC-#6608|Log|None
+#6642|6642|||R8 rc1 and rc2  updates|FC-#6642|Log|None
+#6644|6644|||[GPDSSE] requirement SL-GPDSSE-I-0170 not implemented|FC-#6644|Log|None
+#6646|6646|||Bad dependencie for GPCCTL|FC-#6646|Log|None
+#6652|6652|||[GPCCDC] Component corrections in R8|FC-#6652|Log|None
+#6670|6670|||[VIMAJS] Migrate VIMAJS unit test to Jest|FC-#6670|Log|None
+#6671|6671|||[VIMAJS] Upgrade VIMAJS protobufjs COTS from 5 to 6|FC-#6671|Log|None
+#6703|6703|||Procedure return status enum shall be updated|FC-#6703|Log|None
+#6714|6714|||[GPCCDC] take into account new ParameterAggregation RTD catalog|FC-#6714|Log|None
+#6717|6717|||[VIMA JS] Crash lors de l'association d'une timeline avec offset|FC-#6717|Log|None
+#6721|6721|||[GPVI] Crash on HSS server execution|FC-#6721|Log|None
+#6722|6722|||Code coverage of 1.1.0 developements|FC-#6722|Log|None
+#6729|6729|||Wrong location for data shared by multiple containers after introduction of multi-user|FC-#6729|Log|None
+#6732|6732|||Using wildcard as objectype in FMD|FC-#6732|Log|None
+#6762|6762|||[VIMA-js] Fix packaging and execution problem seen on R8 product version|FC-#6762|Log|None
+#6773|6773|||LPISIS shall manage target define as reference|FC-#6773|Log|None
+#6780|6780|||[VIMAJS] Parameters color doesn't change in VIMA according to their monitoring status|FC-#6780|Log|None
+#6794|6794|||[VIMAJS] Factorize dumpFolder module|FC-#6794|Log|None
+#6798|6798|||[VIMAJS] Add comObject plugin mechanism for CERES in Javascript part|FC-#6798|Log|None
+#6799|6799|||[GPCCDC] Add comObject plugin mechanism for CERES in C++ part|FC-#6799|Log|None
+#6804|6804|||Improve loading by indroducing a lazy loading for documents|FC-#6804|Log|None
+#6806|6806|||The old version of iexec and ProcedureContext shall be deprecated|FC-#6806|Log|None
+#6811|6811|||[GPCCDC] [PubSub] Problem when receiving the same parameter (same oid) under different ComObjects|FC-#6811|Log|None
+#6840|6840|||[PA-SYS 24] The default configuration for procedure is hard coded|FC-#6840|Log|None
+#6852|6852|||Used current sessionId on TL messages|FC-#6852|Log|None
+#6853|6853|||fix RTE launch|FC-#6853|Log|None
+#6875|6875|||G?n?ration operationParameterDAO.py|FC-#6875|Log|NON_TRACE
+#6882|6882|||Do not use hardcoded ObjectType|FC-#6882|Log|None
+#6883|6883|||Remove shebang on gpcc|FC-#6883|Log|None
+#6885|6885|||GPINSI and demo env must be able to run in various working folder|FC-#6885|Log|None
+#6889|6889|||gpcctl_l_api/FineTime et Time : incompatibilit? entre les valeurs par d?faut et les m?thodes|FC-#6889|Log|None
+#6891|6891|||[VIMAJS] Remove "test" word from every folder/file name|FC-#6891|Log|None
+#6894|6894|||[GPCCDC] regenerate DC bundles with recent generator|FC-#6894|Log|None
+#6913|6913|||The bridge can not send events anymore|FC-#6913|Log|None
+#6928|6928|||Check of privileges in Python providers does not send error back|FC-#6928|Log|None
+#6931|6931|||[GPCCDC] Update Session.proto for communication with VIMA Js|FC-#6931|Log|None
+#6936|6936|||Error in RSA modelisation for LifeCycle COMObject|FC-#6936|Log|None
+#6952|6952|||[GPCC] the proto files haven't been updated|FC-#6952|Log|None
+#6961|6961|||Generate operationParameter on python|FC-#6961|Log|None
+#6993|6993|||Fix segmentation fault when quit vima|FC-#6993|Log|None
+#7005|7005|||[AIV] Logs level is not configurable for most components|FC-#7005|Log|None
+#7011|7011|||Import with properties does'nt work|FC-#7011|Log|None
+#7025|7025|||[VIMA] Add RTD_UNIX_SOCKET parameters to VIMA JS launch command|FC-#7025|Log|None
+#7026|7026|||[GPCCDC] DC Shall communicate Session status updates (especially stop)|FC-#7026|Log|None
+#7029|7029|||DAO: impossible to perform query on a specific domain|FC-#7029|Log|None
+#7035|7035|||Events sent from bridge have incorrect SessionID / DomainID|FC-#7035|Log|None
+#7050|7050|||Add feature for the generic launcher|FC-#7050|Log|None
+#7062|7062|||[GPINSU_D_SVR] History files must be created by nagios wrappers|FC-#7062|Log|None
+#7081|7081|||[GPVI] saving view causes app crash|FC-#7081|Log|None
+#7087|7087|||[AIV] Check event TM parameter value doesn't evaluate successfull when there is several occurrences of  same TM parameter|FC-#7087|Log|None
+#7114|7114|||[VIMAJS] Add a window event listener on mouse middle button click with .preventDefault()|FC-#7114|Log|None
+#7127|7127|||In gpcc_container, the IsisLoop systematically registers FD 0 in addition to a requested channel|FC-#7127|Log|None
+#7136|7136|||[PA-SYS-24] improve autostart robustess|FC-#7136|Log|None
+#7145|7145|||document management should be testable|FC-#7145|Log|None
+#7161|7161|||[GPCCDC] Unable to use RTD for ParameterAggregation|FC-#7161|Log|None
+#7164|7164|||Les filtres ne sont pas pris en compte lors de la demande de getLast|FC-#7164|Log|None
+#7176|7176|||The MAL pattern providers are not robust to a NULL message pointer returned by the interactor.|FC-#7176|Log|None
+#7180|7180|||The python binary used by LP component shall be define using the first occurence in PATH|FC-#7180|Log|None
+#7185|7185|||[GPVI-JS] Correction of coding violations|FC-#7185|Log|None
+#7199|7199|||VIMA crash on timebar toggle|FC-#7199|Log|None
+#7217|7217|||VIMA crash on new view save|FC-#7217|Log|None
+#7235|7235|||VIMA shutdown on new Workspace.|FC-#7235|Log|None
+#7238|7238|||Default ObjectType privileges configuration is wrong and not finished|FC-#7238|Log|NON_TRACE
+#7244|7244|||Invalid serialize/unserialize USHORT/SHORT to protobuf using ProtobufUtility|FC-#7244|Log|None
+#7254|7254|||gpcctl_l_api.gpds.fd.document.changeProperties : no notification when not taking into account a property|FC-#7254|Log|None
+#7256|7256|||Modification des styles|FC-#7256|Log|None
+#7261|7261|||[VIMA-js][VIMA Qt] Update configuration to let JS and Qt VIMA work on integrator version R8S3|FC-#7261|Log|None
+#7269|7269|||[CERES] Session system do not start without logger|FC-#7269|Log|None
+#7273|7273|||There are some incorrect error management code in the TL causing some exceptions to not be thrown properly|FC-#7273|Log|None
+#7276|7276|||the ip address is hard coded in lockEngine configuration file|FC-#7276|Log|None
+#7288|7288|||[GPCCDC] Use filters on list for Aggregations|FC-#7288|Log|None
+#7299|7299|||VIMA won't launch with DC ( Domain.proto error)|FC-#7299|Log|None
+#7305|7305|||[GPCCDC] Make logging output configurable for GPCCDC|FC-#7305|Log|None
+#7314|7314|||Create .feat fmd files for framework features|FC-#7314|Log|None
+#7328|7328|||[VIMA-js] L'application se ferme sans message d'erreur si le workspace pass? en ligne de commande n'existe pas|FC-#7328|Log|None
+#7340|7340|||[GPCCDC] La transmission des requ?tes au TBD est refus?e pour cause d'authID non renseign?|FC-#7340|Log|None
+#7352|7352|||[CERES] GPCCTL DAO : Invalid use of URI in find/count function|FC-#7352|Log|None
+#7355|7355|||Cross platform vima|FC-#7355|Log|None
+#7356|7356|||bug computedEventDAO|FC-#7356|Log|None
+#7357|7357|||[GPCCDC] Crash when asking for an existing ComObject but doesn't exist in ObjectType catalog|FC-#7357|Log|None
+#7362|7362|||GPCCTL deleteDocument use contain for path instead of equal|FC-#7362|Log|None
+#7364|7364|||Add configuration file template resolution to iedit command|FC-#7364|Log|None
+#7375|7375|||[GPCCDC] Subscription removal shouldn't requires the same queryId as the subscription|FC-#7375|Log|None
+#7377|7377|||[VIMA-js] Display problems in plotview|FC-#7377|Log|None
+#7379|7379|||[GPINSE] Privileges and confidentiality fields are empty in GPINSE_function_ObjectType_1.0.json|FC-#7379|Log|None
+#7382|7382|||[CERES - GPCCTL] Dao is not a singleton|FC-#7382|Log|None
+#7391|7391|||Error in Privileges in catalog ObjectType_1.0.json|FC-#7391|Log|None
+#7410|7410|||session-system start fails after reinstall|FC-#7410|Log|None
+#7425|7425|||[GPCCDC] ReportingParameter datas are not transmitted to client|FC-#7425|Log|None
+#7428|7428|||Collapsed views are displayed in DOM|FC-#7428|Log|None
+#7434|7434|||[VIMA-js] Probl?me d'ouverture d'un nouveau document depuis le FMD|FC-#7434|Log|None
+#7435|7435|||[VIMA-js] PA-SYS : L'ouverture d'un document ne propose pas uniquements les fichiers du type correspondant|FC-#7435|Log|None
+#7453|7453|||[VIMA-js] Probl?me de d?marrage de la VIMA Js|FC-#7453|Log|None
+#7454|7454|||Treatment failure are not displayed in GPDSEX|FC-#7454|Log|None
+#7461|7461|||Some GCP still use gptest lib|FC-#7461|Log|None
+#7472|7472|||[GPVI] Impact de la FA7364 sur GPVI et ses IHM|FC-#7472|Log|None
+#7479|7479|||Add GPOS privileges in privilegeSets.json|FC-#7479|Log|None
+#7500|7500|||Change gpinsu publication period|FC-#7500|Log|None
+#7502|7502|||gpcctl can't create the file in fmd|FC-#7502|Log|None
+#7529|7529|||Exception raised by the logAPI when calling the function logWithEventDate|FC-#7529|Log|NON_TRACE
+#7532|7532|||[GPCCCM] Les stubs ne compilent plus|FC-#7532|Log|None
+#7542|7542|||[CERES] : Problems with dependency GPCCTL / GPCC|FC-#7542|Log|None
+#7578|7578|||[VIMAJS] Optimize pub/sub data incoming by throttling INCOMING_PUBSUB_DATA action dispatch|FC-#7578|Log|None
+#7588|7588|||[LockManager] can't get the lock|FC-#7588|Log|None
+#7589|7589|||[GPCCDC] Remove extra slash at the end of directory path for document create|FC-#7589|Log|None
+#7595|7595|||isis-services: default.cfg file updated after load|FC-#7595|Log|None
+#7599|7599|||Lors de l'arr?t d'une session, il faudrait d'abord v?rifier si elle est d?marr?e|FC-#7599|Log|None
+#7610|7610|||Procedure configuration file is not loaded|FC-#7610|Log|None
+#7616|7616|||[GPCCTL] lifeCycleStatusDAO doesn't have findBySourceIdentifier function|FC-#7616|Log|None
+#7619|7619|||[PRIVILEGE] The script allowing the association of privilege to a user doesn't give the concerned user to the privilege script|FC-#7619|Log|None
+#7621|7621|||Update access rights for user/shared work directories|FC-#7621|Log|None
+#7623|7623|||gcp never returns in case of wrong session parameter|FC-#7623|Log|None
+#7693|7693|||Remove useless and recurrent traces|FC-#7693|Log|None
+#7694|7694|||[SECURITY] Services MAL non configurer|FC-#7694|Log|None
+#7711|7711|||Extraction GCP not usable due to default domainId = 1 instead of 4|FC-#7711|Log|None
+#7716|7716|||[AIV] Undefined variable in logLibrary.py|FC-#7716|Log|NON_TRACE
+#7748|7748|||AuthId printed when lauching a procedure|FC-#7748|Log|None
+#7750|7750|||Install react and redux devtools correctly|FC-#7750|Log|None
+#7753|7753|||[VIMA-js] Text view small problems|FC-#7753|Log|None
+#7755|7755|||[VIMA-js] Plot customization doesn't fit requirements|FC-#7755|Log|None
+#7756|7756|||[VIMA-js] Region zoom is not implemented in Plot view|FC-#7756|Log|None
+#7763|7763|||Exception into GPCCTC_L_LOF|FC-#7763|Log|NON_TRACE
+#7769|7769|||[VIMA-js] Problems with time bar time setter|FC-#7769|Log|None
+#7773|7773|||[VIMA-js] Problem with drag and drop of parameters from RTE|FC-#7773|Log|None
+#7774|7774|||[VIMA-js] DataStore explorer doesn't propose the opening of a page document into VIMA|FC-#7774|Log|None
+#7776|7776|||[VIMA-js] Plot view doesn't erase old curves when updating timeline offset|FC-#7776|Log|None
+#7800|7800|||userLogin does not respond|FC-#7800|Log|None
+#7813|7813|||Implement Redux batch action on renderer side|FC-#7813|Log|None
+#7814|7814|||Implements Json patch generation in a immutable way|FC-#7814|Log|None
+#7834|7834|||[VIMA JS] Menu contextuel d?sactiv? sur plot view et text view|FC-#7834|Log|None
+#7836|7836|||[SECURITE] access rights for the user GPINAC not sufficient|FC-#7836|Log|None
+#7858|7858|||[VIMA-Js] Random crash of application|FC-#7858|Log|None
+#7872|7872|||[SECURITY] Security log is missing on refused acces rights on services|FC-#7872|Log|None
+#7883|7883|||Error : the call of "copyDocument" function from GPDS breaks the FMD|FC-#7883|Log|None
+#7886|7886|||UserLogin sometimes deosnot ends|FC-#7886|Log|None
+#7897|7897|||privileges for secure logBookEvent are not correct|FC-#7897|Log|None
+#7898|7898|||Python packages must not use pkgutil.extend_path|FC-#7898|Log|None
+#7900|7900|||[AIV] Parameters do not appear in Text or PLot views|FC-#7900|Log|None
+#7902|7902|||[AIV] VimaQT only works with domain ID 1|FC-#7902|Log|None
+#7928|7928|||VIMA - must disable sending query upon PUS editor initialisation|FC-#7928|Log|None
+#7930|7930|||The TL should not initialize a 'collection' when starting a procedure|FC-#7930|Log|None
+#7938|7938|||Regroup installable framework catalogs into FWK_CATALOGS|FC-#7938|Log|None
+#7986|7986|||update DDC|FC-#7986|Log|None
+#8018|8018|||[GPVI] Create a catalog_stub for validation purpose|FC-#8018|Log|None
+#8019|8019|||[GPCCHS] Script puts an incorrect configuration for GPCCDC (debugMode)|FC-#8019|Log|None
+ISIS-FT-1785|5867||None|Erreur dans la gcp gpdstd_query_executionSession|ISIS-FC-1785|Log|None
+ISIS-FT-1792|5874||None|Tenter de modifier le temps syst?me retourne une erreur peu claire  (gcp)|ISIS-FC-1792|Log|None
+ISIS-FT-1808|5890||None|--help et erreurs de gpdstd_query_logbookEvent.gcp incompr?hensibles|ISIS-FC-1808|Log|None
+ISIS-FT-1934|6040||None|repr?sentativit? injecteur VIMA|ISIS-FC-1934|Autre|None
+ISIS-FT-1939|6045||None|r?cup?ration des unit?s SDB|ISIS-FC-1939|Log|None
+ISIS-FT-1945|6050||None|cr?ation de model VIMA JS|ISIS-FC-1945|Log|None
+ISIS-FT-1952|6057||None|filtre subdata TBD VIMA JS|ISIS-FC-1952|Log|None
+ISIS-FT-1964|6069||None|?diteur de vue submit VIMA JS|ISIS-FC-1964|Log|None
+ISIS-FT-1986|6104||None|?diteur plot VIMA JS|ISIS-FC-1986|Log|None
+ISIS-FT-1991|6109||None|parameter state vues VIMA JS|ISIS-FC-1991|Log|None
+ISIS-FT-1998|6116||None|affichage unit?s VIMA JS|ISIS-FC-1998|Log|None
+ISIS-FT-2044|6222||None|Nom des sessions utilis?s dans la LP incorrects|ISIS-FC-2044|Log|NON_TRACE
+ISIS-FT-2107|6535||None|Saisie des valeurs des bornes pour une PlotView|ISIS-FC-2107|Log|None
+ISIS-FT-2132|6658||None|demande de save vues/pages/workspaces VIMA JS|ISIS-FC-2132|Log|None
+ISIS-FT-2134|6660||None|affichage axe ordonn?es cr?ation plotView VIMA JS|ISIS-FC-2134|Log|None
+ISIS-FT-2135|6661||None|logs IHM VIMA JS|ISIS-FC-2135|Log|None
+ISIS-FT-2138|6664||None|darg&drop depuis DSEX inop?rant|ISIS-FC-2138|Log|None
+ISIS-FT-2170|7403||None|Le reset des mod?les sol PUS est partiellement fonctionnel|ISIS-FC-2170|Log|None
 
 #Generated by Framework DDC-ng (version 0.8a)

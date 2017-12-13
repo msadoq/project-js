@@ -1,4 +1,10 @@
 #!/usr/share/isis/node-v6.3.0-linux-x64/bin/node
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
+// END-HISTORY
+// ====================================================================
+
 
 const readline = require('readline');
 

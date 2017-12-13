@@ -1,3 +1,8 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Wrtie common/fp tests . .
+// END-HISTORY
+// ====================================================================
 import _ from 'lodash/fp';
 import { when, ifElse, copyProp, moveProp, reduce } from './fp';
 

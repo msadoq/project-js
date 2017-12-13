@@ -1,3 +1,47 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Remove last eslint-disable default-case .
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Remove actions/enhancers/index.js . . .
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change ifPathChanged action creator enhancer arguments
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename addUuids action creator enhancer into addUuidsToEntryPoints
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Refacto setCollapsedAndUpdateLayout thunk in actions/views
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Move VIVL files in lib/viewManager and fix plenty of inline view/structure type specific code
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Test all views thunks .
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Add dropEntrypoint thunk in actions/views
+// VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
+// VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse views
+// VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix missing generated id to entryPoints
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix view reloading . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Cleanup redux actions . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_VIEW_CLOSE action + remove unmountAndRemove (view)
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_VIEW_ADD by WS_VIEW_ADD_BLANK .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Move reloadView in documentManager .
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getPageIdByViewId simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Refacto opening a view .
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Merge branch 'dbrugne-boxmodel2' into dev
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Change addBlankView action creator signature
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable. Newly created Ep always stick to time axis or create one.
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Use selector in action/views#addEntryPoint .
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Improve PlotView editor UI -> legend in store.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : On open view middleware .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveViewAsModel documents middleware .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onReloadView documents middleware .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveView documents middleware .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add types and action creator for views middlewares
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// VERSION : 1.1.2 : FA : #7773 : 14/09/2017 : Argument in updateEntryPoint action should change index -> entryPointId.
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 

@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Few tooltip revisions + Zones.
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
+// VERSION : 1.1.2 : DM : #6829 : 06/07/2017 : Added format X and Y to tooltip. Grizzly Parametric.
+// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly Parametric.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6835 : 28/08/2017 : PlotView is never parametric, fixed positionned tooltip in Parametric and PlotView.
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : Fixed unused proptype lint error.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : On Grizzly and GrizzlyParametric, tooltip goes on right or left, always avoiding hovering cursor.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _sum from 'lodash/sum';

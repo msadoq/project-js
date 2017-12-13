@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add throttle timing in configuration .
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add execution map trace in three middlewares to make performance analysis easier
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Merge branch 'pgaucher-redux-patch-improvment' into dev
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import * as types from 'store/types';
 import { injectDataRange, injectDataLast } from 'store/actions/incomingData';

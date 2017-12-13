@@ -1,3 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update tests and implementation . .
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Clean console log . . .
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Add a forecast on play pressed
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
+// VERSION : 1.1.2 : DM : #6700 : 28/08/2017 : Add some exectuion map + minor lint fix
+// END-HISTORY
+// ====================================================================
+
 import * as types from 'store/types';
 import { getMissingIntervals } from 'store/reducers/knownRanges';
 import { getPlayingTimebarId } from 'store/reducers/hsc';

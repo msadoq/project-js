@@ -1,3 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Improve and debug code editor
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Add getentrypointsname in view selector
+// VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : debug change TextView in code editor
+// VERSION : 1.1.2 : DM : #6129 : 03/05/2017 : first functionnal mimic with animations
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : FA : #7753 : 18/09/2017 : Fixed Save & close issue with svg and html code editor.
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : Upgraded react-codemirror to 1.0.0, problem cursor going up should not occur anymore.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { html as beautifyHtml } from 'js-beautify';
 import HtmlSourceForm from './HtmlSourceForm';

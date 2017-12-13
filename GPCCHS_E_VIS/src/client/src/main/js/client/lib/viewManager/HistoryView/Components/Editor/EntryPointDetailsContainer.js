@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+// END-HISTORY
+// ====================================================================
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getFocusedPage } from 'store/selectors/pages';

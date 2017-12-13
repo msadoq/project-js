@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Closing window now display a save wizard (documents middleware)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add 2 selectors in documents middlewares selectors
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { freezeMe } from 'common/jest';
 

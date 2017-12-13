@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// VERSION : 1.1.2 : FA : #7434 : 22/08/2017 : Update FMD create document test and stub
+// VERSION : 1.1.2 : FA : #7434 : 25/08/2017 : Rollback remove '/' on FMD create document
+// END-HISTORY
+// ====================================================================
+
 const ProtoBuf = require('protobufjs');
 const applyOverride = require('../applyOverride');
 const Adapter = require('./fMDCreateDocument');

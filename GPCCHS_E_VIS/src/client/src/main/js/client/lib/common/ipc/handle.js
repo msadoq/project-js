@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// END-HISTORY
+// ====================================================================
+
 import getLogger from 'common/logManager';
 import {
   IPC_RPC_REQUEST,

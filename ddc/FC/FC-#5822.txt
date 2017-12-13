@@ -1,0 +1,378 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#5822.txt
+
+
+Reference changement : #5822
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.required.json
+	Fix socket connection error on openInspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.sample.json
+	Fix socket connection error on openInspector
+	Fix RTD module installation on development instance
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	merge dev in working branch
+	resolve a rtd link in the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenInspector.js
+	Inspector : display dynamic data
+	Fix socket connection error on openInspector
+	fix openInspector and InspectorContainer imports
+	inspector view: separate general data from specific TM data
+	merge dev in working branch
+	add context in dynamic view for opening parameter in inspector
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveLink.js
+	resolve a rtd link in the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	merge dev in working branch
+	update the rtd stub launching
+	add context in dynamic view for opening parameter in inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/index.js
+	inspector view: separate general data from specific TM data
+	add styles for the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/index.js
+	add styles for the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/monitorings.spec.js
+	update tests for rtd data retrieving
+	add styles for the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.js
+	inspector view: separate general data from specific TM data
+	resolve a rtd link in the inspector
+	add styles for the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.spec.js
+	resolve a rtd link in the inspector
+	add styles for the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/reportings/index.js
+	update tests for rtd data retrieving
+	add context in dynamic view for opening parameter in inspector
+	add styles for the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/reportings/reportings.spec.js
+	fix rtdManager tests to succeed every time
+	update tests for rtd data retrieving
+	add context in dynamic view for opening parameter in inspector
+	add styles for the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/inspector.js
+	Inspector : display dynamic data
+	inspector view: separate general data from specific TM data
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector.js
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.js
+	Inspector : display dynamic data
+	add tests for inspector reducers and selectors
+	inspector view: separate general data from specific TM data
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.spec.js
+	Inspector : display dynamic data
+	add tests for inspector reducers and selectors
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/inspector.js
+	add tests for inspector reducers and selectors
+	inspector view: separate general data from specific TM data
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/inspector.spec.js
+	add tests for inspector reducers and selectors
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Inspector : display dynamic data
+	merge dev in working branch
+	inspector view: separate general data from specific TM data
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+	Inspector : display dynamic data
+	merge dev in working branch
+	inspector view: separate general data from specific TM data
+	change context menus with native electron context menu
+	change context menu of inspector and dynamic view from Buttons to MenuItems
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js
+	Inspector : display dynamic data
+	add context menu on text view
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataSelectors.js
+	Inspector : display dynamic data
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+	add context menu in mimiv view to open entry points in inspector
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataSelector.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	Inspector : display dynamic data
+	merge dev in working branch
+	inspector view: separate general data from specific TM data
+	add context menu on plotview
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+	Inspector : display dynamic data
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+	Inspector : display dynamic data
+	merge dev in working branch
+	fix openInspector and InspectorContainer imports
+	inspector view: separate general data from specific TM data
+	add context menu on text view
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js
+	Inspector : display dynamic data
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+	add context menu in mimiv view to open entry points in inspector
+	Inspector : display dynamic data
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/Explorer.js
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/Inspector.js
+	resolve a rtd link in the inspector
+	add styles for the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/InspectorContainer.js
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/TreeAnimations.js
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/TreeDecorators.js
+	add context in dynamic view for opening parameter in inspector
+	resolve a rtd link in the inspector
+	add styles for the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/TreeTheme.js
+	add context in dynamic view for opening parameter in inspector
+	resolve a rtd link in the inspector
+	add styles for the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Inspector.css
+	inspector view: separate general data from specific TM data
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Inspector.js
+	Inspector : display dynamic data
+	Inspector general data : add session and domain name
+	update inspector in case of no data
+	inspector view: separate general data from specific TM data
+	change context menus with native electron context menu
+	change context menu of inspector and dynamic view from Buttons to MenuItems
+	add context menu on links in inspector
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InspectorContainer.js
+	Inspector : display dynamic data
+	fix openInspector and InspectorContainer imports
+	inspector view: separate general data from specific TM data
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Tree.js
+	inspector view: separate general data from specific TM data
+	add context menu on links in inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeAnimations.js
+	add context menu on links in inspector
+	merge dev in working branch
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeDecorators.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeTheme.js
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/DynamicView/DynamicView.js
+	add context in dynamic view for opening parameter in inspector
+	resolve a rtd link in the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/DynamicView/DynamicViewContainer.js
+	add context in dynamic view for opening parameter in inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+	Inspector : display dynamic data
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+	merge dev in working branch
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/handleContextMenu.js
+	change context menus with native electron context menu
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+	Inspector : display dynamic data
+	merge dev in working branch
+	inspector view: separate general data from specific TM data
+	resolve a rtd link in the inspector
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	fix npm hello script for installing rtd
+	Fix RTD module installation on development instance
+	merge dev in working branch
+	resolve a rtd link in the inspector
+	add a tree component and format inspector data to be consumed
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/constants/index.js
+	merge dev in working branch
+	resolve a rtd link in the inspector
+	add styles for the inspector
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/config.required.json
+GPCCHS_E_VIS/src/client/src/main/js/client/config.sample.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenInspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/monitorings.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/reportings/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/reportings/reportings.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataSelector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/Explorer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/Inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/InspectorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/DynamicView/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/DynamicView/DynamicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/common/src/main/js/common/constants/index.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/prepareDataToTree.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/TreeAnimations.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/TreeDecorators.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/components/TreeTheme.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Inspector.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InspectorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Tree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeDecorators.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeTheme.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/handleContextMenu.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/inspector.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

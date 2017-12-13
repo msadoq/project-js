@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add dataMap and store explorer widgets
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : FIx linting error in widgets/Store
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Add copy and log buttons in dataMap and store explorers
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';

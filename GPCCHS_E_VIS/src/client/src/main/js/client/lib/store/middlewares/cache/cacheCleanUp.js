@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Modify cachecleanup middleware and its test
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 1.1.2 : DM : #6700 : 23/08/2017 : Update cache clean mechanism in dev tools
+// END-HISTORY
+// ====================================================================
+
 import dataMapGenerator from 'dataManager/map';
 import mergeIntervals from 'common/intervals/merge';
 import { resetKnownRange } from 'store/actions/knownRanges';

@@ -1,3 +1,26 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Test all views thunks .
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Write tests about setCollapsedAndUpdateLayout thunk in actions/views
+// VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Fix addEntryPoint tests in views.spec.js
+// VERSION : 1.1.2 : FA : #5475 : 22/02/2017 : Debug ifPathChanged higher order action creator
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Add dropEntrypoint thunk in actions/views
+// VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix missing generated id to entryPoints
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Refacto some selectors . .
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix few broken unit tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Migrate merged new tests in jest
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/actions
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// END-HISTORY
+// ====================================================================
+
 import { mockStore, freezeMe } from 'common/jest';
 import * as actions from './views';
 

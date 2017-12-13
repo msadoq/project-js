@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add pipeMiddlewares in store/helpers .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+// END-HISTORY
+// ====================================================================
+
 const simpleComposeMiddlewares = (m1, m2) => store => next => (
   m2(store)(m1(store)(next))
 );

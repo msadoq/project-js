@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Implement ui/dialog reducer . .
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add getDialog selector in store/reducers/ui/dialog
+// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Change openModal action, it now have a default dialogId
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import { freezeArgs } from 'common/jest';
 import { openDialog, dialogClosed } from 'store/actions/ui';
 import dialogReducer, { getAllDialogs, getDialog } from './dialog';

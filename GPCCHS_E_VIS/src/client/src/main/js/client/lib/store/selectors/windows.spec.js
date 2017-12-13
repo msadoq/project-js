@@ -1,3 +1,26 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : fix reselect signature linting errors
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Write last windows selectors tests
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Ignore not loaded views in dataMap and data requesting
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Remove the explorer resizable behavior and use panels data to handle show/hide
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Add displayHelp key in window reducer to store help screen state in store
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Remove old explorer keys from store
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Simplify simple selector getWindowsArray .
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove unused selectors . .
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move all windows simple selectors in store/reducers/windows
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Move getWindowsTitle in windowsManager/selectors .
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Move getModifiedWindowsIds in menuManager selectors
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Move getWindowsVisibleViews in dataManager/map.js .
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add number of points per view in explorer panel
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/reducers
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// END-HISTORY
+// ====================================================================
+
 /* eslint no-unused-expressions: 0 */
 import { freezeMe, testMemoization } from 'common/jest';
 

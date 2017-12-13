@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add 2 selectors in documents middlewares selectors
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Add workspace middleware => TODO : onWsClose
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Closing window now display a save wizard (documents middleware)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add SaveAgentModal to ModalGeneric .
+// VERSION : 1.1.2 : FA : #7145 : 27/07/2017 : Remote unused selector in documents middleware
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --VIEW
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --PAGE
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 

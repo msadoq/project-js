@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7145 : 03/08/2017 : Refacto onFmdCreateData and onFmdGetData dc controllers
+// VERSION : 1.1.2 : FA : #7434 : 22/08/2017 : Modify path of FMD document : remove first '/'
+// VERSION : 1.1.2 : FA : #7434 : 25/08/2017 : Rollback remove '/' on FMD create document
+// END-HISTORY
+// ====================================================================
+
 import startsWith from 'lodash/fp/startsWith';
 import fs from 'fs';
 import { relative, join, basename, dirname } from 'path';

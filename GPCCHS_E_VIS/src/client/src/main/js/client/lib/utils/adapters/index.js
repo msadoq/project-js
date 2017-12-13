@@ -1,11 +1,25 @@
-const getLogger = require('../../common/logManager');
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Modify protobuf loading strategy : - Move adapters in another folder - New architecture generated for adapters folder - Add raw adapter mechanism
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
+// VERSION : 1.1.2 : FA : #6798 : 16/06/2017 : Several changes : - Lint pass - Modify stub to use encode/decode of adapters (row AND protobuf) - Add a new stubs.js file to load the stubs present in the adapters plugins
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters : - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix - Lint pass ( 1 test is still KO)
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : Fix dynamic require in packaging production mode
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : Use path.join in registerGlobal in utils/adapters
+// VERSION : 1.1.2 : FA : #7355 : 28/07/2017 : Change adapters dc and lpisis config to relative path (config.default.json)
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7453 : 08/08/2017 : Fix packaging about adapters .
+// END-HISTORY
+// ====================================================================
 
 const { resolve } = require('path');
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const parameters = require('../../common/configurationManager');
-
 const protobuf = require('common/protobuf');
+
+const parameters = require('../../common/configurationManager');
+const getLogger = require('../../common/logManager');
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../../..');

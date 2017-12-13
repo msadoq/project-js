@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import dataMapGenerator from 'dataManager/map';

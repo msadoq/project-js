@@ -1,0 +1,143 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6721.txt
+
+
+Reference changement : #6721
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/page.schema.json
+	Update ajv 4 to ajv 5
+	
+	
+	
+	Because we want to fix ajv warning when 'npm run build:main'
+	Please see github issue https://github.com/epoberezkin/ajv/issues/373
+	Update ajv 4 to ajv 5
+	
+	
+	
+	Because we want to fix ajv warning when 'npm run build:main'
+	Please see github issue https://github.com/epoberezkin/ajv/issues/373
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/timebars.schema.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/workspace.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/DynamicView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/HistoryView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/MimicView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/PacketView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/PlotView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/SkeletonView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/TextView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.base.js
+	Fix several warnings when build
+	
+	
+	
+	- Adding a resolve.packageMains configuration in webpack/config.main.js
+	- Passing module.exprContextCritical to false in webpack/config.base.js
+	Fix hss crash when build
+	
+	
+	
+	- Remove bad webpack configuration
+	- Please see resolve.packageMains in webpack documentation
+	Fix several warnings when build
+	
+	
+	
+	- Adding a resolve.packageMains configuration in webpack/config.main.js
+	- Passing module.exprContextCritical to false in webpack/config.base.js
+	Fix hss crash when build
+	
+	
+	
+	- Remove bad webpack configuration
+	- Please see resolve.packageMains in webpack documentation
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.main.js
+	Fix several warnings when build
+	
+	
+	
+	- Adding a resolve.packageMains configuration in webpack/config.main.js
+	- Passing module.exprContextCritical to false in webpack/config.base.js
+	Fix several warnings when build
+	
+	
+	
+	- Adding a resolve.packageMains configuration in webpack/config.main.js
+	- Passing module.exprContextCritical to false in webpack/config.base.js
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.production.js
+	Fix renderer warning when build
+	
+	
+	
+	Fix htmlhint warning when 'npm run build:renderer',
+	adding htmlhint to externals
+	Fix renderer warning when build
+	
+	
+	
+	Fix htmlhint warning when 'npm run build:renderer',
+	adding htmlhint to externals
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.server.js
+	Fix server warning when build
+	
+	
+	
+	Fix memcpy warning when 'npm run build:server,
+	adding memcpy to externals
+	Fix server warning when build
+	
+	
+	
+	Fix memcpy warning when 'npm run build:server,
+	adding memcpy to externals
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/page.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/timebars.schema.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/workspace.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/DynamicView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/HistoryView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/MimicView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/PacketView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/PlotView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/SkeletonView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/TextView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.base.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.main.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.production.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.server.js
+
+FICHIERS AJOUTES
+================
+Pas de fichiers ajoutes.
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

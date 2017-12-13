@@ -1,3 +1,23 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : store/reducers/*.spec.js : spliting between plurial and singular specs.
+// VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Change tests in reducers/pages/page .
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Implement a page panels reducer to allow panels configuration storage in page
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix a layout bug, add a test for abesson
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix few broken unit tests
+// VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : Page title edition using contextMenu and GenericModal.
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : split updateTimebarId in mountTimebar and unmountTimebar
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : split updateTimebarId in mountTimebar and unmountTimebar
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/reducers
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// END-HISTORY
+// ====================================================================
+
 import { freezeArgs } from 'common/jest';
 import * as actions from 'store/actions/pages';
 import * as types from 'store/types';

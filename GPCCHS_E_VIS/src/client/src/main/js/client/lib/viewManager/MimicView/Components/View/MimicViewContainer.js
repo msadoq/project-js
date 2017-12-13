@@ -1,3 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : prepare mimic view container .
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add possibility to show links in views
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #5822 : 21/06/2017 : add context menu in mimiv view to open entry points in inspector
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6785 : 21/07/2017 : add links on mimicView if specify in svg editor
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// END-HISTORY
+// ====================================================================
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

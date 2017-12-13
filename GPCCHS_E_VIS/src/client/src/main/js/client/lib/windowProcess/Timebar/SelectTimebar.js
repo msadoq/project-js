@@ -1,3 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Removed Object.entries -> Object.keys . Removed unecessary prop.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Can not create timebar with same id.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_TIMEBAR_ADD by WS_TIMEBAR_CREATE_NEW .
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Style revision of SelectTimebar form.
+// VERSION : 1.1.2 : DM : #6302 : 06/04/2017 : Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timebar creation : timebar is created with uuid attribute.
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : split updateTimebarId in mountTimebar and unmountTimebar
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : split updateTimebarId in mountTimebar and unmountTimebar
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, Alert } from 'react-bootstrap';
 import _difference from 'lodash/difference';

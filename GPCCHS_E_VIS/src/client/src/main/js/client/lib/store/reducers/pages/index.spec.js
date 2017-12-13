@@ -1,3 +1,28 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPageLayout simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPanels selectors in reducers folder
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPage and getPages selectors
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getModifiedPagesIds simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getEditor simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getPageIdByViewId simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Test set page modified if save as its views
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix broken test in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : SaveAs at a different path should set workspace isModified
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Add a test in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add getPageIsModified selectors . .
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Rename test . . .
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Create getPageAbsolutePath selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/reducers
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// END-HISTORY
+// ====================================================================
+
 import { freezeArgs } from 'common/jest';
 import * as types from 'store/types';
 import * as actions from 'store/actions/pages';

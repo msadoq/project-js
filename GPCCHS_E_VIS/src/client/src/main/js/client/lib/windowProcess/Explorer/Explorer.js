@@ -1,3 +1,26 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 09/02/2017 : Cleaning of explorer window process
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Explorer Right panel refactoring .
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Remove the explorer resizable behavior and use panels data to handle show/hide
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add dataMap and store explorer widgets
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add partial performance widget in explorer
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Add information widget in explorer with masterSession and configuration
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add information widget in explorer with masterSession and configuration
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Add cache and server info in explorer
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Handle panel collapse/expand buttons with css instead of JE and react refs.
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : Collapse/minimize Editor/Explorer : buttons are in Window.js
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Panels are now sticky on left and right.
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import {

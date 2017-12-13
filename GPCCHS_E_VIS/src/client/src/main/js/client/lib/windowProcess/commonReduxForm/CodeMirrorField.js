@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fix deplacement automatique du curseur d edition
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Fix or comment some coding standard warnings
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : Upgraded react-codemirror to 1.0.0, problem cursor going up should not occur anymore.
+// END-HISTORY
+// ====================================================================
+
 /* eslint import/no-webpack-loader-syntax:0 */
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';

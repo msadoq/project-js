@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Modify cachecleanup middleware and its test
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import lokiManager from 'serverProcess/models/lokiKnownRangesData';
 import cleanCache from './cacheCleanUp';

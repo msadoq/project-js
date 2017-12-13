@@ -1,0 +1,313 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6762.txt
+
+
+Reference changement : #6762
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/pom.xml
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.sample.json
+	RTD can now be disabled using RTD_ON in config
+	
+	
+	
+	RTD is disabled by default due to the asymmetry beetween GPDS and
+	GPCCHS R8-dev branches.
+	in config.sample.json, RTD_ON is set to 'on' in order to have a stubbed
+	RTD in development.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/index.html
+	All built files is now in a dist/ folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/debug.js
+	Fix process.env definePlugin in webpack
+	
+	
+	
+	Now we should use directly process.env.IS_BUNDLED and process.env.APP_ENV instead of parameters.get
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	Fix bug about loading default workspace
+	
+	
+	
+	When WORKSPACE environment variable is missing, vima don't crash anymore
+	RTD can now be disabled using RTD_ON in config
+	
+	
+	
+	RTD is disabled by default due to the asymmetry beetween GPDS and
+	GPCCHS R8-dev branches.
+	in config.sample.json, RTD_ON is set to 'on' in order to have a stubbed
+	RTD in development.
+	Fix process.env definePlugin in webpack
+	
+	
+	
+	Now we should use directly process.env.IS_BUNDLED and process.env.APP_ENV instead of parameters.get
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/index.js
+	RTD can now be disabled using RTD_ON in config
+	
+	
+	
+	RTD is disabled by default due to the asymmetry beetween GPDS and
+	GPCCHS R8-dev branches.
+	in config.sample.json, RTD_ON is set to 'on' in order to have a stubbed
+	RTD in development.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+	Fix proto register for packaging
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/test.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/index.js
+	Fix proto register for packaging
+	Fix stubProcess bug . .
+	
+	
+	
+	when running stubProcess manually
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	Add a starting script to test packaged vima
+	Add prepapreMavenBuild script . .
+	
+	
+	
+	This script is used by generate.sh script when 'mvn install'.
+	It edits the package.json to add good dependencies (e.g. 'common' and
+	'rtd')
+	
+	Add mavenDependencies to package.json
+	All built files is now in a dist/ folder
+	Fix npm unmet peer dependencies
+	
+	
+	
+	- downgrade less-loader because we use webpack 1.x.x
+	- remove d3-time from peerDependencies because it seems it's useless
+	- add fakeredis to dependencies because rtd need it and it's impossible
+	  to push on rtd@R8-dev for now
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/prepareMavenBuild.js
+	Add prepapreMavenBuild script . .
+	
+	
+	
+	This script is used by generate.sh script when 'mvn install'.
+	It edits the package.json to add good dependencies (e.g. 'common' and
+	'rtd')
+	
+	Add mavenDependencies to package.json
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/start.sh
+	Fix stubProcess packaging in scripts/start.sh
+	Add a starting script to test packaged vima
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.base.js
+	All built files is now in a dist/ folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.main.js
+	All built files is now in a dist/ folder
+	Fix process.env definePlugin in webpack
+	
+	
+	
+	Now we should use directly process.env.IS_BUNDLED and process.env.APP_ENV instead of parameters.get
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.development.js
+	Fix process.env definePlugin in webpack
+	
+	
+	
+	Now we should use directly process.env.IS_BUNDLED and process.env.APP_ENV instead of parameters.get
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.production.js
+	All built files is now in a dist/ folder
+	Fix process.env definePlugin in webpack
+	
+	
+	
+	Now we should use directly process.env.IS_BUNDLED and process.env.APP_ENV instead of parameters.get
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.server.js
+	All built files is now in a dist/ folder
+	Repair local build . .
+	Fix proto register for packaging
+	Fix process.env definePlugin in webpack
+	
+	
+	
+	Now we should use directly process.env.IS_BUNDLED and process.env.APP_ENV instead of parameters.get
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+
+
+GPCCHS_E_VIS/src/client/src/script/gen/generate.sh
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/parameters/index.js
+	Fix parameters.getAll . . .
+	
+	
+	
+	Because process.env is missing in serverProcess
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/index.js
+	Fix proto register for packaging
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/stubs/stubs.spec.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/test.js (idem)
+
+
+GPCCHS_E_VIS/src/impl/parent/pom.xml
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+GPCCHS_E_VIS/src/launcher/pom.xml (idem)
+
+
+GPCCHS_E_VIS/src/launcher/src/script/gen/generate.sh
+	Add prepapreMavenBuild script . .
+	
+	
+	
+	This script is used by generate.sh script when 'mvn install'.
+	It edits the package.json to add good dependencies (e.g. 'common' and
+	'rtd')
+	
+	Add mavenDependencies to package.json
+	All built files is now in a dist/ folder
+	Repair local build . .
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+
+
+GPCCHS_E_VIS/src/pom.xml
+	Update poms due to removing server package
+	
+	
+	
+	- Update poms
+	- Update generate.sh
+	- Update config.server.js webpack config
+	- Update client package.json
+GPCCHS_E_VIS/src/server/pom.xml (idem)
+GPCCHS_E_VIS/src/server/src/main/rpm/50-module.rules (idem)
+GPCCHS_E_VIS/src/server/src/main/rpm/filelist.init (idem)
+GPCCHS_E_VIS/src/server/src/script/gen/generate.sh (idem)
+GPCCHS_E_VIS/src/server/src/script/gen/lib/const.sh (idem)
+GPCCHS_E_VIS/src/server/src/script/gen/lib/logging.sh (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/pom.xml
+GPCCHS_E_VIS/src/client/src/main/js/client/config.sample.json
+GPCCHS_E_VIS/src/client/src/main/js/client/index.html
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/debug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/test.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.base.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.main.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.development.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.production.js
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.server.js
+GPCCHS_E_VIS/src/client/src/script/gen/generate.sh
+GPCCHS_E_VIS/src/common/src/main/js/common/parameters/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/dc/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/stubs/stubs.spec.js
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/test.js
+GPCCHS_E_VIS/src/impl/parent/pom.xml
+GPCCHS_E_VIS/src/launcher/pom.xml
+GPCCHS_E_VIS/src/launcher/src/script/gen/generate.sh
+GPCCHS_E_VIS/src/pom.xml
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/prepareMavenBuild.js
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/start.sh
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/server/pom.xml
+GPCCHS_E_VIS/src/server/src/main/rpm/50-module.rules
+GPCCHS_E_VIS/src/server/src/main/rpm/filelist.init
+GPCCHS_E_VIS/src/server/src/script/gen/generate.sh
+GPCCHS_E_VIS/src/server/src/script/gen/lib/const.sh
+GPCCHS_E_VIS/src/server/src/script/gen/lib/logging.sh
+
+
+#Generated by Framework DDC-ng (version 0.8a)

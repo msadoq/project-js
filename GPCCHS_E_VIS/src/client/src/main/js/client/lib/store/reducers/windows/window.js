@@ -1,3 +1,37 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Refacto windows reducer OK .
+// VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Remove useless thunk updateTimebarId in actions/pages
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove add/_add/addAndMount thunks . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_OPEN action and remove WS_LOAD_DOCUMENTS
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Cleanup actions . . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_OPEN action . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Set window isModified when load or close a view
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_VIEW_ADD by WS_VIEW_ADD_BLANK .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : FIlter unused values in page state
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_CLOSE action + remove unmountAndRemove (page)
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Refacto loadDocumentsInStore from documentManager .
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Ignore not loaded views in dataMap and data requesting
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Add displayHelp key in window reducer to store help screen state in store
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : WDYU is now activated with configuration parameter (WDYU)
+// VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Remove the explorer resizable behavior and use panels data to handle show/hide
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Remove old explorer keys from store
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : SaveAs at a different path should set workspace isModified
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Tests windows is modified when manipulate timelines / timebars
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Move page items order in navbar
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : Move isModified from state.windows to state.hsc
+// VERSION : 1.1.2 : DM : #5828 : 24/04/2017 : Edit window title available through upper menu Window -> Rename.
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Window title edit : star appears on window, workspace is isModified: true.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import _defaults from 'lodash/defaults';
 import _omit from 'lodash/omit';

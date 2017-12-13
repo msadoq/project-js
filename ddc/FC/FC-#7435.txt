@@ -1,0 +1,141 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7435.txt
+
+
+Reference changement : #7435
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Change EXTENSIONS constants . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/__snapshots__/doctypes.spec.js.snap
+	Rename documents/doctypes in documents/utils .
+	Add doctypes helper in documents middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/__snapshots__/utils.spec.js.snap
+	Rename documents/doctypes in documents/utils .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/doctypes.js
+	Rename documents/doctypes in documents/utils .
+	Add doctypes helper in documents middlewares
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/doctypes.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onOpenPage.spec.js.snap
+	Add defaultPath when open or save a document
+	Fix documents middlewares snapshots .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when open a page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when save a page
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.js
+	Add getDefaultFolder in documents utils
+	Rename documents/doctypes in documents/utils .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onCloseView.spec.js.snap
+	Add defaultPath when open or save a document
+	Fix documents middlewares snapshots .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onOpenView.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveView.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveViewAsModel.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when save a closing view
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when open a view
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when save a view
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when save a view as model
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onOpenWorkspace.spec.js.snap
+	Add defaultPath when open or save a document
+	Fix documents middlewares snapshots .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onSaveWorkspace.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when open a workspace
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+	Add defaultPath when open or save a document
+	Rename documents/doctypes in documents/utils .
+	Add extensions filter when save a workspace
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onOpenPage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onCloseView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onOpenView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveViewAsModel.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onOpenWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onSaveWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/__snapshots__/utils.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.spec.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

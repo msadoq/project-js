@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : FA : #7753 : 18/09/2017 : Fixed Save & close issue with svg and html code editor.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';

@@ -1,0 +1,289 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6816.txt
+
+
+Reference changement : #6816
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.gitignore
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/MimicView/data.js
+	add mimic benchmark with isolated mimicView component
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/MimicView/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_hss.sh
+	test perfs on hss process
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_hss_data.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_main.sh (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_main_data.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_renderer.sh (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_renderer_data.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_test.sh (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/mimicview.benchmark.html
+	add mimic benchmark with isolated mimicView component
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/mimicview.benchmark.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_hss.sh
+	test perfs on hss process
+	add textviews with 10, 1000 and >5000 EP
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_hss_data.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_hss_data.txt (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_main.sh (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_main_data.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_renderer.sh (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_renderer_data.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_vima.sh
+	add textviews with 10, 1000 and >5000 EP
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/vima.benchmark.html (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/100epText.json
+	Test perfs on mimic, add new demo mimic
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg
+	Its possible to change the size of the mimic in the view ezeditor
+	Test perfs on mimic, add new demo mimic
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/FA7377.json
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json
+	MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+	MimicView : rotate property can go under 0, ex: -25,25. For rotate, translate and scale, isis_origin must be provided or is set to left top.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.vimv
+	Test perfs on mimic, add new demo mimic
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv
+	Its possible to change the size of the mimic in the view ezeditor
+	add plotviews with differents EP
+	Test perfs on mimic, add new demo mimic
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv
+	Test perfs on mimic, add new demo mimic
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot1.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot15.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot15.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot20.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot20.vipv (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.json
+	add textviews with 10, 1000 and >5000 EP
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv
+	Test perfs on mimic, add new demo mimic
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text1000.json
+	add textviews with 10, 1000 and >5000 EP
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text5408.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/HtmlSourceForm.js
+	nodes processed by MimicView are not systematically transformed into <g>, node.name are preserved (except for textBox animation).
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+	add plotviews with differents EP
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+	Its possible to change the size of the mimic in the view ezeditor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSub.js
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js
+	Repace updeep by spread operator in timebar reducer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+	Its possible to change the size of the mimic in the view ezeditor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.js
+	test perfs on hss process
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Its possible to change the size of the mimic in the view ezeditor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/isParameterSupported.js
+	add textviews with 10, 1000 and >5000 EP
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/transistor.js
+	Its possible to change the size of the mimic in the view ezeditor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/Dimensions.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsForm.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+	Its possible to change the size of the mimic in the view ezeditor
+	add plotviews with differents EP
+	Test perfs on mimic, add new demo mimic
+	MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+	MimicView : rotate property can go under 0, ex: -25,25. For rotate, translate and scale, isis_origin must be provided or is set to left top.
+	imicView Fixed rotate animation error, set visibility to visible.
+	MimicView : style attribute is the only attribute kept from svg nodes.
+	Added default values to all MimicView's animations.
+	nodes processed by MimicView are not systematically transformed into <g>, node.name are preserved (except for textBox animation).
+	Put MimicView animation methods appart, and test each one of them (rotate, scale...).
+	add mimic benchmark with isolated mimicView component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+	Its possible to change the size of the mimic in the view ezeditor
+	add mimic benchmark with isolated mimicView component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewWrapper.js
+	Fixed proptype error in MimicViewWrapper.
+	Its possible to change the size of the mimic in the view ezeditor
+	imicView Fixed rotate animation error, set visibility to visible.
+	add mimic benchmark with isolated mimicView component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/animations.js
+	Its possible to change the size of the mimic in the view ezeditor
+	add plotviews with differents EP
+	Test perfs on mimic, add new demo mimic
+	MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+	MimicView : rotate property can go under 0, ex: -25,25. For rotate, translate and scale, isis_origin must be provided or is set to left top.
+	imicView Fixed rotate animation error, set visibility to visible.
+	MimicView : adapted tests to handle dom element mocking, setAttribute and getAttribute mocked functions.
+	Every MimicView attribute update or style update is performed only if it is necessary (if value changed)
+	Added default values to all MimicView's animations.
+	Put MimicView animation methods appart, and test each one of them (rotate, scale...).
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/animations.spec.js
+	Its possible to change the size of the mimic in the view ezeditor
+	MimicView : renamed some attributes, no origin attribute for translate animation, scale can go between x and x angles.
+	imicView Fixed rotate animation error, set visibility to visible.
+	MimicView : adapted tests to handle dom element mocking, setAttribute and getAttribute mocked functions.
+	Added default values to all MimicView's animations.
+	Added estlint-disable text justification for MimicView's animations tests.
+	renamed methods of the mimic view animation tests.
+	Put MimicView animation methods appart, and test each one of them (rotate, scale...).
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/MimicView.schema.json
+	Its possible to change the size of the mimic in the view ezeditor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationSelectors.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+	Added eslint warning error justification in TextView.
+	Textview is now in dark
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	add mimic benchmark with isolated mimicView component
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.development.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic.vimv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/HtmlSourceForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/isParameterSupported.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Collection/transistor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/MimicView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.renderer.development.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/MimicView/data.js
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/MimicView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/mimicview.benchmark.html
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/mimicview.benchmark.js
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/bench_vima.sh
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/vima/vima.benchmark.html
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/FA7377.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot1.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot15.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot20.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text1000.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text5408.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/Dimensions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/animations.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/animations.spec.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_hss.sh
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_hss_data.js
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_main.sh
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_main_data.js
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_renderer.sh
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_renderer_data.js
+GPCCHS_E_VIS/src/client/src/main/js/client/benchmarks/bench_test.sh
+
+
+#Generated by Framework DDC-ng (version 0.8a)

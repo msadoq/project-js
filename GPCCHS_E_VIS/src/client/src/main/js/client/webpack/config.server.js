@@ -1,3 +1,25 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Now transpile server with babel to allow ES6 module usage and store module loading in server process.
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix .proto loading in server.js bundle
+// VERSION : 1.1.2 : DM : #5828 : 18/05/2017 : Fix npm run hello command
+// VERSION : 1.1.2 : FA : #6721 : 19/05/2017 : Fix server warning when build
+// VERSION : 1.1.2 : FA : #6721 : 22/05/2017 : Fix server warning when build
+// VERSION : 1.1.2 : DM : #5828 : 22/05/2017 : Move server from server/ sub-component to client/lib/serverProcess
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Fix proto register for packaging
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Update poms due to removing server package
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : All built files is now in a dist/ folder
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Repair local build . .
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Fix process.env definePlugin in webpack
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : Fix dynamic require in packaging production mode
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Add hiredis to webpack server config externals
+// VERSION : 1.1.2 : FA : #7355 : 27/07/2017 : RTD is now optional on VIMA installation
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Fix packaging (missing common) .
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Packaging : copy adapters in dist
+// END-HISTORY
+// ====================================================================
+
 import fs from 'fs';
 import { gracefulify } from 'graceful-fs';
 import webpack from 'webpack';

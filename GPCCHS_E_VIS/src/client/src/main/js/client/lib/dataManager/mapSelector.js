@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of dataMap selector .
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of preparePubSup middleware .
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : creatin of selectors on datamap
+// VERSION : 1.1.2 : DM : #6700 : 27/07/2017 : update preparePubSub and add unit tests for it
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Update selector for subscruption store observer
+// END-HISTORY
+// ====================================================================
+
 import { createSelector } from 'reselect';
 import _filter from 'lodash/filter';
 import _reduce from 'lodash/reduce';

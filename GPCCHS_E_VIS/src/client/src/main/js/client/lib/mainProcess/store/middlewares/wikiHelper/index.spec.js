@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add jest unit tests to wikiHelper middleware
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 

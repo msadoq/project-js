@@ -1,3 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Fix mechansim for open/save/close workspace
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Move withOpenModal and withOpenDialog enhancers directly in each middleware
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Add workspace middleware => TODO : onWsClose
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Closing window now display a save wizard (documents middleware)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix onCloseWorkspace documentType to workspace
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix copy/pasta typo in onOpenWorkspace/onCloseWorkspace
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Rename all 'returnedAction' by 'nextAction' in middlewares
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Ask open workspace at start in mainProcess/index
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Add "make" prefix to each documents middleware
+// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Fix little bug in onCloseWorkspace middleware
+// VERSION : 1.1.2 : FA : #7145 : 27/07/2017 : Use withlistenAction middleware enhancer in onCloseWorkspace
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import * as types from 'store/types';
 import { getWorkspaceIsModified } from 'store/reducers/hsc';

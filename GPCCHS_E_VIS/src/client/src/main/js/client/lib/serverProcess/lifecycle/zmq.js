@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix merge and add robustness code in server process bootstraping
+// END-HISTORY
+// ====================================================================
+
 import zmq from 'common/zmq';
 import getLogger from 'common/logManager';
 

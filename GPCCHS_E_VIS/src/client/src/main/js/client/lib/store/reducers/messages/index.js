@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/messages . . .
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Add ControlsSelector tests . .
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Remove messages when close a workspace
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Change addMessage action behavior .
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Automatically remove messages after a while
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Add animation to messages removing
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Message removing can be cancel by passing the mouse over the message
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Remove Timebar/Controls/ControlsSelectors + tests .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import * as types from 'store/types';

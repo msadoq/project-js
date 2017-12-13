@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #6129 : 03/05/2017 : first functionnal mimic with animations
+// END-HISTORY
+// ====================================================================
+
 import { HTMLHint } from 'htmlhint';
 
 export const defaultRules = {

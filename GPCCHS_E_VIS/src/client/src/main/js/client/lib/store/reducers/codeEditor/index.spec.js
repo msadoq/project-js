@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : Merge dev in abesson-mimic .
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : merge dev on abesson-mimic branch .
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Fix codeEditor tests (reducer) .
+// END-HISTORY
+// ====================================================================
+
 import * as actions from 'store/actions/editor';
 import * as types from 'store/types';
 import reducer, { getIsCodeEditorOpened } from '.';

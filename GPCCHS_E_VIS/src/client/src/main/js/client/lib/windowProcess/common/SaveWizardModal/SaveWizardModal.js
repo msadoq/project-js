@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Rename SaveAgent in SaveWizard .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix SaveWizard save workspace .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Refacto SaveWizardModal component . .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix SaveWizardModal documentsAreModified predicat .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix missing closeModal on OK button in SaveWizard component
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add bold page title in SaveWizard
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : SaveWizardModal can now take several buttons
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import _ from 'lodash/fp';
 

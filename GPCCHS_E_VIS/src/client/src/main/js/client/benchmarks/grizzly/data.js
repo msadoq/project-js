@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : Added bench for color changing only 3 times, + fixed webpack error.
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : First benchmark of Grizzly charting lib used in PlotView.
+// END-HISTORY
+// ====================================================================
+
 export const data = (length, value) => {
   const points = {};
   for (let i = 0; i < length; i += 1) {

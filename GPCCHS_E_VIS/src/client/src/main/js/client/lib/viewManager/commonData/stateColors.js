@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : remove structure last and range
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Fix broken tests . .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash';
 import { applyFilter } from './applyFilters';
 

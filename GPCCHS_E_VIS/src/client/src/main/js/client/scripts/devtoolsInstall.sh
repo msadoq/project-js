@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# ====================================================================
+# HISTORY
+# VERSION : 1.1.2 : FA : #7750 : 08/09/2017 : Add install:devtools npm script .
+# END-HISTORY
+# ====================================================================
+
 WGET=/usr/bin/wget
 
 EXTENSIONS_FOLDER=$HOME/.config/Electron/extensions

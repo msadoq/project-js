@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Write onSavePage tests + refacto jest serializers
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Add 2 jest serializers (redux action)
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import 'babel-polyfill';
 import _ from 'lodash/fp';
 

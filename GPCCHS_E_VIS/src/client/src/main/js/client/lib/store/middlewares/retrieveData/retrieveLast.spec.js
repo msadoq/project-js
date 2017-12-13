@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add retrieveMIddleware test skeleton implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Update retrieve range and last test
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import { /* getLastRecords , */ addRecords } from 'serverProcess/models/lokiKnownRangesData';

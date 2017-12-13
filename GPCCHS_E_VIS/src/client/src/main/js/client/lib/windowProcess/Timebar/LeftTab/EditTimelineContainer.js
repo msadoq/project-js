@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : New GenericModal component displayed or not displayed at root (Window.js) AddTimeline and EditTimeline forms displayed through it.
+// END-HISTORY
+// ====================================================================
+
 import { connect } from 'react-redux';
 import { getSessions } from 'store/reducers/sessions';
 import {

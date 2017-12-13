@@ -1,3 +1,23 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
+// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Few tooltip revisions + Zones.
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
+// VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly Parametric.
+// VERSION : 1.1.2 : DM : #6830 : 25/07/2017 : Parametric PlotView : logarithmic axes available.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6835 : 25/08/2017 : GrizzlyParametric: removed unused methods in Chart, put plot lines before grid.
+// VERSION : 1.1.2 : DM : #6835 : 06/09/2017 : Restored perfOutput for grizzly parametric .
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : Fixed two lint errors in PlotView Editor and View.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+// VERSION : 1.1.2 : FA : #7756 : 15/09/2017 : Fixed error when using lasso and Y Axis on right.
+// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and data.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';

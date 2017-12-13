@@ -1,8 +1,8 @@
-#GPCCHS 1.1.0 28/02/2017 ddc.txt
+#GPCCHS 1.1.2 02/10/2017 ddc.txt
 
 Dossier descriptif de configuration
 ===================================
-Fait le  : 28/02/2017
+Fait le  : 02/10/2017
 par      : Philippe Combes
 selon specification :
  - RNC-CNES-M-ST-40-102 Version 4
@@ -30,16 +30,12 @@ selon specification :
 
 0.3 References
 --------------
-
 cf liste-doc-definition.txt
 cf liste-doc-fonctionnelle.txt
 
-
 0.4 Domaine d'application
 -------------------------
-
-*** A completer ***
-
+The ISIS Product Line provides all basic elements required to the elaboration of a CNES Control-Command Center
 
 
 1. Identification de l'article de Configuration
@@ -57,12 +53,12 @@ Rappel de la fonction :
 
 2. Identification de la version
 ===============================
-Date Version                : 2017/02/28
-Numero Version              : 1.1.0
-Numero Version de reference : 
-Branche Version             : 
+Date Version                : 2017/10/02
+Numero Version              : 1.1.2
+Numero Version de reference : 1.1.0
+Branche Version             : principale
 Etat Version                : 
-Justification               : Delivery of LPISIS, version 1.1.0
+Justification               : Delivery of LPISIS, version 1.1.2
 Nature d'arborescence       : produit source
 Type de livraison           : complete
 

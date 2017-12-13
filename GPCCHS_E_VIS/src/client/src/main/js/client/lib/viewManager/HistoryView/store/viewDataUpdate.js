@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _findIndex from 'lodash/findIndex';
 import _split from 'lodash/split';

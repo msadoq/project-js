@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Refactor "patch action" decoration (patch in .meta)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Do not filter action with no patch in master dispatcher
+// END-HISTORY
+// ====================================================================
+
 import { compare } from 'fast-json-patch';
 import {
 REDUX_SYNCHRONIZATION_PATCH_KEY,

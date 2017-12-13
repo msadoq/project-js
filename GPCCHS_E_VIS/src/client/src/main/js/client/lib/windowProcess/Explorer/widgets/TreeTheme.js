@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// END-HISTORY
+// ====================================================================
+
 export default {
   tree: {
     base: {

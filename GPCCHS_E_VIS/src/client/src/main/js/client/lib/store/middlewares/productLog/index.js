@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
+// END-HISTORY
+// ====================================================================
+
 import * as types from 'store/types';
 
 export default sendProductLog => () => next => (action) => {

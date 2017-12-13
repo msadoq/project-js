@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 const isFunction = require('lodash/isFunction');
 const isObject = require('lodash/isObject');
 const isArray = require('lodash/isArray');

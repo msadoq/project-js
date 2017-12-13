@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Refactor "patch action" decoration (patch in .meta)
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing info to meta action's
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Fix failed unit test && fix decorated meta for timing on debug enabled
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Do not filter action with no patch in master dispatcher
+// END-HISTORY
+// ====================================================================
+
 import _get from 'lodash/fp/get';
 import _set from 'lodash/fp/set';
 import { REDUX_SYNCHRONIZATION_PATCH_KEY, TIMING_DATA, TIMING_MILESTONES } from 'constants';

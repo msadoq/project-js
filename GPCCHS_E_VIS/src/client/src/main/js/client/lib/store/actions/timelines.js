@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Fix bug in update action creator in timelines
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : In actions, reduers, views, timelineId -> timelineUuid to avoid confusion.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace unmountTimeline by removeTimeline .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Discard addAndMountTimeline . . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Rename TIMELINE_ADD_NEW in TIMELINE_CREATE_NEW .
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Improve store/actions/timelines robustness . .
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// END-HISTORY
+// ====================================================================
+
 import { v4 } from 'uuid';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';

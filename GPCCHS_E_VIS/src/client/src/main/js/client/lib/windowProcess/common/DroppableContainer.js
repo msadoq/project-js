@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 08/02/2017 : Lint eslint disable no console . . .
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "Replace some console uses by new Console"
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Replace some console uses by new Console
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "[FT:#5316] Lint eslint disable no console . . ."
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import _omit from 'lodash/omit';
 import noop from 'lodash/noop';

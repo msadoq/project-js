@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
+// END-HISTORY
+// ====================================================================
+
 import _isBuffer from 'lodash/isBuffer';
 import { dumpBuffer } from 'serverProcess/utils/dumpBuffer';
 import * as types from 'store/types';

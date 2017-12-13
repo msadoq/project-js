@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : New GenericModal component displayed or not displayed at root (Window.js) AddTimeline and EditTimeline forms displayed through it.
+// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : Lint errors fixes and useless props removed in LeftTab / AddTimelineWrapper.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { schemeCategory20b } from 'd3-scale';
 import AddTimeline from './AddTimeline';

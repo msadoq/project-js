@@ -1,0 +1,96 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7814.txt
+
+
+Reference changement : #7814
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js
+	Update plot view data structure to improve json patch
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+	Handling data differently in PlotView : using indexes to iterate.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+	GrizzlyParametric now also works with indexes and data.
+	Handling data differently in PlotView : using indexes to iterate.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+	Handling data differently in PlotView : using indexes to iterate.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+	GrizzlyParametric now also works with indexes and data.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	Handling data differently in PlotView : using indexes to iterate.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewParametricFake.js
+	GrizzlyParametric now also works with indexes and data.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/cleanViewData.spec.js.snap
+	Update plot view data structure to improve json patch
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/dataReducer.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/viewDataUpdate.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonActions/dataActions.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/AddTimeline.spec.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewParametricFake.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/cleanViewData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/dataReducer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/viewDataUpdate.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonActions/dataActions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/AddTimeline.spec.js
+
+FICHIERS AJOUTES
+================
+Pas de fichiers ajoutes.
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

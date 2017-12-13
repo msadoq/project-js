@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add basic test about player middleware
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Add play/pause tests about player middleware
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Player middleware : Write all others tests
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

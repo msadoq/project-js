@@ -1,5 +1,20 @@
-import { mockStore, freezeMe } from 'common/jest';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : set throttle delay to 10ms in health.spec.js
+// VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Write updateHealth thunk tests .
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : Removal of a test in actions health .
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/actions
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable no-unused-expressions */
+
+import { mockStore, freezeMe } from 'common/jest';
 import * as types from '../types';
 import * as actions from './health';
 

@@ -1,17 +1,17 @@
 import _ from 'lodash/fp';
-import * as types from '../../../types';
-import { getWorkspaceIsModified } from '../../../reducers/hsc';
-import { getWindowIds } from '../../../reducers/windows';
+import * as types from 'store/types';
+import { getWorkspaceIsModified } from 'store/reducers/hsc';
+import { getWindowIds } from 'store/reducers/windows';
 
-import { closeWindow } from '../../../actions/windows';
-import { closeWorkspace } from '../../../actions/hsc';
+import { closeWindow } from 'store/actions/windows';
+import { closeWorkspace } from 'store/actions/hsc';
+import { open as openModal } from 'store/actions/modals';
+
+import withListenAction from 'store/helpers/withListenAction';
 import {
   getModifiedViewIdsByWindowIds,
   getModifiedPageIdsByWindowIds,
 } from '../selectors';
-
-import { open as openModal } from '../../../actions/modals';
-import withListenAction from '../../../helpers/withListenAction';
 
 const isClosingWorkspace = _.propEq('type', types.WS_ASK_CLOSE_WORKSPACE);
 const isClosingWindow = _.propEq('type', types.WS_ASK_CLOSE_WINDOW);

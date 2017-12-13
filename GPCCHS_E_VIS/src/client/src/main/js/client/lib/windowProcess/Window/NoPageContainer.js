@@ -2,8 +2,8 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { askOpenPage } from '../../store/actions/pages';
-import { add } from '../../store/actions/messages';
+import { askOpenPage } from 'store/actions/pages';
+import { add } from 'store/actions/messages';
 import NoPage from './NoPage';
 
 const mapDispatchToProps = (dispatch, { windowId }) => (

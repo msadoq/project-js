@@ -1,4 +1,4 @@
-import * as types from '../../types';
+import * as types from 'store/types';
 
 export default sendProductLog => () => next => (action) => {
   const nextAction = next(action);

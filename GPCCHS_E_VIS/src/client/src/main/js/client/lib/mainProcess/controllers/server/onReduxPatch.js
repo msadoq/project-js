@@ -1,5 +1,5 @@
-import { getStore } from '../../store';
-import { renderer } from '../../ipc';
+import { getStore } from 'mainProcess/store';
+import { renderer } from 'mainProcess/ipc';
 
 export default function onReduxPatch(patchActionQueue) {
   const { queue } = patchActionQueue;

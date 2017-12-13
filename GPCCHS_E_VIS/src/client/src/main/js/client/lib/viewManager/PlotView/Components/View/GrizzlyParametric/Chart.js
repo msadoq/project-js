@@ -10,7 +10,7 @@ import _throttle from 'lodash/throttle';
 import _debounce from 'lodash/debounce';
 import _each from 'lodash/fp/each';
 import { scaleLinear, scaleLog } from 'd3-scale';
-import styles from './GrizzlyChart.css';
+import keyCodes from 'common/utils/keymap';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
 
 import LinesCanvas from './LinesCanvas';
@@ -18,7 +18,7 @@ import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 import Zones from './Zones';
-import keyCodes from '../../../../../common/utils/keymap';
+import styles from './GrizzlyChart.css';
 import Reset from './Reset';
 import { axisType, lineType } from './types';
 

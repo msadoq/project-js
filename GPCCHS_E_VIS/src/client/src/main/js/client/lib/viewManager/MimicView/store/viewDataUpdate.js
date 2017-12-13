@@ -1,8 +1,8 @@
 /* eslint-disable no-continue */
 import _get from 'lodash/get';
-import getLogger from '../../../common/logManager';
-import { getStateColorObj } from '../../commonData/stateColors';
-import { convertData } from '../../commonData/convertData';
+import getLogger from 'common/logManager';
+import { getStateColorObj } from 'viewManager/commonData/stateColors';
+import { convertData } from 'viewManager/commonData/convertData';
 
 const logger = getLogger('data:lastValue');
 

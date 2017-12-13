@@ -1,11 +1,11 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Panel, Button } from 'react-bootstrap';
-import getLogger from '../../../common/logManager';
-import { NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from '../../../constants';
+import getLogger from 'common/logManager';
+import { NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from 'constants';
+import { main } from 'windowProcess/ipc';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import styles from './Inspector.css';
 import Tree from './Tree';
-import { main } from '../../ipc';
-import handleContextMenu from '../../common/handleContextMenu';
 
 const logger = getLogger('Inspector');
 

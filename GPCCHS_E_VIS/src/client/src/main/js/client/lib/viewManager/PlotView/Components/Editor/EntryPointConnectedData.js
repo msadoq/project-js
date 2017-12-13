@@ -10,13 +10,13 @@ import {
   FieldArray,
   formValueSelector,
 } from 'redux-form';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
-import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
-import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
-import FiltersFields from '../../../commonEditor/Fields/FiltersFields';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
+import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
 import styles from './EntryPointConnectedData.css';
 
 

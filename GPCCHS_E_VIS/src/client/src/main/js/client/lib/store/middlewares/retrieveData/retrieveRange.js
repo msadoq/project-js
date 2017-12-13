@@ -1,11 +1,11 @@
-import * as types from '../../types';
-import { getRangesRecords } from '../../../serverProcess/models/lokiKnownRangesData';
-import { newData } from '../../actions/incomingData';
-import { getMissingIntervals } from '../../reducers/knownRanges';
-import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
-import { sendArchiveQuery } from '../../actions/knownRanges';
-import mergeIntervals from '../../../common/intervals/merge';
-import executionMonitor from '../../../common/logManager/execution';
+import * as types from 'store/types';
+import { getRangesRecords } from 'serverProcess/models/lokiKnownRangesData';
+import { newData } from 'store/actions/incomingData';
+import { getMissingIntervals } from 'store/reducers/knownRanges';
+import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
+import { sendArchiveQuery } from 'store/actions/knownRanges';
+import mergeIntervals from 'common/intervals/merge';
+import executionMonitor from 'common/logManager/execution';
 
 const type = 'RANGE';
 

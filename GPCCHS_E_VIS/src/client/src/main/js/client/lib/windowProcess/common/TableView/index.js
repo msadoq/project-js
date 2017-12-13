@@ -7,6 +7,63 @@ import _ from 'lodash/fp';
 import withScroll from './withScroll';
 import styles from './TableView.css';
 
+class SearchInput extends React.Component {
+  static propTypes = {
+    value: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+    onInput: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    value: '',
+  }
+
+  state = { value: '' }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.value === ''
+      && nextProps.value !== this.props.value
+      && nextProps.value !== this.state.value
+    ) {
+      this.setState(_.set('value', ''));
+    }
+  }
+
+  onInput = (e) => {
+    const value = e.target.value;
+    this.setState(_.set('value', value));
+    this.props.onInput(value);
+  }
+
+  render() {
+    return (
+      <input
+        type="text"
+        value={this.state.value}
+        onInput={this.onInput}
+      />
+    );
+  }
+}
+
+const SearchIcon = ({ onClick, enabled }) => (
+  <Label
+    onClick={() => onClick()}
+    title={enabled ? 'Collapse search by column' : 'Expand search by column'}
+    className={classnames({
+      [styles.clickableMargin]: true,
+    })}
+  >
+    <Glyphicon glyph="search" />
+  </Label>
+);
+SearchIcon.propTypes = {
+  onClick: PropTypes.func,
+  enabled: PropTypes.bool.isRequired,
+};
+SearchIcon.defaultProps = {
+  onClick: _.noop,
+};
+
 const CollapseButton = ({ onClick, collapsed }) => (
   <Label
     title={collapsed ? 'Expand' : 'Collapse'}
@@ -15,7 +72,7 @@ const CollapseButton = ({ onClick, collapsed }) => (
       onClick(e);
     }}
     className={classnames({
-      [styles.collapseButton]: true,
+      [styles.clickableMargin]: true,
     })}
   >
     <Glyphicon glyph={collapsed ? 'plus' : 'minus'} />
@@ -47,13 +104,32 @@ Arrow.propTypes = {
 const getColumns = cols => ['', ...cols];
 
 const Table = ({
-  rows, position, nbDisplayedRows, rowHeight,
+  rows, position, nbDisplayedRows, rowHeight, search,
   cols, subCols, getIsHovered, getIsSelected, getIsExpanded, getIsSelectable,
-  disableSelection, disableSelectionReason, sort,
-  onCollapse, onUncollapse, onClickRow, onMouseEnter, onMouseLeave, toggleSort,
+  disableSelection, disableSelectionReason, sort, enableSearch,
+  onCollapse, onUncollapse, onClickRow, onClickSearchIcon,
+  onMouseEnter, onMouseLeave, toggleSort, onSearch,
 }) => (
   <table className={classnames('TableView', styles.container)}>
     <thead>
+      {enableSearch && <tr
+        style={{ height: `${rowHeight}px` }}
+      >
+        {
+          getColumns(cols).map(col => (
+            <th
+              key={col}
+              className={col !== '' && styles.search}
+            >
+              {
+                col !== ''
+                ? <SearchInput value={search[col]} onInput={value => onSearch(col, value)} />
+                : <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} />
+              }
+            </th>
+          ))
+        }
+      </tr>}
       <tr
         style={{ height: `${rowHeight}px` }}
       >
@@ -68,6 +144,7 @@ const Table = ({
               })}
               key={col}
             >
+              { col === '' && !enableSearch && <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} /> }
               { sort.column === col && <Arrow mode={sort.mode} /> }
               {col}
             </th>
@@ -181,6 +258,9 @@ Table.propTypes = {
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
   toggleSort: PropTypes.func.isRequired,
+  onClickSearchIcon: PropTypes.func,
+  onSearch: PropTypes.func,
+  enableSearch: PropTypes.bool,
   getIsSelectable: PropTypes.func,
   getIsSelected: PropTypes.func,
   getIsExpanded: PropTypes.func,
@@ -195,6 +275,7 @@ Table.propTypes = {
     column: PropTypes.string.isRequired,
     mode: PropTypes.oneOf(['ASC', 'DESC']).isRequired,
   }).isRequired,
+  search: PropTypes.shape({}),
   rowHeight: PropTypes.number.isRequired,
   nbDisplayedRows: PropTypes.number.isRequired,
   disableSelection: PropTypes.bool.isRequired,
@@ -207,6 +288,10 @@ Table.defaultProps = {
   getIsSelected: _.always(false),
   getIsExpanded: _.always(false),
   getIsHovered: _.always(false),
+  onClickSearchIcon: _.noop,
+  onSearch: _.noop,
+  search: {},
+  enableSearch: false,
   position: 0,
   subColsTitle: '',
   disableSelectionReason: 'You cannot select a row',

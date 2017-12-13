@@ -1,4 +1,4 @@
-import { get as getConf } from '../../../common/configurationManager';
+import { get as getConf } from 'common/configurationManager';
 
 const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');

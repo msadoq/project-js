@@ -4,7 +4,7 @@ import _set from 'lodash/set';
 import _isNull from 'lodash/isNumber';
 import _isUndefined from 'lodash/isUndefined';
 import _filter from 'lodash/filter';
-import { get } from '../../common/configurationManager';
+import { get } from 'common/configurationManager';
 
 let memoizedSessions;
 let memoizedSearchs = {};

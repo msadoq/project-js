@@ -1,9 +1,9 @@
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
 import {
   IPC_RPC_REQUEST,
   IPC_RPC_RESPONSE,
   IPC_MESSAGE,
-} from '../../constants';
+} from 'constants';
 import { set, pop } from '../callbacks';
 
 const logger = getLogger('ipc:handle');

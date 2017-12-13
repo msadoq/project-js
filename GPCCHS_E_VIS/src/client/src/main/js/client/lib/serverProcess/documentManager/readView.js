@@ -2,13 +2,13 @@
 import async from 'async';
 import { v4 } from 'uuid';
 
-import { readDocument } from './io';
-import validation from './validation';
 import {
   isViewTypeSupported,
   getSchema,
   getViewModule,
-} from '../../viewManager';
+} from 'viewManager';
+import { readDocument } from './io';
+import validation from './validation';
 
 const simpleReadView = async.reflect((viewInfo, cb) => {
   readDocument(viewInfo, (err, viewContent, properties, viewPath) => {

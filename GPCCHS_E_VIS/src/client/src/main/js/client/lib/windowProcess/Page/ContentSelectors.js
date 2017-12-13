@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getPageLayout } from '../../store/reducers/pages';
+import { getPageLayout } from 'store/reducers/pages';
 import {
   getWindowFocusedPageSelector,
-} from '../../store/selectors/windows';
+} from 'store/selectors/windows';
 
 export const getPageLayoutWithCollapsed = createSelector(
   getPageLayout,

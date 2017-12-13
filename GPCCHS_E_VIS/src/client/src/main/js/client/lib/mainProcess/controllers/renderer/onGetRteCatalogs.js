@@ -1,10 +1,10 @@
-import { getStore } from '../../store';
-import { getRtd } from '../../../rtdManager';
-import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
-import { add } from '../../../store/actions/messages';
+import { getStore } from 'mainProcess/store';
+import { getRtd } from 'rtdManager';
+import prepareDataToTree from 'rtdManager/prepareDataToTree';
+import { add } from 'store/actions/messages';
 import {
   setRteCatalogs,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
 
 
 export default function ({ sessionId, domainId }) {

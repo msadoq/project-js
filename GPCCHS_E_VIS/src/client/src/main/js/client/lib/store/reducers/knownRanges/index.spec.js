@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/knownRanges';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/knownRanges';
 import knownRangesReducer, {
   getKnownRanges,
   getMissingIntervals,

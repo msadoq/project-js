@@ -1,6 +1,6 @@
-import { freezeArgs } from '../../../common/jest';
-import * as types from '../../types';
-import * as actions from '../../actions/pages';
+import { freezeArgs } from 'common/jest';
+import * as types from 'store/types';
+import * as actions from 'store/actions/pages';
 import pagesReducer, {
   getPages,
   getPage,

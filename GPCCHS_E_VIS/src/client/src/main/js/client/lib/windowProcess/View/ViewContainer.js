@@ -1,11 +1,11 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getPage, getPanels } from '../../store/reducers/pages';
-import { getView } from '../../store/reducers/views';
-import { updateEditorSearch, askSaveView, askCloseView, askReloadView, askSaveViewAsModel } from '../../store/actions/views';
-import { open as openModal, close as closeModal } from '../../store/actions/modals';
-import { setCollapsed, setMaximized, openEditor, minimizeEditor } from '../../store/actions/pages';
-import { askOpenInspector } from '../../store/actions/inspector';
+import { getPage, getPanels } from 'store/reducers/pages';
+import { getView } from 'store/reducers/views';
+import { updateEditorSearch, askSaveView, askCloseView, askReloadView, askSaveViewAsModel } from 'store/actions/views';
+import { open as openModal, close as closeModal } from 'store/actions/modals';
+import { setCollapsed, setMaximized, openEditor, minimizeEditor } from 'store/actions/pages';
+import { askOpenInspector } from 'store/actions/inspector';
 import View from './View';
 
 const makeMapStateToProps = () => {

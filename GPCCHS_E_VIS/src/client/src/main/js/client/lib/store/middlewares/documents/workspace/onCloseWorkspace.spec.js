@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import * as types from 'store/types';
 import makeOnCloseWorkspace from './onCloseWorkspace';
-import * as types from '../../../types';
 
 const mockStore = configureMockStore([thunk, makeOnCloseWorkspace()]);
 

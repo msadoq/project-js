@@ -5,8 +5,8 @@ import {
 } from 'redux-form';
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import StateColorsFields from '../Fields/StateColorsFields';
-import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
 
 /*
 const filters = [

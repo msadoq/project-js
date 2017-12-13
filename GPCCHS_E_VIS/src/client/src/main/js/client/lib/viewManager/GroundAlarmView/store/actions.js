@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-import * as types from '../../../store/types';
-import { openInCurrentWindow as openModalInCurrentWindow } from '../../../store/actions/modals';
+import * as types from 'store/types';
+import { openInCurrentWindow as openModalInCurrentWindow } from 'store/actions/modals';
 
 export const openAckModal = (viewId, alarmsOids) => {
   const ackId = v4();
@@ -67,4 +67,14 @@ export const collapseAlarm = (viewId, oid) => ({
 export const uncollapseAlarm = (viewId, oid) => ({
   type: types.WS_VIEW_ALARM_UNCOLLAPSE,
   payload: { viewId, oid },
+});
+
+export const inputSearch = (viewId, column, value) => ({
+  type: types.WS_VIEW_ALARM_INPUT_SEARCH,
+  payload: { viewId, column, value },
+});
+
+export const inputResetAll = viewId => ({
+  type: types.WS_VIEW_ALARM_INPUT_RESET,
+  payload: { viewId },
 });

@@ -2,10 +2,10 @@ import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
+import { getViewComponent } from 'viewManager/components';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from '../common/MessagesContainer';
-import { getViewComponent } from '../../viewManager/components';
 import handleContextMenu from '../common/handleContextMenu';
 
 import styles from './View.css';
@@ -54,7 +54,14 @@ export default class View extends PureComponent {
   };
 
   onContextMenu = (mainMenu) => {
-    const { isViewsEditorOpen, closeEditor, openEditor } = this.props;
+    handleContextMenu(mainMenu);
+  }
+
+  getMainContextMenu = () => {
+    const {
+      collapsed, maximized, absolutePath, isViewsEditorOpen, closeEditor, openEditor,
+      openModal, collapseView, maximizeView, closeView, reloadView,
+    } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
     {
       label: 'Close Editor',
@@ -65,16 +72,10 @@ export default class View extends PureComponent {
         openEditor();
       },
     };
-    handleContextMenu([editorMenu, { type: 'separator' }, ...mainMenu]);
-  }
-
-  getMainContextMenu = () => {
-    const {
-      collapsed, maximized, absolutePath,
-      openModal, collapseView, maximizeView, closeView, reloadView,
-    } = this.props;
     const isPathDefined = !!absolutePath;
     return [
+      editorMenu,
+      { type: 'separator' },
       {
         label: 'Move view to...',
         click: () => openModal({ type: 'moveViewToPage' }),
@@ -142,14 +143,14 @@ export default class View extends PureComponent {
       <div
         className={classnames('subdiv', styles.container, 'w100', !maximized && 'h100')}
         style={this.borderColorStyle(borderColor)}
-        onContextMenu={() => this.onContextMenu(mainMenu)}
+        onContextMenu={() => handleContextMenu(mainMenu)}
       >
         <HeaderContainer
           viewId={viewId}
           pageId={pageId}
           collapseView={collapseView}
           saveView={save}
-          onContextMenu={() => this.onContextMenu(mainMenu)}
+          onContextMenu={() => handleContextMenu(mainMenu)}
         />
         { !collapsed &&
         <div

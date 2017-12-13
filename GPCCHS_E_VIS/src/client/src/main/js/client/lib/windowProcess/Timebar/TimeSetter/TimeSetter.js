@@ -3,8 +3,8 @@ import { Button } from 'react-bootstrap';
 import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
 import classnames from 'classnames';
+import Message from 'windowProcess/common/Message';
 import TimeSetterFields from './TimeSetterFields';
-import Message from '../../common/Message';
 import styles from './TimeSetter.css';
 
 export default class TimeSetter extends PureComponent {

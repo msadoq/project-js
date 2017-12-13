@@ -5,10 +5,10 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1744,
+        "w": 1676,
         "h": 923,
-        "x": 923,
-        "y": 65,
+        "x": 1922,
+        "y": 80,
         "kind": "Absolute"
       },
       "pages": [
@@ -39,6 +39,9 @@
       "speed": 1,
       "masterId": "Session 1",
       "mode": "Normal",
+      "visuWindow": {
+        "defaultWidth": 1200000
+      },
       "timelines": [
         {
           "id": "Session 1",

@@ -1,18 +1,18 @@
 import { v4 } from 'uuid';
-import { getStore } from '../store';
-import { getWindowFocusedPageId, getDisplayHelp } from '../../store/reducers/windows';
-import { getPanels } from '../../store/reducers/pages';
-import { addWindow, displayHelp } from '../../store/actions/windows';
-import { openWikiHelper } from '../../store/actions/ui';
-import { open as openModal } from '../../store/actions/modals';
-import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from '../../store/actions/pages';
-import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from '../../store/actions/hsc';
-import { askOpenView } from '../../store/actions/views';
+import { getAvailableViews } from 'viewManager';
+import { getWindowFocusedPageId, getDisplayHelp } from 'store/reducers/windows';
+import { getPanels } from 'store/reducers/pages';
+import { addWindow, displayHelp } from 'store/actions/windows';
+import { openWikiHelper } from 'store/actions/ui';
+import { open as openModal } from 'store/actions/modals';
+import { getFocusedPageId } from 'store/selectors/pages';
+import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from 'store/actions/hsc';
+import { askOpenView } from 'store/actions/views';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from 'store/actions/pages';
 import viewAddBlank from './viewAddBlank';
-import pageAddBlank from './pageAddBlank';
 
-import { getAvailableViews } from '../../viewManager';
-import { getFocusedPageId } from '../../store/selectors/pages';
+import pageAddBlank from './pageAddBlank';
+import { getStore } from '../store';
 
 const { Menu } = require('electron');
 

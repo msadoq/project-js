@@ -1,16 +1,16 @@
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _findIndex from 'lodash/findIndex';
-import _findLastIndex from 'lodash/findLastIndex';
+import _split from 'lodash/split';
 import _indexOf from 'lodash/indexOf';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _get from 'lodash/get';
-import _split from 'lodash/split';
-import getLogger from '../../../common/logManager';
-import { getStateColorObj } from '../../commonData/stateColors';
-import { applyFilters } from '../../commonData/applyFilters';
-import { SORTING_DESC, SORTING_ASC, HISTORYVIEW_SEPARATOR } from '../../../constants';
-import { convertData } from '../../commonData/convertData';
+import { convertData } from 'viewManager/commonData/convertData';
+import getLogger from 'common/logManager';
+import { getStateColorObj } from 'viewManager/commonData/stateColors';
+import { applyFilters } from 'viewManager/commonData/applyFilters';
+import { SORTING_DESC, SORTING_ASC, HISTORYVIEW_SEPARATOR } from 'constants';
+import _findLastIndex from 'lodash/findLastIndex';
 
 const logger = getLogger('data:rangeValues');
 

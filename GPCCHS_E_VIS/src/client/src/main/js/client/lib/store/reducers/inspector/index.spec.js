@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/inspector';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/inspector';
 import inspectorReducer, {
   getInspectorViewId,
   getInspectorViewType,

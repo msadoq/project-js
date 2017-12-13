@@ -5,7 +5,7 @@ import _omit from 'lodash/omit';
 import classnames from 'classnames';
 import Grid from 'react-grid-layout';
 import path from 'path';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
 import ViewContainer from '../View/ViewContainer';
 import MessagesContainer from '../common/MessagesContainer';
 import DroppableContainer from '../common/DroppableContainer';

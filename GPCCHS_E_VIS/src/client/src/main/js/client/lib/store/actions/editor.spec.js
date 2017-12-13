@@ -1,4 +1,4 @@
-import { mockStore } from '../../common/jest';
+import { mockStore } from 'common/jest';
 import * as actions from './editor';
 
 describe('store:actions:editor', () => {

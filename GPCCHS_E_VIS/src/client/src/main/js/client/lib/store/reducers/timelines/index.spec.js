@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe, freezeArgs } from '../../../common/jest';
+import { freezeMe, freezeArgs } from 'common/jest';
+import * as types from 'store/types';
 import timelinesReducer, { getTimeline, getTimelines } from '.';
-import * as types from '../../types';
 
 const reducer = freezeArgs(timelinesReducer);
 

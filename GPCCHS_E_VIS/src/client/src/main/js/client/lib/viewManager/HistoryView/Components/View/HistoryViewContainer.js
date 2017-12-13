@@ -1,8 +1,8 @@
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { getData } from 'viewManager/HistoryView/store/dataReducer';
 import HistoryView from './HistoryView';
-import { getData } from '../../store/dataReducer';
 
 const mapStateToProps = createStructuredSelector({
   data: getData,

@@ -1,20 +1,20 @@
 import React, { PropTypes } from 'react';
+import AddLinkContainer from 'viewManager/commonEditor/Misc/AddLinkContainer';
 import { Modal } from 'react-bootstrap';
-import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
-import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
-import PlotAddAxisContainer from '../../viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
-import PlotAddEntryPointContainer from '../../viewManager/PlotView/Components/Editor/AddEntryPointContainer';
-import AddEntryPointContainer from '../../viewManager/common/Components/Editor/AddEntryPointContainer';
-import GmaAckModalContainer from '../../viewManager/GroundAlarmView/Components/View/AckModalContainer';
-import ObaAckModalContainer from '../../viewManager/OnboardAlarmView/Components/View/AckModalContainer';
+import PlotAddAxisContainer from 'viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
+import PlotAddEntryPointContainer from 'viewManager/PlotView/Components/Editor/AddEntryPointContainer';
+import AddEntryPointContainer from 'viewManager/common/Components/Editor/AddEntryPointContainer';
+import GmaAckModalContainer from 'viewManager/GroundAlarmView/Components/View/AckModalContainer';
+import ObaAckModalContainer from 'viewManager/OnboardAlarmView/Components/View/AckModalContainer';
+import DialogModal from './DialogModal'; // replacement for electron dialogbox
 import TimeSetterContainer from '../Timebar/TimeSetter/TimeSetterContainer';
 import EditPageContainer from '../Page/EditPageContainer';
 import EditWindowContainer from '../Window/EditWindowContainer';
 import EditWorkspaceContainer from '../Workspace/EditWorkspaceContainer';
 import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
-import AddLinkContainer from '../../viewManager/commonEditor/Misc/AddLinkContainer';
+import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
-import DialogModal from './DialogModal'; // replacement for electron dialogbox
+import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 

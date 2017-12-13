@@ -1,4 +1,4 @@
-import { freezeMe, mockStore } from '../../common/jest';
+import { freezeMe, mockStore } from 'common/jest';
 import * as actions from './pages';
 
 describe('store:actions:pages', () => {

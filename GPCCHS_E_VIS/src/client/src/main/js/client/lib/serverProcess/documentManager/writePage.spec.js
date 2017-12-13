@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
 import rimraf from 'rimraf';
 
-import { getTmpPath, freezeMe } from '../../common/jest';
+import { getTmpPath, freezeMe } from 'common/jest';
 
-import fs from '../../common/fs';
+import fs from 'common/fs';
 import { writePage, writePageAs } from './writePage';
 
 jest.mock('../ipc');

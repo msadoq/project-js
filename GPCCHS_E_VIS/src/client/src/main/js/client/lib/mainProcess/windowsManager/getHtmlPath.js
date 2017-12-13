@@ -1,4 +1,4 @@
-import { get, getAll } from '../../common/configurationManager';
+import { get, getAll } from 'common/configurationManager';
 
 module.exports = (id) => {
   // HTML path

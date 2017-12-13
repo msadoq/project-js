@@ -6,7 +6,7 @@ import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { axisBottom, axisTop } from 'd3-axis';
-import { getZoomLevel, levelsRules } from '../../../../../windowProcess/common/timeFormats';
+import { getZoomLevel, levelsRules } from 'windowProcess/common/timeFormats';
 import styles from './GrizzlyChart.css';
 import Axis from './Axis';
 import { lineType, labelStyleType } from './types';
@@ -77,7 +77,7 @@ export default class XAxis extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
-      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize'];
+      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;

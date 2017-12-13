@@ -1,11 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import AckModal from './AckModal';
-import { sendAlarmAck } from '../../store/actions';
-import { getAckStatus } from '../../store/uiReducer';
+import { sendAlarmAck } from 'viewManager/GroundAlarmView/store/actions';
+import { getAckStatus } from 'viewManager/GroundAlarmView/store/uiReducer';
+import { getData } from 'viewManager/GroundAlarmView/store/dataReducer';
 
-import { getData } from '../../store/dataReducer';
+import AckModal from './AckModal';
 
 const getAlarmLabel = ({ parameterName, lastOccurence }) => `${parameterName} - ${lastOccurence}`;
 

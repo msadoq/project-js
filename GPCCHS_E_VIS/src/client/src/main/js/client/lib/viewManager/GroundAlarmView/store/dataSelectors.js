@@ -4,9 +4,9 @@ import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 
-import * as constants from '../../../constants';
+import * as constants from 'constants';
+import { getViewTitle } from 'store/reducers/views';
 import { getGroundAlarmViewData, getData } from './dataReducer';
-import { getViewTitle } from '../../../store/reducers/views';
 
 const MODES_WORDING = {
   [constants.ALARM_MODE_ALL]: 'All',

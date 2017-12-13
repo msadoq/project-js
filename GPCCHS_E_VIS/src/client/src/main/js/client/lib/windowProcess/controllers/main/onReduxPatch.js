@@ -1,6 +1,6 @@
-import { getStore } from '../../store';
-import { BATCH } from '../../../store/types';
-import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../../constants';
+import { getStore } from 'windowProcess/store';
+import { BATCH } from 'store/types';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY } from 'constants';
 
 /**
  * Dispatch "patch" action to store (will be intercepted by renderer store enhancer)

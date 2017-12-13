@@ -8,15 +8,15 @@ import {
   updateSpeed,
   restoreWidth,
   goNow,
-} from '../../../store/actions/timebars';
+} from 'store/actions/timebars';
 import {
   open as openModal,
-} from '../../../store/actions/modals';
+} from 'store/actions/modals';
 
+import { getTimeSetterMessages } from 'store/reducers/messages';
+
+import { getCurrentSessionExists } from 'store/selectors/sessions';
 import Controls from './Controls';
-
-import { getTimeSetterMessages } from '../../../store/reducers/messages';
-import { getCurrentSessionExists } from '../../../store/selectors/sessions';
 
 const mapStateToProps = createStructuredSelector({
   messages: getTimeSetterMessages,

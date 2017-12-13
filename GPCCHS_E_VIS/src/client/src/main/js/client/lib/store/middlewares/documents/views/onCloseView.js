@@ -1,13 +1,13 @@
-import * as types from '../../../types';
-import { getView, getViewIsModified } from '../../../reducers/views';
-import { getWindowIdByViewId } from '../../../selectors/windows';
-import { getPageIdByViewId } from '../../../reducers/pages';
-import { closeView } from '../../../actions/views';
-import { minimizeEditor } from '../../../actions/pages';
+import * as types from 'store/types';
+import { getView, getViewIsModified } from 'store/reducers/views';
+import { getWindowIdByViewId } from 'store/selectors/windows';
+import { getPageIdByViewId } from 'store/reducers/pages';
+import { closeView } from 'store/actions/views';
+import { minimizeEditor } from 'store/actions/pages';
 
-import { openDialog } from '../../../actions/ui';
-import { open as openModal } from '../../../actions/modals';
-import withListenAction from '../../../helpers/withListenAction';
+import { openDialog } from 'store/actions/ui';
+import { open as openModal } from 'store/actions/modals';
+import withListenAction from 'store/helpers/withListenAction';
 
 import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 

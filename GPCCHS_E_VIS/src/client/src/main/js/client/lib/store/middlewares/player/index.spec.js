@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { freezeMe } from '../../../common/jest';
-import * as types from '../../types';
+import { freezeMe } from 'common/jest';
+import * as types from 'store/types';
 import makePlayerMiddleware from '.';
 
 const timebarFixture = {

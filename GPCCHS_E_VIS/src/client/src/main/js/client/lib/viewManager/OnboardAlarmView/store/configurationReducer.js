@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import * as types from '../../../store/types';
-import { getConfigurationByViewId } from '../../../viewManager';
+import * as types from 'store/types';
+import { getConfigurationByViewId } from 'viewManager';
 
 export default (stateConf = {}, action) => {
   switch (action.type) {

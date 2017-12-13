@@ -1,7 +1,7 @@
 import { compare } from 'fast-json-patch';
 import {
 REDUX_SYNCHRONIZATION_PATCH_KEY,
-} from '../../constants';
+} from 'constants';
 import makeMasterDispatcher from './makeMasterDispatcher';
 
 describe('makeMasterDispatcher', () => {

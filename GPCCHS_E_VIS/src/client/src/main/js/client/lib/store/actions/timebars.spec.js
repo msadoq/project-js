@@ -1,5 +1,5 @@
+import { mockStore, freezeMe } from 'common/jest';
 import * as actions from './timebars';
-import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:timebars', () => {
   const state = freezeMe({
@@ -46,6 +46,18 @@ describe('store:actions:timebars', () => {
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 400 },
         realTime: true,
+      },
+      tb7: {
+        mode: 'Fixed',
+        visuWindow: { lower: 100, current: 120, upper: 200, defaultWidth: 50 },
+        slideWindow: { lower: 160, upper: 400 },
+        realTime: false,
+      },
+      tb8: {
+        mode: 'Fixed',
+        visuWindow: { lower: 110, current: 120, upper: 160, defaultWidth: 50 },
+        slideWindow: { lower: 110, upper: 160 },
+        realTime: false,
       },
     },
     timelines: {
@@ -184,6 +196,32 @@ describe('store:actions:timebars', () => {
             visuWindow: { lower: NaN, upper: NaN },
             slideWindow: { lower: 100, upper: 170 },
             timebarUuid: 'tb3',
+          },
+        },
+      ]);
+    });
+    test('dispatches a WS_MESSAGE_RESET and restores width', () => {
+      store.dispatch(actions.restoreWidth('tb7'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMEBAR_UPDATE_CURSORS',
+          payload: {
+            visuWindow: { lower: 110, upper: 160 },
+            slideWindow: { lower: 110, upper: 160 },
+            timebarUuid: 'tb7',
+          },
+        },
+      ]);
+    });
+    test('dispatches a WS_MESSAGE_RESET and restores width', () => {
+      store.dispatch(actions.restoreWidth('tb8'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMEBAR_UPDATE_CURSORS',
+          payload: {
+            visuWindow: { lower: 110, upper: 160 },
+            slideWindow: { lower: 110, upper: 160 },
+            timebarUuid: 'tb8',
           },
         },
       ]);

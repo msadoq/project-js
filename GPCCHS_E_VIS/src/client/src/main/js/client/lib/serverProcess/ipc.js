@@ -3,13 +3,13 @@ import _memoize from 'lodash/fp/memoize';
 import _uniqueId from 'lodash/fp/uniqueId';
 import zmq from 'common/zmq';
 import { encode } from '../utils/adapters';
-import constants from '../constants';
+import { getStore } from './store';
 import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
 import { operators } from '../common/operators';
 
 import { add as addMessage } from '../store/actions/messages';
-import { getStore } from './store';
+import constants from '../constants';
 
 const _map = require('lodash/map');
 

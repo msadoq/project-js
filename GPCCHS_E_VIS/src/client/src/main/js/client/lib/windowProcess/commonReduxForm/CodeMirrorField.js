@@ -13,8 +13,8 @@ import '!style!css!codemirror/addon/hint/show-hint.css';
 import {
   Alert,
 } from 'react-bootstrap';
+import { lint } from 'common/htmllint';
 import handleContextMenu from '../common/handleContextMenu';
-import { lint } from '../../../lib/common/htmllint';
 import './CodeMirrorField.css';
 
 export default class CodeMirrorField extends React.Component {

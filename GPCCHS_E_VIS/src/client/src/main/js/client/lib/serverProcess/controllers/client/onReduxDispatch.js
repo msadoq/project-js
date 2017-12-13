@@ -1,4 +1,4 @@
-import { getStore } from '../../store';
+import { getStore } from 'serverProcess/store';
 
 /**
  * Triggered when main process sends a Redux action to server process

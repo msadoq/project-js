@@ -5,9 +5,9 @@ import {
   Form,
   InputGroup,
 } from 'react-bootstrap';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 
 const { Addon } = InputGroup;
 

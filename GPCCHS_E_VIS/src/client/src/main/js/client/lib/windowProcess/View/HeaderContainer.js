@@ -1,8 +1,8 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getView } from '../../store/reducers/views';
-import { getPage, getPanels } from '../../store/reducers/pages';
-import { getDataSelectors } from '../../viewManager';
+import { getView } from 'store/reducers/views';
+import { getPage, getPanels } from 'store/reducers/pages';
+import { getDataSelectors } from 'viewManager';
 
 import Header from './Header';
 

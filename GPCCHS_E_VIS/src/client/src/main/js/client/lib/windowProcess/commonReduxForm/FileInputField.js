@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Alert, FormGroup, Col } from 'react-bootstrap';
 import path from 'path';
-import { get } from '../../common/configurationManager';
+import { get } from 'common/configurationManager';
 
 const fmdPath = get('ISIS_DOCUMENTS_ROOT');
 

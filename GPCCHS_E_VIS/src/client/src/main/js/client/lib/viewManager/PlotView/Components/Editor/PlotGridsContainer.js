@@ -1,12 +1,12 @@
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import PlotGrids from './PlotGrids';
+import { getGrids, getAxes } from 'viewManager/PlotView/store/configurationSelectors';
 
-import { getGrids, getAxes } from '../../store/configurationSelectors';
 import {
   updateGrid,
-} from '../../../../store/actions/views';
+} from 'store/actions/views';
+import PlotGrids from './PlotGrids';
 
 const mapStateToProps = createStructuredSelector({
   grids: getGrids,

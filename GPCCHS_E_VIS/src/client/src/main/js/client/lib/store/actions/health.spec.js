@@ -1,7 +1,7 @@
+import { mockStore, freezeMe } from 'common/jest';
 /* eslint-disable no-unused-expressions */
 import * as types from '../types';
 import * as actions from './health';
-import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:health', () => {
   const store = mockStore(freezeMe({

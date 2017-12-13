@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
-import { getStressStatus } from '../../store/reducers/health';
-import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_CRITICAL, HEALTH_INTERVAL_DELAY, DEFAULT_HEALTH_CRITICAL_DELAY } from '../../constants';
+import { getStressStatus } from 'store/reducers/health';
+import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_CRITICAL, HEALTH_INTERVAL_DELAY, DEFAULT_HEALTH_CRITICAL_DELAY } from 'constants';
 
 const MOCK_DELAY_STRESS = 500;
 const defaultOptions = {

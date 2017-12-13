@@ -1,5 +1,6 @@
 /* eslint no-unused-expressions: "off" */
-import * as types from '../../types';
+import * as types from 'store/types';
+import { freezeArgs, freezeMe } from 'common/jest';
 import viewsReducer, {
   getView,
   getViews,
@@ -11,8 +12,8 @@ import viewsReducer, {
   getViewDomainName,
   getViewSessionName,
   areLinksShown,
+  getViewIsSaved,
 } from '.';
-import { freezeArgs, freezeMe } from '../../../common/jest';
 
 const reducer = freezeArgs(viewsReducer);
 
@@ -128,6 +129,20 @@ describe('store:views:selectors', () => {
     test('should support empty state', () => {
       const state = freezeMe({ views: { v1: {} } });
       expect(getViewSessionName(state, { viewId: 'v1' })).toBeFalsy();
+    });
+  });
+  describe('getViewIsSaved', () => {
+    test('saved with oId', () => {
+      const state = freezeMe({ views: { v1: { oId: 'abcdef' } } });
+      expect(getViewIsSaved(state, { viewId: 'v1' })).toBeTruthy();
+    });
+    test('saved with absolutePath', () => {
+      const state = freezeMe({ views: { v1: { absolutePath: '/a/b/c' } } });
+      expect(getViewIsSaved(state, { viewId: 'v1' })).toBeTruthy();
+    });
+    test('not saved', () => {
+      const state = freezeMe({ views: { v1: { } } });
+      expect(getViewIsSaved(state, { viewId: 'v1' })).toBeFalsy();
     });
   });
 });

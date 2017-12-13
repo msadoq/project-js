@@ -6,9 +6,9 @@ import {
   Alert,
 } from 'react-bootstrap';
 import classnames from 'classnames';
-import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import { operators } from 'common/operators';
 import styles from './fields.css';
-import { operators } from '../../../common/operators';
 
 export default class FiltersFields extends React.Component {
 

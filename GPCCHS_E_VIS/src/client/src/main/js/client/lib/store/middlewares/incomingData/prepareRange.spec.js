@@ -1,8 +1,8 @@
 import configureMockStore from 'redux-mock-store';
-import * as types from '../../types';
+import * as types from 'store/types';
+import { getStubData } from 'utils/stubs';
+import lokiManager from 'serverProcess/models/lokiKnownRangesData';
 import prepareRange from './prepareRange';
-import { getStubData } from '../../../utils/stubs';
-import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 

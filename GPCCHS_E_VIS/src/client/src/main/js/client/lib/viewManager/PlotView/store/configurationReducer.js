@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
+import * as types from 'store/types';
 import { getYAxis, updateAxis, addAxis, removeAxis } from './axes';
-import * as types from '../../../store/types';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 

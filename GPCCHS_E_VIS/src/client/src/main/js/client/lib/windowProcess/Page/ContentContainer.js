@@ -3,10 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { updateLayout, askOpenPage } from '../../store/actions/pages';
-import { askOpenView } from '../../store/actions/views';
-import { add } from '../../store/actions/messages';
-import { getPageViews } from '../../store/selectors/pages';
+import { updateLayout, askOpenPage } from 'store/actions/pages';
+import { askOpenView } from 'store/actions/views';
+import { add } from 'store/actions/messages';
+import { getPageViews } from 'store/selectors/pages';
 import {
   getPageLayoutWithCollapsed,
   getTimebarUuid,

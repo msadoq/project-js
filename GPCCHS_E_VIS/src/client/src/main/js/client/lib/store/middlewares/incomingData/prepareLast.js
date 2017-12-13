@@ -1,11 +1,11 @@
 import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
-import * as types from '../../types';
-import { newData } from '../../actions/incomingData';
-import { decode, getType } from '../../../utils/adapters';
-import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
-import executionMonitor from '../../../common/logManager/execution';
-import { add as addMessage } from '../../../store/actions/messages';
+import * as types from 'store/types';
+import { newData } from 'store/actions/incomingData';
+import { decode, getType } from 'utils/adapters';
+import { add } from 'serverProcess/models/tbdIdDataIdMap';
+import executionMonitor from 'common/logManager/execution';
+import { add as addMessage } from 'store/actions/messages';
 
 const logger = require('../../../common/logManager')('middleware:prepareRange');
 

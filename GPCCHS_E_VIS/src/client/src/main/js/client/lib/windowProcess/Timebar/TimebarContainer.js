@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
-import { getPlayingTimebarId } from '../../store/reducers/hsc';
+import { getTimebarTimelinesSelector } from 'store/selectors/timebars';
+import { getPlayingTimebarId } from 'store/reducers/hsc';
 import TimebarWrapper from './TimebarWrapper';
 
 export default connect(

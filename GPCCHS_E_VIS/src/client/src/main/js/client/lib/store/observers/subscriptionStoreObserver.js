@@ -4,11 +4,11 @@ import _differenceBy from 'lodash/differenceBy';
 import _uniq from 'lodash/uniq';
 import _intersection from 'lodash/intersection';
 import _findIndex from 'lodash/findIndex';
-import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
+import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
+import { dc } from 'serverProcess/ipc';
+import { getPerLastTbdIdMap } from 'dataManager/map';
+import getLogger from 'common/logManager';
 import { getTbdIdsAndDataIdList } from '../reducers/knownRanges';
-import { dc } from '../../serverProcess/ipc';
-import { getPerLastTbdIdMap } from '../../dataManager/map';
-import getLogger from '../../common/logManager';
 
 const log = getLogger('server:storeObserver:subscription');
 const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;

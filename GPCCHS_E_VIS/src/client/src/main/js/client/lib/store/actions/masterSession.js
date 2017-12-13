@@ -1,4 +1,4 @@
-import { UNKNOWN_SESSION_ID } from '../../constants';
+import { UNKNOWN_SESSION_ID } from 'constants';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 

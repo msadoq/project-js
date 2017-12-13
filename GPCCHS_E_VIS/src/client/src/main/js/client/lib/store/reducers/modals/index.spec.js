@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/modals';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/modals';
 import modalsReducer from '.';
 
 const reducer = freezeArgs(modalsReducer);

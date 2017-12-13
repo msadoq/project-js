@@ -4,11 +4,11 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Form,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
-import SelectButtonField from '../../../../windowProcess/commonReduxForm/SelectButtonField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
+import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
 
 const lineStyleButtons = [
   { label: 'Continuous', icon: 'continuous' },
@@ -16,25 +16,27 @@ const lineStyleButtons = [
   { label: 'Dotted', icon: 'doted' },
 ];
 
+const { shape, string, bool, func, number } = PropTypes;
+
 class PlotGrid extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
-    initialValues: PropTypes.shape({
-      xAxisId: PropTypes.string,
-      yAxisId: PropTypes.string,
-      showGrid: PropTypes.bool,
-      line: PropTypes.shape({
-        style: PropTypes.string,
-        size: PropTypes.number,
+    initialValues: shape({
+      xAxisId: string,
+      yAxisId: string,
+      showGrid: bool,
+      line: shape({
+        style: string,
+        size: number,
       }),
     }).isRequired,
-    axes: PropTypes.shape({}).isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    reset: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    valid: PropTypes.bool.isRequired,
-  }
+    axes: shape({}).isRequired,
+    handleSubmit: func.isRequired,
+    pristine: bool.isRequired,
+    reset: func.isRequired,
+    submitting: bool.isRequired,
+    valid: bool.isRequired,
+  };
 
   static defaultProps = {
     initialValues: {
@@ -47,7 +49,7 @@ class PlotGrid extends React.Component {
       },
       showGrid: false,
     },
-  }
+  };
 
   render() {
     const {

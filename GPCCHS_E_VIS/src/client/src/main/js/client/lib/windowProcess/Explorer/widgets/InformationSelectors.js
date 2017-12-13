@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import _find from 'lodash/find';
-import { getMasterSessionId } from '../../../store/reducers/masterSession';
-import { getSessions } from '../../../store/reducers/sessions';
+import { getMasterSessionId } from 'store/reducers/masterSession';
+import { getSessions } from 'store/reducers/sessions';
 
 export default {
   getMasterSession: createSelector(

@@ -6,12 +6,74 @@
     "length": 5,
     "width": 5
   },
+  "search": {
+    "timestamp": "",
+    "parameterName": "",
+    "parameterType": "",
+    "firstOccurence": "",
+    "lastOccurence": "",
+    "duration": "",
+    "rawValue": "",
+    "physicalValue": "",
+    "satellite": "",
+    "ackState": ""
+  },
   "entryPoint": {
     "name": "groundAlarmEP",
     "connectedData": {
       "domain": "*",
       "timeline": "*",
       "mode": 0
-    }
+    },
+    "stateColors": [
+      {
+        "color": "darkorange",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "alarm"
+        }
+      },
+      {
+        "color": "darkred",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "critical"
+        }
+      },
+      {
+        "color": "darkred",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "outOfRange"
+        }
+      },
+      {
+        "color": "#FF0000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "severe"
+        }
+      },
+      {
+        "color": "#FF0000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "danger"
+        }
+      },
+      {
+        "color": "#FFFF00",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "warning"
+        }
+      }
+    ]
   }
 }

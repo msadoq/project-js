@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
+import createReducerByViews from 'store/helpers/createReducerByViews';
 import view from './view';
-import createReducerByViews from '../../helpers/createReducerByViews';
 
 /* --- Reducer -------------------------------------------------------------- */
 export default createReducerByViews(view);
@@ -69,4 +69,9 @@ export const areLinksShown = createSelector(
 export const getProcedures = createSelector(
   getView,
   _.get('procedures')
+);
+
+export const getViewIsSaved = createSelector(
+  getView,
+  _.anyPass([_.has('oId'), _.has('absolutePath')])
 );

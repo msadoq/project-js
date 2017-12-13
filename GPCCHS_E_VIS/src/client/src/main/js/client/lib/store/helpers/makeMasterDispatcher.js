@@ -4,7 +4,7 @@ import {
   REDUX_SYNCHRONIZATION_PATCH_KEY,
   TIMING_DATA,
   TIMING_MILESTONES,
-} from '../../constants';
+} from 'constants';
 
 /**
  * Returns a master dispatcher function for server process.

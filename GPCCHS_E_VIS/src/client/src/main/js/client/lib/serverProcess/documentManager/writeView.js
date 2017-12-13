@@ -1,11 +1,11 @@
 import { dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from '../../constants';
+import { LOG_DOCUMENT_SAVE } from 'constants';
 
+import { createFolder } from 'common/fs';
+import { isViewTypeSupported, getSchema, getViewModule } from 'viewManager';
 import { dc } from '../ipc';
 import validation from './validation';
-import { createFolder } from '../../common/fs';
 import { writeDocument } from './io';
-import { isViewTypeSupported, getSchema, getViewModule } from '../../viewManager';
 
 const writeView = (view, path, callback) => {
   if (!view) {

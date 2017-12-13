@@ -4,8 +4,8 @@ import _last from 'lodash/last';
 import _get from 'lodash/get';
 import _ from 'lodash/fp';
 
+import { getViewTitle } from 'store/reducers/views';
 import { getPlotViewData, getData } from './dataReducer';
-import { getViewTitle } from '../../../store/reducers/views';
 
 const getFullTitle = getViewTitle;
 

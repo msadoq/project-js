@@ -1,5 +1,5 @@
 import configureMockStore from 'redux-mock-store';
-import flattenDataId from '../../../common/flattenDataId';
+import flattenDataId from 'common/flattenDataId';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 const { getStubData } = require('../../../utils/stubs');

@@ -2,10 +2,10 @@ import { series, each } from 'async';
 import _each from 'lodash/each';
 import _difference from 'lodash/difference';
 import { app } from 'electron';
-import execution from '../../common/logManager/execution';
-import { getWindows } from '../../store/reducers/windows';
-import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
-import { getViewId } from '../../store/reducers/codeEditor';
+import execution from 'common/logManager/execution';
+import { getWindows } from 'store/reducers/windows';
+import { getIsWorkspaceOpening } from 'store/reducers/hsc';
+import { getViewId } from 'store/reducers/codeEditor';
 import { getWindowsTitle, getEditorWindowTitle } from './selectors';
 import {
   getOpenedWindowsIds,

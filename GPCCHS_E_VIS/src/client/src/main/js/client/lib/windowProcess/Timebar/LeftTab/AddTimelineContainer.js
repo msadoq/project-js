@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
-import { getSessions } from '../../../store/reducers/sessions';
+import { getSessions } from 'store/reducers/sessions';
 import {
   createNewTimeline,
   updateOffset,
-} from '../../../store/actions/timelines';
+} from 'store/actions/timelines';
 import {
   updateMasterId,
-} from '../../../store/actions/timebars';
+} from 'store/actions/timebars';
 import {
   getTimebarTimelinesSelector,
-} from '../../../store/selectors/timebars';
+} from 'store/selectors/timebars';
 import {
   getTimebar,
-} from '../../../store/reducers/timebars';
+} from 'store/reducers/timebars';
 import AddTimelineWrapper from './AddTimelineWrapper';
 
 const mapStateToProps = (state, { timebarUuid }) => {

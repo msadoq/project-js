@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
+import EntryPointTree from 'viewManager/common/Components/Editor/EntryPointTree';
+import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
+import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
+import { Misc } from 'viewManager/commonEditor/Misc';
 import styles from '../../../commonEditor/Editor.css';
-import Navbar from '../../../commonEditor/Navbar/Navbar';
-import EntryPointTree from '../../../common/Components/Editor/EntryPointTree';
-import EntryPointActions from '../../../commonEditor/EntryPoint/EntryPointActions';
-import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 import TextTabContainer from './TextTabContainer';
-import { Misc } from '../../../commonEditor/Misc';
 
 const navBarItems = ['Entry Points', 'Text', 'Misc'];
 

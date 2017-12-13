@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import _ from 'lodash/fp';
 
-import * as types from '../../store/types';
+import * as types from 'store/types';
 
 const typeIs = _.propEq('type');
 

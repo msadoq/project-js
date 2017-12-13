@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
+import lokiManager from 'serverProcess/models/lokiKnownRangesData';
 import cleanCache from './cacheCleanUp';
-import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 

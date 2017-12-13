@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/sessions';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/sessions';
 import sessionsReducer, { getSession, getSessions } from '.';
 
 const reducer = freezeArgs(sessionsReducer);

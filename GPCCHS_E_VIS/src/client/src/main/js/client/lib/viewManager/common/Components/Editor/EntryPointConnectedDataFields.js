@@ -1,11 +1,11 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field, FieldArray } from 'redux-form';
-import FiltersFields from '../../../commonEditor/Fields/FiltersFields';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import TextareaField from '../../../../windowProcess/commonReduxForm/TextareaField';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import DomainFieldContainer from '../../../commonEditor/Fields/DomainFieldContainer';
-import TimelineFieldContainer from '../../../commonEditor/Fields/TimelineFieldContainer';
+import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
+import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
 
 const { string } = PropTypes;
 

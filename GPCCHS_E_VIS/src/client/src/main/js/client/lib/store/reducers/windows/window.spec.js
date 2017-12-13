@@ -1,7 +1,7 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/windows';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/windows';
+import * as types from 'store/types';
 import windowsReducer from './index';
-import * as types from '../../types';
 
 const reducer = freezeArgs(windowsReducer);
 

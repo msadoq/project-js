@@ -2,7 +2,7 @@ import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 import _map from 'lodash/map';
 import u from 'updeep';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 
 const initialState = {

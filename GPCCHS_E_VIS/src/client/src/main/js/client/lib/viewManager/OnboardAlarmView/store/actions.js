@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { openInCurrentWindow as openModalInCurrentWindow } from '../../../store/actions/modals';
+import { openInCurrentWindow as openModalInCurrentWindow } from 'store/actions/modals';
 
 const openAckModal = (viewId, alarmsOids) => {
   const ackId = v4();

@@ -1,6 +1,6 @@
-import { UNKNOWN_SESSION_ID } from '../../constants';
+import { UNKNOWN_SESSION_ID } from 'constants';
+import { mockStore } from 'common/jest';
 import * as actions from './masterSession';
-import { mockStore } from '../../common/jest';
 
 describe('store:actions:masterSession', () => {
   describe('updateMasterSessionIfNeeded', () => {

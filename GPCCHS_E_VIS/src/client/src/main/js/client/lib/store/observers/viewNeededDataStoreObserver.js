@@ -1,12 +1,12 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import dataMapGenerator from '../../dataManager/map';
-import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
-import execution from '../../common/logManager/execution';
+import dataMapGenerator from 'dataManager/map';
+import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
+import execution from 'common/logManager/execution';
+import { viewsNeedRange, viewsNeedLast } from 'store/actions/retrieveData';
+import { cleanViewData } from 'store/actions/viewData';
+
 import computeMissingRangeIntervals from './computeMissingRangeIntervals';
 import computeMissingLastIntervals from './computeMissingLastIntervals';
-
-import { viewsNeedRange, viewsNeedLast } from '../../store/actions/retrieveData';
-import { cleanViewData } from '../../store/actions/viewData';
 
 /**
  * Store observer that reacts on store updates to dispatch needed data.

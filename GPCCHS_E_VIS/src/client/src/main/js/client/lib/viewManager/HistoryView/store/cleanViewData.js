@@ -8,7 +8,7 @@ import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
 import _split from 'lodash/split';
 import _pick from 'lodash/pick';
-import { HISTORYVIEW_SEPARATOR } from '../../../constants';
+import { HISTORYVIEW_SEPARATOR } from 'constants';
 
 /* ************************************************
  * Clean viewData for current viewData

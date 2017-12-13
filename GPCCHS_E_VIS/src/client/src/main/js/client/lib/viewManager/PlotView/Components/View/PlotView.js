@@ -9,20 +9,39 @@ import _uniq from 'lodash/uniq';
 import _result from 'lodash/result';
 import classnames from 'classnames';
 import moment from 'moment';
-import getLogger from '../../../../common/logManager';
-import { get } from '../../../../common/configurationManager';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import GrizzlyChart from './GrizzlyParametric/Chart';
-import Legend from './Legend';
+import LinksContainer from 'windowProcess/View/LinksContainer';
+import { get } from 'common/configurationManager';
+import withDimensions from 'windowProcess/common/hoc/withDimensions';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import getLogger from 'common/logManager';
+import Legend from './Legend';
+import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
+
+import { entryPointType } from '../../../common/Components/types';
 
 const logger = getLogger('view:plot');
+
+/**
+ * @param master
+ * @returns {function(*, *=)}
+ */
+export const sortAxes = master => (
+  (a, b) => {
+    if (a === master) {
+      return 1;
+    }
+    if (b === master) {
+      return -1;
+    }
+
+    return a.localeCompare(b);
+  }
+);
 
 /**
  * @param entryPoints
@@ -50,65 +69,19 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
 
   xAxesIds = _uniq(xAxesIds);
   yAxesIds = _uniq(yAxesIds);
+  xAxesIds = xAxesIds.sort(sortAxes(_get(grids, [0, 'xAxisId'])));
+  yAxesIds = yAxesIds.sort(sortAxes(_get(grids, [0, 'yAxisId'])));
 
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const axisEntryPoints = entryPoints
-      .filter(ep =>
-        (
-          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
-          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
-        )
-      );
-    const mins = [];
-    const maxs = [];
-    axisEntryPoints.forEach((ep) => {
-      if (!ep.parametric && _get(ep, ['connectedData', 'stringParameter'])) {
-        mins.push(ep.connectedData.defaultY);
-        maxs.push(ep.connectedData.defaultY);
-      } else {
-        if (typeof data.min[ep.name] === 'number') {
-          mins.push(data.min[ep.name]);
-        }
-        if (typeof data.min[ep.name] === 'number') {
-          maxs.push(data.max[ep.name]);
-        }
-      }
-    });
-    const min = _min(mins);
-    const max = _max(maxs);
-    return yAxes.push({
-      id: axis.id,
-      extents:
-        axis.autoLimits === true ?
-        [min, max]
-        :
-        [
-          min < axis.min ? min : axis.min,
-          max > axis.max ? max : axis.max,
-        ],
-      orient: 'top',
-      format: '.3f',
-      showAxis: axis.showAxis === true,
-      showLabels: axis.showLabels === true,
-      showTicks: axis.showTicks === true,
-      autoLimits: false,
-      autoTick: axis.autoTick === true,
-      tickStep: axis.tickStep,
-      showGrid: _get(grid, 'showGrid', false),
-      gridStyle: _get(grid, ['line', 'style']),
-      gridSize: _get(grid, ['line', 'size']),
-      unit: axis.unit,
-      label: axis.label,
-      labelStyle: axis.style,
-      logarithmic: axis.logarithmic,
-      logSettings: axis.logSettings,
-      formatAsDate: false,
-    });
+    const { min, max } = computeMinMaxForAxis(entryPoints, axis, data, true);
+    return yAxes.push(defaultAxisConfig(axis, grid, min, max));
   });
 
   xAxesIds.forEach((axisId) => {
+    // specific for asciss axis (x), always add time
+    // it will only be drawn if an entry point is associated
     if (axisId === 'time') {
       return xAxes.push({
         id: 'time',
@@ -132,54 +105,96 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     }
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const axisEntryPoints = entryPoints
-      .filter(ep =>
+    const { min, max } = computeMinMaxForAxis(entryPoints, axis, data, false);
+    return xAxes.push(defaultAxisConfig(axis, grid, min, max));
+  });
+
+  return { xAxes, yAxes };
+};
+
+/**
+ * @param entryPoints
+ * @param axis
+ * @param data
+ * @param ordinal
+ * @returns {{min: *, max: *}}
+ * @pure
+ */
+export const computeMinMaxForAxis = (entryPoints, axis, data, ordinal) => {
+  const axisEntryPoints =
+    ordinal
+      // only for ordinate values (Y).
+      ? entryPoints.filter(ep => (
+        (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
+        (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+      ))
+      // Absciss values (X)
+      : entryPoints.filter(ep =>
         (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
-      );
-    const mins = [];
-    const maxs = [];
-    axisEntryPoints.forEach((ep) => {
+      )
+  ;
+  const mins = [];
+  const maxs = [];
+  axisEntryPoints.forEach((ep) => {
+    // only for ordinal values (Y). we should draw a single line for non parametric string values
+    // the height will be defined by the defaultY value
+    if (ordinal && !ep.parametric && _get(ep, ['connectedData', 'stringParameter'])) {
+      mins.push(ep.connectedData.defaultY);
+      maxs.push(ep.connectedData.defaultY);
+    } else {
       if (typeof data.min[ep.name] === 'number') {
         mins.push(data.min[ep.name]);
       }
       if (typeof data.min[ep.name] === 'number') {
         maxs.push(data.max[ep.name]);
       }
-    });
-    const min = _min(mins);
-    const max = _max(maxs);
-    return yAxes.push({
-      id: axis.id,
-      extents:
-        axis.autoLimits === true ?
-        [min, max]
-        :
-        [
-          min < axis.min ? min : axis.min,
-          max > axis.max ? max : axis.max,
-        ],
-      orient: 'top',
-      format: '.3f',
-      showAxis: axis.showAxis === true,
-      showLabels: axis.showLabels === true,
-      showTicks: axis.showTicks === true,
-      autoLimits: false,
-      autoTick: axis.autoTick === true,
-      tickStep: axis.tickStep,
-      showGrid: _get(grid, 'showGrid', false),
-      gridStyle: _get(grid, ['line', 'style']),
-      gridSize: _get(grid, ['line', 'size']),
-      unit: axis.unit,
-      label: axis.label,
-      labelStyle: axis.style,
-      logarithmic: axis.logarithmic,
-      logSettings: axis.logSettings,
-      formatAsDate: false,
-    });
+    }
   });
+  const min = _min(mins);
+  const max = _max(maxs);
 
-  return { xAxes, yAxes };
+  return { min, max };
 };
+
+/**
+ * @param axis
+ * @param grid
+ * @param min
+ * @param max
+ * @returns {{id, extents: *[], orient: string, format: string, showAxis: boolean, showLabels: boolean, showTicks: boolean, autoLimits: boolean, autoTick: boolean, tickStep, showGrid: *, gridStyle: *, gridSize: *, unit, label, labelStyle, logarithmic, logSettings: *|{base: number, max: number, min: number}|yAxis.logSettings|{base, max, min}|logSettings|{min, max, base}, formatAsDate: boolean}}
+ * @pure
+ */
+export const defaultAxisConfig = (axis, grid, min, max) => ({
+  id: axis.id,
+  extents:
+    axis.autoLimits === true
+      ? [min, max]
+      : [
+        min < axis.min
+          ? min
+          : axis.min,
+        max > axis.max
+            ? max
+            : axis.max,
+      ],
+  orient: 'top',
+  format: '.3f',
+  showAxis: axis.showAxis === true,
+  showLabels: axis.showLabels === true,
+  showTicks: axis.showTicks === true,
+  autoLimits: false,
+  autoTick: axis.autoTick === true,
+  tickStep: axis.tickStep,
+  showGrid: _get(grid, 'showGrid', false),
+  gridStyle: _get(grid, ['line', 'style']),
+  gridSize: _get(grid, ['line', 'size']),
+  unit: axis.unit,
+  label: axis.label,
+  labelStyle: axis.style,
+  logarithmic: axis.logarithmic,
+  logSettings: axis.logSettings,
+  formatAsDate: false,
+});
 
 /**
  * @param id
@@ -236,6 +251,8 @@ export const parseDragData = (data, id, defaultTimelineId) => {
     connectedData: {
       formula: `${data.catalogName}.${data.item}<${val}>.${get('DEFAULT_FIELD')[val]}`,
       fieldX: 'onboardDate',
+      unit: 'V',
+      domain: '*',
       timeline: defaultTimelineId,
     },
   };
@@ -263,22 +280,7 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: string.isRequired,
     addEntryPoint: func.isRequired,
-    entryPoints: shape({
-      connectedData: shape({
-        axisId: string,
-        stringParameter: string,
-        defaultY: string,
-      }),
-      connectedDataParametric: shape({
-        xAxisId: string,
-        YAxisId: string,
-      }),
-      objectStyle: shape(),
-      stateColors: object.isRequired,
-      parametric: bool.isRequired,
-      obsolete: bool,
-      nonsignificant: bool,
-    }).isRequired,
+    entryPoints: entryPointType.isRequired,
     configuration: shape({
       procedures: array,
       entryPoints: array,
@@ -425,15 +427,11 @@ export class GrizzlyPlotView extends PureComponent {
     };
     handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
   };
-
   onContextMenu = (e) => {
     e.stopPropagation();
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      closeEditor,
-      openEditor,
       mainMenu,
       inspectorEpId,
       isInspectorOpened,
@@ -462,21 +460,9 @@ export class GrizzlyPlotView extends PureComponent {
         checked: opened,
       });
     });
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
-
   onDrop = this.drop.bind(this);
-
   getEntryPointErrors(supClass = '') {
     const epWithErrors = Object
       .keys(this.props.entryPoints)
@@ -510,7 +496,6 @@ export class GrizzlyPlotView extends PureComponent {
         </div>
       </CloseableAlert> : undefined;
   }
-
   drop(e) {
     const {
       addEntryPoint,
@@ -534,7 +519,6 @@ export class GrizzlyPlotView extends PureComponent {
 
     e.stopPropagation();
   }
-
   shouldRender() {
     const {
       containerWidth,
@@ -558,7 +542,6 @@ export class GrizzlyPlotView extends PureComponent {
     }
     return info;
   }
-
   toggleShowLegend = (e) => {
     e.preventDefault();
     const {
@@ -568,13 +551,11 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     toggleLegend(viewId, !configuration.showLegend);
   };
-
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
   };
-
   showEp = (e, lineId) => {
     e.preventDefault();
     const {
@@ -599,7 +580,6 @@ export class GrizzlyPlotView extends PureComponent {
 
     this.setState(newState);
   };
-
   hideEp = (e, lineId) => {
     e.preventDefault();
     const {
@@ -624,7 +604,6 @@ export class GrizzlyPlotView extends PureComponent {
 
     this.setState(newState);
   };
-
   removeEntryPoint = (e, id) => {
     e.preventDefault();
     const {
@@ -635,17 +614,14 @@ export class GrizzlyPlotView extends PureComponent {
     const index = entryPoints.findIndex(a => a.id === id);
     removeEntryPoint(viewId, index);
   };
-
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
   };
-
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
-
     if (noRender) {
       logger.debug('no render due to', noRender);
       // TODO : clean message component
@@ -791,9 +767,13 @@ export class GrizzlyPlotView extends PureComponent {
                 xAxisId: 'time',
                 yAxisId: _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
-                lineSize: _get(ep, ['objectStyle', 'line', 'size']),
+                lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
+                  ? _get(ep, ['objectStyle', 'line', 'size'])
+                  : 0,
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
+                pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
+                  ? _get(ep, ['objectStyle', 'points', 'style'])
+                  : 0,
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
                 stopInstruction: packet => (packet.isObsolete || false),

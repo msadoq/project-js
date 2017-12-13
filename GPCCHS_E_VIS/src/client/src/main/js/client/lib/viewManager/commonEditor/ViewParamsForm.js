@@ -4,12 +4,12 @@ import classnames from 'classnames';
 import {
   Form,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import InputField from '../../windowProcess/commonReduxForm/InputField';
-import ColorPickerField from '../../windowProcess/commonReduxForm/ColorPickerField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
-import ReactSelectField from '../../windowProcess/commonReduxForm/ReactSelectField';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {

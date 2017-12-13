@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import u from 'updeep';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 const initialState = {
   id: null,

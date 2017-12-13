@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
+import { getTimebarTimelinesSelector } from 'store/selectors/timebars';
+import { getFocusedPage } from 'store/selectors/pages';
 import TimelineField from './TimelineField';
-import { getTimebarTimelinesSelector } from '../../../store/selectors/timebars';
-import { getFocusedPage } from '../../../store/selectors/pages';
 
 const mapStateToProps = (state, { windowId }) => {
   const { timebarUuid } = getFocusedPage(state, { windowId });

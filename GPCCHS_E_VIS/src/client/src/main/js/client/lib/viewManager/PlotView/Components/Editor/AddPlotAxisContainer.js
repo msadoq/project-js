@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import AddPlotAxisWrapper from './AddPlotAxisWrapper';
-import { getConfigurationByViewId } from '../../../../viewManager';
+import { getConfigurationByViewId } from 'viewManager';
 import {
   addAxis,
-} from '../../../../store/actions/views';
+} from 'store/actions/views';
+import AddPlotAxisWrapper from './AddPlotAxisWrapper';
 
 export default connect(
   (state, { viewId }) => {

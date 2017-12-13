@@ -4,9 +4,9 @@ import { resolve } from 'path';
 import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import configureMockStore from 'redux-mock-store';
-import { loadStubs, getStubData } from '../../utils/stubs';
+import { loadStubs, getStubData } from 'utils/stubs';
+import { registerGlobal } from 'utils/adapters';
 import flattenDataId from '../flattenDataId';
-import { registerGlobal } from '../../utils/adapters';
 
 const mockedAdaptersPath = [
   {

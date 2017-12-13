@@ -2,8 +2,8 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 
-import * as types from '../../../store/types';
-import * as constants from '../../constants';
+import * as types from 'store/types';
+import * as constants from 'viewManager/constants';
 
 const initialState = {};
 const initialViewState = {

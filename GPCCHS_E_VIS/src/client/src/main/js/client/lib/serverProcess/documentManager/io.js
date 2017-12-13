@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import fs from 'fs';
 
-import { read, parse } from '../../common/fs';
+import { read, parse } from 'common/fs';
 
 import * as fmd from './fmd';
 import resolvePath from './pathResolver';

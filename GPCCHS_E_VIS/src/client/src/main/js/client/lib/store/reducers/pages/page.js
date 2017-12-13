@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
-import { copyProp } from '../../../common/fp';
-import * as types from '../../types';
+import { copyProp } from 'common/fp';
+import * as types from 'store/types';
 import panels from './panels';
 
 const initialState = {

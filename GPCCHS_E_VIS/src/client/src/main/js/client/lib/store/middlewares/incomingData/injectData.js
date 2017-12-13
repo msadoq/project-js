@@ -1,9 +1,9 @@
 import _ from 'lodash/fp';
-import * as types from '../../types';
-import { injectDataRange, injectDataLast } from '../../actions/incomingData';
-import dataMapGenerator from '../../../dataManager/map';
-import executionMonitor from '../../../common/logManager/execution';
-import { getCurrentVisuWindow } from '../../../store/selectors/timebars';
+import * as types from 'store/types';
+import { injectDataRange, injectDataLast } from 'store/actions/incomingData';
+import dataMapGenerator from 'dataManager/map';
+import executionMonitor from 'common/logManager/execution';
+import { getCurrentVisuWindow } from 'store/selectors/timebars';
 
 let dataMap = {};
 let previousDataMap = {};

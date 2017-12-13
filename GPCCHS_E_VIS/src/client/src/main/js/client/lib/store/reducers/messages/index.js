@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 

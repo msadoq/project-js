@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
+import { openCodeEditor, closeCodeEditor } from 'store/actions/editor';
+import { getViewId as getCodeEditorViewId } from 'store/reducers/codeEditor';
 import TextTab from './TextTab';
-import { openCodeEditor, closeCodeEditor } from '../../../../store/actions/editor';
-import { getViewId as getCodeEditorViewId } from '../../../../store/reducers/codeEditor';
 
 
 const mapStateToProps = (state) => {

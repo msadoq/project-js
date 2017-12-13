@@ -1,9 +1,10 @@
 import _ from 'lodash/fp';
+import _getOr from 'lodash/fp/getOr';
 import { dirname, basename } from 'path';
 
-import { LOG_DOCUMENT_OPEN } from '../../constants';
-import getLogger from '../../common/logManager';
-import parameters from '../../common/configurationManager';
+import { LOG_DOCUMENT_OPEN } from 'constants';
+import getLogger from 'common/logManager';
+import parameters from 'common/configurationManager';
 
 import {
   updatePath as updateWorkspacePath,
@@ -11,37 +12,37 @@ import {
   closeWorkspace,
   setWorkspaceModified,
   sendProductLog,
-} from '../../store/actions/hsc';
+} from 'store/actions/hsc';
 
-import simple from '../../store/helpers/simpleActionCreator';
-import { add as addMessage } from '../../store/actions/messages';
-import * as types from '../../store/types';
+import simple from 'store/helpers/simpleActionCreator';
+import { add as addMessage } from 'store/actions/messages';
+import * as types from 'store/types';
 
-import { getView } from '../../store/reducers/views';
-import { getFirstTimebarId } from '../../store/reducers/timebars';
-import { getViewWithConfiguration, getViewModule } from '../../viewManager';
-import readView from './readView';
-
-import { readPageAndViews } from './readPage';
-import { readWorkspacePagesAndViews } from './readWorkspace';
-import { getSession } from '../../store/reducers/sessions';
-
-import { writeWorkspace } from './writeWorkspace';
-import { writePage } from './writePage';
-import { writeView } from './writeView';
-import {
-  setModified as setPageModified,
-  setPageOid,
-  updatePath as updatePagePath,
-  updateAbsolutePath as updatePageAbsolutePath,
-} from '../../store/actions/pages';
-
+import { getView } from 'store/reducers/views';
 import {
   setModified as setViewModified,
   setViewOid,
   updatePath as updateViewPath,
   updateAbsolutePath as updateViewAbsolutePath,
-} from '../../store/actions/views';
+} from 'store/actions/views';
+import { getViewWithConfiguration, getViewModule } from 'viewManager';
+import {
+  setModified as setPageModified,
+  setPageOid,
+  updatePath as updatePagePath,
+  updateAbsolutePath as updatePageAbsolutePath,
+} from 'store/actions/pages';
+
+import { getSession } from 'store/reducers/sessions';
+import { getFirstTimebarId } from 'store/reducers/timebars';
+import { readWorkspacePagesAndViews } from './readWorkspace';
+
+import { readPageAndViews } from './readPage';
+import { writeWorkspace } from './writeWorkspace';
+import { writePage } from './writePage';
+import { writeView } from './writeView';
+
+import readView from './readView';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -146,7 +147,11 @@ const prepareTimebar = (timelines, state) => (timebar) => {
       current,
       lower,
       upper,
-      defaultWidth: parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
+      defaultWidth: _getOr(
+        parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
+        'visuWindow.defaultWidth',
+        timebar
+      ),
     },
     slideWindow: { lower, upper },
     rulerStart: Number(lower) - (5 * 60000),

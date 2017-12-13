@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
-import parameters from '../../../common/configurationManager';
-import { getWorkspaceFolder } from '../../reducers/hsc';
-import { EXTENSIONS } from '../../../constants';
+import parameters from 'common/configurationManager';
+import { getWorkspaceFolder } from 'store/reducers/hsc';
+import { EXTENSIONS } from 'constants';
 
 export const isView = docType => /^.*View$/.test(docType);
 

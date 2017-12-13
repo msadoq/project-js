@@ -1,7 +1,7 @@
-import { freezeMe } from '../../../common/jest';
+import { freezeMe } from 'common/jest';
+import dataMapGenerator from 'dataManager/map';
+import state from 'common/jest/stateTest';
 import { viewRangeAdd, getExtremValue, selectDataPerView, selectEpData } from './viewDataUpdate';
-import dataMapGenerator from '../../../dataManager/map';
-import state from '../../../common/jest/stateTest';
 
 describe('viewManager/PlotView/store/viewDataUpdate', () => {
   const dataMap = dataMapGenerator(state);

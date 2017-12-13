@@ -1,5 +1,5 @@
+import getExpectedInterval from 'viewManager/TextView/data/intervalManagement';
 import parseEntryPoint from './parseEntryPoint';
-import getExpectedInterval from '../../TextView/data/intervalManagement';
 
 export default {
   parseEntryPoint,

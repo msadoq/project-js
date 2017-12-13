@@ -3,17 +3,17 @@ import _set from 'lodash/set';
 import { createSelector } from 'reselect';
 
 import { getTimebars } from '../store/reducers/timebars';
-import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
+import perLastTbdIdMap from './perLastTbdIdData';
 import makeGetPerViewData from './perViewData';
 import perRangeTbdIdMap from './perRangeTbdIdData';
-import perLastTbdIdMap from './perLastTbdIdData';
+import { getViewType } from '../store/reducers/views';
 import expectedRangeIntervalMap from './expectedRangeIntervalMap';
-import expectedLastIntervalMap from './expectedLastIntervalMap';
+import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 import { getDataSelectors } from '../viewManager';
 import { get } from '../common/configurationManager';
-import { getViewType } from '../store/reducers/views';
+import expectedLastIntervalMap from './expectedLastIntervalMap';
 
 const perViewDataSelectors = {};
 export const getPerViewMap = createDeepEqualSelectorPerViewData(

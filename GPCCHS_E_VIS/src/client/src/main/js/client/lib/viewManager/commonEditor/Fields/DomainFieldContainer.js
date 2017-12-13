@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
+import { getDomains } from 'store/reducers/domains';
 import DomainField from './DomainField';
-import { getDomains } from '../../../store/reducers/domains';
 
 const mapStateToProps = state => ({
   domains: getDomains(state),

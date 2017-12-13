@@ -2,7 +2,7 @@ import { app, ipcMain } from 'electron';
 import { series } from 'async';
 
 import getLogger from '../common/logManager';
-import parameters from '../common/configurationManager';
+import serverController from './controllers/server';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
@@ -18,8 +18,8 @@ import enableDebug from './debug';
 import { fork, get, kill } from '../common/processManager';
 import makeCreateStore, { getStore } from './store';
 import rendererController from './controllers/renderer';
-import serverController from './controllers/server';
-import { sendProductLog } from '../store/actions/hsc';
+import loadInitialDocuments from './loadInitialDocuments';
+import parameters from '../common/configurationManager';
 import { getIsWorkspaceOpening } from '../store/reducers/hsc';
 import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
@@ -28,7 +28,7 @@ import makeWindowsObserver from './windowsManager/observer';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateMainStatus } from '../store/actions/health';
 import makeElectronObserver from './electronManager';
-import loadInitialDocuments from './loadInitialDocuments';
+import { sendProductLog } from '../store/actions/hsc';
 
 let monitoring = {};
 const HEALTH_CRITICAL_DELAY = parameters.get('MAIN_HEALTH_CRITICAL_DELAY');

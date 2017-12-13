@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import GroundAlarmTable from './table/GroundAlarmTableContainer';
+import withDimensions from 'windowProcess/common/hoc/withDimensions';
 
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
+import GroundAlarmTable from './table/GroundAlarmTableContainer';
 
 const GroundAlarmView = props => (
   <div className="h100 w100 posRelative">

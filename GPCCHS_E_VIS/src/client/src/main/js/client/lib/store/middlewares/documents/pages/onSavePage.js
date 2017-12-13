@@ -1,12 +1,12 @@
-import * as types from '../../../types';
+import * as types from 'store/types';
 
-import { getPage } from '../../../reducers/pages';
+import { getPage } from 'store/reducers/pages';
+import { getWindowIdByPageId } from 'store/reducers/windows';
+import { openDialog } from 'store/actions/ui';
+
+import { open as openModal } from 'store/actions/modals';
+import withListenAction from 'store/helpers/withListenAction';
 import { getPageNewViewIds, getPageHasNewViews } from '../selectors';
-import { getWindowIdByPageId } from '../../../reducers/windows';
-
-import { openDialog } from '../../../actions/ui';
-import { open as openModal } from '../../../actions/modals';
-import withListenAction from '../../../helpers/withListenAction';
 
 import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 

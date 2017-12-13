@@ -2,20 +2,20 @@ import { createStructuredSelector } from 'reselect';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TextEditor from './TextEditor';
+import { getViewPanels, getViewEntryPointsPanels, getViewTab } from 'store/reducers/ui/editor';
+import { getConfigurationByViewId } from 'viewManager';
+import {
+  open as openModal,
+} from 'store/actions/modals';
+import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
+import { updateViewPanels, updateViewTab } from 'store/actions/ui';
 import {
   removeEntryPoint,
   updateTitle,
   updateTitleStyle,
   updateEditorSearch,
-} from '../../../../store/actions/views';
-import {
-  open as openModal,
-} from '../../../../store/actions/modals';
-import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
-import { updateViewPanels, updateViewTab } from '../../../../store/actions/ui';
-import { getViewPanels, getViewEntryPointsPanels, getViewTab } from '../../../../store/reducers/ui/editor';
-import { getConfigurationByViewId } from '../../../../viewManager';
+} from 'store/actions/views';
+import TextEditor from './TextEditor';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,

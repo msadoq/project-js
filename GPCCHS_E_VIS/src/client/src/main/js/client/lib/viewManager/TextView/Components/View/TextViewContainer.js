@@ -3,23 +3,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { createStructuredSelector } from 'reselect';
 import _ from 'lodash/fp';
-import TextViewWrapper from './TextViewWrapper';
+import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import {
   addEntryPoint,
   updateContent,
   removeLink,
   updateShowLinks,
-} from '../../../../store/actions/views';
-import { askOpenLink } from '../../../../store/actions/links';
-import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getConfigurationByViewId } from '../../../../viewManager';
-import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
-import { getInspectorEpId } from '../../../../store/reducers/inspector';
-import { getData } from '../../store/dataReducer';
-import { getViewContent } from '../../store/configurationSelectors';
-import { getLinks, areLinksShown } from '../../../../store/reducers/views';
-import { getPageIdByViewId, getPage } from '../../../../store/reducers/pages';
-import { isMaxVisuDurationExceeded } from '../../../../store/reducers/timebars';
+} from 'store/actions/views';
+import { askOpenLink } from 'store/actions/links';
+import { getViewEntryPoints } from 'store/selectors/views';
+import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
+import { isAnyInspectorOpened } from 'store/selectors/pages';
+import { getInspectorEpId } from 'store/reducers/inspector';
+import { getData } from 'viewManager/TextView/store/dataReducer';
+import { getViewContent } from 'viewManager/TextView/store/configurationSelectors';
+import { getLinks, areLinksShown } from 'store/reducers/views';
+import { getConfigurationByViewId } from 'viewManager';
+import TextViewWrapper from './TextViewWrapper';
 
 
 const mapStateToProps = (state, { viewId }) => {

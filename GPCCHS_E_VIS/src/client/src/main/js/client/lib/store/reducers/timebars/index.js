@@ -2,9 +2,9 @@ import _ from 'lodash/fp';
 import u from 'updeep';
 import { createSelector } from 'reselect';
 
-import * as types from '../../types';
+import * as types from 'store/types';
+import { get } from 'common/configurationManager';
 import timebar from './timebar';
-import { get } from '../../../common/configurationManager';
 
 const maxVisuWindowDuration = get('VISU_WINDOW_MAX_DURATION');
 

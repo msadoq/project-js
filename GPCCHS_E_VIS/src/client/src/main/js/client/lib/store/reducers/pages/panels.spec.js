@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/pages';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/pages';
 import panelsReducer from './panels';
 import pagesReducer from '../pages';
 

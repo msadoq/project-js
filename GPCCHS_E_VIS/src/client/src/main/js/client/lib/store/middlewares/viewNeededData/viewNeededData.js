@@ -1,12 +1,12 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import dataMapGenerator from '../../../dataManager/map';
-import { getWindowsOpened, getIsWorkspaceOpening } from '../../../store/reducers/hsc';
-import execution from '../../../common/logManager/execution';
-import computeMissingRangeIntervals from '../../observers/computeMissingRangeIntervals';
-import computeMissingLastIntervals from '../../observers/computeMissingLastIntervals';
+import dataMapGenerator from 'dataManager/map';
+import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
+import execution from 'common/logManager/execution';
+import computeMissingRangeIntervals from 'store/observers/computeMissingRangeIntervals';
+import computeMissingLastIntervals from 'store/observers/computeMissingLastIntervals';
 
-import { viewsNeedRange, viewsNeedLast } from '../../../store/actions/retrieveData';
-import { cleanViewData } from '../../../store/actions/viewData';
+import { viewsNeedRange, viewsNeedLast } from 'store/actions/retrieveData';
+import { cleanViewData } from 'store/actions/viewData';
 
 
 const makeViewNeededData = () => {

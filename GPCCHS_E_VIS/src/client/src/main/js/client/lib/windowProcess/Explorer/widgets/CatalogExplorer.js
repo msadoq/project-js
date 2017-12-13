@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import getLogger from '../../../common/logManager';
+import getLogger from 'common/logManager';
 import CatalogExplorerRight from './CatalogExplorerRight';
 import CatalogExplorerLeft from './CatalogExplorerLeft';
 import styles from './CatalogExplorer.css';

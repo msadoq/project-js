@@ -1,9 +1,9 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Explorer from './Explorer';
+import { getPanels } from 'store/reducers/pages';
 
-import { getPanels } from '../../store/reducers/pages';
-import { focusTabInExplorer, minimizeExplorer } from '../../store/actions/pages';
+import { focusTabInExplorer, minimizeExplorer } from 'store/actions/pages';
+import Explorer from './Explorer';
 
 const mapStateToProps = (state, { pageId }) => {
   const { explorerTab: tabId } = getPanels(state, { pageId });

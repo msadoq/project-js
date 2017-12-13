@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
 import forecastData from './forecastData';
-import * as types from '../../types';
 // import { getStubData } from '../../../utils/stubs';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');

@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as types from '../../types';
+import * as types from 'store/types';
 import makeInspectorMiddleware from './';
 
 const rtdManager = {

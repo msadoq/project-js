@@ -13,6 +13,7 @@ const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extract
 
 const initialState = {
   hoveredAlarm: undefined,
+  enableSearch: true,
 };
 
 class GroundAlarmTable extends React.Component {
@@ -35,6 +36,9 @@ class GroundAlarmTable extends React.Component {
       data: PropTypes.any,
       type: PropTypes.string,
     })).isRequired,
+    search: PropTypes.shape({}).isRequired,
+    inputSearch: PropTypes.func.isRequired,
+    inputResetAll: PropTypes.func.isRequired,
     indexedRows: PropTypes.shape({}).isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -58,7 +62,7 @@ class GroundAlarmTable extends React.Component {
       || this.props.timeline !== nextProps.timeline
       || this.props.mode !== nextProps.mode
     ) {
-      this.resetState();
+      this.cunhoverAlarm();
     }
   }
 
@@ -83,6 +87,11 @@ class GroundAlarmTable extends React.Component {
         },
         enabled: n > 0,
       },
+      {
+        label: 'Reset search filters',
+        click: this.props.inputResetAll,
+        enabled: !_.isEmpty(this.props.search),
+      },
       { type: 'separator' },
       ...openInspectorMenu,
       ...this.props.mainMenu,
@@ -106,6 +115,10 @@ class GroundAlarmTable extends React.Component {
     }
   }
 
+  toggleSearch = () => {
+    this.setState(_.update('enableSearch', _.negate(_.identity)));
+  }
+
   hoverAlarm = (row) => {
     const { oid } = row.mainRow.data;
     this.setState(_.set('hoveredAlarm', oid));
@@ -113,10 +126,6 @@ class GroundAlarmTable extends React.Component {
 
   unhoverAlarm = () => {
     this.setState(_.set('hoveredAlarm', undefined));
-  }
-
-  resetState = () => {
-    this.setState(_.always(initialState));
   }
 
   render() {
@@ -132,6 +141,10 @@ class GroundAlarmTable extends React.Component {
         style={style}
       >
         <TableView
+          search={this.props.search}
+          onSearch={this.props.inputSearch}
+          enableSearch={this.state.enableSearch}
+          onClickSearchIcon={this.toggleSearch}
           cols={COLS}
           subCols={TRANSITION_COLS}
           sort={this.props.sort}

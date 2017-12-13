@@ -1,6 +1,6 @@
-import domainsFilter from '../../commonData/domains';
-import sessionsFilter from '../../commonData/sessions';
-import timelinesFilter from '../../commonData/timelines';
+import domainsFilter from 'viewManager/commonData/domains';
+import sessionsFilter from 'viewManager/commonData/sessions';
+import timelinesFilter from 'viewManager/commonData/timelines';
 
 export default function parseConnectedData(
   domains,

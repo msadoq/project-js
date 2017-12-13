@@ -18,7 +18,7 @@
     max-width: 25px;
   }
 
-  span.collapseButton {
+  span.clickableMargin {
     background-color: transparent;
     cursor: pointer;
   }
@@ -35,6 +35,17 @@
     cursor: pointer;
     &:active {
       filter: brightness(115%);
+    }
+  }
+
+  th.search {
+    & input {
+      height: 100%;
+      text-align: center;
+      font-weight: normal;
+      border: none;
+      background-color: #999;
+      width: 100%;
     }
   }
 

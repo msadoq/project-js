@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
-import * as actions from '../../actions/views';
+import * as actions from 'store/actions/views';
+import { freezeArgs } from 'common/jest';
 import viewsReducer from '../views';
-import { freezeArgs } from '../../../common/jest';
 
 const reducer = freezeArgs(viewsReducer);
 

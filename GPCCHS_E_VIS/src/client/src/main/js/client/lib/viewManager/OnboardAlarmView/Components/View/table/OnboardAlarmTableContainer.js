@@ -2,15 +2,15 @@ import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { getInspectorOptions } from 'viewManager/GroundAlarmView/store/selectors';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from 'viewManager/OnboardAlarmView/store/configurationReducer';
+import { getIsPlaying } from 'store/reducers/hsc';
+import { getDataRows } from 'viewManager/OnboardAlarmView/store/selectors';
+import { getSelectedAlarms, getSort, getExpandedAlarms } from 'viewManager/GroundAlarmView/store/uiReducer';
+import { collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from 'viewManager/GroundAlarmView/store/actions';
+import { openAckModal } from 'viewManager/OnboardAlarmView/store/actions';
+import { getData } from 'viewManager/OnboardAlarmView/store/dataReducer';
 import OnboardAlarmTable from './OnboardAlarmTable';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
-import { getData } from '../../../store/dataReducer';
-import { getDataRows } from '../../../store/selectors';
-import { getSelectedAlarms, getSort, getExpandedAlarms } from '../../../../GroundAlarmView/store/uiReducer';
-import { collapseAlarm, uncollapseAlarm, toggleSelection, toggleSort } from '../../../../GroundAlarmView/store/actions';
-import { openAckModal } from '../../../store/actions';
-import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
-import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
   sort: getSort,

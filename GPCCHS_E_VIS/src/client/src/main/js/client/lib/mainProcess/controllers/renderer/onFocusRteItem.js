@@ -1,21 +1,21 @@
 import asyncParallel from 'async/parallel';
-import asyncMap from 'async/map';
+import { getStore } from 'mainProcess/store';
 import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import _indexOf from 'lodash/indexOf';
-import { getStore } from '../../store';
-import { getRtd } from '../../../rtdManager';
-import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
-import { add } from '../../../store/actions/messages';
-import {
-  getRteFocusedInfo,
-} from '../../../store/reducers/rte';
 import {
   setRteCatalogs,
   setRteDomains,
   setRteItemNames,
   setRteFocusedItem,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
+import { getRtd } from 'rtdManager';
+import prepareDataToTree from 'rtdManager/prepareDataToTree';
+import { add } from 'store/actions/messages';
+import {
+  getRteFocusedInfo,
+} from 'store/reducers/rte';
+import asyncMap from 'async/map';
 
 export default function ({ sessionId, domainId, catalog, version, namespace, name, key }) {
   const { getState, dispatch } = getStore();

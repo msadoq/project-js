@@ -2,9 +2,9 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
-import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from '../../../../../constants';
-import handleContextMenu from '../../../../../windowProcess/common/handleContextMenu';
-import TableView from '../../../../../windowProcess/common/TableView';
+import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import TableView from 'windowProcess/common/TableView';
 
 import styles from './OnboardAlarmTable.css';
 

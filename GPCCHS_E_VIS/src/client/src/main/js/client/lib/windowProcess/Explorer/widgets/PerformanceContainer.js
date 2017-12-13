@@ -2,15 +2,15 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
-import { getHealthMapForWindow } from '../../../store/reducers/health';
-import { getWindowsVisibleViews } from '../../../store/selectors/windows';
-import { getWindowFocusedPageId } from '../../../store/reducers/windows';
-import { getPage } from '../../../store/reducers/pages';
-import { play, pause } from '../../../store/actions/hsc';
-import { updateStressProcess } from '../../../store/actions/health';
-import textData from '../../../viewManager/TextView/store/dataSelectors';
-import plotData from '../../../viewManager/PlotView/store/dataSelectors';
-import * as constants from '../../../viewManager/constants';
+import { getHealthMapForWindow } from 'store/reducers/health';
+import { getWindowsVisibleViews } from 'store/selectors/windows';
+import { getWindowFocusedPageId } from 'store/reducers/windows';
+import { getPage } from 'store/reducers/pages';
+import { play, pause } from 'store/actions/hsc';
+import { updateStressProcess } from 'store/actions/health';
+import textData from 'viewManager/TextView/store/dataSelectors';
+import plotData from 'viewManager/PlotView/store/dataSelectors';
+import * as constants from 'viewManager/constants';
 import Performance from './Performance';
 
 const mapStateToProps = (state, { windowId }) => {

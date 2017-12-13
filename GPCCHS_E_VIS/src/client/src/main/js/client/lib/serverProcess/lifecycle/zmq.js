@@ -1,5 +1,5 @@
 import zmq from 'common/zmq';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
 
 export default function connectToZmq(pullUrl, pushUrl, callback) {
   if (!pullUrl || !pushUrl) {

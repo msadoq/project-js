@@ -1,17 +1,17 @@
 import _omit from 'lodash/omit';
 import _debounce from 'lodash/debounce';
 import { BrowserWindow } from 'electron';
-import getLogger from '../../common/logManager';
-import parameters from '../../common/configurationManager';
-import getHtmlPath from './getHtmlPath';
-import { getStore } from '../store';
-import { focusWindow, blurWindow } from '../../store/actions/hsc';
+import getLogger from 'common/logManager';
+import parameters from 'common/configurationManager';
+import { focusWindow, blurWindow } from 'store/actions/hsc';
 import {
   askCloseWindow,
   updateGeometry,
   minimize,
   restore,
-} from '../../store/actions/windows';
+} from 'store/actions/windows';
+import getHtmlPath from './getHtmlPath';
+import { getStore } from '../store';
 
 const logger = getLogger('main:windowsManager:windows');
 

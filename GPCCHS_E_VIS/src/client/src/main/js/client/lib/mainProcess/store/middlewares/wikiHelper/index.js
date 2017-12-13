@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
-import * as types from '../../../../store/types';
-import { add as addMessage } from '../../../../store/actions/messages';
+import * as types from 'store/types';
+import { add as addMessage } from 'store/actions/messages';
 
 const addGlobalWarning = msg => addMessage('global', 'warning', msg);
 const addGlobalError = msg => addMessage('global', 'error', msg);

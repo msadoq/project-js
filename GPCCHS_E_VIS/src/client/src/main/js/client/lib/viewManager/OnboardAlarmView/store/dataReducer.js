@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 
+import * as types from 'store/types';
+import * as constants from 'viewManager/constants';
+
 import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
-
-import * as types from '../../../store/types';
-import * as constants from '../../constants';
 
 const initialSubState = {
   lines: {},
@@ -12,7 +12,7 @@ const initialSubState = {
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function onBoardAlarmViewData(state = initialSubState, action) {
+export default function onBoardAlarmViewData(state = {}, action) {
   switch (action.type) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:

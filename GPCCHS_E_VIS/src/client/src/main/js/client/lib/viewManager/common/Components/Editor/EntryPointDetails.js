@@ -1,9 +1,9 @@
 import React, { PropTypes, PureComponent } from 'react';
 import Collapse from 'rc-collapse';
 
+import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
 import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
-import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
 
 const { Panel } = Collapse;
 const { string, arrayOf, oneOfType, shape, func, bool, number } = PropTypes;

@@ -1,6 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field } from 'redux-form';
-import ReactSelectField from '../../../windowProcess/commonReduxForm/ReactSelectField';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { domainsType } from './types';
 
 const { string } = PropTypes;

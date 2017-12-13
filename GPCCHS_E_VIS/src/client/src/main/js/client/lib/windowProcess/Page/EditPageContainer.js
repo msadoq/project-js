@@ -1,10 +1,10 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getPage, getPages } from '../../store/reducers/pages';
-import { updateTitle, updateDomainName, updateSessionName } from '../../store/actions/pages';
-import { getDomains } from '../../store/reducers/domains';
-import { getSessions } from '../../store/reducers/sessions';
+import { getPage, getPages } from 'store/reducers/pages';
+import { updateTitle, updateDomainName, updateSessionName } from 'store/actions/pages';
+import { getDomains } from 'store/reducers/domains';
+import { getSessions } from 'store/reducers/sessions';
 
 import EditPageWrapper from './EditPageWrapper';
 

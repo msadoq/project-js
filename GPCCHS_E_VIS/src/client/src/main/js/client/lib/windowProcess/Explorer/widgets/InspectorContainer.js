@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import Inspector from './Inspector';
 import {
   getInspectorViewId,
   getInspectorViewType,
@@ -9,15 +8,16 @@ import {
   getInspectorDisplayingTM,
   getInspectorStaticDataChildren,
   getInspectorStaticDataLoading,
-} from '../../../store/reducers/inspector';
+} from 'store/reducers/inspector';
 import {
   isInspectorStaticDataNodeToggled as toggleNode,
   isInspectorStaticDataNodeLoading as loadingNode,
   toggleAllInspectorStaticDataNodes as toggleAllNodes,
-} from '../../../store/actions/inspector';
+} from 'store/actions/inspector';
 import {
   getDataSelectors,
-} from '../../../viewManager';
+} from 'viewManager';
+import Inspector from './Inspector';
 
 const mapStateToProps = (state) => {
   const viewId = getInspectorViewId(state);

@@ -1,4 +1,4 @@
-import { REDUX_SYNCHRONIZATION_PATCH_KEY } from '../../constants';
+import { REDUX_SYNCHRONIZATION_PATCH_KEY } from 'constants';
 import makeSlaveDispatcher from './makeSlaveDispatcher';
 
 describe('makeSlaveDispatcher', () => {

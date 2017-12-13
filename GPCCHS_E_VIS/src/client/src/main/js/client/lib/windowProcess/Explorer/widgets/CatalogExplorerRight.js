@@ -11,12 +11,12 @@ import _map from 'lodash/map';
 import _get from 'lodash/get';
 import _nth from 'lodash/nth';
 import _indexOf from 'lodash/indexOf';
-import getLogger from '../../../common/logManager';
-import Tree from './Tree';
-import { NODE_TYPE_LINK as LINK/* , NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK */ } from '../../../constants';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import { main } from 'windowProcess/ipc';
+import { NODE_TYPE_LINK as LINK/* , NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK */ } from 'constants';
+import getLogger from 'common/logManager';
 import styles from './CatalogExplorer.css';
-import { main } from '../../ipc';
-import handleContextMenu from '../../common/handleContextMenu';
+import Tree from './Tree';
 
 const logger = getLogger('CatalogExplorerRight');
 

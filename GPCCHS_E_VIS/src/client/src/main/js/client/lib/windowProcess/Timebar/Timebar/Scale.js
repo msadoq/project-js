@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
+import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 import styles from './Scale.css';
-import { levelsRules, getZoomLevel } from '../../common/timeFormats';
 
 // 1980-01-01
 const minViewportLower = 315532800000;

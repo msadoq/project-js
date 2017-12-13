@@ -5,6 +5,7 @@ export default class ViewParams extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
+    isSaved: PropTypes.bool.isRequired,
     askReloadView: PropTypes.func.isRequired,
     askSaveView: PropTypes.func.isRequired,
   }
@@ -20,6 +21,7 @@ export default class ViewParams extends React.Component {
   render() {
     const {
       isModified,
+      isSaved,
     } = this.props;
 
     return (
@@ -32,6 +34,7 @@ export default class ViewParams extends React.Component {
             onClick={this.askReloadView}
             className="mr5"
             title="Reload view from document"
+            disabled={!isSaved}
           >
             Reload
           </Button>

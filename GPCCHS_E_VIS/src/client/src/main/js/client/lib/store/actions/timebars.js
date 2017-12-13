@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import _get from 'lodash/get';
-import { get } from '../../common/configurationManager';
+import { get } from 'common/configurationManager';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import {
@@ -110,7 +110,10 @@ export const updateSpeed = (timebarUuid, speed) =>
     });
   };
 
-
+/**
+ * @param timebarUuid
+ * @returns {function(*, *)}
+ */
 export function restoreWidth(timebarUuid) {
   return (dispatch, getState) => {
     const timebar = getTimebar(getState(), { timebarUuid });
@@ -118,19 +121,22 @@ export function restoreWidth(timebarUuid) {
       dispatch(setRealTime(timebarUuid, false));
     }
     const vw = timebar.visuWindow;
-    const newSlideUpper = timebar.mode === 'Extensible' ?
-      vw.current + (vw.defaultWidth) :
-      vw.current + (vw.defaultWidth / 4);
+    // resize must keep ratio arround current position
+    const ratio = (vw.current - vw.lower) / (vw.upper - vw.lower);
+    // const newSlideUpper = timebar.mode === 'Extensible' ?
+    //   vw.current + (vw.defaultWidth) :
+    //   vw.current + (vw.defaultWidth / 4);
+    const lower = vw.current - (ratio * vw.defaultWidth);
     dispatch(
       updateCursors(
         timebarUuid,
         {
-          lower: vw.current - (vw.defaultWidth / 2),
-          upper: vw.current + (vw.defaultWidth / 2),
+          lower,
+          upper: lower + vw.defaultWidth,
         },
         {
-          lower: vw.current - (vw.defaultWidth / 4),
-          upper: newSlideUpper,
+          lower,
+          upper: lower + vw.defaultWidth,
         }
       )
     );

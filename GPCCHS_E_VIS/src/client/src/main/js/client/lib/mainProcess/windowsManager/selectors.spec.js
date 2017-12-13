@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { freezeMe, testMemoization } from '../../common/jest';
+import { freezeMe, testMemoization } from 'common/jest';
 import { getEditorWindowTitle, getWindowsTitle } from './selectors';
 
 describe('windowsManager:selectors', () => {

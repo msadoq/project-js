@@ -2,10 +2,10 @@ import _always from 'lodash/fp/always';
 import open from 'opn';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { get } from 'common/configurationManager';
 import makeMainEnhancer from './storeEnhancer';
 import makeWikiHelperMiddleware from './middlewares/wikiHelper';
 import { server } from '../ipc';
-import { get } from '../../common/configurationManager';
 
 let store;
 

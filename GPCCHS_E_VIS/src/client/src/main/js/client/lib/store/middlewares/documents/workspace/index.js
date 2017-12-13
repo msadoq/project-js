@@ -1,4 +1,4 @@
-import pipeMiddlewares from '../../../helpers/pipeMiddlewares';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import makeOnOpenWorkspace from './onOpenWorkspace';
 import makeOnSaveWorkspace from './onSaveWorkspace';
 import makeOnCloseWorkspace from './onCloseWorkspace';

@@ -1,5 +1,5 @@
-import { freezeArgs } from '../../../common/jest';
-import * as actions from '../../actions/ui';
+import { freezeArgs } from 'common/jest';
+import * as actions from 'store/actions/ui';
 import editorReducer from './editor';
 
 const reducer = freezeArgs(editorReducer);

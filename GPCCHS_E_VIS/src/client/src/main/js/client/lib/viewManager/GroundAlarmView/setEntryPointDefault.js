@@ -1,7 +1,7 @@
 import { v4 } from 'uuid';
-import { get } from '../../common/configurationManager';
-import { getStateColorFilters } from '../../windowProcess/common/colors';
-import constants from '../../constants';
+import { get } from 'common/configurationManager';
+import { getStateColorFilters } from 'windowProcess/common/colors';
+import constants from 'constants';
 
 export default function (entryPoint) {
   return Object.assign({}, getNewGroundAlarmEntryPoint(), entryPoint);

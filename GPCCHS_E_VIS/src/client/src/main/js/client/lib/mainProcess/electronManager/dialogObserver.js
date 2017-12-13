@@ -2,10 +2,10 @@ import _ from 'lodash/fp';
 import { each } from 'lodash';
 import electron from 'electron';
 
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
+import { dialogClosed } from 'store/actions/ui';
+import { getAllDialogs } from 'store/reducers/ui/dialog';
 import { getWindow } from '../windowsManager/windows';
-import { dialogClosed } from '../../store/actions/ui';
-import { getAllDialogs } from '../../store/reducers/ui/dialog';
 
 const logger = getLogger('main:electronManager:dialogObserver');
 

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { unmountPageTimebar } from '../../../store/actions/pages';
-import { getSessions } from '../../../store/reducers/sessions';
+import { unmountPageTimebar } from 'store/actions/pages';
+import { getSessions } from 'store/reducers/sessions';
 import {
   removeTimeline,
-} from '../../../store/actions/timelines';
+} from 'store/actions/timelines';
 import {
   open as openModal,
-} from '../../../store/actions/modals';
+} from 'store/actions/modals';
 import LeftTab from './LeftTab';
 
 const mapStateToProps = state => ({

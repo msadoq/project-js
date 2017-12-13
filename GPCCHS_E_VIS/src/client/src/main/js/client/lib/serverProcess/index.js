@@ -1,14 +1,14 @@
 import exit from 'exit';
 import { series } from 'async';
 import { setRtd, getRtd } from '../rtdManager';
-import { read } from '../common/fs';
+import { updateDomains } from '../store/actions/domains';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
 import { get, setFmdConfiguration } from '../common/configurationManager';
 import makeCreateStore from './store';
-import { updateDomains } from '../store/actions/domains';
-import { updateSessions } from '../store/actions/sessions';
+import { setRteSessions } from '../store/actions/rte';
+import { read } from '../common/fs';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { sendProductLog } from '../store/actions/hsc';
 import connectToZmq from './lifecycle/zmq';
@@ -16,7 +16,7 @@ import fetchInitialData from './lifecycle/data';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
-import { setRteSessions } from '../store/actions/rte';
+import { updateSessions } from '../store/actions/sessions';
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 

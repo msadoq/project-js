@@ -1,12 +1,12 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import EntryPointDetails from './EntryPointDetails';
 import {
   updateEntryPoint,
   removeEntryPoint,
-} from '../../../../store/actions/views';
-import { getViewEntryPointsSubPanels } from '../../../../store/reducers/ui/editor';
-import { updateViewSubPanels } from '../../../../store/actions/ui';
+} from 'store/actions/views';
+import { getViewEntryPointsSubPanels } from 'store/reducers/ui/editor';
+import { updateViewSubPanels } from 'store/actions/ui';
+import EntryPointDetails from './EntryPointDetails';
 
 const mapStateToProps = (state, { viewId, entryPoint }) => ({
   panels: getViewEntryPointsSubPanels(state, { viewId, entryPoint }),

@@ -1,8 +1,8 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { getPanels } from 'store/reducers/pages';
+import { getView } from 'store/reducers/views';
 import Editor from './Editor';
-import { getPanels } from '../../store/reducers/pages';
-import { getView } from '../../store/reducers/views';
 
 const mapStateToProps = (state, { pageId }) => {
   const { editorViewId } = getPanels(state, { pageId });

@@ -47,9 +47,10 @@ function getUniqueAxisId(stateConf, label) {
   return finalId;
 }
 
-function createAxis(stateConf, label, unit) {
+export function createAxis(stateConf, label, unit) {
   return {
     autoLimits: true,
+    showTicks: true,
     autoTick: true,
     showAxis: true,
     showLabels: true,

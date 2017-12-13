@@ -1,4 +1,4 @@
-import pipeMiddlewares from '../../../helpers/pipeMiddlewares';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import makeOnSaveView from './onSaveView';
 import makeOnOpenView from './onOpenView';
 import makeOnCloseView from './onCloseView';

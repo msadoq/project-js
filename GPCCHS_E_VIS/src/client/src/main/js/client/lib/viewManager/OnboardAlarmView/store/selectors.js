@@ -1,8 +1,8 @@
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
+import { getSortMode, getSortColumn, getExpandedAlarms } from 'viewManager/GroundAlarmView/store/uiReducer';
+import sortDataBy from 'viewManager/commonData/sortDataBy';
 import { getData } from './dataReducer';
-import { getSortMode, getSortColumn, getExpandedAlarms } from '../../GroundAlarmView/store/uiReducer';
-import sortDataBy from '../../commonData/sortDataBy';
 
 export const getSortedIndexes = createSelector(
   getData,

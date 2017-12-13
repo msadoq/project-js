@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
-import makeWikiHelperMiddleware from './';
+import * as types from 'store/types';
 
-import * as types from '../../../../store/types';
+import makeWikiHelperMiddleware from './';
 
 let urlOpened = null;
 let fakeUrl = null;

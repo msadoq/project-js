@@ -6,7 +6,7 @@ import _reduce from 'lodash/reduce';
 import _concat from 'lodash/concat';
 import _slice from 'lodash/slice';
 import _pullAt from 'lodash/pullAt';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 const initialState = {
   isLoaded: false,

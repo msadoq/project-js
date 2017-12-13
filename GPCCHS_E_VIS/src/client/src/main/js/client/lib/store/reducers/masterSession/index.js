@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 

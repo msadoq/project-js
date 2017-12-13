@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe } from '../../../common/jest';
-import { updateAxis, addAxis, removeAxis, getYAxis } from './axes';
+import { freezeMe } from 'common/jest';
+import { updateAxis, addAxis, removeAxis, getYAxis, createAxis } from './axes';
 
 describe('store:views:axes', () => {
   const state = freezeMe({
@@ -87,6 +87,31 @@ describe('store:views:axes', () => {
       };
       const axisY = getYAxis(state, { payload: { entryPoint } });
       expect(axisY).toEqual({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
+    });
+  });
+
+  describe('createAxis', () => {
+    test('createAxis', () => {
+      const label = 'vBat';
+      const unit = 'V';
+      expect(createAxis(state, label, unit)).toEqual({
+        autoLimits: true,
+        showTicks: true,
+        autoTick: true,
+        showAxis: true,
+        showLabels: true,
+        max: 300,
+        min: -300,
+        logarithmic: false,
+        logSettings: {
+          min: 0.1,
+          max: 1000000000,
+          base: 10,
+        },
+        label,
+        unit,
+        id: 'v_bat',
+      });
     });
   });
 });

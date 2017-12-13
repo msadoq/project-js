@@ -1,9 +1,9 @@
 import { BrowserWindow } from 'electron';
 
-import getLogger from '../../common/logManager';
-import parameters from '../../common/configurationManager';
+import getLogger from 'common/logManager';
+import parameters from 'common/configurationManager';
+import { closeCodeEditor } from 'store/actions/editor';
 import { getStore } from '../store';
-import { closeCodeEditor } from '../../store/actions/editor';
 import getCenteredPosition from './common/getCenteredPosition';
 import getHtmlPath from './getHtmlPath';
 

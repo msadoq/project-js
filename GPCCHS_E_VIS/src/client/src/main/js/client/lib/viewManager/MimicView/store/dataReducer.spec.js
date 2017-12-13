@@ -1,7 +1,7 @@
 import moment from 'moment';
+import * as types from 'store/types';
+import { freezeMe } from 'common/jest';
 import mimicViewData from './dataReducer';
-import * as types from '../../../store/types';
-import { freezeMe } from '../../../common/jest';
 
 describe('viewManager/TextView/store/dataReducer', () => {
   const payload = { rId1: {}, rId2: {} };

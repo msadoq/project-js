@@ -1,7 +1,7 @@
 import { join } from 'path';
 import rimraf from 'rimraf';
+import fs from 'common/fs';
 import { createDumpFolder, dumpBuffer } from './dumpBuffer';
-import fs from '../../common/fs';
 
 describe.skip('serverProcess/utils/dumpBuffer', () => {
   global.testConfig.DUMP_DIR = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/dump';

@@ -12,7 +12,7 @@ Clone the vima (if needed):
 Clone the rtd (if needed):
 > cd /data/work/gitRepositories/LPISIS/
 > git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS
-> git checkout R8-fwk
+> git checkout R10-fwk
 
 Switch to client folder:
 > cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client

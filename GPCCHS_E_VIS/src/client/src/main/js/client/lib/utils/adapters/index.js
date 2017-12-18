@@ -83,7 +83,7 @@ const register = (namespaceArray) => {
       logger.error(`An error occured during the loading of adapters '${currentNamespace}'`);
     }
   });
-}
+};
 
 const registerProto = (path, ns, adapter, mapper) => protobuf.register(path, ns, adapter, mapper);
 

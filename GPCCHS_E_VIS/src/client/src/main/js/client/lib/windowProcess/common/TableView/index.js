@@ -42,7 +42,7 @@ class SearchInput extends React.Component {
       <input
         type="text"
         value={this.state.value}
-        onInput={this.onInput}
+        onChange={this.onInput}
       />
     );
   }

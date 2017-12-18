@@ -3,19 +3,42 @@ import { createSelector } from 'reselect';
 import { getSortMode, getSortColumn, getExpandedAlarms } from 'viewManager/GroundAlarmView/store/uiReducer';
 import sortDataBy from 'viewManager/commonData/sortDataBy';
 import { getData } from './dataReducer';
+import { getSearch, getEnableSearch } from './configurationReducer';
 
-export const getSortedIndexes = createSelector(
+const isFiltered = (alarm, search) => _.pipe(
+  _.entries,
+  _.reduce(
+    (acc, [k, v]) => acc && alarm[k].indexOf(v) !== -1
+  )(true)
+)(search);
+
+export const getFilteredIndexes = createSelector(
   getData,
+  getSearch,
+  getEnableSearch,
+  ({ lines, indexes }, search, enableSearch) => {
+    if (enableSearch) {
+      return _.filter((oid => (
+        isFiltered(lines[oid], search)
+      )), indexes);
+    }
+    return indexes;
+  }
+);
+
+export const getFilteredSortedIndexes = createSelector(
+  getData,
+  getFilteredIndexes,
   getSortMode,
   getSortColumn,
-  ({ lines, indexes }, sortMode, column) => (
+  ({ lines }, indexes, sortMode, column) => (
     sortDataBy(oid => lines[oid].rawAlarm[column], sortMode, indexes)
   )
 );
 
 export const getDataRows = createSelector(
   getData,
-  getSortedIndexes,
+  getFilteredSortedIndexes,
   getExpandedAlarms,
   (data, sortedIndexes, expandedAlarms) => _.flatMap((lineId) => {
     const alarm = data.lines[lineId];

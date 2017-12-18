@@ -37,6 +37,11 @@ class OnboardAlarmTable extends React.Component {
       data: PropTypes.any,
       type: PropTypes.string,
     })).isRequired,
+    enableSearch: PropTypes.bool.isRequired,
+    inputToggle: PropTypes.func.isRequired,
+    search: PropTypes.shape({}).isRequired,
+    inputSearch: PropTypes.func.isRequired,
+    inputResetAll: PropTypes.func.isRequired,
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
     rowHeight: PropTypes.number,
@@ -85,6 +90,11 @@ class OnboardAlarmTable extends React.Component {
           this.props.openAckModal(getOids(this.props.selectedAlarms));
         },
         enabled: n > 0,
+      },
+      {
+        label: 'Reset search filters',
+        click: this.props.inputResetAll,
+        enabled: !_.isEmpty(this.props.search) && this.props.enableSearch,
       },
       { type: 'separator' },
       ...openInspectorMenu,
@@ -138,6 +148,10 @@ class OnboardAlarmTable extends React.Component {
         style={style}
       >
         <TableView
+          search={this.props.search}
+          onSearch={this.props.inputSearch}
+          enableSearch={this.props.enableSearch}
+          onClickSearchIcon={this.props.inputToggle}
           cols={COLS}
           subCols={PARAMETERS_COLS}
           sort={this.props.sort}

@@ -16,7 +16,8 @@
     "rawValue": "",
     "physicalValue": "",
     "satellite": "",
-    "ackState": ""
+    "ackState": "",
+    "enabled": true
   },
   "entryPoint": {
     "name": "groundAlarmEP",

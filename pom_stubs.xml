@@ -13,6 +13,7 @@
     <relativePath/>
   </parent>
   <modules>
+    <module>src/impl/catalogs_stub</module>
   </modules>
   <build>
     <plugins>

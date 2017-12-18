@@ -59,8 +59,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_RELOAD,
   ]);
   const shouldSetModifiedToTrue = _.contains(_, [
-    types.WS_VIEW_ALARM_INPUT_SEARCH,
-    types.WS_VIEW_ALARM_INPUT_RESET,
     types.WS_VIEW_UPDATEPATH,
     types.WS_VIEW_UPDATE_ABSOLUTEPATH,
     types.WS_VIEW_SET_OID,
@@ -92,6 +90,9 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_ALARMDOMAIN,
     types.WS_VIEW_UPDATE_ALARMTIMELINE,
     types.WS_VIEW_UPDATE_ALARMMODE,
+    types.WS_VIEW_ALARM_INPUT_SEARCH,
+    types.WS_VIEW_ALARM_INPUT_RESET,
+    types.WS_VIEW_ALARM_INPUT_TOGGLE,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     if (!stateView.isModified) {

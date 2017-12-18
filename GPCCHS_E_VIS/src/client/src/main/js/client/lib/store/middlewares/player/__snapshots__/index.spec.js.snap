@@ -128,14 +128,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498643008147,
-        "upper": 1498643173147,
+        "lower": 1498643008149,
+        "upper": 1498643173149,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": 1498643156647,
-        "lower": 1498642859647,
-        "upper": 1498643189647,
+        "current": 1498643156649,
+        "lower": 1498642859649,
+        "upper": 1498643189649,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",

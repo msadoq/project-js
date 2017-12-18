@@ -13,8 +13,9 @@ import {
   toggleSort,
   inputSearch,
   inputResetAll,
+  inputToggle,
 } from 'viewManager/GroundAlarmView/store/actions';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch } from 'viewManager/GroundAlarmView/store/configurationReducer';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch, getEnableSearch } from 'viewManager/GroundAlarmView/store/configurationReducer';
 import GroundAlarmTable from './GroundAlarmTable';
 
 const mapStateToProps = createStructuredSelector({
@@ -29,6 +30,7 @@ const mapStateToProps = createStructuredSelector({
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
   search: getSearch,
+  enableSearch: getEnableSearch,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
@@ -39,6 +41,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   toggleSort: column => dispatch(toggleSort(viewId, column)),
   inputSearch: (column, value) => dispatch(inputSearch(viewId, column, value)),
   inputResetAll: () => dispatch(inputResetAll(viewId)),
+  inputToggle: () => dispatch(inputToggle(viewId)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

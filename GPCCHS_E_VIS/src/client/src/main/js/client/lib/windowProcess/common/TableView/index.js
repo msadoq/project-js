@@ -18,13 +18,16 @@ class SearchInput extends React.Component {
 
   state = { value: '' }
 
+  componentWillMount() {
+    this.setState(_.set('value', this.props.value));
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.value === ''
-      && nextProps.value !== this.props.value
+      nextProps.value !== this.props.value
       && nextProps.value !== this.state.value
     ) {
-      this.setState(_.set('value', ''));
+      this.setState(_.set('value', nextProps.value));
     }
   }
 
@@ -39,7 +42,7 @@ class SearchInput extends React.Component {
       <input
         type="text"
         value={this.state.value}
-        onInput={this.onInput}
+        onChange={this.onInput}
       />
     );
   }
@@ -48,7 +51,7 @@ class SearchInput extends React.Component {
 const SearchIcon = ({ onClick, enabled }) => (
   <Label
     onClick={() => onClick()}
-    title={enabled ? 'Collapse search by column' : 'Expand search by column'}
+    title={enabled ? 'Disable search' : 'Enable search'}
     className={classnames({
       [styles.clickableMargin]: true,
     })}

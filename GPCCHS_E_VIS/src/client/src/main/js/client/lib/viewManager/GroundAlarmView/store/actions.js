@@ -78,3 +78,8 @@ export const inputResetAll = viewId => ({
   type: types.WS_VIEW_ALARM_INPUT_RESET,
   payload: { viewId },
 });
+
+export const inputToggle = viewId => ({
+  type: types.WS_VIEW_ALARM_INPUT_TOGGLE,
+  payload: { viewId },
+});

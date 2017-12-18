@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { getViewEntryPoints } from 'store/selectors/views';
 import sortDataBy from 'viewManager/commonData/sortDataBy';
 import { getData } from './dataReducer';
-import { getSearch } from './configurationReducer';
+import { getSearch, getEnableSearch } from './configurationReducer';
 import { getSortMode, getSortColumn, getExpandedAlarms } from './uiReducer';
 
 export const getInspectorOptions = createSelector(
@@ -30,9 +30,15 @@ const isFiltered = (alarm, search) => _.pipe(
 export const getFilteredIndexes = createSelector(
   getData,
   getSearch,
-  ({ lines, indexes }, search) => _.filter((oid => (
-    isFiltered(lines[oid], search)
-  )), indexes)
+  getEnableSearch,
+  ({ lines, indexes }, search, enableSearch) => {
+    if (enableSearch) {
+      return _.filter((oid => (
+        isFiltered(lines[oid], search)
+      )), indexes);
+    }
+    return indexes;
+  }
 );
 
 export const getFilteredSortedIndexes = createSelector(

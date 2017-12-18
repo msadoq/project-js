@@ -6,12 +6,89 @@
     "length": 5,
     "width": 5
   },
+  "search": {
+    "enabled": true
+  },
   "entryPoint": {
     "name": "onboardAlarmEP",
     "connectedData": {
       "domain": "*",
       "timeline": "*",
       "mode": 0
-    }
+    },
+    "stateColors": [
+      {
+        "color": "darkorange",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "alarm"
+        }
+      },
+      {
+        "color": "darkred",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "critical"
+        }
+      },
+      {
+        "color": "darkred",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "outOfRange"
+        }
+      },
+      {
+        "color": "#FF0000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "severe"
+        }
+      },
+      {
+        "color": "#FF0000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "danger"
+        }
+      },
+      {
+        "color": "#FFFF00",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "warning"
+        }
+      },
+      {
+        "color": "1300ms",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "time"
+        }
+      },
+      {
+        "color": "gpcchs_main",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "pname"
+        }
+      },
+      {
+        "color": 25608,
+        "condition": {
+          "field": "monitoringState",
+          "operator": "=",
+          "operand": "pid"
+        }
+      }
+    ]
   }
 }

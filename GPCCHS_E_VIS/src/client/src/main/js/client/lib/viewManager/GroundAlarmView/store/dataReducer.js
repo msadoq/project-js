@@ -92,9 +92,6 @@ export default function groundAlarmViewData(state = {}, action) {
     }
     case types.WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
-      // console.warn('=======================');
-      // console.log(JSON.stringify(action, null, 2));
-      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {

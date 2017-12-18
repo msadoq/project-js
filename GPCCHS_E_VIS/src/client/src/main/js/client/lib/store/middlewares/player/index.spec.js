@@ -18,7 +18,7 @@ import makePlayerMiddleware from '.';
 
 const timebarFixture = {
   mode: 'Normal',
-  speed: 1,
+  speed: 2,
   slideWindow: { lower: 1498642826647, upper: 1498643156647 },
   visuWindow: {
     current: 1498643156647,

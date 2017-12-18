@@ -4,6 +4,10 @@ import { createSelector } from 'reselect';
 import * as types from 'store/types';
 import { getConfigurationByViewId } from 'viewManager';
 
+const initialConfiguration = {
+  search: { enabled: true },
+};
+
 export default (stateConf = {}, action) => {
   switch (action.type) {
     case types.WS_VIEW_RELOAD:
@@ -11,7 +15,10 @@ export default (stateConf = {}, action) => {
     case types.WS_PAGE_OPENED:
     case types.WS_WORKSPACE_OPENED:
     case types.WS_VIEW_ADD_BLANK: {
-      return action.payload.view.configuration;
+      return {
+        ...initialConfiguration,
+        ...action.payload.view.configuration,
+      };
     }
     case types.WS_VIEW_UPDATE_ALARMDOMAIN:
       return _.set('entryPoints[0].connectedData.domain', action.payload.domainName, stateConf);
@@ -25,7 +32,10 @@ export default (stateConf = {}, action) => {
       return _.set(['search', column], value, stateConf);
     }
     case types.WS_VIEW_ALARM_INPUT_RESET: {
-      return _.set(['search'], {}, stateConf);
+      return _.update('search', _.pick('enabled'), stateConf);
+    }
+    case types.WS_VIEW_ALARM_INPUT_TOGGLE: {
+      return _.update('search.enabled', _.negate(_.identity), stateConf);
     }
     default:
       return stateConf;
@@ -51,6 +61,12 @@ export const getSearch = createSelector(
   getConfigurationByViewId,
   _.pipe(
     _.getOr({}, 'search'),
-    _.pickBy(_.identity) // reject falsy values
+    _.omit('enabled'),
+    _.omitBy(_.equals('')) // reject empty values
   )
+);
+
+export const getEnableSearch = createSelector(
+  getConfigurationByViewId,
+  _.getOr(false, 'search.enabled')
 );

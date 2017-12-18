@@ -13,7 +13,6 @@ const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extract
 
 const initialState = {
   hoveredAlarm: undefined,
-  enableSearch: true,
 };
 
 class GroundAlarmTable extends React.Component {
@@ -36,6 +35,8 @@ class GroundAlarmTable extends React.Component {
       data: PropTypes.any,
       type: PropTypes.string,
     })).isRequired,
+    enableSearch: PropTypes.bool.isRequired,
+    inputToggle: PropTypes.func.isRequired,
     search: PropTypes.shape({}).isRequired,
     inputSearch: PropTypes.func.isRequired,
     inputResetAll: PropTypes.func.isRequired,
@@ -62,7 +63,7 @@ class GroundAlarmTable extends React.Component {
       || this.props.timeline !== nextProps.timeline
       || this.props.mode !== nextProps.mode
     ) {
-      this.cunhoverAlarm();
+      this.unhoverAlarm();
     }
   }
 
@@ -90,7 +91,7 @@ class GroundAlarmTable extends React.Component {
       {
         label: 'Reset search filters',
         click: this.props.inputResetAll,
-        enabled: !_.isEmpty(this.props.search),
+        enabled: !_.isEmpty(this.props.search) && this.props.enableSearch,
       },
       { type: 'separator' },
       ...openInspectorMenu,
@@ -113,10 +114,6 @@ class GroundAlarmTable extends React.Component {
     if (ackState === REQUIRE_ACK && !this.props.isPlayingTimebar) {
       this.props.toggleSelection(oid);
     }
-  }
-
-  toggleSearch = () => {
-    this.setState(_.update('enableSearch', _.negate(_.identity)));
   }
 
   hoverAlarm = (row) => {
@@ -143,8 +140,8 @@ class GroundAlarmTable extends React.Component {
         <TableView
           search={this.props.search}
           onSearch={this.props.inputSearch}
-          enableSearch={this.state.enableSearch}
-          onClickSearchIcon={this.toggleSearch}
+          enableSearch={this.props.enableSearch}
+          onClickSearchIcon={this.props.inputToggle}
           cols={COLS}
           subCols={TRANSITION_COLS}
           sort={this.props.sort}

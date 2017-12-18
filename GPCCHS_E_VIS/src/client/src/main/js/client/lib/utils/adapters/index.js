@@ -38,8 +38,8 @@ const registerGlobal = (override) => {
   register(CLIENT_ADAPTERS);
   if (MISSIONS_ADAPTERS) {
     register(MISSIONS_ADAPTERS);
-  } else{
-    logger.warn(` Please provide MISSION_ADAPTERS array for specific mission adapters`);
+  } else {
+    logger.warn('Please provide MISSION_ADAPTERS array for specific mission adapters');
   }
 };
 

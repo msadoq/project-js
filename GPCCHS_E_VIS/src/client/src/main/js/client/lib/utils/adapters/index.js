@@ -33,8 +33,18 @@ const logger = getLogger('AdaptersManager');
 let currentNamespace = '';
 
 const registerGlobal = (override) => {
-  const ADAPTERS = override || parameters.get('CLIENT_ADAPTERS');
-  _each(ADAPTERS, (msgNasmespaces) => {
+  const CLIENT_ADAPTERS = override || parameters.get('CLIENT_ADAPTERS');
+  const MISSIONS_ADAPTERS = parameters.get('MISSIONS_ADAPTERS');
+  register(CLIENT_ADAPTERS);
+  if (MISSIONS_ADAPTERS) {
+    register(MISSIONS_ADAPTERS);
+  } else{
+    logger.warn(` Please provide MISSION_ADAPTERS array for specific mission adapters`);
+  }
+};
+
+const register = (namespaceArray) => {
+  _each(namespaceArray, (msgNasmespaces) => {
     currentNamespace = msgNasmespaces.ns;
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
@@ -73,7 +83,7 @@ const registerGlobal = (override) => {
       logger.error(`An error occured during the loading of adapters '${currentNamespace}'`);
     }
   });
-};
+}
 
 const registerProto = (path, ns, adapter, mapper) => protobuf.register(path, ns, adapter, mapper);
 

@@ -44,10 +44,9 @@ import { updateDomains } from '../store/actions/domains';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
-import { get, setFmdConfiguration } from '../common/configurationManager';
+import { get } from '../common/configurationManager';
 import makeCreateStore from './store';
 import { setRteSessions } from '../store/actions/rte';
-import { read } from '../common/fs';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { sendProductLog } from '../store/actions/hsc';
 import connectToZmq from './lifecycle/zmq';
@@ -82,25 +81,9 @@ const requestCatalogSessions = (store) => {
   }
 };
 
-function loadFmdConfigurationFile(callback) {
-  const confPath = get('CONFIGURATION');
-  if (confPath) {
-    read(confPath, (error, content) => {
-      callback(error, content);
-      setFmdConfiguration(JSON.parse(content));
-    });
-  } else {
-    callback(null);
-  }
-}
-
-const loadMissionsAdapters = (missionsAdapters) => {
-  adapter.registerGlobal(missionsAdapters);
-};
 
 series({
   // ZeroMQ sockets
-  loadFileConfig: callback => loadFmdConfigurationFile(callback),
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
   // TODO : Send logBook to LPISIS (after store init to allow dispatch)
   logBook: (callback) => {
@@ -129,12 +112,9 @@ series({
   },
   // Initial data for store (domains, sessions, master session ID)
   initialData: callback => fetchInitialData(callback),
-}, (err, { initialData, loadFileConfig }) => {
+}, (err, { initialData }) => {
   if (err) {
     throw err;
-  }
-  if (loadFileConfig) {
-    loadMissionsAdapters(get('MISSIONS_ADAPTERS'));
   }
 
   // ipc with main

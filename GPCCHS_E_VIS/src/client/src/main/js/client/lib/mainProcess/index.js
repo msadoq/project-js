@@ -106,6 +106,7 @@ import { series } from 'async';
 
 import getLogger from '../common/logManager';
 import serverController from './controllers/server';
+import { read } from '../common/fs';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
@@ -162,6 +163,25 @@ export function onStart() {
   // mount IPC controller with renderer processes
   ipcMain.on('windowRequest', rendererController);
   series([
+    function loadFmdConfigurationFile(callback) {
+      const confPath = parameters.get('CONFIGURATION');
+      if (confPath) {
+        logger.info(` --CONFIGURATION parameter found at ${confPath} `);
+        read(confPath, (error, content) => {
+          callback(error, content);
+          try {
+            const parsedContent = JSON.parse(content);
+            parameters.setFmdConfiguration(parsedContent);
+          } catch (e) {
+            logger.error('Error while parsing configuration file');
+            logger.error(e);
+          }
+        });
+      } else {
+        logger.error('No --CONFIGURATION parameters found');
+        callback(null);
+      }
+    },
     function openSplashScreen(callback) {
       splashScreen.open(callback);
     },
@@ -212,7 +232,7 @@ export function onStart() {
         }, store);
         callback(null);
       };
-
+      logger.info(parameters.getAll().STATE_COLORS);
       if (process.env.IS_BUNDLED === 'on') {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');

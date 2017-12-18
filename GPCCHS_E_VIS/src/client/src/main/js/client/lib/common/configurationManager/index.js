@@ -122,7 +122,8 @@ function getAll() {
     defaultConfig,
     getAllEnv(),
     localConfig,
-    getAllArgv()
+    getAllArgv(),
+    fmdConfig
   );
   return _omit(all, ['_', 'r']);
 }

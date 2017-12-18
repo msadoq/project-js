@@ -7,6 +7,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render ::  1`] = `
 >
   <div
     className="rc-collapse-item"
+    id={undefined}
     style={undefined}
   >
     <div
@@ -23,6 +24,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render ::  1`] = `
   </div>
   <div
     className="rc-collapse-item"
+    id={undefined}
     style={undefined}
   >
     <div
@@ -39,6 +41,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render ::  1`] = `
   </div>
   <div
     className="rc-collapse-item"
+    id={undefined}
     style={undefined}
   >
     <div
@@ -63,6 +66,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render :: true 1`] = `
 >
   <div
     className="rc-collapse-item"
+    id={undefined}
     style={undefined}
   >
     <div
@@ -79,6 +83,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render :: true 1`] = `
   </div>
   <div
     className="rc-collapse-item"
+    id={undefined}
     style={undefined}
   >
     <div
@@ -95,6 +100,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render :: true 1`] = `
   </div>
   <div
     className="rc-collapse-item"
+    id={undefined}
     style={undefined}
   >
     <div

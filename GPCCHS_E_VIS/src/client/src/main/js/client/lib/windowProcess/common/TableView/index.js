@@ -106,7 +106,7 @@ Arrow.propTypes = {
 // Used because we need an additional column for expand/collapse
 const getColumns = cols => ['', ...cols];
 
-const Table = ({
+export const Table = ({
   rows, position, nbDisplayedRows, rowHeight, search,
   cols, subCols, getIsHovered, getIsSelected, getIsExpanded, getIsSelectable,
   disableSelection, disableSelectionReason, sort, enableSearch,

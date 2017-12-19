@@ -1,0 +1,429 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableView renders correctly 1`] = `
+<table
+  className="TableView container"
+>
+  <thead>
+    <tr
+      style={
+        Object {
+          "height": "22px",
+        }
+      }
+    >
+      <th
+        className={false}
+      >
+        <span
+          className="clickableMargin label label-default"
+          onClick={[Function]}
+          title="Disable search"
+        >
+          <span
+            className="glyphicon glyphicon-search"
+          />
+        </span>
+      </th>
+      <th
+        className="search"
+      >
+        <input
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </th>
+      <th
+        className="search"
+      >
+        <input
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </th>
+      <th
+        className="search"
+      >
+        <input
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </th>
+    </tr>
+    <tr
+      style={
+        Object {
+          "height": "22px",
+        }
+      }
+    >
+      <th
+        className=""
+        onClick={[Function]}
+      >
+        
+      </th>
+      <th
+        className="header"
+        onClick={[Function]}
+      >
+        <span
+          className="sortArrow label label-default"
+        >
+          <span
+            className="glyphicon glyphicon-chevron-up"
+          />
+        </span>
+        a
+      </th>
+      <th
+        className="header"
+        onClick={[Function]}
+      >
+        b
+      </th>
+      <th
+        className="header"
+        onClick={[Function]}
+      >
+        c
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      className="tableRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+          "width": "100%",
+        }
+      }
+      title=""
+    >
+      <td
+        className="collapseColumn"
+      >
+        <span
+          className="clickableMargin label label-default"
+          onClick={[Function]}
+          title="Expand"
+        >
+          <span
+            className="glyphicon glyphicon-plus"
+          />
+        </span>
+      </td>
+      <td
+        className=""
+      >
+        aaa
+      </td>
+      <td
+        className=""
+      >
+        bbb
+      </td>
+      <td
+        className=""
+      >
+        ccc
+      </td>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+        }
+      }
+      title=""
+    >
+      <th
+        className="collapseColumn"
+      />
+      <th
+        colSpan={3}
+        style={
+          Object {
+            "fontStyle": "italic",
+          }
+        }
+      >
+        TRANSITIONS
+      </th>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+        }
+      }
+      title=""
+    >
+      <th
+        className="collapseColumn"
+      >
+        
+      </th>
+      <th
+        className=""
+      >
+        d
+      </th>
+      <th
+        className=""
+      >
+        e
+      </th>
+      <th
+        className=""
+      >
+        f
+      </th>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+          "width": "100%",
+        }
+      }
+      title=""
+    >
+      <td
+        className="collapseColumn"
+      />
+      <td
+        className=""
+      >
+        ddd
+      </td>
+      <td
+        className=""
+      >
+        eee
+      </td>
+      <td
+        className=""
+      >
+        fff
+      </td>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+          "width": "100%",
+        }
+      }
+      title=""
+    >
+      <td
+        className="collapseColumn"
+      />
+      <td
+        className=""
+      >
+        DDD
+      </td>
+      <td
+        className=""
+      >
+        EEE
+      </td>
+      <td
+        className=""
+      >
+        FFF
+      </td>
+    </tr>
+    <tr
+      className="tableRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+          "width": "100%",
+        }
+      }
+      title=""
+    >
+      <td
+        className="collapseColumn"
+      >
+        <span
+          className="clickableMargin label label-default"
+          onClick={[Function]}
+          title="Expand"
+        >
+          <span
+            className="glyphicon glyphicon-plus"
+          />
+        </span>
+      </td>
+      <td
+        className=""
+      >
+        AAA
+      </td>
+      <td
+        className=""
+      >
+        BBB
+      </td>
+      <td
+        className=""
+      >
+        CCC
+      </td>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+        }
+      }
+      title=""
+    >
+      <th
+        className="collapseColumn"
+      />
+      <th
+        colSpan={3}
+        style={
+          Object {
+            "fontStyle": "italic",
+          }
+        }
+      >
+        TRANSITIONS
+      </th>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+        }
+      }
+      title=""
+    >
+      <th
+        className="collapseColumn"
+      >
+        
+      </th>
+      <th
+        className=""
+      >
+        d
+      </th>
+      <th
+        className=""
+      >
+        e
+      </th>
+      <th
+        className=""
+      >
+        f
+      </th>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+          "width": "100%",
+        }
+      }
+      title=""
+    >
+      <td
+        className="collapseColumn"
+      />
+      <td
+        className=""
+      >
+        dddd
+      </td>
+      <td
+        className=""
+      >
+        eeee
+      </td>
+      <td
+        className=""
+      >
+        ffff
+      </td>
+    </tr>
+    <tr
+      className="tableSubRow"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={
+        Object {
+          "height": "22px",
+          "width": "100%",
+        }
+      }
+      title=""
+    >
+      <td
+        className="collapseColumn"
+      />
+      <td
+        className=""
+      >
+        DDDD
+      </td>
+      <td
+        className=""
+      >
+        EEEE
+      </td>
+      <td
+        className=""
+      >
+        FFFF
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

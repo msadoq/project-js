@@ -44,7 +44,7 @@ export const resolveOid = (oId, cb) => (
 export default ({ folder, relativePath, oId, absolutePath }, cb) => {
   const rootDir = folder || fmd.getRootDir();
   if (absolutePath) {
-    return cb(null, { resolvedPath: absolutePath });
+    return resolveFmdPath(absolutePath, cb);
   }
   if (oId) {
     return resolveOid(oId, cb);

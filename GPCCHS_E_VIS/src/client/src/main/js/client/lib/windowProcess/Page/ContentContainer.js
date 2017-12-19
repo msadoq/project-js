@@ -26,6 +26,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { updateLayout, askOpenPage } from 'store/actions/pages';
 import { askOpenView } from 'store/actions/views';
+import { askOpenWorkspace } from 'store/actions/hsc';
 import { add } from 'store/actions/messages';
 import { getPageViews } from 'store/selectors/pages';
 import {
@@ -46,6 +47,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch, { windowId, pageId }) => (
   bindActionCreators({
     updateLayout: layout => updateLayout(pageId, layout),
+    askOpenWorkspace: filePath => askOpenWorkspace(windowId, filePath),
     askOpenPage: filePath => askOpenPage(windowId, filePath),
     askOpenView: filePath => askOpenView(filePath),
     addMessage: add,

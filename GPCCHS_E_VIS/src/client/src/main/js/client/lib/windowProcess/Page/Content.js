@@ -45,7 +45,6 @@ import ViewContainer from '../View/ViewContainer';
 import MessagesContainer from '../common/MessagesContainer';
 import DroppableContainer from '../common/DroppableContainer';
 import styles from './Content.css';
-import { main } from '../ipc';
 
 const logger = getLogger('Content');
 
@@ -87,6 +86,7 @@ export default class Content extends PureComponent {
     windowId: PropTypes.string.isRequired,
     maximizedViewUuid: PropTypes.string,
     width: PropTypes.number,
+    askOpenWorkspace: PropTypes.func.isRequired,
     askOpenPage: PropTypes.func.isRequired,
     askOpenView: PropTypes.func.isRequired,
     addMessage: PropTypes.func.isRequired,
@@ -107,6 +107,7 @@ export default class Content extends PureComponent {
 
   onDrop = (e) => { // eslint-disable-line class-methods-use-this
     const {
+      askOpenWorkspace,
       askOpenView,
       askOpenPage,
       addMessage,
@@ -123,14 +124,9 @@ export default class Content extends PureComponent {
     _.cond([
       [_.eq('view'), () => askOpenView(filePath)],
       [_.eq('page'), () => askOpenPage(filePath)],
-      [_.eq('workspace'), () => main.openWorkspace({
-        absolutePath: path.join(
-          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-          _.getOr(_.get('filepath', content), 'filePath', content)
-        ),
-      })],
+      [_.eq('workspace'), () => askOpenWorkspace(filePath)],
       [
-        _.stubTrue,
+        _.always(true),
         () => {
           addMessage(
             pageId,

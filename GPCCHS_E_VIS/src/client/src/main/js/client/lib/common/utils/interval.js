@@ -16,7 +16,11 @@ const createInterval = (ms, f = _.noop) => {
     const tick = Date.now();
     id = setTimeout(() => {
       const waitedMs = Date.now() - tick;
-      cb(waitedMs);
+      if (process.env.NODE_ENV === 'test') {
+        cb(ms);
+      } else {
+        cb(waitedMs);
+      }
       timer(cb, Math.max(0, waitedMs - ms));
     }, ms - delta);
   };

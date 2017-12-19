@@ -28,7 +28,6 @@ export default function historyViewData(state = {}, action) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_VIEW_RELOAD:
     case types.WS_VIEW_OPENED:
     case types.WS_VIEW_ADD_BLANK:
       if (action.payload.view.type !== constants.VM_VIEW_HISTORY) {

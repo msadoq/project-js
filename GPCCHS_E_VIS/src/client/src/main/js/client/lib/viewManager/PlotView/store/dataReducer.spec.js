@@ -26,14 +26,6 @@ describe('viewManager/PlotView/store/dataReducer', () => {
   test('HSC_CLOSE_WORKSPACE', () => {
     expect(plotViewData(state.PlotViewData, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
-  test('WS_VIEW_RELOAD', () => {
-    const action = { type: types.WS_VIEW_RELOAD,
-      payload: { view: { type: 'TextView', uuid: 'myText' } } };
-    expect(plotViewData(freezeMe({}), action)).toEqual({});
-    action.payload.view = { type: 'PlotView', uuid: 'myPlot' };
-    expect(plotViewData(freezeMe({}), action)).toEqual({ myPlot: {
-      indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
-  });
   test('WS_VIEW_OPENED', () => {
     const action = { type: types.WS_VIEW_OPENED,
       payload: { view: { type: 'TextView', uuid: 'myText' } } };

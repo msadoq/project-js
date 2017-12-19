@@ -51,13 +51,6 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
     });
     expect(dynamicViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
-  test('WS_VIEW_RELOAD', () => {
-    const action = { type: types.WS_VIEW_RELOAD,
-      payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    expect(dynamicViewData(freezeMe({}), action)).toEqual({});
-    action.payload.view = { type: 'DynamicView', uuid: 'myDyn' };
-    expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
-  });
   test('WS_VIEW_OPENED', () => {
     const action = { type: types.WS_VIEW_OPENED,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };

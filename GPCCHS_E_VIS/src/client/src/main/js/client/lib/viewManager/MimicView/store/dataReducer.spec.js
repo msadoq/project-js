@@ -18,7 +18,7 @@ import * as types from 'store/types';
 import { freezeMe } from 'common/jest';
 import mimicViewData from './dataReducer';
 
-describe('viewManager/TextView/store/dataReducer', () => {
+describe('viewManager/MimicView/store/dataReducer', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -50,13 +50,6 @@ describe('viewManager/TextView/store/dataReducer', () => {
       },
     });
     expect(mimicViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
-  });
-  test('WS_VIEW_RELOAD', () => {
-    const action = { type: types.WS_VIEW_RELOAD,
-      payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    expect(mimicViewData(freezeMe({}), action)).toEqual({});
-    action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
-    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   test('WS_VIEW_OPENED', () => {
     const action = { type: types.WS_VIEW_OPENED,

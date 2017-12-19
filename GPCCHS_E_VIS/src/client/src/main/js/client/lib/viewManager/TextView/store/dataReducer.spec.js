@@ -51,13 +51,6 @@ describe('viewManager/TextView/store/dataReducer', () => {
     });
     expect(textViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
   });
-  test('WS_VIEW_RELOAD', () => {
-    const action = { type: types.WS_VIEW_RELOAD,
-      payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    expect(textViewData(freezeMe({}), action)).toEqual({});
-    action.payload.view = { type: 'TextView', uuid: 'myText' };
-    expect(textViewData(freezeMe({}), action)).toEqual({ myText: { index: {}, values: {} } });
-  });
   test('WS_VIEW_OPENED', () => {
     const action = { type: types.WS_VIEW_OPENED,
       payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };

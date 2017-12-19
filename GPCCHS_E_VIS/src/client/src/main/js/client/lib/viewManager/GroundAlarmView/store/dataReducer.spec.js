@@ -22,12 +22,6 @@ describe('GroundAlarmView:dataReducer', () => {
         const state = { v1: { data: true } };
 
         expect(
-          reducer(state, { type: types.WS_VIEW_RELOAD, payload: { view: { type: PLOT, uuid: 'v1' } } })
-        ).toBe(state);
-        expect(
-          reducer(state, { type: types.WS_VIEW_RELOAD, payload: { view: { type: GMA, uuid: 'v1' } } })
-        ).toEqual(initialSubState);
-        expect(
           reducer(state, { type: types.WS_VIEW_ADD_BLANK, payload: { view: { type: GMA, uuid: 'v1' } } })
         ).toEqual(initialSubState);
         expect(

@@ -39,6 +39,12 @@ const initialState = {
   realTime: false,
 };
 
+const createSafeVisuWindow = ({ lower, upper, current }) => ({
+  lower: lower === current ? lower - 1 : lower,
+  upper: upper === current ? upper + 1 : upper,
+  current,
+});
+
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function timebarReducer(stateTimebar = initialState, action) {
   const { payload } = action;
@@ -108,7 +114,7 @@ export default function timebarReducer(stateTimebar = initialState, action) {
       if (newValues.slideWindow || newValues.visuWindow) {
         return {
           ...stateTimebar,
-          visuWindow: newValues.visuWindow || tb.visuWindow,
+          visuWindow: createSafeVisuWindow(newValues.visuWindow || tb.visuWindow),
           slideWindow: newValues.slideWindow || tb.slideWindow,
         };
       }

@@ -82,6 +82,9 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
     if (current > upper) {
       messages.push('Current cursor must be before upper cursor');
     }
+    if (lower >= upper) {
+      messages.push('Lower cursor must be before upper cursor');
+    }
     if (newSlideWindow.lower < lower || newSlideWindow.lower > current) {
       newSlideWindow.lower = lower;
     }

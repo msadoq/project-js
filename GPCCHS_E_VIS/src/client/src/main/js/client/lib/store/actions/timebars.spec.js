@@ -179,6 +179,14 @@ describe('store:actions:timebars', () => {
             messages: [{ content: 'Current cursor must be before upper cursor' }],
           },
         },
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'timeSetter-tb2',
+            type: 'error',
+            messages: [{ content: 'Lower cursor must be before upper cursor' }],
+          },
+        },
       ]);
     });
   });

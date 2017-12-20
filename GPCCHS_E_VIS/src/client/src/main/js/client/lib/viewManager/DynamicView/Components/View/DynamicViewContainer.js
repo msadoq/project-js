@@ -31,7 +31,7 @@ import { getConfigurationByViewId } from 'viewManager';
 import { getViewEntryPoints } from 'store/selectors/views';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
-import { removeLink, updateShowLinks } from 'store/actions/views';
+import { removeLink, updateShowLinks, addEntryPoint } from 'store/actions/views';
 import { getData } from 'viewManager/DynamicView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
 import { getInspectorEpId } from 'store/reducers/inspector';
@@ -56,9 +56,10 @@ const mapStateToProps = (state, { viewId }) => {
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
   };
 };
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   removeLink,
   updateShowLinks,
+  addEntryPoint: data => addEntryPoint(viewId, data),
 }, dispatch);
 
 const DynamicViewContainer = connect(mapStateToProps, mapDispatchToProps)(DynamicView);

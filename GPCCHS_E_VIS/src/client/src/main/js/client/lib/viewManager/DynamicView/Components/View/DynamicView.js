@@ -28,6 +28,7 @@
 // ====================================================================
 
 import React, { PropTypes, PureComponent } from 'react';
+import _ from 'lodash/fp';
 import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
 import classnames from 'classnames';
 import _get from 'lodash/get';
@@ -35,8 +36,23 @@ import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './DynamicView.css';
+
+const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
+
+// parse clipboard data to create partial entry point
+function parseDragData(data) {
+  return {
+    name: 'dynamicEP',
+    connectedData: {
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>`,
+      domain: '*',
+      timeline: '*',
+    },
+  };
+}
 
 function dataToShow(data) {
   if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
@@ -131,6 +147,7 @@ export default class DynamicView extends PureComponent {
       index: PropTypes.number,
     }),
     entryPoints: PropTypes.objectOf(PropTypes.object),
+    addEntryPoint: PropTypes.func.isRequired,
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
@@ -193,16 +210,35 @@ export default class DynamicView extends PureComponent {
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   }
 
+
+  onDrop = (e) => {
+    const data = e.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
+    this.props.addEntryPoint(
+      parseDragData(content)
+    );
+    this.props.openEditor();
+
+    e.stopPropagation();
+  }
+
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
   }
+
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
   }
+
 
   render() {
     const {
@@ -233,9 +269,10 @@ export default class DynamicView extends PureComponent {
     const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
-      <div
-        className={styles.container}
+      <DroppableContainer
+        onDrop={this.onDrop}
         onContextMenu={this.onContextMenu}
+        className={classnames('h100', 'posRelative', styles.container)}
       >
         <header className={styles.header}>
           <h1>{parameterName}</h1>
@@ -265,7 +302,7 @@ export default class DynamicView extends PureComponent {
             pageId={pageId}
           />
         </div>
-      </div>
+      </DroppableContainer>
     );
   }
 }

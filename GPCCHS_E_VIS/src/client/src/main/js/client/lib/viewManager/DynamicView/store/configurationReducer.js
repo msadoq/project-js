@@ -7,6 +7,7 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import * as types from 'store/types';
 
 export default (stateConf = { content: '' }, action) => {
@@ -18,7 +19,9 @@ export default (stateConf = { content: '' }, action) => {
     case types.WS_VIEW_ADD_BLANK: {
       return action.payload.view.configuration;
     }
-
+    case types.WS_VIEW_ADD_ENTRYPOINT: {
+      return _.set('entryPoints[0]', action.payload.entryPoint, stateConf);
+    }
     default:
       return stateConf;
   }

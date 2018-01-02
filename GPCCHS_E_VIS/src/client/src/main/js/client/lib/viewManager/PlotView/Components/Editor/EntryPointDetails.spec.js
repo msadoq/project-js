@@ -20,6 +20,8 @@ const propsStub = {
     parametric: false,
     displayLine: true,
     displayPoints: true,
+    connectedData: {},
+    stateColors: {},
   },
   updateEntryPoint: () => null,
   updateViewSubPanels: () => null,

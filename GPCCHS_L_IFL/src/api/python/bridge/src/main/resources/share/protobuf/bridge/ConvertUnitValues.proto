@@ -2,7 +2,8 @@ package bridge.protobuf;
 import "ccsds_mal/types.proto";
 
 message ConvertUnitValues {
-    required string fromUnit = 1;
-    required string toUnit = 2;
-    repeated ccsds_mal.protobuf.ATTRIBUTE values = 3;
+    optional string fromUnit = 1;
+    optional string toUnit = 2;
+    optional string sessionId = 3;
+    repeated ccsds_mal.protobuf.ATTRIBUTE values = 4;
 }

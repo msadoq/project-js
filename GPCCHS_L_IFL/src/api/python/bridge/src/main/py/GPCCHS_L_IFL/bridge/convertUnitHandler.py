@@ -13,7 +13,9 @@ Component : GPCCHS_L_IFL.bridge.convertUnitHandler
 # END-HISTORY
 # ====================================================================
 
+from GPCC.ccsds_mal.fLOAT import FLOAT
 from bridge.ConvertUnitValues_pb2 import ConvertUnitValues
+from bridge.ResultValues_pb2 import ResultValues
 from GPINUC_L_UCL.unitConverterLibrary.unitConverterException import UnitConverterException
 from GPCC.ccsds_mal.sTRING import STRING
       
@@ -32,28 +34,25 @@ def perform(unitConverterLib=None, msg=None):
     fromUnit = STRING(convToDo.fromUnit)
     # Retrieve the unit of the output values from message and convert into STRING for GPINUC
     toUnit = STRING(convToDo.toUnit)
-    # Retrieve the list of values to convert from message and convert into STRING for GPINUC
-    valuesToConvertList = convToDo.values # List of ccsds_mal.types_pb2.ATTRIBUTE
-    # Temporary format for GPINUC, later it won't be a string but a list of ATTRIBUTE
-    valuesToConvert = ""
-    # Concatenate the values to convert into a single string
-    for value in valuesToConvertList:
-        valuesToConvert = valuesToConvert + value._string.value + ";"
-    # Remove the trailing ";" character
-    valuesToConvert = STRING(valuesToConvert[:-1])
+    # Retrieve the list of ccsds_mal.types_pb2.ATTRIBUTE values to convert them into list of GPCC.ccsds_mal.fINETIME.FINETIME
+    valuesToConvertList = []
+    for attribute in convToDo.values:
+        valuesToConvertList.append(FLOAT(attribute._float.value))
     
     # Perform the conversion and convert the results in unicode
-    resultsStr = None
+    resultsList = []
     try:
-        resultsStr = unitConverterLib.convertUnitBatch(valuesToConvert,fromUnit,toUnit).getValue()
+        resultsList = unitConverterLib.convertUnitBatch(valuesToConvertList,fromUnit,toUnit)
         raisedErr = None
     except UnitConverterException as e:
-        raisedErr = e.getType()
-    
-    # Build the results list from the string
-    if resultsStr:
-        results = resultsStr.split(";")
-    else:
-        results = []
+        raisedErr = e
         
-    return results, raisedErr
+    # Convert the results from GPCC.ccsds_mal.fINETIME.FINETIME list into ccsds_mal.types_pb2.ATTRIBUTE list for protobuf
+    resultsProto = ResultValues()
+    for value in resultsList:
+        # Create the value in protobuf repeated structure
+        protoVal = resultsProto.values.add()
+        # Fill the value in protobuf repeated structure
+        protoVal._float.value = float(value.getValue())
+        
+    return resultsProto, raisedErr

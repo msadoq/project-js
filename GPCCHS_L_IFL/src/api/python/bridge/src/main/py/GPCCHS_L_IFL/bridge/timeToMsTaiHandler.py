@@ -15,7 +15,11 @@ Component : GPCCHS_L_IFL.bridge.timeToMsTaiHandler
 
 from GPCC.ccsds_mal.sTRING import STRING
 from GPCC.ccsds_mal.sHORT import SHORT
+from GPCC.ccsds_mal.fLOAT import FLOAT
+from bridge.ConvertUnitValues_pb2 import ConvertUnitValues
+from bridge.ResultValues_pb2 import ResultValues
 from GPINUC_L_UCL.unitConverterLibrary.unitConverterException import UnitConverterException
+from GPINUC_L_UCL.unitConverterLibrary.unitConverterExceptionType import UnitConverterExceptionType
       
 def perform(unitConverterLib=None, msg=None):
     '''
@@ -23,25 +27,41 @@ def perform(unitConverterLib=None, msg=None):
     @param : unitConverterLib (GPINUC_L_UCL.unitConverterLibrary.unitConverter) Ready to use UnitConverter
     @param : msg (GPCC.communicationLibrary.isisMessage) Message to be processed by the handler
     '''
-    # Retrieve the reference session ID from message and convert into SHORT for GPINUC
-    sessionId = SHORT(msg.popFrame(1, 1).getRaw().decode())
-    # Retrieve the base of the input values from message and convert into STRING for GPINUC
-    fromBase = STRING(msg.popFrame(1, 1).getRaw().decode())
-    # Retrieve the list of values to convert from message and convert into STRING for GPINUC
-    valuesToConvert = STRING(msg.popFrame(1, 1).getRaw().decode())
+    # Get the only frame of the message
+    msgFrame = msg.popFrame(1, 1)
+    # Extract the protobuf from the frame
+    convToDo = ConvertUnitValues()
+    convToDo.ParseFromString(bytes(msgFrame.getRaw()))
+    # Retrieve the session ID and convert into SHORT for GPINUC
+    sessionId = SHORT(convToDo.sessionId)
+    # Retrieve the unit of the input values from message and convert into STRING for GPINUC
+    fromBase = STRING(convToDo.fromUnit)
+    print("shiftTimeToMsBatch fromBase:",fromBase.toString())
+    # Retrieve the list of ccsds_mal.types_pb2.ATTRIBUTE values to convert them into list of GPCC.ccsds_mal.fLOAT.FLOAT
+    valuesToConvertList = []
+    for attribute in convToDo.values:
+        valuesToConvertList.append(FLOAT(attribute._float.value))
     
-    # Perform the conversion and convert the results in unicode
-    resultsStr = None
-    try:
-        resultsStr = unitConverterLib.shiftTimeToMsBatch(valuesToConvert,fromBase, sessionId).getValue()
-        raiseErr = None
-    except UnitConverterException as e:
-        raiseErr = e.getType()
-        
-    # Build the results list from the string
-    if resultsStr:
-        results = resultsStr.split(";")
+    # Initialize results list
+    resultsList = []
+    # Check if the conversion is implemented
+    if fromBase.getValue() == "GPS":
+        raisedErr = UnitConverterException(UnitConverterExceptionType.INPUT_PARAMETER_INVALID,\
+                                           "Conversion from GPS not supported (not yet implemented)")
     else:
-        results = []
+        # Perform the conversion and convert the results in unicode
+        try:
+            resultsList = unitConverterLib.shiftTimeToMsBatch(valuesToConvertList,fromBase, sessionId)
+            raisedErr = None
+        except UnitConverterException as e:
+            raisedErr = e
         
-    return results, raiseErr
+    # Convert the results from numpy.float32 list into ccsds_mal.types_pb2.ATTRIBUTE list for protobuf
+    resultsProto = ResultValues()
+    for value in resultsList:
+        # Create the value in protobuf repeated structure
+        protoVal = resultsProto.values.add()
+        # Fill the value in protobuf repeated structure
+        protoVal._float.value = float(value.getValue())
+        
+    return resultsProto, raisedErr

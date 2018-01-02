@@ -7,7 +7,7 @@
 // ====================================================================
 
 import { getStore } from 'windowProcess/store';
-import { BATCH } from 'store/types';
+import { BATCHING_REDUCER_BATCH } from 'store/types';
 import { REDUX_SYNCHRONIZATION_PATCH_KEY } from 'constants';
 
 /**
@@ -19,7 +19,7 @@ export default function onReduxPatch(actionQueue) {
   const { queue } = actionQueue;
   if (queue.length !== 0) {
     getStore().dispatch({
-      type: BATCH,
+      type: BATCHING_REDUCER_BATCH,
       meta: {
         batch: true,
         [REDUX_SYNCHRONIZATION_PATCH_KEY]: REDUX_SYNCHRONIZATION_PATCH_KEY,

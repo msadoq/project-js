@@ -29,7 +29,7 @@ import {
   TIMING_MILESTONES,
   TIMING_DATA,
  } from '../constants';
-import { BATCH } from '../store/types';
+import { BATCHING_REDUCER_BATCH } from '../store/types';
 
 let store;
 const identity = `renderer-${remote.getCurrentWindow().windowId}`;
@@ -73,7 +73,7 @@ function prepareEnhancers(isDebugOn) {
 
 const logBatchedActions = (action) => {
   const actionDecorated = action;
-  if (actionDecorated.type === BATCH) {
+  if (actionDecorated.type === BATCHING_REDUCER_BATCH) {
     actionDecorated.payload.type = action.payload.map(next => next.type).join(' => ');
     return actionDecorated.payload;
   }

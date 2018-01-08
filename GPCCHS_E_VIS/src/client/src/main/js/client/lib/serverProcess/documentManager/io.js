@@ -54,23 +54,19 @@ export const writeDocument = (path, json, cb) => {
   if (!_.startsWith('/', path)) {
     return cb(new Error('path should be absolute'));
   }
-  if (fmd.isInFmd(path)) {
-    return fmd.createDocument(path, json.type, (err, oid) => {
-      if (err) {
-        return cb(err);
-      }
-      return fs.writeFile(path, data, (errWriting) => {
-        if (errWriting) {
-          return cb(errWriting);
-        }
-        return cb(null, oid);
-      });
-    });
-  }
-  return fs.writeFile(path, data, (errWriting) => {
+  const writeFile = oid => fs.writeFile(path, data, (errWriting) => {
     if (errWriting) {
       return cb(errWriting);
     }
-    return cb(null);
+    return cb(null, oid);
   });
+  if (fmd.isInFmd(path)) {
+    return fmd.createDocument(path, json.type, (err, oid) => {
+      if (err) {
+        return cb(new Error(`FMD createDocument : ${err}`));
+      }
+      return writeFile(oid);
+    });
+  }
+  return writeFile();
 };

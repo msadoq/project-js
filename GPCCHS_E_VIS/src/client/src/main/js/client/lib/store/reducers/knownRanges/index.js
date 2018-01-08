@@ -22,7 +22,10 @@ import removeIntervals from 'common/intervals/remove';
 import missingIntervals from 'common/intervals/missing';
 import includesTimestamp from 'common/intervals/includesTimestamp';
 import getIncludesTimestamp from 'common/intervals/getIncludesTimestamp';
+import { get } from 'common/configurationManager';
 import _isArray from 'lodash/isArray';
+
+const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -32,7 +35,8 @@ import _isArray from 'lodash/isArray';
  * @param {object} action - The action dispatched.
  * @return {object} The new state.
  */
-export default function knownRanges(state = {}, action) {
+
+const knownRanges = (state = {}, action) => {
   switch (action.type) {
     case types.WS_KNOWNINTERVAL_ADD: {
       const tbdId = action.payload.tbdId;
@@ -102,7 +106,9 @@ export default function knownRanges(state = {}, action) {
     default:
       return state;
   }
-}
+};
+
+export default isCacheDisabled ? _.always({}) : knownRanges;
 
 /* --- Selectors ------------------------------------------------------------ */
 
@@ -192,4 +198,3 @@ export const getUpperIntervalIsInKnownRanges = (state, tbdId, interval) => {
   }
   return getIncludesTimestamp(tbdIdRanges.intervals, interval[1]);
 };
-

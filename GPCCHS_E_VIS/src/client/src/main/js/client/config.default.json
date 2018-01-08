@@ -176,5 +176,6 @@
       "path" : "./adapters/",
       "ns" :"dc"
     }
-  ]
+  ],
+  "DISABLE_LOKI_CACHE": false
 }

@@ -13,8 +13,13 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
+import { get } from 'common/configurationManager';
+
 const logger = require('../../common/logManager')('models:timebasedData');
 const database = require('./loki');
+
+const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
 
 // List of the tbdId indexing a lokiJs collection
 const tbdIds = [];
@@ -257,7 +262,7 @@ export default {
   getLastRecords,
   getRangesRecords,
   removeRecords,
-  addRecord,
+  addRecord: isCacheDisabled ? _.noop : addRecord,
   addRecords,
   listCollections,
   removeCollection,

@@ -125,7 +125,7 @@ You can find a lodash fp documentation here : https://gist.github.com/jfmengels/
 
 ## for GPCCHS
 
-#### Host configuration
+### Host configuration
 
 You need to forward 2 ports between host and desktopx.
 
@@ -147,7 +147,13 @@ Host desktopx
   "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:20003",
   "STUB_DC_ON": "off"
 }
+ ```
 
+ #### ssh daemon configuration
+ Connect with `root` user, then, add this lines in `/etc/ssh/sshd_config` :
+ ```
+GatewayPorts yes
+AllowTcpForwarding yes
  ```
 
 ## for DC
@@ -165,6 +171,16 @@ Host desktopx
     RemoteForward 20003 <IP vima>:20003
     LocalForward 0.0.0.0:20002 127.0.0.1:20002
 ```
+
+#### desktopx Configuration
+
+ #### ssh daemon configuration
+ Connect with `root` user, then, add this lines in `/etc/ssh/sshd_config` :
+ ```
+GatewayPorts yes
+AllowTcpForwarding yes
+ ```
+
 
 --------------------------------------------
 # Troubleshoot

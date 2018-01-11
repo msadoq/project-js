@@ -1,14 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 package dataControllerUtils.protobuf;
 
-message Header {
-    extensions 2 to 102;
-    enum MESSAGE_TYPE
+message ADEHeader {
+    extensions 4 to 104;
+
+    enum METHOD
     {
         DOMAIN_QUERY              = 0;
         TIMEBASED_QUERY           = 1;
@@ -36,6 +31,7 @@ message Header {
         ALARM_ACK                 = 26;
         ALARM_ACK_DATA            = 29;
     }
-
-    required MESSAGE_TYPE messageType = 1;
+    required METHOD method = 1;
+    required string requestId = 2;
+    required bool   isLast = 3[default = true];
 }

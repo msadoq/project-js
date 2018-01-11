@@ -11,6 +11,7 @@ extensions 2 to 102;
       enum STATUS {
         SUCCESS = 0;
         ERROR = 1;
+        TBD_ERROR = 2;
       }
 
     required STATUS status = 1;

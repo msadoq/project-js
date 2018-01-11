@@ -1,0 +1,27 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7026 : 28/07/2017 : Properly send a message to Client on Session update
+// END-HISTORY
+// ====================================================================
+
+package dataControllerUtils.protobuf;
+
+
+message SessionUpdate {
+extensions 6 to 105;
+
+    enum SESSION_UPDATE {
+        STOPPED = 0;    		 // Start a session/function
+        START_IN_PROGRESS = 1;      // Pause a session/function
+        RUNNING = 2;     // Resume a session/function
+        PAUSE_IN_PROGRESS = 3;       // Stop a session/function
+        PAUSED = 4;       // Stop a session/function
+		RESUME_IN_PROGRESS = 5;     ///< SESSION RESUME IN PROGRESS
+        STOP_IN_PROGRESS = 6;       ///< SESSION STOP IN PROGRESS
+        WARNING = 7;                ///< for any error happening during a transition
+        UPDATE_IN_PROGRESS = 8;      ///< for sessions only
+    }
+
+    required SESSION_UPDATE sessionUpdate = 1;
+    required uint32 id = 2;
+}

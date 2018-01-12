@@ -8,7 +8,6 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
   <div
     className="rc-collapse-item"
     id={undefined}
-    role="tablist"
     style={undefined}
   >
     <div
@@ -26,7 +25,6 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
   <div
     className="rc-collapse-item"
     id={undefined}
-    role="tablist"
     style={undefined}
   >
     <div
@@ -44,7 +42,6 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
   <div
     className="rc-collapse-item"
     id={undefined}
-    role="tablist"
     style={undefined}
   >
     <div

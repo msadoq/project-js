@@ -1,0 +1,9 @@
+package dataControllerUtils.protobuf;
+
+import "./ADEGenericPayload.proto";
+
+message ADEPayload {
+    extensions 2 to 102;
+
+    repeated ADEGenericPayload genericPayload = 1;
+}

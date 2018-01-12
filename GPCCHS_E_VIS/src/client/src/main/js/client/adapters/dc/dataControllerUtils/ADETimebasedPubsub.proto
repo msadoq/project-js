@@ -1,0 +1,20 @@
+package dataControllerUtils.protobuf;
+
+import "./Filter.proto";
+
+message ADETimebasedPubsub {
+    extensions 7 to 107;
+
+    enum ACTION
+    {
+        ADD    = 0;
+        DELETE = 1;
+
+    }
+    required uint32 sessionId = 1;
+    required uint32 domainId = 2;
+    required string objectName = 3;
+    optional string catalogName = 4;
+    optional string itemName = 5;
+    repeated Filter filters = 6;
+}

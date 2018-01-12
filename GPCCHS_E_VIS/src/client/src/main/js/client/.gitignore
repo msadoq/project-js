@@ -34,7 +34,11 @@ build/Release
 
 # configuration
 config.local.json
+config.stubs.json
+config.remote-dc.json
 config.local.json.bak
+config.stubs.json.bak
+config.remote-dc.json.bak
 
 # lint
 **/lint-reporter/*.csv

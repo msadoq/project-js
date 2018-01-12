@@ -1,0 +1,11 @@
+package dataControllerUtils.protobuf;
+
+import "./ADEGenericPayload.proto";
+
+message ADEAck {
+    extensions 4 to 104;
+
+    required uint32            sessionId = 1;
+    required uint32            domainId = 2;
+    repeated ADEGenericPayload genericPayload = 3;
+}

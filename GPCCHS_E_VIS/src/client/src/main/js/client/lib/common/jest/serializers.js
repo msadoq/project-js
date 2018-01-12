@@ -34,7 +34,10 @@ export const messageActionSerializer = createActionSerializer({
 });
 
 export const dialogActionSerializer = createActionSerializer({
-  print: _.update('payload', _.unset('dialogId')),
+  print: _.pipe(
+    _.unset('payload.dialogId'),
+    _.unset('payload.options.defaultPath')
+  ),
   test: _.anyPass([
     typeIs(types.HSC_OPEN_DIALOG),
     typeIs(types.HSC_DIALOG_CLOSED),

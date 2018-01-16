@@ -3,8 +3,8 @@
   <!-- Produced by  -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.cnes.lpisis.gpcc.js</groupId>
-  <artifactId>gpcchs_e_vis_launcher</artifactId>
-  <packaging>isis-js-bundle</packaging>
+  <artifactId>gpcchs_e_vis_launcher_test</artifactId>
+  <packaging>pom</packaging>
   <version>2.0.0-R10S3-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
@@ -13,35 +13,24 @@
     <version>2.0.0-R10S3-SNAPSHOT</version>
     <relativePath/>
   </parent>
-  <properties>
-    <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
-    <api.target.dir>${basedir}/target</api.target.dir>
-    <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
-    <api.work.dir>${api.target.dir}/work</api.work.dir>
-    <api.main.dir>${api.work.dir}/${project.artifactId}-${project.version}</api.main.dir>
-    <isis.rpm.defattr>%defattr(440,isis,isisexec,550)</isis.rpm.defattr>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>fr.cnes.lpisis.gpcc.js</groupId>
       <artifactId>gpcchs_e_vis_client</artifactId>
       <type>isis-js-bundle</type>
       <classifier>unix_dev</classifier>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>fr.cnes.lpisis.gpcc.js</groupId>
       <artifactId>gpcchs_e_vis_common</artifactId>
       <type>isis-js-module-dependency</type>
       <classifier>unix_dev</classifier>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>fr.cnes.lpisis.gpds.js</groupId>
       <artifactId>gpds_rtd</artifactId>
       <type>isis-js-module-dependency</type>
       <classifier>unix_dev</classifier>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>fr.cnes.lpisis.cots</groupId>
@@ -57,7 +46,6 @@
       <groupId>fr.cnes.lpisis.cots</groupId>
       <artifactId>gpcchs_npm_cache</artifactId>
       <type>isis-cots</type>
-      <optional>true</optional>
     </dependency>
   </dependencies>
 </project>

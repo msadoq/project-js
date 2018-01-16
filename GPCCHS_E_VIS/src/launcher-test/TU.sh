@@ -1,10 +1,11 @@
 #!/bin/bash
 PRG="$0"
 EXEC_DIR=$(dirname $PRG)
-echo "EXEC_DIR:$EXEC_DIR"
 
 export PRGDIR=$(cd $EXEC_DIR ; echo $PWD)
 export COMPDIR=$(cd $PRGDIR/.. ; echo $PWD)
+
+echo "EXEC_DIR:$PRGDIR"
 
 export PATH=$PATH:$PRGDIR/target/dependencies/bin/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PRGDIR/target/dependencies/lib
@@ -21,10 +22,10 @@ else
     mkdir -p $PRGDIR/target/test-reports
 fi
 
-  export PKG_CONFIG_PATH=$EXEC_DIR/target/dependencies/lib/pkgconfig
-  sed -i "s@^prefix=.*\$@prefix=$EXEC_DIR/target/dependencies@" ${PKG_CONFIG_PATH}/*.pc
-  sed -i "s@^libdir=.*\$@libdir=\'$EXEC_DIR/target/dependencies/lib\'@" $EXEC_DIR/target/dependencies/lib/*.la
-  sed -i "s@ISIS_PREFIX_ROOT@$EXEC_DIR/target/dependencies@g" $EXEC_DIR/target/dependencies/lib/*.la
+  export PKG_CONFIG_PATH=$PRGDIR/target/dependencies/lib/pkgconfig
+  sed -i "s@^prefix=.*\$@prefix=$PRGDIR/target/dependencies@" ${PKG_CONFIG_PATH}/*.pc
+  sed -i "s@^libdir=.*\$@libdir=\'$PRGDIR/target/dependencies/lib\'@" $PRGDIR/target/dependencies/lib/*.la
+  sed -i "s@ISIS_PREFIX_ROOT@$PRGDIR/target/dependencies@g" $PRGDIR/target/dependencies/lib/*.la
 
   unset http_proxy
   unset https_proxy

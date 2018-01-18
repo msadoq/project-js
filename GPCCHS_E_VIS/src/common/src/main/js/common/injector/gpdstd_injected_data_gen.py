@@ -64,8 +64,8 @@ GPDSTD_ArgsParser.add_argument("--niter","-n",default=1,type=int,
                               help="Number of times all the aggregations shall appear in the output json file containing injected data (default=1)")
 GPDSTD_ArgsParser.add_argument("--domain","-d",default=1,type=int,
                               help="Default domain to use if it is not found in catalog or telemetry packet files (default=1)")
-GPDSTD_ArgsParser.add_argument("--agg","-a",action='append',type=int,
-                              help="Number of parameters of an aggregation to generate, use this option as many times as different aggregations shall be generated. If not used, all the aggregations of tmpacket file will be used")
+GPDSTD_ArgsParser.add_argument("--agg","-a",nargs=2,action='append',type=int,
+                              help="Number of parameters of an aggregation to generate, followed by the domain id of it (override the --domain option). Use this option as many times as different aggregations shall be generated. If not used, all the aggregations of tmpacket file will be used.")
 GPDSTD_ArgsParser.add_argument("--generate","-g",default=None,type=str,
                               help="Full path of the telemetry packet file to generate as replacement to the given one. This file will be generated only if the one of --tmpacket option doesn't fit with the aggregations specified by the --agg options")
 GPDSTD_ArgsParser.add_argument("--dcparamagg","-p",default=None,type=str,
@@ -80,11 +80,17 @@ GPDSTD_ArgsParser.add_argument("--stateformula","-s",default=None,nargs=2,action
 # Create a global variable with the number of iteration (number of times the whole set of aggregations is written in the output file)
 GPDSTD_NbIterations = 1
 
+def maskDomainIdinOid(oid):
+    '''
+    Return a the given Oid (e.g. '000200020100c498760000000000000017') with domain Id field (here '9876') set to '0000'
+    A call with oid='000200020100c498760000000000000017' would return '000200020100c400000000000000000017'
+    '''
+    return oid[:14] + '0000' + oid[18:]
 
 def uidToOid(uid):
     '''
-    Convert val into hexadecimal with padding to 64bits
-    val shall be an integer
+    Convert uid into hexadecimal with padding to 64bits
+    uid shall be an integer
     '''
     oid = hex((uid + (1 << 64)) % (1 << 64)) # Conversion to signed 64bits hexadecimal value (negative values management)
     if oid[0:2] == "0x": # Remove leading "0x" due to hexadecimal conversion
@@ -95,10 +101,24 @@ def uidToOid(uid):
         oid = "0" + oid
     return oid
     
+def domainIdToOid(domainId):
+    '''
+    Convert domainId into hexadecimal with padding to 16bits
+    domainId shall be an integer
+    '''
+    oid = hex((domainId + (1 << 16)) % (1 << 16)) # Conversion to signed 16bits hexadecimal value (negative values management)
+    if oid[0:2] == "0x": # Remove leading "0x" due to hexadecimal conversion
+        oid = oid[2:]
+    if oid[-1:] not in "0123456789abcdef": # Remove trailing "L" due to automatic conversion to long type
+        oid = oid[:-1]
+    while len(oid)<4: # Padding with 0 up to 64 bits
+        oid = "0" + oid
+    return oid
+    
 def oidToUid(oid):
     '''
-    Convert val into decimal providing that val is a signed hexadecimal value coded on 64bits
-    val shall be an integer
+    Convert oid into decimal providing that oid is a signed hexadecimal value coded on 64bits
+    oid shall be an integer
     '''
     uid = int(oid,16) # Conversion to integer value from hexadecimal
     if uid > 0x8000000000000000: # Manage negative values for signed 64bits data type
@@ -339,8 +359,8 @@ class GPDSTD_AggregationsGenerator(object):
         Initialize and configure the generator
         '''
         self._defaultDomain = defaultDomain
-        self._reportingParameters = dict()                # Dictionnary of parameters oid with their names as key
-        self._aggregations = OrderedDict()                # Dictionnary of aggregation oid and parameters names with aggregation names as key
+        self._reportingParameters = dict()                # Dictionnary of parameters oid with their names as key (oid with domainId set to '0000')
+        self._aggregations = OrderedDict()                # Dictionnary of aggregation oid and parameters names with aggregation names as key (oid with domainId set to '0000')
         self._tmPacketJson = None                         # Content of the tm packet json file
         self._overwriteFiles = Overwrite
         self._nbParamPerAggInExistingFile = dict()        # Dictionnary of number of parameters by aggregation with aggregation names as key
@@ -351,13 +371,14 @@ class GPDSTD_AggregationsGenerator(object):
         self._aggsOidListByParamOid = dict()              # Dictionnary of the list of the aggregations oid for each parameter with parameter oid as key
         self._injectionData = dict()                      # Dictionnary of the list of parameters in each aggregation and aggregation uid with aggregation name as key
         self._asvnReportingCatalog = OrderedDict()        # Area, service, version and number of the read Reporting Catalog
-        self._reportingParamsDatatype = dict()            # Dictionnary of "Datatype" field from Reporting catalog with parameter Oid as key
-        self._reportingParamsRawValueDatatype = dict()    # Dictionnary of "RawValueDataType" field from Reporting catalog with parameter Oid as key
+        self._reportingParamsDatatype = dict()            # Dictionnary of "Datatype" field from Reporting catalog with parameter Oid with domain Id to '0000' as key
+        self._reportingParamsRawValueDatatype = dict()    # Dictionnary of "RawValueDataType" field from Reporting catalog with parameter Oid with domain Id to '0000' as key
 
     def getParametersFromReportingCatalogFile(self,filePath):
         '''
         Read a reporting catalog json file and get all the "SimpleParameter" defined in it with their names and Oid in a dictionnary like this:
-        {'STAT_SU_CSTIME': '000200020100c400010000000000000017','STAT_SU_SIGCATCH': '000200020100c400010000000000000034','STAT_SU_SIGIGNORE_2': '000200020100c400010000000000000137'}
+        {'STAT_SU_CSTIME': '000200020100c400000000000000000017','STAT_SU_SIGCATCH': '000200020100c400000000000000000034','STAT_SU_SIGIGNORE_2': '000200020100c400000000000000000137'}
+        Be careful! The Domain Id field of Oid is set to '0000' in this dictionnary, in order to be domain indenpendent
         '''
         area = None
         service = None
@@ -397,19 +418,18 @@ class GPDSTD_AggregationsGenerator(object):
                         "Domain" in parameter["IsisCommon"]["ts180.isisCommonRecord"] and "ParameterType" in parameter and \
                         "ts180.parameterTypeEnum" in parameter["ParameterType"] and parameter["ParameterType"]["ts180.parameterTypeEnum"] == "SimpleParameter":
                             #print '"IsisCommon" found in parameter and "Domain" found in "IsisCommon"'
-                            domain = parameter["IsisCommon"]["ts180.isisCommonRecord"]["Domain"]
-                            if not domain:
-                                domain = int(self._defaultDomain)
-                            else:
-                                domain = int(domain)
+                            # Do not take the domain into account, as a parameter can be in any domain
+                            #domain = parameter["IsisCommon"]["ts180.isisCommonRecord"]["Domain"]
+                            # Use zero as domain id in order to work with domain independent parameter oid
+                            domain = int(0)
                             oid = '{0:04x}'.format(area) + '{0:04x}'.format(service) + '{0:02x}'.format(version) + '{0:04x}'.format(number) + \
                                                               '{0:04x}'.format(domain) + uidToOid(uid)
                             self._reportingParameters[name] = oid
                             #print "Parameter : name : " + repr(name) + " area : " + repr(area) + ", service : " + repr(service) + ", version : " + repr(version) + ", number: " + repr(number) + ", domain : " + repr(domain) + ", uid : " + repr(uid) +  " Oid : " + repr(self._reportingParameters[name])
                             if "DataType" in parameter and "ts180.simpleEngineeringDataTypeEnumOrRecord" in parameter["DataType"]:
-                                self._reportingParamsDatatype[oid] = parameter["DataType"]["ts180.simpleEngineeringDataTypeEnumOrRecord"]
+                                self._reportingParamsDatatype[maskDomainIdinOid(oid)] = parameter["DataType"]["ts180.simpleEngineeringDataTypeEnumOrRecord"]
                             if "TelemetryParameter" in parameter and parameter["TelemetryParameter"] and "ts180.telemetryParameterRecord" in parameter["TelemetryParameter"] and "RawValueDataType" in parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"] and "ts180.rawDataTypeEnum" in parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]:
-                                self._reportingParamsRawValueDatatype[oid] = parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]["ts180.rawDataTypeEnum"]
+                                self._reportingParamsRawValueDatatype[maskDomainIdinOid(oid)] = parameter["TelemetryParameter"]["ts180.telemetryParameterRecord"]["RawValueDataType"]["ts180.rawDataTypeEnum"]
             else:
                 raise GPDSTD_ScriptError('Catalog file (' + self._reportingParamsCatalogJsonFile + ') doesn\'t contain expected element "Items"')
         else:
@@ -420,10 +440,11 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         Read a telemetry packet json file and get all the its aggregations and parameters names in a dictionnary like this:
         {
-         'STAT_SU_STATFILE': {'oid': '000200020100c700010000000000000001', 'parameters': ['STAT_SU_PID', 'STAT_SU_COMM', 'STAT_SU_STATE']},
-         'TEST_STAB_VIMA_PACKET_1': {'oid': '000200020100c700010000000000000002', 'parameters': ['STAT_SU_PID_1', 'STAT_SU_COMM_1']},
-         'TEST_STAB_VIMA_PACKET_3': {'oid': '000200020100c700010000000000000003', 'parameters': ['STAT_SU_STARTCODE_1', 'STAT_SU_ENDCODE_1', 'STAT_SU_STARTSTACK_1]}
+         'STAT_SU_STATFILE': {'oid': '000200020100c700000000000000000001', 'parameters': ['STAT_SU_PID', 'STAT_SU_COMM', 'STAT_SU_STATE']},
+         'TEST_STAB_VIMA_PACKET_1': {'oid': '000200020100c700000000000000000002', 'parameters': ['STAT_SU_PID_1', 'STAT_SU_COMM_1']},
+         'TEST_STAB_VIMA_PACKET_3': {'oid': '000200020100c700000000000000000003', 'parameters': ['STAT_SU_STARTCODE_1', 'STAT_SU_ENDCODE_1', 'STAT_SU_STARTSTACK_1]}
         }
+        Be careful! The Domain Id field of oid is set to '0000' in this dictionnary, in order to be domain indenpendent
         '''
         area = None
         service = None
@@ -455,12 +476,11 @@ class GPDSTD_AggregationsGenerator(object):
                         uid = int(aggregation["Uid"])
                         name = aggregation["Name"]
                         #print 'Uid of current aggregation is : ' + repr(uid)
-                        if "IsisCommon" in aggregation and "ts180.isisCommonRecord" in aggregation["IsisCommon"] and "Domain" in aggregation["IsisCommon"]["ts180.isisCommonRecord"]:
-                            domain = aggregation["IsisCommon"]["ts180.isisCommonRecord"]["Domain"]
-                            if not domain:
-                                domain = int(self._defaultDomain)
-                            else:
-                                domain = int(domain)
+                        # Do not take the domain into account, as an aggregation can be in any domain
+                        #if "IsisCommon" in aggregation and "ts180.isisCommonRecord" in aggregation["IsisCommon"] and "Domain" in aggregation["IsisCommon"]["ts180.isisCommonRecord"]:
+                        #    domain = aggregation["IsisCommon"]["ts180.isisCommonRecord"]["Domain"]
+                        # Use zero as domain id in order to work with domain independent aggregation oid
+                        domain = int(0)
                         # Compute aggregation Oid
                         oid = '{0:04x}'.format(area) + '{0:04x}'.format(service) + '{0:02x}'.format(version) + '{0:04x}'.format(number) + \
                               '{0:04x}'.format(domain) + uidToOid(uid)
@@ -485,10 +505,7 @@ class GPDSTD_AggregationsGenerator(object):
                                         self._namesOfParamsInExistingTmPacketFile.append(paramName)
                                     # Update the dictionnary of parameters Oid and Oids of aggregations in which they are
                                     if self._reportingParameters and paramName in self._reportingParameters:
-                                        if self._reportingParameters[paramName] not in self._aggsOidListByParamOid:
-                                            self._aggsOidListByParamOid[self._reportingParameters[paramName]] = []
-                                        if oid not in self._aggsOidListByParamOid[self._reportingParameters[paramName]]:
-                                            self._aggsOidListByParamOid[self._reportingParameters[paramName]].append(oid)
+                                        # We cannot fill self._aggsOidListByParamOid here because TelemetryPacket file is domain independent (domain id field of oid set to '0000')
                                         # Append the parameter as a member of this aggregation
                                         paramsList.append(paramName)
                                     else:
@@ -545,8 +562,8 @@ class GPDSTD_AggregationsGenerator(object):
         Return the datatype of the converted value of a parameter with given oid
         '''
         ret_val = None
-        if oid in self._reportingParamsDatatype.keys():
-            ret_val = self._reportingParamsDatatype[oid]
+        if maskDomainIdinOid(oid) in self._reportingParamsDatatype.keys():
+            ret_val = self._reportingParamsDatatype[maskDomainIdinOid(oid)]
         return ret_val
     
     def getRawValueDatatypeByParamOid(self, oid):
@@ -554,13 +571,14 @@ class GPDSTD_AggregationsGenerator(object):
         Return the datatype of the raw value value of a parameter with given oid
         '''
         ret_val = None
-        if oid in self._reportingParamsRawValueDatatype.keys():
-            ret_val = self._reportingParamsRawValueDatatype[oid]
+        if maskDomainIdinOid(oid) in self._reportingParamsRawValueDatatype.keys():
+            ret_val = self._reportingParamsRawValueDatatype[maskDomainIdinOid(oid)]
         return ret_val
     
-    def generateTelemetryPacketFile(self,filePath,nbParamsPerAgg):
+    def generateTelemetryPacketFile(self,nbParamsPerAggWithDomainId,filePath=None):
         '''
-        Generate a telemetry packet file based using the read one as template and put in it aggregations with the specified number of parameters for each of them
+        Generate a telemetry packet file using the read one as template, and put in it aggregations of requested domain Id and specified number of parameters
+        If called without filePath, aggregations are generated but output file is not written
         '''
         if not len(self._tmPacketJson):
             raise GPDSTD_ScriptError("Telemetry packet file shall be read with getAggregationsFromTelemetryPacketFile() function before before generating a telemetry packet file")
@@ -575,12 +593,29 @@ class GPDSTD_AggregationsGenerator(object):
                 raise GPDSTD_ScriptError("Given telemetry packet json file (" + self._existingTmPacketJsonFile + ") doesn't contains any aggregation which can be used as template to create the request ones")
             for aggregation in items:
                 name = aggregation["Name"]
-                # Check if this aggregation meet the requirements (first check that this aggregation hasn't been ignore due to parameters not in Reporting catalog)
+                # Check if the name of the aggregation exist in the list of supported aggregation (not containing structure parameters)
                 if name in self._aggregations.keys():
-                    if self._nbParamPerAggInExistingFile[name] in nbParamsPerAgg:
-                        # Remove it from the required aggregations, as it is fullfilled by an existing one
-                        nbParamsPerAgg.remove(self._nbParamPerAggInExistingFile[name])
-                    else:
+                    isExistingAggCorrespond = False
+                    # Check if this aggregation have a number of parameters correponding to one of the requested ones
+                    for requestedNbParamInAgg in nbParamsPerAggWithDomainId:
+                        # Look only for one corresponding aggregation, with same number of parameters
+                        if isExistingAggCorrespond == False and requestedNbParamInAgg[0] == self._nbParamPerAggInExistingFile[name]:
+                            # Update _aggsOidListByParamOid to add this required aggregation in it
+                            correspondingAggr = self._aggregations[name]
+                            correspondingAggrOid = correspondingAggr["oid"]
+                            correspondingAggrOidDomainUpd = correspondingAggrOid[:14] + domainIdToOid(requestedNbParamInAgg[1]) + correspondingAggrOid[18:]
+                            for parameterName in correspondingAggr["parameters"]:
+                                paramOid = self._reportingParameters[parameterName][:14] + domainIdToOid(requestedNbParamInAgg[1]) + self._reportingParameters[parameterName][18:] 
+                                # Update the dictionnary of parameters Oid and Oids of aggregations in which they are (with their actual domain id and not '0000')
+                                if paramOid not in self._aggsOidListByParamOid:
+                                    self._aggsOidListByParamOid[paramOid] = []
+                                if correspondingAggrOidDomainUpd not in self._aggsOidListByParamOid[paramOid]:
+                                    self._aggsOidListByParamOid[paramOid].append(correspondingAggrOidDomainUpd)
+                            # Remove it from the required aggregations, as it is fullfilled by an existing one
+                            nbParamsPerAggWithDomainId.remove(requestedNbParamInAgg)
+                            isExistingAggCorrespond = True
+                    # If no existing aggregation have the requested number of parameter
+                    if isExistingAggCorrespond == False:
                         # Save the name of this aggregation because it doesn't fit requirement and can be replaced
                         uselessAggs.append(aggregation)
                         # Remove the useless aggregation from injected data
@@ -589,12 +624,12 @@ class GPDSTD_AggregationsGenerator(object):
             createdAggCounter = 0
             # Initialize the parameter index counter to use as many parameters of the catalog as possible in the aggregations
             newParamIdx = 0
-            while len(nbParamsPerAgg):
+            while len(nbParamsPerAggWithDomainId):
                 # Update aggregation counter used to name them
                 createdAggCounter = createdAggCounter + 1
                 # Get the number of parameters to put in this new aggregation and remove from the list this requested aggregation
-                nbParamsInNewAgg = nbParamsPerAgg.pop(0)
-                #print "Create a new aggregation with " + nbParamsInNewAgg + " parameters"
+                nbParamsAndDomainIdOfNewAgg = nbParamsPerAggWithDomainId.pop(0)
+                #print "Create a new aggregation with " + nbParamsAndDomainIdOfNewAgg[0] + " parameters and domain Id " + nbParamsAndDomainIdOfNewAgg[1]
                 # Try to replace a useless aggregation to create the new required one
                 if len(uselessAggs):
                     aggToAdd = uselessAggs.pop()
@@ -623,13 +658,13 @@ class GPDSTD_AggregationsGenerator(object):
                 if not self._reportingParamsCatalogJsonFile:
                     raise GPDSTD_ScriptError("Reporting parameter catalog shall be read with getParametersFromReportingCatalogFile() function before any telemetry packet file generation")
                 # Check if there enough parameters in catalog for this new aggregation
-                if nbParamsInNewAgg > len(self._reportingParameters):
-                    raise GPDSTD_ScriptError("There is not enough parameter in given catalog (" + self._reportingParamsCatalogJsonFile + ") to generate an aggregation with " + nbParamsInNewAgg + " parameters")
+                if nbParamsAndDomainIdOfNewAgg[0] > len(self._reportingParameters):
+                    raise GPDSTD_ScriptError("There is not enough parameter in given catalog (" + self._reportingParamsCatalogJsonFile + ") to generate an aggregation with " + nbParamsAndDomainIdOfNewAgg[0] + " parameters")
                 # Fill in the new aggregation fields
                 aggToAdd["Name"] = unicode(newAggName)
                 aggToAdd["Uid"] = newAggUid
-                # Compute the new aggregation Oid
-                newAggOid = self._aggregations[nameOfTheTemplateAgg]["oid"][0:18] + uidToOid(newAggUid)
+                # Compute the new aggregation Oid with its domain Id not set to '0000' but the requested value
+                newAggOid = self._aggregations[nameOfTheTemplateAgg]["oid"][0:14] + domainIdToOid(nbParamsAndDomainIdOfNewAgg[1]) + uidToOid(newAggUid)
                 # Update the injected data
                 self._injectionData[newAggName] = {'uid' : newAggUid, 'paramsOids' : [] }
                 paramsOids = []
@@ -638,7 +673,7 @@ class GPDSTD_AggregationsGenerator(object):
                     parameters =  aggToAdd["Components"]
                     # Loop until all requested parameters have been update or created
                     addedParamIdx = -1
-                    while addedParamIdx < nbParamsInNewAgg -1:
+                    while addedParamIdx < nbParamsAndDomainIdOfNewAgg[0] -1:
                         # Increment created parameter index
                         addedParamIdx = addedParamIdx + 1
                         # Check if we need to update or add a new parameter
@@ -663,32 +698,40 @@ class GPDSTD_AggregationsGenerator(object):
                             # Fill in the new parameter name
                             paramName = self._reportingParameters.keys()[newParamIdx]
                             paramToAdd["TelemetryPacketEntry"]["ts180.referenceRecord"]["TargetItem"]["string"] = paramName
-                            # Update the dictionnary of parameters Oid and Oids of aggregations in which they are
-                            if self._reportingParameters[paramName] not in self._aggsOidListByParamOid:
-                                self._aggsOidListByParamOid[self._reportingParameters[paramName]] = []
-                            if newAggOid not in self._aggsOidListByParamOid[self._reportingParameters[paramName]]:
-                                self._aggsOidListByParamOid[self._reportingParameters[paramName]].append(newAggOid)
-                                #print "Parameter of oid " + self._reportingParameters[paramName] + " added in aggregation of oid : " + newAggOid
+                            # Compute the parameter Oid with domain Id replacement
+                            paramOid = self._reportingParameters[paramName]
+                            paramOidDomainUpd = paramOid[:14] + domainIdToOid(nbParamsAndDomainIdOfNewAgg[1]) + paramOid[18:]
+                            # Update the dictionnary of parameters Oid and Oids of aggregations in which they are (with their actual domain id and not '0000')
+                            if paramOid not in self._aggsOidListByParamOid:
+                                self._aggsOidListByParamOid[paramOid] = []
+                            if newAggOid not in self._aggsOidListByParamOid[paramOid]:
+                                self._aggsOidListByParamOid[paramOid].append(newAggOid)
+                                #print "Parameter of oid " + paramOid + " added in aggregation of oid : " + newAggOid
                             # Update the injected data
-                            paramsOids.append(self._reportingParameters[paramName])
+                            paramsOids.append(paramOidDomainUpd)
                             # Update parameter index
                             newParamIdx = (newParamIdx + 1) % len(self._reportingParameters)
                             #print "Added parameter " + self._reportingParameters.keys()[newParamIdx] + " in aggregation named " + newAggName
                     # Check if there is parameters to remove from template aggregation
-                    while len(parameters) > nbParamsInNewAgg:
+                    while len(parameters) > nbParamsAndDomainIdOfNewAgg[0]:
                         parameters.pop()
                     # Update the injected data
                     self._injectionData[newAggName]['paramsOids'] = paramsOids
                     #print "Update injection data by adding paramsOids of len " + repr(len(paramsOids)) + " to agg named " + newAggName + ", then injection data have " + repr(len(self._injectionData)) + " aggregations"
-            # Once generated, write the telemetry packet json file content
-            try:
-                # Open for writing
-                outputfile = open(filePath,'w+')
-            except IOError as e:
-                raise GPDSTD_ScriptError("Cannot open output file for telemetry packet json generation: {0}, message is : {1}".format(filePath,e.strerror))
-            filecontent = json.dumps(outputJsonContent, indent=4)
-            outputfile.write(filecontent)
-            outputfile.close()
+            # Once generated, write the telemetry packet json file content if output file path is specified
+            if filePath:
+                # Remove the useless aggregations copied from the read Telemetry Packet file
+                for aggToRemove in uselessAggs:
+                    outputJsonContent["Catalog"]["Items"].remove(aggToRemove)
+                # Open output file for writing
+                try:
+                    # Open for writing
+                    outputfile = open(filePath,'w+')
+                except IOError as e:
+                    raise GPDSTD_ScriptError("Cannot open output file for telemetry packet json generation: {0}, message is : {1}".format(filePath,e.strerror))
+                filecontent = json.dumps(outputJsonContent, indent=4)
+                outputfile.write(filecontent)
+                outputfile.close()
             
     def generateDcParameterAggregationFile(self,filePath):
         '''
@@ -698,7 +741,7 @@ class GPDSTD_AggregationsGenerator(object):
         ]}
         '''
         if not len(self._aggsOidListByParamOid):
-            raise GPDSTD_ScriptError("Telemetry packet file shall be read with getAggregationsFromTelemetryPacketFile() function before any parameter aggregation file generation")
+            raise GPDSTD_ScriptError("Telemetry packet file shall have been generated with generateTelemetryPacketFile() function before any parameter aggregation file generation")
         try:
             # Open for writing
             outputfile = open(filePath,'w+')
@@ -725,7 +768,7 @@ class GPDSTD_AggregationsGenerator(object):
         ]}}
         '''
         if not len(self._aggsOidListByParamOid):
-            raise GPDSTD_ScriptError("Telemetry packet file shall be read with getAggregationsFromTelemetryPacketFile() function before any parameter aggregation file generation")
+            raise GPDSTD_ScriptError("Telemetry packet file shall have been generated with generateTelemetryPacketFile() function before any parameter aggregation file generation")
         if not(len(self._reportingParameters)):
             raise GPDSTD_ScriptError("Reporting catalog file shall be read with getParametersFromReportingCatalogFile() function before any parameter aggregation file generation")
         try:
@@ -737,8 +780,8 @@ class GPDSTD_AggregationsGenerator(object):
         paramOidList.sort()
         itemsList = []
         for paramOid in paramOidList:
-            # Look for parameter Name
-            paramName = next((name for name, oid in self._reportingParameters.items() if oid == paramOid), None)
+            # Look for parameter Name without domain Id, because it is filled in _aggsOidListByParamOid but set to '0000' in _reportingParameters
+            paramName = next((name for name, oid in self._reportingParameters.items() if oid == maskDomainIdinOid(paramOid)), None)
             # If the name of the parameter has been found
             if paramName:
                 itemsEntry = OrderedDict()
@@ -762,12 +805,13 @@ class GPDSTD_AggregationsGenerator(object):
         '''
         Return a structure with all necesary information to generate the injection data, like this:
         {
-            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100c400010000000000000001', '000200020100c400010000000000000002']},
-            'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100c400010000000000000053', '000200020100c400010000000000000054']},
-            'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000068', '000200020100c400010000000000000069']},
-            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100c400010000000000000078', '000200020100c400010000000000000079']},
-            'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100c400010000000000000017', '000200020100c400010000000000000034']}
+            'STAT_SU_STATFILE': {'uid': 1, 'paramsOids': ['000200020100c400000000000000000001', '000200020100c400000000000000000002']},
+            'TEST_STAB_VIMA_PACKET_1': {'uid': 2, 'paramsOids': ['000200020100c400000000000000000053', '000200020100c400000000000000000054']},
+            'TEST_STAB_VIMA_PACKET_2': {'uid': 3, 'paramsOids': ['000200020100c400000000000000000068', '000200020100c400000000000000000069']},
+            'TEST_STAB_VIMA_PACKET_3': {'uid': 3, 'paramsOids': ['000200020100c40000000000000000078', '000200020100c400000000000000000079']},
+            'STAT_SU_STATFILE_1': {'uid': 4, 'paramsOids': ['000200020100c400000000000000000017', '000200020100c400000000000000000034']}
         }
+        Be careful! All the Domain Id fields are set to '0000' in this structure, in order to remain domain independent
         '''
         if not len(self._injectionData):
             raise GPDSTD_ScriptError("Telemetry packet file shall be read with getAggregationsFromTelemetryPacketFile() function before before getting the injection data")
@@ -1029,7 +1073,6 @@ if __name__ == '__main__':
     GPDSTD_NbIterations = args.niter
     
     # Read the Reporting and Telemetry packet catalogs
-    #print "Args.agg: "  + repr(args.agg)
     aggGen = GPDSTD_AggregationsGenerator(args.domain,args.overwrite)
     print "Analyse catalog file " + expanduser(args.catalog)
     allParamsNamesOids = aggGen.getParametersFromReportingCatalogFile(expanduser(args.catalog))
@@ -1044,22 +1087,39 @@ if __name__ == '__main__':
     # Check if telemetry packet file shall be generated
     # It shall be generated if a list of aggregations is specified and this list doesn't fit with provided TelemetryPacket file
     if args.agg and len(args.agg):
-        nbRequestedParamsInAggs = deepcopy(args.agg)
+        # Create a deep copy of the -agg argument to let the algorithm below and generateTelemetryPacketFile() function modify it
+        nbRequestedParamsAndDomainIdInAggs = deepcopy(args.agg)
+        nbRequestedParamsInAggs = []
+        # Create a list of the requested number of parameters in aggregations
+        for requestedParamNb in nbRequestedParamsAndDomainIdInAggs:
+            nbRequestedParamsInAggs.append(requestedParamNb[0])
+        # Create a deep copy of nbParamsInExistingAggs to let the algorithm below safely use remove()
         nbParamInAggsToChk = deepcopy(nbParamsInExistingAggs)
+        # Check if the provided Telemetry packet file fits with the required number of parameters per aggregation
+        isAggNotExisting = False
         # Telemetry packet file shall be generated if the specified list of aggregation doesn't have the same number of parameters as the ones in telemetry packet file
-        isErrToRaise = False
-        if not args.generate:
-            for nbParams in nbRequestedParamsInAggs:
-                if nbParams in nbParamInAggsToChk:
-                    nbParamInAggsToChk.remove(nbParams)
-                else:
-                    isErrToRaise = True
-            if isErrToRaise:
-                raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
+        for nbParams in nbRequestedParamsInAggs:
+            if nbParams in nbParamInAggsToChk:
+                nbParamInAggsToChk.remove(nbParams)
+            else:
+                isAggNotExisting = True
+        # If a requested aggregation doesn't exist in Telemetry packet file (correct number of parameter), and not Telemetry packet file generation has been specified, raise an error
+        if isAggNotExisting == True and not args.generate:
+            raise GPDSTD_ScriptError("The number of parameters in the resquested aggregations (" + repr(nbRequestedParamsInAggs) + ") doesn't fit with the existing ones in the provided telemetry packet file (" + repr(nbParamsInExistingAggs) + "), and no path has been given for the generation of a telemetry packet file")
         else:
-	    #At this point telemetry packet file generation is required and possible
-	    print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",expanduser(args.generate)
-	    aggGen.generateTelemetryPacketFile(expanduser(args.generate),nbRequestedParamsInAggs)
+            # Check if generation is requested (to erase aggregations which doesn't correspond to requested ones)
+            if args.generate and len(args.generate):
+                # Resolve potential "~/" in destination file path
+                generatedTelemetryPacketFilePath = expanduser(args.generate)
+                #At this point telemetry packet file generation is required and possible
+                print "Generate a telemetry packet file for aggregations with " + ", ".join(map(str,nbRequestedParamsInAggs))  + " parameter(s) in the file: ",generatedTelemetryPacketFilePath
+                # Call the function to generate the telemetry packet file
+                aggGen.generateTelemetryPacketFile(nbRequestedParamsAndDomainIdInAggs,generatedTelemetryPacketFilePath)
+            else:
+                #Otherwise telemetry packet file content computation may be necessary for other script options
+                if ( args.dcparamagg and len(args.dcparamagg) )  or ( args.sdbparamagg and len(args.sdbparamagg) ):
+                    # Call the function to compute the telemetry packet file content
+                    aggGen.generateTelemetryPacketFile(nbRequestedParamsAndDomainIdInAggs)
 
     # Manage the GPCCDC parameter aggregation file generation
     if args.dcparamagg and len(args.dcparamagg):
@@ -1092,6 +1152,7 @@ if __name__ == '__main__':
     
     # Build the list of aggregations names to put in injection data in order to respect the requested order
     OrderedAggrListNames = []
+    domainIdFromAggName = dict()
     AggrListNames = injectedData.keys()
     # Check if the number of parameters per aggregation has been specified
     if args.agg and len(args.agg):
@@ -1100,18 +1161,23 @@ if __name__ == '__main__':
             # Build a dictionnary with not already used aggregation names as key and number of parameters as value
             aggNames = { name : len(injectedData[name]["paramsOids"]) for name in AggrListNames}
             # Look for the name of the aggregation with the required number of parameters from the remaining aggregations
-            aggName  = next((name for name, nbParam in aggNames.items() if nbParam == nbParamInAgg), None)
+            aggName  = next((name for name, nbParam in aggNames.items() if nbParam == nbParamInAgg[0]), None)
             # Check if an aggregation with requested number of parameters has been found
             if aggName:
                 # Remove the aggregation name from the list, to not use it twice
                 AggrListNames.remove(aggName)
                 # Add the aggregation name to the ordered list
                 OrderedAggrListNames.append(aggName)
+                # Update the dict giving the domain Id from the aggregation name (content of nbParamInAgg ensured by GPDSTD_ArgsParser to be integers) 
+                domainIdFromAggName[aggName] = nbParamInAgg[1]
             else:
-                raise GPDSTD_ScriptError("No aggregation found in generated injection data for aggregation with " + repr(nbParamInAgg) +  " parameters")
+                raise GPDSTD_ScriptError("No aggregation found in generated injection data for aggregation with " + repr(nbParamInAgg[0]) +  " parameters")
     else:
         # In case number of parameters in aggregation is not specified, simply read the keys of the ordered dict filled during the read of telemetry parcket file
         OrderedAggrListNames = allAggrs.keys()
+        # Create the list giving the domain Id from the aggregation name
+        for name in OrderedAggrListNames:
+            domainIdFromAggName[name] = args.domain
         
     # For each aggregation to generate
     AggrList = []
@@ -1133,7 +1199,7 @@ if __name__ == '__main__':
                 paramFormula = valFormulaParam[0]
             else:
                 # If there is no parameter value specified, put 10
-                paramFormula = "str(10)"
+                paramFormula = "10"
                 
             # Set the monitoring state value for the parameter with default or specified formula
             if stateFormulaParam:
@@ -1147,8 +1213,8 @@ if __name__ == '__main__':
                 stateFormulaCnt = stateFormulaCnt - 1
                 monitoringStateFormula = stateFormulaParam[0]
             else:
-                # If there is no parameter value specified, put 10
-                monitoringStateFormula = 1
+                # If there is no parameter value specified, put "nominal"
+                monitoringStateFormula = "nominal"
         
             #print "Using formula " + paramFormula + " for value of parameter of oid: " + ,oid
             #print "Using formula " + monitoringStateFormula + " for monitoring state of parameter of oid: " + oid
@@ -1162,7 +1228,7 @@ if __name__ == '__main__':
                     }
 
             objKey = {
-                    "domaineId" : int(oid[14:18],16),
+                    "domaineId" : int(domainIdFromAggName[aggrName]),
                     "uid" : str(oidToUid(oid[18:])) #str() use necessary to avoid trailing "L" with long type uid
                     }
             
@@ -1174,7 +1240,7 @@ if __name__ == '__main__':
              # Retrieve parameter name from oid for verbose mode
             if args.verbose:
                 # Create a list of the names of all parameter with the seek oid (sname for seek name and soid for seek oid)
-                parameterNames = [sname for sname, soid in allParamsNamesOids.items() if soid == oid]
+                parameterNames = [sname for sname, soid in allParamsNamesOids.items() if maskDomainIdinOid(soid) == maskDomainIdinOid(oid)]
                 parameterName = parameterNames[0]
             else:
                 parameterName = None

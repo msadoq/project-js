@@ -28,7 +28,7 @@ const propsTextView = {
   addEntryPoint: () => null,
   updateContent: () => null,
   perfOutput: true,
-  openLink: () => null
+  openLink: () => null,
 };
 
 const reducer = (state = {}, action) => {

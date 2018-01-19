@@ -74,6 +74,7 @@ export const hgauge = (n) => {
     .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
   ).join('');
 
+  // eslint-disable-next-line no-console
   console.log(epSvg);
 
   return {
@@ -120,6 +121,7 @@ export const hslider = (n) => {
     .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
   ).join('');
 
+  // eslint-disable-next-line no-console
   console.log(epSvg);
 
   return {

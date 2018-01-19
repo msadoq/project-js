@@ -38,17 +38,17 @@ const epIds = [
 const hexa = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 const style = '<style>.eps{ max-width: 850px; padding: 5px; } .ep { margin: 2px; display: inline-block; padding: 3px 10px; text-align: center; width: 60px; height: 28px; border: 1px solid #33B; background: #336; }</style>';
 
-const memoizeData = _memoize(count => {
-    let data = {};
-    let eps = epIds.filter((v, i) => i < count);
-    for (let i = 0; i < count; i += 1) {
-      data[eps[i]] = { value: i, color: '#FFF' };
-    }
-    return data;
+const memoizeData = _memoize((count) => {
+  const data = {};
+  const eps = epIds.filter((v, i) => i < count);
+  for (let i = 0; i < count; i += 1) {
+    data[eps[i]] = { value: i, color: '#FFF' };
   }
+  return data;
+}
 );
 
-const memoizeEP = _memoize(count => {
+const memoizeEP = _memoize((count) => {
   const entryPoints = {};
   const eps = epIds.filter((v, i) => i < count);
   for (let i = 0; i < count; i += 1) {

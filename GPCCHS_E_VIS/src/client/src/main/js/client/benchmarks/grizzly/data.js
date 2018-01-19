@@ -8,8 +8,8 @@
 export const data = (length, value) => {
   const points = {};
   for (let i = 0; i < length; i += 1) {
-    let x = 10 + i;
-    let val = value + ((15 * i) % 1000);
+    const x = 10 + i;
+    const val = value + ((15 * i) % 1000);
     points[x] = {
       x,
       value: val,
@@ -26,8 +26,8 @@ export const data = (length, value) => {
 export const dataColorRandom = (length, value, colors) => {
   const points = {};
   for (let i = 0; i < length; i += 1) {
-    let x = 10 + i;
-    let val = value + ((15 * i) % 1000);
+    const x = 10 + i;
+    const val = value + ((15 * i) % 1000);
     points[x] = {
       x,
       value: val,
@@ -43,34 +43,18 @@ export const dataColorRandom = (length, value, colors) => {
 };
 
 
-export const data1000Points = () => {
-  return data(1000, 500);
-};
+export const data1000Points = () => data(1000, 500);
 
-export const data1000Points2 = () => {
-  return data(1000, 1100);
-};
+export const data1000Points2 = () => data(1000, 1100);
 
-export const data10000Points = () => {
-  return data(10000, 500);
-};
+export const data10000Points = () => data(10000, 500);
 
-export const data10000Points2 = () => {
-  return data(10000, 1100);
-};
+export const data10000Points2 = () => data(10000, 1100);
 
-export const data25000Points = () => {
-  return data(25000, 600);
-};
+export const data25000Points = () => data(25000, 600);
 
-export const data25000Points2 = () => {
-  return data(25000, 600);
-};
+export const data25000Points2 = () => data(25000, 600);
 
-export const data10000PointsColorChanging = () => {
-  return dataColorRandom(10000, 500, ['0', '1', '2', '3', '4', '5', '6', '7', '9', 'A', 'C', 'D', 'E', 'F']);
-};
+export const data10000PointsColorChanging = () => dataColorRandom(10000, 500, ['0', '1', '2', '3', '4', '5', '6', '7', '9', 'A', 'C', 'D', 'E', 'F']);
 
-export const data10000Points4Colors = () => {
-  return dataColorRandom(10000, 500, ['0', '6', 'A', 'F']);
-};
+export const data10000Points4Colors = () => dataColorRandom(10000, 500, ['0', '6', 'A', 'F']);

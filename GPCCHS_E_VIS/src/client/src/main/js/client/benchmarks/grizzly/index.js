@@ -10,14 +10,13 @@ import React, { PropTypes } from 'react';
 import { createStore } from 'redux';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import GrizzlyChart from '../../lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart';
-import {
-  data1000Points, data1000Points2, data10000Points,
-  data10000Points2, data25000Points, data25000Points2,
-  data10000PointsColorChanging, data10000Points4Colors,
-} from './data';
 import { scaleLinear } from 'd3-scale';
 import _ from 'lodash/fp';
+import GrizzlyChart from '../../lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart';
+import {
+  data1000Points,
+  data10000PointsColorChanging,
+} from './data';
 
 process.title = 'gpcchs_grizzly_dev';
 
@@ -25,7 +24,7 @@ const SET_GRIZZLY_PROPS = 'SET_GRIZZLY_PROPS';
 
 const propsStub = {
   additionalStyle: {
-    display:"block"
+    display: 'block',
   },
   allowLasso: true,
   allowPan: true,
@@ -37,7 +36,7 @@ const propsStub = {
   current: 10000,
   enableTooltip: true,
   height: 500,
-  lines:[],
+  lines: [],
   parametric: false,
   perfOutput: true,
   tooltipColor: 'white',
@@ -47,16 +46,16 @@ const propsStub = {
   xAxisAt: 'bottom',
   yAxes: [],
   yAxesAt: 'left',
-  linesListener: console.log,
+  linesListener: console.log, // eslint-disable-line no-console
 };
 
 const xAxis = {
-  autoLimits:false,
-  autoTick:true,
-  format:".2f",
-  formatAsDate:true,
-  gridSize:1,
-  gridStyle:"Continuous",
+  autoLimits: false,
+  autoTick: true,
+  format: '.2f',
+  formatAsDate: true,
+  gridSize: 1,
+  gridStyle: 'Continuous',
   labelStyle: {
     color: '#333333',
     bgColor: '#FFFFFF',
@@ -67,17 +66,17 @@ const xAxis = {
     underline: false,
     size: 11,
   },
-  orient:"top",
-  rank:100,
-  scale:scaleLinear()
+  orient: 'top',
+  rank: 100,
+  scale: scaleLinear()
     .domain([0, 100])
     .range([0, 1000]),
-  showAxis:true,
-  showGrid:true,
-  showLabels:true,
-  showTicks:true,
-  tickStep:20000,
-  unit:"V",
+  showAxis: true,
+  showGrid: true,
+  showLabels: true,
+  showTicks: true,
+  tickStep: 20000,
+  unit: 'V',
 };
 
 const yAxis = {
@@ -96,7 +95,7 @@ const yAxis = {
   unit: 'l',
   labelStyle: { color: '#008' },
   logarithmic: false,
-  scale:scaleLinear()
+  scale: scaleLinear()
   .domain([0, 100])
   .range([500, 0]),
 };
@@ -174,8 +173,8 @@ render(
                       xId: 'time',
                       yId: 'vBat',
                       tdbid: 'TMMGT_BC_VIRTCHAN3',
-                      dots: data1000Points()
-                    }
+                      dots: data1000Points(),
+                    },
                   ]),
                 }
               );
@@ -192,8 +191,8 @@ render(
                       xId: 'time',
                       yId: 'vBat',
                       tdbid: 'TMMGT_BC_VIRTCHAN3',
-                      dots: data10000PointsColorChanging()
-                    }
+                      dots: data10000PointsColorChanging(),
+                    },
                   ]),
                 }
               );
@@ -207,7 +206,7 @@ render(
 );
 
 function getPayload(data) {
-  let payload = {...propsStub};
+  let payload = { ...propsStub };
 
   _.forEach((d) => {
     const dots = d.dots;
@@ -223,7 +222,7 @@ function getPayload(data) {
       max: (_.max(indexesY) + 100),
     };
 
-    let obj = {};
+    const obj = {};
     _.forEach((o) => {
       obj[o.x] = o;
     }, dots);
@@ -236,39 +235,39 @@ function getPayload(data) {
         data: obj,
         dataAccessor: d.tdbid,
         id: d.tdbid,
-        indexes: indexes,
+        indexes,
         xAxis: {
           ...xAxis,
           id: d.xId,
           label: d.xId,
-          calculatedExtents: [ minIndexes.min, minIndexes.max ],
-          extents: [ minIndexes.min, minIndexes.max ],
+          calculatedExtents: [minIndexes.min, minIndexes.max],
+          extents: [minIndexes.min, minIndexes.max],
         },
         xAxisId: d.xId,
         yAxis: {
           ...yAxis,
           id: d.yId,
           label: d.yId,
-          extents: [ minIndexesY.min, minIndexesY.max ],
-          calculatedExtents: [ minIndexesY.min, minIndexesY.max ],
+          extents: [minIndexesY.min, minIndexesY.max],
+          calculatedExtents: [minIndexesY.min, minIndexesY.max],
         },
         yAxisId: d.yId,
       }],
       xAxes: [...payload.xAxes, {
         ...xAxis,
-        extents: [ minIndexes.min, minIndexes.max ],
-        calculatedExtents: [ minIndexes.min, minIndexes.max ],
+        extents: [minIndexes.min, minIndexes.max],
+        calculatedExtents: [minIndexes.min, minIndexes.max],
         id: d.xId,
         label: d.xId,
       }],
       yAxes: [...payload.yAxes, {
         ...yAxis,
-        extents: [ minIndexesY.min, minIndexesY.max ],
-        calculatedExtents: [ minIndexesY.min, minIndexesY.max ],
+        extents: [minIndexesY.min, minIndexesY.max],
+        calculatedExtents: [minIndexesY.min, minIndexesY.max],
         id: d.yId,
         label: d.yId,
       }],
-    }
+    };
   }, data);
 
   return payload;

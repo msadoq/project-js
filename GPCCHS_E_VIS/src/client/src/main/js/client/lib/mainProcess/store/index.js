@@ -8,13 +8,14 @@
 import _always from 'lodash/fp/always';
 import open from 'opn';
 import { createStore, applyMiddleware, compose } from 'redux';
+import createTempStore from 'store/helpers/createTempStore';
 import thunk from 'redux-thunk';
 import { get } from 'common/configurationManager';
 import makeMainEnhancer from './storeEnhancer';
 import makeWikiHelperMiddleware from './middlewares/wikiHelper';
 import { server } from '../ipc';
 
-let store;
+let store = createTempStore();
 
 const middlewares = [
   makeWikiHelperMiddleware(open, () => get('USER_MANUAL_URL')),
@@ -27,14 +28,9 @@ export default function makeCreateStore(identity, isDebugOn) {
       makeMainEnhancer(identity, server.sendReduxDispatch, isDebugOn),
       applyMiddleware(...middlewares)
     );
-    store = createStore(_always({}), initialState, enhancer);
+    store = store.replaceStore(createStore(_always({}), initialState, enhancer));
     return store;
   };
 }
 
-export function getStore() {
-  if (!store) {
-    throw new Error('store wasn\'t inited yet');
-  }
-  return store;
-}
+export const getStore = () => store;

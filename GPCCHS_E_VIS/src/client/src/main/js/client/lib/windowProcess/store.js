@@ -18,6 +18,7 @@ import _always from 'lodash/fp/always';
 // import _set from 'lodash/fp/set';
 import _pipe from 'lodash/fp/pipe';
 import { createStore, applyMiddleware, compose } from 'redux';
+import createTempStore from 'store/helpers/createTempStore';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { remote } from 'electron';
@@ -31,7 +32,7 @@ import {
  } from '../constants';
 import { BATCHING_REDUCER_BATCH } from '../store/types';
 
-let store;
+let store = createTempStore();
 const identity = `renderer-${remote.getCurrentWindow().windowId}`;
 function prepareEnhancers(isDebugOn) {
   const enhancer = makeRendererEnhancer(
@@ -173,14 +174,9 @@ const decorateActionWithTiming = (action) => {
 export default function makeCreateStore(isDebugOn) {
   return (initialState) => {
     const enhancer = prepareEnhancers(isDebugOn);
-    store = createStore(_always({}), initialState, enhancer);
+    store = store.replaceStore(createStore(_always({}), initialState, enhancer));
     return store;
   };
 }
 
-export function getStore() {
-  if (!store) {
-    throw new Error('store wasn\'t inited yet');
-  }
-  return store;
-}
+export const getStore = () => store;

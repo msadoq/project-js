@@ -56,6 +56,7 @@ import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
 import { updateSessions } from '../store/actions/sessions';
 
+const isDebugEnabled = () => get('DEBUG') === 'on';
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
 adapter.registerGlobal();
@@ -84,6 +85,10 @@ const requestCatalogSessions = (store) => {
 
 series({
   // ZeroMQ sockets
+  store: (callback) => {
+    const store = makeCreateStore('server', isDebugEnabled())(); // STORE
+    return callback(null, store);
+  },
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
   // TODO : Send logBook to LPISIS (after store init to allow dispatch)
   logBook: (callback) => {
@@ -112,16 +117,13 @@ series({
   },
   // Initial data for store (domains, sessions, master session ID)
   initialData: callback => fetchInitialData(callback),
-}, (err, { initialData }) => {
+}, (err, { store, initialData }) => {
   if (err) {
     throw err;
   }
 
   // ipc with main
   process.on('message', clientController);
-  const isDebugEnabled = get('DEBUG') === 'on';
-  // store
-  const store = makeCreateStore('server', isDebugEnabled)(); // STORE
   store.subscribe(makeSubscriptionStoreObserver(store));
 
   // inform main that everything is ready and pass initialState
@@ -146,7 +148,7 @@ series({
   /* Start Health Monitoring mechanism
   On a status change, the Server Health status is updated
   */
-  if (isDebugEnabled) {
+  if (isDebugEnabled()) {
     monitoring = eventLoopMonitoring({
       criticalDelay: get('SERVER_HEALTH_CRITICAL_DELAY'),
       onStatusChange: status => store.dispatch(updateHssStatus(status)),

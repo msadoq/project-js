@@ -9,9 +9,11 @@
 import { get } from 'common/configurationManager';
 import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import cacheClean from './cacheCleanUp';
+import saveCache from './saveCache';
 
 const createCacheMiddleware = lokiManager => pipeMiddlewares(
-  cacheClean(get('CACHE_INVALIDATION_FREQUENCY'), lokiManager)
+  cacheClean(get('CACHE_INVALIDATION_FREQUENCY'), lokiManager),
+  saveCache(lokiManager)
 );
 
 export default createCacheMiddleware;

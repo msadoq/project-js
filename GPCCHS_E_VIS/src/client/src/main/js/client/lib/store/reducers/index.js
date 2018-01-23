@@ -48,10 +48,12 @@ import inspector from './inspector';
 import knownRanges from './knownRanges';
 import ui from './ui';
 import rte from './rte';
+import cache from './cache';
 
 import hsc from './hsc';
 
 const rootReducer = combineReducers({
+  cache,
   form,
   hsc,
   timebars,

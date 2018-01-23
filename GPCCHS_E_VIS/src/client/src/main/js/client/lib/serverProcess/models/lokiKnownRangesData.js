@@ -257,6 +257,8 @@ const removeAllExceptIntervals = (toKeep) => {
   }
 };
 
+const getDb = () => database;
+
 export default {
   getCollection,
   getLastRecords,
@@ -271,4 +273,5 @@ export default {
   displayCollection,
   removeAllExceptIntervals,
   getChargeLoki,
+  getDb,
 };

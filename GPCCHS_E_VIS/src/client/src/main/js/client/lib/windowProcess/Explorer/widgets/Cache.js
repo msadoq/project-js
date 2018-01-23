@@ -11,6 +11,7 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, ControlLabel, Col, Panel, Button } from 'react-bootstrap';
+import Inspector from 'react-json-inspector';
 
 import moment from 'moment';
 import styles from '../Explorer.css';
@@ -18,6 +19,8 @@ import styles from '../Explorer.css';
 export default class Cache extends PureComponent {
   static propTypes = {
     updateCacheInvalidation: PropTypes.func.isRequired,
+    saveCache: PropTypes.func.isRequired,
+    cache: PropTypes.shape({}).isRequired,
     lastCacheCleanUp: PropTypes.number,
   };
 
@@ -47,8 +50,19 @@ export default class Cache extends PureComponent {
           onClick={this.cleanCache}
           type="button"
         >
-        Clean Cache
+          Clean Cache
         </Button>
+        <Button
+          bsStyle="primary"
+          block
+          onClick={this.props.saveCache}
+          type="button"
+        >
+          Save Cache
+        </Button>
+        <div>
+          <Inspector data={this.props.cache} />
+        </div>
       </div>
     );
   }

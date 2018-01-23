@@ -9,12 +9,21 @@
 import { connect } from 'react-redux';
 import { updateCacheInvalidation } from 'store/actions/hsc';
 import { getLastCacheInvalidation } from 'store/reducers/hsc';
+import { getSavedCache } from 'store/reducers/cache';
 import Cache from './Cache';
+
+const saveCache = () => ({ type: 'DEBUG_SAVE_CACHE' });
 
 const mapStateToProps = state => ({
   lastCacheCleanUp: getLastCacheInvalidation(state),
+  cache: getSavedCache(state),
 });
 
-const CacheContainer = connect(mapStateToProps, { updateCacheInvalidation })(Cache);
+const mapDispatchToProps = {
+  updateCacheInvalidation,
+  saveCache,
+};
+
+const CacheContainer = connect(mapStateToProps, mapDispatchToProps)(Cache);
 
 export default CacheContainer;

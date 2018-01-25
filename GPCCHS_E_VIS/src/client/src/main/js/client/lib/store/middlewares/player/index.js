@@ -103,7 +103,7 @@ const pauseHandler = ({ interval }, next, action) => {
 };
 
 const openEditorHandler = ({ dispatch }, next, action) => {
-  dispatch(pause());
+  // dispatch(pause());
   return next(action);
 };
 

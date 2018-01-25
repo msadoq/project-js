@@ -120,14 +120,6 @@ describe('store:middlewares:player', () => {
     });
   });
 
-  describe('when open an editor', () => {
-    test('dispatch a HSC_PAUSE action when open an editor', () => {
-      const store = mockStore({});
-      store.dispatch(openEditor());
-      expect(store.getActions()).toMatchSnapshot();
-    });
-  });
-
   describe('when focus a page', () => {
     const state2 = {
       hsc: { playingTimebarId: 'tb1' },

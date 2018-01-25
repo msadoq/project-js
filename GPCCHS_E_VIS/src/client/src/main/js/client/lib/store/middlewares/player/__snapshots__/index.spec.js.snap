@@ -248,15 +248,3 @@ Array [
   },
 ]
 `;
-
-exports[`store:middlewares:player when open an editor dispatch a HSC_PAUSE action when open an editor 1`] = `
-Array [
-  Object {
-    "payload": Object {},
-    "type": "HSC_PAUSE",
-  },
-  Object {
-    "type": "WS_PAGE_PANELS_LOAD_IN_EDITOR",
-  },
-]
-`;

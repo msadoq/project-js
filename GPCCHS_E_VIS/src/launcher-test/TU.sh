@@ -46,7 +46,7 @@ fi
 
   npm run prepare:maven:build
 
-  npm ${NPM_OPTS2} install --production
+  npm ${NPM_OPTS2} install
 
 
 $PWD

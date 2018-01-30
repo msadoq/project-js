@@ -36,8 +36,10 @@ RUNDIR=target/run
 buildRunDir $RUNDIR
 
 # Source container utlis functions : checkProcess, checkResult, replace_ISIS_WORK_DIR
+echo "TA MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN V A MERE LA TCHOIN V =========================================================================================================================================================="
+echo `pwd`
 . containerUtils.env
-
+echo `which startContainer`
 # Prepare/clean older to store test reports
 if [ -d $PRGDIR/target/test-reports ] ; then
     rm $PRGDIR/target/test-reports/*.xml
@@ -80,6 +82,7 @@ echo "***************************************************************"
 echo "********* Loading GPCCHS_L_IFL-Converter-test bundle **********"
 echo "***************************************************************"
 OUTPUT=$(gpcctc_l_cnt_isisStartContainer_cmd${GPCCTC_VERSION} -p $PID -t 10 -- ccreate FeatureTest.xml )
+
 # analayse the OUTPUT
 checkResult "${OUTPUT}"
 

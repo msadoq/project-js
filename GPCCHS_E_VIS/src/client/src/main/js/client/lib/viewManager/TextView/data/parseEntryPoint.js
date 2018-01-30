@@ -44,20 +44,26 @@ function parseEntryPoint(
     logger.info('invalid entryPoint', name, cd.error);
     return { [name]: { error: cd.error } };
   }
-  const { dataId, field, offset, filters } = cd;
+  const { dataId, field, offset, filters, convert } = cd;
   // compute tbdId with filters to use them with getLast
   const tbdId = flattenDataId(dataId, filters);
+  let localId = `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`;
+  if (convert && convert.from && convert.to) {
+    localId = `${localId}#${convert.from}#${convert.to}`;
+  }
   const ep = {
     [name]: {
       tbdId,
       dataId,
-      localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
+      localId,
       field,
       offset,
       filters,
       timebarUuid,
       id,
       type: viewType,
+      convertFrom: convert.from,
+      convertTo: convert.to,
     },
   };
   if (stateColors) {

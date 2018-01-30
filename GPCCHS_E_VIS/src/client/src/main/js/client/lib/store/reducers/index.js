@@ -20,7 +20,7 @@ import knownRanges from './knownRanges';
 import ui from './ui';
 import rte from './rte';
 
-import { configurationReducers, dataReducers, uiReducers } from '../../viewManager';
+import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
 
 const rootReducer = combineReducers({
   form,
@@ -42,9 +42,9 @@ const rootReducer = combineReducers({
   ui,
   rte,
   knownRanges,
-  ...configurationReducers,
-  ...dataReducers,
-  ...uiReducers,
+  ...getConfigurationReducers(),
+  ...getDataReducers(),
+  ...getUiReducers(),
 });
 
 export default rootReducer;

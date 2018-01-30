@@ -7,46 +7,11 @@
   "domainName": "fr.cnes.isis.simupus",
   "views": [
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv",
-      "geometry": {
-        "x": 6,
-        "y": 5,
-        "w": 6,
-        "h": 10,
-        "maxH": 100,
-        "maxW": 100
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv",
-      "geometry": {
-        "x": 6,
-        "y": 15,
-        "w": 6,
-        "h": 9
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv",
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.vitv",
       "geometry": {
         "x": 0,
         "y": 0,
-        "w": 6,
-        "h": 24
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv",
-      "geometry": {
-        "x": 6,
-        "y": 0,
-        "w": 6,
+        "w": 5,
         "h": 5
       },
       "hideBorders": false,

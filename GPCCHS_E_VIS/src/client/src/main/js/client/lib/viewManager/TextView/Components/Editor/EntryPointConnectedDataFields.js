@@ -94,6 +94,23 @@ const EntryPointConnectedDataFields = (props) => {
         }
       </HorizontalFormGroup>
 
+      <HorizontalFormGroup label="Convert">
+        From
+        <Field
+          name="convertFrom"
+          type="text"
+          className="form-control input-sm"
+          component={InputField}
+        />
+        To
+        <Field
+          name="convertTo"
+          type="text"
+          className="form-control input-sm"
+          component={InputField}
+        />
+      </HorizontalFormGroup>
+
       <FieldArray
         name="filter"
         component={FiltersFields}

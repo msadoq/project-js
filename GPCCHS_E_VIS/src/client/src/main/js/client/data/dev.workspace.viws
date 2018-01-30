@@ -7,25 +7,13 @@
       "geometry": {
         "w": 1744,
         "h": 923,
-        "x": 923,
-        "y": 65,
+        "x": 174,
+        "y": 117,
         "kind": "Absolute"
       },
       "pages": [
         {
           "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "oId": "oid:/pages/dev.page2.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/maximized.page.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.vipg",
           "timebarId": "TB1"
         }
       ]

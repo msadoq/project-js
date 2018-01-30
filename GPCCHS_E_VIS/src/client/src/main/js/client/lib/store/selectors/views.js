@@ -4,13 +4,14 @@ import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from '../../dataManager/perViewData';
 import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
 import { getWindowPageIds } from '../reducers/windows';
-import { configurationReducers } from '../../viewManager/';
+import { getConfigurationReducers } from '../../viewManager/reducers';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   _.isEqual
 );
 
+const configurationReducers = getConfigurationReducers();
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow

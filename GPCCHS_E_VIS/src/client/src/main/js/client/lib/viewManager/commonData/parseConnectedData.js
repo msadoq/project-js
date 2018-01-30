@@ -17,7 +17,7 @@ export default function parseConnectedData(
   pageSessionName,
   workspaceSessionName
 ) {
-  const { formula, domain, timeline, filter } = connectedData;
+  const { formula, domain, timeline, filter, convertTo, convertFrom } = connectedData;
   // formula
   const parameter = formulaParser(formula);
   if (!parameter) {
@@ -61,6 +61,10 @@ export default function parseConnectedData(
     filters: filter,
     field: expectedField,
     offset,
+    convert: {
+      from: convertFrom,
+      to: convertTo,
+    },
   };
 }
 

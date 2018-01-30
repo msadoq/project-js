@@ -15,7 +15,7 @@ import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { getConfigurationByViewId } from '../../../../viewManager';
 import { isAnyInspectorOpened } from '../../../../store/selectors/pages';
 import { getInspectorEpId } from '../../../../store/reducers/inspector';
-import { getData } from '../../store/dataReducer';
+import { getData } from '../../store/dataSelectors';
 import { getViewContent } from '../../store/configurationSelectors';
 import { getLinks, areLinksShown } from '../../../../store/reducers/views';
 import { getPageIdByViewId, getPage } from '../../../../store/reducers/pages';

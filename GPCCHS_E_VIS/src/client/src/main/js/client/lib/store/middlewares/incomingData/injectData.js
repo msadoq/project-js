@@ -4,6 +4,7 @@ import { injectDataRange, injectDataLast } from '../../actions/incomingData';
 import dataMapGenerator from '../../../dataManager/map';
 import executionMonitor from '../../../common/logManager/execution';
 import { getCurrentVisuWindow } from '../../../store/selectors/timebars';
+import { convertData, mapUnitConvertion } from '../../helpers/unitConverterHelper';
 
 let dataMap = {};
 let previousDataMap = {};
@@ -27,29 +28,39 @@ const injectData = (timing) => {
     const newExpectedLastIntervals = _.getOr({}, 'expectedLastIntervals', dataMap);
 
     const dataToInject = cleanBuffer();
-    const updateRangeData = injectDataRange(
-      oldViewMap,
-      newViewMap,
-      oldExpectedRangeIntervals,
-      newExpectedRangeIntervals,
-      dataToInject,
-      { HistoryViewConfiguration: state.HistoryViewConfiguration,
-        GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
-        OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
-      getCurrentVisuWindow(state)
-    );
 
-    const updateLastData = injectDataLast(
-      oldViewMap,
-      newViewMap,
-      oldExpectedLastIntervals,
-      newExpectedLastIntervals,
-      dataToInject
-    );
-    dispatch(updateRangeData);
-    dispatch(updateLastData);
+    const toConvertMap = mapUnitConvertion(newViewMap);
+    convertData(toConvertMap, dataToInject, (err, convertedDataToInject) => {
+      // TODO HANDLE ERROR
+      if (err) {
+        console.error(err);
+      }
 
-    previousDataMap = dataMap;
+      const updateRangeData = injectDataRange(
+        oldViewMap,
+        newViewMap,
+        oldExpectedRangeIntervals,
+        newExpectedRangeIntervals,
+        convertedDataToInject,
+        { HistoryViewConfiguration: state.HistoryViewConfiguration,
+          GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
+          OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
+        getCurrentVisuWindow(state)
+      );
+
+      const updateLastData = injectDataLast(
+        oldViewMap,
+        newViewMap,
+        oldExpectedLastIntervals,
+        newExpectedLastIntervals,
+        convertedDataToInject
+      );
+
+      dispatch(updateRangeData);
+      dispatch(updateLastData);
+
+      previousDataMap = dataMap;
+    });
   });
 
   /**
@@ -76,7 +87,7 @@ const injectData = (timing) => {
     buffer = {};
     return data;
   }
-
+      
   return ({ dispatch, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type !== types.NEW_DATA) {

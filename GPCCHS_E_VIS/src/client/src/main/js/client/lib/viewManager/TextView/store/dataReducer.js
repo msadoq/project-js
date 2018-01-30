@@ -4,7 +4,6 @@ import _omit from 'lodash/omit';
 import cleanCurrentViewData from './cleanViewData';
 import { selectDataPerView, viewDataUpdate } from './viewDataUpdate';
 // import cleanViewData from './cleanViewData';
-
 import * as types from '../../../store/types';
 import * as constants from '../../constants';
 
@@ -120,7 +119,3 @@ export default function textViewData(state = {}, action) {
       return state;
   }
 }
-
-export const getTextViewData = state => state.TextViewData;
-
-export const getData = (state, { viewId }) => state.TextViewData[viewId];

@@ -29,28 +29,132 @@
   "content": "<style>\n  .myTextView {\n    float: left;\n    font-size: 1.2rem;\n  }\n\n  .myTextView .myContener {\n    background-color: #0f1051;\n    margin-top: 4px;\n    margin-left: 6px;\n    padding: 2px;\n    float: left;\n    border-radius: 1px;\n    border: 1px ridge #0f0041;\n    height: 51px;\n    width: 180px;\n  }\n\n  .myContener .name {\n    display: block;\n    overflow: hidden;\n    background-color: white;\n    color: black;\n    font-weight: bolder;\n    font-size: 11px;\n    padding: 2px;\n    text-align: center;\n  }\n\n  .myContener .value {\n    text-align: center;\n    display: block;\n    overflow: hidden;\n    background-color: #0f0041;\n    color: #00ff00;\n    font-weight: bold;\n    padding: 10px;\n    margin-bottom: 10px;\n  }\n</style>\n<div class='myTextView'>\n  <div class='myContener'><span isis_link='view.pbf.text' class='name'>AGA_AM_PRIORITY</span><span class='value'>{{AGA_AM_PRIORITY}}</span></div>\n  <div class='myContener'><span class='name'>TMMGT_BC_VIRTCHAN3</span><span class='value'>{{TMMGT_BC_VIRTCHAN3}}</span></div>\n</div>",
   "entryPoints": [
     {
-      "name": "AGA_AM_PRIORITY",
       "connectedData": {
-        "formula": "Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue",
-        "unit": "V",
+        "convertFrom": "",
+        "convertTo": "",
         "digits": 5,
-        "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
-      }
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "name": "AGA_AM_PRIORITY",
+      "stateColors": [
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "alarm",
+            "operator": "="
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "critical",
+            "operator": "="
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "outOfRange",
+            "operator": "="
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "severe",
+            "operator": "="
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "danger",
+            "operator": "="
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "warning",
+            "operator": "="
+          }
+        }
+      ]
     },
     {
       "name": "TMMGT_BC_VIRTCHAN3",
       "connectedData": {
-        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
-        "unit": "V",
+        "convertFrom": "g",
+        "convertTo": "kg",
         "digits": 5,
-        "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
-      }
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "stateColors": [
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "alarm",
+            "operator": "="
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "critical",
+            "operator": "="
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "outOfRange",
+            "operator": "="
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "severe",
+            "operator": "="
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "danger",
+            "operator": "="
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "warning",
+            "operator": "="
+          }
+        }
+      ]
     },
     {
       "name": "TMMGT_AC_APP",
@@ -62,7 +166,57 @@
         "filter": [],
         "domain": "*",
         "timeline": "*"
-      }
+      },
+      "stateColors": [
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "alarm"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "critical"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "outOfRange"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "severe"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "danger"
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "warning"
+          }
+        }
+      ]
     }
   ],
   "search": ""

@@ -192,4 +192,5 @@ module.exports = {
   push,
   request,
   respond,
+  realZmq: zmq
 };

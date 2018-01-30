@@ -4,10 +4,13 @@ import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _ from 'lodash/fp';
 
-import { getTextViewData, getData } from './dataReducer';
 import { getViewTitle } from '../../../store/reducers/views';
 
 const getFullTitle = getViewTitle;
+
+export const getTextViewData = state => state.TextViewData;
+
+export const getData = (state, { viewId }) => state.TextViewData[viewId];
 
 const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(`TextViewConfiguration.${viewId}.entryPoints`, state)

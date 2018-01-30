@@ -17,6 +17,7 @@ import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
 import { setRteSessions } from '../store/actions/rte';
+import passerelle from '../utils/passerelle/index';
 
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
@@ -43,6 +44,12 @@ const requestCatalogSessions = (store) => {
   }
 };
 
+const launchPasserelle = (callback) => {
+  passerelle.spawnPasserelle();
+  passerelle.init();
+  callback(null);
+};
+
 function loadFmdConfigurationFile(callback) {
   const confPath = get('CONFIGURATION');
   if (confPath) {
@@ -67,6 +74,7 @@ series({
   logBook: (callback) => {
     callback(null);
   },
+  launchGateway: callback => launchPasserelle(callback),
   rtd: (callback) => {
     if (get('RTD_ON') === 'on') {
       const createRtd = dynamicRequire('rtd/catalogs').connect;

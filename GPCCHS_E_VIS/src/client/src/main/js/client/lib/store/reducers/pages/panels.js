@@ -15,7 +15,7 @@ import * as types from 'store/types';
 
 const initialState = {
   // editor
-  editorWidth: 250,
+  editorWidth: 400,
   editorViewId: undefined,
   editorIsMinimized: true,
   // timebar

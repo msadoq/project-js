@@ -28,7 +28,7 @@ describe('store:pages:reducer:panels', () => {
   });
   test('should support empty state', () => {
     expect(panelsReducer(undefined, {})).toEqual({
-      editorWidth: 250,
+      editorWidth: 400,
       editorViewId: undefined,
       editorIsMinimized: true,
       timebarHeight: 130,

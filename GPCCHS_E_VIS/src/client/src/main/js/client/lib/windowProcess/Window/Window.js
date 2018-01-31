@@ -69,7 +69,7 @@ const logger = getLogger('Window');
 const resizeHandleSize = 3;
 const scrollHandleSize = 15;
 const defaultExplorerWidth = 250;
-const defaultEditorWidth = 250;
+const defaultEditorWidth = 400;
 const minimizedTimebarHeigh = 35;
 const panelBorderColor = '#444';
 const tabsContainerStyle = { height: 40 };
@@ -139,6 +139,10 @@ class Window extends PureComponent {
     setTimeout(() => setIsLoaded(windowId), 0);
   }
 
+  /**
+   * @deprecated
+   * @type {Function}
+   */
   onHorizontalUpdateDebounce = _debounce((panelWidth) => {
     const { pageId,
       editorWidth,

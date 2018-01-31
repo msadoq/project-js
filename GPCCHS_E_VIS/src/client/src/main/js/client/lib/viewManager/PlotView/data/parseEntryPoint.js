@@ -120,12 +120,15 @@ export default function parseEntryPoint(
   }
 
   const tbdId = flattenDataId(cd.dataId, cd.filters);
-
+  let localId = `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}${flattenStateColors(entryPoint.stateColors)}`;
+  if (cd.convert && cd.convert.from && cd.convert.to) {
+    localId = `${localId}#${cd.convert.from}#${cd.convert.to}`;
+  }
   const ep = {
     [name]: {
       tbdId,
       dataId: cd.dataId,
-      localId: `${connectedData.fieldX}/${cd.field}.${timebarUuid}:${cd.offset}${flattenStateColors(entryPoint.stateColors)}`,
+      localId,
       fieldX: connectedData.fieldX,
       fieldY: cd.field,
       offset: cd.offset,
@@ -133,6 +136,8 @@ export default function parseEntryPoint(
       filters: cd.filters,
       id,
       type: viewType,
+      convertFrom: cd.convert.from,
+      convertTo: cd.convert.to,
     },
   };
 

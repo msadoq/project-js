@@ -19,6 +19,8 @@ const getNewPlotEntryPoint = () => ({
     filter: [],
     stringParameter: false,
     defaultY: 1,
+    convertFrom: '',
+    convertTo: '',
   },
   connectedDataParametric: {
     formulaX: '',

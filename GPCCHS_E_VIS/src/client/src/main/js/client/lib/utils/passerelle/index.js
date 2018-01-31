@@ -14,13 +14,23 @@ let subscriber;
 
 exports.spawnPasserelle = () => {
   const PYTHON_EXEC_PATH = (parameters.get('PYTHON_EXEC_PATH'));
-  // console.log('test');
-  // logger.info(PYTHON_EXEC_PATH);
   const spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`]);
 
   spawned.on('error', (err) => {
     logger.error('Failed to start subprocess.');
     logger.error(err);
+  });
+
+  spawned.stdout.on('data', (data) => {
+    logger.silly(`stdout: ${data}`);
+  });
+
+  spawned.stderr.on('data', (data) => {
+    logger.silly(`stderr: ${data}`);
+  });
+
+  spawned.on('close', (code) => {
+    logger.silly(`child process exited with code ${code}`);
   });
 };
 // ------------------------------------------------------------------------------------------

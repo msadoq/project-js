@@ -1,5 +1,5 @@
-import _ from 'lodash/fp';
-import asyncParallel from 'async/parallel';
+import _ from 'lodash';
+import asyncSeries from 'async/series';
 import passerelle from '../../utils/passerelle/index';
 
 /**
@@ -19,10 +19,14 @@ const mapUnitConvertion = (newViewMap) => {
         if (!mapConvert[tbdId]) {
           mapConvert[tbdId] = [];
         }
-        const field = ep.field;
+        const field = ep.field || ep.fieldY;
         const convertFrom = ep.convertFrom;
         const convertTo = ep.convertTo;
-        mapConvert[tbdId].push({ field, convertFrom, convertTo });
+        if (convertFrom && convertTo) {
+          if (!_.find(mapConvert[tbdId], { field, convertFrom, convertTo })){
+            mapConvert[tbdId].push({ field, convertFrom, convertTo });
+          }
+        }
       }
     });
   });
@@ -41,12 +45,12 @@ const convertData = (toConvertMap, dataToInject, cb) => {
   tbdIdKeys.forEach((tbdIdKey) => {
     const timestampMap = dataToInject[tbdIdKey];
     const timestampArray = Object.keys(timestampMap);
-    timestampArray.forEach((timestamp) => {
-      const arrayToConvert = toConvertMap[tbdIdKey];
-      if (arrayToConvert) {
+    const arrayToConvert = toConvertMap[tbdIdKey];
+    if (arrayToConvert) {
+      timestampArray.forEach((timestamp) => {
         arrayToConvert.forEach(({ field, convertFrom, convertTo }) => {
           const value = timestampMap[timestamp][field];
-          asyncMap[`${tbdIdKey}${field}${convertFrom}${convertTo}`] = ((callbackAsync) => {
+          asyncMap[`${tbdIdKey}${field}${convertFrom}${convertTo}${timestamp}`] = ((callbackAsync) => {
             passerelle.caller('gpinuc',
               {
                 // TODO, add the real valu = value: value.symbol,
@@ -69,13 +73,12 @@ const convertData = (toConvertMap, dataToInject, cb) => {
             );
           });
         });
-      }
-    });
+      });
+    }
   });
-
-  asyncParallel(asyncMap, (err, results) => {
+  asyncSeries(asyncMap, (err, results) => {
     const resultsKeys = Object.keys(results);
-    let convertedDataToInject = { ...dataToInject };
+    const convertedDataToInject = { ...dataToInject };
     resultsKeys.forEach((resultsKey) => {
       const {
         response,
@@ -83,7 +86,7 @@ const convertData = (toConvertMap, dataToInject, cb) => {
         field,
         convertTo,
         timestamp } = results[resultsKey];
-      convertedDataToInject = _.set([tbdIdKey, timestamp, 'gpinuc', field, convertTo], response, convertedDataToInject);
+      _.set(convertedDataToInject, [tbdIdKey, timestamp, 'gpinuc', field, convertTo], response);
     });
 
     cb(err, convertedDataToInject);

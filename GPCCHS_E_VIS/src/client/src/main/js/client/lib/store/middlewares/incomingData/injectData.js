@@ -35,7 +35,6 @@ const injectData = (timing) => {
       if (err) {
         console.error(err);
       }
-
       const updateRangeData = injectDataRange(
         oldViewMap,
         newViewMap,
@@ -47,7 +46,6 @@ const injectData = (timing) => {
           OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
         getCurrentVisuWindow(state)
       );
-
       const updateLastData = injectDataLast(
         oldViewMap,
         newViewMap,
@@ -55,7 +53,6 @@ const injectData = (timing) => {
         newExpectedLastIntervals,
         convertedDataToInject
       );
-
       dispatch(updateRangeData);
       dispatch(updateLastData);
 
@@ -87,7 +84,7 @@ const injectData = (timing) => {
     buffer = {};
     return data;
   }
-      
+
   return ({ dispatch, getState }) => next => (action) => {
     const nextAction = next(action);
     if (action.type !== types.NEW_DATA) {

@@ -146,6 +146,12 @@
                 },
                 "defaultY": {
                     "type": "number"
+                },
+                "convertTo": {
+                    "type": "string"
+                },
+                "convertFrom": {
+                    "type": "string"
                 }
             },
             "required": [

@@ -241,7 +241,7 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
       if (ep.fieldX) {
         valX = _get(value, [ep.fieldX, 'value']);
       }
-      const valY = getFieldValue(value, ep.fieldY);
+      const valY = getFieldValue(value, ep.fieldY, ep.convertTo);
       if (valY !== undefined) {
         valForMax = valY;
         newState[epName][masterTime] = {
@@ -294,8 +294,10 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
   return newState;
 }
 
-function getFieldValue(value, field) {
-  let val = _get(value, [field, 'value']);
+function getFieldValue(value, field, convertTo) {
+  const path = convertTo ? ['gpinuc', field, convertTo] : [field, 'value'];
+  let val = _get(value, path);
+  // TODO CHECK IF GPINUC GOT NO VALUES
   if (!val) {
     const symbol = _get(value, [field, 'symbol']);
     // Case of long values

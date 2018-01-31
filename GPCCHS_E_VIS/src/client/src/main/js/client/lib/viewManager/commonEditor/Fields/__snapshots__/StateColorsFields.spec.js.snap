@@ -2,282 +2,523 @@
 
 exports[`StateColorsFields renders correctly 1`] = `
 <div>
-  <table
-    className="table table-striped table-condensed"
-    style={
-      Object {
-        "fontSize": "12px",
+  <br />
+  <div>
+    <table
+      className="table table-condensed table-responsive table-bordered"
+    >
+      <thead>
+        <tr>
+          <th>
+            Obs
+          </th>
+          <th>
+            Sig
+          </th>
+          <th>
+            nom
+          </th>
+          <th>
+            war
+          </th>
+          <th>
+            dan
+          </th>
+          <th>
+            sev
+          </th>
+          <th>
+            cri
+          </th>
+          <th>
+            out
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Yes
+          </td>
+          <td>
+            No
+          </td>
+          <td
+            style={
+              Object {
+                "background": "#bdc3c7",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#bdc3c7",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#bdc3c7",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#bdc3c7",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#bdc3c7",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#bdc3c7",
+              }
+            }
+          />
+        </tr>
+        <tr>
+          <td>
+            Yes
+          </td>
+          <td>
+            Yes
+          </td>
+          <td
+            style={
+              Object {
+                "background": "#3498db",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#3498db",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#3498db",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#3498db",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#3498db",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#3498db",
+              }
+            }
+          />
+        </tr>
+        <tr>
+          <td>
+            No
+          </td>
+          <td>
+            Yes
+          </td>
+          <td
+            style={
+              Object {
+                "background": "#2ecc71",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#f1c40f",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#e67e22",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#d35400",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#e74c3c",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#c0392b",
+              }
+            }
+          />
+        </tr>
+        <tr>
+          <td>
+            No
+          </td>
+          <td>
+            No
+          </td>
+          <td
+            style={
+              Object {
+                "background": "#95a5a6",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#95a5a6",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#95a5a6",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#95a5a6",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#95a5a6",
+              }
+            }
+          />
+          <td
+            style={
+              Object {
+                "background": "#95a5a6",
+              }
+            }
+          />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <table
+      className="table table-striped table-condensed"
+      style={
+        Object {
+          "fontSize": "12px",
+        }
       }
-    }
-  >
-    <thead>
-      <tr>
-        <th
-          colSpan={1}
-        >
-          Color
-        </th>
-        <th
-          colSpan={1}
-        >
-          Expression
-        </th>
-        <th
-          colSpan={2}
-        >
-          Actions
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        className=""
-      >
-        <td
-          className="col-xs-1"
-        >
-          <span
-            className="colorSquare"
-            style={
-              Object {
-                "backgroundColor": "#FFAAFF",
-              }
-            }
-          />
-        </td>
-        <td
-          className="col-xs-9"
-          style={
-            Object {
-              "verticalAlign": "middle",
-            }
-          }
-        >
-          field
-           
-          <b>
-            &lt;=
-             
-          </b>
-          operand
-        </td>
-        <td
-          className="col-xs-1"
-        >
-          <span
-            className="glyphicon glyphicon-trash"
-            onClick={[Function]}
-            style={
-              Object {
-                "cursor": "pointer",
-              }
-            }
-            title="remove state color"
-          />
-        </td>
-        <td
-          className="col-xs-1"
-        >
-          <span
-            className="glyphicon glyphicon-pencil"
-            onClick={[Function]}
-            style={
-              Object {
-                "color": "inherit",
-                "cursor": "pointer",
-              }
-            }
-            title="edit state color"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div
-    className="form-group"
-  >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
     >
-      color
-    </label>
-    <div
-      className="col-xs-8"
-    >
-      <div
-        className="root"
-      >
-        <button
-          className="btn btn-xs btn-default"
-          disabled={false}
-          onClick={[Function]}
-          style={
-            Object {
-              "backgroundColor": "#ffffff",
-            }
-          }
-          type="button"
-        >
-          <svg
-            height="12"
-            width="12"
-            xmlns="http://www.w3.org/2000/svg"
+      <thead>
+        <tr>
+          <th
+            colSpan={1}
           >
-            <g>
-              <title>
-                background
-              </title>
-              <rect
-                fill="none"
-                height="12"
-                id="canvas_background"
-                width="12"
-                x="-1"
-                y="-1"
-              />
-              <g
-                display="none"
-                height="100%"
-                id="canvasGrid"
-                overflow="visible"
-                width="100%"
-                x="0"
-                y="0"
-              >
+            Color
+          </th>
+          <th
+            colSpan={1}
+          >
+            Expression
+          </th>
+          <th
+            colSpan={2}
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          className=""
+        >
+          <td
+            className="col-xs-1"
+          >
+            <span
+              className="colorSquare"
+              style={
+                Object {
+                  "backgroundColor": "#FFAAFF",
+                }
+              }
+            />
+          </td>
+          <td
+            className="col-xs-9"
+            style={
+              Object {
+                "verticalAlign": "middle",
+              }
+            }
+          >
+            field
+             
+            <b>
+              &lt;=
+               
+            </b>
+            operand
+          </td>
+          <td
+            className="col-xs-1"
+          >
+            <span
+              className="glyphicon glyphicon-trash"
+              onClick={[Function]}
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              title="remove state color"
+            />
+          </td>
+          <td
+            className="col-xs-1"
+          >
+            <span
+              className="glyphicon glyphicon-pencil"
+              onClick={[Function]}
+              style={
+                Object {
+                  "color": "inherit",
+                  "cursor": "pointer",
+                }
+              }
+              title="edit state color"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-xs-4 control-label"
+        htmlFor="formHorizontalName"
+      >
+        color
+      </label>
+      <div
+        className="col-xs-8"
+      >
+        <div
+          className="root"
+        >
+          <button
+            className="btn btn-xs btn-default"
+            disabled={false}
+            onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#ffffff",
+              }
+            }
+            type="button"
+          >
+            <svg
+              height="12"
+              width="12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g>
+                <title>
+                  background
+                </title>
                 <rect
-                  fill="url(#gridpattern)"
+                  fill="none"
+                  height="12"
+                  id="canvas_background"
+                  width="12"
+                  x="-1"
+                  y="-1"
+                />
+                <g
+                  display="none"
                   height="100%"
-                  strokeWidth="0"
+                  id="canvasGrid"
+                  overflow="visible"
                   width="100%"
                   x="0"
                   y="0"
-                />
+                >
+                  <rect
+                    fill="url(#gridpattern)"
+                    height="100%"
+                    strokeWidth="0"
+                    width="100%"
+                    x="0"
+                    y="0"
+                  />
+                </g>
               </g>
-            </g>
-          </svg>
-        </button>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      field
-    </label>
     <div
-      className="col-xs-8"
+      className="form-group"
     >
-      <input
-        className="form-control"
-        onChange={[Function]}
-      />
-    </div>
-  </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      operator
-    </label>
-    <div
-      className="col-xs-8"
-    >
-      <select
-        className="form-control"
+      <label
+        className="col-xs-4 control-label"
+        htmlFor="formHorizontalName"
       >
-        <option
-          value="="
-        >
-          =
-        </option>
-        <option
-          value="!="
-        >
-          !=
-        </option>
-        <option
-          value="<"
-        >
-          &lt;
-        </option>
-        <option
-          value="<="
-        >
-          &lt;=
-        </option>
-        <option
-          value=">"
-        >
-          &gt;
-        </option>
-        <option
-          value=">="
-        >
-          &gt;=
-        </option>
-        <option
-          value="CONTAINS"
-        >
-          CONTAINS
-        </option>
-        <option
-          value="ICONTAINS"
-        >
-          ICONTAINS
-        </option>
-      </select>
+        field
+      </label>
+      <div
+        className="col-xs-8"
+      >
+        <input
+          className="form-control"
+          onChange={[Function]}
+        />
+      </div>
     </div>
-  </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      operand
-    </label>
     <div
-      className="col-xs-8"
+      className="form-group"
     >
-      <input
-        className="form-control"
-        onChange={[Function]}
-      />
+      <label
+        className="col-xs-4 control-label"
+        htmlFor="formHorizontalName"
+      >
+        operator
+      </label>
+      <div
+        className="col-xs-8"
+      >
+        <select
+          className="form-control"
+        >
+          <option
+            value="="
+          >
+            =
+          </option>
+          <option
+            value="!="
+          >
+            !=
+          </option>
+          <option
+            value="<"
+          >
+            &lt;
+          </option>
+          <option
+            value="<="
+          >
+            &lt;=
+          </option>
+          <option
+            value=">"
+          >
+            &gt;
+          </option>
+          <option
+            value=">="
+          >
+            &gt;=
+          </option>
+          <option
+            value="CONTAINS"
+          >
+            CONTAINS
+          </option>
+          <option
+            value="ICONTAINS"
+          >
+            ICONTAINS
+          </option>
+        </select>
+      </div>
     </div>
-  </div>
-  <div
-    className="form-group"
-  >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      
-    </label>
     <div
-      className="col-xs-8"
+      className="form-group"
     >
-      <input
-        className="btn btn-success"
-        disabled={true}
-        onClick={[Function]}
-        style={
-          Object {
-            "width": "110px",
+      <label
+        className="col-xs-4 control-label"
+        htmlFor="formHorizontalName"
+      >
+        operand
+      </label>
+      <div
+        className="col-xs-8"
+      >
+        <input
+          className="form-control"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-xs-4 control-label"
+        htmlFor="formHorizontalName"
+      >
+        
+      </label>
+      <div
+        className="col-xs-8"
+      >
+        <input
+          className="btn btn-success"
+          disabled={true}
+          onClick={[Function]}
+          style={
+            Object {
+              "width": "110px",
+            }
           }
-        }
-        type="submit"
-        value="Add state color"
-      />
+          type="submit"
+          value="Add state color"
+        />
+      </div>
     </div>
   </div>
 </div>

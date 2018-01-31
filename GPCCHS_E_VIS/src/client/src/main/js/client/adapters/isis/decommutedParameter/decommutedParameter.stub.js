@@ -20,11 +20,11 @@ const decommutedParameter = {
   convertedValue: _random(1, 100, true),
   rawValue: _random(1, 100, true),
   extractedValue: _random(1, 100, true),
-  monitoringState: 'mySTRING',
+  monitoringState: 'nominal',
   triggerOnCounter: 10,
   triggerOffCounter: 10,
   validityState: 0,
-  isObsolete: true,
+  isObsolete: false,
   isNominal: true,
 };
 

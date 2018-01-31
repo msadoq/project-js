@@ -17,8 +17,10 @@ const parameter = {
   rawValue: _random(1, 100, true),
   convertedValue: _random(1, 100, true),
   triggerCounter: 10,
-  monitoringState: 'mySTRING',
+  monitoringState: 'nominal',
   validityState: 0,
+  isObsolete: false,
+  isNominal: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, parameter) : parameter);

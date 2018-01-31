@@ -7,14 +7,13 @@
 // ====================================================================
 
 import { get } from 'common/configurationManager';
-import { getStateColorFilters } from 'windowProcess/common/colors';
 
 export default function (entryPoint) {
   return Object.assign({}, getNewMimicEntryPoint(), entryPoint);
 }
 
 const getNewMimicEntryPoint = () => ({
-  name: 'NewEntryPoint',
+  name: 'mimicEP',
   connectedData: {
     formula: '',
     unit: 's',
@@ -24,5 +23,5 @@ const getNewMimicEntryPoint = () => ({
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
   },
-  stateColors: getStateColorFilters(),
+  stateColors: [],
 });

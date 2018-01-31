@@ -232,7 +232,6 @@ export function onStart() {
         }, store);
         callback(null);
       };
-      logger.info(parameters.getAll().STATE_COLORS);
       if (process.env.IS_BUNDLED === 'on') {
         splashScreen.setMessage('starting data server process...');
         logger.info('starting data server process...');

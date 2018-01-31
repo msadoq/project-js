@@ -204,8 +204,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10).utc().toISOString() },
-            ep4: { value: 'val9' } },
+            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString() },
+            ep4: { color: '#2ecc71', value: 'val9' } },
         },
       });
     });
@@ -228,8 +228,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10).utc().toISOString() },
-            ep4: { value: 'val9' } },
+            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString() },
+            ep4: { color: '#2ecc71', value: 'val9' } },
         },
       });
     });

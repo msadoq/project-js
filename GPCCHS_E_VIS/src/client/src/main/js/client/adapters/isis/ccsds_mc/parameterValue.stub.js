@@ -15,10 +15,11 @@ const parameterValue = {
   convertedValue: _random(1, 100, true),
   extractedValue: _random(1, 100, true),
   rawValue: _random(1, 100, true),
-  isObsolete: true,
+  isObsolete: false,
+  isNominal: true,
   triggerOnCounter: 10,
   triggerOffCounter: 10,
-  monitoringState: 'mySTRING',
+  monitoringState: 'nominal',
   validityState: 0,
 };
 

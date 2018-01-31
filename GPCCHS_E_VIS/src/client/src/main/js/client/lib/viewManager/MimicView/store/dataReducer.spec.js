@@ -206,8 +206,8 @@ describe('viewManager/MimicView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10).utc().toISOString() },
-            ep4: { value: 'val9' } },
+            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString() },
+            ep4: { color: '#2ecc71', value: 'val9' } },
         },
       });
     });
@@ -215,8 +215,8 @@ describe('viewManager/MimicView/store/dataReducer', () => {
       const state = freezeMe({ text: {
         index: { ep1: 9, ep4: 9 },
         values: {
-          ep1: { value: moment(9).utc().toISOString() },
-          ep4: { value: 'val9', monit: undefined } },
+          ep1: { color: '#2ecc71', value: moment(9).utc().toISOString() },
+          ep4: { color: '#2ecc71', value: 'val9', monit: undefined } },
       } });
       const action = { type: types.INJECT_DATA_LAST,
         payload: {
@@ -230,8 +230,8 @@ describe('viewManager/MimicView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10).utc().toISOString() },
-            ep4: { value: 'val9' } },
+            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString() },
+            ep4: { color: '#2ecc71', value: 'val9' } },
         },
       });
     });

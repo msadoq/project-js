@@ -10,35 +10,9 @@
 // ====================================================================
 
 import moment from 'moment';
-import { getCount, getLastValue } from './dataSelectors';
+import { getLastValue } from './dataSelectors';
 
 describe('viewManager/PlotView/store/dataSelector', () => {
-  describe.skip('getCount', () => {
-    test('counts data: empty state', () => {
-      expect(getCount({ PlotViewData: {} })).toEqual({ all: 0 });
-    });
-    test('counts data', () => {
-      const state = {
-        PlotViewData: {
-          v1: { lines: { ep1: [{ a: true, b: true }] } },
-          v2: { lines: {
-            ep1: [{ a: true, x: 1 }, { a: false, x: 2 }],
-            ep2: [{ a: false, x: 2 }] } },
-          v3: {},
-          v4: {},
-          v5: {},
-        },
-      };
-      expect(getCount(state)).toEqual({
-        v1: 1,
-        v2: 3,
-        v3: 0,
-        v4: 0,
-        v5: 0,
-        all: 4,
-      });
-    });
-  });
   describe('getLastValue', () => {
     test('should support empty state', () => {
       expect(getLastValue({ PlotViewData: {} }, { epName: 'ep1', viewId: 'v1' })).toBeFalsy();

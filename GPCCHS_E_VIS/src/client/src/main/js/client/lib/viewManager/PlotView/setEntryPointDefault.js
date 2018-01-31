@@ -8,14 +8,14 @@
 // ====================================================================
 
 import { get } from 'common/configurationManager';
-import { getRandomColor, getStateColorFilters } from 'windowProcess/common/colors';
+import { getRandomColor } from 'windowProcess/common/colors';
 
 export default function (entryPoint) {
   return Object.assign({}, getNewPlotEntryPoint(), entryPoint);
 }
 
 const getNewPlotEntryPoint = () => ({
-  name: 'NewEntryPoint',
+  name: 'plotEP',
   parametric: false,
   connectedData: {
     domain: get('WILDCARD_CHARACTER'),
@@ -50,5 +50,5 @@ const getNewPlotEntryPoint = () => ({
     },
     curveColor: getRandomColor(),
   },
-  stateColors: getStateColorFilters(),
+  stateColors: [],
 });

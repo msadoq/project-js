@@ -5,27 +5,15 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1676,
-        "h": 923,
-        "x": 1922,
-        "y": 80,
+        "w": 1186,
+        "h": 1000,
+        "x": 1924,
+        "y": 51,
         "kind": "Absolute"
       },
       "pages": [
         {
           "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "oId": "oid:/pages/dev.page2.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/maximized.page.vipg",
-          "timebarId": "TB1"
-        },
-        {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.vipg",
           "timebarId": "TB1"
         }
       ]

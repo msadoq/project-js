@@ -60,6 +60,7 @@ export const getConfigurationReducers = () => createConfigurationReducers({
 });
 
 export const getDataReducers = () => createDataReducers({
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Because its like that"
   [constants.VM_VIEW_TEXT]: require('./TextView/store/dataReducer'),
   [constants.VM_VIEW_PLOT]: plotViewDataReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,

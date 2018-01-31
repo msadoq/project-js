@@ -102,10 +102,9 @@ const pauseHandler = ({ interval }, next, action) => {
   return next(action);
 };
 
-const openEditorHandler = ({ dispatch }, next, action) => {
-  // dispatch(pause());
-  return next(action);
-};
+const openEditorHandler = ({ dispatch }, next, action) => (
+  next(action)
+);
 
 const focusPageHandler = ({ dispatch, getState }, next, action) => {
   const state = getState();

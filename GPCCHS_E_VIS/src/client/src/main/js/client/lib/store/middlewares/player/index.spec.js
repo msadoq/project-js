@@ -30,7 +30,7 @@ const timebarFixture = {
 
 const play = () => ({ type: types.HSC_PLAY });
 const pause = () => ({ type: types.HSC_PAUSE });
-const openEditor = () => ({ type: types.WS_PAGE_PANELS_LOAD_IN_EDITOR });
+// const openEditor = () => ({ type: types.WS_PAGE_PANELS_LOAD_IN_EDITOR });
 const focusPage = pageId => ({
   type: types.WS_WINDOW_PAGE_FOCUS,
   payload: { pageId },

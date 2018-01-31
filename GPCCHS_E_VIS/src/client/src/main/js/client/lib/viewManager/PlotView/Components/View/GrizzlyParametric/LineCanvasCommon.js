@@ -135,6 +135,9 @@ export const drawLinesCanvas = (
 };
 
 /**
+ * Called for each line displayed on the plot.
+ * This one is composed of multiple values that can be drawn through sub-lines or dots
+ *
  * @param perfOutput
  * @param lines
  * @param updateLabelPosition
@@ -165,12 +168,11 @@ export const drawLine = (perfOutput,
                          line) => {
 // Default values
   const { lineSize, pointSize, fontSize, pointOffset } = getDefaultValues(ctx, line);
-  let fill = line.fill || '#222222';
+  const fill = line.fill || '#222222';
+  let lastColor;
   const lineIndexes = indexes[line.id];
   const lineData = line.data;
 
-  ctx.strokeStyle = fill;
-  ctx.fillStyle = fill;
   ctx.lineWidth = lineSize;
   ctx.font = `${fontSize}px Arial`;
 
@@ -182,44 +184,34 @@ export const drawLine = (perfOutput,
 
   // =============== DRAWING
   ctx.beginPath();
+  currentY = yScale(line.yAccessor
+    ? line.yAccessor(lineData[lineIndexes[0]])
+    : lineData[lineIndexes[0]].value)
+  ;
+  currentX = xScale(line.xAccessor
+    ? line.xAccessor(lineData[lineIndexes[0]])
+    : lineData[lineIndexes[0]].x)
+  ;
+  lastColor = lineData[lineIndexes[0]][line.colorAccessor];
+  ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
 
   let currentX;
   let currentY;
-  let drawPoint;
+  let nextX;
+  let nextY;
   let stoppedCurrent;
   let stoppedPrevious = false;
   const shouldDrawPoint = pointOffset && ['Square', 'Dot', 'Triangle'].indexOf(line.pointStyle) !== -1;
-  switch (line.pointStyle) {
-    case 'Square':
-      drawPoint = (c, x, y) => {
-        c.fillRect(x - pointOffset, y - pointOffset, pointSize, pointSize);
-      };
-      break;
-    case 'Dot':
-      drawPoint = (c, x, y) => {
-        c.fillText('•', x - pointOffset, y + (fontSize / 3));
-      };
-      break;
-    case 'Triangle':
-      drawPoint = (c, x, y) => {
-        c.stroke();
-        drawTriangle(c, x, y, pointOffset);
-        c.beginPath();
-        c.moveTo(x, y);
-      };
-      break;
-    default:
-      drawPoint = () => null;
-      break;
-  }
+  const shouldDrawSubLine = (i, stopCurrent, stopPrevious) =>
+    lineSize && i > 0 && !stopCurrent && !stopPrevious;
+  const drawPoint = drawPointType(line, pointOffset, pointSize, fontSize);
 
   const lineIndexesLength = lineIndexes.length;
   for (let i = 0; i < lineIndexesLength; i += 1) {
     const index = lineIndexes[i];
-    const previousIndex = lineIndexes[i - 1];
+    const previousPacket = lineData[lineIndexes[i - 1]];
     const packet = lineData[index];
-    const previousPacket = lineData[previousIndex];
-    const nextPacket = lineData[lineIndexes[i + 1]];
+    const nextPacket = lineData[lineIndexes[i + 1]] || packet;
 
     if (!packet) {
       return;
@@ -228,61 +220,46 @@ export const drawLine = (perfOutput,
     stoppedCurrent = line.stopInstruction ? (line.stopInstruction(packet) || false) : false;
     currentY = yScale(line.yAccessor ? line.yAccessor(packet) : packet.value);
     currentX = xScale(line.xAccessor ? line.xAccessor(packet) : packet.x);
-
-    // Current cursor drawing
-    if (
-      parametric &&
-      current &&
-      previousPacket &&
-      (
-        // current is between two packets (past)
-        // current is above the last known packet (often real time)
-        (
-          previousPacket.masterTime < current
-          && packet.masterTime > current
-        )
-        // current is above the last known packet (often real time)
-        || (!nextPacket && packet.masterTime < current)
-
-      )
-    ) {
-      drawCurrentCursor(ctx,
-        currentX,
-        currentY,
-        fontSize,
-        fill,
-        pointOffset);
-    }
+    nextY = yScale(line.yAccessor ? line.yAccessor(nextPacket) : nextPacket.value);
+    nextX = xScale(line.xAccessor ? line.xAccessor(nextPacket) : nextPacket.x);
 
     const color = (line.colorAccessor && lineData[index][line.colorAccessor])
       ? lineData[index][line.colorAccessor]
-      : fill
+      : fill // default color for curve tooltip
     ;
 
-    if (lineSize && i > 0) {
-      // if current or next data is in stopDrawing state, do not draw a line
-      if (stoppedCurrent || stoppedPrevious) {
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
-      } else {
-        // draw a line no mater what
-        ctx.lineTo(currentX, currentY);
-        // if the color has changed
-        if (color !== fill) {
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
-          ctx.strokeStyle = fill;
-          ctx.fillStyle = fill;
-          fill = color; // set new color for further use
-        }
-      }
+    // Current cursor drawing
+    drawCurrentCursor(ctx,
+      currentX,
+      currentY,
+      fontSize,
+      fill,
+      pointOffset,
+      parametric,
+      current,
+      packet,
+      previousPacket,
+      nextPacket);
+
+    if (lastColor !== color) {
+      ctx.stroke(); // draw previous lines
+      ctx.beginPath(); // draw previous lines
+      ctx.fillStyle = color; // for dots
+      ctx.strokeStyle = color; // for sub-lines
+      ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
+      lastColor = color;
     }
 
     // should we draw the current point
     if (!stoppedCurrent && shouldDrawPoint) {
       drawPoint(ctx, currentX, currentY);
+    }
+
+    // should draw a subline between current data and next data
+    if (shouldDrawSubLine(i, stoppedCurrent, stoppedPrevious)) {
+      ctx.lineTo(nextX, nextY);
+    } else {
+      ctx.moveTo(nextX, nextY);
     }
 
     stoppedPrevious = stoppedCurrent;
@@ -323,7 +300,41 @@ export const drawLine = (perfOutput,
 
   ctx.stroke();
 };
+/**
+ * @param line
+ * @param pointOffset
+ * @param pointSize
+ * @param fontSize
+ * @returns {*}
+ */
+export const drawPointType = (line, pointOffset, pointSize, fontSize) => {
+  let drawPoint;
+  switch (line.pointStyle) {
+    case 'Square':
+      drawPoint = (c, x, y) => {
+        c.fillRect(x - pointOffset, y - pointOffset, pointSize, pointSize);
+      };
+      break;
+    case 'Dot':
+      drawPoint = (c, x, y) => {
+        c.fillText('•', x - pointOffset, y + (fontSize / 3));
+      };
+      break;
+    case 'Triangle':
+      drawPoint = (c, x, y) => {
+        c.stroke();
+        drawTriangle(c, x, y, pointOffset);
+        c.beginPath();
+        c.moveTo(x, y);
+      };
+      break;
+    default:
+      drawPoint = () => null;
+      break;
+  }
 
+  return drawPoint;
+};
 /**
  * @param ctx
  * @param lastX
@@ -331,23 +342,51 @@ export const drawLine = (perfOutput,
  * @param fontSize
  * @param lastColor
  * @param pointOffset
+ * @param parametric
+ * @param current
+ * @param packet
+ * @param previousPacket
+ * @param nextPacket
  */
 export const drawCurrentCursor = (ctx,
                                   lastX,
                                   lastY,
                                   fontSize,
                                   lastColor,
-                                  pointOffset) => {
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.font = `${fontSize * 2}px Arial`;
-  ctx.fillStyle = '#1E2';
-  ctx.strokeStyle = '#1E2';
-  ctx.fillText('O', lastX - (pointOffset * 1.5), lastY + (fontSize / 1.5));
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.font = `${fontSize}px Arial`;
-  ctx.strokeStyle = lastColor;
-  ctx.fillStyle = lastColor;
-  ctx.moveTo(lastX, lastY);
+                                  pointOffset,
+                                  parametric,
+                                  current,
+                                  packet,
+                                  previousPacket,
+                                  nextPacket
+                                  ) => {
+  if (
+    parametric &&
+    current &&
+    previousPacket &&
+    (
+      // current is between two packets (past)
+      // current is above the last known packet (often real time)
+      (
+        previousPacket.masterTime < current
+        && packet.masterTime > current
+      )
+      // current is above the last known packet (often real time)
+      || (!nextPacket && packet.masterTime < current)
+
+    )
+  ) {
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.font = `${fontSize * 2}px Arial`;
+    ctx.fillStyle = '#1E2';
+    ctx.strokeStyle = '#1E2';
+    ctx.fillText('O', lastX - (pointOffset * 1.5), lastY + (fontSize / 1.5));
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.font = `${fontSize}px Arial`;
+    ctx.strokeStyle = lastColor;
+    ctx.fillStyle = lastColor;
+    ctx.moveTo(lastX, lastY);
+  }
 };

@@ -37,6 +37,14 @@ export default class EntryPointDetails extends PureComponent {
           operator: string,
         })),
       }),
+      stateColors: arrayOf(shape({
+        color: string.isRequired,
+        condition: shape({
+          field: string.isRequired,
+          operand: string.isRequired,
+          operator: string.isRequired,
+        }),
+      })),
     }).isRequired,
     updateEntryPoint: func.isRequired,
     panels: oneOfType([
@@ -108,10 +116,7 @@ export default class EntryPointDetails extends PureComponent {
           header="State colors"
         >
           {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
-          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
-            initialValues={{
-              stateColors: entryPoint.stateColors || [],
-            }}
+            initialValues={stateColor(entryPoint)}
             form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
@@ -120,3 +125,7 @@ export default class EntryPointDetails extends PureComponent {
     );
   }
 }
+
+const stateColor = entryPoint => ({
+  stateColors: entryPoint.stateColors || [],
+});

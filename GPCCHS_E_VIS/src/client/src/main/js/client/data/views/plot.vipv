@@ -165,65 +165,7 @@
           "size": 0
         },
         "curveColor": "#FFBF00"
-      },
-      "stateColors": [
-        {
-          "color": "#000000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "waiting"
-          }
-        },
-        {
-          "color": "darkorange",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "alarm"
-          }
-        },
-        {
-          "color": "darkred",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "critical"
-          }
-        },
-        {
-          "color": "darkred",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "outOfRange"
-          }
-        },
-        {
-          "color": "#FF0000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "severe"
-          }
-        },
-        {
-          "color": "#FF0000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "danger"
-          }
-        },
-        {
-          "color": "#FFFF00",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "warning"
-          }
-        }
-      ]
+      }
     },
     {
       "name": "ATT_BC_REVTCOUNT1",
@@ -261,57 +203,7 @@
           "size": 3
         },
         "curveColor": "#ff9800"
-      },
-      "stateColors": [
-        {
-          "color": "darkorange",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "alarm"
-          }
-        },
-        {
-          "color": "darkred",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "critical"
-          }
-        },
-        {
-          "color": "darkred",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "outOfRange"
-          }
-        },
-        {
-          "color": "#FF0000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "severe"
-          }
-        },
-        {
-          "color": "#FF0000",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "danger"
-          }
-        },
-        {
-          "color": "#FFFF00",
-          "condition": {
-            "field": "monitoringState",
-            "operator": "=",
-            "operand": "warning"
-          }
-        }
-      ]
+      }
     }
   ],
   "showYAxes": "left",

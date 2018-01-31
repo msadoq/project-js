@@ -1,6 +1,5 @@
 import { v4 } from 'uuid';
 import { get } from 'common/configurationManager';
-import { getStateColorFilters } from 'windowProcess/common/colors';
 import constants from 'constants';
 
 export default function (entryPoint) {
@@ -15,5 +14,5 @@ const getNewGroundAlarmEntryPoint = () => ({
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
   },
-  stateColors: getStateColorFilters(),
+  stateColors: [],
 });

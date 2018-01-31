@@ -10,66 +10,64 @@
 // END-HISTORY
 // ====================================================================
 
+import _find from 'lodash/find';
 import { getStateColorObj } from './stateColors';
+import { get } from '../../common/configurationManager';
 
-describe('data/common/stateColors', () => {
-  test('monitoring color', () => {
-    const payload = {};
-    const stateColors = [];
 
-    expect(getStateColorObj(payload, stateColors))
-      .toEqual(null);
-  });
-  test('apply custom state color', () => {
-    const payload = {
-      val1: { type: 'uinteger', value: (10) + 1 },
-      val2: { type: 'uinteger', value: (10) + 2 },
-      val3: { type: 'uinteger', value: (10) + 3 },
-      val4: { type: 'enum', value: 1 - 10, symbol: 'val'.concat(1 - 10) },
-      referenceTimestamp: { type: 'time', value: 1 },
-      time: { type: 'time', value: 1 + 0.2 },
-    };
+describe('viewManager', () => {
+  describe('viewManager :: commonData', () => {
+    describe('viewManager :: commonData :: stateColors', () => {
+      test('getStateColorObj :: default values', () => {
+        const payload = {};
+        const customColors = [];
+        const defaultStateColors = get('STATE_COLORS').nominal;
+        const defaultNominalStateColor = _find(
+          defaultStateColors,
+            c => c.obsolete === false && c.significant === true
+        );
 
-    const stateColors = [
-      {
-        color: '#0000FF',
-        condition: {
-          field: 'val3',
-          operator: '>',
-          operand: '1',
-        },
-      },
-    ];
+        expect(getStateColorObj(payload, customColors, 'nominal')).toEqual({
+          color: defaultNominalStateColor.color,
+        });
+      });
+      test('getStateColorObj :: wrong configuration', () => {
+        const payload = {
+          isObsolete: {
+            value: false,
+          },
+          isNominal: {
+            value: true,
+          },
+        };
+        const customColors = [];
 
-    expect(getStateColorObj(payload, stateColors)).toEqual({ color: '#0000FF' });
-  });
-  test('apply custom state color, but nothing', () => {
-    const payload = {
-      val1: { type: 'uinteger', value: (10) + 1 },
-      val2: { type: 'uinteger', value: (10) + 2 },
-      val3: { type: 'uinteger', value: (10) + 3 },
-      val4: { type: 'enum', value: 1 - 10, symbol: 'val'.concat(1 - 10) },
-      referenceTimestamp: { type: 'time', value: 1 },
-      time: { type: 'time', value: 1 + 0.2 },
-    };
+        expect(getStateColorObj(payload, customColors, 'undefined')).toEqual({
+          color: null,
+        });
+      });
+      test('getStateColorObj :: not customizable value', () => {
+        const payload = {
+          isObsolete: {
+            value: true,
+          },
+          isNominal: {
+            value: true,
+          },
+        };
+        const customColors = [];
 
-    const stateColors = [
-      {
-        color: '#0000FF',
-        condition: {
-          field: 'val3',
-          operator: '<',
-          operand: '1',
-        },
-      },
-    ];
+        const defaultStateColors = get('STATE_COLORS').nominal;
+        const defaultNominalStateColor = _find(
+          defaultStateColors,
+          c => c.obsolete === true && c.significant === true
+        );
 
-    expect(getStateColorObj(payload, stateColors)).toBeFalsy();
-  });
-  test('nothing to apply', () => {
-    const payload = {};
-    const stateColors = [];
-
-    expect(getStateColorObj(payload, stateColors)).toBeFalsy();
+        expect(getStateColorObj(payload, customColors, 'nominal')).toEqual({
+          color: defaultNominalStateColor.color,
+        });
+      });
+    });
   });
 });
+

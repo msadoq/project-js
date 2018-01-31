@@ -32,7 +32,7 @@ const stubData = stubs.getStubData();
 // }
 function getMonitoringState() {
   return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
-    'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
+    'nominal', 'warning', 'danger', 'severe', 'critical', 'outOfRange',
   ]) : undefined;
 }
 

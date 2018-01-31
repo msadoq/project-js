@@ -87,7 +87,11 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
           timestamp,
           value: {
             value: convertData(p[ep.field]),
-            ...getStateColorObj(p, ep.stateColors),
+            ...getStateColorObj( // will fetch default / fallback / custom color
+              p,
+              ep.stateColors,
+              _get(p, 'monitoringState.value')
+            ),
           },
         };
         previousTime = timestamp;

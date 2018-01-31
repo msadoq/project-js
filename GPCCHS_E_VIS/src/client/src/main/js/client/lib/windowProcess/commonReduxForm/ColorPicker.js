@@ -14,7 +14,7 @@ import { colors as initialColors } from '../common/colors';
 export default class ColorPicker extends React.Component {
   static propTypes = {
     color: PropTypes.string.isRequired,
-    colors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    colors: PropTypes.arrayOf(PropTypes.string),
     width: PropTypes.number,
     onChange: PropTypes.func.isRequired,
   }

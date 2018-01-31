@@ -14,16 +14,7 @@ import {
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
-import StateColorsFields from '../Fields/StateColorsFields';
-
-/*
-const filters = [
-  'convertedValue', 'extractedValue', 'groundDate',
-  'isNominal', 'isObsolete', 'monitoringState',
-  'onBoardDate', 'rawValue', 'triggerOffCounter',
-  'triggerOnCounter', 'validityState'
-];
-*/
+import StateColorsFields from 'viewManager/commonEditor/Fields/StateColorsFields';
 
 const EntryPointStateColors = (props) => {
   const {

@@ -54,13 +54,11 @@ export const getStateColorFilters = _memoize(
     );
     return {
       color: o.color,
-      customize: isCustomizable(monitoringState, obsolete, significant), // @ todo still relevant ?
+      customize: isCustomizable(monitoringState, obsolete, significant),
       condition: {
         field: 'monitoringState',
         operator: '=',
         operand: monitoringState,
-        obsolete, // @ todo still relevant ?
-        significant, // @ todo still relevant ?
       },
     };
   }),

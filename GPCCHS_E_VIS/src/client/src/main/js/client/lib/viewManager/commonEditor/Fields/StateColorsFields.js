@@ -18,7 +18,11 @@ import classnames from 'classnames';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ColorPicker from 'windowProcess/commonReduxForm/ColorPicker';
 import { operators } from 'common/operators';
-import { getStateColorFilters, STATE_COLOR_TYPES } from 'windowProcess/common/colors';
+import {
+  getStateColorFilters,
+  STATE_COLOR_TYPES,
+  STATE_COLOR_NOMINAL,
+} from 'windowProcess/common/colors';
 import styles from './fields.css';
 
 const { shape, func } = PropTypes;
@@ -169,46 +173,29 @@ export default class StateColorsFields extends React.Component {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Yes</td>
-            <td>No</td>
-            {_each(monitoringStateColors['true-false'], (o, k) => (
-              <td
-                key={`table-row-true-false-${k}`}
-                style={{ background: o.color }}
-              />
-            ))}
-          </tr>
-          <tr>
-            <td>Yes</td>
-            <td>Yes</td>
-            {_each(monitoringStateColors['true-true'], (o, k) => (
-              <td
-                key={`table-row-true-true-${k}`}
-                style={{ background: o.color }}
-              />
-            ))}
-          </tr>
-          <tr>
-            <td>No</td>
-            <td>Yes</td>
-            {_each(monitoringStateColors['false-true'], (o, k) => (
-              <td
-                key={`table-row-false-true-${k}`}
-                style={{ background: o.color }}
-              />
-            ))}
-          </tr>
-          <tr>
-            <td>No</td>
-            <td>No</td>
-            {_each(monitoringStateColors['false-false'], (o, k) => (
-              <td
-                key={`table-row-false-false-${k}`}
-                style={{ background: o.color }}
-              />
-            ))}
-          </tr>
+          {
+            ['true', 'false'].map(obsolete =>
+              ['true', 'false'].map(significant =>
+                <tr>
+                  <td>{ obsolete === 'true' ? 'Yes' : 'No' }</td>
+                  <td>{ significant === 'true' ? 'Yes' : 'No' }</td>
+                  {_each(monitoringStateColors[`${obsolete}-${significant}`], (o, k) => (
+                    <td
+                      key={`table-row-${obsolete}-${significant}-${k}`}
+                      style={{ background: o.color, textAlign: 'center' }}
+                    >
+                      {
+                        o.condition.operand === STATE_COLOR_NOMINAL
+                        && obsolete === 'false'
+                        && significant === 'true'
+                        && ('x')
+                      }
+                    </td>
+                  ))}
+                </tr>
+              )
+            )
+          }
         </tbody>
       </table>
     </div>

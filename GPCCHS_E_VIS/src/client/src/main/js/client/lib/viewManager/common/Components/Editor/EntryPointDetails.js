@@ -9,13 +9,13 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 import Collapse from 'rc-collapse';
-
+import { entryPointType } from 'viewManager/common/Components/types';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
 import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 
 const { Panel } = Collapse;
-const { string, arrayOf, oneOfType, shape, func, bool, number } = PropTypes;
+const { string, arrayOf, oneOfType, func, bool } = PropTypes;
 const emptyArray = [];
 
 /*
@@ -25,27 +25,7 @@ const emptyArray = [];
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
-    entryPoint: shape({
-      id: string,
-      name: string,
-      connectedData: shape({
-        digits: number,
-        domain: string,
-        filter: arrayOf(shape({
-          field: string,
-          operand: string,
-          operator: string,
-        })),
-      }),
-      stateColors: arrayOf(shape({
-        color: string.isRequired,
-        condition: shape({
-          field: string.isRequired,
-          operand: string.isRequired,
-          operator: string.isRequired,
-        }),
-      })),
-    }).isRequired,
+    entryPoint: entryPointType.isRequired,
     updateEntryPoint: func.isRequired,
     panels: oneOfType([
       arrayOf(string),

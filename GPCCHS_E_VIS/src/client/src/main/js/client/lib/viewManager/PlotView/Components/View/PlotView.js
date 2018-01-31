@@ -87,8 +87,6 @@ import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 
-import { entryPointType } from '../../../common/Components/types';
-
 const logger = getLogger('view:plot');
 
 /**
@@ -345,7 +343,7 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: string.isRequired,
     addEntryPoint: func.isRequired,
-    entryPoints: entryPointType.isRequired,
+    entryPoints: shape(),
     configuration: shape({
       procedures: array,
       entryPoints: array,

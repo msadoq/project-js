@@ -43,7 +43,7 @@ export default class LeftTab extends PureComponent {
         name: PropTypes.string.isRequired,
         // delta: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,
-        missionEpoch: PropTypes.number.isRequired,
+        missionEpoch: PropTypes.number,
         timestamp: PropTypes.shape({
           ms: PropTypes.number,
           ps: PropTypes.number,

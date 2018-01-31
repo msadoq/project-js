@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 
-const { shape, number, string, bool, arrayOf, object } = PropTypes;
+const { shape, number, string, bool, arrayOf } = PropTypes;
 
 export const connectedDataType = shape({
   axisId: string,
@@ -18,17 +18,26 @@ export const connectedDataType = shape({
   unit: string,
 });
 
+export const stateColorType = shape({
+  color: string.isRequired,
+  condition: shape({
+    field: string.isRequired,
+    operand: string.isRequired,
+    operator: string.isRequired,
+  }),
+});
+
 export const entryPointType = shape({
   id: string,
   name: string,
-  parametric: bool.isRequired,
+  parametric: bool,
   connectedData: connectedDataType.isRequired,
   connectedDataParametric: shape({
     xAxisId: string,
     YAxisId: string,
   }),
   objectStyle: shape(),
-  stateColors: object.isRequired,
+  stateColors: arrayOf(stateColorType).isRequired,
   obsolete: bool,
   nonsignificant: bool,
 });

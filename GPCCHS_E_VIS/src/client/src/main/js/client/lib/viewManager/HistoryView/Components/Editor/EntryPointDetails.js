@@ -16,6 +16,7 @@
 import React, { PropTypes } from 'react';
 import Collapse, { Panel } from 'rc-collapse';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
+import { entryPointType } from 'viewManager/common/Components/types';
 import EntryPointConnectedData from './EntryPointConnectedData';
 import AddEntryPoint from './AddEntryPoint';
 
@@ -36,19 +37,7 @@ export default class EntryPointDetails extends React.Component {
       sessionId: PropTypes.number,
       timelineUuid: PropTypes.string,
     })).isRequired,
-    entryPoint: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      connectedData: PropTypes.shape({
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-      }),
-    }).isRequired,
+    entryPoint: entryPointType.isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
     panels: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
@@ -56,7 +45,7 @@ export default class EntryPointDetails extends React.Component {
     ]).isRequired,
     updateViewSubPanels: PropTypes.func.isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  }
+  };
 
   static defaultProps = {
     panels: [],

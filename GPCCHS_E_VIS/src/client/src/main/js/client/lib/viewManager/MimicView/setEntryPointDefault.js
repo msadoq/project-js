@@ -10,6 +10,8 @@ const getNewMimicEntryPoint = () => ({
   connectedData: {
     formula: '',
     unit: 's',
+    convertTo: '',
+    convertFrom: '',
     digits: 5,
     format: 'decimal',
     filter: [],

@@ -45,42 +45,42 @@ describe('windowProcess', () => {
         });
         test('getStateColorFilters :: true / true', () => {
           expect(getStateColorFilters(true, true)).toEqual([
-            { customize: false, color: '#3498db', condition: { obsolete: true, significant: true, field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
-            { customize: false, color: '#3498db', condition: { obsolete: true, significant: true, field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
-            { customize: false, color: '#3498db', condition: { obsolete: true, significant: true, field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
-            { customize: false, color: '#3498db', condition: { obsolete: true, significant: true, field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
-            { customize: false, color: '#3498db', condition: { obsolete: true, significant: true, field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
-            { customize: false, color: '#3498db', condition: { obsolete: true, significant: true, field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
+            { customize: false, color: '#3498db', condition: { field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
+            { customize: false, color: '#3498db', condition: { field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
+            { customize: false, color: '#3498db', condition: { field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
+            { customize: false, color: '#3498db', condition: { field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
+            { customize: false, color: '#3498db', condition: { field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
+            { customize: false, color: '#3498db', condition: { field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
           ]);
         });
         test('getStateColorFilters :: true / false', () => {
           expect(getStateColorFilters(true, false)).toEqual([
-            { customize: false, color: '#bdc3c7', condition: { obsolete: true, significant: false, field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
-            { customize: false, color: '#bdc3c7', condition: { obsolete: true, significant: false, field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
-            { customize: false, color: '#bdc3c7', condition: { obsolete: true, significant: false, field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
-            { customize: false, color: '#bdc3c7', condition: { obsolete: true, significant: false, field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
-            { customize: false, color: '#bdc3c7', condition: { obsolete: true, significant: false, field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
-            { customize: false, color: '#bdc3c7', condition: { obsolete: true, significant: false, field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
+            { customize: false, color: '#bdc3c7', condition: { field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
+            { customize: false, color: '#bdc3c7', condition: { field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
+            { customize: false, color: '#bdc3c7', condition: { field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
+            { customize: false, color: '#bdc3c7', condition: { field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
+            { customize: false, color: '#bdc3c7', condition: { field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
+            { customize: false, color: '#bdc3c7', condition: { field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
           ]);
         });
         test('getStateColorFilters :: false / true', () => {
           expect(getStateColorFilters(false, true)).toEqual([
-            { customize: true, color: '#2ecc71', condition: { obsolete: false, significant: true, field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
-            { customize: false, color: '#f1c40f', condition: { obsolete: false, significant: true, field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
-            { customize: false, color: '#e67e22', condition: { obsolete: false, significant: true, field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
-            { customize: false, color: '#d35400', condition: { obsolete: false, significant: true, field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
-            { customize: false, color: '#e74c3c', condition: { obsolete: false, significant: true, field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
-            { customize: false, color: '#c0392b', condition: { obsolete: false, significant: true, field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
+            { customize: true, color: '#2ecc71', condition: { field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
+            { customize: false, color: '#f1c40f', condition: { field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
+            { customize: false, color: '#e67e22', condition: { field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
+            { customize: false, color: '#d35400', condition: { field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
+            { customize: false, color: '#e74c3c', condition: { field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
+            { customize: false, color: '#c0392b', condition: { field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
           ]);
         });
         test('getStateColorFilters :: false / false', () => {
           expect(getStateColorFilters(false, false)).toEqual([
-            { customize: false, color: '#95a5a6', condition: { obsolete: false, significant: false, field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
-            { customize: false, color: '#95a5a6', condition: { obsolete: false, significant: false, field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
-            { customize: false, color: '#95a5a6', condition: { obsolete: false, significant: false, field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
-            { customize: false, color: '#95a5a6', condition: { obsolete: false, significant: false, field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
-            { customize: false, color: '#95a5a6', condition: { obsolete: false, significant: false, field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
-            { customize: false, color: '#95a5a6', condition: { obsolete: false, significant: false, field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
+            { customize: false, color: '#95a5a6', condition: { field: 'monitoringState', operand: STATE_COLOR_NOMINAL, operator: '=' } },
+            { customize: false, color: '#95a5a6', condition: { field: 'monitoringState', operand: STATE_COLOR_WARNING, operator: '=' } },
+            { customize: false, color: '#95a5a6', condition: { field: 'monitoringState', operand: STATE_COLOR_ALARM, operator: '=' } },
+            { customize: false, color: '#95a5a6', condition: { field: 'monitoringState', operand: STATE_COLOR_SEVERE, operator: '=' } },
+            { customize: false, color: '#95a5a6', condition: { field: 'monitoringState', operand: STATE_COLOR_CRITICAL, operator: '=' } },
+            { customize: false, color: '#95a5a6', condition: { field: 'monitoringState', operand: STATE_COLOR_OUT_OF_RANGE, operator: '=' } },
           ]);
         });
       });
@@ -95,8 +95,6 @@ describe('windowProcess', () => {
             customize: false,
             color: '#3498db',
             condition: {
-              obsolete: true,
-              significant: true,
               field: 'monitoringState',
               operand: STATE_COLOR_NOMINAL,
               operator: '=',

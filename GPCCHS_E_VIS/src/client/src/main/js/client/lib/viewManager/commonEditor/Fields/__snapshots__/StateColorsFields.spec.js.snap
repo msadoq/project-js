@@ -41,47 +41,53 @@ exports[`StateColorsFields renders correctly 1`] = `
             Yes
           </td>
           <td>
-            No
+            Yes
           </td>
           <td
             style={
               Object {
-                "background": "#bdc3c7",
+                "background": "#3498db",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#bdc3c7",
+                "background": "#3498db",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#bdc3c7",
+                "background": "#3498db",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#bdc3c7",
+                "background": "#3498db",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#bdc3c7",
+                "background": "#3498db",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#bdc3c7",
+                "background": "#3498db",
+                "textAlign": "center",
               }
             }
           />
@@ -91,47 +97,53 @@ exports[`StateColorsFields renders correctly 1`] = `
             Yes
           </td>
           <td>
-            Yes
+            No
           </td>
           <td
             style={
               Object {
-                "background": "#3498db",
+                "background": "#bdc3c7",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#3498db",
+                "background": "#bdc3c7",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#3498db",
+                "background": "#bdc3c7",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#3498db",
+                "background": "#bdc3c7",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#3498db",
+                "background": "#bdc3c7",
+                "textAlign": "center",
               }
             }
           />
           <td
             style={
               Object {
-                "background": "#3498db",
+                "background": "#bdc3c7",
+                "textAlign": "center",
               }
             }
           />
@@ -147,13 +159,17 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#2ecc71",
+                "textAlign": "center",
               }
             }
-          />
+          >
+            x
+          </td>
           <td
             style={
               Object {
                 "background": "#f1c40f",
+                "textAlign": "center",
               }
             }
           />
@@ -161,6 +177,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#e67e22",
+                "textAlign": "center",
               }
             }
           />
@@ -168,6 +185,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#d35400",
+                "textAlign": "center",
               }
             }
           />
@@ -175,6 +193,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#e74c3c",
+                "textAlign": "center",
               }
             }
           />
@@ -182,6 +201,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#c0392b",
+                "textAlign": "center",
               }
             }
           />
@@ -197,6 +217,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#95a5a6",
+                "textAlign": "center",
               }
             }
           />
@@ -204,6 +225,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#95a5a6",
+                "textAlign": "center",
               }
             }
           />
@@ -211,6 +233,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#95a5a6",
+                "textAlign": "center",
               }
             }
           />
@@ -218,6 +241,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#95a5a6",
+                "textAlign": "center",
               }
             }
           />
@@ -225,6 +249,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#95a5a6",
+                "textAlign": "center",
               }
             }
           />
@@ -232,6 +257,7 @@ exports[`StateColorsFields renders correctly 1`] = `
             style={
               Object {
                 "background": "#95a5a6",
+                "textAlign": "center",
               }
             }
           />

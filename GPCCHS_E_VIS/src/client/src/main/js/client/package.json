@@ -49,7 +49,7 @@
     "test:pic": "NODE_ENV=test jest --ci --testResultsProcessor jest-junit-reporter",
     "test:adapters": "(cd ./adapters/dc && npm test) && (cd ./adapters/isis && npm test)",
     "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage",
+    "test:coverage": "npm test -- --coverage --no-cache",
     "zip:coverage": "(cd coverage/test && zip -r ../coverage-report.zip ./lcov-report)",
     "test:all": "npm run test:adapters && npm test",
     "open:test:coverage": "firefox coverage/test/lcov-report/index.html",
@@ -226,6 +226,9 @@
   },
   "style": "./lib/app.global.css",
   "devDependencies": {
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-15.4": "^1.0.5",
+    "enzyme-to-json": "^3.3.0",
     "husky": "^0.14.3",
     "jest-junit-reporter": "^1.1.0",
     "lint-staged": "^4.2.1"

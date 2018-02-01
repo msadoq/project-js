@@ -6,6 +6,7 @@ import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
+import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 
 const { string } = PropTypes;
 
@@ -78,6 +79,10 @@ export default class EntryPointConnectedDataFields extends PureComponent {
             windowId={windowId}
             timelineName={timeline}
           />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Provider">
+          <ProviderFieldContainer />
         </HorizontalFormGroup>
 
         <FieldArray

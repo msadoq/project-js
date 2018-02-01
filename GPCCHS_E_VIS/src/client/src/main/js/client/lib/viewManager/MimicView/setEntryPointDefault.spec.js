@@ -16,6 +16,7 @@ describe('viewManager', () => {
           timeline: get('WILDCARD_CHARACTER'),
           convertFrom: '',
           convertTo: '',
+          provider: get('WILDCARD_CHARACTER'),
         },
         stateColors: [],
       });

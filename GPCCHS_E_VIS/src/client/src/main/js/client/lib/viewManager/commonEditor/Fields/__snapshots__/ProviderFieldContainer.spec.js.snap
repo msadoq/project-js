@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProviderFieldContainer :: render should render correctly with valid data 1`] = `
+<div>
+  <Field
+    className="form-control"
+    component="select"
+    format={null}
+    name="provider"
+    onChange={null}
+  >
+    <option
+      value="HKTMR"
+    >
+      HKTMR
+    </option>
+    <option
+      value="HKTMP"
+    >
+      HKTMP
+    </option>
+    <option
+      value="*"
+    >
+      *
+    </option>
+  </Field>
+</div>
+`;

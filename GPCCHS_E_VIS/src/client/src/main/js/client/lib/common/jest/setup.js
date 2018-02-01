@@ -13,6 +13,8 @@ import { set } from 'lodash';
 import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
 import { resolve } from 'path';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15.4';
 
 import * as serializers from './serializers';
 
@@ -68,6 +70,8 @@ global.testConfig = {
     ReportingParameter: 'extractedValue',
   },
 };
+
+Enzyme.configure({ adapter: new Adapter() });
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));
 
